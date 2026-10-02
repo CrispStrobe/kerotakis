@@ -94,6 +94,10 @@ pub struct StateDelta {
     pub unpriced_heat: Option<Vec<SpeciesId>>,
     /// Which model produced this delta.
     pub source: &'static str,
+    /// Complete legacy-solver result, including interfaces and derived state.
+    /// Private so native deltas cannot accidentally bypass their signed changes.
+    replacement: Option<Box<crate::vessel::Vessel>>,
+    proposal_base: Option<(String, String)>,
 }
 
 /// Signed transfer to a (sorbent, sorbate) inventory; bulk changes are separate.
@@ -144,6 +148,11 @@ pub enum DeltaError {
         available: f64,
         requested: f64,
     },
+    InvalidState {
+        field: String,
+    },
+    StaleProposal,
+    UnscalableSnapshot,
     UnscalableThermalDelta,
     UnscalableElectricalDelta,
 }
@@ -178,6 +187,9 @@ impl std::fmt::Display for DeltaError {
                 f,
                 "cannot withdraw {requested:.6e} mol of {species} from electrode {electrode}; only {available:.6e} available"
             ),
+            DeltaError::InvalidState { field } => write!(f, "invalid proposed state: {field}"),
+            DeltaError::StaleProposal => write!(f, "vessel changed after this proposal was prepared"),
+            DeltaError::UnscalableSnapshot => write!(f, "a complete solver snapshot cannot be inventory-scaled"),
             DeltaError::UnscalableThermalDelta => {
                 write!(f, "an absolute-temperature delta cannot be inventory-scaled")
             }
@@ -199,7 +211,45 @@ impl StateDelta {
             thermal: None,
             unpriced_heat: None,
             source,
+            replacement: None,
+            proposal_base: None,
         }
+    }
+
+    /// Attach the entire result of a solver that works on a clone. The base
+    /// prevents a delayed proposal from overwriting an intervening operation.
+    pub(crate) fn with_snapshot(
+        mut self,
+        before: &crate::vessel::Vessel,
+        after: &crate::vessel::Vessel,
+    ) -> Self {
+        let base = Self::state_key(before);
+        if base != Self::state_key(after) {
+            self.proposal_base = Some((base, self.terms_key()));
+            self.replacement = Some(Box::new(after.clone()));
+        }
+        self
+    }
+
+    // Debug includes transient fields deliberately omitted from persistence.
+    // This guard compares in-process snapshots, never a public wire format.
+    fn state_key(vessel: &crate::vessel::Vessel) -> String {
+        format!("{vessel:?}")
+    }
+
+    fn terms_key(&self) -> String {
+        format!(
+            "{:?}",
+            (
+                &self.mole_changes,
+                &self.adsorbed_changes,
+                &self.electrode_changes,
+                &self.electrode_potential_changes,
+                &self.electrode_interfacial_species_changes,
+                &self.thermal,
+                &self.unpriced_heat
+            )
+        )
     }
 
     pub fn with_electrode_moles(
@@ -272,50 +322,238 @@ impl StateDelta {
         self
     }
 
+    /// Numerical domain checks shared by cloned and direct solver commits.
+    pub(crate) fn validate_state(candidate: &crate::vessel::Vessel) -> Vec<DeltaError> {
+        let mut errors = Vec::new();
+        if candidate
+            .ignition_feed_temperature
+            .is_some_and(|t| !t.0.is_finite() || t.0 <= 0.0)
+            || !candidate.temperature.0.is_finite()
+            || candidate.temperature.0 <= 0.0
+            || !candidate.pressure.0.is_finite()
+            || candidate.pressure.0 < 0.0
+        {
+            errors.push(DeltaError::InvalidState {
+                field: "temperature/pressure".into(),
+            });
+        }
+        let invalid_boundary = match candidate.headspace {
+            crate::vessel::Headspace::Open => false,
+            crate::vessel::Headspace::Sealed { volume } => !volume.0.is_finite() || volume.0 <= 0.0,
+            crate::vessel::Headspace::PressureControlled { pressure, volume } => {
+                !pressure.0.is_finite()
+                    || pressure.0 <= 0.0
+                    || !volume.0.is_finite()
+                    || volume.0 < 0.0
+            }
+            crate::vessel::Headspace::Swept { pressure } => {
+                !pressure.0.is_finite() || pressure.0 <= 0.0
+            }
+        };
+        if invalid_boundary
+            || matches!(candidate.thermal_mode, crate::vessel::ThermalMode::Thermostatted(t) if !t.0.is_finite() || t.0 <= 0.0)
+        {
+            errors.push(DeltaError::InvalidState {
+                field: "boundary conditions".into(),
+            });
+        }
+        for (field, value) in [
+            ("solute charge", candidate.solute_charge),
+            ("excess enthalpy", candidate.excess_enthalpy_j),
+            ("pending CO2 transfer", candidate.pending_co2_transfer_mol),
+        ] {
+            if !value.is_finite() {
+                errors.push(DeltaError::InvalidState {
+                    field: field.into(),
+                });
+            }
+        }
+        if candidate
+            .co2_partial_pressure_atm
+            .is_some_and(|p| !p.is_finite() || p < 0.0)
+        {
+            errors.push(DeltaError::InvalidState {
+                field: "CO2 driving pressure".into(),
+            });
+        }
+        for portion in &candidate.contents {
+            if !portion.moles.0.is_finite() || portion.moles.0 < 0.0 {
+                errors.push(DeltaError::InvalidState {
+                    field: format!("inventory {}", portion.species.0),
+                });
+            }
+        }
+        let amounts = candidate
+            .adsorbed
+            .iter()
+            .map(|p| p.moles.0)
+            .chain(
+                candidate
+                    .surfaces
+                    .iter()
+                    .flat_map(|s| s.occupancy.iter().map(|p| p.moles.0)),
+            )
+            .chain(
+                candidate
+                    .exchanges
+                    .iter()
+                    .flat_map(|s| s.occupancy.iter().map(|p| p.moles.0)),
+            )
+            .chain(
+                candidate
+                    .solid_solutions
+                    .iter()
+                    .flat_map(|s| s.components.iter().map(|p| p.moles.0)),
+            )
+            .chain(candidate.electrodes.iter().flat_map(|s| {
+                s.substrate_moles
+                    .into_iter()
+                    .chain(s.deposits.iter().map(|p| p.moles))
+            }))
+            .chain(candidate.unresolved_materials.iter().map(|p| p.amount))
+            .chain(candidate.material_objects.iter().map(|p| p.mass_g))
+            .chain(
+                candidate
+                    .material_objects
+                    .iter()
+                    .flat_map(|p| p.components.iter().map(|c| c.moles.0)),
+            )
+            .chain(candidate.surfaces.iter().flat_map(|p| {
+                [
+                    p.mass.0,
+                    p.specific_area_m2_per_g,
+                    p.strong_capacity.0,
+                    p.weak_capacity.0,
+                ]
+            }))
+            .chain(
+                candidate
+                    .exchanges
+                    .iter()
+                    .flat_map(|p| [p.dry_mass.0, p.capacity.0]),
+            );
+        if amounts.into_iter().any(|n| !n.is_finite() || n < 0.0) {
+            errors.push(DeltaError::InvalidState {
+                field: "interface/material inventory".into(),
+            });
+        }
+        for (field, value) in [
+            ("free proton", candidate.free_proton),
+            ("free hydroxide", candidate.free_hydroxide),
+            ("elapsed time", candidate.elapsed_seconds),
+        ] {
+            if !value.is_finite() || value < 0.0 {
+                errors.push(DeltaError::InvalidState {
+                    field: field.into(),
+                });
+            }
+        }
+        for electrode in &candidate.electrodes {
+            if !electrode.area_m2.is_finite()
+                || electrode.area_m2 < 0.0
+                || !electrode.roughness.is_finite()
+                || electrode.roughness < 0.0
+                || electrode
+                    .interfacial_potential_v
+                    .is_some_and(|p| !p.is_finite())
+                || electrode.interfacial_species.iter().any(|p| {
+                    !p.surface_concentration_mol_per_m3.is_finite()
+                        || p.surface_concentration_mol_per_m3 < 0.0
+                })
+            {
+                errors.push(DeltaError::InvalidState {
+                    field: "electrode interface".into(),
+                });
+            }
+        }
+        for solution in candidate
+            .solution
+            .iter()
+            .chain(candidate.resolved.solution.iter())
+        {
+            if !solution.ph.is_finite()
+                || solution.pe.is_some_and(|pe| !pe.is_finite())
+                || solution
+                    .redox
+                    .iter()
+                    .any(|s| !s.molality.is_finite() || s.molality < 0.0)
+                || solution.solvent_activity.as_ref().is_some_and(|s| {
+                    [s.water_activity, s.particle_molality, s.ionic_strength]
+                        .iter()
+                        .any(|v| !v.is_finite() || *v < 0.0)
+                })
+                || !solution.ionic_strength.is_finite()
+                || solution.ionic_strength < 0.0
+                || solution
+                    .solvent_kg
+                    .is_some_and(|mass| !mass.is_finite() || mass <= 0.0)
+                || solution.species.iter().any(|s| {
+                    !s.molality.is_finite()
+                        || s.molality < 0.0
+                        || !s.activity.is_finite()
+                        || s.activity < 0.0
+                })
+            {
+                errors.push(DeltaError::InvalidState {
+                    field: "solution characterisation".into(),
+                });
+            }
+        }
+        errors
+    }
+
     /// Validate this delta against a vessel state.
     /// Returns a list of errors (empty = valid).
     pub fn validate(&self, vessel: &crate::vessel::Vessel) -> Vec<DeltaError> {
         let mut errors = Vec::new();
-
-        // Check positivity cumulatively: two individually valid withdrawals
-        // must not overdraw the same reservoir when committed together.
-        let mut checked_bulk = std::collections::BTreeSet::new();
-        for change in &self.mole_changes {
-            if !change.moles.is_finite() {
-                errors.push(DeltaError::Negativity {
-                    species: change.species.0.clone(),
-                    phase: change.phase,
-                    available: 0.0,
-                    requested: f64::NAN,
+        if let Some((base, terms)) = &self.proposal_base {
+            if *base != Self::state_key(vessel) {
+                errors.push(DeltaError::StaleProposal);
+            }
+            if *terms != self.terms_key() {
+                errors.push(DeltaError::InvalidState {
+                    field: "complete snapshot proposal was edited".into(),
                 });
-                continue;
             }
-            let key = (change.species.clone(), change.phase);
-            if !checked_bulk.insert(key) {
-                continue;
+        }
+        if let Some(candidate) = &self.replacement {
+            if candidate.id != vessel.id || candidate.label != vessel.label {
+                errors.push(DeltaError::InvalidState {
+                    field: "vessel identity".into(),
+                });
             }
-            let cumulative_change: f64 = self
-                .mole_changes
-                .iter()
-                .filter(|candidate| {
-                    candidate.species == change.species && candidate.phase == change.phase
-                })
-                .map(|candidate| candidate.moles)
-                .sum();
+            errors.extend(Self::validate_state(candidate));
+        }
+
+        if self.thermal.is_some_and(|thermal| match thermal {
+            ThermalDelta::SetTemperature(t) => !t.0.is_finite() || t.0 <= 0.0,
+            ThermalDelta::AddEnergy(j) => !j.0.is_finite(),
+        }) {
+            errors.push(DeltaError::InvalidState {
+                field: "thermal delta".into(),
+            });
+        }
+
+        // Validate each applied prefix; a later deposit cannot repair an
+        // earlier withdrawal that would have been silently clamped.
+        let mut bulk_prefix = std::collections::BTreeMap::new();
+        for change in &self.mole_changes {
             let available = vessel
                 .contents
                 .iter()
-                .filter(|portion| {
-                    portion.species == change.species && portion.phase == change.phase
-                })
-                .map(|portion| portion.moles.0)
+                .filter(|p| p.species == change.species && p.phase == change.phase)
+                .map(|p| p.moles.0)
                 .sum::<f64>();
-            if cumulative_change < 0.0 && -cumulative_change > available + 1e-15 {
+            let net = bulk_prefix
+                .entry((change.species.0.clone(), change.phase))
+                .or_insert(0.0);
+            *net += change.moles;
+            if !net.is_finite() || !available.is_finite() || available + *net < -1e-15 {
                 errors.push(DeltaError::Negativity {
                     species: change.species.0.clone(),
                     phase: change.phase,
                     available,
-                    requested: -cumulative_change,
+                    requested: -*net,
                 });
             }
         }
@@ -523,6 +761,10 @@ impl StateDelta {
     /// Apply this delta to a vessel. Call `validate()` first to check
     /// for errors; this method applies unconditionally.
     pub fn apply(&self, vessel: &mut crate::vessel::Vessel) {
+        if let Some(snapshot) = &self.replacement {
+            *vessel = (**snapshot).clone();
+            return;
+        }
         for change in &self.mole_changes {
             if change.moles > 0.0 {
                 vessel.deposit(change.species.clone(), Moles(change.moles), change.phase);
@@ -682,7 +924,13 @@ impl StateDelta {
         if !errors.is_empty() {
             return Err(errors);
         }
-        self.apply(vessel);
+        let mut candidate = vessel.clone();
+        self.apply(&mut candidate);
+        let errors = Self::validate_state(&candidate);
+        if !errors.is_empty() {
+            return Err(errors);
+        }
+        *vessel = candidate;
         Ok(())
     }
 
@@ -701,6 +949,9 @@ impl StateDelta {
         &self,
         vessel: &crate::vessel::Vessel,
     ) -> Result<InventoryLimitedDelta, Vec<DeltaError>> {
+        if self.replacement.is_some() {
+            return Err(vec![DeltaError::UnscalableSnapshot]);
+        }
         let errors = self.validate(vessel);
         let mut scale = 1.0_f64;
         let mut fatal = Vec::new();
@@ -773,6 +1024,17 @@ impl StateDelta {
         vessel: &mut crate::vessel::Vessel,
         tolerance: f64,
     ) -> Result<(), Vec<DeltaError>> {
+        self.commit_conserved_with_events(vessel, tolerance, &[])
+    }
+
+    /// Commit a reaction with explicit gas outlets/inlets included in the
+    /// conserved system. Rejected proposals commit neither state nor events.
+    pub fn commit_conserved_with_events(
+        &self,
+        vessel: &mut crate::vessel::Vessel,
+        tolerance: f64,
+        events: &[crate::ops::Event],
+    ) -> Result<(), Vec<DeltaError>> {
         // Step 1: positivity
         let errors = self.validate(vessel);
         if !errors.is_empty() {
@@ -786,8 +1048,48 @@ impl StateDelta {
         // Step 3: apply
         self.apply(vessel);
 
+        let result_errors = Self::validate_state(vessel);
+        if !result_errors.is_empty() {
+            *vessel = snapshot;
+            return Err(result_errors);
+        }
+
         // Step 4: check conservation
-        let ledger_after = crate::ledger::ConservedLedger::from_vessel(vessel);
+        let mut ledger_after = crate::ledger::ConservedLedger::from_vessel(vessel);
+        for event in events {
+            let (id, species, moles, sign) = match event {
+                crate::ops::Event::GasEvolved {
+                    vessel,
+                    species,
+                    moles,
+                    ..
+                } => (*vessel, species, moles.0, 1.0),
+                crate::ops::Event::GasAbsorbed {
+                    vessel,
+                    species,
+                    moles,
+                    ..
+                } => (*vessel, species, moles.0, -1.0),
+                _ => continue,
+            };
+            if id != vessel.id || !moles.is_finite() || moles < 0.0 {
+                *vessel = snapshot;
+                return Err(vec![DeltaError::InvalidState {
+                    field: "gas exchange event".into(),
+                }]);
+            }
+            let Some(formula) = crate::species::lookup(species)
+                .and_then(|data| crate::stoich::parse_formula(data.formula).ok())
+            else {
+                *vessel = snapshot;
+                return Err(vec![DeltaError::InvalidState {
+                    field: format!("unaccounted gas {}", species.0),
+                }]);
+            };
+            for (element, count) in formula.counts {
+                *ledger_after.elements.entry(element).or_default() += sign * moles * count;
+            }
+        }
         let violations = ledger_before.check_against(&ledger_after, tolerance, 1e-15);
 
         // Only element violations are conservation errors; mass drift from
@@ -834,6 +1136,7 @@ impl StateDelta {
             && self.electrode_interfacial_species_changes.is_empty()
             && self.thermal.is_none()
             && self.unpriced_heat.is_none()
+            && self.replacement.is_none()
     }
 }
 

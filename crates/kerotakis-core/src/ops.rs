@@ -1473,6 +1473,9 @@ pub enum Event {
         /// explanation hanging off an otherwise French reading.
         #[serde(default, skip_serializing_if = "Option::is_none")]
         note_reason: Option<crate::phrase::Phrase>,
+        /// Model support, separate from calibration and localized commentary.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        model_support: Option<crate::coverage::ObservableSupport>,
     },
     /// The open-circuit voltage between two half-cells, and which way the
     /// electrons would go. Open circuit means: no current drawn, no

@@ -4,6 +4,8 @@ export type ResultQuantity = {
   label: string;
   value: number;
   unit: string;
+  /** Chemistry support for a measured quantity; independent of instrument precision. */
+  confidence?: ResultConfidence;
 };
 
 /**
@@ -219,7 +221,14 @@ function quantities(
   push("transferred", "fraction", "%", 100);
   const measured = number(event, "value");
   if (measured !== undefined && typeof event.unit === "string") {
-    values.push({ label: "reading", value: measured, unit: event.unit });
+    const support = event.model_support;
+    const status = support && typeof support === "object" && !Array.isArray(support)
+      ? (support as Record<string, unknown>).status : undefined;
+    const confidence: ResultConfidence | undefined = status === "computed" ? "computed"
+      : status === "estimated" ? "modeled"
+        : status === "incomplete" || status === "unsupported" ? "unknown" : undefined;
+    values.push({ label: "reading", value: measured, unit: event.unit,
+      ...(confidence ? { confidence } : {}) });
   }
   return values.slice(0, 3);
 }
@@ -361,12 +370,30 @@ function equationOf(
  * is the difference between two scenes the solver produced, which is
  * `computed` for the same reason a scene badge is.
  */
-function temperatureConfidence(events: EngineEvent[], vessel?: number, after?: Scene | null): ResultConfidence {
+function temperatureConfidence(events: EngineEvent[], vessel?: number, after?: Scene | null, before?: Scene | null): ResultConfidence {
   const forVessel = (event: EngineEvent) =>
     vessel === undefined || eventVessel(event) === undefined || eventVessel(event) === vessel;
-  if (after?.vessels.some((item) => (vessel === undefined || item.id === vessel) && item.temperature_incomplete)
-    || events.some((event) => event.event === "heat_unpriced" && forVessel(event))) {
+  // This badge covers the before→after pair and its difference. A thermostat
+  // establishes the current value, but cannot repair an uncertain baseline.
+  const previous = before?.vessels.filter((item) => vessel === undefined || item.id === vessel) ?? [];
+  const previousSupports = previous.flatMap((item) => item.observables ?? [])
+    .filter((item) => item.observable === "temperature");
+  if (previous.some((item) => item.temperature_incomplete)
+    || previousSupports.some((item) => item.status === "incomplete" || item.status === "unsupported")) {
     return "unknown";
+  }
+  const supports = after?.vessels.filter((item) => vessel === undefined || item.id === vessel)
+    .flatMap((item) => item.observables ?? [])
+    .filter((item) => item.observable === "temperature") ?? [];
+  if (supports.some((item) => item.status === "incomplete" || item.status === "unsupported")) {
+    return "unknown";
+  }
+  if (after?.vessels.some((item) => (vessel === undefined || item.id === vessel) && item.temperature_incomplete)
+    || (supports.length === 0 && events.some((event) => event.event === "heat_unpriced" && forVessel(event)))) {
+    return "unknown";
+  }
+  if ([...supports, ...previousSupports].some((item) => item.status === "estimated")) {
+    return "modeled";
   }
   if (events.some((event) => event.event === "temperature_changed" && forVessel(event))) {
     return "computed";
@@ -481,7 +508,7 @@ export function summarizeResult(
         beforeK: beforeTemperature!,
         afterK: afterTemperature!,
         deltaK: temperatureDeltaK!,
-        confidence: temperatureConfidence(typed, vessel, after),
+        confidence: temperatureConfidence(typed, vessel, after, before),
       }
       : undefined,
     temperatureDeltaK: moved ? temperatureDeltaK : undefined,

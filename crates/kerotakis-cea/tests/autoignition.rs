@@ -59,33 +59,38 @@ fn warm_methane_and_oxygen_do_not_burn_without_a_spark() {
 }
 
 #[test]
-fn above_autoignition_the_same_mixture_burns() {
+fn above_autoignition_a_sealed_mixture_requires_a_closed_energy_route() {
     let mut v = sealed(
         900.0,
         &[("methane", 0.01, Phase::Gas), ("O2", 0.03, Phase::Gas)],
     );
-    let mut cea = ThermalEquilibrator;
-    let events = cea.equilibrate(&mut v).expect("equilibrates");
+    let before = format!("{v:?}");
+    let events = ThermalEquilibrator
+        .equilibrate(&mut v)
+        .expect("boundary diagnosis");
     assert!(below(&events, "methane").is_none(), "{events:?}");
     assert!(
-        moles(&v, "methane") < 1e-6,
-        "methane burned: {} left",
-        moles(&v, "methane")
+        events.iter().any(|e| matches!(
+            e,
+            Event::NotYetModeled {
+                cause: kerotakis_core::ops::NotModelledCause::BoundaryMismatch,
+                ..
+            }
+        )),
+        "{events:?}"
     );
-    // CEA reports product gases as leaving the charge rather than keeping
-    // them as portions, so the carbon dioxide is in the event stream.
-    let co2 = events
-        .iter()
-        .filter_map(|e| match e {
-            Event::GasEvolved { species, moles, .. } if species.0 == "CO2" => Some(moles.0),
-            _ => None,
-        })
-        .sum::<f64>();
     assert!(
-        co2 > 0.005,
-        "carbon dioxide formed: {co2} mol, events {events:?}"
+        !events.iter().any(|e| matches!(
+            e,
+            Event::GasEvolved { .. } | Event::ThermalEquilibrium { .. }
+        )),
+        "{events:?}"
     );
-    assert!(v.temperature.0 > 900.0, "the flame heated the vessel");
+    assert_eq!(
+        format!("{v:?}"),
+        before,
+        "a declined route retains all finite feed and metadata"
+    );
 }
 
 #[test]

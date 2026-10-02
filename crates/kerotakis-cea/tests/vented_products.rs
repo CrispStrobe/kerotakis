@@ -110,17 +110,18 @@ fn the_exhaust_is_what_the_equation_says_it_is() {
     );
 }
 
-/// The flame is not re-solved: its temperature and its energy are the
-/// adiabatic answer they always were. Only what LEFT is read at the
-/// exhaust temperature.
+/// Exhaust re-settling does not replace the flame temperature. The feed
+/// enters at its physical temperature; the spark does not preheat it.
+/// Compare different actual feed temperatures instead of pinning the old
+/// answer that charged 1200 K air and liquid to the spark.
 #[test]
 fn the_flame_keeps_its_temperature_and_its_energy() {
     let (bench, events) = burn_ten_millilitres_of_ethanol();
 
     let flame = bench.vessel(VesselId(0)).unwrap().temperature.to_celsius();
     assert!(
-        (flame - 2496.3).abs() < 2.0,
-        "the adiabatic flame temperature is {flame} °C, not the 2496.3 °C the quest pins"
+        (1500.0..2200.0).contains(&flame),
+        "ambient-feed diluted-air model flame temperature {flame} °C"
     );
 
     let energy = events
@@ -134,11 +135,35 @@ fn the_flame_keeps_its_temperature_and_its_energy() {
         })
         .expect("a flame that caught reports its energy");
     assert!(
-        (energy - 208_000.0).abs() < 0.02 * 208_000.0,
-        "10 mL of ethanol releases {} kJ; it was 208 kJ before this change and the \
-         recombination is the exhaust's business, not the vessel's",
-        energy / 1000.0
+        (energy / ETHANOL_MOLES / 1000.0 - 1235.0).abs() < 80.0,
+        "ambient liquid ethanol to water vapour releases about 1235 kJ/mol; got {}",
+        energy / ETHANOL_MOLES / 1000.0
     );
+    let mut hot = Bench::new();
+    let mut hot_stack = stack();
+    hot.vessels[0].deposit(
+        SpeciesId::new("ethanol"),
+        Moles(ETHANOL_MOLES),
+        Phase::Liquid,
+    );
+    hot.vessels[0].temperature = Kelvin(340.0);
+    let hotter = hot
+        .step_with(
+            Operator::Ignite {
+                vessel: VesselId(0),
+            },
+            &mut hot_stack,
+            &PermissiveScreen,
+        )
+        .unwrap();
+    assert!(
+        hot.vessels[0].temperature.to_celsius() > flame,
+        "preheated physical feed should give a hotter flame: {hotter:?}"
+    );
+    assert!(events
+        .iter()
+        .any(|e| matches!(e, Event::ThermalEquilibrium { provenance, .. }
+        if provenance.model.contains("bulk feed and admitted air 298.15 K"))));
 }
 
 /// Nothing is left in the beaker, and the bench has to say whose 2496 °C

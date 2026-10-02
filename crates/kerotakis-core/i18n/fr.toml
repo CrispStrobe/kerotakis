@@ -439,6 +439,9 @@ hydroxylapatite = "hydroxylapatite"
 "solvent-activity" = "activité du solvant : a_w = {activity} d'une seconde spéciation sur {dataset} ({model}), à {molality} mol/kgw de particules et I = {ionic_strength}"
 
 [event]
+"measured.support-incomplete" = "Cette estimation est incomplète : des données nécessaires aux modèles manquent."
+"measured.support-unsupported" = "Le modèle ne prend pas en charge cette grandeur dans ces conditions ; ce nombre ne constitue pas une mesure prise en charge."
+"measured.support-estimated" = "Il s’agit d’une estimation du modèle avec une calibration limitée ou des hypothèses simplificatrices."
 "heat-unpriced.lv1" = "{vessel} : la chaleur de réaction de {species} est inconnue ; la température estimée est incomplète"
 "removed.lv3" = "{vessel} : −{moles} mol {name}"
 "vessel-created.lv1" = "Un bécher tout neuf apparaît sur la paillasse : {vessel}."
@@ -1457,6 +1460,9 @@ PVA = "PVA"
 "muscle protein" = "protéine musculaire"
 
 [not-modeled]
+"cea-sealed-energy-boundary" = "Le récipient fermé conserve son inventaire gazeux ; la voie CEA de flamme à l’air libre ne peut pas calculer ses bilans d’énergie à volume fixe et de pression, donc aucune chimie thermique n’a été appliquée"
+"cea-finite-pressure-boundary" = "Le récipient à pression régulée conserve un inventaire gazeux fini ; la voie CEA de flamme à l’air libre ne dispose pas d’un bilan fermé validé d’enthalpie et de travail de volume, donc aucune chimie thermique n’a été appliquée"
+"cea-swept-boundary" = "Le récipient balayé par un gaz n’admet pas d’oxygène ambiant ; la voie CEA de flamme à l’air libre ne dispose pas d’un bilan d’entrée et de sortie du gaz porteur pour cette condition limite, donc aucune chimie thermique n’a été appliquée"
 "hydrogen-overpotential-rate" = "La dissolution de {name} dans cet acide est thermodynamiquement favorisée (force motrice {driving} V), mais sa vitesse n’est pas modélisée : la surtension approximative de l’hydrogène {eta} V dépend de la surface et de la densité de courant. Le modèle laisse le métal inchangé ; cela ne prouve pas son inertie à l’échelle d’une leçon"
 "material-layer-partition" = "La séparation de ce mélange d’huile n’est pas modélisée : partage des solutés neutres, émulsions et autres matériaux non résolus dépassent la simple vidange huile-eau"
 # Tranche two: the gaps with a HOLE in them, which is why `[refusal]`
@@ -1606,6 +1612,8 @@ malic_acid = "aucune base de données livrée ne définit d'espèce malate, ses 
 whole_milk-casein = "LA CASÉINE N'EST TOUJOURS PAS MODÉLISÉE, SON EFFET TAMPON RESTE DONC ABSENT"
 
 [provenance]
+"model.unresolved-spectators" = "{model} ; seules les espèces représentées participent à la combustion ; les matériaux non résolus sont conservés sans modèle de réaction ni de capacité thermique"
+"model.ignition-feed-boundary" = "{model} ; zone d’allumage localisée à {zone} K, charge initiale et air admis à {feed} K ; apport d’air en récipient ouvert : {ratio} fois la quantité de matière de la charge représentée"
 # The dataset half. Two levels: a base clause naming what this lab added
 # to the vendored file, wrapped in the clause that is true of all of them.
 # The wrapper is written ONCE here for the same reason it is composed once

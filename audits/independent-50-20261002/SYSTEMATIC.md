@@ -1,5 +1,8 @@
 # Broader gaps exposed by the independent audit
 
+This is the original follow-up assessment. See [SYSTEMATIC-AFTER.md](SYSTEMATIC-AFTER.md)
+for implemented contracts, new regressions, validation and remaining scientific scope.
+
 The audit discovered several cross-cutting problems. The fixes address observed
 failures; 49 passing checks are not evidence that these classes of failure are
 closed throughout the engine. Priorities below describe proposed follow-up work,

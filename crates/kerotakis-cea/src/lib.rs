@@ -8,6 +8,7 @@
 //! Every species record carries its own literature citation, which we keep
 //! as provenance.
 
+pub mod closed;
 pub mod gibbs;
 pub mod nasa9;
 pub mod scoped_ideal_gas;

@@ -1,0 +1,271 @@
+{
+  "utc": "2026-10-02T08:07:08Z",
+  "rust_unique_selected_tests": 830,
+  "rust_by_package": {
+    "cea": 27,
+    "cli": 104,
+    "codex": 1,
+    "core": 652,
+    "phreeqc": 46
+  },
+  "targets": [
+    {
+      "package": "core",
+      "target": "unit",
+      "passed": 604,
+      "failed": 0,
+      "log": "systematic-final-core-unit.log"
+    },
+    {
+      "package": "core",
+      "target": "adsorption_delta",
+      "passed": 6,
+      "failed": 0,
+      "log": "systematic-final-core-integration.log"
+    },
+    {
+      "package": "core",
+      "target": "independent_audit_regressions",
+      "passed": 6,
+      "failed": 0,
+      "log": "systematic-final-core-integration.log"
+    },
+    {
+      "package": "core",
+      "target": "observable_contracts",
+      "passed": 19,
+      "failed": 0,
+      "log": "systematic-final-core-integration.log"
+    },
+    {
+      "package": "core",
+      "target": "solver_transactions",
+      "passed": 17,
+      "failed": 0,
+      "log": "systematic-final-core-integration.log"
+    },
+    {
+      "package": "cea",
+      "target": "autoignition",
+      "passed": 5,
+      "failed": 0,
+      "log": "systematic-final-native-tests.log"
+    },
+    {
+      "package": "cea",
+      "target": "bench_thermal",
+      "passed": 13,
+      "failed": 0,
+      "log": "systematic-final-native-tests.log"
+    },
+    {
+      "package": "cea",
+      "target": "did_not_ignite",
+      "passed": 1,
+      "failed": 0,
+      "log": "systematic-final-native-tests.log"
+    },
+    {
+      "package": "cea",
+      "target": "finite_boundaries",
+      "passed": 3,
+      "failed": 0,
+      "log": "systematic-final-native-tests.log"
+    },
+    {
+      "package": "cea",
+      "target": "vented_products",
+      "passed": 5,
+      "failed": 0,
+      "log": "systematic-final-native-tests.log"
+    },
+    {
+      "package": "phreeqc",
+      "target": "characterization_contracts",
+      "passed": 8,
+      "failed": 0,
+      "log": "systematic-final-ph-mix-contracts.log"
+    },
+    {
+      "package": "phreeqc",
+      "target": "drain",
+      "passed": 2,
+      "failed": 0,
+      "log": "systematic-final-native-tests.log"
+    },
+    {
+      "package": "phreeqc",
+      "target": "exchange",
+      "passed": 3,
+      "failed": 0,
+      "log": "systematic-final-ph-mix-contracts.log"
+    },
+    {
+      "package": "phreeqc",
+      "target": "exchange_transport",
+      "passed": 1,
+      "failed": 0,
+      "log": "systematic-final-native-tests.log"
+    },
+    {
+      "package": "phreeqc",
+      "target": "ignite_over_fizz",
+      "passed": 1,
+      "failed": 0,
+      "log": "systematic-final-native-tests.log"
+    },
+    {
+      "package": "phreeqc",
+      "target": "independent_audit_regressions",
+      "passed": 6,
+      "failed": 0,
+      "log": "systematic-final-native-tests.log"
+    },
+    {
+      "package": "phreeqc",
+      "target": "order_invariance",
+      "passed": 2,
+      "failed": 0,
+      "log": "systematic-final-ph-mix-contracts.log"
+    },
+    {
+      "package": "phreeqc",
+      "target": "reaction_heat",
+      "passed": 4,
+      "failed": 0,
+      "log": "systematic-final-native-tests.log"
+    },
+    {
+      "package": "phreeqc",
+      "target": "reactive_gas",
+      "passed": 2,
+      "failed": 0,
+      "log": "systematic-final-native-tests.log"
+    },
+    {
+      "package": "phreeqc",
+      "target": "solid_solution",
+      "passed": 3,
+      "failed": 0,
+      "log": "systematic-final-ph-mix-contracts.log"
+    },
+    {
+      "package": "phreeqc",
+      "target": "surface",
+      "passed": 5,
+      "failed": 0,
+      "log": "systematic-final-ph-mix-contracts.log"
+    },
+    {
+      "package": "phreeqc",
+      "target": "surface_transport",
+      "passed": 1,
+      "failed": 0,
+      "log": "systematic-final-native-tests.log"
+    },
+    {
+      "package": "phreeqc",
+      "target": "systematic_sequence_contracts",
+      "passed": 5,
+      "failed": 0,
+      "log": "systematic-final-native-tests.log"
+    },
+    {
+      "package": "phreeqc",
+      "target": "unit",
+      "passed": 3,
+      "failed": 0,
+      "log": "systematic-final-ph-precision-unit.log"
+    },
+    {
+      "package": "codex",
+      "target": "export_snapshot",
+      "passed": 1,
+      "failed": 0,
+      "log": "systematic-final-codex-snapshot.log"
+    },
+    {
+      "package": "cli",
+      "target": "bin-unit",
+      "passed": 49,
+      "failed": 0,
+      "log": "systematic-final-cli-provenance-recheck.log"
+    },
+    {
+      "package": "cli",
+      "target": "cli_locale",
+      "passed": 6,
+      "failed": 0,
+      "log": "systematic-final-cli-tests.log"
+    },
+    {
+      "package": "cli",
+      "target": "headspace_json",
+      "passed": 1,
+      "failed": 0,
+      "log": "systematic-final-cli-tests.log"
+    },
+    {
+      "package": "cli",
+      "target": "json_contract",
+      "passed": 1,
+      "failed": 0,
+      "log": "systematic-final-cli-tests.log"
+    },
+    {
+      "package": "cli",
+      "target": "lessons_replay",
+      "passed": 33,
+      "failed": 0,
+      "log": "systematic-final-cli-tests.log"
+    },
+    {
+      "package": "cli",
+      "target": "localised_transcripts",
+      "passed": 2,
+      "failed": 0,
+      "log": "systematic-final-cli-tests.log"
+    },
+    {
+      "package": "cli",
+      "target": "observable_coverage",
+      "passed": 3,
+      "failed": 0,
+      "log": "systematic-final-cli-provenance-recheck.log"
+    },
+    {
+      "package": "cli",
+      "target": "provenance",
+      "passed": 2,
+      "failed": 0,
+      "log": "systematic-final-cli-provenance-count.log"
+    },
+    {
+      "package": "cli",
+      "target": "run_lang",
+      "passed": 7,
+      "failed": 0,
+      "log": "systematic-final-cli-tests.log"
+    }
+  ],
+  "web_tests": 49,
+  "web_type_errors": 0,
+  "web_existing_warnings": 2,
+  "engine_translation_keys_per_locale": 726,
+  "unfilled_placeholders": 0,
+  "whole_workspace_claim": false,
+  "cli_original_processes": 100,
+  "cli_followup_processes": 14,
+  "original_input_refusals": [
+    "07",
+    "15",
+    "45",
+    "46",
+    "47"
+  ],
+  "physical_checks_passed": 49,
+  "physical_checks_total": 50,
+  "remaining_physical_mismatch": "35: zinc/acid requires a validated rate model",
+  "binary_sha256": "80deb2050251dd8f3471d557981f879ebf1d5a126d80b459378b8e0d26642050",
+  "predictions_sha256": "0fd6e4831f5da264c892a5718b8619ae267388df0512fe54dab04fff30287064"
+}

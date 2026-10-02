@@ -29,7 +29,7 @@ fn repository_source_manifest_passes_the_live_gate() {
         String::from_utf8_lossy(&out.stderr)
     );
     let stdout = String::from_utf8(out.stdout).unwrap();
-    // Three quarantine snapshots now sit beside eleven distributed sources:
+    // Three quarantine snapshots now sit beside twelve distributed sources:
     // BRD-011's ChEBI identity slice (CC BY 4.0, release 253), BRD-013's USDA
     // FoodData Central Foundation Foods release, and BRD-010's PubChem PUG
     // REST snapshot. All three are committed for reproducibility and ship in
@@ -41,8 +41,10 @@ fn repository_source_manifest_passes_the_live_gate() {
     // complexes, Sander HBr uptake, and USCG solvent properties. Keep this
     // independent approval count explicit rather than deriving it from the
     // manifest under test and accidentally approving lane changes.
-    assert!(stdout.contains("14 sources valid"), "{stdout}");
-    assert!(stdout.contains("11 distributed"), "{stdout}");
+    // The independent chemistry audit adds one reviewed Parker KNO3 datum,
+    // pinned to its transcription and rights review with no blanket approval.
+    assert!(stdout.contains("15 sources valid"), "{stdout}");
+    assert!(stdout.contains("12 distributed"), "{stdout}");
 }
 
 #[test]

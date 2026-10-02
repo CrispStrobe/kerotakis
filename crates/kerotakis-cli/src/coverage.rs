@@ -156,10 +156,84 @@ struct BaselineDrift {
     observed: Option<BaselineObservation>,
 }
 
+/// A script-specific capability matrix uses the same stack and state as a run.
+/// Unsupported chemistry remains a reported boundary; solver failures are errors.
+#[derive(Debug, Serialize)]
+struct ObservableReport {
+    schema_version: u32,
+    vessels: Vec<VesselObservables>,
+}
+#[derive(Debug, Serialize)]
+struct VesselObservables {
+    id: usize,
+    label: String,
+    observables: Vec<kerotakis_core::ObservableSupport>,
+}
+fn observable_report(path: &Path, mut stack: SolverStack) -> Result<ObservableReport, String> {
+    let script = std::fs::read_to_string(path).map_err(|error| error.to_string())?;
+    let mut bench = Bench::new();
+    for (index, line) in script.lines().enumerate() {
+        let op = parse_op_typed(line)
+            .map_err(|error| format!("line {}: {}", index + 1, error.detail))?;
+        if let Some(op) = op {
+            let events = bench
+                .step_with(op, &mut stack, &PermissiveScreen)
+                .map_err(|error| format!("line {}: {error}", index + 1))?;
+            for event in events {
+                if let Event::SolverFailed { solver, detail, .. } = event {
+                    return Err(format!("line {}: {solver}: {detail}", index + 1));
+                }
+            }
+        }
+    }
+    Ok(ObservableReport {
+        schema_version: 1,
+        vessels: bench
+            .vessels
+            .iter()
+            .map(|vessel| VesselObservables {
+                id: vessel.id.0,
+                label: vessel.label.clone(),
+                observables: kerotakis_core::observable_manifest(vessel),
+            })
+            .collect(),
+    })
+}
+
 pub(crate) fn command(args: &[String], build_stack: fn() -> SolverStack) {
+    if args.first().map(String::as_str) == Some("observables") {
+        let Some(path) = args.get(1).filter(|value| !value.starts_with("--")) else {
+            eprintln!("usage: kero coverage observables FILE [--json]");
+            std::process::exit(2);
+        };
+        let report = observable_report(Path::new(path), build_stack()).unwrap_or_else(|error| {
+            eprintln!("kero coverage observables: {error}");
+            std::process::exit(1);
+        });
+        if args.iter().any(|arg| arg == "--json") {
+            println!(
+                "{}",
+                serde_json::to_string(&report).expect("report serializes")
+            );
+        } else {
+            for vessel in report.vessels {
+                println!("v{}: {}", vessel.id + 1, vessel.label);
+                for support in vessel.observables {
+                    println!(
+                        "  {}: {:?} ({:?})",
+                        support.observable, support.status, support.scope
+                    );
+                    for reason in support.reasons {
+                        println!("    {reason}");
+                    }
+                }
+            }
+        }
+        return;
+    }
     if args.first().map(String::as_str) != Some("curiosity") {
         eprintln!(
-            "usage: kero coverage curiosity [--json] [--smoke] [--check] \
+            "usage: kero coverage observables FILE [--json]\n       kero coverage curiosity [--json] [--smoke] [--check] \
              [--manifest FILE] [--baseline FILE] [--emit-baseline]"
         );
         std::process::exit(2);
@@ -986,6 +1060,33 @@ fn flag_value<'a>(args: &'a [String], flag: &str) -> Option<&'a str> {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn a_solver_failure_cannot_be_reported_as_observable_coverage() {
+        use kerotakis_core::{Equilibrator, SolveError, Vessel};
+        struct Broken;
+        impl Equilibrator for Broken {
+            fn name(&self) -> &'static str {
+                "injected-failure"
+            }
+            fn equilibrate(&mut self, _: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+                Err(SolveError::NotConverged {
+                    solver: self.name().into(),
+                    detail: "failed physical solve".into(),
+                })
+            }
+        }
+        let path = std::env::temp_dir().join(format!(
+            "kero-observable-failure-{}.lab",
+            std::process::id()
+        ));
+        std::fs::write(&path, "add v1 water 100mL\n").unwrap();
+        let result = observable_report(&path, SolverStack::new(vec![Box::new(Broken)]));
+        std::fs::remove_file(path).unwrap();
+        let error = result.unwrap_err();
+        assert!(error.contains("line 1"));
+        assert!(error.contains("failed physical solve"));
+    }
     #[test]
     fn an_unmet_requirement_is_sorted_by_where_missing_sits() {
         use Disposition::*;

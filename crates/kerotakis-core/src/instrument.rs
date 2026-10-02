@@ -51,6 +51,17 @@ pub trait InstrumentContract {
 
     /// Take a reading from the vessel.
     fn measure(&self, vessel: &Vessel) -> Option<Reading>;
+
+    /// Shared model support; external instruments default to an explicitly
+    /// undescribed route rather than claiming validated accuracy.
+    fn support(&self, vessel: &Vessel, reading: &Reading) -> crate::coverage::ObservableSupport {
+        let name = if reading.observable.starts_with("absorbance at ") {
+            "absorbance"
+        } else {
+            &reading.observable
+        };
+        crate::coverage::observable_support(vessel, name)
+    }
 }
 
 // ── Built-in instruments (INST-002 migration targets) ──────────────
@@ -199,6 +210,7 @@ impl InstrumentContract for ConductivityMeter {
                 unit: "µS/cm".into(),
                 precision: Some(1.0),
                 in_range: est.trustworthy()
+                    && (vessel.temperature.0 - 298.15).abs() <= 0.01
                     && est.microsiemens_per_cm > 0.0
                     && est.microsiemens_per_cm < 1e6,
             });
@@ -745,8 +757,35 @@ impl InstrumentContract for MeltingPointApparatus {
         InstrumentMode::Passive
     }
 
+    fn support(&self, vessel: &Vessel, _reading: &Reading) -> crate::coverage::ObservableSupport {
+        let transition = read_transition(vessel, self.0);
+        let mut support = crate::coverage::observable_support(vessel, self.0.as_str());
+        support.status = if transition.value_c.is_some() {
+            crate::coverage::ObservableStatus::Estimated
+        } else {
+            crate::coverage::ObservableStatus::Unsupported
+        };
+        support.reasons.clear();
+        support
+            .reasons
+            .push("literature-transition-not-independent-measurement".into());
+        support.provenance.extend(transition.source);
+        support.assumptions.extend(transition.boundary);
+        support
+    }
+
     fn measure(&self, vessel: &Vessel) -> Option<Reading> {
         let reading = read_transition(vessel, self.0);
+        let in_range = if self.0 == TransitionRead::Boiling {
+            let data = crate::species::lookup(reading.species.as_ref()?)?;
+            matches!(
+                crate::states::boiling_shift_for_k(data.inchikey, vessel.pressure.0 / 1000.0).1,
+                crate::states::BoilingRoute::NormalBoilingPoint
+                    | crate::states::BoilingRoute::ClearedCorrelation
+            )
+        } else {
+            true
+        };
         Some(Reading {
             observable: reading.kind.as_str().to_string(),
             value: reading.value_c?,
@@ -754,7 +793,7 @@ impl InstrumentContract for MeltingPointApparatus {
             // A school block resolves half a degree; the curated constants
             // are quoted no finer, so claiming more would be theatre.
             precision: Some(0.5),
-            in_range: true,
+            in_range,
         })
     }
 }

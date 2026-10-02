@@ -500,12 +500,12 @@ ignite v1
 
 [reaction.expect]
 events = ["ignited", "consumed:Mg", "precipitated:MgO"]
-temperature_c = { min = 2200.0, max = 3400.0 }
+temperature_c = { min = 1800.0, max = 2800.0 }
 
 [reaction.registers]
 lv1 = "It catches fire with a light so bright it hurts to look at, and leaves a white powder behind. Weigh it afterwards: it got HEAVIER. The extra weight came out of the air."
 lv2 = "Magnesium burns in oxygen to magnesium oxide, releasing 601 kJ per mole. The mass increases because oxygen from the air is now part of the product — a classic demonstration that burning is combination, not destruction."
-lv3 = "Adiabatic combustion solved enthalpy-conserving with the atmosphere in the element budget, giving a flame temperature near 3000 K. The oxygen is drawn from the reservoir rather than the inventory, which is why the vessel gains mass."
+lv3 = "Adiabatic combustion is solved with an explicit diluted-air allocation and the physical feed temperature in the enthalpy budget. The spark heats a localized ignition zone, not the entire feed. The resulting model temperature depends on both feed temperature and air allocation; it is not a measured flame peak. Oxygen is drawn from the atmosphere reservoir rather than the initial inventory, which is why the vessel gains mass."
 
 [reaction.provenance]
 source = "Standard curriculum combustion demonstration; thermochemistry from NASA CEA thermo.inp"

@@ -43,6 +43,17 @@ export interface SceneStockBottle {
   unit: string;
 }
 
+/** Model support is independent of device calibration and display precision. */
+export type ObservableSupport = {
+  observable: string;
+  status: "computed" | "estimated" | "incomplete" | "unsupported";
+  scope: "whole_vessel" | "aqueous_phase" | "liquid_phase" | "solvent_only" | "dry_solid";
+  reasons: string[];
+  assumptions: string[];
+  provenance: string[];
+  validity: { quantity: string; unit: string; lower: number | null; upper: number | null }[];
+};
+
 export interface SceneVessel {
   id: number;
   label: string;
@@ -103,6 +114,7 @@ export interface SceneVessel {
   temperature_k: number;
   /** The engine could not price part of the reaction heat. */
   temperature_incomplete?: boolean;
+  observables?: ObservableSupport[];
   pressure_pa: number;
   elapsed_s: number;
   mass_g: number;

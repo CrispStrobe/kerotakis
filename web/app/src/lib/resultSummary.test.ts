@@ -129,6 +129,68 @@ describe("how strongly the card stands behind its labels", () => {
       ["dissolves"], scene(298.15), scene(296.15))?.temperature?.confidence).toBe("computed");
   });
 
+  it.each([
+    ["computed", "computed"], ["estimated", "modeled"],
+    ["incomplete", "unknown"], ["unsupported", "unknown"],
+  ] as const)("uses shared temperature support %s", (status, expected) => {
+    const after = scene(296.15);
+    after.vessels[0]!.observables = [{
+      observable: "temperature", status, scope: "whole_vessel",
+      reasons: [], assumptions: [], provenance: [], validity: [],
+    }];
+    const events = [{ event: "temperature_changed", vessel: 0, from: 298.15, to: 296.15 }];
+    expect(summarizeResult(events, ["changes"], scene(298.15), after)?.temperature?.confidence)
+      .toBe(expected);
+    after.vessels[0]!.observables = [{
+      observable: "conductivity", status: "incomplete", scope: "aqueous_phase",
+      reasons: ["missing-ion-mobility"], assumptions: [], provenance: [], validity: [],
+    }];
+    expect(summarizeResult(events, ["changes"], scene(298.15), after)?.temperature?.confidence)
+      .toBe("computed");
+  });
+
+  it("uses current thermostat support rather than historical missing-heat events", () => {
+    const after = scene(298.15);
+    after.vessels[0]!.observables = [{
+      observable: "temperature", status: "computed", scope: "whole_vessel",
+      reasons: [], assumptions: [], provenance: [], validity: [],
+    }];
+    const events = [{ event: "temperature_changed", vessel: 0, from: 296.15, to: 298.15 },
+      { event: "heat_unpriced", vessel: 0 }];
+    expect(summarizeResult(events, ["bath"], scene(296.15), after)?.temperature?.confidence)
+      .toBe("computed");
+  });
+
+  it.each([
+    ["computed", "computed"], ["estimated", "modeled"],
+    ["incomplete", "unknown"], ["unsupported", "unknown"], [undefined, undefined],
+  ] as const)("keeps measurement support %s separate from temperature confidence", (status, expected) => {
+    const measured = { event: "measured", vessel: 0, value: 12.0, unit: "µS/cm",
+      ...(status ? { model_support: { observable: "conductivity", status } } : {}) };
+    // The changing temperature warrants a card independently of the reading;
+    // its confidence cannot upgrade the conductivity number's missing data.
+    const result = summarizeResult([measured], ["reading"], scene(298.15), scene(296.15));
+    expect(result?.quantities.find((quantity) => quantity.label === "reading")?.confidence).toBe(expected);
+    expect(result?.temperature?.confidence).toBe("computed");
+  });
+
+  it.each([
+    ["computed", "computed"], ["estimated", "modeled"],
+    ["incomplete", "unknown"], ["unsupported", "unknown"],
+  ] as const)("propagates previous temperature support %s to the before-after difference", (status, expected) => {
+    const before = scene(296.15);
+    const after = scene(298.15);
+    before.vessels[0]!.observables = [{ observable: "temperature", status,
+      scope: "whole_vessel", reasons: [], assumptions: [], provenance: [], validity: [] }];
+    after.vessels[0]!.observables = [{ observable: "temperature", status: "computed",
+      scope: "whole_vessel", reasons: [], assumptions: [], provenance: [], validity: [] }];
+    expect(summarizeResult([{ event: "temperature_changed", vessel: 0, from: 296.15, to: 298.15 }],
+      ["bath"], before, after)?.temperature?.confidence).toBe(expected);
+    // Current thermostat support remains computed; the limitation belongs to
+    // the difference, not to the imposed temperature itself.
+    expect(after.vessels[0]!.observables[0]!.status).toBe("computed");
+  });
+
   it("falls back to the two scenes when no event names the temperature", () => {
     expect(summarizeResult(
       [{ event: "dissolved", vessel: 0, species: "NaCl", moles: 0.1 }],

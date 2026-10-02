@@ -452,8 +452,16 @@ terms = "provenance/parker-1965-kno3-review.md"
 copyright = "United States National Bureau of Standards, employee-authored government work (1965)"
 retrieved = "2026-10-02"
 attribution = "V. B. Parker (1965), NSRDS-NBS 2, p.30; republished courtesy of the National Institute of Standards and Technology"
-paths = ["data/registry/registry-source-v1.json"]
+paths = ["data/registry/registry-source-v1.json", "provenance/parker-1965-kno3-transcription.json", "provenance/parker-1965-kno3-review.md"]
 allowed_outputs = ["registry-datum"]
 targets = ["native", "web", "ios", "android"]
 reviewer = "Kerotakis independent experiment audit, 2026-10-02"
 notes = "Single evaluated KNO3 dissolution datum only; 1965 government report predates the 1968 SRD Act. SI conversion and uncertainty recorded in the registry; no finite-concentration correction claimed."
+
+[[source.checksum]]
+path = "provenance/parker-1965-kno3-transcription.json"
+sha256 = "032a05662c993e3456c3b070e99ca766daef9d9f4940e9ea44c14d97c96d86d7"
+
+[[source.checksum]]
+path = "provenance/parker-1965-kno3-review.md"
+sha256 = "e5183f8d6c40f01836e10c2e69f35a52b62104a79fcedbb6e239f8c2fdb44b21"

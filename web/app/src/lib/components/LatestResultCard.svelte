@@ -271,7 +271,7 @@
     {#if result.quantities.length > 0}
       <dl>
         {#each result.quantities as quantity}
-          <div><dt>{t(quantity.label)}</dt><dd>{format(quantity.value)} {quantity.unit}</dd></div>
+          <div data-confidence={quantity.confidence}><dt>{t(quantity.label)}</dt><dd>{format(quantity.value)} {quantity.unit}</dd></div>
         {/each}
       </dl>
     {/if}

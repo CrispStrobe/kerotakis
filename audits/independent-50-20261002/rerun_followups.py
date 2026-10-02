@@ -1,10 +1,11 @@
 """Repeat the baseline's five documented input adaptations with the final CLI."""
-import hashlib, json, subprocess, time
+import hashlib, json, subprocess, time, os
 from pathlib import Path
 root=Path(__file__).resolve().parent
 repo=root.parents[1]
-binary=repo/'target/debug/kero'
-results=root/'after'
+binary=Path(os.environ.get('KERO_BIN', str(repo/'target/debug/kero'))).resolve()
+results=Path(os.environ.get('KERO_RESULTS_DIR', str(root/'after'))).resolve()
+results.mkdir(parents=True, exist_ok=True)
 records=[]
 inputs=[('07','07-name-corrected'),('15','15-name-corrected'),('45','45-oil-substitute'),('46','46-oil-substitute'),('47','47-oil-substitute'),('co2-consistency','co2-consistency'),('heat-disclosure','heat-disclosure')]
 for ident, name in inputs:

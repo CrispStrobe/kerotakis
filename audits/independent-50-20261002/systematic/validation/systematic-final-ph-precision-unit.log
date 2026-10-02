@@ -1,0 +1,11 @@
+   Compiling kerotakis-phreeqc v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-phreeqc)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 27.98s
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_phreeqc-d697284c7d65b76e)
+
+running 3 tests
+test aqueous::numerical_speciation_tests::malformed_or_missing_columns_preserve_the_report_and_no_second_solve ... ok
+test aqueous::numerical_speciation_tests::native_columns_replace_rounding_and_log_activities_without_creating_species ... ok
+test aqueous::numerical_speciation_tests::pure_water_surface_tolerance_is_scoped_and_does_not_reduce_output_precision ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 48 filtered out; finished in 1.27s
+

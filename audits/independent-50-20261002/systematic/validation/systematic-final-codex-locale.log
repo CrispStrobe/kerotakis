@@ -1,0 +1,30 @@
+
+== de (ships — a gap is a failure)
+file                           de  English   coverage
+ammonia-headspace.toml          9        9   100.0% ####################
+aqueous.toml                  350      350   100.0% ####################
+audit-discoveries.toml         27       27   100.0% ####################
+audit-preserved.toml           18       18   100.0% ####################
+inorganic.toml                 41       41   100.0% ####################
+models.toml                   196      196   100.0% ####################
+quantitative.toml             307      307   100.0% ####################
+rates.toml                    166      166   100.0% ####################
+redox.toml                    159      159   100.0% ####################
+source-fleet-promotions.toml      153      153   100.0% ####################
+states.toml                    26       26   100.0% ####################
+TOTAL                        1452     1452   100.0%
+
+== fr (in progress)
+file                           fr  English   coverage
+ammonia-headspace.toml          9        9   100.0% ####################
+aqueous.toml                  350      350   100.0% ####################
+audit-discoveries.toml         27       27   100.0% ####################
+audit-preserved.toml           18       18   100.0% ####################
+inorganic.toml                 41       41   100.0% ####################
+models.toml                   196      196   100.0% ####################
+quantitative.toml             307      307   100.0% ####################
+rates.toml                    166      166   100.0% ####################
+redox.toml                    159      159   100.0% ####################
+source-fleet-promotions.toml      153      153   100.0% ####################
+states.toml                    26       26   100.0% ####################
+TOTAL                        1452     1452   100.0%

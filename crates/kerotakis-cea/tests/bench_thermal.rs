@@ -585,10 +585,12 @@ fn igniting_magnesium_gains_mass_from_the_air() {
         after > before * 1.5,
         "burning magnesium gains mass: {before:.2} g → {after:.2} g"
     );
-    // Magnesium's flame is genuinely around 3000 K.
+    // This model heats its finite excess-air control volume from the real
+    // feed temperature. A spark cannot donate bulk preheating to 1200 K.
+    // It is an ideal diluted-air result, not a calibrated local flame peak.
     let t = bench.vessel(v).unwrap().temperature.0;
     assert!(
-        (2500.0..3600.0).contains(&t),
+        (2000.0..3000.0).contains(&t),
         "flame temperature in the right range, got {t:.0} K"
     );
 }

@@ -2331,6 +2331,7 @@ fn usage() -> ! {
          \x20 kero materials             list the named household and school bottles\n\
          \x20 kero find <word>           search both halves of the shelf\n\
          \x20 kero lessons               list the shipped .lab lessons\n\
+         \x20 kero coverage observables FILE [--json]\n\
          \x20 kero coverage curiosity [--smoke] [--json]\n\
          \x20 kero calc <relation> ...   evaluate a named physical relation\n\
          \x20 kero properties water     temperature-dependent property table\n\
@@ -3735,6 +3736,7 @@ mod native_startup_tests {
                 instrument: Instrument::PressureGauge,
                 value: 101.325,
                 unit: "kPa".into(),
+                model_support: None,
                 note: Some("not a scalar contract field".into()),
                 note_reason: None,
             },

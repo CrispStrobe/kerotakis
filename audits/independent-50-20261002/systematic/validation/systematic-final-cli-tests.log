@@ -1,0 +1,187 @@
+   Compiling kerotakis-core v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-core)
+   Compiling kerotakis-org v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-org)
+   Compiling kerotakis-cea v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-cea)
+   Compiling kerotakis-stack v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-stack)
+   Compiling kerotakis-phreeqc v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-phreeqc)
+   Compiling kerotakis-codex v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-codex)
+   Compiling kerotakis-safety v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-safety)
+   Compiling kerotakis-cli v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-cli)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3m 14s
+     Running unittests src/main.rs (target/debug/deps/kero-33fc453e22a9cd4b)
+
+running 48 tests
+test balance_exercise::tests::a_blank_or_impossible_coefficient_is_not_an_answer ... ok
+test balance_exercise::tests::a_correct_multiple_is_balanced_and_named_as_a_multiple ... ok
+test balance_exercise::tests::charge_is_marked_as_well_as_the_atoms ... ok
+test balance_exercise::tests::every_shipped_exercise_accepts_its_answer_and_refuses_a_perturbation ... ok
+test balance_exercise::tests::the_solvers_own_answer_is_correct_and_simplest ... ok
+test balance_exercise::tests::what_cannot_be_drilled_is_reported_rather_than_dropped ... ok
+test coverage::tests::a_requirement_is_a_floor_and_an_exceeded_floor_is_met ... ok
+test coverage::tests::a_solver_failure_cannot_be_reported_as_observable_coverage ... ok
+test coverage::tests::an_unmet_requirement_is_sorted_by_where_missing_sits ... ok
+test coverage::tests::baseline_reports_changed_added_and_removed_prompts ... ok
+test coverage::tests::boundary_is_off_the_scale_and_compares_only_for_equality ... ok
+test coverage::tests::computed_and_curated_are_one_grade_in_both_directions ... ok
+test coverage::tests::smoke_comparison_ignores_baseline_entries_outside_the_subset ... ok
+test native_startup_tests::primary_engine_initialization_failure_never_constructs_a_reduced_stack ... ok
+test native_startup_tests::semantic_event_adapter_exposes_only_documented_scalar_fields ... ok
+test native_startup_tests::successful_native_startup_retains_aqueous_computation_and_provenance ... ok
+test provenance::tests::a_distributed_lane_still_demands_a_verdict ... ok
+test provenance::tests::a_quarantine_snapshot_may_await_its_review ... ok
+test provenance::tests::accepts_a_complete_allowlisted_record ... ok
+test provenance::tests::federal_data_approvals_do_not_admit_copyleft_nc_or_unreviewed_references ... ok
+test provenance::tests::permits_copyleft_only_outside_distribution ... ok
+test provenance::tests::rejects_an_unpinned_revision ... ok
+test provenance::tests::rejects_checksum_drift ... ok
+test provenance::tests::rejects_copyleft_in_a_distributed_lane ... ok
+test provenance::tests::rejects_unknown_upstream_inputs ... ok
+test provenance::tests::rejects_unsafe_or_missing_paths ... ok
+test provenance::tests::reviewed_federal_data_references_are_explicit_and_not_code_approvals ... ok
+test upstreams::tests::a_ceiling_is_only_legal_where_the_refusal_is_about_bulk ... ok
+test upstreams::tests::a_ceiling_must_say_why_it_is_that_number ... ok
+test upstreams::tests::a_citation_wrapped_across_lines_still_reads_as_one_sentence ... ok
+test upstreams::tests::a_cleared_upstream_in_the_same_position_is_not ... ok
+test upstreams::tests::a_comment_is_commentary_and_a_field_is_a_claim ... ok
+test upstreams::tests::a_judgement_covers_exactly_one_subject_and_upstream ... ok
+test upstreams::tests::a_judgement_for_a_cleared_upstream_judges_nothing ... ok
+test upstreams::tests::a_judgement_that_covers_nothing_is_reported ... ok
+test upstreams::tests::a_page_cannot_cure_a_permission ... ok
+test upstreams::tests::a_refused_row_may_not_be_allowed_to_touch_anything ... ok
+test upstreams::tests::a_refused_upstream_in_a_value_bound_field_is_a_finding ... ok
+test upstreams::tests::a_word_boundary_is_what_separates_echa_from_mechanism ... ok
+test upstreams::tests::an_attributed_claim_on_a_book_is_ordinary_practice ... ok
+test upstreams::tests::an_inherited_row_must_say_when_its_terms_were_read ... ok
+test upstreams::tests::attributed_claims_past_the_ceiling_are_one_finding_not_many ... ok
+test upstreams::tests::matching_narrows_a_judgement_from_a_file_to_a_string ... ok
+test upstreams::tests::scanning_the_repository_finds_the_known_offenders ... ok
+test upstreams::tests::source_id_is_not_a_provenance_field ... ok
+test upstreams::tests::the_same_claim_without_a_page_is_still_a_finding ... ok
+test upstreams::tests::the_shipped_audit_is_well_formed ... ok
+test upstreams::tests::via_names_the_right_work_and_is_still_a_finding ... ok
+
+test result: ok. 48 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 17.79s
+
+     Running tests/cli_locale.rs (target/debug/deps/cli_locale-8c5a06a2b753cb3b)
+
+running 6 tests
+test a_german_run_and_an_english_run_agree_on_structure_and_differ_on_prose ... ok
+test english_is_unchanged ... ok
+test every_hardcoded_english_locale_in_the_cli_is_justified ... ok
+test the_cli_calls_no_english_only_render_wrapper ... ok
+test the_german_bench_writes_the_decimal_comma ... ok
+test the_particle_drawings_header_is_translated ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 12.31s
+
+     Running tests/headspace_json.rs (target/debug/deps/headspace_json-b4160f44b078858a)
+
+running 1 test
+test every_gas_boundary_round_trips_through_the_cli_contract ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.59s
+
+     Running tests/json_contract.rs (target/debug/deps/json_contract-962aa79d7b693d46)
+
+running 1 test
+test json_output_is_the_api_contract ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.88s
+
+     Running tests/lessons_replay.rs (target/debug/deps/lessons_replay-02e03a6fec98d153)
+
+running 33 tests
+test a_candle_under_a_jar_goes_out_with_oxygen_to_spare ... ok
+test a_cooling_copper_sulfate_solution_grows_blue_crystals ... ok
+test a_copper_coin_in_vinegar_and_salt_grows_its_own_green ... ok
+test a_raisin_needs_a_third_of_its_own_volume_in_bubbles ... ok
+test a_volcano_with_soap_in_it_climbs_out_of_the_glass ... ok
+test balloon_lesson_obeys_the_gas_law_at_both_boundaries ... ok
+test borax_crystallises_on_cooling_where_sugar_supersaturates ... ok
+test conductive_water_electrolysis_reports_both_gases ... ok
+test density_tells_apart_what_the_balance_cannot ... ok
+test every_lesson_replays_and_computes_chemistry ... ok
+test household_food_lessons_keep_their_observable_contrasts ... ok
+test invisible_ink_requires_drying_before_the_mark_browns ... ok
+test lemon_cell_reports_a_bounded_voltage_not_unmeasured_power ... ok
+test lessons_are_json_clean_at_every_register ... ok
+test limewater_goes_milky_on_the_first_co2_dose_and_clears_on_excess ... ok
+test newly_guided_kids_rows_keep_their_evidence ... ok
+test oobleck_answers_differently_depending_how_hard_it_is_pushed ... ok
+test open_fizz_balance_equals_inputs_minus_escaped_gas ... ok
+test plastics_sort_themselves_by_density_in_water ... ok
+test prepared_kids_mechanism_lessons_replay_the_computed_events ... ok
+test rock_candy_needs_the_heat_and_then_the_seed ... ok
+test rubbery_bone_lesson_computes_only_the_chalk_control ... ok
+test rusting_needs_air_and_water_and_salt_makes_it_faster ... ok
+test slime_is_a_dose_response_and_the_borax_survives_it ... ok
+test the_boiling_plateau_holds_while_the_water_leaves ... ok
+test the_cabbage_rainbow_computes_five_colours_from_one_pigment ... ok
+test the_hand_warmer_says_why_it_cannot_click ... ok
+test the_ink_strip_and_the_column_cannot_disagree ... ok
+test the_kitchen_ph_map_says_which_bottle_it_cannot_price ... ok
+test the_milk_lesson_curdles_through_the_full_solver_stack ... ok
+test the_prewarmed_cache_covers_the_lessons ... ok
+test the_starch_test_never_says_nothing_happened_to_the_vessel_that_changed ... ok
+test the_watt_guard_reads_a_unit_not_a_capital_letter ... ok
+
+test result: ok. 33 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 613.61s
+
+     Running tests/localised_transcripts.rs (target/debug/deps/localised_transcripts-4aa132d5e779cd8f)
+
+running 2 tests
+test nothing_but_notation_reads_the_same_as_english ... ok
+test the_corpus_runs_in_every_shipped_language ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 536.43s
+
+     Running tests/observable_coverage.rs (target/debug/deps/observable_coverage-6ee32337596242d5)
+
+running 3 tests
+test a_missing_rate_is_a_supported_report_with_an_unsupported_observable ... ok
+test coverage_matches_final_scene_after_real_chemistry ... ok
+test invalid_input_never_produces_a_successful_capability_report ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.34s
+
+     Running tests/provenance.rs (target/debug/deps/provenance-3c26804e339e0278)
+
+running 2 tests
+test command_rejects_a_non_allowlisted_runtime_source ... ok
+test repository_source_manifest_passes_the_live_gate ... FAILED
+
+failures:
+
+---- repository_source_manifest_passes_the_live_gate stdout ----
+
+thread 'repository_source_manifest_passes_the_live_gate' (634376) panicked at crates/kerotakis-cli/tests/provenance.rs:25:5:
+stdout:
+
+stderr:
+kero provenance: nbs-parker-1965-kno3: record a sha256 checksum or immutable revision
+kero provenance: nbs-parker-1965-kno3: licence 'LicenseRef-US-Public-Domain' is not directly includable for Data
+kero provenance: 2 problems
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    repository_source_manifest_passes_the_live_gate
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.52s
+
+error: test failed, to rerun pass `-p kerotakis-cli --test provenance`
+     Running tests/run_lang.rs (target/debug/deps/run_lang-90c7cbc0e1e9e9d9)
+
+running 7 tests
+test a_german_script_run_with_lang_executes_the_english_twins_steps ... ok
+test a_lang_directive_in_the_file_needs_no_flag ... ok
+test an_english_script_is_the_same_run_under_lang_de ... ok
+test an_unknown_language_directive_is_refused_by_name ... ok
+test english_remains_the_default ... ok
+test kero_lang_is_honoured_by_run ... ok
+test the_flag_may_precede_the_path ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 15.99s
+
+error: 1 target failed:
+    `-p kerotakis-cli --test provenance`

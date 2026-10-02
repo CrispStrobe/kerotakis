@@ -1,0 +1,53 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.001000 mol copper(II) sulfate pentahydrate (chalcanthite) (CuSO4·5H2O, M = 249.684 g/mol)
+  v1: 0.000001 mol antlerite (green copper sulfate) precipitated
+  v1: 0.001000 mol copper(II) sulfate pentahydrate (chalcanthite) dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added
+  v1: pH 4.487 · I = 0.0281 mol/kgw
+  v1: reaction heat for antlerite is not priced; the temperature estimate is incomplete
+  v1: net ionic: 3 Cu²⁺(aq) + SO₄²⁻(aq) + 4 H₂O(l) → antlerite(s) + 4 H⁺(aq)
+  v1 (beaker) — 25.00 °C, 99.9 g, 100.1 mL liquid, open to atmosphere, pH 4.49, pe 16.14 (+0.955 V), I = 0.0281 m
+      temperature estimate is incomplete: reaction heat for antlerite is not priced
+      redox — all Cu as Cu(II); all S as S(VI)
+            996 µmol  copper(II) ion     Aqueous
+            999 µmol  sulfate ion        Aqueous
+           1.18 µmol  antlerite (green copper sulfate) Solid
+          5.5393 mol  water              Liquid
+           4.72 µmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9970e-1   γ=0.018
+        SO4-2           7.0228e-3    3.7780e-3   γ=0.538
+        Cu+2            7.0094e-3    3.8784e-3   γ=0.553
+        CuSO4           2.9720e-3    2.9920e-3   γ=1.007
+        O2              2.6600e-4    2.6770e-4   γ=1.006
+        H+              3.7182e-5    3.2597e-5   γ=0.877
+        HSO4-           1.4020e-5    1.1970e-5   γ=0.854
+        CuOH+           1.3980e-6    1.1890e-6   γ=0.851
+        Cu2(OH)2+2      1.1680e-6    6.1910e-7   γ=0.530
+        Cu(OH)2         7.5720e-8    7.6220e-8   γ=1.007
+  v1 thermometer: 25.0000 °C — temperature estimate is incomplete: reaction heat for antlerite is not priced
+  v2: new vessel
+  v1 → v2: 50% of the liquid
+  v1: pH 4.487 · I = 0.0281 mol/kgw
+  v2: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added
+  v2: pH 4.487 · I = 0.0281 mol/kgw
+  v2 (beaker) — 25.00 °C, 50.0 g, 50.0 mL liquid, open to atmosphere, pH 4.49, pe 16.14 (+0.955 V), I = 0.0281 m
+      temperature estimate is incomplete: reaction heat for antlerite is not priced
+      redox — all Cu as Cu(II); all S as S(VI)
+            498 µmol  copper(II) ion     Aqueous
+            499 µmol  sulfate ion        Aqueous
+          2.7696 mol  water              Liquid
+           2.36 µmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9970e-1   γ=0.018
+        SO4-2           7.0228e-3    3.7780e-3   γ=0.538
+        Cu+2            7.0094e-3    3.8784e-3   γ=0.553
+        CuSO4           2.9720e-3    2.9920e-3   γ=1.007
+        O2              2.6600e-4    2.6770e-4   γ=1.006
+        H+              3.7182e-5    3.2597e-5   γ=0.877
+        HSO4-           1.4020e-5    1.1970e-5   γ=0.854
+        CuOH+           1.3980e-6    1.1890e-6   γ=0.851
+        Cu2(OH)2+2      1.1680e-6    6.1910e-7   γ=0.530
+        Cu(OH)2         7.5720e-8    7.6220e-8   γ=1.007
+  v2 thermometer: 25.0000 °C — temperature estimate is incomplete: reaction heat for antlerite is not priced

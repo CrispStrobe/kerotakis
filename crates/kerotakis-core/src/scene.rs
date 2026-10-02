@@ -192,6 +192,9 @@ pub struct SceneVessel {
     /// The temperature estimate excludes an unpriced reaction heat.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub temperature_incomplete: Option<bool>,
+    /// Shared per-observable support, derived from the same represented state.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub observables: Vec<crate::coverage::ObservableSupport>,
     pub pressure_pa: f64,
     /// Bench time this vessel has experienced, seconds.
     pub elapsed_s: f64,
@@ -1628,6 +1631,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         melting_point_k: melting,
         temperature_k: v.temperature.0,
         temperature_incomplete: v.temperature_limitation().map(|_| true),
+        observables: crate::coverage::observable_manifest(v),
         pressure_pa: v.pressure.0,
         elapsed_s: v.elapsed_seconds,
         mass_g: v.mass().0,

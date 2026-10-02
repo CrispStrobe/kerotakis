@@ -388,6 +388,8 @@ struct Charge {
 }
 
 fn charge(vessel: &Vessel) -> Option<Charge> {
+    // Unresolved materials remain spectators in the vessel. The mapped
+    // dry feed may still be answered with explicit partial-coverage notes.
     // Liquid water means this is a solution: the aqueous engine owns it.
     let has_liquid_water = vessel
         .contents
@@ -443,7 +445,7 @@ fn charge(vessel: &Vessel) -> Option<Charge> {
         - budget.get("O").copied().unwrap_or(0.0) / 2.0;
     let air_moles = ((condensed_moles.max(0.01)) * AIR_RATIO).max(stoich_o2.max(0.0) * 1.20 / 0.21);
     let mut air: BTreeMap<String, f64> = BTreeMap::new();
-    for (name, fraction) in AIR {
+    for (name, fraction) in AIR.iter().filter(|_| vessel.uses_atmospheric_reservoir()) {
         let Some(s) = db().get(name) else { continue };
         *air.entry(s.name.clone()).or_insert(0.0) += fraction * air_moles;
         for (el, count) in &s.composition {
@@ -494,6 +496,13 @@ impl Equilibrator for ThermalEquilibrator {
                 })
                 .collect());
         }
+        // This path owns an open-room HP/TP balance and a vented exhaust.
+        // Finite and swept boundaries require different energy, pressure and
+        // outlet contracts; preserving their inventory is better than posing
+        // them as an open beaker. Autoignition diagnostics above remain valid.
+        if let Some(refusal) = crate::closed::boundary_refusal(vessel) {
+            return Ok(vec![refusal]);
+        }
         let elements: Vec<String> = charge.budget.keys().cloned().collect();
         let mut pool = pool_for(&elements);
         if charge.used_feed_thermo {
@@ -535,6 +544,11 @@ impl Equilibrator for ThermalEquilibrator {
             });
         }
         let t = vessel.temperature.0.clamp(200.0, 6000.0);
+        // The spark initiates a small reaction zone; it does not preheat
+        // the whole liquid or the incoming atmosphere to 1200 K.
+        let feed_t = vessel
+            .ignition_feed_temperature
+            .map_or(t, |temperature| temperature.0.clamp(200.0, 6000.0));
 
         // Enthalpy the vessel and its share of the atmosphere carry into
         // the problem.
@@ -543,10 +557,10 @@ impl Equilibrator for ThermalEquilibrator {
             .iter()
             .filter_map(|(sid, moles)| {
                 let s = cea_species(&sid.0)?;
-                Some(enthalpy_within_record(s, t)? * moles)
+                Some(enthalpy_within_record(s, feed_t)? * moles)
             })
             .sum::<f64>()
-            + air_enthalpy(&charge, t);
+            + air_enthalpy(&charge, feed_t);
 
         // An adiabatic vessel conserves enthalpy, so the products *and*
         // the temperature come out of one solve. Dividing a reaction's ΔH
@@ -566,7 +580,7 @@ impl Equilibrator for ThermalEquilibrator {
         // here lets the adiabatic search refuse to spend it.
         let atmosphere = OpenAtmosphere {
             admitted: charge.air.clone(),
-            inlet_k: t,
+            inlet_k: feed_t,
         };
         let adiabatic = matches!(vessel.thermal_mode, ThermalMode::Adiabatic);
         let (eq, feed_tp_fallback) = if adiabatic {
@@ -613,7 +627,7 @@ impl Equilibrator for ThermalEquilibrator {
         };
         let t_final = eq.temperature;
 
-        // Put the products back at the ignition temperature and compare
+        // Put the products back at the physical feed temperature and compare
         // their enthalpy with the reactants'. The difference is the chemical
         // energy the adiabatic solve converted into sensible heat. This uses
         // the same NASA-9 records and exact equilibrium composition as the
@@ -621,7 +635,7 @@ impl Equilibrator for ThermalEquilibrator {
         let products_at_initial_t: f64 = eq
             .composition
             .iter()
-            .filter_map(|(name, moles)| db().get(name)?.h(t).map(|h| h * moles))
+            .filter_map(|(name, moles)| db().get(name)?.h(feed_t).map(|h| h * moles))
             .sum();
         let reaction_energy_j = (h_before - products_at_initial_t).max(0.0);
         let mut dataset_sources = eq.sources.clone();
@@ -839,7 +853,7 @@ impl Equilibrator for ThermalEquilibrator {
                                 Slot::text("NASA-9"),
                             )],
                         );
-                        if feed_tp_fallback {
+                        let model = if feed_tp_fallback {
                             Phrase::new(
                                 "provenance.model.with-feed-tp-fallback",
                                 "{model}; TP liquid-feed fallback at the explicit ignition-zone temperature",
@@ -850,6 +864,29 @@ impl Equilibrator for ThermalEquilibrator {
                             )
                         } else {
                             base
+                        };
+                        let model = if vessel.ignition_trial {
+                            Phrase::new(
+                                "provenance.model.ignition-feed-boundary",
+                                "{model}; localized spark zone {zone} K, bulk feed and admitted air {feed} K; open-air allocation {ratio} times the represented feed amount",
+                                vec![
+                                    ("model".into(), Slot::phrase(model)),
+                                    ("zone".into(), Slot::number(format!("{t:.2}"))),
+                                    ("feed".into(), Slot::number(format!("{feed_t:.2}"))),
+                                    ("ratio".into(), Slot::number(format!("{:.2}", charge.air.values().sum::<f64>() / charge.mapped.iter().map(|(_, amount)| amount).sum::<f64>().max(f64::MIN_POSITIVE)))),
+                                ],
+                            )
+                        } else {
+                            model
+                        };
+                        if vessel.unresolved_materials.iter().any(|portion| portion.amount > 0.0) {
+                            Phrase::new(
+                                "provenance.model.unresolved-spectators",
+                                "{model}; only represented species participate in combustion; unresolved materials are retained without a reaction or heat-capacity model",
+                                vec![("model".into(), Slot::phrase(model))],
+                            )
+                        } else {
+                            model
                         }
                     },
                     dataset_sources,

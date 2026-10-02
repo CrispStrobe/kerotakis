@@ -279,7 +279,25 @@ impl Source {
                 "{label}: a blocked decision requires lane = 'blocked'"
             ));
         }
-        if self.lane.distributed() && !direct_licence_allowed(self.kind, &self.licence) {
+        // The reviewed Parker slice is a single data approval, not a blanket
+        // approval of this generic LicenseRef or of government-derived code.
+        let reviewed_parker = self.id == "nbs-parker-1965-kno3"
+            && self.kind == Kind::Data
+            && self.lane == Lane::RuntimeData
+            && self.decision == Decision::Approved
+            && self.licence == "LicenseRef-US-Public-Domain"
+            && self.origin == "https://doi.org/10.6028/NBS.NSRDS.2"
+            && self.terms == "provenance/parker-1965-kno3-review.md"
+            && self.allowed_outputs == ["registry-datum"]
+            && self.checksums.iter().any(|checksum| {
+                checksum.path == "provenance/parker-1965-kno3-transcription.json"
+                    && checksum.sha256
+                        == "032a05662c993e3456c3b070e99ca766daef9d9f4940e9ea44c14d97c96d86d7"
+            });
+        if self.lane.distributed()
+            && !direct_licence_allowed(self.kind, &self.licence)
+            && !reviewed_parker
+        {
             problems.push(format!(
                 "{label}: licence '{}' is not directly includable for {:?}",
                 self.licence, self.kind
@@ -564,6 +582,59 @@ sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
         let bytes = std::fs::read(Path::new("../..").join("Cargo.toml")).unwrap();
         manifest.sources[0].checksums[0].sha256 = format!("{:x}", Sha256::digest(bytes));
         manifest
+    }
+
+    #[test]
+    fn parker_approval_is_bound_to_the_reviewed_data_record() {
+        let root = Path::new("../..");
+        let mut manifest = Manifest::parse(
+            &std::fs::read_to_string(root.join("provenance/sources.toml")).unwrap(),
+        )
+        .unwrap();
+        manifest
+            .sources
+            .retain(|source| source.id == "nbs-parker-1965-kno3");
+        assert_eq!(manifest.sources.len(), 1);
+        assert!(manifest.problems(root).is_empty());
+        for mutation in 0..6 {
+            let source = &mut manifest.sources[0];
+            let original = (
+                source.id.clone(),
+                source.kind,
+                source.origin.clone(),
+                source.terms.clone(),
+                source.allowed_outputs.clone(),
+                source.checksums[0].sha256.clone(),
+            );
+            match mutation {
+                0 => source.id = "unreviewed-government-data".into(),
+                1 => source.kind = Kind::Code,
+                2 => source.origin = "https://example.invalid/other-report".into(),
+                3 => source.terms = "https://example.invalid/other-terms".into(),
+                4 => source.allowed_outputs.push("runtime-code".into()),
+                _ => source.checksums[0].sha256 = "0".repeat(64),
+            }
+            assert!(
+                manifest
+                    .problems(root)
+                    .iter()
+                    .any(|problem| problem.contains("not directly includable")),
+                "mutation {mutation}"
+            );
+            let source = &mut manifest.sources[0];
+            (
+                source.id,
+                source.kind,
+                source.origin,
+                source.terms,
+                source.allowed_outputs,
+                source.checksums[0].sha256,
+            ) = original;
+        }
+        assert!(!direct_licence_allowed(
+            Kind::Data,
+            "LicenseRef-US-Public-Domain"
+        ));
     }
 
     #[test]

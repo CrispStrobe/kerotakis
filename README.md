@@ -49,6 +49,19 @@ $ kero coverage curiosity --check --json
 The report keeps computed, curated, qualitative, deliberate boundary, missing,
 and solver-failure outcomes distinct; it never classifies rendered prose.
 
+For a particular script, inspect support for each final observable:
+
+```console
+$ kero coverage observables lessons/silver-and-salt.lab --json
+```
+
+This runs the ordinary solver stack and reports computed, estimated, incomplete
+or unsupported quantities with phase scope, reasons, data sources and validity
+limits. Instrument range and model support are separate. The same support
+appears in measurements and scenes; an unsupported reaction rate does not imply
+that a substance is inert. See the [independent audit](audits/independent-50-20261002/SYSTEMATIC-AFTER.md)
+for bounded sequence tests and remaining scientific limitations.
+
 ```console
 $ kero run lessons/silver-and-salt.lab
   You add water to v1.

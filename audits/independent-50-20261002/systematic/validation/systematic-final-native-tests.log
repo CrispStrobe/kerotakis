@@ -1,0 +1,183 @@
+   Compiling kerotakis-core v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-core)
+   Compiling kerotakis-cea v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-cea)
+   Compiling kerotakis-phreeqc v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-phreeqc)
+   Compiling kerotakis-org v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-org)
+   Compiling kerotakis-stack v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-stack)
+   Compiling kerotakis-safety v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-safety)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 50s
+     Running tests/autoignition.rs (target/debug/deps/autoignition-1c1b3e99cbf1eab1)
+
+running 5 tests
+test a_spark_is_above_every_autoignition_temperature ... ok
+test above_autoignition_a_sealed_mixture_requires_a_closed_energy_route ... ok
+test an_open_flask_of_warm_ethanol_is_below_autoignition_on_the_rooms_air ... ok
+test hydrogen_is_gated_too_and_without_oxygen_nothing_is_said ... ok
+test warm_methane_and_oxygen_do_not_burn_without_a_spark ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+
+     Running tests/bench_thermal.rs (target/debug/deps/bench_thermal-dfb0afe598dc746d)
+
+running 13 tests
+test a_flame_really_burns_liquid_ethanol ... ok
+test a_flame_really_burns_liquid_methanol ... ok
+test a_solution_is_left_to_the_aqueous_engine ... ok
+test a_spark_held_to_something_that_will_not_burn_leaves_no_trace ... ok
+test aqueous_rubbing_alcohol_keeps_an_explicit_combustion_boundary ... ok
+test burning_magnesium_makes_white_oxide_and_a_great_deal_of_heat ... ok
+test chalk_in_a_cold_crucible_just_sits_there ... ok
+test heating_a_sealed_inert_gas_never_routes_it_to_open_exhaust ... ok
+test heating_chalk_hard_enough_calcines_it ... ok
+test igniting_magnesium_gains_mass_from_the_air ... ok
+test species_map_into_the_nasa_data_by_formula ... ok
+test steel_wool_ignites_to_named_iron_oxide_in_open_air ... ok
+test the_thermal_answer_carries_its_provenance ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.44s
+
+     Running tests/did_not_ignite.rs (target/debug/deps/did_not_ignite-5e1a073308844079)
+
+running 1 test
+test propane_in_a_quenching_bath_is_short_of_its_autoignition_temperature ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.23s
+
+     Running tests/finite_boundaries.rs (target/debug/deps/finite_boundaries-bf3d990ae83781d9)
+
+running 3 tests
+test finite_headspace_does_not_import_oxygen_or_vent_matter ... ok
+test finite_pressure_controller_preserves_inventory_and_volume_when_route_declines ... ok
+test nitrogen_sweep_never_borrows_room_oxygen_to_burn_fuel ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.21s
+
+     Running tests/vented_products.rs (target/debug/deps/vented_products-95ec1d58fdaf409e)
+
+running 5 tests
+test a_vessel_that_kept_its_product_keeps_the_plain_wording ... ok
+test an_emptied_beaker_says_the_temperature_is_the_flames ... ok
+test the_exhaust_is_what_the_equation_says_it_is ... ok
+test the_exhaust_temperature_hardly_matters ... ok
+test the_flame_keeps_its_temperature_and_its_energy ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.31s
+
+     Running tests/characterization_contracts.rs (target/debug/deps/characterization_contracts-46f1384f56e335fe)
+
+running 6 tests
+test canonical_ordering_updates_all_next_step_inputs_with_the_report ... ok
+test carbon_driving_pressure_matches_speciation_across_finite_and_room_boundaries ... ok
+test characterization_cannot_assume_a_different_finite_surface_inventory ... ok
+test empty_finite_surface_cells_converge_without_importing_metal_or_sulfate ... ok
+test redox_population_and_scalar_readback_share_the_same_characterisation ... ok
+test small_finite_carbon_dose_is_not_limited_by_four_digit_report_rounding ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.12s
+
+     Running tests/drain.rs (target/debug/deps/drain-510c3447a7788ea1)
+
+running 2 tests
+test dissolved_salt_travels_with_its_water ... ok
+test ethanol_partitions_between_the_layers ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.83s
+
+     Running tests/exchange.rs (target/debug/deps/exchange-0209c2fa5f96143e)
+
+running 3 tests
+test an_untracked_exchangeable_cation_fails_loudly ... ok
+test repeated_equilibration_preserves_exchange_inventory_and_state ... ok
+test sodium_form_resin_softens_a_finite_hard_water_batch ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.67s
+
+     Running tests/exchange_transport.rs (target/debug/deps/exchange_transport-2d4520e62f70902c)
+
+running 1 test
+test sodium_softener_has_a_finite_calcium_breakthrough_curve ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.57s
+
+     Running tests/ignite_over_fizz.rs (target/debug/deps/ignite_over_fizz-4fb113d9c4c8a294)
+
+running 1 test
+test a_match_over_fizzing_vinegar_does_not_cook_the_beaker ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.60s
+
+     Running tests/independent_audit_regressions.rs (target/debug/deps/independent_audit_regressions-45d297e4f9a6611d)
+
+running 6 tests
+test finite_carbon_dose_and_reported_speciation_agree_before_and_after_wait ... ok
+test gas_electrolysis_explanation_matches_the_hydrogen_product ... ok
+test potassium_nitrate_absorbs_its_reviewed_dissolution_heat ... ok
+test unpriced_hydrate_heat_does_not_silently_become_a_known_temperature ... ok
+test unsupported_isopropanol_ignition_preserves_fuel_and_does_not_commit_boiling ... ok
+test zinc_in_acid_reports_missing_rate_instead_of_computed_inertness ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.88s
+
+     Running tests/order_invariance.rs (target/debug/deps/order_invariance-57afc8a8d1b5e788)
+
+running 2 tests
+test the_canonical_pose_costs_at_most_one_solve_per_equilibration ... ok
+test the_same_beaker_reads_the_same_solvent_mass_in_either_order ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.63s
+
+     Running tests/reaction_heat.rs (target/debug/deps/reaction_heat-d4119100f85bef39)
+
+running 4 tests
+test a_strong_acid_and_a_strong_base_warm_the_same_either_way_round ... ok
+test an_instant_cold_pack_gets_cold ... ok
+test the_volcano_cools_the_same_whichever_way_round_you_pour_it ... ok
+test the_volcano_gets_cold ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.80s
+
+     Running tests/reactive_gas.rs (target/debug/deps/reactive_gas-78b78003ae1c7d20)
+
+running 2 tests
+test reactive_gas_acid_conserves_finite_doses_and_neutralises_generically ... ok
+test sealed_reactive_gas_keeps_atoms_and_reaches_a_finite_headspace_equilibrium ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.13s
+
+     Running tests/solid_solution.rs (target/debug/deps/solid_solution-1d4921c86d286edf)
+
+running 3 tests
+test acid_dissolves_both_end_members_without_losing_components ... ok
+test calcium_and_strontium_co_precipitate_into_a_typed_mixed_crystal ... ok
+test repeated_equilibration_preserves_the_mixed_phase_and_bulk_inventory ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.56s
+
+     Running tests/surface.rs (target/debug/deps/surface-f8ce08abc1aaf123)
+
+running 5 tests
+test hydrous_ferric_oxide_retains_finite_zinc_occupancy ... ok
+test pooled_solver_result_returns_to_each_named_interface ... ok
+test sequential_surface_solves_do_not_share_numbered_reactants ... ok
+test untracked_surface_complexes_fail_loudly_instead_of_losing_inventory ... ok
+test zinc_adsorption_increases_across_the_acid_side_ph_edge ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.86s
+
+     Running tests/surface_transport.rs (target/debug/deps/surface_transport-5d8b94aef8fd1234)
+
+running 1 test
+test typed_hfo_front_tracks_phreeqc_transport_oracle ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.31s
+
+     Running tests/systematic_sequence_contracts.rs (target/debug/deps/systematic_sequence_contracts-d17874ef44dbfb43)
+
+running 5 tests
+test actual_production_stack_burns_alcohol_before_phase_route_can_vent_feed ... ok
+test carbon_state_agrees_across_dose_volume_boundary_and_operation_matrix ... ok
+test cooling_scales_with_reviewed_dissolution_amount_without_false_precision ... ok
+test failed_trials_and_ordinary_heat_keep_distinct_physical_meanings ... ok
+test oil_drain_conserves_mass_and_ions_across_layer_amounts ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 14.00s
+

@@ -1,0 +1,74 @@
+   Compiling kerotakis-core v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 33s
+     Running tests/adsorption_delta.rs (target/debug/deps/adsorption_delta-0e1795514926741c)
+
+running 6 tests
+test cumulative_overdraw_is_rejected_without_mutation ... ok
+test desorption_scales_bulk_and_bound_changes_together ... ok
+test diff_carries_complete_desorption ... ok
+test later_deposit_cannot_hide_earlier_overdraw ... ok
+test nonfinite_bound_changes_are_rejected ... ok
+test unbalanced_binding_rolls_back ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/independent_audit_regressions.rs (target/debug/deps/independent_audit_regressions-a77f704cc58f5bfa)
+
+running 6 tests
+test incomplete_temperature_survives_serialization_and_a_pour ... ok
+test layered_ph_and_conductivity_readings_name_the_aqueous_layer ... ok
+test oil_drain_does_not_guess_neutral_solute_partition ... ok
+test spill_recovery_preserves_temperature_limitations ... ok
+test transactional_commit_preserves_temperature_limitations ... ok
+test visible_oil_layer_drains_water_and_conserves_oil_and_salt ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+
+     Running tests/observable_contracts.rs (target/debug/deps/observable_contracts-35b9a8b45565080d)
+
+running 19 tests
+test aqueous_scope_is_preserved_even_when_the_vessel_has_multiple_layers ... ok
+test available_kinetic_routes_are_estimates_and_no_zinc_route_is_not_inertness ... ok
+test bench_json_measurements_use_same_contract_as_ideal_devices_and_scene ... ok
+test boiling_fallback_at_uncovered_pressure_is_not_in_range ... ok
+test conductivity_domain_and_coverage_are_not_silently_upgraded_by_calibration ... ok
+test heat_capacity_missing_data_and_curve_endpoints_have_distinct_support ... ok
+test incomplete_heat_is_local_to_observables_and_thermostat_does_not_price_it ... ok
+test legacy_measurement_records_load_without_invented_model_support ... ok
+test manifest_discovers_all_scalar_operator_observables_and_refuses_empty_density ... ok
+test material_heat_gap_is_disclosed_without_disabling_aqueous_chemistry ... ok
+test measurement_support_is_visible_in_each_locale_and_appropriate_register ... ok
+test mixed_solvent_boundary_does_not_treat_a_separate_oil_layer_as_cosolvent ... ok
+test nonreference_temperature_is_not_a_calibrated_conductivity_reading ... ok
+test scene_measurement_manifest_and_persistence_share_the_same_support ... ok
+test solvent_only_spectrum_never_claims_complete_sample_coverage ... ok
+test spectral_gaps_do_not_become_complete_zero_absorbance ... ok
+test temperature_limitations_propagate_to_dependent_observables_not_imposed_pressure ... ok
+test typed_support_does_not_repeat_existing_missing_temperature_disclosure ... ok
+test unknown_routes_are_discoverable_and_zero_mass_is_computed_zero ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.32s
+
+     Running tests/solver_transactions.rs (target/debug/deps/solver_transactions-ef828ddc01121768)
+
+running 17 tests
+test absorbed_gas_is_accounted_and_unbacked_outlet_event_is_rejected ... ok
+test boundary_event_must_name_correct_vessel_and_finite_amount ... ok
+test bounded_equilibrium_sequences_preserve_complete_results_and_reload ... ok
+test cloned_proposal_commits_all_solver_state_even_without_bulk_changes ... ok
+test complete_snapshot_cannot_be_edited_into_a_different_native_delta ... ok
+test finite_surface_inventory_and_speciation_commit_as_one_result ... ok
+test individually_finite_initial_inventory_and_delta_cannot_overflow_on_commit ... ok
+test invalid_boundary_and_dependent_numerical_state_never_commits ... ok
+test invalid_thermal_and_snapshot_inventories_never_commit ... ok
+test native_bulk_prefix_and_overflow_are_rejected_before_clamping ... ok
+test numerically_invalid_success_discards_trial_events_and_metadata ... ok
+test orchestration_commits_boundary_events_and_complete_state_together ... ok
+test production_mix_failure_and_decline_restore_all_trial_state ... ok
+test production_stack_failure_restores_state_before_next_solver ... ok
+test rejected_snapshot_restores_derived_state_and_narration_too ... ok
+test snapshot_scaling_is_explicitly_unsupported ... ok
+test stale_snapshot_cannot_erase_an_intervening_operation_or_narration ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+

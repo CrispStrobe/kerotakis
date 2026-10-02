@@ -117,7 +117,7 @@ pub use compartment::{
     Compartment, ElectrodeDeposit, ElectrodeState, Environment, Interface, InterfaceKind,
     VolumeMode,
 };
-pub use coverage::{coverage_manifest, CoverageReport, SolverCoverage};
+pub use coverage::{coverage_manifest, observable_manifest, observable_support, CoverageReport, ObservableScope, ObservableStatus, ObservableSupport, ObservableValidity, SolverCoverage};
 pub use curated::CuratedEquilibrator;
 pub use delta::{DeltaError, MoleDelta, StateDelta, ThermalDelta};
 pub use displacement::DisplacementEquilibrator;

@@ -1,0 +1,15 @@
+
+> kerotakis-app@0.0.1 test
+> vitest run --maxWorkers=1 src/lib/resultSummary.test.ts src/lib/components/LatestResultCard.test.ts
+
+
+ RUN  v3.2.7 /mnt/volume1/kerotakis/web/app
+
+ ✓ src/lib/components/LatestResultCard.test.ts (6 tests) 170ms
+ ✓ src/lib/resultSummary.test.ts (43 tests) 84ms
+
+ Test Files  2 passed (2)
+      Tests  49 passed (49)
+   Start at  07:16:18
+   Duration  13.42s (transform 5.32s, setup 0ms, collect 9.31s, tests 254ms, environment 1ms, prepare 1.47s)
+

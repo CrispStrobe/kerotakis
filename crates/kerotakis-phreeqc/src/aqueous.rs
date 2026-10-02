@@ -2493,6 +2493,16 @@ impl Equilibrator for PhreeqcEquilibrator {
         soln_b: &Vessel,
         frac_b: f64,
     ) -> Option<Result<Vec<Event>, SolveError>> {
+        // This native MIX input reconstructs solutions and pure candidate
+        // phases only. Finite interfaces belong to named vessels, not to
+        // solution fractions; neither their capacities nor their bound
+        // inventories may disappear through an empty interface readback.
+        // Let the ordinary target equilibrium solve them after the pour.
+        if [vessel as &Vessel, soln_a, soln_b].iter().any(|v| {
+            !v.surfaces.is_empty() || !v.exchanges.is_empty() || !v.solid_solutions.is_empty()
+        }) {
+            return None;
+        }
         // Both source vessels must be solvable aqueous problems.
         let problem_a = partition(soln_a)?;
         let problem_b = partition(soln_b)?;
@@ -2640,10 +2650,12 @@ impl Equilibrator for PhreeqcEquilibrator {
             Err(e) => return abandoned(e),
         };
 
+        let speciation =
+            refine_species_distribution(parse_species_distribution(&out.report), &out.selected);
         let cached = Rc::new(CachedSolve {
             pe_determined: !out.pe_undetermined,
             rows: out.selected,
-            speciation: parse_species_distribution(&out.report),
+            speciation,
             saturation: parse_saturation_indices(&out.report),
             redox_adjusted: out.report.contains("Adjusted to redox equilibrium"),
         });
@@ -2952,7 +2964,7 @@ impl PhreeqcEquilibrator {
         if !same_route {
             return;
         }
-        let Ok((cached, _)) = self.dispatch_solve(
+        let Ok((cached, coupling_failed)) = self.dispatch_solve(
             vessel,
             &setup.problem,
             setup.db_tag,
@@ -2961,6 +2973,9 @@ impl PhreeqcEquilibrator {
         ) else {
             return;
         };
+        if coupling_failed.is_some() {
+            return;
+        }
         let value = |column: &str| -> Option<f64> {
             let idx = cached.rows.first()?.iter().position(|h| h == column)?;
             cached.rows.last()?.get(idx)?.parse().ok()
@@ -2970,12 +2985,18 @@ impl PhreeqcEquilibrator {
         // exchange that element with the atmosphere. Such a solve is a
         // new chemical operation, not a characterisation of this state.
         // Only publish it if its readback preserves the committed inventory.
-        let Ok((water, mut surfaces, exchanges, solids, mut ions, _, protonation)) =
+        let Ok((water, mut surfaces, exchanges, solids, mut ions, unnameable, protonation)) =
             self.readback_raw_values(&setup.problem, setup.db_tag, &cached.rows, &value)
         else {
             return;
         };
-        let Ok((phases, gases, _, _)) = Self::apply_balance_corrections(
+        if unnameable
+            .iter()
+            .any(|(_, amount)| !amount.is_finite() || *amount > 1e-10)
+        {
+            return;
+        }
+        let Ok((phases, gases, ph, mu)) = Self::apply_balance_corrections(
             vessel,
             &setup.problem,
             &mut ions,
@@ -3018,17 +3039,137 @@ impl PhreeqcEquilibrator {
         }) {
             return;
         }
-        let (Some(solvent_kg), Some(ph), Some(mu)) = (value("mass_H2O"), value("pH"), value("mu"))
-        else {
+        // Element conservation alone does not fix which finite interface
+        // owns those elements. A characterisation cannot silently describe
+        // different adsorption, exchange or solid-solution populations.
+        let interface_inventory = |v: &Vessel| {
+            let mut amounts = std::collections::BTreeMap::<String, f64>::new();
+            for surface in &v.surfaces {
+                amounts.insert(
+                    format!("surface:{}:water", surface.label),
+                    surface.water_release.0,
+                );
+                for p in &surface.occupancy {
+                    *amounts
+                        .entry(format!(
+                            "surface:{}:{:?}:{:?}",
+                            surface.label, p.site, p.sorbate
+                        ))
+                        .or_default() += p.moles.0;
+                }
+            }
+            for exchanger in &v.exchanges {
+                for p in &exchanger.occupancy {
+                    *amounts
+                        .entry(format!("exchange:{}:{:?}", exchanger.label, p.ion))
+                        .or_default() += p.moles.0;
+                }
+            }
+            for solid in &v.solid_solutions {
+                for p in &solid.components {
+                    *amounts
+                        .entry(format!("solid:{}:{:?}", solid.label, p.component))
+                        .or_default() += p.moles.0;
+                }
+            }
+            amounts
+        };
+        let amounts_agree =
+            |before: &std::collections::BTreeMap<String, f64>,
+             after: &std::collections::BTreeMap<String, f64>| {
+                before.keys().chain(after.keys()).all(|key| {
+                    let left = before.get(key).copied().unwrap_or(0.0);
+                    let right = after.get(key).copied().unwrap_or(0.0);
+                    left.is_finite()
+                        && right.is_finite()
+                        && (left - right).abs() <= 1e-9 + left.abs() * 1e-6
+                })
+            };
+        if !amounts_agree(
+            &interface_inventory(vessel),
+            &interface_inventory(&candidate),
+        ) {
+            return;
+        }
+        let Some(solvent_kg) = value("mass_H2O") else {
             return;
         };
-        let Some(info) = vessel.solution.as_mut() else {
+        if !solvent_kg.is_finite()
+            || solvent_kg <= 0.0
+            || !ph.is_finite()
+            || !mu.is_finite()
+            || mu < 0.0
+        {
+            return;
+        }
+        let Some(original_info) = vessel.solution.as_ref() else {
             return;
         };
+        let redox = redox_distribution(&setup.problem, setup.db_tag, &value);
+        let redox_inventory = |states: &[kerotakis_core::RedoxState], kgw: f64| {
+            let mut amounts = std::collections::BTreeMap::new();
+            for state in states {
+                *amounts
+                    .entry(format!("{}:{}", state.element, state.oxidation))
+                    .or_insert(0.0) += state.molality * kgw;
+            }
+            amounts
+        };
+        if !amounts_agree(
+            &redox_inventory(
+                &original_info.redox,
+                original_info.solvent_kg.unwrap_or(setup.problem.kgw),
+            ),
+            &redox_inventory(&redox, solvent_kg),
+        ) {
+            return;
+        }
+        let had_secondary = original_info.solvent_activity.is_some();
+        let solvent_activity =
+            self.solvent_activity_second_opinion(vessel, &setup.problem, setup.db_tag, &value);
+        // Changing the reporting route requires a new provenance/event;
+        // canonicalisation is deliberately not such an operation.
+        if had_secondary != solvent_activity.is_some() {
+            return;
+        }
+        let idx = derived::index_for(setup.db_tag);
+        let redox_constrained = setup.problem.elements.iter().any(|element| {
+            let canonical = element.split('(').next().unwrap_or(element);
+            canonical != "H" && canonical != "O" && idx.redox_elements.contains(canonical)
+        });
+        let pe = (redox_constrained && cached.pe_determined && !redox.is_empty())
+            .then(|| value("pe"))
+            .flatten();
+        let proton = value("m_H+")
+            .map(|m| m * solvent_kg)
+            .unwrap_or_else(|| measured_species_moles(Some(&cached.speciation), "H+", solvent_kg));
+        let hydroxide = value("m_OH-")
+            .map(|m| m * solvent_kg)
+            .unwrap_or_else(|| free_hydroxide_moles(Some(&cached.speciation), solvent_kg));
+        if !proton.is_finite() || proton < 0.0 || !hydroxide.is_finite() || hydroxide < 0.0 {
+            return;
+        }
+        let co2_molality = cached
+            .speciation
+            .iter()
+            .filter(|s| matches!(s.name.as_str(), "CO2" | "H2CO3"))
+            .map(|s| s.molality)
+            .sum::<f64>();
+        let co2_pressure = kerotakis_core::properties::henry_lookup("CO2").map(|coeff| {
+            co2_molality / kerotakis_core::properties::henry_at_t(coeff, vessel.temperature.0).value
+        });
+        let mut info = vessel.solution.clone().expect("checked above");
         info.solvent_kg = Some(solvent_kg);
         info.ph = ph;
         info.ionic_strength = mu;
         info.species = cached.speciation.clone();
+        info.pe = pe;
+        info.redox = redox;
+        info.solvent_activity = solvent_activity;
+        vessel.solution = Some(info);
+        vessel.free_proton = proton;
+        vessel.free_hydroxide = hydroxide;
+        vessel.co2_partial_pressure_atm = co2_pressure;
         // The event carries the same two numbers and must not disagree
         // with the field. Patched in place, exactly as the headspace
         // pressure below is patched once the final temperature is known.
@@ -4125,10 +4266,12 @@ impl PhreeqcEquilibrator {
                     },
                 },
             };
+            let speciation =
+                refine_species_distribution(parse_species_distribution(&out.report), &out.selected);
             let cached = Rc::new(CachedSolve {
                 pe_determined: !out.pe_undetermined,
                 rows: out.selected,
-                speciation: parse_species_distribution(&out.report),
+                speciation,
                 saturation: parse_saturation_indices(&out.report),
                 redox_adjusted: out.report.contains("Adjusted to redox equilibrium"),
             });
@@ -6071,6 +6214,57 @@ fn build_mix_input(
     input
 }
 
+/// Numerical columns for quantities used by inventory and next-step gates.
+/// Keep this bounded to tracked masters, protonation and inorganic carbon;
+/// asking for every database complex would inflate every solve output.
+fn numerical_species(problem: &Problem, db_tag: &str) -> Vec<String> {
+    let idx = derived::index_for(db_tag);
+    let mut names = std::collections::BTreeSet::from(["H+".to_string(), "OH-".to_string()]);
+    for master in idx.masters.values() {
+        let base = master.element.split('(').next().unwrap_or(&master.element);
+        if base != "H"
+            && base != "O"
+            && problem
+                .elements
+                .iter()
+                .any(|element| element.split('(').next().unwrap_or(element) == base)
+        {
+            names.insert(master.species.clone());
+        }
+    }
+    if problem
+        .elements
+        .iter()
+        .any(|element| element.split('(').next() == Some("C"))
+    {
+        // The database dialect names dissolved neutral carbon differently.
+        // These three are present in each routed carbonate system; the
+        // species_element index contains masters only, not CO2/H2CO3.
+        for name in [
+            if db_tag == "minteq.v4" {
+                "H2CO3"
+            } else {
+                "CO2"
+            },
+            "HCO3-",
+            "CO3-2",
+        ] {
+            names.insert(name.into());
+        }
+    }
+    for total in problem
+        .totals
+        .iter()
+        .map(|(element, _)| element)
+        .chain(problem.elements.iter())
+    {
+        for (name, _) in derived::protonation_split(total).unwrap_or(&[]) {
+            names.insert((*name).to_string());
+        }
+    }
+    names.into_iter().collect()
+}
+
 /// The `SELECTED_OUTPUT` block the MIX readback reads: the mixture's own
 /// columns, asked for by the names `merged` carries.
 fn mix_selected_output(merged: &Problem, db_tag: &str) -> String {
@@ -6105,7 +6299,8 @@ fn mix_selected_output(merged: &Problem, db_tag: &str) -> String {
     // mixture that carries reduced nitrogen has to come back knowing
     // whether it is ammonia or ammonium, or decanting one beaker into
     // another would rename what is in it.
-    let mut molalities: Vec<&str> = vec!["H+", "OH-"];
+    let precise = numerical_species(merged, db_tag);
+    let mut molalities: Vec<&str> = precise.iter().map(String::as_str).collect();
     for total in &totals {
         for (species, _) in derived::protonation_split(total).unwrap_or(&[]) {
             if !molalities.contains(species) {
@@ -6113,9 +6308,12 @@ fn mix_selected_output(merged: &Problem, db_tag: &str) -> String {
             }
         }
     }
+    molalities.sort_unstable();
+    molalities.dedup();
     if !molalities.is_empty() {
         writeln!(block, "    -molalities {}", molalities.join(" ")).unwrap();
     }
+    writeln!(block, "    -activities {}", precise.join(" ")).unwrap();
     if !merged.phases.is_empty() {
         let names: Vec<&str> = merged.phases.iter().map(|(p, ..)| p.as_str()).collect();
         writeln!(block, "    -equilibrium_phases {}", names.join(" ")).unwrap();
@@ -6353,7 +6551,12 @@ fn build_input_at(
         )
         .unwrap();
         writeln!(input, "    Hfo_wOH {:.12e}", weak_capacity).unwrap();
-        writeln!(input, "    -equilibrate 1").unwrap();
+        // This is a finite initially neutral surface, not a preloaded
+        // surface prepared in an effectively infinite solution. PHREEQC's
+        // `-equilibrate 1` initial-surface calculation would add adsorbed
+        // Zn/sulfate without withdrawing them from SOLUTION 1. The batch
+        // reaction below must allocate the single input element budget
+        // between solution and surface instead (PHREEQC Example 8).
     }
     if !problem.exchanges.is_empty() {
         writeln!(input, "EXCHANGE 1").unwrap();
@@ -6451,7 +6654,8 @@ fn build_input_at(
     // combined list is right under either reading.
     // Heat and catalyst gates need numerical output, not the rounded text
     // report used for human-readable speciation.
-    let mut molalities: Vec<&str> = vec!["H+", "OH-"];
+    let precise = numerical_species(problem, db_tag);
+    let mut molalities: Vec<&str> = precise.iter().map(String::as_str).collect();
     if !problem.surfaces.is_empty() {
         molalities.extend(["Hfo_sOZn+", "Hfo_wOZn+", "Hfo_wSO4-", "Hfo_wOHSO4-2"]);
         if db_tag == "minteq.v4" {
@@ -6472,11 +6676,36 @@ fn build_input_at(
             }
         }
     }
+    molalities.sort_unstable();
+    molalities.dedup();
     if !molalities.is_empty() {
         writeln!(input, "    -molalities {}", molalities.join(" ")).unwrap();
     }
+    writeln!(input, "    -activities {}", precise.join(" ")).unwrap();
     if !problem.solid_solutions.is_empty() {
         writeln!(input, "    -solid_solutions Aragonite Strontianite").unwrap();
+    }
+    if !problem.surfaces.is_empty()
+        && problem.totals.is_empty()
+        && problem.phases.is_empty()
+        && problem.gases.is_empty()
+        && problem.external_gases.is_empty()
+        && problem.exchanges.is_empty()
+        && problem.solid_solutions.is_empty()
+    {
+        // SELECTED_OUTPUT high_precision also changes the native convergence
+        // tolerance from 1e-8 to 1e-12 (vendor/iphreeqc/src/phreeqcpp/
+        // read.cpp:5154; default in Phreeqc.cpp:855). Native charge convergence
+        // scales that tolerance by ionic strength and solvent mass
+        // (model.cpp:330,3838). For a neutral finite surface in pure water this asks
+        // for ~1e-20 mol residual in a 100 mL cell, below the ~1e-19 mol
+        // roundoff seen when forming the surface's proton balance. Use a
+        // tolerance still 100 times tighter than the native default for this
+        // zero-electrolyte initialization only. This follows SELECTED_OUTPUT
+        // deliberately: output retains 12-digit precision, while the native
+        // initialization no longer treats roundoff as failed chemistry.
+        writeln!(input, "KNOBS").unwrap();
+        writeln!(input, "    -convergence_tolerance 1e-10").unwrap();
     }
     writeln!(input, "END").unwrap();
     input
@@ -6521,6 +6750,43 @@ fn parse_saturation_indices(output: &str) -> Vec<(String, f64)> {
 /// descending. The block's shape is stable across PHREEQC 3.x: a header,
 /// element-total lines (2 columns), and species lines (>= 6 columns:
 /// name, molality, activity, log m, log a, log gamma[, volume]).
+/// Refine reported species from the same solve's high-precision columns.
+/// PHREEQC's human report prints `%12.3e`, only four significant digits.
+/// Unselected native complexes keep that precision: a rounded value x has
+/// half-unit uncertainty 0.5 * 10^(floor(log10(abs(x))) - 3). Element sums
+/// over those rows must account for that bound rather than claim exactness.
+/// Missing/invalid columns never create a species or replace a valid value.
+fn refine_species_distribution(
+    mut species: Vec<SpeciesDetail>,
+    rows: &[Vec<String>],
+) -> Vec<SpeciesDetail> {
+    if rows.len() < 2 {
+        return species;
+    }
+    let header = &rows[0];
+    let values = &rows[rows.len() - 1];
+    let value = |column: &str| -> Option<f64> {
+        let index = header.iter().position(|name| name == column)?;
+        let value = values.get(index)?.parse::<f64>().ok()?;
+        value.is_finite().then_some(value)
+    };
+    for entry in &mut species {
+        if let Some(molality) = value(&format!("m_{}", entry.name)).filter(|m| *m >= 0.0) {
+            entry.molality = molality;
+        }
+        if let Some(log_activity) =
+            value(&format!("la_{}", entry.name)).filter(|value| *value > -999.0)
+        {
+            let activity = 10.0_f64.powf(log_activity);
+            if activity.is_finite() {
+                entry.activity = activity;
+            }
+        }
+    }
+    species.sort_by(|a, b| b.molality.total_cmp(&a.molality));
+    species
+}
+
 pub(crate) fn parse_species_distribution(output: &str) -> Vec<SpeciesDetail> {
     let Some(start) = output.rfind("Distribution of species") else {
         return Vec::new();
@@ -6870,5 +7136,88 @@ mod routing_molality_tests {
             "and this is the price: a genuinely concentrated droplet of a \
              tenth of a millilitre is routed as dilute — {before} becomes {after}"
         );
+    }
+}
+
+#[cfg(test)]
+mod numerical_speciation_tests {
+    use super::{build_input, partition, refine_species_distribution, SpeciesDetail};
+    use kerotakis_core::*;
+    #[test]
+    fn pure_water_surface_tolerance_is_scoped_and_does_not_reduce_output_precision() {
+        let mut vessel = Vessel::new(VesselId(0), "empty oxide cell");
+        vessel.deposit(SpeciesId::new("water"), Moles(5.5509), Phase::Liquid);
+        vessel.surfaces.push(SurfaceSites {
+            label: "finite oxide".into(),
+            model: SurfaceModel::HydrousFerricOxide,
+            mass: Grams(0.09),
+            specific_area_m2_per_g: 600.0,
+            strong_capacity: Moles(5e-6),
+            weak_capacity: Moles(2e-4),
+            occupancy: vec![],
+            water_release: Moles(0.0),
+        });
+        let problem = partition(&vessel).unwrap();
+        let input = build_input(&vessel, &problem, "wateq4f");
+        assert!(input.contains("-high_precision true"));
+        assert!(input.contains("-convergence_tolerance 1e-10"));
+        assert!(input.find("KNOBS").unwrap() > input.find("-high_precision").unwrap());
+        vessel.deposit(SpeciesId::new("Zn+2"), Moles(1e-4), Phase::Aqueous);
+        vessel.deposit(SpeciesId::new("SO4-2"), Moles(1e-4), Phase::Aqueous);
+        let problem = partition(&vessel).unwrap();
+        let input = build_input(&vessel, &problem, "wateq4f");
+        assert!(input.contains("-high_precision true"));
+        assert!(!input.contains("KNOBS"));
+        vessel.contents.retain(|content| {
+            content.species != SpeciesId::new("Zn+2") && content.species != SpeciesId::new("SO4-2")
+        });
+        vessel.surfaces.clear();
+        let problem = partition(&vessel).unwrap();
+        assert!(!build_input(&vessel, &problem, "wateq4f").contains("KNOBS"));
+    }
+    #[test]
+    fn native_columns_replace_rounding_and_log_activities_without_creating_species() {
+        let species = vec![
+            SpeciesDetail {
+                name: "CO2".into(),
+                molality: 1.906e-4,
+                activity: 1.906e-4,
+            },
+            SpeciesDetail {
+                name: "CaHCO3+".into(),
+                molality: 2.345e-6,
+                activity: 2.123e-6,
+            },
+        ];
+        let rows = vec![
+            vec!["m_CO2".into(), "la_CO2".into(), "m_unreported".into()],
+            vec!["1.906447040076e-4".into(), "-3.719775".into(), "0.1".into()],
+        ];
+        let refined = refine_species_distribution(species, &rows);
+        assert_eq!(refined.len(), 2);
+        assert_eq!(refined[0].molality, 1.906447040076e-4);
+        assert!((refined[0].activity - 10.0_f64.powf(-3.719775)).abs() < 1e-15);
+        assert_eq!(refined[1].molality, 2.345e-6);
+        assert_eq!(refined[1].activity, 2.123e-6);
+    }
+    #[test]
+    fn malformed_or_missing_columns_preserve_the_report_and_no_second_solve() {
+        let species = vec![SpeciesDetail {
+            name: "CO2".into(),
+            molality: 0.001,
+            activity: 0.0009,
+        }];
+        for row in [
+            vec!["NaN", "inf"],
+            vec!["-0.1", "-999.999"],
+            vec!["not-a-number"],
+        ] {
+            let rows = vec![
+                vec!["m_CO2".into(), "la_CO2".into()],
+                row.into_iter().map(str::to_string).collect(),
+            ];
+            assert_eq!(refine_species_distribution(species.clone(), &rows), species);
+        }
+        assert_eq!(refine_species_distribution(species.clone(), &[]), species);
     }
 }

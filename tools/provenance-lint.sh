@@ -86,7 +86,11 @@ for block in blocks:
         reviewed_parker = (sid == 'nbs-parker-1965-kno3'
                            and lane == 'runtime-data'
                            and fields.get('decision') == 'approved'
-                           and licence == 'LicenseRef-US-Public-Domain')
+                           and licence == 'LicenseRef-US-Public-Domain'
+                           and fields.get('origin') == 'https://doi.org/10.6028/NBS.NSRDS.2'
+                           and fields.get('terms') == 'provenance/parker-1965-kno3-review.md'
+                           and re.search(r'^allowed_outputs\s*=\s*\["registry-datum"\]\s*$', block, re.M)
+                           and '032a05662c993e3456c3b070e99ca766daef9d9f4940e9ea44c14d97c96d86d7' in block)
         if not re.match(allowed, licence) and not reviewed_hbr and not reviewed_chris and not reviewed_parker:
             print(f"FAIL: runtime source {sid} has non-allowlisted licence: {licence}", file=sys.stderr)
             sys.exit(1)

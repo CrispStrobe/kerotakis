@@ -103,6 +103,7 @@ COMPOSERS = [
     # that composes a refusal does.
     ROOT / "crates/kerotakis-core/src/combustion.rs",
     ROOT / "crates/kerotakis-cea/src/thermal.rs",
+    ROOT / "crates/kerotakis-cea/src/closed.rs",
     # `Provenance.dataset` and `.model` — WHICH dataset answered and which
     # model it applies — were the fifth and last instance of the same
     # defect, and the model half is composed HERE: `ActivityModel::phrase`

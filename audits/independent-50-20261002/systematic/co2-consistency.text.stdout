@@ -1,0 +1,51 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.001000 mol carbon dioxide (CO2, M = 44.009 g/mol)
+  v1: NOT MODELLED: CO2 finite gas dose: uptake is an instantaneous equilibrium calculation, not a mass-transfer rate. After the dose, only explicitly configured atmospheric species exchange with an external reservoir; no new reservoir is inferred from the dose. Waiting time does not parameterise degassing
+  v1: 0.001000 mol carbon dioxide transferred gas → condensed inventory
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 4.177 · I = 0.0001 mol/kgw
+  v1: T 298.150 K → 298.188 K (ΔT = +0.038 K)
+  v1 (beaker) — 25.04 °C, 99.7 g, 100.0 mL liquid, open to atmosphere, pH 4.18, I = 0.0001 m
+            993 µmol  dissolved carbon dioxide Aqueous
+           6.70 µmol  bicarbonate ion    Aqueous
+           4.86 pmol  carbonate ion      Aqueous
+          5.5343 mol  water              Liquid
+           6.70 µmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9980e-1   γ=0.018
+        CO2             9.9629e-3    9.9630e-3   γ=1.000
+        O2              2.6750e-4    2.6750e-4   γ=1.000
+        H+              6.7209e-5    6.6581e-5   γ=0.991
+        HCO3-           6.7209e-5    6.6574e-5   γ=0.991
+  v1: 0.000998 mol carbon dioxide evolved (open system; mass leaves)
+  v1: pH 5.613 · I = 0.0000 mol/kgw
+  v1: T 298.188 K → 298.140 K (ΔT = -0.048 K)
+  v1 (beaker) — 24.99 °C, 99.7 g, 100.0 mL liquid, open to atmosphere, pH 5.61, I = 0.0000 m
+           1.33 µmol  dissolved carbon dioxide Aqueous
+            243 nmol  bicarbonate ion    Aqueous
+           4.70 pmol  carbonate ion      Aqueous
+          5.5343 mol  water              Liquid
+            243 nmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1     1.0000e0   γ=0.018
+        O2              2.6770e-4    2.6770e-4   γ=1.000
+        CO2             1.3310e-5    1.3310e-5   γ=1.000
+        H+              2.4395e-6    2.4350e-6   γ=0.998
+        HCO3-           2.4353e-6    2.4308e-6   γ=0.998
+        OH-             4.1157e-9    4.1082e-9   γ=0.998
+  v1: thermal energy requested=1.000000 J, delivered=1.000000 J, undelivered=0.000000 J; source=Bunsen burner, ceiling=1773.15 K; sensible=1.000000 J, chemistry/phase=0.000000 J; passes=1, pass_cap_reached=false, time_coupled=false
+  v1: pH 5.614 · I = 0.0000 mol/kgw
+  v1 (beaker) — 24.99 °C, 99.7 g, 100.0 mL liquid, open to atmosphere, pH 5.61, I = 0.0000 m
+           1.33 µmol  dissolved carbon dioxide Aqueous
+            243 nmol  bicarbonate ion    Aqueous
+           4.70 pmol  carbonate ion      Aqueous
+          5.5343 mol  water              Liquid
+            243 nmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1     1.0000e0   γ=0.018
+        O2              2.6770e-4    2.6770e-4   γ=1.000
+        CO2             1.3309e-5    1.3309e-5   γ=1.000
+        H+              2.4394e-6    2.4350e-6   γ=0.998
+        HCO3-           2.4352e-6    2.4308e-6   γ=0.998
+        OH-             4.1165e-9    4.1090e-9   γ=0.998

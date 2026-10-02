@@ -287,7 +287,26 @@ impl Equilibrator for SolverStack {
                 });
                 continue;
             }
-            match solver.equilibrate(vessel) {
+            // A rejected solver owns neither physical state nor narration.
+            // Successful earlier stages remain committed for later routes.
+            let checkpoint = vessel.clone();
+            let result = solver.equilibrate(vessel).and_then(|events| {
+                let mut errors = crate::delta::StateDelta::validate_state(vessel);
+                if vessel.id != checkpoint.id || vessel.label != checkpoint.label {
+                    errors.push(crate::delta::DeltaError::InvalidState {
+                        field: "vessel identity".into(),
+                    });
+                }
+                if errors.is_empty() {
+                    Ok(events)
+                } else {
+                    Err(SolveError::NotConverged {
+                        solver: solver.name().into(),
+                        detail: format!("invalid solver result: {errors:?}"),
+                    })
+                }
+            });
+            match result {
                 Ok(mut more) => {
                     self.last_routes.push(SolverRoute {
                         solver: solver_name,
@@ -328,6 +347,7 @@ impl Equilibrator for SolverStack {
                 // −24 °C, because the freezing pass never ran once PHREEQC
                 // had declined the solution.
                 Err(e) => {
+                    *vessel = checkpoint;
                     self.last_routes.push(SolverRoute {
                         solver: solver_name.clone(),
                         kind,
@@ -356,8 +376,29 @@ impl Equilibrator for SolverStack {
         frac_b: f64,
     ) -> Option<Result<Vec<Event>, SolveError>> {
         for solver in &mut self.solvers {
-            if let Some(result) = solver.mix(vessel, soln_a, frac_a, soln_b, frac_b) {
-                return Some(result);
+            let checkpoint = vessel.clone();
+            match solver.mix(vessel, soln_a, frac_a, soln_b, frac_b) {
+                Some(Ok(events)) => {
+                    let mut errors = crate::delta::StateDelta::validate_state(vessel);
+                    if vessel.id != checkpoint.id || vessel.label != checkpoint.label {
+                        errors.push(crate::delta::DeltaError::InvalidState {
+                            field: "vessel identity".into(),
+                        });
+                    }
+                    if errors.is_empty() {
+                        return Some(Ok(events));
+                    }
+                    *vessel = checkpoint;
+                    return Some(Err(SolveError::NotConverged {
+                        solver: solver.name().into(),
+                        detail: format!("invalid MIX result: {errors:?}"),
+                    }));
+                }
+                Some(Err(error)) => {
+                    *vessel = checkpoint;
+                    return Some(Err(error));
+                }
+                None => *vessel = checkpoint,
             }
         }
         None

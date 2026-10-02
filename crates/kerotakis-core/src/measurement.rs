@@ -9,9 +9,9 @@
 //! Deliberate boundaries:
 //!
 //! * The physical model's validity is NOT folded in here. The record keeps
-//!   the instrument's own `in_range` flag and nothing else; a caller who
-//!   knows the chemistry behind a reading was outside the model's validated
-//!   domain reports that separately rather than through this layer.
+//!   the instrument's own `in_range` flag; the separate
+//!   model_support field carries chemistry coverage separately from device
+//!   range and calibration. Calibration cannot repair missing chemistry.
 //! * Error widths are declared instructional settings, never empirical
 //!   manufacturer specifications, and they stay distinct from calibration
 //!   offsets and from model inadequacy, which this layer cannot see.
@@ -113,6 +113,9 @@ pub struct MeasurementRecord {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub calibration_id: Option<String>,
     pub sample_index: u64,
+    /// Chemistry support is distinct from device calibration and range.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub model_support: Option<crate::coverage::ObservableSupport>,
 }
 
 /// Why a measurement could not be taken or configured.
@@ -314,6 +317,7 @@ impl MeasurementDevice {
             .checked_add(1)
             .ok_or_else(|| MeasurementError::Config("sample index exhausted".into()))?;
         let record = MeasurementRecord {
+            model_support: Some(self.instrument.support(vessel, &reading)),
             observable: reading.observable,
             value,
             unit: reading.unit,

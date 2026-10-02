@@ -4061,6 +4061,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             unit,
             note,
             note_reason,
+            model_support,
         } => {
             let device = instrument_name(*instrument);
             // The English name is the source text and the fallback; German
@@ -4099,7 +4100,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             };
             let rendered = note_reason.as_ref().map(|reason| reason.render(locale));
             let note = rendered.as_deref().or(note.as_deref());
-            match (register.level(), note) {
+            let reading = match (register.level(), note) {
                 (_, None) => reading,
                 (1, Some(_)) if !note_reason.as_ref().is_some_and(|p|
                     p.key == "measurement.temperature-incomplete" || p.key.starts_with("measurement.aqueous-layer")) => reading,
@@ -4108,6 +4109,27 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     "{reading} — {boundary}",
                     &[("reading", &reading), ("boundary", boundary)],
                 ),
+            };
+            let disclosed_temperature = note_reason.as_ref().is_some_and(|p| p.key == "measurement.temperature-incomplete");
+            let support_note = model_support.as_ref().and_then(|support| {
+                use crate::coverage::ObservableStatus;
+                match support.status {
+                    ObservableStatus::Incomplete if !disclosed_temperature => Some(locale.fill(
+                        "event.measured.support-incomplete",
+                        "This estimate is incomplete: contributing model data are missing.", &[])),
+                    ObservableStatus::Unsupported => Some(locale.fill(
+                        "event.measured.support-unsupported",
+                        "The model does not support this observable in these conditions; this number is not a supported measurement.", &[])),
+                    ObservableStatus::Estimated if register.level() >= 2 => Some(locale.fill(
+                        "event.measured.support-estimated",
+                        "This is a model estimate with limited calibration or simplifying assumptions.", &[])),
+                    _ => None,
+                }
+            });
+            match support_note {
+                Some(boundary) => locale.fill("event.measured.lv2-bounded", "{reading} — {boundary}",
+                    &[("reading", &reading), ("boundary", &boundary)]),
+                None => reading,
             }
         }
         Event::Electrolysed {

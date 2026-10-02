@@ -1,0 +1,9 @@
+
+> kerotakis-app@0.0.1 check
+> svelte-check --tsconfig ./tsconfig.json --threshold error
+
+Loading svelte-check in workspace: /mnt/volume1/kerotakis/web/app
+Getting Svelte diagnostics...
+
+====================================
+svelte-check found 0 errors and 2 warnings in 2 files

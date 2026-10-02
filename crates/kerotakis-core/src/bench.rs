@@ -1191,6 +1191,30 @@ impl Bench {
                 _ => None,
             });
             if caught {
+                // Phase/material thresholds now see the real combustion
+                // result, never the artificial spark temperature.
+                let v = self.vessel_mut(*vessel)?;
+                v.ignition_trial = false;
+                v.ignition_feed_temperature = None;
+                let mut phase_trial = v.clone();
+                match crate::phase_route::PhaseRouteEquilibrator.equilibrate(&mut phase_trial) {
+                    Ok(more)
+                        if crate::delta::StateDelta::validate_state(&phase_trial).is_empty() =>
+                    {
+                        *v = phase_trial;
+                        events.extend(more);
+                    }
+                    Ok(_) => events.push(Event::SolverFailed {
+                        vessel: *vessel,
+                        solver: "phase-routes".into(),
+                        detail: "invalid phase state after ignition; proposal discarded".into(),
+                    }),
+                    Err(error) => events.push(Event::SolverFailed {
+                        vessel: *vessel,
+                        solver: "phase-routes".into(),
+                        detail: error.to_string(),
+                    }),
+                }
                 if let Some(Event::Ignited { energy_j, .. }) = events
                     .iter_mut()
                     .find(|event| matches!(event, Event::Ignited { .. }))
@@ -1328,6 +1352,11 @@ impl Bench {
             }
         }
 
+        if let Operator::Ignite { vessel } = &op {
+            let v = self.vessel_mut(*vessel)?;
+            v.ignition_trial = false;
+            v.ignition_feed_temperature = None;
+        }
         self.record_direct_model_route(&op, &events, solver);
 
         self.log.push(LogEntry {
@@ -2990,6 +3019,8 @@ impl Bench {
                     // A match brings a small volume to flame temperature.
                     // Whether anything catches is for the solvers to say;
                     // if nothing does, `step_with` puts the spark back out.
+                    v.ignition_trial = true;
+                    v.ignition_feed_temperature = Some(v.temperature);
                     let from = v.temperature;
                     if from.0 < IGNITION_K {
                         v.temperature = Kelvin(IGNITION_K);
@@ -3934,6 +3965,7 @@ impl Bench {
                 let v = self.vessel(*vessel)?;
                 match instrument {
                     Instrument::Thermometer => events.push(Event::Measured {
+                                model_support: Some(crate::coverage::instrument_support(v, *instrument)),
                         vessel: *vessel,
                         instrument: *instrument,
                         value: v.temperature.to_celsius(),
@@ -3942,6 +3974,7 @@ impl Bench {
                         note_reason: v.temperature_limitation(),
                     }),
                     Instrument::Balance => events.push(Event::Measured {
+                                model_support: Some(crate::coverage::instrument_support(v, *instrument)),
                         vessel: *vessel,
                         instrument: *instrument,
                         value: v.mass().0,
@@ -3955,6 +3988,7 @@ impl Bench {
                     }),
                     Instrument::PhMeter => match &v.solution {
                         Some(info) => events.push(Event::Measured {
+                                model_support: Some(crate::coverage::instrument_support(v, *instrument)),
                             vessel: *vessel,
                             instrument: *instrument,
                             value: info.ph,
@@ -3964,6 +3998,7 @@ impl Bench {
                         }),
                         None if crate::conductivity::neutral_aqueous_ph(v).is_some() => {
                             events.push(Event::Measured {
+                                model_support: Some(crate::coverage::instrument_support(v, *instrument)),
                                 vessel: *vessel,
                                 instrument: *instrument,
                                 value: crate::conductivity::neutral_aqueous_ph(v)
@@ -3986,6 +4021,7 @@ impl Bench {
                                             )),
                     },
                     Instrument::PressureGauge => events.push(Event::Measured {
+                                model_support: Some(crate::coverage::instrument_support(v, *instrument)),
                         vessel: *vessel,
                         instrument: *instrument,
                         value: v.pressure.0 / 1000.0,
@@ -4008,6 +4044,7 @@ impl Bench {
                         crate::vessel::Headspace::Sealed { volume }
                         | crate::vessel::Headspace::PressureControlled { volume, .. } => {
                             events.push(Event::Measured {
+                                model_support: Some(crate::coverage::instrument_support(v, *instrument)),
                                 vessel: *vessel,
                                 instrument: *instrument,
                                 value: volume.0 * 1000.0,
@@ -4076,6 +4113,7 @@ impl Bench {
                                 .as_ref()
                                 .map(|reason| reason.render(crate::i18n::Locale::EN));
                             events.push(Event::Measured {
+                                model_support: Some(crate::coverage::instrument_support(v, *instrument)),
                                 vessel: *vessel,
                                 instrument: *instrument,
                                 value: est.microsiemens_per_cm,
@@ -4094,6 +4132,7 @@ impl Bench {
                             crate::conductivity::nonionic_aqueous_conductance(v)
                         {
                             events.push(Event::Measured {
+                                model_support: Some(crate::coverage::instrument_support(v, *instrument)),
                                 vessel: *vessel,
                                 instrument: *instrument,
                                 value,
@@ -4107,6 +4146,7 @@ impl Bench {
                         } else {
                             match crate::conductivity::dry_solid_conductance(v) {
                             Some(solid) => events.push(Event::Measured {
+                                model_support: Some(crate::coverage::instrument_support(v, *instrument)),
                                 vessel: *vessel,
                                 instrument: *instrument,
                                 value: solid.conductivity_s_per_m,
@@ -4156,6 +4196,7 @@ impl Bench {
                         // answers even when solids are sitting in it.
                         if let Some(density) = crate::buoyancy::liquid_density_g_per_ml(v) {
                             events.push(Event::Measured {
+                                model_support: Some(crate::coverage::instrument_support(v, *instrument)),
                                 vessel: *vessel,
                                 instrument: *instrument,
                                 value: density,
@@ -4199,6 +4240,7 @@ impl Bench {
                                         .filter(|density| *density > 0.0)
                                     {
                                         Some(density) => events.push(Event::Measured {
+                                model_support: Some(crate::coverage::instrument_support(v, *instrument)),
                                             vessel: *vessel,
                                             instrument: *instrument,
                                             value: density,
@@ -4223,6 +4265,7 @@ impl Bench {
                                             recipe.bulk_density.map(|density| density.value)
                                         }) {
                                         Some(density) => events.push(Event::Measured {
+                                model_support: Some(crate::coverage::instrument_support(v, *instrument)),
                                             vessel: *vessel,
                                             instrument: *instrument,
                                             value: density,
@@ -4290,6 +4333,7 @@ impl Bench {
                         let gaps = crate::solution_optics::spectral_gaps(v);
                         if let Some(reading) = spec.measure(v) {
                             events.push(Event::Measured {
+                                model_support: Some(crate::coverage::instrument_support(v, *instrument)),
                                 vessel: *vessel,
                                 instrument: *instrument,
                                 value: reading.value,
@@ -4331,6 +4375,7 @@ impl Bench {
                         let cal = crate::instrument::Calorimeter;
                         if let Some(reading) = cal.measure(v) {
                             events.push(Event::Measured {
+                                model_support: Some(crate::coverage::instrument_support(v, *instrument)),
                                 vessel: *vessel,
                                 instrument: *instrument,
                                 value: reading.value,
@@ -4363,6 +4408,7 @@ impl Bench {
                     }
                     Instrument::GeigerCounter => {
                         events.push(Event::Measured {
+                                model_support: Some(crate::coverage::instrument_support(v, *instrument)),
                             vessel: *vessel,
                             instrument: *instrument,
                             value: crate::nuclide::total_activity_bq(&v.nuclides),

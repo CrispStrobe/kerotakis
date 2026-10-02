@@ -1,0 +1,53 @@
+   Compiling kerotakis-phreeqc v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-phreeqc)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 33.87s
+     Running tests/characterization_contracts.rs (target/debug/deps/characterization_contracts-46f1384f56e335fe)
+
+running 8 tests
+test canonical_ordering_updates_all_next_step_inputs_with_the_report ... ok
+test carbon_driving_pressure_matches_speciation_across_finite_and_room_boundaries ... ok
+test characterization_cannot_assume_a_different_finite_surface_inventory ... ok
+test empty_finite_surface_cells_converge_without_importing_metal_or_sulfate ... ok
+test native_mix_declines_every_finite_interface_without_mutating_any_vessel ... ok
+test production_pour_retains_named_oxide_and_conserves_the_fractional_zinc_inlet ... ok
+test redox_population_and_scalar_readback_share_the_same_characterisation ... ok
+test small_finite_carbon_dose_is_not_limited_by_four_digit_report_rounding ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.56s
+
+     Running tests/exchange.rs (target/debug/deps/exchange-0209c2fa5f96143e)
+
+running 3 tests
+test an_untracked_exchangeable_cation_fails_loudly ... ok
+test repeated_equilibration_preserves_exchange_inventory_and_state ... ok
+test sodium_form_resin_softens_a_finite_hard_water_batch ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.24s
+
+     Running tests/order_invariance.rs (target/debug/deps/order_invariance-57afc8a8d1b5e788)
+
+running 2 tests
+test the_canonical_pose_costs_at_most_one_solve_per_equilibration ... ok
+test the_same_beaker_reads_the_same_solvent_mass_in_either_order ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.89s
+
+     Running tests/solid_solution.rs (target/debug/deps/solid_solution-1d4921c86d286edf)
+
+running 3 tests
+test acid_dissolves_both_end_members_without_losing_components ... ok
+test calcium_and_strontium_co_precipitate_into_a_typed_mixed_crystal ... ok
+test repeated_equilibration_preserves_the_mixed_phase_and_bulk_inventory ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.74s
+
+     Running tests/surface.rs (target/debug/deps/surface-f8ce08abc1aaf123)
+
+running 5 tests
+test hydrous_ferric_oxide_retains_finite_zinc_occupancy ... ok
+test pooled_solver_result_returns_to_each_named_interface ... ok
+test sequential_surface_solves_do_not_share_numbered_reactants ... ok
+test untracked_surface_complexes_fail_loudly_instead_of_losing_inventory ... ok
+test zinc_adsorption_increases_across_the_acid_side_ph_edge ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.81s
+

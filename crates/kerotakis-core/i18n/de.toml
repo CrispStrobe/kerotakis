@@ -459,6 +459,9 @@ hydroxylapatite = "Hydroxylapatit"
 "solvent-activity" = "Lösungsmittel-Aktivität: a_w = {activity} aus einer zweiten Speziation auf {dataset} ({model}), bei {molality} mol/kgw an Teilchen und I = {ionic_strength}"
 
 [event]
+"measured.support-incomplete" = "Diese Schätzung ist unvollständig: Daten für beteiligte Modelle fehlen."
+"measured.support-unsupported" = "Das Modell unterstützt diese Messgröße unter diesen Bedingungen nicht; diese Zahl ist kein unterstützter Messwert."
+"measured.support-estimated" = "Dies ist eine Modellschätzung mit begrenzter Kalibrierung oder vereinfachenden Annahmen."
 "heat-unpriced.lv1" = "{vessel}: Die Reaktionswärme für {species} ist nicht bekannt; die Temperaturschätzung ist unvollständig"
 "removed.lv3" = "{vessel}: −{moles} mol {name}"
 "vessel-created.lv1" = "Ein frisches Becherglas erscheint auf dem Labortisch: {vessel}."
@@ -1665,6 +1668,9 @@ PVA = "PVA"
 # falls back to `[refusal]`; `tools/engine-locale-lint.py` counts how many
 # of each there are, with the denominator read out of the Rust.
 [not-modeled]
+"cea-sealed-energy-boundary" = "Das geschlossene Gefäß behält sein Gasinventar; der CEA-Pfad für offene Flammen kann seine Energiebilanz bei festem Volumen und seine Druckbilanz nicht berechnen, daher wurde keine thermische Chemie übernommen"
+"cea-finite-pressure-boundary" = "Das druckgeregelte Gefäß behält ein endliches Gasinventar; der CEA-Pfad für offene Flammen besitzt keine validierte geschlossene Enthalpie- und Volumenarbeitsbilanz, daher wurde keine thermische Chemie übernommen"
+"cea-swept-boundary" = "Das durchströmte Gefäß nimmt keinen Sauerstoff aus der Raumluft auf; der CEA-Pfad für offene Flammen besitzt für diese Randbedingung keine Bilanz für Trägergas-Einlass und -Auslass, daher wurde keine thermische Chemie übernommen"
 "hydrogen-overpotential-rate" = "Die Auflösung von {name} in Säure ist thermodynamisch begünstigt (Triebkraft {driving} V), aber ihre Geschwindigkeit wird nicht modelliert: Die ungefähre Wasserstoff-Überspannung {eta} V hängt von Oberfläche und Stromdichte ab. Das Modell lässt das Metall unverändert; dies belegt keine Inertheit auf der Zeitskala einer Unterrichtsstunde"
 "material-layer-partition" = "Das Trennen dieser Ölmischung wird nicht modelliert: Verteilung neutraler Stoffe, Emulsionen und andere unaufgelöste Materialien liegen außerhalb des einfachen Öl-Wasser-Ablassens"
 # Tranche two: the gaps with a HOLE in them, which is why `[refusal]`
@@ -1863,6 +1869,8 @@ whole_milk-casein = "KASEIN IST WEITERHIN NICHT MODELLIERT, SEINE PUFFERWIRKUNG 
 # half of this defect a translation of the finished string could never
 # have reached.
 [provenance]
+"model.unresolved-spectators" = "{model}; nur dargestellte Spezies nehmen an der Verbrennung teil; nicht aufgelöste Materialien bleiben ohne Reaktions- oder Wärmekapazitätsmodell erhalten"
+"model.ignition-feed-boundary" = "{model}; örtlich begrenzte Zündzone bei {zone} K, das gesamte Einsatzmaterial und die zugeführte Luft bei {feed} K; Luftzufuhr im offenen Gefäß: {ratio}-fache Stoffmenge des dargestellten Einsatzmaterials"
 # The dataset half. Two levels: a base clause naming what this lab added
 # to the vendored file, wrapped in the clause that is true of all of them.
 # The wrapper is written ONCE here for the same reason it is composed once

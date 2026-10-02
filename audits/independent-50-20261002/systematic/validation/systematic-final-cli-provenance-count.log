@@ -1,0 +1,10 @@
+   Compiling kerotakis-cli v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-cli)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.73s
+     Running tests/provenance.rs (target/debug/deps/provenance-3c26804e339e0278)
+
+running 2 tests
+test command_rejects_a_non_allowlisted_runtime_source ... ok
+test repository_source_manifest_passes_the_live_gate ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.52s
+

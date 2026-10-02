@@ -1237,6 +1237,12 @@ impl Equilibrator for PhaseRouteEquilibrator {
     }
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+        // A localized spark is a trial reaction zone, not bulk heating.
+        // Defer phase and material thresholds until combustion establishes
+        // the actual state; a failed trial is restored by the bench.
+        if vessel.ignition_trial {
+            return Ok(Vec::new());
+        }
         let mut events = Vec::new();
         // Two passes at most: dehydration can free water that a second
         // salt would take up, and deposition can never trigger sublimation

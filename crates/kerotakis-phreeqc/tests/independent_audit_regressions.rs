@@ -95,10 +95,10 @@ fn unpriced_hydrate_heat_does_not_silently_become_a_known_temperature() {
     );
 }
 #[test]
-fn failed_ethanol_ignition_preserves_fuel_and_does_not_commit_boiling() {
+fn unsupported_isopropanol_ignition_preserves_fuel_and_does_not_commit_boiling() {
     let mut b = Bench::new();
     let mut s = stack();
-    run(&mut b, &mut s, "add v1 ethanol 10mL");
+    run(&mut b, &mut s, "add v1 isopropanol 10mL");
     let before = b.vessel(VesselId(0)).unwrap().contents.clone();
     let events = run(&mut b, &mut s, "ignite v1");
     assert_eq!(b.vessel(VesselId(0)).unwrap().contents, before);

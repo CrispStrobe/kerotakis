@@ -167,3 +167,5 @@ After validation, 17 ignored, reproducible integration-test executables generate
 by this audit were removed, recovering 911.8 MiB. Compiler libraries and the final
 CLI were retained. `final-test-cache-cleanup.json` in the maintenance directory
 records their paths, sizes and hashes; validation logs retain the passing results.
+
+The subsequent systematic extension is documented in [SYSTEMATIC-AFTER.md](SYSTEMATIC-AFTER.md); this report preserves the targeted-fix checkpoint.

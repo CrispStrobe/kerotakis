@@ -1347,6 +1347,13 @@ pub struct Vessel {
     /// this and falls back to its call-start where a host never sets it.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub step_start: Option<StepStart>,
+    /// A localized spark trial is not a bulk heating operation. Physical
+    /// phase routes must not vent its feed before combustion is evaluated.
+    #[serde(skip)]
+    pub ignition_trial: bool,
+    /// Physical feed temperature before the localized spark was offered.
+    #[serde(skip)]
+    pub ignition_feed_temperature: Option<Kelvin>,
     /// Free hydroxide the aqueous solver last MEASURED, in moles.
     ///
     /// Kept beside `solute_charge` and for the same reason — the heat
@@ -1569,6 +1576,8 @@ impl Vessel {
             solid_solutions: Vec::new(),
             solute_charge: 0.0,
             step_start: None,
+            ignition_trial: false,
+            ignition_feed_temperature: None,
             free_hydroxide: 0.0,
             free_proton: 0.0,
             co2_partial_pressure_atm: None,
