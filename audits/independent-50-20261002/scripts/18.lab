@@ -1,0 +1,9 @@
+# Remove the cloud without removing the salt water
+# Expectation: Filtering an AgCl suspension should retain its solid in v1 and move aqueous material to v2; total inventory should be conserved.
+register lv3
+add v1 water 100mL
+add v1 NaCl 0.002mol
+add v1 AgNO3 0.001mol
+new
+filter v1 v2
+inspect

@@ -1,0 +1,8 @@
+# Distillation enriches a volatile component
+# Expectation: Distilling 10% of an ethanol/water mixture should enrich ethanol in the receiver and conserve both components across vessels plus declared losses.
+register lv3
+add v1 water 80g
+add v1 ethanol 20g
+new
+distil v1 v2 0.1
+inspect

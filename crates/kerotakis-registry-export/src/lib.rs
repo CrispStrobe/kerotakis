@@ -654,10 +654,25 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
             document.model_parameters.push(record.clone());
         }
     }
+    const REVIEWED_HEAT_SOURCE: &str = "nbs/parker-1965-kno3";
+    for record in reviewed
+        .phase_thermodynamics
+        .iter()
+        .filter(|record| record.quantity.source_id == REVIEWED_HEAT_SOURCE)
+    {
+        document.phase_thermodynamics.retain(|candidate| {
+            !(candidate.species_id == record.species_id
+                && candidate.phase == record.phase
+                && candidate.property == record.property)
+        });
+        document.phase_thermodynamics.push(record.clone());
+    }
     document
         .sources
         .extend(reviewed.sources.into_iter().filter(|source| {
-            source.id == BASIS || REVIEWED_PARAMETER_SOURCES.contains(&source.id.as_str())
+            source.id == BASIS
+                || source.id == REVIEWED_HEAT_SOURCE
+                || REVIEWED_PARAMETER_SOURCES.contains(&source.id.as_str())
         }));
     // LAST, deliberately: after the reviewed overlay rather than inside the
     // per-species export. Nine molar masses arrive from the aqueous basis

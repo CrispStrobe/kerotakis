@@ -1,0 +1,8 @@
+# A measured joule becomes warm water
+# Expectation: 10 kJ into 100 g water should raise temperature roughly 24 K, without mass loss below boiling.
+register lv3
+add v1 water 100g
+heat v1 10kJ
+inspect v1
+measure v1 thermometer
+measure v1 balance

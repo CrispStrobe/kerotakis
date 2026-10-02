@@ -1,0 +1,10 @@
+# Acid/base cancellation and overshoot
+# Expectation: 0.001 mol HCl followed by equal NaOH should reach near-neutral pH; another 0.001 mol NaOH should make it alkaline.
+register lv3
+add v1 water 100mL
+add v1 HCl 0.001mol
+add v1 NaOH 0.001mol
+measure v1 ph
+add v1 NaOH 0.001mol
+measure v1 ph
+inspect v1

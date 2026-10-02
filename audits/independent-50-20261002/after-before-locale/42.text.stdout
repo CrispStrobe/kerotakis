@@ -1,0 +1,11 @@
+  v1: +0.001000 mol magnesium (Mg, M = 24.305 g/mol)
+  v1: ignition source applied; computed reaction energy = 742.433 J
+  v1: magnesium Solid → Liquid at 923.15 K (650.00 °C), shifted +0.000 K by dissolved particles
+  v1: T 1200.000 K → 942.553 K (ΔT = -257.447 K)
+  v1: 0.001000 mol magnesium oxide precipitated
+  v1: −0.001000 mol magnesium
+  v1: T 942.553 K → 1218.277 K (ΔT = +275.724 K)
+  v1: Gibbs minimum at 1218.28 K · NASA CEA thermo.inp · NASA-9 polynomials, ideal gas + pure condensed phases
+  v1 (beaker) — 945.13 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+           1.00 mmol  magnesium oxide    Solid
+  v1 balance: 0.0403 g

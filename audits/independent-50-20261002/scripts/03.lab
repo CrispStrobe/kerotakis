@@ -1,0 +1,6 @@
+# Mix unequal hot and cold portions
+# Expectation: 75 g at 20 C plus 25 g at 80 C should equilibrate near 35 C; mass should be 100 g.
+register lv3
+add v1 water 75g @ 20C
+add v1 water 25g @ 80C
+inspect v1

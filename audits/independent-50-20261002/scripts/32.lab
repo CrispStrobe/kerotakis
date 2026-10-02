@@ -1,0 +1,11 @@
+# Sweeping carbon dioxide out
+# Expectation: A nitrogen sweep after a finite CO2 dose should lower retained carbon and raise pH relative to the carbonated state, with a gas-transfer account.
+register lv3
+add v1 water 100mL
+seal v1 100mL
+add v1 CO2 0.001mol
+measure v1 ph
+sweep v1 1bar
+wait 60s
+measure v1 ph
+inspect v1

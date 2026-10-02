@@ -439,6 +439,7 @@ hydroxylapatite = "hydroxylapatite"
 "solvent-activity" = "activité du solvant : a_w = {activity} d'une seconde spéciation sur {dataset} ({model}), à {molality} mol/kgw de particules et I = {ionic_strength}"
 
 [event]
+"heat-unpriced.lv1" = "{vessel} : la chaleur de réaction de {species} est inconnue ; la température estimée est incomplète"
 "removed.lv3" = "{vessel} : −{moles} mol {name}"
 "vessel-created.lv1" = "Un bécher tout neuf apparaît sur la paillasse : {vessel}."
 "vessel-created.lv2" = "{vessel} : nouveau récipient"
@@ -1269,7 +1270,6 @@ clause-separator = ", "
 full-stop = "."
 
 [inert]
-hydrogen-overpotential = "{name} devrait se dissoudre dans cet acide d'après la série (force motrice {driving} V), mais l'hydrogène doit se former sur {name}, et sur cette surface cela coûte une surtension d'environ {eta} V. Bloqué cinétiquement à l'échelle de temps d'un cours, et non inerte thermodynamiquement — c'est toute la différence entre une paillasse et une pile"
 couple-spent = "tout le {other} s'est déposé ; il ne reste plus rien à déplacer au {name} restant. Le couple descend toujours la pente (E° {e_self} V pour {name} contre {e_other} V pour {other}) — il n'y a simplement plus d'ions {other}"
 couple-spent-trace = "tout le {other} s'est déposé à une trace près ({left} mol d'ion restante, là où la racine de Nernst a placé l'équilibre) ; il ne reste plus rien à déplacer au {name} restant. Le couple descend toujours la pente (E° {e_self} V pour {name} contre {e_other} V pour {other})"
 uphill-in-series = "{name} se situe au-dessus de {other} dans la série d'activité (E° {e_self} V contre {e_other} V) : les électrons devraient donc remonter la pente, et le métal le moins réactif ne déplace pas le plus réactif"
@@ -1457,6 +1457,8 @@ PVA = "PVA"
 "muscle protein" = "protéine musculaire"
 
 [not-modeled]
+"hydrogen-overpotential-rate" = "La dissolution de {name} dans cet acide est thermodynamiquement favorisée (force motrice {driving} V), mais sa vitesse n’est pas modélisée : la surtension approximative de l’hydrogène {eta} V dépend de la surface et de la densité de courant. Le modèle laisse le métal inchangé ; cela ne prouve pas son inertie à l’échelle d’une leçon"
+"material-layer-partition" = "La séparation de ce mélange d’huile n’est pas modélisée : partage des solutés neutres, émulsions et autres matériaux non résolus dépassent la simple vidange huile-eau"
 # Tranche two: the gaps with a HOLE in them, which is why `[refusal]`
 # could never reach any of these. New German, authored.
 cooling-below-absolute-zero = "ce récipient n'avait que {available} kJ à céder avant le zéro absolu, et on lui en a demandé {asked} kJ. Aucun fluide frigorigène n'est modélisé ici — rien ne fixe la température de l'environnement — le reste ne pouvait donc simplement pas être retiré. La chaleur que contient une substance est intégrée sur sa propre capacité thermique là où le registre en porte une, mais en dessous d'environ 200 K même une courbe tabulée est à court de table et est maintenue constante : ce plancher est donc une limite de modèle et non une mesure"
@@ -1504,7 +1506,7 @@ chromatography-needs-a-solute = "la chromatographie demande quelque chose de dis
 titration-endpoint-not-refined = "le franchissement du pH a été encadré, mais l'affinement du point d'équivalence n'a pas convergé à 0,0001 pH ; l'état calculé le plus proche est conservé"
 titration-needs-an-aqueous-solver = "le titrage demande un solveur aqueux pour calculer le pH après chaque ajout — aucun n'est câblé"
 kinetic-outcome-needs-a-time-model = "Un résultat cinétique exige un modèle de temps routé ; un avancement nul n'établit pas l'équilibre"
-fizz-rate-near-barrier = "la vitesse à laquelle {name} pétille : la force motrice ne dépasse la surtension de l'hydrogène sur {name} que de {margin} V, et une vitesse aussi proche de sa barrière n'est pas quelque chose que ce laboratoire calcule — il réagit, lentement"
+fizz-rate-near-barrier = "La vitesse du dégagement de gaz de {name} n’est pas calculée : la force motrice ne dépasse la surtension de l’hydrogène que de {margin} V. La quantité à l’équilibre est une limite supérieure idéale, pas une prédiction de réaction lente"
 stays-as-the-metal = "{name} reste à l'état métallique : rien de ce qui est dissous ici ne se situe en dessous de lui dans la série d'activité. Sa réaction lente avec l'eau elle-même — de l'hydrogène au fil des heures, une peau d'hydroxyde passivante — est une vitesse que ce laboratoire ne modélise pas"
 no-haloalkane = "aucun substrat halogénoalcane dans le récipient — la table de sélectivité couvre le bromoéthane (primaire) et le bromure de tert-butyle (tertiaire)"
 no-nucleophile = "aucun nucléophile reconnu dans le récipient — la table de sélectivité couvre NaOH (fort) et l'eau (faible)"
@@ -1748,3 +1750,8 @@ receiver = "récepteur"
 
 [corrosion-creep]
 "battery/lead-terminal" = "La croûte blanche sur une borne de batterie est du sulfate de plomb(II), et elle ne sort pas de l'eau de ce bécher - elle sort de la batterie. L'acide sulfurique remonte la borne en un film mince le long du plomb et ressort sous le joint, mouillant la borne d'électrolyte ; le plomb sous ce film se corrode comme anode de la pile dont il fait partie, Pb + SO4(2-) -> PbSO4 + 2 e-, et le sulfate de plomb est blanc, insoluble et pulvérulent : il reste donc exactement là où il a poussé au lieu d'être emporté. Voilà pourquoi la croûte est à la borne et nulle part ailleurs sur le boîtier, pourquoi elle revient après qu'on l'a brossée tant que le film est là, et pourquoi le remède est d'arrêter la remontée plutôt que de nettoyer la borne. RIEN N'EST INSCRIT AU BILAN ICI : aucune espèce PbSO4 n'est installée et il n'y a pas de sulfate dans ce récipient, le produit est donc nommé et non pesé, et le film d'acide est affirmé à partir de l'identité de l'objet plutôt que résolu - la recette battery/lead-terminal dit exactement cela dans ses propres hypothèses de lot"
+
+[measurement]
+"temperature-incomplete" = "La température estimée est incomplète : la chaleur de réaction de {species} est inconnue"
+"aqueous-layer" = "La mesure concerne la couche aqueuse ; la couche organique séparée est hors du champ de cette mesure"
+"aqueous-layer-bounded" = "{scope}; {boundary}"

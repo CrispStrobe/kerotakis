@@ -1,0 +1,9 @@
+  v1: T 298.150 K → 333.150 K (ΔT = +35.000 K)
+  v1: +2.775465 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +2.775465 mol water (H2O, M = 18.015 g/mol)
+  v1 (beaker) — 60.00 °C, 100.0 g, 100.3 mL liquid, open to atmosphere, pH 6.51, I = 0.0000 m
+          5.5509 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              3.1071e-7    3.1071e-7   γ=1.000
+        OH-             3.1071e-7    3.1071e-7   γ=1.000

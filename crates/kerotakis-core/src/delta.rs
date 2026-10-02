@@ -90,6 +90,8 @@ pub struct StateDelta {
     pub adsorbed_changes: Vec<AdsorbedDelta>,
     /// Thermal state change.
     pub thermal: Option<ThermalDelta>,
+    /// Replacement temperature limitations, if changed by the proposal.
+    pub unpriced_heat: Option<Vec<SpeciesId>>,
     /// Which model produced this delta.
     pub source: &'static str,
 }
@@ -195,6 +197,7 @@ impl StateDelta {
             electrode_potential_changes: Vec::new(),
             electrode_interfacial_species_changes: Vec::new(),
             thermal: None,
+            unpriced_heat: None,
             source,
         }
     }
@@ -666,6 +669,9 @@ impl StateDelta {
             }
         }
 
+        if let Some(species) = &self.unpriced_heat {
+            vessel.unpriced_heat = species.clone();
+        }
         vessel.refresh_pressure();
     }
 
@@ -827,6 +833,7 @@ impl StateDelta {
             && self.electrode_potential_changes.is_empty()
             && self.electrode_interfacial_species_changes.is_empty()
             && self.thermal.is_none()
+            && self.unpriced_heat.is_none()
     }
 }
 

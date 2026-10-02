@@ -1,0 +1,39 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: boundary=pressure_controlled; P=100000.000 Pa, V_initial=0.010000 L, trapped gas=0.00040340 mol
+  v1: finite-volume gas/liquid equilibrium; P=100000.000 Pa, n_gas=0.00040324 mol
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 6.196 · I = 0.0000 mol/kgw
+  v1: T 298.150 K → 298.150 K (ΔT = -0.000 K)
+  v1: +0.001000 mol baking soda (sodium bicarbonate) (NaHCO3, M = 84.007 g/mol)
+  v1: 0.000001 mol carbon dioxide transferred to the finite headspace (closed system; mass retained)
+  v1: 0.001000 mol baking soda (sodium bicarbonate) dissolved
+  v1: finite-volume gas/liquid equilibrium; P=100000.000 Pa, n_gas=0.00040459 mol
+  v1: pH 8.246 · I = 0.0101 mol/kgw
+  v1: T 298.150 K → 298.110 K (ΔT = -0.040 K)
+  HAZARD [Caution] (L0): strong acid and carbonate fizz vigorously, releasing carbon dioxide — the mixture can spatter; Adding acid to chalk or baking soda foams over if the vessel is too small. CO₂ displaces air in enclosed spaces.
+  v1: T 298.110 K → 298.110 K (ΔT = +0.000 K)
+  v1: +0.002000 mol hydrochloric acid (HCl, M = 36.461 g/mol)
+  v1: 0.000139 mol carbon dioxide transferred to the finite headspace (closed system; mass retained)
+  v1: finite-volume gas/liquid equilibrium; P=100000.000 Pa, n_gas=0.00054326 mol
+  v1: pH 2.050 · I = 0.0201 mol/kgw
+  v1: T 298.110 K → 298.125 K (ΔT = +0.015 K)
+  v1 pressure gauge: 100.0000 kPa
+  v1 (beaker) — 24.98 °C, 99.9 g, 100.0 mL liquid, pressure-controlled 13.5 mL headspace at 1.000 bar, pH 2.05, I = 0.0201 m
+            319 µmol  nitrogen           Gas
+           84.5 µmol  oxygen             Gas
+           2.00 mmol  chloride ion       Aqueous
+           1000 µmol  sodium ion         Aqueous
+            860 µmol  dissolved carbon dioxide Aqueous
+           49.1 nmol  bicarbonate ion    Aqueous
+            140 µmol  carbon dioxide     Gas
+          5.5353 mol  water              Liquid
+           1.00 mmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9920e-1   γ=0.018
+        Cl-             2.0060e-2    1.7400e-2   γ=0.867
+        H+              1.0030e-2    8.9210e-3   γ=0.889
+        Na+             1.0030e-2    8.7480e-3   γ=0.872
+        CO2             8.6270e-3    8.6670e-3   γ=1.005
+        HCO3-           4.9300e-7    4.3160e-7   γ=0.875
+        NaHCO3          2.1130e-9    2.1230e-9   γ=1.005

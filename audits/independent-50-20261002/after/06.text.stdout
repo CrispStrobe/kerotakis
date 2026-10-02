@@ -1,0 +1,10 @@
+  v1: T 298.150 K → 368.150 K (ΔT = +70.000 K)
+  v1: +5.550930 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: T 368.150 K → 373.150 K (ΔT = +5.000 K)
+  v1: thermal energy requested=40000.000000 J, delivered=40000.000000 J, undelivered=0.000000 J; source=Bunsen burner, ceiling=1773.15 K; sensible=1752.573258 J, chemistry/phase=38247.426742 J; passes=1, pass_cap_reached=false, time_coupled=false
+  v1: 0.932195 mol water evolved (open system; mass leaves)
+  v1: water Liquid → Gas at 373.15 K (100.00 °C), shifted +0.000 K by dissolved particles
+  v1 (beaker) — 100.00 °C, 83.2 g, 83.5 mL liquid, open to atmosphere
+          4.6187 mol  water              Liquid
+  v1: NOT MODELLED: the pH meter reads nothing — no aqueous solution has been characterised in this vessel

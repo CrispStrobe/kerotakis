@@ -1,0 +1,26 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.001000 mol zinc sulfate (ZnSO4, M = 161.470 g/mol)
+  v1: 0.001000 mol zinc sulfate dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 5.747 · I = 0.0269 mol/kgw
+  v1: T 298.150 K → 298.343 K (ΔT = +0.193 K)
+  v1: +0.001000 mol zinc (Zn, M = 65.380 g/mol)
+  v1: pH 5.747 · I = 0.0269 mol/kgw
+  v1: NOT MODELLED: zinc stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model
+  v1: zinc not corroding: nothing rusts in this vessel, because there is no oxygen in it. Corrosion needs three things at once — the metal, liquid water and oxygen — since it is a circuit: zinc would give up electrons at the anode, oxygen would take them at the cathode, and the water carries the ions between the two. This bench does not yet draw oxygen from the room into an open beaker, so the oxygen has to be put in the vessel for the slow clock to see it
+  v2: new vessel
+  v2: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v2: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v2: +0.001000 mol copper sulfate (CuSO4, M = 159.609 g/mol)
+  v2: 0.000001 mol antlerite (green copper sulfate) precipitated
+  v2: 0.001000 mol copper sulfate dissolved
+  v2: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added
+  v2: pH 4.487 · I = 0.0281 mol/kgw
+  v2: T 298.150 K → 298.325 K (ΔT = +0.175 K)
+  v2: net ionic: 3 Cu²⁺(aq) + SO₄²⁻(aq) + 4 H₂O(l) → antlerite(s) + 4 H⁺(aq)
+  v2: +0.001000 mol copper (Cu, M = 63.546 g/mol)
+  v2: pH 4.487 · I = 0.0281 mol/kgw
+  v2: copper inert: copper sits above hydrogen in the activity series (E° +0.342 V against 0.000 V for 2H⁺/H₂), so dilute acid cannot take its electrons. An oxidising acid such as nitric would, by a different couple, and that is not modelled
+  Zn | Zn+2 ‖ Cu+2 | Cu: E_cell = 1.1041 V open-circuit, no current, no internal resistance modelled (E°_cell = 1.1037 V; the difference is the Nernst term over the computed ion activities; ideal salt bridge, no liquid-junction potential); anode v1, cathode v2; Zn + Cu+2 → Zn+2 + Cu
+  Zn | Zn+2 ‖ Cu+2 | Cu: E_cell = 1.1041 V open-circuit, no current, no internal resistance modelled (E°_cell = 1.1037 V; the difference is the Nernst term over the computed ion activities; ideal salt bridge, no liquid-junction potential); anode v1, cathode v2; Zn + Cu+2 → Zn+2 + Cu

@@ -2965,6 +2965,59 @@ impl PhreeqcEquilibrator {
             let idx = cached.rows.first()?.iter().position(|h| h == column)?;
             cached.rows.last()?.get(idx)?.parse().ok()
         };
+        // A fresh pose can change its gas boundary: a finite dose has
+        // disappeared from the settled contents, so the next problem may
+        // exchange that element with the atmosphere. Such a solve is a
+        // new chemical operation, not a characterisation of this state.
+        // Only publish it if its readback preserves the committed inventory.
+        let Ok((water, mut surfaces, exchanges, solids, mut ions, _, protonation)) =
+            self.readback_raw_values(&setup.problem, setup.db_tag, &cached.rows, &value)
+        else {
+            return;
+        };
+        let Ok((phases, gases, _, _)) = Self::apply_balance_corrections(
+            vessel,
+            &setup.problem,
+            &mut ions,
+            &mut surfaces,
+            &exchanges,
+            &solids,
+            &value,
+        ) else {
+            return;
+        };
+        let (_, contents) = Self::rebuild_contents_and_events(
+            vessel,
+            &setup.problem,
+            &setup.freed_phases,
+            water,
+            &ions,
+            &phases,
+            &gases,
+            &solids,
+            &protonation,
+        );
+        // Speciation may redistribute the same atoms among ions. Compare
+        // conserved totals, including interfaces, rather than requiring the
+        // analytical species representation to remain byte-for-byte fixed.
+        let before = kerotakis_core::ledger::ConservedLedger::from_vessel(vessel);
+        let mut candidate = vessel.clone();
+        candidate.contents = contents;
+        candidate.surfaces = surfaces;
+        candidate.exchanges = exchanges;
+        candidate.solid_solutions = solids;
+        let after = kerotakis_core::ledger::ConservedLedger::from_vessel(&candidate);
+        if before.elements.keys().chain(after.elements.keys()).any(|element| {
+            let initial = before.elements.get(element).copied().unwrap_or(0.0);
+            let final_amount = after.elements.get(element).copied().unwrap_or(0.0);
+            let differs = (final_amount - initial).abs() > 1e-9 + initial.abs() * 1e-6;
+            if differs && env_readback() {
+                eprintln!("canonical pose declined: {element} inventory {initial:.12e} -> {final_amount:.12e}");
+            }
+            differs
+        }) {
+            return;
+        }
         let (Some(solvent_kg), Some(ph), Some(mu)) = (value("mass_H2O"), value("pH"), value("mu"))
         else {
             return;
@@ -3383,7 +3436,7 @@ impl PhreeqcEquilibrator {
                 db_tag,
             ) {
                 Ok(j) => q_joules += j,
-                Err(_unpriced) => {
+                Err(unpriced) => {
                     // THE LAST SECOND PATH, and it is confined to exactly
                     // the steps the balance cannot answer.
                     //
@@ -3431,26 +3484,14 @@ impl PhreeqcEquilibrator {
                             _ => {}
                         }
                     }
-                    // Nothing charged and nothing guessed.
-                    //
-                    // Deliberately SILENT, and this was measured rather
-                    // than assumed. A `NotYetModeled` here reads "no route
-                    // answered this step", and the curiosity classifier
-                    // takes it at its word ahead of the route branches: it
-                    // moved fifteen corpus rows from `computed` to
-                    // `missing` — rows whose pH, speciation and products
-                    // were all still there and correct. Only the HEAT was
-                    // unpriced, and saying the step was not modelled
-                    // because of that is a false statement about the whole
-                    // step, of exactly the kind this module exists to stop
-                    // making about temperature.
-                    //
-                    // Not charging is also the status quo: an unpriceable
-                    // dissolution was silently uncharged before this
-                    // existed too. The refusal is still real and still
-                    // names its species — `heat_released_j` returns it,
-                    // and `reaction_heat.rs` asserts on it — it just is
-                    // not broadcast as a claim about anything but itself.
+                    let sid = SpeciesId::new(&unpriced.species);
+                    if !vessel.unpriced_heat.contains(&sid) {
+                        vessel.unpriced_heat.push(sid.clone());
+                        events.push(Event::HeatUnpriced {
+                            vessel: vessel.id,
+                            species: sid,
+                        });
+                    }
                 }
             }
         }

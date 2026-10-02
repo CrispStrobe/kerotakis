@@ -1,0 +1,27 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.001000 mol chalk (calcium carbonate) (CaCO3, M = 100.087 g/mol)
+  v1: 0.000013 mol chalk (calcium carbonate) dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 9.910 · I = 0.0004 mol/kgw
+  HAZARD [Caution] (L0): strong acid and carbonate fizz vigorously, releasing carbon dioxide — the mixture can spatter; Adding acid to chalk or baking soda foams over if the vessel is too small. CO₂ displaces air in enclosed spaces.
+  v1: +0.003000 mol hydrochloric acid (HCl, M = 36.461 g/mol)
+  v1: 0.000013 mol chalk (calcium carbonate) dissolved
+  v1: 0.000999 mol carbon dioxide evolved (open system; mass leaves)
+  v1: 0.000975 mol chalk (calcium carbonate) dissolved
+  v1: pH 2.063 · I = 0.0401 mol/kgw
+  v1 (beaker) — 25.00 °C, 99.9 g, 100.0 mL liquid, open to atmosphere, pH 2.06, I = 0.0401 m
+           1000 µmol  calcium ion        Aqueous
+           3.00 mmol  chloride ion       Aqueous
+           1.31 µmol  dissolved carbon dioxide Aqueous
+           81.1 pmol  bicarbonate ion    Aqueous
+          5.5353 mol  water              Liquid
+           1.00 mmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9910e-1   γ=0.018
+        Cl-             3.0080e-2    2.4880e-2   γ=0.827
+        H+              1.0030e-2    8.6510e-3   γ=0.863
+        Ca+2            1.0030e-2    5.0160e-3   γ=0.500
+        O2              2.6520e-4    2.6770e-4   γ=1.009
+        CO2             1.3180e-5    1.3310e-5   γ=1.010
+  v1 pH meter: 2.0629 pH

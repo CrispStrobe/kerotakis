@@ -1,0 +1,10 @@
+# Splitting and reuniting a solution
+# Expectation: Decant 0.4 into v2 then all of v2 back to v1 should restore initial inventory, temperature, and pH within numerical tolerance.
+register lv3
+add v1 water 100g
+add v1 NaCl 0.01mol
+inspect v1
+new
+decant v1 v2 0.4
+decant v2 v1 1
+inspect

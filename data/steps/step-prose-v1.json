@@ -248,8 +248,8 @@
       "Copper sulfate this time.",
       "And a copper electrode.",
       "Connect them: the cell offers about 1.1 V, which is the discharge direction the activity series prefers.",
-      "Now drive current the other way for 386 seconds. Fresh zinc plates back on against that preference, and the deposit survives in the acidifying bath because making hydrogen on zinc is slow — a kinetic leash, not a thermodynamic one.",
-      "Pour in strong acid and the leash slips: the zinc dissolves, hydrogen bubbles off, and the stored charge leaves as gas."
+      "Drive current the other way for 386 seconds. Faraday’s law predicts the ideal fresh zinc deposit. The model does not compute its dissolution rate in the acidifying bath; unchanged metal is not proof that it survives.",
+      "Add strong acid. Where the approximate gate permits dissolution, the equilibrium model predicts zinc ions and hydrogen; this amount is an ideal upper bound, not a rate prediction."
     ],
     "chloride-complexes-redissolve-silver": [
       "A litre of water.",
@@ -545,7 +545,7 @@
     "lead-stands-in-its-own-acid": [
       "100 mL of water in the first beaker.",
       "0.1 mol of hydrochloric acid: strong enough that the series says the lead should dissolve.",
-      "The lead goes in — and the bench reports it inert. No gas, no dissolution, the pH unmoved: making hydrogen on a lead surface is so slow that the reaction the series predicts never starts. A car battery's plates stand in acid on exactly this nothing.",
+      "Add lead. The bench leaves it unchanged and explicitly reports an unmodelled dissolution rate. A fixed hydrogen overpotential cannot establish how long a real lead plate survives in acid.",
       "A second beaker, to show the series still works when nothing is holding it back.",
       "The same 100 mL of water.",
       "A dissolved lead salt this time.",

@@ -1,0 +1,7 @@
+# Oil and water keep separate layers
+# Expectation: Equal 50 mL doses of water and olive oil should form separate phases; unresolved oil should be explicitly conserved, not dissolved into imaginary aqueous species.
+register lv3
+add v1 water 50mL
+add v1 olive_oil 50mL
+look v1
+inspect v1

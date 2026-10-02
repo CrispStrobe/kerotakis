@@ -1,0 +1,10 @@
+# Sugar is not an electrolyte
+# Expectation: A 0.001 mol sucrose dose should not increase conductivity like an equal NaCl dose; any missing conductivity model should be explicit.
+register lv3
+add v1 water 100mL
+add v1 C12H22O11 0.001mol
+new
+add v2 water 100mL
+add v2 NaCl 0.001mol
+measure v1 conductivity
+measure v2 conductivity

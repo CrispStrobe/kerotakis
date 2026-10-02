@@ -1,0 +1,710 @@
+{
+  "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+  "binary": "/mnt/volume1/kerotakis/target/debug/kero",
+  "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77",
+  "predictions_sha256": "0fd6e4831f5da264c892a5718b8619ae267388df0512fe54dab04fff30287064",
+  "started_utc": "2026-10-02T04:34:31Z",
+  "workers": 1,
+  "cases": [
+    {
+      "id": "01",
+      "title": "A measured joule becomes warm water",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 1.235
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 1.249
+        }
+      }
+    },
+    {
+      "id": "02",
+      "title": "Undo a thermal pulse",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 1.3177
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 1.2503
+        }
+      }
+    },
+    {
+      "id": "03",
+      "title": "Mix unequal hot and cold portions",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 1.2819
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 1.3911
+        }
+      }
+    },
+    {
+      "id": "04",
+      "title": "A double dose is not a double temperature rise",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 1.4534
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 1.386
+        }
+      }
+    },
+    {
+      "id": "05",
+      "title": "Latent heat intercepts the cooling pulse",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 1.2708
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 1.294
+        }
+      }
+    },
+    {
+      "id": "06",
+      "title": "Boiling spends energy on disappearing liquid",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 1.2642
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 1.4094
+        }
+      }
+    },
+    {
+      "id": "07",
+      "title": "Salt versus sugar freezing race",
+      "runs": {
+        "json": {
+          "exit_code": 1,
+          "seconds": 1.3847
+        },
+        "text": {
+          "exit_code": 1,
+          "seconds": 1.3708
+        }
+      }
+    },
+    {
+      "id": "08",
+      "title": "Heat dilution cannot invent energy",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 1.334
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 1.1793
+        }
+      }
+    },
+    {
+      "id": "09",
+      "title": "A tenfold acid dilution",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 1.7234
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 1.5293
+        }
+      }
+    },
+    {
+      "id": "10",
+      "title": "Acid/base cancellation and overshoot",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 1.3771
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 1.6128
+        }
+      }
+    },
+    {
+      "id": "11",
+      "title": "Weak acid versus strong acid",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 1.353
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 1.7133
+        }
+      }
+    },
+    {
+      "id": "12",
+      "title": "Half-neutralisation exposes a pKa",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 1.4845
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 1.3989
+        }
+      }
+    },
+    {
+      "id": "13",
+      "title": "A buffer survives a small acid pulse",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 1.6472
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 1.6557
+        }
+      }
+    },
+    {
+      "id": "14",
+      "title": "Neutral salt is an ionic conductor",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 1.2792
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 1.247
+        }
+      }
+    },
+    {
+      "id": "15",
+      "title": "Sugar is not an electrolyte",
+      "runs": {
+        "json": {
+          "exit_code": 1,
+          "seconds": 1.2994
+        },
+        "text": {
+          "exit_code": 1,
+          "seconds": 1.2087
+        }
+      }
+    },
+    {
+      "id": "16",
+      "title": "Common ions make a silver cloud",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 1.2689
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 1.5422
+        }
+      }
+    },
+    {
+      "id": "17",
+      "title": "Precipitation cannot depend on bottle order",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 1.3777
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 1.4203
+        }
+      }
+    },
+    {
+      "id": "18",
+      "title": "Remove the cloud without removing the salt water",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 1.7643
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 2.5633
+        }
+      }
+    },
+    {
+      "id": "19",
+      "title": "Barium and sulfate meet",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 2.0863
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 2.6143
+        }
+      }
+    },
+    {
+      "id": "20",
+      "title": "Chalk dissolves in acid",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 3.0052
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 2.5583
+        }
+      }
+    },
+    {
+      "id": "21",
+      "title": "Finite solvent leaves salt behind",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 2.4917
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 2.6171
+        }
+      }
+    },
+    {
+      "id": "22",
+      "title": "Extra solvent rescues leftover salt",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 2.0937
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 2.507
+        }
+      }
+    },
+    {
+      "id": "23",
+      "title": "Drying a dilute salt solution",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 3.2588
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 2.4875
+        }
+      }
+    },
+    {
+      "id": "24",
+      "title": "A quarter of a solution carries a quarter of its salt",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 2.0403
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 2.6588
+        }
+      }
+    },
+    {
+      "id": "25",
+      "title": "Splitting and reuniting a solution",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 2.3048
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 2.7871
+        }
+      }
+    },
+    {
+      "id": "26",
+      "title": "A hot pack versus a cold pack",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 2.3607
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 2.1911
+        }
+      }
+    },
+    {
+      "id": "27",
+      "title": "CO2 changes water chemistry",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 2.5144
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 2.9262
+        }
+      }
+    },
+    {
+      "id": "28",
+      "title": "A small sealed headspace makes fizz push back",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 3.5626
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 2.9665
+        }
+      }
+    },
+    {
+      "id": "29",
+      "title": "Headspace size controls pressure",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 3.3995
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 5.9966
+        }
+      }
+    },
+    {
+      "id": "30",
+      "title": "Uncorking releases the compressed gas",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 4.4317
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 4.3459
+        }
+      }
+    },
+    {
+      "id": "31",
+      "title": "Fixed pressure trades pressure rise for expansion",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 4.5397
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 3.2111
+        }
+      }
+    },
+    {
+      "id": "32",
+      "title": "Sweeping carbon dioxide out",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 2.5964
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 2.8817
+        }
+      }
+    },
+    {
+      "id": "33",
+      "title": "A sacrificial zinc strip plates copper",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 2.6222
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 2.0645
+        }
+      }
+    },
+    {
+      "id": "34",
+      "title": "Copper refuses the reverse displacement",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 2.6225
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 2.7047
+        }
+      }
+    },
+    {
+      "id": "35",
+      "title": "Acid dissolves zinc but leaves copper",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 2.3187
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 1.5605
+        }
+      }
+    },
+    {
+      "id": "36",
+      "title": "A battery has a polarity",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 1.5488
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 1.507
+        }
+      }
+    },
+    {
+      "id": "37",
+      "title": "A concentration cell vanishes at equality",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 2.3938
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 2.3502
+        }
+      }
+    },
+    {
+      "id": "38",
+      "title": "A measured charge liberates a measured amount",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 2.0982
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 3.3894
+        }
+      }
+    },
+    {
+      "id": "39",
+      "title": "Dilution lightens a coloured solution",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 2.1595
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 3.0092
+        }
+      }
+    },
+    {
+      "id": "40",
+      "title": "Purple colour follows concentration",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 2.879
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 3.6251
+        }
+      }
+    },
+    {
+      "id": "41",
+      "title": "A salt flame is not fuel",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 3.4792
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 3.2884
+        }
+      }
+    },
+    {
+      "id": "42",
+      "title": "Magnesium gains oxygen mass",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 3.7214
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 2.8901
+        }
+      }
+    },
+    {
+      "id": "43",
+      "title": "Ethanol burns instead of returning a false negative",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 3.5324
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 2.2309
+        }
+      }
+    },
+    {
+      "id": "44",
+      "title": "Distillation enriches a volatile component",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 4.8147
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 3.3009
+        }
+      }
+    },
+    {
+      "id": "45",
+      "title": "Oil and water keep separate layers",
+      "runs": {
+        "json": {
+          "exit_code": 1,
+          "seconds": 4.3546
+        },
+        "text": {
+          "exit_code": 1,
+          "seconds": 2.0292
+        }
+      }
+    },
+    {
+      "id": "46",
+      "title": "Draining the bottom layer",
+      "runs": {
+        "json": {
+          "exit_code": 1,
+          "seconds": 1.326
+        },
+        "text": {
+          "exit_code": 1,
+          "seconds": 1.799
+        }
+      }
+    },
+    {
+      "id": "47",
+      "title": "Salt cannot pass through an oil layer as water",
+      "runs": {
+        "json": {
+          "exit_code": 1,
+          "seconds": 1.3067
+        },
+        "text": {
+          "exit_code": 1,
+          "seconds": 1.4867
+        }
+      }
+    },
+    {
+      "id": "48",
+      "title": "Acid curdles milk without inventing protein molecules",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 3.1864
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 2.799
+        }
+      }
+    },
+    {
+      "id": "49",
+      "title": "A peroxide catalyst has an explicit model boundary",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 2.3741
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 2.5312
+        }
+      }
+    },
+    {
+      "id": "50",
+      "title": "Waiting is not permission to teleport matter",
+      "runs": {
+        "json": {
+          "exit_code": 0,
+          "seconds": 2.1993
+        },
+        "text": {
+          "exit_code": 0,
+          "seconds": 2.2652
+        }
+      }
+    }
+  ]
+}

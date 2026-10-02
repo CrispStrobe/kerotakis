@@ -43,6 +43,7 @@ use kerotakis_core::{appearance, scene, Locale, Moles, SpeciesId, Vessel, Vessel
 /// never correctness, and `unknown_composers_are_declared` below fails if
 /// a new file starts composing without being listed.
 const COMPOSERS: &[(&str, &str)] = &[
+    ("vessel.rs", include_str!("../src/vessel.rs")),
     ("appearance.rs", include_str!("../src/appearance.rs")),
     ("displacement.rs", include_str!("../src/displacement.rs")),
     ("solve.rs", include_str!("../src/solve.rs")),
@@ -542,13 +543,13 @@ fn no_english_reaches_a_german_look() {
 /// The refusal's NAME was German and its REASON was not, in the same
 /// sentence, which is what made it worth a task of its own.
 #[test]
-fn the_inert_verdict_explains_itself_in_german() {
+fn the_kinetic_boundary_explains_itself_in_german() {
     use kerotakis_core::ops::Event;
     use kerotakis_core::{render_events_in, Register};
 
     let reason = Phrase::new(
-        "inert.hydrogen-overpotential",
-        "{name} should dissolve in this acid by the series (driving force {driving} V), but hydrogen has to form on {name}, and on that surface it costs an overpotential of about {eta} V. Kinetically blocked on the timescale of a lesson, not thermodynamically inert — the difference between a bench and a battery",
+        "not-modeled.hydrogen-overpotential-rate",
+        "{name} dissolution in acid is thermodynamically favoured (driving force {driving} V), but its rate is not modelled: the approximate hydrogen overpotential {eta} V depends on surface and current density. The metal is left unchanged by this model; this does not establish that it is inert on a lesson timescale",
         vec![
             ("name".to_string(), Slot::term("species", "zinc")),
             ("driving".to_string(), Slot::number("+0.62".to_string())),
@@ -556,19 +557,13 @@ fn the_inert_verdict_explains_itself_in_german() {
         ],
     );
     let english = reason.render(Locale::EN);
-    let event = Event::Inert {
-        vessel: VesselId(0),
-        species: SpeciesId::new("Zn"),
-        why: english.clone(),
-        computed: true,
-        spent: None,
-        reason: Some(reason),
-    };
-    // The English is generated from the very template a translation
-    // replaces, so the codex entry that quotes it verbatim still matches.
+    let event = Event::not_modeled(
+        VesselId(0),
+        kerotakis_core::ops::NotModelledCause::RateNotModelled,
+        reason,
+    );
     assert!(
-        english
-            .starts_with("zinc should dissolve in this acid by the series (driving force +0.62 V)"),
+        english.starts_with("zinc dissolution in acid is thermodynamically favoured"),
         "{english}"
     );
 
@@ -753,7 +748,7 @@ fn a_gap_explains_itself_in_german() {
         NotModelledCause::RateNotModelled,
         Phrase::new(
             "not-modeled.fizz-rate-near-barrier",
-            "how fast {name} fizzes: the driving force clears the hydrogen overpotential on {name} by only {margin} V, and a rate that close to its barrier is not something this lab computes — it reacts, slowly",
+            "how fast {name} fizzes: the driving force clears the hydrogen overpotential on {name} by only {margin} V, and a rate that close to its barrier is not something this lab computes — the equilibrium amount is an ideal upper bound, not a prediction of a slow reaction",
             vec![
                 ("name".to_string(), Slot::term("species", "zinc")),
                 ("margin".to_string(), Slot::number("0.03".to_string())),

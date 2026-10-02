@@ -83,7 +83,11 @@ for block in blocks:
                           and fields.get('kind') == 'data'
                           and fields.get('decision') == 'approved'
                           and licence == 'LicenseRef-US-Coast-Guard-Public-Domain')
-        if not re.match(allowed, licence) and not reviewed_hbr and not reviewed_chris:
+        reviewed_parker = (sid == 'nbs-parker-1965-kno3'
+                           and lane == 'runtime-data'
+                           and fields.get('decision') == 'approved'
+                           and licence == 'LicenseRef-US-Public-Domain')
+        if not re.match(allowed, licence) and not reviewed_hbr and not reviewed_chris and not reviewed_parker:
             print(f"FAIL: runtime source {sid} has non-allowlisted licence: {licence}", file=sys.stderr)
             sys.exit(1)
         else:

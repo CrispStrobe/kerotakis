@@ -1,0 +1,452 @@
+[
+  {
+    "id": "01",
+    "title": "A measured joule becomes warm water",
+    "prediction": "10 kJ into 100 g water should raise temperature roughly 24 K, without mass loss below boiling.",
+    "script": "register lv3\nadd v1 water 100g\nheat v1 10kJ\ninspect v1\nmeasure v1 thermometer\nmeasure v1 balance\n",
+    "observed": "48.9117 C and 100.0000 g after the pulse; temperature rose 23.9117 K.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "02",
+    "title": "Undo a thermal pulse",
+    "prediction": "Heating then removing the same 10 kJ should return 100 g water close to its initial temperature and mass.",
+    "script": "register lv3\nadd v1 water 100g\nheat v1 10kJ\ncool v1 10kJ\ninspect v1\n",
+    "observed": "Returned to 25.0000 C with the original water inventory.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "03",
+    "title": "Mix unequal hot and cold portions",
+    "prediction": "75 g at 20 C plus 25 g at 80 C should equilibrate near 35 C; mass should be 100 g.",
+    "script": "register lv3\nadd v1 water 75g @ 20C\nadd v1 water 25g @ 80C\ninspect v1\n",
+    "observed": "35.0000 C and 100 g, matching the weighted mean.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "04",
+    "title": "A double dose is not a double temperature rise",
+    "prediction": "Equal 10 kJ pulses into 100 g and 200 g water should produce approximately 2:1 temperature rises.",
+    "script": "register lv3\nadd v1 water 100g\nnew\nadd v2 water 200g\nheat v1 10kJ\nheat v2 10kJ\ninspect\n",
+    "observed": "Temperature rises were 23.9117 K and 11.9559 K, giving a 2.000 ratio.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "05",
+    "title": "Latent heat intercepts the cooling pulse",
+    "prediction": "Removing 20 kJ from 100 g water initially at 5 C should give an ice/water mixture near 0 C, not liquid at -43 C.",
+    "script": "register lv3\nadd v1 water 100g @ 5C\ncool v1 20kJ\ninspect v1\nmeasure v1 ph\n",
+    "observed": "Ice and liquid coexist at approximately 0 C. Aqueous pH is explicitly withdrawn.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "06",
+    "title": "Boiling spends energy on disappearing liquid",
+    "prediction": "40 kJ into 100 g water at 95 C should approach 100 C and evaporate roughly 17 g rather than heat all liquid to 190 C.",
+    "script": "register lv3\nadd v1 water 100g @ 95C\nheat v1 40kJ\ninspect v1\nmeasure v1 ph\n",
+    "observed": "100 C plateau with 83.2 g remaining, approximately 16.8 g evaporated. Settled pH is withdrawn.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "07",
+    "title": "Salt versus sugar freezing race",
+    "prediction": "At equal 0.02 mol doses in 100 g water, NaCl should depress freezing roughly twice as much as sucrose. Both should form ice after 15 kJ cooling from 5 C.",
+    "script": "register lv3\nadd v1 water 100g @ 5C\nadd v1 NaCl 0.02mol\nnew\nadd v2 water 100g @ 5C\nadd v2 C12H22O11 0.02mol\ncool v1 15kJ\ncool v2 15kJ\ninspect\n",
+    "observed": "After using the registered key sucrose, salt froze at -1.086 C and sugar at -0.589 C; both formed ice. Freeze concentration makes the final ratio differ from the initial dilute estimate.",
+    "disposition": "Met",
+    "adaptation": "registered sucrose key"
+  },
+  {
+    "id": "08",
+    "title": "Heat dilution cannot invent energy",
+    "prediction": "Mixing two equal water portions at 60 C should keep them near 60 C, not reset the second dose to room temperature.",
+    "script": "register lv3\nadd v1 water 50g @ 60C\nadd v1 water 50g @ 60C\ninspect v1\n",
+    "observed": "60.0000 C after both additions, with 100 g water.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "09",
+    "title": "A tenfold acid dilution",
+    "prediction": "Diluting 0.001 mol HCl in 100 mL water with another 900 mL should raise pH by about one unit (roughly 2 to 3).",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 HCl 0.001mol\nmeasure v1 ph\ndilute v1 900mL\nmeasure v1 ph\ninspect v1\n",
+    "observed": "pH changed from 2.0381 to 3.0135, a rise of 0.9754.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "10",
+    "title": "Acid/base cancellation and overshoot",
+    "prediction": "0.001 mol HCl followed by equal NaOH should reach near-neutral pH; another 0.001 mol NaOH should make it alkaline.",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 HCl 0.001mol\nadd v1 NaOH 0.001mol\nmeasure v1 ph\nadd v1 NaOH 0.001mol\nmeasure v1 ph\ninspect v1\n",
+    "observed": "Equal acid/base doses gave pH 6.9927; excess base gave 11.9275.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "11",
+    "title": "Weak acid versus strong acid",
+    "prediction": "Equal 0.001 mol doses in 100 mL should give acetic acid a higher pH than HCl, by at least one unit.",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 HCl 0.001mol\nnew\nadd v2 water 100mL\nadd v2 CH3COOH 0.001mol\nmeasure v1 ph\nmeasure v2 ph\ninspect\n",
+    "observed": "HCl pH 2.0381 versus acetic acid 3.3871, a difference of 1.3490.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "12",
+    "title": "Half-neutralisation exposes a pKa",
+    "prediction": "0.01 mol acetic acid and 0.005 mol NaOH in 100 mL should form a buffer around pH 4.5-5.0.",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 CH3COOH 0.01mol\nadd v1 NaOH 0.005mol\nmeasure v1 ph\ninspect v1\n",
+    "observed": "pH 4.6630, within the frozen expected interval.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "13",
+    "title": "A buffer survives a small acid pulse",
+    "prediction": "A half-neutralised acetate buffer should change pH far less than plain water after the same 0.0001 mol HCl pulse.",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 CH3COOH 0.01mol\nadd v1 NaOH 0.005mol\nmeasure v1 ph\nnew\nadd v2 water 100mL\nmeasure v2 ph\nadd v1 HCl 0.0001mol\nadd v2 HCl 0.0001mol\nmeasure v1 ph\nmeasure v2 ph\n",
+    "observed": "Buffer pH changed by 0.0173; water changed by 3.9839 under the same acid pulse.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "14",
+    "title": "Neutral salt is an ionic conductor",
+    "prediction": "Adding 0.001 mol NaCl to 100 mL water should increase conductivity substantially while leaving pH approximately neutral.",
+    "script": "register lv3\nadd v1 water 100mL\nmeasure v1 conductivity\nadd v1 NaCl 0.001mol\nmeasure v1 conductivity\nmeasure v1 ph\n",
+    "observed": "Conductivity rose from 0.0551 to 1204.2742 microS/cm; pH remained 6.9968.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "15",
+    "title": "Sugar is not an electrolyte",
+    "prediction": "A 0.001 mol sucrose dose should not increase conductivity like an equal NaCl dose; any missing conductivity model should be explicit.",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 C12H22O11 0.001mol\nnew\nadd v2 water 100mL\nadd v2 NaCl 0.001mol\nmeasure v1 conductivity\nmeasure v2 conductivity\n",
+    "observed": "After using sucrose, conductivity was 0.0551 microS/cm versus 1204.2742 for NaCl.",
+    "disposition": "Met",
+    "adaptation": "registered sucrose key"
+  },
+  {
+    "id": "16",
+    "title": "Common ions make a silver cloud",
+    "prediction": "0.001 mol each of NaCl and AgNO3 in 100 mL should produce close to 0.001 mol solid AgCl, with conserved silver and chloride.",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 NaCl 0.001mol\nadd v1 AgNO3 0.001mol\ninspect v1\n",
+    "observed": "Approximately 0.998 mmol AgCl formed from 1 mmol feeds.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "17",
+    "title": "Precipitation cannot depend on bottle order",
+    "prediction": "Reversing the equal silver/chloride additions should leave essentially equal AgCl solid amounts and pH in the two vessels.",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 NaCl 0.001mol\nadd v1 AgNO3 0.001mol\nnew\nadd v2 water 100mL\nadd v2 AgNO3 0.001mol\nadd v2 NaCl 0.001mol\ninspect\n",
+    "observed": "Both orders gave the same solid yield, pH, temperature, and final inventories within the checked tolerances.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "18",
+    "title": "Remove the cloud without removing the salt water",
+    "prediction": "Filtering an AgCl suspension should retain its solid in v1 and move aqueous material to v2; total inventory should be conserved.",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 NaCl 0.002mol\nadd v1 AgNO3 0.001mol\nnew\nfilter v1 v2\ninspect\n",
+    "observed": "Approximately 1 mmol AgCl remained in v1. Water and dissolved Na/Cl/nitrate transferred to v2.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "19",
+    "title": "Barium and sulfate meet",
+    "prediction": "Equal 0.001 mol BaCl2 and Na2SO4 in 100 mL should form very insoluble BaSO4, or explicitly identify unavailable chemistry.",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2SO4 0.001mol\ninspect v1\n",
+    "observed": "Approximately 0.998 mmol BaSO4 formed.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "20",
+    "title": "Chalk dissolves in acid",
+    "prediction": "0.001 mol CaCO3 should be consumed by 0.003 mol HCl in 100 mL; carbon dioxide should be accounted for and excess acid remain.",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 CaCO3 0.001mol\nadd v1 HCl 0.003mol\ninspect v1\nmeasure v1 ph\n",
+    "observed": "Chalk was consumed; about 0.999 mmol CO2 vented, with trace dissolved carbon retained. Excess acid gave pH 2.0629.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "21",
+    "title": "Finite solvent leaves salt behind",
+    "prediction": "100 g NaCl in 100 g water should leave substantial undissolved solid instead of an unlimited solution.",
+    "script": "register lv3\nadd v1 water 100g\nadd v1 NaCl 100g\ninspect v1\n",
+    "observed": "About 1.100 mol NaCl remained solid alongside 0.611 mol dissolved sodium and chloride. Total mass was 200 g.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "22",
+    "title": "Extra solvent rescues leftover salt",
+    "prediction": "Adding another 500 mL water to 50 g NaCl in 100 g water should dissolve the residual solid.",
+    "script": "register lv3\nadd v1 water 100g\nadd v1 NaCl 50g\ninspect v1\ndilute v1 500mL\ninspect v1\n",
+    "observed": "Residual 0.244 mol solid disappeared after dilution. Final dissolved sodium and chloride were approximately 0.856 mol each.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "23",
+    "title": "Drying a dilute salt solution",
+    "prediction": "Evaporating 90% of the solvent from 0.001 mol NaCl in 100 g water should conserve sodium/chloride while increasing concentration roughly tenfold.",
+    "script": "register lv3\nadd v1 water 100g\nadd v1 NaCl 0.001mol\nevaporate v1 0.9\ninspect v1\nmeasure v1 balance\n",
+    "observed": "Water fell to 10 g while 1 mmol sodium/chloride remained. Vaporisation enthalpy is explicitly outside this operator's balance.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "24",
+    "title": "A quarter of a solution carries a quarter of its salt",
+    "prediction": "Decanting fraction 0.25 should send about 25% of dissolved NaCl and water to v2 and conserve combined mass.",
+    "script": "register lv3\nadd v1 water 100g\nadd v1 NaCl 0.01mol\nnew\ndecant v1 v2 0.25\ninspect\n",
+    "observed": "v2 received 2.50 mmol sodium/chloride and one quarter of the water; combined inventory was conserved.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "25",
+    "title": "Splitting and reuniting a solution",
+    "prediction": "Decant 0.4 into v2 then all of v2 back to v1 should restore initial inventory, temperature, and pH within numerical tolerance.",
+    "script": "register lv3\nadd v1 water 100g\nadd v1 NaCl 0.01mol\ninspect v1\nnew\ndecant v1 v2 0.4\ndecant v2 v1 1\ninspect\n",
+    "observed": "The reunited contents and temperature match the initial solution; v2 was empty.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "26",
+    "title": "A hot pack versus a cold pack",
+    "prediction": "Dissolving 0.01 mol CaCl2 should warm 100 g water; dissolving 0.01 mol KNO3 should cool it, or name missing enthalpy data.",
+    "script": "register lv3\nadd v1 water 100g\nadd v1 CaCl2 0.01mol\nnew\nadd v2 water 100g\nadd v2 KNO3 0.01mol\ninspect\n",
+    "observed": "CaCl2 warmed water to 26.98 C. KNO3 dissolved completely but left it at exactly 25 C, with no thermal limitation event.",
+    "disposition": "Mismatch",
+    "adaptation": null
+  },
+  {
+    "id": "27",
+    "title": "CO2 changes water chemistry",
+    "prediction": "Adding 0.001 mol CO2 to 100 mL water should acidify it; absorbed and released carbon should be distinguished.",
+    "script": "register lv3\nadd v1 water 100mL\nmeasure v1 ph\nadd v1 CO2 0.001mol\nmeasure v1 ph\ninspect v1\n",
+    "observed": "pH fell to 5.6136, but retained carbon was 1 mmol while the speciation snapshot represented only 0.001568 mmol. The qualitative prediction hides a quantitative inconsistency.",
+    "disposition": "Mismatch",
+    "adaptation": null
+  },
+  {
+    "id": "28",
+    "title": "A small sealed headspace makes fizz push back",
+    "prediction": "Acidifying 0.001 mol NaHCO3 with 0.002 mol HCl over a sealed 10 mL headspace should raise pressure above ambient and retain carbon.",
+    "script": "register lv3\nadd v1 water 100mL\nseal v1 10mL\nadd v1 NaHCO3 0.001mol\nadd v1 HCl 0.002mol\nmeasure v1 pressure\ninspect v1\n",
+    "observed": "Pressure reached 128.016 kPa in the sealed 10 mL headspace; carbon was partitioned between liquid and gas.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "29",
+    "title": "Headspace size controls pressure",
+    "prediction": "The same acid/carbonate doses should produce higher final pressure over 10 mL than 100 mL sealed headspace.",
+    "script": "register lv3\nadd v1 water 100mL\nseal v1 10mL\nadd v1 NaHCO3 0.001mol\nadd v1 HCl 0.002mol\nnew\nadd v2 water 100mL\nseal v2 100mL\nadd v2 NaHCO3 0.001mol\nadd v2 HCl 0.002mol\nmeasure v1 pressure\nmeasure v2 pressure\ninspect\n",
+    "observed": "Pressures were 128.016 kPa for 10 mL and 114.854 kPa for 100 mL.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "30",
+    "title": "Uncorking releases the compressed gas",
+    "prediction": "Opening an acid/carbonate vessel should restore ambient gas pressure and account for vented gas without losing sodium/chloride.",
+    "script": "register lv3\nadd v1 water 100mL\nseal v1 10mL\nadd v1 NaHCO3 0.001mol\nadd v1 HCl 0.002mol\nopen v1\nmeasure v1 pressure\ninspect v1\n",
+    "observed": "Opening restored 101.325 kPa, vented gas explicitly, and retained 1 mmol sodium and 2 mmol chloride.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "31",
+    "title": "Fixed pressure trades pressure rise for expansion",
+    "prediction": "Acid/carbonate under 1 bar regulation should stay near 1 bar and increase gas volume or explicitly state the unsupported constraint.",
+    "script": "register lv3\nadd v1 water 100mL\nregulate v1 1bar 10mL\nadd v1 NaHCO3 0.001mol\nadd v1 HCl 0.002mol\nmeasure v1 pressure\ninspect v1\n",
+    "observed": "Pressure stayed at 100.000 kPa while gas volume expanded from 10 to 13.466 mL.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "32",
+    "title": "Sweeping carbon dioxide out",
+    "prediction": "A nitrogen sweep after a finite CO2 dose should lower retained carbon and raise pH relative to the carbonated state, with a gas-transfer account.",
+    "script": "register lv3\nadd v1 water 100mL\nseal v1 100mL\nadd v1 CO2 0.001mol\nmeasure v1 ph\nsweep v1 1bar\nwait 60s\nmeasure v1 ph\ninspect v1\n",
+    "observed": "pH rose from 4.3475 to 6.9974 and represented carbon was removed with explicit outward gas events.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "33",
+    "title": "A sacrificial zinc strip plates copper",
+    "prediction": "Zinc in 0.001 mol CuSO4 solution should produce copper metal and consume zinc; mass/inventory should show the exchange.",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 CuSO4 0.001mol\nadd v1 Zn 0.002mol\ninspect v1\n",
+    "observed": "Approximately 0.99646 mmol copper plated while the same amount of zinc was consumed. Both metal totals were conserved.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "34",
+    "title": "Copper refuses the reverse displacement",
+    "prediction": "Copper in ZnSO4 should not plate zinc; an explicit no-reaction result should be chemically distinguished from missing chemistry.",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 ZnSO4 0.001mol\nadd v1 Cu 0.002mol\ninspect v1\n",
+    "observed": "Copper remained as 2 mmol metal. Zinc metal did not form, and the refusal explained the thermodynamic direction.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "35",
+    "title": "Acid dissolves zinc but leaves copper",
+    "prediction": "Equal metal doses with dilute HCl should dissolve zinc and evolve H2, while copper remains under non-oxidising conditions.",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 HCl 0.004mol\nadd v1 Zn 0.001mol\nnew\nadd v2 water 100mL\nadd v2 HCl 0.004mol\nadd v2 Cu 0.001mol\ninspect\n",
+    "observed": "Both metals remained unchanged. Zinc was declared kinetically blocked using a fixed 0.72 V hydrogen-overpotential gate. This is an explicit approximation, not a validated reaction-rate prediction.",
+    "disposition": "Model limitation",
+    "adaptation": null
+  },
+  {
+    "id": "36",
+    "title": "A battery has a polarity",
+    "prediction": "Zn/ZnSO4 and Cu/CuSO4 half-cells at similar concentration should give about 1.1 V; reversing cell arguments should reverse the sign.",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 ZnSO4 0.001mol\nadd v1 Zn 0.001mol\nnew\nadd v2 water 100mL\nadd v2 CuSO4 0.001mol\nadd v2 Cu 0.001mol\ncell v1 v2\ncell v2 v1\n",
+    "observed": "Both argument orders reported +1.1041 V with the same physical anode and cathode. The API chooses spontaneous polarity rather than treating arguments as voltmeter leads; my sign expectation was wrong for this API.",
+    "disposition": "Expectation corrected",
+    "adaptation": null
+  },
+  {
+    "id": "37",
+    "title": "A concentration cell vanishes at equality",
+    "prediction": "Identical copper half-cells should give near-zero voltage; diluting one tenfold should produce a nonzero voltage of order tens of mV.",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 CuSO4 0.001mol\nadd v1 Cu 0.001mol\nnew\nadd v2 water 100mL\nadd v2 CuSO4 0.001mol\nadd v2 Cu 0.001mol\ncell v1 v2\ndilute v2 900mL\ncell v1 v2\n",
+    "observed": "Equal half-cells explicitly gave zero potential; tenfold dilution produced a 22.0 mV concentration cell.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "38",
+    "title": "A measured charge liberates a measured amount",
+    "prediction": "Electrolysing acidified water at 0.1 A for 100 s should account for about 5.18e-5 mol H2 and 2.59e-5 mol O2, or name electrode/product limitations.",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 H2SO4 0.001mol\nelectrolyse v1 0.1A 100s\ninspect v1\n",
+    "observed": "10 C produced 5.1821e-5 mol H2 and 2.5911e-5 mol O2. The prose nevertheless says no hydrogen is co-evolved and refers to an electrode mass ceiling while hydrogen is the stated product.",
+    "disposition": "Partial match",
+    "adaptation": null
+  },
+  {
+    "id": "39",
+    "title": "Dilution lightens a coloured solution",
+    "prediction": "Tenfold dilution of CuSO4 should lower optical absorbance and lighten colour; any unavailable spectrum should be named.",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 CuSO4 0.01mol\nlook v1\nmeasure v1 uvvis\ndilute v1 900mL\nlook v1\nmeasure v1 uvvis\n",
+    "observed": "The drawing lightened from #008CDB to #CFEBFB. Both complete absorbance measurements were explicitly withheld because several copper-complex spectra are missing.",
+    "disposition": "Explicit boundary",
+    "adaptation": null
+  },
+  {
+    "id": "40",
+    "title": "Purple colour follows concentration",
+    "prediction": "Tenfold dilution of dilute KMnO4 should reduce absorbance and fade purple toward pink without losing permanganate inventory.",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 KMnO4 0.0001mol\nlook v1\nmeasure v1 uvvis\ndilute v1 900mL\nlook v1\nmeasure v1 uvvis\ninspect v1\n",
+    "observed": "Absorbance changed from 2.4000 to 0.2400 at 525 nm; purple became pink and permanganate inventory was retained.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "41",
+    "title": "A salt flame is not fuel",
+    "prediction": "Igniting NaCl should report a yellow sodium flame signature or a boundary, without consuming salt as combustible fuel.",
+    "script": "register lv3\nadd v1 NaCl 1g\nignite v1\ninspect v1\n",
+    "observed": "Sodium yellow emission was reported and all NaCl remained. A temporary melting event is emitted even though the committed state returns to solid at 25 C.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "42",
+    "title": "Magnesium gains oxygen mass",
+    "prediction": "Igniting 0.001 mol Mg should create MgO and gain about 0.016 g from atmospheric oxygen, with the external mass source explained.",
+    "script": "register lv3\nadd v1 Mg 0.001mol\nignite v1\ninspect v1\nmeasure v1 balance\n",
+    "observed": "1 mmol Mg became 1 mmol MgO; the balance read 0.0403 g, consistent with approximately 0.016 g oxygen uptake.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "43",
+    "title": "Ethanol burns instead of returning a false negative",
+    "prediction": "Igniting 1 g ethanol should produce combustion products/heat or explicitly identify missing combustion modelling.",
+    "script": "register lv3\nadd v1 ethanol 1g\nignite v1\ninspect v1\n",
+    "observed": "Combustion is explicitly unavailable. However, ignition first vaporises the entire ethanol dose, leaving an empty vessel at 25 C; this state change needs a clearer scope explanation.",
+    "disposition": "Explicit boundary",
+    "adaptation": null
+  },
+  {
+    "id": "44",
+    "title": "Distillation enriches a volatile component",
+    "prediction": "Distilling 10% of an ethanol/water mixture should enrich ethanol in the receiver and conserve both components across vessels plus declared losses.",
+    "script": "register lv3\nadd v1 water 80g\nadd v1 ethanol 20g\nnew\ndistil v1 v2 0.1\ninspect\n",
+    "observed": "The receiver was enriched to approximately 63.4% ethanol by mass versus 20% initially; combined water and ethanol were conserved. The 0.1 cut refers to moles, so receiver mass was 14.3 g.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "45",
+    "title": "Oil and water keep separate layers",
+    "prediction": "Equal 50 mL doses of water and olive oil should form separate phases; unresolved oil should be explicitly conserved, not dissolved into imaginary aqueous species.",
+    "script": "register lv3\nadd v1 water 50mL\nadd v1 olive_oil 50mL\nlook v1\ninspect v1\n",
+    "observed": "Olive oil is not a registered input. Substituting vegetable_oil produced separate 50 mL water and oil layers, conserving 46 g unresolved oil.",
+    "disposition": "Met",
+    "adaptation": "vegetable oil substituted for unavailable olive oil"
+  },
+  {
+    "id": "46",
+    "title": "Draining the bottom layer",
+    "prediction": "Draining a water/oil mixture should send its lower aqueous layer to v2 while retaining oil in v1 and conserving combined inventory.",
+    "script": "register lv3\nadd v1 water 50mL\nadd v1 olive_oil 50mL\nnew\ndrain v1 v2\ninspect\n",
+    "observed": "With vegetable_oil substituted, drain moved nothing and called the vessel single-phase even though the scene showed two layers.",
+    "disposition": "Mismatch",
+    "adaptation": "vegetable oil substituted for unavailable olive oil"
+  },
+  {
+    "id": "47",
+    "title": "Salt cannot pass through an oil layer as water",
+    "prediction": "Salt added to water/oil should reside in the aqueous phase; the oil layer should not acquire aqueous conductivity or pH as if homogeneous.",
+    "script": "register lv3\nadd v1 water 50mL\nadd v1 olive_oil 50mL\nadd v1 NaCl 0.001mol\ninspect v1\nmeasure v1 ph\nmeasure v1 conductivity\n",
+    "observed": "With vegetable_oil substituted, sodium/chloride remained aqueous beside the unresolved oil. Vessel measurements refer to the aqueous solution, but the interface could label that scope more clearly.",
+    "disposition": "Met",
+    "adaptation": "vegetable oil substituted for unavailable olive oil"
+  },
+  {
+    "id": "48",
+    "title": "Acid curdles milk without inventing protein molecules",
+    "prediction": "Acidifying milk should show aggregation/curdling or a clear protein-model boundary, and retain unresolved milk mass.",
+    "script": "register lv3\nadd v1 whole_milk 100g\nadd v1 CH3COOH 0.01mol\nlook v1\ninspect v1\n",
+    "observed": "Acid produced a bounded curd response and approximately 3.416 g aggregate. The 12.20149 g unresolved material was retained; missing casein buffering was explicitly disclosed.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "49",
+    "title": "A peroxide catalyst has an explicit model boundary",
+    "prediction": "MnO2 added to dilute hydrogen peroxide should yield oxygen and catalytic turnover or explicitly say kinetics/catalysis is unavailable; silence would fail.",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 H2O2 0.01mol\nadd v1 MnO2 0.001mol\nwait 60s\nlook v1\ninspect v1\n",
+    "observed": "After 60 s, 0.77449 mmol O2 formed and 1.54898 mmol peroxide was consumed; MnO2 stayed at 1 mmol. The numerical kinetic rate was not independently validated in this audit.",
+    "disposition": "Met",
+    "adaptation": null
+  },
+  {
+    "id": "50",
+    "title": "Waiting is not permission to teleport matter",
+    "prediction": "Waiting one hour with dilute NaCl at room temperature should conserve dissolved salt and avoid spontaneous precipitation or chemical conversion; any evaporation must be accounted.",
+    "script": "register lv3\nadd v1 water 100g\nadd v1 NaCl 0.001mol\ninspect v1\nwait 1h\ninspect v1\n",
+    "observed": "One hour preserved the salt and water inventory exactly; no spontaneous conversion or unaccounted evaporation occurred.",
+    "disposition": "Met",
+    "adaptation": null
+  }
+]

@@ -1,0 +1,7 @@
+# Common ions make a silver cloud
+# Expectation: 0.001 mol each of NaCl and AgNO3 in 100 mL should produce close to 0.001 mol solid AgCl, with conserved silver and chloride.
+register lv3
+add v1 water 100mL
+add v1 NaCl 0.001mol
+add v1 AgNO3 0.001mol
+inspect v1

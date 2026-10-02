@@ -459,6 +459,7 @@ hydroxylapatite = "Hydroxylapatit"
 "solvent-activity" = "Lösungsmittel-Aktivität: a_w = {activity} aus einer zweiten Speziation auf {dataset} ({model}), bei {molality} mol/kgw an Teilchen und I = {ionic_strength}"
 
 [event]
+"heat-unpriced.lv1" = "{vessel}: Die Reaktionswärme für {species} ist nicht bekannt; die Temperaturschätzung ist unvollständig"
 "removed.lv3" = "{vessel}: −{moles} mol {name}"
 "vessel-created.lv1" = "Ein frisches Becherglas erscheint auf dem Labortisch: {vessel}."
 "vessel-created.lv2" = "{vessel}: neues Gefäß"
@@ -1402,7 +1403,6 @@ full-stop = "."
 # The English is still generated from the same template, from the same
 # pre-formatted numbers, so there is one sentence and not two.
 [inert]
-hydrogen-overpotential = "{name} müsste sich nach der Spannungsreihe in dieser Säure lösen (Triebkraft {driving} V), aber der Wasserstoff muss sich auf {name} bilden, und auf dieser Oberfläche kostet das eine Überspannung von etwa {eta} V. Kinetisch gehemmt auf der Zeitskala einer Unterrichtsstunde, nicht thermodynamisch inert — das ist der Unterschied zwischen einem Labortisch und einer Batterie"
 couple-spent = "das gesamte {other} ist abgeschieden; das übrige {name} hat nichts mehr zu verdrängen. Das Redoxpaar läuft weiterhin bergab (E° {e_self} V für {name} gegen {e_other} V für {other}) — es sind schlicht keine {other}-Ionen mehr da"
 couple-spent-trace = "bis auf eine Spur ist das gesamte {other} abgeschieden ({left} mol Ion übrig, dort hat die Nernst-Wurzel das Gleichgewicht gelegt); das übrige {name} hat nichts mehr zu verdrängen. Das Redoxpaar läuft weiterhin bergab (E° {e_self} V für {name} gegen {e_other} V für {other})"
 uphill-in-series = "{name} steht in der Spannungsreihe über {other} (E° {e_self} V gegen {e_other} V), die Elektronen müssten also bergauf fließen: das weniger reaktive Metall verdrängt das reaktivere nicht"
@@ -1665,6 +1665,8 @@ PVA = "PVA"
 # falls back to `[refusal]`; `tools/engine-locale-lint.py` counts how many
 # of each there are, with the denominator read out of the Rust.
 [not-modeled]
+"hydrogen-overpotential-rate" = "Die Auflösung von {name} in Säure ist thermodynamisch begünstigt (Triebkraft {driving} V), aber ihre Geschwindigkeit wird nicht modelliert: Die ungefähre Wasserstoff-Überspannung {eta} V hängt von Oberfläche und Stromdichte ab. Das Modell lässt das Metall unverändert; dies belegt keine Inertheit auf der Zeitskala einer Unterrichtsstunde"
+"material-layer-partition" = "Das Trennen dieser Ölmischung wird nicht modelliert: Verteilung neutraler Stoffe, Emulsionen und andere unaufgelöste Materialien liegen außerhalb des einfachen Öl-Wasser-Ablassens"
 # Tranche two: the gaps with a HOLE in them, which is why `[refusal]`
 # could never reach any of these. New German, authored.
 cooling-below-absolute-zero = "dieses Gefäß konnte bis zum absoluten Nullpunkt nur {available} kJ abgeben, verlangt wurden {asked} kJ. Hier ist kein Kühlmittel modelliert — nichts legt fest, wie kalt die Umgebung ist — der Rest konnte also schlicht nicht entzogen werden. Die Wärme, die ein Stoff hält, wird über seine eigene Wärmekapazität integriert, wo das Verzeichnis eine führt; unterhalb von etwa 200 K ist aber selbst eine tabellierte Kurve am Ende der Tabelle und wird flach gehalten, diese Untergrenze ist also eine Modellgrenze und keine Messung"
@@ -1712,7 +1714,7 @@ chromatography-needs-a-solute = "die Chromatographie braucht etwas Gelöstes zum
 titration-endpoint-not-refined = "Die pH-Überschreitung wurde eingegrenzt, aber die Endpunktverfeinerung konvergierte nicht auf 0,0001 pH-Einheiten; der nächstgelegene berechnete Zustand wird beibehalten"
 titration-needs-an-aqueous-solver = "die Titration braucht einen wässrigen Löser, um nach jeder Zugabe den pH-Wert zu berechnen — es ist keiner angebunden"
 kinetic-outcome-needs-a-time-model = "Ein kinetisches Ergebnis erfordert ein zugeordnetes Zeitmodell; ein Umsatz von null weist kein Gleichgewicht nach"
-fizz-rate-near-barrier = "wie schnell {name} sprudelt: die Triebkraft übersteigt die Wasserstoff-Überspannung an {name} nur um {margin} V, und eine Geschwindigkeit so dicht an ihrer Barriere berechnet dieses Labor nicht — es reagiert, langsam"
+fizz-rate-near-barrier = "Wie schnell {name} sprudelt: Die Triebkraft übersteigt die Wasserstoff-Überspannung nur um {margin} V. Die Geschwindigkeit wird nicht berechnet; die Gleichgewichtsmenge ist eine ideale Obergrenze, keine Vorhersage einer langsamen Reaktion"
 stays-as-the-metal = "{name} bleibt als Metall liegen: nichts Gelöstes steht hier in der Spannungsreihe unter ihm. Seine langsame Reaktion mit dem Wasser selbst — Wasserstoff über Stunden, eine passivierende Hydroxidhaut — ist eine Geschwindigkeit, die dieses Labor nicht modelliert"
 no-haloalkane = "kein Halogenalkan-Substrat im Gefäß — die Selektivitätstabelle deckt Bromethan (primär) und tert-Butylbromid (tertiär) ab"
 no-nucleophile = "kein erkanntes Nucleophil im Gefäß — die Selektivitätstabelle deckt NaOH (stark) und Wasser (schwach) ab"
@@ -2010,3 +2012,8 @@ receiver = "Vorlage"
 
 [corrosion-creep]
 "battery/lead-terminal" = "Die weiße Kruste auf einem Batteriepol ist Blei(II)-sulfat, und sie kommt nicht aus dem Wasser in diesem Becherglas - sie kommt aus der Batterie. Schwefelsäure kriecht als dünner Film am Blei den Pol hinauf und unter der Dichtung hervor und benetzt den Pol mit Elektrolyt; das Blei unter diesem Film korrodiert als Anode der Zelle, zu der es gehört, Pb + SO4(2-) -> PbSO4 + 2 e-, und Bleisulfat ist weiß, unlöslich und pulvrig, es bleibt also genau dort, wo es gewachsen ist, statt weggespült zu werden. Deshalb sitzt die Kruste am Pol und sonst nirgends am Gehäuse, deshalb kommt sie nach dem Abbürsten wieder, solange der Film noch da ist, und deshalb besteht die Abhilfe darin, das Kriechen zu stoppen, und nicht darin, den Pol zu putzen. HIER WIRD NICHTS IN DIE BILANZ EINGETRAGEN: keine PbSO4-Spezies ist installiert und in diesem Gefäß ist kein Sulfat, das Produkt wird also benannt und nicht gewogen, und der Säurefilm wird aus der Identität des Objekts behauptet statt aufgelöst - das Rezept battery/lead-terminal sagt genau das in seinen eigenen Chargenannahmen"
+
+[measurement]
+"temperature-incomplete" = "Die Temperaturschätzung ist unvollständig: Die Reaktionswärme für {species} ist nicht bekannt"
+"aqueous-layer" = "Der Messwert gilt für die wässrige Schicht; die getrennte organische Schicht liegt außerhalb dieser Messung"
+"aqueous-layer-bounded" = "{scope}; {boundary}"

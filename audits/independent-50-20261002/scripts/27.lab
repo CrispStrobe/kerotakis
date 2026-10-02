@@ -1,0 +1,8 @@
+# CO2 changes water chemistry
+# Expectation: Adding 0.001 mol CO2 to 100 mL water should acidify it; absorbed and released carbon should be distinguished.
+register lv3
+add v1 water 100mL
+measure v1 ph
+add v1 CO2 0.001mol
+measure v1 ph
+inspect v1

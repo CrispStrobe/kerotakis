@@ -5,6 +5,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::authority::SpillDestination;
 use crate::combustion;
+use crate::i18n::Locale;
 use crate::instrument::InstrumentContract;
 use crate::material::{self, MaterialBasis, MaterialRecipe, MaterialRole};
 use crate::ops::{
@@ -448,6 +449,11 @@ impl Bench {
                 )
             });
         spill.temperature = settled;
+        for sid in &source.unpriced_heat {
+            if !spill.unpriced_heat.contains(sid) {
+                spill.unpriced_heat.push(sid.clone());
+            }
+        }
         for portion in &moved {
             if let Some(existing) = spill.contents.iter_mut().find(|candidate| {
                 candidate.species == portion.species && candidate.phase == portion.phase
@@ -589,6 +595,11 @@ impl Bench {
                 )
             });
             receiver.temperature = settled;
+            for sid in &spill.unpriced_heat {
+                if !receiver.unpriced_heat.contains(sid) {
+                    receiver.unpriced_heat.push(sid.clone());
+                }
+            }
         }
         for portion in &spill.contents {
             receiver.deposit(
@@ -652,9 +663,9 @@ impl Bench {
         if let Operator::Titrate { .. } = &op {
             return self.titrate_loop(op, solver, screen);
         }
-        let temperature_before = match &op {
-            Operator::Ignite { vessel } => self.vessel(*vessel)?.temperature,
-            _ => Kelvin::STANDARD,
+        let ignition_before = match &op {
+            Operator::Ignite { vessel } => Some(self.vessel(*vessel)?.clone()),
+            _ => None,
         };
         // Snapshot source vessels before apply for MIX routing.
         let mix_sources = match &op {
@@ -772,6 +783,43 @@ impl Bench {
                 .map(|v| (*vessel, v.temperature, v.enthalpy().0)),
             _ => None,
         };
+        // Unknown heat history travels with liquid whose temperature is used
+        // in the receiver's energy balance.
+        let heat_transfers: Vec<(VesselId, Vec<SpeciesId>)> = match &op {
+            Operator::Decant { from, to, fraction } if *fraction > 0.0 => {
+                vec![(*to, self.vessel(*from)?.unpriced_heat.clone())]
+            }
+            Operator::Filter { from, to }
+            | Operator::Drain { from, to }
+            | Operator::Distil { from, to, .. }
+            | Operator::Extract { from, to, .. }
+            | Operator::Magnet { from, to } => {
+                vec![(*to, self.vessel(*from)?.unpriced_heat.clone())]
+            }
+            Operator::Mix {
+                a,
+                b,
+                into,
+                fraction_a,
+                fraction_b,
+            } => {
+                let mut heat = Vec::new();
+                for (id, fraction) in [(*a, *fraction_a), (*b, *fraction_b)] {
+                    if fraction > 0.0 {
+                        heat.extend(self.vessel(id)?.unpriced_heat.clone());
+                    }
+                }
+                vec![(*into, heat)]
+            }
+            _ => Vec::new(),
+        };
+        let heat_transfers: Vec<_> = heat_transfers
+            .into_iter()
+            .map(|(id, species)| {
+                let mass_before = self.vessel(id).map(|v| v.mass().0).unwrap_or(0.0);
+                (id, species, mass_before)
+            })
+            .collect();
         let mut disposition = ApplyDisposition::Reequilibrate;
         let mut events = self.apply(&op, screen, &mut disposition)?;
         if disposition == ApplyDisposition::Unchanged {
@@ -781,6 +829,18 @@ impl Bench {
                 events: events.clone(),
             });
             return Ok(events);
+        }
+        for (id, species, mass_before) in heat_transfers {
+            let receiver = self.vessel_mut(id)?;
+            if matches!(receiver.thermal_mode, ThermalMode::Adiabatic)
+                && (receiver.mass().0 - mass_before).abs() > 1e-12
+            {
+                for sid in species {
+                    if !receiver.unpriced_heat.contains(&sid) {
+                        receiver.unpriced_heat.push(sid);
+                    }
+                }
+            }
         }
         if matches!(&op, Operator::Wait { seconds } if *seconds > 0.0) {
             for vessel in &self.vessels {
@@ -1109,8 +1169,8 @@ impl Bench {
             // is held over it or not, and that CO₂ was taken as ignition,
             // so the spark's 1200 K stayed, the water boiled and a lesson
             // logged "388 °C" over a beaker nothing in which can burn. What
-            // fizzes is not what burns; the acid-base step's products are
-            // kept (they were coming anyway) and only the flame is undone.
+            // fizzes is not what burns. Failed ignition is re-equilibrated
+            // from the original state without the spark's temporary heat.
             let caught = events.iter().any(|e| {
                 matches!(
                     e,
@@ -1147,16 +1207,35 @@ impl Bench {
                 .unwrap_or(false);
             if !caught {
                 if let Ok(v) = self.vessel_mut(*vessel) {
-                    v.temperature = temperature_before;
+                    *v = ignition_before.as_ref().unwrap().clone();
                 }
+                // Trial products and phase events were computed at flame
+                // temperature. Retain only ignition diagnostics, then settle
+                // ordinary chemistry at the actual temperature.
                 events.retain(|e| {
-                    !matches!(
+                    matches!(
                         e,
-                        Event::Ignited { .. }
-                            | Event::TemperatureChanged { .. }
-                            | Event::ThermalEquilibrium { .. }
+                        Event::FlameStarved { .. }
+                            | Event::BelowAutoignition { .. }
+                            | Event::HazardWarning { .. }
+                            | Event::SafetyVeto { .. }
                     )
                 });
+                if let Ok(v) = self.vessel_mut(*vessel) {
+                    v.step_start = Some(crate::vessel::StepStart::capture(v));
+                    if solver.applies(v) {
+                        match solver.equilibrate(v) {
+                            Ok(mut more) => events.append(&mut more),
+                            Err(error) => events.push(Event::SolverFailed {
+                                vessel: *vessel,
+                                solver: solver.name().to_string(),
+                                detail: error.to_string(),
+                            }),
+                        }
+                    }
+                    v.step_start = None;
+                    v.refresh_pressure();
+                }
                 // It would not burn — but a metal salt still colours the
                 // flame, which is the flame test and worth seeing.
                 let painted = self.vessel(*vessel).ok().and_then(|v| {
@@ -3267,7 +3346,21 @@ impl Bench {
                 let source = self.vessel(*from)?.clone();
                 self.ensure_destination(*to, &mut events);
                 self.vessel(*to)?;
-                let Some((_upper, lower)) = crate::solve::layered_pair(&source) else {
+                let material_layers = crate::material::immiscible_liquid_layers(&source);
+                let material_lower_water =
+                    source.contents.iter().any(|p| {
+                        p.species.0 == "water" && p.phase == Phase::Liquid && p.moles.0 > 0.0
+                    }) && !material_layers.is_empty()
+                        && material_layers.iter().all(|layer| {
+                            layer.density_g_per_ml < species::lookup_key("water").unwrap().density
+                        });
+                let pair = crate::solve::layered_pair(&source)
+                    .map(|(upper, lower)| (upper.to_string(), lower.to_string()))
+                    .or_else(|| {
+                        material_lower_water
+                            .then(|| (material_layers[0].key.clone(), "water".to_string()))
+                    });
+                let Some((_upper, lower)) = pair else {
                     events.push(Event::not_modeled(
                         *from,
                         crate::ops::NotModelledCause::NothingToActOn,
@@ -3279,8 +3372,31 @@ impl Bench {
                     ));
                     return Ok(events);
                 };
-                let lower_id = SpeciesId::new(lower);
-                let upper_id = SpeciesId::new(_upper);
+                // An unresolved oil has no molecular partition model. Do
+                // not guess a distribution for a neutral dissolved solute.
+                if material_lower_water
+                    && (source.emulsion.is_some()
+                        || source.unresolved_materials.iter().any(|portion| {
+                            !material_layers
+                                .iter()
+                                .any(|layer| layer.recipe_id == portion.recipe_id)
+                        })
+                        || source.contents.iter().any(|p| {
+                            p.species.0 != "water"
+                                && matches!(p.phase, Phase::Aqueous | Phase::Liquid)
+                                && species::lookup(&p.species)
+                                    .and_then(|d| crate::stoich::parse_formula(d.formula).ok())
+                                    .is_some_and(|formula| formula.charge == 0.0)
+                        }))
+                {
+                    *disposition = ApplyDisposition::Unchanged;
+                    events.push(Event::not_modeled(*from, crate::ops::NotModelledCause::ModelBoundary,
+                        Phrase::bare("not-modeled.material-layer-partition",
+                            "separating this oil mixture is not modelled: neutral-solute partitioning, emulsions, and other unresolved materials are outside the simple oil-and-water drain")));
+                    return Ok(events);
+                }
+                let lower_id = SpeciesId::new(&lower);
+                let upper_id = SpeciesId::new(&_upper);
                 // The lower layer takes its solvent and everything dissolved
                 // in it — except that a neutral solute with a curated UNIFAC
                 // decomposition obeys its computed partition coefficient and
@@ -3822,8 +3938,8 @@ impl Bench {
                         instrument: *instrument,
                         value: v.temperature.to_celsius(),
                         unit: "°C".to_string(),
-                        note: None,
-                        note_reason: None,
+                        note: v.temperature_limitation().map(|p| p.render(Locale::EN)),
+                        note_reason: v.temperature_limitation(),
                     }),
                     Instrument::Balance => events.push(Event::Measured {
                         vessel: *vessel,
@@ -4443,6 +4559,34 @@ impl Bench {
                                     outside_method: outside.into_iter().collect(),
                                 });
                             }
+                        }
+                    }
+                }
+                if matches!(
+                    instrument,
+                    Instrument::PhMeter | Instrument::ConductivityMeter
+                ) && (!crate::material::immiscible_liquid_layers(v).is_empty()
+                    || crate::solve::layered_pair(v).is_some())
+                {
+                    for event in &mut events {
+                        if let Event::Measured {
+                            note, note_reason, ..
+                        } = event
+                        {
+                            let mut reason = Phrase::bare("measurement.aqueous-layer",
+                                "reading applies to the aqueous layer; the separate organic layer is outside this measurement");
+                            if let Some(previous) = note_reason.take() {
+                                reason = Phrase::new(
+                                    "measurement.aqueous-layer-bounded",
+                                    "{scope}; {boundary}",
+                                    vec![
+                                        ("scope".into(), Slot::phrase(reason)),
+                                        ("boundary".into(), Slot::phrase(previous)),
+                                    ],
+                                );
+                            }
+                            *note = Some(reason.render(Locale::EN));
+                            *note_reason = Some(reason);
                         }
                     }
                 }

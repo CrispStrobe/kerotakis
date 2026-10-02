@@ -1,0 +1,15 @@
+# Headspace size controls pressure
+# Expectation: The same acid/carbonate doses should produce higher final pressure over 10 mL than 100 mL sealed headspace.
+register lv3
+add v1 water 100mL
+seal v1 10mL
+add v1 NaHCO3 0.001mol
+add v1 HCl 0.002mol
+new
+add v2 water 100mL
+seal v2 100mL
+add v2 NaHCO3 0.001mol
+add v2 HCl 0.002mol
+measure v1 pressure
+measure v2 pressure
+inspect

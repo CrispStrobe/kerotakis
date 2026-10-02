@@ -1,0 +1,8 @@
+register lv3
+add v1 water 100mL
+add v1 CO2 0.001mol
+inspect v1
+wait 0s
+inspect v1
+heat v1 1J
+inspect v1

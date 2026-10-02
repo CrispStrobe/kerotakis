@@ -1,0 +1,7 @@
+# Undo a thermal pulse
+# Expectation: Heating then removing the same 10 kJ should return 100 g water close to its initial temperature and mass.
+register lv3
+add v1 water 100g
+heat v1 10kJ
+cool v1 10kJ
+inspect v1

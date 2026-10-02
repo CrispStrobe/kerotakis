@@ -1,0 +1,14 @@
+# A buffer survives a small acid pulse
+# Expectation: A half-neutralised acetate buffer should change pH far less than plain water after the same 0.0001 mol HCl pulse.
+register lv3
+add v1 water 100mL
+add v1 CH3COOH 0.01mol
+add v1 NaOH 0.005mol
+measure v1 ph
+new
+add v2 water 100mL
+measure v2 ph
+add v1 HCl 0.0001mol
+add v2 HCl 0.0001mol
+measure v1 ph
+measure v2 ph

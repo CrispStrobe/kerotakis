@@ -1,0 +1,32 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.001000 mol copper sulfate (CuSO4, M = 159.609 g/mol)
+  v1: 0.000001 mol antlerite (green copper sulfate) precipitated
+  v1: 0.001000 mol copper sulfate dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added
+  v1: pH 4.487 · I = 0.0281 mol/kgw
+  v1: T 298.150 K → 298.325 K (ΔT = +0.175 K)
+  v1: net ionic: 3 Cu²⁺(aq) + SO₄²⁻(aq) + 4 H₂O(l) → antlerite(s) + 4 H⁺(aq)
+  v1: +0.001000 mol copper (Cu, M = 63.546 g/mol)
+  v1: pH 4.487 · I = 0.0281 mol/kgw
+  v1: copper inert: copper sits above hydrogen in the activity series (E° +0.342 V against 0.000 V for 2H⁺/H₂), so dilute acid cannot take its electrons. An oxidising acid such as nitric would, by a different couple, and that is not modelled
+  v2: new vessel
+  v2: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v2: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v2: +0.001000 mol copper sulfate (CuSO4, M = 159.609 g/mol)
+  v2: 0.000001 mol antlerite (green copper sulfate) precipitated
+  v2: 0.001000 mol copper sulfate dissolved
+  v2: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added
+  v2: pH 4.487 · I = 0.0281 mol/kgw
+  v2: T 298.150 K → 298.325 K (ΔT = +0.175 K)
+  v2: net ionic: 3 Cu²⁺(aq) + SO₄²⁻(aq) + 4 H₂O(l) → antlerite(s) + 4 H⁺(aq)
+  v2: +0.001000 mol copper (Cu, M = 63.546 g/mol)
+  v2: pH 4.487 · I = 0.0281 mol/kgw
+  v2: copper inert: copper sits above hydrogen in the activity series (E° +0.342 V against 0.000 V for 2H⁺/H₂), so dilute acid cannot take its electrons. An oxidising acid such as nitric would, by a different couple, and that is not modelled
+  v1–v2: no cell: both vessels present the same Cu | Cu+2 electrode at the same activity: a cell of two identical half-cells reads 0 V
+  v2: T 298.325 K → 298.168 K (ΔT = -0.158 K)
+  v2: +49.808493 mol H₂O from 0.9000 L dilution water
+  v2: 0.000001 mol antlerite (green copper sulfate) dissolved
+  v2: pH 5.187 · I = 0.0036 mol/kgw
+  v2: copper not corroding: copper sits above hydrogen in the activity series (E° +0.342 V), so in aerated neutral water it is the cathode of any corrosion cell rather than the anode: oxygen takes electrons at its surface and it stays as the metal. The green on an old copper contact is not rust and is not this reaction: it is a patina of basic copper carbonate and sulfate, grown over years from carbon dioxide and sulfur dioxide in the air on a first film of Cu2O. That is atmospheric weathering, it needs a gas phase this bench does not carry, and no route here claims it
+  Cu | Cu+2 ‖ Cu+2 | Cu: E_cell = 0.0220 V open-circuit, no current, no internal resistance modelled (E°_cell = 0.0000 V; the difference is the Nernst term over the computed ion activities; ideal salt bridge, no liquid-junction potential); anode v2, cathode v1; Cu + Cu+2 → Cu+2 + Cu

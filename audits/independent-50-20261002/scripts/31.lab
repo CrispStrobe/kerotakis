@@ -1,0 +1,9 @@
+# Fixed pressure trades pressure rise for expansion
+# Expectation: Acid/carbonate under 1 bar regulation should stay near 1 bar and increase gas volume or explicitly state the unsupported constraint.
+register lv3
+add v1 water 100mL
+regulate v1 1bar 10mL
+add v1 NaHCO3 0.001mol
+add v1 HCl 0.002mol
+measure v1 pressure
+inspect v1

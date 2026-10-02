@@ -1,0 +1,11 @@
+# Acid dissolves zinc but leaves copper
+# Expectation: Equal metal doses with dilute HCl should dissolve zinc and evolve H2, while copper remains under non-oxidising conditions.
+register lv3
+add v1 water 100mL
+add v1 HCl 0.004mol
+add v1 Zn 0.001mol
+new
+add v2 water 100mL
+add v2 HCl 0.004mol
+add v2 Cu 0.001mol
+inspect

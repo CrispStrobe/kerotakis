@@ -1,0 +1,11 @@
+{
+  "source": "https://doi.org/10.6028/NBS.NSRDS.2",
+  "pdf_sha256": "6e5a30917ba61a22e542766195b71e0b3cfd7463a0c6ae11b97ffdd1f8b88743",
+  "page": 30,
+  "species": "KNO3",
+  "heat_of_solution": 8340,
+  "uncertainty": 30,
+  "unit": "cal/mol",
+  "temperature_k": 298.15,
+  "conditions": "infinite dilution"
+}

@@ -1,0 +1,13 @@
+  v1: +2.767138 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +46.000000 g vegetable oil; 0 canonical component(s), 46.000000 g unresolved
+  v1: reviewed material-layer role — unresolved vegetable oil is immiscible with the aqueous phase and lies above water; this is not a molecular LLE calculation
+  v2: new vessel
+  v1 → v2: lower layer (water, 2.767138 mol solvent) plus its aqueous solutes; solids left behind — a stopcock passes liquid, and a settled solid is a filtration question
+  v2: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1 (beaker) — 25.00 °C, 46.0 g, 50.0 mL liquid, open to atmosphere
+  v2 (beaker) — 25.00 °C, 49.9 g, 50.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          2.7671 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000

@@ -12,6 +12,8 @@ pub struct SpillCompartment {
     pub contents: Vec<Portion>,
     pub unresolved_materials: Vec<UnresolvedMaterialPortion>,
     pub temperature: Kelvin,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub unpriced_heat: Vec<crate::SpeciesId>,
     #[serde(default)]
     pub sources: Vec<VesselId>,
 }
@@ -23,6 +25,7 @@ impl SpillCompartment {
             contents: Vec::new(),
             unresolved_materials: Vec::new(),
             temperature,
+            unpriced_heat: Vec::new(),
             sources: Vec::new(),
         }
     }
@@ -33,6 +36,7 @@ impl SpillCompartment {
         probe.contents = self.contents.clone();
         probe.unresolved_materials = self.unresolved_materials.clone();
         probe.temperature = self.temperature;
+        probe.unpriced_heat = self.unpriced_heat.clone();
         probe.refresh_pressure();
         probe
     }

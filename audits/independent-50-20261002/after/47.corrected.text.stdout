@@ -1,0 +1,23 @@
+  v1: +2.767138 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +46.000000 g vegetable oil; 0 canonical component(s), 46.000000 g unresolved
+  v1: reviewed material-layer role — unresolved vegetable oil is immiscible with the aqueous phase and lies above water; this is not a molecular LLE calculation
+  v1: +0.001000 mol sodium chloride (NaCl, M = 58.443 g/mol)
+  v1: reviewed material-layer role — unresolved vegetable oil is immiscible with the aqueous phase and lies above water; this is not a molecular LLE calculation
+  v1: 0.001000 mol sodium chloride dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 6.995 · I = 0.0201 mol/kgw
+  v1: T 298.150 K → 298.131 K (ΔT = -0.019 K)
+  v1 (beaker) — 24.98 °C, 95.9 g, 100.0 mL liquid, open to atmosphere, pH 6.99, I = 0.0201 m
+           1.00 mmol  chloride ion       Aqueous
+           1.00 mmol  sodium ion         Aqueous
+          2.7671 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9930e-1   γ=0.018
+        Cl-             2.0060e-2    1.7400e-2   γ=0.867
+        Na+             2.0060e-2    1.7500e-2   γ=0.872
+        O2              2.6650e-4    2.6780e-4   γ=1.005
+        OH-             1.1380e-7    9.8670e-8   γ=0.867
+        H+              1.1380e-7    1.0120e-7   γ=0.889
+  v1 pH meter: 6.9946 pH — reading applies to the aqueous layer; the separate organic layer is outside this measurement
+  v1 conductivity meter: 2360.3404 µS/cm — reading applies to the aqueous layer; the separate organic layer is outside this measurement

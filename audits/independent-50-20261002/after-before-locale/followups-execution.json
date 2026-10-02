@@ -1,0 +1,117 @@
+{
+  "binary_sha256": "2f57f4316004d5b41deab6d3444e78b901cbd79b9e92a84cb96af4016693bd48",
+  "runs": [
+    {
+      "id": "07",
+      "script": "07-name-corrected",
+      "script_sha256": "e311f2203c202ab1a573c2f6d78a982105d65b6d10b7dd512eb518aa366590be",
+      "mode": "json",
+      "exit_code": 0,
+      "seconds": 1.121622672304511
+    },
+    {
+      "id": "07",
+      "script": "07-name-corrected",
+      "script_sha256": "e311f2203c202ab1a573c2f6d78a982105d65b6d10b7dd512eb518aa366590be",
+      "mode": "text",
+      "exit_code": 0,
+      "seconds": 1.2369090281426907
+    },
+    {
+      "id": "15",
+      "script": "15-name-corrected",
+      "script_sha256": "de43cf7c7896b64e0ed03fd6d65587df87942fa860932d4e2d7f914e66056e7c",
+      "mode": "json",
+      "exit_code": 0,
+      "seconds": 1.213938981294632
+    },
+    {
+      "id": "15",
+      "script": "15-name-corrected",
+      "script_sha256": "de43cf7c7896b64e0ed03fd6d65587df87942fa860932d4e2d7f914e66056e7c",
+      "mode": "text",
+      "exit_code": 0,
+      "seconds": 1.1152081843465567
+    },
+    {
+      "id": "45",
+      "script": "45-oil-substitute",
+      "script_sha256": "fa9f0c95d0d833daa99f585b66f0573100d2095ab0cfb165b6fb67910cae431f",
+      "mode": "json",
+      "exit_code": 0,
+      "seconds": 1.264518292620778
+    },
+    {
+      "id": "45",
+      "script": "45-oil-substitute",
+      "script_sha256": "fa9f0c95d0d833daa99f585b66f0573100d2095ab0cfb165b6fb67910cae431f",
+      "mode": "text",
+      "exit_code": 0,
+      "seconds": 1.088943725451827
+    },
+    {
+      "id": "46",
+      "script": "46-oil-substitute",
+      "script_sha256": "9d91250811cdcb0f5ae2f8a49023ddeae35bd1fcf9215470e08f75139a409658",
+      "mode": "json",
+      "exit_code": 0,
+      "seconds": 1.1097311358898878
+    },
+    {
+      "id": "46",
+      "script": "46-oil-substitute",
+      "script_sha256": "9d91250811cdcb0f5ae2f8a49023ddeae35bd1fcf9215470e08f75139a409658",
+      "mode": "text",
+      "exit_code": 0,
+      "seconds": 1.0406269114464521
+    },
+    {
+      "id": "47",
+      "script": "47-oil-substitute",
+      "script_sha256": "8e3fe5e09800ecea84cd43a9f6397c671092f88d3999a328b0be891005bb6664",
+      "mode": "json",
+      "exit_code": 0,
+      "seconds": 1.1979252211749554
+    },
+    {
+      "id": "47",
+      "script": "47-oil-substitute",
+      "script_sha256": "8e3fe5e09800ecea84cd43a9f6397c671092f88d3999a328b0be891005bb6664",
+      "mode": "text",
+      "exit_code": 0,
+      "seconds": 1.3686882257461548
+    },
+    {
+      "id": "co2-consistency",
+      "script": "co2-consistency",
+      "script_sha256": "f62e04a7da1f01bb352a125ee74d189ee66a89814c2523f357bcbe23fbb87296",
+      "mode": "json",
+      "exit_code": 0,
+      "seconds": 1.3735684715211391
+    },
+    {
+      "id": "co2-consistency",
+      "script": "co2-consistency",
+      "script_sha256": "f62e04a7da1f01bb352a125ee74d189ee66a89814c2523f357bcbe23fbb87296",
+      "mode": "text",
+      "exit_code": 0,
+      "seconds": 1.3429819624871016
+    },
+    {
+      "id": "heat-disclosure",
+      "script": "heat-disclosure",
+      "script_sha256": "e1913437f8779c744437b655d90d26afc37ff3c7eddaa62ab0fdf10ee3f816fe",
+      "mode": "json",
+      "exit_code": 0,
+      "seconds": 1.3793348856270313
+    },
+    {
+      "id": "heat-disclosure",
+      "script": "heat-disclosure",
+      "script_sha256": "e1913437f8779c744437b655d90d26afc37ff3c7eddaa62ab0fdf10ee3f816fe",
+      "mode": "text",
+      "exit_code": 0,
+      "seconds": 1.3531883303076029
+    }
+  ]
+}

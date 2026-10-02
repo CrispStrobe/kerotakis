@@ -1,0 +1,3139 @@
+[
+  {
+    "id": "01",
+    "title": "A measured joule becomes warm water",
+    "steps": 5,
+    "measurements": [],
+    "special_events": [
+      {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "\u00b0C",
+        "value": 48.911652789678215,
+        "vessel": 0
+      },
+      {
+        "event": "measured",
+        "instrument": "balance",
+        "unit": "g",
+        "value": 100.0,
+        "vessel": 0
+      }
+    ],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 48.911652789678215,
+        "ph": 6.645012526952174,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 5.550929780738273,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": "solvent_only"
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "scene",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "02",
+    "title": "Undo a thermal pulse",
+    "steps": 4,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 24.99999999997067,
+        "ph": 6.997375771104533,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 5.550929780738273,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": "solvent_only"
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "03",
+    "title": "Mix unequal hot and cold portions",
+    "steps": 3,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 35.00487607219918,
+        "ph": 6.839742287920464,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 5.550929780738273,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": "solvent_only"
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "04",
+    "title": "A double dose is not a double temperature rise",
+    "steps": 6,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 48.911652789678215,
+        "ph": 6.645012526952174,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 5.550929780738273,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": "solvent_only"
+      },
+      {
+        "id": 1,
+        "temperature_c": 36.953675824336415,
+        "ph": 6.810822036675913,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 11.101859561476546,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": "solvent_only"
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "05",
+    "title": "Latent heat intercepts the cooling pulse",
+    "steps": 4,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 0.0,
+        "ph": null,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 2.5734802304734394,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 2.9774495502648337,
+            "phase": "solid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "scene",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "06",
+    "title": "Boiling spends energy on disappearing liquid",
+    "steps": 4,
+    "measurements": [],
+    "special_events": [
+      {
+        "event": "gas_evolved",
+        "moles": 0.9321945071250762,
+        "species": "water",
+        "vessel": 0
+      }
+    ],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 100.0,
+        "ph": null,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 4.618735273613197,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "scene",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "07",
+    "title": "Salt versus sugar freezing race",
+    "steps": 4,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 4.8151556119356655,
+        "ph": 7.346006045049,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.02,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.02,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 5.550929780738273,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      },
+      {
+        "id": 1,
+        "temperature_c": 5.0,
+        "ph": 7.364789819909901,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 5.550929780738273,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": "solvent_only"
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "scene",
+      "step"
+    ],
+    "stderr": "kero: /mnt/volume1/kerotakis/audits/independent-50-20261002/scripts/07.lab:8: unknown species or material 'C12H22O11' \u2014 did you mean 'maltose'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find C12H22O11' searches both)\n"
+  },
+  {
+    "id": "08",
+    "title": "Heat dilution cannot invent energy",
+    "steps": 3,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 60.0,
+        "ph": 6.507639768025985,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 5.550929780738273,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": "solvent_only"
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "09",
+    "title": "A tenfold acid dilution",
+    "steps": 6,
+    "measurements": [],
+    "special_events": [
+      {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 2.038105470481,
+        "vessel": 0
+      },
+      {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 3.013464900299,
+        "vessel": 0
+      }
+    ],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.000000134471406,
+        "ph": 3.013464900299,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 55.34276991396058,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "10",
+    "title": "Acid/base cancellation and overshoot",
+    "steps": 7,
+    "measurements": [],
+    "special_events": [
+      {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 6.992693453276,
+        "vessel": 0
+      },
+      {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 11.92751212664,
+        "vessel": 0
+      }
+    ],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.347425367200458,
+        "ph": 11.92751212664,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.002,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 5.535276991396059,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "11",
+    "title": "Weak acid versus strong acid",
+    "steps": 8,
+    "measurements": [],
+    "special_events": [
+      {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 2.038105470481,
+        "vessel": 0
+      },
+      {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 3.387131770465,
+        "vessel": 1
+      }
+    ],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.00000134471395,
+        "ph": 2.038105470481,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 5.534276991396059,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      },
+      {
+        "id": 1,
+        "temperature_c": 25.000042480615207,
+        "ph": 3.387131770465,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.0009581457804860907,
+            "phase": "aqueous",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 4.185421951390937e-05,
+            "phase": "aqueous",
+            "species": "CH3COO-"
+          },
+          {
+            "moles": 5.534276991396059,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 4.185421951390968e-05,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "12",
+    "title": "Half-neutralisation exposes a pKa",
+    "steps": 5,
+    "measurements": [],
+    "special_events": [
+      {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 4.663025153553,
+        "vessel": 0
+      }
+    ],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 26.204695183341755,
+        "ph": 4.663025153553,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.005052563195759432,
+            "phase": "aqueous",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.0049474368042405695,
+            "phase": "aqueous",
+            "species": "CH3COO-"
+          },
+          {
+            "moles": 0.005,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 5.539224428200299,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 5.256319575942803e-05,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "13",
+    "title": "A buffer survives a small acid pulse",
+    "steps": 11,
+    "measurements": [],
+    "special_events": [
+      {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 4.663025153553,
+        "vessel": 0
+      },
+      {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 6.997375771104036,
+        "vessel": 1
+      },
+      {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 4.645652454784,
+        "vessel": 0
+      },
+      {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 3.013464900299,
+        "vessel": 1
+      }
+    ],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 26.204561813079636,
+        "ph": 4.645652454784,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.005152399575601858,
+            "phase": "aqueous",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.004847600424398146,
+            "phase": "aqueous",
+            "species": "CH3COO-"
+          },
+          {
+            "moles": 0.0001,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.005000000000000001,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 5.539224591820457,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 5.239957560185943e-05,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      },
+      {
+        "id": 1,
+        "temperature_c": 25.00000134458719,
+        "ph": 3.013464900299,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.0001,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 5.534276991396059,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0001,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "scene",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "14",
+    "title": "Neutral salt is an ionic conductor",
+    "steps": 5,
+    "measurements": [],
+    "special_events": [
+      {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "unit": "\u00b5S/cm",
+        "value": 0.05508761762446267,
+        "vessel": 0
+      },
+      {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "unit": "\u00b5S/cm",
+        "value": 1204.2742133145518,
+        "vessel": 0
+      },
+      {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 6.99679587879,
+        "vessel": 0
+      }
+    ],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 24.99069555417134,
+        "ph": 6.99679587879,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 5.534276991396059,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "scene",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "15",
+    "title": "Sugar is not an electrolyte",
+    "steps": 1,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.0,
+        "ph": 6.997375771104036,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 5.534276991396059,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": "solvent_only"
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "scene",
+      "step"
+    ],
+    "stderr": "kero: /mnt/volume1/kerotakis/audits/independent-50-20261002/scripts/15.lab:5: unknown species or material 'C12H22O11' \u2014 did you mean 'maltose'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find C12H22O11' searches both)\n"
+  },
+  {
+    "id": "16",
+    "title": "Common ions make a silver cloud",
+    "steps": 4,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.09379942336409,
+        "ph": 6.994840247967,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 1.518195291378822e-06,
+            "phase": "aqueous",
+            "species": "Ag+"
+          },
+          {
+            "moles": 1.518195291378822e-06,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0009999999999995685,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 0.0009999999999995685,
+            "phase": "aqueous",
+            "species": "NO3-"
+          },
+          {
+            "moles": 0.0009984818047084,
+            "phase": "solid",
+            "species": "AgCl"
+          },
+          {
+            "moles": 5.534276991396058,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "17",
+    "title": "Precipitation cannot depend on bottle order",
+    "steps": 8,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.09379942336409,
+        "ph": 6.994840247967,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 1.518195291378822e-06,
+            "phase": "aqueous",
+            "species": "Ag+"
+          },
+          {
+            "moles": 1.518195291378822e-06,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0009999999999995685,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 0.0009999999999995685,
+            "phase": "aqueous",
+            "species": "NO3-"
+          },
+          {
+            "moles": 0.0009984818047084,
+            "phase": "solid",
+            "species": "AgCl"
+          },
+          {
+            "moles": 5.534276991396058,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      },
+      {
+        "id": 1,
+        "temperature_c": 25.093799420620826,
+        "ph": 6.994840247967,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 1.518195291378822e-06,
+            "phase": "aqueous",
+            "species": "Ag+"
+          },
+          {
+            "moles": 1.518195291378822e-06,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0009999999999995685,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 0.0009999999999995685,
+            "phase": "aqueous",
+            "species": "NO3-"
+          },
+          {
+            "moles": 0.0009984818047084,
+            "phase": "solid",
+            "species": "AgCl"
+          },
+          {
+            "moles": 5.534276991396058,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "18",
+    "title": "Remove the cloud without removing the salt water",
+    "steps": 6,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.084724569659556,
+        "ph": null,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.000999930918174,
+            "phase": "solid",
+            "species": "AgCl"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      },
+      {
+        "id": 1,
+        "temperature_c": 25.084723042050655,
+        "ph": 6.992920292605,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 6.908182576755652e-08,
+            "phase": "aqueous",
+            "species": "Ag+"
+          },
+          {
+            "moles": 0.0010000690818270609,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0019999999999992944,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 0.0010000000000001457,
+            "phase": "aqueous",
+            "species": "NO3-"
+          },
+          {
+            "moles": 5.534276991396059,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "19",
+    "title": "Barium and sulfate meet",
+    "steps": 4,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.005825766961834,
+        "ph": 6.994410188096,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 1.8292136112164052e-06,
+            "phase": "aqueous",
+            "species": "Ba+2"
+          },
+          {
+            "moles": 0.001999999999999274,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.002000000000000271,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 1.8292136114596733e-06,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 0.0009981707863885,
+            "phase": "solid",
+            "species": "BaSO4"
+          },
+          {
+            "moles": 5.534276991396059,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "20",
+    "title": "Chalk dissolves in acid",
+    "steps": 5,
+    "measurements": [],
+    "special_events": [
+      {
+        "event": "gas_evolved",
+        "moles": 0.0009986852346264,
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 2.06293281011,
+        "vessel": 0
+      }
+    ],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.0,
+        "ph": 2.06293281011,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.000999999999905042,
+            "phase": "aqueous",
+            "species": "Ca+2"
+          },
+          {
+            "moles": 0.002999999988710313,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 1.3146842017017785e-06,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 8.10771275730531e-11,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 5.535276991315171,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0010000000806980446,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "scene",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "21",
+    "title": "Finite solvent leaves salt behind",
+    "steps": 3,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 19.9945262481325,
+        "ph": 6.459281896744,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.6112307854445436,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.6112307854446436,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 1.099838119301,
+            "phase": "solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 5.550929780738273,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "22",
+    "title": "Extra solvent rescues leftover salt",
+    "steps": 5,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 23.67393777273753,
+        "ph": 6.864781227406,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.8555344523723835,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.8555344523724835,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 33.22231473771857,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "23",
+    "title": "Drying a dilute salt solution",
+    "steps": 5,
+    "measurements": [],
+    "special_events": [
+      {
+        "event": "measured",
+        "instrument": "balance",
+        "unit": "g",
+        "value": 10.058443000000002,
+        "vessel": 0
+      }
+    ],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 24.990736526492924,
+        "ph": 6.983196288054,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 0.5550929780738274,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "scene",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "24",
+    "title": "A quarter of a solution carries a quarter of its salt",
+    "steps": 5,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 24.90723550081873,
+        "ph": 6.984571182952,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.0075,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0075,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 4.163197335553705,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      },
+      {
+        "id": 1,
+        "temperature_c": 24.907233822845797,
+        "ph": 6.984571182969,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.0025,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0025,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 1.3877324451845683,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "25",
+    "title": "Splitting and reuniting a solution",
+    "steps": 7,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 24.907235500818274,
+        "ph": 6.984571182958,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.01,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.01,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 5.550929780738273,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      },
+      {
+        "id": 1,
+        "temperature_c": 24.907233822845797,
+        "ph": null,
+        "pressure_pa": 101325.0,
+        "contents": [],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "26",
+    "title": "A hot pack versus a cold pack",
+    "steps": 6,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 26.979543800338433,
+        "ph": 6.866583364768,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.01,
+            "phase": "aqueous",
+            "species": "Ca+2"
+          },
+          {
+            "moles": 0.02,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 5.550929780738273,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      },
+      {
+        "id": 1,
+        "temperature_c": 25.0,
+        "ph": 6.983043230253,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.01,
+            "phase": "aqueous",
+            "species": "K+"
+          },
+          {
+            "moles": 0.01,
+            "phase": "aqueous",
+            "species": "NO3-"
+          },
+          {
+            "moles": 5.550929780738273,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "27",
+    "title": "CO2 changes water chemistry",
+    "steps": 5,
+    "measurements": [],
+    "special_events": [
+      {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 6.997375771104036,
+        "vessel": 0
+      },
+      {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 5.613647436042,
+        "vessel": 0
+      }
+    ],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.038122088568343,
+        "ph": 5.613647436042,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.0009932992431687798,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 6.700751971856537e-06,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 4.859811436068557e-12,
+            "phase": "aqueous",
+            "species": "CO3-2"
+          },
+          {
+            "moles": 5.534270290639226,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 6.700761693271065e-06,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "28",
+    "title": "A small sealed headspace makes fizz push back",
+    "steps": 6,
+    "measurements": [],
+    "special_events": [
+      {
+        "event": "measured",
+        "instrument": "pressure_gauge",
+        "unit": "kPa",
+        "value": 128.01640865389547,
+        "vessel": 0
+      }
+    ],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 24.976639135691812,
+        "ph": 2.049665142045,
+        "pressure_pa": 128016.40865389547,
+        "contents": [
+          {
+            "moles": 0.0003229458257867269,
+            "phase": "gas",
+            "species": "N2"
+          },
+          {
+            "moles": 8.563112327847018e-05,
+            "phase": "gas",
+            "species": "O2"
+          },
+          {
+            "moles": 0.001999999993951476,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.000999999996975738,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 0.0008922366153709733,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 5.0986793434449745e-08,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 0.000107875891172,
+            "phase": "gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 5.535276940414948,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0010000509754266758,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "headspace": {
+          "boundary": "sealed",
+          "volume": 0.01
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "29",
+    "title": "Headspace size controls pressure",
+    "steps": 12,
+    "measurements": [],
+    "special_events": [
+      {
+        "event": "measured",
+        "instrument": "pressure_gauge",
+        "unit": "kPa",
+        "value": 128.01640865389547,
+        "vessel": 0
+      },
+      {
+        "event": "measured",
+        "instrument": "pressure_gauge",
+        "unit": "kPa",
+        "value": 114.85388771583632,
+        "vessel": 1
+      }
+    ],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 24.976639135691812,
+        "ph": 2.049665142045,
+        "pressure_pa": 128016.40865389547,
+        "contents": [
+          {
+            "moles": 0.0003229458257867269,
+            "phase": "gas",
+            "species": "N2"
+          },
+          {
+            "moles": 8.563112327847018e-05,
+            "phase": "gas",
+            "species": "O2"
+          },
+          {
+            "moles": 0.001999999993951476,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.000999999996975738,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 0.0008922366153709733,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 5.0986793434449745e-08,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 0.000107875891172,
+            "phase": "gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 5.535276940414948,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0010000509754266758,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "headspace": {
+          "boundary": "sealed",
+          "volume": 0.01
+        },
+        "solution_scope": null
+      },
+      {
+        "id": 1,
+        "temperature_c": 24.95562975944847,
+        "ph": 2.049674498009,
+        "pressure_pa": 114853.88771583632,
+        "contents": [
+          {
+            "moles": 0.00322945825786727,
+            "phase": "gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.0008563112327847019,
+            "phase": "gas",
+            "species": "O2"
+          },
+          {
+            "moles": 0.00199999999262187,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.000999999996310935,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 0.0004535353006692066,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 2.591292219635221e-08,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 0.0005480737456525,
+            "phase": "gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 5.535276965488211,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0010000259027739137,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "headspace": {
+          "boundary": "sealed",
+          "volume": 0.1
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "30",
+    "title": "Uncorking releases the compressed gas",
+    "steps": 7,
+    "measurements": [],
+    "special_events": [
+      {
+        "event": "gas_evolved",
+        "moles": 0.0003229458257867269,
+        "species": "N2",
+        "vessel": 0
+      },
+      {
+        "event": "gas_evolved",
+        "moles": 8.563112327847018e-05,
+        "species": "O2",
+        "vessel": 0
+      },
+      {
+        "event": "gas_evolved",
+        "moles": 0.000107875891172,
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "event": "gas_evolved",
+        "moles": 0.0008909643925196,
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "event": "measured",
+        "instrument": "pressure_gauge",
+        "unit": "kPa",
+        "value": 101.325,
+        "vessel": 0
+      }
+    ],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 24.93395361228852,
+        "ph": 2.049681657684,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.0019999999923151217,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0009999999961575609,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 1.3231333193041646e-06,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 7.55956160109529e-11,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 5.535276991327605,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0010000000613093073,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "31",
+    "title": "Fixed pressure trades pressure rise for expansion",
+    "steps": 6,
+    "measurements": [],
+    "special_events": [
+      {
+        "event": "measured",
+        "instrument": "pressure_gauge",
+        "unit": "kPa",
+        "value": 100.0,
+        "vessel": 0
+      }
+    ],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 24.9750991410001,
+        "ph": 2.049665831061,
+        "pressure_pa": 100000.0,
+        "contents": [
+          {
+            "moles": 0.00031872274935773696,
+            "phase": "gas",
+            "species": "N2"
+          },
+          {
+            "moles": 8.45113479185494e-05,
+            "phase": "gas",
+            "species": "O2"
+          },
+          {
+            "moles": 0.0019999999930348355,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0009999999965174177,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 0.0008600852354493519,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 4.9148927858888496e-08,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 0.0001400269703247,
+            "phase": "gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 5.535276942254091,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.001000049135006769,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "headspace": {
+          "boundary": "pressure_controlled",
+          "pressure": 100000.0,
+          "volume": 0.013466083671303298
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "32",
+    "title": "Sweeping carbon dioxide out",
+    "steps": 8,
+    "measurements": [],
+    "special_events": [
+      {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 4.347530213156,
+        "vessel": 0
+      },
+      {
+        "event": "gas_evolved",
+        "moles": 0.00322945825786727,
+        "species": "N2",
+        "vessel": 0
+      },
+      {
+        "event": "gas_evolved",
+        "moles": 0.0008563112327847019,
+        "species": "O2",
+        "vessel": 0
+      },
+      {
+        "event": "gas_evolved",
+        "moles": 0.0005448677072703,
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "event": "gas_evolved",
+        "moles": 0.0004567672069879,
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 6.997375858338145,
+        "vessel": 0
+      }
+    ],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 24.99999473166895,
+        "ph": 6.997375858338145,
+        "pressure_pa": 100000.0,
+        "contents": [
+          {
+            "moles": 5.534276991301013,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 1.9009109217260622e-10,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "headspace": {
+          "boundary": "swept",
+          "pressure": 100000.0
+        },
+        "solution_scope": "solvent_only"
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "33",
+    "title": "A sacrificial zinc strip plates copper",
+    "steps": 4,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.697697938698184,
+        "ph": 5.720847623653,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.001003540444188853,
+            "phase": "solid",
+            "species": "Zn"
+          },
+          {
+            "moles": 0.000996459555811147,
+            "phase": "solid",
+            "species": "Cu"
+          },
+          {
+            "moles": 0.000996459555811147,
+            "phase": "aqueous",
+            "species": "Zn+2"
+          },
+          {
+            "moles": 3.5404446034635847e-06,
+            "phase": "aqueous",
+            "species": "Cu+2"
+          },
+          {
+            "moles": 0.0010000000008318264,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 5.534276991392731,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 6.654610890111101e-12,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "34",
+    "title": "Copper refuses the reverse displacement",
+    "steps": 4,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.192778746226963,
+        "ph": 5.747140585031,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.002,
+            "phase": "solid",
+            "species": "Cu"
+          },
+          {
+            "moles": 0.0010000000000003298,
+            "phase": "aqueous",
+            "species": "Zn+2"
+          },
+          {
+            "moles": 0.0010000000000003298,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 5.534276991396057,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "35",
+    "title": "Acid dissolves zinc but leaves copper",
+    "steps": 8,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.00000134464358,
+        "ph": 1.460798025168,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "solid",
+            "species": "Zn"
+          },
+          {
+            "moles": 0.004,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 5.534276991396059,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.004,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      },
+      {
+        "id": 1,
+        "temperature_c": 25.00000134464665,
+        "ph": 1.460798025168,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "solid",
+            "species": "Cu"
+          },
+          {
+            "moles": 0.004,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 5.534276991396059,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.004,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "36",
+    "title": "A battery has a polarity",
+    "steps": 9,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.192789614627486,
+        "ph": 5.747140585031,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "solid",
+            "species": "Zn"
+          },
+          {
+            "moles": 0.0010000000000003298,
+            "phase": "aqueous",
+            "species": "Zn+2"
+          },
+          {
+            "moles": 0.0010000000000003298,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 5.534276991396057,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      },
+      {
+        "id": 1,
+        "temperature_c": 25.17528433646646,
+        "ph": 4.486712947325,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "solid",
+            "species": "Cu"
+          },
+          {
+            "moles": 0.000996459555811147,
+            "phase": "aqueous",
+            "species": "Cu+2"
+          },
+          {
+            "moles": 0.000998819852214803,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 1.180148201152e-06,
+            "phase": "solid",
+            "species": "antlerite"
+          },
+          {
+            "moles": 5.53427227080159,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 4.720596132249191e-06,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "scene",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "37",
+    "title": "A concentration cell vanishes at equality",
+    "steps": 10,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.17528433646646,
+        "ph": 4.486712947325,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "solid",
+            "species": "Cu"
+          },
+          {
+            "moles": 0.000996459555811147,
+            "phase": "aqueous",
+            "species": "Cu+2"
+          },
+          {
+            "moles": 0.000998819852214803,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 1.180148201152e-06,
+            "phase": "solid",
+            "species": "antlerite"
+          },
+          {
+            "moles": 5.53427227080159,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 4.720596132249191e-06,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      },
+      {
+        "id": 1,
+        "temperature_c": 25.017529410992438,
+        "ph": 5.186895841917,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "solid",
+            "species": "Cu"
+          },
+          {
+            "moles": 0.0009971894330696428,
+            "phase": "aqueous",
+            "species": "Cu+2"
+          },
+          {
+            "moles": 0.000999297358611914,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 7.026418465649e-07,
+            "phase": "solid",
+            "species": "brochantite"
+          },
+          {
+            "moles": 55.34276569810766,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 4.215854747219305e-06,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "scene",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "38",
+    "title": "A measured charge liberates a measured amount",
+    "steps": 4,
+    "measurements": [],
+    "special_events": [
+      {
+        "amps": 0.1,
+        "anode_moles": 2.5910674141544323e-05,
+        "anode_species": "O2",
+        "cathode_moles": 5.1821348283088646e-05,
+        "cathode_species": "H2",
+        "coulombs": 10.0,
+        "electrons": 0.00010364269656617729,
+        "event": "electrolysed",
+        "grams": 0.00010447183813870671,
+        "moles": 5.1821348283088646e-05,
+        "per_ion": 2.0,
+        "seconds": 100.0,
+        "species": "H2",
+        "vessel": 0
+      },
+      {
+        "event": "gas_evolved",
+        "moles": 5.1821348283088646e-05,
+        "species": "H2",
+        "vessel": 0
+      },
+      {
+        "event": "gas_evolved",
+        "moles": 2.5910674141544323e-05,
+        "species": "O2",
+        "vessel": 0
+      }
+    ],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.000001344718953,
+        "ph": 1.865023548263,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 5.534225170047776,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0021036426965661773,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "39",
+    "title": "Dilution lightens a coloured solution",
+    "steps": 7,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.175294629516657,
+        "ph": 4.486712947319,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.009964595558289322,
+            "phase": "aqueous",
+            "species": "Cu+2"
+          },
+          {
+            "moles": 0.009988198522329732,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 1.180148201643e-05,
+            "phase": "solid",
+            "species": "antlerite"
+          },
+          {
+            "moles": 55.34272270801513,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 4.720596283501466e-05,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "scene",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "40",
+    "title": "Purple colour follows concentration",
+    "steps": 8,
+    "measurements": [],
+    "special_events": [
+      {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 525 nm",
+        "value": 2.3999784,
+        "vessel": 0
+      },
+      {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 525 nm",
+        "value": 0.23999784000000002,
+        "vessel": 0
+      }
+    ],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 24.99961030251916,
+        "ph": 6.999729245065,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 9.999999999999999e-05,
+            "phase": "aqueous",
+            "species": "K+"
+          },
+          {
+            "moles": 9.999999999999999e-05,
+            "phase": "aqueous",
+            "species": "MnO4-"
+          },
+          {
+            "moles": 55.34276991396058,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "41",
+    "title": "A salt flame is not fuel",
+    "steps": 3,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.0,
+        "ph": null,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.01711068904744794,
+            "phase": "solid",
+            "species": "NaCl"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "42",
+    "title": "Magnesium gains oxygen mass",
+    "steps": 4,
+    "measurements": [],
+    "special_events": [
+      {
+        "event": "measured",
+        "instrument": "balance",
+        "unit": "g",
+        "value": 0.040304,
+        "vessel": 0
+      }
+    ],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 945.1269775390625,
+        "ph": null,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "solid",
+            "species": "MgO"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "scene",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "43",
+    "title": "Ethanol burns instead of returning a false negative",
+    "steps": 3,
+    "measurements": [],
+    "special_events": [
+      {
+        "event": "gas_evolved",
+        "moles": 0.021706570578914237,
+        "species": "ethanol",
+        "vessel": 0
+      }
+    ],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.0,
+        "ph": null,
+        "pressure_pa": 101325.0,
+        "contents": [],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "44",
+    "title": "Distillation enriches a volatile component",
+    "steps": 5,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.0,
+        "ph": 6.997375771104036,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 4.149978802887636,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.23740890966437697,
+            "phase": "liquid",
+            "species": "ethanol"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": "solvent_only"
+      },
+      {
+        "id": 1,
+        "temperature_c": 25.0,
+        "ph": 6.997375771104036,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.290765021702983,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.19672250191390775,
+            "phase": "liquid",
+            "species": "ethanol"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": "solvent_only"
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "45",
+    "title": "Oil and water keep separate layers",
+    "steps": 1,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.0,
+        "ph": 6.997375771104036,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 2.7671384956980294,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": "solvent_only"
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "scene",
+      "step"
+    ],
+    "stderr": "kero: /mnt/volume1/kerotakis/audits/independent-50-20261002/scripts/45.lab:5: unknown species or material 'olive_oil' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)\n"
+  },
+  {
+    "id": "46",
+    "title": "Draining the bottom layer",
+    "steps": 1,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.0,
+        "ph": 6.997375771104036,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 2.7671384956980294,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": "solvent_only"
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "scene",
+      "step"
+    ],
+    "stderr": "kero: /mnt/volume1/kerotakis/audits/independent-50-20261002/scripts/46.lab:5: unknown species or material 'olive_oil' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)\n"
+  },
+  {
+    "id": "47",
+    "title": "Salt cannot pass through an oil layer as water",
+    "steps": 1,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.0,
+        "ph": 6.997375771104036,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 2.7671384956980294,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": "solvent_only"
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "scene",
+      "step"
+    ],
+    "stderr": "kero: /mnt/volume1/kerotakis/audits/independent-50-20261002/scripts/47.lab:5: unknown species or material 'olive_oil' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)\n"
+  },
+  {
+    "id": "48",
+    "title": "Acid curdles milk without inventing protein molecules",
+    "steps": 4,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.0,
+        "ph": 4.298518800734,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.0068888443632026935,
+            "phase": "aqueous",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.0031111556367973067,
+            "phase": "aqueous",
+            "species": "CH3COO-"
+          },
+          {
+            "moles": 0.0024648617227292003,
+            "phase": "aqueous",
+            "species": "Ca+2"
+          },
+          {
+            "moles": 0.0009199942887055918,
+            "phase": "aqueous",
+            "species": "C6H5O7-3"
+          },
+          {
+            "moles": 0.003001156460666436,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0038365133766434913,
+            "phase": "aqueous",
+            "species": "K+"
+          },
+          {
+            "moles": 0.0016528925619835183,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 1.1980729263771658e-05,
+            "phase": "aqueous",
+            "species": "H3PO4"
+          },
+          {
+            "moles": 0.0021821185208664847,
+            "phase": "aqueous",
+            "species": "H2PO4-"
+          },
+          {
+            "moles": 6.051033187976516e-06,
+            "phase": "aqueous",
+            "species": "HPO4-2"
+          },
+          {
+            "moles": 4.830409015166336,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0012717160641982084,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "49",
+    "title": "A peroxide catalyst has an explicit model boundary",
+    "steps": 6,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 25.177499837247638,
+        "ph": 6.994439318247284,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 5.535825974725371,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.008451016670688304,
+            "phase": "liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 0.001,
+            "phase": "solid",
+            "species": "MnO2"
+          },
+          {
+            "moles": 0.0007744916646558485,
+            "phase": "gas",
+            "species": "O2"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": "solvent_only"
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  },
+  {
+    "id": "50",
+    "title": "Waiting is not permission to teleport matter",
+    "steps": 5,
+    "measurements": [],
+    "special_events": [],
+    "final": [
+      {
+        "id": 0,
+        "temperature_c": 24.99072346730395,
+        "ph": 6.996803660501,
+        "pressure_pa": 101325.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 5.550929780738273,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": {
+          "boundary": "open"
+        },
+        "solution_scope": null
+      }
+    ],
+    "last_keys": [
+      "bench",
+      "events",
+      "operator",
+      "output_sequence",
+      "step"
+    ],
+    "stderr": ""
+  }
+]

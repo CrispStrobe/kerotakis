@@ -1,0 +1,20 @@
+  v1: +5.550930 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +1.711069 mol sodium chloride (NaCl, M = 58.443 g/mol)
+  v1: 0.615092 mol sodium chloride dissolved
+  v1: 0.003862 mol sodium chloride precipitated
+  v1: routing → PHREEQC (IPhreeqc, USGS) · pitzer.dat, with the reviewed Sander HBr gas-uptake slice · Pitzer specific-ion-interaction model (valid at high ionic strength) — chosen because the solution is concentrated (~24.6 mol/kgw), where the ion-interaction model is the valid one
+  v1: pH 6.459 · I = 6.1123 mol/kgw
+  v1: T 298.150 K → 293.145 K (ΔT = -5.005 K)
+  v1: net ionic: Cl⁻(aq) + Na⁺(aq) → NaCl(s)
+  v1 (beaker) — 19.99 °C, 200.0 g, 100.3 mL liquid, open to atmosphere, pH 6.46, I = 6.1123 m
+          0.6112 mol  chloride ion       Aqueous
+          0.6112 mol  sodium ion         Aqueous
+          1.0998 mol  sodium chloride    Solid
+          5.5509 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    7.5380e-1   γ=0.014
+        Cl-              6.1120e0     3.7090e0   γ=0.607
+        Na+              6.1120e0     1.0010e1   γ=1.638
+        OH-             4.4180e-8    1.4850e-8   γ=0.336
+        H+              4.4170e-8    3.4730e-7   γ=7.863

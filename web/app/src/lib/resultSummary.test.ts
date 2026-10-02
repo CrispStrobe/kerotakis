@@ -117,6 +117,18 @@ describe("how strongly the card stands behind its labels", () => {
     expect(summary?.temperatureDeltaK).toBe(65);
   });
 
+  it("does not label an incomplete heat balance as a computed temperature", () => {
+    const incomplete = scene(296.15);
+    incomplete.vessels[0]!.temperature_incomplete = true;
+    const events = [{ event: "dissolved", vessel: 0, species: "chalcanthite", moles: 0.001 }];
+    expect(summarizeResult(events, ["dissolves"], scene(298.15), incomplete)?.temperature?.confidence)
+      .toBe("unknown");
+    expect(summarizeResult([...events, { event: "heat_unpriced", vessel: 0 }],
+      ["dissolves"], scene(298.15), scene(296.15))?.temperature?.confidence).toBe("unknown");
+    expect(summarizeResult([...events, { event: "heat_unpriced", vessel: 1 }],
+      ["dissolves"], scene(298.15), scene(296.15))?.temperature?.confidence).toBe("computed");
+  });
+
   it("falls back to the two scenes when no event names the temperature", () => {
     expect(summarizeResult(
       [{ event: "dissolved", vessel: 0, species: "NaCl", moles: 0.1 }],

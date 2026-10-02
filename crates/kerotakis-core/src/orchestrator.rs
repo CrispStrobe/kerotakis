@@ -92,6 +92,10 @@ pub fn diff_vessels(before: &Vessel, after: &Vessel, source: &'static str) -> St
         }
     }
 
+    if before.unpriced_heat != after.unpriced_heat {
+        delta.unpriced_heat = Some(after.unpriced_heat.clone());
+    }
+
     // Thermal change
     if (before.temperature.0 - after.temperature.0).abs() > 1e-15 {
         delta = delta.with_thermal(ThermalDelta::SetTemperature(after.temperature));

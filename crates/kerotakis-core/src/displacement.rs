@@ -701,33 +701,17 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
                 .map(|d| d.name)
                 .unwrap_or(red.reduced);
             if driving <= eta {
-                // Blocked by rate, not by thermodynamics — a different
-                // sentence, because a learner needs to know which. The
-                // codex entry `charging-fights-the-series` quotes the
-                // sentence below verbatim as its thesis: reword it and the
-                // entry's prose moves with it (its lint will say so).
-                // I18N-8: the reason is the phrase and the English is
-                // generated from it, so the sentence exists once. The
-                // codex entry quotes it verbatim and still finds it
-                // unchanged — `render(Locale::EN)` over pre-formatted
-                // numbers is the same string the `format!` produced.
-                let reason = Phrase::new(
-                    "inert.hydrogen-overpotential",
-                    "{name} should dissolve in this acid by the series (driving force {driving} V), but hydrogen has to form on {name}, and on that surface it costs an overpotential of about {eta} V. Kinetically blocked on the timescale of a lesson, not thermodynamically inert — the difference between a bench and a battery",
-                    vec![
-                        ("name".to_string(), Slot::term("species", name)),
-                        ("driving".to_string(), Slot::number(format!("{driving:+.2}"))),
-                        ("eta".to_string(), Slot::number(format!("{eta:.2}"))),
-                    ],
-                );
-                events.push(Event::Inert {
-                    vessel: vessel.id,
-                    species: SpeciesId::new(red.reduced),
-                    why: reason.render(Locale::EN),
-                    computed: true,
-                    spent: None,
-                    reason: Some(reason),
-                });
+                // A fixed overpotential cannot establish a rate or an
+                // induction time without surface and current-density data.
+                events.push(Event::not_modeled(vessel.id,
+                    crate::ops::NotModelledCause::RateNotModelled,
+                    Phrase::new(
+                        "not-modeled.hydrogen-overpotential-rate",
+                        "{name} dissolution in acid is thermodynamically favoured (driving force {driving} V), but its rate is not modelled: the approximate hydrogen overpotential {eta} V depends on surface and current density. The metal is left unchanged by this model; this does not establish that it is inert on a lesson timescale",
+                        vec![("name".into(), Slot::term("species", name)),
+                             ("driving".into(), Slot::number(format!("{driving:+.2}"))),
+                             ("eta".into(), Slot::number(format!("{eta:.2}")))],
+                    )));
                 settled.push((red.reduced, ox.oxidised));
                 continue;
             }
@@ -739,7 +723,7 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
                 // English paragraph in the middle of it.
                 let reason = Phrase::new(
                     "not-modeled.fizz-rate-near-barrier",
-                    "how fast {name} fizzes: the driving force clears the hydrogen overpotential on {name} by only {margin} V, and a rate that close to its barrier is not something this lab computes — it reacts, slowly",
+                    "how fast {name} fizzes: the driving force clears the hydrogen overpotential on {name} by only {margin} V, and a rate that close to its barrier is not something this lab computes — the equilibrium amount is an ideal upper bound, not a prediction of a slow reaction",
                     vec![
                         ("name".to_string(), Slot::term("species", name)),
                         (

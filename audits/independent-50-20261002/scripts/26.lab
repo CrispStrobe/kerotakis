@@ -1,0 +1,9 @@
+# A hot pack versus a cold pack
+# Expectation: Dissolving 0.01 mol CaCl2 should warm 100 g water; dissolving 0.01 mol KNO3 should cool it, or name missing enthalpy data.
+register lv3
+add v1 water 100g
+add v1 CaCl2 0.01mol
+new
+add v2 water 100g
+add v2 KNO3 0.01mol
+inspect

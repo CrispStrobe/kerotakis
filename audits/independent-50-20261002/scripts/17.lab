@@ -1,0 +1,11 @@
+# Precipitation cannot depend on bottle order
+# Expectation: Reversing the equal silver/chloride additions should leave essentially equal AgCl solid amounts and pH in the two vessels.
+register lv3
+add v1 water 100mL
+add v1 NaCl 0.001mol
+add v1 AgNO3 0.001mol
+new
+add v2 water 100mL
+add v2 AgNO3 0.001mol
+add v2 NaCl 0.001mol
+inspect

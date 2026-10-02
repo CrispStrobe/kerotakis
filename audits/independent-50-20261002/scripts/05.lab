@@ -1,0 +1,7 @@
+# Latent heat intercepts the cooling pulse
+# Expectation: Removing 20 kJ from 100 g water initially at 5 C should give an ice/water mixture near 0 C, not liquid at -43 C.
+register lv3
+add v1 water 100g @ 5C
+cool v1 20kJ
+inspect v1
+measure v1 ph

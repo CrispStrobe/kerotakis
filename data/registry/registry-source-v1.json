@@ -1737,6 +1737,15 @@
       "origin": "https://doi.org/10.1098/rsta.1904.0020",
       "revision": "Phil. Trans. R. Soc. Lond. A 203 (1904) 189-215",
       "retrieved": "2026-09-21"
+    },
+    {
+      "id": "nbs/parker-1965-kno3",
+      "citation": "V. B. Parker (1965), Thermal Properties of Aqueous Uni-univalent Electrolytes, NSRDS-NBS 2, p.30 and table XX. Republished courtesy of the National Institute of Standards and Technology. KNO3 crystalline dissolution: 8340 +/-30 cal/mol at infinite dilution, 25 C. SI conversion made 2026-10-02.",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.6028/NBS.NSRDS.2",
+      "revision": "NSRDS-NBS 2 (1965), printed p.30",
+      "retrieved": "2026-10-02"
     }
   ],
   "identities": [
@@ -45026,6 +45035,45 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "enthalpy-of-dissolution/KNO3",
+      "species_id": "KNO3",
+      "phase": "solid",
+      "property": "enthalpy_of_dissolution",
+      "quantity": {
+        "value": 34.89456,
+        "unit": {
+          "symbol": "kJ/mol",
+          "dimension": "molar_energy"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 298.15,
+            "upper": 298.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water",
+          "phase": "solid",
+          "notes": "Infinite-dilution standard enthalpy at 25 C; finite concentration and temperature dependence are not calibrated."
+        },
+        "uncertainty": {
+          "kind": "interval",
+          "lower": 34.76904,
+          "upper": 35.02008
+        },
+        "source_id": "nbs/parker-1965-kno3",
+        "method": {
+          "kind": "derived",
+          "detail": "Parker (1965), NSRDS-NBS 2, printed p.30, 8340 +/-30 cal/mol; multiply by 4.184 J/cal and divide by 1000. Positive heat absorbed on dissolution."
         }
       }
     }

@@ -1,0 +1,45 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.001000 mol copper sulfate (CuSO4, M = 159.609 g/mol)
+  v1: 0.000001 mol antlerite (green copper sulfate) precipitated
+  v1: 0.001000 mol copper sulfate dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added
+  v1: pH 4.487 · I = 0.0281 mol/kgw
+  v1: T 298.150 K → 298.325 K (ΔT = +0.175 K)
+  v1: net ionic: 3 Cu²⁺(aq) + SO₄²⁻(aq) + 4 H₂O(l) → antlerite(s) + 4 H⁺(aq)
+  v1: T 298.325 K → 298.325 K (ΔT = -0.000 K)
+  v1: +0.002000 mol zinc (Zn, M = 65.380 g/mol)
+  v1: Zn + Cu+2 → Zn+2 + Cu
+  v1: −0.000996 mol zinc
+  v1: 0.000996 mol copper plated out onto zinc
+  v1: zinc inert: zinc should dissolve in this acid by the series (driving force +0.56 V), but hydrogen has to form on zinc, and on that surface it costs an overpotential of about 0.72 V. Kinetically blocked on the timescale of a lesson, not thermodynamically inert — the difference between a bench and a battery
+  v1: 0.000001 mol antlerite (green copper sulfate) dissolved
+  v1: pH 5.721 · I = 0.0269 mol/kgw
+  v1: zinc inert: all but a trace of the copper has plated out (3.540e-6 mol of ion left, which is where the Nernst root put the equilibrium); the remaining zinc has nothing left to displace. The couple still runs downhill (E° -0.762 V for zinc against +0.342 V for copper)
+  v1: T 298.325 K → 298.848 K (ΔT = +0.522 K)
+  v1 (beaker) — 25.70 °C, 100.0 g, 100.0 mL liquid, open to atmosphere, pH 5.72, pe -14.06 (-0.834 V), I = 0.0269 m
+      redox — all Cu as Cu(II); all S as S(VI)
+           1.00 mmol  zinc               Solid
+            996 µmol  copper             Solid
+            996 µmol  zinc ion           Aqueous
+           3.54 µmol  copper(II) ion     Aqueous
+           1.00 mmol  sulfate ion        Aqueous
+          5.5343 mol  water              Liquid
+           6.65 pmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9970e-1   γ=0.018
+        Zn+2            6.7010e-3    3.7410e-3   γ=0.558
+        SO4-2           6.5590e-3    3.5630e-3   γ=0.543
+        ZnSO4           3.1220e-3    3.1410e-3   γ=1.006
+        O2              2.6300e-4    2.6460e-4   γ=1.006
+        Zn(SO4)2-2      1.6900e-4    9.0490e-5   γ=0.535
+        Cu+2            2.5140e-5    1.4030e-5   γ=0.558
+        CuSO4           1.0200e-5    1.0260e-5   γ=1.006
+        ZnOH+           2.6570e-6    2.2730e-6   γ=0.855
+        H+              2.1650e-6    1.9020e-6   γ=0.879
+        HSO4-           7.8130e-7    6.6890e-7   γ=0.856
+        CuOH+           8.6460e-8    7.3770e-8   γ=0.853
+        Cu(OH)2         8.0520e-8    8.1020e-8   γ=1.006
+        Zn(OH)2         1.2930e-8    1.3010e-8   γ=1.006
+        OH-             6.5240e-9    5.5470e-9   γ=0.850
+        Cu2(OH)2+2      4.7670e-9    2.5520e-9   γ=0.535

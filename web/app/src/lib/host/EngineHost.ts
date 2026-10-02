@@ -101,6 +101,8 @@ export interface SceneVessel {
   /** The other end of the same plateau: where that liquid freezes, K. */
   melting_point_k?: number;
   temperature_k: number;
+  /** The engine could not price part of the reaction heat. */
+  temperature_incomplete?: boolean;
   pressure_pa: number;
   elapsed_s: number;
   mass_g: number;

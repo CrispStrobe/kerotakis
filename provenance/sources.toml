@@ -439,3 +439,21 @@ notes = "Only two normal boiling points, two latent heats and their molar-mass c
 [[source.checksum]]
 path = "data/thermo/uscg-chris-still.tsv"
 sha256 = "6d760d3ed36bba2862ac925832465c96982c05048b81683c91588bf8daf52215"
+
+[[source]]
+id = "nbs-parker-1965-kno3"
+name = "Parker (1965) crystalline potassium nitrate dissolution enthalpy"
+kind = "data"
+lane = "runtime-data"
+decision = "approved"
+licence = "LicenseRef-US-Public-Domain"
+origin = "https://doi.org/10.6028/NBS.NSRDS.2"
+terms = "provenance/parker-1965-kno3-review.md"
+copyright = "United States National Bureau of Standards, employee-authored government work (1965)"
+retrieved = "2026-10-02"
+attribution = "V. B. Parker (1965), NSRDS-NBS 2, p.30; republished courtesy of the National Institute of Standards and Technology"
+paths = ["data/registry/registry-source-v1.json"]
+allowed_outputs = ["registry-datum"]
+targets = ["native", "web", "ios", "android"]
+reviewer = "Kerotakis independent experiment audit, 2026-10-02"
+notes = "Single evaluated KNO3 dissolution datum only; 1965 government report predates the 1968 SRD Act. SI conversion and uncertainty recorded in the registry; no finite-concentration correction claimed."

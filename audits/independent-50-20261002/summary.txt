@@ -1,0 +1,183 @@
+01 A measured joule becomes warm water
+ v 1 T 48.91165 pH 6.645012526952174 P 101325.0 scope solvent_only
+  [('water', 5.550929781, 'liquid')]
+02 Undo a thermal pulse
+ v 1 T 25.0 pH 6.997375771104533 P 101325.0 scope solvent_only
+  [('water', 5.550929781, 'liquid')]
+03 Mix unequal hot and cold portions
+ v 1 T 35.00488 pH 6.839742287920464 P 101325.0 scope solvent_only
+  [('water', 5.550929781, 'liquid')]
+04 A double dose is not a double temperature rise
+ v 1 T 48.91165 pH 6.645012526952174 P 101325.0 scope solvent_only
+  [('water', 5.550929781, 'liquid')]
+ v 2 T 36.95368 pH 6.810822036675913 P 101325.0 scope solvent_only
+  [('water', 11.101859561, 'liquid')]
+05 Latent heat intercepts the cooling pulse
+ v 1 T 0.0 pH None P 101325.0 scope None
+  [('water', 2.57348023, 'liquid'), ('water', 2.97744955, 'solid')]
+06 Boiling spends energy on disappearing liquid
+ v 1 T 100.0 pH None P 101325.0 scope None
+  [('water', 4.618735274, 'liquid')]
+07 Salt versus sugar freezing race
+ v 1 T 4.81516 pH 7.346006045049 P 101325.0 scope None
+  [('Cl-', 0.02, 'aqueous'), ('Na+', 0.02, 'aqueous'), ('water', 5.550929781, 'liquid')]
+ v 2 T 5.0 pH 7.364789819909901 P 101325.0 scope solvent_only
+  [('water', 5.550929781, 'liquid')]
+ ERROR kero: /mnt/volume1/kerotakis/audits/independent-50-20261002/scripts/07.lab:8: unknown species or material 'C12H22O11' — did you mean 'maltose'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find C12H22O11' searches both)
+08 Heat dilution cannot invent energy
+ v 1 T 60.0 pH 6.507639768025985 P 101325.0 scope solvent_only
+  [('water', 5.550929781, 'liquid')]
+09 A tenfold acid dilution
+ v 1 T 25.0 pH 3.013464900299 P 101325.0 scope None
+  [('Cl-', 0.001, 'aqueous'), ('water', 55.342769914, 'liquid'), ('H+', 0.001, 'aqueous')]
+10 Acid/base cancellation and overshoot
+ v 1 T 25.34743 pH 11.92751212664 P 101325.0 scope None
+  [('Cl-', 0.001, 'aqueous'), ('Na+', 0.002, 'aqueous'), ('water', 5.535276991, 'liquid'), ('base_equivalents', 0.001, 'aqueous')]
+11 Weak acid versus strong acid
+ v 1 T 25.0 pH 2.038105470481 P 101325.0 scope None
+  [('Cl-', 0.001, 'aqueous'), ('water', 5.534276991, 'liquid'), ('H+', 0.001, 'aqueous')]
+ v 2 T 25.00004 pH 3.387131770465 P 101325.0 scope None
+  [('CH3COOH', 0.000958146, 'aqueous'), ('CH3COO-', 4.1854e-05, 'aqueous'), ('water', 5.534276991, 'liquid'), ('H+', 4.1854e-05, 'aqueous')]
+12 Half-neutralisation exposes a pKa
+ v 1 T 26.2047 pH 4.663025153553 P 101325.0 scope None
+  [('CH3COOH', 0.005052563, 'aqueous'), ('CH3COO-', 0.004947437, 'aqueous'), ('Na+', 0.005, 'aqueous'), ('water', 5.539224428, 'liquid'), ('base_equivalents', 5.2563e-05, 'aqueous')]
+13 A buffer survives a small acid pulse
+ v 1 T 26.20456 pH 4.645652454784 P 101325.0 scope None
+  [('CH3COOH', 0.0051524, 'aqueous'), ('CH3COO-', 0.0048476, 'aqueous'), ('Cl-', 0.0001, 'aqueous'), ('Na+', 0.005, 'aqueous'), ('water', 5.539224592, 'liquid'), ('base_equivalents', 5.24e-05, 'aqueous')]
+ v 2 T 25.0 pH 3.013464900299 P 101325.0 scope None
+  [('Cl-', 0.0001, 'aqueous'), ('water', 5.534276991, 'liquid'), ('H+', 0.0001, 'aqueous')]
+14 Neutral salt is an ionic conductor
+ v 1 T 24.9907 pH 6.99679587879 P 101325.0 scope None
+  [('Cl-', 0.001, 'aqueous'), ('Na+', 0.001, 'aqueous'), ('water', 5.534276991, 'liquid')]
+15 Sugar is not an electrolyte
+ v 1 T 25.0 pH 6.997375771104036 P 101325.0 scope solvent_only
+  [('water', 5.534276991, 'liquid')]
+ ERROR kero: /mnt/volume1/kerotakis/audits/independent-50-20261002/scripts/15.lab:5: unknown species or material 'C12H22O11' — did you mean 'maltose'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find C12H22O11' searches both)
+16 Common ions make a silver cloud
+ v 1 T 25.0938 pH 6.994840247967 P 101325.0 scope None
+  [('Ag+', 1.518e-06, 'aqueous'), ('Cl-', 1.518e-06, 'aqueous'), ('Na+', 0.001, 'aqueous'), ('NO3-', 0.001, 'aqueous'), ('AgCl', 0.000998482, 'solid'), ('water', 5.534276991, 'liquid')]
+17 Precipitation cannot depend on bottle order
+ v 1 T 25.0938 pH 6.994840247967 P 101325.0 scope None
+  [('Ag+', 1.518e-06, 'aqueous'), ('Cl-', 1.518e-06, 'aqueous'), ('Na+', 0.001, 'aqueous'), ('NO3-', 0.001, 'aqueous'), ('AgCl', 0.000998482, 'solid'), ('water', 5.534276991, 'liquid')]
+ v 2 T 25.0938 pH 6.994840247967 P 101325.0 scope None
+  [('Ag+', 1.518e-06, 'aqueous'), ('Cl-', 1.518e-06, 'aqueous'), ('Na+', 0.001, 'aqueous'), ('NO3-', 0.001, 'aqueous'), ('AgCl', 0.000998482, 'solid'), ('water', 5.534276991, 'liquid')]
+18 Remove the cloud without removing the salt water
+ v 1 T 25.08472 pH None P 101325.0 scope None
+  [('AgCl', 0.000999931, 'solid')]
+ v 2 T 25.08472 pH 6.992920292605 P 101325.0 scope None
+  [('Ag+', 6.9e-08, 'aqueous'), ('Cl-', 0.001000069, 'aqueous'), ('Na+', 0.002, 'aqueous'), ('NO3-', 0.001, 'aqueous'), ('water', 5.534276991, 'liquid')]
+19 Barium and sulfate meet
+ v 1 T 25.00583 pH 6.994410188096 P 101325.0 scope None
+  [('Ba+2', 1.829e-06, 'aqueous'), ('Cl-', 0.002, 'aqueous'), ('Na+', 0.002, 'aqueous'), ('SO4-2', 1.829e-06, 'aqueous'), ('BaSO4', 0.000998171, 'solid'), ('water', 5.534276991, 'liquid')]
+20 Chalk dissolves in acid
+ v 1 T 25.0 pH 2.06293281011 P 101325.0 scope None
+  [('Ca+2', 0.001, 'aqueous'), ('Cl-', 0.003, 'aqueous'), ('CO2(aq)', 1.315e-06, 'aqueous'), ('HCO3-', 0.0, 'aqueous'), ('water', 5.535276991, 'liquid'), ('H+', 0.001, 'aqueous')]
+21 Finite solvent leaves salt behind
+ v 1 T 19.99453 pH 6.459281896744 P 101325.0 scope None
+  [('Cl-', 0.611230785, 'aqueous'), ('Na+', 0.611230785, 'aqueous'), ('NaCl', 1.099838119, 'solid'), ('water', 5.550929781, 'liquid')]
+22 Extra solvent rescues leftover salt
+ v 1 T 23.67394 pH 6.864781227406 P 101325.0 scope None
+  [('Cl-', 0.855534452, 'aqueous'), ('Na+', 0.855534452, 'aqueous'), ('water', 33.222314738, 'liquid')]
+23 Drying a dilute salt solution
+ v 1 T 24.99074 pH 6.983196288054 P 101325.0 scope None
+  [('Cl-', 0.001, 'aqueous'), ('Na+', 0.001, 'aqueous'), ('water', 0.555092978, 'liquid')]
+24 A quarter of a solution carries a quarter of its salt
+ v 1 T 24.90724 pH 6.984571182952 P 101325.0 scope None
+  [('Cl-', 0.0075, 'aqueous'), ('Na+', 0.0075, 'aqueous'), ('water', 4.163197336, 'liquid')]
+ v 2 T 24.90723 pH 6.984571182969 P 101325.0 scope None
+  [('Cl-', 0.0025, 'aqueous'), ('Na+', 0.0025, 'aqueous'), ('water', 1.387732445, 'liquid')]
+25 Splitting and reuniting a solution
+ v 1 T 24.90724 pH 6.984571182958 P 101325.0 scope None
+  [('Cl-', 0.01, 'aqueous'), ('Na+', 0.01, 'aqueous'), ('water', 5.550929781, 'liquid')]
+ v 2 T 24.90723 pH None P 101325.0 scope None
+  []
+26 A hot pack versus a cold pack
+ v 1 T 26.97954 pH 6.866583364768 P 101325.0 scope None
+  [('Ca+2', 0.01, 'aqueous'), ('Cl-', 0.02, 'aqueous'), ('water', 5.550929781, 'liquid')]
+ v 2 T 25.0 pH 6.983043230253 P 101325.0 scope None
+  [('K+', 0.01, 'aqueous'), ('NO3-', 0.01, 'aqueous'), ('water', 5.550929781, 'liquid')]
+27 CO2 changes water chemistry
+ v 1 T 25.03812 pH 5.613647436042 P 101325.0 scope None
+  [('CO2(aq)', 0.000993299, 'aqueous'), ('HCO3-', 6.701e-06, 'aqueous'), ('CO3-2', 0.0, 'aqueous'), ('water', 5.534270291, 'liquid'), ('H+', 6.701e-06, 'aqueous')]
+28 A small sealed headspace makes fizz push back
+ v 1 T 24.97664 pH 2.049665142045 P 128016.41 scope None
+  [('N2', 0.000322946, 'gas'), ('O2', 8.5631e-05, 'gas'), ('Cl-', 0.002, 'aqueous'), ('Na+', 0.001, 'aqueous'), ('CO2(aq)', 0.000892237, 'aqueous'), ('HCO3-', 5.1e-08, 'aqueous'), ('CO2', 0.000107876, 'gas'), ('water', 5.53527694, 'liquid'), ('H+', 0.001000051, 'aqueous')]
+29 Headspace size controls pressure
+ v 1 T 24.97664 pH 2.049665142045 P 128016.41 scope None
+  [('N2', 0.000322946, 'gas'), ('O2', 8.5631e-05, 'gas'), ('Cl-', 0.002, 'aqueous'), ('Na+', 0.001, 'aqueous'), ('CO2(aq)', 0.000892237, 'aqueous'), ('HCO3-', 5.1e-08, 'aqueous'), ('CO2', 0.000107876, 'gas'), ('water', 5.53527694, 'liquid'), ('H+', 0.001000051, 'aqueous')]
+ v 2 T 24.95563 pH 2.049674498009 P 114853.89 scope None
+  [('N2', 0.003229458, 'gas'), ('O2', 0.000856311, 'gas'), ('Cl-', 0.002, 'aqueous'), ('Na+', 0.001, 'aqueous'), ('CO2(aq)', 0.000453535, 'aqueous'), ('HCO3-', 2.6e-08, 'aqueous'), ('CO2', 0.000548074, 'gas'), ('water', 5.535276965, 'liquid'), ('H+', 0.001000026, 'aqueous')]
+30 Uncorking releases the compressed gas
+ v 1 T 24.93395 pH 2.049681657684 P 101325.0 scope None
+  [('Cl-', 0.002, 'aqueous'), ('Na+', 0.001, 'aqueous'), ('CO2(aq)', 1.323e-06, 'aqueous'), ('HCO3-', 0.0, 'aqueous'), ('water', 5.535276991, 'liquid'), ('H+', 0.001, 'aqueous')]
+31 Fixed pressure trades pressure rise for expansion
+ v 1 T 24.9751 pH 2.049665831061 P 100000.0 scope None
+  [('N2', 0.000318723, 'gas'), ('O2', 8.4511e-05, 'gas'), ('Cl-', 0.002, 'aqueous'), ('Na+', 0.001, 'aqueous'), ('CO2(aq)', 0.000860085, 'aqueous'), ('HCO3-', 4.9e-08, 'aqueous'), ('CO2', 0.000140027, 'gas'), ('water', 5.535276942, 'liquid'), ('H+', 0.001000049, 'aqueous')]
+32 Sweeping carbon dioxide out
+ v 1 T 24.99999 pH 6.997375858338145 P 100000.0 scope solvent_only
+  [('water', 5.534276991, 'liquid'), ('base_equivalents', 0.0, 'aqueous')]
+33 A sacrificial zinc strip plates copper
+ v 1 T 25.6977 pH 5.720847623653 P 101325.0 scope None
+  [('Zn', 0.00100354, 'solid'), ('Cu', 0.00099646, 'solid'), ('Zn+2', 0.00099646, 'aqueous'), ('Cu+2', 3.54e-06, 'aqueous'), ('SO4-2', 0.001, 'aqueous'), ('water', 5.534276991, 'liquid'), ('H+', 0.0, 'aqueous')]
+34 Copper refuses the reverse displacement
+ v 1 T 25.19278 pH 5.747140585031 P 101325.0 scope None
+  [('Cu', 0.002, 'solid'), ('Zn+2', 0.001, 'aqueous'), ('SO4-2', 0.001, 'aqueous'), ('water', 5.534276991, 'liquid')]
+35 Acid dissolves zinc but leaves copper
+ v 1 T 25.0 pH 1.460798025168 P 101325.0 scope None
+  [('Zn', 0.001, 'solid'), ('Cl-', 0.004, 'aqueous'), ('water', 5.534276991, 'liquid'), ('H+', 0.004, 'aqueous')]
+ v 2 T 25.0 pH 1.460798025168 P 101325.0 scope None
+  [('Cu', 0.001, 'solid'), ('Cl-', 0.004, 'aqueous'), ('water', 5.534276991, 'liquid'), ('H+', 0.004, 'aqueous')]
+36 A battery has a polarity
+ v 1 T 25.19279 pH 5.747140585031 P 101325.0 scope None
+  [('Zn', 0.001, 'solid'), ('Zn+2', 0.001, 'aqueous'), ('SO4-2', 0.001, 'aqueous'), ('water', 5.534276991, 'liquid')]
+ v 2 T 25.17528 pH 4.486712947325 P 101325.0 scope None
+  [('Cu', 0.001, 'solid'), ('Cu+2', 0.00099646, 'aqueous'), ('SO4-2', 0.00099882, 'aqueous'), ('antlerite', 1.18e-06, 'solid'), ('water', 5.534272271, 'liquid'), ('H+', 4.721e-06, 'aqueous')]
+37 A concentration cell vanishes at equality
+ v 1 T 25.17528 pH 4.486712947325 P 101325.0 scope None
+  [('Cu', 0.001, 'solid'), ('Cu+2', 0.00099646, 'aqueous'), ('SO4-2', 0.00099882, 'aqueous'), ('antlerite', 1.18e-06, 'solid'), ('water', 5.534272271, 'liquid'), ('H+', 4.721e-06, 'aqueous')]
+ v 2 T 25.01753 pH 5.186895841917 P 101325.0 scope None
+  [('Cu', 0.001, 'solid'), ('Cu+2', 0.000997189, 'aqueous'), ('SO4-2', 0.000999297, 'aqueous'), ('brochantite', 7.03e-07, 'solid'), ('water', 55.342765698, 'liquid'), ('H+', 4.216e-06, 'aqueous')]
+38 A measured charge liberates a measured amount
+ v 1 T 25.0 pH 1.865023548263 P 101325.0 scope None
+  [('SO4-2', 0.001, 'aqueous'), ('water', 5.53422517, 'liquid'), ('H+', 0.002103643, 'aqueous')]
+39 Dilution lightens a coloured solution
+ v 1 T 25.17529 pH 4.486712947319 P 101325.0 scope None
+  [('Cu+2', 0.009964596, 'aqueous'), ('SO4-2', 0.009988199, 'aqueous'), ('antlerite', 1.1801e-05, 'solid'), ('water', 55.342722708, 'liquid'), ('H+', 4.7206e-05, 'aqueous')]
+40 Purple colour follows concentration
+ v 1 T 24.99961 pH 6.999729245065 P 101325.0 scope None
+  [('K+', 0.0001, 'aqueous'), ('MnO4-', 0.0001, 'aqueous'), ('water', 55.342769914, 'liquid')]
+41 A salt flame is not fuel
+ v 1 T 25.0 pH None P 101325.0 scope None
+  [('NaCl', 0.017110689, 'solid')]
+42 Magnesium gains oxygen mass
+ v 1 T 945.12698 pH None P 101325.0 scope None
+  [('MgO', 0.001, 'solid')]
+43 Ethanol burns instead of returning a false negative
+ v 1 T 25.0 pH None P 101325.0 scope None
+  []
+44 Distillation enriches a volatile component
+ v 1 T 25.0 pH 6.997375771104036 P 101325.0 scope solvent_only
+  [('water', 4.149978803, 'liquid'), ('ethanol', 0.23740891, 'liquid')]
+ v 2 T 25.0 pH 6.997375771104036 P 101325.0 scope solvent_only
+  [('water', 0.290765022, 'liquid'), ('ethanol', 0.196722502, 'liquid')]
+45 Oil and water keep separate layers
+ v 1 T 25.0 pH 6.997375771104036 P 101325.0 scope solvent_only
+  [('water', 2.767138496, 'liquid')]
+ ERROR kero: /mnt/volume1/kerotakis/audits/independent-50-20261002/scripts/45.lab:5: unknown species or material 'olive_oil' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+46 Draining the bottom layer
+ v 1 T 25.0 pH 6.997375771104036 P 101325.0 scope solvent_only
+  [('water', 2.767138496, 'liquid')]
+ ERROR kero: /mnt/volume1/kerotakis/audits/independent-50-20261002/scripts/46.lab:5: unknown species or material 'olive_oil' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+47 Salt cannot pass through an oil layer as water
+ v 1 T 25.0 pH 6.997375771104036 P 101325.0 scope solvent_only
+  [('water', 2.767138496, 'liquid')]
+ ERROR kero: /mnt/volume1/kerotakis/audits/independent-50-20261002/scripts/47.lab:5: unknown species or material 'olive_oil' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+48 Acid curdles milk without inventing protein molecules
+ v 1 T 25.0 pH 4.298518800734 P 101325.0 scope None
+  [('CH3COOH', 0.006888844, 'aqueous'), ('CH3COO-', 0.003111156, 'aqueous'), ('Ca+2', 0.002464862, 'aqueous'), ('C6H5O7-3', 0.000919994, 'aqueous'), ('Cl-', 0.003001156, 'aqueous'), ('K+', 0.003836513, 'aqueous'), ('Na+', 0.001652893, 'aqueous'), ('H3PO4', 1.1981e-05, 'aqueous'), ('H2PO4-', 0.002182119, 'aqueous'), ('HPO4-2', 6.051e-06, 'aqueous'), ('water', 4.830409015, 'liquid'), ('H+', 0.001271716, 'aqueous')]
+49 A peroxide catalyst has an explicit model boundary
+ v 1 T 25.1775 pH 6.994439318247284 P 101325.0 scope solvent_only
+  [('water', 5.535825975, 'liquid'), ('H2O2', 0.008451017, 'liquid'), ('MnO2', 0.001, 'solid'), ('O2', 0.000774492, 'gas')]
+50 Waiting is not permission to teleport matter
+ v 1 T 24.99072 pH 6.996803660501 P 101325.0 scope None
+  [('Cl-', 0.001, 'aqueous'), ('Na+', 0.001, 'aqueous'), ('water', 5.550929781, 'liquid')]

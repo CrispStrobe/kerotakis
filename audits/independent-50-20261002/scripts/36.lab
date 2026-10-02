@@ -1,0 +1,12 @@
+# A battery has a polarity
+# Expectation: Zn/ZnSO4 and Cu/CuSO4 half-cells at similar concentration should give about 1.1 V; reversing cell arguments should reverse the sign.
+register lv3
+add v1 water 100mL
+add v1 ZnSO4 0.001mol
+add v1 Zn 0.001mol
+new
+add v2 water 100mL
+add v2 CuSO4 0.001mol
+add v2 Cu 0.001mol
+cell v1 v2
+cell v2 v1

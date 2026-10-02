@@ -1,0 +1,22 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1 pH meter: 6.9974 pH
+  v1: +0.001000 mol carbon dioxide (CO2, M = 44.009 g/mol)
+  v1: NOT MODELLED: CO2 finite gas dose: uptake is an instantaneous equilibrium calculation, not a mass-transfer rate. After the dose, only explicitly configured atmospheric species exchange with an external reservoir; no new reservoir is inferred from the dose. Waiting time does not parameterise degassing
+  v1: 0.001000 mol carbon dioxide transferred gas → condensed inventory
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 4.177 · I = 0.0001 mol/kgw
+  v1: T 298.150 K → 298.188 K (ΔT = +0.038 K)
+  v1 pH meter: 4.1767 pH
+  v1 (beaker) — 25.04 °C, 99.7 g, 100.0 mL liquid, open to atmosphere, pH 4.18, I = 0.0001 m
+            993 µmol  dissolved carbon dioxide Aqueous
+           6.70 µmol  bicarbonate ion    Aqueous
+           4.86 pmol  carbonate ion      Aqueous
+          5.5343 mol  water              Liquid
+           6.70 µmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9980e-1   γ=0.018
+        CO2             9.9630e-3    9.9630e-3   γ=1.000
+        O2              2.6750e-4    2.6750e-4   γ=1.000
+        H+              6.7210e-5    6.6580e-5   γ=0.991
+        HCO3-           6.7210e-5    6.6570e-5   γ=0.990

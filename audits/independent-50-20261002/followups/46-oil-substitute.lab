@@ -1,0 +1,8 @@
+# Draining the bottom layer
+# Expectation: Draining a water/oil mixture should send its lower aqueous layer to v2 while retaining oil in v1 and conserving combined inventory.
+register lv3
+add v1 water 50mL
+add v1 vegetable_oil 50mL
+new
+drain v1 v2
+inspect

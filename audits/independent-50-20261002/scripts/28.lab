@@ -1,0 +1,9 @@
+# A small sealed headspace makes fizz push back
+# Expectation: Acidifying 0.001 mol NaHCO3 with 0.002 mol HCl over a sealed 10 mL headspace should raise pressure above ambient and retain carbon.
+register lv3
+add v1 water 100mL
+seal v1 10mL
+add v1 NaHCO3 0.001mol
+add v1 HCl 0.002mol
+measure v1 pressure
+inspect v1

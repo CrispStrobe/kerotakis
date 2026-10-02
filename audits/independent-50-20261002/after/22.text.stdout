@@ -1,0 +1,35 @@
+  v1: +5.550930 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.855534 mol sodium chloride (NaCl, M = 58.443 g/mol)
+  v1: 0.615092 mol sodium chloride dissolved
+  v1: 0.003994 mol sodium chloride precipitated
+  v1: routing → PHREEQC (IPhreeqc, USGS) · pitzer.dat, with the reviewed Sander HBr gas-uptake slice · Pitzer specific-ion-interaction model (valid at high ionic strength) — chosen because the solution is concentrated (~17.1 mol/kgw), where the ion-interaction model is the valid one
+  v1: pH 6.468 · I = 6.1110 mol/kgw
+  v1: T 298.150 K → 292.643 K (ΔT = -5.507 K)
+  v1: net ionic: Cl⁻(aq) + Na⁺(aq) → NaCl(s)
+  v1 (beaker) — 19.49 °C, 150.0 g, 100.3 mL liquid, open to atmosphere, pH 6.47, I = 6.1110 m
+          0.6111 mol  chloride ion       Aqueous
+          0.6111 mol  sodium ion         Aqueous
+          0.2444 mol  sodium chloride    Solid
+          5.5509 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    7.5390e-1   γ=0.014
+        Cl-              6.1110e0     3.7030e0   γ=0.606
+        Na+              6.1110e0     9.9970e0   γ=1.636
+        OH-             4.3210e-8    1.4540e-8   γ=0.336
+        H+              4.3210e-8    3.4070e-7   γ=7.885
+  v1: T 292.643 K → 297.207 K (ΔT = +4.564 K)
+  v1: +27.671385 mol H₂O from 0.5000 L dilution water
+  v1: 0.244437 mol sodium chloride dissolved
+  v1: pH 6.865 · I = 1.4295 mol/kgw
+  v1: T 297.207 K → 296.824 K (ΔT = -0.384 K)
+  v1 (beaker) — 23.67 °C, 648.5 g, 600.3 mL liquid, open to atmosphere, pH 6.86, I = 1.4295 m
+          0.8555 mol  chloride ion       Aqueous
+          0.8555 mol  sodium ion         Aqueous
+         33.2223 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.5210e-1   γ=0.017
+        Cl-              1.4290e0    8.3650e-1   γ=0.585
+        Na+              1.4290e0     1.0490e0   γ=0.734
+        OH-             1.2440e-7    6.3750e-8   γ=0.512
+        H+              1.2440e-7    1.3650e-7   γ=1.097

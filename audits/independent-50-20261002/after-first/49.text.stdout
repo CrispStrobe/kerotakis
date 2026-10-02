@@ -1,0 +1,18 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.010000 mol hydrogen peroxide (H2O2, M = 34.010 g/mol)
+  v1: +0.001000 mol manganese dioxide (MnO2, M = 86.940 g/mol)
+  v1: gravity settling for 60.000 s (Stokes, 1 g, 0.04 m path): MnO2 100.000% (1.480675 m)
+  v1: 0.000774 mol O2 produced (1.291e-5 mol/s)
+  v1: peroxide-decomposition released 76.06 J
+  v1: T 298.150 K → 298.327 K (ΔT = +0.177 K)
+  v1: extent 0.000774 mol over 60.0 s, Ea = 58.0 kJ/mol (catalyst: manganese dioxide)  —  2 H₂O₂ → 2 H₂O + O₂↑
+  v1: The liquid is colourless and clear, bubbles of gas are rising through it, there is black manganese dioxide at the bottom. (liquid #FFFFFF, turbidity 0.00)
+  v1 (beaker) — 25.18 °C, 100.1 g, 100.3 mL liquid, open to atmosphere, pH 6.99, I = 0.0000 m
+          5.5358 mol  water              Liquid
+           8.45 mmol  hydrogen peroxide  Liquid
+           1.00 mmol  manganese dioxide  Solid
+            774 µmol  oxygen             Gas
+      speciation (mol/kgw · activity · γ):
+        H+              1.0129e-7    1.0129e-7   γ=1.000
+        OH-             1.0129e-7    1.0129e-7   γ=1.000

@@ -1,0 +1,6 @@
+  v1: +0.021707 mol ethanol (C2H5OH, M = 46.069 g/mol)
+  v1: ethanol Liquid → Gas at 351.39 K (78.24 °C), shifted +0.000 K by dissolved particles
+  v1: 0.021707 mol ethanol evolved (open system; mass leaves)
+  v1: NOT MODELLED: whether these contents burn: no wired solver models combustion for them, so the lab cannot say either way
+  v1 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)

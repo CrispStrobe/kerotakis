@@ -1,0 +1,11 @@
+# Salt versus sugar freezing race
+# Expectation: At equal 0.02 mol doses in 100 g water, NaCl should depress freezing roughly twice as much as sucrose. Both should form ice after 15 kJ cooling from 5 C.
+register lv3
+add v1 water 100g @ 5C
+add v1 NaCl 0.02mol
+new
+add v2 water 100g @ 5C
+add v2 C12H22O11 0.02mol
+cool v1 15kJ
+cool v2 15kJ
+inspect

@@ -139,3 +139,11 @@ Development and build-time tools (not distributed with app binaries)
 - The official IUPAC InChI library — MIT, Copyright (c) 2024 IUPAC and InChI
   Trust. Used behind the `native-inchi` validation feature; released apps use
   chematic's pure-Rust path and do not link the vendored C library.
+
+Potassium nitrate dissolution datum
+- V. B. Parker (1965), Thermal Properties of Aqueous Uni-univalent
+  Electrolytes, NSRDS-NBS 2, p.30, https://doi.org/10.6028/NBS.NSRDS.2.
+  Republished courtesy of the National Institute of Standards and Technology.
+  The evaluated 8340 +/-30 cal/mol datum is converted to kJ/mol using
+  4.184 J/cal (2026-10-02); the original government report and this single
+  numerical slice are reviewed in provenance/parker-1965-kno3-review.md.

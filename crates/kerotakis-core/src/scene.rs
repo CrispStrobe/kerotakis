@@ -189,6 +189,9 @@ pub struct SceneVessel {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub melting_point_k: Option<f64>,
     pub temperature_k: f64,
+    /// The temperature estimate excludes an unpriced reaction heat.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub temperature_incomplete: Option<bool>,
     pub pressure_pa: f64,
     /// Bench time this vessel has experienced, seconds.
     pub elapsed_s: f64,
@@ -1223,6 +1226,9 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
     // than written beside them: one sentence, not two to drift.
     let clauses = seen.clauses;
     let mut notes = seen.notes;
+    if let Some(note) = v.temperature_limitation() {
+        notes.push(note);
+    }
     for object in &material_objects {
         if let Some(osmosis) = &object.osmosis {
             if osmosis.water_moles.abs() <= 1e-15 {
@@ -1621,6 +1627,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         boiling_point_k: boiling,
         melting_point_k: melting,
         temperature_k: v.temperature.0,
+        temperature_incomplete: v.temperature_limitation().map(|_| true),
         pressure_pa: v.pressure.0,
         elapsed_s: v.elapsed_seconds,
         mass_g: v.mass().0,

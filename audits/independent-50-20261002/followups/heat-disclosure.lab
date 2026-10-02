@@ -1,0 +1,10 @@
+# Scoped missing heat remains visible in inspection, measurement, and a pour.
+register lv3
+add v1 water 100mL
+add v1 chalcanthite 0.001mol
+inspect v1
+measure v1 thermometer
+new
+decant v1 v2 0.5
+inspect v2
+measure v2 thermometer

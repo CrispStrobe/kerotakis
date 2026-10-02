@@ -1,0 +1,38 @@
+  v1: +5.550930 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.010000 mol calcium chloride (CaCl2, M = 110.980 g/mol)
+  v1: 0.010000 mol calcium chloride dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone
+  v1: pH 6.867 · I = 0.3000 mol/kgw
+  v1: T 298.150 K → 300.130 K (ΔT = +1.980 K)
+  v2: new vessel
+  v2: +5.550930 mol water (H2O, M = 18.015 g/mol)
+  v2: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v2: +0.010000 mol potassium nitrate (KNO3, M = 101.103 g/mol)
+  v2: 0.010000 mol potassium nitrate dissolved
+  v2: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v2: pH 6.983 · I = 0.1000 mol/kgw
+  v1 (beaker) — 26.98 °C, 101.1 g, 100.3 mL liquid, open to atmosphere, pH 6.87, I = 0.3000 m
+          0.0100 mol  calcium ion        Aqueous
+          0.0200 mol  chloride ion       Aqueous
+          5.5509 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9490e-1   γ=0.018
+        Cl-             2.0000e-1    1.3600e-1   γ=0.680
+        Ca+2            1.0000e-1    2.8810e-2   γ=0.288
+        O2              2.4190e-4    2.5920e-4   γ=1.072
+        H+              1.7390e-7    1.3600e-7   γ=0.782
+        OH-             1.2620e-7    8.4950e-8   γ=0.673
+        CaOH+           4.7710e-8    3.4990e-8   γ=0.733
+  v2 (beaker) — 25.00 °C, 101.0 g, 100.3 mL liquid, open to atmosphere, pH 6.98, pe 13.64 (+0.807 V), I = 0.1000 m
+      redox — all N as N(V)
+          0.0100 mol  potassium ion      Aqueous
+          0.0100 mol  nitrate ion        Aqueous
+          5.5509 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9660e-1   γ=0.018
+        K+              1.0000e-1    7.6420e-2   γ=0.764
+        NO3-            1.0000e-1    7.5340e-2   γ=0.753
+        O2              2.6160e-4    2.6770e-4   γ=1.023
+        OH-             1.2600e-7    9.5950e-8   γ=0.762
+        H+              1.2600e-7    1.0400e-7   γ=0.825

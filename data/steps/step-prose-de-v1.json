@@ -249,8 +249,8 @@
       "Diesmal Kupfersulfat.",
       "Und eine Kupferelektrode.",
       "Verbinde sie: Die Zelle bietet etwa 1,1 V — die Entladerichtung, die die Spannungsreihe bevorzugt.",
-      "Jetzt 386 Sekunden lang Strom in die Gegenrichtung treiben. Frisches Zink scheidet sich gegen diese Vorliebe wieder ab, und die Abscheidung hält im sauer werdenden Bad, weil die Wasserstoffbildung auf Zink langsam ist — eine kinetische Leine, keine thermodynamische.",
-      "Gib starke Säure hinzu, und die Leine reißt: Das Zink löst sich, Wasserstoff perlt ab, und die gespeicherte Ladung entweicht als Gas."
+      "Treibe 386 Sekunden lang Strom in die Gegenrichtung. Faradays Gesetz liefert die ideale neue Zinkabscheidung. Das Modell berechnet ihre Auflösungsgeschwindigkeit im saurer werdenden Bad nicht; unverändertes Metall beweist keine Beständigkeit.",
+      "Gib starke Säure hinzu. Wo die ungefähre Grenze eine Auflösung zulässt, sagt das Gleichgewichtsmodell Zinkionen und Wasserstoff voraus. Die Menge ist eine ideale Obergrenze, keine Geschwindigkeitsvorhersage."
     ],
     "chloride-complexes-redissolve-silver": [
       "Ein Liter Wasser.",
@@ -546,7 +546,7 @@
     "lead-stands-in-its-own-acid": [
       "100 mL Wasser in das erste Becherglas.",
       "0,1 mol Salzsäure: stark genug, dass sich das Blei nach der Spannungsreihe auflösen müsste.",
-      "Das Blei kommt hinein — und die Werkbank meldet es als reaktionsträge. Kein Gas, keine Auflösung, der pH-Wert unverändert: Wasserstoff auf einer Bleioberfläche zu bilden ist so langsam, dass die vorhergesagte Reaktion gar nicht erst anläuft. Genau auf diesem Nichts stehen die Platten einer Autobatterie in ihrer Säure.",
+      "Gib Blei hinzu. Die Werkbank lässt es unverändert und meldet ausdrücklich eine nicht modellierte Auflösungsgeschwindigkeit. Eine feste Wasserstoffüberspannung beweist nicht, wie lange eine reale Bleiplatte in Säure überlebt.",
       "Ein zweites Becherglas, um zu zeigen, dass die Spannungsreihe sehr wohl gilt, wenn sie nichts aufhält.",
       "Dieselben 100 mL Wasser.",
       "Diesmal ein gelöstes Bleisalz.",

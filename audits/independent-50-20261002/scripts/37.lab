@@ -1,0 +1,13 @@
+# A concentration cell vanishes at equality
+# Expectation: Identical copper half-cells should give near-zero voltage; diluting one tenfold should produce a nonzero voltage of order tens of mV.
+register lv3
+add v1 water 100mL
+add v1 CuSO4 0.001mol
+add v1 Cu 0.001mol
+new
+add v2 water 100mL
+add v2 CuSO4 0.001mol
+add v2 Cu 0.001mol
+cell v1 v2
+dilute v2 900mL
+cell v1 v2

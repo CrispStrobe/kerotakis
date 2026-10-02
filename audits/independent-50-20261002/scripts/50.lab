@@ -1,0 +1,8 @@
+# Waiting is not permission to teleport matter
+# Expectation: Waiting one hour with dilute NaCl at room temperature should conserve dissolved salt and avoid spontaneous precipitation or chemical conversion; any evaporation must be accounted.
+register lv3
+add v1 water 100g
+add v1 NaCl 0.001mol
+inspect v1
+wait 1h
+inspect v1

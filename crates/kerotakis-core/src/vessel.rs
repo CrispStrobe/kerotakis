@@ -1290,6 +1290,10 @@ pub struct Vessel {
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub charred_materials: Vec<String>,
     pub temperature: Kelvin,
+    /// Species whose unpriced reaction heat makes the adiabatic temperature
+    /// incomplete. A measured bath temperature can still be known exactly.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub unpriced_heat: Vec<SpeciesId>,
     pub pressure: Pascal,
     pub thermal_mode: ThermalMode,
     /// Open atmosphere or a finite sealed gas volume. Defaulted so existing
@@ -1513,6 +1517,27 @@ pub struct Vessel {
 }
 
 impl Vessel {
+    /// A limitation on temperature alone; aqueous composition remains usable.
+    pub fn temperature_limitation(&self) -> Option<Phrase> {
+        if self.unpriced_heat.is_empty() || !matches!(self.thermal_mode, ThermalMode::Adiabatic) {
+            return None;
+        }
+        Some(Phrase::new(
+            "measurement.temperature-incomplete",
+            "temperature estimate is incomplete: reaction heat for {species} is not priced",
+            vec![(
+                "species".into(),
+                crate::phrase::Slot::text(
+                    self.unpriced_heat
+                        .iter()
+                        .map(|s| s.0.as_str())
+                        .collect::<Vec<_>>()
+                        .join(", "),
+                ),
+            )],
+        ))
+    }
+
     pub fn new(id: VesselId, label: impl Into<String>) -> Self {
         Vessel {
             aqueous_routing_said: None,
@@ -1533,6 +1558,7 @@ impl Vessel {
             emulsion: None,
             charred_materials: Vec::new(),
             temperature: Kelvin::STANDARD,
+            unpriced_heat: Vec::new(),
             pressure: Pascal::ATMOSPHERIC,
             thermal_mode: ThermalMode::Adiabatic,
             headspace: Headspace::Open,

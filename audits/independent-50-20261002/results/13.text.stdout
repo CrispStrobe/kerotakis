@@ -1,0 +1,23 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.010000 mol acetic acid (CH3COOH, M = 60.052 g/mol)
+  v1: routing → PHREEQC (IPhreeqc, USGS) · minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)
+  v1: pH 2.881 · I = 0.0014 mol/kgw
+  v1: T 298.150 K → 298.150 K (ΔT = -0.000 K)
+  v1: +0.005000 mol sodium hydroxide (NaOH, M = 39.997 g/mol)
+  v1: 0.005000 mol sodium hydroxide dissolved
+  v1: 0.000137 mol of acidity cancelled (from the change in the solutes' net charge; PHREEQC reports element totals and never this reaction)
+  v1: pH 4.663 · I = 0.0490 mol/kgw
+  v1: T 298.150 K → 299.355 K (ΔT = +1.205 K)
+  v1 pH meter: 4.6630 pH
+  v2: new vessel
+  v2: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v2: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v2 pH meter: 6.9974 pH
+  v1: +0.000100 mol hydrochloric acid (HCl, M = 36.461 g/mol)
+  v1: pH 4.646 · I = 0.0491 mol/kgw
+  v2: +0.000100 mol hydrochloric acid (HCl, M = 36.461 g/mol)
+  v2: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v2: pH 3.013 · I = 0.0010 mol/kgw
+  v1 pH meter: 4.6457 pH
+  v2 pH meter: 3.0135 pH

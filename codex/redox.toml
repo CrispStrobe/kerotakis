@@ -848,7 +848,7 @@ computed_by = "Kerotakis electrolysis operator (inert anode; charge-conserving) 
 id = "charging-fights-the-series"
 progress = "advanced"
 spine = ["akkumulatoren"]
-summary = "Charging drives the cell backwards and the deposit survives on a kinetic leash — hydrogen formation on zinc costs ~0.72 V of overpotential, and gassing is what happens when the leash slips"
+summary = "Charging drives a half-reaction backwards; Faraday’s law predicts the ideal deposit, while its survival in acid requires a kinetic model this bench does not have"
 concepts = ["accumulators", "electrolysis"]
 requires = ["galvanic-cells", "electrolysis"]
 apparatus = ["beaker", "voltmeter", "power-supply"]
@@ -874,7 +874,7 @@ add v1 HCl 0.05mol
 """
 
 [reaction.expect]
-events = ["cell_voltage", "electrolysed:Zn", "inert:Zn", "consumed:Zn", "gas_evolved:H2"]
+events = ["cell_voltage", "electrolysed:Zn", "not_yet_modelled", "consumed:Zn", "gas_evolved:H2"]
 ph = { min = 4.75, max = 5.0 }
 
 [reaction.expect.predict]
@@ -898,19 +898,20 @@ reveals = "Rechargeable and disposable batteries differ by service regime: someo
 next = "Nothing enters the cell but electrons: the 'fresh chemicals' are the old ones, pushed back up the hill they ran down. That is the whole distinction from a primary cell — an accumulator's chemistry is reversible in place, which is also why its electrodes must survive being rebuilt a thousand times."
 
 [reaction.registers]
-lv1 = "Push the current backwards and fresh zinc grows onto the metal — and it stays there, even though the sour bath would love to eat it, because making hydrogen bubbles on zinc is hard work. That hardness is the battery's bodyguard. Overwhelm it with too much acid and the bodyguard loses: fizz, and your stored charge leaves as gas."
-lv2 = "Discharge: Zn + Cu²⁺ → Zn²⁺ + Cu, offering 1.104 V. Charge: an external supply drives Zn²⁺ + 2e⁻ → Zn against the series — 193 C = 0.0020 mol of electrons rebuilds 0.0010 mol (0.0654 g) of zinc while the inert anode acidifies the bath to pH 2.13. And the deposit holds: dissolving it would need hydrogen to form on zinc, and that costs ~0.72 V of overpotential against a driving force of only +0.69 V. Pour in strong acid and the barrier is cleared: Zn + 2 H⁺ → Zn²⁺ + H₂, 0.026 mol of gas, the charge undone."
-lv3 = "The bench's own verdict is the entry's thesis, verbatim: 'zinc should dissolve in this acid by the series (driving force +0.69 V), but hydrogen has to form on zinc, and on that surface it costs an overpotential of about 0.72 V. Kinetically blocked on the timescale of a lesson, not thermodynamically inert — the difference between a bench and a battery.' That 0.03 V of grace is why rechargeable cells exist — on zinc here, on lead in every car battery — and gassing on overcharge is precisely the leash slipping, staged in this script's final act with molar acid. Honesty, three ways: the overdriven margin clears by only 0.07 V because the bath's own sulfate and chloride speciation holds a(H⁺) below one (at a true pH 0 it would be 0.04 V), and a rate that close to its barrier is not computed — the bench says 'it reacts, slowly' and claims no more; the overpotential itself is a curated kinetic constant, not a computed one; and the cell and electrolysis remain uncoupled — nothing here computes discharge under load, internal resistance or capacity, so 'a cell run backwards' is a statement about half-reactions, not runtime."
+lv1 = "Push current through the bath and the model grows fresh zinc on the electrode. Acid can dissolve zinc again. This lab does not calculate how fast that happens, so unchanged zinc is not a promise that the deposit survives."
+lv2 = "External current drives Zn²⁺ + 2e⁻ → Zn: 193 C rebuilds about 0.0010 mol of zinc under ideal current efficiency. Acid dissolution is thermodynamically downhill. The approximate overpotential gate leaves the deposit unchanged in the dilute bath and reports that its rate is unmodelled; where the gate allows dissolution, the computed equilibrium amount is an ideal upper bound."
+lv3 = "Charging reverses the half-reaction and Faraday’s law gives the ideal plated amount. Zinc dissolution in acid is thermodynamically favoured, but the fixed hydrogen overpotential does not determine a rate: surface condition and current density matter. The bench leaves zinc unchanged when its approximate overpotential gate declines the reaction and explicitly reports an unmodelled rate; this is not evidence that zinc survives a lesson without dissolving. Where the gate allows reaction, the equilibrium amount is an ideal upper bound, not a prediction of speed. Cell and electrolysis remain uncoupled: discharge under load, internal resistance and capacity are not computed."
 
 [reaction.provenance]
 source = "Standard curriculum accumulators (charge as reverse reaction); hydrogen overpotential on zinc ~0.72 V curated (standard electrochemistry), applied as a kinetic gate on the series' verdict; the sulfate/chloride activity effects computed. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
 computed_by = "Kerotakis cell + electrolysis operators over PHREEQC via Kerotakis L2; the deposit's fate by the displacement layer under the curated overpotential gate"
 
+
 [[reaction]]
 id = "lead-stands-in-its-own-acid"
 progress = "advanced"
 spine = ["akkumulatoren"]
-summary = "Lead sits below hydrogen in the series, yet a car battery's plates stand in acid for years — the +0.13 V driving force cannot pay hydrogen's ~0.88 V overpotential on lead, and that unpaid bill is the battery's existence"
+summary = "Lead in acid separates equilibrium driving force from hydrogen-evolution kinetics; the fixed overpotential gate cannot predict survival time"
 concepts = ["accumulators", "activity-series"]
 requires = ["activity-series"]
 apparatus = ["beaker"]
@@ -932,7 +933,7 @@ add v2 Zn 0.02mol
 """
 
 [reaction.expect]
-events = ["inert:Pb", "plated:Pb", "consumed:Zn"]
+events = ["not_yet_modelled", "plated:Pb", "consumed:Zn"]
 ph = { min = -0.15, max = 0.05 }
 
 [reaction.expect.predict]
@@ -943,7 +944,7 @@ options = [
   "The plates get a protective factory coating that keeps the acid off",
 ]
 answer = 1
-misconception = "When an observation contradicts a rule, the tempting moves are to discard the rule or to invent a protector. Neither is needed: the series is an equilibrium statement and it is right — lead in acid is downhill. It is also barely downhill (+0.13 V), and the reaction's necessary first product, hydrogen gas on a lead surface, carries an activation toll of ~0.88 V. The bill exceeds the budget, so the reaction is blocked on any human timescale. The battery exists inside that gap."
+misconception = "The series describes equilibrium, not reaction speed. A high hydrogen overpotential can suppress hydrogen evolution, but the fixed value used by this model is not a rate law. Surface condition, current density and lead-sulfate passivation also matter. The unchanged modeled plate is explicitly a missing-rate result, not proof of indefinite inertness."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
@@ -956,9 +957,9 @@ reveals = "Inertness needs an agent: 'nothing happens' must be caused by a thing
 next = "No coating is modelled and none is invoked: the barrier is the surface chemistry of forming H₂ on lead itself, and the bench states the arithmetic — +0.13 V offered, ~0.88 V demanded. A century and a half of lead-acid batteries stands on that gap, not on a factory step."
 
 [reaction.registers]
-lv1 = "A car battery is metal standing in strong acid — for years on end. The acid would love to eat the lead, but making gas bubbles on lead is so hard that nothing happens at all. The battery exists because of that nothing."
-lv2 = "v1: lead in acid is reported inert — driving force +0.13 V against ~0.88 V of hydrogen overpotential on lead; no gas, no dissolution, pH unmoved. v2: the same series still works when kinetics allows it — Zn below Pb, so 0.0100 mol of lead plates onto the dissolving zinc."
-lv3 = "The comparison with zinc is the design lesson: zinc's grace is 0.03 V (`charging-fights-the-series` slips that leash with molar acid); lead's is ~0.75 V — the widest safe margin of any cheap metal below hydrogen, which is why lead was THE accumulator metal for a hundred and sixty years. Honesty: the overpotential is a curated kinetic constant with 'timescale of a lesson' as its stated scope, and the verdict here rests on it alone — real lead in sulfuric acid additionally grows a lead-sulfate film this bench does not model, so the real battery is even better protected than this beaker."
+lv1 = "The acid can react with lead, but making hydrogen bubbles on lead can be slow. This lab does not calculate that speed. It leaves the lead unchanged and says that the rate is unknown."
+lv2 = "v1: lead dissolution in acid is thermodynamically favoured, but its rate is unmodelled; the approximate hydrogen overpotential gate leaves the metal unchanged. v2: zinc displaces lead ions, plating lead. A fixed overpotential does not establish lead survival over years or a lesson."
+lv3 = "A large hydrogen overpotential can suppress parasitic hydrogen evolution during charging. The fixed overpotentials used here are approximate kinetic gates, not rate laws: they cannot establish metal survival over a lesson or battery cycle. Lead in sulfuric acid also develops a lead-sulfate film that this model does not represent. The displayed unchanged metal therefore carries an explicit rate limitation."
 
 [reaction.provenance]
 source = "Standard curriculum lead-acid accumulator chemistry; hydrogen overpotential on lead ~0.88 V curated (standard electrochemistry); E° values CRC Handbook (Vanýsek). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"

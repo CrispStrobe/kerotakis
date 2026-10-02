@@ -1,0 +1,7 @@
+# A measured charge liberates a measured amount
+# Expectation: Electrolysing acidified water at 0.1 A for 100 s should account for about 5.18e-5 mol H2 and 2.59e-5 mol O2, or name electrode/product limitations.
+register lv3
+add v1 water 100mL
+add v1 H2SO4 0.001mol
+electrolyse v1 0.1A 100s
+inspect v1

@@ -1,0 +1,38 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.004000 mol hydrochloric acid (HCl, M = 36.461 g/mol)
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 1.461 · I = 0.0401 mol/kgw
+  HAZARD [Caution] (L0): strong acid dissolves this metal, releasing hydrogen gas which is flammable; Any metal above hydrogen in the activity series gives off hydrogen gas in acid; magnesium ribbon in hydrochloric acid is the school version, where the gas pops with a lit splint. The gas is genuinely flammable whichever metal and acid made it.
+  v1: +0.001000 mol zinc (Zn, M = 65.380 g/mol)
+  v1: pH 1.461 · I = 0.0401 mol/kgw
+  v1: NOT MODELLED: zinc dissolution in acid is thermodynamically favoured (driving force +0.68 V), but its rate is not modelled: the approximate hydrogen overpotential 0.72 V depends on surface and current density. The metal is left unchanged by this model; this does not establish that it is inert on a lesson timescale
+  v2: new vessel
+  v2: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v2: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v2: +0.004000 mol hydrochloric acid (HCl, M = 36.461 g/mol)
+  v2: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v2: pH 1.461 · I = 0.0401 mol/kgw
+  v2: +0.001000 mol copper (Cu, M = 63.546 g/mol)
+  v2: pH 1.461 · I = 0.0401 mol/kgw
+  v2: copper inert: copper sits above hydrogen in the activity series (E° +0.342 V against 0.000 V for 2H⁺/H₂), so dilute acid cannot take its electrons. An oxidising acid such as nitric would, by a different couple, and that is not modelled
+  v1 (beaker) — 25.00 °C, 99.9 g, 100.0 mL liquid, open to atmosphere, pH 1.46, I = 0.0401 m
+           1.00 mmol  zinc               Solid
+           4.00 mmol  chloride ion       Aqueous
+          5.5343 mol  water              Liquid
+           4.00 mmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9860e-1   γ=0.018
+        H+              4.0120e-2    3.4610e-2   γ=0.863
+        Cl-             4.0120e-2    3.3180e-2   γ=0.827
+        O2              2.6520e-4    2.6770e-4   γ=1.009
+  v2 (beaker) — 25.00 °C, 99.9 g, 100.0 mL liquid, open to atmosphere, pH 1.46, I = 0.0401 m
+           1.00 mmol  copper             Solid
+           4.00 mmol  chloride ion       Aqueous
+          5.5343 mol  water              Liquid
+           4.00 mmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9860e-1   γ=0.018
+        H+              4.0120e-2    3.4610e-2   γ=0.863
+        Cl-             4.0120e-2    3.3180e-2   γ=0.827
+        O2              2.6520e-4    2.6770e-4   γ=1.009

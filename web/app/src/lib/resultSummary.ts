@@ -361,9 +361,13 @@ function equationOf(
  * is the difference between two scenes the solver produced, which is
  * `computed` for the same reason a scene badge is.
  */
-function temperatureConfidence(events: EngineEvent[], vessel?: number): ResultConfidence {
+function temperatureConfidence(events: EngineEvent[], vessel?: number, after?: Scene | null): ResultConfidence {
   const forVessel = (event: EngineEvent) =>
     vessel === undefined || eventVessel(event) === undefined || eventVessel(event) === vessel;
+  if (after?.vessels.some((item) => (vessel === undefined || item.id === vessel) && item.temperature_incomplete)
+    || events.some((event) => event.event === "heat_unpriced" && forVessel(event))) {
+    return "unknown";
+  }
   if (events.some((event) => event.event === "temperature_changed" && forVessel(event))) {
     return "computed";
   }
@@ -477,7 +481,7 @@ export function summarizeResult(
         beforeK: beforeTemperature!,
         afterK: afterTemperature!,
         deltaK: temperatureDeltaK!,
-        confidence: temperatureConfidence(typed, vessel),
+        confidence: temperatureConfidence(typed, vessel, after),
       }
       : undefined,
     temperatureDeltaK: moved ? temperatureDeltaK : undefined,

@@ -1,0 +1,6 @@
+# Ethanol burns instead of returning a false negative
+# Expectation: Igniting 1 g ethanol should produce combustion products/heat or explicitly identify missing combustion modelling.
+register lv3
+add v1 ethanol 1g
+ignite v1
+inspect v1

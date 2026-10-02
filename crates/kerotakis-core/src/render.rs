@@ -408,7 +408,7 @@ fn efficiency_clause(locale: Locale, register: Register, efficiency: f64, name: 
         2 => locale.fill(
             "event.electrolysed.efficiency.lv2",
             " Current efficiency {percent}%: the ion ran out before the charge did, and the rest of it reduced water to hydrogen.",
-            &[("percent", &percent), ("name", name)],
+            &[("percent", &percent)],
         ),
         _ => locale.fill(
             "event.electrolysed.efficiency.lv3",
@@ -475,6 +475,11 @@ pub fn render_vessel_in(v: &Vessel, register: Register, locale: Locale) -> Vec<S
             " bar"
         )),
     };
+    let visible_liquid_l = v.liquid_volume().0
+        + crate::material::immiscible_liquid_layers(v)
+            .iter()
+            .map(|layer| layer.volume_l)
+            .sum::<f64>();
     // The id keeps its point (v1.2 is a name, not a number), so the comma
     // swap is applied to the measured part only.
     out.push(format!(
@@ -489,10 +494,13 @@ pub fn render_vessel_in(v: &Vessel, register: Register, locale: Locale) -> Vec<S
             "{:.2} °C, {:.1} g, {:.1} mL {}{boundary}{solution}",
             v.temperature.to_celsius(),
             v.mass().0 + 0.0,
-            v.liquid_volume().0 * 1000.0 + 0.0,
+            visible_liquid_l * 1000.0 + 0.0,
             locale.t("vessel.liquid", "liquid")
         ))
     ));
+    if let Some(note) = v.temperature_limitation() {
+        out.push(format!("    {}", note.render(locale)));
+    }
     if let Some(redox) = redox_words(locale, v.solution.as_ref()) {
         out.push(format!(
             "    {} — {redox}",
@@ -1330,6 +1338,11 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ],
             ),
         },
+        Event::HeatUnpriced { vessel, species } => locale.fill(
+            "event.heat-unpriced.lv1",
+            "{vessel}: reaction heat for {species} is not priced; the temperature estimate is incomplete",
+            &[("vessel", &vessel.to_string()), ("species", &species.0)],
+        ),
         Event::TemperatureChanged { vessel, from, to } => {
             let d = to.0 - from.0;
             match register.level() {
@@ -4087,7 +4100,9 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             let rendered = note_reason.as_ref().map(|reason| reason.render(locale));
             let note = rendered.as_deref().or(note.as_deref());
             match (register.level(), note) {
-                (1, _) | (_, None) => reading,
+                (_, None) => reading,
+                (1, Some(_)) if !note_reason.as_ref().is_some_and(|p|
+                    p.key == "measurement.temperature-incomplete" || p.key.starts_with("measurement.aqueous-layer")) => reading,
                 (_, Some(boundary)) => locale.fill(
                     "event.measured.lv2-bounded",
                     "{reading} — {boundary}",
@@ -4121,7 +4136,6 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             // did not, it says the figure is a ceiling. Neither sentence is
             // decoration: a learner putting this electrode on a balance
             // needs to know which way the disagreement will go.
-            let efficiency = efficiency_clause(locale, register, *current_efficiency, name);
             // GUI-099: the water-splitting cell says something else. The
             // sentences below are written for a metal building up on an
             // electrode, and a hydrogen that "lagert sich ab" is simply
@@ -4170,8 +4184,12 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         ],
                     ),
                 };
-                return format!("{line}{efficiency}");
+                // The gas branch already states the ideal electrode and
+                // efficiency assumptions. A metal-deposition ceiling would
+                // incorrectly say hydrogen is absent while reporting H2.
+                return line;
             }
+            let efficiency = efficiency_clause(locale, register, *current_efficiency, name);
             let line = match register.level() {
                 1 => locale.fill(
                     "event.electrolysed.lv1",

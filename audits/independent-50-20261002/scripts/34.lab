@@ -1,0 +1,7 @@
+# Copper refuses the reverse displacement
+# Expectation: Copper in ZnSO4 should not plate zinc; an explicit no-reaction result should be chemically distinguished from missing chemistry.
+register lv3
+add v1 water 100mL
+add v1 ZnSO4 0.001mol
+add v1 Cu 0.002mol
+inspect v1

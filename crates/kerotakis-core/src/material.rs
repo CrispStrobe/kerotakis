@@ -181,6 +181,7 @@ pub struct ImmiscibleLiquidLayer {
     pub key: String,
     pub recipe_id: String,
     pub volume_l: f64,
+    pub density_g_per_ml: f64,
     pub srgb: [u8; 3],
     pub colour_word: String,
 }
@@ -235,6 +236,11 @@ pub fn immiscible_liquid_layers(vessel: &crate::Vessel) -> Vec<ImmiscibleLiquidL
                 key: recipe.canonical_key,
                 recipe_id: recipe.id,
                 volume_l,
+                density_g_per_ml: recipe
+                    .bulk_density
+                    .as_ref()
+                    .map(|d| d.value)
+                    .unwrap_or(f64::NAN),
                 srgb,
                 colour_word,
             });

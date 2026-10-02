@@ -902,6 +902,12 @@ pub enum Event {
         from: Kelvin,
         to: Kelvin,
     },
+    /// Aqueous chemistry was computed, but part of its heat was unpriced.
+    /// This is a temperature limitation, not a refusal of the whole solve.
+    HeatUnpriced {
+        vessel: VesselId,
+        species: SpeciesId,
+    },
     /// Heat actually accepted by or removed from a vessel. The core
     /// currently applies energy instantaneously; no power or elapsed-time
     /// claim is made here.

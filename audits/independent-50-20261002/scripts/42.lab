@@ -1,0 +1,7 @@
+# Magnesium gains oxygen mass
+# Expectation: Igniting 0.001 mol Mg should create MgO and gain about 0.016 g from atmospheric oxygen, with the external mass source explained.
+register lv3
+add v1 Mg 0.001mol
+ignite v1
+inspect v1
+measure v1 balance
