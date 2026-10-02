@@ -1,5 +1,5 @@
 //! A Faraday budget is conditional on the assumed electrodes and selectivity.
-use kerotakis_core::*;
+use kerotakis_core::{ops::NotModelledCause, *};
 
 #[test]
 fn solvent_electrolysis_exposes_selectivity_scope_for_both_anode_routes() {
@@ -8,7 +8,11 @@ fn solvent_electrolysis_exposes_selectivity_scope_for_both_anode_routes() {
         let vessel = &mut bench.vessels[0];
         vessel.deposit(SpeciesId::new("water"), Moles(5.0), Phase::Liquid);
         vessel.deposit(SpeciesId::new("Na+"), Moles(0.1), Phase::Aqueous);
-        vessel.deposit(SpeciesId::new(anion), Moles(0.1), Phase::Aqueous);
+        vessel.deposit(
+            SpeciesId::new(anion),
+            Moles(if anion == "Cl-" { 0.1 } else { 0.05 }),
+            Phase::Aqueous,
+        );
         let events = bench
             .step(Operator::Electrolyse {
                 vessel: VesselId(0),
