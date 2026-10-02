@@ -83,17 +83,23 @@ def main():
         return result.returncode == 0
 
     tail = ["-j1", "--", "--test-threads=1"]
-    run("cea", ["cargo", "test", "--locked", "--no-fail-fast", "-p", "kerotakis-cea", "--lib", "--tests"] + tail)
-    core = ["cargo", "test", "--locked", "--no-fail-fast", "-p", "kerotakis-core", "--lib"]
+    run("cea", ["cargo", "test", "--no-fail-fast", "-p", "kerotakis-cea", "--lib", "--tests"] + tail)
+    core = ["cargo", "test", "--no-fail-fast", "-p", "kerotakis-core", "--lib"]
     for name in CORE_TESTS:
         core.extend(["--test", name])
     run("core", core + tail)
-    run("phreeqc", ["cargo", "test", "--locked", "--no-fail-fast", "-p", "kerotakis-phreeqc",
+    run("phreeqc", ["cargo", "test", "--no-fail-fast", "-p", "kerotakis-phreeqc",
                    "--test", "exchange_transport", "--test", "surface_transport"] + tail)
-    cli_ok = run("cli", ["cargo", "test", "--locked", "--no-fail-fast", "-p", "kerotakis-cli", "--bin", "kero",
+    cli_ok = run("cli", ["cargo", "test", "--no-fail-fast", "-p", "kerotakis-cli", "--bin", "kero",
                          "--test", "thermal_contracts", "--test", "provenance", "--test", "observable_coverage",
                          "--test", "headspace_json", "--test", "json_contract"] + tail)
-    run("wasm", ["cargo", "check", "--locked", "-p", "kerotakis-wasm", "--target", "wasm32-unknown-unknown", "-j1"])
+    run("wasm", ["cargo", "check", "-p", "kerotakis-wasm", "--target", "wasm32-unknown-unknown", "-j1"])
+    # This workspace intentionally ignores Cargo.lock. Preserve the exact
+    # resolved dependency graph rather than claim it was present at checkout.
+    lock = REPO / "Cargo.lock"
+    if lock.exists():
+        shutil.copyfile(lock, out / "Cargo.lock")
+        receipt["cargo_lock_sha256"] = digest(lock)
     if cli_ok:
         binary = REPO / "target/debug/kero"
         receipt["binary_sha256"] = digest(binary)
