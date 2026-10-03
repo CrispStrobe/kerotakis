@@ -1484,6 +1484,13 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     "{vessel} releases {delivered} kJ of heat. This energy step has no elapsed-time model yet.",
                     &[("vessel", &vessel), ("delivered", &delivered_kj)],
                 ),
+                2 if *heating && short && *energy_partition_complete != Some(true) => locale.fill(
+                    "event.energy-transferred.lv2-heating-incomplete",
+                    "{vessel}: {requested} kJ requested; {delivered} kJ delivered, {undelivered} kJ undelivered — {source}, ceiling {ceiling} °C — time model {coupling}",
+                    &[("vessel", &vessel), ("requested", &requested_kj),
+                      ("delivered", &delivered_kj), ("undelivered", &undelivered_kj),
+                      ("source", &source_name), ("ceiling", &ceiling_c), ("coupling", coupling)],
+                ),
                 2 if *heating && (short || split) && *energy_partition_complete == Some(true) => locale.fill(
                     "event.energy-transferred.lv2-heating",
                     "{vessel}: {requested} kJ requested; {delivered} kJ delivered, {undelivered} kJ undelivered — {source}, ceiling {ceiling} °C; of what arrived, {sensible} kJ is warmth the vessel still holds and {chemistry} kJ went into chemistry or a phase change ({passes} passes) — time model {coupling}",
@@ -1517,6 +1524,16 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         ("transfer", transfer),
                         ("coupling", coupling),
                     ],
+                ),
+                _ if *heating && *energy_partition_complete != Some(true) => locale.fill(
+                    "event.energy-transferred.lv3-heating-incomplete",
+                    "{vessel}: thermal energy requested={requested} J, delivered={delivered} J, undelivered={undelivered} J; source={source}, ceiling={ceiling} K; passes={passes}, pass_cap_reached={capped}, time_coupled={time_coupled}",
+                    &[("vessel", &vessel), ("requested", &locale.number(format!("{requested_j:.6}"))),
+                      ("delivered", &locale.number(format!("{delivered_j:.6}"))),
+                      ("undelivered", &locale.number(format!("{undelivered_j:.6}"))),
+                      ("source", &source_name), ("ceiling", &ceiling_k_text),
+                      ("passes", &passes_text), ("capped", capped_value),
+                      ("time_coupled", time_coupled_value)],
                 ),
                 _ if *energy_partition_complete != Some(true) => locale.fill(
                     "event.energy-transferred.lv3-incomplete",

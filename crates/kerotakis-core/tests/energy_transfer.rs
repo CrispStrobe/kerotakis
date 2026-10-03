@@ -74,18 +74,86 @@ fn delivered_energy_is_rendered_by_the_engine_in_german() {
 #[test]
 fn incomplete_partition_is_explicit_in_every_register_and_saved_events_still_load() {
     let mut event = Event::EnergyTransferred {
-        vessel: VesselId(0), heating: true, requested_j: 5000.0,
-        delivered_j: 5000.0, time_coupled: false, source: None,
-        ceiling_k: None, sensible_j: 1000.0,
-        energy_partition_complete: Some(false), passes: 1, capped: false,
+        vessel: VesselId(0),
+        heating: true,
+        requested_j: 5000.0,
+        delivered_j: 5000.0,
+        time_coupled: false,
+        source: None,
+        ceiling_k: None,
+        sensible_j: 1000.0,
+        energy_partition_complete: Some(false),
+        passes: 1,
+        capped: false,
     };
-    for register in [render::Register::LV1, render::Register::LV2, render::Register::LV3] {
+    for register in [
+        render::Register::LV1,
+        render::Register::LV2,
+        render::Register::LV3,
+    ] {
         let text = render::render_event(&event, register);
-        assert!(text.contains("split") && text.contains("not fully established"), "{text}");
-        assert!(!text.contains("chemistry/phase="), "an uncertified residual is not an exact phase budget: {text}");
+        assert!(
+            text.contains("split") && text.contains("not fully established"),
+            "{text}"
+        );
+        assert!(
+            !text.contains("chemistry/phase="),
+            "an uncertified residual is not an exact phase budget: {text}"
+        );
     }
     let mut old = serde_json::to_value(&event).unwrap();
-    old.as_object_mut().unwrap().remove("energy_partition_complete");
+    old.as_object_mut()
+        .unwrap()
+        .remove("energy_partition_complete");
     event = serde_json::from_value(old).unwrap();
-    assert!(matches!(event, Event::EnergyTransferred { energy_partition_complete: None, .. }));
+    assert!(matches!(
+        event,
+        Event::EnergyTransferred {
+            energy_partition_complete: None,
+            ..
+        }
+    ));
+}
+
+#[test]
+fn incomplete_partition_keeps_source_ceiling_and_undelivered_budget() {
+    let event = Event::EnergyTransferred {
+        vessel: VesselId(0),
+        heating: true,
+        requested_j: 5000.0,
+        delivered_j: 2500.0,
+        time_coupled: false,
+        source: Some("test heater".into()),
+        ceiling_k: Some(1773.15),
+        sensible_j: 1000.0,
+        energy_partition_complete: Some(false),
+        passes: 3,
+        capped: true,
+    };
+    for register in [
+        render::Register::LV1,
+        render::Register::LV2,
+        render::Register::LV3,
+    ] {
+        let text = render::render_event(&event, register);
+        assert!(
+            text.contains("test heater") && text.contains("ceiling")
+                || register == render::Register::LV1,
+            "{text}"
+        );
+        assert!(text.contains("not fully established"), "{text}");
+        assert!(!text.contains("chemistry/phase="), "{text}");
+        if register == render::Register::LV3 {
+            for budget in [
+                "requested=5000.000000",
+                "delivered=2500.000000",
+                "undelivered=2500.000000",
+                "ceiling=1773.15",
+                "passes=3",
+                "pass_cap_reached=true",
+            ] {
+                assert!(text.contains(budget), "{text}");
+            }
+        }
+    }
 }
