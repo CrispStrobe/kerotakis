@@ -428,12 +428,14 @@ where
         return None;
     }
     let y: Vec<f64> = p.iter().map(|pi| pi / p_total).collect();
-    // An azeotrope is not a special case in the arithmetic — it is what the
-    // arithmetic says when the vapour comes out the same as the liquid.
-    let azeotropic = x
-        .iter()
-        .zip(&y)
-        .all(|(xi, yi)| (xi / total_x - yi).abs() < AZEOTROPE_TOLERANCE);
+    // Pure-component equality is not an azeotrope. Relative equality also
+    // prevents a dilute component being called azeotropic merely because
+    // both its liquid and vapour fractions fall below an absolute tolerance.
+    let azeotropic = x.iter().filter(|xi| **xi > 0.0).count() >= 2
+        && x.iter().zip(&y).all(|(xi, yi)| {
+            let fraction = xi / total_x;
+            (fraction - yi).abs() <= AZEOTROPE_TOLERANCE * fraction.max(*yi)
+        });
     Some(BubblePoint {
         t_celsius: t,
         y,
@@ -1545,9 +1547,9 @@ fn cascade(x_pot: f64, stages: u32, pressure_kpa: f64) -> Option<(f64, BubblePoi
 /// γ(T): Rayleigh integration — the vapour composition follows the pot as
 /// it drifts — through an `stages`-stage column at total reflux.
 ///
-/// Integration is 256 fixed steps of the overhead amount; halving the
-/// step count moves the answers in the fourth decimal, which is far
-/// inside the model's own honesty budget.
+/// Integration refines its overhead mesh near component depletion. Every
+/// step removes at most a quarter of each present component, so finite
+/// steps cannot manufacture a pure residue by clipping an overshoot.
 /// Returns `None` if any required intermediate phase calculation is outside
 /// the model domain; an unlabelled partial cut is never a successful result.
 pub fn ethanol_water_still(
@@ -1596,7 +1598,8 @@ pub fn ethanol_water_still(
     let t_start_c = bp0.t_celsius;
     let mut t_end_c = t_start_c;
 
-    const STEPS: usize = 256;
+    const STEPS: usize = 1024;
+    const MAX_STEPS: usize = 100_000;
     let dn = budget / STEPS as f64;
     if dn <= 0.0 {
         let requested_positive = match take {
@@ -1617,10 +1620,17 @@ pub fn ethanol_water_still(
             azeotrope_limited: false,
         });
     }
-    for _ in 0..STEPS {
+    let tolerance = budget * 16.0 * f64::EPSILON;
+    let mut completed = false;
+    for _ in 0..MAX_STEPS {
+        let remaining = budget - (w_over + e_over);
+        if remaining <= tolerance {
+            completed = true;
+            break;
+        }
         let pot = w + e;
         if pot <= 0.0 {
-            break;
+            return None;
         }
         let x = e / pot;
         // A requested cut is one operation. A missing intermediate phase
@@ -1629,9 +1639,18 @@ pub fn ethanol_water_still(
         let (y_top, pot_bp, hit) = cascade(x, stages, pressure_kpa)?;
         t_end_c = pot_bp.t_celsius;
         azeo |= hit;
-        let dn = dn.min(pot);
-        let de = (dn * y_top).min(e);
-        let dw = (dn - de).min(w);
+        let mut step = dn.min(remaining).min(pot);
+        if y_top > 0.0 && e > 0.0 {
+            step = step.min(0.25 * e / y_top);
+        }
+        if y_top < 1.0 && w > 0.0 {
+            step = step.min(0.25 * w / (1.0 - y_top));
+        }
+        if !step.is_finite() || step <= 0.0 {
+            return None;
+        }
+        let de = step * y_top;
+        let dw = step * (1.0 - y_top);
         let step_kj = de * ETHANOL_HVAP_KJ_PER_MOL + dw * WATER_HVAP_KJ_PER_MOL;
         if !step_kj.is_finite() || !(energy_kj + step_kj).is_finite() {
             return None;
@@ -1644,6 +1663,7 @@ pub fn ethanol_water_still(
                 e_over += de * share;
                 w_over += dw * share;
                 energy_kj = kj;
+                completed = true;
                 break;
             }
         }
@@ -1652,9 +1672,24 @@ pub fn ethanol_water_still(
         e_over += de;
         w_over += dw;
         energy_kj += step_kj;
+        // StillCut exposes only overhead amounts. If subtraction from the
+        // original inventory would round a positive partial-cut residue to
+        // zero, its state is not representable by that public contract.
+        if budget < total0
+            && ((ethanol_moles > 0.0 && ethanol_moles - e_over <= 0.0)
+                || (water_moles > 0.0 && water_moles - w_over <= 0.0))
+        {
+            return None;
+        }
     }
     let overhead = w_over + e_over;
-    if !overhead.is_finite() || !energy_kj.is_finite() || overhead <= 0.0 {
+    if !completed || !overhead.is_finite() || !energy_kj.is_finite() || overhead <= 0.0 {
+        return None;
+    }
+    if overhead < total0
+        && ((ethanol_moles > 0.0 && ethanol_moles - e_over <= 0.0)
+            || (water_moles > 0.0 && water_moles - w_over <= 0.0))
+    {
         return None;
     }
     if matches!(take, StillTake::Fraction(_))

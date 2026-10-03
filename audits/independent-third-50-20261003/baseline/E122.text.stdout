@@ -1,0 +1,27 @@
+  v2: new vessel
+  v1: boundary=open → sealed; V_gas=1.000000 L, trapped dry-air approximation=0.04087404 mol
+  v1: +0.010000 mol nitrogen (N2, M = 28.014 g/mol)
+  v1 thermometer: 25.0000 °C
+  v1 pressure gauge: 126.1146 kPa
+  v1 balance: 1.4596 g
+  v1 (beaker) — 25.00 °C, 1.5 g, 0.0 mL liquid, sealed 1000.0 mL headspace at 1.261 bar
+          0.0423 mol  nitrogen           Gas
+           8.56 mmol  oxygen             Gas
+           16.3 µmol  carbon dioxide     Gas
+  v2 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v1: T 298.150 K → 307.573 K (ΔT = +9.423 K)
+  v1: thermal energy requested=10.000000 J, delivered=10.000000 J, undelivered=0.000000 J; source=Bunsen burner, ceiling=1773.15 K; sensible=10.000000 J, chemistry/phase=-0.000000 J; passes=1, pass_cap_reached=false, time_coupled=false
+  v1 thermometer: 34.4226 °C
+  v1 pressure gauge: 130.1002 kPa
+  v1: T 307.573 K → 298.150 K (ΔT = -9.423 K)
+  v1: thermal energy requested=10.000000 J, delivered=10.000000 J; sensible=10.000000 J, phase=0.000000 J; heating=false, time_coupled=false
+  v1 thermometer: 25.0000 °C
+  v1 pressure gauge: 126.1146 kPa
+  v1 balance: 1.4596 g
+  v1 (beaker) — 25.00 °C, 1.5 g, 0.0 mL liquid, sealed 1000.0 mL headspace at 1.261 bar
+          0.0423 mol  nitrogen           Gas
+           8.56 mmol  oxygen             Gas
+           16.3 µmol  carbon dioxide     Gas
+  v2 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)

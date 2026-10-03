@@ -154,7 +154,8 @@ pub(crate) fn complete_basis(
         ("H+", acid, Phase::Aqueous),
         (species::BASE_EQUIVALENTS, base, Phase::Aqueous),
     ] {
-        if amount > 1e-12 {
+        // Conservation basis is material inventory, not a visibility filter.
+        if amount > 0.0 {
             after.contents.push(Portion {
                 species: SpeciesId::new(key),
                 moles: Moles(amount),
@@ -163,4 +164,31 @@ pub(crate) fn complete_basis(
         }
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod trace_basis_tests {
+    use super::*;
+    use kerotakis_core::VesselId;
+
+    #[test]
+    fn acid_base_basis_retains_positive_subpicomole_coordinates() {
+        for dose in [1e-12, 1e-14] {
+            for ingredient in ["HCl", "NaOH"] {
+                let mut before = Vessel::new(VesselId(0), "trace basis");
+                before.deposit(SpeciesId::new("water"), Moles(5.5), Phase::Liquid);
+                before.deposit(SpeciesId::new(ingredient), Moles(dose), Phase::Aqueous);
+                let mut after = Vessel::new(VesselId(0), "trace basis");
+                let spectator = if ingredient == "HCl" { "Cl-" } else { "Na+" };
+                after.deposit(SpeciesId::new(spectator), Moles(dose), Phase::Aqueous);
+                complete_basis(&before, &mut after, &[], &[]).expect("conservative basis");
+                let coordinate = if ingredient == "HCl" {
+                    "H+"
+                } else {
+                    species::BASE_EQUIVALENTS
+                };
+                assert_eq!(after.moles_of(&SpeciesId::new(coordinate)).0, dose);
+            }
+        }
+    }
 }

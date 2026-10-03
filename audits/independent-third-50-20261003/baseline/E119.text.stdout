@@ -1,0 +1,57 @@
+  v2: new vessel
+  v3: new vessel
+  v4: new vessel
+  v5: new vessel
+  v1: T 298.150 K → 293.150 K (ΔT = -5.000 K)
+  v1: +2.767138 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v2: T 298.150 K → 313.150 K (ΔT = +15.000 K)
+  v2: +2.767138 mol water (H2O, M = 18.015 g/mol)
+  v2: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v4: T 298.150 K → 303.150 K (ΔT = +5.000 K)
+  v4: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v4: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1 thermometer: 20.0000 °C
+  v2 thermometer: 40.0000 °C
+  v1 (beaker) — 20.00 °C, 49.9 g, 50.0 mL liquid, open to atmosphere, pH 7.08, I = 0.0000 m
+          2.7671 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              8.2738e-8    8.2738e-8   γ=1.000
+        OH-             8.2738e-8    8.2738e-8   γ=1.000
+  v2 (beaker) — 40.00 °C, 49.9 g, 50.0 mL liquid, open to atmosphere, pH 6.77, I = 0.0000 m
+          2.7671 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.7111e-7    1.7111e-7   γ=1.000
+        OH-             1.7111e-7    1.7111e-7   γ=1.000
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v4 (beaker) — 30.00 °C, 99.7 g, 100.0 mL liquid, open to atmosphere, pH 6.92, I = 0.0000 m
+          5.5343 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.2116e-7    1.2116e-7   γ=1.000
+        OH-             1.2116e-7    1.2116e-7   γ=1.000
+  v5 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v3: T 298.150 K → 303.150 K (ΔT = +5.000 K)
+  v1 (100%) + v2 (100%) → v3 at 30.00 °C
+  v3: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v3 thermometer: 30.0000 °C
+  v4 thermometer: 30.0000 °C
+  v3 balance: 99.7000 g
+  v4 balance: 99.7000 g
+  v1 (beaker) — 20.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v2 (beaker) — 40.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v3 (beaker) — 30.00 °C, 99.7 g, 100.0 mL liquid, open to atmosphere, pH 6.92, I = 0.0000 m
+          5.5343 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.2116e-7    1.2116e-7   γ=1.000
+        OH-             1.2116e-7    1.2116e-7   γ=1.000
+  v4 (beaker) — 30.00 °C, 99.7 g, 100.0 mL liquid, open to atmosphere, pH 6.92, I = 0.0000 m
+          5.5343 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.2116e-7    1.2116e-7   γ=1.000
+        OH-             1.2116e-7    1.2116e-7   γ=1.000
+  v5 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)

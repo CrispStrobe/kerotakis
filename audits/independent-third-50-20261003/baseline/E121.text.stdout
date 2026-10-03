@@ -1,0 +1,36 @@
+  v2: new vessel
+  v3: new vessel
+  v1: boundary=open → sealed; V_gas=0.500000 L, trapped dry-air approximation=0.02043702 mol
+  v2: boundary=open → sealed; V_gas=1.000000 L, trapped dry-air approximation=0.04087404 mol
+  v1 pressure gauge: 101.3250 kPa
+  v2 pressure gauge: 101.3250 kPa
+  v1 thermometer: 25.0000 °C
+  v2 thermometer: 25.0000 °C
+  v1 (beaker) — 25.00 °C, 0.6 g, 0.0 mL liquid, sealed 500.0 mL headspace at 1.013 bar
+          0.0161 mol  nitrogen           Gas
+           4.28 mmol  oxygen             Gas
+           8.17 µmol  carbon dioxide     Gas
+  v2 (beaker) — 25.00 °C, 1.2 g, 0.0 mL liquid, sealed 1000.0 mL headspace at 1.013 bar
+          0.0323 mol  nitrogen           Gas
+           8.56 mmol  oxygen             Gas
+           16.3 µmol  carbon dioxide     Gas
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v1: +0.001000 mol nitrogen (N2, M = 28.014 g/mol)
+  v2: +0.002000 mol nitrogen (N2, M = 28.014 g/mol)
+  v1 pressure gauge: 106.2829 kPa
+  v2 pressure gauge: 106.2829 kPa
+  v1 thermometer: 25.0000 °C
+  v2 thermometer: 25.0000 °C
+  v1 balance: 0.6177 g
+  v2 balance: 1.2355 g
+  v1 (beaker) — 25.00 °C, 0.6 g, 0.0 mL liquid, sealed 500.0 mL headspace at 1.063 bar
+          0.0171 mol  nitrogen           Gas
+           4.28 mmol  oxygen             Gas
+           8.17 µmol  carbon dioxide     Gas
+  v2 (beaker) — 25.00 °C, 1.2 g, 0.0 mL liquid, sealed 1000.0 mL headspace at 1.063 bar
+          0.0343 mol  nitrogen           Gas
+           8.56 mmol  oxygen             Gas
+           16.3 µmol  carbon dioxide     Gas
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)

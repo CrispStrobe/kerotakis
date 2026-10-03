@@ -22,7 +22,7 @@ CORE_TESTS = """transport transport_verb prepared_kitchen_objects
 material_object_state kitchen_biology transfer_trace interface_conservation
 solver_transactions conservation phase_heat_capacity pressure_boiling states mix
 selected_phase_transfer phase_routes distil atomic_distil_refusal layers
-liquid_extraction vegetable_oil_layers phase_without_aqueous thermal_phase_refusal thermal_phase_budget phase_thaw_recovery energy_transfer heat_integral_precision electrolysis_scope solvent_electrolysis_accounting chromatography_coverage chromatograph""".split()
+liquid_extraction vegetable_oil_layers phase_without_aqueous thermal_phase_refusal thermal_phase_budget phase_thaw_recovery energy_transfer heat_integral_precision electrolysis_scope solvent_electrolysis_accounting chromatography_coverage chromatograph headspace density_coverage_scaling""".split()
 SOURCE_FILES = [
     "crates/kerotakis-cea/src/gibbs.rs",
     "crates/kerotakis-core/src/bench.rs",
@@ -47,8 +47,16 @@ SOURCE_FILES = [
     "crates/kerotakis-core/tests/chromatography_coverage.rs",
     "crates/kerotakis-core/tests/solvent_electrolysis_accounting.rs",
     "crates/kerotakis-core/src/render.rs",
+    "crates/kerotakis-core/src/buoyancy.rs",
+    "crates/kerotakis-core/tests/headspace.rs",
+    "crates/kerotakis-core/tests/density_coverage_scaling.rs",
+    "crates/kerotakis-phreeqc/src/aqueous.rs",
+    "crates/kerotakis-phreeqc/src/inventory.rs",
+    "crates/kerotakis-phreeqc/tests/settled_carbonate_transfer.rs",
+    "crates/kerotakis-phreeqc/tests/trace_inventory.rs",
     "crates/kerotakis-core/tests/atomic_distil_refusal.rs",
     "crates/kerotakis-thermo/src/vle.rs",
+    "crates/kerotakis-thermo/tests/distillation_completion.rs",
     "crates/kerotakis-thermo/tests/distillation_completion.rs",
     ".github/workflows/chemistry-audit.yml",
     "audits/independent-50-20261002/validate_phase_ownership.py",
@@ -112,7 +120,9 @@ def main():
         core.extend(["--test", name])
     run("core", core + tail)
     run("phreeqc", ["cargo", "test", "--no-fail-fast", "-p", "kerotakis-phreeqc",
-                   "--test", "exchange_transport", "--test", "surface_transport", "--test", "chromatograph"] + tail)
+                   "--lib", "--test", "exchange_transport", "--test", "surface_transport", "--test", "chromatograph",
+                   "--test", "settled_carbonate_transfer", "--test", "trace_inventory",
+                   "--test", "order_invariance", "--test", "native_delta_h", "--test", "engine_call_budget"] + tail)
     cli_ok = run("cli", ["cargo", "test", "--no-fail-fast", "-p", "kerotakis-cli", "--bin", "kero",
                          "--test", "thermal_contracts", "--test", "provenance", "--test", "observable_coverage",
                          "--test", "headspace_json", "--test", "json_contract"] + tail)

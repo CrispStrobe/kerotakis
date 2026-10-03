@@ -1,0 +1,1579 @@
+[
+  {
+    "id": "E101",
+    "title": "Unequal aliquots retain source ownership",
+    "frozen_expectation": "For homogeneous dilute brines, each aliquot carries its corresponding fraction of water and dissolved salt. Sources retain complementary fractions; the target receives 90mL nominal water and 0.015mol NaCl equivalents, between the two source concentrations.",
+    "frozen_criteria": "Freeze before execution: source salt equivalents should be 0.009mol and 0.004mol; target 0.015mol; sum 0.028mol. Water aliquots are 90,20,90mL nominal across v1,v2,v3, allowing physical solution volume nonadditivity. Conductivity should place target between initial source values, without claiming a linear conductivity law. Refusal or unknown ingredient means unsupported/input failure, never physical agreement.",
+    "assessment": "physical agreement with observation limitation",
+    "evidence": "Final Na and Cl inventories are 0.009,0.004,0.015mol; sum each=0.028mol. Water amounts correspond to 90,20,90mL. Conductivities 10904.8954,20676.0204,17497.4778uS/cm put target between sources.",
+    "semantic_or_unsupported_limits": "Volume instrument measures gas headspace and explicitly refuses open vessels; liquid volume remains available in inspect. Conductivity is estimated.",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E101.json.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E101.text.stdout"
+    ]
+  },
+  {
+    "id": "E102",
+    "title": "Successive half decants form geometric leftovers",
+    "frozen_expectation": "With one homogeneous liquid phase, two successive half pours leave one quarter in the source, one half in the first receiver, and one quarter in the second. Concentrations remain equal.",
+    "frozen_criteria": "Accepted operations should leave salt equivalent fractions 1/4,1/2,1/4: 0.004,0.008,0.004mol. Corresponding liquid volumes approximately 40,80,40mL. Conductivity should agree at matched temperatures within reported precision. Total salt and water conserved. Input/capability refusal is inconclusive physically.",
+    "assessment": "physical agreement with observation limitation",
+    "evidence": "Final each Na/Cl inventory 0.004,0.008,0.004mol exactly follows quarter/half/quarter. Water=2.2137107965584235,4.427421593116847,2.2137107965584235mol (40,80,40mL); all conductivity readings=10904.8954uS/cm.",
+    "semantic_or_unsupported_limits": "Liquid-volume meter semantic mismatch; inspect supplies required volumes.",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E102.json.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E102.text.stdout"
+    ]
+  },
+  {
+    "id": "E103",
+    "title": "Filtration retains chalk but passes dissolved salt",
+    "frozen_expectation": "Chalk is poorly soluble near neutral pH while dilute sodium chloride dissolves. Filtration should collect chalk in the source and brine in the receiver. Filtering the clear filtrate back should return liquid and salt without manufacturing a second chalk cake.",
+    "frozen_criteria": "Use pretransfer inspection to establish actual phase inventory: receiver must acquire aqueous Na/Cl equivalents, source must retain the dominant CaCO3 solid. Sum of all species equivalents conserved across both filters; dissolved trace chalk may pass and is not an error. Final source should recover liquid salt without duplicate solids. Unsupported ingredient/filter refusal is separate from agreement.",
+    "assessment": "physical agreement",
+    "evidence": "After first filter chalk residue mass=0.9974g and filtrate conductivity=10955.6233uS/cm. After reverse filter final v1 has water5.534262511362439mol, Na/Cl0.009999999956984721mol each, CaCO3solid0.00996511418337mol and dissolved Ca2.619336930614102e-5mol. v2 residual chalk9.595791103894e-12mol is negligible and not a duplicated macroscopic cake.",
+    "semantic_or_unsupported_limits": "Missing chalk reaction enthalpy explicitly disclosed; conductivity incomplete.",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E103.json.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E103.text.stdout"
+    ]
+  },
+  {
+    "id": "E104",
+    "title": "Precipitate filtration versus homogeneous neutralization",
+    "frozen_expectation": "Copper sulfate plus two hydroxide equivalents forms insoluble copper hydroxide and an aqueous sodium sulfate phase; matched acid/base neutralization instead yields dissolved sodium chloride. A filter discriminates physical phase rather than calling all reaction products solids.",
+    "frozen_criteria": "Copper solid should retain about 0.005mol copper equivalents in v1, with sodium/sulfate aqueous equivalents transferred. The neutralized solution should have no macroscopic salt cake and its dissolved chloride should join v2. Across bench, Cu,Na,S,Cl conserved; no redox products needed. Aqueous pH must be interpreted after combining solutions. Chemistry or ingredient refusal is unsupported, not a pass.",
+    "assessment": "physical agreement",
+    "evidence": "Final retained Cu(OH)2=0.004998161509432mol, brochantite=2.723558004319e-7mol (four Cu each), dissolved Cu=7.490823891615414e-7mol: total Cu approximately0.005mol. Receiver Na=0.020000000030137195mol, Cl=0.010000000000000002mol, sulfate=0.0049997276592554304mol plus solid brochantite sulfate approximately closes0.005mol. Neutralization vessel balance0g after filtration.",
+    "semantic_or_unsupported_limits": "Trace alternative copper solid allowed; missing reaction heats, spectra and deliberately withheld tenorite are disclosed boundaries.",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E104.json.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E104.text.stdout"
+    ]
+  },
+  {
+    "id": "E105",
+    "title": "Partial decant carries liquid while sediment remains",
+    "frozen_expectation": "After settling chalk, a careful liquid decant leaves sediment behind. A quarter decant followed by a third of the remaining liquid transfers half the initial liquid overall, carrying approximately half the dissolved salt.",
+    "frozen_criteria": "If sediment separation is represented, chalk remains predominantly v1 while v2 accumulates about 0.006mol NaCl equivalents and nominal 60mL water. No double count across sequential fractions: total liquid transferred is 0.25+0.75/3=0.5. Any entrained chalk should be explicitly observable rather than silently duplicated. Refusal or unmodeled settling classified separately.",
+    "assessment": "partial physical agreement; real solver robustness failure",
+    "evidence": "Gravity settling reported100%. Final liquids60/60mL, each Na/Cl approximately0.006mol. Dominant chalk remains source0.01994728602049mol; receiver solid3.896602509217e-6mol is precipitation after transfer, not macroscopic sediment entrainment. First25% decant triggers solver failure at64 thermal passes, residual4.878687e-4K; intermediate source contains aqueous CaCO3=11.7umol and lacks resolved aqueous state; later decant recovers.",
+    "semantic_or_unsupported_limits": "Volume instrument semantic mismatch and missing chalk enthalpy do not explain convergence failure.",
+    "general_real_defects": "General coupled aqueous thermal iteration fails on an ordinary partial-transfer carbonate/brine state. Mechanical operation continues with unresolved source equilibrium; final recovery must not count as a full pass.",
+    "likely_source_cause": "crates/kerotakis-phreeqc/src/aqueous.rs:2325-2408 uses undamped temperature fixed-point iteration with only tolerance1e-6K or very narrow quantized exact-two-cycle exception5e-5K; error follows at64 passes. Error fallback affects represented aqueous CaCO3.",
+    "evidence_streams": [
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E105.json.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E105.text.stdout"
+    ]
+  },
+  {
+    "id": "E106",
+    "title": "Lower-phase drainage versus upper-phase decant",
+    "frozen_expectation": "Hexane is less dense and immiscible with brine. A bottom drain in suitable apparatus should select the denser aqueous phase; careful decant of an upper layer should select hexane. These protocols should produce different receiver compositions.",
+    "frozen_criteria": "If drain/decant implement phase-selective apparatus, v2 should contain water and salt while v4 is hexane rich; retained phases are complementary. Each independent pair must conserve its original water,hexane,Na,Cl. If generic new vessels lack suitable apparatus, explicit capability refusal is acceptable as a limitation and not a physical pass. If decant means bulk transfer, report semantic mismatch separately rather than forcing this prediction.",
+    "assessment": "drain agrees; decant forecast unsupported by command semantics",
+    "evidence": "Drain leaves v1hexane0.459931769129012mol and sends water5.534276991396059mol plus Na/Cl0.01mol to v2. Decant1 transfers all water,hexane,ions from v3 to v4; v3empty. Pair inventories conserved.",
+    "semantic_or_unsupported_limits": "Decant is a fraction of all liquid, not an upper-layer skimming command. Frozen criteria explicitly required semantic mismatch classification. Density of brine explicitly lacks ion contribution.",
+    "general_real_defects": "",
+    "likely_source_cause": "bench.rs Operator::Decant applies fraction to Phase::Liquid and Phase::Aqueous portions; drain selects lower LLE layer.",
+    "evidence_streams": [
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E106.json.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E106.text.stdout"
+    ]
+  },
+  {
+    "id": "E107",
+    "title": "Four fresh extraction portions versus one equal total portion",
+    "frozen_expectation": "Neutral iodine preferentially partitions into hexane. Four equal fresh portions remove more iodine from the water than one portion using the same total solvent, provided equilibrium partitioning and clean separation apply.",
+    "frozen_criteria": "For aqueous volume Va=100mL, total organic Vo=40mL, unknown positive partition K, aqueous fractions forecast q1=1/(1+K*Vo/Va), q4=(1+K*Vo/(4*Va))^-4; q4<q1 without fitting K. Total iodine in each source/receiver pair must remain 0.00001mol equivalents and each pair receives only 40mL hexane. Absorbance comparison requires matched measurement settings; refusals are capability/input outcomes.",
+    "assessment": "quantitative physical agreement; optical limit; organic phase representation defect",
+    "evidence": "Aqueous iodine remaining single-stage2.8571428571428575e-7mol versus four-stage1.2277376631548258e-9mol; each pair total1e-5mol. Equal hexane0.30662117941934136mol=40mL. With disclosed K85, fractions1/35 and1/9.5^4 exactly satisfy frozen formula.",
+    "semantic_or_unsupported_limits": "Both405nm absorbance readings0.0000 are explicitly incomplete and cannot independently validate extraction.",
+    "general_real_defects": "Pure-hexane receiver iodine is serialized/rendered as aqueous:9.714285714285715e-6mol (single) and9.998772262336846e-6mol (four). Correct vessel ownership but false solvent phase label.",
+    "likely_source_cause": "bench.rs:4096,4119 hard-code extracted solute Phase::Aqueous; enum Phase has no generic dissolved-organic variant. Requires coherent phase representation, not merely relabeling display.",
+    "evidence_streams": [
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E107.json.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E107.text.stdout"
+    ]
+  },
+  {
+    "id": "E108",
+    "title": "Extraction receiver owns solute after reverse aqueous pour",
+    "frozen_expectation": "After extraction, transferred iodine belongs to the organic receiver. Moving the depleted water into a third vessel must move only the remaining aqueous iodine; it cannot recall or reproduce iodine already in v2.",
+    "frozen_criteria": "All iodine equivalents summed over v1,v2,v3 remain 0.00001mol before and after the aqueous pour. v2 organic iodine inventory is unchanged by a transfer involving only v1,v3; final v3 matches pre-pour aqueous inventory and v1 is emptied of that liquid. No cross-solvent absorbance ratio is assumed. Unsupported iodine/extraction or transfer semantics are reported separately.",
+    "assessment": "ownership agrees; optical limit; same organic phase representation defect",
+    "evidence": "After extraction v2iodine9.969135802469136e-6mol stays unchanged by v1\u2192v3pour. v3gets remaining3.0864197530864206e-8mol; source emptied; sum1e-5mol. Hexane remains solely v2.",
+    "semantic_or_unsupported_limits": "Cross-solvent spectra not assessed; zero readings lack complete optical data.",
+    "general_real_defects": "Same organic iodine Phase::Aqueous misrepresentation as E107.",
+    "likely_source_cause": "bench.rs:4119 hard-coded Phase::Aqueous for extract receiver.",
+    "evidence_streams": [
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E108.json.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E108.text.stdout"
+    ]
+  },
+  {
+    "id": "E109",
+    "title": "Distilling brine retains nonvolatile salt",
+    "frozen_expectation": "Water distils while sodium chloride stays in the pot. The sequential fractions correspond to half the initial water recovered overall, and residual salt concentration rises about twofold if no salt precipitates.",
+    "frozen_criteria": "Na/Cl equivalents remain 0.012mol in v1, with condensate essentially salt free; total water is conserved across pot and receiver. Sequential solvent recovery forecast 0.25+0.75/3=0.5; final pot concentration approximately twice initial after cooling and without volume nonideality claims. Receiver conductivity should be far below brine. Any unsupported distillation is classified separately.",
+    "assessment": "physical agreement with observation limitation",
+    "evidence": "Final source water3.320566194837644mol and receiver3.320566194837627mol sum original6.641132389675271mol; Na/Cl source0.012mol and absent receiver. Pot liquid60mL vs initial120mL; ionic strength0.1003\u21920.2006m. Condensate conductivity0.0549 vs pot20676.0206uS/cm.",
+    "semantic_or_unsupported_limits": "Volume meter gas-only; water optical/conductivity data incomplete. Distillation energy externally paid and disclosed.",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E109.json.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E109.text.stdout"
+    ]
+  },
+  {
+    "id": "E110",
+    "title": "Distillation stages enrich a volatile component",
+    "frozen_expectation": "Ethanol is more volatile than water at this dilute composition. Early distillate should be richer in ethanol than its starting charge; additional effective stages should further enrich the receiver when cuts are comparable. No purity of 100% is predicted.",
+    "frozen_criteria": "Compare ethanol/water mole ratios from inventory/chromatography: each receiver exceeds its original source ratio and four-stage receiver is at least as ethanol rich as one-stage receiver, with a strict increase if stages resolve actual separation. Each pair conserves ethanol and water. Compare actual cut amounts before attributing difference to stages. Density direction supports only at matched temperature. Refusals distinct from agreement.",
+    "assessment": "frozen comparative prediction agrees; additional numerical endpoint concern",
+    "evidence": "Initial ethanol/water ratio0.0618924; receiver ratios one-stage0.1899623915347227/0.3977182759784098=0.4776305 and four-stage0.34252968373526665/0.24515098377786598=1.397219. Each cut total0.5876806675131325mol (10% initial solvent moles), each pair conserves water/ethanol. Receiver densities0.8708 vs0.8267g/mL at25C support enrichment.",
+    "semantic_or_unsupported_limits": "Chromatography normalizes ethanol peakA1 for both and does not quantify water. Four-stage pot ethanol stored exactly zero deserves numerical review; finite ideal stages normally approach depletion continuously. This is outside frozen inequalities and not established as a defect without integrator inspection.",
+    "general_real_defects": "",
+    "likely_source_cause": "Distillation implementation likely clips integration withdrawal to available species; investigate before asserting physical failure.",
+    "evidence_streams": [
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E110.json.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E110.text.stdout"
+    ]
+  },
+  {
+    "id": "E111",
+    "title": "Evaporation and captured distillation differ in bench ownership",
+    "frozen_expectation": "Equal water removal should leave similar concentrated brines. Distillation transfers condensate into a bench vessel; open evaporation removes water to surroundings, so the two bench material budgets differ even when pot states match.",
+    "frozen_criteria": "If fractions specify solvent removal, pots retain 0.01mol NaCl each and approximately half their initial water. Distillation pair v2+v3 conserves initial water; v1 bench water decreases by its evaporated amount, explicitly accounted as environmental loss. No salt loss or duplication. Equal pot conductivity expected at equal temperatures/composition. If fraction semantics differ, report that before physical assessment; refusal is inconclusive.",
+    "assessment": "physical agreement",
+    "evidence": "Both pots water2.767138495698mol (50mL), Na/Cl0.01mol; both conductivities20676.0206uS/cm and balance50.4344g. Receiver water2.7671384956980383mol (49.85g), no salt. Evaporation reports2.767138mol water leaving environment; distillation pair conserves initialwater5.534276991396059mol.",
+    "semantic_or_unsupported_limits": "Evaporation enthalpy omission disclosed; prediction concerns inventory, not complete thermal agreement.",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E111.json.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E111.text.stdout"
+    ]
+  },
+  {
+    "id": "E112",
+    "title": "Fixed-volume heating obeys pressure temperature proportionality",
+    "frozen_expectation": "Dilute nitrogen sealed at fixed headspace behaves approximately ideally. Heating raises both temperature and pressure while an unheated reference remains unchanged. The pressure ratio follows the measured absolute-temperature ratio, without assuming an apparatus heat capacity.",
+    "frozen_criteria": "For v1 forecast P_after/P_before approximately (T_after_C+273.15)/(T_before_C+273.15); nitrogen amount remains 0.01mol and headspace remains 1L. Reference changes should be absent except explicitly modeled ambient relaxation. Any initial ambient gas must be recorded and included consistently. Refusal to heat gas or seal is a capability limitation, not agreement.",
+    "assessment": "physical agreement including explicitly recorded ambient gas",
+    "evidence": "Seal traps0.04087404mol air each. Added nitrogen0.01mol yields total N2=0.0422945825786727mol. BeforeP125576.20210862107Pa,T296.877233K; afterP129562.16205679651Pa,T306.300521K. P ratio1.0317414 matches Kelvin ratio; reference unchanged.",
+    "semantic_or_unsupported_limits": "Ambient gas makes total nitrogen exceed added amount, as frozen criteria allowed. Apparatus heat capacity was not assumed.",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E112.json.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E112.text.stdout"
+    ]
+  },
+  {
+    "id": "E113",
+    "title": "Equal nitrogen amounts in unequal sealed headspaces",
+    "frozen_expectation": "For equal gas amounts and temperature, a one-liter headspace has twice the nitrogen pressure of a two-liter headspace. Changing an already closed chamber to twice its volume needs physical expansion work; it must not silently create gas or preserve incompatible P,V,T,n.",
+    "frozen_criteria": "Initial nitrogen partial pressure ratio forecast 2*T1K/T2K; use total pressure only if no differing ambient inventory. If reseal is treated as a permitted volume change conserving gas, final P2/P1=(T2K/T1K)/2. Alternatively an explicit boundary-change refusal is an apparatus limitation. Accepted change must conserve nitrogen, and any heat/work assumptions must account for final T. Unknown N2 is an input limitation.",
+    "assessment": "gas-law agreement; apparatus boundary energy ambiguity",
+    "evidence": "Different trapped air inventories0.04087404 and0.08174809mol explain total pressures125.5762 and113.4417kPa. Added-nitrogen partial pressure obeys inverse-volume law after temperature correction; whole nitrogen partial pressure cannot obey2:1 because ambient nitrogen differs. Reseal v1to2L conserves all gas,T296.877233K and halves totalP125576.20210862107\u219262788.10105431054Pa.",
+    "semantic_or_unsupported_limits": "Frozen prediction specified equal added gas but ambient backgrounds differ; total-pressure2:1 is not applicable. Boundary command behaves as geometry reconfiguration with unchanged ideal-gas temperature, consistent with free expansion but no path/work explanation. Not enough evidence to claim a universal work defect.",
+    "general_real_defects": "Renderer falsely says boundary=open\u2192sealed on already sealed volume change.",
+    "likely_source_cause": "bench.rs:2460-2486 replaces headspace directly and refreshes pressure; render.rs:4589 always prints open\u2192sealed.",
+    "evidence_streams": [
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E113.json.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E113.text.stdout"
+    ]
+  },
+  {
+    "id": "E114",
+    "title": "Pressure regulation allows expansion during heating",
+    "frozen_expectation": "A closed rigid chamber raises pressure on heating; a gas-preserving movable boundary under constant external pressure expands. Equal heat inputs need not give equal temperature rises because constant-pressure expansion does work.",
+    "frozen_criteria": "For rigid v1, P ratio should match measured Kelvin T ratio. If regulate denotes a gas-preserving piston, v2 stays at 1bar and gas volume ratio matches Kelvin T ratio while nitrogen moles remain 0.01mol; do not interpret liquid-only volume instrument as piston volume. If regulate denotes a venting regulator instead, gas losses must be explicit and conserved to environment, and piston prediction is unsupported. Capability refusal is separate.",
+    "assessment": "physical agreement with ambient inventory adjustment",
+    "evidence": "RigidP125576.20210862107\u2192129562.16205679651Pa,T296.877233\u2192306.300521K. RegulatedP100000Pa unchanged,gas volume1243.7450\u21921272.2461mL,T297.1583\u2192303.967855K. Volume ratio1.0229155 matches Kelvin ratio1.0229155. N2v2 stays0.041872274935773696mol including trapped air; heating raisesT6.810K versus rigid9.423K.",
+    "semantic_or_unsupported_limits": "Regulate acts as gas-preserving pressure-controlled boundary. Ambient inventories slightly differ between protocols and are accounted.",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E114.json.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E114.text.stdout"
+    ]
+  },
+  {
+    "id": "E115",
+    "title": "Opening and resealing cannot restore vented nitrogen",
+    "frozen_expectation": "At room temperature 0.1mol in one liter exceeds atmospheric pressure. Opening permits gas escape and equalizes pressure; resealing without gas addition cannot recover the original overpressure. Exchange with ambient air may alter species composition.",
+    "frozen_criteria": "Initial ideal nitrogen pressure forecast nRT/V about 2.44bar at20C, modified explicitly by any initial ambient gas. After opening and equilibration pressure approaches ambient; after reseal pressure should remain near ambient at comparable T, not return to original pressure. Track nitrogen leaving to surroundings and any admitted ambient gases; no invention or restoration of vented material. Refusal or absent ambient boundary model classified as limitation.",
+    "assessment": "physical agreement with atmospheric-reservoir model limit",
+    "evidence": "Initial totalP344690.7Pa,T294.2825K includes trapped air plus0.1mol nitrogen. Opening exportsN2=0.132295mol,O2=0.008563mol,CO2=0.000016mol and reports ambientP101325Pa. Resealing traps0.04139998mol fresh air; finalN2=0.032710125530537947mol,P101325Pa,T294.362361K, never restores overpressure.",
+    "semantic_or_unsupported_limits": "Open vessel model keeps no atmospheric gas inventory until seal, an explicitly modeled reservoir boundary. This differs from finite chamber evacuation but fulfills frozen vent/reseal forecast.",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E115.json.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261003/third-50-baseline-37097623666/E115.text.stdout"
+    ]
+  },
+  {
+    "id": "E116",
+    "title": "Sub-boiling sealed-water heat/cool cycle",
+    "frozen_expectation": "A small positive energy raises the temperature of sealed liquid water. Removing the same energy reverses this single-phase excursion, with unchanged water inventory and total mass.",
+    "frozen_criteria": [
+      "Intermediate temperature exceeds initial temperature.",
+      "Final temperature returns within 0.2 K of initial; final mass within 0.1% of initial.",
+      "Inspect shows no lost water or newly generated chemical species.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ],
+    "classification": "pass",
+    "evidence": "25\u219227.3975\u219225 C; mass99.8179g unchanged. Trapped-air aqueous speciation restores on return.",
+    "checks": [
+      {
+        "name": "solver_failures_absent",
+        "ok": true,
+        "details": {
+          "events": []
+        }
+      },
+      {
+        "name": "reported_capability_limits",
+        "ok": true,
+        "details": {
+          "limits": []
+        }
+      },
+      {
+        "name": "temperature_cycle",
+        "ok": true,
+        "details": {
+          "temperature_c": [
+            25.000037547795614,
+            27.397482407618668,
+            25.00003755128398
+          ]
+        }
+      },
+      {
+        "name": "mass_cycle",
+        "ok": true,
+        "details": {
+          "mass_g": [
+            99.81794224366958,
+            99.81794224367029
+          ]
+        }
+      }
+    ],
+    "source_causes": []
+  },
+  {
+    "id": "E117",
+    "title": "One heat pulse versus four equal pulses",
+    "frozen_expectation": "At unchanged composition below boiling, equal total supplied heat should give the same final state irrespective of splitting the energy into pulses, when commands introduce no additional elapsed cooling time.",
+    "frozen_criteria": [
+      "Final temperatures agree within 0.2 K; both exceed their initial temperatures.",
+      "Final masses agree within 0.1%; neither vessel loses material.",
+      "If pulses explicitly advance time or incur environmental heat loss, classify the differing boundary conditions separately before judging energy partitioning.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ],
+    "classification": "pass",
+    "evidence": "Both final29.7948C,99.8179g. Pressure difference0.001Pa across pulse protocols negligible.",
+    "checks": [
+      {
+        "name": "solver_failures_absent",
+        "ok": true,
+        "details": {
+          "events": []
+        }
+      },
+      {
+        "name": "reported_capability_limits",
+        "ok": true,
+        "details": {
+          "limits": []
+        }
+      },
+      {
+        "name": "final_temperature_agreement",
+        "ok": true,
+        "details": {
+          "temperature_c": [
+            29.794822264855156,
+            29.794824193013483
+          ]
+        }
+      },
+      {
+        "name": "mass_scaling",
+        "ok": true,
+        "details": {
+          "mass_g": [
+            99.81794224366952,
+            99.81794224366706
+          ],
+          "ratio": 0.9999999999999754
+        }
+      },
+      {
+        "name": "water_scaling",
+        "ok": true,
+        "details": {
+          "ratio": 1.0000000000000753
+        }
+      }
+    ],
+    "source_causes": []
+  },
+  {
+    "id": "E118",
+    "title": "Water amount and heating energy doubled together",
+    "frozen_expectation": "For water-dominated heat storage, doubling water amount and supplied energy preserves the temperature rise. The second sample has twice the water inventory and sample mass. Fixed vessel heat capacity can break exact thermal scaling and must be visible as a separate energy sink.",
+    "frozen_criteria": [
+      "Water mole inventory and sample mass ratio v2/v1 equal 2 within 0.1%.",
+      "If reported heat is delivered to contents only, temperature rises agree within 1%.",
+      "If vessel or environment heat storage is explicitly included, check the full energy balance instead of fitting a heat-capacity constant from these results.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ],
+    "classification": "pass",
+    "evidence": "Both final27.3975C; masses49.9090/99.8179g, fullprecision ratio2.",
+    "checks": [
+      {
+        "name": "solver_failures_absent",
+        "ok": true,
+        "details": {
+          "events": []
+        }
+      },
+      {
+        "name": "reported_capability_limits",
+        "ok": true,
+        "details": {
+          "limits": []
+        }
+      },
+      {
+        "name": "final_temperature_agreement",
+        "ok": true,
+        "details": {
+          "temperature_c": [
+            27.397482407618668,
+            27.397482407618668
+          ]
+        }
+      },
+      {
+        "name": "mass_scaling",
+        "ok": true,
+        "details": {
+          "mass_g": [
+            49.90897112183432,
+            99.81794224366877
+          ],
+          "ratio": 2.0000000000000027
+        }
+      },
+      {
+        "name": "water_scaling",
+        "ok": true,
+        "details": {
+          "ratio": 1.9999999999999936
+        }
+      }
+    ],
+    "source_causes": []
+  },
+  {
+    "id": "E119",
+    "title": "Equal hot/cold water mixing versus direct midpoint preparation",
+    "frozen_expectation": "Mixing equal amounts of the same liquid at 20 C and 40 C gives approximately 30 C and the same composition and mass as a directly prepared 100 mL sample at 30 C. Thermal expansion and weak heat-capacity variation allow small departures from the exact midpoint.",
+    "frozen_criteria": [
+      "Mixed temperature lies strictly between the measured source temperatures and within 0.5 K of their arithmetic mean.",
+      "Final v3 water inventory equals the sum of initial v1 and v2 inventories within 0.1%.",
+      "Final sample masses v3 and v4 agree within 0.5%; source contents are exhausted after full transfer.",
+      "Any explicitly reported vessel heat exchange must be included before assigning a temperature disagreement.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ],
+    "classification": "pass",
+    "evidence": "20/40C sources mix to30C; mixed/direct masses99.7g, source contents empty.",
+    "checks": [
+      {
+        "name": "solver_failures_absent",
+        "ok": true,
+        "details": {
+          "events": []
+        }
+      },
+      {
+        "name": "reported_capability_limits",
+        "ok": true,
+        "details": {
+          "limits": []
+        }
+      },
+      {
+        "name": "mixed_midpoint",
+        "ok": true,
+        "details": {
+          "temperature_c": [
+            20.0,
+            40.0,
+            29.999960868220114,
+            30.0
+          ]
+        }
+      },
+      {
+        "name": "direct_mixed_mass",
+        "ok": true,
+        "details": {}
+      },
+      {
+        "name": "complete_source_transfer",
+        "ok": true,
+        "details": {}
+      }
+    ],
+    "source_causes": []
+  },
+  {
+    "id": "E120",
+    "title": "Added inert gas pressure increment halves with doubled headspace",
+    "frozen_expectation": "For an ideal inert gas at low density, equal added gas amounts produce pressure increments inversely proportional to headspace volume. Normalize pressure by measured absolute temperature and subtract each vessel baseline to remove initially trapped air.",
+    "frozen_criteria": [
+      "Define A_i=P_final_i/T_final_i-P_initial_i/T_initial_i using kelvin. Require A_1/A_2=2 within 2%.",
+      "Require A_i*V_i=0.001*R within 2%, using R=8.314462618 Pa m^3 mol^-1 K^-1 and V in m^3.",
+      "Inspect shows equal added nitrogen mole amounts and no nitrogen loss or reaction.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ],
+    "classification": "pass",
+    "evidence": "101.325kPa baselines; finals103.8040/102.5645kPa, added pressure ratio2; ideal-gas increments agree.",
+    "checks": [
+      {
+        "name": "solver_failures_absent",
+        "ok": true,
+        "details": {
+          "events": []
+        }
+      },
+      {
+        "name": "reported_capability_limits",
+        "ok": true,
+        "details": {
+          "limits": []
+        }
+      },
+      {
+        "name": "pressure_increment_scaling",
+        "ok": true,
+        "details": {
+          "normalized_increment_pa_per_k": [
+            8.314462618000062,
+            4.157231308999975
+          ],
+          "ratio": 2.000000000000027
+        }
+      },
+      {
+        "name": "ideal_gas_increment_v1",
+        "ok": true,
+        "details": {
+          "delta_p_over_t_times_v": 0.008314462618000062
+        }
+      },
+      {
+        "name": "ideal_gas_increment_v2",
+        "ok": true,
+        "details": {
+          "delta_p_over_t_times_v": 0.008314462617999951
+        }
+      }
+    ],
+    "source_causes": []
+  },
+  {
+    "id": "E121",
+    "title": "Gas amount and headspace scale together",
+    "frozen_expectation": "Doubling gas amount and headspace preserves number density and the temperature-normalized added pressure. The added nitrogen mass doubles even if the pressure is unchanged.",
+    "frozen_criteria": [
+      "The baseline-subtracted P/T increments agree within 2%.",
+      "Nitrogen mole inventory ratio v2/v1 equals 2 within 0.1%.",
+      "Where balance reports sample mass including trapped air, compare mass increments to each baseline rather than assuming the uncorrected total mass ratio is 2.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ],
+    "classification": "pass",
+    "evidence": "Both106.2829kPa at25C; added nitrogen1/2mmol; total mass0.6177/1.2355g.",
+    "checks": [
+      {
+        "name": "solver_failures_absent",
+        "ok": true,
+        "details": {
+          "events": []
+        }
+      },
+      {
+        "name": "reported_capability_limits",
+        "ok": true,
+        "details": {
+          "limits": []
+        }
+      },
+      {
+        "name": "pressure_increment_scaling",
+        "ok": true,
+        "details": {
+          "normalized_increment_pa_per_k": [
+            16.628925236000068,
+            16.628925236000068
+          ],
+          "ratio": 1.0
+        }
+      }
+    ],
+    "source_causes": []
+  },
+  {
+    "id": "E122",
+    "title": "Sealed inert-gas temperature-pressure reversibility",
+    "frozen_expectation": "At fixed headspace and fixed gas amount, pressure is proportional to absolute temperature. An equal heat/cool cycle restores the original gas state if no external loss or phase change occurs.",
+    "frozen_criteria": [
+      "During heating temperature and pressure both increase.",
+      "P_hot/P_initial equals T_hot/T_initial within 2%, with temperatures in kelvin.",
+      "Final temperature returns within 0.2 K, pressure within 1%, and mass within 0.1% of initial.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ],
+    "classification": "pass",
+    "evidence": "25\u219234.4226\u219225C;126.1146\u2192130.1002\u2192126.1146kPa;1.4596g unchanged.",
+    "checks": [
+      {
+        "name": "solver_failures_absent",
+        "ok": true,
+        "details": {
+          "events": []
+        }
+      },
+      {
+        "name": "reported_capability_limits",
+        "ok": true,
+        "details": {
+          "limits": []
+        }
+      },
+      {
+        "name": "temperature_cycle",
+        "ok": true,
+        "details": {
+          "temperature_c": [
+            25.0,
+            34.42255262383719,
+            25.0
+          ]
+        }
+      },
+      {
+        "name": "mass_cycle",
+        "ok": true,
+        "details": {
+          "mass_g": [
+            1.4595624349555745,
+            1.4595624349555745
+          ]
+        }
+      },
+      {
+        "name": "fixed_volume_pressure_temperature",
+        "ok": true,
+        "details": {
+          "pressure": [
+            126.114570295567,
+            130.10021904700957,
+            126.114570295567
+          ],
+          "temperature_c": [
+            25.0,
+            34.42255262383719,
+            25.0
+          ]
+        }
+      },
+      {
+        "name": "pressure_cycle",
+        "ok": true,
+        "details": {
+          "pressure": [
+            126.114570295567,
+            130.10021904700957,
+            126.114570295567
+          ]
+        }
+      }
+    ],
+    "source_causes": []
+  },
+  {
+    "id": "E123",
+    "title": "Isothermal headspace expansion and return",
+    "frozen_expectation": "If resealing an already sealed vessel means changing its headspace without venting, ideal-gas P*V/T is invariant and returning the original volume restores pressure. If this operation instead vents or replaces the headspace, the reversible compression capability is unavailable rather than physically confirmed.",
+    "frozen_criteria": [
+      "For accepted gas-preserving volume changes, P_expanded*2/T_expanded equals P_initial/T_initial within 2%.",
+      "Gas mole inventory and mass remain constant within 0.1% through both changes.",
+      "Final P/T equals initial P/T within 2%.",
+      "Explicit reseal refusal or documented headspace replacement is classified as unsupported closed-volume protocol; do not treat a changed gas ledger as successful reversible compression.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ],
+    "classification": "pass_with_rendering_defect",
+    "evidence": "1\u21922\u21921L produces126.1146\u219263.0573\u2192126.1146kPa at25C;1.4596g conserved. Rendering wrongly says boundary=open\u2192sealed on already sealed vessel.",
+    "checks": [
+      {
+        "name": "solver_failures_absent",
+        "ok": true,
+        "details": {
+          "events": []
+        }
+      },
+      {
+        "name": "reported_capability_limits",
+        "ok": true,
+        "details": {
+          "limits": []
+        }
+      },
+      {
+        "name": "expansion_pv_over_t",
+        "ok": true,
+        "details": {
+          "pressure": [
+            126.114570295567,
+            63.0572851477835,
+            126.114570295567
+          ],
+          "temperature_c": [
+            25.0,
+            25.0,
+            25.0
+          ]
+        }
+      },
+      {
+        "name": "return_pressure",
+        "ok": true,
+        "details": {
+          "pressure": [
+            126.114570295567,
+            63.0572851477835,
+            126.114570295567
+          ]
+        }
+      },
+      {
+        "name": "return_mass",
+        "ok": true,
+        "details": {
+          "mass_g": [
+            1.4595624349555745,
+            1.4595624349555745
+          ]
+        }
+      }
+    ],
+    "source_causes": [
+      "crates/kerotakis-core/src/render.rs:4589 hardcodes open\u2192sealed regardless previous boundary"
+    ]
+  },
+  {
+    "id": "E124",
+    "title": "Repeated gas measurements must not consume or heat the sample",
+    "frozen_expectation": "Pressure, temperature and balance observations of a sealed inert sample are non-destructive and should commute without changing the material or energy ledger.",
+    "frozen_criteria": [
+      "Every pressure reading agrees within the displayed resolution, and likewise each temperature and mass reading.",
+      "The before/after inspect states have identical species quantities, gas inventory, thermal state and boundary conditions.",
+      "If an instrument explicitly models sample consumption, report that capability boundary and its stated mass balance separately.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ],
+    "classification": "pass",
+    "evidence": "All repeated pressure103.8040kPa,temperature25C,mass1.2074g; full bench snapshots identical.",
+    "checks": [
+      {
+        "name": "solver_failures_absent",
+        "ok": true,
+        "details": {
+          "events": []
+        }
+      },
+      {
+        "name": "reported_capability_limits",
+        "ok": true,
+        "details": {
+          "limits": []
+        }
+      },
+      {
+        "name": "repeat_pressure_gauge",
+        "ok": true,
+        "details": {
+          "values": [
+            103.80395702955673,
+            103.80395702955673,
+            103.80395702955673,
+            103.80395702955673
+          ]
+        }
+      },
+      {
+        "name": "repeat_thermometer",
+        "ok": true,
+        "details": {
+          "values": [
+            25.0,
+            25.0,
+            25.0
+          ]
+        }
+      },
+      {
+        "name": "repeat_balance",
+        "ok": true,
+        "details": {
+          "values": [
+            1.2074364349555744,
+            1.2074364349555744
+          ]
+        }
+      },
+      {
+        "name": "measurement_state_invariance",
+        "ok": true,
+        "details": {}
+      }
+    ],
+    "source_causes": []
+  },
+  {
+    "id": "E125",
+    "title": "Temperature units and instrument aliases give one physical state",
+    "frozen_expectation": "25 C and 298.15 K denote the same temperature; instrument spelling aliases must not change either readings or state. Identical water samples therefore agree in temperature, mass and volume.",
+    "frozen_criteria": [
+      "All four temperature readings agree within the displayed resolution.",
+      "Balance and mass readings agree within 0.1%, and volumes agree within 0.1%.",
+      "Inspect records identical water inventories and thermal states for both preparations.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ],
+    "classification": "partial_capability_limit",
+    "evidence": "All alias/unit temperatures25C; masses99.7g and inventories equal. Volume meter explicitly rejects open liquid samples; inspect gives100mL each.",
+    "checks": [
+      {
+        "name": "solver_failures_absent",
+        "ok": true,
+        "details": {
+          "events": []
+        }
+      },
+      {
+        "name": "reported_capability_limits",
+        "ok": null,
+        "details": {
+          "limits": [
+            "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+            "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line."
+          ]
+        }
+      },
+      {
+        "name": "temperature_alias_units",
+        "ok": true,
+        "details": {
+          "temperature_c": [
+            25.0,
+            25.0,
+            25.0,
+            25.0
+          ]
+        }
+      },
+      {
+        "name": "mass_equivalence",
+        "ok": true,
+        "details": {}
+      },
+      {
+        "name": "liquid_volume_instrument",
+        "ok": null,
+        "details": {
+          "reason": "volume_meter covers headspace only; liquid inventory equivalent"
+        }
+      }
+    ],
+    "source_causes": []
+  },
+  {
+    "id": "E126",
+    "title": "Direct versus staged water dilution of dilute salt",
+    "frozen_expectation": "Under the make-up-to-volume reading of dilute, a 10 mL salt sample diluted directly to 100 mL or through 20 mL ends at the same concentration and inventory. The grammar alone does not resolve whether the volume is a final target or an added quantity; additive semantics would make these scripts inequivalent and must be classified before testing path independence.",
+    "frozen_criteria": [
+      "If dilute means final volume, both final volumes equal 100 mL within displayed resolution and conductivity agrees within 1%.",
+      "Salt inventory is unchanged within 0.1% in each vessel and final masses agree within 0.1%.",
+      "pH readings agree within 0.05.",
+      "If dilute means added volume, record semantic mismatch (110 mL versus 130 mL nominal totals), not a failure of concentration path independence.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ],
+    "classification": "semantic_limit",
+    "evidence": "Dilute adds water:110/130mL,109.6706/129.6106g,11.5214/9.7613uS/cm. Each retains10umolNa/Cl. Frozen additive branch explicitly excludes equivalence assertion.",
+    "checks": [
+      {
+        "name": "solver_failures_absent",
+        "ok": true,
+        "details": {
+          "events": []
+        }
+      },
+      {
+        "name": "reported_capability_limits",
+        "ok": null,
+        "details": {
+          "limits": [
+            "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+            "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line."
+          ]
+        }
+      },
+      {
+        "name": "dilution_semantics",
+        "ok": null,
+        "details": {
+          "reason": "additive water dose, not make-up-to-volume; protocols intentionally not equivalent under frozen semantic branch",
+          "water_moles": [
+            6.087704690535665,
+            7.194560088814876
+          ]
+        }
+      },
+      {
+        "name": "salt_conservation",
+        "ok": true,
+        "details": {}
+      }
+    ],
+    "source_causes": []
+  },
+  {
+    "id": "E127",
+    "title": "Trace-acid aqueous heating versus pure-water thermal control",
+    "frozen_expectation": "A trace amount of strong acid changes pH substantially while contributing a negligible fraction of the sample mass and heat capacity. Equal sub-boiling energy doses should therefore give nearly the same temperature rise in the acidic and pure-water samples. This tests whether a large logarithmic measurement change incorrectly becomes a large thermal change.",
+    "frozen_criteria": [
+      "Initial acidic-sample pH is at least two units below pure-water pH, confirming that the trace dose is chemically detectable.",
+      "Both temperatures increase and the two temperature rises agree within the greater of 0.1 K or 1% of their mean rise.",
+      "Each sample mass and chlorine inventory remain constant within 0.1% through the heating.",
+      "The acid sample remains more acidic than the water control; no exact pH-temperature law is assumed.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ],
+    "classification": "prediction_control_mismatch",
+    "evidence": "Thermal rises both1.1988K, chloride10umol conserved. Frozen >=2pH-unit control fails:4.0035vs5.7635, difference1.7600; seal trapsCO2 and acidifies pure-water control. No thermal defect.",
+    "checks": [
+      {
+        "name": "solver_failures_absent",
+        "ok": true,
+        "details": {
+          "events": []
+        }
+      },
+      {
+        "name": "reported_capability_limits",
+        "ok": true,
+        "details": {
+          "limits": []
+        }
+      },
+      {
+        "name": "thermal_contrast",
+        "ok": true,
+        "details": {
+          "delta_temperature_k": [
+            1.1987415324042558,
+            1.1987415764230036
+          ]
+        }
+      },
+      {
+        "name": "frozen_acid_detectability_control",
+        "ok": false,
+        "details": {
+          "ph": [
+            [
+              4.003511002117,
+              4.003521296228
+            ],
+            [
+              5.763472975626,
+              5.763621984602
+            ]
+          ],
+          "interpretation": "initial control fails because trapped atmospheric CO2 acidifies pure water; not a thermal defect"
+        }
+      },
+      {
+        "name": "acid_stays_more_acidic",
+        "ok": true,
+        "details": {
+          "ph": [
+            [
+              4.003511002117,
+              4.003521296228
+            ],
+            [
+              5.763472975626,
+              5.763621984602
+            ]
+          ]
+        }
+      }
+    ],
+    "source_causes": []
+  },
+  {
+    "id": "E128",
+    "title": "Extreme strong-acid dilution approaches neutrality from acid side",
+    "frozen_expectation": "As strong-acid concentration falls below the hydrogen-ion concentration of pure water, water autoionization prevents pH from following -log10(acid concentration) into the alkaline range. Both samples remain on the acidic side of neutrality and the lower-dose sample is closer to neutral.",
+    "frozen_criteria": [
+      "At 25 C, 0<pH_v1<=pH_v2<=7.05, allowing 0.05 display/model tolerance around pH 7.",
+      "Both pH values exceed 6.8; neither may report approximately pH 8 or pH 11 from ignoring water autoionization.",
+      "For an ideal dilute-water model, solve h=(c+sqrt(c*c+4e-14))/2 using measured volume-derived c; pH agrees with -log10(h) within 0.1.",
+      "Inspect retains the supplied chlorine amount even if proton/hydroxide speciation equilibrates.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ],
+    "classification": "real_defect",
+    "evidence": "pH6.9780/6.9997 correctly approaches neutrality.1nmolCl retained but accepted1pmolHCl yields zeroCl inventory and noCl species:100% trace chlorine loss.",
+    "checks": [
+      {
+        "name": "solver_failures_absent",
+        "ok": true,
+        "details": {
+          "events": []
+        }
+      },
+      {
+        "name": "reported_capability_limits",
+        "ok": true,
+        "details": {
+          "limits": []
+        }
+      },
+      {
+        "name": "water_ionization_floor",
+        "ok": true,
+        "details": {
+          "ph": [
+            6.978015332218,
+            6.999744543926
+          ]
+        }
+      },
+      {
+        "name": "chlorine_conservation_v1",
+        "ok": true,
+        "details": {
+          "expected_mol": 1e-09,
+          "actual_mol": 1e-09
+        }
+      },
+      {
+        "name": "chlorine_conservation_v2",
+        "ok": false,
+        "details": {
+          "expected_mol": 1e-12,
+          "actual_mol": 0
+        }
+      }
+    ],
+    "source_causes": [
+      "crates/kerotakis-phreeqc/src/aqueous.rs:5007 drops new_ions <=TRACE=1e-12mol",
+      "crates/kerotakis-phreeqc/src/aqueous.rs:6815 presentation distribution filters molality<=1e-9; not itself ledger loss",
+      "crates/kerotakis-phreeqc/src/inventory.rs:157 similarly drops acid/base basis<=1e-12mol"
+    ]
+  },
+  {
+    "id": "E129",
+    "title": "Intensive salt readings invariant under hundredfold sample scale",
+    "frozen_expectation": "Samples with the same salt-to-water ratio at the same temperature have the same intensive conductivity, density and pH while sample volume, mass and dissolved-ion inventory scale by 100.",
+    "frozen_criteria": [
+      "Conductivities agree within 1%, densities within 0.1%, and pH within 0.05.",
+      "Volume and sample-mass ratios v2/v1 equal 100 within 0.5%.",
+      "Sodium and chlorine inventories each scale by 100 within 0.1%; neither sample precipitates at this dilute concentration.",
+      "An explicitly stated minimum sample-volume instrument refusal is a measurement capability limit, not disagreement with intensive scaling.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ],
+    "classification": "real_coverage_defect_with_physical_agreement",
+    "evidence": "Conductivity124.731419uS/cm andpH6.999381 scale correctly; mass ratio100. Density0.997000175g/mL identical but support changes estimated\u2192incomplete for identical concentration:absolute visibility threshold incorrectly gates missing-ion-volume coverage.",
+    "checks": [
+      {
+        "name": "solver_failures_absent",
+        "ok": true,
+        "details": {
+          "events": []
+        }
+      },
+      {
+        "name": "reported_capability_limits",
+        "ok": null,
+        "details": {
+          "limits": [
+            "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+            "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+            "the dissolved ions' share of this density: every ion in the registry carries water's density as a structural default rather than a measured one, so a salt solution reads as the water it was made from. The solvent's figure is right and the solutes' is missing"
+          ]
+        }
+      },
+      {
+        "name": "conductivity_intensive",
+        "ok": true,
+        "details": {
+          "conductivity": [
+            124.73141900284648,
+            124.73141900284645
+          ]
+        }
+      },
+      {
+        "name": "ph_intensive",
+        "ok": true,
+        "details": {
+          "ph": [
+            6.999380791612,
+            6.999380791612
+          ]
+        }
+      },
+      {
+        "name": "inventory_scale_water",
+        "ok": true,
+        "details": {
+          "ratio": 100.0
+        }
+      },
+      {
+        "name": "inventory_scale_Na+",
+        "ok": true,
+        "details": {
+          "ratio": 100.00000000000001
+        }
+      },
+      {
+        "name": "inventory_scale_Cl-",
+        "ok": true,
+        "details": {
+          "ratio": 100.00000000000001
+        }
+      },
+      {
+        "name": "density_coverage_scale_invariance",
+        "ok": false,
+        "details": {
+          "supports": [
+            {
+              "assumptions": [
+                "hydrometer samples liquid only; solids excluded; additive represented volumes, not a mixture equation of state"
+              ],
+              "observable": "density",
+              "provenance": [],
+              "reasons": [
+                "represented-liquid-volume-density"
+              ],
+              "scope": "liquid_phase",
+              "status": "estimated",
+              "validity": []
+            },
+            {
+              "assumptions": [
+                "hydrometer samples liquid only; solids excluded; additive represented volumes, not a mixture equation of state"
+              ],
+              "observable": "density",
+              "provenance": [],
+              "reasons": [
+                "represented-liquid-volume-density",
+                "missing-dissolved-ion-volume"
+              ],
+              "scope": "liquid_phase",
+              "status": "incomplete",
+              "validity": []
+            }
+          ]
+        }
+      },
+      {
+        "name": "density_physical_agreement",
+        "ok": null,
+        "details": {
+          "reason": "dissolved-ion partial volumes unavailable; numerical equality cannot establish density accuracy"
+        }
+      }
+    ],
+    "source_causes": [
+      "crates/kerotakis-core/src/buoyancy.rs:124 ionic_volume_unaccounted requires individual ion moles>OBSERVABLE_MOLES=1e-6",
+      "crates/kerotakis-core/src/coverage.rs:291 propagates the absolute visibility predicate to physical support status"
+    ]
+  },
+  {
+    "id": "E130",
+    "title": "Dilution then partial evaporation returns salt concentration",
+    "frozen_expectation": "Adding an equal water amount and evaporating half the solvent restores the original salt-to-water ratio provided fraction denotes removed solvent and evaporation retains nonvolatile salt. Salt mass is conserved although water and energy exchange with the environment; temperature-dependent conductivity comparisons require matched temperatures.",
+    "frozen_criteria": [
+      "Final water and NaCl inventories of v1 match untouched v2 within 0.5%, with no salt in the evaporated material.",
+      "If final temperatures agree within 0.2 K, final conductivity agrees within 2% and pH within 0.05.",
+      "If evaporation changes temperature, report the thermal boundary difference and judge restored composition directly; do not use a mismatched-temperature conductivity result as a concentration failure.",
+      "If evaporate fraction denotes something other than removed solvent fraction, record that semantic boundary before interpreting restoration.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ],
+    "classification": "partial_capability_limit",
+    "evidence": "Water2.7671385mol andNa/Cl50umol restored; conductivity124.7314uS/cm,pH6.9994 agree; temperatures24.9995/24.9991C. Volume instrument unsupported; evaporation explicitly omits vaporization enthalpy.",
+    "checks": [
+      {
+        "name": "solver_failures_absent",
+        "ok": true,
+        "details": {
+          "events": []
+        }
+      },
+      {
+        "name": "reported_capability_limits",
+        "ok": null,
+        "details": {
+          "limits": [
+            "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+            "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+            "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+            "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line."
+          ]
+        }
+      },
+      {
+        "name": "restored_water",
+        "ok": true,
+        "details": {
+          "moles": [
+            2.7671384956980294,
+            2.7671384956980294
+          ]
+        }
+      },
+      {
+        "name": "restored_Na+",
+        "ok": true,
+        "details": {
+          "moles": [
+            5e-05,
+            5e-05
+          ]
+        }
+      },
+      {
+        "name": "restored_Cl-",
+        "ok": true,
+        "details": {
+          "moles": [
+            5e-05,
+            5e-05
+          ]
+        }
+      },
+      {
+        "name": "restored_conductivity",
+        "ok": true,
+        "details": {
+          "conductivity": [
+            124.73141984675163,
+            124.73141900284645
+          ],
+          "temperature_c": [
+            24.999536122103677,
+            24.999069528412974
+          ]
+        }
+      },
+      {
+        "name": "restored_ph",
+        "ok": true,
+        "details": {
+          "ph": [
+            6.999374221238,
+            6.999380791612
+          ]
+        }
+      },
+      {
+        "name": "evaporation_thermal_balance",
+        "ok": null,
+        "details": {
+          "reason": "explicit missing vaporization enthalpy; composition restoration only"
+        }
+      }
+    ],
+    "source_causes": []
+  },
+  {
+    "id": "E131",
+    "title": "Acid/base order equivalence",
+    "frozen_expectation": "Equal acid and base inventories end near neutral in either order; order must not create different salt inventories. Thermal uncertainty must remain explicit.",
+    "frozen_criteria": [
+      "Both pH values near7 within0.5 and mutually within0.2.",
+      "Same Na/Cl atom inventories, no negative stock."
+    ],
+    "assessment": "physical agreement",
+    "evidence": "Both final pH6.99269345; Na/Cl each0.002mol overall.",
+    "semantic_or_unsupported_limits": "",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "E131.json.stdout",
+      "E131.text.stdout"
+    ]
+  },
+  {
+    "id": "E132",
+    "title": "Tenfold strong-acid dilution",
+    "frozen_expectation": "Adding nine initial solvent volumes raises dilute strong-acid pH by roughly1 without removing acid or chloride.",
+    "frozen_criteria": [
+      "pH increases by1 within0.2.",
+      "Cl inventory unchanged; added solvent accounted."
+    ],
+    "assessment": "physical agreement",
+    "evidence": "pH increases from2.038 to3.013; chloride0.001mol remains; water increases tenfold.",
+    "semantic_or_unsupported_limits": "Activity corrections explain departure from exactly1pH unit.",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "E132.json.stdout",
+      "E132.text.stdout"
+    ]
+  },
+  {
+    "id": "E133",
+    "title": "Tenfold strong-base dilution",
+    "frozen_expectation": "Tenfold dilution lowers dilute strong-base pH by roughly1 without neutralising or removing sodium.",
+    "frozen_criteria": [
+      "pH falls by1 within0.2.",
+      "Sodium inventory unchanged."
+    ],
+    "assessment": "physical agreement",
+    "evidence": "pH decreases from11.952 to10.9849; sodium0.001mol remains.",
+    "semantic_or_unsupported_limits": "Dissolution heat changes temperature slightly.",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "E133.json.stdout",
+      "E133.text.stdout"
+    ]
+  },
+  {
+    "id": "E134",
+    "title": "Pouring dilution versus direct water addition",
+    "frozen_expectation": "The same acid and total water reached by a pour or direct addition give equivalent dilute pH and solvent/solute inventories.",
+    "frozen_criteria": [
+      "pH difference below0.1.",
+      "Each final vessel has the same chloride and water stock; donor emptied."
+    ],
+    "assessment": "physical agreement",
+    "evidence": "Both protocols pH2.32959077 and equal water/chloride inventories.",
+    "semantic_or_unsupported_limits": "",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "E134.json.stdout",
+      "E134.text.stdout"
+    ]
+  },
+  {
+    "id": "E135",
+    "title": "Silver chloride precipitation order",
+    "frozen_expectation": "Both orders make predominantly solid silver chloride with equal final elemental inventories.",
+    "frozen_criteria": [
+      "At least90percent of silver inAgCl solid inboth.",
+      "Ag/Cl/Na/N totals conserved and orderindependent; missing phase eligibility is a capability gap."
+    ],
+    "assessment": "physical agreement",
+    "evidence": "Both orders produce0.0009984818molAgClsolid with conservedAg/Cl/Na/N.",
+    "semantic_or_unsupported_limits": "",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "E135.json.stdout",
+      "E135.text.stdout"
+    ]
+  },
+  {
+    "id": "E136",
+    "title": "Chloride limits silver chloride yield",
+    "frozen_expectation": "One chloride equivalent limits AgCl to roughly0.001mol and leaves substantial dissolved excess silver.",
+    "frozen_criteria": [
+      "AgCl solid0.0009 to0.00101mol.",
+      "About0.001mol silver outsideAgCl; no atom creation."
+    ],
+    "assessment": "physical agreement",
+    "evidence": "AgCl0.0009999647mol; dissolvedAg0.0010000353mol.",
+    "semantic_or_unsupported_limits": "",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "E136.json.stdout",
+      "E136.text.stdout"
+    ]
+  },
+  {
+    "id": "E137",
+    "title": "Common chloride ion suppresses silver chloride dissolution",
+    "frozen_expectation": "Added chloride suppresses dissolved silver fromAgCl compared with purewater; remaining solid is not absent chemistry.",
+    "frozen_criteria": [
+      "Both retainAgCl solid.",
+      "Dissolved silver in chloride vessel lower than purewater by at least factor10, or explicit unsupported activity/phase coverage."
+    ],
+    "assessment": "physical agreement",
+    "evidence": "DissolvedAg1.3683e-6mol in purewater versus6.86e-8mol with chloride; >19fold suppression, solids remain.",
+    "semantic_or_unsupported_limits": "",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "E137.json.stdout",
+      "E137.text.stdout"
+    ]
+  },
+  {
+    "id": "E138",
+    "title": "Repeated filtration cannot duplicate precipitate",
+    "frozen_expectation": "A second filtration of the first filtrate cannot reproduce the first solid dose. Dissolved material and solvent follow the filtrate while precipitate remains separated.",
+    "frozen_criteria": [
+      "Complete Ag/Cl totals overallvessels conserved at each filtration.",
+      "No duplicate0.001mol precipitate appears onsecondfilter; physical ownership distinct from visibility."
+    ],
+    "assessment": "physical agreement",
+    "evidence": "SolidAgCl retained first source; final third vessel only receives solution; Ag/Cl conserved at all inspections.",
+    "semantic_or_unsupported_limits": "",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "E138.json.stdout",
+      "E138.text.stdout"
+    ]
+  },
+  {
+    "id": "E139",
+    "title": "Barium sulfate precipitation",
+    "frozen_expectation": "Equimolar barium and sulfate produce almost quantitative white BaSO4 precipitate. Unsupported ingredient/phase must be distinguished from soluble product.",
+    "frozen_criteria": [
+      "At least95percent of barium inBaSO4 solid if supported.",
+      "Ba/S/Na/Cl totals conserved; support/refusal classified explicitly."
+    ],
+    "assessment": "physical agreement",
+    "evidence": "BaSO4solid0.0009981708mol, >99.8percent barium; all Ba/S/Na/Cl conserved.",
+    "semantic_or_unsupported_limits": "",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "E139.json.stdout",
+      "E139.text.stdout"
+    ]
+  },
+  {
+    "id": "E140",
+    "title": "Sealed carbonate requires two proton equivalents",
+    "frozen_expectation": "Two acid equivalents convert carbonate principally intoCO2 which can partition between sealed gas and liquid. Carbon remains owned rather than disappearing to roomair.",
+    "frozen_criteria": [
+      "Total C conserved including initially trappedair.",
+      "CO2 gas/aqueous inventory increases; chloride dose conserved; gas test doesnot byitself certify mass."
+    ],
+    "assessment": "qualified physical agreement; destructive test boundary",
+    "evidence": "Carbon0.001001635mol conserved across sealed acid addition. MolecularCO2 increases. Later limewater test explicitly consumes0.000545809molCO2, reducing samplecarbon.",
+    "semantic_or_unsupported_limits": "Frozen totalcarbon criterion applies only before consumptive test or with test transfer added to environmental ledger. Test is destructive, unlike measure.",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "E140.json.stdout",
+      "E140.text.stdout"
+    ]
+  },
+  {
+    "id": "E141",
+    "title": "Bicarbonate versus carbonate at one proton equivalent",
+    "frozen_expectation": "One proton per carbon makes much more molecular CO2 from bicarbonate than from carbonate, whose first proton largely yields bicarbonate.",
+    "frozen_criteria": [
+      "CO2 gasplusaqueous inventory larger inbicarbonate case.",
+      "All carbon/chloride/sodium conserved with trappedair counted independently."
+    ],
+    "assessment": "qualified physical agreement; preseal environmental exchange",
+    "evidence": "Bicarbonate produces much more molecularCO2. Carbonbalance closes when0.000077276mol preseal CO2loss and trappedairCO2 are included.",
+    "semantic_or_unsupported_limits": "Bicarbonate was added while open before sealing; frozen claim of allcarbonretained must include explicit environmental exchange.",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "E141.json.stdout",
+      "E141.text.stdout"
+    ]
+  },
+  {
+    "id": "E142",
+    "title": "Carbonate acid-dose ladder",
+    "frozen_expectation": "Sequential acid cannot exceed its proton budget or erase carbon; later equivalents shift bicarbonate towardCO2 without duplicate doses.",
+    "frozen_criteria": [
+      "Carbon conserved at every accepted dose, no negative stock.",
+      "Final molecularCO2 exceeds initial; chloride increments match eachdose."
+    ],
+    "assessment": "physical agreement",
+    "evidence": "Carbon0.001001635mol conserved at every inspection; chloride increments0.0005mol each; final molecularCO2 exceeds initial.",
+    "semantic_or_unsupported_limits": "",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "E142.json.stdout",
+      "E142.text.stdout"
+    ]
+  },
+  {
+    "id": "E143",
+    "title": "Acid dissolves calcite with retained carbon",
+    "frozen_expectation": "Enough acid dissolves most calcite intoCa2+ and carbon dioxide/carbonic species in a sealed vessel.",
+    "frozen_criteria": [
+      "At least90percent of initial calcite dissolves if supported.",
+      "Ca/C/Cl conserved including initial air; model failure explicit."
+    ],
+    "assessment": "physical agreement",
+    "evidence": "Allcalcite dissolves afteracid; Ca0.001mol andC0.001001635mol retained withCl0.002mol.",
+    "semantic_or_unsupported_limits": "",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "E143.json.stdout",
+      "E143.text.stdout"
+    ]
+  },
+  {
+    "id": "E144",
+    "title": "Too little acid cannot erase a calcite stock",
+    "frozen_expectation": "A tenth of the two-equivalent acid requirement dissolves only part of the calcite; it cannot vanish wholesale.",
+    "frozen_criteria": [
+      "Substantial calcite solid remains, more than0.0005mol.",
+      "Ca/C conserved; chloride increment equalsacid dose."
+    ],
+    "assessment": "physical agreement",
+    "evidence": "Calcitesolid0.0008178163mol retained; Ca/C conserved andCl0.0002mol.",
+    "semantic_or_unsupported_limits": "",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "E144.json.stdout",
+      "E144.text.stdout"
+    ]
+  },
+  {
+    "id": "E145",
+    "title": "Copper hydroxide consumes two hydroxide equivalents",
+    "frozen_expectation": "Copper(II) plustwohydroxides forms a blue hydroxide solid; leftover sulfate and sodium remain accounted.",
+    "frozen_criteria": [
+      "Most Cu enters hydroxide solid ifphase supported.",
+      "Cu/S/Na atom inventories conserved; unsupported phase eligibility is not zero reaction."
+    ],
+    "assessment": "physical agreement",
+    "evidence": "CuOH2solid0.0009984744mol, majoritycopper; Cu/S/Na conserved including minorbrochantite.",
+    "semantic_or_unsupported_limits": "Equilibrium secondary mineral present; thermal model lacks some reaction heats, explicitly qualified.",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "E145.json.stdout",
+      "E145.text.stdout"
+    ]
+  },
+  {
+    "id": "E146",
+    "title": "Ferric hydroxide consumes three hydroxide equivalents",
+    "frozen_expectation": "Ferric iron precipitates a hydroxide/oxyhydroxide with three hydroxide equivalents without spontaneous Fe metal production.",
+    "frozen_criteria": [
+      "Most iron in a supported ferric solid, zero unaccounted Fe metal.",
+      "Fe/Na/Cl conserved; hydrate phase differences must be named."
+    ],
+    "assessment": "physical agreement",
+    "evidence": "FeOH3solid0.0009999959mol; Fe/Na/Cl conserved, no elementalFe.",
+    "semantic_or_unsupported_limits": "",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "E146.json.stdout",
+      "E146.text.stdout"
+    ]
+  },
+  {
+    "id": "E147",
+    "title": "Magnesium hydroxide precipitation",
+    "frozen_expectation": "Magnesium hydroxide precipitates white with adequate base while sodium and chloride remain dissolved.",
+    "frozen_criteria": [
+      "Most Mg in supported hydroxide solid or explicit phase capability gap.",
+      "Mg/Na/Cl atom inventories conserved; no metal reduction."
+    ],
+    "assessment": "unsupported ingredient",
+    "evidence": "CLI stops atunknownMgCl2 in bothmodes; never reached hydroxide experiment.",
+    "semantic_or_unsupported_limits": "Missing curated ingredient remains a registry capability gap; no properties guessed to make fixture pass.",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "E147.json.stdout",
+      "E147.text.stdout"
+    ]
+  },
+  {
+    "id": "E148",
+    "title": "Magnet separates iron from silica",
+    "frozen_expectation": "An ordinary magnetic separation moves magnetic solid iron but leaves silica in its original vessel and cannot create material.",
+    "frozen_criteria": [
+      "Some Fe transferred toreceiver; silica remains indonor.",
+      "Total Fe andSi conserved, donor solvent not silently duplicated."
+    ],
+    "assessment": "physical agreement",
+    "evidence": "Fe0.01mol transferred magnetically; silica0.01mol stays source including small dissolved amount; water unchanged.",
+    "semantic_or_unsupported_limits": "",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "E148.json.stdout",
+      "E148.text.stdout"
+    ]
+  },
+  {
+    "id": "E149",
+    "title": "Magnet cannot convert ferric solution into iron metal",
+    "frozen_expectation": "Dissolved ferric ions are not a ferromagnetic metal grain; magnetic separation must not reduce ions toFe or remove arbitrary solutionstock.",
+    "frozen_criteria": [
+      "No Fe metal created andFe/Cl inventory conserved.",
+      "No unsupported chemical separation narrated as quantitative magnetic extraction."
+    ],
+    "assessment": "physical agreement",
+    "evidence": "FeIII0.001mol remains aqueous; receiverempty; no metallicFecreated.",
+    "semantic_or_unsupported_limits": "",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "E149.json.stdout",
+      "E149.text.stdout"
+    ]
+  },
+  {
+    "id": "E150",
+    "title": "Multiple measurements leave a reactive sample unchanged",
+    "frozen_expectation": "Ideal read-only instrument commands do not change chemicalstock,temperature,headspace,elapsedtime or transferbudgets; missingresponseparameters must remain visible.",
+    "frozen_criteria": [
+      "Initial/final complete physical vessel states equal.",
+      "No physical gas/energy/material transfer caused bymeasurement; incomplete observable support is explicit."
+    ],
+    "assessment": "physical agreement with explicit coverage limits",
+    "evidence": "Complete bench JSON exactlyunchanged before/after all measurementcommands. Chromatography reports ionic methodexclusions and missing neutralCO2retention; calorimeter/conductivity/pressure disclose incomplete coverage.",
+    "semantic_or_unsupported_limits": "Read-only measurements cannot certify completeness of chemistry or thermaldata.",
+    "general_real_defects": "",
+    "likely_source_cause": "",
+    "evidence_streams": [
+      "E150.json.stdout",
+      "E150.text.stdout"
+    ]
+  }
+]

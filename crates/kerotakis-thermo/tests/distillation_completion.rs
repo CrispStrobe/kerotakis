@@ -85,3 +85,72 @@ fn positive_unrepresentable_requests_refuse_while_zero_requests_succeed() {
         assert_eq!(cut.energy_kj, 0.0);
     }
 }
+
+#[test]
+fn pure_and_dilute_endpoints_are_not_azeotropes() {
+    use kerotakis_thermo::vle::ethanol_water_bubble_point;
+    for ethanol_fraction in [0.0, 1e-9, 1.0] {
+        let point = ethanol_water_bubble_point(ethanol_fraction, 101.325).unwrap();
+        assert!(!point.azeotropic, "false azeotrope at {ethanol_fraction}");
+    }
+    let cut = ethanol_water_still(1.0, 0.0, StillTake::Fraction(0.3), 1, 101.325).unwrap();
+    assert!(!cut.azeotrope_limited);
+}
+
+#[test]
+fn small_staged_cuts_preserve_components_and_scale_without_fitted_outputs() {
+    let water = 5.534276991396059;
+    let ethanol = 0.34252968373526665;
+    let reference = ethanol_water_still(water, ethanol, StillTake::Fraction(0.01), 4, 101.325)
+        .expect("small dilute binary cut is representable");
+    let overhead = reference.water_over + reference.ethanol_over;
+    close(overhead, 0.01 * (water + ethanol));
+    assert!(reference.ethanol_over / overhead > ethanol / (water + ethanol));
+    assert!(reference.ethanol_over > 0.0 && reference.ethanol_over < ethanol);
+    assert!(reference.water_over > 0.0 && reference.water_over < water);
+    for scale in [1e-6, 1e6] {
+        let scaled = ethanol_water_still(
+            water * scale,
+            ethanol * scale,
+            StillTake::Fraction(0.01),
+            4,
+            101.325,
+        )
+        .unwrap();
+        close(scaled.water_over / scale, reference.water_over);
+        close(scaled.ethanol_over / scale, reference.ethanol_over);
+        close(scaled.energy_kj / scale, reference.energy_kj);
+    }
+    // Splitting the requested mole cut into two successive cuts should
+    // approach the same trajectory rather than change its physical endpoint.
+    let first =
+        ethanol_water_still(water, ethanol, StillTake::Fraction(0.005), 4, 101.325).unwrap();
+    let second = ethanol_water_still(
+        water - first.water_over,
+        ethanol - first.ethanol_over,
+        StillTake::Fraction(0.005 / 0.995),
+        4,
+        101.325,
+    )
+    .unwrap();
+    let split_ethanol = first.ethanol_over + second.ethanol_over;
+    assert!(
+        (split_ethanol - reference.ethanol_over).abs() <= 1e-3 * reference.ethanol_over,
+        "one cut {}, successive cuts {split_ethanol}",
+        reference.ethanol_over
+    );
+}
+
+#[test]
+fn finite_stages_cannot_publish_exact_component_exhaustion_in_a_partial_cut() {
+    let water = 5.534276991396059;
+    let ethanol = 0.34252968373526665;
+    // Exact analytic Rayleigh residuals can be below the precision of the
+    // public overhead-only result. Refusal is then honest; clipping to a
+    // pure pot and claiming a completed binary integration is not.
+    if let Some(cut) = ethanol_water_still(water, ethanol, StillTake::Fraction(0.1), 4, 101.325) {
+        close(cut.water_over + cut.ethanol_over, 0.1 * (water + ethanol));
+        assert!(cut.ethanol_over < ethanol && cut.water_over < water);
+        assert!(cut.energy_kj.is_finite());
+    }
+}

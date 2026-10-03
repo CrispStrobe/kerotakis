@@ -476,3 +476,107 @@ fn a_sealed_vessel_still_reports_its_headspace() {
     });
     assert_eq!(reading, Some((250.0, "mL".to_string())));
 }
+
+#[test]
+fn sealing_reports_actual_boundary_and_gas_source_in_every_register() {
+    let vessel = VesselId(0);
+    for (previous, expected_word, expected_gas) in [
+        (Headspace::Open, "open", "dry-air"),
+        (
+            Headspace::Sealed {
+                volume: Liters(1.0),
+            },
+            "sealed",
+            "existing gas retained",
+        ),
+        (
+            Headspace::PressureControlled {
+                pressure: Pascal(100_000.0),
+                volume: Liters(1.0),
+            },
+            "pressure_controlled",
+            "existing gas retained",
+        ),
+        (
+            Headspace::Swept {
+                pressure: Pascal(100_000.0),
+            },
+            "swept",
+            "nitrogen purge",
+        ),
+    ] {
+        let mut bench = Bench::new();
+        match previous {
+            Headspace::Open => {}
+            Headspace::Sealed { volume } => {
+                bench
+                    .step(Operator::Seal {
+                        vessel,
+                        headspace_volume: volume,
+                    })
+                    .unwrap();
+            }
+            Headspace::PressureControlled { pressure, volume } => {
+                bench
+                    .step(Operator::Regulate {
+                        vessel,
+                        pressure,
+                        initial_volume: volume,
+                    })
+                    .unwrap();
+            }
+            Headspace::Swept { pressure } => {
+                bench.step(Operator::Sweep { vessel, pressure }).unwrap();
+            }
+        }
+        let events = bench
+            .step(Operator::Seal {
+                vessel,
+                headspace_volume: Liters(2.0),
+            })
+            .unwrap();
+        let event = events
+            .iter()
+            .find(|e| matches!(e, Event::VesselSealed { .. }))
+            .unwrap();
+        match event {
+            Event::VesselSealed {
+                previous_boundary,
+                trapped_air,
+                ..
+            } => {
+                assert_eq!(*previous_boundary, Some(previous));
+                if matches!(
+                    previous,
+                    Headspace::Sealed { .. } | Headspace::PressureControlled { .. }
+                ) {
+                    assert_eq!(trapped_air.0, 0.0);
+                }
+            }
+            _ => unreachable!(),
+        }
+        let technical = render::render_event(event, Register::LV3);
+        assert!(
+            technical.contains(&format!("boundary={expected_word} → sealed")),
+            "{technical}"
+        );
+        for register in [Register::LV2, Register::LV3] {
+            let text = render::render_event(event, register);
+            assert!(text.contains(expected_gas), "{text}");
+        }
+        assert!(render::render_event(event, Register::LV1).contains("is sealed"));
+        let saved = serde_json::to_string(event).unwrap();
+        let restored: Event = serde_json::from_str(&saved).unwrap();
+        assert_eq!(render::render_event(&restored, Register::LV3), technical);
+    }
+}
+
+#[test]
+fn old_seal_event_does_not_invent_previous_boundary() {
+    let event: Event = serde_json::from_str(
+        r#"{"event":"vessel_sealed","vessel":0,"headspace_volume":1.0,"trapped_air":0.0}"#,
+    )
+    .unwrap();
+    let text = render::render_event(&event, Register::LV3);
+    assert!(text.contains("boundary=unknown → sealed"), "{text}");
+}

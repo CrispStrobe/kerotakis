@@ -1,0 +1,3528 @@
+{
+  "checks": 683,
+  "passed": false,
+  "failures": [
+    {
+      "name": "E105 json no solver failure",
+      "passed": false,
+      "failures": [
+        {
+          "detail": "phreeqc-aqueous could not solve this state: coupled aqueous temperature did not converge within 64 passes (last residual 4.878687e-4 K); thaw recovery refused: inventory, phase, thermal or material eligibility not established",
+          "event": "solver_failed",
+          "solver": "phreeqc-aqueous",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "name": "E113 resealing records prior sealed boundary",
+      "passed": false
+    },
+    {
+      "name": "E113 resealing narration matches prior sealed boundary",
+      "passed": false
+    },
+    {
+      "name": "E105 each transfer remains characterised",
+      "passed": false
+    },
+    {
+      "name": "E110 staged partial cut preserves both components",
+      "passed": false
+    },
+    {
+      "name": "E128_chlorine_conservation_v2",
+      "passed": false,
+      "expected_mol": 1e-12,
+      "actual_mol": 0
+    },
+    {
+      "name": "E129_density_coverage_scale_invariance",
+      "passed": false,
+      "supports": [
+        {
+          "assumptions": [
+            "hydrometer samples liquid only; solids excluded; additive represented volumes, not a mixture equation of state"
+          ],
+          "observable": "density",
+          "provenance": [],
+          "reasons": [
+            "represented-liquid-volume-density"
+          ],
+          "scope": "liquid_phase",
+          "status": "estimated",
+          "validity": []
+        },
+        {
+          "assumptions": [
+            "hydrometer samples liquid only; solids excluded; additive represented volumes, not a mixture equation of state"
+          ],
+          "observable": "density",
+          "provenance": [],
+          "reasons": [
+            "represented-liquid-volume-density",
+            "missing-dissolved-ion-volume"
+          ],
+          "scope": "liquid_phase",
+          "status": "incomplete",
+          "validity": []
+        }
+      ]
+    }
+  ],
+  "qualified_checks": [],
+  "qualifications": [
+    {
+      "id": "E125",
+      "name": "reported_capability_limits",
+      "ok": null,
+      "details": {
+        "limits": [
+          "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+          "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line."
+        ]
+      }
+    },
+    {
+      "id": "E125",
+      "name": "liquid_volume_instrument",
+      "ok": null,
+      "details": {
+        "reason": "volume_meter covers headspace only; liquid inventory equivalent"
+      }
+    },
+    {
+      "id": "E126",
+      "name": "reported_capability_limits",
+      "ok": null,
+      "details": {
+        "limits": [
+          "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+          "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line."
+        ]
+      }
+    },
+    {
+      "id": "E126",
+      "name": "dilution_semantics",
+      "ok": null,
+      "details": {
+        "reason": "additive water dose, not make-up-to-volume; protocols intentionally not equivalent under frozen semantic branch",
+        "water_moles": [
+          6.087704690535665,
+          7.194560088814876
+        ]
+      }
+    },
+    {
+      "id": "E127",
+      "name": "frozen_acid_detectability_control",
+      "ok": false,
+      "details": {
+        "ph": [
+          [
+            4.003511002117,
+            4.003521296228
+          ],
+          [
+            5.763472975626,
+            5.763621984602
+          ]
+        ],
+        "interpretation": "initial control fails because trapped atmospheric CO2 acidifies pure water; not a thermal defect"
+      }
+    },
+    {
+      "id": "E129",
+      "name": "reported_capability_limits",
+      "ok": null,
+      "details": {
+        "limits": [
+          "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+          "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+          "the dissolved ions' share of this density: every ion in the registry carries water's density as a structural default rather than a measured one, so a salt solution reads as the water it was made from. The solvent's figure is right and the solutes' is missing"
+        ]
+      }
+    },
+    {
+      "id": "E129",
+      "name": "density_physical_agreement",
+      "ok": null,
+      "details": {
+        "reason": "dissolved-ion partial volumes unavailable; numerical equality cannot establish density accuracy"
+      }
+    },
+    {
+      "id": "E130",
+      "name": "reported_capability_limits",
+      "ok": null,
+      "details": {
+        "limits": [
+          "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+          "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+          "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+          "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line."
+        ]
+      }
+    },
+    {
+      "id": "E130",
+      "name": "evaporation_thermal_balance",
+      "ok": null,
+      "details": {
+        "reason": "explicit missing vaporization enthalpy; composition restoration only"
+      }
+    }
+  ],
+  "details": [
+    {
+      "name": "immutable forecast hash",
+      "passed": true
+    },
+    {
+      "name": "validated executable",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-cea/src/gibbs.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-core/src/bench.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-core/src/transport.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-core/tests/transport.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-core/tests/selected_phase_transfer.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-core/tests/thermal_phase_refusal.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-core/tests/thermal_phase_budget.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-core/tests/phase_thaw_recovery.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-core/tests/energy_transfer.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-core/src/solve.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-core/src/heat_capacity.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-core/tests/heat_integral_precision.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: audits/thermal-contracts-20261003/integral-references.json",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: audits/thermal-contracts-20261003/generate_integral_references.py",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: data/registry/registry-source-v1.json",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-core/tests/electrolysis_scope.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-core/src/displacement.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-core/src/chromatography.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-core/src/lib.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-core/src/ops.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-core/tests/chromatography_coverage.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-core/tests/solvent_electrolysis_accounting.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-core/src/render.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-core/tests/atomic_distil_refusal.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-thermo/src/vle.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: crates/kerotakis-thermo/tests/distillation_completion.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: .github/workflows/chemistry-audit.yml",
+      "passed": true
+    },
+    {
+      "name": "validation source digest: audits/independent-50-20261002/validate_phase_ownership.py",
+      "passed": true
+    },
+    {
+      "name": "validation log digest: thermo",
+      "passed": true
+    },
+    {
+      "name": "validation log digest: codex",
+      "passed": true
+    },
+    {
+      "name": "validation log digest: cea",
+      "passed": true
+    },
+    {
+      "name": "validation log digest: core",
+      "passed": true
+    },
+    {
+      "name": "validation log digest: phreeqc",
+      "passed": true
+    },
+    {
+      "name": "validation log digest: cli",
+      "passed": true
+    },
+    {
+      "name": "validation log digest: wasm",
+      "passed": true
+    },
+    {
+      "name": "validation log digest: replay",
+      "passed": true
+    },
+    {
+      "name": "validation log digest: assessment",
+      "passed": true
+    },
+    {
+      "name": "exact fifty cases in both modes",
+      "passed": true
+    },
+    {
+      "name": "E101 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E101 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E101 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E101 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E101 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E101 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E101 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E101 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E102 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E102 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E102 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E102 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E102 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E102 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E102 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E102 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E103 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E103 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E103 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E103 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E103 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E103 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E103 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E103 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E104 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E104 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E104 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E104 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E104 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E104 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E104 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E104 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E105 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E105 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E105 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E105 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E105 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E105 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E105 json no solver failure",
+      "passed": false,
+      "failures": [
+        {
+          "detail": "phreeqc-aqueous could not solve this state: coupled aqueous temperature did not converge within 64 passes (last residual 4.878687e-4 K); thaw recovery refused: inventory, phase, thermal or material eligibility not established",
+          "event": "solver_failed",
+          "solver": "phreeqc-aqueous",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "name": "E105 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E106 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E106 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E106 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E106 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E106 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E106 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E106 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E106 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E107 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E107 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E107 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E107 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E107 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E107 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E107 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E107 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E108 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E108 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E108 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E108 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E108 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E108 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E108 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E108 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E109 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E109 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E109 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E109 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E109 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E109 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E109 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E109 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E110 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E110 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E110 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E110 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E110 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E110 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E110 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E110 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E111 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E111 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E111 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E111 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E111 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E111 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E111 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E111 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E112 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E112 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E112 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E112 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E112 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E112 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E112 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E112 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E113 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E113 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E113 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E113 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E113 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E113 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E113 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E113 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E114 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E114 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E114 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E114 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E114 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E114 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E114 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E114 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E115 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E115 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E115 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E115 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E115 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E115 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E115 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E115 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E116 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E116 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E116 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E116 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E116 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E116 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E116 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E116 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E117 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E117 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E117 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E117 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E117 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E117 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E117 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E117 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E118 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E118 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E118 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E118 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E118 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E118 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E118 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E118 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E119 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E119 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E119 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E119 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E119 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E119 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E119 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E119 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E120 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E120 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E120 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E120 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E120 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E120 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E120 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E120 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E121 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E121 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E121 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E121 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E121 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E121 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E121 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E121 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E122 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E122 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E122 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E122 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E122 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E122 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E122 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E122 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E123 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E123 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E123 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E123 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E123 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E123 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E123 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E123 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E124 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E124 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E124 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E124 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E124 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E124 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E124 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E124 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E125 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E125 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E125 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E125 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E125 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E125 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E125 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E125 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E126 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E126 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E126 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E126 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E126 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E126 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E126 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E126 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E127 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E127 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E127 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E127 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E127 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E127 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E127 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E127 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E128 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E128 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E128 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E128 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E128 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E128 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E128 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E128 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E129 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E129 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E129 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E129 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E129 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E129 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E129 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E129 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E130 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E130 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E130 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E130 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E130 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E130 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E130 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E130 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E131 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E131 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E131 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E131 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E131 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E131 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E131 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E131 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E132 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E132 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E132 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E132 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E132 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E132 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E132 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E132 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E133 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E133 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E133 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E133 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E133 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E133 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E133 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E133 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E134 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E134 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E134 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E134 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E134 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E134 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E134 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E134 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E135 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E135 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E135 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E135 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E135 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E135 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E135 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E135 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E136 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E136 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E136 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E136 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E136 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E136 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E136 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E136 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E137 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E137 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E137 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E137 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E137 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E137 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E137 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E137 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E138 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E138 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E138 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E138 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E138 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E138 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E138 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E138 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E139 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E139 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E139 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E139 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E139 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E139 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E139 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E139 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E140 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E140 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E140 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E140 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E140 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E140 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E140 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E140 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E141 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E141 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E141 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E141 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E141 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E141 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E141 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E141 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E142 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E142 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E142 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E142 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E142 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E142 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E142 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E142 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E143 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E143 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E143 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E143 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E143 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E143 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E143 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E143 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E144 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E144 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E144 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E144 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E144 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E144 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E144 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E144 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E145 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E145 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E145 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E145 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E145 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E145 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E145 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E145 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E146 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E146 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E146 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E146 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E146 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E146 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E146 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E146 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E147 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E147 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E147 text process outcome",
+      "passed": true,
+      "exit_code": 1
+    },
+    {
+      "name": "E147 text explicit ingredient refusal",
+      "passed": true
+    },
+    {
+      "name": "E147 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E147 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E147 json process outcome",
+      "passed": true,
+      "exit_code": 1
+    },
+    {
+      "name": "E147 json explicit ingredient refusal",
+      "passed": true
+    },
+    {
+      "name": "E147 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E147 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E148 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E148 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E148 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E148 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E148 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E148 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E148 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E148 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E149 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E149 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E149 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E149 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E149 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E149 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E149 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E149 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E150 text stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E150 text stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E150 text process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E150 json stdout digest",
+      "passed": true
+    },
+    {
+      "name": "E150 json stderr digest",
+      "passed": true
+    },
+    {
+      "name": "E150 json process outcome",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "E150 json no solver failure",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "name": "E150 json nonnegative finite inventory",
+      "passed": true
+    },
+    {
+      "name": "E131 neutral in both orders",
+      "passed": true
+    },
+    {
+      "name": "E131 Na atom budget",
+      "passed": true,
+      "actual": 0.002,
+      "expected": 0.002
+    },
+    {
+      "name": "E131 Cl atom budget",
+      "passed": true,
+      "actual": 0.002,
+      "expected": 0.002
+    },
+    {
+      "name": "E132 tenfold dilution pH shift",
+      "passed": true,
+      "delta": 0.975359429818
+    },
+    {
+      "name": "E132 retained solute",
+      "passed": true
+    },
+    {
+      "name": "E132 tenfold water amount",
+      "passed": true
+    },
+    {
+      "name": "E133 tenfold dilution pH shift",
+      "passed": true,
+      "delta": -0.9667539985300007
+    },
+    {
+      "name": "E133 retained solute",
+      "passed": true
+    },
+    {
+      "name": "E133 tenfold water amount",
+      "passed": true
+    },
+    {
+      "name": "E134 dilution by add or transfer",
+      "passed": true
+    },
+    {
+      "name": "E134 Cl atom budget",
+      "passed": true,
+      "actual": 0.002,
+      "expected": 0.002
+    },
+    {
+      "name": "E135 both orders precipitate silver chloride",
+      "passed": true
+    },
+    {
+      "name": "E135 order equivalent silver chloride",
+      "passed": true
+    },
+    {
+      "name": "E135 Ag atom budget",
+      "passed": true,
+      "actual": 0.0019999999999995577,
+      "expected": 0.002
+    },
+    {
+      "name": "E135 Cl atom budget",
+      "passed": true,
+      "actual": 0.0019999999999995577,
+      "expected": 0.002
+    },
+    {
+      "name": "E135 Na atom budget",
+      "passed": true,
+      "actual": 0.001999999999999137,
+      "expected": 0.002
+    },
+    {
+      "name": "E135 N atom budget",
+      "passed": true,
+      "actual": 0.001999999999999137,
+      "expected": 0.002
+    },
+    {
+      "name": "E136 chloride limiting solid yield",
+      "passed": true,
+      "actual": 0.0009999646750811
+    },
+    {
+      "name": "E136 excess silver retained",
+      "passed": true
+    },
+    {
+      "name": "E136 Ag atom budget",
+      "passed": true,
+      "actual": 0.001999999999999596,
+      "expected": 0.002
+    },
+    {
+      "name": "E136 Cl atom budget",
+      "passed": true,
+      "actual": 0.000999999999999761,
+      "expected": 0.001
+    },
+    {
+      "name": "E136 Na atom budget",
+      "passed": true,
+      "actual": 0.0010000000000001297,
+      "expected": 0.001
+    },
+    {
+      "name": "E136 N atom budget",
+      "passed": true,
+      "actual": 0.001999999999999262,
+      "expected": 0.002
+    },
+    {
+      "name": "E137 common ion suppresses silver",
+      "passed": true,
+      "pure": 1.3683167746747614e-06,
+      "salted": 6.85610819366632e-08
+    },
+    {
+      "name": "E137 Ag atom budget",
+      "passed": true,
+      "actual": 0.0020000000000000113,
+      "expected": 0.002
+    },
+    {
+      "name": "E137 Cl atom budget",
+      "passed": true,
+      "actual": 0.0029999999999996796,
+      "expected": 0.003
+    },
+    {
+      "name": "E137 Na atom budget",
+      "passed": true,
+      "actual": 0.000999999999999757,
+      "expected": 0.001
+    },
+    {
+      "name": "E138 filtration 0 Ag conserved",
+      "passed": true
+    },
+    {
+      "name": "E138 filtration 0 Cl conserved",
+      "passed": true
+    },
+    {
+      "name": "E138 filtration 1 Ag conserved",
+      "passed": true
+    },
+    {
+      "name": "E138 filtration 1 Cl conserved",
+      "passed": true
+    },
+    {
+      "name": "E138 filtration 2 Ag conserved",
+      "passed": true
+    },
+    {
+      "name": "E138 filtration 2 Cl conserved",
+      "passed": true
+    },
+    {
+      "name": "E138 no duplicate precipitate",
+      "passed": true
+    },
+    {
+      "name": "E139 barium sulfate majority",
+      "passed": true
+    },
+    {
+      "name": "E139 Ba atom budget",
+      "passed": true,
+      "actual": 0.0009999999999997164,
+      "expected": 0.001
+    },
+    {
+      "name": "E139 S atom budget",
+      "passed": true,
+      "actual": 0.0009999999999999597,
+      "expected": 0.001
+    },
+    {
+      "name": "E139 Na atom budget",
+      "passed": true,
+      "actual": 0.002000000000000271,
+      "expected": 0.002
+    },
+    {
+      "name": "E139 Cl atom budget",
+      "passed": true,
+      "actual": 0.001999999999999274,
+      "expected": 0.002
+    },
+    {
+      "name": "E140 sealed carbon conserved before limewater test",
+      "passed": true
+    },
+    {
+      "name": "E140 carbon dioxide increases",
+      "passed": true
+    },
+    {
+      "name": "E140 chloride dose retained",
+      "passed": true
+    },
+    {
+      "name": "E140 gas test removes positive carbon",
+      "passed": true,
+      "carbon_removed": 0.0005458088517294368,
+      "event_consumed": 0
+    },
+    {
+      "name": "E141 bicarbonate makes more molecular CO2",
+      "passed": true
+    },
+    {
+      "name": "E141 carbon includes preseal environmental loss",
+      "passed": true,
+      "vented": 7.727662274915e-05,
+      "trapped_carbon": 3.2701687869403087e-06
+    },
+    {
+      "name": "E141 Na atom budget",
+      "passed": true,
+      "actual": 0.003000000000144061,
+      "expected": 0.003
+    },
+    {
+      "name": "E141 Cl atom budget",
+      "passed": true,
+      "actual": 0.001999999994419334,
+      "expected": 0.002
+    },
+    {
+      "name": "E142 carbon retained dose 0",
+      "passed": true
+    },
+    {
+      "name": "E142 chloride incremental dose 0",
+      "passed": true
+    },
+    {
+      "name": "E142 carbon retained dose 1",
+      "passed": true
+    },
+    {
+      "name": "E142 chloride incremental dose 1",
+      "passed": true
+    },
+    {
+      "name": "E142 carbon retained dose 2",
+      "passed": true
+    },
+    {
+      "name": "E142 chloride incremental dose 2",
+      "passed": true
+    },
+    {
+      "name": "E142 carbon retained dose 3",
+      "passed": true
+    },
+    {
+      "name": "E142 chloride incremental dose 3",
+      "passed": true
+    },
+    {
+      "name": "E142 carbon retained dose 4",
+      "passed": true
+    },
+    {
+      "name": "E142 chloride incremental dose 4",
+      "passed": true
+    },
+    {
+      "name": "E142 final CO2 exceeds initial",
+      "passed": true
+    },
+    {
+      "name": "E143 Ca conserved",
+      "passed": true
+    },
+    {
+      "name": "E143 C conserved",
+      "passed": true
+    },
+    {
+      "name": "E144 Ca conserved",
+      "passed": true
+    },
+    {
+      "name": "E144 C conserved",
+      "passed": true
+    },
+    {
+      "name": "E143 enough acid dissolves calcite",
+      "passed": true
+    },
+    {
+      "name": "E144 limiting acid leaves calcite",
+      "passed": true
+    },
+    {
+      "name": "E143 Ca atom budget",
+      "passed": true,
+      "actual": 0.0010000000000814867,
+      "expected": 0.001
+    },
+    {
+      "name": "E143 Cl atom budget",
+      "passed": true,
+      "actual": 0.002000000005514801,
+      "expected": 0.002
+    },
+    {
+      "name": "E144 Ca atom budget",
+      "passed": true,
+      "actual": 0.0010000000000816196,
+      "expected": 0.001
+    },
+    {
+      "name": "E144 Cl atom budget",
+      "passed": true,
+      "actual": 0.00020000000055146107,
+      "expected": 0.0002
+    },
+    {
+      "name": "E145 copper hydroxide majority",
+      "passed": true
+    },
+    {
+      "name": "E145 Cu atom budget",
+      "passed": true,
+      "actual": 0.0010000000004145259,
+      "expected": 0.001
+    },
+    {
+      "name": "E145 S atom budget",
+      "passed": true,
+      "actual": 0.001000000000416152,
+      "expected": 0.001
+    },
+    {
+      "name": "E145 Na atom budget",
+      "passed": true,
+      "actual": 0.002000000000832436,
+      "expected": 0.002
+    },
+    {
+      "name": "E146 iron hydroxide majority",
+      "passed": true
+    },
+    {
+      "name": "E146 Fe atom budget",
+      "passed": true,
+      "actual": 0.0009999999999997726,
+      "expected": 0.001
+    },
+    {
+      "name": "E146 Na atom budget",
+      "passed": true,
+      "actual": 0.0030000000000006076,
+      "expected": 0.003
+    },
+    {
+      "name": "E146 Cl atom budget",
+      "passed": true,
+      "actual": 0.0030000000000006076,
+      "expected": 0.003
+    },
+    {
+      "name": "E148 magnetic iron transferred, silica retained",
+      "passed": true
+    },
+    {
+      "name": "E148 Fe atom budget",
+      "passed": true,
+      "actual": 0.01,
+      "expected": 0.01
+    },
+    {
+      "name": "E148 Si atom budget",
+      "passed": true,
+      "actual": 0.01,
+      "expected": 0.01
+    },
+    {
+      "name": "E149 aqueous iron not metallic magnetic solid",
+      "passed": true
+    },
+    {
+      "name": "E149 Fe atom budget",
+      "passed": true,
+      "actual": 0.001,
+      "expected": 0.001
+    },
+    {
+      "name": "E149 Cl atom budget",
+      "passed": true,
+      "actual": 0.003,
+      "expected": 0.003
+    },
+    {
+      "name": "E150 all measurements leave full state unchanged",
+      "passed": true
+    },
+    {
+      "name": "E113 resealing records prior sealed boundary",
+      "passed": false
+    },
+    {
+      "name": "E113 resealing narration matches prior sealed boundary",
+      "passed": false
+    },
+    {
+      "name": "E101 Na+ vessel 1",
+      "passed": true,
+      "actual": 0.009,
+      "expected": 0.009
+    },
+    {
+      "name": "E101 Cl- vessel 1",
+      "passed": true,
+      "actual": 0.009,
+      "expected": 0.009
+    },
+    {
+      "name": "E101 Na+ vessel 2",
+      "passed": true,
+      "actual": 0.004,
+      "expected": 0.004
+    },
+    {
+      "name": "E101 Cl- vessel 2",
+      "passed": true,
+      "actual": 0.004,
+      "expected": 0.004
+    },
+    {
+      "name": "E101 Na+ vessel 3",
+      "passed": true,
+      "actual": 0.015,
+      "expected": 0.015
+    },
+    {
+      "name": "E101 Cl- vessel 3",
+      "passed": true,
+      "actual": 0.015,
+      "expected": 0.015
+    },
+    {
+      "name": "E101 water conserved",
+      "passed": true,
+      "actual": 11.068553982792118,
+      "expected": 11.068553982792118
+    },
+    {
+      "name": "E102 Na+ vessel 1",
+      "passed": true,
+      "actual": 0.004,
+      "expected": 0.004
+    },
+    {
+      "name": "E102 Cl- vessel 1",
+      "passed": true,
+      "actual": 0.004,
+      "expected": 0.004
+    },
+    {
+      "name": "E102 Na+ vessel 2",
+      "passed": true,
+      "actual": 0.008,
+      "expected": 0.008
+    },
+    {
+      "name": "E102 Cl- vessel 2",
+      "passed": true,
+      "actual": 0.008,
+      "expected": 0.008
+    },
+    {
+      "name": "E102 Na+ vessel 3",
+      "passed": true,
+      "actual": 0.004,
+      "expected": 0.004
+    },
+    {
+      "name": "E102 Cl- vessel 3",
+      "passed": true,
+      "actual": 0.004,
+      "expected": 0.004
+    },
+    {
+      "name": "E102 water conserved",
+      "passed": true,
+      "actual": 8.854843186233694,
+      "expected": 8.854843186233694
+    },
+    {
+      "name": "E105 Na+ vessel 1",
+      "passed": true,
+      "actual": 0.005999999953394247,
+      "expected": 0.006
+    },
+    {
+      "name": "E105 Cl- vessel 1",
+      "passed": true,
+      "actual": 0.005999999953394247,
+      "expected": 0.006
+    },
+    {
+      "name": "E105 Na+ vessel 2",
+      "passed": true,
+      "actual": 0.005999999979538376,
+      "expected": 0.006
+    },
+    {
+      "name": "E105 Cl- vessel 2",
+      "passed": true,
+      "actual": 0.005999999979538376,
+      "expected": 0.006
+    },
+    {
+      "name": "E101 target conductivity between sources",
+      "passed": true,
+      "readings": [
+        10904.895416639143,
+        20676.020431781224,
+        17497.477771618782
+      ]
+    },
+    {
+      "name": "E102 equal conductivity",
+      "passed": true,
+      "readings": [
+        10904.895416639143,
+        10904.895416639143,
+        10904.895416639143
+      ]
+    },
+    {
+      "name": "E103 Na retained after return",
+      "passed": true,
+      "actual": 0.009999999956984721,
+      "expected": 0.01
+    },
+    {
+      "name": "E103 Cl retained after return",
+      "passed": true,
+      "actual": 0.009999999956984721,
+      "expected": 0.01
+    },
+    {
+      "name": "E103 cake retained without macroscopic duplication",
+      "passed": true
+    },
+    {
+      "name": "E103 calcium budget",
+      "passed": true,
+      "actual": 0.009991307562271932,
+      "expected": 0.009991307562420693
+    },
+    {
+      "name": "E104 copper budget",
+      "passed": true,
+      "actual": 0.005000000015022889,
+      "expected": 0.005
+    },
+    {
+      "name": "E104 sulfate budget",
+      "passed": true,
+      "actual": 0.005000000015055862,
+      "expected": 0.005
+    },
+    {
+      "name": "E104 sodium budget",
+      "passed": true,
+      "actual": 0.020000000030137195,
+      "expected": 0.02
+    },
+    {
+      "name": "E104 chloride budget",
+      "passed": true,
+      "actual": 0.010000000000000002,
+      "expected": 0.01
+    },
+    {
+      "name": "E104 hydroxide solid retained and neutralized source empty",
+      "passed": true
+    },
+    {
+      "name": "E105 chalk remains predominantly source",
+      "passed": true
+    },
+    {
+      "name": "E105 each transfer remains characterised",
+      "passed": false
+    },
+    {
+      "name": "E105 calcium budget",
+      "passed": true,
+      "actual": 0.01998261512456473,
+      "expected": 0.019982615124841386
+    },
+    {
+      "name": "E106 drain selects lower brine",
+      "passed": true
+    },
+    {
+      "name": "E106 independent protocol conservation water",
+      "passed": true,
+      "actual": 5.534276991396059,
+      "expected": 5.534276991396059
+    },
+    {
+      "name": "E106 independent protocol conservation hexane",
+      "passed": true,
+      "actual": 0.459931769129012,
+      "expected": 0.459931769129012
+    },
+    {
+      "name": "E106 independent protocol conservation Na+",
+      "passed": true,
+      "actual": 0.010000000000000002,
+      "expected": 0.010000000000000002
+    },
+    {
+      "name": "E106 independent protocol conservation Cl-",
+      "passed": true,
+      "actual": 0.010000000000000002,
+      "expected": 0.010000000000000002
+    },
+    {
+      "name": "E107 iodine budget pair 0",
+      "passed": true,
+      "actual": 1e-05,
+      "expected": 1e-05
+    },
+    {
+      "name": "E107 iodine budget pair 2",
+      "passed": true,
+      "actual": 1e-05,
+      "expected": 1e-05
+    },
+    {
+      "name": "E107 multistage more effective",
+      "passed": true
+    },
+    {
+      "name": "E107 equal extracting solvent",
+      "passed": true,
+      "actual": 0.30662117941934136,
+      "expected": 0.30662117941934136
+    },
+    {
+      "name": "E108 extracted iodine unchanged by aqueous pour",
+      "passed": true,
+      "actual": 9.969135802469136e-06,
+      "expected": 9.969135802469136e-06
+    },
+    {
+      "name": "E108 residual iodine transferred",
+      "passed": true,
+      "actual": 3.0864197530864206e-08,
+      "expected": 3.0864197530864206e-08
+    },
+    {
+      "name": "E108 iodine budget",
+      "passed": true,
+      "actual": 1e-05,
+      "expected": 1e-05
+    },
+    {
+      "name": "E108 aqueous source emptied",
+      "passed": true
+    },
+    {
+      "name": "E109 nonvolatile Na+",
+      "passed": true,
+      "actual": 0.011999999999999999,
+      "expected": 0.012
+    },
+    {
+      "name": "E109 no condensate Na+",
+      "passed": true,
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "name": "E109 nonvolatile Cl-",
+      "passed": true,
+      "actual": 0.011999999999999999,
+      "expected": 0.012
+    },
+    {
+      "name": "E109 no condensate Cl-",
+      "passed": true,
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "name": "E109 equal final water split",
+      "passed": true,
+      "actual": 3.320566194837644,
+      "expected": 3.320566194837627
+    },
+    {
+      "name": "E109 water budget",
+      "passed": true,
+      "actual": 6.6411323896752705,
+      "expected": 6.6411323896752705
+    },
+    {
+      "name": "E110 single stage volatile enrichment",
+      "passed": true
+    },
+    {
+      "name": "E110 staged volatile enrichment",
+      "passed": true,
+      "receiver_ratios": [
+        0.47763053147961154,
+        1.3972192909722794
+      ]
+    },
+    {
+      "name": "E110 staged partial cut preserves both components",
+      "passed": false
+    },
+    {
+      "name": "E110 water budget pair 0",
+      "passed": true,
+      "actual": 5.534276991396059,
+      "expected": 5.534276991396059
+    },
+    {
+      "name": "E110 water budget pair 2",
+      "passed": true,
+      "actual": 5.534276991396059,
+      "expected": 5.534276991396059
+    },
+    {
+      "name": "E110 ethanol budget pair 0",
+      "passed": true,
+      "actual": 0.34252968373526665,
+      "expected": 0.34252968373526665
+    },
+    {
+      "name": "E110 ethanol budget pair 2",
+      "passed": true,
+      "actual": 0.34252968373526665,
+      "expected": 0.34252968373526665
+    },
+    {
+      "name": "E110 equal molar cuts",
+      "passed": true,
+      "actual": 0.5876806675131325,
+      "expected": 0.5876806675131326
+    },
+    {
+      "name": "E111 matching residues water",
+      "passed": true,
+      "actual": 2.7671384956980294,
+      "expected": 2.7671384956980205
+    },
+    {
+      "name": "E111 matching residues Na+",
+      "passed": true,
+      "actual": 0.010000000000000002,
+      "expected": 0.010000000000000002
+    },
+    {
+      "name": "E111 matching residues Cl-",
+      "passed": true,
+      "actual": 0.010000000000000002,
+      "expected": 0.010000000000000002
+    },
+    {
+      "name": "E111 captured water budget",
+      "passed": true,
+      "actual": 5.534276991396059,
+      "expected": 5.534276991396059
+    },
+    {
+      "name": "E111 uncaptured evaporation water leaves",
+      "passed": true
+    },
+    {
+      "name": "E112 fixed volume pressure temperature ratio",
+      "passed": true,
+      "actual": 1.0317413640581967,
+      "expected": 1.0317413640581967
+    },
+    {
+      "name": "E112 rigid gas conserved N2",
+      "passed": true,
+      "actual": 0.0422945825786727,
+      "expected": 0.0422945825786727
+    },
+    {
+      "name": "E112 rigid gas conserved O2",
+      "passed": true,
+      "actual": 0.008563112327847018,
+      "expected": 0.008563112327847018
+    },
+    {
+      "name": "E112 rigid gas conserved CO2",
+      "passed": true,
+      "actual": 1.6349617809731778e-05,
+      "expected": 1.6349617809731778e-05
+    },
+    {
+      "name": "E114 fixed volume pressure temperature ratio",
+      "passed": true,
+      "actual": 1.0317413640581967,
+      "expected": 1.0317413640581967
+    },
+    {
+      "name": "E114 rigid gas conserved N2",
+      "passed": true,
+      "actual": 0.0422945825786727,
+      "expected": 0.0422945825786727
+    },
+    {
+      "name": "E114 rigid gas conserved O2",
+      "passed": true,
+      "actual": 0.008563112327847018,
+      "expected": 0.008563112327847018
+    },
+    {
+      "name": "E114 rigid gas conserved CO2",
+      "passed": true,
+      "actual": 1.6349617809731778e-05,
+      "expected": 1.6349617809731778e-05
+    },
+    {
+      "name": "E112 unheated reference unchanged",
+      "passed": true
+    },
+    {
+      "name": "E113 doubled volume pressure law",
+      "passed": true,
+      "actual": 0.5,
+      "expected": 0.5
+    },
+    {
+      "name": "E113 reseal gas conserved N2",
+      "passed": true,
+      "actual": 0.0422945825786727,
+      "expected": 0.0422945825786727
+    },
+    {
+      "name": "E113 reseal gas conserved O2",
+      "passed": true,
+      "actual": 0.008563112327847018,
+      "expected": 0.008563112327847018
+    },
+    {
+      "name": "E113 reseal gas conserved CO2",
+      "passed": true,
+      "actual": 1.6349617809731778e-05,
+      "expected": 1.6349617809731778e-05
+    },
+    {
+      "name": "E114 constant regulated pressure",
+      "passed": true,
+      "actual": 100000.0,
+      "expected": 100000.0
+    },
+    {
+      "name": "E114 piston volume temperature ratio",
+      "passed": true,
+      "actual": 1.022915578829289,
+      "expected": 1.022915578829289
+    },
+    {
+      "name": "E114 regulated gas conserved N2",
+      "passed": true,
+      "actual": 0.041872274935773696,
+      "expected": 0.041872274935773696
+    },
+    {
+      "name": "E114 regulated gas conserved O2",
+      "passed": true,
+      "actual": 0.00845113479185494,
+      "expected": 0.00845113479185494
+    },
+    {
+      "name": "E114 regulated gas conserved CO2",
+      "passed": true,
+      "actual": 1.613581821833879e-05,
+      "expected": 1.613581821833879e-05
+    },
+    {
+      "name": "E115 reseal does not restore overpressure",
+      "passed": true,
+      "initial_pa": 344690.7333519362,
+      "final_pa": 101325.00000000001
+    },
+    {
+      "name": "E115 added nitrogen vented rather than restored",
+      "passed": true
+    },
+    {
+      "name": "E116_solver_failures_absent",
+      "passed": true,
+      "events": []
+    },
+    {
+      "name": "E116_reported_capability_limits",
+      "passed": true,
+      "limits": []
+    },
+    {
+      "name": "E116_temperature_cycle",
+      "passed": true,
+      "temperature_c": [
+        25.000037547795614,
+        27.397482407618668,
+        25.00003755128398
+      ]
+    },
+    {
+      "name": "E116_mass_cycle",
+      "passed": true,
+      "mass_g": [
+        99.81794224366958,
+        99.81794224367029
+      ]
+    },
+    {
+      "name": "E117_solver_failures_absent",
+      "passed": true,
+      "events": []
+    },
+    {
+      "name": "E117_reported_capability_limits",
+      "passed": true,
+      "limits": []
+    },
+    {
+      "name": "E117_final_temperature_agreement",
+      "passed": true,
+      "temperature_c": [
+        29.794822264855156,
+        29.794824193013483
+      ]
+    },
+    {
+      "name": "E117_mass_scaling",
+      "passed": true,
+      "mass_g": [
+        99.81794224366952,
+        99.81794224366706
+      ],
+      "ratio": 0.9999999999999754
+    },
+    {
+      "name": "E117_water_scaling",
+      "passed": true,
+      "ratio": 1.0000000000000753
+    },
+    {
+      "name": "E118_solver_failures_absent",
+      "passed": true,
+      "events": []
+    },
+    {
+      "name": "E118_reported_capability_limits",
+      "passed": true,
+      "limits": []
+    },
+    {
+      "name": "E118_final_temperature_agreement",
+      "passed": true,
+      "temperature_c": [
+        27.397482407618668,
+        27.397482407618668
+      ]
+    },
+    {
+      "name": "E118_mass_scaling",
+      "passed": true,
+      "mass_g": [
+        49.90897112183432,
+        99.81794224366877
+      ],
+      "ratio": 2.0000000000000027
+    },
+    {
+      "name": "E118_water_scaling",
+      "passed": true,
+      "ratio": 1.9999999999999936
+    },
+    {
+      "name": "E119_solver_failures_absent",
+      "passed": true,
+      "events": []
+    },
+    {
+      "name": "E119_reported_capability_limits",
+      "passed": true,
+      "limits": []
+    },
+    {
+      "name": "E119_mixed_midpoint",
+      "passed": true,
+      "temperature_c": [
+        20.0,
+        40.0,
+        29.999960868220114,
+        30.0
+      ]
+    },
+    {
+      "name": "E119_direct_mixed_mass",
+      "passed": true
+    },
+    {
+      "name": "E119_complete_source_transfer",
+      "passed": true
+    },
+    {
+      "name": "E120_solver_failures_absent",
+      "passed": true,
+      "events": []
+    },
+    {
+      "name": "E120_reported_capability_limits",
+      "passed": true,
+      "limits": []
+    },
+    {
+      "name": "E120_pressure_increment_scaling",
+      "passed": true,
+      "normalized_increment_pa_per_k": [
+        8.314462618000062,
+        4.157231308999975
+      ],
+      "ratio": 2.000000000000027
+    },
+    {
+      "name": "E120_ideal_gas_increment_v1",
+      "passed": true,
+      "delta_p_over_t_times_v": 0.008314462618000062
+    },
+    {
+      "name": "E120_ideal_gas_increment_v2",
+      "passed": true,
+      "delta_p_over_t_times_v": 0.008314462617999951
+    },
+    {
+      "name": "E121_solver_failures_absent",
+      "passed": true,
+      "events": []
+    },
+    {
+      "name": "E121_reported_capability_limits",
+      "passed": true,
+      "limits": []
+    },
+    {
+      "name": "E121_pressure_increment_scaling",
+      "passed": true,
+      "normalized_increment_pa_per_k": [
+        16.628925236000068,
+        16.628925236000068
+      ],
+      "ratio": 1.0
+    },
+    {
+      "name": "E122_solver_failures_absent",
+      "passed": true,
+      "events": []
+    },
+    {
+      "name": "E122_reported_capability_limits",
+      "passed": true,
+      "limits": []
+    },
+    {
+      "name": "E122_temperature_cycle",
+      "passed": true,
+      "temperature_c": [
+        25.0,
+        34.42255262383719,
+        25.0
+      ]
+    },
+    {
+      "name": "E122_mass_cycle",
+      "passed": true,
+      "mass_g": [
+        1.4595624349555745,
+        1.4595624349555745
+      ]
+    },
+    {
+      "name": "E122_fixed_volume_pressure_temperature",
+      "passed": true,
+      "pressure": [
+        126.114570295567,
+        130.10021904700957,
+        126.114570295567
+      ],
+      "temperature_c": [
+        25.0,
+        34.42255262383719,
+        25.0
+      ]
+    },
+    {
+      "name": "E122_pressure_cycle",
+      "passed": true,
+      "pressure": [
+        126.114570295567,
+        130.10021904700957,
+        126.114570295567
+      ]
+    },
+    {
+      "name": "E123_solver_failures_absent",
+      "passed": true,
+      "events": []
+    },
+    {
+      "name": "E123_reported_capability_limits",
+      "passed": true,
+      "limits": []
+    },
+    {
+      "name": "E123_expansion_pv_over_t",
+      "passed": true,
+      "pressure": [
+        126.114570295567,
+        63.0572851477835,
+        126.114570295567
+      ],
+      "temperature_c": [
+        25.0,
+        25.0,
+        25.0
+      ]
+    },
+    {
+      "name": "E123_return_pressure",
+      "passed": true,
+      "pressure": [
+        126.114570295567,
+        63.0572851477835,
+        126.114570295567
+      ]
+    },
+    {
+      "name": "E123_return_mass",
+      "passed": true,
+      "mass_g": [
+        1.4595624349555745,
+        1.4595624349555745
+      ]
+    },
+    {
+      "name": "E124_solver_failures_absent",
+      "passed": true,
+      "events": []
+    },
+    {
+      "name": "E124_reported_capability_limits",
+      "passed": true,
+      "limits": []
+    },
+    {
+      "name": "E124_repeat_pressure_gauge",
+      "passed": true,
+      "values": [
+        103.80395702955673,
+        103.80395702955673,
+        103.80395702955673,
+        103.80395702955673
+      ]
+    },
+    {
+      "name": "E124_repeat_thermometer",
+      "passed": true,
+      "values": [
+        25.0,
+        25.0,
+        25.0
+      ]
+    },
+    {
+      "name": "E124_repeat_balance",
+      "passed": true,
+      "values": [
+        1.2074364349555744,
+        1.2074364349555744
+      ]
+    },
+    {
+      "name": "E124_measurement_state_invariance",
+      "passed": true
+    },
+    {
+      "name": "E125_solver_failures_absent",
+      "passed": true,
+      "events": []
+    },
+    {
+      "name": "E125_temperature_alias_units",
+      "passed": true,
+      "temperature_c": [
+        25.0,
+        25.0,
+        25.0,
+        25.0
+      ]
+    },
+    {
+      "name": "E125_mass_equivalence",
+      "passed": true
+    },
+    {
+      "name": "E126_solver_failures_absent",
+      "passed": true,
+      "events": []
+    },
+    {
+      "name": "E126_salt_conservation",
+      "passed": true
+    },
+    {
+      "name": "E126_observed_additive_dilution_boundary",
+      "passed": true,
+      "water_moles": [
+        6.087704690535665,
+        7.194560088814876
+      ],
+      "nominal_final_volume_ml": [
+        110,
+        130
+      ]
+    },
+    {
+      "name": "E127_solver_failures_absent",
+      "passed": true,
+      "events": []
+    },
+    {
+      "name": "E127_reported_capability_limits",
+      "passed": true,
+      "limits": []
+    },
+    {
+      "name": "E127_thermal_contrast",
+      "passed": true,
+      "delta_temperature_k": [
+        1.1987415324042558,
+        1.1987415764230036
+      ]
+    },
+    {
+      "name": "E127_acid_stays_more_acidic",
+      "passed": true,
+      "ph": [
+        [
+          4.003511002117,
+          4.003521296228
+        ],
+        [
+          5.763472975626,
+          5.763621984602
+        ]
+      ]
+    },
+    {
+      "name": "E128_solver_failures_absent",
+      "passed": true,
+      "events": []
+    },
+    {
+      "name": "E128_reported_capability_limits",
+      "passed": true,
+      "limits": []
+    },
+    {
+      "name": "E128_water_ionization_floor",
+      "passed": true,
+      "ph": [
+        6.978015332218,
+        6.999744543926
+      ]
+    },
+    {
+      "name": "E128_chlorine_conservation_v1",
+      "passed": true,
+      "expected_mol": 1e-09,
+      "actual_mol": 1e-09
+    },
+    {
+      "name": "E128_chlorine_conservation_v2",
+      "passed": false,
+      "expected_mol": 1e-12,
+      "actual_mol": 0
+    },
+    {
+      "name": "E129_solver_failures_absent",
+      "passed": true,
+      "events": []
+    },
+    {
+      "name": "E129_conductivity_intensive",
+      "passed": true,
+      "conductivity": [
+        124.73141900284648,
+        124.73141900284645
+      ]
+    },
+    {
+      "name": "E129_ph_intensive",
+      "passed": true,
+      "ph": [
+        6.999380791612,
+        6.999380791612
+      ]
+    },
+    {
+      "name": "E129_inventory_scale_water",
+      "passed": true,
+      "ratio": 100.0
+    },
+    {
+      "name": "E129_inventory_scale_Na+",
+      "passed": true,
+      "ratio": 100.00000000000001
+    },
+    {
+      "name": "E129_inventory_scale_Cl-",
+      "passed": true,
+      "ratio": 100.00000000000001
+    },
+    {
+      "name": "E129_density_coverage_scale_invariance",
+      "passed": false,
+      "supports": [
+        {
+          "assumptions": [
+            "hydrometer samples liquid only; solids excluded; additive represented volumes, not a mixture equation of state"
+          ],
+          "observable": "density",
+          "provenance": [],
+          "reasons": [
+            "represented-liquid-volume-density"
+          ],
+          "scope": "liquid_phase",
+          "status": "estimated",
+          "validity": []
+        },
+        {
+          "assumptions": [
+            "hydrometer samples liquid only; solids excluded; additive represented volumes, not a mixture equation of state"
+          ],
+          "observable": "density",
+          "provenance": [],
+          "reasons": [
+            "represented-liquid-volume-density",
+            "missing-dissolved-ion-volume"
+          ],
+          "scope": "liquid_phase",
+          "status": "incomplete",
+          "validity": []
+        }
+      ]
+    },
+    {
+      "name": "E130_solver_failures_absent",
+      "passed": true,
+      "events": []
+    },
+    {
+      "name": "E130_restored_water",
+      "passed": true,
+      "moles": [
+        2.7671384956980294,
+        2.7671384956980294
+      ]
+    },
+    {
+      "name": "E130_restored_Na+",
+      "passed": true,
+      "moles": [
+        5e-05,
+        5e-05
+      ]
+    },
+    {
+      "name": "E130_restored_Cl-",
+      "passed": true,
+      "moles": [
+        5e-05,
+        5e-05
+      ]
+    },
+    {
+      "name": "E130_restored_conductivity",
+      "passed": true,
+      "conductivity": [
+        124.73141984675163,
+        124.73141900284645
+      ],
+      "temperature_c": [
+        24.999536122103677,
+        24.999069528412974
+      ]
+    },
+    {
+      "name": "E130_restored_ph",
+      "passed": true,
+      "ph": [
+        6.999374221238,
+        6.999380791612
+      ]
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+  v2: new vessel
+  v3: new vessel
+  v4: new vessel
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.010000 mol sodium chloride (NaCl, M = 58.443 g/mol)
+  v1: 0.010000 mol sodium chloride dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone
+  v1: pH 6.985 · I = 0.1003 mol/kgw
+  v1: T 298.150 K → 298.057 K (ΔT = -0.093 K)
+  v2: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v2: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v2: +0.010000 mol sodium chloride (NaCl, M = 58.443 g/mol)
+  v2: 0.010000 mol sodium chloride dissolved
+  v2: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone
+  v2: pH 6.985 · I = 0.1003 mol/kgw
+  v2: T 298.150 K → 298.057 K (ΔT = -0.093 K)
+  v1 (beaker) — 24.91 °C, 100.3 g, 100.0 mL liquid, open to atmosphere, pH 6.98, I = 0.1003 m
+          0.0100 mol  chloride ion       Aqueous
+          0.0100 mol  sodium ion         Aqueous
+          5.5343 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9660e-1   γ=0.018
+        Cl-             1.0030e-1    7.6633e-2   γ=0.764
+        Na+             1.0030e-1    7.8484e-2   γ=0.782
+        O2              2.6200e-4    2.6810e-4   γ=1.023
+        H+              1.2556e-7    1.0362e-7   γ=0.825
+        OH-             1.2556e-7    9.5603e-8   γ=0.761
+  v2 (beaker) — 24.91 °C, 100.3 g, 100.0 mL liquid, open to atmosphere, pH 6.98, I = 0.1003 m
+          0.0100 mol  chloride ion       Aqueous
+          0.0100 mol  sodium ion         Aqueous
+          5.5343 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9660e-1   γ=0.018
+        Cl-             1.0030e-1    7.6633e-2   γ=0.764
+        Na+             1.0030e-1    7.8484e-2   γ=0.782
+        O2              2.6200e-4    2.6810e-4   γ=1.023
+        H+              1.2556e-7    1.0362e-7   γ=0.825
+        OH-             1.2556e-7    9.5603e-8   γ=0.761
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v4 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v1: 2.767138 mol H2O evaporated (vaporisation enthalpy not yet in the balance)
+  v1: pH 6.977 · I = 0.2006 mol/kgw
+  v3: T 298.150 K → 298.057 K (ΔT = -0.093 K)
+  v2 → v3: Rayleigh batch cut, 1 ideal stage(s) at total reflux (a real column at finite reflux separates less, never more); pot 373.15 K → 373.15 K; latent heat 112.50 kJ paid by the burner and dumped by the condenser, deliberately outside the vessel ledger; azeotrope reached: y = x
+  v2: pH 6.977 · I = 0.2006 mol/kgw
+  v3: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1 conductivity meter: 20676.0206 µS/cm — past I = 0.10 mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: the ion–ion drag is corrected by an empirical factor (0.82× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and 2 mol/kgw. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one — This is a model estimate with limited calibration or simplifying assumptions.
+  v2 conductivity meter: 20676.0206 µS/cm — past I = 0.10 mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: the ion–ion drag is corrected by an empirical factor (0.82× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and 2 mol/kgw. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one — This is a model estimate with limited calibration or simplifying assumptions.
+  v3 conductivity meter: 0.0549 µS/cm — This estimate is incomplete: contributing model data are missing.
+  v1 balance: 50.4344 g
+  v2 balance: 50.4344 g
+  v3 balance: 49.8500 g
+  v1 (beaker) — 24.91 °C, 50.4 g, 50.0 mL liquid, open to atmosphere, pH 6.98, I = 0.2006 m
+          0.0100 mol  chloride ion       Aqueous
+          0.0100 mol  sodium ion         Aqueous
+          2.7671 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9320e-1   γ=0.018
+        Cl-             2.0060e-1    1.4275e-1   γ=0.712
+        Na+             2.0060e-1    1.4914e-1   γ=0.743
+        O2              2.5600e-4    2.6810e-4   γ=1.047
+        OH-             1.3235e-7    9.3535e-8   γ=0.707
+        H+              1.3235e-7    1.0555e-7   γ=0.797
+  v2 (beaker) — 24.91 °C, 50.4 g, 50.0 mL liquid, open to atmosphere, pH 6.98, I = 0.2006 m
+          0.0100 mol  chloride ion       Aqueous
+          0.0100 mol  sodium ion         Aqueous
+          2.7671 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9320e-1   γ=0.018
+        Cl-             2.0060e-1    1.4275e-1   γ=0.712
+        Na+             2.0060e-1    1.4914e-1   γ=0.743
+        O2              2.5600e-4    2.6810e-4   γ=1.047
+        OH-             1.3235e-7    9.3535e-8   γ=0.707
+        H+              1.3235e-7    1.0555e-7   γ=0.797
+  v3 (beaker) — 24.91 °C, 49.9 g, 50.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          2.7671 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.0025e-7    1.0025e-7   γ=1.000
+        OH-             1.0025e-7    1.0025e-7   γ=1.000
+  v4 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)

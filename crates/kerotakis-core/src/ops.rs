@@ -8,7 +8,7 @@ use crate::authority::{ReplaySeed, SpillDestination};
 use crate::material::MaterialBasis;
 use crate::species::{Phase, SpeciesId};
 use crate::units::{Joules, Kelvin, Liters, Moles, Pascal};
-use crate::vessel::VesselId;
+use crate::vessel::{Headspace, VesselId};
 
 /// `skip_serializing_if` for a boolean whose `false` is the old shape of
 /// the record. Serde has no built-in for it and wants a `&bool`.
@@ -1872,7 +1872,11 @@ pub enum Event {
     VesselSealed {
         vessel: VesselId,
         headspace_volume: Liters,
+        /// Legacy field name: boundary gas, which is nitrogen for a swept inlet.
         trapped_air: Moles,
+        /// Absent in old logs; do not infer that an unknown boundary was open.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        previous_boundary: Option<Headspace>,
     },
     VesselPressureControlled {
         vessel: VesselId,

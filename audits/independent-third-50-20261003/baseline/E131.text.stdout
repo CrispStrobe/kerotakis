@@ -1,0 +1,49 @@
+  v2: new vessel
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v2: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v2: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.001000 mol hydrochloric acid (HCl, M = 36.461 g/mol)
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 2.038 · I = 0.0100 mol/kgw
+  v1: +0.001000 mol sodium hydroxide (NaOH, M = 39.997 g/mol)
+  v1: 0.001000 mol sodium hydroxide dissolved
+  v1: 0.001000 mol of acidity cancelled (from the change in the solutes' net charge; PHREEQC reports element totals and never this reaction)
+  v1: pH 6.993 · I = 0.0100 mol/kgw
+  v1: T 298.150 K → 298.391 K (ΔT = +0.241 K)
+  v1: net ionic: H⁺(aq) + OH⁻(aq) → H₂O(l)  (spectator ions: Cl⁻, Na⁺)  (complete ionic: H⁺(aq) + OH⁻(aq) + Cl⁻(aq) + Na⁺(aq) → H₂O(l) + Cl⁻(aq) + Na⁺(aq))
+  v2: +0.001000 mol sodium hydroxide (NaOH, M = 39.997 g/mol)
+  v2: 0.001000 mol sodium hydroxide dissolved
+  v2: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v2: pH 11.952 · I = 0.0100 mol/kgw
+  v2: T 298.150 K → 298.257 K (ΔT = +0.107 K)
+  v2: T 298.257 K → 298.257 K (ΔT = -0.000 K)
+  v2: +0.001000 mol hydrochloric acid (HCl, M = 36.461 g/mol)
+  v2: 0.001000 mol of acidity cancelled (from the change in the solutes' net charge; PHREEQC reports element totals and never this reaction)
+  v2: pH 6.993 · I = 0.0100 mol/kgw
+  v2: T 298.257 K → 298.391 K (ΔT = +0.134 K)
+  v2: net ionic: H⁺(aq) + OH⁻(aq) → H₂O(l)  (spectator ions: Cl⁻, Na⁺)  (complete ionic: H⁺(aq) + OH⁻(aq) + Cl⁻(aq) + Na⁺(aq) → H₂O(l) + Cl⁻(aq) + Na⁺(aq))
+  v1 (beaker) — 25.24 °C, 99.8 g, 100.0 mL liquid, open to atmosphere, pH 6.99, I = 0.0100 m
+           1.00 mmol  chloride ion       Aqueous
+           1.00 mmol  sodium ion         Aqueous
+          5.5353 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9970e-1   γ=0.018
+        Cl-             1.0028e-2    9.0273e-3   γ=0.900
+        Na+             1.0028e-2    9.0537e-3   γ=0.903
+        O2              2.6600e-4    2.6660e-4   γ=1.002
+        H+              1.1136e-7    1.0170e-7   γ=0.913
+        OH-             1.1136e-7    1.0021e-7   γ=0.900
+  v2 (beaker) — 25.24 °C, 99.8 g, 100.0 mL liquid, open to atmosphere, pH 6.99, I = 0.0100 m
+           1.00 mmol  chloride ion       Aqueous
+           1.00 mmol  sodium ion         Aqueous
+          5.5353 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9970e-1   γ=0.018
+        Cl-             1.0028e-2    9.0273e-3   γ=0.900
+        Na+             1.0028e-2    9.0537e-3   γ=0.903
+        O2              2.6600e-4    2.6660e-4   γ=1.002
+        H+              1.1136e-7    1.0170e-7   γ=0.913
+        OH-             1.1136e-7    1.0021e-7   γ=0.900
+  v1 pH meter: 6.9927 pH — This is a model estimate with limited calibration or simplifying assumptions.
+  v2 pH meter: 6.9927 pH — This is a model estimate with limited calibration or simplifying assumptions.

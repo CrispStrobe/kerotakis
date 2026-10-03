@@ -1,0 +1,45 @@
+  v2: new vessel
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v2: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v2: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v2: +0.001000 mol sodium chloride (NaCl, M = 58.443 g/mol)
+  v2: 0.001000 mol sodium chloride dissolved
+  v2: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v2: pH 6.997 · I = 0.0100 mol/kgw
+  v1: +0.001000 mol silver chloride (AgCl, M = 143.320 g/mol)
+  v1: 0.000002 mol silver chloride dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 6.999 · I = 0.0000 mol/kgw
+  v2: +0.001000 mol silver chloride (AgCl, M = 143.320 g/mol)
+  v2: pH 6.997 · I = 0.0100 mol/kgw
+  v1 (beaker) — 25.00 °C, 99.8 g, 100.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+           1.37 µmol  silver ion         Aqueous
+           1.37 µmol  chloride ion       Aqueous
+            999 µmol  silver chloride    Solid
+          5.5343 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1     1.0000e0   γ=0.018
+        O2              2.6770e-4    2.6770e-4   γ=1.000
+        Ag+             1.3393e-5    1.3335e-5   γ=0.996
+        Cl-             1.3392e-5    1.3335e-5   γ=0.996
+        AgCl            3.3110e-7    3.3110e-7   γ=1.000
+        H+              1.0055e-7    1.0012e-7   γ=0.996
+        OH-             1.0042e-7    9.9985e-8   γ=0.996
+  v2 (beaker) — 24.99 °C, 99.9 g, 100.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0100 m
+           68.6 nmol  silver ion         Aqueous
+           1.00 mmol  chloride ion       Aqueous
+           1000 µmol  sodium ion         Aqueous
+           1000 µmol  silver chloride    Solid
+          5.5343 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9970e-1   γ=0.018
+        Na+             1.0030e-2    9.0556e-3   γ=0.903
+        Cl-             1.0030e-2    9.0289e-3   γ=0.900
+        O2              2.6710e-4    2.6770e-4   γ=1.002
+        AgCl2-          3.3130e-7    2.9880e-7   γ=0.902
+        AgCl            3.3010e-7    3.3090e-7   γ=1.002
+        H+              1.1031e-7    1.0074e-7   γ=0.913
+        OH-             1.1031e-7    9.9268e-8   γ=0.900
+        Ag+             2.1822e-8    1.9679e-8   γ=0.902
+        AgCl3-2         4.2710e-9    2.8240e-9   γ=0.661

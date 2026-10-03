@@ -4573,22 +4573,32 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             vessel,
             headspace_volume,
             trapped_air,
-        } => match register.level() {
-            1 => locale.fill(
-                "event.vessel-sealed.lv1",
-                "A lid seals {vessel}. Nothing gaseous can escape now.",
-                &[("vessel", &vessel.to_string())],
-            ),
-            2 => locale.fill(
-                "event.vessel-sealed.lv2",
-                "{vessel}: sealed over {headspace_volume} L of headspace, trapping {trapped_air} of room air",
-                &[("vessel", &vessel.to_string()), ("headspace_volume", &locale.number(format!("{:.3}", headspace_volume.0))), ("trapped_air", &moles_amount(locale, trapped_air.0))],
-            ),
-            _ => locale.fill(
-                "event.vessel-sealed.lv3",
-                "{vessel}: boundary=open → sealed; V_gas={headspace_volume} L, trapped dry-air approximation={trapped_air} mol",
-                &[("vessel", &vessel.to_string()), ("headspace_volume", &locale.number(format!("{:.6}", headspace_volume.0))), ("trapped_air", &locale.number(format!("{:.8}", trapped_air.0)))],
-            ),
+            previous_boundary,
+        } => {
+            let (previous, gas_basis) = match previous_boundary {
+                Some(Headspace::Open) => ("open", "dry-air approximation"),
+                Some(Headspace::Swept { .. }) => ("swept", "nitrogen purge approximation"),
+                Some(Headspace::Sealed { .. }) => ("sealed", "existing gas retained; no boundary gas added"),
+                Some(Headspace::PressureControlled { .. }) => ("pressure_controlled", "existing gas retained; no boundary gas added"),
+                None => ("unknown", "boundary gas; previous boundary unavailable"),
+            };
+            match register.level() {
+                1 => locale.fill(
+                    "event.vessel-sealed.boundary.lv1",
+                    "{vessel} is sealed. Nothing gaseous can escape now.",
+                    &[("vessel", &vessel.to_string())],
+                ),
+                2 => locale.fill(
+                    "event.vessel-sealed.boundary.lv2",
+                    "{vessel}: sealed over {headspace_volume} L of headspace; added boundary gas {trapped_air} ({gas_basis})",
+                    &[("vessel", &vessel.to_string()), ("headspace_volume", &locale.number(format!("{:.3}", headspace_volume.0))), ("trapped_air", &moles_amount(locale, trapped_air.0)), ("gas_basis", gas_basis)],
+                ),
+                _ => locale.fill(
+                    "event.vessel-sealed.boundary.lv3",
+                    "{vessel}: boundary={previous} → sealed; V_gas={headspace_volume} L, added boundary gas={trapped_air} mol ({gas_basis})",
+                    &[("vessel", &vessel.to_string()), ("previous", previous), ("headspace_volume", &locale.number(format!("{:.6}", headspace_volume.0))), ("trapped_air", &locale.number(format!("{:.8}", trapped_air.0))), ("gas_basis", gas_basis)],
+                ),
+            }
         },
         Event::VesselPressureControlled {
             vessel,

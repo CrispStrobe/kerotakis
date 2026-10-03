@@ -71,6 +71,48 @@ const THERMAL_FIXED_POINT_QUANTIZATION_CYCLE_K: f64 = 5e-5;
 // tolerance, while still refusing oscillation or divergence.
 const MAX_THERMAL_FIXED_POINT_PASSES: usize = 64;
 
+/// Safeguard an oscillating temperature map without weakening its residual
+/// tolerance. Each endpoint is an actual chemistry solve, not an extrapolated
+/// composition. A bracketed secant step usually resolves a smooth map quickly;
+/// keeping it away from either edge guarantees progress when a phase boundary
+/// makes the secant stick to one side.
+#[derive(Default)]
+struct ThermalRootBracket {
+    positive: Option<(f64, f64)>,
+    negative: Option<(f64, f64)>,
+}
+
+impl ThermalRootBracket {
+    fn next_guess(&mut self, temperature: f64, mapped: f64) -> f64 {
+        let residual = mapped - temperature;
+        if !temperature.is_finite() || !residual.is_finite() {
+            return mapped;
+        }
+        if residual > 0.0 {
+            self.positive = Some((temperature, residual));
+        } else if residual < 0.0 {
+            self.negative = Some((temperature, residual));
+        } else {
+            return temperature;
+        }
+        let (Some((positive_t, positive_r)), Some((negative_t, negative_r))) =
+            (self.positive, self.negative)
+        else {
+            return mapped;
+        };
+        let lo = positive_t.min(negative_t);
+        let hi = positive_t.max(negative_t);
+        let secant = positive_t
+            - positive_r * (negative_t - positive_t) / (negative_r - positive_r);
+        let margin = (hi - lo) * 0.1;
+        if secant.is_finite() && secant > lo + margin && secant < hi - margin {
+            secant
+        } else {
+            lo + (hi - lo) * 0.5
+        }
+    }
+}
+
 use crate::derived::{self, DerivedRole, ATMOSPHERIC, EQUILIBRIUM_GASES};
 use crate::enthalpy;
 
@@ -2094,12 +2136,12 @@ fn distribute_surface_occupancy(
         .iter()
         .map(|surface| surface.capacity(site).0)
         .sum();
-    if total_capacity <= 0.0 || total_moles <= TRACE {
+    if total_capacity <= 0.0 || total_moles <= 0.0 {
         return;
     }
     for surface in surfaces {
         let share = total_moles * surface.capacity(site).0 / total_capacity;
-        if share > TRACE {
+        if share > 0.0 {
             surface.occupancy.push(SurfaceOccupancy {
                 site,
                 sorbate,
@@ -2121,7 +2163,7 @@ fn distribute_surface_water_release(
         .iter()
         .map(|surface| surface.capacity(site).0)
         .sum();
-    if total_capacity <= 0.0 || total_moles <= TRACE {
+    if total_capacity <= 0.0 || total_moles <= 0.0 {
         return;
     }
     for surface in surfaces {
@@ -2137,12 +2179,12 @@ fn distribute_exchange_occupancy(
     total_moles: f64,
 ) {
     let total_capacity: f64 = exchanges.iter().map(|exchange| exchange.capacity.0).sum();
-    if total_capacity <= 0.0 || total_moles <= TRACE {
+    if total_capacity <= 0.0 || total_moles <= 0.0 {
         return;
     }
     for exchange in exchanges {
         let share = total_moles * exchange.capacity.0 / total_capacity;
-        if share > TRACE {
+        if share > 0.0 {
             exchange.occupancy.push(ExchangeOccupancy {
                 ion,
                 moles: Moles(share),
@@ -2321,6 +2363,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         let mut fixed_point_converged = false;
         let mut last_temperature_residual = f64::INFINITY;
         let mut previous_guess: Option<f64> = None;
+        let mut thermal_bracket = ThermalRootBracket::default();
 
         for _ in 0..MAX_THERMAL_FIXED_POINT_PASSES {
             let mut trial = start.clone();
@@ -2393,7 +2436,14 @@ impl Equilibrator for PhreeqcEquilibrator {
             // solution computed at `guess` was the original feed-order bug.
             settled = Some((trial, events, guess));
             previous_guess = Some(guess);
-            guess = next;
+            // Pressure-controlled volume is a second coupled unknown; keep
+            // its joint fixed-point iteration rather than treating changing
+            // volumes as evaluations of one scalar temperature function.
+            guess = if matches!(start.headspace, Headspace::PressureControlled { .. }) {
+                next
+            } else {
+                thermal_bracket.next_guess(guess, next)
+            };
             volume_guess = next_volume;
             if converged {
                 fixed_point_converged = true;
@@ -4476,7 +4526,7 @@ impl PhreeqcEquilibrator {
                 .collect();
             let sum: f64 = split.iter().map(|(_, m)| m).sum();
             let total = value(base).unwrap_or(sum) * kgw_out;
-            if total <= TRACE {
+            if total <= 0.0 {
                 continue;
             }
             // An uncoupled element keeps the oxidation state it was added
@@ -4503,7 +4553,7 @@ impl PhreeqcEquilibrator {
                 if total_in > 0.0 {
                     for (key, n_in) in inputs {
                         let moles = total * n_in / total_in;
-                        if moles <= TRACE {
+                        if moles <= 0.0 {
                             continue;
                         }
                         if derived::booking_ion(key).is_some() {
@@ -4530,7 +4580,7 @@ impl PhreeqcEquilibrator {
             }
             for (column, molality) in split {
                 let moles = total * molality / sum;
-                if moles <= TRACE {
+                if moles <= 0.0 {
                     continue;
                 }
                 // A specific oxidation state may have no name of its own
@@ -5003,8 +5053,10 @@ impl PhreeqcEquilibrator {
                 .filter(|n| *n > 0.0)
                 .unwrap_or(1.0)
         };
+        // Positive material amounts belong to the inventory even below the
+        // display/event threshold: a picomole is not an absent element.
         for (el, moles) in new_ions {
-            if *moles > TRACE {
+            if *moles > 0.0 {
                 let base = el.split('(').next().unwrap_or(el);
                 // A state whose registry name is a protonation question is
                 // booked as the species the solve found, in the proportions
@@ -5016,7 +5068,7 @@ impl PhreeqcEquilibrator {
                 if let Some(split) = protonation.get(el) {
                     for (ion, fraction) in split {
                         let share = *moles * fraction;
-                        if share <= TRACE {
+                        if share <= 0.0 {
                             continue;
                         }
                         contents.push(Portion {
@@ -5036,7 +5088,7 @@ impl PhreeqcEquilibrator {
             }
         }
         for (_, species, moles) in new_gases {
-            if *moles > TRACE {
+            if *moles > 0.0 {
                 contents.push(Portion {
                     species: SpeciesId::new(species),
                     moles: Moles(*moles),
@@ -5071,7 +5123,7 @@ impl PhreeqcEquilibrator {
                     .find(|(name, ..)| name == phase)
                     .map(|(_, m, _)| *m)
                     .unwrap_or(0.0);
-                if *moles > TRACE {
+                if *moles > 0.0 {
                     contents.push(Portion {
                         species: SpeciesId::new(species),
                         moles: Moles(*moles),
@@ -5110,13 +5162,13 @@ impl PhreeqcEquilibrator {
                 match exchange.kind {
                     ExternalGasKind::Reservoir => {
                         let transferred = *moles - exchange.initial_moles;
-                        if transferred > TRACE {
+                        if transferred > 0.0 {
                             events.push(Event::GasEvolved {
                                 vessel: vessel.id,
                                 species: SpeciesId::new(&exchange.species),
                                 moles: Moles(transferred),
                             });
-                        } else if transferred < -TRACE {
+                        } else if transferred < 0.0 {
                             events.push(Event::GasAbsorbed {
                                 vessel: vessel.id,
                                 species: SpeciesId::new(&exchange.species),
@@ -5138,7 +5190,7 @@ impl PhreeqcEquilibrator {
                             ),
                         ));
                         let absorbed = exchange.initial_moles - moles;
-                        if absorbed > TRACE {
+                        if absorbed > 0.0 {
                             events.push(Event::GasAbsorbed {
                                 vessel: vessel.id,
                                 species: SpeciesId::new(&exchange.species),
@@ -5149,7 +5201,7 @@ impl PhreeqcEquilibrator {
                         // the vessel after it has bubbled through. If the
                         // solution produced additional gas, it is included
                         // in this same outward amount.
-                        if *moles > TRACE {
+                        if *moles > 0.0 {
                             events.push(Event::GasEvolved {
                                 vessel: vessel.id,
                                 species: SpeciesId::new(&exchange.species),
@@ -5205,7 +5257,7 @@ impl PhreeqcEquilibrator {
         // `Event::is_observable` decides what is shown, but the energy
         // balance must see all of it.
         for (phase, moles) in freed_phases {
-            if *moles > TRACE {
+            if *moles > 0.0 {
                 if let Some(dp) = derived::phase_by_name(phase) {
                     events.push(Event::Dissolved {
                         vessel: vessel.id,
@@ -6746,7 +6798,7 @@ fn parse_saturation_indices(output: &str) -> Vec<(String, f64)> {
 }
 
 /// Parse the last "Distribution of species" block of a PHREEQC output
-/// report into (name, molality, activity) triples, molality > 1e-9,
+/// report into (name, molality, activity) triples, positive molality,
 /// descending. The block's shape is stable across PHREEQC 3.x: a header,
 /// element-total lines (2 columns), and species lines (>= 6 columns:
 /// name, molality, activity, log m, log a, log gamma[, volume]).
@@ -6812,7 +6864,7 @@ pub(crate) fn parse_species_distribution(output: &str) -> Vec<SpeciesDetail> {
         }
         // A species appears once per element section it contains (AgCl is
         // listed under both Ag and Cl); keep it once.
-        if molality > 1e-9 && !result.iter().any(|r| r.name == tokens[0]) {
+        if molality.is_finite() && molality > 0.0 && !result.iter().any(|r| r.name == tokens[0]) {
             result.push(SpeciesDetail {
                 name: tokens[0].to_string(),
                 molality,
@@ -6822,6 +6874,41 @@ pub(crate) fn parse_species_distribution(output: &str) -> Vec<SpeciesDetail> {
     }
     result.sort_by(|a, b| b.molality.total_cmp(&a.molality));
     result
+}
+
+#[cfg(test)]
+mod thermal_root_tests {
+    use super::{ThermalRootBracket, THERMAL_FIXED_POINT_TOLERANCE_K};
+
+    fn settle(map: impl Fn(f64) -> f64) -> Option<f64> {
+        let mut bracket = ThermalRootBracket::default();
+        let mut temperature = 298.0;
+        for _ in 0..64 {
+            let mapped = map(temperature);
+            if (mapped - temperature).abs() < THERMAL_FIXED_POINT_TOLERANCE_K {
+                return Some(temperature);
+            }
+            temperature = bracket.next_guess(temperature, mapped);
+        }
+        None
+    }
+
+    #[test]
+    fn unstable_thermal_feedback_is_solved_without_relaxing_the_residual() {
+        // A dissolution/temperature map can have a unique equilibrium while
+        // plain substitution amplifies departures from it on every pass.
+        let root = settle(|temperature| 299.0 - 1.5 * (temperature - 299.0))
+            .expect("a continuous bracketed equilibrium");
+        assert!((root - 299.0).abs() < 1e-6);
+    }
+
+    #[test]
+    fn shrinking_a_discontinuous_bracket_does_not_claim_equilibrium() {
+        assert!(settle(|temperature| {
+            if temperature < 299.0 { 299.001 } else { 298.999 }
+        })
+        .is_none());
+    }
 }
 
 #[cfg(test)]
@@ -7219,5 +7306,20 @@ mod numerical_speciation_tests {
             assert_eq!(refine_species_distribution(species.clone(), &rows), species);
         }
         assert_eq!(refine_species_distribution(species.clone(), &[]), species);
+    }
+}
+
+#[cfg(test)]
+mod trace_distribution_tests {
+    #[test]
+    fn species_report_keeps_positive_trace_concentrations() {
+        let report = "Distribution of species\n\
+            Cl- 1.000e-14 1.000e-14 -14.0 -14.0 0.0\n\
+            Na+ 0.000e+00 0.000e+00 -99.0 -99.0 0.0\n\
+            -----\n";
+        let species = super::parse_species_distribution(report);
+        assert_eq!(species.len(), 1);
+        assert_eq!(species[0].name, "Cl-");
+        assert_eq!(species[0].molality, 1e-14);
     }
 }

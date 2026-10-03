@@ -1,0 +1,64 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.001000 mol washing soda (sodium carbonate) (Na2CO3, M = 105.988 g/mol)
+  v1: 0.001000 mol washing soda (sodium carbonate) dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 10.973 · I = 0.0261 mol/kgw
+  v1: reaction heat for Na2CO3 is not priced; the temperature estimate is incomplete
+  v1: boundary=open → sealed; V_gas=0.100000 L, trapped dry-air approximation=0.00408740 mol
+  v1: 0.000001 mol of acidity cancelled (from the change in the solutes' net charge; PHREEQC reports element totals and never this reaction)
+  v1: finite-volume gas/liquid equilibrium; P=101284.630 Pa, n_gas=0.00408577 mol
+  v1: pH 10.966 · I = 0.0261 mol/kgw
+  v1 (beaker) — 25.00 °C, 99.9 g, 100.0 mL liquid, sealed 100.0 mL headspace at 1.013 bar, pH 10.97, I = 0.0261 m
+      temperature estimate is incomplete: reaction heat for Na2CO3 is not priced
+           3.23 mmol  nitrogen           Gas
+            856 µmol  oxygen             Gas
+           2.00 mmol  sodium ion         Aqueous
+           2.70 nmol  dissolved carbon dioxide Aqueous
+            129 µmol  bicarbonate ion    Aqueous
+            872 µmol  carbonate ion      Aqueous
+           2.80 nmol  carbon dioxide     Gas
+          5.5341 mol  water              Liquid
+            126 µmol  base equivalents   Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9950e-1   γ=0.018
+        Na+             1.8618e-2    1.5992e-2   γ=0.859
+        CO3-2           7.4943e-3    4.1543e-3   γ=0.554
+        NaCO3-          1.4340e-3    1.2370e-3   γ=0.863
+        HCO3-           1.1101e-3    9.5785e-4   γ=0.863
+        OH-             1.0860e-3    9.2535e-4   γ=0.852
+        NaHCO3          8.5630e-6    8.6140e-6   γ=1.006
+        CO2             2.3159e-8    2.3299e-8   γ=1.006
+  HAZARD [Caution] (L0): strong acid and carbonate fizz vigorously, releasing carbon dioxide — the mixture can spatter; Adding acid to chalk or baking soda foams over if the vessel is too small. CO₂ displaces air in enclosed spaces.
+  v1: T 298.150 K → 298.150 K (ΔT = -0.000 K)
+  v1: +0.002000 mol hydrochloric acid (HCl, M = 36.461 g/mol)
+  v1: 0.000546 mol carbon dioxide transferred to the finite headspace (closed system; mass retained)
+  v1: finite-volume gas/liquid equilibrium; P=114830.837 Pa, n_gas=0.00463158 mol
+  v1: pH 4.342 · I = 0.0201 mol/kgw
+  v1: T 298.150 K → 298.192 K (ΔT = +0.041 K)
+  v1 (beaker) — 25.04 °C, 100.0 g, 100.0 mL liquid, sealed 100.0 mL headspace at 1.148 bar, pH 4.34, I = 0.0201 m
+      temperature estimate is incomplete: reaction heat for Na2CO3 is not priced
+           3.23 mmol  nitrogen           Gas
+            856 µmol  oxygen             Gas
+           2.00 mmol  chloride ion       Aqueous
+           2.00 mmol  sodium ion         Aqueous
+            451 µmol  dissolved carbon dioxide Aqueous
+           5.06 µmol  bicarbonate ion    Aqueous
+           7.78 pmol  carbonate ion      Aqueous
+            546 µmol  carbon dioxide     Gas
+          5.5353 mol  water              Liquid
+           5.06 µmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9920e-1   γ=0.018
+        Cl-             2.0057e-2    1.7393e-2   γ=0.867
+        Na+             2.0056e-2    1.7490e-2   γ=0.872
+        CO2             4.5205e-3    4.5415e-3   γ=1.005
+        H+              5.1150e-5    4.5486e-5   γ=0.889
+        HCO3-           5.0715e-5    4.4396e-5   γ=0.875
+        NaHCO3          4.3460e-7    4.3660e-7   γ=1.005
+  v1: limewater: limewater turns milky — CO₂ detected (mole fraction 11.8%); 0.0005 mol CO₂ consumed; CO₂ + Ca(OH)₂ → CaCO₃↓ + H₂O (curated stoichiometry, limewater not modelled as a vessel)
+  v1: 0.000248 mol carbon dioxide transferred to the finite headspace (closed system; mass retained)
+  v1: finite-volume gas/liquid equilibrium; P=107436.105 Pa, n_gas=0.00433349 mol
+  v1: pH 4.514 · I = 0.0201 mol/kgw
+  v1: T 298.192 K → 298.180 K (ΔT = -0.012 K)
+  v1 pressure gauge: 107.4361 kPa — This estimate is incomplete: contributing model data are missing.

@@ -2476,6 +2476,7 @@ impl Bench {
                     vessel: *vessel,
                     headspace_volume: *headspace_volume,
                     trapped_air: trapped,
+                    previous_boundary: Some(previous),
                 });
             }
             Operator::Regulate {

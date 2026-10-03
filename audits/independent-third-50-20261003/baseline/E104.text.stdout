@@ -1,0 +1,146 @@
+  v2: new vessel
+  v3: new vessel
+  v4: new vessel
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.005000 mol copper sulfate (CuSO4, M = 159.609 g/mol)
+  v1: 0.000006 mol antlerite (green copper sulfate) precipitated
+  v1: 0.005000 mol copper sulfate dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added
+  v1: pH 4.045 · I = 0.1125 mol/kgw
+  v1: reaction heat for antlerite is not priced; the temperature estimate is incomplete
+  v1: T 298.150 K → 299.026 K (ΔT = +0.876 K)
+  v1: net ionic: 3 Cu²⁺(aq) + SO₄²⁻(aq) + 4 H₂O(l) → antlerite(s) + 4 H⁺(aq)
+  v1: T 299.026 K → 299.025 K (ΔT = -0.001 K)
+  v1: +0.010000 mol sodium hydroxide (NaOH, M = 39.997 g/mol)
+  v1: 0.000006 mol antlerite (green copper sulfate) dissolved
+  v1: 0.004998 mol copper(II) hydroxide precipitated
+  v1: 0.010000 mol sodium hydroxide dissolved
+  v1: 0.000022 mol of acidity cancelled (from the change in the solutes' net charge; PHREEQC reports element totals and never this reaction)
+  v1: pH 8.547 · I = 0.1368 mol/kgw
+  v1: NOT MODELLED: the solution is supersaturated against Tenorite (SI +1.0), deliberately withheld below the registry's formation-temperature threshold at 27 °C. This is a curated metastability boundary, not a computed nucleation or growth rate
+  v1: reaction heat for Cu(OH)2 is not priced; the temperature estimate is incomplete
+  v1: T 299.025 K → 300.091 K (ΔT = +1.066 K)
+  v1: net ionic: CuOH⁺(aq) + OH⁻(aq) → Cu(OH)₂(s)  (spectator ions: Na⁺, SO₄²⁻, NaSO₄⁻)
+  v1: net ionic: H⁺(aq) + OH⁻(aq) → H₂O(l)  (spectator ions: Na⁺, SO₄²⁻, NaSO₄⁻)
+  v1 (beaker) — 26.94 °C, 100.9 g, 100.0 mL liquid, open to atmosphere, pH 8.55, pe 11.92 (+0.710 V), I = 0.1368 m
+      temperature estimate is incomplete: reaction heat for antlerite, Cu(OH)2 is not priced
+      redox — all Cu as Cu(II); all S as S(VI)
+          0.0100 mol  sodium ion         Aqueous
+            749 nmol  copper(II) ion     Aqueous
+           5.00 mmol  sulfate ion        Aqueous
+            272 nmol  brochantite (green copper patina) Solid
+           5.00 mmol  copper(II) hydroxide Solid
+          5.5343 mol  water              Liquid
+           2.04 µmol  base equivalents   Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9760e-1   γ=0.018
+        Na+             9.3482e-2    7.1393e-2   γ=0.764
+        SO4-2           4.3329e-2    1.4470e-2   γ=0.334
+        NaSO4-          6.8190e-3    5.2410e-3   γ=0.769
+        O2              2.5130e-4    2.5940e-4   γ=1.032
+        Cu(OH)2         7.4820e-6    7.7210e-6   γ=1.032
+        OH-             5.5206e-6    4.0665e-6   γ=0.737
+        CuOH+           1.4110e-8    1.0520e-8   γ=0.746
+        CuSO4           8.6900e-9    8.9680e-9   γ=1.032
+        Cu+2            8.2068e-9    2.9954e-9   γ=0.365
+        HSO4-           5.5260e-9    4.1700e-9   γ=0.755
+        H+              3.4969e-9    2.8400e-9   γ=0.812
+  v2 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v4 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v1 → v2: filtrate passed; residue retained
+  v2: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added
+  v2: pH 8.547 · I = 0.1368 mol/kgw
+  v2: NOT MODELLED: the solution is supersaturated against Tenorite (SI +1.0), deliberately withheld below the registry's formation-temperature threshold at 27 °C. This is a curated metastability boundary, not a computed nucleation or growth rate
+  v1: There is blue-green copper(II) hydroxide in the beaker. (liquid —, turbidity 0.00)
+  v2: The liquid is colourless and clear. Colour is incomplete: no absorption spectrum for Cu(OH)2, CuOH+ and CuSO4. (liquid #FFFFFF, turbidity 0.00)
+  v2 conductivity meter: 9772.2422 µS/cm — past I = 0.10 mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: the ion–ion drag is corrected by an empirical factor (0.84× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and 2 mol/kgw. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one — This estimate is incomplete: contributing model data are missing.
+  v3: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v3: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v3: +0.010000 mol hydrochloric acid (HCl, M = 36.461 g/mol)
+  v3: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone
+  v3: pH 1.082 · I = 0.1003 mol/kgw
+  v3: T 298.150 K → 298.150 K (ΔT = -0.000 K)
+  v3: +0.010000 mol sodium hydroxide (NaOH, M = 39.997 g/mol)
+  v3: 0.010000 mol sodium hydroxide dissolved
+  v3: 0.010000 mol of acidity cancelled (from the change in the solutes' net charge; PHREEQC reports element totals and never this reaction)
+  v3: pH 6.944 · I = 0.1001 mol/kgw
+  v3: T 298.150 K → 300.553 K (ΔT = +2.403 K)
+  v3: net ionic: H⁺(aq) + OH⁻(aq) → H₂O(l)  (spectator ions: Cl⁻, Na⁺)  (complete ionic: H⁺(aq) + OH⁻(aq) + Cl⁻(aq) + Na⁺(aq) → H₂O(l) + Cl⁻(aq) + Na⁺(aq))
+  v1 (beaker) — 26.94 °C, 0.5 g, 0.0 mL liquid, open to atmosphere
+      temperature estimate is incomplete: reaction heat for antlerite, Cu(OH)2 is not priced
+            272 nmol  brochantite (green copper patina) Solid
+           5.00 mmol  copper(II) hydroxide Solid
+  v2 (beaker) — 26.94 °C, 100.4 g, 100.0 mL liquid, open to atmosphere, pH 8.55, pe 11.92 (+0.710 V), I = 0.1368 m
+      temperature estimate is incomplete: reaction heat for antlerite, Cu(OH)2 is not priced
+      redox — all Cu as Cu(II); all S as S(VI)
+          0.0100 mol  sodium ion         Aqueous
+            749 nmol  copper(II) ion     Aqueous
+           5.00 mmol  sulfate ion        Aqueous
+          5.5343 mol  water              Liquid
+           2.04 µmol  base equivalents   Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9760e-1   γ=0.018
+        Na+             9.3482e-2    7.1393e-2   γ=0.764
+        SO4-2           4.3329e-2    1.4470e-2   γ=0.334
+        NaSO4-          6.8190e-3    5.2410e-3   γ=0.769
+        O2              2.5130e-4    2.5940e-4   γ=1.032
+        Cu(OH)2         7.4820e-6    7.7210e-6   γ=1.032
+        OH-             5.5206e-6    4.0664e-6   γ=0.737
+        CuOH+           1.4110e-8    1.0520e-8   γ=0.746
+        CuSO4           8.6900e-9    8.9680e-9   γ=1.032
+        Cu+2            8.2067e-9    2.9953e-9   γ=0.365
+        HSO4-           5.5260e-9    4.1700e-9   γ=0.755
+        H+              3.4969e-9    2.8400e-9   γ=0.812
+  v3 (beaker) — 27.40 °C, 100.5 g, 100.2 mL liquid, open to atmosphere, pH 6.94, I = 0.1001 m
+          0.0100 mol  chloride ion       Aqueous
+          0.0100 mol  sodium ion         Aqueous
+          5.5443 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9660e-1   γ=0.018
+        Cl-             1.0012e-1    7.6425e-2   γ=0.763
+        Na+             1.0012e-1    7.8272e-2   γ=0.782
+        O2              2.5160e-4    2.5750e-4   γ=1.023
+        OH-             1.3795e-7    1.0494e-7   γ=0.761
+        H+              1.3795e-7    1.1377e-7   γ=0.825
+  v4 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v3 → v2: filtrate passed; residue retained
+  v2: pH 8.252 · I = 0.1179 mol/kgw
+  v3 balance: 0.0000 g
+  v2 pH meter: 8.2522 pH — This is a model estimate with limited calibration or simplifying assumptions.
+  v1 (beaker) — 26.94 °C, 0.5 g, 0.0 mL liquid, open to atmosphere
+      temperature estimate is incomplete: reaction heat for antlerite, Cu(OH)2 is not priced
+            272 nmol  brochantite (green copper patina) Solid
+           5.00 mmol  copper(II) hydroxide Solid
+  v2 (beaker) — 27.17 °C, 200.9 g, 200.2 mL liquid, open to atmosphere, pH 8.25, pe 12.19 (+0.727 V), I = 0.1179 m
+      temperature estimate is incomplete: reaction heat for antlerite, Cu(OH)2 is not priced
+      redox — all Cu as Cu(II); all S as S(VI)
+          0.0100 mol  chloride ion       Aqueous
+          0.0200 mol  sodium ion         Aqueous
+            749 nmol  copper(II) ion     Aqueous
+           5.00 mmol  sulfate ion        Aqueous
+         11.0786 mol  water              Liquid
+           2.04 µmol  base equivalents   Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9710e-1   γ=0.018
+        Na+             9.6549e-2    7.4557e-2   γ=0.772
+        Cl-             5.0105e-2    3.7639e-2   γ=0.751
+        SO4-2           2.1390e-2    7.5166e-3   γ=0.351
+        NaSO4-          3.6620e-3    2.8470e-3   γ=0.777
+        O2              2.5150e-4    2.5840e-4   γ=1.027
+        Cu(OH)2         3.7150e-6    3.8170e-6   γ=1.027
+        OH-             2.8050e-6    2.0985e-6   γ=0.748
+        Cu+2            1.5106e-8    5.7536e-9   γ=0.381
+        CuOH+           1.3550e-8    1.0250e-8   γ=0.756
+        CuSO4           8.7220e-9    8.9630e-9   γ=1.028
+        H+              6.8397e-9    5.5955e-9   γ=0.818
+        HSO4-           5.6100e-9    4.2900e-9   γ=0.765
+  v3 (beaker) — 27.40 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v4 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)

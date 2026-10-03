@@ -1,0 +1,78 @@
+  v2: new vessel
+  v3: new vessel
+  v1: +2.767138 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v2: +2.767138 mol water (H2O, M = 18.015 g/mol)
+  v2: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.000050 mol sodium chloride (NaCl, M = 58.443 g/mol)
+  v1: 0.000050 mol sodium chloride dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 6.999 · I = 0.0010 mol/kgw
+  v2: +0.000050 mol sodium chloride (NaCl, M = 58.443 g/mol)
+  v2: 0.000050 mol sodium chloride dissolved
+  v2: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v2: pH 6.999 · I = 0.0010 mol/kgw
+  v1: NOT MODELLED: the volume meter reads a sealed vessel's headspace, and this one is open — seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.
+  v2: NOT MODELLED: the volume meter reads a sealed vessel's headspace, and this one is open — seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.
+  v1 conductivity meter: 124.7314 µS/cm — This is a model estimate with limited calibration or simplifying assumptions.
+  v2 conductivity meter: 124.7314 µS/cm — This is a model estimate with limited calibration or simplifying assumptions.
+  v1 (beaker) — 25.00 °C, 49.9 g, 50.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0010 m
+           50.0 µmol  chloride ion       Aqueous
+           50.0 µmol  sodium ion         Aqueous
+          2.7671 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1     1.0000e0   γ=0.018
+        Cl-             1.0030e-3    9.6768e-4   γ=0.965
+        Na+             1.0030e-3    9.6799e-4   γ=0.965
+        O2              2.6760e-4    2.6770e-4   γ=1.000
+        H+              1.0361e-7    1.0014e-7   γ=0.967
+        OH-             1.0361e-7    9.9955e-8   γ=0.965
+  v2 (beaker) — 25.00 °C, 49.9 g, 50.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0010 m
+           50.0 µmol  chloride ion       Aqueous
+           50.0 µmol  sodium ion         Aqueous
+          2.7671 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1     1.0000e0   γ=0.018
+        Cl-             1.0030e-3    9.6768e-4   γ=0.965
+        Na+             1.0030e-3    9.6799e-4   γ=0.965
+        O2              2.6760e-4    2.6770e-4   γ=1.000
+        H+              1.0361e-7    1.0014e-7   γ=0.967
+        OH-             1.0361e-7    9.9955e-8   γ=0.965
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v1: +2.767138 mol water (H2O, M = 18.015 g/mol)
+  v1: pH 7.000 · I = 0.0005 mol/kgw
+  v1: 2.767138 mol H2O evaporated (vaporisation enthalpy not yet in the balance)
+  v1: pH 6.999 · I = 0.0010 mol/kgw
+  v1: NOT MODELLED: the volume meter reads a sealed vessel's headspace, and this one is open — seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.
+  v2: NOT MODELLED: the volume meter reads a sealed vessel's headspace, and this one is open — seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.
+  v1 thermometer: 24.9995 °C — This is a model estimate with limited calibration or simplifying assumptions.
+  v2 thermometer: 24.9991 °C — This is a model estimate with limited calibration or simplifying assumptions.
+  v1 conductivity meter: 124.7314 µS/cm — This is a model estimate with limited calibration or simplifying assumptions.
+  v2 conductivity meter: 124.7314 µS/cm — This is a model estimate with limited calibration or simplifying assumptions.
+  v1 pH meter: 6.9994 pH — This is a model estimate with limited calibration or simplifying assumptions.
+  v2 pH meter: 6.9994 pH — This is a model estimate with limited calibration or simplifying assumptions.
+  v1 (beaker) — 25.00 °C, 49.9 g, 50.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0010 m
+           50.0 µmol  chloride ion       Aqueous
+           50.0 µmol  sodium ion         Aqueous
+          2.7671 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1     1.0000e0   γ=0.018
+        Cl-             1.0030e-3    9.6768e-4   γ=0.965
+        Na+             1.0030e-3    9.6799e-4   γ=0.965
+        O2              2.6760e-4    2.6770e-4   γ=1.000
+        OH-             1.0361e-7    9.9956e-8   γ=0.965
+        H+              1.0361e-7    1.0014e-7   γ=0.967
+  v2 (beaker) — 25.00 °C, 49.9 g, 50.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0010 m
+           50.0 µmol  chloride ion       Aqueous
+           50.0 µmol  sodium ion         Aqueous
+          2.7671 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1     1.0000e0   γ=0.018
+        Cl-             1.0030e-3    9.6768e-4   γ=0.965
+        Na+             1.0030e-3    9.6799e-4   γ=0.965
+        O2              2.6760e-4    2.6770e-4   γ=1.000
+        H+              1.0361e-7    1.0014e-7   γ=0.967
+        OH-             1.0361e-7    9.9955e-8   γ=0.965
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)

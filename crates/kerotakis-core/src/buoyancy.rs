@@ -121,10 +121,13 @@ pub fn liquid_density_g_per_ml(vessel: &Vessel) -> Option<f64> {
 /// The reading is still worth giving: the solvent's density is right, and
 /// for a molecular solute the whole answer is. What must not happen is the
 /// bench claiming a brine is as light as water without saying why.
+// Missing partial-volume data is a property of the composition, so its
+// disclosure cannot depend on the absolute amount of an otherwise identical
+// sample. The visual observation threshold is unrelated to this model limit.
 pub fn ionic_volume_unaccounted(vessel: &Vessel) -> bool {
     vessel.contents.iter().any(|portion| {
         portion.phase == crate::species::Phase::Aqueous
-            && portion.moles.0 > crate::OBSERVABLE_MOLES
+            && portion.moles.0 > 0.0
             && crate::conductivity::ion_charge(&portion.species.0) != 0
     })
 }
