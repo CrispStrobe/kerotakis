@@ -2356,8 +2356,8 @@ fn recover_superheated_ice(
     let has_ice = water_in(&trial, Phase::Solid) > 0.0;
     // An exactly funded partial plateau is already an energy-certified
     // candidate at the reference point. Do not invert a signed sub-ulp
-    // remainder through differences of nearby NASA antiderivatives on the
-    // ice side of that point. Their subtraction can be ill-conditioned even
+    // remainder through an ill-conditioned heat-capacity integral on the
+    // ice side of that point. Its evaluation can lose precision even
     // though the anchor itself has exactly zero sensible energy. The final
     // independently assembled energy certificate remains unchanged.
     let at_anchor = has_ice && remaining.abs() <= 128.0 * f64::EPSILON * target.abs().max(1.0);

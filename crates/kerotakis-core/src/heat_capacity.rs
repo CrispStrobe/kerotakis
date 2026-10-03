@@ -49,6 +49,77 @@ use crate::species::Phase;
 /// The molar gas constant, J/(mol·K) (CODATA, exact since the 2019 SI).
 pub const R: f64 = 8.314_462_618_153_24;
 
+// Retain rounded low parts inside each term: NASA liquid-water terms remain
+// thousands of times larger than their sum after factoring endpoint differences.
+#[derive(Clone, Copy)]
+struct Wide(f64, f64);
+
+impl Wide {
+    fn scalar(value: f64) -> Self {
+        Self(value, 0.0)
+    }
+    fn sum(a: f64, b: f64) -> Self {
+        let high = a + b;
+        let remainder = high - a;
+        Self(high, (a - (high - remainder)) + (b - remainder))
+    }
+    fn add(self, other: Self) -> Self {
+        let high = Self::sum(self.0, other.0);
+        Self::sum(high.0, high.1 + self.1 + other.1)
+    }
+    fn sub(self, other: Self) -> Self {
+        self.add(Self(-other.0, -other.1))
+    }
+    fn mul(self, other: Self) -> Self {
+        let high = self.0 * other.0;
+        let low =
+            self.0.mul_add(other.0, -high) + self.0 * other.1 + self.1 * other.0 + self.1 * other.1;
+        Self::sum(high, low)
+    }
+    fn div(self, other: Self) -> Self {
+        let high = self.0 / other.0;
+        let residual = self.sub(other.mul(Self::scalar(high)));
+        Self::scalar(high).add(Self::scalar((residual.0 + residual.1) / other.0))
+    }
+    fn value(self) -> f64 {
+        self.0 + self.1
+    }
+}
+
+/// log(t1/t0) without rounding a narrow ratio or amplifying a libm log's
+/// single-float error by a large NASA coefficient. Binary scaling bounds the
+/// atanh series argument by 1/3; truncation is below double-double precision.
+fn wide_log_ratio(t0: f64, t1: f64) -> Wide {
+    if t0 == t1 {
+        return Wide::scalar(0.0);
+    }
+    let mut lower = t0;
+    let mut shifts = 0.0;
+    while lower * 2.0 < t1 {
+        lower *= 2.0;
+        shifts += 1.0;
+    }
+    let lower = Wide::scalar(lower);
+    let upper = Wide::scalar(t1);
+    let ratio = upper.sub(lower).div(upper.add(lower));
+    let square = ratio.mul(ratio);
+    let mut power = ratio;
+    let mut series = ratio;
+    for odd in (3..=255).step_by(2) {
+        power = power.mul(square);
+        let term = power.div(Wide::scalar(odd as f64));
+        series = series.add(term);
+        if term.0.abs() <= series.0.abs() * 1e-33 {
+            break;
+        }
+    }
+    // High and low components of the mathematical constant ln(2).
+    let ln_two = Wide(std::f64::consts::LN_2, 2.319_046_813_846_299_6e-17);
+    series
+        .mul(Wide::scalar(2.0))
+        .add(ln_two.mul(Wide::scalar(shifts)))
+}
+
 /// Which published polynomial a set of coefficients belongs to.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -125,10 +196,11 @@ impl CpInterval {
     /// liquid water is ~2.7e7 rather than 1.2e9, and — the part that
     /// actually matters — every intermediate is proportional to `(t1 - t0)`,
     /// so the error vanishes with the span instead of sitting at a floor.
-    /// Measured against a 60-digit reference over the shipped curves, the
-    /// worst residue for liquid water falls from 7.9e-7 to 8.0e-8 J/mol on
-    /// arbitrary spans and from 7.3e-7 to 5.7e-10 J/mol on spans under a
-    /// kelvin.
+    /// Factoring alone previously reduced the liquid-water residue against
+    /// a 60-digit reference from 7.9e-7 to 8.0e-8 J/mol on arbitrary spans.
+    /// Large alternating terms still lose precision internally. NASA terms
+    /// now retain their rounded low parts, including the logarithm, before
+    /// rounding the final integral back to f64.
     ///
     /// Note this deliberately does NOT re-centre on the interval midpoint.
     /// Re-centring would need the coefficients rewritten about `t_mid`,
@@ -144,19 +216,44 @@ impl CpInterval {
                 //     ratio t1/t0 first would round a narrow span's
                 //     information away before the logarithm ever saw it.
                 // a3..a7: tⁿ⁺¹ differences factored by (t1 - t0).
-                R * (c[0] * d / (t0 * t1)
-                    + c[1] * (d / t0).ln_1p()
-                    + c[2] * d
-                    + c[3] / 2.0 * (t1 + t0) * d
-                    + c[4] / 3.0 * (t1 * t1 + t1 * t0 + t0 * t0) * d
-                    + c[5] / 4.0 * (t1 + t0) * (t1 * t1 + t0 * t0) * d
-                    + c[6] / 5.0
-                        * (t1 * t1 * t1 * t1
-                            + t1 * t1 * t1 * t0
-                            + t1 * t1 * t0 * t0
-                            + t1 * t0 * t0 * t0
-                            + t0 * t0 * t0 * t0)
-                        * d)
+                let a = Wide::scalar(t0);
+                let b = Wide::scalar(t1);
+                let delta = b.sub(a);
+                let a2 = a.mul(a);
+                let b2 = b.mul(b);
+                let terms = [
+                    Wide::scalar(c[0]).mul(delta).div(a.mul(b)),
+                    Wide::scalar(c[1]).mul(wide_log_ratio(t0, t1)),
+                    Wide::scalar(c[2]).mul(delta),
+                    Wide::scalar(c[3])
+                        .div(Wide::scalar(2.0))
+                        .mul(b.add(a))
+                        .mul(delta),
+                    Wide::scalar(c[4])
+                        .div(Wide::scalar(3.0))
+                        .mul(b2.add(b.mul(a)).add(a2))
+                        .mul(delta),
+                    Wide::scalar(c[5])
+                        .div(Wide::scalar(4.0))
+                        .mul(b.add(a))
+                        .mul(b2.add(a2))
+                        .mul(delta),
+                    Wide::scalar(c[6])
+                        .div(Wide::scalar(5.0))
+                        .mul(
+                            b2.mul(b2)
+                                .add(b2.mul(b).mul(a))
+                                .add(b2.mul(a2))
+                                .add(b.mul(a2).mul(a))
+                                .add(a2.mul(a2)),
+                        )
+                        .mul(delta),
+                ];
+                terms
+                    .into_iter()
+                    .fold(Wide::scalar(0.0), Wide::add)
+                    .mul(Wide::scalar(R))
+                    .value()
             }
             CpForm::Shomate => {
                 // The same regrouping in `t = T/1000`. `ds` is differenced
