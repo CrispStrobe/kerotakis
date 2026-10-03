@@ -1051,6 +1051,10 @@ pub fn mass_fraction(x1: f64, m1: f64, m2: f64) -> f64 {
 /// liquid composition and temperature — the one seam every ethanol–water
 /// helper shares, so the formulas cannot fork (the CAP-5 rule).
 pub fn ethanol_water_activity(x_ethanol: f64, t_kelvin: f64) -> (f64, f64) {
+    ethanol_water_activity_pair([x_ethanol, 1.0 - x_ethanol], t_kelvin)
+}
+
+fn ethanol_water_activity_pair(x: [f64; 2], t_kelvin: f64) -> (f64, f64) {
     let table = crate::unifac::approved_table();
     let mut ethanol_groups = crate::unifac::GroupDecomposition::new();
     ethanol_groups.insert(1, 1); // CH3
@@ -1060,7 +1064,7 @@ pub fn ethanol_water_activity(x_ethanol: f64, t_kelvin: f64) -> (f64, f64) {
     water_groups.insert(16, 1); // H2O
     let g = crate::unifac::activity_coefficients(
         &table,
-        &[(ethanol_groups, x_ethanol), (water_groups, 1.0 - x_ethanol)],
+        &[(ethanol_groups, x[0]), (water_groups, x[1])],
         t_kelvin,
     );
     (g[0], g[1])
@@ -1072,15 +1076,32 @@ pub fn ethanol_water_activity(x_ethanol: f64, t_kelvin: f64) -> (f64, f64) {
 /// decompositions. `x_ethanol` is the ethanol mole fraction of the
 /// volatile liquid.
 pub fn ethanol_water_bubble_point(x_ethanol: f64, pressure_kpa: f64) -> Option<BubblePoint> {
-    bubble_point_with(
-        &[ETHANOL, WATER],
-        &[x_ethanol, 1.0 - x_ethanol],
-        pressure_kpa,
-        |t_k| {
-            let (ge, gw) = ethanol_water_activity(x_ethanol, t_k);
-            vec![ge, gw]
-        },
-    )
+    ethanol_water_bubble_point_from_moles(x_ethanol, 1.0 - x_ethanol, pressure_kpa)
+}
+
+fn normalized_binary(amounts: [f64; 2]) -> Option<[f64; 2]> {
+    let total = amounts[0] + amounts[1];
+    if !valid_fractions(&amounts) || !total.is_finite() || total <= 0.0 {
+        return None;
+    }
+    let x = [amounts[0] / total, amounts[1] / total];
+    preserves_components(&amounts, &x).then_some(x)
+}
+
+/// Bubble point with both component inventories retained independently.
+/// Unlike a scalar ethanol fraction, this represents a positive water trace
+/// even when the normalized ethanol fraction rounds to one. Normalization or
+/// partial-pressure underflow still refuses rather than losing a component.
+pub fn ethanol_water_bubble_point_from_moles(
+    ethanol_moles: f64,
+    water_moles: f64,
+    pressure_kpa: f64,
+) -> Option<BubblePoint> {
+    let x = normalized_binary([ethanol_moles, water_moles])?;
+    bubble_point_with(&[ETHANOL, WATER], &x, pressure_kpa, |t_k| {
+        let (ge, gw) = ethanol_water_activity_pair(x, t_k);
+        vec![ge, gw]
+    })
 }
 
 /// Dew point of ethanol–water vapour with full UNIFAC γ(x, T): the γ of
@@ -1092,7 +1113,7 @@ pub fn ethanol_water_dew_point(y_ethanol: f64, pressure_kpa: f64) -> Option<DewP
         &[y_ethanol, 1.0 - y_ethanol],
         pressure_kpa,
         &mut |x, t_k| {
-            let (ge, gw) = ethanol_water_activity(x[0], t_k);
+            let (ge, gw) = ethanol_water_activity_pair([x[0], x[1]], t_k);
             vec![ge, gw]
         },
     )
@@ -1110,7 +1131,7 @@ pub fn ethanol_water_tp_flash(
         pressure_kpa,
         t_celsius,
         &mut |x, t_k| {
-            let (ge, gw) = ethanol_water_activity(x[0], t_k);
+            let (ge, gw) = ethanol_water_activity_pair([x[0], x[1]], t_k);
             vec![ge, gw]
         },
     )
@@ -1693,33 +1714,29 @@ pub struct StillCut {
 /// separates less, never more, so this is the honest *upper bound* a
 /// learner's column cannot beat.
 fn cascade(
-    x_pot: f64,
+    pot: [f64; 2],
     stages: u32,
     pressure_kpa: f64,
-    phase: &mut impl FnMut(f64, f64) -> Option<BubblePoint>,
-) -> Option<(f64, BubblePoint, bool)> {
-    // This cascade accepts a scalar ethanol fraction, so its water fraction
-    // is reconstructed as 1-x. Its caller is exclusively a positive binary
-    // mixture; endpoints here mean a component was rounded away.
-    if !(0.0 < x_pot && x_pot < 1.0) {
-        return None;
-    }
-    let pot_bp = phase(x_pot, pressure_kpa)?;
-    let mut y = pot_bp.y[0];
-    if !(0.0 < y && y < 1.0) {
+    phase: &mut impl FnMut([f64; 2], f64) -> Option<BubblePoint>,
+) -> Option<([f64; 2], BubblePoint, bool)> {
+    let x = normalized_binary(pot)?;
+    let pot_bp = phase(x, pressure_kpa)?;
+    let mut y = normalized_binary(pot_bp.y.as_slice().try_into().ok()?)?;
+    if !preserves_components(&x, &y) {
         return None;
     }
     let mut hit = pot_bp.azeotropic;
     for _ in 1..stages {
         let bp = phase(y, pressure_kpa)?;
-        if !(0.0 < bp.y[0] && bp.y[0] < 1.0) {
+        let next = normalized_binary(bp.y.as_slice().try_into().ok()?)?;
+        if !preserves_components(&y, &next) {
             return None;
         }
         if bp.azeotropic {
             hit = true;
             break;
         }
-        y = bp.y[0];
+        y = next;
     }
     Some((y, pot_bp, hit))
 }
@@ -1747,7 +1764,7 @@ pub fn ethanol_water_still(
         take,
         stages,
         pressure_kpa,
-        ethanol_water_bubble_point,
+        |x, pressure| ethanol_water_bubble_point_from_moles(x[0], x[1], pressure),
     )
 }
 
@@ -1757,7 +1774,7 @@ fn ethanol_water_still_with_phase(
     take: StillTake,
     stages: u32,
     pressure_kpa: f64,
-    mut phase: impl FnMut(f64, f64) -> Option<BubblePoint>,
+    mut phase: impl FnMut([f64; 2], f64) -> Option<BubblePoint>,
 ) -> Option<StillCut> {
     if !water_moles.is_finite()
         || !ethanol_moles.is_finite()
@@ -1797,7 +1814,10 @@ fn ethanol_water_still_with_phase(
         // Exactly pure only: a positive trace second component still needs
         // the activity model and the complete drifting integration.
         let is_ethanol = water_moles == 0.0;
-        let bp = phase(if is_ethanol { 1.0 } else { 0.0 }, pressure_kpa)?;
+        let bp = phase(
+            if is_ethanol { [1.0, 0.0] } else { [0.0, 1.0] },
+            pressure_kpa,
+        )?;
         let latent = if is_ethanol {
             ETHANOL_HVAP_KJ_PER_MOL
         } else {
@@ -1813,8 +1833,7 @@ fn ethanol_water_still_with_phase(
             azeotrope_limited: false,
         });
     }
-    let (y0, bp0, _) = cascade(e / (w + e), stages, pressure_kpa, &mut phase)?;
-    let _ = y0;
+    let (_, bp0, _) = cascade([e, w], stages, pressure_kpa, &mut phase)?;
     let t_start_c = bp0.t_celsius;
     let mut t_end_c = t_start_c;
 
@@ -1858,25 +1877,24 @@ fn ethanol_water_still_with_phase(
         if pot <= 0.0 {
             return None;
         }
-        let x = e / pot;
         // A requested cut is one operation. A missing intermediate phase
         // answer cannot be reported as a successful smaller cut: callers
         // have no partial-result/domain metadata in this Option contract.
-        let (y_top, pot_bp, hit) = cascade(x, stages, pressure_kpa, &mut phase)?;
+        let (y_top, pot_bp, hit) = cascade([e, w], stages, pressure_kpa, &mut phase)?;
         t_end_c = pot_bp.t_celsius;
         azeo |= hit;
         let mut step = dn.min(remaining).min(pot);
-        if y_top > 0.0 && e > 0.0 {
-            step = step.min(0.25 * e / y_top);
+        if y_top[0] > 0.0 && e > 0.0 {
+            step = step.min(0.25 * e / y_top[0]);
         }
-        if y_top < 1.0 && w > 0.0 {
-            step = step.min(0.25 * w / (1.0 - y_top));
+        if y_top[1] > 0.0 && w > 0.0 {
+            step = step.min(0.25 * w / y_top[1]);
         }
         if !step.is_finite() || step <= 0.0 {
             return None;
         }
-        let de = step * y_top;
-        let dw = step * (1.0 - y_top);
+        let de = step * y_top[0];
+        let dw = step * y_top[1];
         if de <= 0.0 || dw <= 0.0 || e_over + de == e_over || w_over + dw == w_over {
             return None;
         }
@@ -1905,10 +1923,12 @@ fn ethanol_water_still_with_phase(
                 break;
             }
         }
-        e -= de;
-        w -= dw;
         e_over += de;
         w_over += dw;
+        // The phase state must match the residue represented by the public
+        // cut, without repeated subtraction losing small mesh increments.
+        e = ethanol_moles - e_over;
+        w = water_moles - w_over;
         energy_kj += step_kj;
         // StillCut exposes only overhead amounts. If subtraction from the
         // original inventory would round a positive partial-cut residue to
@@ -1946,10 +1966,7 @@ fn ethanol_water_still_with_phase(
     let residual_e = ethanol_moles - e_over;
     let residual_total = residual_w + residual_e;
     if residual_total > 0.0 {
-        let x = residual_e / residual_total;
-        if residual_w > 0.0 && residual_e > 0.0 && !(0.0 < x && x < 1.0) {
-            return None;
-        }
+        let x = normalized_binary([residual_e, residual_w])?;
         t_end_c = phase(x, pressure_kpa)?.t_celsius;
     }
     Some(StillCut {
@@ -1967,17 +1984,21 @@ mod pure_still_cost {
     use super::*;
 
     #[test]
-    fn scalar_cascade_refuses_rounded_vapor_at_every_stage() {
+    fn paired_cascade_refuses_lost_components_at_every_stage() {
         for stages in [1, 4] {
             for vanish_at in 0..stages {
-                for endpoint in [0.0, 1.0] {
+                for coordinate in 0..2 {
                     let mut calls = 0;
-                    assert!(cascade(0.25, stages, ATMOSPHERE_KPA, &mut |x, _| {
-                        let y = if calls == vanish_at { endpoint } else { x };
+                    assert!(cascade([0.25, 0.75], stages, ATMOSPHERE_KPA, &mut |x, _| {
+                        let mut y = x;
+                        if calls == vanish_at {
+                            y[coordinate] = 0.0;
+                            y[1 - coordinate] = 1.0;
+                        }
                         calls += 1;
                         Some(BubblePoint {
                             t_celsius: 90.0,
-                            y: vec![y, if y == 1.0 { 1e-100 } else { 1.0 - y }],
+                            y: y.to_vec(),
                             azeotropic: false,
                         })
                     })
@@ -1986,6 +2007,23 @@ mod pure_still_cost {
                 }
             }
         }
+    }
+
+    #[test]
+    fn paired_cascade_retains_water_when_ethanol_rounds_to_one() {
+        let mut calls = 0;
+        let (y, _, _) = cascade([1.0, 1e-100], 4, ATMOSPHERE_KPA, &mut |x, _| {
+            calls += 1;
+            assert_eq!(x, [1.0, 1e-100]);
+            Some(BubblePoint {
+                t_celsius: 78.0,
+                y: x.to_vec(),
+                azeotropic: false,
+            })
+        })
+        .unwrap();
+        assert_eq!(y, [1.0, 1e-100]);
+        assert_eq!(calls, 4);
     }
 
     #[test]
@@ -2001,7 +2039,7 @@ mod pure_still_cost {
                     101.325,
                     |x, pressure| {
                         calls += 1;
-                        ethanol_water_bubble_point(x, pressure)
+                        ethanol_water_bubble_point_from_moles(x[0], x[1], pressure)
                     },
                 )
                 .unwrap();
@@ -2027,7 +2065,7 @@ mod pure_still_cost {
                 calls += 1;
                 Some(BubblePoint {
                     t_celsius: 90.0,
-                    y: vec![x, 1.0 - x],
+                    y: x.to_vec(),
                     azeotropic: false,
                 })
             },

@@ -3338,7 +3338,32 @@ impl Bench {
                 if from == to {
                     return Err(BenchError::SelfTransfer);
                 }
-                self.vessel(*to)?; // the receiver must exist before the boil
+                // Plan receiver additions before withdrawing anything. A
+                // positive trace must not disappear into an existing portion
+                // when its addition rounds away (or overflows).
+                let receiver = self.vessel(*to)?.contents.clone();
+                let can_receive = |id: &SpeciesId, amount: f64| {
+                    let before = receiver
+                        .iter()
+                        .find(|p| p.species == *id && p.phase == Phase::Liquid)
+                        .map(|p| p.moles.0)
+                        .unwrap_or(0.0);
+                    amount == 0.0
+                        || (amount.is_finite()
+                            && amount > 0.0
+                            && before.is_finite()
+                            && before >= 0.0
+                            && (before + amount).is_finite()
+                            && before + amount > before
+                            && (((before + amount) - before) / amount - 1.0).abs() <= 1e-8)
+                };
+                let receiver_refusal = || {
+                    Event::not_modeled(
+                    *from, crate::ops::NotModelledCause::ModelBoundary,
+                    Phrase::bare("not-modeled.unrepresentable-still-receiver",
+                        "this receiver cannot retain the complete condensate at its current inventory scale. No cut was transferred; use an empty receiver for this trace cut"),
+                )
+                };
                 let water = SpeciesId::new("water");
                 let ethanol = SpeciesId::new("ethanol");
                 let src = self.vessel_mut(*from)?;
@@ -3353,6 +3378,15 @@ impl Bench {
                         return Ok(events);
                     }
                     Ok(Some((ids, cut))) => {
+                        if ids
+                            .iter()
+                            .zip(&cut.overhead)
+                            .any(|(id, n)| !can_receive(id, *n))
+                        {
+                            *disposition = ApplyDisposition::Unchanged;
+                            events.push(receiver_refusal());
+                            return Ok(events);
+                        }
                         let t_from = src.temperature;
                         let mut components = Vec::new();
                         for (id, amount) in ids.into_iter().zip(cut.overhead) {
@@ -3466,6 +3500,13 @@ impl Bench {
                             ));
                         }
                         Some(cut) => {
+                            if !can_receive(&water, cut.water_over)
+                                || !can_receive(&ethanol, cut.ethanol_over)
+                            {
+                                *disposition = ApplyDisposition::Unchanged;
+                                events.push(receiver_refusal());
+                                return Ok(events);
+                            }
                             // The Rayleigh cut: vapour composition follows
                             // the pot as it drifts, through `stages` ideal
                             // stages at total reflux — the honest upper

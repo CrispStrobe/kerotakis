@@ -196,8 +196,8 @@ fn equal_volatility_traces_follow_an_independent_linear_cut_law() {
 }
 
 #[test]
-fn binary_scalar_composition_loss_refuses_instead_of_claiming_purity() {
-    for (water, ethanol) in [(1e-20, 1.0), (1e300, 1e-300)] {
+fn unrepresentable_binary_composition_refuses_instead_of_claiming_purity() {
+    for (water, ethanol) in [(1e-300, 1e300), (1e300, 1e-300)] {
         for stages in [1, 4] {
             for take in [StillTake::Fraction(0.01), StillTake::EnergyKj(0.1)] {
                 assert!(
