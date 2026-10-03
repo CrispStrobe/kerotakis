@@ -1,0 +1,9 @@
+{
+  "path": "target/debug/deps/libgimli-0cc0a0d7273703a5.rmeta",
+  "archive": "/mnt/storage/kerotakis-maintenance-20261003/paired-binary-recovery/libgimli-0cc0a0d7273703a5.rmeta",
+  "bytes": 4135781,
+  "mtime_ns": 1790918672098222309,
+  "inode": 10255245,
+  "sha256": "ef0bd55bd197cd306d21cbc05b872d5e2e56338cd23e8daca64ad5e20254400a",
+  "scope": "One old generated Rust metadata cache file; no source, executable or worktree removed."
+}

@@ -1,0 +1,612 @@
+{
+  "passed": true,
+  "checks": 151,
+  "commit": "50f7421d5b659c6dafef03c6d518385d6e2d7589",
+  "binary_sha256": "63ae884fea5483e805d982e1a90f6c6ce01ab02010986242401e2f5576280553",
+  "details": [
+    {
+      "name": "full validation",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-cea/src/gibbs.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/bench.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/transport.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/transport.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/selected_phase_transfer.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/thermal_phase_refusal.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/thermal_phase_budget.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/phase_thaw_recovery.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/energy_transfer.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/solve.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/heat_capacity.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/heat_integral_precision.rs",
+      "passed": true
+    },
+    {
+      "name": "source audits/thermal-contracts-20261003/integral-references.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/thermal-contracts-20261003/generate_integral_references.py",
+      "passed": true
+    },
+    {
+      "name": "source data/registry/registry-source-v1.json",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/electrolysis_scope.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/displacement.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/chromatography.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/lib.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/ops.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/chromatography_coverage.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/solvent_electrolysis_accounting.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/render.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/buoyancy.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/solution_optics.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/headspace.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/density_coverage_scaling.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-phreeqc/src/aqueous.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-phreeqc/src/inventory.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-phreeqc/tests/settled_carbonate_transfer.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-phreeqc/tests/trace_inventory.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-phreeqc/tests/order_invariance.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/atomic_distil_refusal.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/distil.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/src/vle.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/src/batch.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/src/unifac.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/tests/ideal_still_precision.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/tests/trace_phase_representation.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/tests/trace_phase_convergence.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/tests/paired_binary_still.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/tests/pure_binary_still.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/tests/pure_ideal_still.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/tests/distillation_completion.rs",
+      "passed": true
+    },
+    {
+      "name": "source audits/independent-next-50-20261002/run.py",
+      "passed": true
+    },
+    {
+      "name": "source audits/distillation-contracts-20261003/run.py",
+      "passed": true
+    },
+    {
+      "name": "source audits/pure-still-contracts-20261003/compare.py",
+      "passed": true
+    },
+    {
+      "name": "source audits/pure-still-contracts-20261003/probe.py",
+      "passed": true
+    },
+    {
+      "name": "source audits/pure-still-contracts-20261003/predictions.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/pure-still-contracts-20261003/freeze.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/trace-phase-contracts-20261003/run.py",
+      "passed": true
+    },
+    {
+      "name": "source audits/trace-phase-contracts-20261003/predictions.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/trace-phase-contracts-20261003/freeze.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/paired-binary-contracts-20261003/run.py",
+      "passed": true
+    },
+    {
+      "name": "source audits/paired-binary-contracts-20261003/predictions.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/paired-binary-contracts-20261003/freeze.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/distillation-contracts-20261003/predictions.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/distillation-contracts-20261003/freeze.json",
+      "passed": true
+    },
+    {
+      "name": "source .github/workflows/chemistry-audit.yml",
+      "passed": true
+    },
+    {
+      "name": "source audits/independent-50-20261002/validate_phase_ownership.py",
+      "passed": true
+    },
+    {
+      "name": "source audits/independent-50-20261002/verify_extended.py",
+      "passed": true
+    },
+    {
+      "name": "log thermo",
+      "passed": true
+    },
+    {
+      "name": "log codex",
+      "passed": true
+    },
+    {
+      "name": "log cea",
+      "passed": true
+    },
+    {
+      "name": "log core",
+      "passed": true
+    },
+    {
+      "name": "log phreeqc",
+      "passed": true
+    },
+    {
+      "name": "log phreeqc-hook",
+      "passed": true
+    },
+    {
+      "name": "log cli",
+      "passed": true
+    },
+    {
+      "name": "log wasm",
+      "passed": true
+    },
+    {
+      "name": "log distillation",
+      "passed": true
+    },
+    {
+      "name": "log trace-phase",
+      "passed": true
+    },
+    {
+      "name": "log paired-binary",
+      "passed": true
+    },
+    {
+      "name": "log replay",
+      "passed": true
+    },
+    {
+      "name": "log assessment",
+      "passed": true
+    },
+    {
+      "name": "dependency lock",
+      "passed": true
+    },
+    {
+      "name": "executable",
+      "passed": true
+    },
+    {
+      "name": "distillation controls passed",
+      "passed": true
+    },
+    {
+      "name": "distillation binary identity",
+      "passed": true
+    },
+    {
+      "name": "distillation D01 text stdout",
+      "passed": true
+    },
+    {
+      "name": "distillation D01 text stderr",
+      "passed": true
+    },
+    {
+      "name": "distillation D01 json stdout",
+      "passed": true
+    },
+    {
+      "name": "distillation D01 json stderr",
+      "passed": true
+    },
+    {
+      "name": "distillation D02 text stdout",
+      "passed": true
+    },
+    {
+      "name": "distillation D02 text stderr",
+      "passed": true
+    },
+    {
+      "name": "distillation D02 json stdout",
+      "passed": true
+    },
+    {
+      "name": "distillation D02 json stderr",
+      "passed": true
+    },
+    {
+      "name": "distillation D03 text stdout",
+      "passed": true
+    },
+    {
+      "name": "distillation D03 text stderr",
+      "passed": true
+    },
+    {
+      "name": "distillation D03 json stdout",
+      "passed": true
+    },
+    {
+      "name": "distillation D03 json stderr",
+      "passed": true
+    },
+    {
+      "name": "distillation D04 text stdout",
+      "passed": true
+    },
+    {
+      "name": "distillation D04 text stderr",
+      "passed": true
+    },
+    {
+      "name": "distillation D04 json stdout",
+      "passed": true
+    },
+    {
+      "name": "distillation D04 json stderr",
+      "passed": true
+    },
+    {
+      "name": "trace-phase controls passed",
+      "passed": true
+    },
+    {
+      "name": "trace-phase binary identity",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T01 text stdout",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T01 text stderr",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T01 json stdout",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T01 json stderr",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T02 text stdout",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T02 text stderr",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T02 json stdout",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T02 json stderr",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T03 text stdout",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T03 text stderr",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T03 json stdout",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T03 json stderr",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T04 text stdout",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T04 text stderr",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T04 json stdout",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T04 json stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary controls passed",
+      "passed": true
+    },
+    {
+      "name": "paired-binary binary identity",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B01 text stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B01 text stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B01 json stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B01 json stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B02 text stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B02 text stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B02 json stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B02 json stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B03 text stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B03 text stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B03 json stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B03 json stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B04 text stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B04 text stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B04 json stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B04 json stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B05 text stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B05 text stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B05 json stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B05 json stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B06 text stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B06 text stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B06 json stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B06 json stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B07 text stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B07 text stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B07 json stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B07 json stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B08 text stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B08 text stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B08 json stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B08 json stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B09 text stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B09 text stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B09 json stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B09 json stderr",
+      "passed": true
+    }
+  ]
+}
