@@ -1,0 +1,8 @@
+register lv3
+add v1 water 100mL
+inspect
+cool v1 20000J
+inspect
+heat v1 20000J
+inspect
+measure v1 thermometer

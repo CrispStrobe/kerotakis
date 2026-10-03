@@ -1,0 +1,9 @@
+register lv3
+add v1 water 100mL
+add v1 NaCl 0.001mol
+inspect
+cool v1 2000J
+inspect
+heat v1 2000J
+inspect
+measure v1 thermometer

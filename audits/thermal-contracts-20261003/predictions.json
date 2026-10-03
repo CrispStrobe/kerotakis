@@ -1,0 +1,134 @@
+[
+  {
+    "id": "T01",
+    "title": "10mL water reciprocal 1000J cycle; open",
+    "script": "register lv3\nadd v1 water 10mL\ninspect\ncool v1 1000J\ninspect\nheat v1 1000J\ninspect\nmeasure v1 thermometer\n",
+    "expectation": "A supported reciprocal cycle returns the initial25C within0.2K and conserves whole inventory. If the coupled phase domain cannot support the dose, refuse atomically and disclose the boundary rather than publish a successful false energy closure.",
+    "criteria": [
+      "Accepted pure-water phase steps expose an established sensible/latent split.",
+      "Supported cycles return25C within0.2K; water conservation within1e-8mol.",
+      "Unsupported domain exits preserve the pre-operation complete physical state."
+    ]
+  },
+  {
+    "id": "T02",
+    "title": "10mL water reciprocal 2000J cycle; open",
+    "script": "register lv3\nadd v1 water 10mL\ninspect\ncool v1 2000J\ninspect\nheat v1 2000J\ninspect\nmeasure v1 thermometer\n",
+    "expectation": "A supported reciprocal cycle returns the initial25C within0.2K and conserves whole inventory. If the coupled phase domain cannot support the dose, refuse atomically and disclose the boundary rather than publish a successful false energy closure.",
+    "criteria": [
+      "Accepted pure-water phase steps expose an established sensible/latent split.",
+      "Supported cycles return25C within0.2K; water conservation within1e-8mol.",
+      "Unsupported domain exits preserve the pre-operation complete physical state."
+    ]
+  },
+  {
+    "id": "T03",
+    "title": "10mL water reciprocal 4000J cycle; open",
+    "script": "register lv3\nadd v1 water 10mL\ninspect\ncool v1 4000J\ninspect\nheat v1 4000J\ninspect\nmeasure v1 thermometer\n",
+    "expectation": "A supported reciprocal cycle returns the initial25C within0.2K and conserves whole inventory. If the coupled phase domain cannot support the dose, refuse atomically and disclose the boundary rather than publish a successful false energy closure.",
+    "criteria": [
+      "Accepted pure-water phase steps expose an established sensible/latent split.",
+      "Supported cycles return25C within0.2K; water conservation within1e-8mol.",
+      "Unsupported domain exits preserve the pre-operation complete physical state."
+    ]
+  },
+  {
+    "id": "T04",
+    "title": "10mL water reciprocal 1000J cycle; sealed air",
+    "script": "register lv3\nadd v1 water 10mL\nseal v1 100mL\ninspect\ncool v1 1000J\ninspect\nheat v1 1000J\ninspect\nmeasure v1 thermometer\n",
+    "expectation": "A supported reciprocal cycle returns the initial25C within0.2K and conserves whole inventory. If the coupled phase domain cannot support the dose, refuse atomically and disclose the boundary rather than publish a successful false energy closure.",
+    "criteria": [
+      "Accepted pure-water phase steps expose an established sensible/latent split.",
+      "Supported cycles return25C within0.2K; water conservation within1e-8mol.",
+      "Unsupported domain exits preserve the pre-operation complete physical state."
+    ]
+  },
+  {
+    "id": "T05",
+    "title": "10mL water reciprocal 2000J cycle; sealed air",
+    "script": "register lv3\nadd v1 water 10mL\nseal v1 100mL\ninspect\ncool v1 2000J\ninspect\nheat v1 2000J\ninspect\nmeasure v1 thermometer\n",
+    "expectation": "A supported reciprocal cycle returns the initial25C within0.2K and conserves whole inventory. If the coupled phase domain cannot support the dose, refuse atomically and disclose the boundary rather than publish a successful false energy closure.",
+    "criteria": [
+      "Accepted pure-water phase steps expose an established sensible/latent split.",
+      "Supported cycles return25C within0.2K; water conservation within1e-8mol.",
+      "Unsupported domain exits preserve the pre-operation complete physical state."
+    ]
+  },
+  {
+    "id": "T06",
+    "title": "10mL water reciprocal 4000J cycle; sealed air",
+    "script": "register lv3\nadd v1 water 10mL\nseal v1 100mL\ninspect\ncool v1 4000J\ninspect\nheat v1 4000J\ninspect\nmeasure v1 thermometer\n",
+    "expectation": "A supported reciprocal cycle returns the initial25C within0.2K and conserves whole inventory. If the coupled phase domain cannot support the dose, refuse atomically and disclose the boundary rather than publish a successful false energy closure.",
+    "criteria": [
+      "Accepted pure-water phase steps expose an established sensible/latent split.",
+      "Supported cycles return25C within0.2K; water conservation within1e-8mol.",
+      "Unsupported domain exits preserve the pre-operation complete physical state."
+    ]
+  },
+  {
+    "id": "T07",
+    "title": "1mL water reciprocal 200J cycle; open",
+    "script": "register lv3\nadd v1 water 1mL\ninspect\ncool v1 200J\ninspect\nheat v1 200J\ninspect\nmeasure v1 thermometer\n",
+    "expectation": "A supported reciprocal cycle returns the initial25C within0.2K and conserves whole inventory. If the coupled phase domain cannot support the dose, refuse atomically and disclose the boundary rather than publish a successful false energy closure.",
+    "criteria": [
+      "Accepted pure-water phase steps expose an established sensible/latent split.",
+      "Supported cycles return25C within0.2K; water conservation within1e-8mol.",
+      "Unsupported domain exits preserve the pre-operation complete physical state."
+    ]
+  },
+  {
+    "id": "T08",
+    "title": "100mL water reciprocal 20000J cycle; open",
+    "script": "register lv3\nadd v1 water 100mL\ninspect\ncool v1 20000J\ninspect\nheat v1 20000J\ninspect\nmeasure v1 thermometer\n",
+    "expectation": "A supported reciprocal cycle returns the initial25C within0.2K and conserves whole inventory. If the coupled phase domain cannot support the dose, refuse atomically and disclose the boundary rather than publish a successful false energy closure.",
+    "criteria": [
+      "Accepted pure-water phase steps expose an established sensible/latent split.",
+      "Supported cycles return25C within0.2K; water conservation within1e-8mol.",
+      "Unsupported domain exits preserve the pre-operation complete physical state."
+    ]
+  },
+  {
+    "id": "T09",
+    "title": "10mL sealed water reciprocal 5000J; supported-domain check",
+    "script": "register lv3\nadd v1 water 10mL\nseal v1 100mL\ninspect\ncool v1 5000J\ninspect\nheat v1 5000J\ninspect\nmeasure v1 thermometer\n",
+    "expectation": "Deep cooling that reaches an explicitly unsupported solvent-activity range must refuse the whole proposal without claiming its complete energy dose. Modest supported solution cycles must preserve atoms; an unpriced chemical energy partition must be explicit, rather than certified as pure sensible heat.",
+    "criteria": [
+      "An unsupported phase-domain refusal is distinct from physical agreement with the entire calorimetric cycle.",
+      "Complete accepted phase/reaction partition must have independent energy evidence; otherwise typed/narrated coverage is incomplete.",
+      "Every successful physical transfer conserves material; every domain refusal is atomic."
+    ]
+  },
+  {
+    "id": "T10",
+    "title": "100mL salt solution reciprocal 50000J; supported-domain check",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 NaCl 0.05mol\ninspect\ncool v1 50000J\ninspect\nheat v1 50000J\ninspect\nmeasure v1 thermometer\n",
+    "expectation": "Deep cooling that reaches an explicitly unsupported solvent-activity range must refuse the whole proposal without claiming its complete energy dose. Modest supported solution cycles must preserve atoms; an unpriced chemical energy partition must be explicit, rather than certified as pure sensible heat.",
+    "criteria": [
+      "An unsupported phase-domain refusal is distinct from physical agreement with the entire calorimetric cycle.",
+      "Complete accepted phase/reaction partition must have independent energy evidence; otherwise typed/narrated coverage is incomplete.",
+      "Every successful physical transfer conserves material; every domain refusal is atomic."
+    ]
+  },
+  {
+    "id": "T11",
+    "title": "100mL salt solution reciprocal 20000J; supported-domain check",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 NaCl 0.005mol\ninspect\ncool v1 20000J\ninspect\nheat v1 20000J\ninspect\nmeasure v1 thermometer\n",
+    "expectation": "Deep cooling that reaches an explicitly unsupported solvent-activity range must refuse the whole proposal without claiming its complete energy dose. Modest supported solution cycles must preserve atoms; an unpriced chemical energy partition must be explicit, rather than certified as pure sensible heat.",
+    "criteria": [
+      "An unsupported phase-domain refusal is distinct from physical agreement with the entire calorimetric cycle.",
+      "Complete accepted phase/reaction partition must have independent energy evidence; otherwise typed/narrated coverage is incomplete.",
+      "Every successful physical transfer conserves material; every domain refusal is atomic."
+    ]
+  },
+  {
+    "id": "T12",
+    "title": "100mL salt solution reciprocal 2000J; supported-domain check",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 NaCl 0.001mol\ninspect\ncool v1 2000J\ninspect\nheat v1 2000J\ninspect\nmeasure v1 thermometer\n",
+    "expectation": "Deep cooling that reaches an explicitly unsupported solvent-activity range must refuse the whole proposal without claiming its complete energy dose. Modest supported solution cycles must preserve atoms; an unpriced chemical energy partition must be explicit, rather than certified as pure sensible heat.",
+    "criteria": [
+      "An unsupported phase-domain refusal is distinct from physical agreement with the entire calorimetric cycle.",
+      "Complete accepted phase/reaction partition must have independent energy evidence; otherwise typed/narrated coverage is incomplete.",
+      "Every successful physical transfer conserves material; every domain refusal is atomic."
+    ]
+  }
+]
