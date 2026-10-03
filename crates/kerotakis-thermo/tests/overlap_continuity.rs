@@ -21,7 +21,7 @@ fn pure_ethanol_bubble_and_dew_roots_cover_the_old_switch_gap() {
         let pressure = low + weight * (high - low);
         let bubble = bubble_point_with(&[ETHANOL], &[1.0], pressure, |_| vec![1.0])
             .expect("continuous fitted overlap must contain the bubble root");
-        let dew = dew_point(&[ETHANOL], &[1.0], pressure)
+        let dew = dew_point_with(&[ETHANOL], &[1.0], &[1.0], pressure)
             .expect("continuous fitted overlap must contain the dew root");
         assert!((79.65..=80.0).contains(&bubble.t_celsius));
         assert!((bubble.t_celsius - dew.t_celsius).abs() < 1e-7);
