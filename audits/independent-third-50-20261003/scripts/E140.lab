@@ -1,0 +1,9 @@
+register lv3
+add v1 water 100mL
+add v1 Na2CO3 0.001mol
+seal v1 100mL
+inspect
+add v1 HCl 0.002mol
+inspect
+test v1 limewater
+measure v1 pressure

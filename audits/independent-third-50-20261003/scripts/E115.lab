@@ -1,0 +1,16 @@
+register lv3
+new
+seal v1 1L
+add v1 N2 0.1mol @ 20C
+measure v1 pressure
+measure v1 thermometer
+inspect
+open v1
+wait 10s
+measure v1 pressure
+inspect
+seal v1 1L
+measure v1 pressure
+measure v1 thermometer
+inspect
+inspect

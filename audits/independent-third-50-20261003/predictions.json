@@ -1,0 +1,494 @@
+[
+  {
+    "id": "E101",
+    "title": "Unequal aliquots retain source ownership",
+    "script": "register lv3\nnew\nnew\nnew\nadd v1 water 120mL\nadd v1 NaCl 0.012mol\nadd v2 water 80mL\nadd v2 NaCl 0.016mol\ninspect\nmix v1 0.25 v2 0.75 into v3\nmeasure v1 volume\nmeasure v2 volume\nmeasure v3 volume\nmeasure v1 conductivity\nmeasure v2 conductivity\nmeasure v3 conductivity\ninspect\n",
+    "expectation": "For homogeneous dilute brines, each aliquot carries its corresponding fraction of water and dissolved salt. Sources retain complementary fractions; the target receives 90mL nominal water and 0.015mol NaCl equivalents, between the two source concentrations.",
+    "criteria": "Freeze before execution: source salt equivalents should be 0.009mol and 0.004mol; target 0.015mol; sum 0.028mol. Water aliquots are 90,20,90mL nominal across v1,v2,v3, allowing physical solution volume nonadditivity. Conductivity should place target between initial source values, without claiming a linear conductivity law. Refusal or unknown ingredient means unsupported/input failure, never physical agreement."
+  },
+  {
+    "id": "E102",
+    "title": "Successive half decants form geometric leftovers",
+    "script": "register lv3\nnew\nnew\nnew\nadd v1 water 160mL\nadd v1 NaCl 0.016mol\ninspect\ndecant v1 v2 0.5\ninspect\ndecant v1 v3 0.5\nmeasure v1 volume\nmeasure v2 volume\nmeasure v3 volume\nmeasure v1 conductivity\nmeasure v2 conductivity\nmeasure v3 conductivity\ninspect\n",
+    "expectation": "With one homogeneous liquid phase, two successive half pours leave one quarter in the source, one half in the first receiver, and one quarter in the second. Concentrations remain equal.",
+    "criteria": "Accepted operations should leave salt equivalent fractions 1/4,1/2,1/4: 0.004,0.008,0.004mol. Corresponding liquid volumes approximately 40,80,40mL. Conductivity should agree at matched temperatures within reported precision. Total salt and water conserved. Input/capability refusal is inconclusive physically."
+  },
+  {
+    "id": "E103",
+    "title": "Filtration retains chalk but passes dissolved salt",
+    "script": "register lv3\nnew\nnew\nadd v1 water 100mL\nadd v1 NaCl 0.01mol\nadd v1 CaCO3 1g\nstir v1 300rpm 10s\ninspect\nfilter v1 v2\nlook v1\nlook v2\nmeasure v1 balance\nmeasure v2 conductivity\nfilter v2 v1\ninspect\n",
+    "expectation": "Chalk is poorly soluble near neutral pH while dilute sodium chloride dissolves. Filtration should collect chalk in the source and brine in the receiver. Filtering the clear filtrate back should return liquid and salt without manufacturing a second chalk cake.",
+    "criteria": "Use pretransfer inspection to establish actual phase inventory: receiver must acquire aqueous Na/Cl equivalents, source must retain the dominant CaCO3 solid. Sum of all species equivalents conserved across both filters; dissolved trace chalk may pass and is not an error. Final source should recover liquid salt without duplicate solids. Unsupported ingredient/filter refusal is separate from agreement."
+  },
+  {
+    "id": "E104",
+    "title": "Precipitate filtration versus homogeneous neutralization",
+    "script": "register lv3\nnew\nnew\nnew\nadd v1 water 100mL\nadd v1 CuSO4 0.005mol\nadd v1 NaOH 0.01mol\ninspect\nfilter v1 v2\nlook v1\nlook v2\nmeasure v2 conductivity\nadd v3 water 100mL\nadd v3 HCl 0.01mol\nadd v3 NaOH 0.01mol\ninspect\nfilter v3 v2\nmeasure v3 balance\nmeasure v2 ph\ninspect\n",
+    "expectation": "Copper sulfate plus two hydroxide equivalents forms insoluble copper hydroxide and an aqueous sodium sulfate phase; matched acid/base neutralization instead yields dissolved sodium chloride. A filter discriminates physical phase rather than calling all reaction products solids.",
+    "criteria": "Copper solid should retain about 0.005mol copper equivalents in v1, with sodium/sulfate aqueous equivalents transferred. The neutralized solution should have no macroscopic salt cake and its dissolved chloride should join v2. Across bench, Cu,Na,S,Cl conserved; no redox products needed. Aqueous pH must be interpreted after combining solutions. Chemistry or ingredient refusal is unsupported, not a pass."
+  },
+  {
+    "id": "E105",
+    "title": "Partial decant carries liquid while sediment remains",
+    "script": "register lv3\nnew\nnew\nadd v1 water 120mL\nadd v1 NaCl 0.012mol\nadd v1 CaCO3 2g\nwait 60s\ninspect\ndecant v1 v2 0.25\nlook v1\nlook v2\nmeasure v2 conductivity\ninspect\ndecant v1 v2 0.3333333333333333\nmeasure v1 volume\nmeasure v2 volume\ninspect\n",
+    "expectation": "After settling chalk, a careful liquid decant leaves sediment behind. A quarter decant followed by a third of the remaining liquid transfers half the initial liquid overall, carrying approximately half the dissolved salt.",
+    "criteria": "If sediment separation is represented, chalk remains predominantly v1 while v2 accumulates about 0.006mol NaCl equivalents and nominal 60mL water. No double count across sequential fractions: total liquid transferred is 0.25+0.75/3=0.5. Any entrained chalk should be explicitly observable rather than silently duplicated. Refusal or unmodeled settling classified separately."
+  },
+  {
+    "id": "E106",
+    "title": "Lower-phase drainage versus upper-phase decant",
+    "script": "register lv3\nnew\nnew\nnew\nnew\nadd v1 water 100mL\nadd v1 NaCl 0.01mol\nadd v1 hexane 60mL\nadd v3 water 100mL\nadd v3 NaCl 0.01mol\nadd v3 hexane 60mL\nwait 60s\ninspect\ndrain v1 v2\ndecant v3 v4 1\nlook v1\nlook v2\nlook v3\nlook v4\nmeasure v1 density\nmeasure v2 density\nmeasure v3 density\nmeasure v4 density\ninspect\n",
+    "expectation": "Hexane is less dense and immiscible with brine. A bottom drain in suitable apparatus should select the denser aqueous phase; careful decant of an upper layer should select hexane. These protocols should produce different receiver compositions.",
+    "criteria": "If drain/decant implement phase-selective apparatus, v2 should contain water and salt while v4 is hexane rich; retained phases are complementary. Each independent pair must conserve its original water,hexane,Na,Cl. If generic new vessels lack suitable apparatus, explicit capability refusal is acceptable as a limitation and not a physical pass. If decant means bulk transfer, report semantic mismatch separately rather than forcing this prediction."
+  },
+  {
+    "id": "E107",
+    "title": "Four fresh extraction portions versus one equal total portion",
+    "script": "register lv3\nnew\nnew\nnew\nnew\nadd v1 water 100mL\nadd v1 I2 0.00001mol\nadd v3 water 100mL\nadd v3 I2 0.00001mol\ninspect\nextract v1 v2 hexane 40mL stages 1\nextract v3 v4 hexane 40mL stages 4\nmeasure v1 spectrophotometer\nmeasure v3 spectrophotometer\nlook v2\nlook v4\ninspect\n",
+    "expectation": "Neutral iodine preferentially partitions into hexane. Four equal fresh portions remove more iodine from the water than one portion using the same total solvent, provided equilibrium partitioning and clean separation apply.",
+    "criteria": "For aqueous volume Va=100mL, total organic Vo=40mL, unknown positive partition K, aqueous fractions forecast q1=1/(1+K*Vo/Va), q4=(1+K*Vo/(4*Va))^-4; q4<q1 without fitting K. Total iodine in each source/receiver pair must remain 0.00001mol equivalents and each pair receives only 40mL hexane. Absorbance comparison requires matched measurement settings; refusals are capability/input outcomes."
+  },
+  {
+    "id": "E108",
+    "title": "Extraction receiver owns solute after reverse aqueous pour",
+    "script": "register lv3\nnew\nnew\nnew\nadd v1 water 100mL\nadd v1 I2 0.00001mol\ninspect\nextract v1 v2 hexane 40mL stages 2\ninspect\ndecant v1 v3 1\nmeasure v2 spectrophotometer\nmeasure v3 spectrophotometer\nlook v1\nlook v2\nlook v3\ninspect\n",
+    "expectation": "After extraction, transferred iodine belongs to the organic receiver. Moving the depleted water into a third vessel must move only the remaining aqueous iodine; it cannot recall or reproduce iodine already in v2.",
+    "criteria": "All iodine equivalents summed over v1,v2,v3 remain 0.00001mol before and after the aqueous pour. v2 organic iodine inventory is unchanged by a transfer involving only v1,v3; final v3 matches pre-pour aqueous inventory and v1 is emptied of that liquid. No cross-solvent absorbance ratio is assumed. Unsupported iodine/extraction or transfer semantics are reported separately."
+  },
+  {
+    "id": "E109",
+    "title": "Distilling brine retains nonvolatile salt",
+    "script": "register lv3\nnew\nnew\nadd v1 water 120mL\nadd v1 NaCl 0.012mol\ninspect\ndistil v1 v2 0.25\nmeasure v1 conductivity\nmeasure v2 conductivity\nmeasure v1 volume\nmeasure v2 volume\ninspect\ndistil v1 v2 0.3333333333333333\nmeasure v1 conductivity\nmeasure v2 conductivity\ninspect\n",
+    "expectation": "Water distils while sodium chloride stays in the pot. The sequential fractions correspond to half the initial water recovered overall, and residual salt concentration rises about twofold if no salt precipitates.",
+    "criteria": "Na/Cl equivalents remain 0.012mol in v1, with condensate essentially salt free; total water is conserved across pot and receiver. Sequential solvent recovery forecast 0.25+0.75/3=0.5; final pot concentration approximately twice initial after cooling and without volume nonideality claims. Receiver conductivity should be far below brine. Any unsupported distillation is classified separately."
+  },
+  {
+    "id": "E110",
+    "title": "Distillation stages enrich a volatile component",
+    "script": "register lv3\nnew\nnew\nnew\nnew\nadd v1 water 100mL\nadd v1 ethanol 20mL\nadd v3 water 100mL\nadd v3 ethanol 20mL\ninspect\ndistil v1 v2 0.1 stages 1\ndistil v3 v4 0.1 stages 4\nmeasure v1 density\nmeasure v2 density\nmeasure v3 density\nmeasure v4 density\nchromatograph v2\nchromatograph v4\ninspect\n",
+    "expectation": "Ethanol is more volatile than water at this dilute composition. Early distillate should be richer in ethanol than its starting charge; additional effective stages should further enrich the receiver when cuts are comparable. No purity of 100% is predicted.",
+    "criteria": "Compare ethanol/water mole ratios from inventory/chromatography: each receiver exceeds its original source ratio and four-stage receiver is at least as ethanol rich as one-stage receiver, with a strict increase if stages resolve actual separation. Each pair conserves ethanol and water. Compare actual cut amounts before attributing difference to stages. Density direction supports only at matched temperature. Refusals distinct from agreement."
+  },
+  {
+    "id": "E111",
+    "title": "Evaporation and captured distillation differ in bench ownership",
+    "script": "register lv3\nnew\nnew\nnew\nadd v1 water 100mL\nadd v1 NaCl 0.01mol\nadd v2 water 100mL\nadd v2 NaCl 0.01mol\ninspect\nevaporate v1 0.5\ndistil v2 v3 0.5\nmeasure v1 conductivity\nmeasure v2 conductivity\nmeasure v3 conductivity\nmeasure v1 balance\nmeasure v2 balance\nmeasure v3 balance\ninspect\n",
+    "expectation": "Equal water removal should leave similar concentrated brines. Distillation transfers condensate into a bench vessel; open evaporation removes water to surroundings, so the two bench material budgets differ even when pot states match.",
+    "criteria": "If fractions specify solvent removal, pots retain 0.01mol NaCl each and approximately half their initial water. Distillation pair v2+v3 conserves initial water; v1 bench water decreases by its evaporated amount, explicitly accounted as environmental loss. No salt loss or duplication. Equal pot conductivity expected at equal temperatures/composition. If fraction semantics differ, report that before physical assessment; refusal is inconclusive."
+  },
+  {
+    "id": "E112",
+    "title": "Fixed-volume heating obeys pressure temperature proportionality",
+    "script": "register lv3\nnew\nnew\nseal v1 1L\nseal v2 1L\nadd v1 N2 0.01mol @ 20C\nadd v2 N2 0.01mol @ 20C\nmeasure v1 pressure\nmeasure v1 thermometer\nmeasure v2 pressure\nmeasure v2 thermometer\ninspect\nheat v1 10J\nmeasure v1 pressure\nmeasure v1 thermometer\nmeasure v2 pressure\nmeasure v2 thermometer\ninspect\n",
+    "expectation": "Dilute nitrogen sealed at fixed headspace behaves approximately ideally. Heating raises both temperature and pressure while an unheated reference remains unchanged. The pressure ratio follows the measured absolute-temperature ratio, without assuming an apparatus heat capacity.",
+    "criteria": "For v1 forecast P_after/P_before approximately (T_after_C+273.15)/(T_before_C+273.15); nitrogen amount remains 0.01mol and headspace remains 1L. Reference changes should be absent except explicitly modeled ambient relaxation. Any initial ambient gas must be recorded and included consistently. Refusal to heat gas or seal is a capability limitation, not agreement."
+  },
+  {
+    "id": "E113",
+    "title": "Equal nitrogen amounts in unequal sealed headspaces",
+    "script": "register lv3\nnew\nnew\nseal v1 1L\nseal v2 2L\nadd v1 N2 0.01mol @ 20C\nadd v2 N2 0.01mol @ 20C\nmeasure v1 pressure\nmeasure v2 pressure\nmeasure v1 thermometer\nmeasure v2 thermometer\ninspect\nseal v1 2L\nmeasure v1 pressure\nmeasure v1 thermometer\ninspect\n",
+    "expectation": "For equal gas amounts and temperature, a one-liter headspace has twice the nitrogen pressure of a two-liter headspace. Changing an already closed chamber to twice its volume needs physical expansion work; it must not silently create gas or preserve incompatible P,V,T,n.",
+    "criteria": "Initial nitrogen partial pressure ratio forecast 2*T1K/T2K; use total pressure only if no differing ambient inventory. If reseal is treated as a permitted volume change conserving gas, final P2/P1=(T2K/T1K)/2. Alternatively an explicit boundary-change refusal is an apparatus limitation. Accepted change must conserve nitrogen, and any heat/work assumptions must account for final T. Unknown N2 is an input limitation."
+  },
+  {
+    "id": "E114",
+    "title": "Pressure regulation allows expansion during heating",
+    "script": "register lv3\nnew\nnew\nseal v1 1L\nadd v1 N2 0.01mol @ 20C\nregulate v2 1bar 1L\nadd v2 N2 0.01mol @ 20C\nmeasure v1 pressure\nmeasure v2 pressure\nmeasure v1 thermometer\nmeasure v2 thermometer\nmeasure v2 volume\ninspect\nheat v1 10J\nheat v2 10J\nmeasure v1 pressure\nmeasure v2 pressure\nmeasure v1 thermometer\nmeasure v2 thermometer\nmeasure v2 volume\ninspect\n",
+    "expectation": "A closed rigid chamber raises pressure on heating; a gas-preserving movable boundary under constant external pressure expands. Equal heat inputs need not give equal temperature rises because constant-pressure expansion does work.",
+    "criteria": "For rigid v1, P ratio should match measured Kelvin T ratio. If regulate denotes a gas-preserving piston, v2 stays at 1bar and gas volume ratio matches Kelvin T ratio while nitrogen moles remain 0.01mol; do not interpret liquid-only volume instrument as piston volume. If regulate denotes a venting regulator instead, gas losses must be explicit and conserved to environment, and piston prediction is unsupported. Capability refusal is separate."
+  },
+  {
+    "id": "E115",
+    "title": "Opening and resealing cannot restore vented nitrogen",
+    "script": "register lv3\nnew\nseal v1 1L\nadd v1 N2 0.1mol @ 20C\nmeasure v1 pressure\nmeasure v1 thermometer\ninspect\nopen v1\nwait 10s\nmeasure v1 pressure\ninspect\nseal v1 1L\nmeasure v1 pressure\nmeasure v1 thermometer\ninspect\ninspect\n",
+    "expectation": "At room temperature 0.1mol in one liter exceeds atmospheric pressure. Opening permits gas escape and equalizes pressure; resealing without gas addition cannot recover the original overpressure. Exchange with ambient air may alter species composition.",
+    "criteria": "Initial ideal nitrogen pressure forecast nRT/V about 2.44bar at20C, modified explicitly by any initial ambient gas. After opening and equilibration pressure approaches ambient; after reseal pressure should remain near ambient at comparable T, not return to original pressure. Track nitrogen leaving to surroundings and any admitted ambient gases; no invention or restoration of vented material. Refusal or absent ambient boundary model classified as limitation."
+  },
+  {
+    "id": "E116",
+    "title": "Sub-boiling sealed-water heat/cool cycle",
+    "script": "register lv3\nnew\nadd v1 water 100mL @ 25C\nseal v1 100mL\nmeasure v1 thermometer\nmeasure v1 balance\ninspect\nheat v1 1kJ\nmeasure v1 thermometer\ncool v1 1kJ\nmeasure v1 thermometer\nmeasure v1 balance\ninspect\n",
+    "expectation": "A small positive energy raises the temperature of sealed liquid water. Removing the same energy reverses this single-phase excursion, with unchanged water inventory and total mass.",
+    "criteria": [
+      "Intermediate temperature exceeds initial temperature.",
+      "Final temperature returns within 0.2 K of initial; final mass within 0.1% of initial.",
+      "Inspect shows no lost water or newly generated chemical species.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ]
+  },
+  {
+    "id": "E117",
+    "title": "One heat pulse versus four equal pulses",
+    "script": "register lv3\nnew\nnew\nadd v1 water 100mL @ 25C\nadd v2 water 100mL @ 25C\nseal v1 100mL\nseal v2 100mL\ninspect\nheat v1 2kJ\nheat v2 500J\nheat v2 500J\nheat v2 500J\nheat v2 500J\nmeasure v1 thermometer\nmeasure v2 thermometer\nmeasure v1 balance\nmeasure v2 balance\ninspect\n",
+    "expectation": "At unchanged composition below boiling, equal total supplied heat should give the same final state irrespective of splitting the energy into pulses, when commands introduce no additional elapsed cooling time.",
+    "criteria": [
+      "Final temperatures agree within 0.2 K; both exceed their initial temperatures.",
+      "Final masses agree within 0.1%; neither vessel loses material.",
+      "If pulses explicitly advance time or incur environmental heat loss, classify the differing boundary conditions separately before judging energy partitioning.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ]
+  },
+  {
+    "id": "E118",
+    "title": "Water amount and heating energy doubled together",
+    "script": "register lv3\nnew\nnew\nadd v1 water 50mL @ 25C\nadd v2 water 100mL @ 25C\nseal v1 50mL\nseal v2 100mL\ninspect\nheat v1 500J\nheat v2 1kJ\nmeasure v1 thermometer\nmeasure v2 thermometer\nmeasure v1 balance\nmeasure v2 balance\ninspect\n",
+    "expectation": "For water-dominated heat storage, doubling water amount and supplied energy preserves the temperature rise. The second sample has twice the water inventory and sample mass. Fixed vessel heat capacity can break exact thermal scaling and must be visible as a separate energy sink.",
+    "criteria": [
+      "Water mole inventory and sample mass ratio v2/v1 equal 2 within 0.1%.",
+      "If reported heat is delivered to contents only, temperature rises agree within 1%.",
+      "If vessel or environment heat storage is explicitly included, check the full energy balance instead of fitting a heat-capacity constant from these results.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ]
+  },
+  {
+    "id": "E119",
+    "title": "Equal hot/cold water mixing versus direct midpoint preparation",
+    "script": "register lv3\nnew\nnew\nnew\nnew\nadd v1 water 50mL @ 20C\nadd v2 water 50mL @ 40C\nadd v4 water 100mL @ 30C\nmeasure v1 thermometer\nmeasure v2 thermometer\ninspect\nmix v1 1 v2 1 into v3\nmeasure v3 thermometer\nmeasure v4 thermometer\nmeasure v3 balance\nmeasure v4 balance\ninspect\n",
+    "expectation": "Mixing equal amounts of the same liquid at 20 C and 40 C gives approximately 30 C and the same composition and mass as a directly prepared 100 mL sample at 30 C. Thermal expansion and weak heat-capacity variation allow small departures from the exact midpoint.",
+    "criteria": [
+      "Mixed temperature lies strictly between the measured source temperatures and within 0.5 K of their arithmetic mean.",
+      "Final v3 water inventory equals the sum of initial v1 and v2 inventories within 0.1%.",
+      "Final sample masses v3 and v4 agree within 0.5%; source contents are exhausted after full transfer.",
+      "Any explicitly reported vessel heat exchange must be included before assigning a temperature disagreement.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ]
+  },
+  {
+    "id": "E120",
+    "title": "Added inert gas pressure increment halves with doubled headspace",
+    "script": "register lv3\nnew\nnew\nseal v1 1L\nseal v2 2L\nmeasure v1 pressure\nmeasure v2 pressure\nmeasure v1 thermometer\nmeasure v2 thermometer\ninspect\nadd v1 N2 0.001mol @ 25C\nadd v2 N2 0.001mol @ 25C\nmeasure v1 pressure\nmeasure v2 pressure\nmeasure v1 thermometer\nmeasure v2 thermometer\ninspect\n",
+    "expectation": "For an ideal inert gas at low density, equal added gas amounts produce pressure increments inversely proportional to headspace volume. Normalize pressure by measured absolute temperature and subtract each vessel baseline to remove initially trapped air.",
+    "criteria": [
+      "Define A_i=P_final_i/T_final_i-P_initial_i/T_initial_i using kelvin. Require A_1/A_2=2 within 2%.",
+      "Require A_i*V_i=0.001*R within 2%, using R=8.314462618 Pa m^3 mol^-1 K^-1 and V in m^3.",
+      "Inspect shows equal added nitrogen mole amounts and no nitrogen loss or reaction.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ]
+  },
+  {
+    "id": "E121",
+    "title": "Gas amount and headspace scale together",
+    "script": "register lv3\nnew\nnew\nseal v1 500mL\nseal v2 1L\nmeasure v1 pressure\nmeasure v2 pressure\nmeasure v1 thermometer\nmeasure v2 thermometer\ninspect\nadd v1 N2 0.001mol @ 25C\nadd v2 N2 0.002mol @ 25C\nmeasure v1 pressure\nmeasure v2 pressure\nmeasure v1 thermometer\nmeasure v2 thermometer\nmeasure v1 balance\nmeasure v2 balance\ninspect\n",
+    "expectation": "Doubling gas amount and headspace preserves number density and the temperature-normalized added pressure. The added nitrogen mass doubles even if the pressure is unchanged.",
+    "criteria": [
+      "The baseline-subtracted P/T increments agree within 2%.",
+      "Nitrogen mole inventory ratio v2/v1 equals 2 within 0.1%.",
+      "Where balance reports sample mass including trapped air, compare mass increments to each baseline rather than assuming the uncorrected total mass ratio is 2.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ]
+  },
+  {
+    "id": "E122",
+    "title": "Sealed inert-gas temperature-pressure reversibility",
+    "script": "register lv3\nnew\nseal v1 1L\nadd v1 N2 0.01mol @ 25C\nmeasure v1 thermometer\nmeasure v1 pressure\nmeasure v1 balance\ninspect\nheat v1 10J\nmeasure v1 thermometer\nmeasure v1 pressure\ncool v1 10J\nmeasure v1 thermometer\nmeasure v1 pressure\nmeasure v1 balance\ninspect\n",
+    "expectation": "At fixed headspace and fixed gas amount, pressure is proportional to absolute temperature. An equal heat/cool cycle restores the original gas state if no external loss or phase change occurs.",
+    "criteria": [
+      "During heating temperature and pressure both increase.",
+      "P_hot/P_initial equals T_hot/T_initial within 2%, with temperatures in kelvin.",
+      "Final temperature returns within 0.2 K, pressure within 1%, and mass within 0.1% of initial.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ]
+  },
+  {
+    "id": "E123",
+    "title": "Isothermal headspace expansion and return",
+    "script": "register lv3\nnew\nseal v1 1L\nadd v1 N2 0.01mol @ 25C\nmeasure v1 pressure\nmeasure v1 thermometer\nmeasure v1 balance\ninspect\nseal v1 2L\nmeasure v1 pressure\nmeasure v1 thermometer\ninspect\nseal v1 1L\nmeasure v1 pressure\nmeasure v1 thermometer\nmeasure v1 balance\ninspect\n",
+    "expectation": "If resealing an already sealed vessel means changing its headspace without venting, ideal-gas P*V/T is invariant and returning the original volume restores pressure. If this operation instead vents or replaces the headspace, the reversible compression capability is unavailable rather than physically confirmed.",
+    "criteria": [
+      "For accepted gas-preserving volume changes, P_expanded*2/T_expanded equals P_initial/T_initial within 2%.",
+      "Gas mole inventory and mass remain constant within 0.1% through both changes.",
+      "Final P/T equals initial P/T within 2%.",
+      "Explicit reseal refusal or documented headspace replacement is classified as unsupported closed-volume protocol; do not treat a changed gas ledger as successful reversible compression.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ]
+  },
+  {
+    "id": "E124",
+    "title": "Repeated gas measurements must not consume or heat the sample",
+    "script": "register lv3\nnew\nseal v1 1L\nadd v1 N2 0.001mol @ 25C\nmeasure v1 pressure\nmeasure v1 thermometer\nmeasure v1 balance\ninspect\nmeasure v1 pressure\nmeasure v1 pressure\nmeasure v1 thermometer\nmeasure v1 balance\nmeasure v1 pressure\nmeasure v1 thermometer\ninspect\ninspect\n",
+    "expectation": "Pressure, temperature and balance observations of a sealed inert sample are non-destructive and should commute without changing the material or energy ledger.",
+    "criteria": [
+      "Every pressure reading agrees within the displayed resolution, and likewise each temperature and mass reading.",
+      "The before/after inspect states have identical species quantities, gas inventory, thermal state and boundary conditions.",
+      "If an instrument explicitly models sample consumption, report that capability boundary and its stated mass balance separately.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ]
+  },
+  {
+    "id": "E125",
+    "title": "Temperature units and instrument aliases give one physical state",
+    "script": "register lv3\nnew\nnew\nadd v1 water 100mL @ 25C\nadd v2 water 100mL @ 298.15K\nmeasure v1 thermometer\nmeasure v1 temp\nmeasure v2 thermometer\nmeasure v2 temp\nmeasure v1 balance\nmeasure v2 mass\nmeasure v1 volume\nmeasure v2 volume\ninspect\n",
+    "expectation": "25 C and 298.15 K denote the same temperature; instrument spelling aliases must not change either readings or state. Identical water samples therefore agree in temperature, mass and volume.",
+    "criteria": [
+      "All four temperature readings agree within the displayed resolution.",
+      "Balance and mass readings agree within 0.1%, and volumes agree within 0.1%.",
+      "Inspect records identical water inventories and thermal states for both preparations.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ]
+  },
+  {
+    "id": "E126",
+    "title": "Direct versus staged water dilution of dilute salt",
+    "script": "register lv3\nnew\nnew\nadd v1 water 10mL @ 25C\nadd v2 water 10mL @ 25C\nadd v1 NaCl 0.00001mol\nadd v2 NaCl 0.00001mol\ninspect\ndilute v1 100mL\ndilute v2 20mL\ndilute v2 100mL\nmeasure v1 volume\nmeasure v2 volume\nmeasure v1 ph\nmeasure v2 ph\nmeasure v1 conductivity\nmeasure v2 conductivity\nmeasure v1 balance\nmeasure v2 balance\ninspect\n",
+    "expectation": "Under the make-up-to-volume reading of dilute, a 10 mL salt sample diluted directly to 100 mL or through 20 mL ends at the same concentration and inventory. The grammar alone does not resolve whether the volume is a final target or an added quantity; additive semantics would make these scripts inequivalent and must be classified before testing path independence.",
+    "criteria": [
+      "If dilute means final volume, both final volumes equal 100 mL within displayed resolution and conductivity agrees within 1%.",
+      "Salt inventory is unchanged within 0.1% in each vessel and final masses agree within 0.1%.",
+      "pH readings agree within 0.05.",
+      "If dilute means added volume, record semantic mismatch (110 mL versus 130 mL nominal totals), not a failure of concentration path independence.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ]
+  },
+  {
+    "id": "E127",
+    "title": "Trace-acid aqueous heating versus pure-water thermal control",
+    "script": "register lv3\nnew\nnew\nadd v1 water 100mL @ 25C\nadd v2 water 100mL @ 25C\nadd v1 HCl 0.00001mol\nseal v1 100mL\nseal v2 100mL\nmeasure v1 thermometer\nmeasure v2 thermometer\nmeasure v1 ph\nmeasure v2 ph\ninspect\nheat v1 500J\nheat v2 500J\nmeasure v1 thermometer\nmeasure v2 thermometer\nmeasure v1 ph\nmeasure v2 ph\nmeasure v1 balance\nmeasure v2 balance\ninspect\n",
+    "expectation": "A trace amount of strong acid changes pH substantially while contributing a negligible fraction of the sample mass and heat capacity. Equal sub-boiling energy doses should therefore give nearly the same temperature rise in the acidic and pure-water samples. This tests whether a large logarithmic measurement change incorrectly becomes a large thermal change.",
+    "criteria": [
+      "Initial acidic-sample pH is at least two units below pure-water pH, confirming that the trace dose is chemically detectable.",
+      "Both temperatures increase and the two temperature rises agree within the greater of 0.1 K or 1% of their mean rise.",
+      "Each sample mass and chlorine inventory remain constant within 0.1% through the heating.",
+      "The acid sample remains more acidic than the water control; no exact pH-temperature law is assumed.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ]
+  },
+  {
+    "id": "E128",
+    "title": "Extreme strong-acid dilution approaches neutrality from acid side",
+    "script": "register lv3\nnew\nnew\nadd v1 water 100mL @ 25C\nadd v2 water 100mL @ 25C\nadd v1 HCl 0.000000001mol\nadd v2 HCl 0.000000000001mol\nmeasure v1 ph\nmeasure v2 ph\nmeasure v1 conductivity\nmeasure v2 conductivity\ninspect\n",
+    "expectation": "As strong-acid concentration falls below the hydrogen-ion concentration of pure water, water autoionization prevents pH from following -log10(acid concentration) into the alkaline range. Both samples remain on the acidic side of neutrality and the lower-dose sample is closer to neutral.",
+    "criteria": [
+      "At 25 C, 0<pH_v1<=pH_v2<=7.05, allowing 0.05 display/model tolerance around pH 7.",
+      "Both pH values exceed 6.8; neither may report approximately pH 8 or pH 11 from ignoring water autoionization.",
+      "For an ideal dilute-water model, solve h=(c+sqrt(c*c+4e-14))/2 using measured volume-derived c; pH agrees with -log10(h) within 0.1.",
+      "Inspect retains the supplied chlorine amount even if proton/hydroxide speciation equilibrates.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ]
+  },
+  {
+    "id": "E129",
+    "title": "Intensive salt readings invariant under hundredfold sample scale",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1mL @ 25C\nadd v2 water 100mL @ 25C\nadd v1 NaCl 0.000001mol\nadd v2 NaCl 0.0001mol\nmeasure v1 volume\nmeasure v2 volume\nmeasure v1 conductivity\nmeasure v2 conductivity\nmeasure v1 density\nmeasure v2 density\nmeasure v1 ph\nmeasure v2 ph\nmeasure v1 balance\nmeasure v2 balance\ninspect\n",
+    "expectation": "Samples with the same salt-to-water ratio at the same temperature have the same intensive conductivity, density and pH while sample volume, mass and dissolved-ion inventory scale by 100.",
+    "criteria": [
+      "Conductivities agree within 1%, densities within 0.1%, and pH within 0.05.",
+      "Volume and sample-mass ratios v2/v1 equal 100 within 0.5%.",
+      "Sodium and chlorine inventories each scale by 100 within 0.1%; neither sample precipitates at this dilute concentration.",
+      "An explicitly stated minimum sample-volume instrument refusal is a measurement capability limit, not disagreement with intensive scaling.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ]
+  },
+  {
+    "id": "E130",
+    "title": "Dilution then partial evaporation returns salt concentration",
+    "script": "register lv3\nnew\nnew\nadd v1 water 50mL @ 25C\nadd v2 water 50mL @ 25C\nadd v1 NaCl 0.00005mol\nadd v2 NaCl 0.00005mol\nmeasure v1 volume\nmeasure v2 volume\nmeasure v1 conductivity\nmeasure v2 conductivity\ninspect\nadd v1 water 50mL @ 25C\nevaporate v1 0.5\nmeasure v1 volume\nmeasure v2 volume\nmeasure v1 thermometer\nmeasure v2 thermometer\nmeasure v1 conductivity\nmeasure v2 conductivity\nmeasure v1 ph\nmeasure v2 ph\ninspect\n",
+    "expectation": "Adding an equal water amount and evaporating half the solvent restores the original salt-to-water ratio provided fraction denotes removed solvent and evaporation retains nonvolatile salt. Salt mass is conserved although water and energy exchange with the environment; temperature-dependent conductivity comparisons require matched temperatures.",
+    "criteria": [
+      "Final water and NaCl inventories of v1 match untouched v2 within 0.5%, with no salt in the evaporated material.",
+      "If final temperatures agree within 0.2 K, final conductivity agrees within 2% and pH within 0.05.",
+      "If evaporation changes temperature, report the thermal boundary difference and judge restored composition directly; do not use a mismatched-temperature conductivity result as a concentration failure.",
+      "If evaporate fraction denotes something other than removed solvent fraction, record that semantic boundary before interpreting restoration.",
+      "Unknown ingredient, rejected command, or an explicitly unavailable instrument is an input/capability refusal, not evidence of physical agreement. Compare physical criteria only for accepted operations and available readings; preserve all refusals."
+    ]
+  },
+  {
+    "id": "E131",
+    "title": "Acid/base order equivalence",
+    "script": "register lv3\nnew\nadd v1 water 100mL\nadd v2 water 100mL\nadd v1 HCl 0.001mol\nadd v1 NaOH 0.001mol\nadd v2 NaOH 0.001mol\nadd v2 HCl 0.001mol\ninspect\nmeasure v1 ph\nmeasure v2 ph\n",
+    "expectation": "Equal acid and base inventories end near neutral in either order; order must not create different salt inventories. Thermal uncertainty must remain explicit.",
+    "criteria": [
+      "Both pH values near7 within0.5 and mutually within0.2.",
+      "Same Na/Cl atom inventories, no negative stock."
+    ]
+  },
+  {
+    "id": "E132",
+    "title": "Tenfold strong-acid dilution",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 HCl 0.001mol\ninspect\nmeasure v1 ph\nadd v1 water 900mL\ninspect\nmeasure v1 ph\n",
+    "expectation": "Adding nine initial solvent volumes raises dilute strong-acid pH by roughly1 without removing acid or chloride.",
+    "criteria": [
+      "pH increases by1 within0.2.",
+      "Cl inventory unchanged; added solvent accounted."
+    ]
+  },
+  {
+    "id": "E133",
+    "title": "Tenfold strong-base dilution",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 NaOH 0.001mol\ninspect\nmeasure v1 ph\nadd v1 water 900mL\ninspect\nmeasure v1 ph\n",
+    "expectation": "Tenfold dilution lowers dilute strong-base pH by roughly1 without neutralising or removing sodium.",
+    "criteria": [
+      "pH falls by1 within0.2.",
+      "Sodium inventory unchanged."
+    ]
+  },
+  {
+    "id": "E134",
+    "title": "Pouring dilution versus direct water addition",
+    "script": "register lv3\nnew\nnew\nadd v1 water 100mL\nadd v1 HCl 0.001mol\nadd v2 water 100mL\nadd v2 HCl 0.001mol\nadd v3 water 100mL\nadd v1 water 100mL\ndecant v3 v2 1\ninspect\nmeasure v1 ph\nmeasure v2 ph\n",
+    "expectation": "The same acid and total water reached by a pour or direct addition give equivalent dilute pH and solvent/solute inventories.",
+    "criteria": [
+      "pH difference below0.1.",
+      "Each final vessel has the same chloride and water stock; donor emptied."
+    ]
+  },
+  {
+    "id": "E135",
+    "title": "Silver chloride precipitation order",
+    "script": "register lv3\nnew\nadd v1 water 100mL\nadd v2 water 100mL\nadd v1 AgNO3 0.001mol\nadd v1 NaCl 0.001mol\nadd v2 NaCl 0.001mol\nadd v2 AgNO3 0.001mol\ninspect\nlook v1\nlook v2\n",
+    "expectation": "Both orders make predominantly solid silver chloride with equal final elemental inventories.",
+    "criteria": [
+      "At least90percent of silver inAgCl solid inboth.",
+      "Ag/Cl/Na/N totals conserved and orderindependent; missing phase eligibility is a capability gap."
+    ]
+  },
+  {
+    "id": "E136",
+    "title": "Chloride limits silver chloride yield",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 AgNO3 0.002mol\nadd v1 NaCl 0.001mol\ninspect\nlook v1\n",
+    "expectation": "One chloride equivalent limits AgCl to roughly0.001mol and leaves substantial dissolved excess silver.",
+    "criteria": [
+      "AgCl solid0.0009 to0.00101mol.",
+      "About0.001mol silver outsideAgCl; no atom creation."
+    ]
+  },
+  {
+    "id": "E137",
+    "title": "Common chloride ion suppresses silver chloride dissolution",
+    "script": "register lv3\nnew\nadd v1 water 100mL\nadd v2 water 100mL\nadd v2 NaCl 0.001mol\nadd v1 AgCl 0.001mol\nadd v2 AgCl 0.001mol\ninspect\n",
+    "expectation": "Added chloride suppresses dissolved silver fromAgCl compared with purewater; remaining solid is not absent chemistry.",
+    "criteria": [
+      "Both retainAgCl solid.",
+      "Dissolved silver in chloride vessel lower than purewater by at least factor10, or explicit unsupported activity/phase coverage."
+    ]
+  },
+  {
+    "id": "E138",
+    "title": "Repeated filtration cannot duplicate precipitate",
+    "script": "register lv3\nnew\nnew\nadd v1 water 100mL\nadd v1 AgNO3 0.001mol\nadd v1 NaCl 0.001mol\ninspect\nfilter v1 v2\ninspect\nfilter v2 v3\ninspect\n",
+    "expectation": "A second filtration of the first filtrate cannot reproduce the first solid dose. Dissolved material and solvent follow the filtrate while precipitate remains separated.",
+    "criteria": [
+      "Complete Ag/Cl totals overallvessels conserved at each filtration.",
+      "No duplicate0.001mol precipitate appears onsecondfilter; physical ownership distinct from visibility."
+    ]
+  },
+  {
+    "id": "E139",
+    "title": "Barium sulfate precipitation",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2SO4 0.001mol\ninspect\nlook v1\n",
+    "expectation": "Equimolar barium and sulfate produce almost quantitative white BaSO4 precipitate. Unsupported ingredient/phase must be distinguished from soluble product.",
+    "criteria": [
+      "At least95percent of barium inBaSO4 solid if supported.",
+      "Ba/S/Na/Cl totals conserved; support/refusal classified explicitly."
+    ]
+  },
+  {
+    "id": "E140",
+    "title": "Sealed carbonate requires two proton equivalents",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 Na2CO3 0.001mol\nseal v1 100mL\ninspect\nadd v1 HCl 0.002mol\ninspect\ntest v1 limewater\nmeasure v1 pressure\n",
+    "expectation": "Two acid equivalents convert carbonate principally intoCO2 which can partition between sealed gas and liquid. Carbon remains owned rather than disappearing to roomair.",
+    "criteria": [
+      "Total C conserved including initially trappedair.",
+      "CO2 gas/aqueous inventory increases; chloride dose conserved; gas test doesnot byitself certify mass."
+    ]
+  },
+  {
+    "id": "E141",
+    "title": "Bicarbonate versus carbonate at one proton equivalent",
+    "script": "register lv3\nnew\nadd v1 water 100mL\nadd v2 water 100mL\nadd v1 NaHCO3 0.001mol\nadd v2 Na2CO3 0.001mol\nseal v1 100mL\nseal v2 100mL\nadd v1 HCl 0.001mol\nadd v2 HCl 0.001mol\ninspect\n",
+    "expectation": "One proton per carbon makes much more molecular CO2 from bicarbonate than from carbonate, whose first proton largely yields bicarbonate.",
+    "criteria": [
+      "CO2 gasplusaqueous inventory larger inbicarbonate case.",
+      "All carbon/chloride/sodium conserved with trappedair counted independently."
+    ]
+  },
+  {
+    "id": "E142",
+    "title": "Carbonate acid-dose ladder",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 Na2CO3 0.001mol\nseal v1 100mL\ninspect\nadd v1 HCl 0.0005mol\ninspect\nadd v1 HCl 0.0005mol\ninspect\nadd v1 HCl 0.0005mol\ninspect\nadd v1 HCl 0.0005mol\ninspect\nmeasure v1 ph\n",
+    "expectation": "Sequential acid cannot exceed its proton budget or erase carbon; later equivalents shift bicarbonate towardCO2 without duplicate doses.",
+    "criteria": [
+      "Carbon conserved at every accepted dose, no negative stock.",
+      "Final molecularCO2 exceeds initial; chloride increments match eachdose."
+    ]
+  },
+  {
+    "id": "E143",
+    "title": "Acid dissolves calcite with retained carbon",
+    "script": "register lv3\nadd v1 water 100mL\nseal v1 100mL\nadd v1 CaCO3 0.001mol\ninspect\nadd v1 HCl 0.002mol\ninspect\nmeasure v1 ph\n",
+    "expectation": "Enough acid dissolves most calcite intoCa2+ and carbon dioxide/carbonic species in a sealed vessel.",
+    "criteria": [
+      "At least90percent of initial calcite dissolves if supported.",
+      "Ca/C/Cl conserved including initial air; model failure explicit."
+    ]
+  },
+  {
+    "id": "E144",
+    "title": "Too little acid cannot erase a calcite stock",
+    "script": "register lv3\nadd v1 water 100mL\nseal v1 100mL\nadd v1 CaCO3 0.001mol\ninspect\nadd v1 HCl 0.0002mol\ninspect\n",
+    "expectation": "A tenth of the two-equivalent acid requirement dissolves only part of the calcite; it cannot vanish wholesale.",
+    "criteria": [
+      "Substantial calcite solid remains, more than0.0005mol.",
+      "Ca/C conserved; chloride increment equalsacid dose."
+    ]
+  },
+  {
+    "id": "E145",
+    "title": "Copper hydroxide consumes two hydroxide equivalents",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 CuSO4 0.001mol\nadd v1 NaOH 0.002mol\ninspect\nlook v1\nmeasure v1 ph\n",
+    "expectation": "Copper(II) plustwohydroxides forms a blue hydroxide solid; leftover sulfate and sodium remain accounted.",
+    "criteria": [
+      "Most Cu enters hydroxide solid ifphase supported.",
+      "Cu/S/Na atom inventories conserved; unsupported phase eligibility is not zero reaction."
+    ]
+  },
+  {
+    "id": "E146",
+    "title": "Ferric hydroxide consumes three hydroxide equivalents",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 FeCl3 0.001mol\nadd v1 NaOH 0.003mol\ninspect\nlook v1\n",
+    "expectation": "Ferric iron precipitates a hydroxide/oxyhydroxide with three hydroxide equivalents without spontaneous Fe metal production.",
+    "criteria": [
+      "Most iron in a supported ferric solid, zero unaccounted Fe metal.",
+      "Fe/Na/Cl conserved; hydrate phase differences must be named."
+    ]
+  },
+  {
+    "id": "E147",
+    "title": "Magnesium hydroxide precipitation",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 MgCl2 0.001mol\nadd v1 NaOH 0.002mol\ninspect\nlook v1\n",
+    "expectation": "Magnesium hydroxide precipitates white with adequate base while sodium and chloride remain dissolved.",
+    "criteria": [
+      "Most Mg in supported hydroxide solid or explicit phase capability gap.",
+      "Mg/Na/Cl atom inventories conserved; no metal reduction."
+    ]
+  },
+  {
+    "id": "E148",
+    "title": "Magnet separates iron from silica",
+    "script": "register lv3\nnew\nadd v1 water 100mL\nadd v1 Fe 0.01mol\nadd v1 SiO2 0.01mol\ninspect\nmagnet v1 v2\ninspect\n",
+    "expectation": "An ordinary magnetic separation moves magnetic solid iron but leaves silica in its original vessel and cannot create material.",
+    "criteria": [
+      "Some Fe transferred toreceiver; silica remains indonor.",
+      "Total Fe andSi conserved, donor solvent not silently duplicated."
+    ]
+  },
+  {
+    "id": "E149",
+    "title": "Magnet cannot convert ferric solution into iron metal",
+    "script": "register lv3\nnew\nadd v1 water 100mL\nadd v1 FeCl3 0.001mol\ninspect\nmagnet v1 v2\ninspect\n",
+    "expectation": "Dissolved ferric ions are not a ferromagnetic metal grain; magnetic separation must not reduce ions toFe or remove arbitrary solutionstock.",
+    "criteria": [
+      "No Fe metal created andFe/Cl inventory conserved.",
+      "No unsupported chemical separation narrated as quantitative magnetic extraction."
+    ]
+  },
+  {
+    "id": "E150",
+    "title": "Multiple measurements leave a reactive sample unchanged",
+    "script": "register lv3\nadd v1 water 100mL\nadd v1 CuSO4 0.001mol\nseal v1 100mL\ninspect\nmeasure v1 ph\nmeasure v1 conductivity\nmeasure v1 uvvis\nmeasure v1 eyes\nmeasure v1 balance\nmeasure v1 calorimeter\nmeasure v1 pressure\nmeasure v1 volume\nchromatograph v1\ninspect\n",
+    "expectation": "Ideal read-only instrument commands do not change chemicalstock,temperature,headspace,elapsedtime or transferbudgets; missingresponseparameters must remain visible.",
+    "criteria": [
+      "Initial/final complete physical vessel states equal.",
+      "No physical gas/energy/material transfer caused bymeasurement; incomplete observable support is explicit."
+    ]
+  }
+]

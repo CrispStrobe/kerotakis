@@ -1,0 +1,14 @@
+register lv3
+new
+new
+add v1 water 100mL @ 25C
+add v2 water 100mL @ 298.15K
+measure v1 thermometer
+measure v1 temp
+measure v2 thermometer
+measure v2 temp
+measure v1 balance
+measure v2 mass
+measure v1 volume
+measure v2 volume
+inspect

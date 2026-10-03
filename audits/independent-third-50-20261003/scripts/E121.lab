@@ -1,0 +1,19 @@
+register lv3
+new
+new
+seal v1 500mL
+seal v2 1L
+measure v1 pressure
+measure v2 pressure
+measure v1 thermometer
+measure v2 thermometer
+inspect
+add v1 N2 0.001mol @ 25C
+add v2 N2 0.002mol @ 25C
+measure v1 pressure
+measure v2 pressure
+measure v1 thermometer
+measure v2 thermometer
+measure v1 balance
+measure v2 balance
+inspect

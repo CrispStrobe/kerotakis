@@ -1,0 +1,11 @@
+register lv3
+new
+add v1 water 100mL
+add v2 water 100mL
+add v1 HCl 0.001mol
+add v1 NaOH 0.001mol
+add v2 NaOH 0.001mol
+add v2 HCl 0.001mol
+inspect
+measure v1 ph
+measure v2 ph

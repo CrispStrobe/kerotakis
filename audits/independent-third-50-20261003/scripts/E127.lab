@@ -1,0 +1,22 @@
+register lv3
+new
+new
+add v1 water 100mL @ 25C
+add v2 water 100mL @ 25C
+add v1 HCl 0.00001mol
+seal v1 100mL
+seal v2 100mL
+measure v1 thermometer
+measure v2 thermometer
+measure v1 ph
+measure v2 ph
+inspect
+heat v1 500J
+heat v2 500J
+measure v1 thermometer
+measure v2 thermometer
+measure v1 ph
+measure v2 ph
+measure v1 balance
+measure v2 balance
+inspect

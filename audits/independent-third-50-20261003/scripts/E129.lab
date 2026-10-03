@@ -1,0 +1,18 @@
+register lv3
+new
+new
+add v1 water 1mL @ 25C
+add v2 water 100mL @ 25C
+add v1 NaCl 0.000001mol
+add v2 NaCl 0.0001mol
+measure v1 volume
+measure v2 volume
+measure v1 conductivity
+measure v2 conductivity
+measure v1 density
+measure v2 density
+measure v1 ph
+measure v2 ph
+measure v1 balance
+measure v2 balance
+inspect

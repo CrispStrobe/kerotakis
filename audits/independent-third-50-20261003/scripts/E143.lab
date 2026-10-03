@@ -1,0 +1,8 @@
+register lv3
+add v1 water 100mL
+seal v1 100mL
+add v1 CaCO3 0.001mol
+inspect
+add v1 HCl 0.002mol
+inspect
+measure v1 ph

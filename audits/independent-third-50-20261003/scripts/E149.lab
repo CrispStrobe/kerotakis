@@ -1,0 +1,7 @@
+register lv3
+new
+add v1 water 100mL
+add v1 FeCl3 0.001mol
+inspect
+magnet v1 v2
+inspect

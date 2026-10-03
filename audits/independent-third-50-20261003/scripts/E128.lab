@@ -1,0 +1,12 @@
+register lv3
+new
+new
+add v1 water 100mL @ 25C
+add v2 water 100mL @ 25C
+add v1 HCl 0.000000001mol
+add v2 HCl 0.000000000001mol
+measure v1 ph
+measure v2 ph
+measure v1 conductivity
+measure v2 conductivity
+inspect

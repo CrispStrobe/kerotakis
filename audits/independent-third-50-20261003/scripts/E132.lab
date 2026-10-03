@@ -1,0 +1,8 @@
+register lv3
+add v1 water 100mL
+add v1 HCl 0.001mol
+inspect
+measure v1 ph
+add v1 water 900mL
+inspect
+measure v1 ph

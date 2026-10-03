@@ -1,0 +1,23 @@
+register lv3
+new
+new
+add v1 water 50mL @ 25C
+add v2 water 50mL @ 25C
+add v1 NaCl 0.00005mol
+add v2 NaCl 0.00005mol
+measure v1 volume
+measure v2 volume
+measure v1 conductivity
+measure v2 conductivity
+inspect
+add v1 water 50mL @ 25C
+evaporate v1 0.5
+measure v1 volume
+measure v2 volume
+measure v1 thermometer
+measure v2 thermometer
+measure v1 conductivity
+measure v2 conductivity
+measure v1 ph
+measure v2 ph
+inspect

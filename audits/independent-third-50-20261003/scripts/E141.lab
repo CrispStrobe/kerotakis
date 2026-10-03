@@ -1,0 +1,11 @@
+register lv3
+new
+add v1 water 100mL
+add v2 water 100mL
+add v1 NaHCO3 0.001mol
+add v2 Na2CO3 0.001mol
+seal v1 100mL
+seal v2 100mL
+add v1 HCl 0.001mol
+add v2 HCl 0.001mol
+inspect

@@ -1,0 +1,16 @@
+register lv3
+new
+new
+new
+add v1 water 100mL
+add v1 I2 0.00001mol
+inspect
+extract v1 v2 hexane 40mL stages 2
+inspect
+decant v1 v3 1
+measure v2 spectrophotometer
+measure v3 spectrophotometer
+look v1
+look v2
+look v3
+inspect

@@ -1,0 +1,8 @@
+{
+  "frozen_utc": "2026-10-03T04:45:47.504968+00:00",
+  "predictions_sha256": "14f28baca8ebac00c7b3e808490440e9f65f104b253a73dc6e70ac71bb2d2511",
+  "count": 50,
+  "ids": "E101\u2013E150",
+  "execution_started": false,
+  "method": "Two fresh agents designed 15 cases each from parser syntax only; root designed 20 from basic chemistry after parser reading. No new cases were executed before freezing. Root retains knowledge from previous repair rounds. Ingredient support and uncertain operation semantics deliberately unverified."
+}

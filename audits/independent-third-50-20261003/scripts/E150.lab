@@ -1,0 +1,15 @@
+register lv3
+add v1 water 100mL
+add v1 CuSO4 0.001mol
+seal v1 100mL
+inspect
+measure v1 ph
+measure v1 conductivity
+measure v1 uvvis
+measure v1 eyes
+measure v1 balance
+measure v1 calorimeter
+measure v1 pressure
+measure v1 volume
+chromatograph v1
+inspect

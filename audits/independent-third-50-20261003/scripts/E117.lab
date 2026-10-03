@@ -1,0 +1,18 @@
+register lv3
+new
+new
+add v1 water 100mL @ 25C
+add v2 water 100mL @ 25C
+seal v1 100mL
+seal v2 100mL
+inspect
+heat v1 2kJ
+heat v2 500J
+heat v2 500J
+heat v2 500J
+heat v2 500J
+measure v1 thermometer
+measure v2 thermometer
+measure v1 balance
+measure v2 balance
+inspect

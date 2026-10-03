@@ -1,0 +1,18 @@
+register lv3
+new
+new
+new
+add v1 water 100mL
+add v1 NaCl 0.01mol
+add v2 water 100mL
+add v2 NaCl 0.01mol
+inspect
+evaporate v1 0.5
+distil v2 v3 0.5
+measure v1 conductivity
+measure v2 conductivity
+measure v3 conductivity
+measure v1 balance
+measure v2 balance
+measure v3 balance
+inspect

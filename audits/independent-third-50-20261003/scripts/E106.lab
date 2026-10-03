@@ -1,0 +1,24 @@
+register lv3
+new
+new
+new
+new
+add v1 water 100mL
+add v1 NaCl 0.01mol
+add v1 hexane 60mL
+add v3 water 100mL
+add v3 NaCl 0.01mol
+add v3 hexane 60mL
+wait 60s
+inspect
+drain v1 v2
+decant v3 v4 1
+look v1
+look v2
+look v3
+look v4
+measure v1 density
+measure v2 density
+measure v3 density
+measure v4 density
+inspect
