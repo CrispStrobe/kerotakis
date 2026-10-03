@@ -1,0 +1,1 @@
+kero: /home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T09.lab:7: operation exceeds the model's numeric domain: heating was not committed: the available phase model would leave solid water above its melting boundary

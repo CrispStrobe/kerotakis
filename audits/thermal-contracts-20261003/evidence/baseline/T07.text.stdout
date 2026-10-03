@@ -1,0 +1,19 @@
+  v1: +0.055343 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1 (beaker) — 25.00 °C, 1.0 g, 1.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          0.0553 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v1: T 298.150 K → 273.150 K (ΔT = -25.000 K)
+  v1: thermal energy requested=200.000000 J, delivered=200.000000 J, heating=false, time_coupled=false
+  v1: water Liquid → Solid at 273.15 K (0.00 °C), shifted -0.000 K by dissolved particles
+  v1 (beaker) — 0.00 °C, 1.0 g, 0.7 mL liquid, open to atmosphere
+          0.0394 mol  water              Liquid
+          0.0159 mol  water              Solid
+  v1: T 273.150 K → 298.150 K (ΔT = +25.000 K)
+  v1: thermal energy requested=200.000000 J, delivered=200.000000 J, undelivered=0.000000 J; source=Bunsen burner, ceiling=1773.15 K; sensible=104.426942 J, chemistry/phase=95.573058 J; passes=1, pass_cap_reached=false, time_coupled=false
+  v1: water Solid → Liquid at 273.15 K (0.00 °C), shifted -0.000 K by dissolved particles
+  v1 (beaker) — 25.00 °C, 1.0 g, 1.0 mL liquid, open to atmosphere
+          0.0553 mol  water              Liquid
+  v1 thermometer: 25.0000 °C

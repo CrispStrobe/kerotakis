@@ -1,0 +1,56 @@
+  v1: +0.553428 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: boundary=open → sealed; V_gas=0.100000 L, trapped dry-air approximation=0.00408740 mol
+  v1: finite-volume gas/liquid equilibrium; P=101321.379 Pa, n_gas=0.00408726 mol
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 5.629 · I = 0.0000 mol/kgw
+  v1 (beaker) — 25.00 °C, 10.1 g, 10.0 mL liquid, sealed 100.0 mL headspace at 1.013 bar, pH 5.63, I = 0.0000 m
+           3.23 mmol  nitrogen           Gas
+            856 µmol  oxygen             Gas
+            124 nmol  dissolved carbon dioxide Aqueous
+           23.4 nmol  bicarbonate ion    Aqueous
+           1.49 µmol  carbon dioxide     Gas
+          0.5534 mol  water              Liquid
+           23.4 nmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1     1.0000e0   γ=0.018
+        CO2             1.2394e-5    1.2394e-5   γ=1.000
+        H+              2.3543e-6    2.3501e-6   γ=0.998
+        HCO3-           2.3499e-6    2.3457e-6   γ=0.998
+        OH-             4.2675e-9    4.2598e-9   γ=0.998
+  v1: T 298.150 K → 274.250 K (ΔT = -23.900 K)
+  v1: thermal energy requested=1000.000000 J, delivered=1000.000000 J, heating=false, time_coupled=false The split between sensible heating/cooling and phase or chemical changes is not fully established.
+  v1: finite-volume gas/liquid equilibrium; P=93196.764 Pa, n_gas=0.00408715 mol
+  v1: pH 5.600 · I = 0.0000 mol/kgw
+  v1 (beaker) — 1.10 °C, 10.1 g, 10.0 mL liquid, sealed 100.0 mL headspace at 0.932 bar, pH 5.60, I = 0.0000 m
+           3.23 mmol  nitrogen           Gas
+            856 µmol  oxygen             Gas
+            231 nmol  dissolved carbon dioxide Aqueous
+           25.1 nmol  bicarbonate ion    Aqueous
+           1.38 µmol  carbon dioxide     Gas
+          0.5534 mol  water              Liquid
+           25.1 nmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1     1.0000e0   γ=0.018
+        CO2             2.3147e-5    2.3147e-5   γ=1.000
+        H+              2.5181e-6    2.5136e-6   γ=0.998
+        HCO3-           2.5175e-6    2.5130e-6   γ=0.998
+  v1: T 274.250 K → 298.150 K (ΔT = +23.900 K)
+  v1: thermal energy requested=1000.000000 J, delivered=1000.000000 J, undelivered=0.000000 J; source=Bunsen burner, ceiling=1773.15 K; passes=1, pass_cap_reached=false, time_coupled=false The split between sensible heating/cooling and phase or chemical changes is not fully established.
+  v1: finite-volume gas/liquid equilibrium; P=101321.379 Pa, n_gas=0.00408726 mol
+  v1: pH 5.629 · I = 0.0000 mol/kgw
+  v1 (beaker) — 25.00 °C, 10.1 g, 10.0 mL liquid, sealed 100.0 mL headspace at 1.013 bar, pH 5.63, I = 0.0000 m
+           3.23 mmol  nitrogen           Gas
+            856 µmol  oxygen             Gas
+            124 nmol  dissolved carbon dioxide Aqueous
+           23.4 nmol  bicarbonate ion    Aqueous
+           1.49 µmol  carbon dioxide     Gas
+          0.5534 mol  water              Liquid
+           23.4 nmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1     1.0000e0   γ=0.018
+        CO2             1.2394e-5    1.2394e-5   γ=1.000
+        H+              2.3543e-6    2.3501e-6   γ=0.998
+        HCO3-           2.3499e-6    2.3457e-6   γ=0.998
+        OH-             4.2675e-9    4.2598e-9   γ=0.998
+  v1 thermometer: 25.0001 °C

@@ -1,0 +1,2216 @@
+{
+  "mode": "post-repair contracts",
+  "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+  "predictions_sha256": "6ea38cecd5ce0f7c781186b4c980b00691eb74354f67a14f024266ad1e6db9d4",
+  "passed": true,
+  "checks": [
+    {
+      "name": "validated executable provenance",
+      "passed": true
+    },
+    {
+      "name": "validation thermo: log digest",
+      "passed": true
+    },
+    {
+      "name": "validation codex: log digest",
+      "passed": true
+    },
+    {
+      "name": "validation cea: log digest",
+      "passed": true
+    },
+    {
+      "name": "validation core: log digest",
+      "passed": true
+    },
+    {
+      "name": "validation phreeqc: log digest",
+      "passed": true
+    },
+    {
+      "name": "validation cli: log digest",
+      "passed": true
+    },
+    {
+      "name": "validation wasm: log digest",
+      "passed": true
+    },
+    {
+      "name": "validation replay: log digest",
+      "passed": true
+    },
+    {
+      "name": "validation assessment: log digest",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-cea/src/gibbs.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/src/bench.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/src/transport.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/tests/transport.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/tests/selected_phase_transfer.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/tests/thermal_phase_refusal.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/tests/thermal_phase_budget.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/tests/phase_thaw_recovery.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/tests/energy_transfer.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/src/solve.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/src/heat_capacity.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/tests/heat_integral_precision.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: audits/thermal-contracts-20261003/integral-references.json",
+      "passed": true
+    },
+    {
+      "name": "validation source: audits/thermal-contracts-20261003/generate_integral_references.py",
+      "passed": true
+    },
+    {
+      "name": "validation source: data/registry/registry-source-v1.json",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/tests/electrolysis_scope.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/src/displacement.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/src/chromatography.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/src/lib.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/src/ops.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/tests/chromatography_coverage.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/tests/solvent_electrolysis_accounting.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/src/render.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/tests/atomic_distil_refusal.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-thermo/src/vle.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-thermo/tests/distillation_completion.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: .github/workflows/chemistry-audit.yml",
+      "passed": true
+    },
+    {
+      "name": "validation source: audits/independent-50-20261002/validate_phase_ownership.py",
+      "passed": true
+    },
+    {
+      "name": "unchanged frozen predictions",
+      "passed": true
+    },
+    {
+      "name": "all twelve controls in both CLI modes",
+      "passed": true
+    },
+    {
+      "name": "T01 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T01 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T01 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T01 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T02 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T02 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T02 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T02 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T03 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T03 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T03 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T03 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T04 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T04 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T04 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T04 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T05 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T05 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T05 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T05 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T06 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T06 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T06 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T06 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T07 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T07 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T07 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T07 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T08 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T08 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T08 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T08 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T09 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T09 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T09 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T09 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T10 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T10 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T10 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T10 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T11 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T11 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T11 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T11 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T12 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T12 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T12 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T12 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T01: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T01: both CLI modes succeed",
+      "passed": true
+    },
+    {
+      "name": "T01: reciprocal cycle within frozen 0.2K",
+      "passed": true
+    },
+    {
+      "name": "T01: both doses published",
+      "passed": true
+    },
+    {
+      "name": "T01 output 1: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T01 output 1: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T01 output 1: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T01 output 2: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T01 output 2: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T01 output 2: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T01 output 3: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T01 output 3: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T01 output 3: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T01 output 4: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T01 output 4: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T01 output 4: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T01 output 5: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T01 output 5: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T01 output 5: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T01 output 6: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T01 output 6: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T01 output 6: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T01: water conserved through every snapshot",
+      "passed": true
+    },
+    {
+      "name": "T01: cool phase events match committed inventory",
+      "passed": true
+    },
+    {
+      "name": "T01: cool partition established",
+      "passed": true
+    },
+    {
+      "name": "T01: cool committed fusion reconciles dose",
+      "passed": true
+    },
+    {
+      "name": "T01: heat phase events match committed inventory",
+      "passed": true
+    },
+    {
+      "name": "T01: heat partition established",
+      "passed": true
+    },
+    {
+      "name": "T01: heat committed fusion reconciles dose",
+      "passed": true
+    },
+    {
+      "name": "T02: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T02: both CLI modes succeed",
+      "passed": true
+    },
+    {
+      "name": "T02: reciprocal cycle within frozen 0.2K",
+      "passed": true
+    },
+    {
+      "name": "T02: both doses published",
+      "passed": true
+    },
+    {
+      "name": "T02 output 1: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T02 output 1: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T02 output 1: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T02 output 2: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T02 output 2: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T02 output 2: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T02 output 3: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T02 output 3: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T02 output 3: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T02 output 4: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T02 output 4: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T02 output 4: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T02 output 5: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T02 output 5: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T02 output 5: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T02 output 6: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T02 output 6: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T02 output 6: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T02: water conserved through every snapshot",
+      "passed": true
+    },
+    {
+      "name": "T02: cool phase events match committed inventory",
+      "passed": true
+    },
+    {
+      "name": "T02: cool partition established",
+      "passed": true
+    },
+    {
+      "name": "T02: cool committed fusion reconciles dose",
+      "passed": true
+    },
+    {
+      "name": "T02: heat phase events match committed inventory",
+      "passed": true
+    },
+    {
+      "name": "T02: heat partition established",
+      "passed": true
+    },
+    {
+      "name": "T02: heat committed fusion reconciles dose",
+      "passed": true
+    },
+    {
+      "name": "T03: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T03: both CLI modes succeed",
+      "passed": true
+    },
+    {
+      "name": "T03: reciprocal cycle within frozen 0.2K",
+      "passed": true
+    },
+    {
+      "name": "T03: both doses published",
+      "passed": true
+    },
+    {
+      "name": "T03 output 1: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T03 output 1: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T03 output 1: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T03 output 2: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T03 output 2: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T03 output 2: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T03 output 3: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T03 output 3: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T03 output 3: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T03 output 4: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T03 output 4: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T03 output 4: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T03 output 5: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T03 output 5: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T03 output 5: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T03 output 6: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T03 output 6: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T03 output 6: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T03: water conserved through every snapshot",
+      "passed": true
+    },
+    {
+      "name": "T03: cool phase events match committed inventory",
+      "passed": true
+    },
+    {
+      "name": "T03: cool partition established",
+      "passed": true
+    },
+    {
+      "name": "T03: cool committed fusion reconciles dose",
+      "passed": true
+    },
+    {
+      "name": "T03: heat phase events match committed inventory",
+      "passed": true
+    },
+    {
+      "name": "T03: heat partition established",
+      "passed": true
+    },
+    {
+      "name": "T03: heat committed fusion reconciles dose",
+      "passed": true
+    },
+    {
+      "name": "T04: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T04: both CLI modes succeed",
+      "passed": true
+    },
+    {
+      "name": "T04: reciprocal cycle within frozen 0.2K",
+      "passed": true
+    },
+    {
+      "name": "T04: both doses published",
+      "passed": true
+    },
+    {
+      "name": "T04 output 2: C conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T04 output 2: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T04 output 2: N conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T04 output 2: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T04 output 2: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T04 output 3: C conserved",
+      "passed": true,
+      "inventory_delta_mol": -3.4143975395577284e-14
+    },
+    {
+      "name": "T04 output 3: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T04 output 3: N conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T04 output 3: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T04 output 3: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": -1.3657606993672485e-13
+    },
+    {
+      "name": "T04 output 4: C conserved",
+      "passed": true,
+      "inventory_delta_mol": -3.4143975395577284e-14
+    },
+    {
+      "name": "T04 output 4: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T04 output 4: N conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T04 output 4: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T04 output 4: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": -1.3657606993672485e-13
+    },
+    {
+      "name": "T04 output 5: C conserved",
+      "passed": true,
+      "inventory_delta_mol": -6.476740462848206e-13
+    },
+    {
+      "name": "T04 output 5: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T04 output 5: N conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T04 output 5: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T04 output 5: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": -2.5906962307235515e-12
+    },
+    {
+      "name": "T04 output 6: C conserved",
+      "passed": true,
+      "inventory_delta_mol": -6.476740462848206e-13
+    },
+    {
+      "name": "T04 output 6: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T04 output 6: N conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T04 output 6: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T04 output 6: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": -2.5906962307235515e-12
+    },
+    {
+      "name": "T04 output 7: C conserved",
+      "passed": true,
+      "inventory_delta_mol": -6.476740462848206e-13
+    },
+    {
+      "name": "T04 output 7: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T04 output 7: N conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T04 output 7: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T04 output 7: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": -2.5906962307235515e-12
+    },
+    {
+      "name": "T04: mixed inventory partition coverage explicit",
+      "passed": true
+    },
+    {
+      "name": "T04: incomplete partition narrated",
+      "passed": true
+    },
+    {
+      "name": "T04: no exact chemical residual asserted",
+      "passed": true
+    },
+    {
+      "name": "T05: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T05: both CLI modes succeed",
+      "passed": true
+    },
+    {
+      "name": "T05: reciprocal cycle within frozen 0.2K",
+      "passed": true
+    },
+    {
+      "name": "T05: both doses published",
+      "passed": true
+    },
+    {
+      "name": "T05 output 2: C conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T05 output 2: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T05 output 2: N conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T05 output 2: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T05 output 2: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T05 output 3: C conserved",
+      "passed": true,
+      "inventory_delta_mol": -6.334146135948188e-13
+    },
+    {
+      "name": "T05 output 3: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T05 output 3: N conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T05 output 3: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T05 output 3: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": -2.5336688833864116e-12
+    },
+    {
+      "name": "T05 output 4: C conserved",
+      "passed": true,
+      "inventory_delta_mol": -6.334146135948188e-13
+    },
+    {
+      "name": "T05 output 4: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T05 output 4: N conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T05 output 4: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T05 output 4: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": -2.5336688833864116e-12
+    },
+    {
+      "name": "T05 output 5: C conserved",
+      "passed": true,
+      "inventory_delta_mol": -1.758990348616976e-12
+    },
+    {
+      "name": "T05 output 5: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 2.220446049250313e-16
+    },
+    {
+      "name": "T05 output 5: N conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T05 output 5: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T05 output 5: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": -7.03600192098095e-12
+    },
+    {
+      "name": "T05 output 6: C conserved",
+      "passed": true,
+      "inventory_delta_mol": -1.758990348616976e-12
+    },
+    {
+      "name": "T05 output 6: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 2.220446049250313e-16
+    },
+    {
+      "name": "T05 output 6: N conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T05 output 6: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T05 output 6: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": -7.03600192098095e-12
+    },
+    {
+      "name": "T05 output 7: C conserved",
+      "passed": true,
+      "inventory_delta_mol": -1.758990348616976e-12
+    },
+    {
+      "name": "T05 output 7: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 2.220446049250313e-16
+    },
+    {
+      "name": "T05 output 7: N conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T05 output 7: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T05 output 7: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": -7.03600192098095e-12
+    },
+    {
+      "name": "T05: mixed inventory partition coverage explicit",
+      "passed": true
+    },
+    {
+      "name": "T05: incomplete partition narrated",
+      "passed": true
+    },
+    {
+      "name": "T05: no exact chemical residual asserted",
+      "passed": true
+    },
+    {
+      "name": "T06: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T06: both CLI modes succeed",
+      "passed": true
+    },
+    {
+      "name": "T06: reciprocal cycle within frozen 0.2K",
+      "passed": true
+    },
+    {
+      "name": "T06: both doses published",
+      "passed": true
+    },
+    {
+      "name": "T06 output 2: C conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T06 output 2: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T06 output 2: N conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T06 output 2: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T06 output 2: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T06 output 3: C conserved",
+      "passed": true,
+      "inventory_delta_mol": -4.325303888229342e-13
+    },
+    {
+      "name": "T06 output 3: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T06 output 3: N conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T06 output 3: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T06 output 3: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": -1.7300426780050144e-12
+    },
+    {
+      "name": "T06 output 4: C conserved",
+      "passed": true,
+      "inventory_delta_mol": -4.325303888229342e-13
+    },
+    {
+      "name": "T06 output 4: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T06 output 4: N conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T06 output 4: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T06 output 4: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": -1.7300426780050144e-12
+    },
+    {
+      "name": "T06 output 5: C conserved",
+      "passed": true,
+      "inventory_delta_mol": -7.898523252124651e-13
+    },
+    {
+      "name": "T06 output 5: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T06 output 5: N conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T06 output 5: O conserved",
+      "passed": true,
+      "inventory_delta_mol": -1.1102230246251565e-16
+    },
+    {
+      "name": "T06 output 5: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": -3.1592819161869626e-12
+    },
+    {
+      "name": "T06 output 6: C conserved",
+      "passed": true,
+      "inventory_delta_mol": -7.898523252124651e-13
+    },
+    {
+      "name": "T06 output 6: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T06 output 6: N conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T06 output 6: O conserved",
+      "passed": true,
+      "inventory_delta_mol": -1.1102230246251565e-16
+    },
+    {
+      "name": "T06 output 6: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": -3.1592819161869626e-12
+    },
+    {
+      "name": "T06 output 7: C conserved",
+      "passed": true,
+      "inventory_delta_mol": -7.898523252124651e-13
+    },
+    {
+      "name": "T06 output 7: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T06 output 7: N conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T06 output 7: O conserved",
+      "passed": true,
+      "inventory_delta_mol": -1.1102230246251565e-16
+    },
+    {
+      "name": "T06 output 7: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": -3.1592819161869626e-12
+    },
+    {
+      "name": "T06: mixed inventory partition coverage explicit",
+      "passed": true
+    },
+    {
+      "name": "T06: incomplete partition narrated",
+      "passed": true
+    },
+    {
+      "name": "T06: no exact chemical residual asserted",
+      "passed": true
+    },
+    {
+      "name": "T07: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T07: both CLI modes succeed",
+      "passed": true
+    },
+    {
+      "name": "T07: reciprocal cycle within frozen 0.2K",
+      "passed": true
+    },
+    {
+      "name": "T07: both doses published",
+      "passed": true
+    },
+    {
+      "name": "T07 output 1: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T07 output 1: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T07 output 1: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T07 output 2: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T07 output 2: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T07 output 2: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T07 output 3: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T07 output 3: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T07 output 3: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T07 output 4: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T07 output 4: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T07 output 4: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T07 output 5: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T07 output 5: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T07 output 5: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T07 output 6: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T07 output 6: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T07 output 6: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T07: water conserved through every snapshot",
+      "passed": true
+    },
+    {
+      "name": "T07: cool phase events match committed inventory",
+      "passed": true
+    },
+    {
+      "name": "T07: cool partition established",
+      "passed": true
+    },
+    {
+      "name": "T07: cool committed fusion reconciles dose",
+      "passed": true
+    },
+    {
+      "name": "T07: heat phase events match committed inventory",
+      "passed": true
+    },
+    {
+      "name": "T07: heat partition established",
+      "passed": true
+    },
+    {
+      "name": "T07: heat committed fusion reconciles dose",
+      "passed": true
+    },
+    {
+      "name": "T08: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T08: both CLI modes succeed",
+      "passed": true
+    },
+    {
+      "name": "T08: reciprocal cycle within frozen 0.2K",
+      "passed": true
+    },
+    {
+      "name": "T08: both doses published",
+      "passed": true
+    },
+    {
+      "name": "T08 output 1: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T08 output 1: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T08 output 1: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T08 output 2: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T08 output 2: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T08 output 2: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T08 output 3: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T08 output 3: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T08 output 3: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T08 output 4: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T08 output 4: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T08 output 4: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T08 output 5: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T08 output 5: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T08 output 5: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T08 output 6: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T08 output 6: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T08 output 6: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T08: water conserved through every snapshot",
+      "passed": true
+    },
+    {
+      "name": "T08: cool phase events match committed inventory",
+      "passed": true
+    },
+    {
+      "name": "T08: cool partition established",
+      "passed": true
+    },
+    {
+      "name": "T08: cool committed fusion reconciles dose",
+      "passed": true
+    },
+    {
+      "name": "T08: heat phase events match committed inventory",
+      "passed": true
+    },
+    {
+      "name": "T08: heat partition established",
+      "passed": true
+    },
+    {
+      "name": "T08: heat committed fusion reconciles dose",
+      "passed": true
+    },
+    {
+      "name": "T09: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T09: supported-domain refusal in both modes",
+      "passed": true
+    },
+    {
+      "name": "T09: no unsupported cooling budget published",
+      "passed": true
+    },
+    {
+      "name": "T09: last published state precedes cooling",
+      "passed": true
+    },
+    {
+      "name": "T10: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T10: supported-domain refusal in both modes",
+      "passed": true
+    },
+    {
+      "name": "T10: no unsupported cooling budget published",
+      "passed": true
+    },
+    {
+      "name": "T10: last published state precedes cooling",
+      "passed": true
+    },
+    {
+      "name": "T11: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T11: both CLI modes succeed",
+      "passed": true
+    },
+    {
+      "name": "T11: reciprocal cycle within frozen 0.2K",
+      "passed": true
+    },
+    {
+      "name": "T11: both doses published",
+      "passed": true
+    },
+    {
+      "name": "T11 output 2: Cl conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 2: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 2: Na conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 2: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 2: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 3: Cl conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 3: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 3: Na conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 3: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 3: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 4: Cl conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 4: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 4: Na conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 4: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 4: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 5: Cl conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 5: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 5: Na conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 5: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 5: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 6: Cl conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 6: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 6: Na conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 6: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 6: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 7: Cl conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 7: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 7: Na conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 7: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11 output 7: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T11: mixed inventory partition coverage explicit",
+      "passed": true
+    },
+    {
+      "name": "T11: incomplete partition narrated",
+      "passed": true
+    },
+    {
+      "name": "T11: no exact chemical residual asserted",
+      "passed": true
+    },
+    {
+      "name": "T12: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T12: both CLI modes succeed",
+      "passed": true
+    },
+    {
+      "name": "T12: reciprocal cycle within frozen 0.2K",
+      "passed": true
+    },
+    {
+      "name": "T12: both doses published",
+      "passed": true
+    },
+    {
+      "name": "T12 output 2: Cl conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 2: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 2: Na conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 2: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 2: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 3: Cl conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 3: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 3: Na conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 3: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 3: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 4: Cl conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 4: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 4: Na conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 4: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 4: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 5: Cl conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 5: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 5: Na conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 5: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 5: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 6: Cl conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 6: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 6: Na conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 6: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 6: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 7: Cl conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 7: H conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 7: Na conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 7: O conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12 output 7: charge conserved",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "T12: mixed inventory partition coverage explicit",
+      "passed": true
+    },
+    {
+      "name": "T12: incomplete partition narrated",
+      "passed": true
+    },
+    {
+      "name": "T12: no exact chemical residual asserted",
+      "passed": true
+    }
+  ],
+  "cases": [
+    {
+      "id": "T01",
+      "exit_codes": [
+        0,
+        0
+      ],
+      "initial_k": 298.15,
+      "final_k": 298.15,
+      "cycle_delta_k": 0.0,
+      "partitions": [
+        {
+          "heating": false,
+          "delivered_j": 999.9999999999982,
+          "sensible_j": 999.9999999999982,
+          "complete": true
+        },
+        {
+          "heating": true,
+          "delivered_j": 1000.0,
+          "sensible_j": 999.9999999999982,
+          "complete": true
+        }
+      ]
+    },
+    {
+      "id": "T02",
+      "exit_codes": [
+        0,
+        0
+      ],
+      "initial_k": 298.15,
+      "final_k": 298.15,
+      "cycle_delta_k": 0.0,
+      "partitions": [
+        {
+          "heating": false,
+          "delivered_j": 1999.9999999999995,
+          "sensible_j": 1044.2694188314936,
+          "complete": true
+        },
+        {
+          "heating": true,
+          "delivered_j": 2000.0,
+          "sensible_j": 1044.2694188314936,
+          "complete": true
+        }
+      ]
+    },
+    {
+      "id": "T03",
+      "exit_codes": [
+        0,
+        0
+      ],
+      "initial_k": 298.15,
+      "final_k": 298.15,
+      "cycle_delta_k": 0.0,
+      "partitions": [
+        {
+          "heating": false,
+          "delivered_j": 4000.0000000000005,
+          "sensible_j": 1044.2694188314936,
+          "complete": true
+        },
+        {
+          "heating": true,
+          "delivered_j": 4000.0,
+          "sensible_j": 1044.2694188314936,
+          "complete": true
+        }
+      ]
+    },
+    {
+      "id": "T04",
+      "exit_codes": [
+        0,
+        0
+      ],
+      "initial_k": 298.1500664745746,
+      "final_k": 298.150066474498,
+      "cycle_delta_k": -7.66249286243692e-11,
+      "partitions": [
+        {
+          "heating": false,
+          "delivered_j": 999.9999999999991,
+          "sensible_j": 999.9999999999991,
+          "complete": false
+        },
+        {
+          "heating": true,
+          "delivered_j": 1000.0,
+          "sensible_j": 999.9979139437196,
+          "complete": false
+        }
+      ]
+    },
+    {
+      "id": "T05",
+      "exit_codes": [
+        0,
+        0
+      ],
+      "initial_k": 298.1500664745746,
+      "final_k": 298.15028595362423,
+      "cycle_delta_k": 0.00021947904963326437,
+      "partitions": [
+        {
+          "heating": false,
+          "delivered_j": 2000.0000000000005,
+          "sensible_j": 2000.0000000000005,
+          "complete": false
+        },
+        {
+          "heating": true,
+          "delivered_j": 2000.0,
+          "sensible_j": 1046.4142176743812,
+          "complete": false
+        }
+      ]
+    },
+    {
+      "id": "T06",
+      "exit_codes": [
+        0,
+        0
+      ],
+      "initial_k": 298.1500664745746,
+      "final_k": 298.1533306787479,
+      "cycle_delta_k": 0.0032642041733197402,
+      "partitions": [
+        {
+          "heating": false,
+          "delivered_j": 3999.999999999999,
+          "sensible_j": 3999.999999999999,
+          "complete": false
+        },
+        {
+          "heating": true,
+          "delivered_j": 4000.0,
+          "sensible_j": 1046.5416913701386,
+          "complete": false
+        }
+      ]
+    },
+    {
+      "id": "T07",
+      "exit_codes": [
+        0,
+        0
+      ],
+      "initial_k": 298.15,
+      "final_k": 298.15,
+      "cycle_delta_k": 0.0,
+      "partitions": [
+        {
+          "heating": false,
+          "delivered_j": 199.99999999999997,
+          "sensible_j": 104.42694188314935,
+          "complete": true
+        },
+        {
+          "heating": true,
+          "delivered_j": 200.0,
+          "sensible_j": 104.42694188314935,
+          "complete": true
+        }
+      ]
+    },
+    {
+      "id": "T08",
+      "exit_codes": [
+        0,
+        0
+      ],
+      "initial_k": 298.15,
+      "final_k": 298.15,
+      "cycle_delta_k": 0.0,
+      "partitions": [
+        {
+          "heating": false,
+          "delivered_j": 19999.999999999996,
+          "sensible_j": 10442.694188314936,
+          "complete": true
+        },
+        {
+          "heating": true,
+          "delivered_j": 20000.0,
+          "sensible_j": 10442.694188314936,
+          "complete": true
+        }
+      ]
+    },
+    {
+      "id": "T09",
+      "exit_codes": [
+        1,
+        1
+      ],
+      "initial_k": 298.1500664745746,
+      "final_k": 298.1500664745746,
+      "cycle_delta_k": 0.0,
+      "partitions": []
+    },
+    {
+      "id": "T10",
+      "exit_codes": [
+        1,
+        1
+      ],
+      "initial_k": 297.6847799660087,
+      "final_k": 297.6847799660087,
+      "cycle_delta_k": 0.0,
+      "partitions": []
+    },
+    {
+      "id": "T11",
+      "exit_codes": [
+        0,
+        0
+      ],
+      "initial_k": 298.1034781313024,
+      "final_k": 298.10263301979285,
+      "cycle_delta_k": -0.0008451115095340356,
+      "partitions": [
+        {
+          "heating": false,
+          "delivered_j": 20000.000000000007,
+          "sensible_j": 20000.000000000007,
+          "complete": false
+        },
+        {
+          "heating": true,
+          "delivered_j": 20000.0,
+          "sensible_j": 10527.743540112995,
+          "complete": false
+        }
+      ]
+    },
+    {
+      "id": "T12",
+      "exit_codes": [
+        0,
+        0
+      ],
+      "initial_k": 298.1406955541712,
+      "final_k": 298.1406955541712,
+      "cycle_delta_k": 0.0,
+      "partitions": [
+        {
+          "heating": false,
+          "delivered_j": 2000.0000000000123,
+          "sensible_j": 2000.0000000000123,
+          "complete": false
+        },
+        {
+          "heating": true,
+          "delivered_j": 2000.0,
+          "sensible_j": 2000.0000000000123,
+          "complete": false
+        }
+      ]
+    }
+  ]
+}

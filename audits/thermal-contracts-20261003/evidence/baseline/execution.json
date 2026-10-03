@@ -1,0 +1,463 @@
+{
+  "predictions_sha256": "6ea38cecd5ce0f7c781186b4c980b00691eb74354f67a14f024266ad1e6db9d4",
+  "binary_source_commit": "04a82d548fd1474968ded25acb9923014f2ae6bc",
+  "binary_validation_run": null,
+  "binary": "/home/runner/work/_temp/validated-cli/kero",
+  "binary_sha256": "279c168a69b0a6c2c5c306b581dfcfbcbe693d10431fa8a710bf1863556e2487",
+  "checkout": "9b15e9c1de73860867334e080b85b86eea2fb569",
+  "policy": {
+    "max_load1": 3.5,
+    "min_available_mib": 3200,
+    "min_swap_free_mib": 600,
+    "min_disk_free_mib": 2048,
+    "min_system_free_mib": 512
+  },
+  "started_utc": "2026-10-03T03:22:01Z",
+  "runs": [
+    {
+      "id": "T01",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T01.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.616,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T01.text.stdout",
+      "stderr": "T01.text.stderr",
+      "stdout_sha256": "004910db3ed2e6dea82156395b62c4f30c3bc33600147159e2be7f0e63dc6707",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "T01",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T01.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.615,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T01.json.stdout",
+      "stderr": "T01.json.stderr",
+      "stdout_sha256": "d06cc8f6435dad1098595119544e77f6b138b6170a232696cc309e9ff7a98365",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "T02",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T02.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.616,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T02.text.stdout",
+      "stderr": "T02.text.stderr",
+      "stdout_sha256": "c0d1dc8b89fd631ad6469a1b73dc5131b24fe324fc95d64b20cad610c11397d8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "T02",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T02.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.616,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T02.json.stdout",
+      "stderr": "T02.json.stderr",
+      "stdout_sha256": "f722c982506d50bc035b1631293afffcc9d0febf11038a75561850f84f0ec578",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "T03",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T03.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T03.text.stdout",
+      "stderr": "T03.text.stderr",
+      "stdout_sha256": "84f0cfef62c492d6e74a702ede2c3af3923b28536034974971910ef445716c35",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "T03",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T03.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.616,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T03.json.stdout",
+      "stderr": "T03.json.stderr",
+      "stdout_sha256": "832720ef58f5c4517de677071103a9765175bea396770acfb44fc0d851daee05",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "T04",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T04.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T04.text.stdout",
+      "stderr": "T04.text.stderr",
+      "stdout_sha256": "b4e7d389b8d74052ab863b877e8de0befe22f7ce07bf629184ccc7605bba3087",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "T04",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T04.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.716,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T04.json.stdout",
+      "stderr": "T04.json.stderr",
+      "stdout_sha256": "e7947cf9fd877c1c849df7fb59629488289725704edf4c1e42c462e7ac2245ac",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "T05",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T05.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.716,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T05.text.stdout",
+      "stderr": "T05.text.stderr",
+      "stdout_sha256": "0fe9b97b4fc3ea0df5b4494e302fa3986c6c72822aa67b51c2cdcd2f3e0a7c5f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "T05",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T05.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.716,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T05.json.stdout",
+      "stderr": "T05.json.stderr",
+      "stdout_sha256": "4acc7f85c5b8ba151f9ba03dfed402b5a01405c143446e2fc3198969917dba57",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "T06",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T06.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.716,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T06.text.stdout",
+      "stderr": "T06.text.stderr",
+      "stdout_sha256": "7a7366f383af8b93b21a169345717642efe588204dee2a633bb9cb42b19a53a6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "T06",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T06.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.716,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T06.json.stdout",
+      "stderr": "T06.json.stderr",
+      "stdout_sha256": "82e010ecaf14200f032359089755b479b9ee1576296c27aa03baafa2c4656640",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "T07",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T07.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.616,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T07.text.stdout",
+      "stderr": "T07.text.stderr",
+      "stdout_sha256": "cb76ffa5333d00e453ac0943439636fd693bf907ca988f64bb1d9cf5f189ca8a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "T07",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T07.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.616,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T07.json.stdout",
+      "stderr": "T07.json.stderr",
+      "stdout_sha256": "f16ea1f82bf798ad962bc556bbd6552ad39484d276b704ed18b4b2e6e289942c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "T08",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T08.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.616,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T08.text.stdout",
+      "stderr": "T08.text.stderr",
+      "stdout_sha256": "75441b96dac3bc147493ce44e8be3421008f197ab944facd3145d2e91410534d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "T08",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T08.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.615,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T08.json.stdout",
+      "stderr": "T08.json.stderr",
+      "stdout_sha256": "90a2b903e9ec9fac1d90297ab99ec2dc5c2024ea951904b6f8c2cfe4b5d71426",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "T09",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T09.lab"
+      ],
+      "exit_code": 1,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T09.text.stdout",
+      "stderr": "T09.text.stderr",
+      "stdout_sha256": "a5b889e6bf75f10b4ddc119a2417db2df3c65fb861064f898907673ee90c6332",
+      "stderr_sha256": "325d3ab12148a082f40d338865a89949e89481a04560b5ed899228759500b35f"
+    },
+    {
+      "id": "T09",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T09.lab",
+        "--json"
+      ],
+      "exit_code": 1,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T09.json.stdout",
+      "stderr": "T09.json.stderr",
+      "stdout_sha256": "8174aa90402d7c82ee995458ee6b25bfb3ca307ad1ef972f044bf3f2b07e6fd0",
+      "stderr_sha256": "325d3ab12148a082f40d338865a89949e89481a04560b5ed899228759500b35f"
+    },
+    {
+      "id": "T10",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T10.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.665,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T10.text.stdout",
+      "stderr": "T10.text.stderr",
+      "stdout_sha256": "a133dd11e01bae35168b397812cedbe1cfb0b26125d77627e3cfaf6a786512dc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "T10",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T10.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T10.json.stdout",
+      "stderr": "T10.json.stderr",
+      "stdout_sha256": "e0e441da58921a9968d36f42f413f5d86a267f4dd92d4ba3c96fa894dd82d35e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "T11",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T11.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T11.text.stdout",
+      "stderr": "T11.text.stderr",
+      "stdout_sha256": "9cb929ed9a9fdee72b262a37f9580931438ba43076a1eb368d4ba9c7bb190883",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "T11",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T11.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T11.json.stdout",
+      "stderr": "T11.json.stderr",
+      "stdout_sha256": "793e5b01fe38adaef19e6bf7f83944bf948b17ba0d1e3e384dff13f14518a8d7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "T12",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T12.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.616,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T12.text.stdout",
+      "stderr": "T12.text.stderr",
+      "stdout_sha256": "56a8715fd6897ce439172a23ef6020b531f61b35558fafb69f86a3001a4e9812",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "T12",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/thermal-contracts-20261003/scripts/T12.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "T12.json.stdout",
+      "stderr": "T12.json.stderr",
+      "stdout_sha256": "454407ffb7e5e5a6b13055f11a2da748f04f36f39136fac7530a5d8a4d7a7123",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "completed_utc": "2026-10-03T03:22:17Z"
+}

@@ -19,11 +19,11 @@ on:
       validated_run:
         description: Successful independent-50 validation run supplying the executable
         type: string
-        default: '37061681708'
+        default: '37095659202'
       validated_commit:
         description: Exact commit tested by that run
         type: string
-        default: 04a82d548fd1474968ded25acb9923014f2ae6bc
+        default: 59c75fcd7ca40f64c93c8112a1912afd6764bb78
 
 concurrency:
   group: chemistry-audit-${{ github.event.pull_request.number || github.ref }}
@@ -452,6 +452,8 @@ jobs:
           chmod +x "$RUNNER_TEMP/validated-cli/kero"
           python3 audits/independent-next-50-20261002/run.py --suite audits/thermal-contracts-20261003 --binary "$RUNNER_TEMP/validated-cli/kero" --binary-source-commit "$VALIDATED_COMMIT" --out "$RUNNER_TEMP/thermal-controls"
           python3 audits/independent-next-50-20261002/summarize.py "$RUNNER_TEMP/thermal-controls"
+          git fetch --no-tags --depth=1 origin "$VALIDATED_COMMIT"
+          python3 audits/thermal-contracts-20261003/verify.py "$RUNNER_TEMP/thermal-controls" --validation "$RUNNER_TEMP/validated-cli/validation.json"
       - uses: actions/upload-artifact@v6
         if: always()
         with:

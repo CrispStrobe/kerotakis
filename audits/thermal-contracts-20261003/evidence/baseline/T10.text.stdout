@@ -1,0 +1,67 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.050000 mol sodium chloride (NaCl, M = 58.443 g/mol)
+  v1: 0.050000 mol sodium chloride dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · pitzer.dat, with the reviewed Sander HBr gas-uptake slice · Pitzer specific-ion-interaction model (valid at high ionic strength) — chosen because the solution is concentrated (~1.0 mol/kgw), where the ion-interaction model is the valid one
+  v1: pH 6.946 · I = 0.5015 mol/kgw
+  v1: T 298.150 K → 297.685 K (ΔT = -0.465 K)
+  v1 (beaker) — 24.53 °C, 102.6 g, 100.0 mL liquid, open to atmosphere, pH 6.95, I = 0.5015 m
+          0.0500 mol  chloride ion       Aqueous
+          0.0500 mol  sodium ion         Aqueous
+          5.5343 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.8350e-1   γ=0.018
+        Cl-             5.0150e-1    3.2556e-1   γ=0.649
+        Na+             5.0150e-1    3.5834e-1   γ=0.715
+        H+              1.3718e-7    1.1335e-7   γ=0.826
+        OH-             1.3718e-7    8.4752e-8   γ=0.618
+  v1: T 297.685 K → 178.855 K (ΔT = -118.829 K)
+  v1: thermal energy requested=50000.000000 J, delivered=50000.000000 J, heating=false, time_coupled=false
+  v1: pH 11.351 · I = 0.5015 mol/kgw
+  v1: water Liquid → Solid at 271.98 K (-1.17 °C), shifted -1.168 K by dissolved particles
+  v1: 0.014870 mol sodium chloride precipitated
+  v1: pH 7.280 · I = 6.3930 mol/kgw
+  v1: reaction heat for water is not priced; the temperature estimate is incomplete
+  v1: T 253.406 K → 253.843 K (ΔT = +0.437 K)
+  v1: water Solid → Liquid at 246.60 K (-26.55 °C), shifted -26.548 K by dissolved particles
+  v1: 0.009330 mol sodium chloride dissolved
+  v1: pH 7.349 · I = 6.4579 mol/kgw
+  v1: T 251.536 K → 251.259 K (ΔT = -0.277 K)
+  v1: water Solid → Liquid at 246.45 K (-26.70 °C), shifted -26.704 K by dissolved particles
+  v1: 0.005540 mol sodium chloride dissolved
+  v1: pH 7.416 · I = 6.3246 mol/kgw
+  v1: T 249.598 K → 248.716 K (ΔT = -0.882 K)
+  v1: water Solid → Liquid at 247.46 K (-25.69 °C), shifted -25.688 K by dissolved particles
+  v1: pH 7.470 · I = 5.9856 mol/kgw
+  v1: NOT MODELLED: the partial-freezing model boundary at -21.1 °C: below this point salt crystallisation and a solute-specific eutectic phase diagram are required, so the bench will not extrapolate a colligative relation whose solvent activity it can no longer place
+  v1: net ionic: Cl⁻(aq) + Na⁺(aq) → NaCl(s)
+  v1 (beaker) — -24.43 °C, 102.6 g, 8.4 mL liquid, open to atmosphere, pH 7.47, I = 5.9856 m
+      temperature estimate is incomplete: reaction heat for water is not priced
+          5.0706 mol  water              Solid
+          0.0500 mol  chloride ion       Aqueous
+          0.0500 mol  sodium ion         Aqueous
+          0.4637 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    7.7870e-1   γ=0.014
+        Na+              5.9856e0     5.9079e0   γ=0.987
+        Cl-              5.9856e0     2.7645e0   γ=0.462
+        OH-             3.7236e-9    1.6662e-9   γ=0.447
+        H+              3.7206e-9    3.3863e-8   γ=9.102
+  v1: T 248.716 K → 296.865 K (ΔT = +48.149 K)
+  v1: thermal energy requested=50000.000000 J, delivered=50000.000000 J, undelivered=0.000000 J; source=Bunsen burner, ceiling=1773.15 K; sensible=20207.321113 J, chemistry/phase=29792.678887 J; passes=1, pass_cap_reached=false, time_coupled=false
+  v1: pH 5.280 · I = 5.9856 mol/kgw
+  v1: NOT MODELLED: H2O(g) (SI +1.0) are gas-phase saturation indices relative to the thermodynamic database's reference fugacity, not missing precipitates. Interpret them with this vessel's gas boundary and pressure; these indices alone predict neither bubble formation nor gas-transfer times
+  v1: water Solid → Liquid at 251.97 K (-21.18 °C), shifted -21.176 K by dissolved particles
+  v1: pH 6.959 · I = 0.5015 mol/kgw
+  v1 (beaker) — 23.71 °C, 102.6 g, 100.0 mL liquid, open to atmosphere, pH 6.96, I = 0.5015 m
+      temperature estimate is incomplete: reaction heat for water is not priced
+          0.0500 mol  chloride ion       Aqueous
+          0.0500 mol  sodium ion         Aqueous
+          5.5343 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.8350e-1   γ=0.018
+        Na+             5.0150e-1    3.5832e-1   γ=0.714
+        Cl-             5.0150e-1    3.2553e-1   γ=0.649
+        OH-             1.3284e-7    8.2086e-8   γ=0.618
+        H+              1.3284e-7    1.0988e-7   γ=0.827
+  v1 thermometer: 23.7147 °C — temperature estimate is incomplete: reaction heat for water is not priced

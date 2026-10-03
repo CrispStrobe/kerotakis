@@ -1,0 +1,656 @@
+{
+  "mode": "baseline evidence integrity",
+  "binary_source_commit": "04a82d548fd1474968ded25acb9923014f2ae6bc",
+  "predictions_sha256": "6ea38cecd5ce0f7c781186b4c980b00691eb74354f67a14f024266ad1e6db9d4",
+  "passed": true,
+  "checks": [
+    {
+      "name": "validated executable provenance",
+      "passed": true
+    },
+    {
+      "name": "validation thermo: log digest",
+      "passed": true
+    },
+    {
+      "name": "validation codex: log digest",
+      "passed": true
+    },
+    {
+      "name": "validation cea: log digest",
+      "passed": true
+    },
+    {
+      "name": "validation core: log digest",
+      "passed": true
+    },
+    {
+      "name": "validation phreeqc: log digest",
+      "passed": true
+    },
+    {
+      "name": "validation cli: log digest",
+      "passed": true
+    },
+    {
+      "name": "validation wasm: log digest",
+      "passed": true
+    },
+    {
+      "name": "validation replay: log digest",
+      "passed": true
+    },
+    {
+      "name": "validation assessment: log digest",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-cea/src/gibbs.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/src/bench.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/src/transport.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/tests/transport.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/tests/selected_phase_transfer.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/tests/thermal_phase_refusal.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/tests/electrolysis_scope.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/src/displacement.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/src/chromatography.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/src/lib.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/src/ops.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/tests/chromatography_coverage.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/tests/solvent_electrolysis_accounting.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/src/render.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-core/tests/atomic_distil_refusal.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-thermo/src/vle.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: crates/kerotakis-thermo/tests/distillation_completion.rs",
+      "passed": true
+    },
+    {
+      "name": "validation source: .github/workflows/chemistry-audit.yml",
+      "passed": true
+    },
+    {
+      "name": "validation source: audits/independent-50-20261002/validate_phase_ownership.py",
+      "passed": true
+    },
+    {
+      "name": "unchanged frozen predictions",
+      "passed": true
+    },
+    {
+      "name": "all twelve controls in both CLI modes",
+      "passed": true
+    },
+    {
+      "name": "T01 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T01 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T01 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T01 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T02 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T02 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T02 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T02 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T03 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T03 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T03 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T03 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T04 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T04 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T04 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T04 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T05 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T05 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T05 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T05 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T06 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T06 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T06 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T06 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T07 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T07 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T07 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T07 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T08 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T08 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T08 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T08 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T09 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T09 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T09 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T09 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T10 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T10 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T10 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T10 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T11 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T11 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T11 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T11 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T12 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T12 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T12 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "T12 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "T01: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T02: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T03: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T04: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T05: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T06: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T07: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T08: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T09: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T10: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T11: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "T12: strict NDJSON",
+      "passed": true
+    }
+  ],
+  "cases": [
+    {
+      "id": "T01",
+      "exit_codes": [
+        0,
+        0
+      ],
+      "initial_k": 298.15,
+      "final_k": 298.15000000004557,
+      "cycle_delta_k": 4.558842192636803e-11,
+      "partitions": [
+        {
+          "heating": false,
+          "delivered_j": 999.9999999959712,
+          "sensible_j": 999.9999999959712,
+          "complete": null
+        },
+        {
+          "heating": true,
+          "delivered_j": 1000.0,
+          "sensible_j": 1000.0000000060153,
+          "complete": null
+        }
+      ]
+    },
+    {
+      "id": "T02",
+      "exit_codes": [
+        0,
+        0
+      ],
+      "initial_k": 298.15,
+      "final_k": 298.150000000133,
+      "cycle_delta_k": 1.3301360013429075e-10,
+      "partitions": [
+        {
+          "heating": false,
+          "delivered_j": 2000.0000000000007,
+          "sensible_j": 2000.0000000000007,
+          "complete": null
+        },
+        {
+          "heating": true,
+          "delivered_j": 2000.0,
+          "sensible_j": 1044.269418834501,
+          "complete": null
+        }
+      ]
+    },
+    {
+      "id": "T03",
+      "exit_codes": [
+        0,
+        0
+      ],
+      "initial_k": 298.15,
+      "final_k": 298.1500000000475,
+      "cycle_delta_k": 4.75210981676355e-11,
+      "partitions": [
+        {
+          "heating": false,
+          "delivered_j": 4000.0,
+          "sensible_j": 4000.0,
+          "complete": null
+        },
+        {
+          "heating": true,
+          "delivered_j": 4000.0,
+          "sensible_j": 1044.2694188288765,
+          "complete": null
+        }
+      ]
+    },
+    {
+      "id": "T04",
+      "exit_codes": [
+        0,
+        0
+      ],
+      "initial_k": 298.1500664745746,
+      "final_k": 298.1500664744714,
+      "cycle_delta_k": -1.0322764865122736e-10,
+      "partitions": [
+        {
+          "heating": false,
+          "delivered_j": 1000.0000000017886,
+          "sensible_j": 1000.0000000017886,
+          "complete": null
+        },
+        {
+          "heating": true,
+          "delivered_j": 1000.0,
+          "sensible_j": 999.9979139450872,
+          "complete": null
+        }
+      ]
+    },
+    {
+      "id": "T05",
+      "exit_codes": [
+        0,
+        0
+      ],
+      "initial_k": 298.1500664745746,
+      "final_k": 298.15028595385195,
+      "cycle_delta_k": 0.00021947927734800032,
+      "partitions": [
+        {
+          "heating": false,
+          "delivered_j": 2000.0,
+          "sensible_j": 2000.0,
+          "complete": null
+        },
+        {
+          "heating": true,
+          "delivered_j": 2000.0,
+          "sensible_j": 1046.4142176842324,
+          "complete": null
+        }
+      ]
+    },
+    {
+      "id": "T06",
+      "exit_codes": [
+        0,
+        0
+      ],
+      "initial_k": 298.1500664745746,
+      "final_k": 298.15333067884706,
+      "cycle_delta_k": 0.0032642042724546627,
+      "partitions": [
+        {
+          "heating": false,
+          "delivered_j": 4000.0,
+          "sensible_j": 4000.0,
+          "complete": null
+        },
+        {
+          "heating": true,
+          "delivered_j": 4000.0,
+          "sensible_j": 1046.5416913713113,
+          "complete": null
+        }
+      ]
+    },
+    {
+      "id": "T07",
+      "exit_codes": [
+        0,
+        0
+      ],
+      "initial_k": 298.15,
+      "final_k": 298.150000000133,
+      "cycle_delta_k": 1.3301360013429075e-10,
+      "partitions": [
+        {
+          "heating": false,
+          "delivered_j": 200.00000000000006,
+          "sensible_j": 200.00000000000006,
+          "complete": null
+        },
+        {
+          "heating": true,
+          "delivered_j": 200.0,
+          "sensible_j": 104.42694188345011,
+          "complete": null
+        }
+      ]
+    },
+    {
+      "id": "T08",
+      "exit_codes": [
+        0,
+        0
+      ],
+      "initial_k": 298.15,
+      "final_k": 298.14999999984195,
+      "cycle_delta_k": -1.5802470443304628e-10,
+      "partitions": [
+        {
+          "heating": false,
+          "delivered_j": 20000.000000000007,
+          "sensible_j": 20000.000000000007,
+          "complete": null
+        },
+        {
+          "heating": true,
+          "delivered_j": 20000.0,
+          "sensible_j": 10442.69418828073,
+          "complete": null
+        }
+      ]
+    },
+    {
+      "id": "T09",
+      "exit_codes": [
+        1,
+        1
+      ],
+      "initial_k": 298.1500664745746,
+      "final_k": 262.9513268912889,
+      "cycle_delta_k": -35.198739583285715,
+      "partitions": [
+        {
+          "heating": false,
+          "delivered_j": 4999.999999999999,
+          "sensible_j": 4999.999999999999,
+          "complete": null
+        }
+      ]
+    },
+    {
+      "id": "T10",
+      "exit_codes": [
+        0,
+        0
+      ],
+      "initial_k": 297.6847799660079,
+      "final_k": 296.86469987485805,
+      "cycle_delta_k": -0.8200800911498618,
+      "partitions": [
+        {
+          "heating": false,
+          "delivered_j": 50000.0,
+          "sensible_j": 50000.0,
+          "complete": null
+        },
+        {
+          "heating": true,
+          "delivered_j": 50000.0,
+          "sensible_j": 20207.32111291435,
+          "complete": null
+        }
+      ]
+    },
+    {
+      "id": "T11",
+      "exit_codes": [
+        0,
+        0
+      ],
+      "initial_k": 298.10347813130215,
+      "final_k": 298.10263301977,
+      "cycle_delta_k": -0.0008451115321577163,
+      "partitions": [
+        {
+          "heating": false,
+          "delivered_j": 20000.000000000007,
+          "sensible_j": 20000.000000000007,
+          "complete": null
+        },
+        {
+          "heating": true,
+          "delivered_j": 20000.0,
+          "sensible_j": 10527.743540067217,
+          "complete": null
+        }
+      ]
+    },
+    {
+      "id": "T12",
+      "exit_codes": [
+        0,
+        0
+      ],
+      "initial_k": 298.1406955541713,
+      "final_k": 298.14069555417404,
+      "cycle_delta_k": 2.7284841053187847e-12,
+      "partitions": [
+        {
+          "heating": false,
+          "delivered_j": 1999.9999999947545,
+          "sensible_j": 1999.9999999947545,
+          "complete": null
+        },
+        {
+          "heating": true,
+          "delivered_j": 2000.0,
+          "sensible_j": 1999.999999991072,
+          "complete": null
+        }
+      ]
+    }
+  ]
+}

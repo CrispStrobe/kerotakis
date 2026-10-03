@@ -1,0 +1,46 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.001000 mol sodium chloride (NaCl, M = 58.443 g/mol)
+  v1: 0.001000 mol sodium chloride dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 6.997 · I = 0.0100 mol/kgw
+  v1 (beaker) — 24.99 °C, 99.8 g, 100.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0100 m
+           1.00 mmol  chloride ion       Aqueous
+           1.00 mmol  sodium ion         Aqueous
+          5.5343 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9970e-1   γ=0.018
+        Cl-             1.0030e-2    9.0292e-3   γ=0.900
+        Na+             1.0030e-2    9.0556e-3   γ=0.903
+        O2              2.6710e-4    2.6770e-4   γ=1.002
+        H+              1.1031e-7    1.0074e-7   γ=0.913
+        OH-             1.1031e-7    9.9268e-8   γ=0.900
+  v1: T 298.141 K → 293.344 K (ΔT = -4.797 K)
+  v1: thermal energy requested=2000.000000 J, delivered=2000.000000 J, heating=false, time_coupled=false
+  v1: pH 7.078 · I = 0.0100 mol/kgw
+  v1 (beaker) — 20.19 °C, 99.8 g, 100.0 mL liquid, open to atmosphere, pH 7.08, I = 0.0100 m
+           1.00 mmol  chloride ion       Aqueous
+           1.00 mmol  sodium ion         Aqueous
+          5.5343 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9970e-1   γ=0.018
+        Cl-             1.0030e-2    9.0367e-3   γ=0.901
+        Na+             1.0030e-2    9.0629e-3   γ=0.904
+        O2              2.9050e-4    2.9110e-4   γ=1.002
+        OH-             9.1511e-8    8.2419e-8   γ=0.901
+        H+              9.1511e-8    8.3629e-8   γ=0.914
+  v1: T 293.344 K → 298.141 K (ΔT = +4.797 K)
+  v1: thermal energy requested=2000.000000 J, delivered=2000.000000 J, undelivered=0.000000 J; source=Bunsen burner, ceiling=1773.15 K; sensible=2000.000000 J, chemistry/phase=0.000000 J; passes=1, pass_cap_reached=false, time_coupled=false
+  v1: pH 6.997 · I = 0.0100 mol/kgw
+  v1 (beaker) — 24.99 °C, 99.8 g, 100.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0100 m
+           1.00 mmol  chloride ion       Aqueous
+           1.00 mmol  sodium ion         Aqueous
+          5.5343 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9970e-1   γ=0.018
+        Cl-             1.0030e-2    9.0292e-3   γ=0.900
+        Na+             1.0030e-2    9.0556e-3   γ=0.903
+        O2              2.6710e-4    2.6770e-4   γ=1.002
+        H+              1.1031e-7    1.0074e-7   γ=0.913
+        OH-             1.1031e-7    9.9268e-8   γ=0.900
+  v1 thermometer: 24.9907 °C — This is a model estimate with limited calibration or simplifying assumptions.
