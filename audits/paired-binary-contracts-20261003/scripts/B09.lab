@@ -1,0 +1,10 @@
+register lv3
+new
+new
+add v1 water 1mol
+add v1 methanol 1e-20mol
+add v2 water 1mol
+add v2 methanol 0.2mol
+inspect
+distil v1 v2 0.01 stages 1
+inspect

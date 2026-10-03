@@ -3343,19 +3343,32 @@ impl Bench {
                 // when its addition rounds away (or overflows).
                 let receiver = self.vessel(*to)?.contents.clone();
                 let can_receive = |id: &SpeciesId, amount: f64| {
-                    let before = receiver
+                    let liquid_before = receiver
                         .iter()
                         .find(|p| p.species == *id && p.phase == Phase::Liquid)
                         .map(|p| p.moles.0)
                         .unwrap_or(0.0);
-                    amount == 0.0
-                        || (amount.is_finite()
-                            && amount > 0.0
-                            && before.is_finite()
+                    // Settlement can dissolve the incoming liquid and merge
+                    // it with an aqueous portion of the same component.
+                    let condensed_before: f64 = receiver
+                        .iter()
+                        .filter(|p| {
+                            p.species == *id && matches!(p.phase, Phase::Liquid | Phase::Aqueous)
+                        })
+                        .map(|p| p.moles.0)
+                        .sum();
+                    let accurately_added = |before: f64| {
+                        before.is_finite()
                             && before >= 0.0
                             && (before + amount).is_finite()
                             && before + amount > before
-                            && (((before + amount) - before) / amount - 1.0).abs() <= 1e-8)
+                            && (((before + amount) - before) / amount - 1.0).abs() <= 1e-8
+                    };
+                    amount == 0.0
+                        || (amount.is_finite()
+                            && amount > 0.0
+                            && accurately_added(liquid_before)
+                            && accurately_added(condensed_before))
                 };
                 let receiver_refusal = || {
                     Event::not_modeled(

@@ -265,3 +265,27 @@ fn representable_addition_into_populated_receiver_remains_supported() {
     assert_eq!(held(&bench, 0, "water"), 0.0);
     assert!(((held(&bench, 1, "water") - 1.0) / 1e-6 - 1.0).abs() < 1e-8);
 }
+
+#[test]
+fn dissolved_receiver_stock_cannot_hide_a_positive_trace_condensate() {
+    for name in ["ethanol", "methanol"] {
+        let mut bench = Bench::new();
+        bench.vessels[0].deposit(SpeciesId::new("water"), Moles(1.0), Phase::Liquid);
+        bench.vessels[0].deposit(SpeciesId::new(name), Moles(1e-20), Phase::Aqueous);
+        let mut receiver = Vessel::new(VesselId(1), "receiver");
+        receiver.deposit(SpeciesId::new("water"), Moles(1.0), Phase::Liquid);
+        receiver.deposit(SpeciesId::new(name), Moles(0.2), Phase::Aqueous);
+        bench.vessels.push(receiver);
+        let before = physical(&bench);
+        let mut solver = CountingMutator::default();
+        let events = bench
+            .step_with(operation(Some(1e-4), None), &mut solver, &PermissiveScreen)
+            .unwrap();
+        assert_eq!(physical(&bench), before);
+        assert!(solver.calls.is_empty());
+        assert!(events
+            .iter()
+            .any(|e| matches!(e, Event::NotYetModeled { what, .. }
+            if what.contains("receiver") && what.contains("No cut was transferred"))));
+    }
+}

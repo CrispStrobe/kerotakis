@@ -1,0 +1,47 @@
+[
+  {
+    "id": "B01",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1e-20mol\nadd v1 ethanol 1mol\ninspect\ndistil v1 v2 0.01 stages 4\ninspect\n",
+    "expectation": "Paired four-stage fraction cut transfers positive water trace and ethanol into an empty receiver, completes one percent, and conserves both component budgets relatively."
+  },
+  {
+    "id": "B02",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1e-20mol\nadd v1 ethanol 1mol\ninspect\ndistil v1 v2 0.1kJ stages 4\ninspect\n",
+    "expectation": "Paired four-stage energy cut transfers both components into an empty receiver and bills 0.1kJ equal to the condensate latent account."
+  },
+  {
+    "id": "B03",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1e-100mol\nadd v1 ethanol 1mol\ninspect\ndistil v1 v2 0.01 stages 1\ninspect\n",
+    "expectation": "A positive 1e-100mol water trace survives one-stage transfer; its component budget and received amount are checked relative to that trace, not ethanol inventory."
+  },
+  {
+    "id": "B04",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1e-20mol\nadd v1 ethanol 1mol\nadd v2 water 0.2mol\ninspect\ndistil v1 v2 0.01 stages 4\ninspect\n",
+    "expectation": "The same supported kernel cut refuses atomically when this receiver cannot retain its water increment; both complete vessel states stay unchanged."
+  },
+  {
+    "id": "B05",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1mol\nadd v1 methanol 1e-20mol\nadd v2 methanol 0.2mol\ninspect\ndistil v1 v2 0.01 stages 1\ninspect\n",
+    "expectation": "The general still also refuses atomically when trace methanol cannot increment the existing liquid receiver stock."
+  },
+  {
+    "id": "B06",
+    "script": "register lv3\nnew\nnew\nadd v1 ethanol 1mol\ninspect\ndistil v1 v2 0.01 stages 128\ninspect\n",
+    "expectation": "Exactly pure ethanol retains its supported analytic 0.01mol overhead and 0.3858kJ latent heat at 128 stages."
+  },
+  {
+    "id": "B07",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1.665334536938e-16mol\nadd v2 water 1mol\ninspect\ndistil v1 v2 1 stages 1\ninspect\n",
+    "expectation": "Receiver addition that rounds approximately 0.75 ULP to a full ULP refuses atomically, despite being positive."
+  },
+  {
+    "id": "B08",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1e-6mol\nadd v2 water 1mol\ninspect\ndistil v1 v2 1 stages 1\ninspect\n",
+    "expectation": "A representable neighboring receiver addition completes the full 1e-6mol cut and conserves water."
+  },
+  {
+    "id": "B09",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1mol\nadd v1 methanol 1e-20mol\nadd v2 water 1mol\nadd v2 methanol 0.2mol\ninspect\ndistil v1 v2 0.01 stages 1\ninspect\n",
+    "expectation": "Existing dissolved methanol also makes a vanishing trace condensate increment an atomic receiver refusal; both complete vessel states stay unchanged."
+  }
+]

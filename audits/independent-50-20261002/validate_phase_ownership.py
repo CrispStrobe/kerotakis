@@ -77,6 +77,9 @@ SOURCE_FILES = [
     "audits/trace-phase-contracts-20261003/run.py",
     "audits/trace-phase-contracts-20261003/predictions.json",
     "audits/trace-phase-contracts-20261003/freeze.json",
+    "audits/paired-binary-contracts-20261003/run.py",
+    "audits/paired-binary-contracts-20261003/predictions.json",
+    "audits/paired-binary-contracts-20261003/freeze.json",
     "audits/distillation-contracts-20261003/predictions.json",
     "audits/distillation-contracts-20261003/freeze.json",
     ".github/workflows/chemistry-audit.yml",
@@ -167,6 +170,8 @@ def main():
                              "--binary", str(binary), "--out", str(out / "distillation")])
         run("trace-phase", [sys.executable, str(REPO / "audits/trace-phase-contracts-20261003/run.py"),
                              "--binary", str(binary), "--out", str(out / "trace-phase")])
+        run("paired-binary", [sys.executable, str(REPO / "audits/paired-binary-contracts-20261003/run.py"),
+                             "--binary", str(binary), "--out", str(out / "paired-binary")])
         env.update(KERO_BIN=str(binary), KERO_RESULTS_DIR=str(out / "replay"))
         if run("replay", [sys.executable, str(ROOT / "run.py")]):
             followups = []
