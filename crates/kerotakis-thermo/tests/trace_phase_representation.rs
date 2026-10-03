@@ -30,7 +30,7 @@ fn partial_pressure_and_final_vapor_underflow_are_separate_refusals() {
     )
     .is_none());
     assert!(bubble_point_with(
-        &[constant_pressure(0.0), constant_pressure(300.0)],
+        &[constant_pressure(-100.0), constant_pressure(300.0)],
         &[0.5, 0.5],
         5e299,
         |_| vec![1.0, 1.0]

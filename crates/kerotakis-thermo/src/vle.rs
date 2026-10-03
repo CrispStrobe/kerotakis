@@ -1930,6 +1930,28 @@ mod pure_still_cost {
     use super::*;
 
     #[test]
+    fn scalar_cascade_refuses_rounded_vapor_at_every_stage() {
+        for stages in [1, 4] {
+            for vanish_at in 0..stages {
+                for endpoint in [0.0, 1.0] {
+                    let mut calls = 0;
+                    assert!(cascade(0.25, stages, ATMOSPHERE_KPA, &mut |x, _| {
+                        let y = if calls == vanish_at { endpoint } else { x };
+                        calls += 1;
+                        Some(BubblePoint {
+                            t_celsius: 90.0,
+                            y: vec![y, if y == 1.0 { 1e-100 } else { 1.0 - y }],
+                            azeotropic: false,
+                        })
+                    })
+                    .is_none());
+                    assert_eq!(calls, vanish_at + 1);
+                }
+            }
+        }
+    }
+
+    #[test]
     fn pure_binary_cuts_require_one_phase_answer_regardless_of_stage_count() {
         for (water, ethanol) in [(1.0, 0.0), (0.0, 1.0)] {
             for stages in [1, 4, 128] {
