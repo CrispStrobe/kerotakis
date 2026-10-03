@@ -206,6 +206,43 @@ fn preserves_components(input: &[f64], output: &[f64]) -> bool {
         })
 }
 
+fn relative_change_bounded(before: f64, after: f64, tolerance: f64) -> bool {
+    before.is_finite()
+        && after.is_finite()
+        && (before == after
+            || (before > 0.0
+                && after > 0.0
+                && (before - after).abs() / before.max(after) <= tolerance))
+}
+
+fn composition_settled(before: &[f64], after: &[f64], tolerance: f64) -> bool {
+    before.len() == after.len()
+        && before
+            .iter()
+            .zip(after)
+            .all(|(a, b)| (a - b).abs() <= tolerance && relative_change_bounded(*a, *b, tolerance))
+}
+
+// Activity coefficients must belong to the composition we publish, even if a
+// small composition update crosses a sharp activity-law boundary.
+fn candidate_activity_matches(
+    gammas: &mut dyn FnMut(&[f64], f64) -> Vec<f64>,
+    candidate: &[f64],
+    temperature_k: f64,
+    previous: &[f64],
+) -> Option<bool> {
+    let actual = gammas(candidate, temperature_k);
+    if actual.len() != previous.len() || actual.iter().any(|g| !g.is_finite() || *g <= 0.0) {
+        return None;
+    }
+    Some(
+        previous
+            .iter()
+            .zip(&actual)
+            .all(|(a, b)| relative_change_bounded(*a, *b, 1e-8)),
+    )
+}
+
 /// Standard atmospheric pressure, kPa.
 pub const ATMOSPHERE_KPA: f64 = 101.325;
 
@@ -685,19 +722,19 @@ pub fn dew_point_with(
         if !preserves_components(&y, &x_raw) || !preserves_components(&y, &x_new) {
             return None;
         }
-        let moved = x
-            .iter()
-            .zip(&x_new)
-            .map(|(a, b)| (a - b).abs())
-            .fold(0.0f64, f64::max);
         // Plain substitution: measured on the worst mid-range
         // ethanol–water case this contracts monotonically at a ratio near
         // 0.6 per pass, so eighty passes clear 1e-9 with a wide margin —
         // damping was tried and only slowed the walk down.
-        x = x_new;
-        if moved < 1e-9 {
-            return Some(DewPoint { t_celsius: t, x });
+        if composition_settled(&x, &x_new, 1e-9)
+            && candidate_activity_matches(gammas, &x_new, t + KELVIN_OFFSET, &g)?
+        {
+            return Some(DewPoint {
+                t_celsius: t,
+                x: x_new,
+            });
         }
+        x = x_new;
     }
     // Eighty passes without settling: refuse rather than return a drifting
     // composition dressed as an answer.
@@ -791,6 +828,13 @@ pub fn tp_flash_with(
             return None;
         }
         if sum_zk <= 1.0 {
+            // A later liquid classification can use gamma from a previous
+            // split's liquid guess. Re-evaluate the actual feed before
+            // publishing a wholly liquid result and its K-values.
+            if x_guess != z {
+                x_guess = z.clone();
+                continue;
+            }
             let y: Vec<f64> = z.iter().zip(&k).map(|(zi, ki)| zi * ki / sum_zk).collect();
             if !preserves_components(&z, &y) {
                 return None;
@@ -817,13 +861,10 @@ pub fn tp_flash_with(
             if !preserves_components(&z, &x_new) {
                 return None;
             }
-            let moved = x_guess
-                .iter()
-                .zip(&x_new)
-                .map(|(a, b)| (a - b).abs())
-                .fold(0.0f64, f64::max);
+            let settled = composition_settled(&x_guess, &x_new, 1e-10);
             x_guess = x_new.clone();
-            if moved < 1e-10 {
+            if settled && candidate_activity_matches(gammas, &x_new, t_celsius + KELVIN_OFFSET, &g)?
+            {
                 return Some(FlashResult {
                     vapour_fraction: 1.0,
                     x: x_new,
@@ -867,13 +908,9 @@ pub fn tp_flash_with(
             return None;
         }
 
-        let moved = x_guess
-            .iter()
-            .zip(&x)
-            .map(|(a, b)| (a - b).abs())
-            .fold(0.0f64, f64::max);
+        let settled = composition_settled(&x_guess, &x, 1e-10);
         x_guess = x.clone();
-        if moved < 1e-10 {
+        if settled && candidate_activity_matches(gammas, &x, t_celsius + KELVIN_OFFSET, &g)? {
             return Some(FlashResult {
                 vapour_fraction: v,
                 x,

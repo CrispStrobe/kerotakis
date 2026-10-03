@@ -156,3 +156,19 @@ fn two_phase_flash_checks_activity_at_the_composition_it_returns() {
     relative(result.x[0], trace * 2.0 / 3.0);
     relative(result.k[0], 2.0);
 }
+
+#[test]
+fn later_all_liquid_classification_rechecks_the_feed_activity() {
+    let trace = 1e-100;
+    let p = constant_pressure(1.0);
+    // The vapor-implied liquid changes the carrier gamma from 2 to 1/2.
+    // Returning liquid feed with that old gamma contradicts gamma(feed)=2.
+    // This discontinuous law never settles: refuse the cycling calculation.
+    assert!(
+        tp_flash_with(&[p, p], &[trace, 1.0], 1.0, 50.0, &mut |x, _| vec![
+            8.0,
+            if x[0] / trace > 0.5 { 2.0 } else { 0.5 }
+        ])
+        .is_none()
+    );
+}
