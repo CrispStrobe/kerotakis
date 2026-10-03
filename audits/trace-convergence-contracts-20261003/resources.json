@@ -1,0 +1,24 @@
+{
+  "time_utc": "2026-10-03T11:00:18.719697+00:00",
+  "loadavg": [
+    12.37939453125,
+    9.17041015625,
+    7.03271484375
+  ],
+  "available_mib": 2430.23828125,
+  "swapfree_mib": 8767.3203125,
+  "workspace_free_mib": 1997.48828125,
+  "local_execution_allowed": false,
+  "agents_used": 0,
+  "large_local_jobs": 0,
+  "incident": "Workspace filled during patch write, truncating vle.rs; restored byte-identically from Git before repair. Only 100 old generated .d files (1,915,734 bytes) were archived, verified and removed. Repair staged on NAS and installed via fsync plus atomic replace.",
+  "archive": "/mnt/storage/kerotakis-maintenance-20261003/trace-convergence-recovery/inactive-dependency-metadata.tar",
+  "completed_utc": "2026-10-03T11:14:07.613769+00:00",
+  "final_loadavg": [
+    11.4326171875,
+    7.6396484375,
+    7.2001953125
+  ],
+  "final_workspace_free_mib": 661.23046875,
+  "dependency_metadata_archive_sha256": "e966fcf512eb5a7cfa34be53ff8c80e4b8eaf4ab7bf2917cfd9659b1e01186d5"
+}
