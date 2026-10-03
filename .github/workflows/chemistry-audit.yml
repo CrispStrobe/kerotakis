@@ -20,6 +20,11 @@ on:
         description: Successful independent-50 validation run supplying the executable
         type: string
         default: '37141309015'
+      focused_scope:
+        description: Focused diagnostic target for pure-still-contracts
+        type: choice
+        default: thermo
+        options: [thermo, transport]
       validated_commit:
         description: Exact commit tested by that run
         type: string
@@ -549,7 +554,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
       - name: Serial analytic, domain, precision and cost controls
-        run: python3 audits/pure-still-contracts-20261003/probe.py --out "$RUNNER_TEMP/pure-still"
+        run: python3 audits/pure-still-contracts-20261003/probe.py --scope "${{ inputs.focused_scope || 'thermo' }}" --out "$RUNNER_TEMP/pure-still"
       - uses: actions/upload-artifact@v6
         if: always()
         with:

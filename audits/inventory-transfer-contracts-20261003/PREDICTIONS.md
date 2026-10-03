@@ -1,0 +1,7 @@
+# Source-informed inventory transfer contracts
+
+These controls are frozen before app execution, not another blind fifty. Existing scalar quantities cannot represent arbitrary tiny increments or decrements beside bulk stock. The intended scoped repair must refuse positive transfer amounts that disappear, preserve whole physical state on refusal and retain ordinary and independently represented trace operations.
+
+Transport predictions: a positive minimum-subnormal component scaled by one half must refuse, whether it originates in a cell or inlet; positive increments of 1e-20 or 0.75 ULP into a retained receiver stock of 0.5 must refuse rather than vanish or round 33% too high; a downstream precision refusal must leave the entire chain unchanged; a 1e-20 Courant withdrawal must refuse before any reactive solver call when scalar donor stock does not change. Positive transport invalidates the resolved solution; Courant zero preserves the complete state. An independent 12-case power/fraction trace matrix (stocks 1e-100, 1e-14, 1; fractions 0,.125,.5,1) must conserve separate stock and complete fluxes.
+
+Distillation predictions: positive 1e-20 cuts from one mole into an empty receiver must refuse if the scalar donor cannot change, for both pure water/ethanol and the general ideal solvent path. Existing supported 1e-14 controls must retain their requested-cut and latent-heat behavior. This round does not claim to repair near-ULP donor error or migrate quantities to compensated storage.

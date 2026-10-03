@@ -12,13 +12,19 @@ ROOT = Path(__file__).resolve().parents[2]
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--scope', choices=['thermo', 'transport'], default='thermo')
     args = parser.parse_args()
     if os.environ.get('GITHUB_ACTIONS') != 'true':
         parser.error('Hosted execution only; local execution requires resource headroom')
     args.out.mkdir(parents=True, exist_ok=True)
     command = ['cargo', 'test', '-p', 'kerotakis-thermo', '--lib', '--tests', '--no-fail-fast',
                '-j1', '--', '--test-threads=1']
-    log = args.out/'thermo.log'
+    if args.scope == 'transport':
+        command = ['cargo', 'test', '-p', 'kerotakis-core', '--lib',
+                   '--test', 'transport', '--test', 'transport_precision_contracts',
+                   '--test', 'still_donor_precision', '--test', 'atomic_distil_refusal',
+                   '--no-fail-fast', '-j1', '--', '--test-threads=1']
+    log = args.out/('thermo.log' if args.scope == 'thermo' else 'transport.log')
     started = time.monotonic()
     with log.open('w') as output:
         result = subprocess.run(command, cwd=ROOT, stdout=output, stderr=subprocess.STDOUT)
