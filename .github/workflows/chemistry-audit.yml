@@ -487,6 +487,10 @@ jobs:
           chmod +x "$RUNNER_TEMP/validated-cli/kero"
           python3 audits/independent-next-50-20261002/run.py --suite audits/independent-third-50-20261003 --binary "$RUNNER_TEMP/validated-cli/kero" --binary-source-commit "$VALIDATED_COMMIT" --out "$RUNNER_TEMP/third-50"
           python3 audits/independent-next-50-20261002/summarize.py "$RUNNER_TEMP/third-50"
+          python3 audits/independent-next-50-20261002/run.py --suite audits/independent-third-50-20261003/followups --binary "$RUNNER_TEMP/validated-cli/kero" --binary-source-commit "$VALIDATED_COMMIT" --out "$RUNNER_TEMP/third-50/followups"
+          python3 audits/independent-next-50-20261002/summarize.py "$RUNNER_TEMP/third-50/followups"
+          git fetch --no-tags --depth=1 origin "$VALIDATED_COMMIT"
+          python3 audits/independent-third-50-20261003/verify.py "$RUNNER_TEMP/third-50" --validation "$RUNNER_TEMP/validated-cli/validation.json"
       - uses: actions/upload-artifact@v6
         if: always()
         with:

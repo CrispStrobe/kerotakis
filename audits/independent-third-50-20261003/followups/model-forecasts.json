@@ -1,0 +1,17 @@
+[
+  {
+    "id": "E110F1",
+    "protocol": "ethanol_water_still(w=5.534276991396059,e=0.34252968373526665,fraction=0.01,stages=4,P=101.325kPa)",
+    "forecast": "A small complete cut preserves positive amounts of both components. Total overhead exactly1% initial solvent moles, conserved components, overhead ethanol fraction greater than initial. Scaling both inputs by factors1e-6,1,1e6 scales each cut by same factors without changing composition. No fitted output target."
+  },
+  {
+    "id": "E110F2",
+    "protocol": "same initial charge, fraction=0.1, stages=4",
+    "forecast": "A partial cut through finite equilibrium stages has positive remaining amounts for components with positive initial inventory. A successful cut must return strictly less than the initial amount of each component and exactly requested total overhead. If its residual is not representable in the public StillCut amounts, or convergence/domain/completion fails, refuse atomically rather than claiming exact component exhaustion."
+  },
+  {
+    "id": "E110F3",
+    "protocol": "ethanol_water_still(w=1,e=0,fraction=0.3,stages=1,P=101.325kPa)",
+    "forecast": "Pure water overhead0.3mol, ethanol0mol, finite positive latent heat. Pure-component vapor-liquid equality is not an azeotrope and must not set azeotrope_limited. Trace ethanol mole fraction1e-9 also does not qualify as azeotrope merely because absolute x-y is small."
+  }
+]

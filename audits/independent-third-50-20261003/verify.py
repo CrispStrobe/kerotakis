@@ -162,6 +162,41 @@ def main():
         path=SUITE/(module+'.py')
         import importlib.util
         spec=importlib.util.spec_from_file_location(module,path); loaded=importlib.util.module_from_spec(spec);spec.loader.exec_module(loaded);qualifications.extend(loaded.run(cases,check) or [])
+    follow = args.evidence/'followups'
+    if follow.exists():
+        fc = strict((SUITE/'followups/predictions.json').read_text())
+        ff = strict((SUITE/'followups/freeze.json').read_text())
+        fr = strict((follow/'execution.json').read_text())
+        check('followups frozen identity',digest(SUITE/'followups/predictions.json')==ff['predictions_sha256']==fr['predictions_sha256'])
+        check('followups exact case/mode coverage',sorted((r['id'],r['mode']) for r in fr['runs'])==sorted((c['id'],m) for c in fc for m in ['text','json']))
+        check('followups same validated binary',fr['binary_sha256']==receipt['binary_sha256'] and fr['binary_source_commit']==receipt['binary_source_commit'])
+        fcases={}
+        for run in fr['runs']:
+            check(run['id']+' '+run['mode']+' complete positive control',run['exit_code']==0)
+            for stream in ['stdout','stderr']:
+                check(run['id']+' '+run['mode']+' '+stream+' digest',digest(follow/run[stream])==run[stream+'_sha256'])
+            if run['mode']=='json':
+                fcases[run['id']]=[strict(line) for line in (follow/run['stdout']).read_text().splitlines()]
+                check(run['id']+' no refusal/solver failure',not any(e['event'] in ['not_yet_modeled','solver_failed'] for row in fcases[run['id']] for e in row['events']))
+        rows=inspections(fcases['F01']);before,after=rows[0],rows[-1]
+        ratios=[]
+        for i in [0,2]:
+            source,receiver=vessel(after,i),vessel(after,i+1)
+            for species in ['water','ethanol']:
+                check(f'F01 pair {i} {species} conserved',near(stock(source,species)+stock(receiver,species),stock(vessel(before,i),species)))
+                check(f'F01 pair {i} positive {species} residue',stock(source,species)>0)
+            overhead=stock(receiver,'water')+stock(receiver,'ethanol')
+            original=stock(vessel(before,i),'water')+stock(vessel(before,i),'ethanol')
+            check(f'F01 pair {i} complete one-percent cut',near(overhead,.01*original))
+            ratios.append(stock(receiver,'ethanol')/overhead)
+        initial_ratio=stock(vessel(before),'ethanol')/(stock(vessel(before),'water')+stock(vessel(before),'ethanol'))
+        check('F01 staged enrichment positive control',ratios[1]>ratios[0]>initial_ratio,receiver_ethanol_fractions=ratios)
+        rows=inspections(fcases['F02']);before,after=rows[0],rows[-1]
+        w0=stock(vessel(before),'water');w=stock(vessel(after),'water');wo=stock(vessel(after,1),'water')
+        check('F02 pure water complete thirty-percent cut',near(wo,.3*w0) and near(w+wo,w0) and w>0)
+        check('F02 pure-component cut is not azeotrope',not any(e.get('azeotrope_limited',False) for row in fcases['F02'] for e in row['events']))
+    elif not args.baseline:
+        check('required positive distillation controls captured',False)
     result=dict(checks=len(checks),passed=all(c['passed'] is not False for c in checks),failures=[c for c in checks if c['passed'] is False],qualified_checks=[c for c in checks if c['passed'] is None],qualifications=qualifications,details=checks)
     (args.evidence/'verification.json').write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps({k:v for k,v in result.items() if k!='details'},indent=2))

@@ -1,0 +1,7 @@
+{
+  "frozen_utc": "2026-10-03T05:00:25.393451+00:00",
+  "count": 2,
+  "predictions_sha256": "a239c9526d4ca036931c35babb3ca07bf378b7c62d5a1ef8a933630bd13c13b6",
+  "execution_started": false,
+  "scope": "Additional positive CLI controls, separate from immutable original fifty forecasts; model-level earlier forecasts saved alongside."
+}

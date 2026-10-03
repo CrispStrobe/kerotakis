@@ -1,0 +1,16 @@
+[
+  {
+    "id": "F01",
+    "title": "Small staged ethanol cut has supported positive separation",
+    "script": "register lv3\nnew\nnew\nnew\nadd v1 water 100mL\nadd v1 ethanol 20mL\nadd v3 water 100mL\nadd v3 ethanol 20mL\ninspect\ndistil v1 v2 0.01 stages 1\ndistil v3 v4 0.01 stages 4\ninspect\n",
+    "expectation": "Both complete cuts conserve components and recover 1% of initial solvent moles. Four stages enrich ethanol more than one stage, while each pot retains positive water and ethanol.",
+    "criteria": "Receiver enrichment is comparative, not fitted; no modeled/capability refusal may substitute for this positive control."
+  },
+  {
+    "id": "F02",
+    "title": "Pure water distillation is not an azeotrope",
+    "script": "register lv3\nnew\nadd v1 water 100mL\ninspect\ndistil v1 v2 0.3 stages 4\ninspect\n",
+    "expectation": "A complete water cut transfers30% of initial water and conserves total water. Pure component vapor/liquid equality must not be called an azeotrope.",
+    "criteria": "Positive retained water and receiver; no azeotrope-limited event/label."
+  }
+]
