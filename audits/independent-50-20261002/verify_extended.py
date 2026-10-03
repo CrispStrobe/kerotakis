@@ -22,6 +22,12 @@ def measures(i,instrument):
     return [e['value'] for s in steps(i) for e in s['events'] if e['event']=='measured' and e['instrument']==instrument]
 def events(i,kind): return [e for s in steps(i) for e in s['events'] if e['event']==kind]
 def close(a,b,tol): return abs(a-b)<=tol
+# The frozen forecast asks for conserved metal totals, not one oxidation
+# state. Retained Cu(I) from a redox solve belongs to the same Cu budget.
+registry=json.loads((root.parents[1]/'data/registry/registry-source-v1.json').read_text())
+formulas={c['species_id']:{e['element']:e['count']['value'] for e in c['elements']} for c in registry['compositions']}
+def element_total(v,element):
+    return sum(p['moles']*formulas.get(p['species'],{}).get(element,0) for p in v['contents'])
 checks=[]
 def check(i,name,passed,expected=True):
     checks.append(dict(id=f'{i:02d}',check=name,passed=bool(passed),expected_to_pass=expected))
@@ -57,7 +63,7 @@ a,b=final(29);check(29,'Smaller headspace gives larger pressure',a['pressure']>b
 v=final(30)[0];check(30,'Opening restores ambient pressure and retains salt',close(v['pressure'],101325,0.01) and close(amount(v,'Na+'),0.001,1e-9) and close(amount(v,'Cl-'),0.002,1e-9))
 v=final(31)[0];check(31,'Pressure regulator expands headspace at fixed pressure',close(v['pressure'],100000,0.01) and v['headspace']['volume']>0.01)
 a,b=measures(32,'ph_meter');check(32,'Sweep removes carbon and raises pH',b-a>2 and sum(amount(final(32)[0],k) for k in ('CO2(aq)','HCO3-','CO3-2'))<1e-8)
-v=final(33)[0];check(33,'Zinc plates copper with conserved metal totals',amount(v,'Cu','solid')>0.0009 and close(amount(v,'Zn')+amount(v,'Zn+2'),0.002,1e-8) and close(amount(v,'Cu')+amount(v,'Cu+2'),0.001,1e-8))
+v=final(33)[0];check(33,'Zinc plates copper with conserved metal totals',amount(v,'Cu','solid')>0.0009 and close(element_total(v,'Zn'),0.002,1e-8) and close(element_total(v,'Cu'),0.001,1e-8))
 v=final(34)[0];check(34,'Copper does not plate zinc',close(amount(v,'Cu'),0.002,1e-9) and amount(v,'Zn','solid')==0)
 a,b=final(35);check(35,'Zinc dissolves in acid while copper remains',amount(a,'Zn','solid')<0.001 and close(amount(b,'Cu','solid'),0.001,1e-9),False)
 a,b=events(36,'cell_voltage');check(36,'Cell reports about 1.1 V with stable electrode identities',close(a['volts'],1.1,0.05) and a['anode']==b['anode'] and a['cathode']==b['cathode'])

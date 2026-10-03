@@ -53,6 +53,11 @@ fn env_readback() -> bool {
     *V.get_or_init(|| std::env::var("KERO_READBACK").is_ok())
 }
 
+fn env_trace_thermal() -> bool {
+    static V: OnceLock<bool> = OnceLock::new();
+    *V.get_or_init(|| std::env::var("KERO_TRACE_THERMAL").is_ok())
+}
+
 // A solution property must be computed at the temperature the vessel finally
 // reports. A loose 0.05 K thermal stop left pH from the preceding trial in the
 // state; matched acid/base inventories could then retain their feed history at
@@ -2365,7 +2370,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         let mut previous_guess: Option<f64> = None;
         let mut thermal_bracket = ThermalRootBracket::default();
 
-        for _ in 0..MAX_THERMAL_FIXED_POINT_PASSES {
+        for pass in 0..MAX_THERMAL_FIXED_POINT_PASSES {
             let mut trial = start.clone();
             trial.temperature = Kelvin(guess);
             if let (Headspace::PressureControlled { pressure, .. }, Some(volume)) =
@@ -2422,7 +2427,14 @@ impl Equilibrator for PhreeqcEquilibrator {
                 }
                 _ => true,
             };
+            let prior_residual = last_temperature_residual;
             last_temperature_residual = (next - guess).abs();
+            if env_trace_thermal() {
+                eprintln!(
+                    "thermal vessel={:?} pass={pass} T={guess:.12} mapped={next:.12} residual={:+.12e} q_j={q_joules:.12e} cp={:.12e} volume={next_volume:?}",
+                    start.id, next - guess, trial.heat_capacity()
+                );
+            }
             let quantized_two_cycle = previous_guess.is_some_and(|previous| {
                 (next - previous).abs() <= 1e-12
                     && last_temperature_residual < THERMAL_FIXED_POINT_QUANTIZATION_CYCLE_K
@@ -2442,7 +2454,15 @@ impl Equilibrator for PhreeqcEquilibrator {
             guess = if matches!(start.headspace, Headspace::PressureControlled { .. }) {
                 next
             } else {
-                thermal_bracket.next_guess(guess, next)
+                let safeguarded = thermal_bracket.next_guess(guess, next);
+                // Preserve the fast substitution path when feedback is
+                // already contracting well. Bracketing every harmless
+                // alternating correction adds chemistry calls for no gain.
+                if last_temperature_residual < prior_residual * 0.9 {
+                    next
+                } else {
+                    safeguarded
+                }
             };
             volume_guess = next_volume;
             if converged {
@@ -6210,7 +6230,7 @@ fn build_mix_input(
     let temp_a_c = vessel_a.temperature.to_celsius();
     writeln!(input, "SOLUTION 1").unwrap();
     writeln!(input, "    units     mol/kgw").unwrap();
-    writeln!(input, "    temp      {temp_a_c:.4}").unwrap();
+    writeln!(input, "    temp      {temp_a_c:.8}").unwrap();
     writeln!(input, "    pH        7  charge").unwrap();
     writeln!(input, "    water     {:.9}", problem_a.kgw).unwrap();
     if vessel_a.uses_atmospheric_reservoir()
@@ -6231,7 +6251,7 @@ fn build_mix_input(
     let temp_b_c = vessel_b.temperature.to_celsius();
     writeln!(input, "SOLUTION 2").unwrap();
     writeln!(input, "    units     mol/kgw").unwrap();
-    writeln!(input, "    temp      {temp_b_c:.4}").unwrap();
+    writeln!(input, "    temp      {temp_b_c:.8}").unwrap();
     writeln!(input, "    pH        7  charge").unwrap();
     writeln!(input, "    water     {:.9}", problem_b.kgw).unwrap();
     if vessel_b.uses_atmospheric_reservoir()
@@ -6484,7 +6504,10 @@ fn build_input_at(
     let temp_c = vessel.temperature.to_celsius();
     writeln!(input, "SOLUTION 1").unwrap();
     writeln!(input, "    units     mol/kgw").unwrap();
-    writeln!(input, "    temp      {temp_c:.4}").unwrap();
+    // The thermal balance requires a 1e-6 K residual. Four decimal
+    // temperatures introduce discontinuities larger than that tolerance;
+    // refinement must reach the actual chemistry input as well as the root.
+    writeln!(input, "    temp      {temp_c:.8}").unwrap();
     writeln!(input, "    pH        7  charge").unwrap();
     writeln!(input, "    water     {:.9}", problem.kgw).unwrap();
     match couple {
@@ -6925,6 +6948,31 @@ mod oxidation_sum_tests {
             .into_iter()
             .map(|row| row.iter().map(|s| (*s).to_string()).collect())
             .collect()
+    }
+
+    #[test]
+    fn chemistry_input_resolves_the_temperature_balance_tolerance() {
+        let mut vessel = Vessel::new(VesselId(0), "temperature precision");
+        vessel.deposit(SpeciesId::new("water"), Moles(5.5), Phase::Liquid);
+        vessel.deposit(SpeciesId::new("NaCl"), Moles(0.01), Phase::Solid);
+        let problem = partition(&vessel).unwrap();
+        let before = build_input(&vessel, &problem, "wateq4f");
+        vessel.temperature.0 += 2e-6;
+        let after = build_input(&vessel, &problem, "wateq4f");
+        assert_ne!(
+            before, after,
+            "a resolved thermal correction cannot reuse a rounded chemistry question"
+        );
+        assert!(after.contains("temp      25.00000200"));
+        vessel.temperature.0 += 0.123456789;
+        let input = build_input(&vessel, &problem, "wateq4f");
+        let input_c: f64 = input
+            .lines()
+            .find_map(|line| line.trim().strip_prefix("temp      "))
+            .unwrap()
+            .parse()
+            .unwrap();
+        assert!((input_c + 273.15 - vessel.temperature.0).abs() <= 1e-8);
     }
 
     #[test]

@@ -89,7 +89,7 @@ fn positive_unrepresentable_requests_refuse_while_zero_requests_succeed() {
 #[test]
 fn pure_and_dilute_endpoints_are_not_azeotropes() {
     use kerotakis_thermo::vle::ethanol_water_bubble_point;
-    for ethanol_fraction in [0.0, 1e-9, 1.0] {
+    for ethanol_fraction in [0.0, 1e-12, 1e-9, 1e-6, 1.0 - 1e-6, 1.0 - 1e-9, 1.0] {
         let point = ethanol_water_bubble_point(ethanol_fraction, 101.325).unwrap();
         assert!(!point.azeotropic, "false azeotrope at {ethanol_fraction}");
     }
@@ -152,5 +152,43 @@ fn finite_stages_cannot_publish_exact_component_exhaustion_in_a_partial_cut() {
         close(cut.water_over + cut.ethanol_over, 0.1 * (water + ethanol));
         assert!(cut.ethanol_over < ethanol && cut.water_over < water);
         assert!(cut.energy_kj.is_finite());
+    }
+}
+
+#[test]
+fn rounded_experimental_azeotrope_is_recognized_with_bounded_component_changes() {
+    use kerotakis_thermo::vle::ethanol_water_bubble_point;
+    // The existing bench acceptance composition is rounded to three
+    // decimal places, and the activity model is approximate. Recognition
+    // should honor that resolution without imposing its absolute band on
+    // a trace component near a pure endpoint.
+    let point = ethanol_water_bubble_point(0.894, 101.325).unwrap();
+    assert!(point.azeotropic);
+    for (liquid, vapour) in [0.894_f64, 0.106].iter().zip(&point.y) {
+        let difference = (liquid - vapour).abs();
+        assert!(difference <= 1e-3);
+        assert!(difference / liquid.max(*vapour) <= 1e-2);
+    }
+    let cut = ethanol_water_still(1.06, 8.94, StillTake::Fraction(0.3), 1, 101.325)
+        .expect("the supported azeotropic cut still completes");
+    close(cut.water_over + cut.ethanol_over, 3.0);
+    assert!(cut.azeotrope_limited);
+    assert!(cut.water_over > 0.0 && cut.water_over < 1.06);
+    assert!(cut.ethanol_over > 0.0 && cut.ethanol_over < 8.94);
+}
+
+#[test]
+fn absolute_resolution_cannot_hide_large_relative_enrichment_of_a_trace_component() {
+    use kerotakis_thermo::vle::{bubble_point_with, WATER};
+    // Equal saturation pressures and a factor-two activity coefficient give
+    // the trace component an analytic vapour fraction 2x/(1+x). Its absolute
+    // change is tiny, but its relative enrichment remains large.
+    for trace in [1e-12, 1e-9, 1e-6] {
+        let point = bubble_point_with(&[WATER, WATER], &[trace, 1.0 - trace], 101.325, |_| {
+            vec![2.0, 1.0]
+        })
+        .unwrap();
+        assert!((point.y[0] / (2.0 * trace / (1.0 + trace)) - 1.0).abs() < 1e-10);
+        assert!(!point.azeotropic);
     }
 }

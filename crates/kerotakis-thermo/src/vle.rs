@@ -332,10 +332,14 @@ pub struct BubblePoint {
     pub azeotropic: bool,
 }
 
-/// How close two compositions must be before distillation has nothing left
-/// to separate. A tenth of a mole per cent is well below what a column
-/// could act on.
+/// Resolution of the approximate liquid/vapour composition comparison.
+/// The activity model and rounded experimental azeotrope composition do
+/// not identify a root to machine precision: retain the tenth-of-a-mole-
+/// percent absolute composition band, while requiring each present
+/// component to change by at most one percent of its own fraction. The
+/// relative bound prevents dilute endpoints inheriting the absolute band.
 const AZEOTROPE_TOLERANCE: f64 = 1e-3;
+const AZEOTROPE_RELATIVE_TOLERANCE: f64 = 1e-2;
 
 /// Absolute zero, °C — the one conversion this module admits.
 pub const KELVIN_OFFSET: f64 = 273.15;
@@ -434,7 +438,9 @@ where
     let azeotropic = x.iter().filter(|xi| **xi > 0.0).count() >= 2
         && x.iter().zip(&y).all(|(xi, yi)| {
             let fraction = xi / total_x;
-            (fraction - yi).abs() <= AZEOTROPE_TOLERANCE * fraction.max(*yi)
+            let difference = (fraction - yi).abs();
+            difference <= AZEOTROPE_TOLERANCE
+                && difference <= AZEOTROPE_RELATIVE_TOLERANCE * fraction.max(*yi)
         });
     Some(BubblePoint {
         t_celsius: t,

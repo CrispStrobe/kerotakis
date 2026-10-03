@@ -60,6 +60,7 @@ SOURCE_FILES = [
     "crates/kerotakis-thermo/tests/distillation_completion.rs",
     ".github/workflows/chemistry-audit.yml",
     "audits/independent-50-20261002/validate_phase_ownership.py",
+    "audits/independent-50-20261002/verify_extended.py",
 ]
 
 
@@ -119,10 +120,12 @@ def main():
     for name in CORE_TESTS:
         core.extend(["--test", name])
     run("core", core + tail)
+    env["KERO_TRACE_THERMAL"] = "1"
     run("phreeqc", ["cargo", "test", "--no-fail-fast", "-p", "kerotakis-phreeqc",
                    "--lib", "--test", "exchange_transport", "--test", "surface_transport", "--test", "chromatograph",
                    "--test", "settled_carbonate_transfer", "--test", "trace_inventory",
                    "--test", "order_invariance", "--test", "native_delta_h", "--test", "engine_call_budget"] + tail)
+    env.pop("KERO_TRACE_THERMAL", None)
     cli_ok = run("cli", ["cargo", "test", "--no-fail-fast", "-p", "kerotakis-cli", "--bin", "kero",
                          "--test", "thermal_contracts", "--test", "provenance", "--test", "observable_coverage",
                          "--test", "headspace_json", "--test", "json_contract"] + tail)

@@ -529,6 +529,7 @@ fn sealing_reports_actual_boundary_and_gas_source_in_every_register() {
                 bench.step(Operator::Sweep { vessel, pressure }).unwrap();
             }
         }
+        let actual_previous = bench.vessel(vessel).unwrap().headspace;
         let events = bench
             .step(Operator::Seal {
                 vessel,
@@ -545,7 +546,7 @@ fn sealing_reports_actual_boundary_and_gas_source_in_every_register() {
                 trapped_air,
                 ..
             } => {
-                assert_eq!(*previous_boundary, Some(previous));
+                assert_eq!(*previous_boundary, Some(actual_previous));
                 if matches!(
                     previous,
                     Headspace::Sealed { .. } | Headspace::PressureControlled { .. }
