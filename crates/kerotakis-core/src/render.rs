@@ -1400,6 +1400,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             source,
             ceiling_k,
             sensible_j,
+            energy_partition_complete,
             passes,
             capped,
         } => {
@@ -1460,7 +1461,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             } else {
                 locale.t("event.value.false", "false")
             };
-            match register.level() {
+            let rendered = match register.level() {
                 1 if *heating && short => locale.fill(
                     "event.energy-transferred.lv1-heating-capped",
                     "{vessel} takes {delivered} kJ from the {source} and can take no more: {undelivered} kJ of the {requested} kJ asked for never arrived, because a burner cannot heat anything hotter than its own flame — {ceiling} °C.",
@@ -1483,7 +1484,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     "{vessel} releases {delivered} kJ of heat. This energy step has no elapsed-time model yet.",
                     &[("vessel", &vessel), ("delivered", &delivered_kj)],
                 ),
-                2 if *heating && (short || split) => locale.fill(
+                2 if *heating && (short || split) && *energy_partition_complete == Some(true) => locale.fill(
                     "event.energy-transferred.lv2-heating",
                     "{vessel}: {requested} kJ requested; {delivered} kJ delivered, {undelivered} kJ undelivered — {source}, ceiling {ceiling} °C; of what arrived, {sensible} kJ is warmth the vessel still holds and {chemistry} kJ went into chemistry or a phase change ({passes} passes) — time model {coupling}",
                     &[
@@ -1499,6 +1500,13 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         ("coupling", coupling),
                     ],
                 ),
+                2 if !*heating && split && *energy_partition_complete == Some(true) => locale.fill(
+                    "event.energy-transferred.lv2-cooling-partition",
+                    "{vessel}: {requested} kJ requested; {delivered} kJ removed; {sensible} kJ from sensible cooling and {phase} kJ from phase changes — time model {coupling}",
+                    &[("vessel", &vessel), ("requested", &requested_kj),
+                      ("delivered", &delivered_kj), ("sensible", &sensible_kj),
+                      ("phase", &chemistry_kj), ("coupling", coupling)],
+                ),
                 2 => locale.fill(
                     "event.energy-transferred.lv2",
                     "{vessel}: {requested} kJ requested; {delivered} kJ {transfer} — time model {coupling}",
@@ -1509,6 +1517,13 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         ("transfer", transfer),
                         ("coupling", coupling),
                     ],
+                ),
+                _ if *energy_partition_complete != Some(true) => locale.fill(
+                    "event.energy-transferred.lv3-incomplete",
+                    "{vessel}: thermal energy requested={requested} J, delivered={delivered} J, heating={heating}, time_coupled={time_coupled}",
+                    &[("vessel", &vessel), ("requested", &locale.number(format!("{requested_j:.6}"))),
+                      ("delivered", &locale.number(format!("{delivered_j:.6}"))),
+                      ("heating", heating_value), ("time_coupled", time_coupled_value)],
                 ),
                 _ if *heating => locale.fill(
                     "event.energy-transferred.lv3-heating",
@@ -1527,6 +1542,15 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         ("time_coupled", time_coupled_value),
                     ],
                 ),
+                _ if *energy_partition_complete == Some(true) => locale.fill(
+                    "event.energy-transferred.lv3-cooling-partition",
+                    "{vessel}: thermal energy requested={requested} J, delivered={delivered} J; sensible={sensible} J, phase={phase} J; heating=false, time_coupled={time_coupled}",
+                    &[("vessel", &vessel), ("requested", &locale.number(format!("{requested_j:.6}"))),
+                      ("delivered", &locale.number(format!("{delivered_j:.6}"))),
+                      ("sensible", &locale.number(format!("{sensible_j:.6}"))),
+                      ("phase", &locale.number(format!("{chemistry_j:.6}"))),
+                      ("time_coupled", time_coupled_value)],
+                ),
                 _ => locale.fill(
                     "event.energy-transferred.lv3",
                     "{vessel}: thermal energy requested={requested} J, delivered={delivered} J, heating={heating}, time_coupled={time_coupled}",
@@ -1538,6 +1562,14 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         ("time_coupled", time_coupled_value),
                     ],
                 ),
+            };
+            if *energy_partition_complete == Some(true) {
+                rendered
+            } else {
+                format!("{rendered} {}", locale.t(
+                    "event.energy-transferred.partition-incomplete",
+                    "The split between sensible heating/cooling and phase or chemical changes is not fully established.",
+                ))
             }
         }
         Event::Stirred {

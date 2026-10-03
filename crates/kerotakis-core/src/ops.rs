@@ -931,12 +931,15 @@ pub enum Event {
         source: Option<String>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         ceiling_k: Option<f64>,
-        /// Of the delivered energy, how much is warmth the vessel still
-        /// holds: Cp·ΔT over the step, measured on the contents as they
-        /// ended. The rest went into chemistry, into a phase change, or
-        /// left with a gas.
+        /// The sensible portion of delivered/removed energy. When the
+        /// partition is incomplete this is an estimate, not a complete
+        /// calorimetric balance; see `energy_partition_complete`.
         #[serde(default)]
         sensible_j: f64,
+        /// Whether the sensible and phase/reaction portions are established
+        /// for this step. Older saved events have no partition certificate.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        energy_partition_complete: Option<bool>,
         /// How many delivery passes the step needed. One means the dose
         /// fitted below the ceiling and nothing had to be chunked.
         #[serde(default = "one_pass")]

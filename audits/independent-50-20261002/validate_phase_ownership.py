@@ -22,7 +22,7 @@ CORE_TESTS = """transport transport_verb prepared_kitchen_objects
 material_object_state kitchen_biology transfer_trace interface_conservation
 solver_transactions conservation phase_heat_capacity pressure_boiling states mix
 selected_phase_transfer phase_routes distil atomic_distil_refusal layers
-liquid_extraction vegetable_oil_layers phase_without_aqueous thermal_phase_refusal electrolysis_scope solvent_electrolysis_accounting chromatography_coverage chromatograph""".split()
+liquid_extraction vegetable_oil_layers phase_without_aqueous thermal_phase_refusal thermal_phase_budget phase_thaw_recovery energy_transfer electrolysis_scope solvent_electrolysis_accounting chromatography_coverage chromatograph""".split()
 SOURCE_FILES = [
     "crates/kerotakis-cea/src/gibbs.rs",
     "crates/kerotakis-core/src/bench.rs",
@@ -30,6 +30,10 @@ SOURCE_FILES = [
     "crates/kerotakis-core/tests/transport.rs",
     "crates/kerotakis-core/tests/selected_phase_transfer.rs",
     "crates/kerotakis-core/tests/thermal_phase_refusal.rs",
+    "crates/kerotakis-core/tests/thermal_phase_budget.rs",
+    "crates/kerotakis-core/tests/phase_thaw_recovery.rs",
+    "crates/kerotakis-core/tests/energy_transfer.rs",
+    "crates/kerotakis-core/src/solve.rs",
     "crates/kerotakis-core/tests/electrolysis_scope.rs",
     "crates/kerotakis-core/src/displacement.rs",
     "crates/kerotakis-core/src/chromatography.rs",

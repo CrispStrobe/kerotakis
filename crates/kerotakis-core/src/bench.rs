@@ -958,6 +958,35 @@ impl Bench {
             self.vent_if_burst(id, &mut events);
         }
 
+        // A solvent model boundary is not an accepted calorimetric answer.
+        // Restore the whole operation, including any phase transfer made before
+        // a freeze-concentration cap was discovered.
+        let thermal_target = match &op {
+            Operator::Heat { vessel, .. } | Operator::Cool { vessel, .. } => Some(*vessel),
+            _ => None,
+        };
+        if let Some(id) = thermal_target {
+            if events.iter().any(|event| {
+                matches!(event,
+                    Event::NotYetModeled { vessel, cause: crate::ops::NotModelledCause::ModelBoundary,
+                        reason: Some(reason), .. }
+                    if *vessel == id && matches!(reason.key.as_str(),
+                        "not-modeled.brine-retained-at-boundary"
+                        | "not-modeled.partial-freezing-boundary"
+                        | "not-modeled.activity-range-ideal"
+                        | "not-modeled.activity-range-ion-interaction"))
+            }) {
+                self.vessels = checkpoint.0;
+                self.spills = checkpoint.1;
+                self.broken_vessels = checkpoint.2;
+                self.stock = checkpoint.3;
+                self.log.truncate(checkpoint.4);
+                return Err(BenchError::InvalidState(
+                        "thermal operation was not committed: the solvent phase model reached its supported activity or freezing boundary".into(),
+                    ));
+            }
+        }
+
         // Heating first proposes a sensible temperature. If a failed phase
         // transition leaves observable ice above the model's melting boundary,
         // that proposal is not a physical answer. Refuse the complete heat
@@ -1008,11 +1037,9 @@ impl Bench {
             if passes > 1 {
                 coalesce_heat_passes(heated, &mut events);
             }
-            // "Warmth the vessel still holds" is Cp·ΔT over the step on the
-            // contents as they END. An enthalpy difference said −6.95 kJ of
-            // warmth for a beaker that boiled at 100 °C throughout: the
-            // water that left as steam took its heat capacity with it, and
-            // the difference booked that as the vessel cooling.
+            // Retain the final-stock sensible estimate for reactions outside
+            // the calorimetric certificate below. Lost steam carries Cp away,
+            // so this estimate is not a complete phase/reaction partition.
             let (sensible, final_temperature) = self
                 .vessel(heated)
                 .map(|v| {
@@ -1042,6 +1069,39 @@ impl Bench {
                 })
             {
                 *temperature = final_temperature;
+            }
+        }
+
+        if let Some(id) = thermal_target {
+            if let (Some(before), Ok(after)) = (
+                checkpoint.0.iter().find(|vessel| vessel.id == id),
+                self.vessel(id),
+            ) {
+                let transfer = events.iter().find_map(|event| match event {
+                    Event::EnergyTransferred {
+                        vessel,
+                        heating,
+                        delivered_j,
+                        ..
+                    } if *vessel == id => Some((*heating, *delivered_j)),
+                    _ => None,
+                });
+                if let Some((heating, delivered)) = transfer {
+                    let certified = thermal_partition(before, after, &events, heating, delivered);
+                    if let Some(Event::EnergyTransferred {
+                        sensible_j,
+                        energy_partition_complete,
+                        ..
+                    }) = events.iter_mut().find(|event| {
+                        matches!(event,
+                            Event::EnergyTransferred { vessel, .. } if *vessel == id)
+                    }) {
+                        *energy_partition_complete = Some(certified.is_some());
+                        if let Some(sensible) = certified {
+                            *sensible_j = sensible;
+                        }
+                    }
+                }
             }
         }
 
@@ -2147,6 +2207,7 @@ impl Bench {
                         source: Some(source.name.clone()),
                         ceiling_k: Some(source.ceiling.0),
                         sensible_j: head,
+                        energy_partition_complete: None,
                         passes: 1,
                         capped: false,
                     });
@@ -2223,10 +2284,9 @@ impl Bench {
                         // to name and no floor of its temperature to quote.
                         source: None,
                         ceiling_k: None,
-                        // Cooling here is pure sensible heat by
-                        // construction: this arm moves the thermometer and
-                        // nothing else.
+                        // Provisional until the committed phase ledger is reconciled.
                         sensible_j: moved,
+                        energy_partition_complete: None,
                         passes: 1,
                         capped: false,
                     });
@@ -6398,6 +6458,129 @@ fn extensive_moles(event: &mut Event) -> Option<&mut Moles> {
         | Event::Consumed { moles, .. } => Some(moles),
         _ => None,
     }
+}
+
+/// A deliberately narrow certificate: unchanged, parameterised sensible
+/// inventory, or conserved pure water with committed fusion transfers. Phase
+/// heat is anchored at melting, so changing Cp cannot masquerade as latent heat.
+fn thermal_partition(
+    before: &Vessel,
+    after: &Vessel,
+    events: &[Event],
+    heating: bool,
+    delivered: f64,
+) -> Option<f64> {
+    let bare = |v: &Vessel| {
+        v.unresolved_materials.is_empty()
+            && v.material_objects.is_empty()
+            && v.surfaces.is_empty()
+            && v.electrodes.is_empty()
+            && v.exchanges.is_empty()
+            && v.adsorbed.is_empty()
+            && v.solid_solutions.is_empty()
+            && v.unpriced_heat.is_empty()
+    };
+    if !bare(before)
+        || !bare(after)
+        || !delivered.is_finite()
+        || delivered < 0.0
+        || events.iter().any(|event| {
+            matches!(event,
+            Event::SolverFailed { vessel, .. } | Event::HeatUnpriced { vessel, .. }
+                if *vessel == before.id)
+        })
+    {
+        return None;
+    }
+    let signed_dose = if heating { delivered } else { -delivered };
+    let close = |a: f64, b: f64, scale: f64| {
+        a.is_finite() && b.is_finite() && (a - b).abs() <= 1e-7 * scale.max(a.abs()).max(b.abs())
+    };
+    let pure_water = |v: &Vessel| {
+        !v.contents.is_empty()
+            && v.contents.iter().all(|p| {
+                p.species.0 == "water"
+                    && matches!(p.phase, Phase::Liquid | Phase::Solid)
+                    && p.moles.0.is_finite()
+                    && p.moles.0 >= 0.0
+            })
+    };
+    if pure_water(before) && pure_water(after) {
+        let amount = |v: &Vessel, phase: Phase| {
+            v.contents
+                .iter()
+                .filter(|p| p.phase == phase)
+                .map(|p| p.moles.0)
+                .sum::<f64>()
+        };
+        let liquid_before = amount(before, Phase::Liquid);
+        let liquid_after = amount(after, Phase::Liquid);
+        let ice_before = amount(before, Phase::Solid);
+        let ice_after = amount(after, Phase::Solid);
+        let inventory = liquid_before + ice_before;
+        let conserved = |a: f64, b: f64| {
+            a.is_finite() && b.is_finite() && (a - b).abs() <= 128.0 * f64::EPSILON * inventory
+        };
+        if !conserved(inventory, liquid_after + ice_after) {
+            return None;
+        }
+        let mut transferred = 0.0;
+        for event in events {
+            if let Event::StateChanged {
+                vessel,
+                species,
+                from,
+                to,
+                moles,
+                ..
+            } = event
+            {
+                if *vessel != before.id {
+                    continue;
+                }
+                let n = moles.as_ref()?.0;
+                if species.0 != "water" || !n.is_finite() || n < 0.0 {
+                    return None;
+                }
+                transferred += match (from, to) {
+                    (Phase::Solid, Phase::Liquid) => n,
+                    (Phase::Liquid, Phase::Solid) => -n,
+                    _ => return None,
+                };
+            }
+        }
+        if !conserved(transferred, liquid_after - liquid_before) {
+            return None;
+        }
+        let latent = transferred * crate::states::WATER_H_FUS;
+        let sensible = after.energy_between(crate::states::WATER_FREEZING_K, after.temperature.0)
+            - before.energy_between(crate::states::WATER_FREEZING_K, before.temperature.0);
+        let scale = delivered.max(latent.abs()).max(sensible.abs());
+        if close(sensible + latent, signed_dose, scale) {
+            return Some(if heating { sensible } else { -sensible });
+        }
+        return None;
+    }
+    // A phase/reaction change outside that certificate remains an estimate.
+    if before.contents == after.contents
+        && matches!(before.thermal_mode, ThermalMode::Adiabatic)
+        && matches!(after.thermal_mode, ThermalMode::Adiabatic)
+        && crate::coverage::observable_support(before, "temperature").status
+            == crate::coverage::ObservableStatus::Computed
+        && crate::coverage::observable_support(after, "temperature").status
+            == crate::coverage::ObservableStatus::Computed
+        && !events.iter().any(|event| {
+            matches!(event,
+            Event::StateChanged { vessel, .. } | Event::ThermalEquilibrium { vessel, .. }
+                if *vessel == before.id)
+        })
+    {
+        let sensible = before.energy_between(before.temperature.0, after.temperature.0);
+        if close(sensible, signed_dose, delivered) {
+            return Some(if heating { sensible } else { -sensible });
+        }
+    }
+    None
 }
 
 /// Fold the repeats a chunked heat delivery leaves behind into one account

@@ -60,6 +60,7 @@ fn delivered_energy_is_rendered_by_the_engine_in_german() {
         source: None,
         ceiling_k: None,
         sensible_j: 2500.0,
+        energy_partition_complete: None,
         passes: 1,
         capped: false,
     };
@@ -68,4 +69,23 @@ fn delivered_energy_is_rendered_by_the_engine_in_german() {
     assert!(line.contains("2,50 kJ entzogen"), "{line}");
     assert!(line.contains("noch nicht gekoppelt"), "{line}");
     assert!(!line.contains("requested"), "{line}");
+}
+
+#[test]
+fn incomplete_partition_is_explicit_in_every_register_and_saved_events_still_load() {
+    let mut event = Event::EnergyTransferred {
+        vessel: VesselId(0), heating: true, requested_j: 5000.0,
+        delivered_j: 5000.0, time_coupled: false, source: None,
+        ceiling_k: None, sensible_j: 1000.0,
+        energy_partition_complete: Some(false), passes: 1, capped: false,
+    };
+    for register in [render::Register::LV1, render::Register::LV2, render::Register::LV3] {
+        let text = render::render_event(&event, register);
+        assert!(text.contains("split") && text.contains("not fully established"), "{text}");
+        assert!(!text.contains("chemistry/phase="), "an uncertified residual is not an exact phase budget: {text}");
+    }
+    let mut old = serde_json::to_value(&event).unwrap();
+    old.as_object_mut().unwrap().remove("energy_partition_complete");
+    event = serde_json::from_value(old).unwrap();
+    assert!(matches!(event, Event::EnergyTransferred { energy_partition_complete: None, .. }));
 }
