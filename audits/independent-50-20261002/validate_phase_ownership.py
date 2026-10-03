@@ -22,7 +22,7 @@ CORE_TESTS = """transport transport_verb prepared_kitchen_objects
 material_object_state kitchen_biology transfer_trace interface_conservation
 solver_transactions conservation phase_heat_capacity pressure_boiling states mix
 selected_phase_transfer phase_routes distil atomic_distil_refusal layers
-liquid_extraction vegetable_oil_layers phase_without_aqueous thermal_phase_refusal thermal_phase_budget phase_thaw_recovery energy_transfer heat_integral_precision electrolysis_scope solvent_electrolysis_accounting chromatography_coverage chromatograph headspace density_coverage_scaling still_donor_precision transport_precision_contracts transport_charge_precision transport_subnormal_fraction""".split()
+liquid_extraction vegetable_oil_layers phase_without_aqueous thermal_phase_refusal thermal_phase_budget phase_thaw_recovery energy_transfer heat_integral_precision electrolysis_scope solvent_electrolysis_accounting chromatography_coverage chromatograph headspace density_coverage_scaling still_donor_precision transport_precision_contracts transport_charge_precision transport_subnormal_fraction transfer_receiver_precision transfer_receiver_controls i18n_coverage refusal_locale""".split()
 SOURCE_FILES = [
     "crates/kerotakis-cea/src/gibbs.rs",
     "crates/kerotakis-core/src/bench.rs",
@@ -57,6 +57,11 @@ SOURCE_FILES = [
     "crates/kerotakis-phreeqc/tests/trace_inventory.rs",
     "crates/kerotakis-phreeqc/tests/order_invariance.rs",
     "crates/kerotakis-core/tests/atomic_distil_refusal.rs",
+    "crates/kerotakis-core/i18n/de.toml",
+    "crates/kerotakis-core/i18n/fr.toml",
+    "crates/kerotakis-core/tests/transfer_receiver_precision.rs",
+    "crates/kerotakis-core/tests/transfer_receiver_controls.rs",
+    "audits/receiver-precision-contracts-20261003/freeze.json",
     "crates/kerotakis-core/tests/still_donor_precision.rs",
     "crates/kerotakis-core/tests/transport_precision_contracts.rs",
     "crates/kerotakis-core/tests/transport_charge_precision.rs",

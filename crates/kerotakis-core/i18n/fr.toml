@@ -1772,3 +1772,5 @@ receiver = "récepteur"
 "temperature-incomplete" = "La température estimée est incomplète : la chaleur de réaction de {species} est inconnue"
 "aqueous-layer" = "La mesure concerne la couche aqueuse ; la couche organique séparée est hors du champ de cette mesure"
 "aqueous-layer-bounded" = "{scope}; {boundary}"
+
+"error.transfer-precision" = "Ce récipient ne peut pas conserver le transfert complet de {species} à son échelle actuelle ; utilisez des récipients séparés pour des quantités très différentes"

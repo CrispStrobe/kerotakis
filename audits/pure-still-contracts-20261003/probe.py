@@ -28,8 +28,8 @@ def main():
                    '--no-fail-fast', '-j1', '--', '--test-threads=1']
     if args.scope == 'receiver':
         command = ['cargo', 'test', '-p', 'kerotakis-core', '--lib',
-                   '--test', 'transfer_receiver_precision', '--test', 'transfer_trace',
-                   '--test', 'mix', '--test', 'layers', '--test', 'vegetable_oil_layers',
+                   '--test', 'transfer_receiver_precision', '--test', 'transfer_receiver_controls', '--test', 'transfer_trace',
+                   '--test', 'mix', '--test', 'layers', '--test', 'vegetable_oil_layers', '--test', 'i18n_coverage', '--test', 'refusal_locale',
                    '--no-fail-fast', '-j1', '--', '--test-threads=1']
     log = args.out/(args.scope + '.log')
     started = time.monotonic()

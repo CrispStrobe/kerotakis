@@ -27,6 +27,45 @@ use crate::vessel::{
     ObjectComponent, ThermalMode, UnresolvedMaterialPortion, Vessel, VesselId,
 };
 
+/// Scalar receiver additions must retain the requested increment to the same
+/// tolerance as transport and still cuts. Condensed phases may merge during
+/// settling, so their combined inventory must also represent the increment.
+/// An error propagates through step_with's full bench checkpoint.
+fn checked_transfer_deposit(
+    receiver: &mut Vessel,
+    species: SpeciesId,
+    amount: Moles,
+    phase: Phase,
+) -> Result<(), BenchError> {
+    if amount.0 == 0.0 {
+        return Ok(());
+    }
+    let retained = |before: f64| {
+        let after = before + amount.0;
+        amount.0.is_finite()
+            && amount.0 > 0.0
+            && after.is_finite()
+            && ((after - before) / amount.0 - 1.0).abs() <= 1e-8
+    };
+    let same_phase = receiver
+        .contents
+        .iter()
+        .find(|p| p.species == species && p.phase == phase)
+        .map_or(0.0, |p| p.moles.0);
+    let condensed = matches!(phase, Phase::Liquid | Phase::Aqueous);
+    let combined: f64 = receiver
+        .contents
+        .iter()
+        .filter(|p| p.species == species && matches!(p.phase, Phase::Liquid | Phase::Aqueous))
+        .map(|p| p.moles.0)
+        .sum();
+    if !retained(same_phase) || (condensed && !retained(combined)) {
+        return Err(BenchError::TransferPrecision { species });
+    }
+    receiver.deposit(species, amount, phase);
+    Ok(())
+}
+
 /// Whether applying an operator permits subsequent physical-state mutation.
 /// Explicit atomic refusals keep their diagnostics/log entry but must not
 /// turn an unchanged vessel into another equilibrium or contact-history step.
@@ -73,6 +112,9 @@ pub enum BenchError {
     MaterialRecipeMismatch,
     NonPositiveAmount,
     InvalidState(String),
+    TransferPrecision {
+        species: SpeciesId,
+    },
     UnstockableKey(String),
     StockExhausted {
         key: String,
@@ -141,6 +183,10 @@ impl Refuses for BenchError {
                 "operation exceeds the model's numeric domain: {detail}",
             )
             .with("detail", detail),
+            BenchError::TransferPrecision { species } => Refusal::new(
+                "error.transfer-precision",
+                "this receiver cannot retain the complete {species} transfer at its current inventory scale; use separate receivers for quantities at widely different scales",
+            ).with("species", species),
             BenchError::NonPositiveAmount => {
                 Refusal::new("error.non-positive-amount", "amount must be positive")
             }
@@ -2759,7 +2805,7 @@ impl Bench {
                 // pouring one vessel into another can create the hazard.
                 let mut probe = self.vessel(*to)?.clone();
                 for (s, n, phase) in &would_move {
-                    probe.deposit(s.clone(), *n, *phase);
+                    checked_transfer_deposit(&mut probe, s.clone(), *n, *phase)?;
                 }
                 match screen.assess(&probe) {
                     SafetyVerdict::Allow => {}
@@ -2834,7 +2880,7 @@ impl Bench {
                     dst.temperature = t_new;
                 }
                 for (s, n, phase) in portions {
-                    dst.deposit(s, n, phase);
+                    checked_transfer_deposit(dst, s, n, phase)?;
                 }
                 dst.unresolved_materials.extend(unresolved_move);
                 events.push(Event::Transferred {
@@ -2912,7 +2958,7 @@ impl Bench {
                 // L0 on the prospective target state.
                 let mut probe = self.vessel(*into)?.clone();
                 for (s, n, phase) in move_a.iter().chain(move_b.iter()) {
-                    probe.deposit(s.clone(), *n, *phase);
+                    checked_transfer_deposit(&mut probe, s.clone(), *n, *phase)?;
                 }
                 match screen.assess(&probe) {
                     SafetyVerdict::Allow => {}
@@ -3022,7 +3068,7 @@ impl Bench {
                     dst.temperature = t_new;
                 }
                 for (s, n, phase) in move_a.into_iter().chain(move_b) {
-                    dst.deposit(s, n, phase);
+                    checked_transfer_deposit(dst, s, n, phase)?;
                 }
                 dst.unresolved_materials
                     .extend(unresolved_a.into_iter().chain(unresolved_b));
@@ -3055,7 +3101,7 @@ impl Bench {
                 };
                 let mut probe = self.vessel(*to)?.clone();
                 for (s, n, phase) in &would_move {
-                    probe.deposit(s.clone(), *n, *phase);
+                    checked_transfer_deposit(&mut probe, s.clone(), *n, *phase)?;
                 }
                 match screen.assess(&probe) {
                     SafetyVerdict::Allow => {}
@@ -3106,7 +3152,7 @@ impl Bench {
                     dst.temperature = settled;
                 }
                 for (s, n, phase) in would_move {
-                    dst.deposit(s, n, phase);
+                    checked_transfer_deposit(dst, s, n, phase)?;
                 }
                 events.push(Event::Filtered {
                     from: *from,
@@ -3156,7 +3202,7 @@ impl Bench {
                     let attracted_ids: Vec<_> =
                         magnetic_solids.iter().map(|(s, _, _)| s.clone()).collect();
                     for (s, n, phase) in magnetic_solids {
-                        dst.deposit(s, n, phase);
+                        checked_transfer_deposit(dst, s, n, phase)?;
                     }
                     events.push(Event::MagnetSeparated {
                         from: *from,
@@ -3840,7 +3886,7 @@ impl Bench {
                     dst.temperature = t_new;
                 }
                 for (spec, m, phase) in moved {
-                    dst.deposit(spec, m, phase);
+                    checked_transfer_deposit(dst, spec, m, phase)?;
                 }
                 for (species, f) in partitioned {
                     events.push(Event::Partitioned {

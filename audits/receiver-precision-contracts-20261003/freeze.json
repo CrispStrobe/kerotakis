@@ -1,0 +1,7 @@
+{
+  "baseline_commit": "b86f5c81",
+  "tests": 8,
+  "file": "crates/kerotakis-core/tests/transfer_receiver_precision.rs",
+  "sha256": "8cd07bd04e7101b4d86b20a483750855dd2b2fc7c6b4f9c652ab9addb3a7c021",
+  "expectation": "Seven tests refuse atomically, without solver calls; one supports empty receivers and exact ordinary additions. Baseline is expected to fail the seven refusal tests."
+}
