@@ -1,0 +1,25 @@
+{
+  "time_utc": "2026-10-03T10:11:09.207944+00:00",
+  "loadavg": [
+    6.9658203125,
+    5.16845703125,
+    4.28173828125
+  ],
+  "available_mib": 3641.23046875,
+  "swapfree_mib": 8766.8046875,
+  "disks": {
+    "/": 3745.46875,
+    "/mnt/volume1": 563.9140625,
+    "/mnt/storage": 1796274.0
+  },
+  "local_execution_allowed": false,
+  "local_large_jobs": 0,
+  "delegation": "One read-only agent while initial load3.25 and available4348MiB; agent finished before later resource pressure.",
+  "completed_utc": "2026-10-03T10:29:08.231747+00:00",
+  "final_loadavg": [
+    3.32568359375,
+    4.31640625,
+    5.39892578125
+  ],
+  "final_workspace_free_mib": 498.96875
+}

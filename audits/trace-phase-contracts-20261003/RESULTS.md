@@ -1,0 +1,27 @@
+# Positive trace phase contracts
+
+This source-informed round extends the previous still repairs to the phase calculations that supply them. It is not another blind fifty. Four CLI predictions and scripts were committed before their execution in `68605cc8`.
+
+## Changes
+
+Bubble, dew and TP flash reject nonfinite normalization totals and loss of positive modeled components. Bubble calculations check normalized fractions, activity weighting, partial pressures and final vapor fractions. Dew calculations check their positive reciprocal-pressure contributions and recovered liquid composition. TP flash validates positive finite K-values and every returned liquid/vapor composition; zero/overflowed coefficients cannot publish NaN compositions. Exact zero feed components remain inactive.
+
+The binary still uses a scalar ethanol fraction and reconstructs water as `1-x`. Its positive mixture route now refuses rounded zero/one pot or vapor fractions at every stage, including the top vapor and public residue endpoint. Positive removal, affordable-share underflow and overhead additions that no longer increment also refuse. Exactly completed energy requests stop before attempting another zero-share transfer. The generic still rejects positive inventory/partial/vapor normalization loss before integration. Public APIs and exact-pure fast paths remain intact.
+
+Independent controls cover equal-volatility linear trace cuts, Raoult bubble and dew trace fractions, flash feed reconstruction, both component orientations, synthetic arithmetic extremes, and atomic core refusal with no solver calls. Successful trace controls use relative component comparisons instead of bulk inventory tolerances. The four real CLI controls cover binary scalar-loss fraction/energy refusals with a preloaded receiver, positive methanol trace transfer and enrichment, and an analytic pure ethanol cut.
+
+## Evidence
+
+The first focused run [37115321541](https://github.com/CrispStrobe/kerotakis/actions/runs/37115321541) passed every existing thermodynamic test and ten of eleven new integration tests. One synthetic final-vapor-underflow fixture was incorrect: its 1e-300 vapor fraction was still representable. The fixture now divides a positive 5e-101 partial pressure by about 5e299, producing a genuinely unrepresentable fraction. Its failure and correction do not change any frozen CLI expectation. This diagnostic run is not an accepted CLI validation receipt.
+
+Full hosted run [37115526342](https://github.com/CrispStrobe/kerotakis/actions/runs/37115526342) passed all twelve stages: 1,356 Rust test executions, WASM compilation, the original fifty CLI assessment, 56 prior distillation checks and 55 new trace-phase CLI checks. The four new scripts ran in both text and JSON modes. Both fraction and energy scalar-loss cases preserved every source and receiver vessel field and emitted an explicit no-transfer refusal. The positive methanol trace and pure ethanol cut fulfilled their forecasts.
+
+Validated source: `cf36259c386dd3527e8c78fb281983246b849e13`. Executable SHA-256: `851035bdfb742dfd8469f96a38f1cd35352aee1a47cd78fdf294197b999406e6`. Every source, log, executable and resolved dependency-lock hash was verified locally without running the app. `validation/` retains all twelve logs, exact lock and receipt; `trace-phase/` and `distillation/` preserve the complete raw control streams and verification records. The executable and complete original replay artifact remain at `/mnt/storage/kerotakis-maintenance-20261003/trace-validation-37115526342`. `failed-focused/` preserves the initial diagnostic failure and its checked log hash.
+
+Third-fifty replay [37116191502](https://github.com/CrispStrobe/kerotakis/actions/runs/37116191502) passed 918 checks with nine separately retained qualifications and zero failures. It used the exact validated executable above. The offline checker was rerun locally against the archived evidence without executing the app; all original and follow-up stream hashes were verified. `third-suite-replay/` retains the execution and verification receipts; complete streams remain at `/mnt/storage/kerotakis-maintenance-20261003/trace-third-replay-37116191502`. Passing contracts include explicit supported refusals; the nine prior physical/fixture qualifications were not erased.
+
+## Resources and limits
+
+Initial load1 3.25 and available memory 4,348 MiB permitted one light read-only review agent. Builds and all CLI execution stayed hosted because workspace disk was below 2 GiB. Later load1 reached 7.29 and workspace free space dropped to 565 MiB; the agent had finished. `resources.json` records the local gate. Large executable and raw artifacts stay in `/mnt/storage/kerotakis-maintenance-20261003`. Dirty or unmerged worktrees remain preserved.
+
+This closes silent disappearance and invalid-success paths; it does not extend f64 representation. Bracket-level checks can explicitly refuse extreme inputs whose final-root contribution might be recoverable with scaled or logarithmic arithmetic. The scalar binary representation can also lose relative trace accuracy before rounding all the way to an endpoint; paired liquid/vapor coordinates would be needed for that wider precision contract. Existing absent empirical property data, unknown registry identities and unrepresentable large staged cuts remain explicit limitations. Native tests and WASM compilation do not establish browser runtime behavior.

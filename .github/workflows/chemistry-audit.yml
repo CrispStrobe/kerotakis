@@ -19,11 +19,11 @@ on:
       validated_run:
         description: Successful independent-50 validation run supplying the executable
         type: string
-        default: '37111890212'
+        default: '37115526342'
       validated_commit:
         description: Exact commit tested by that run
         type: string
-        default: fbefd55a9b5fe2eec3139b5c2ba3d57ecb468007
+        default: cf36259c386dd3527e8c78fb281983246b849e13
       baseline_run:
         description: Validated baseline executable for pure-still performance comparison
         type: string

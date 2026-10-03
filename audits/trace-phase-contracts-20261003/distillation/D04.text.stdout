@@ -1,0 +1,16 @@
+  v2: new vessel
+  v3: new vessel
+  v1: +1.000000 mol methanol (CH3OH, M = 32.042 g/mol)
+  v1 (beaker) — 25.00 °C, 32.0 g, 40.5 mL liquid, open to atmosphere
+          1.0000 mol  methanol           Liquid
+  v2 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v1 → v2: 1.000000 mol methanol; 337.70 K → 337.70 K; 1 stage(s); 35.244 kJ latent heat. Ideal-liquid Raoult/Rayleigh approximation with constant-latent Clausius-Clapeyron pressures, bounded within 40 K of every normal boiling point. USCG CHRIS June 1999 fields 9.2/9.3/9.12 for additional solvents; existing water/ethanol latent-reference data. Activity coefficients, azeotropes and dissolved-solute boiling shifts are not predicted. Dissolved solids without registered volatility are treated as nonvolatile. Stage enrichment uses a total-reflux composition cascade as a separation approximation, not a literal operating column. Reported energy counts only withdrawn condensate latent heat, excluding reflux/reboiler circulation and sensible heating. Sensible condensate mixing uses the source temperature.
+  v1 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v2 (beaker) — 25.00 °C, 32.0 g, 40.5 mL liquid, open to atmosphere
+          1.0000 mol  methanol           Liquid
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
