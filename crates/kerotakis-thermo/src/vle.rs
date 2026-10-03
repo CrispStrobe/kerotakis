@@ -1806,6 +1806,12 @@ fn ethanol_water_still_with_phase(
     let tolerance = budget * 16.0 * f64::EPSILON;
     let mut completed = false;
     for _ in 0..MAX_STEPS {
+        if matches!(take, StillTake::EnergyKj(kj) if energy_kj == kj) {
+            // Exact completion owns no further transfer. In particular it
+            // must not enter the affordable-share branch with a zero share.
+            completed = true;
+            break;
+        }
         let remaining = budget - (w_over + e_over);
         if remaining <= tolerance {
             completed = true;

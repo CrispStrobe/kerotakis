@@ -72,6 +72,9 @@ SOURCE_FILES = [
     "audits/pure-still-contracts-20261003/probe.py",
     "audits/pure-still-contracts-20261003/predictions.json",
     "audits/pure-still-contracts-20261003/freeze.json",
+    "audits/trace-phase-contracts-20261003/run.py",
+    "audits/trace-phase-contracts-20261003/predictions.json",
+    "audits/trace-phase-contracts-20261003/freeze.json",
     "audits/distillation-contracts-20261003/predictions.json",
     "audits/distillation-contracts-20261003/freeze.json",
     ".github/workflows/chemistry-audit.yml",
@@ -160,6 +163,8 @@ def main():
         shutil.copyfile(binary, out / "kero")
         run("distillation", [sys.executable, str(REPO / "audits/distillation-contracts-20261003/run.py"),
                              "--binary", str(binary), "--out", str(out / "distillation")])
+        run("trace-phase", [sys.executable, str(REPO / "audits/trace-phase-contracts-20261003/run.py"),
+                             "--binary", str(binary), "--out", str(out / "trace-phase")])
         env.update(KERO_BIN=str(binary), KERO_RESULTS_DIR=str(out / "replay"))
         if run("replay", [sys.executable, str(ROOT / "run.py")]):
             followups = []

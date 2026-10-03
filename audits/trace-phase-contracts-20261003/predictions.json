@@ -1,0 +1,22 @@
+[
+  {
+    "id": "T01",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1e-20mol\nadd v1 ethanol 1mol\nadd v2 water 0.2mol\ninspect\ndistil v1 v2 0.01 stages 4\ninspect\n",
+    "expectation": "Rounded binary scalar composition refuses the entire cut; all source and receiver physical fields stay identical; no distilled event."
+  },
+  {
+    "id": "T02",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1e-20mol\nadd v1 ethanol 1mol\nadd v2 water 0.2mol\ninspect\ndistil v1 v2 0.1kJ stages 4\ninspect\n",
+    "expectation": "Rounded binary scalar composition refuses the entire cut; all source and receiver physical fields stay identical; no distilled event."
+  },
+  {
+    "id": "T03",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1mol\nadd v1 methanol 1e-20mol\ninspect\ndistil v1 v2 0.01 stages 1\ninspect\n",
+    "expectation": "Representable general-solvent trace transfers both components, methanol enriches in the overhead, and both source plus receiver budgets remain conserved."
+  },
+  {
+    "id": "T04",
+    "script": "register lv3\nnew\nnew\nadd v1 ethanol 1mol\ninspect\ndistil v1 v2 0.01 stages 4\ninspect\n",
+    "expectation": "Exactly pure ethanol remains supported with analytic 0.01mol overhead and 0.3858kJ latent heat."
+  }
+]
