@@ -206,3 +206,34 @@ fn request_residue_and_energy_boundaries_are_distinct() {
     );
     assert_eq!(result, Err(StillError::UnrepresentableRequest));
 }
+
+#[test]
+fn excessive_stage_counts_refuse_before_any_phase_work() {
+    for stages in [MAX_STILL_STAGES + 1, u32::MAX] {
+        for (water, ethanol) in [(1.0, 0.0), (1.0, 1.0)] {
+            assert_eq!(
+                ethanol_water_still_with_phase(
+                    water,
+                    ethanol,
+                    StillTake::Fraction(0.1),
+                    stages,
+                    ATMOSPHERE_KPA,
+                    |_, _| panic!("invalid stage counts must refuse before phase evaluation")
+                ),
+                Err(StillError::InvalidInput)
+            );
+        }
+    }
+    assert_eq!(
+        ethanol_water_still_checked(1.0, 0.0, StillTake::Fraction(0.1), 0, ATMOSPHERE_KPA),
+        ethanol_water_still_checked(1.0, 0.0, StillTake::Fraction(0.1), 1, ATMOSPHERE_KPA)
+    );
+    assert!(ethanol_water_still_checked(
+        1.0,
+        0.0,
+        StillTake::Fraction(0.1),
+        MAX_STILL_STAGES,
+        ATMOSPHERE_KPA
+    )
+    .is_ok());
+}

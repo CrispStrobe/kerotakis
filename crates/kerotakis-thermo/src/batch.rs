@@ -135,7 +135,7 @@ fn ideal_still_with_bubble(
         || !pressure_kpa.is_finite()
         || pressure_kpa <= 0.0
         || stages == 0
-        || stages > 128
+        || stages > crate::vle::MAX_STILL_STAGES
     {
         return None;
     }

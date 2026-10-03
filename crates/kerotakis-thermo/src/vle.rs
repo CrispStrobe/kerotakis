@@ -1631,6 +1631,9 @@ mod tests {
 pub const WATER_HVAP_KJ_PER_MOL: f64 = 40.657;
 pub const ETHANOL_HVAP_KJ_PER_MOL: f64 = 38.58;
 
+/// Maximum ideal stage count supported by the bounded still kernels.
+pub const MAX_STILL_STAGES: u32 = 128;
+
 /// How much a still is asked to take overhead.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum StillTake {
@@ -1678,7 +1681,7 @@ impl StillError {
 impl std::fmt::Display for StillError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.write_str(match self {
-            Self::InvalidInput => "the still needs finite nonnegative stocks, a valid cut and positive pressure",
+            Self::InvalidInput => "the still needs finite nonnegative stocks, a valid cut, a supported stage count and positive pressure",
             Self::UnrepresentableRequest => "the requested cut or a required integration step is too small to retain at this inventory scale",
             Self::PhaseEvaluation => "a pot or column-stage boiling calculation could not return a supported phase state",
             Self::UnrepresentableComposition => "a positive component is too small to retain in a phase composition",
@@ -1828,6 +1831,8 @@ fn cascade(
 /// Mixture integration refines its overhead mesh near component depletion. Every
 /// step removes at most a quarter of each present component, so finite
 /// steps cannot manufacture a pure residue by clipping an overshoot.
+/// Stage zero retains its historical one-stage meaning; counts above
+/// [`MAX_STILL_STAGES`] refuse before phase evaluation.
 /// Returns `None` if any required intermediate phase calculation is outside
 /// the model domain; an unlabelled partial cut is never a successful result.
 pub fn ethanol_water_still(
@@ -1893,6 +1898,7 @@ fn ethanol_water_still_with_limit(
         || ethanol_moles < 0.0
         || !pressure_kpa.is_finite()
         || pressure_kpa <= 0.0
+        || stages > MAX_STILL_STAGES
     {
         return Err(StillError::InvalidInput);
     }
