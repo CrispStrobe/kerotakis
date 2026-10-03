@@ -1,0 +1,186 @@
+[1m[92m    Updating[0m crates.io index
+[1m[92m     Locking[0m 311 packages to highest compatible versions
+[1m[92m      Adding[0m criterion v0.5.1 [1m[33m(available: v0.8.2)[0m
+[1m[92m      Adding[0m diffsol v0.16.2 [1m[33m(available: v0.17.1)[0m
+[1m[92m      Adding[0m generic-array v0.14.7 [1m[33m(available: v0.14.9)[0m
+[1m[92m      Adding[0m getrandom v0.3.4 [1m[33m(available: v0.4.3)[0m
+[1m[92m      Adding[0m js-sys v0.3.104 [1m[33m(available: v0.3.106)[0m
+[1m[92m      Adding[0m rand v0.9.5 [1m[33m(available: v0.10.3)[0m
+[1m[92m      Adding[0m rand_chacha v0.9.0 [1m[33m(available: v0.10.0)[0m
+[1m[92m      Adding[0m rand_distr v0.5.1 [1m[33m(available: v0.6.0)[0m
+[1m[92m      Adding[0m rapier2d v0.35.3 [1m[33m(available: v0.36.0)[0m
+[1m[92m      Adding[0m sha2 v0.10.9 [1m[33m(available: v0.11.0)[0m
+[1m[92m      Adding[0m talc v4.4.3 [1m[33m(available: v5.1.1)[0m
+[1m[92m      Adding[0m toml v0.8.23 [1m[33m(available: v1.1.6+spec-1.1.0)[0m
+[1m[92m      Adding[0m wasm-bindgen v0.2.127 [1m[33m(available: v0.2.129)[0m
+[1m[92m      Adding[0m wasm-bindgen-macro v0.2.127 [1m[33m(available: v0.2.129)[0m
+[1m[92m      Adding[0m wasm-bindgen-macro-support v0.2.127 [1m[33m(available: v0.2.129)[0m
+[1m[92m      Adding[0m wasm-bindgen-shared v0.2.127 [1m[33m(available: v0.2.129)[0m
+[1m[92m      Adding[0m web-sys v0.3.104 [1m[33m(available: v0.3.106)[0m
+[1m[92m   Compiling[0m num-traits v0.2.19
+[1m[92m   Compiling[0m serde_core v1.0.229
+[1m[92m   Compiling[0m serde v1.0.229
+[1m[92m   Compiling[0m geo-types v0.7.20
+[1m[92m   Compiling[0m contour v0.13.1
+[1m[92m   Compiling[0m memchr v2.8.3
+[1m[92m   Compiling[0m serde_json v1.0.151
+[1m[92m   Compiling[0m kerotakis-thermo v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-thermo)
+[1m[92m    Finished[0m `test` profile [unoptimized + debuginfo] target(s) in 7.99s
+[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/kerotakis_thermo-9944fbea83a72a1d)
+
+running 69 tests
+test batch::tests::constant_relative_volatility_obeys_independent_rayleigh_identity ... ok
+test batch::tests::finite_inventory_cannot_return_overflowed_heat ... ok
+test batch::tests::inactive_domains_and_large_representable_cuts_remain_supported ... ok
+test batch::tests::pure_limit_scale_permutation_energy_and_conservation ... ok
+test batch::tests::zero_inventory_cannot_hide_invalid_component_properties ... ok
+test eos::tests::compressibility_decreases_with_pressure ... ok
+test eos::tests::fugacity_approaches_unity_at_low_pressure ... ok
+test eos::tests::ideal_gas_limit ... ok
+test eos::tests::molar_volume_positive ... ok
+test excess::tests::endpoints_are_zero ... ok
+test excess::tests::the_allowlist_verification_holds ... ok
+test excess::tests::the_curve_is_smooth_and_vanishes_smoothly ... ok
+test fluid::tests::ideal_fluid_delegates_to_vle ... ok
+test fluid::tests::ideal_solution_returns_unity_gammas ... ok
+test fluid::tests::unsupported_operation_is_a_named_refusal_through_trait_object ... ok
+test lle::tests::highly_nonideal_mixture_splits ... ok
+test lle::tests::ideal_mixture_no_split ... ok
+test lle::tests::weakly_nonideal_no_split ... ok
+test pack::tests::a_fluid_with_no_cleared_correlation_refuses_a_boiling_point ... ok
+test pack::tests::a_permanent_gas_refuses_saturation_pressure_by_name ... ok
+test pack::tests::a_pressure_outside_the_cleared_window_is_refused_in_pressure ... ok
+test pack::tests::a_row_is_found_by_its_key_and_never_by_its_name ... ok
+test pack::tests::boiling_rises_with_pressure_for_every_cleared_fluid ... ok
+test pack::tests::every_cleared_row_names_the_model_that_speaks_for_it ... ok
+test pack::tests::no_row_claims_a_residual_equation_of_state_or_a_density ... ok
+test pack::tests::one_atmosphere_reproduces_the_substance_normal_boiling_point ... ok
+test pack::tests::outside_the_fitted_interval_is_a_refusal_and_not_an_extrapolation ... ok
+test pack::tests::rows_are_unique_and_ordered_by_inchikey ... ok
+test pack::tests::the_ethanol_row_keeps_one_provenance_per_segment ... ok
+test pack::tests::the_inversion_is_the_correlation_read_backwards ... ok
+test pack::tests::the_lint_refuses_a_row_with_no_source ... ok
+test pack::tests::the_shipped_pack_passes_its_own_lint ... ok
+test phase_diagram::tests::txy_envelope_generates_curves ... ok
+test unifac::tests::acetic_acid_ethanol_gamma_inf ... ok
+test unifac::tests::acetic_acid_water_gamma_inf ... ok
+test unifac::tests::approved_table_has_provenance ... ok
+test unifac::tests::compatibility_entry_point_also_fails_closed - should panic ... ok
+test unifac::tests::dilute_ethanol_higher_gamma ... ok
+test unifac::tests::ethanol_water_activity_coefficients ... ok
+test unifac::tests::infinite_dilution_is_continuous_through_trace_and_absent_components ... ok
+test unifac::tests::methanol_propanone_gamma_inf ... ok
+test unifac::tests::methanol_water_gamma_inf ... ok
+test unifac::tests::missing_forward_interaction_is_a_named_refusal ... ok
+test unifac::tests::propanone_water_gamma_inf ... ok
+test unifac::tests::pure_component_gamma_is_unity ... ok
+test unifac::tests::reverse_interaction_does_not_stand_in_for_missing_direction ... ok
+test unifac::tests::self_interaction_is_defined_without_a_table_row ... ok
+test unifac::tests::table_covers_six_main_groups ... ok
+test vle::tests::antoine_range_endpoints_are_inclusive_and_nonfinite_is_refused ... ok
+test vle::tests::bubble_below_dew_for_binary ... ok
+test vle::tests::ethanol_high_fit_agrees_with_independent_published_observations ... ok
+test vle::tests::ethanol_piecewise_range_is_continuous_inclusive_and_bounded ... ok
+test vle::tests::flash_compositions_sum_to_one ... ok
+test vle::tests::hp_flash_finds_temperature ... ok
+test vle::tests::hp_flash_latent_heat_plateau ... ok
+test vle::tests::malformed_piecewise_correlations_refuse_without_zero_fraction_panics ... ok
+test vle::tests::pure_ethanoic_acid_bubble_point ... ok
+test vle::tests::pure_isopropanol_boils_at_the_reviewed_temperature ... ok
+test vle::tests::pure_methanol_bubble_point ... ok
+test vle::tests::pure_propanone_bubble_point ... ok
+test vle::tests::pure_water_bubble_point ... ok
+test vle::tests::pure_water_dew_point ... ok
+test vle::tests::solvers_refuse_non_overlapping_antoine_ranges ... ok
+test vle::tests::solvers_refuse_nonfinite_inputs_and_activity_coefficients ... ok
+test vle::tests::tp_flash_refuses_temperature_outside_any_component_fit ... ok
+test vle::tests::tp_flash_subcooled_liquid ... ok
+test vle::tests::tp_flash_superheated_vapour ... ok
+test vle::tests::tp_flash_two_phase ... ok
+test vle::tests::water_rich_atmospheric_distillation_uses_high_ethanol_segment ... ok
+
+test result: ok. 69 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.56s
+
+[1m[92m     Running[0m tests/distillation_completion.rs (target/debug/deps/distillation_completion-d07dde4c65445442)
+
+running 13 tests
+test a_supported_pure_water_cut_reaches_the_requested_fraction ... ok
+test absolute_resolution_cannot_hide_large_relative_enrichment_of_a_trace_component ... ok
+test an_intermediate_model_boundary_cannot_be_a_successful_partial_fraction_cut ... ok
+test finite_stages_cannot_publish_exact_component_exhaustion_in_a_partial_cut ... ok
+test invalid_stocks_energy_and_overflowing_total_are_refused ... ok
+test positive_tiny_binary_fraction_is_not_a_successful_zero_cut ... ok
+test positive_unrepresentable_requests_refuse_while_zero_requests_succeed ... ok
+test pure_and_dilute_endpoints_are_not_azeotropes ... ok
+test pure_water_fraction_cuts_preserve_requested_amount_across_inventory_scales ... ok
+test reported_end_temperature_matches_the_represented_residue_for_both_cut_controls ... ok
+test rounded_experimental_azeotrope_is_recognized_with_bounded_component_changes ... ok
+test small_staged_cuts_preserve_components_and_scale_without_fitted_outputs ... ok
+test supported_small_binary_cuts_complete_and_additional_stages_enrich_ethanol ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 43.47s
+
+[1m[92m     Running[0m tests/flash_gamma.rs (target/debug/deps/flash_gamma-94a380e043450ee9)
+
+running 3 tests
+test bubble_and_dew_are_inverse_questions ... ok
+test flash_splits_between_bubble_and_dew ... ok
+test the_azeotrope_is_a_fixed_point_of_dew ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+[1m[92m     Running[0m tests/ideal_still_precision.rs (target/debug/deps/ideal_still_precision-5c9fc203b8accd17)
+
+running 6 tests
+test excess_energy_exhausts_inventory_instead_of_claiming_the_supplied_heat ... ok
+test mixed_full_take_has_exact_overhead_and_inventory_latent_heat ... ok
+test partial_endpoint_temperature_is_the_final_residual_bubble_point ... ok
+test positive_fraction_is_completed_at_the_request_scale ... ok
+test underflowed_positive_requests_refuse_without_mutating_inputs ... ok
+test zero_and_microscopic_energy_are_not_absolute_tolerance_successes ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.30s
+
+[1m[92m     Running[0m tests/lle_unifac.rs (target/debug/deps/lle_unifac-a2659d7c74b6efd4)
+
+running 2 tests
+test water_and_ethanol_stay_one_phase_everywhere ... ok
+test water_and_hexane_demix_at_room_temperature ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s
+
+[1m[92m     Running[0m tests/still.rs (target/debug/deps/still-b6270cdb49678d73)
+
+running 4 tests
+test rayleigh_drift_depletes_the_pot_and_raises_the_boil ... ok
+test stages_climb_to_the_azeotrope_and_stop ... ok
+test the_energy_budget_is_a_real_meter ... ok
+test water_rich_ethanol_charge_uses_the_licensed_high_range_fit ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 27.70s
+
+[1m[92m     Running[0m tests/thermo_oracle.rs (target/debug/deps/thermo_oracle-d5ac3f6f817c8c23)
+
+running 6 tests
+test bubble_points_agree_with_the_independent_solve ... ok
+test excess_enthalpies_agree_with_the_analytic_derivative ... ok
+test infinite_dilution_gammas_agree_with_the_independent_implementation ... ok
+test the_gamma_grid_reaches_every_curated_parameter ... ok
+test the_two_methanol_assignments_are_pinned_apart ... ok
+test unifac_gammas_agree_with_the_independent_implementation ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+[1m[92m     Running[0m tests/vle.rs (target/debug/deps/vle-2881b69b9d602b47)
+
+running 7 tests
+test an_ideal_mixture_separates_all_the_way ... ok
+test ethanol_boils_where_the_thermometer_says ... ok
+test extrapolation_is_refused_rather_than_returned ... ok
+test lower_pressure_boils_water_cooler ... ok
+test the_more_volatile_component_comes_over_first ... ok
+test unifac_finds_the_ethanol_water_azeotrope ... ok
+test water_boils_where_the_thermometer_says ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.88s
+

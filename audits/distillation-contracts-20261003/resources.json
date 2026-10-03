@@ -1,0 +1,22 @@
+{
+  "utc": "2026-10-03T08:11:29.630700+00:00",
+  "load": [
+    2.00927734375,
+    4.818359375,
+    5.19384765625
+  ],
+  "available_mib": 4594.96875,
+  "swap_free_mib": 8765.8046875,
+  "workspace_free_mib": 1374.34765625,
+  "root_free_mib": 4108.8203125,
+  "storage_free_gib": 1761.9656982421875,
+  "policy": "All builds and app/CLI executions hosted. Light agent work only; stopped additional review after load rose. Large binary artifacts on NAS; no dirty/unmerged worktree removal.",
+  "local_execution_gate": {
+    "max_load1": 3.5,
+    "min_available_mib": 3200,
+    "min_swap_free_mib": 600,
+    "min_workspace_free_mib": 2048,
+    "min_root_free_mib": 512
+  },
+  "local_execution_allowed_at_final_snapshot": false
+}

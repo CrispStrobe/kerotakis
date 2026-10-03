@@ -19,11 +19,11 @@ on:
       validated_run:
         description: Successful independent-50 validation run supplying the executable
         type: string
-        default: '37104654649'
+        default: '37107431953'
       validated_commit:
         description: Exact commit tested by that run
         type: string
-        default: 4061a2804be6003fddf5b6ed1b76ce1d1a1a2e4a
+        default: 8744d131928dd7416c1d207f22408ba228540570
 
 concurrency:
   group: chemistry-audit-${{ github.event.pull_request.number || github.ref }}
