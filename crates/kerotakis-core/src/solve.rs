@@ -2105,16 +2105,24 @@ fn equilibrate_phase_coupled_inner(
                     // A failing calculation owns neither partial inventory
                     // changes nor the state used to fund a recovery trial.
                     *vessel = chemistry_checkpoint;
-                    if allow_thaw_recovery {
-                        if let Some(mut recovered) = recover_superheated_ice(chemistry, vessel) {
-                            events.append(&mut recovered);
-                            return Ok(events);
+                    let recovery_reason = if allow_thaw_recovery {
+                        match recover_superheated_ice(chemistry, vessel) {
+                            Ok(mut recovered) => {
+                                events.append(&mut recovered);
+                                return Ok(events);
+                            }
+                            Err(reason) => Some(reason),
                         }
-                    }
+                    } else {
+                        None
+                    };
                     events.push(Event::SolverFailed {
                         vessel: vessel.id,
                         solver: chemistry.name().to_string(),
-                        detail: error.to_string(),
+                        detail: recovery_reason.map_or_else(
+                            || error.to_string(),
+                            |reason| format!("{error}; thaw recovery refused: {reason}"),
+                        ),
                     });
                     // Pure solvent phase physics does not require an aqueous
                     // engine or a pre-warmed speciation result. A failed
@@ -2242,7 +2250,7 @@ fn equilibrate_phase_coupled_inner(
 fn recover_superheated_ice(
     chemistry: &mut dyn Equilibrator,
     vessel: &mut Vessel,
-) -> Option<Vec<Event>> {
+) -> Result<Vec<Event>, String> {
     let tm = crate::states::WATER_FREEZING_K;
     let latent = crate::states::WATER_H_FUS;
     if vessel.temperature.0 <= tm
@@ -2261,7 +2269,7 @@ fn recover_superheated_ice(
                 || (p.phase == Phase::Liquid && p.species.0 != SOLVENT)
         })
     {
-        return None;
+        return Err("inventory, phase, thermal or material eligibility not established".into());
     }
     let water_in = |v: &Vessel, phase| -> f64 {
         v.contents
@@ -2276,19 +2284,26 @@ fn recover_superheated_ice(
     let target = sensible + liquid * latent;
     let melting = (sensible / latent).min(ice);
     if !target.is_finite() || !melting.is_finite() || melting <= 0.0 {
-        return None;
+        return Err("no finite positive energy-funded ice transfer".into());
     }
     let mut trial = vessel.clone();
     trial.withdraw_phase(&SpeciesId::new(SOLVENT), Moles(melting), Phase::Solid);
     trial.deposit(SpeciesId::new(SOLVENT), Moles(melting), Phase::Liquid);
-    trial.temperature = Kelvin(trial.temperature_after_from(tm, sensible - melting * latent));
+    let seed_remaining = target - water_in(&trial, Phase::Liquid) * latent;
+    let seed_at_anchor = water_in(&trial, Phase::Solid) > 0.0
+        && seed_remaining.abs() <= 128.0 * f64::EPSILON * target.abs().max(1.0);
+    trial.temperature = Kelvin(if seed_at_anchor {
+        tm
+    } else {
+        trial.temperature_after_from(tm, seed_remaining)
+    });
     trial.refresh_pressure();
     trial.solution = None;
     trial.resolved.invalidate();
     // Retain analytical free-acid/base amounts; they belong to the solute
     // inventory and must not be erased to turn brine into pure water.
     if !chemistry.applies(&trial) {
-        return None;
+        return Err("chemistry does not cover the seeded liquid state".into());
     }
     let mut events = vec![Event::state_changed(
         trial.id,
@@ -2299,7 +2314,10 @@ fn recover_superheated_ice(
         0.0,
         Moles(melting),
     )];
-    events.extend(equilibrate_phase_coupled_inner(chemistry, &mut trial, false).ok()?);
+    events.extend(
+        equilibrate_phase_coupled_inner(chemistry, &mut trial, false)
+            .map_err(|error| format!("seeded phase solve failed: {error}"))?,
+    );
     if events.iter().any(|e| {
         matches!(
             e,
@@ -2315,15 +2333,39 @@ fn recover_superheated_ice(
                 || (matches!(p.phase, Phase::Solid | Phase::Liquid) && p.species.0 != SOLVENT)
         })
     {
-        return None;
+        let failures = events
+            .iter()
+            .filter(|e| matches!(e, Event::SolverFailed { .. }))
+            .count();
+        let boundaries = events
+            .iter()
+            .filter(|e| matches!(e, Event::NotYetModeled { .. }))
+            .count();
+        let gas_flows = events
+            .iter()
+            .filter(|e| matches!(e, Event::GasEvolved { .. } | Event::GasAbsorbed { .. }))
+            .count();
+        return Err(format!("seeded retry did not establish complete supported chemistry: failures={failures}, boundaries={boundaries}, reservoir_flows={gas_flows}, scope={:?}, unpriced_species={}",
+            trial.solution.as_ref().map(|info| info.scope), trial.unpriced_heat.len()));
     }
     // Restore the same phase-aware energy after the coupled loop's finite
     // liquidus tolerance. This uses integrated, post-transfer Cp, including
     // Cv of owned gases in a rigid sealed headspace, rather than a rectangle.
     let solved_temperature = trial.temperature.0;
     let remaining = target - water_in(&trial, Phase::Liquid) * latent;
-    trial.temperature = Kelvin(trial.temperature_after_from(tm, remaining));
     let has_ice = water_in(&trial, Phase::Solid) > 0.0;
+    // An exactly funded partial plateau is already an energy-certified
+    // candidate at the reference point. Do not invert a signed sub-ulp
+    // remainder through differences of nearby NASA antiderivatives on the
+    // ice side of that point. Their subtraction can be ill-conditioned even
+    // though the anchor itself has exactly zero sensible energy. The final
+    // independently assembled energy certificate remains unchanged.
+    let at_anchor = has_ice && remaining.abs() <= 128.0 * f64::EPSILON * target.abs().max(1.0);
+    trial.temperature = Kelvin(if at_anchor {
+        tm
+    } else {
+        trial.temperature_after_from(tm, remaining)
+    });
     // Cancellation of n_liquid*L can leave a few ulps of positive sensible
     // energy at a partial-melt plateau. Snap only that floating-point residue;
     // the independent energy certificate below still has to pass.
@@ -2350,6 +2392,10 @@ fn recover_superheated_ice(
     ownership.free_proton = vessel.free_proton;
     ownership.free_hydroxide = vessel.free_hydroxide;
     ownership.co2_partial_pressure_atm = vessel.co2_partial_pressure_atm;
+    let state_errors = crate::delta::StateDelta::validate_state(&trial);
+    let conservation_errors =
+        crate::delta::StateDelta::validate_conservation(vessel, &trial, &events, 1e-10);
+    let ownership_changed = format!("{ownership:?}") != format!("{vessel:?}");
     if !actual.is_finite()
         || (actual - target).abs() > 128.0 * f64::EPSILON * actual.abs().max(target.abs()).max(1.0)
         || !liquidus.within_model_range()
@@ -2360,17 +2406,17 @@ fn recover_superheated_ice(
                 || (trial.temperature.0 - liquidus.freezing_k).abs()
                     > PHASE_COUPLED_TEMPERATURE_TOLERANCE_K))
         || (!has_ice && trial.temperature.0 < liquidus.freezing_k)
-        || !crate::delta::StateDelta::validate_state(&trial).is_empty()
-        || !crate::delta::StateDelta::validate_conservation(vessel, &trial, &events, 1e-10)
-            .is_empty()
+        || !state_errors.is_empty()
+        || !conservation_errors.is_empty()
         || trial.id != vessel.id
         || trial.label != vessel.label
-        || format!("{ownership:?}") != format!("{vessel:?}")
+        || ownership_changed
     {
-        return None;
+        return Err(format!("candidate certificate failed: energy={actual:.17e} J, target={target:.17e} J, T={:.17e} K, chemistry_T={solved_temperature:.17e} K, liquidus={:.17e} K, ice={has_ice}, activity_covered={}, ownership_changed={ownership_changed}, state={state_errors:?}, conservation={conservation_errors:?}",
+            trial.temperature.0, liquidus.freezing_k, liquidus.within_model_range()));
     }
     *vessel = trial;
-    Some(events)
+    Ok(events)
 }
 
 fn independent_water_phase_inventory(vessel: &Vessel) -> bool {

@@ -121,7 +121,7 @@ fn paid_partial_and_complete_thaw_recovers_chemistry_across_stock_and_gas_scales
                     !events
                         .iter()
                         .any(|e| matches!(e, Event::SolverFailed { .. })),
-                    "{events:?}"
+                    "stock={stock:.17e}, gas_ratio={gas_ratio:.17e}, initial_T={t:.17e}, full={full}, chemistry_calls={}; {events:?}", chemistry.calls
                 );
                 assert!(events.iter().any(|e| matches!(
                     e,

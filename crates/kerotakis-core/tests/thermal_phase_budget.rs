@@ -149,6 +149,50 @@ fn supported_partial_freeze_then_thaw_restores_pure_water_inventory_and_energy()
     );
 }
 
+// Bench correctly invalidates cached speciation before a thermal step. This
+// fixture recomputes the analytical particle census on each solver call, then
+// exercises the actual activity-domain and phase-boundary implementation.
+// The ideal solvent route is intentional; no empirical ionic activity is fitted.
+struct CountedSaltPhase;
+impl Equilibrator for CountedSaltPhase {
+    fn name(&self) -> &'static str {
+        "counted-salt-phase-test"
+    }
+    fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+        let water_kg: f64 = vessel
+            .contents
+            .iter()
+            .filter(|p| p.species.0 == "water" && p.phase == Phase::Liquid)
+            .map(|p| p.moles.0 * constants::WATER_MOLAR_MASS_KG_PER_MOL)
+            .sum();
+        if water_kg > 0.0 {
+            let species: Vec<_> = ["Na+", "Cl-"]
+                .into_iter()
+                .map(|name| {
+                    let molality = vessel.moles_of(&SpeciesId::new(name)).0 / water_kg;
+                    SpeciesDetail {
+                        name: name.into(),
+                        molality,
+                        activity: molality,
+                    }
+                })
+                .collect();
+            vessel.solution = Some(SolutionInfo {
+                scope: Default::default(),
+                solvent_kg: Some(water_kg),
+                pe: None,
+                redox: Vec::new(),
+                ph: 7.0,
+                ionic_strength: species.iter().map(|s| 0.5 * s.molality).sum(),
+                species,
+                provenance: None,
+                solvent_activity: None,
+            });
+        }
+        StateEquilibrator.equilibrate(vessel)
+    }
+}
+
 #[test]
 fn unsupported_brine_cooling_and_boiling_restore_complete_checkpoint() {
     for heating in [false, true] {
@@ -159,27 +203,6 @@ fn unsupported_brine_cooling_and_boiling_restore_complete_checkpoint() {
         let ions = if heating { 1.0 } else { 0.02 };
         bench.vessels[0].deposit(SpeciesId::new("Na+"), Moles(ions), Phase::Aqueous);
         bench.vessels[0].deposit(SpeciesId::new("Cl-"), Moles(ions), Phase::Aqueous);
-        // Supply the independently counted ionic distribution; the state
-        // solver is a phase model, not an ionic speciation engine.
-        let molality = ions / (2.0 * constants::WATER_MOLAR_MASS_KG_PER_MOL);
-        bench.vessels[0].solution = Some(SolutionInfo {
-            scope: Default::default(),
-            solvent_kg: None,
-            pe: None,
-            redox: Vec::new(),
-            ph: 7.0,
-            ionic_strength: molality,
-            species: ["Na+", "Cl-"]
-                .into_iter()
-                .map(|name| SpeciesDetail {
-                    name: name.into(),
-                    molality,
-                    activity: molality,
-                })
-                .collect(),
-            provenance: None,
-            solvent_activity: None,
-        });
         let before = serde_json::to_value(&bench).unwrap();
         let op = if heating {
             Operator::Heat {
@@ -194,11 +217,34 @@ fn unsupported_brine_cooling_and_boiling_restore_complete_checkpoint() {
             }
         };
         let error = bench
-            .step_with(op, &mut StateEquilibrator, &PermissiveScreen)
+            .step_with(op, &mut CountedSaltPhase, &PermissiveScreen)
             .unwrap_err();
         assert!(matches!(error, BenchError::InvalidState(_)));
         assert_eq!(serde_json::to_value(&bench).unwrap(), before);
     }
+}
+
+#[test]
+fn counted_brine_inside_phase_domain_keeps_small_cooling_and_inventory() {
+    let mut bench = water(2.0, Phase::Liquid, 298.15);
+    for species in ["Na+", "Cl-"] {
+        bench.vessels[0].deposit(SpeciesId::new(species), Moles(0.02), Phase::Aqueous);
+    }
+    let contents = bench.vessels[0].contents.clone();
+    let events = bench
+        .step_with(
+            Operator::Cool {
+                vessel: VesselId(0),
+                energy: Joules(10.0),
+            },
+            &mut CountedSaltPhase,
+            &PermissiveScreen,
+        )
+        .unwrap();
+    assert_eq!(bench.vessels[0].contents, contents);
+    assert!(bench.vessels[0].temperature.0 < 298.15);
+    assert_eq!(transfer(&events).0, 10.0);
+    assert_eq!(transfer(&events).2, Some(false));
 }
 
 struct MissingChemistry;

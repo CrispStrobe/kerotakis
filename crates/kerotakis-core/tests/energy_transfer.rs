@@ -86,20 +86,28 @@ fn incomplete_partition_is_explicit_in_every_register_and_saved_events_still_loa
         passes: 1,
         capped: false,
     };
-    for register in [
-        render::Register::LV1,
-        render::Register::LV2,
-        render::Register::LV3,
-    ] {
-        let text = render::render_event(&event, register);
-        assert!(
-            text.contains("split") && text.contains("not fully established"),
-            "{text}"
-        );
-        assert!(
-            !text.contains("chemistry/phase="),
-            "an uncertified residual is not an exact phase budget: {text}"
-        );
+    for heating in [true, false] {
+        if let Event::EnergyTransferred {
+            heating: direction, ..
+        } = &mut event
+        {
+            *direction = heating;
+        }
+        for register in [
+            render::Register::LV1,
+            render::Register::LV2,
+            render::Register::LV3,
+        ] {
+            let text = render::render_event(&event, register);
+            assert!(
+                text.contains("split") && text.contains("not fully established"),
+                "{text}"
+            );
+            assert!(
+                !text.contains("chemistry/phase="),
+                "an uncertified residual is not an exact phase budget: {text}"
+            );
+        }
     }
     let mut old = serde_json::to_value(&event).unwrap();
     old.as_object_mut()
@@ -136,9 +144,9 @@ fn incomplete_partition_keeps_source_ceiling_and_undelivered_budget() {
         render::Register::LV3,
     ] {
         let text = render::render_event(&event, register);
+        assert!(text.contains("test heater"), "{text}");
         assert!(
-            text.contains("test heater") && text.contains("ceiling")
-                || register == render::Register::LV1,
+            text.contains("ceiling") || register == render::Register::LV1,
             "{text}"
         );
         assert!(text.contains("not fully established"), "{text}");
