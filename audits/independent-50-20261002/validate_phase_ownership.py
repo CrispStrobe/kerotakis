@@ -55,6 +55,7 @@ SOURCE_FILES = [
     "crates/kerotakis-phreeqc/src/inventory.rs",
     "crates/kerotakis-phreeqc/tests/settled_carbonate_transfer.rs",
     "crates/kerotakis-phreeqc/tests/trace_inventory.rs",
+    "crates/kerotakis-phreeqc/tests/order_invariance.rs",
     "crates/kerotakis-core/tests/atomic_distil_refusal.rs",
     "crates/kerotakis-thermo/src/vle.rs",
     "crates/kerotakis-thermo/tests/distillation_completion.rs",

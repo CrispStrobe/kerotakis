@@ -6228,6 +6228,10 @@ fn build_mix_input(
     // failed MIX as advisory and re-solves the target through the direct
     // path, so the only symptom was a second engine call.
     input.push_str(&mix_selected_output(merged, db_tag));
+    // Scale small mass-balance columns by their own diagonal. PHREEQC's
+    // default leaves the microscopic extensive system poorly conditioned.
+    // This changes conditioning, not chemistry or convergence tolerances.
+    writeln!(input, "KNOBS\n    -diagonal_scale true").unwrap();
 
     // SOLUTION 1 — vessel A.
     let temp_a_c = vessel_a.temperature.to_celsius();
@@ -6765,6 +6769,10 @@ fn build_input_at(
     if !problem.solid_solutions.is_empty() {
         writeln!(input, "    -solid_solutions Aragonite Strontianite").unwrap();
     }
+    // Explicit on every input because native engine settings persist across
+    // calls. Diagonal scaling supports small extensive inventories without
+    // relaxing the strict residual criterion or changing concentrations.
+    writeln!(input, "KNOBS\n    -diagonal_scale true").unwrap();
     if !problem.surfaces.is_empty()
         && problem.totals.is_empty()
         && problem.phases.is_empty()
@@ -7419,6 +7427,7 @@ mod trace_interface_tests {
                 &vessel, &problem, &vessel, &problem, 0.5, 0.5, "wateq4f", &problem,
             );
             for (input, expected_count) in [(&direct, 1), (&mixed, 2)] {
+                assert!(input.contains("-diagonal_scale true"));
                 let masses: Vec<f64> = input
                     .lines()
                     .filter_map(|line| {

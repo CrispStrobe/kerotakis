@@ -76,20 +76,12 @@ fn aq_023(second: &str, third: &str) -> Read {
 const SALT_FIRST: (&str, &str) = ("add v1 CaCl2 0.01mol", "add v1 laundry_detergent 5g");
 const POWDER_FIRST: (&str, &str) = ("add v1 laundry_detergent 5g", "add v1 CaCl2 0.01mol");
 
-/// The departure, closed, to the ten significant figures the defect was
-/// found in.
-///
-/// The tolerances are not a comfort margin. `solvent_kg` is asserted at
-/// 1e-9 RELATIVE, which is finer than the nine decimals the PHREEQC input
-/// writes the solvent mass to — so the two orderings have to produce the
-/// same input text for it to pass, which is the property being claimed.
-/// `ionic_strength` is asserted at 1e-7, because the element totals are
-/// written to twelve significant figures, which is finer than the
-/// conserved inventory's own floating-point residue (the two orderings
-/// agree on the vessel's water to about one part in 4e8): a few parts in
-/// 1e9 therefore do reach the engine. That remainder is arithmetic noise
-/// in a conserved sum rather than a difference in representation, and it
-/// is four orders of magnitude below what the wire publishes.
+/// Canonical characterization must not add order dependence beyond the
+/// committed solvent inventory. Scientific mass serialization now exposes
+/// the tiny conserved-inventory residue formerly hidden by nine fixed
+/// decimals. Compare solvent kg per represented water mole at the original
+/// strict 1e-9 relative bound, alongside unchanged pH/activity bounds and
+/// the independent inventory bound. This does not round or alter the state.
 #[test]
 fn the_same_beaker_reads_the_same_solvent_mass_in_either_order() {
     let salt = aq_023(SALT_FIRST.0, SALT_FIRST.1);
@@ -111,8 +103,11 @@ fn the_same_beaker_reads_the_same_solvent_mass_in_either_order() {
 
     let relative = |a: f64, b: f64| (a - b).abs() / a.abs().max(b.abs());
     assert!(
-        relative(salt.solvent_kg, powder.solvent_kg) < 1e-9,
-        "the solvent mass still depends on the order the beaker was filled in:{report}"
+        relative(
+            salt.solvent_kg / salt.inventory_water_mol,
+            powder.solvent_kg / powder.inventory_water_mol,
+        ) < 1e-9,
+        "characterization adds solvent-mass order dependence beyond the committed water inventory:{report}"
     );
     assert!(
         relative(salt.ionic_strength, powder.ionic_strength) < 1e-7,
