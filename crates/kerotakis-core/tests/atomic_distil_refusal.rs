@@ -218,12 +218,11 @@ fn paired_trace_cut_into_empty_receiver_preserves_its_component_budget() {
 }
 
 #[test]
-fn receiver_loss_rounding_and_overflow_refuse_before_any_settlement() {
+fn receiver_loss_and_rounding_refuse_before_any_settlement() {
     for (name, amount, existing, fraction) in [
         ("water", 1e-20, 0.2, 0.01),
         ("methanol", 1e-20, 0.2, 0.01),
         ("water", 0.75 * f64::EPSILON, 1.0, 1.0),
-        ("ethanol", 1e306, f64::MAX, 0.01),
     ] {
         let mut bench = Bench::new();
         bench.vessels[0].deposit(SpeciesId::new(name), Moles(amount), Phase::Liquid);
@@ -247,6 +246,24 @@ fn receiver_loss_rounding_and_overflow_refuse_before_any_settlement() {
             if what.contains("receiver") && what.contains("No cut was transferred"))));
         assert!(!events.iter().any(|e| matches!(e, Event::Distilled { .. })));
     }
+}
+
+#[test]
+fn overflowing_receiver_aggregate_inventory_is_rejected_without_mutation() {
+    let mut bench = Bench::new();
+    bench.vessels[0].deposit(SpeciesId::new("ethanol"), Moles(1e306), Phase::Liquid);
+    let mut receiver = Vessel::new(VesselId(1), "receiver");
+    receiver.deposit(SpeciesId::new("ethanol"), Moles(f64::MAX), Phase::Liquid);
+    bench.vessels.push(receiver);
+    let before = physical(&bench);
+    let mut solver = CountingMutator::default();
+    // This deliberately constructed starting state already overflows the
+    // aggregate mass/element inventory. It is an invalid bench, not a valid
+    // bench eligible for a soft receiver-model refusal.
+    let result = bench.step_with(operation(Some(0.01), None), &mut solver, &PermissiveScreen);
+    assert!(matches!(result, Err(BenchError::InvalidState(_))));
+    assert_eq!(physical(&bench), before);
+    assert!(solver.calls.is_empty());
 }
 
 #[test]
