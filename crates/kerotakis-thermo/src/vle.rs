@@ -2222,3 +2222,7 @@ mod pure_still_cost {
 #[cfg(test)]
 #[path = "still_failure_tests.rs"]
 mod still_failure_tests;
+
+#[cfg(test)]
+#[path = "overlap_tests.rs"]
+mod overlap_tests;
