@@ -3457,7 +3457,7 @@ impl Bench {
                                 crate::ops::NotModelledCause::ModelBoundary,
                                 Phrase::new(
                                     "not-modeled.no-complete-still-cut",
-                                    "the complete requested distillation at {pressure} kPa cannot be represented within the fitted Antoine ranges: the initial pot, intermediate pot, and every ideal-stage composition must have a fitted bubble point. No cut was transferred",
+                                    "the complete requested distillation at {pressure} kPa cannot be represented within the still model: every pot and ideal-stage composition needs a fitted bubble point, and the entire cut must complete within numerical precision and integration limits. No cut was transferred",
                                     vec![(
                                         "pressure".to_string(),
                                         Slot::number(format!("{:.1}", pressure_kpa)),
