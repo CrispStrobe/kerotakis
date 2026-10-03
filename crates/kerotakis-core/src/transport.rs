@@ -51,6 +51,10 @@ pub enum TransportError {
     InletVolume { expected_l: f64, actual_l: f64 },
     #[error("{location} contains an invalid amount, temperature, charge, or non-finite transport energy")]
     InvalidMobileState { location: String },
+    #[error(
+        "{location} cannot retain a complete positive transport amount at its inventory scale"
+    )]
+    TransferPrecision { location: String },
     #[error("transport cell {cell} is thermostatted; conservative AQ-011 transport requires adiabatic cells")]
     ThermostattedCell { cell: usize },
 }
@@ -157,23 +161,33 @@ impl MobileParcel {
         Joules(self.energy_between(Kelvin::STANDARD.0, self.temperature.0))
     }
 
-    fn scaled(&self, fraction: f64) -> Self {
-        Self {
-            contents: self
-                .contents
-                .iter()
-                .filter_map(|portion| {
-                    let moles = portion.moles.0 * fraction;
-                    (moles > 0.0).then(|| Portion {
-                        species: portion.species.clone(),
-                        moles: Moles(moles),
-                        phase: portion.phase,
-                    })
-                })
-                .collect(),
-            temperature: self.temperature,
-            solute_charge: self.solute_charge * fraction,
+    fn scaled(&self, fraction: f64, location: &str) -> Result<Self, TransportError> {
+        let mut contents = Vec::with_capacity(self.contents.len());
+        for portion in &self.contents {
+            let moles = portion.moles.0 * fraction;
+            if fraction > 0.0 && portion.moles.0 > 0.0 && moles <= 0.0 {
+                return Err(TransportError::TransferPrecision {
+                    location: format!("{location} {} parcel", portion.species.0),
+                });
+            }
+            if moles > 0.0 {
+                contents.push(Portion {
+                    moles: Moles(moles),
+                    ..portion.clone()
+                });
+            }
         }
+        let charge = self.solute_charge * fraction;
+        if fraction > 0.0 && self.solute_charge != 0.0 && charge == 0.0 {
+            return Err(TransportError::TransferPrecision {
+                location: format!("{location} charge parcel"),
+            });
+        }
+        Ok(Self {
+            contents,
+            temperature: self.temperature,
+            solute_charge: charge,
+        })
     }
 
     fn validate(&self, location: impl Into<String>) -> Result<(), TransportError> {
@@ -300,10 +314,10 @@ impl CellChain {
                 }
                 let parcel = MobileParcel::from_vessel(cell);
                 parcel.validate(format!("transport cell {index}"))?;
-                Ok(parcel.scaled(courant_fraction))
+                parcel.scaled(courant_fraction, &format!("transport cell {index}"))
             })
             .collect::<Result<_, TransportError>>()?;
-        let injected = inlet.scaled(courant_fraction);
+        let injected = inlet.scaled(courant_fraction, "transport inlet")?;
         let effluent = outgoing
             .last()
             .cloned()
@@ -320,17 +334,37 @@ impl CellChain {
         // Prepare the complete update before committing it: a later cell's
         // unrepresentable mixing energy must not leave earlier cells moved.
         let mut prepared = self.cells.clone();
-        for cell in &mut prepared {
+        for (index, cell) in prepared.iter_mut().enumerate() {
             for portion in &mut cell.contents {
                 if is_mobile(portion.phase) {
-                    portion.moles = Moles(portion.moles.0 * (1.0 - courant_fraction));
+                    let before = portion.moles.0;
+                    let removed = before * courant_fraction;
+                    let remaining = before - removed;
+                    if before > 0.0
+                        && (remaining == before || (courant_fraction < 1.0 && remaining <= 0.0))
+                    {
+                        return Err(TransportError::TransferPrecision {
+                            location: format!("transport cell {index} {} donor", portion.species.0),
+                        });
+                    }
+                    portion.moles = Moles(remaining);
                 }
             }
             // Transport removes zero inventory, not positive trace matter.
             // This includes stationary portions that were never advected.
             cell.contents.retain(|portion| portion.moles.0 > 0.0);
-            cell.solute_charge *= 1.0 - courant_fraction;
+            let charge_before = cell.solute_charge;
+            let charge_left = charge_before - charge_before * courant_fraction;
+            if charge_before != 0.0
+                && (charge_left == charge_before || (courant_fraction < 1.0 && charge_left == 0.0))
+            {
+                return Err(TransportError::TransferPrecision {
+                    location: format!("transport cell {index} charge donor"),
+                });
+            }
+            cell.solute_charge = charge_left;
             cell.solution = None;
+            cell.resolved.invalidate();
         }
 
         for index in 0..prepared.len() {
@@ -340,6 +374,43 @@ impl CellChain {
                 &outgoing[index - 1]
             };
             let cell = &mut prepared[index];
+            // Sequentially simulate precisely the same phase merges as
+            // deposit; a positive incoming trace must remain represented.
+            let mut receiver = cell.contents.clone();
+            for portion in &incoming.contents {
+                let before = receiver
+                    .iter()
+                    .find(|p| p.species == portion.species && p.phase == portion.phase)
+                    .map(|p| p.moles.0)
+                    .unwrap_or(0.0);
+                let after = before + portion.moles.0;
+                if !after.is_finite()
+                    || after <= before
+                    || ((after - before) / portion.moles.0 - 1.0).abs() > 1e-8
+                {
+                    return Err(TransportError::TransferPrecision {
+                        location: format!("transport cell {index} {} receiver", portion.species.0),
+                    });
+                }
+                if let Some(existing) = receiver
+                    .iter_mut()
+                    .find(|p| p.species == portion.species && p.phase == portion.phase)
+                {
+                    existing.moles = Moles(after);
+                } else {
+                    receiver.push(portion.clone());
+                }
+            }
+            if incoming.solute_charge != 0.0 {
+                let after = cell.solute_charge + incoming.solute_charge;
+                if !after.is_finite()
+                    || ((after - cell.solute_charge) / incoming.solute_charge - 1.0).abs() > 1e-8
+                {
+                    return Err(TransportError::TransferPrecision {
+                        location: format!("transport cell {index} charge receiver"),
+                    });
+                }
+            }
             if matches!(cell.thermal_mode, ThermalMode::Adiabatic) {
                 let held = cell.temperature.0;
                 let energy = |t| {

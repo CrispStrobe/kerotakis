@@ -22,6 +22,7 @@ def main():
     if args.scope == 'transport':
         command = ['cargo', 'test', '-p', 'kerotakis-core', '--lib',
                    '--test', 'transport', '--test', 'transport_precision_contracts',
+                   '--test', 'transport_charge_precision',
                    '--test', 'still_donor_precision', '--test', 'atomic_distil_refusal',
                    '--no-fail-fast', '-j1', '--', '--test-threads=1']
     log = args.out/('thermo.log' if args.scope == 'thermo' else 'transport.log')

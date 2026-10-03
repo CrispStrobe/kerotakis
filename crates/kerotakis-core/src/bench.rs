@@ -3377,6 +3377,59 @@ impl Bench {
                         "this receiver cannot retain the complete condensate at its current inventory scale. No cut was transferred; use an empty receiver for this trace cut"),
                 )
                 };
+                // Simulate the same phase order and returned amounts used by
+                // withdraw_phase below. Its scalar subtraction must change
+                // every portion that supplies a positive take; otherwise
+                // condensate would be credited without debiting that stock.
+                // This is a zero-debit guard, not compensated bookkeeping or
+                // a transfer-relative accuracy requirement for changing stocks.
+                let can_withdraw =
+                    |source: &Vessel, id: &SpeciesId, amount: f64, phases: &[Phase]| {
+                        if amount == 0.0 {
+                            return true;
+                        }
+                        if !amount.is_finite() || amount < 0.0 {
+                            return false;
+                        }
+                        let mut remaining = amount;
+                        for phase in phases {
+                            let requested = remaining;
+                            let mut withdrawn = 0.0;
+                            for portion in source
+                                .contents
+                                .iter()
+                                .filter(|portion| portion.species == *id && portion.phase == *phase)
+                            {
+                                if remaining <= 0.0 {
+                                    break;
+                                }
+                                let before = portion.moles.0;
+                                if !before.is_finite() || before < 0.0 {
+                                    return false;
+                                }
+                                let take = before.min(remaining);
+                                if take > 0.0 && before - take == before {
+                                    return false;
+                                }
+                                remaining -= take;
+                                withdrawn += take;
+                            }
+                            // The caller asks the next phase for the shortfall
+                            // from withdraw_phase's accumulated return value.
+                            remaining = (requested - withdrawn).max(0.0);
+                        }
+                        true
+                    };
+                let donor_refusal = || {
+                    Event::not_modeled(
+                        *from,
+                        crate::ops::NotModelledCause::ModelBoundary,
+                        Phrase::bare(
+                            "not-modeled.unrepresentable-still-donor",
+                            "this cut is too small to change a supplying donor portion at its current inventory scale. No cut was transferred; request a larger cut",
+                        ),
+                    )
+                };
                 let water = SpeciesId::new("water");
                 let ethanol = SpeciesId::new("ethanol");
                 let src = self.vessel_mut(*from)?;
@@ -3391,6 +3444,13 @@ impl Bench {
                         return Ok(events);
                     }
                     Ok(Some((ids, cut))) => {
+                        if ids.iter().zip(&cut.overhead).any(|(id, n)| {
+                            !can_withdraw(src, id, *n, &[Phase::Liquid, Phase::Aqueous])
+                        }) {
+                            *disposition = ApplyDisposition::Unchanged;
+                            events.push(donor_refusal());
+                            return Ok(events);
+                        }
                         if ids
                             .iter()
                             .zip(&cut.overhead)
@@ -3516,6 +3576,18 @@ impl Bench {
                             ));
                         }
                         Ok(cut) => {
+                            if !can_withdraw(src, &water, cut.water_over, &[Phase::Liquid])
+                                || !can_withdraw(
+                                    src,
+                                    &ethanol,
+                                    cut.ethanol_over,
+                                    &[Phase::Liquid, Phase::Aqueous],
+                                )
+                            {
+                                *disposition = ApplyDisposition::Unchanged;
+                                events.push(donor_refusal());
+                                return Ok(events);
+                            }
                             if !can_receive(&water, cut.water_over)
                                 || !can_receive(&ethanol, cut.ethanol_over)
                             {

@@ -1,0 +1,7 @@
+{
+  "frozen_utc": "2026-10-03T18:39:18.566568+00:00",
+  "expectation": "Signed half-subnormal charges and lost signed receiver increments refuse; exact cancellation and whole minimum-subnormal parcels remain supported. This supplementary contract is frozen before its first execution; it is not included in the earlier baseline.",
+  "sha256": {
+    "crates/kerotakis-core/tests/transport_charge_precision.rs": "11bef6a6c95128ca375e6db929dccd9e69a8918ba0d3cf7f7663150f28f1403d"
+  }
+}
