@@ -192,6 +192,20 @@ fn valid_fractions(values: &[f64]) -> bool {
         .all(|value| value.is_finite() && *value >= 0.0)
 }
 
+// Positive modeled volatiles must survive normalization; exact zeros remain
+// legitimate inactive coordinates. Refuse loss instead of inventing purity.
+fn preserves_components(input: &[f64], output: &[f64]) -> bool {
+    input.len() == output.len()
+        && input.iter().zip(output).all(|(before, after)| {
+            after.is_finite()
+                && if *before > 0.0 {
+                    *after > 0.0
+                } else {
+                    *after == 0.0
+                }
+        })
+}
+
 /// Standard atmospheric pressure, kPa.
 pub const ATMOSPHERE_KPA: f64 = 101.325;
 
@@ -379,7 +393,7 @@ where
     }
     let (mut lo, mut hi) = common_valid_range(antoines, x)?;
     let total_x: f64 = x.iter().sum();
-    if total_x <= 0.0 {
+    if !total_x.is_finite() || total_x <= 0.0 {
         return None;
     }
     let partials = |t_c: f64, gammas: &mut F| -> Vec<f64> {
@@ -392,7 +406,24 @@ where
             .zip(x)
             .enumerate()
             .map(|(i, (a, xi))| {
-                xi / total_x * g.get(i).copied().unwrap_or(1.0) * a.pressure_kpa_unchecked(t_c)
+                if *xi == 0.0 {
+                    return 0.0;
+                }
+                let fraction = xi / total_x;
+                let corrected = fraction * g[i];
+                let partial = corrected * a.pressure_kpa_unchecked(t_c);
+                // Every positive volatile must remain represented at each
+                // arithmetic seam. A vanished trace is not a pure mixture.
+                if *xi > 0.0
+                    && (fraction <= 0.0
+                        || corrected <= 0.0
+                        || partial <= 0.0
+                        || !partial.is_finite())
+                {
+                    f64::NAN
+                } else {
+                    partial
+                }
             })
             .collect()
     };
@@ -432,6 +463,12 @@ where
         return None;
     }
     let y: Vec<f64> = p.iter().map(|pi| pi / p_total).collect();
+    if x.iter()
+        .zip(&y)
+        .any(|(xi, yi)| !yi.is_finite() || (*xi > 0.0 && *yi <= 0.0))
+    {
+        return None;
+    }
     // Pure-component equality is not an azeotrope. Relative equality also
     // prevents a dilute component being called azeotropic merely because
     // both its liquid and vapour fractions fall below an absolute tolerance.
@@ -573,10 +610,14 @@ pub fn dew_point_with(
     }
     let (range_lo, range_hi) = common_valid_range(antoines, y)?;
     let total_y: f64 = y.iter().sum();
-    if total_y <= 0.0 {
+    if !total_y.is_finite() || total_y <= 0.0 {
         return None;
     }
-    let y: Vec<f64> = y.iter().map(|v| v / total_y).collect();
+    let normalized: Vec<f64> = y.iter().map(|v| v / total_y).collect();
+    if !preserves_components(y, &normalized) {
+        return None;
+    }
+    let y = normalized;
     let mut x = y.clone();
     for _ in 0..80 {
         let mut residual = |t: f64, x: &[f64]| -> f64 {
@@ -584,14 +625,18 @@ pub fn dew_point_with(
             if g.len() != antoines.len() || g.iter().any(|v| !v.is_finite() || *v <= 0.0) {
                 return f64::NAN;
             }
-            let sum: f64 = antoines
+            let terms: Vec<f64> = antoines
                 .iter()
                 .zip(&y)
                 .enumerate()
                 .map(|(i, (a, yi))| {
                     yi / (g.get(i).copied().unwrap_or(1.0) * a.pressure_kpa_unchecked(t))
                 })
-                .sum();
+                .collect();
+            if !preserves_components(&y, &terms) {
+                return f64::NAN;
+            }
+            let sum: f64 = terms.iter().sum();
             sum - 1.0 / pressure_kpa
         };
         let (mut lo, mut hi) = (range_lo, range_hi);
@@ -637,6 +682,9 @@ pub fn dew_point_with(
             return None;
         }
         let x_new: Vec<f64> = x_raw.iter().map(|xi| xi / x_sum).collect();
+        if !preserves_components(&y, &x_raw) || !preserves_components(&y, &x_new) {
+            return None;
+        }
         let moved = x
             .iter()
             .zip(&x_new)
@@ -709,10 +757,14 @@ pub fn tp_flash_with(
         return None;
     }
     let z_total: f64 = z.iter().sum();
-    if z_total <= 0.0 {
+    if !z_total.is_finite() || z_total <= 0.0 {
         return None;
     }
-    let z: Vec<f64> = z.iter().map(|v| v / z_total).collect();
+    let normalized: Vec<f64> = z.iter().map(|v| v / z_total).collect();
+    if !preserves_components(z, &normalized) {
+        return None;
+    }
+    let z = normalized;
     let mut x_guess = z.clone();
     for _ in 0..60 {
         let g = gammas(&x_guess, t_celsius + KELVIN_OFFSET);
@@ -728,26 +780,43 @@ pub fn tp_flash_with(
             })
             .collect();
 
+        if k.iter().any(|ki| !ki.is_finite() || *ki <= 0.0) {
+            return None;
+        }
+
         // Subcooled liquid: Σ zᵢ·Kᵢ ≤ 1. The liquid is the feed itself, so
         // γ(z) is already self-consistent and the answer stands.
         let sum_zk: f64 = z.iter().zip(&k).map(|(zi, ki)| zi * ki).sum();
+        if !sum_zk.is_finite() || sum_zk <= 0.0 {
+            return None;
+        }
         if sum_zk <= 1.0 {
+            let y: Vec<f64> = z.iter().zip(&k).map(|(zi, ki)| zi * ki / sum_zk).collect();
+            if !preserves_components(&z, &y) {
+                return None;
+            }
             return Some(FlashResult {
                 vapour_fraction: 0.0,
                 x: z.clone(),
-                y: z.iter().zip(&k).map(|(zi, ki)| zi * ki / sum_zk).collect(),
+                y,
                 k,
             });
         }
         // Superheated vapour: Σ zᵢ/Kᵢ ≤ 1. The trace liquid is dew-implied;
         // iterate its composition like the two-phase branch.
         let sum_z_over_k: f64 = z.iter().zip(&k).map(|(zi, ki)| zi / ki).sum();
+        if !sum_z_over_k.is_finite() || sum_z_over_k <= 0.0 {
+            return None;
+        }
         if sum_z_over_k <= 1.0 {
             let x_new: Vec<f64> = z
                 .iter()
                 .zip(&k)
                 .map(|(zi, ki)| zi / ki / sum_z_over_k)
                 .collect();
+            if !preserves_components(&z, &x_new) {
+                return None;
+            }
             let moved = x_guess
                 .iter()
                 .zip(&x_new)
@@ -794,6 +863,9 @@ pub fn tp_flash_with(
             .map(|(zi, ki)| zi / (1.0 + v * (ki - 1.0)))
             .collect();
         let y: Vec<f64> = x.iter().zip(&k).map(|(xi, ki)| xi * ki).collect();
+        if !preserves_components(&z, &x) || !preserves_components(&z, &y) {
+            return None;
+        }
 
         let moved = x_guess
             .iter()
@@ -1589,11 +1661,23 @@ fn cascade(
     pressure_kpa: f64,
     phase: &mut impl FnMut(f64, f64) -> Option<BubblePoint>,
 ) -> Option<(f64, BubblePoint, bool)> {
+    // This cascade accepts a scalar ethanol fraction, so its water fraction
+    // is reconstructed as 1-x. Its caller is exclusively a positive binary
+    // mixture; endpoints here mean a component was rounded away.
+    if !(0.0 < x_pot && x_pot < 1.0) {
+        return None;
+    }
     let pot_bp = phase(x_pot, pressure_kpa)?;
     let mut y = pot_bp.y[0];
+    if !(0.0 < y && y < 1.0) {
+        return None;
+    }
     let mut hit = pot_bp.azeotropic;
     for _ in 1..stages {
         let bp = phase(y, pressure_kpa)?;
+        if !(0.0 < bp.y[0] && bp.y[0] < 1.0) {
+            return None;
+        }
         if bp.azeotropic {
             hit = true;
             break;
@@ -1750,6 +1834,9 @@ fn ethanol_water_still_with_phase(
         }
         let de = step * y_top;
         let dw = step * (1.0 - y_top);
+        if de <= 0.0 || dw <= 0.0 || e_over + de == e_over || w_over + dw == w_over {
+            return None;
+        }
         let step_kj = de * ETHANOL_HVAP_KJ_PER_MOL + dw * WATER_HVAP_KJ_PER_MOL;
         if !step_kj.is_finite() || !(energy_kj + step_kj).is_finite() {
             return None;
@@ -1761,6 +1848,13 @@ fn ethanol_water_still_with_phase(
                 let share = ((kj - energy_kj) / step_kj).clamp(0.0, 1.0);
                 let removed_e = de * share;
                 let removed_w = dw * share;
+                if removed_e <= 0.0
+                    || removed_w <= 0.0
+                    || e_over + removed_e == e_over
+                    || w_over + removed_w == w_over
+                {
+                    return None;
+                }
                 e_over += removed_e;
                 w_over += removed_w;
                 energy_kj = kj;
@@ -1809,7 +1903,11 @@ fn ethanol_water_still_with_phase(
     let residual_e = ethanol_moles - e_over;
     let residual_total = residual_w + residual_e;
     if residual_total > 0.0 {
-        t_end_c = phase(residual_e / residual_total, pressure_kpa)?.t_celsius;
+        let x = residual_e / residual_total;
+        if residual_w > 0.0 && residual_e > 0.0 && !(0.0 < x && x < 1.0) {
+            return None;
+        }
+        t_end_c = phase(x, pressure_kpa)?.t_celsius;
     }
     Some(StillCut {
         water_over: w_over,

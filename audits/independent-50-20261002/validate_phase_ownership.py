@@ -62,6 +62,7 @@ SOURCE_FILES = [
     "crates/kerotakis-thermo/src/batch.rs",
     "crates/kerotakis-thermo/src/unifac.rs",
     "crates/kerotakis-thermo/tests/ideal_still_precision.rs",
+    "crates/kerotakis-thermo/tests/trace_phase_representation.rs",
     "crates/kerotakis-thermo/tests/pure_binary_still.rs",
     "crates/kerotakis-thermo/tests/pure_ideal_still.rs",
     "crates/kerotakis-thermo/tests/distillation_completion.rs",

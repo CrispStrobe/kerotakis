@@ -66,7 +66,11 @@ fn bubble(n: &[f64], models: &[ConstantLatent], pressure: f64) -> Option<(f64, V
                 if *amount == 0.0 {
                     Some(0.0)
                 } else {
-                    Some(amount / total * model.pressure_kpa(t)?)
+                    let fraction = amount / total;
+                    let partial = fraction * model.pressure_kpa(t)?;
+                    // Normalization must not silently remove a positive
+                    // volatile before the integration sees its budget.
+                    (fraction > 0.0 && partial > 0.0 && partial.is_finite()).then_some(partial)
                 }
             })
             .collect()
@@ -89,8 +93,11 @@ fn bubble(n: &[f64], models: &[ConstantLatent], pressure: f64) -> Option<(f64, V
     if !sum.is_finite() || sum <= 0.0 {
         return None;
     }
-    for v in &mut y {
+    for (amount, v) in n.iter().zip(&mut y) {
         *v /= sum;
+        if !v.is_finite() || (*amount > 0.0 && *v <= 0.0) {
+            return None;
+        }
     }
     Some((t, y))
 }

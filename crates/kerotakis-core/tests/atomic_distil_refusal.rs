@@ -138,3 +138,40 @@ fn intermediate_binary_fit_boundary_refuses_the_complete_cut_without_settling() 
         assert!(events.iter().any(|event| matches!(event, Event::NotYetModeled { cause: ops::NotModelledCause::ModelBoundary, what, .. } if what.contains("No cut was transferred"))));
     }
 }
+
+#[test]
+fn rounded_binary_trace_refuses_without_changing_either_vessel() {
+    for stages in [1, 4] {
+        let mut bench = Bench::new();
+        bench.vessels[0].deposit(SpeciesId::new("water"), Moles(1e-20), Phase::Liquid);
+        bench.vessels[0].deposit(SpeciesId::new("ethanol"), Moles(1.0), Phase::Liquid);
+        let mut receiver = Vessel::new(VesselId(1), "receiver");
+        receiver.deposit(SpeciesId::new("water"), Moles(0.2), Phase::Liquid);
+        bench.vessels.push(receiver);
+        let before = physical(&bench);
+        let mut solver = CountingMutator::default();
+        let events = bench
+            .step_with(
+                Operator::Distil {
+                    from: VesselId(0),
+                    to: VesselId(1),
+                    fraction: Some(0.01),
+                    energy: None,
+                    stages,
+                },
+                &mut solver,
+                &PermissiveScreen,
+            )
+            .unwrap();
+        assert_eq!(physical(&bench), before);
+        assert!(solver.calls.is_empty());
+        assert!(events.iter().any(|e| matches!(
+            e,
+            Event::NotYetModeled {
+                cause: ops::NotModelledCause::ModelBoundary,
+                ..
+            }
+        )));
+        assert!(!events.iter().any(|e| matches!(e, Event::Distilled { .. })));
+    }
+}
