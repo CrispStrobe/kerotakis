@@ -1,0 +1,56 @@
+  v2: new vessel
+  v3: new vessel
+  v4: new vessel
+  v5: new vessel
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.000010 mol iodine (I2, M = 253.809 g/mol)
+  v1: 0.000010 mol iodine dissolved
+  v3: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v3: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v3: +0.000010 mol iodine (I2, M = 253.809 g/mol)
+  v3: 0.000010 mol iodine dissolved
+  v1 (beaker) — 25.00 °C, 99.7 g, 100.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          5.5343 mol  water              Liquid
+           10.0 µmol  iodine             Aqueous
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v2 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v3 (beaker) — 25.00 °C, 99.7 g, 100.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          5.5343 mol  water              Liquid
+           10.0 µmol  iodine             Aqueous
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v4 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v5 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v1 -> v2: repeated equilibrium extraction with 0.306621 mol hexane over 1 equal fresh portion(s); K=[solute]organic/[solute]aqueous; mass balance closes at every stage — iodine: 97.1% extracted (97.1% in one equal-total-solvent stage), K=85.000. I2 [ideal equilibrium stages; fresh equal solvent portions; constant dilute-solution distribution coefficient; K = 85: Edexcel A-level Chemistry, Equilibrium II question 2, I2(aq) <=> I2(hexane); aqueous solubility 0.3393 g/L at 25 °C: Hartley & Campbell, J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741; neither source gives a temperature model]
+  v3 -> v4: repeated equilibrium extraction with 0.306621 mol hexane over 4 equal fresh portion(s); K=[solute]organic/[solute]aqueous; mass balance closes at every stage — iodine: 100.0% extracted (97.1% in one equal-total-solvent stage), K=85.000. I2 [ideal equilibrium stages; fresh equal solvent portions; constant dilute-solution distribution coefficient; K = 85: Edexcel A-level Chemistry, Equilibrium II question 2, I2(aq) <=> I2(hexane); aqueous solubility 0.3393 g/L at 25 °C: Hartley & Campbell, J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741; neither source gives a temperature model]
+  v1: NOT MODELLED: complete absorbance is unavailable: no absorption spectrum for I2
+  v3: NOT MODELLED: complete absorbance is unavailable: no absorption spectrum for I2
+  v2: The liquid is orange and clear. Colour is incomplete: no absorption spectrum for I2. (liquid #FEF6F2, turbidity 0.00)
+  v4: The liquid is orange and clear. Colour is incomplete: no absorption spectrum for I2. (liquid #FEF6F2, turbidity 0.00)
+  v1 (beaker) — 25.00 °C, 99.7 g, 100.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          5.5343 mol  water              Liquid
+            286 nmol  iodine             Aqueous
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v2 (beaker) — 25.00 °C, 26.4 g, 40.0 mL liquid, open to atmosphere
+          0.3066 mol  hexane             Liquid
+           9.71 µmol  iodine             Aqueous
+  v3 (beaker) — 25.00 °C, 99.7 g, 100.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          5.5343 mol  water              Liquid
+           1.23 nmol  iodine             Aqueous
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v4 (beaker) — 25.00 °C, 26.4 g, 40.0 mL liquid, open to atmosphere
+          0.3066 mol  hexane             Liquid
+          10.00 µmol  iodine             Aqueous
+  v5 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)

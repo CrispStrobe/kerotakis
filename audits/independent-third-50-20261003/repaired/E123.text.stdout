@@ -1,0 +1,31 @@
+  v2: new vessel
+  v1: boundary=open → sealed; V_gas=1.000000 L, added boundary gas=0.04087404 mol (dry-air approximation)
+  v1: +0.010000 mol nitrogen (N2, M = 28.014 g/mol)
+  v1 pressure gauge: 126.1146 kPa
+  v1 thermometer: 25.0000 °C
+  v1 balance: 1.4596 g
+  v1 (beaker) — 25.00 °C, 1.5 g, 0.0 mL liquid, sealed 1000.0 mL headspace at 1.261 bar
+          0.0423 mol  nitrogen           Gas
+           8.56 mmol  oxygen             Gas
+           16.3 µmol  carbon dioxide     Gas
+  v2 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v1: boundary=sealed → sealed; V_gas=2.000000 L, added boundary gas=0.00000000 mol (existing gas retained; no boundary gas added)
+  v1 pressure gauge: 63.0573 kPa
+  v1 thermometer: 25.0000 °C
+  v1 (beaker) — 25.00 °C, 1.5 g, 0.0 mL liquid, sealed 2000.0 mL headspace at 0.631 bar
+          0.0423 mol  nitrogen           Gas
+           8.56 mmol  oxygen             Gas
+           16.3 µmol  carbon dioxide     Gas
+  v2 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v1: boundary=sealed → sealed; V_gas=1.000000 L, added boundary gas=0.00000000 mol (existing gas retained; no boundary gas added)
+  v1 pressure gauge: 126.1146 kPa
+  v1 thermometer: 25.0000 °C
+  v1 balance: 1.4596 g
+  v1 (beaker) — 25.00 °C, 1.5 g, 0.0 mL liquid, sealed 1000.0 mL headspace at 1.261 bar
+          0.0423 mol  nitrogen           Gas
+           8.56 mmol  oxygen             Gas
+           16.3 µmol  carbon dioxide     Gas
+  v2 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)

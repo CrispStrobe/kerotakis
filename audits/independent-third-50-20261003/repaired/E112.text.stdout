@@ -1,0 +1,38 @@
+  v2: new vessel
+  v3: new vessel
+  v1: boundary=open → sealed; V_gas=1.000000 L, added boundary gas=0.04087404 mol (dry-air approximation)
+  v2: boundary=open → sealed; V_gas=1.000000 L, added boundary gas=0.04087404 mol (dry-air approximation)
+  v1: T 298.150 K → 296.877 K (ΔT = -1.273 K)
+  v1: +0.010000 mol nitrogen (N2, M = 28.014 g/mol)
+  v2: T 298.150 K → 296.877 K (ΔT = -1.273 K)
+  v2: +0.010000 mol nitrogen (N2, M = 28.014 g/mol)
+  v1 pressure gauge: 125.5762 kPa
+  v1 thermometer: 23.7272 °C
+  v2 pressure gauge: 125.5762 kPa
+  v2 thermometer: 23.7272 °C
+  v1 (beaker) — 23.73 °C, 1.5 g, 0.0 mL liquid, sealed 1000.0 mL headspace at 1.256 bar
+          0.0423 mol  nitrogen           Gas
+           8.56 mmol  oxygen             Gas
+           16.3 µmol  carbon dioxide     Gas
+  v2 (beaker) — 23.73 °C, 1.5 g, 0.0 mL liquid, sealed 1000.0 mL headspace at 1.256 bar
+          0.0423 mol  nitrogen           Gas
+           8.56 mmol  oxygen             Gas
+           16.3 µmol  carbon dioxide     Gas
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v1: T 296.877 K → 306.301 K (ΔT = +9.423 K)
+  v1: thermal energy requested=10.000000 J, delivered=10.000000 J, undelivered=0.000000 J; source=Bunsen burner, ceiling=1773.15 K; sensible=10.000000 J, chemistry/phase=0.000000 J; passes=1, pass_cap_reached=false, time_coupled=false
+  v1 pressure gauge: 129.5622 kPa
+  v1 thermometer: 33.1505 °C
+  v2 pressure gauge: 125.5762 kPa
+  v2 thermometer: 23.7272 °C
+  v1 (beaker) — 33.15 °C, 1.5 g, 0.0 mL liquid, sealed 1000.0 mL headspace at 1.296 bar
+          0.0423 mol  nitrogen           Gas
+           8.56 mmol  oxygen             Gas
+           16.3 µmol  carbon dioxide     Gas
+  v2 (beaker) — 23.73 °C, 1.5 g, 0.0 mL liquid, sealed 1000.0 mL headspace at 1.256 bar
+          0.0423 mol  nitrogen           Gas
+           8.56 mmol  oxygen             Gas
+           16.3 µmol  carbon dioxide     Gas
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)

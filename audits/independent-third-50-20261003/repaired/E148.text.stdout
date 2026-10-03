@@ -1,0 +1,32 @@
+  v2: new vessel
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.010000 mol iron (Fe, M = 55.845 g/mol)
+  v1: NOT MODELLED: iron stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model
+  v1: iron not corroding: nothing rusts in this vessel, because there is no oxygen in it. Corrosion needs three things at once — the metal, liquid water and oxygen — since it is a circuit: iron would give up electrons at the anode, oxygen would take them at the cathode, and the water carries the ions between the two. This bench does not yet draw oxygen from the room into an open beaker, so the oxygen has to be put in the vessel for the slow clock to see it
+  v1: NOT MODELLED: iron in contact with liquid: no wired solver models this dissolution/reaction
+  v1: +0.010000 mol silicon dioxide (quartz) (SiO2, M = 60.084 g/mol)
+  v1: 0.000020 mol silicon dioxide (quartz) dissolved
+  v1: NOT MODELLED: iron stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model
+  v1: iron not corroding: nothing rusts in this vessel, because there is no oxygen in it. Corrosion needs three things at once — the metal, liquid water and oxygen — since it is a circuit: iron would give up electrons at the anode, oxygen would take them at the cathode, and the water carries the ions between the two. This bench does not yet draw oxygen from the room into an open beaker, so the oxygen has to be put in the vessel for the slow clock to see it
+  v1: silicon dioxide (quartz) inert: silicon dioxide (quartz) hardly dissolves in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. A trace of it is in solution; the rest is still there
+  v1 (beaker) — 25.00 °C, 100.9 g, 100.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          5.5343 mol  water              Liquid
+          0.0100 mol  iron               Solid
+           9.98 mmol  silicon dioxide (quartz) Solid
+           20.0 µmol  silicon dioxide (quartz) Aqueous
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v2 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v1 → v2: magnetic iron attracted; non-magnetic silicon dioxide (quartz) remained
+  v1 (beaker) — 25.00 °C, 100.3 g, 100.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          5.5343 mol  water              Liquid
+           9.98 mmol  silicon dioxide (quartz) Solid
+           20.0 µmol  silicon dioxide (quartz) Aqueous
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v2 (beaker) — 25.00 °C, 0.6 g, 0.0 mL liquid, open to atmosphere
+          0.0100 mol  iron               Solid

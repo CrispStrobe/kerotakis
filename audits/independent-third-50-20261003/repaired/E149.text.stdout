@@ -1,0 +1,64 @@
+  v2: new vessel
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.001000 mol iron(III) chloride (FeCl3, M = 162.195 g/mol)
+  v1: 0.001000 mol iron(III) chloride dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 2.391 · I = 0.0514 mol/kgw
+  v1: NOT MODELLED: the solution is supersaturated against Goethite (SI +5.0). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms
+  v1: NOT MODELLED: the solution is supersaturated against Hematite (SI +12.1), Maghemite (SI +1.7). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices
+  v1: NOT MODELLED: Fe(OH)2.7Cl.3 (SI +5.9) have reported saturation indices but no phase definition in the selected wateq4f diagnostic index; their phase type and exclusion reason cannot be classified
+  v1: reaction heat for FeCl3 is not priced; the temperature estimate is incomplete
+  v1 (beaker) — 25.00 °C, 99.9 g, 100.0 mL liquid, open to atmosphere, pH 2.39, pe 18.24 (+1.079 V), I = 0.0514 m
+      temperature estimate is incomplete: reaction heat for FeCl3 is not priced
+      redox — all Fe as Fe(III)
+           3.00 mmol  chloride ion       Aqueous
+           1.00 mmol  iron(III) ion      Aqueous
+          5.5343 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9930e-1   γ=0.018
+        Cl-             2.8858e-2    2.3406e-2   γ=0.811
+        H+              4.7710e-3    4.0681e-3   γ=0.853
+        Fe+3            4.3010e-3    7.1815e-4   γ=0.167
+        FeOH+2          2.4740e-3    1.1390e-3   γ=0.460
+        FeCl+2          1.1030e-3    5.0760e-4   γ=0.460
+        Fe2(OH)2+4      8.4130e-4    3.4910e-5   γ=0.041
+        O2              2.6450e-4    2.6770e-4   γ=1.012
+        Fe(OH)2+        1.1200e-4    9.2640e-5   γ=0.827
+        Fe3(OH)4+5      9.7520e-5    6.7580e-7   γ=0.007
+        FeCl2+          6.4750e-5    5.3070e-5   γ=0.820
+        FeCl3           1.2280e-7    1.2420e-7   γ=1.011
+        Fe(OH)3         2.8970e-9    2.9310e-9   γ=1.012
+        OH-            3.0370e-12   2.4590e-12   γ=0.810
+        Fe(OH)4-       7.9400e-16   6.5670e-16   γ=0.827
+  v2 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v1: no magnetic species present
+  v1: pH 2.391 · I = 0.0514 mol/kgw
+  v1: NOT MODELLED: the solution is supersaturated against Goethite (SI +5.0). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms
+  v1: NOT MODELLED: the solution is supersaturated against Hematite (SI +12.1), Maghemite (SI +1.7). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices
+  v1: NOT MODELLED: Fe(OH)2.7Cl.3 (SI +5.9) have reported saturation indices but no phase definition in the selected wateq4f diagnostic index; their phase type and exclusion reason cannot be classified
+  v1 (beaker) — 25.00 °C, 99.9 g, 100.0 mL liquid, open to atmosphere, pH 2.39, pe 18.24 (+1.079 V), I = 0.0514 m
+      temperature estimate is incomplete: reaction heat for FeCl3 is not priced
+      redox — all Fe as Fe(III)
+           3.00 mmol  chloride ion       Aqueous
+           1.00 mmol  iron(III) ion      Aqueous
+          5.5343 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9930e-1   γ=0.018
+        Cl-             2.8858e-2    2.3406e-2   γ=0.811
+        H+              4.7710e-3    4.0681e-3   γ=0.853
+        Fe+3            4.3010e-3    7.1815e-4   γ=0.167
+        FeOH+2          2.4740e-3    1.1390e-3   γ=0.460
+        FeCl+2          1.1030e-3    5.0760e-4   γ=0.460
+        Fe2(OH)2+4      8.4130e-4    3.4910e-5   γ=0.041
+        O2              2.6450e-4    2.6770e-4   γ=1.012
+        Fe(OH)2+        1.1200e-4    9.2640e-5   γ=0.827
+        Fe3(OH)4+5      9.7520e-5    6.7580e-7   γ=0.007
+        FeCl2+          6.4750e-5    5.3070e-5   γ=0.820
+        FeCl3           1.2280e-7    1.2420e-7   γ=1.011
+        Fe(OH)3         2.8970e-9    2.9310e-9   γ=1.012
+        OH-            3.0370e-12   2.4590e-12   γ=0.810
+        Fe(OH)4-       7.9400e-16   6.5670e-16   γ=0.827
+  v2 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)

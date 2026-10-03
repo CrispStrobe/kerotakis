@@ -1,0 +1,59 @@
+  v2: new vessel
+  v3: new vessel
+  v4: new vessel
+  v5: new vessel
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.342530 mol ethanol (C2H5OH, M = 46.069 g/mol)
+  v3: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v3: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v3: +0.342530 mol ethanol (C2H5OH, M = 46.069 g/mol)
+  v1 (beaker) — 25.00 °C, 115.5 g, 120.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          5.5343 mol  water              Liquid
+          0.3425 mol  ethanol            Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v2 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v3 (beaker) — 25.00 °C, 115.5 g, 120.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          5.5343 mol  water              Liquid
+          0.3425 mol  ethanol            Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v4 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v5 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v1 → v2: Rayleigh batch cut, 1 ideal stage(s) at total reflux (a real column at finite reflux separates less, never more); pot 361.77 K → 365.56 K; latent heat 23.50 kJ paid by the burner and dumped by the condenser, deliberately outside the vessel ledger
+  v2: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v3: NOT MODELLED: the complete requested distillation at 101.3 kPa cannot be represented within the still model: every pot and ideal-stage composition needs a fitted bubble point, and the entire cut must complete within numerical precision and integration limits. No cut was transferred
+  v1 density meter: 0.9788 g/mL — This is a model estimate with limited calibration or simplifying assumptions.
+  v2 density meter: 0.8708 g/mL — This is a model estimate with limited calibration or simplifying assumptions.
+  v3 density meter: 0.9623 g/mL — This is a model estimate with limited calibration or simplifying assumptions.
+  v4: NOT MODELLED: a density — the vessel is empty, and there is nothing to float the hydrometer in and nothing to weigh
+  v2: N=10000, t0=60s, β=0.5; K = γ∞(water)/γ∞(alkane) from the same UNIFAC the funnel partitions on; tR = t0·(1+K·β), w = 4·tR/√N, Rf = Kβ_paper/(1+Kβ_paper) on a 100 mm strip — ethanol K=0.275 tR=68.3s w=2.7s Rf=0.216 A=1.000
+  v4: NOT MODELLED: chromatography needs an aqueous sample — the column's mobile phase is water
+  v1 (beaker) — 25.00 °C, 99.6 g, 101.7 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          5.1365 mol  water              Liquid
+          0.1526 mol  ethanol            Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v2 (beaker) — 25.00 °C, 15.9 g, 18.3 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          0.3978 mol  water              Liquid
+          0.1899 mol  ethanol            Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v3 (beaker) — 25.00 °C, 115.5 g, 120.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          5.5343 mol  water              Liquid
+          0.3425 mol  ethanol            Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v4 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v5 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)

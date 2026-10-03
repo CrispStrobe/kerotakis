@@ -1,0 +1,70 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: boundary=open → sealed; V_gas=0.100000 L, added boundary gas=0.00408740 mol (dry-air approximation)
+  v1: finite-volume gas/liquid equilibrium; P=101304.301 Pa, n_gas=0.00408657 mol
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 5.763 · I = 0.0000 mol/kgw
+  v1: +0.001000 mol chalk (calcium carbonate) (CaCO3, M = 100.087 g/mol)
+  v1: 0.000013 mol chalk (calcium carbonate) dissolved
+  v1: finite-volume gas/liquid equilibrium; P=101284.582 Pa, n_gas=0.00408577 mol
+  v1: pH 9.823 · I = 0.0004 mol/kgw
+  v1: reaction heat for CaCO3 is not priced; the temperature estimate is incomplete
+  v1 (beaker) — 25.00 °C, 99.9 g, 100.0 mL liquid, sealed 100.0 mL headspace at 1.013 bar, pH 9.82, I = 0.0004 m
+      temperature estimate is incomplete: reaction heat for CaCO3 is not priced
+           3.23 mmol  nitrogen           Gas
+            856 µmol  oxygen             Gas
+           12.3 µmol  calcium ion        Aqueous
+           3.46 nmol  dissolved carbon dioxide Aqueous
+           10.5 µmol  bicarbonate ion    Aqueous
+           3.49 µmol  carbonate ion      Aqueous
+           4.00 nmol  carbon dioxide     Gas
+            988 µmol  chalk (calcium carbonate) Solid
+          5.5343 mol  water              Liquid
+           7.21 µmol  base equivalents   Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1     1.0000e0   γ=0.018
+        Ca+2            1.1789e-4    1.0781e-4   γ=0.914
+        HCO3-           1.0074e-4    9.8513e-5   γ=0.978
+        OH-             6.8105e-5    6.6582e-5   γ=0.978
+        CO3-2           3.3600e-5    3.0728e-5   γ=0.915
+        CaCO3           5.5490e-6    5.5500e-6   γ=1.000
+        CaHCO3+         1.3850e-7    1.3550e-7   γ=0.978
+        CaOH+           1.2170e-7    1.1900e-7   γ=0.978
+        CO2             3.3299e-8    3.3302e-8   γ=1.000
+        H+             1.5367e-10   1.5035e-10   γ=0.978
+        H2             3.1720e-15   3.1730e-15   γ=1.000
+        CH4            3.2986e-29   3.2989e-29   γ=1.000
+  HAZARD [Caution] (L0): strong acid and carbonate fizz vigorously, releasing carbon dioxide — the mixture can spatter; Adding acid to chalk or baking soda foams over if the vessel is too small. CO₂ displaces air in enclosed spaces.
+  v1: +0.002000 mol hydrochloric acid (HCl, M = 36.461 g/mol)
+  v1: 0.000013 mol chalk (calcium carbonate) dissolved
+  v1: 0.000546 mol carbon dioxide transferred to the finite headspace (closed system; mass retained)
+  v1: 0.000975 mol chalk (calcium carbonate) dissolved
+  v1: finite-volume gas/liquid equilibrium; P=114818.249 Pa, n_gas=0.00463172 mol
+  v1: pH 4.328 · I = 0.0301 mol/kgw
+  v1 (beaker) — 25.00 °C, 100.0 g, 100.0 mL liquid, sealed 100.0 mL headspace at 1.148 bar, pH 4.33, I = 0.0301 m
+      temperature estimate is incomplete: reaction heat for CaCO3 is not priced
+           3.23 mmol  nitrogen           Gas
+            856 µmol  oxygen             Gas
+           1000 µmol  calcium ion        Aqueous
+           2.00 mmol  chloride ion       Aqueous
+            451 µmol  dissolved carbon dioxide Aqueous
+           5.02 µmol  bicarbonate ion    Aqueous
+           8.00 pmol  carbonate ion      Aqueous
+            546 µmol  carbon dioxide     Gas
+          5.5353 mol  water              Liquid
+           5.02 µmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9940e-1   γ=0.018
+        Cl-             2.0057e-2    1.6940e-2   γ=0.845
+        Ca+2            1.0025e-2    5.3762e-3   γ=0.536
+        CO2             4.5161e-3    4.5475e-3   γ=1.007
+        H+              5.3738e-5    4.6964e-5   γ=0.874
+        HCO3-           5.0301e-5    4.3041e-5   γ=0.856
+        CaHCO3+         3.4350e-6    2.9510e-6   γ=0.859
+        CaCO3          3.8440e-10   3.8710e-10   γ=1.007
+        OH-            2.5249e-10   2.1303e-10   γ=0.844
+        CO3-2          8.0174e-11   4.2979e-11   γ=0.536
+        CaOH+          2.2100e-11   1.8990e-11   γ=0.859
+        O2             1.2610e-13   1.2690e-13   γ=1.006
+        H2             1.7990e-40   1.8110e-40   γ=1.007
+  v1 pH meter: 4.3282 pH — This is a model estimate with limited calibration or simplifying assumptions.

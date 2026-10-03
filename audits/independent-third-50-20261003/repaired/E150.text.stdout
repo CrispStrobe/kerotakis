@@ -1,0 +1,97 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.001000 mol copper sulfate (CuSO4, M = 159.609 g/mol)
+  v1: 0.000001 mol antlerite (green copper sulfate) precipitated
+  v1: 0.001000 mol copper sulfate dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added
+  v1: pH 4.487 · I = 0.0281 mol/kgw
+  v1: reaction heat for antlerite is not priced; the temperature estimate is incomplete
+  v1: T 298.150 K → 298.325 K (ΔT = +0.175 K)
+  v1: net ionic: 3 Cu²⁺(aq) + SO₄²⁻(aq) + 4 H₂O(l) → antlerite(s) + 4 H⁺(aq)
+  v1: boundary=open → sealed; V_gas=0.100000 L, added boundary gas=0.00408500 mol (dry-air approximation)
+  v1: finite-volume gas/liquid equilibrium; P=101306.249 Pa, n_gas=0.00408425 mol
+  v1: pH 4.487 · I = 0.0281 mol/kgw
+  v1 (beaker) — 25.18 °C, 100.0 g, 100.0 mL liquid, sealed 100.0 mL headspace at 1.013 bar, pH 4.49, pe 13.60 (+0.805 V), I = 0.0281 m
+      temperature estimate is incomplete: reaction heat for antlerite is not priced
+      redox — all Cu as Cu(II); all S as S(VI)
+           3.23 mmol  nitrogen           Gas
+            856 µmol  oxygen             Gas
+            744 nmol  dissolved carbon dioxide Aqueous
+           11.9 nmol  bicarbonate ion    Aqueous
+           0.03 pmol  carbonate ion      Aqueous
+           0.00 pmol  copper(I) ion      Aqueous
+            996 µmol  copper(II) ion     Aqueous
+            999 µmol  sulfate ion        Aqueous
+            878 nmol  carbon dioxide     Gas
+           1.17 µmol  antlerite (green copper sulfate) Solid
+          5.5343 mol  water              Liquid
+           4.70 µmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9970e-1   γ=0.018
+        SO4-2           7.0269e-3    3.7789e-3   γ=0.538
+        Cu+2            7.0134e-3    3.8793e-3   γ=0.553
+        CuSO4           2.9770e-3    2.9970e-3   γ=1.007
+        H+              3.7194e-5    3.2605e-5   γ=0.877
+        HSO4-           1.4080e-5    1.2020e-5   γ=0.854
+        CO2             7.2366e-6    7.2836e-6   γ=1.006
+        CuOH+           1.3980e-6    1.1890e-6   γ=0.851
+        Cu2(OH)2+2      1.1890e-6    6.3000e-7   γ=0.530
+        CuHCO3+         2.2680e-7    1.9350e-7   γ=0.853
+        HCO3-           1.1586e-7    9.9542e-8   γ=0.859
+        Cu(OH)2         7.5710e-8    7.6200e-8   γ=1.006
+        CuCO3           2.9740e-9    2.9930e-9   γ=1.006
+        OH-            3.6688e-10   3.1104e-10   γ=0.848
+        CO3-2          2.6371e-13   1.4368e-13   γ=0.545
+        Cu+            6.0640e-14   5.1000e-14   γ=0.841
+        O2             2.1360e-14   2.1490e-14   γ=1.006
+        Cu(OH)3-       1.6500e-16   1.4080e-16   γ=0.853
+        Cu(CO3)2-2     1.0220e-18   5.4150e-19   γ=0.530
+        Cu(OH)4-2      1.6250e-24   8.6120e-25   γ=0.530
+        H2             4.6680e-40   4.6990e-40   γ=1.007
+  v1 pH meter: 4.4867 pH — This is a model estimate with limited calibration or simplifying assumptions.
+  v1 conductivity meter: 1737.0661 µS/cm — This estimate is incomplete: contributing model data are missing.
+  v1: NOT MODELLED: complete absorbance is unavailable: no absorption spectrum for Cu(OH)2, Cu2(OH)2+2, CuCO3, CuHCO3+, CuOH+ and CuSO4
+  v1: The liquid is blue and clear, bubbles of gas are rising through it, there is green antlerite (green copper sulfate) at the bottom. Colour is incomplete: no absorption spectrum for Cu(OH)2, Cu2(OH)2+2, CuCO3, CuHCO3+, CuOH+ and CuSO4. (liquid #CFEBFB, turbidity 0.00)
+  v1 balance: 99.9775 g
+  v1 calorimeter: 0.0731 kJ — This estimate is incomplete: contributing model data are missing.
+  v1 pressure gauge: 101.3062 kPa — This estimate is incomplete: contributing model data are missing.
+  v1 volume meter: 100.0000 mL
+  v1: NOT MODELLED: the column has no retention prediction for CO2(aq); their elution and contribution to the sample are unresolved, even when other components produce modeled peaks
+  v1: N=10000, t0=60s, β=0.5; K = γ∞(water)/γ∞(alkane) from the same UNIFAC the funnel partitions on; tR = t0·(1+K·β), w = 4·tR/√N, Rf = Kβ_paper/(1+Kβ_paper) on a 100 mm strip — ; outside the method: CO3-2, Cu+1, Cu+2, H+, HCO3-, SO4-2 (ion exchange not modeled) Incomplete sample coverage: no retention prediction for dissolved carbon dioxide. Peak areas are relative to the largest modeled peak, not the complete sample; the missing components' elution is unknown.
+  v1 (beaker) — 25.18 °C, 100.0 g, 100.0 mL liquid, sealed 100.0 mL headspace at 1.013 bar, pH 4.49, pe 13.60 (+0.805 V), I = 0.0281 m
+      temperature estimate is incomplete: reaction heat for antlerite is not priced
+      redox — all Cu as Cu(II); all S as S(VI)
+           3.23 mmol  nitrogen           Gas
+            856 µmol  oxygen             Gas
+            744 nmol  dissolved carbon dioxide Aqueous
+           11.9 nmol  bicarbonate ion    Aqueous
+           0.03 pmol  carbonate ion      Aqueous
+           0.00 pmol  copper(I) ion      Aqueous
+            996 µmol  copper(II) ion     Aqueous
+            999 µmol  sulfate ion        Aqueous
+            878 nmol  carbon dioxide     Gas
+           1.17 µmol  antlerite (green copper sulfate) Solid
+          5.5343 mol  water              Liquid
+           4.70 µmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9970e-1   γ=0.018
+        SO4-2           7.0269e-3    3.7789e-3   γ=0.538
+        Cu+2            7.0134e-3    3.8793e-3   γ=0.553
+        CuSO4           2.9770e-3    2.9970e-3   γ=1.007
+        H+              3.7194e-5    3.2605e-5   γ=0.877
+        HSO4-           1.4080e-5    1.2020e-5   γ=0.854
+        CO2             7.2366e-6    7.2836e-6   γ=1.006
+        CuOH+           1.3980e-6    1.1890e-6   γ=0.851
+        Cu2(OH)2+2      1.1890e-6    6.3000e-7   γ=0.530
+        CuHCO3+         2.2680e-7    1.9350e-7   γ=0.853
+        HCO3-           1.1586e-7    9.9542e-8   γ=0.859
+        Cu(OH)2         7.5710e-8    7.6200e-8   γ=1.006
+        CuCO3           2.9740e-9    2.9930e-9   γ=1.006
+        OH-            3.6688e-10   3.1104e-10   γ=0.848
+        CO3-2          2.6371e-13   1.4368e-13   γ=0.545
+        Cu+            6.0640e-14   5.1000e-14   γ=0.841
+        O2             2.1360e-14   2.1490e-14   γ=1.006
+        Cu(OH)3-       1.6500e-16   1.4080e-16   γ=0.853
+        Cu(CO3)2-2     1.0220e-18   5.4150e-19   γ=0.530
+        Cu(OH)4-2      1.6250e-24   8.6120e-25   γ=0.530
+        H2             4.6680e-40   4.6990e-40   γ=1.007

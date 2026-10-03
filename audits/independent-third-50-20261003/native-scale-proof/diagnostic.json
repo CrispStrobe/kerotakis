@@ -1,0 +1,51 @@
+{
+  "diagnostic_only": true,
+  "commit": "e06111caaad783029d46a9129df2e9301930ce7c",
+  "stages": [
+    {
+      "name": "native",
+      "command": [
+        "cargo",
+        "test",
+        "-p",
+        "kerotakis-phreeqc",
+        "--features",
+        "engine",
+        "--lib",
+        "--test",
+        "trace_inventory",
+        "--test",
+        "order_invariance",
+        "--test",
+        "engine_call_budget",
+        "--test",
+        "settled_carbonate_transfer",
+        "--no-fail-fast",
+        "--",
+        "--test-threads=1"
+      ],
+      "exit_code": 0,
+      "seconds": 325.7110114097595,
+      "log": "native.log",
+      "log_sha256": "379df068286f16fddf14a918e562bc73ad182737109916e5689f0bd51a7e4d80"
+    },
+    {
+      "name": "hook",
+      "command": [
+        "cargo",
+        "test",
+        "-p",
+        "kerotakis-phreeqc",
+        "--no-default-features",
+        "--lib",
+        "--no-fail-fast",
+        "--",
+        "--test-threads=1"
+      ],
+      "exit_code": 0,
+      "seconds": 4.5962183475494385,
+      "log": "hook.log",
+      "log_sha256": "a32292866679eed07bc30dec41a5d002f52bf1aa0c3ee4a087fbeb2f59014365"
+    }
+  ]
+}

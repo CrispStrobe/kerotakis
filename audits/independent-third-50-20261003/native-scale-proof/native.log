@@ -1,0 +1,522 @@
+[1m[92m    Updating[0m crates.io index
+[1m[92m     Locking[0m 311 packages to highest compatible versions
+[1m[92m      Adding[0m criterion v0.5.1 [1m[33m(available: v0.8.2)[0m
+[1m[92m      Adding[0m diffsol v0.16.2 [1m[33m(available: v0.17.1)[0m
+[1m[92m      Adding[0m generic-array v0.14.7 [1m[33m(available: v0.14.9)[0m
+[1m[92m      Adding[0m getrandom v0.3.4 [1m[33m(available: v0.4.3)[0m
+[1m[92m      Adding[0m js-sys v0.3.104 [1m[33m(available: v0.3.106)[0m
+[1m[92m      Adding[0m rand v0.9.5 [1m[33m(available: v0.10.3)[0m
+[1m[92m      Adding[0m rand_chacha v0.9.0 [1m[33m(available: v0.10.0)[0m
+[1m[92m      Adding[0m rand_distr v0.5.1 [1m[33m(available: v0.6.0)[0m
+[1m[92m      Adding[0m rapier2d v0.35.3 [1m[33m(available: v0.36.0)[0m
+[1m[92m      Adding[0m sha2 v0.10.9 [1m[33m(available: v0.11.0)[0m
+[1m[92m      Adding[0m talc v4.4.3 [1m[33m(available: v5.1.1)[0m
+[1m[92m      Adding[0m toml v0.8.23 [1m[33m(available: v1.1.6+spec-1.1.0)[0m
+[1m[92m      Adding[0m wasm-bindgen v0.2.127 [1m[33m(available: v0.2.129)[0m
+[1m[92m      Adding[0m wasm-bindgen-macro v0.2.127 [1m[33m(available: v0.2.129)[0m
+[1m[92m      Adding[0m wasm-bindgen-macro-support v0.2.127 [1m[33m(available: v0.2.129)[0m
+[1m[92m      Adding[0m wasm-bindgen-shared v0.2.127 [1m[33m(available: v0.2.129)[0m
+[1m[92m      Adding[0m web-sys v0.3.104 [1m[33m(available: v0.3.106)[0m
+[1m[92m Downloading[0m crates ...
+[1m[92m  Downloaded[0m ahash v0.8.12
+[1m[92m  Downloaded[0m approx v0.5.1
+[1m[92m  Downloaded[0m clap_lex v1.1.1
+[1m[92m  Downloaded[0m atomic-wait v1.1.0
+[1m[92m  Downloaded[0m nano-gemm-f64 v0.2.1
+[1m[92m  Downloaded[0m plotters-backend v0.3.7
+[1m[92m  Downloaded[0m pest_meta v2.9.2
+[1m[92m  Downloaded[0m aho-corasick v1.1.5
+[1m[92m  Downloaded[0m ciborium v0.2.2
+[1m[92m  Downloaded[0m ciborium-ll v0.2.2
+[1m[92m  Downloaded[0m allocator-api2 v0.2.21
+[1m[92m  Downloaded[0m ciborium-io v0.2.2
+[1m[92m  Downloaded[0m anes v0.1.6
+[1m[92m  Downloaded[0m pest v2.9.2
+[1m[92m  Downloaded[0m qd v0.8.0
+[1m[92m  Downloaded[0m nano-gemm-f32 v0.2.1
+[1m[92m  Downloaded[0m npyz v0.8.4
+[1m[92m  Downloaded[0m num_cpus v1.17.0
+[1m[92m  Downloaded[0m once_cell v1.21.4
+[1m[92m  Downloaded[0m oorandom v11.1.5
+[1m[92m  Downloaded[0m plotters-svg v0.3.7
+[1m[92m  Downloaded[0m num-complex v0.4.6
+[1m[92m  Downloaded[0m clap_builder v4.6.7
+[1m[92m  Downloaded[0m rayon-core v1.13.0
+[1m[92m  Downloaded[0m pest_derive v2.9.2
+[1m[92m  Downloaded[0m parking_lot_core v0.9.12
+[1m[92m  Downloaded[0m rand_core v0.6.4
+[1m[92m  Downloaded[0m plotters v0.3.7
+[1m[92m  Downloaded[0m pulp-wasm-simd-flag v0.1.1
+[1m[92m  Downloaded[0m smallvec v1.16.2
+[1m[92m  Downloaded[0m clap v4.6.7
+[1m[92m  Downloaded[0m num-rational v0.4.2
+[1m[92m  Downloaded[0m num-integer v0.1.47
+[1m[92m  Downloaded[0m postcard v1.1.3
+[1m[92m  Downloaded[0m reborrow v0.5.5
+[1m[92m  Downloaded[0m semver v1.0.28
+[1m[92m  Downloaded[0m equator-macro v0.4.2
+[1m[92m  Downloaded[0m ppv-lite86 v0.2.21
+[1m[92m  Downloaded[0m thiserror v2.0.21
+[1m[92m  Downloaded[0m ucd-trie v0.1.7
+[1m[92m  Downloaded[0m anstyle v1.0.14
+[1m[92m  Downloaded[0m cast v0.3.0
+[1m[92m  Downloaded[0m gemm-f64 v0.19.0
+[1m[92m  Downloaded[0m generativity v1.2.1
+[1m[92m  Downloaded[0m is-terminal v0.4.17
+[1m[92m  Downloaded[0m num-traits v0.2.19
+[1m[92m  Downloaded[0m pulp v0.22.3
+[1m[92m  Downloaded[0m rustc-hash v1.1.0
+[1m[92m  Downloaded[0m tinytemplate v1.2.1
+[1m[92m  Downloaded[0m either v1.18.0
+[1m[92m  Downloaded[0m slab v0.4.12
+[1m[92m  Downloaded[0m rand_distr v0.5.1
+[1m[92m  Downloaded[0m serde_spanned v0.6.9
+[1m[92m  Downloaded[0m rand_chacha v0.9.0
+[1m[92m  Downloaded[0m rayon v1.12.0
+[1m[92m  Downloaded[0m equator-macro v0.6.0
+[1m[92m  Downloaded[0m gemm-f16 v0.19.0
+[1m[92m  Downloaded[0m rawpointer v0.2.1
+[1m[92m  Downloaded[0m toml_write v0.1.2
+[1m[92m  Downloaded[0m crossbeam-deque v0.8.8
+[1m[92m  Downloaded[0m geo-types v0.7.20
+[1m[92m  Downloaded[0m indexmap v2.14.2
+[1m[92m  Downloaded[0m autocfg v1.5.1
+[1m[92m  Downloaded[0m cmake v0.1.58
+[1m[92m  Downloaded[0m sha2 v0.10.9
+[1m[92m  Downloaded[0m walkdir v2.5.0
+[1m[92m  Downloaded[0m digest v0.10.7
+[1m[92m  Downloaded[0m byteorder v1.5.0
+[1m[92m  Downloaded[0m defer v0.2.1
+[1m[92m  Downloaded[0m hash32 v0.2.1
+[1m[92m  Downloaded[0m bumpalo v3.20.3
+[1m[92m  Downloaded[0m embedded-io v0.4.0
+[1m[92m  Downloaded[0m faer-traits v0.24.0
+[1m[92m  Downloaded[0m gemm-c64 v0.19.0
+[1m[92m  Downloaded[0m hashbrown v0.15.5
+[1m[92m  Downloaded[0m nano-gemm-c64 v0.2.1
+[1m[92m  Downloaded[0m find-msvc-tools v0.1.14
+[1m[92m  Downloaded[0m hashbrown v0.17.1
+[1m[92m  Downloaded[0m bytemuck_derive v1.12.1
+[1m[92m  Downloaded[0m crossbeam-epoch v0.9.21
+[1m[92m  Downloaded[0m crypto-common v0.1.7
+[1m[92m  Downloaded[0m dyn-stack-macros v0.1.3
+[1m[92m  Downloaded[0m equivalent v1.0.2
+[1m[92m  Downloaded[0m lazy_static v1.5.1
+[1m[92m  Downloaded[0m seq-macro v0.3.6
+[1m[92m  Downloaded[0m cpufeatures v0.2.17
+[1m[92m  Downloaded[0m crossbeam-queue v0.3.14
+[1m[92m  Downloaded[0m nalgebra-macros v0.3.0
+[1m[92m  Downloaded[0m thiserror-impl v2.0.21
+[1m[92m  Downloaded[0m pest_generator v2.9.2
+[1m[92m  Downloaded[0m rustc-hash v2.1.3
+[1m[92m  Downloaded[0m same-file v1.0.6
+[1m[92m  Downloaded[0m stable_deref_trait v1.2.1
+[1m[92m  Downloaded[0m version_check v0.9.5
+[1m[92m  Downloaded[0m rand_core v0.9.5
+[1m[92m  Downloaded[0m rustc_version v0.4.1
+[1m[92m  Downloaded[0m scopeguard v1.2.0
+[1m[92m  Downloaded[0m spindle v0.2.6
+[1m[92m  Downloaded[0m toml_datetime v0.6.11
+[1m[92m  Downloaded[0m quote v1.0.47
+[1m[92m  Downloaded[0m raw-cpuid v11.6.0
+[1m[92m  Downloaded[0m serde_core v1.0.229
+[1m[92m  Downloaded[0m shlex v2.0.1
+[1m[92m  Downloaded[0m unsafe-libyaml v0.2.11
+[1m[92m  Downloaded[0m zmij v1.0.23
+[1m[92m  Downloaded[0m cfg-if v1.0.5
+[1m[92m  Downloaded[0m criterion-plot v0.5.0
+[1m[92m  Downloaded[0m paste v1.0.15
+[1m[92m  Downloaded[0m toml v0.8.23
+[1m[92m  Downloaded[0m unicode-ident v1.0.26
+[1m[92m  Downloaded[0m gemm-c32 v0.19.0
+[1m[92m  Downloaded[0m interpol v0.2.1
+[1m[92m  Downloaded[0m nano-gemm-codegen v0.2.1
+[1m[92m  Downloaded[0m private-gemm-x86 v0.1.20
+[1m[92m  Downloaded[0m py_literal v0.4.0
+[1m[92m  Downloaded[0m spin v0.9.9
+[1m[92m  Downloaded[0m equator v0.2.2
+[1m[92m  Downloaded[0m equator v0.6.0
+[1m[92m  Downloaded[0m equator-macro v0.2.1
+[1m[92m  Downloaded[0m gemm-f32 v0.19.0
+[1m[92m  Downloaded[0m generic-array v0.14.7
+[1m[92m  Downloaded[0m nano-gemm-core v0.2.1
+[1m[92m  Downloaded[0m proc-macro2 v1.0.107
+[1m[92m  Downloaded[0m ryu v1.0.23
+[1m[92m  Downloaded[0m safe_arch v1.2.0
+[1m[92m  Downloaded[0m serde_yaml_ng v0.10.0
+[1m[92m  Downloaded[0m simba v0.10.2
+[1m[92m  Downloaded[0m block-buffer v0.10.4
+[1m[92m  Downloaded[0m diffsol-nl v0.1.1
+[1m[92m  Downloaded[0m embedded-io v0.6.1
+[1m[92m  Downloaded[0m fixedbitset v0.5.7
+[1m[92m  Downloaded[0m lock_api v0.4.14
+[1m[92m  Downloaded[0m rand v0.8.8
+[1m[92m  Downloaded[0m serde_derive v1.0.229
+[1m[92m  Downloaded[0m toml_edit v0.22.27
+[1m[92m  Downloaded[0m crossbeam v0.8.5
+[1m[92m  Downloaded[0m equator v0.4.2
+[1m[92m  Downloaded[0m itoa v1.0.18
+[1m[92m  Downloaded[0m nalgebra v0.35.0
+[1m[92m  Downloaded[0m nano-gemm v0.2.2
+[1m[92m  Downloaded[0m nano-gemm-c32 v0.2.1
+[1m[92m  Downloaded[0m num-bigint v0.4.8
+[1m[92m  Downloaded[0m serde v1.0.229
+[1m[92m  Downloaded[0m cobs v0.3.0
+[1m[92m  Downloaded[0m dashmap v6.2.1
+[1m[92m  Downloaded[0m dyn-stack v0.13.2
+[1m[92m  Downloaded[0m foldhash v0.1.5
+[1m[92m  Downloaded[0m gemm v0.19.0
+[1m[92m  Downloaded[0m gemm-common v0.19.0
+[1m[92m  Downloaded[0m typenum v1.20.1
+[1m[92m  Downloaded[0m log v0.4.34
+[1m[92m  Downloaded[0m rand v0.9.5
+[1m[92m  Downloaded[0m bitflags v2.13.2
+[1m[92m  Downloaded[0m crossbeam-utils v0.8.23
+[1m[92m  Downloaded[0m getrandom v0.3.4
+[1m[92m  Downloaded[0m half v2.7.1
+[1m[92m  Downloaded[0m itertools v0.10.5
+[1m[92m  Downloaded[0m lasso v0.7.3
+[1m[92m  Downloaded[0m matrixmultiply v0.3.11
+[1m[92m  Downloaded[0m zerocopy-derive v0.8.59
+[1m[92m  Downloaded[0m bytemuck v1.25.2
+[1m[92m  Downloaded[0m crossbeam-channel v0.5.17
+[1m[92m  Downloaded[0m heapless v0.7.17
+[1m[92m  Downloaded[0m regex v1.13.1
+[1m[92m  Downloaded[0m serde_json v1.0.151
+[1m[92m  Downloaded[0m winnow v0.7.15
+[1m[92m  Downloaded[0m memchr v2.8.3
+[1m[92m  Downloaded[0m criterion v0.5.1
+[1m[92m  Downloaded[0m diffsol-la v0.1.1
+[1m[92m  Downloaded[0m cc v1.6.0
+[1m[92m  Downloaded[0m contour v0.13.1
+[1m[92m  Downloaded[0m hashbrown v0.14.5
+[1m[92m  Downloaded[0m wide v1.7.1
+[1m[92m  Downloaded[0m libm v0.2.16
+[1m[92m  Downloaded[0m syn v3.0.6
+[1m[92m  Downloaded[0m zerocopy v0.8.59
+[1m[92m  Downloaded[0m faer v0.24.4
+[1m[92m  Downloaded[0m syn v1.0.109
+[1m[92m  Downloaded[0m syn v2.0.119
+[1m[92m  Downloaded[0m regex-syntax v0.8.11
+[1m[92m  Downloaded[0m diffsol v0.16.2
+[1m[92m  Downloaded[0m regex-automata v0.4.18
+[1m[92m  Downloaded[0m petgraph v0.8.3
+[1m[92m  Downloaded[0m libc v0.2.190
+[1m[92m  Downloaded[0m glam v0.30.10
+[1m[92m  Downloaded[0m glam v0.32.1
+[1m[92m  Downloaded[0m glam v0.31.1
+[1m[92m  Downloaded[0m glam v0.33.12
+[1m[92m   Compiling[0m proc-macro2 v1.0.107
+[1m[92m   Compiling[0m quote v1.0.47
+[1m[92m   Compiling[0m unicode-ident v1.0.26
+[1m[92m   Compiling[0m autocfg v1.5.1
+[1m[92m   Compiling[0m libm v0.2.16
+[1m[92m   Compiling[0m num-traits v0.2.19
+[1m[92m   Compiling[0m syn v2.0.119
+[1m[92m   Compiling[0m version_check v0.9.5
+[1m[92m   Compiling[0m cfg-if v1.0.5
+[1m[92m   Compiling[0m crossbeam-utils v0.8.23
+[1m[92m   Compiling[0m bytemuck v1.25.2
+[1m[92m   Compiling[0m syn v3.0.6
+[1m[92m   Compiling[0m rand_core v0.6.4
+[1m[92m   Compiling[0m rand v0.8.8
+[1m[92m   Compiling[0m num-complex v0.4.6
+[1m[92m   Compiling[0m libc v0.2.190
+[1m[92m   Compiling[0m memchr v2.8.3
+[1m[92m   Compiling[0m serde_core v1.0.229
+[1m[92m   Compiling[0m crossbeam-epoch v0.9.21
+[1m[92m   Compiling[0m zerocopy v0.8.59
+[1m[92m   Compiling[0m crossbeam-deque v0.8.8
+[1m[92m   Compiling[0m zerocopy-derive v0.8.59
+[1m[92m   Compiling[0m nano-gemm-codegen v0.2.1
+[1m[92m   Compiling[0m rayon-core v1.13.0
+[1m[92m   Compiling[0m either v1.18.0
+[1m[92m   Compiling[0m paste v1.0.15
+[1m[92m   Compiling[0m serde v1.0.229
+[1m[92m   Compiling[0m bitflags v2.13.2
+[1m[92m   Compiling[0m once_cell v1.21.4
+[1m[92m   Compiling[0m raw-cpuid v11.6.0
+[1m[92m   Compiling[0m serde_derive v1.0.229
+[1m[92m   Compiling[0m pulp v0.22.3
+[1m[92m   Compiling[0m rayon v1.12.0
+[1m[92m   Compiling[0m reborrow v0.5.5
+[1m[92m   Compiling[0m pulp-wasm-simd-flag v0.1.1
+[1m[92m   Compiling[0m dyn-stack-macros v0.1.3
+[1m[92m   Compiling[0m zmij v1.0.23
+[1m[92m   Compiling[0m dyn-stack v0.13.2
+[1m[92m   Compiling[0m itoa v1.0.18
+[1m[92m   Compiling[0m serde_json v1.0.151
+[1m[92m   Compiling[0m syn v1.0.109
+[1m[92m   Compiling[0m ucd-trie v0.1.7
+[1m[92m   Compiling[0m thiserror v2.0.21
+[1m[92m   Compiling[0m getrandom v0.3.4
+[1m[92m   Compiling[0m typenum v1.20.1
+[1m[92m   Compiling[0m seq-macro v0.3.6
+[1m[92m   Compiling[0m gemm-common v0.19.0
+[1m[92m   Compiling[0m pest v2.9.2
+[1m[92m   Compiling[0m thiserror-impl v2.0.21
+[1m[92m   Compiling[0m num-integer v0.1.47
+[1m[92m   Compiling[0m nano-gemm-core v0.2.1
+[1m[92m   Compiling[0m num-bigint v0.4.8
+[1m[92m   Compiling[0m pest_meta v2.9.2
+[1m[92m   Compiling[0m byteorder v1.5.0
+[1m[92m   Compiling[0m rand_core v0.9.5
+[1m[92m   Compiling[0m pest_generator v2.9.2
+[1m[92m   Compiling[0m interpol v0.2.1
+[1m[92m   Compiling[0m ppv-lite86 v0.2.21
+[1m[92m   Compiling[0m nano-gemm-f32 v0.2.1
+[1m[92m   Compiling[0m nano-gemm-c64 v0.2.1
+[1m[92m   Compiling[0m nano-gemm-c32 v0.2.1
+[1m[92m   Compiling[0m nano-gemm-f64 v0.2.1
+[1m[92m   Compiling[0m crossbeam-queue v0.3.14
+[1m[92m   Compiling[0m crossbeam-channel v0.5.17
+[1m[92m   Compiling[0m generic-array v0.14.7
+[1m[92m   Compiling[0m equator-macro v0.4.2
+[1m[92m   Compiling[0m defer v0.2.1
+[1m[92m   Compiling[0m smallvec v1.16.2
+[1m[92m   Compiling[0m private-gemm-x86 v0.1.20
+[1m[92m   Compiling[0m equator v0.4.2
+[1m[92m   Compiling[0m crossbeam v0.8.5
+[1m[92m   Compiling[0m rand_chacha v0.9.0
+[1m[92m   Compiling[0m pest_derive v2.9.2
+[1m[92m   Compiling[0m atomic-wait v1.1.0
+[1m[92m   Compiling[0m safe_arch v1.2.0
+[1m[92m   Compiling[0m equator-macro v0.2.1
+[1m[92m   Compiling[0m matrixmultiply v0.3.11
+[1m[92m   Compiling[0m hashbrown v0.17.1
+[1m[92m   Compiling[0m scopeguard v1.2.0
+[1m[92m   Compiling[0m chematic-core v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-core-0.18.0)
+[1m[92m   Compiling[0m equivalent v1.0.2
+[1m[92m   Compiling[0m indexmap v2.14.2
+[1m[92m   Compiling[0m lock_api v0.4.14
+[1m[92m   Compiling[0m equator v0.2.2
+[1m[92m   Compiling[0m wide v1.7.1
+[1m[92m   Compiling[0m spindle v0.2.6
+[1m[92m   Compiling[0m py_literal v0.4.0
+[1m[92m   Compiling[0m rand v0.9.5
+[1m[92m   Compiling[0m gemm-f64 v0.19.0
+[1m[92m   Compiling[0m gemm-c64 v0.19.0
+[1m[92m   Compiling[0m gemm-f32 v0.19.0
+[1m[92m   Compiling[0m gemm-c32 v0.19.0
+[1m[92m   Compiling[0m qd v0.8.0
+[1m[92m   Compiling[0m num_cpus v1.17.0
+[1m[92m   Compiling[0m ahash v0.8.12
+[1m[92m   Compiling[0m approx v0.5.1
+[1m[92m   Compiling[0m rawpointer v0.2.1
+[1m[92m   Compiling[0m equator-macro v0.6.0
+[1m[92m   Compiling[0m generativity v1.2.1
+[1m[92m   Compiling[0m rustc-hash v2.1.3
+[1m[92m   Compiling[0m chematic-perception v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-perception-0.18.0)
+[1m[92m   Compiling[0m faer-traits v0.24.0
+[1m[92m   Compiling[0m equator v0.6.0
+[1m[92m   Compiling[0m simba v0.10.2
+[1m[92m   Compiling[0m gemm v0.19.0
+[1m[92m   Compiling[0m nano-gemm v0.2.2
+[1m[92m   Compiling[0m rand_distr v0.5.1
+[1m[92m   Compiling[0m npyz v0.8.4
+[1m[92m   Compiling[0m num-rational v0.4.2
+[1m[92m   Compiling[0m nalgebra-macros v0.3.0
+[1m[92m   Compiling[0m parking_lot_core v0.9.12
+[1m[92m   Compiling[0m diffsol-la v0.1.1
+[1m[92m   Compiling[0m nalgebra v0.35.0
+[1m[92m   Compiling[0m faer v0.24.4
+[1m[92m   Compiling[0m block-buffer v0.10.4
+[1m[92m   Compiling[0m crypto-common v0.1.7
+[1m[92m   Compiling[0m allocator-api2 v0.2.21
+[1m[92m   Compiling[0m foldhash v0.1.5
+[1m[92m   Compiling[0m hashbrown v0.15.5
+[1m[92m   Compiling[0m hashbrown v0.14.5
+[1m[92m   Compiling[0m digest v0.10.7
+[1m[92m   Compiling[0m geo-types v0.7.20
+[1m[92m   Compiling[0m toml_datetime v0.6.11
+[1m[92m   Compiling[0m serde_spanned v0.6.9
+[1m[92m   Compiling[0m log v0.4.34
+[1m[92m   Compiling[0m rustc-hash v1.1.0
+[1m[92m   Compiling[0m winnow v0.7.15
+[1m[92m   Compiling[0m toml_write v0.1.2
+[1m[92m   Compiling[0m fixedbitset v0.5.7
+[1m[92m   Compiling[0m lazy_static v1.5.1
+[1m[92m   Compiling[0m cpufeatures v0.2.17
+[1m[92m   Compiling[0m diffsol v0.16.2
+[1m[92m   Compiling[0m slab v0.4.12
+[1m[92m   Compiling[0m contour v0.13.1
+[1m[92m   Compiling[0m sha2 v0.10.9
+[1m[92m   Compiling[0m petgraph v0.8.3
+[1m[92m   Compiling[0m toml_edit v0.22.27
+[1m[92m   Compiling[0m diffsol-nl v0.1.1
+[1m[92m   Compiling[0m dashmap v6.2.1
+[1m[92m   Compiling[0m kerotakis-core v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-core)
+[1m[92m   Compiling[0m chematic-smarts v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-smarts-0.18.0)
+[1m[92m   Compiling[0m chematic-smiles v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-smiles-0.18.0)
+[1m[92m   Compiling[0m ryu v1.0.23
+[1m[92m   Compiling[0m unsafe-libyaml v0.2.11
+[1m[92m   Compiling[0m serde_yaml_ng v0.10.0
+[1m[92m   Compiling[0m chematic-rxn v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-rxn-0.18.0)
+[1m[92m   Compiling[0m lasso v0.7.3
+[1m[92m   Compiling[0m toml v0.8.23
+[1m[92m   Compiling[0m kerotakis-data v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-data)
+[1m[92m   Compiling[0m kerotakis-thermo v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-thermo)
+[1m[92m   Compiling[0m bumpalo v3.20.3
+[1m[92m   Compiling[0m semver v1.0.28
+[1m[92m   Compiling[0m rustc_version v0.4.1
+[1m[92m   Compiling[0m find-msvc-tools v0.1.14
+[1m[92m   Compiling[0m shlex v2.0.1
+[1m[92m   Compiling[0m cc v1.6.0
+[1m[92m   Compiling[0m heapless v0.7.17
+[1m[92m   Compiling[0m chematic-fp v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-fp-0.18.0)
+[1m[92m   Compiling[0m chematic-cip v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-cip-0.18.0)
+[1m[92m   Compiling[0m chematic-iupac v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-iupac-0.18.0)
+[1m[92m   Compiling[0m chematic-inchi v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-inchi-0.18.0)
+[1m[92m   Compiling[0m chematic-chem v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-chem-0.18.0)
+[1m[92m   Compiling[0m cmake v0.1.58
+[1m[92m   Compiling[0m spin v0.9.9
+[1m[92m   Compiling[0m hash32 v0.2.1
+[1m[92m   Compiling[0m stable_deref_trait v1.2.1
+[1m[92m   Compiling[0m kerotakis-phreeqc v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-phreeqc)
+[1m[92m   Compiling[0m chematic-mol v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-mol-0.18.0)
+[1m[92m   Compiling[0m cobs v0.3.0
+[1m[92m   Compiling[0m half v2.7.1
+[1m[92m   Compiling[0m anstyle v1.0.14
+[1m[92m   Compiling[0m ciborium-io v0.2.2
+[1m[92m   Compiling[0m clap_lex v1.1.1
+[1m[92m   Compiling[0m plotters-backend v0.3.7
+[1m[92m   Compiling[0m regex-syntax v0.8.11
+[1m[92m   Compiling[0m regex-automata v0.4.18
+[1m[92m   Compiling[0m plotters-svg v0.3.7
+[1m[92m   Compiling[0m clap_builder v4.6.7
+[1m[92m   Compiling[0m ciborium-ll v0.2.2
+[1m[92m   Compiling[0m postcard v1.1.3
+[1m[92m   Compiling[0m chematic v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-0.18.0)
+[1m[92m   Compiling[0m itertools v0.10.5
+[1m[92m   Compiling[0m same-file v1.0.6
+[1m[92m   Compiling[0m cast v0.3.0
+[1m[92m   Compiling[0m criterion-plot v0.5.0
+[1m[92m   Compiling[0m walkdir v2.5.0
+[1m[92m   Compiling[0m kerotakis-org v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-org)
+[1m[92m   Compiling[0m ciborium v0.2.2
+[1m[92m   Compiling[0m clap v4.6.7
+[1m[92m   Compiling[0m plotters v0.3.7
+[1m[92m   Compiling[0m regex v1.13.1
+[1m[92m   Compiling[0m kerotakis-cea v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-cea)
+[1m[92m   Compiling[0m tinytemplate v1.2.1
+[1m[92m   Compiling[0m is-terminal v0.4.17
+[1m[92m   Compiling[0m oorandom v11.1.5
+[1m[92m   Compiling[0m anes v0.1.6
+[1m[92m   Compiling[0m criterion v0.5.1
+[1m[92m   Compiling[0m kerotakis-stack v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-stack)
+[1m[92m   Compiling[0m kerotakis-safety v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-safety)
+[1m[33mwarning[0m[1m: unreachable pattern[0m
+   [1m[94m--> [0mcrates/kerotakis-phreeqc/tests/trace_inventory.rs:130:13
+    [1m[94m|[0m
+[1m[94m120[0m [1m[94m|[0m             Err(SolveError::NotConverged { .. }) => {
+    [1m[94m|[0m             [1m[94m------------------------------------[0m [1m[94mmatches all the relevant values[0m
+[1m[94m...[0m
+[1m[94m130[0m [1m[94m|[0m             Err(error) => panic!("unexpected refusal for concentrated trace sample: {error:?}"),
+    [1m[94m|[0m             [1m[33m^^^^^^^^^^[0m [1m[33mno value can reach this[0m
+    [1m[94m|[0m
+    [1m[94m= [0m[1mnote[0m: `#[warn(unreachable_patterns)]` (part of `#[warn(unused)]`) on by default
+
+[1m[33mwarning[0m: `kerotakis-phreeqc` (test "trace_inventory") generated 1 warning
+[1m[92m    Finished[0m `test` profile [unoptimized + debuginfo] target(s) in 5m 20s
+[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/kerotakis_phreeqc-c4b0f2045ae7bfd0)
+
+running 63 tests
+test aqueous::dataset_claim_tests::german_translates_the_clauses_and_not_the_file ... ok
+test aqueous::dataset_claim_tests::the_file_name_survives_the_sentence_around_it ... ok
+test aqueous::dataset_claim_tests::the_recipe_renders_the_english_it_replaced ... ok
+test aqueous::numerical_speciation_tests::malformed_or_missing_columns_preserve_the_report_and_no_second_solve ... ok
+test aqueous::numerical_speciation_tests::native_columns_replace_rounding_and_log_activities_without_creating_species ... ok
+test aqueous::numerical_speciation_tests::pure_water_surface_tolerance_is_scoped_and_does_not_reduce_output_precision ... ok
+test aqueous::oxidation_sum_tests::chemistry_input_resolves_the_temperature_balance_tolerance ... ok
+test aqueous::oxidation_sum_tests::equilibrium_input_is_independent_of_feed_order ... ok
+test aqueous::oxidation_sum_tests::invalid_or_partial_native_ledgers_are_not_balances ... ok
+test aqueous::oxidation_sum_tests::valid_negative_oxidation_sum_and_zero_population_are_preserved ... ok
+test aqueous::routing_molality_tests::a_beaker_boiled_dry_over_chalk_is_not_a_concentrated_solution ... ok
+test aqueous::routing_molality_tests::a_real_brine_still_reads_as_concentrated ... ok
+test aqueous::routing_molality_tests::the_documented_millilitre_probe_is_unchanged ... ok
+test aqueous::routing_molality_tests::the_solvent_floor_binds_only_below_a_millilitre ... ok
+test aqueous::thermal_root_tests::shrinking_a_discontinuous_bracket_does_not_claim_equilibrium ... ok
+test aqueous::thermal_root_tests::unstable_thermal_feedback_is_solved_without_relaxing_the_residual ... ok
+test aqueous::trace_distribution_tests::species_report_keeps_positive_trace_concentrations ... ok
+test aqueous::trace_interface_tests::direct_and_mix_solvent_inputs_preserve_small_and_large_positive_masses ... ok
+test aqueous::trace_interface_tests::exchange_input_keeps_a_subpicomole_bound_element_budget ... ok
+test aqueous::trace_interface_tests::malformed_normalized_output_refuses_instead_of_relabeling_native_amounts ... ok
+test aqueous::trace_interface_tests::microscopic_mix_uses_one_scale_preserving_fractions_and_solution_ratios ... ok
+test aqueous::trace_interface_tests::microscopic_problem_scales_all_extensive_inputs_and_restores_only_amount_columns ... ok
+test aqueous::trace_interface_tests::positive_trace_phase_excludes_homogeneous_total_projection ... ok
+test aqueous::trace_interface_tests::trace_surface_amount_and_water_return_are_conserved_across_interfaces ... ok
+test aqueous_gases::tests::gas_slice_converts_dissociative_not_molecular_henry_constant ... ok
+test complexation::tests::extension_precedes_end_and_does_not_claim_temperature_derivatives ... ok
+test complexation::tests::physical_aliases_are_exact_and_preserve_reference_coverage ... ok
+test dbindex::delta_h_tests::carbonate_rows_are_the_shape_the_algebra_assumes ... ok
+test dbindex::delta_h_tests::delta_h_is_normalised_to_kilojoules ... ok
+test dbindex::delta_h_tests::german_keeps_the_name_and_moves_the_decimal_point ... ok
+test dbindex::delta_h_tests::only_the_ion_interaction_model_carries_the_prefix_core_matches_on ... ok
+test dbindex::delta_h_tests::phase_and_species_enthalpies_come_off_the_shipped_files ... ok
+test dbindex::delta_h_tests::redefining_species_drops_earlier_temperature_attributes ... ok
+test dbindex::delta_h_tests::the_recipe_renders_the_english_description_exactly ... ok
+test dbindex::tests::formula_parser_handles_the_registry ... ok
+test dbindex::tests::parses_the_three_databases ... ok
+test derived::tests::a_condensed_gas_is_never_a_database_mineral ... ok
+test derived::tests::bookings_cover_every_derivable_element ... ok
+test derived::tests::citric_acid_is_one_citrate_and_not_two_acetates ... ok
+test derived::tests::lactate_is_defined_in_exactly_one_loaded_database ... ok
+test derived::tests::malate_is_in_none_of_the_shipped_databases ... ok
+test derived::tests::phase_coverage_reports_how_little_the_datasets_share ... ok
+test derived::tests::phase_table_is_derived ... ok
+test derived::tests::roles_are_derived_correctly ... ok
+test derived::tests::sugars_and_malic_acid_are_not_decomposed_into_acetate ... ok
+test derived::tests::the_atmospheric_co2_pressure_agrees_with_the_clock ... ok
+test enthalpy::tests::a_solid_prices_as_its_ions_less_its_dissolution ... ok
+test enthalpy::tests::a_solids_enthalpy_is_its_ions_less_the_cost_of_getting_there ... ok
+test enthalpy::tests::an_unpriceable_spectator_that_does_not_move_is_harmless ... ok
+test enthalpy::tests::aqueous_thiocyanate_relabelling_preserves_known_heat_not_unknown_properties ... ok
+test enthalpy::tests::neutralisation_falls_out_of_the_basis ... ok
+test enthalpy::tests::something_unpriceable_that_moves_declines_by_name ... ok
+test enthalpy::tests::the_basis_is_populated_and_not_silently_zero ... ok
+test enthalpy::tests::the_volcano_is_endothermic_and_the_right_size ... ok
+test inventory::trace_basis_tests::acid_base_basis_retains_positive_subpicomole_coordinates ... ok
+test native_namespace::tests::a_partial_state_selection_does_not_invent_an_element_total ... ok
+test native_namespace::tests::a_phase_name_is_not_an_aqueous_species_formula ... ok
+test native_namespace::tests::totals_species_and_similar_names_keep_distinct_meanings ... ok
+test phase_diagnostics::tests::gases_and_registered_solids_are_never_reported_as_missing_precipitates ... ok
+test phase_diagnostics::tests::offered_small_and_invalid_indices_do_not_generate_boundaries ... ok
+test phase_diagnostics::tests::registry_coverage_is_not_candidate_coverage ... ok
+test phase_diagnostics::tests::temperature_boundary_is_checked_not_merely_present ... ok
+test redox_isolation::tests::isolated_phase_keeps_inline_thermodynamic_parameters_exactly ... ok
+
+test result: ok. 63 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.36s
+
+[1m[92m     Running[0m tests/engine_call_budget.rs (target/debug/deps/engine_call_budget-ef74009b6a6e3aa7)
+
+running 1 test
+test coupled_equilibration_stays_inside_the_call_budget ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.84s
+
+[1m[92m     Running[0m tests/order_invariance.rs (target/debug/deps/order_invariance-8ac69ed617e34b80)
+
+running 2 tests
+test the_canonical_pose_costs_at_most_one_solve_per_equilibration ... ok
+test the_same_beaker_reads_the_same_solvent_mass_in_either_order ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.98s
+
+[1m[92m     Running[0m tests/settled_carbonate_transfer.rs (target/debug/deps/settled_carbonate_transfer-7f8cc982fe9aa03d)
+
+running 1 test
+test partial_pours_of_settled_chalk_brine_conserve_inventory_and_resolve_both_sides ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.91s
+
+[1m[92m     Running[0m tests/trace_inventory.rs (target/debug/deps/trace_inventory-1acfa5fca8aec1e4)
+
+running 5 tests
+test concentrated_bare_ion_trace_preparation_is_conservative_or_atomically_refused ... ok
+test microscopic_native_cache_roundtrip_keeps_physical_amounts_without_double_scaling ... ok
+test native_mix_preserves_normal_and_microscopic_solution_budgets ... ok
+test subpicomole_precipitation_never_duplicates_the_dissolved_element_budget ... ok
+test trace_acid_and_salt_spectators_survive_repeated_equilibration ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.88s
+

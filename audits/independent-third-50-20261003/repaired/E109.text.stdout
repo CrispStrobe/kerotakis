@@ -1,0 +1,72 @@
+  v2: new vessel
+  v3: new vessel
+  v1: +6.641132 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.012000 mol sodium chloride (NaCl, M = 58.443 g/mol)
+  v1: 0.012000 mol sodium chloride dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone
+  v1: pH 6.985 · I = 0.1003 mol/kgw
+  v1: T 298.150 K → 298.057 K (ΔT = -0.093 K)
+  v1 (beaker) — 24.91 °C, 120.3 g, 120.0 mL liquid, open to atmosphere, pH 6.98, I = 0.1003 m
+          0.0120 mol  chloride ion       Aqueous
+          0.0120 mol  sodium ion         Aqueous
+          6.6411 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9660e-1   γ=0.018
+        Cl-             1.0030e-1    7.6633e-2   γ=0.764
+        Na+             1.0030e-1    7.8484e-2   γ=0.782
+        O2              2.6200e-4    2.6810e-4   γ=1.023
+        H+              1.2556e-7    1.0362e-7   γ=0.825
+        OH-             1.2556e-7    9.5603e-8   γ=0.761
+  v2 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v2: T 298.150 K → 298.057 K (ΔT = -0.093 K)
+  v1 → v2: Rayleigh batch cut, 1 ideal stage(s) at total reflux (a real column at finite reflux separates less, never more); pot 373.15 K → 373.15 K; latent heat 67.50 kJ paid by the burner and dumped by the condenser, deliberately outside the vessel ledger
+  v1: pH 6.981 · I = 0.1337 mol/kgw
+  v2: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1 conductivity meter: 14245.1194 µS/cm — past I = 0.10 mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: the ion–ion drag is corrected by an empirical factor (0.84× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and 2 mol/kgw. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one — This is a model estimate with limited calibration or simplifying assumptions.
+  v2 conductivity meter: 0.0549 µS/cm — This estimate is incomplete: contributing model data are missing.
+  v1: NOT MODELLED: the volume meter reads a sealed vessel's headspace, and this one is open — seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.
+  v2: NOT MODELLED: the volume meter reads a sealed vessel's headspace, and this one is open — seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.
+  v1 (beaker) — 24.91 °C, 90.4 g, 90.0 mL liquid, open to atmosphere, pH 6.98, I = 0.1337 m
+          0.0120 mol  chloride ion       Aqueous
+          0.0120 mol  sodium ion         Aqueous
+          4.9808 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9540e-1   γ=0.018
+        Cl-             1.3373e-1    9.9303e-2   γ=0.743
+        Na+             1.3373e-1    1.0240e-1   γ=0.766
+        O2              2.6000e-4    2.6810e-4   γ=1.031
+        OH-             1.2828e-7    9.4815e-8   γ=0.739
+        H+              1.2828e-7    1.0436e-7   γ=0.814
+  v2 (beaker) — 24.91 °C, 29.9 g, 30.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          1.6603 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.0025e-7    1.0025e-7   γ=1.000
+        OH-             1.0025e-7    1.0025e-7   γ=1.000
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v1 → v2: Rayleigh batch cut, 1 ideal stage(s) at total reflux (a real column at finite reflux separates less, never more); pot 373.15 K → 373.15 K; latent heat 67.50 kJ paid by the burner and dumped by the condenser, deliberately outside the vessel ledger
+  v1: pH 6.977 · I = 0.2006 mol/kgw
+  v1 conductivity meter: 20676.0206 µS/cm — past I = 0.10 mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: the ion–ion drag is corrected by an empirical factor (0.82× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and 2 mol/kgw. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one — This is a model estimate with limited calibration or simplifying assumptions.
+  v2 conductivity meter: 0.0549 µS/cm — This estimate is incomplete: contributing model data are missing.
+  v1 (beaker) — 24.91 °C, 60.5 g, 60.0 mL liquid, open to atmosphere, pH 6.98, I = 0.2006 m
+          0.0120 mol  chloride ion       Aqueous
+          0.0120 mol  sodium ion         Aqueous
+          3.3206 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9320e-1   γ=0.018
+        Cl-             2.0060e-1    1.4275e-1   γ=0.712
+        Na+             2.0060e-1    1.4914e-1   γ=0.743
+        O2              2.5600e-4    2.6810e-4   γ=1.047
+        H+              1.3235e-7    1.0555e-7   γ=0.797
+        OH-             1.3235e-7    9.3535e-8   γ=0.707
+  v2 (beaker) — 24.91 °C, 59.8 g, 60.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          3.3206 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.0025e-7    1.0025e-7   γ=1.000
+        OH-             1.0025e-7    1.0025e-7   γ=1.000
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)

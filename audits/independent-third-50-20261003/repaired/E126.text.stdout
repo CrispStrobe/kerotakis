@@ -1,0 +1,76 @@
+  v2: new vessel
+  v3: new vessel
+  v1: +0.553428 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v2: +0.553428 mol water (H2O, M = 18.015 g/mol)
+  v2: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.000010 mol sodium chloride (NaCl, M = 58.443 g/mol)
+  v1: 0.000010 mol sodium chloride dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 6.999 · I = 0.0010 mol/kgw
+  v2: +0.000010 mol sodium chloride (NaCl, M = 58.443 g/mol)
+  v2: 0.000010 mol sodium chloride dissolved
+  v2: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v2: pH 6.999 · I = 0.0010 mol/kgw
+  v1 (beaker) — 25.00 °C, 10.0 g, 10.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0010 m
+           10.0 µmol  chloride ion       Aqueous
+           10.0 µmol  sodium ion         Aqueous
+          0.5534 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1     1.0000e0   γ=0.018
+        Cl-             1.0030e-3    9.6768e-4   γ=0.965
+        Na+             1.0030e-3    9.6799e-4   γ=0.965
+        O2              2.6760e-4    2.6770e-4   γ=1.000
+        H+              1.0361e-7    1.0014e-7   γ=0.967
+        OH-             1.0361e-7    9.9955e-8   γ=0.965
+  v2 (beaker) — 25.00 °C, 10.0 g, 10.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0010 m
+           10.0 µmol  chloride ion       Aqueous
+           10.0 µmol  sodium ion         Aqueous
+          0.5534 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1     1.0000e0   γ=0.018
+        Cl-             1.0030e-3    9.6768e-4   γ=0.965
+        Na+             1.0030e-3    9.6799e-4   γ=0.965
+        O2              2.6760e-4    2.6770e-4   γ=1.000
+        H+              1.0361e-7    1.0014e-7   γ=0.967
+        OH-             1.0361e-7    9.9955e-8   γ=0.965
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v1: +5.534277 mol H₂O from 0.1000 L dilution water
+  v1: pH 7.000 · I = 0.0001 mol/kgw
+  v2: +1.106855 mol H₂O from 0.0200 L dilution water
+  v2: pH 7.000 · I = 0.0003 mol/kgw
+  v2: +5.534277 mol H₂O from 0.1000 L dilution water
+  v2: pH 7.000 · I = 0.0001 mol/kgw
+  v1: NOT MODELLED: the volume meter reads a sealed vessel's headspace, and this one is open — seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.
+  v2: NOT MODELLED: the volume meter reads a sealed vessel's headspace, and this one is open — seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.
+  v1 pH meter: 6.9997 pH — This is a model estimate with limited calibration or simplifying assumptions.
+  v2 pH meter: 6.9997 pH — This is a model estimate with limited calibration or simplifying assumptions.
+  v1 conductivity meter: 11.5214 µS/cm — This is a model estimate with limited calibration or simplifying assumptions.
+  v2 conductivity meter: 9.7613 µS/cm — This is a model estimate with limited calibration or simplifying assumptions.
+  v1 balance: 109.6706 g
+  v2 balance: 129.6106 g
+  v1 (beaker) — 25.00 °C, 109.7 g, 110.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0001 m
+           10.0 µmol  chloride ion       Aqueous
+           10.0 µmol  sodium ion         Aqueous
+          6.0877 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1     1.0000e0   γ=0.018
+        O2              2.6770e-4    2.6770e-4   γ=1.000
+        Cl-             9.1183e-5    9.0177e-5   γ=0.989
+        Na+             9.1183e-5    9.0179e-5   γ=0.989
+        OH-             1.0116e-7    1.0004e-7   γ=0.989
+        H+              1.0116e-7    1.0006e-7   γ=0.989
+  v2 (beaker) — 25.00 °C, 129.6 g, 130.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0001 m
+           10.0 µmol  chloride ion       Aqueous
+           10.0 µmol  sodium ion         Aqueous
+          7.1946 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1     1.0000e0   γ=0.018
+        O2              2.6770e-4    2.6770e-4   γ=1.000
+        Cl-             7.7155e-5    7.6370e-5   γ=0.990
+        Na+             7.7155e-5    7.6372e-5   γ=0.990
+        H+              1.0107e-7    1.0006e-7   γ=0.990
+        OH-             1.0107e-7    1.0005e-7   γ=0.990
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)

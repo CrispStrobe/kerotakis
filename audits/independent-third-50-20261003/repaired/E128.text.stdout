@@ -1,0 +1,38 @@
+  v2: new vessel
+  v3: new vessel
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v2: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v2: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.000000 mol hydrochloric acid (HCl, M = 36.461 g/mol)
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 6.978 · I = 0.0000 mol/kgw
+  v2: +0.000000 mol hydrochloric acid (HCl, M = 36.461 g/mol)
+  v2: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v2: pH 7.000 · I = 0.0000 mol/kgw
+  v1 pH meter: 6.9780 pH
+  v2 pH meter: 6.9997 pH
+  v1 conductivity meter: 0.0564 µS/cm
+  v2 conductivity meter: 0.0548 µS/cm
+  v1 (beaker) — 25.00 °C, 99.7 g, 100.0 mL liquid, open to atmosphere, pH 6.98, I = 0.0000 m
+           1.00 nmol  chloride ion       Aqueous
+          5.5343 mol  water              Liquid
+           1.00 nmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1     1.0000e0   γ=0.018
+        O2              2.6770e-4    2.6770e-4   γ=1.000
+        H+              1.0523e-7    1.0519e-7   γ=1.000
+        OH-             9.5202e-8    9.5166e-8   γ=1.000
+        Cl-             1.0030e-8    1.0026e-8   γ=1.000
+  v2 (beaker) — 25.00 °C, 99.7 g, 100.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+           1.00 pmol  chloride ion       Aqueous
+          5.5343 mol  water              Liquid
+           1.00 pmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1     1.0000e0   γ=0.018
+        O2              2.6770e-4    2.6770e-4   γ=1.000
+        H+              1.0010e-7    1.0006e-7   γ=1.000
+        OH-             1.0009e-7    1.0005e-7   γ=1.000
+        Cl-            1.0030e-11   1.0026e-11   γ=1.000
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)

@@ -1,0 +1,94 @@
+  v2: new vessel
+  v3: new vessel
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.010000 mol sodium chloride (NaCl, M = 58.443 g/mol)
+  v1: 0.010000 mol sodium chloride dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone
+  v1: pH 6.985 · I = 0.1003 mol/kgw
+  v1: T 298.150 K → 298.057 K (ΔT = -0.093 K)
+  v1: +0.009991 mol chalk (calcium carbonate) (CaCO3, M = 100.087 g/mol)
+  v1: 0.000013 mol chalk (calcium carbonate) dissolved
+  v1: 0.000013 mol chalk (calcium carbonate) dissolved
+  v1: pH 9.927 · I = 0.1011 mol/kgw
+  v1: reaction heat for CaCO3 is not priced; the temperature estimate is incomplete
+  v1: stir 300.0 rpm × 10.0 s; bar 25.0 mm; tip 0.39270 m/s; resuspended 100.00%; rate coupling not yet modelled
+  v1: 0.000013 mol chalk (calcium carbonate) dissolved
+  v1: 0.000013 mol chalk (calcium carbonate) precipitated
+  v1: pH 9.927 · I = 0.1011 mol/kgw
+  v1: net ionic: HCO₃⁻(aq) + Ca²⁺(aq) + OH⁻(aq) → CaCO₃(s) + H₂O(l)  (spectator ions: Cl⁻, Na⁺)  (complete ionic: HCO₃⁻(aq) + Ca²⁺(aq) + OH⁻(aq) + 2 Cl⁻(aq) + 2 Na⁺(aq) → CaCO₃(s) + H₂O(l) + 2 Cl⁻(aq) + 2 Na⁺(aq))
+  v1 (beaker) — 24.91 °C, 101.3 g, 100.0 mL liquid, open to atmosphere, pH 9.93, I = 0.1011 m
+      temperature estimate is incomplete: reaction heat for CaCO3 is not priced
+           26.2 µmol  calcium ion        Aqueous
+          10.00 mmol  chloride ion       Aqueous
+          10.00 mmol  sodium ion         Aqueous
+           2.98 nmol  dissolved carbon dioxide Aqueous
+           14.5 µmol  bicarbonate ion    Aqueous
+           11.7 µmol  carbonate ion      Aqueous
+           9.97 mmol  chalk (calcium carbonate) Solid
+          5.5343 mol  water              Liquid
+           14.5 µmol  base equivalents   Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9660e-1   γ=0.018
+        Cl-             1.0030e-1    7.6575e-2   γ=0.763
+        Na+             1.0024e-1    7.8387e-2   γ=0.782
+        O2              2.6190e-4    2.6810e-4   γ=1.024
+        Ca+2            2.5699e-4    1.0012e-4   γ=0.390
+        OH-             1.0998e-4    8.3675e-5   γ=0.761
+        HCO3-           1.0637e-4    8.3784e-5   γ=0.788
+        CO3-2           8.6066e-5    3.3125e-5   γ=0.385
+        NaCO3-          6.1100e-5    4.8120e-5   γ=0.788
+        CaCO3           5.4180e-6    5.5460e-6   γ=1.024
+        NaHCO3          3.6080e-6    3.6930e-6   γ=1.024
+        CaOH+           1.7590e-7    1.3990e-7   γ=0.795
+        CaHCO3+         1.3440e-7    1.0680e-7   γ=0.795
+        CO2             2.1890e-8    2.2406e-8   γ=1.024
+        H+             1.4352e-10   1.1840e-10   γ=0.825
+  v2 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v1 → v2: filtrate passed; residue retained
+  v2: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone
+  v2: pH 9.927 · I = 0.1011 mol/kgw
+  v1: There is white chalk (calcium carbonate) in the beaker. (liquid —, turbidity 0.00)
+  v2: The liquid is colourless and clear. (liquid #FFFFFF, turbidity 0.00)
+  v1 balance: 0.9974 g
+  v2 conductivity meter: 10955.6233 µS/cm — past I = 0.10 mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: the ion–ion drag is corrected by an empirical factor (0.86× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and 2 mol/kgw. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one — This estimate is incomplete: contributing model data are missing.
+  v2 → v1: filtrate passed; residue retained
+  v1: 0.000013 mol chalk (calcium carbonate) dissolved
+  v1: 0.000013 mol chalk (calcium carbonate) precipitated
+  v1: pH 9.927 · I = 0.1011 mol/kgw
+  v1: net ionic: HCO₃⁻(aq) + Ca²⁺(aq) + OH⁻(aq) → CaCO₃(s) + H₂O(l)  (spectator ions: Cl⁻, Na⁺)  (complete ionic: HCO₃⁻(aq) + Ca²⁺(aq) + OH⁻(aq) + 2 Cl⁻(aq) + 2 Na⁺(aq) → CaCO₃(s) + H₂O(l) + 2 Cl⁻(aq) + 2 Na⁺(aq))
+  v1 (beaker) — 24.91 °C, 101.3 g, 100.0 mL liquid, open to atmosphere, pH 9.93, I = 0.1011 m
+      temperature estimate is incomplete: reaction heat for CaCO3 is not priced
+           26.2 µmol  calcium ion        Aqueous
+          10.00 mmol  chloride ion       Aqueous
+          10.00 mmol  sodium ion         Aqueous
+           2.98 nmol  dissolved carbon dioxide Aqueous
+           14.5 µmol  bicarbonate ion    Aqueous
+           11.7 µmol  carbonate ion      Aqueous
+           9.97 mmol  chalk (calcium carbonate) Solid
+          5.5343 mol  water              Liquid
+           14.5 µmol  base equivalents   Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9660e-1   γ=0.018
+        Cl-             1.0030e-1    7.6575e-2   γ=0.763
+        Na+             1.0024e-1    7.8387e-2   γ=0.782
+        O2              2.6190e-4    2.6810e-4   γ=1.024
+        Ca+2            2.5699e-4    1.0012e-4   γ=0.390
+        OH-             1.0998e-4    8.3675e-5   γ=0.761
+        HCO3-           1.0637e-4    8.3784e-5   γ=0.788
+        CO3-2           8.6066e-5    3.3125e-5   γ=0.385
+        NaCO3-          6.1100e-5    4.8120e-5   γ=0.788
+        CaCO3           5.4180e-6    5.5460e-6   γ=1.024
+        NaHCO3          3.6080e-6    3.6930e-6   γ=1.024
+        CaOH+           1.7590e-7    1.3990e-7   γ=0.795
+        CaHCO3+         1.3440e-7    1.0680e-7   γ=0.795
+        CO2             2.1890e-8    2.2406e-8   γ=1.024
+        H+             1.4352e-10   1.1840e-10   γ=0.825
+  v2 (beaker) — 24.91 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      temperature estimate is incomplete: reaction heat for CaCO3 is not priced
+           9.62 pmol  chalk (calcium carbonate) Solid
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)

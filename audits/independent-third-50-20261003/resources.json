@@ -1,0 +1,22 @@
+{
+  "utc": "2026-10-03T07:23:30.759595+00:00",
+  "load": [
+    3.572265625,
+    3.96826171875,
+    4.876953125
+  ],
+  "available_mib": 4673.0078125,
+  "swap_free_mib": 8765.8046875,
+  "workspace_free_mib": 1539.1328125,
+  "root_free_mib": 4170.59375,
+  "storage_free_gib": 1763.0606689453125,
+  "policy": "No local app/build executions in this round. Two agents did light design/analysis/edits only when resource snapshots allowed. Heavy validation and replay hosted. Registered worktrees68; none prunable; dirty/unmerged history preserved.",
+  "local_execution_gate": {
+    "max_load1": 3.5,
+    "min_available_mib": 3200,
+    "min_swap_free_mib": 600,
+    "min_workspace_free_mib": 2048,
+    "min_root_free_mib": 512
+  },
+  "local_execution_allowed_at_final_snapshot": false
+}

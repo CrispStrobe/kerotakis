@@ -1,0 +1,237 @@
+[1m[92m   Compiling[0m rand_chacha v0.9.0
+[1m[92m   Compiling[0m spindle v0.2.6
+[1m[92m   Compiling[0m rand v0.9.5
+[1m[92m   Compiling[0m private-gemm-x86 v0.1.20
+[1m[92m   Compiling[0m rand_distr v0.5.1
+[1m[92m   Compiling[0m faer v0.24.4
+[1m[92m   Compiling[0m diffsol-la v0.1.1
+[1m[92m   Compiling[0m diffsol-nl v0.1.1
+[1m[92m   Compiling[0m dashmap v6.2.1
+[1m[92m   Compiling[0m lasso v0.7.3
+[1m[92m   Compiling[0m diffsol v0.16.2
+[1m[92m   Compiling[0m kerotakis-data v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-data)
+[1m[92m   Compiling[0m kerotakis-thermo v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-thermo)
+[1m[92m   Compiling[0m kerotakis-core v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-core)
+[1m[92m   Compiling[0m is-terminal v0.4.17
+[1m[92m   Compiling[0m criterion v0.5.1
+[1m[92m   Compiling[0m kerotakis-cea v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-cea)
+[1m[92m    Finished[0m `test` profile [unoptimized + debuginfo] target(s) in 38.66s
+[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/kerotakis_cea-74a2ce06dfe01d52)
+
+running 52 tests
+test carbonate::tests::analytic_dissociation_agrees_with_independent_gibbs_minimisation ... ok
+test carbonate::tests::carbonate_tp_refuses_inventory_outside_its_reaction_subspace ... ok
+test gibbs::tests::a_crucible_half_way_through_a_calcination_still_solves ... ok
+test gibbs::tests::a_phase_record_boundary_without_equal_gibbs_is_not_a_coexistence_root ... ok
+test gibbs::tests::absent_element_carrier_remains_a_representability_ceiling ... ok
+test gibbs::tests::affine_certificate_declines_larger_pools_and_multiple_reaction_degrees ... ok
+test gibbs::tests::assigned_enthalpy_resolves_the_condensed_latent_heat_interval ... ok
+test gibbs::tests::bare_carbonate_is_certified_against_gas_and_competing_solids ... ok
+test gibbs::tests::burning_magnesium_conserves_every_element ... ok
+test gibbs::tests::calcining_chalk_conserves_every_element ... ok
+test gibbs::tests::carbonate_reaction_coexistence_closes_independent_latent_energy ... ok
+test gibbs::tests::certified_condensed_readback_preserves_positive_stock_below_newton_floor ... ok
+test gibbs::tests::certified_positive_gas_readback_preserves_inventory_below_trace_floor ... ok
+test gibbs::tests::chalk_decomposes_when_it_is_hot_enough_and_not_before ... ok
+test gibbs::tests::condensed_boundary_never_certifies_an_extrapolated_gas_record ... ok
+test gibbs::tests::condensed_boundary_rejects_malformed_or_overflowing_numeric_states ... ok
+test gibbs::tests::declaring_the_room_does_not_move_a_flame ... ok
+test gibbs::tests::five_species_mixed_gas_activity_uses_total_diluent_and_closes_hp ... ok
+test gibbs::tests::five_species_mixed_gas_retains_tiny_inert_component_with_finite_diluent ... ok
+test gibbs::tests::graphite_vapour_pressure_selects_the_correct_phase_on_both_sides ... ok
+test gibbs::tests::mixed_gas_condensed_coexistence_matches_mass_action_and_hp ... ok
+test gibbs::tests::mixed_gas_condensed_equilibrium_retains_tiny_independent_inert_stock ... ok
+test gibbs::tests::mixed_gas_line_certificate_declines_outside_its_proven_domain ... ok
+test gibbs::tests::mixed_gas_line_certificate_matches_activity_across_pressure_and_inventory_scales ... ok
+test gibbs::tests::multiple_carbon_gases_use_the_joint_tangent_stability_test ... ok
+test gibbs::tests::oxygen_does_not_leave_solid_carbon_behind ... ok
+test gibbs::tests::positive_gas_coexistence_certifies_a_feasible_equal_g_endpoint ... ok
+test gibbs::tests::positive_gas_condensed_competition_selects_the_nasa_stable_endpoint ... ok
+test gibbs::tests::rank_deficient_bare_chalk_returns_a_certified_condensed_state ... ok
+test gibbs::tests::redundant_components_allow_unique_positive_gas_inventories ... ok
+test gibbs::tests::redundant_components_preserve_binary_gas_inventory_and_pool_order ... ok
+test gibbs::tests::redundant_components_reject_incompatible_budgets_at_every_scale ... ok
+test gibbs::tests::salt_condensed_phase_selection_uses_nasa_solid_and_liquid_records ... ok
+test gibbs::tests::single_gas_certificate_declines_incomplete_or_invalid_domains ... ok
+test gibbs::tests::six_species_affine_certificate_preserves_all_gases_and_mixture_activity ... ok
+test gibbs::tests::the_adiabatic_solve_conserves_too ... ok
+test gibbs::tests::the_room_a_vessel_stands_in_may_be_warmed_and_may_never_pay ... ok
+test nasa9::tests::co2_matches_the_reference_values ... ok
+test nasa9::tests::condensed_phases_are_marked ... ok
+test nasa9::tests::heat_capacity_rises_with_temperature ... ok
+test nasa9::tests::parses_the_database ... ok
+test nasa9::tests::the_reactant_walk_never_lands_on_a_data_line ... ok
+test nasa9::tests::two_letter_elements_are_normalised ... ok
+test scoped_ideal_gas::tests::all_six_locators_resolve_to_canonical_gas_records ... ok
+test scoped_ideal_gas::tests::out_of_scope_species_are_refused ... ok
+test scoped_ideal_gas::tests::representative_values_are_read_from_the_canonical_table ... ok
+test scoped_ideal_gas::tests::revised_runtime_range_is_not_misrepresented_as_the_2002_pdf ... ok
+test scoped_ideal_gas::tests::runtime_records_retain_report_level_references ... ok
+test thermal::feed_thermochemistry_contracts::feed_phase_outside_every_condensed_record_never_clamps_polynomials ... ok
+test thermal::feed_thermochemistry_contracts::gas_reference_anchor_uses_header_hf_without_extrapolating_the_cp_fit ... ok
+test thermal::feed_thermochemistry_contracts::heated_feed_cannot_preheat_unowned_room_air_for_free ... ok
+test thermal::feed_thermochemistry_contracts::magnesium_above_its_solid_range_uses_liquid_not_vapour_enthalpy ... ok
+
+test result: ok. 52 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s
+
+[1m[92m     Running[0m unittests src/bin/generate-cea-subset.rs (target/debug/deps/generate_cea_subset-29baf1f8026a4dae)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[92m     Running[0m tests/ambient_after_flame.rs (target/debug/deps/ambient_after_flame-e43ee7dd14ad7507)
+
+running 1 test
+test the_beaker_the_flame_left_behind_is_cool_an_hour_later ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+[1m[92m     Running[0m tests/autoignition.rs (target/debug/deps/autoignition-4ce571581f0393ab)
+
+running 5 tests
+test a_spark_is_above_every_autoignition_temperature ... ok
+test above_autoignition_a_sealed_gas_mixture_uses_closed_uv_without_venting ... ok
+test an_open_flask_of_warm_ethanol_is_below_autoignition_on_the_rooms_air ... ok
+test hydrogen_is_gated_too_and_without_oxygen_nothing_is_said ... ok
+test warm_methane_and_oxygen_do_not_burn_without_a_spark ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.17s
+
+[1m[92m     Running[0m tests/bench_thermal.rs (target/debug/deps/bench_thermal-fa8b3794a2ac187b)
+
+running 13 tests
+test a_flame_really_burns_liquid_ethanol ... ok
+test a_flame_really_burns_liquid_methanol ... ok
+test a_solution_is_left_to_the_aqueous_engine ... ok
+test a_spark_held_to_something_that_will_not_burn_leaves_no_trace ... ok
+test aqueous_rubbing_alcohol_keeps_an_explicit_combustion_boundary ... ok
+test burning_magnesium_makes_white_oxide_and_a_great_deal_of_heat ... ok
+test chalk_in_a_cold_crucible_just_sits_there ... ok
+test heating_a_sealed_inert_gas_never_routes_it_to_open_exhaust ... ok
+test heating_chalk_hard_enough_calcines_it ... ok
+test igniting_magnesium_gains_mass_from_the_air ... ok
+test species_map_into_the_nasa_data_by_formula ... ok
+test steel_wool_ignites_to_named_iron_oxide_in_open_air ... ok
+test the_thermal_answer_carries_its_provenance ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s
+
+[1m[92m     Running[0m tests/closed_gas.rs (target/debug/deps/closed_gas-00e84a7a41e9c923)
+
+running 6 tests
+test failed_closed_solver_is_atomic ... ok
+test finite_heat_pass_adds_actual_q_to_prepass_u_or_h ... ok
+test piston_combustion_closes_enthalpy_and_has_explicit_expansion_work ... ok
+test pure_nitrogen_matches_analytic_temperature_pressure_and_energy ... ok
+test rigid_combustion_closes_internal_energy_pressure_and_every_element ... ok
+test unsupported_condensed_feed_and_failed_energy_roots_never_invent_heat ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.38s
+
+[1m[92m     Running[0m tests/did_not_ignite.rs (target/debug/deps/did_not_ignite-0648ac820ee83e8e)
+
+running 1 test
+test propane_in_a_quenching_bath_is_short_of_its_autoignition_temperature ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+[1m[92m     Running[0m tests/equilibrium.rs (target/debug/deps/equilibrium-5a48de72bd87b761)
+
+running 6 tests
+test chalk_decomposes_when_hot_enough ... ok
+test dissociation_appears_at_flame_temperatures ... ok
+test elements_are_conserved_exactly ... ok
+test methane_burns_to_carbon_dioxide_and_water ... ok
+test methane_in_air_has_a_textbook_flame_temperature ... ok
+test the_decomposition_temperature_is_computed_not_assumed ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+[1m[92m     Running[0m tests/finite_boundaries.rs (target/debug/deps/finite_boundaries-cb1c43628731eff7)
+
+running 3 tests
+test finite_headspace_does_not_import_oxygen_or_vent_matter ... ok
+test finite_pressure_controller_preserves_inventory_and_volume_when_route_declines ... ok
+test nitrogen_sweep_never_borrows_room_oxygen_to_burn_fuel ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+[1m[92m     Running[0m tests/gas_mechanism_endpoint.rs (target/debug/deps/gas_mechanism_endpoint-ce2dda8d28ebbdab)
+
+running 7 tests
+test a_global_step_cannot_make_the_carbon_monoxide_cea_finds ... ok
+test a_global_step_ends_where_cea_ends_under_lean_conditions ... ok
+test cea_carries_every_species_the_packs_name ... ok
+test equilibrium_at_the_claimed_conditions_is_complete_combustion ... ok
+test every_global_step_releases_about_the_same_heat_per_mole_of_oxygen ... ok
+test every_species_a_pack_can_move_is_one_cea_can_price ... ok
+test the_kinetic_route_approaches_equilibrium_without_overshooting_it ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.48s
+
+[1m[92m     Running[0m tests/heat_budget.rs (target/debug/deps/heat_budget-fb551c4e8e840fe1)
+
+running 8 tests
+test calcination_can_use_the_room_formation_anchor_plus_supplied_heat ... ok
+test carbonate_crucible_preserves_initial_oxide_excess_carbon_and_mixed_stock ... ok
+test carbonate_heat_outside_represented_species_domain_is_refused_atomically ... ok
+test heated_magnesium_uses_delivered_energy_not_the_cp_only_temperature_guess ... ok
+test hot_carbon_dioxide_without_positive_calcium_stock_uses_the_generic_route ... ok
+test invalid_heat_budgets_are_atomic_in_the_direct_solver_api ... ok
+test small_carbonate_heat_budget_uses_the_valid_300_to_400_k_interval ... ok
+test sub_kelvin_heat_correction_commits_verified_energy_without_chemical_change ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+[1m[92m     Running[0m tests/heat_capacity_curves_are_the_vendored_file.rs (target/debug/deps/heat_capacity_curves_are_the_vendored_file-968b441672194fa6)
+
+running 3 tests
+test every_registry_interval_names_a_record_in_the_vendored_file ... ok
+test every_transcribed_coefficient_is_the_one_in_the_file ... ok
+test the_two_evaluators_agree_where_they_can_both_answer ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+[1m[92m     Running[0m tests/heat_source_ceiling.rs (target/debug/deps/heat_source_ceiling-a7f10977ea44f43f)
+
+running 6 tests
+test a_candle_is_a_lower_ceiling_than_a_burner ... ok
+test a_crucible_stopped_half_way_can_be_heated_again ... ok
+test a_hundred_millilitres_of_water_and_fifty_kilojoules_boils_rather_than_glows ... ok
+test cooling_still_bounds_on_the_vessels_own_heat_and_names_no_source ... ok
+test five_kilojoules_is_delivered_whole_because_the_chalk_stays_cold ... ok
+test ten_grams_of_chalk_and_forty_kilojoules_stop_at_the_flame ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s
+
+[1m[92m     Running[0m tests/latent_heats_are_the_vendored_file.rs (target/debug/deps/latent_heats_are_the_vendored_file-b775ac516280ae22)
+
+running 4 tests
+test cea_overstates_a_boil_and_that_is_why_no_vaporisation_row_cites_it ... ok
+test cea_still_agrees_with_the_metals_and_salts_to_within_its_fit_residuals ... ok
+test no_fusion_row_claims_to_be_derived_from_the_cea_polynomials ... ok
+test the_solvents_own_constants_come_from_the_vendored_file_too ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+[1m[92m     Running[0m tests/open_boundary_ledger.rs (target/debug/deps/open_boundary_ledger-1a92caf996882f7d)
+
+running 3 tests
+test open_fuels_and_calcination_close_stock_plus_net_reservoir_flows ... ok
+test original_air_inventory_returned_to_the_room_is_an_outlet ... ok
+test production_stack_prices_boundary_flows_on_one_step_only ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+
+[1m[92m     Running[0m tests/vented_products.rs (target/debug/deps/vented_products-a59ed201f923905f)
+
+running 5 tests
+test a_vessel_that_kept_its_product_keeps_the_plain_wording ... ok
+test an_emptied_beaker_says_the_temperature_is_the_flames ... ok
+test the_exhaust_is_what_the_equation_says_it_is ... ok
+test the_exhaust_temperature_hardly_matters ... ok
+test the_flame_keeps_its_temperature_and_its_energy ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+

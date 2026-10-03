@@ -1,0 +1,47 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.001000 mol iron(III) chloride (FeCl3, M = 162.195 g/mol)
+  v1: 0.001000 mol iron(III) chloride dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 2.391 · I = 0.0514 mol/kgw
+  v1: NOT MODELLED: the solution is supersaturated against Goethite (SI +5.0). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms
+  v1: NOT MODELLED: the solution is supersaturated against Hematite (SI +12.1), Maghemite (SI +1.7). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices
+  v1: NOT MODELLED: Fe(OH)2.7Cl.3 (SI +5.9) have reported saturation indices but no phase definition in the selected wateq4f diagnostic index; their phase type and exclusion reason cannot be classified
+  v1: reaction heat for FeCl3 is not priced; the temperature estimate is incomplete
+  v1: +0.003000 mol sodium hydroxide (NaOH, M = 39.997 g/mol)
+  v1: 0.001000 mol iron(III) hydroxide precipitated
+  v1: 0.003000 mol sodium hydroxide dissolved
+  v1: pH 7.022 · I = 0.0301 mol/kgw
+  v1: NOT MODELLED: the solution is supersaturated against Goethite (SI +5.9). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms
+  v1: NOT MODELLED: the solution is supersaturated against Hematite (SI +13.8), Maghemite (SI +3.4). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices
+  v1: NOT MODELLED: Fe(OH)2.7Cl.3 (SI +5.3) have reported saturation indices but no phase definition in the selected wateq4f diagnostic index; their phase type and exclusion reason cannot be classified
+  v1: reaction heat for Fe(OH)3 is not priced; the temperature estimate is incomplete
+  v1: T 298.150 K → 298.470 K (ΔT = +0.320 K)
+  v1: net ionic: Fe(OH)₂⁺(aq) + OH⁻(aq) → Fe(OH)₃(s)  (spectator ions: Cl⁻, Na⁺)  (complete ionic: Fe(OH)₂⁺(aq) + OH⁻(aq) + Cl⁻(aq) + Na⁺(aq) → Fe(OH)₃(s) + Cl⁻(aq) + Na⁺(aq))
+  v1 (beaker) — 25.32 °C, 100.0 g, 100.0 mL liquid, open to atmosphere, pH 7.02, pe 13.58 (+0.804 V), I = 0.0301 m
+      temperature estimate is incomplete: reaction heat for FeCl3, Fe(OH)3 is not priced
+      redox — all Fe as Fe(III)
+           3.00 mmol  chloride ion       Aqueous
+           3.00 mmol  sodium ion         Aqueous
+           4.15 nmol  iron(III) ion      Aqueous
+           1000 µmol  iron(III) hydroxide Solid
+          5.5343 mol  water              Liquid
+           12.4 nmol  base equivalents   Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9900e-1   γ=0.018
+        Cl-             3.0090e-2    2.5414e-2   γ=0.845
+        Na+             3.0090e-2    2.5621e-2   γ=0.851
+        O2              2.6440e-4    2.6620e-4   γ=1.007
+        OH-             1.2768e-7    1.0772e-7   γ=0.844
+        H+              1.0882e-7    9.5107e-8   γ=0.874
+        Fe(OH)3         2.2260e-8    2.2410e-8   γ=1.007
+        Fe(OH)2+        1.9090e-8    1.6330e-8   γ=0.855
+        Fe(OH)4-       2.5420e-10   2.1750e-10   γ=0.856
+        FeOH+2         8.7510e-12   4.6400e-12   γ=0.530
+        Fe+3           2.9136e-16   6.7139e-17   γ=0.230
+        FeCl+2         9.8180e-17   5.2050e-17   γ=0.530
+        FeCl2+         6.8860e-18   5.8500e-18   γ=0.850
+        FeCl3          1.4760e-20   1.4870e-20   γ=1.007
+        Fe2(OH)2+4     7.7710e-21   5.7180e-22   γ=0.074
+        Fe3(OH)4+5     1.1170e-25   1.8950e-27   γ=0.017
+  v1: The liquid is colourless and cloudy, there is orange iron(III) hydroxide at the bottom. Colour is incomplete: no absorption spectrum for Fe(OH)2+ and Fe(OH)3. (liquid #FFFFFF, turbidity 0.20)
