@@ -108,6 +108,11 @@ The hosted `thermal-contracts` selector now runs the independent verifier and
 fails on contract regressions, in addition to checking binary provenance and
 capturing outputs. Its defaults point to the successfully validated source.
 Later evidence/workflow commits do not change the validated engine.
+The changed workflow itself passed
+[37096545818](https://github.com/CrispStrobe/kerotakis/actions/runs/37096545818),
+automatically running all 426 checks after a second text/JSON replay of the
+twelve controls. The [enforcement capture](evidence/automation-enforcement/verification.json)
+retains that receipt and raw outputs separately from the first post-repair run.
 
 ## Remaining model scope
 
