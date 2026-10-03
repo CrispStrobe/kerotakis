@@ -614,7 +614,9 @@ struct CachedSolve {
 }
 
 /// An outside aqueous solver: database tag and canonical input in, the
-/// engine's two outputs out.
+/// engine's two outputs out. Inputs bearing `KERO_NATIVE_EXTENSIVE_SCALE`
+/// are on the stated native basis; hooks must return native-basis selected
+/// amounts exactly like IPhreeqc. The wrapper restores physical amounts.
 pub type SolveHook = Box<dyn FnMut(&str, &str) -> Result<SolveOutput, String>>;
 
 /// What an outside solver must return: exactly what the linked engine
@@ -713,6 +715,20 @@ impl PhreeqcEquilibrator {
     }
 
     pub(crate) fn run_raw(&mut self, db_tag: &str, input: &str) -> Result<SolveOutput, SolveError> {
+        // Multiplying a very large finite companion reservoir can overflow.
+        // Refuse before either native engine or external hook sees that input.
+        if input
+            .lines()
+            .any(|line| line.starts_with(NATIVE_SCALE_MARKER))
+            && input
+                .split_whitespace()
+                .any(|token| token.parse::<f64>().is_ok_and(|v| !v.is_finite()))
+        {
+            return Err(SolveError::NotConverged {
+                solver: "phreeqc-extensive-scale".into(),
+                detail: "nonfinite normalized input coordinate".into(),
+            });
+        }
         self.engine_calls += 1;
         let namespace = crate::native_namespace::database(db_tag).map_err(|detail| {
             SolveError::NotConverged {
@@ -742,11 +758,17 @@ impl PhreeqcEquilibrator {
                     detail: e.to_string(),
                 }
             })?;
-            Ok(SolveOutput {
-                pe_undetermined: false,
-                selected: crate::native_namespace::selected(namespace, engine.selected_output()),
-                report: crate::native_namespace::report(namespace, &engine.output_string()),
-            })
+            restore_native_output_basis(
+                input,
+                SolveOutput {
+                    pe_undetermined: false,
+                    selected: crate::native_namespace::selected(
+                        namespace,
+                        engine.selected_output(),
+                    ),
+                    report: crate::native_namespace::report(namespace, &engine.output_string()),
+                },
+            )
         }
         #[cfg(not(feature = "engine"))]
         {
@@ -762,7 +784,7 @@ impl PhreeqcEquilibrator {
             })?;
             output.selected = crate::native_namespace::selected(namespace, output.selected);
             output.report = crate::native_namespace::report(namespace, &output.report);
-            Ok(output)
+            restore_native_output_basis(input, output)
         }
     }
 
@@ -6110,6 +6132,271 @@ fn valence_totals(problem: &Problem, db_tag: &str) -> Vec<String> {
     out
 }
 
+// PHREEQC has an absolute linear feasibility tolerance and explicitly refuses
+// reaction water below 1e-10 kg (native model.cpp). Normalize only microscopic
+// problems, preserving every intensive coordinate and every material ratio.
+// The physical vessel is never changed. The marker is part of the cache key
+// and is visible to external hooks: selected extensive columns return to the
+// physical basis in run_raw, before redox search, cache, and inventory readback.
+const NATIVE_SCALE_MARKER: &str = "# KERO_NATIVE_EXTENSIVE_SCALE ";
+const NATIVE_COLUMN_MARKER: &str = "# KERO_NATIVE_EXTENSIVE_COLUMN ";
+const NATIVE_REQUIRED_MARKER: &str = "# KERO_NATIVE_REQUIRED_COLUMN ";
+
+fn native_extensive_scale(masses: impl IntoIterator<Item = f64>) -> f64 {
+    let mass = masses
+        .into_iter()
+        .filter(|m| m.is_finite() && *m > 0.0)
+        .fold(f64::INFINITY, f64::min);
+    if mass < 1e-8 && (1.0 / mass).is_finite() {
+        1.0 / mass
+    } else {
+        1.0
+    }
+}
+
+fn scale_native_problem(problem: &Problem, scale: f64) -> Problem {
+    let mut scaled = problem.clone();
+    scaled.kgw *= scale;
+    for (_, moles) in &mut scaled.totals {
+        *moles *= scale;
+    }
+    for (_, moles, _) in &mut scaled.phases {
+        *moles *= scale;
+    }
+    // Partial pressures and saturation indices are intensive.
+    for gas in &mut scaled.external_gases {
+        gas.initial_moles *= scale;
+    }
+    for surface in &mut scaled.surfaces {
+        surface.mass.0 *= scale;
+        surface.strong_capacity.0 *= scale;
+        surface.weak_capacity.0 *= scale;
+        surface.water_release.0 *= scale;
+        for occupancy in &mut surface.occupancy {
+            occupancy.moles.0 *= scale;
+        }
+    }
+    for exchange in &mut scaled.exchanges {
+        exchange.dry_mass.0 *= scale;
+        exchange.capacity.0 *= scale;
+        for occupancy in &mut exchange.occupancy {
+            occupancy.moles.0 *= scale;
+        }
+    }
+    for solution in &mut scaled.solid_solutions {
+        for component in &mut solution.components {
+            component.moles.0 *= scale;
+        }
+    }
+    scaled
+}
+
+fn scale_native_vessel(vessel: &Vessel, scale: f64) -> Vessel {
+    let mut scaled = vessel.clone();
+    match &mut scaled.headspace {
+        Headspace::Sealed { volume } | Headspace::PressureControlled { volume, .. } => {
+            volume.0 *= scale;
+        }
+        _ => {}
+    }
+    scaled
+}
+
+fn native_scale_metadata(problem: &Problem, scale: f64, db_tag: &str) -> String {
+    use std::fmt::Write;
+    if scale == 1.0 {
+        return String::new();
+    }
+    let mut columns = std::collections::BTreeSet::from(["mass_H2O".to_string()]);
+    let mut required = columns.clone();
+    for (phase, ..) in &problem.phases {
+        required.extend([phase.to_string(), format!("d_{phase}")]);
+        // SELECTED_OUTPUT uses its requested name; cover the reconciled name
+        // too when a database's native polymorph is used by the input.
+        for name in std::iter::once(phase.as_str()).chain(posed_phase(phase, db_tag)) {
+            columns.insert(name.to_string());
+            columns.insert(format!("d_{name}"));
+        }
+    }
+    if !problem.gases.is_empty() {
+        // PHREEQC print.cpp names this "total mol" (some hooks normalize it).
+        columns.extend(["total mol".into(), "total_mol".into(), "volume".into()]);
+        for (phase, ..) in &problem.gases {
+            columns.insert(format!("g_{phase}"));
+            required.insert(format!("g_{phase}"));
+        }
+    }
+    for solution in &problem.solid_solutions {
+        for component in &solution.components {
+            columns.insert(format!(
+                "s_{}",
+                phreeqc_solid_solution_component(component.component)
+            ));
+        }
+    }
+    if !problem.solid_solutions.is_empty() {
+        required.extend(["s_Aragonite".into(), "s_Strontianite".into()]);
+    }
+    columns.extend(required.iter().cloned());
+    let mut metadata = format!("{NATIVE_SCALE_MARKER}{scale:.17e}\n");
+    for column in required {
+        writeln!(metadata, "{NATIVE_REQUIRED_MARKER}{column}").unwrap();
+    }
+    for column in columns {
+        writeln!(metadata, "{NATIVE_COLUMN_MARKER}{column}").unwrap();
+    }
+    metadata
+}
+
+fn restore_native_output_basis(
+    input: &str,
+    mut output: SolveOutput,
+) -> Result<SolveOutput, SolveError> {
+    let invalid = |detail: String| SolveError::NotConverged {
+        solver: "phreeqc-extensive-scale".into(),
+        detail,
+    };
+    let markers: Vec<_> = input
+        .lines()
+        .filter_map(|line| line.strip_prefix(NATIVE_SCALE_MARKER))
+        .collect();
+    if markers.is_empty() {
+        return Ok(output);
+    }
+    if markers.len() != 1 {
+        return Err(invalid("duplicate internal native scale".into()));
+    }
+    let scale = markers[0]
+        .parse::<f64>()
+        .ok()
+        .filter(|s| s.is_finite() && *s >= 1.0)
+        .ok_or_else(|| invalid("invalid internal native scale".into()))?;
+    let columns: std::collections::BTreeSet<_> = input
+        .lines()
+        .filter_map(|line| line.strip_prefix(NATIVE_COLUMN_MARKER))
+        .chain(
+            input
+                .lines()
+                .filter_map(|line| line.strip_prefix(NATIVE_REQUIRED_MARKER)),
+        )
+        .collect();
+    if !columns.contains("mass_H2O") {
+        return Err(invalid(
+            "normalized input requires a mass_H2O scale manifest".into(),
+        ));
+    }
+    let header = output
+        .selected
+        .first()
+        .ok_or_else(|| invalid("missing normalized selected output".into()))?;
+    if header
+        .iter()
+        .filter(|name| name.as_str() == "mass_H2O")
+        .count()
+        != 1
+        || output.selected.len() < 2
+    {
+        return Err(invalid(
+            "normalized output requires one mass_H2O column and a data row".into(),
+        ));
+    }
+    for required in input
+        .lines()
+        .filter_map(|line| line.strip_prefix(NATIVE_REQUIRED_MARKER))
+    {
+        if !header.iter().any(|name| name == required) {
+            return Err(invalid(format!(
+                "missing required extensive selected column {required}"
+            )));
+        }
+    }
+    let mass_index = header.iter().position(|name| name == "mass_H2O").unwrap();
+    let mut seen = std::collections::BTreeSet::new();
+    let mut indices = Vec::new();
+    for (index, name) in header
+        .iter()
+        .enumerate()
+        .filter(|(_, name)| columns.contains(name.as_str()))
+    {
+        if !seen.insert(name) {
+            return Err(invalid(format!(
+                "duplicate extensive selected column {name}"
+            )));
+        }
+        indices.push(index);
+    }
+    for row in output.selected.iter_mut().skip(1) {
+        for index in &indices {
+            let cell = row
+                .get_mut(*index)
+                .ok_or_else(|| invalid("missing extensive selected cell".into()))?;
+            let native = cell
+                .parse::<f64>()
+                .ok()
+                .filter(|v| v.is_finite())
+                .ok_or_else(|| invalid("invalid extensive selected value".into()))?;
+            if *index == mass_index && native <= 0.0 {
+                return Err(invalid("normalized solvent mass must be positive".into()));
+            }
+            let physical = native / scale;
+            if !physical.is_finite() || (native != 0.0 && physical == 0.0) {
+                return Err(invalid("unrepresentable restored extensive value".into()));
+            }
+            *cell = format!("{physical:.17e}");
+        }
+    }
+    // Native report totals are on the normalized basis; only its intensive
+    // distributions, saturation indices, and redox note are consumed here.
+    output.report = format!("Kero native report: extensive quantities are scaled by {scale:.17e}; selected extensive columns have been restored to the physical basis.\n{}", output.report);
+    Ok(output)
+}
+
+fn build_input_at(
+    vessel: &Vessel,
+    problem: &Problem,
+    db_tag: &str,
+    couple: Option<(f64, &RedoxCoupling)>,
+) -> String {
+    let scale = native_extensive_scale([problem.kgw]);
+    if scale == 1.0 {
+        return build_input_at_native(vessel, problem, db_tag, couple);
+    }
+    let scaled = scale_native_problem(problem, scale);
+    let scaled_vessel = scale_native_vessel(vessel, scale);
+    native_scale_metadata(problem, scale, db_tag)
+        + &build_input_at_native(&scaled_vessel, &scaled, db_tag, couple)
+}
+
+#[allow(clippy::too_many_arguments)]
+fn build_mix_input(
+    vessel_a: &Vessel,
+    problem_a: &Problem,
+    vessel_b: &Vessel,
+    problem_b: &Problem,
+    frac_a: f64,
+    frac_b: f64,
+    db_tag: &str,
+    merged: &Problem,
+) -> String {
+    let scale = native_extensive_scale([problem_a.kgw, problem_b.kgw, merged.kgw]);
+    if scale == 1.0 {
+        return build_mix_input_native(
+            vessel_a, problem_a, vessel_b, problem_b, frac_a, frac_b, db_tag, merged,
+        );
+    }
+    native_scale_metadata(merged, scale, db_tag)
+        + &build_mix_input_native(
+            vessel_a,
+            &scale_native_problem(problem_a, scale),
+            vessel_b,
+            &scale_native_problem(problem_b, scale),
+            frac_a,
+            frac_b,
+            db_tag,
+            &scale_native_problem(merged, scale),
+        )
+}
+
 fn build_input(vessel: &Vessel, problem: &Problem, db_tag: &str) -> String {
     build_input_at(vessel, problem, db_tag, None)
 }
@@ -6178,7 +6465,7 @@ fn foreign_phase_definitions(phases: &[(String, f64, f64)], db_tag: &str) -> Str
 /// there are the names PHREEQC is asked about and the names the readback
 /// reads back.
 #[allow(clippy::too_many_arguments)]
-fn build_mix_input(
+fn build_mix_input_native(
     vessel_a: &Vessel,
     problem_a: &Problem,
     vessel_b: &Vessel,
@@ -6228,10 +6515,6 @@ fn build_mix_input(
     // failed MIX as advisory and re-solves the target through the direct
     // path, so the only symptom was a second engine call.
     input.push_str(&mix_selected_output(merged, db_tag));
-    // Scale small mass-balance columns by their own diagonal. PHREEQC's
-    // default leaves the microscopic extensive system poorly conditioned.
-    // This changes conditioning, not chemistry or convergence tolerances.
-    writeln!(input, "KNOBS\n    -diagonal_scale true").unwrap();
 
     // SOLUTION 1 — vessel A.
     let temp_a_c = vessel_a.temperature.to_celsius();
@@ -6492,7 +6775,7 @@ fn fast_redox_pin_block(totals: &[(String, f64)], db_tag: &str) -> String {
 /// manganese in its own mass balance, while `Mn 5e-4` lets pe decide where
 /// it sits. The elements left tagged stay pinned on purpose — see
 /// `FAST_REDOX`.
-fn build_input_at(
+fn build_input_at_native(
     vessel: &Vessel,
     problem: &Problem,
     db_tag: &str,
@@ -6769,10 +7052,6 @@ fn build_input_at(
     if !problem.solid_solutions.is_empty() {
         writeln!(input, "    -solid_solutions Aragonite Strontianite").unwrap();
     }
-    // Explicit on every input because native engine settings persist across
-    // calls. Diagonal scaling supports small extensive inventories without
-    // relaxing the strict residual criterion or changing concentrations.
-    writeln!(input, "KNOBS\n    -diagonal_scale true").unwrap();
     if !problem.surfaces.is_empty()
         && problem.totals.is_empty()
         && problem.phases.is_empty()
@@ -7427,7 +7706,8 @@ mod trace_interface_tests {
                 &vessel, &problem, &vessel, &problem, 0.5, 0.5, "wateq4f", &problem,
             );
             for (input, expected_count) in [(&direct, 1), (&mixed, 2)] {
-                assert!(input.contains("-diagonal_scale true"));
+                assert!(!input.contains("-diagonal_scale"));
+                let scale = native_extensive_scale([kgw]);
                 let masses: Vec<f64> = input
                     .lines()
                     .filter_map(|line| {
@@ -7440,12 +7720,356 @@ mod trace_interface_tests {
                 for represented in masses {
                     assert!(represented > 0.0);
                     assert!(
-                        (represented / kgw - 1.0).abs() < 1e-12,
+                        (represented / scale / kgw - 1.0).abs() < 1e-12,
                         "solvent {kgw:e} kg serialized as {represented:e} kg"
                     );
                 }
             }
         }
+    }
+
+    #[test]
+    fn microscopic_problem_scales_all_extensive_inputs_and_restores_only_amount_columns() {
+        let mut vessel = Vessel::new(VesselId(0), "microscopic multireservoir input");
+        vessel.deposit(
+            SpeciesId::new("water"),
+            Moles(1e-12 * 1000.0 / WATER_MOLAR_MASS),
+            Phase::Liquid,
+        );
+        vessel.headspace = Headspace::Sealed {
+            volume: kerotakis_core::Liters(2e-12),
+        };
+        let mut problem = partition(&vessel).unwrap();
+        problem.totals = vec![("Na".into(), 1e-14), ("Cl".into(), 1e-14)];
+        problem.phases = vec![
+            ("Cerargyrite".into(), 2e-15, 0.25),
+            ("CO2(g)".into(), 4e-15, -3.0),
+        ];
+        problem.gases = vec![("CO2(g)".into(), "CO2".into(), 0.5)];
+        problem.external_gases = vec![ExternalGas {
+            phase: "CO2(g)".into(),
+            species: "CO2".into(),
+            initial_moles: 4e-15,
+            kind: ExternalGasKind::Dose,
+        }];
+        problem.surfaces = vec![SurfaceSites {
+            label: "finite oxide".into(),
+            model: SurfaceModel::HydrousFerricOxide,
+            mass: Grams(2e-12),
+            specific_area_m2_per_g: 600.0,
+            strong_capacity: Moles(3e-15),
+            weak_capacity: Moles(7e-15),
+            occupancy: vec![SurfaceOccupancy {
+                site: SurfaceSiteKind::Weak,
+                sorbate: SurfaceSorbate::Sulfate,
+                moles: Moles(1e-15),
+            }],
+            water_release: Moles(5e-16),
+        }];
+        problem.exchanges = vec![ExchangeSites {
+            label: "finite exchanger".into(),
+            dry_mass: Grams(1e-12),
+            capacity: Moles(2e-14),
+            occupancy: vec![ExchangeOccupancy {
+                ion: ExchangeIon::Sodium,
+                moles: Moles(2e-14),
+            }],
+        }];
+        problem.solid_solutions = vec![SolidSolution::aragonite_strontianite(
+            "mixed solid",
+            Moles(2e-15),
+            Moles(3e-15),
+        )];
+        let original_vessel = serde_json::to_value(&vessel).unwrap();
+        let scaled = scale_native_problem(&problem, 1e12);
+        let relative =
+            |actual: f64, expected: f64| assert!((actual / expected - 1.0).abs() < 1e-12);
+        relative(scaled.kgw, 1.0);
+        relative(scaled.totals[0].1, 0.01);
+        relative(scaled.phases[0].1, 0.002);
+        assert_eq!(scaled.phases[0].2, 0.25);
+        assert_eq!(scaled.gases[0].2, 0.5);
+        relative(scaled.external_gases[0].initial_moles, 0.004);
+        relative(scaled.surfaces[0].mass.0, 2.0);
+        assert_eq!(scaled.surfaces[0].specific_area_m2_per_g, 600.0);
+        relative(scaled.surfaces[0].strong_capacity.0, 0.003);
+        relative(scaled.surfaces[0].weak_capacity.0, 0.007);
+        relative(scaled.surfaces[0].occupancy[0].moles.0, 0.001);
+        relative(scaled.surfaces[0].water_release.0, 0.0005);
+        relative(scaled.exchanges[0].dry_mass.0, 1.0);
+        relative(scaled.exchanges[0].capacity.0, 0.02);
+        relative(scaled.exchanges[0].occupancy[0].moles.0, 0.02);
+        relative(scaled.solid_solutions[0].components[0].moles.0, 0.002);
+        relative(scaled.solid_solutions[0].components[1].moles.0, 0.003);
+        let scaled_vessel = scale_native_vessel(&vessel, 1e12);
+        assert_eq!(
+            scaled_vessel.headspace,
+            Headspace::Sealed {
+                volume: kerotakis_core::Liters(2.0)
+            }
+        );
+        assert_eq!(scaled_vessel.temperature, vessel.temperature);
+        let input = build_input(&vessel, &problem, "wateq4f");
+        let fields_for = |key: &str| -> Vec<f64> {
+            input
+                .lines()
+                .find_map(|line| {
+                    let mut fields = line.split_whitespace();
+                    (fields.next() == Some(key))
+                        .then(|| fields.map(|field| field.parse::<f64>().unwrap()).collect())
+                })
+                .unwrap()
+        };
+        relative(fields_for("-volume")[0], 2.0);
+        let surface_input = fields_for("Hfo_sOH");
+        relative(surface_input[0], 0.003);
+        relative(surface_input[1], 600.0);
+        relative(surface_input[2], 2.0);
+        relative(fields_for("NaX")[0], 0.02);
+        let phase_input = fields_for("Cerargyrite");
+        assert_eq!(phase_input[0], 0.25);
+        relative(phase_input[1], 0.002);
+        relative(fields_for("CO2(g)")[0], -3.0);
+        assert!(!input.contains("KNOBS"));
+        assert_eq!(serde_json::to_value(&vessel).unwrap(), original_vessel);
+        let columns = [
+            "mass_H2O",
+            "Cerargyrite",
+            "d_Cerargyrite",
+            "CO2(g)",
+            "g_CO2(g)",
+            "s_Aragonite",
+            "s_Strontianite",
+            "total mol",
+            "volume",
+            "d_CO2(g)",
+            "pressure",
+            "Na",
+            "m_NaX",
+            "m_Hfo_wSO4-",
+            "la_Na+",
+            "pH",
+            "mu",
+        ];
+        let row = [
+            "1", "0.009", "0.007", "0.004", "0.006", "0.002", "0.003", "0.006", "2", "0.002",
+            "0.5", "0.01", "0.02", "0.001", "-2", "7", "0.01",
+        ];
+        let output = SolveOutput {
+            selected: vec![
+                columns.iter().map(|s| s.to_string()).collect(),
+                row.iter().map(|s| s.to_string()).collect(),
+                row.iter().map(|s| s.to_string()).collect(),
+            ],
+            report: "Distribution of species\nCl- 1e-2 1e-2 -2 -2 0\n-----\n".into(),
+            pe_undetermined: false,
+        };
+        let restored = restore_native_output_basis(&input, output).unwrap();
+        for values in &restored.selected[1..] {
+            for (index, physical) in [
+                (0, 1e-12),
+                (1, 9e-15),
+                (2, 7e-15),
+                (3, 4e-15),
+                (4, 6e-15),
+                (5, 2e-15),
+                (6, 3e-15),
+                (7, 6e-15),
+                (8, 2e-12),
+                (9, 2e-15),
+            ] {
+                relative(values[index].parse().unwrap(), physical);
+            }
+            for index in 10..columns.len() {
+                assert_eq!(values[index], row[index]);
+            }
+        }
+        assert_eq!(
+            parse_species_distribution(&restored.report)[0].molality,
+            0.01
+        );
+        assert!(restored
+            .report
+            .starts_with("Kero native report: extensive quantities are scaled"));
+        // Scaling never hides corrupt extensive readback as a physical zero.
+        let corrupt = SolveOutput {
+            selected: vec![vec!["mass_H2O".into()], vec!["NaN".into()]],
+            report: String::new(),
+            pe_undetermined: false,
+        };
+        assert!(restore_native_output_basis(&input, corrupt).is_err());
+    }
+
+    #[test]
+    fn malformed_normalized_output_refuses_instead_of_relabeling_native_amounts() {
+        let input = "# KERO_NATIVE_EXTENSIVE_SCALE 1e12\n# KERO_NATIVE_EXTENSIVE_COLUMN mass_H2O\n# KERO_NATIVE_EXTENSIVE_COLUMN Cerargyrite\n";
+        let output = |header: &[&str], row: &[&str]| SolveOutput {
+            selected: vec![
+                header.iter().map(|s| s.to_string()).collect(),
+                row.iter().map(|s| s.to_string()).collect(),
+            ],
+            report: String::new(),
+            pe_undetermined: false,
+        };
+        for corrupt in [
+            output(&["Cerargyrite"], &["0.01"]),
+            output(&["mass_H2O", "mass_H2O"], &["1", "1"]),
+            output(
+                &["mass_H2O", "Cerargyrite", "Cerargyrite"],
+                &["1", "0.01", "0.01"],
+            ),
+            output(&["mass_H2O"], &[]),
+            output(&["mass_H2O"], &["NaN"]),
+            output(&["mass_H2O"], &["0"]),
+            output(&["mass_H2O"], &["1e400"]),
+        ] {
+            assert!(restore_native_output_basis(input, corrupt).is_err());
+        }
+        for marker in ["NaN", "0", "0.5", "1e400", "not-a-scale"] {
+            let corrupt_input = input.replace("1e12", marker);
+            assert!(
+                restore_native_output_basis(&corrupt_input, output(&["mass_H2O"], &["1"])).is_err()
+            );
+        }
+        let duplicate = format!("{input}# KERO_NATIVE_EXTENSIVE_SCALE 1e12\n");
+        assert!(restore_native_output_basis(&duplicate, output(&["mass_H2O"], &["1"])).is_err());
+        assert!(restore_native_output_basis(
+            &input.replace("1e12", "1e300"),
+            output(&["mass_H2O"], &["1e-30"])
+        )
+        .is_err());
+        // Optional aliases are inverse-scaled when present. Actually requested
+        // phase/delta, gas, and solid-solution columns must never be omitted.
+        let required = format!("{input}# KERO_NATIVE_REQUIRED_COLUMN Cerargyrite\n# KERO_NATIVE_REQUIRED_COLUMN d_Cerargyrite\n# KERO_NATIVE_REQUIRED_COLUMN g_CO2(g)\n# KERO_NATIVE_REQUIRED_COLUMN s_Aragonite\n");
+        let header = [
+            "mass_H2O",
+            "Cerargyrite",
+            "d_Cerargyrite",
+            "g_CO2(g)",
+            "s_Aragonite",
+        ];
+        let values = ["1", "0.01", "0", "0.001", "0.002"];
+        assert!(restore_native_output_basis(&required, output(&header, &values)).is_ok());
+        for removed in 1..header.len() {
+            let h: Vec<_> = header
+                .iter()
+                .enumerate()
+                .filter(|(i, _)| *i != removed)
+                .map(|(_, value)| *value)
+                .collect();
+            let v: Vec<_> = values
+                .iter()
+                .enumerate()
+                .filter(|(i, _)| *i != removed)
+                .map(|(_, value)| *value)
+                .collect();
+            assert!(restore_native_output_basis(&required, output(&h, &v)).is_err());
+        }
+        assert!(restore_native_output_basis(&required, output(&["mass_H2O"], &["1"])).is_err());
+    }
+
+    #[cfg(not(feature = "engine"))]
+    #[test]
+    fn external_hook_restores_amounts_before_trial_cache_and_refuses_bad_readback() {
+        let mut vessel = Vessel::new(VesselId(0), "hook normalization input");
+        vessel.deposit(
+            SpeciesId::new("water"),
+            Moles(1e-12 * 1000.0 / WATER_MOLAR_MASS),
+            Phase::Liquid,
+        );
+        let problem = partition(&vessel).unwrap();
+        let input = build_input(&vessel, &problem, "wateq4f");
+        let mut solver = PhreeqcEquilibrator::new().unwrap();
+        solver.set_hook(Box::new(|_, input| {
+            assert!(input.contains(NATIVE_SCALE_MARKER));
+            assert!(input.contains("water     1.000000000000e0"));
+            Ok(SolveOutput {
+                selected: vec![
+                    vec!["mass_H2O".into(), "m_Na+".into()],
+                    vec!["1".into(), "0.01".into()],
+                ],
+                report: String::new(),
+                pe_undetermined: false,
+            })
+        }));
+        let mut overflow_problem = problem.clone();
+        overflow_problem.phases = vec![("Cerargyrite".into(), f64::MAX, 0.0)];
+        let overflow_input = build_input(&vessel, &overflow_problem, "wateq4f");
+        let before = serde_json::to_value(&vessel).unwrap();
+        assert!(solver.run_trial("wateq4f", &overflow_input).is_err());
+        assert_eq!(
+            solver.engine_calls, 0,
+            "overflow must refuse before hook call"
+        );
+        assert!(solver.trial_cache.is_empty());
+        assert_eq!(serde_json::to_value(&vessel).unwrap(), before);
+        let first = solver.run_trial("wateq4f", &input).unwrap();
+        assert!((first.selected[1][0].parse::<f64>().unwrap() / 1e-12 - 1.0).abs() < 1e-12);
+        assert_eq!(first.selected[1][1], "0.01");
+        let second = solver.run_trial("wateq4f", &input).unwrap();
+        assert!(Rc::ptr_eq(&first, &second));
+        assert_eq!(solver.engine_calls, 1);
+        solver.set_hook(Box::new(|_, _| {
+            Ok(SolveOutput {
+                selected: vec![vec!["pH".into()], vec!["7".into()]],
+                report: String::new(),
+                pe_undetermined: false,
+            })
+        }));
+        let uncached = format!("{input}# changed input\n");
+        assert!(solver.run_trial("wateq4f", &uncached).is_err());
+        assert_eq!(solver.trial_cache.len(), 1);
+    }
+
+    #[test]
+    fn microscopic_mix_uses_one_scale_preserving_fractions_and_solution_ratios() {
+        let mut a = Vessel::new(VesselId(0), "A");
+        a.deposit(
+            SpeciesId::new("water"),
+            Moles(1e-12 * 1000.0 / WATER_MOLAR_MASS),
+            Phase::Liquid,
+        );
+        a.deposit(SpeciesId::new("NaCl"), Moles(1e-14), Phase::Aqueous);
+        let mut b = Vessel::new(VesselId(1), "B");
+        b.deposit(
+            SpeciesId::new("water"),
+            Moles(2e-12 * 1000.0 / WATER_MOLAR_MASS),
+            Phase::Liquid,
+        );
+        b.deposit(SpeciesId::new("NaCl"), Moles(8e-14), Phase::Aqueous);
+        let pa = partition(&a).unwrap();
+        let pb = partition(&b).unwrap();
+        let mut merged = pa.clone();
+        merged.kgw = 0.25 * pa.kgw + 0.75 * pb.kgw;
+        merged.totals = vec![("Na".into(), 6.25e-14), ("Cl".into(), 6.25e-14)];
+        merged.phases.clear(); // This unit fixture asks for homogeneous totals only.
+        let input = build_mix_input(&a, &pa, &b, &pb, 0.25, 0.75, "wateq4f", &merged);
+        let masses: Vec<f64> = input
+            .lines()
+            .filter_map(|line| {
+                let mut fields = line.split_whitespace();
+                (fields.next() == Some("water")).then(|| fields.next().unwrap().parse().unwrap())
+            })
+            .collect();
+        assert_eq!(masses.len(), 2);
+        assert!((masses[0] - 1.0).abs() < 1e-12);
+        assert!((masses[1] - 2.0).abs() < 1e-12);
+        assert!(input.contains("1  2.500000000000e-1"));
+        assert!(input.contains("2  7.500000000000e-1"));
+        assert!(!input.contains("KNOBS"));
+        let output = SolveOutput {
+            selected: vec![
+                vec!["mass_H2O".into(), "Na".into()],
+                vec!["1.75".into(), (0.0625_f64 / 1.75).to_string()],
+            ],
+            report: String::new(),
+            pe_undetermined: false,
+        };
+        let restored = restore_native_output_basis(&input, output).unwrap();
+        let water = restored.selected[1][0].parse::<f64>().unwrap();
+        let sodium = restored.selected[1][1].parse::<f64>().unwrap() * water;
+        assert!((water / 1.75e-12 - 1.0).abs() < 1e-12);
+        assert!((sodium / 6.25e-14 - 1.0).abs() < 1e-12);
     }
 
     #[test]

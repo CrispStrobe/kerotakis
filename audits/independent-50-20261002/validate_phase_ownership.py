@@ -127,6 +127,8 @@ def main():
                    "--test", "settled_carbonate_transfer", "--test", "trace_inventory",
                    "--test", "order_invariance", "--test", "native_delta_h", "--test", "engine_call_budget"] + tail)
     env.pop("KERO_TRACE_THERMAL", None)
+    run("phreeqc-hook", ["cargo", "test", "--no-fail-fast", "-p", "kerotakis-phreeqc",
+                         "--no-default-features", "--lib"] + tail)
     cli_ok = run("cli", ["cargo", "test", "--no-fail-fast", "-p", "kerotakis-cli", "--bin", "kero",
                          "--test", "thermal_contracts", "--test", "provenance", "--test", "observable_coverage",
                          "--test", "headspace_json", "--test", "json_contract"] + tail)
