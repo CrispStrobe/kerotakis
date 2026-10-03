@@ -419,6 +419,7 @@ jobs:
           python3 audits/independent-next-50-20261002/summarize.py "$RUNNER_TEMP/next-50/followups"
           python3 audits/independent-next-50-20261002/run.py --suite audits/independent-next-50-20261002/additional-controls --binary "$RUNNER_TEMP/validated-cli/kero" --binary-source-commit "$VALIDATED_COMMIT" --out "$RUNNER_TEMP/next-50/additional-controls"
           python3 audits/independent-next-50-20261002/summarize.py "$RUNNER_TEMP/next-50/additional-controls"
+          python3 audits/independent-next-50-20261002/verify_repairs.py "$RUNNER_TEMP/next-50"
       - name: Preserve every success and refusal
         if: always()
         uses: actions/upload-artifact@v6

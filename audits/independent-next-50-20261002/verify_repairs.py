@@ -137,8 +137,18 @@ original = rows(args.evidence, '097')
 state = final(original)
 check('097: no superheated observable ice',
       all(v['temperature']<=273.2 or not any(p['species']=='water' and p['phase']=='solid' and p['moles']>1e-9 for p in v['contents']) for v in state['vessels']))
-check('097: unsupported heating refused explicitly',
-      'heating was not committed' in (args.evidence/'097.json.stderr').read_text())
+thermal_errors = [(args.evidence/f'097.{mode}.stderr').read_text() for mode in ['text','json']]
+thermal_runs = [r for r in receipts[0]['runs'] if r['id']=='097']
+earlier_refusal = all('thermal operation was not committed' in error for error in thermal_errors)
+legacy_heat_refusal = all('heating was not committed' in error for error in thermal_errors)
+check('097: unsupported thermal operation refused explicitly in both modes',
+      len(thermal_runs)==2 and all(r['exit_code']!=0 for r in thermal_runs)
+      and (earlier_refusal or legacy_heat_refusal))
+if earlier_refusal:
+    before_cooling = next(r['bench'] for r in original if r.get('operator',{}).get('op')=='inspect')
+    check('097: unsupported cooling publishes neither dose nor changed state',
+          state==before_cooling and not events(original,'energy_transferred')
+          and not any(r.get('operator',{}).get('op') in ['heat','cool'] for r in original))
 
 previous = None
 for r in rows(args.evidence, '098'):
