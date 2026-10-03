@@ -66,6 +66,14 @@ SOURCE_FILES = [
     "crates/kerotakis-thermo/tests/trace_phase_convergence.rs",
     "crates/kerotakis-thermo/tests/paired_binary_still.rs",
     "crates/kerotakis-thermo/src/still_failure_tests.rs",
+    "crates/kerotakis-thermo/src/overlap_tests.rs",
+    "crates/kerotakis-thermo/src/pack.rs",
+    "crates/kerotakis-thermo/tests/overlap_continuity.rs",
+    "audits/overlap-continuity-contracts-20261003/PREDICTIONS.md",
+    "audits/overlap-continuity-contracts-20261003/run.py",
+    "audits/overlap-continuity-contracts-20261003/predictions.json",
+    "audits/overlap-continuity-contracts-20261003/freeze.json",
+    "audits/overlap-continuity-contracts-20261003/verify_artifact.py",
     "crates/kerotakis-thermo/tests/still_diagnostics.rs",
     "crates/kerotakis-thermo/tests/pure_binary_still.rs",
     "crates/kerotakis-thermo/tests/pure_ideal_still.rs",
@@ -180,6 +188,8 @@ def main():
                              "--binary", str(binary), "--out", str(out / "paired-binary")])
         run("still-failure", [sys.executable, str(REPO / "audits/still-failure-contracts-20261003/run.py"),
                                "--binary", str(binary), "--out", str(out / "still-failure")])
+        run("overlap-continuity", [sys.executable, str(REPO / "audits/overlap-continuity-contracts-20261003/run.py"),
+                             "--binary", str(binary), "--out", str(out / "overlap-continuity")])
         env.update(KERO_BIN=str(binary), KERO_RESULTS_DIR=str(out / "replay"))
         if run("replay", [sys.executable, str(ROOT / "run.py")]):
             followups = []

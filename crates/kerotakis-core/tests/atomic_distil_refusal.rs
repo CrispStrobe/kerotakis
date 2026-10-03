@@ -114,6 +114,10 @@ fn intermediate_binary_fit_boundary_refuses_the_complete_cut_without_settling() 
         let mut bench = Bench::new();
         bench.vessels[0].deposit(SpeciesId::new("water"), Moles(0.5), Phase::Liquid);
         bench.vessels[0].deposit(SpeciesId::new("ethanol"), Moles(0.5), Phase::Liquid);
+        // Initial mixture has an in-range root; near-total withdrawal reaches
+        // water-rich liquid beyond water's 100 °C fitted limit at 150 kPa.
+        // An ordinary atmospheric 10% cut now crosses the continuous join.
+        bench.vessels[0].pressure.0 = 150_000.0;
         bench.vessels.push(Vessel::new(VesselId(1), "receiver"));
         let before = physical(&bench);
         let mut solver = CountingMutator::default();
@@ -122,7 +126,7 @@ fn intermediate_binary_fit_boundary_refuses_the_complete_cut_without_settling() 
                 Operator::Distil {
                     from: VesselId(0),
                     to: VesselId(1),
-                    fraction: Some(0.1),
+                    fraction: Some(0.99),
                     energy: None,
                     stages,
                 },

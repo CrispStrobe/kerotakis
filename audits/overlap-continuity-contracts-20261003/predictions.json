@@ -1,0 +1,23 @@
+[
+  {
+    "id": "O01",
+    "script": "register lv3\nnew\nnew\nadd v1 water 0.5mol\nadd v1 ethanol 0.5mol\ninspect\ndistil v1 v2 0.1 stages 1\ninspect\n",
+    "expectation": "Complete positive binary cut crosses fitted overlaps with separate component conservation and latent accounting.",
+    "category": "supported",
+    "fraction": 0.1
+  },
+  {
+    "id": "O02",
+    "script": "register lv3\nnew\nnew\nadd v1 water 0.5mol\nadd v1 ethanol 0.5mol\ninspect\ndistil v1 v2 0.1 stages 2\ninspect\n",
+    "expectation": "Complete positive binary cut crosses fitted overlaps with separate component conservation and latent accounting.",
+    "category": "supported",
+    "fraction": 0.1
+  },
+  {
+    "id": "O03",
+    "script": "register lv3\nnew\nnew\nadd v1 water 0.5mol\nadd v1 ethanol 0.5mol\ninspect\ndistil v1 v2 0.01 stages 4\ninspect\n",
+    "expectation": "Complete positive binary cut crosses fitted overlaps with separate component conservation and latent accounting.",
+    "category": "supported",
+    "fraction": 0.01
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "run": 37140797636,
+  "commit": "5f0e35c4f9d61b612edb3db23e3e7925699943a2",
+  "status": "cancelled after the relevant controls completed; partial diagnostic only",
+  "log_sha256": "55cf183a0109077eeb81122d50fd0279df218382ad72687fe1c7e4922be00a1f",
+  "controls": {
+    "legacy_e110_gap": "passed",
+    "public_continuity_and_roots": "3 failed"
+  },
+  "cancelled_predecessors": [
+    37140724794,
+    37140782572
+  ]
+}

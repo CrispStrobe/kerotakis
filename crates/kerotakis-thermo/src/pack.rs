@@ -461,7 +461,15 @@ impl FluidRow {
                 }
             }
         }
-        Ok(0.5 * (low + high))
+        let temperature = 0.5 * (low + high);
+        let back = cleared.correlation.pressure_kpa(temperature);
+        if !back.is_some_and(|p| (p / pressure_kpa - 1.0).abs() <= 1e-8) {
+            return Err(PackRefusal::NoSolution {
+                inchikey: self.identity.inchikey,
+                parameter: FluidParameter::SaturationPressure,
+            });
+        }
+        Ok(temperature)
     }
 
     /// The label `explain` gives whichever model answers this row's
@@ -1103,19 +1111,36 @@ mod tests {
                 let back = row
                     .saturation_pressure_kpa(boiling)
                     .expect("the boiling point is inside the fitted range");
-                // 0.2% rather than machine epsilon, and the reason is
-                // ethanol: its two segments meet at 80 °C with a 0.07%
-                // step in pressure, which `valid_range` already bounds at
-                // 1%. A bisection that lands on that join cannot round-trip
-                // more tightly than the join itself, and tightening the
-                // tolerance here would only make the test fail on a
-                // correlation the crate has already accepted.
                 assert!(
-                    (back - pressure).abs() <= 2e-3 * pressure,
+                    (back - pressure).abs() <= 1e-8 * pressure,
                     "{}: {pressure} kPa -> {boiling} °C -> {back} kPa",
                     row.identity.species_key
                 );
             }
+        }
+    }
+
+    #[test]
+    fn inverse_covers_joined_gap_and_refuses_a_legacy_false_root() {
+        use crate::vle::{ETHANOL_HIGH, ETHANOL_LOW};
+        let ethanol = *row_by_inchikey("LFQSCWFLJHTTHZ-UHFFFAOYSA-N").unwrap();
+        const LEGACY: &[crate::vle::Antoine] = &[ETHANOL_LOW, ETHANOL_HIGH];
+        let mut legacy = ethanol;
+        legacy.vapour_pressure.as_mut().unwrap().correlation = VapourPressure::Piecewise(LEGACY);
+        let low = ETHANOL_LOW.pressure_kpa(80.0).unwrap();
+        let high = ETHANOL_HIGH.pressure_kpa(80.0).unwrap();
+        for fraction in [0.1, 0.5, 0.9] {
+            let pressure = low + fraction * (high - low);
+            let temperature = ethanol.boiling_point_c_at(pressure).unwrap();
+            assert!((79.65..=80.0).contains(&temperature));
+            assert!(
+                (ethanol.saturation_pressure_kpa(temperature).unwrap() / pressure - 1.0).abs()
+                    < 1e-8
+            );
+            assert!(matches!(
+                legacy.boiling_point_c_at(pressure),
+                Err(PackRefusal::NoSolution { .. })
+            ));
         }
     }
 
