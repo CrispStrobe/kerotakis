@@ -6232,7 +6232,7 @@ fn build_mix_input(
     writeln!(input, "    units     mol/kgw").unwrap();
     writeln!(input, "    temp      {temp_a_c:.8}").unwrap();
     writeln!(input, "    pH        7  charge").unwrap();
-    writeln!(input, "    water     {:.9}", problem_a.kgw).unwrap();
+    writeln!(input, "    water     {:.12e}", problem_a.kgw).unwrap();
     if vessel_a.uses_atmospheric_reservoir()
         && derived::index_for(db_tag).has_phase(ATMOSPHERIC_OXYGEN)
     {
@@ -6253,7 +6253,7 @@ fn build_mix_input(
     writeln!(input, "    units     mol/kgw").unwrap();
     writeln!(input, "    temp      {temp_b_c:.8}").unwrap();
     writeln!(input, "    pH        7  charge").unwrap();
-    writeln!(input, "    water     {:.9}", problem_b.kgw).unwrap();
+    writeln!(input, "    water     {:.12e}", problem_b.kgw).unwrap();
     if vessel_b.uses_atmospheric_reservoir()
         && derived::index_for(db_tag).has_phase(ATMOSPHERIC_OXYGEN)
     {
@@ -6509,7 +6509,9 @@ fn build_input_at(
     // refinement must reach the actual chemistry input as well as the root.
     writeln!(input, "    temp      {temp_c:.8}").unwrap();
     writeln!(input, "    pH        7  charge").unwrap();
-    writeln!(input, "    water     {:.9}", problem.kgw).unwrap();
+    // Fixed decimal mass formatting turned positive subnanogram solvent
+    // stocks into zero before the native solver ever saw the sample.
+    writeln!(input, "    water     {:.12e}", problem.kgw).unwrap();
     match couple {
         // Solving for the electron balance: pe is the unknown being
         // bisected, so it is stated outright.
@@ -7380,6 +7382,81 @@ mod trace_distribution_tests {
 mod trace_interface_tests {
     use super::*;
     use kerotakis_core::{Grams, SurfaceModel, VesselId};
+
+    #[test]
+    fn direct_and_mix_solvent_inputs_preserve_small_and_large_positive_masses() {
+        for kgw in [1e-16, 1e-12, 0.0997, 1e6] {
+            let mut vessel = Vessel::new(VesselId(0), "scaled solvent input");
+            vessel.deposit(
+                SpeciesId::new("water"),
+                Moles(kgw * 1000.0 / WATER_MOLAR_MASS),
+                Phase::Liquid,
+            );
+            let problem = partition(&vessel).expect("positive solvent problem");
+            let direct = build_input(&vessel, &problem, "wateq4f");
+            let mixed = build_mix_input(
+                &vessel, &problem, &vessel, &problem, 0.5, 0.5, "wateq4f", &problem,
+            );
+            for (input, expected_count) in [(&direct, 1), (&mixed, 2)] {
+                let masses: Vec<f64> = input
+                    .lines()
+                    .filter_map(|line| {
+                        let mut fields = line.split_whitespace();
+                        (fields.next() == Some("water"))
+                            .then(|| fields.next().unwrap().parse::<f64>().unwrap())
+                    })
+                    .collect();
+                assert_eq!(masses.len(), expected_count);
+                for represented in masses {
+                    assert!(represented > 0.0);
+                    assert!(
+                        (represented / kgw - 1.0).abs() < 1e-12,
+                        "solvent {kgw:e} kg serialized as {represented:e} kg"
+                    );
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn positive_trace_phase_excludes_homogeneous_total_projection() {
+        let dose = 1e-14;
+        let precipitated = 9e-15;
+        let mut vessel = Vessel::new(VesselId(0), "trace phase result contract");
+        vessel.deposit(SpeciesId::new("water"), Moles(5551.0 * dose), Phase::Liquid);
+        vessel.deposit(SpeciesId::new("Ag+"), Moles(dose), Phase::Aqueous);
+        vessel.deposit(SpeciesId::new("Cl-"), Moles(dose), Phase::Aqueous);
+        let mut problem = partition(&vessel).expect("trace silver chloride problem");
+        // Isolate the finite phase balance from database-specific candidate
+        // lists. This readback fixture closes the input element budgets;
+        // homogeneous projection must not overwrite its residual solution.
+        problem.phases = vec![("Cerargyrite".into(), 0.0, 0.0)];
+        problem.gases.clear();
+        problem.external_gases.clear();
+        let mut ions = vec![
+            ("Ag".into(), dose - precipitated),
+            ("Cl".into(), dose - precipitated),
+        ];
+        let value = |column: &str| match column {
+            "Cerargyrite" => Some(precipitated),
+            "pH" => Some(7.0),
+            "mu" => Some(0.0001),
+            _ => None,
+        };
+        let (phases, _, _, _) = PhreeqcEquilibrator::apply_balance_corrections(
+            &vessel,
+            &problem,
+            &mut ions,
+            &mut [],
+            &[],
+            &[],
+            &value,
+        )
+        .expect("phase balance correction");
+        for (_, aqueous) in ions {
+            assert!(((aqueous + phases[0].1) / dose - 1.0).abs() < 1e-12);
+        }
+    }
 
     #[test]
     fn exchange_input_keeps_a_subpicomole_bound_element_budget() {
