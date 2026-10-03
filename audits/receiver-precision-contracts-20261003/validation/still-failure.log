@@ -1,0 +1,21 @@
+S01 text: 0
+S01 json: 0
+S02 text: 0
+S02 json: 0
+S03 text: 0
+S03 json: 0
+S04 text: 0
+S04 json: 0
+S05 text: 0
+S05 json: 0
+S06 text: 0
+S06 json: 0
+{
+  "checks": 91,
+  "passed": true,
+  "classifications": {
+    "S01": "condensate-precision",
+    "S02": "composition-precision",
+    "S03": "request-precision"
+  }
+}

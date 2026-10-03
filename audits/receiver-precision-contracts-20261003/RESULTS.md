@@ -1,0 +1,25 @@
+# Physical transfer receiver precision
+
+This source-informed round follows the receiver gaps recorded in the inventory audit. It is not another blind fifty. Eight library contracts were committed before the baseline run; the same test file is unchanged in the repair. Five supplementary controls were committed before the first repair run. The freeze receipts retain their file hashes.
+
+Hosted baseline [37147775630](https://github.com/CrispStrobe/kerotakis/actions/runs/37147775630), source `b86f5c81`, confirmed all seven predicted refusal failures. Decant, filter, magnet, mix and drain could remove donor inventory while scalar receiver additions lost the incoming quantity. Sequential mixing into an initially empty receiver, liquid/aqueous merging and duplicate portions entering an automatically created receiver reproduced the same gap. The supported empty-receiver and ordinary-addition control passed. Complete baseline log and checksum receipt are retained.
+
+Decant, mix and filter now validate prospective deposits before their operation-specific safety assessment, and validate actual deposits after surface handling. Magnet and drain validate actual deposits. One checked helper requires finite positive increments and transfer-relative agreement within `1e-8`, matching the transport and still receiver tolerance. Condensed species also require their combined liquid/aqueous inventory to retain the increment, because settling can merge those phases. This is conservative containment of the scalar representation boundary, not compensated inventory.
+
+A failed deposit returns structured `BenchError::TransferPrecision` with key `error.transfer-precision` and the species. The normal step checkpoint restores the complete bench, including journal, donors, receiver, temperature and automatically created vessels. No solver runs after this refusal. The explanation is available in German and French. Equal traces, empty receivers and accurately representable bulk increments remain supported.
+
+Initial repair [37148026314](https://github.com/CrispStrobe/kerotakis/actions/runs/37148026314), source `7712815a`, passed all thirteen receiver regression/control tests and existing transfer controls. Its newly included locale gate found that the new translation keys had been appended under the final TOML table. Moving them to the catalogue root fixed their visibility. The complete failed initial-repair log is retained rather than replacing it with a passing result.
+
+## Accepted validation
+
+Full hosted [37148380814](https://github.com/CrispStrobe/kerotakis/actions/runs/37148380814) passed all sixteen stages: 1,441 Rust test executions, including all thirteen new receiver contracts and both locale suites, WASM compilation, the original first-fifty assessment and all previous frozen supplementary CLI audits. The earlier twelve inventory CLI protocols still passed all 153 checks. Both receiver test-file hashes remain unchanged from their committed versions.
+
+Validated source is `50b513959d733fd36740fdbfc55214a52d67baa7`; executable SHA-256 is `b19ffcc5207b866ffa8dd7ab665e0f7033b2b54ffb9202ea65a3156a7b5f545f`. Offline integrity verification passed 276 source, log, dependency-lock, executable and raw-stream checks without executing the app locally. Small validation logs and receipts are retained here; the original artifact, executable, lock and raw CLI streams are at `/mnt/storage/kerotakis-maintenance-20261003/receiver-validation-37148380814/`.
+
+The original third-fifty replay [37149423246](https://github.com/CrispStrobe/kerotakis/actions/runs/37149423246) used that exact validated executable and passed. Offline replay verification passed 959 checks. All nine existing scientific/protocol qualifications remain; passing evidence integrity does not establish scientific agreement for those qualified cases. Replay receipts are retained here, and complete raw streams remain at `/mnt/storage/kerotakis-maintenance-20261003/receiver-third-37149423246/`.
+
+## Remaining scope
+
+This closes receiver addition failures for these five molecular transfer paths. Fractional donor scaling, subtraction accuracy near a donor ULP, unresolved-material quantity accounting, other transfer paths and persisted compensated quantities still need separate contracts and repairs. Source inspection also identified that surface-colour homogenization occurs after some transfer plans are gathered; its source-side inventory ownership needs a dedicated experiment rather than assuming the receiver guard repairs it.
+
+Large execution stayed on hosted runners because local load, available memory and disk headroom did not jointly meet the resource gates. Large artifacts are retained on `/mnt/storage`. The two old worktrees whose heads were already merged both had local changes, including modified submodules; neither was removed. Unmerged worktrees were preserved.
