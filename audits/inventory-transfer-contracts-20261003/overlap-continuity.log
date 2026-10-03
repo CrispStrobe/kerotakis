@@ -1,0 +1,11 @@
+O01 text: 0
+O01 json: 0
+O02 text: 0
+O02 json: 0
+O03 text: 0
+O03 json: 0
+{
+  "checks": 51,
+  "passed": true,
+  "classifications": {}
+}

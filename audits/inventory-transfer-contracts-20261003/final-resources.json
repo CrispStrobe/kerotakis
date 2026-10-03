@@ -1,0 +1,17 @@
+{
+  "utc": "2026-10-03T19:18:27.777894+00:00",
+  "load": [
+    3.94,
+    3.37,
+    3.09
+  ],
+  "available_mib": 3116.0390625,
+  "swap_free_mib": 8768.79296875,
+  "disk_free_mib": {
+    "/mnt/volume1": 94.265625,
+    "/mnt/storage": 1790881.875,
+    "/": 571.62890625
+  },
+  "local_large_work_allowed": false,
+  "reason": "Workspace below2048MiB and root below512MiB. All app execution/builds stayed hosted; downloaded artifacts and streamed verification on NAS."
+}

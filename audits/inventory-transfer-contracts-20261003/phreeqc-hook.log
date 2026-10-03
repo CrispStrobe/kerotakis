@@ -1,0 +1,84 @@
+[1m[92m   Compiling[0m kerotakis-phreeqc v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-phreeqc)
+[1m[33mwarning[0m[1m: associated function `new` is never used[0m
+   [1m[94m--> [0mcrates/kerotakis-phreeqc/src/aqueous.rs:438:8
+    [1m[94m|[0m
+[1m[94m420[0m [1m[94m|[0m impl PathResult {
+    [1m[94m|[0m [1m[94m---------------[0m [1m[94massociated function in this implementation[0m
+[1m[94m...[0m
+[1m[94m438[0m [1m[94m|[0m     fn new(db_tag: &str, model: crate::dbindex::ActivityModel, outcome: PathOutcome) -> PathResult {
+    [1m[94m|[0m        [1m[33m^^^[0m
+    [1m[94m|[0m
+    [1m[94m= [0m[1mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+[1m[33mwarning[0m: `kerotakis-phreeqc` (lib test) generated 1 warning
+[1m[92m    Finished[0m `test` profile [unoptimized + debuginfo] target(s) in 3.14s
+[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/kerotakis_phreeqc-5220c3f195a09577)
+
+running 64 tests
+test aqueous::dataset_claim_tests::german_translates_the_clauses_and_not_the_file ... ok
+test aqueous::dataset_claim_tests::the_file_name_survives_the_sentence_around_it ... ok
+test aqueous::dataset_claim_tests::the_recipe_renders_the_english_it_replaced ... ok
+test aqueous::numerical_speciation_tests::malformed_or_missing_columns_preserve_the_report_and_no_second_solve ... ok
+test aqueous::numerical_speciation_tests::native_columns_replace_rounding_and_log_activities_without_creating_species ... ok
+test aqueous::numerical_speciation_tests::pure_water_surface_tolerance_is_scoped_and_does_not_reduce_output_precision ... ok
+test aqueous::oxidation_sum_tests::chemistry_input_resolves_the_temperature_balance_tolerance ... ok
+test aqueous::oxidation_sum_tests::equilibrium_input_is_independent_of_feed_order ... ok
+test aqueous::oxidation_sum_tests::invalid_or_partial_native_ledgers_are_not_balances ... ok
+test aqueous::oxidation_sum_tests::valid_negative_oxidation_sum_and_zero_population_are_preserved ... ok
+test aqueous::routing_molality_tests::a_beaker_boiled_dry_over_chalk_is_not_a_concentrated_solution ... ok
+test aqueous::routing_molality_tests::a_real_brine_still_reads_as_concentrated ... ok
+test aqueous::routing_molality_tests::the_documented_millilitre_probe_is_unchanged ... ok
+test aqueous::routing_molality_tests::the_solvent_floor_binds_only_below_a_millilitre ... ok
+test aqueous::thermal_root_tests::shrinking_a_discontinuous_bracket_does_not_claim_equilibrium ... ok
+test aqueous::thermal_root_tests::unstable_thermal_feedback_is_solved_without_relaxing_the_residual ... ok
+test aqueous::trace_distribution_tests::species_report_keeps_positive_trace_concentrations ... ok
+test aqueous::trace_interface_tests::direct_and_mix_solvent_inputs_preserve_small_and_large_positive_masses ... ok
+test aqueous::trace_interface_tests::exchange_input_keeps_a_subpicomole_bound_element_budget ... ok
+test aqueous::trace_interface_tests::external_hook_restores_amounts_before_trial_cache_and_refuses_bad_readback ... ok
+test aqueous::trace_interface_tests::malformed_normalized_output_refuses_instead_of_relabeling_native_amounts ... ok
+test aqueous::trace_interface_tests::microscopic_mix_uses_one_scale_preserving_fractions_and_solution_ratios ... ok
+test aqueous::trace_interface_tests::microscopic_problem_scales_all_extensive_inputs_and_restores_only_amount_columns ... ok
+test aqueous::trace_interface_tests::positive_trace_phase_excludes_homogeneous_total_projection ... ok
+test aqueous::trace_interface_tests::trace_surface_amount_and_water_return_are_conserved_across_interfaces ... ok
+test aqueous_gases::tests::gas_slice_converts_dissociative_not_molecular_henry_constant ... ok
+test complexation::tests::extension_precedes_end_and_does_not_claim_temperature_derivatives ... ok
+test complexation::tests::physical_aliases_are_exact_and_preserve_reference_coverage ... ok
+test dbindex::delta_h_tests::carbonate_rows_are_the_shape_the_algebra_assumes ... ok
+test dbindex::delta_h_tests::delta_h_is_normalised_to_kilojoules ... ok
+test dbindex::delta_h_tests::german_keeps_the_name_and_moves_the_decimal_point ... ok
+test dbindex::delta_h_tests::only_the_ion_interaction_model_carries_the_prefix_core_matches_on ... ok
+test dbindex::delta_h_tests::phase_and_species_enthalpies_come_off_the_shipped_files ... ok
+test dbindex::delta_h_tests::redefining_species_drops_earlier_temperature_attributes ... ok
+test dbindex::delta_h_tests::the_recipe_renders_the_english_description_exactly ... ok
+test dbindex::tests::formula_parser_handles_the_registry ... ok
+test dbindex::tests::parses_the_three_databases ... ok
+test derived::tests::a_condensed_gas_is_never_a_database_mineral ... ok
+test derived::tests::bookings_cover_every_derivable_element ... ok
+test derived::tests::citric_acid_is_one_citrate_and_not_two_acetates ... ok
+test derived::tests::lactate_is_defined_in_exactly_one_loaded_database ... ok
+test derived::tests::malate_is_in_none_of_the_shipped_databases ... ok
+test derived::tests::phase_coverage_reports_how_little_the_datasets_share ... ok
+test derived::tests::phase_table_is_derived ... ok
+test derived::tests::roles_are_derived_correctly ... ok
+test derived::tests::sugars_and_malic_acid_are_not_decomposed_into_acetate ... ok
+test derived::tests::the_atmospheric_co2_pressure_agrees_with_the_clock ... ok
+test enthalpy::tests::a_solid_prices_as_its_ions_less_its_dissolution ... ok
+test enthalpy::tests::a_solids_enthalpy_is_its_ions_less_the_cost_of_getting_there ... ok
+test enthalpy::tests::an_unpriceable_spectator_that_does_not_move_is_harmless ... ok
+test enthalpy::tests::aqueous_thiocyanate_relabelling_preserves_known_heat_not_unknown_properties ... ok
+test enthalpy::tests::neutralisation_falls_out_of_the_basis ... ok
+test enthalpy::tests::something_unpriceable_that_moves_declines_by_name ... ok
+test enthalpy::tests::the_basis_is_populated_and_not_silently_zero ... ok
+test enthalpy::tests::the_volcano_is_endothermic_and_the_right_size ... ok
+test inventory::trace_basis_tests::acid_base_basis_retains_positive_subpicomole_coordinates ... ok
+test native_namespace::tests::a_partial_state_selection_does_not_invent_an_element_total ... ok
+test native_namespace::tests::a_phase_name_is_not_an_aqueous_species_formula ... ok
+test native_namespace::tests::totals_species_and_similar_names_keep_distinct_meanings ... ok
+test phase_diagnostics::tests::gases_and_registered_solids_are_never_reported_as_missing_precipitates ... ok
+test phase_diagnostics::tests::offered_small_and_invalid_indices_do_not_generate_boundaries ... ok
+test phase_diagnostics::tests::registry_coverage_is_not_candidate_coverage ... ok
+test phase_diagnostics::tests::temperature_boundary_is_checked_not_merely_present ... ok
+test redox_isolation::tests::isolated_phase_keeps_inline_thermodynamic_parameters_exactly ... ok
+
+test result: ok. 64 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.38s
+

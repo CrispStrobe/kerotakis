@@ -1,0 +1,16 @@
+  v2: new vessel
+  v3: new vessel
+  v1: +1.000000 mol ethanol (C2H5OH, M = 46.069 g/mol)
+  v1 (beaker) — 25.00 °C, 46.1 g, 58.4 mL liquid, open to atmosphere
+          1.0000 mol  ethanol            Liquid
+  v2 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v1: NOT MODELLED: this cut is too small to change a supplying donor portion at its current inventory scale. No cut was transferred; request a larger cut
+  v1 (beaker) — 25.00 °C, 46.1 g, 58.4 mL liquid, open to atmosphere
+          1.0000 mol  ethanol            Liquid
+  v2 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)

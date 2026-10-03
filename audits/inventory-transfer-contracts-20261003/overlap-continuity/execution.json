@@ -1,0 +1,130 @@
+{
+  "predictions_sha256": "d07bdeec9016df1509f32828aff52cabba8ba600e5846313649abd02f7305b0a",
+  "binary_source_commit": "54ca862b8d40b1980a2f5bc5fe467dddd26e5fce",
+  "binary_validation_run": null,
+  "binary": "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+  "binary_sha256": "0da3e259e466aa8528c876089eb67f4db279eee0eb4fecf11b896a701c78c071",
+  "checkout": "54ca862b8d40b1980a2f5bc5fe467dddd26e5fce",
+  "policy": {
+    "max_load1": 3.5,
+    "min_available_mib": 3200,
+    "min_swap_free_mib": 600,
+    "min_disk_free_mib": 2048,
+    "min_system_free_mib": 512
+  },
+  "started_utc": "2026-10-03T19:01:53Z",
+  "runs": [
+    {
+      "id": "O01",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/overlap-continuity-contracts-20261003/scripts/O01.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 1.668,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "O01.text.stdout",
+      "stderr": "O01.text.stderr",
+      "stdout_sha256": "05bafdff3802f4bf03c40496b6761c1e867fd4826b7cbf0aa4ecd3ef13faf1df",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "O01",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/overlap-continuity-contracts-20261003/scripts/O01.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 1.668,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "O01.json.stdout",
+      "stderr": "O01.json.stderr",
+      "stdout_sha256": "f7e12d5e063dcff03c1db303863dec88ed5b099f7f17ae5444dad9c029b26c28",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "O02",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/overlap-continuity-contracts-20261003/scripts/O02.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 2.62,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "O02.text.stdout",
+      "stderr": "O02.text.stderr",
+      "stdout_sha256": "26f4457b74c107133e76cb47278928d33c16cb1eec1db6b405ab165216a8b77d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "O02",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/overlap-continuity-contracts-20261003/scripts/O02.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 2.671,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "O02.json.stdout",
+      "stderr": "O02.json.stderr",
+      "stdout_sha256": "a1c437e8493ce4724fc4e42d120cec6b2069ff611d66522be9728babe600597b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "O03",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/overlap-continuity-contracts-20261003/scripts/O03.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 4.624,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "O03.text.stdout",
+      "stderr": "O03.text.stderr",
+      "stdout_sha256": "a15b1476d09e35d4a906e2970b8aae29b49b329ec6c9e928d289a733f4bea747",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "O03",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/overlap-continuity-contracts-20261003/scripts/O03.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 4.625,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "O03.json.stdout",
+      "stderr": "O03.json.stderr",
+      "stdout_sha256": "f738ccaa8242c29424e4e52d71d279c0bb1312860bfe538df23b6bd85286a6db",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "completed_utc": "2026-10-03T19:02:11Z"
+}

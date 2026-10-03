@@ -1,0 +1,21 @@
+  v2: new vessel
+  v3: new vessel
+  v1: +0.000000 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +1.000000 mol ethanol (C2H5OH, M = 46.069 g/mol)
+  v1 (beaker) — 25.00 °C, 46.1 g, 58.4 mL liquid, open to atmosphere
+           0.00 pmol  water              Liquid
+          1.0000 mol  ethanol            Liquid
+  v2 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v1 → v2: Rayleigh batch cut, 4 ideal stage(s) at total reflux (a real column at finite reflux separates less, never more); pot 351.47 K → 351.47 K; latent heat 0.39 kJ paid by the burner and dumped by the condenser, deliberately outside the vessel ledger
+  v1 (beaker) — 25.00 °C, 45.6 g, 57.8 mL liquid, open to atmosphere
+           0.00 pmol  water              Liquid
+          0.9900 mol  ethanol            Liquid
+  v2 (beaker) — 25.00 °C, 0.5 g, 0.6 mL liquid, open to atmosphere
+           0.00 pmol  water              Liquid
+          0.0100 mol  ethanol            Liquid
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)

@@ -1,0 +1,11 @@
+{
+  "run": 37146656508,
+  "validated_run": 37145531423,
+  "validated_commit": "54ca862b8d40b1980a2f5bc5fe467dddd26e5fce",
+  "binary_sha256": "0da3e259e466aa8528c876089eb67f4db279eee0eb4fecf11b896a701c78c071",
+  "checks": 953,
+  "passed": true,
+  "qualification_count": 9,
+  "raw_artifact": "/mnt/storage/kerotakis-maintenance-20261003/inventory-third-37146656508",
+  "offline_application_execution": false
+}

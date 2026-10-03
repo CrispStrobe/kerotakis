@@ -1,0 +1,28 @@
+I01 text: 0
+I01 json: 0
+I02 text: 0
+I02 json: 0
+I03 text: 0
+I03 json: 0
+I04 text: 0
+I04 json: 0
+I05 text: 0
+I05 json: 0
+I06 text: 0
+I06 json: 0
+I07 text: 0
+I07 json: 0
+I08 text: 0
+I08 json: 0
+I09 text: 0
+I09 json: 0
+I10 text: 0
+I10 json: 0
+I11 text: 0
+I11 json: 0
+I12 text: 0
+I12 json: 0
+{
+  "checks": 153,
+  "passed": true
+}

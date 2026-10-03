@@ -1,0 +1,28 @@
+  v2: new vessel
+  v3: new vessel
+  v1: +0.000000 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +1.000000 mol ethanol (C2H5OH, M = 46.069 g/mol)
+  v2: +0.200000 mol water (H2O, M = 18.015 g/mol)
+  v2: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1 (beaker) — 25.00 °C, 46.1 g, 58.4 mL liquid, open to atmosphere
+           0.00 pmol  water              Liquid
+          1.0000 mol  ethanol            Liquid
+  v2 (beaker) — 25.00 °C, 3.6 g, 3.6 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          0.2000 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v1: NOT MODELLED: this receiver cannot retain the complete condensate at its current inventory scale. No cut was transferred; use an empty receiver for this trace cut
+  v1 (beaker) — 25.00 °C, 46.1 g, 58.4 mL liquid, open to atmosphere
+           0.00 pmol  water              Liquid
+          1.0000 mol  ethanol            Liquid
+  v2 (beaker) — 25.00 °C, 3.6 g, 3.6 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          0.2000 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)

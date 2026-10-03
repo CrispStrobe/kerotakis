@@ -1,0 +1,211 @@
+{
+  "checks": 51,
+  "passed": true,
+  "classifications": {},
+  "details": [
+    {
+      "name": "frozen predictions",
+      "passed": true
+    },
+    {
+      "name": "binary identity",
+      "passed": true
+    },
+    {
+      "name": "all cases in both modes",
+      "passed": true
+    },
+    {
+      "name": "O01 text completed",
+      "passed": true
+    },
+    {
+      "name": "O01 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "O01 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "O01 json completed",
+      "passed": true
+    },
+    {
+      "name": "O01 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "O01 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "O01 complete output",
+      "passed": true
+    },
+    {
+      "name": "O01 one completed cut",
+      "passed": true
+    },
+    {
+      "name": "O01 no operation failure or refusal",
+      "passed": true
+    },
+    {
+      "name": "O01 water positive separate stocks",
+      "passed": true
+    },
+    {
+      "name": "O01 water relative budget",
+      "passed": true
+    },
+    {
+      "name": "O01 ethanol positive separate stocks",
+      "passed": true
+    },
+    {
+      "name": "O01 ethanol relative budget",
+      "passed": true
+    },
+    {
+      "name": "O01 complete fraction",
+      "passed": true
+    },
+    {
+      "name": "O01 latent account",
+      "passed": true
+    },
+    {
+      "name": "O01 staged enrichment",
+      "passed": true
+    },
+    {
+      "name": "O02 text completed",
+      "passed": true
+    },
+    {
+      "name": "O02 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "O02 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "O02 json completed",
+      "passed": true
+    },
+    {
+      "name": "O02 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "O02 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "O02 complete output",
+      "passed": true
+    },
+    {
+      "name": "O02 one completed cut",
+      "passed": true
+    },
+    {
+      "name": "O02 no operation failure or refusal",
+      "passed": true
+    },
+    {
+      "name": "O02 water positive separate stocks",
+      "passed": true
+    },
+    {
+      "name": "O02 water relative budget",
+      "passed": true
+    },
+    {
+      "name": "O02 ethanol positive separate stocks",
+      "passed": true
+    },
+    {
+      "name": "O02 ethanol relative budget",
+      "passed": true
+    },
+    {
+      "name": "O02 complete fraction",
+      "passed": true
+    },
+    {
+      "name": "O02 latent account",
+      "passed": true
+    },
+    {
+      "name": "O02 staged enrichment",
+      "passed": true
+    },
+    {
+      "name": "O03 text completed",
+      "passed": true
+    },
+    {
+      "name": "O03 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "O03 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "O03 json completed",
+      "passed": true
+    },
+    {
+      "name": "O03 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "O03 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "O03 complete output",
+      "passed": true
+    },
+    {
+      "name": "O03 one completed cut",
+      "passed": true
+    },
+    {
+      "name": "O03 no operation failure or refusal",
+      "passed": true
+    },
+    {
+      "name": "O03 water positive separate stocks",
+      "passed": true
+    },
+    {
+      "name": "O03 water relative budget",
+      "passed": true
+    },
+    {
+      "name": "O03 ethanol positive separate stocks",
+      "passed": true
+    },
+    {
+      "name": "O03 ethanol relative budget",
+      "passed": true
+    },
+    {
+      "name": "O03 complete fraction",
+      "passed": true
+    },
+    {
+      "name": "O03 latent account",
+      "passed": true
+    },
+    {
+      "name": "O03 staged enrichment",
+      "passed": true
+    }
+  ]
+}

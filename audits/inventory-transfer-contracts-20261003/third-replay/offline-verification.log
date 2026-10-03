@@ -1,0 +1,110 @@
+{
+  "checks": 953,
+  "passed": true,
+  "failures": [],
+  "qualified_checks": [],
+  "qualifications": [
+    {
+      "id": "E125",
+      "name": "reported_capability_limits",
+      "ok": null,
+      "details": {
+        "limits": [
+          "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+          "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line."
+        ]
+      }
+    },
+    {
+      "id": "E125",
+      "name": "liquid_volume_instrument",
+      "ok": null,
+      "details": {
+        "reason": "volume_meter covers headspace only; liquid inventory equivalent"
+      }
+    },
+    {
+      "id": "E126",
+      "name": "reported_capability_limits",
+      "ok": null,
+      "details": {
+        "limits": [
+          "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+          "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line."
+        ]
+      }
+    },
+    {
+      "id": "E126",
+      "name": "dilution_semantics",
+      "ok": null,
+      "details": {
+        "reason": "additive water dose, not make-up-to-volume; protocols intentionally not equivalent under frozen semantic branch",
+        "water_moles": [
+          6.087704690535665,
+          7.194560088814876
+        ]
+      }
+    },
+    {
+      "id": "E127",
+      "name": "frozen_acid_detectability_control",
+      "ok": false,
+      "details": {
+        "ph": [
+          [
+            4.003511002458,
+            4.003521296308
+          ],
+          [
+            5.763473020962,
+            5.763621994011
+          ]
+        ],
+        "interpretation": "initial control fails because trapped atmospheric CO2 acidifies pure water; not a thermal defect"
+      }
+    },
+    {
+      "id": "E129",
+      "name": "reported_capability_limits",
+      "ok": null,
+      "details": {
+        "limits": [
+          "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+          "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+          "the dissolved ions' share of this density: every ion in the registry carries water's density as a structural default rather than a measured one, so a salt solution reads as the water it was made from. The solvent's figure is right and the solutes' is missing",
+          "the dissolved ions' share of this density: every ion in the registry carries water's density as a structural default rather than a measured one, so a salt solution reads as the water it was made from. The solvent's figure is right and the solutes' is missing"
+        ]
+      }
+    },
+    {
+      "id": "E129",
+      "name": "density_physical_agreement",
+      "ok": null,
+      "details": {
+        "reason": "dissolved-ion partial volumes unavailable; numerical equality cannot establish density accuracy"
+      }
+    },
+    {
+      "id": "E130",
+      "name": "reported_capability_limits",
+      "ok": null,
+      "details": {
+        "limits": [
+          "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+          "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+          "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+          "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line."
+        ]
+      }
+    },
+    {
+      "id": "E130",
+      "name": "evaporation_thermal_balance",
+      "ok": null,
+      "details": {
+        "reason": "explicit missing vaporization enthalpy; composition restoration only"
+      }
+    }
+  ]
+}

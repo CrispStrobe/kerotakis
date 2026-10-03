@@ -1,0 +1,463 @@
+{
+  "predictions_sha256": "e0937be1fbbc2eb288501ed83c2ab4b0f582703039dd5f892b647dfe23afb928",
+  "binary_source_commit": "54ca862b8d40b1980a2f5bc5fe467dddd26e5fce",
+  "binary_validation_run": null,
+  "binary": "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+  "binary_sha256": "0da3e259e466aa8528c876089eb67f4db279eee0eb4fecf11b896a701c78c071",
+  "checkout": "54ca862b8d40b1980a2f5bc5fe467dddd26e5fce",
+  "policy": {
+    "max_load1": 3.5,
+    "min_available_mib": 3200,
+    "min_swap_free_mib": 600,
+    "min_disk_free_mib": 2048,
+    "min_system_free_mib": 512
+  },
+  "started_utc": "2026-10-03T19:02:11Z",
+  "runs": [
+    {
+      "id": "I01",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I01.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.665,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I01.text.stdout",
+      "stderr": "I01.text.stderr",
+      "stdout_sha256": "eacd3fa517c239daf866b05dec6e9aa91697ed4f0fb28bb8fea76a754469135c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I01",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I01.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I01.json.stdout",
+      "stderr": "I01.json.stderr",
+      "stdout_sha256": "e33290deb1c81239110223c513fc33b8efac6793fea1f0612c09bac991d8874c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I02",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I02.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I02.text.stdout",
+      "stderr": "I02.text.stderr",
+      "stdout_sha256": "eacd3fa517c239daf866b05dec6e9aa91697ed4f0fb28bb8fea76a754469135c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I02",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I02.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I02.json.stdout",
+      "stderr": "I02.json.stderr",
+      "stdout_sha256": "cfa64690f95ac39641fa72e7b21fcfb2bee96e0b0fcaf42ca6a97a0374b90e2e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I03",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I03.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I03.text.stdout",
+      "stderr": "I03.text.stderr",
+      "stdout_sha256": "585e68b29dbf449829807007a018b7712d4dae163ed99d9a3079c4a258875653",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I03",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I03.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I03.json.stdout",
+      "stderr": "I03.json.stderr",
+      "stdout_sha256": "5adf6d877668c6b923fb2c5a10af8e52143f94df41d6e2297d39e974bf79ecfa",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I04",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I04.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I04.text.stdout",
+      "stderr": "I04.text.stderr",
+      "stdout_sha256": "a7f00d1e419b71a87f9090e8a60d171c3d9398de897e01a87ff44f474b54e404",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I04",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I04.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I04.json.stdout",
+      "stderr": "I04.json.stderr",
+      "stdout_sha256": "7a241b66d5baec316c1d1b2cabf1c81d8050a9444293190ae9caba96d0966b34",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I05",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I05.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I05.text.stdout",
+      "stderr": "I05.text.stderr",
+      "stdout_sha256": "87ae3737acdae9fff16feede14a6aea533ba9fefe4b71f6251102b5db72a3162",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I05",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I05.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I05.json.stdout",
+      "stderr": "I05.json.stderr",
+      "stdout_sha256": "b26da6c2e8fcbf17123e0243b809b8738ffc20052daece2f13e5eab0c3a95dbc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I06",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I06.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I06.text.stdout",
+      "stderr": "I06.text.stderr",
+      "stdout_sha256": "87ae3737acdae9fff16feede14a6aea533ba9fefe4b71f6251102b5db72a3162",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I06",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I06.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I06.json.stdout",
+      "stderr": "I06.json.stderr",
+      "stdout_sha256": "3781102adb788c8ff265cc89c345828678b5edc303711fbcc60752fda46f286a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I07",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I07.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I07.text.stdout",
+      "stderr": "I07.text.stderr",
+      "stdout_sha256": "d8bc487535d5afbc62e1870400d6e796d24817a2c8cc0b161e63ab01efae7164",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I07",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I07.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I07.json.stdout",
+      "stderr": "I07.json.stderr",
+      "stdout_sha256": "12dabb8148b24c9f8ea7057034030520034e2316671eb1af4ac2c8301e59c18c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I08",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I08.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I08.text.stdout",
+      "stderr": "I08.text.stderr",
+      "stdout_sha256": "82442bc4f740312a04ec12abba28204e0103f390cd627bf71510f0db7c434dfd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I08",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I08.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I08.json.stdout",
+      "stderr": "I08.json.stderr",
+      "stdout_sha256": "9d2fa5c60ebe02f6ff426615bbb4658d1c876b421a260e69f5136e9b98644aef",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I09",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I09.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I09.text.stdout",
+      "stderr": "I09.text.stderr",
+      "stdout_sha256": "ab3290efcfa7dbcef59ad24d33607093f0246e5432d381342dbe61834636b9eb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I09",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I09.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I09.json.stdout",
+      "stderr": "I09.json.stderr",
+      "stdout_sha256": "35b0cf4d4731b575b36762fc4099bc0317b965ddd3de1c2cbb5ba74d696efa38",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I10",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I10.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I10.text.stdout",
+      "stderr": "I10.text.stderr",
+      "stdout_sha256": "ab3290efcfa7dbcef59ad24d33607093f0246e5432d381342dbe61834636b9eb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I10",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I10.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I10.json.stdout",
+      "stderr": "I10.json.stderr",
+      "stdout_sha256": "098890fb87e3a5e18d937b0787d23997c87a0b79c1abcf41bac644abedc534a0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I11",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I11.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I11.text.stdout",
+      "stderr": "I11.text.stderr",
+      "stdout_sha256": "5d2fdd72e4dc1140651c50f623e28786f684a00f53e27f224ae2c3e62a7736d5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I11",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I11.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I11.json.stdout",
+      "stderr": "I11.json.stderr",
+      "stdout_sha256": "5204d6dff6fc660130786cfa50c5f54a6790ddc2453b3ee0714cc0a0ca89277b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I12",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I12.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I12.text.stdout",
+      "stderr": "I12.text.stderr",
+      "stdout_sha256": "577552eafba93c9b5a1b3ec96d700e26be9eb22cdde6327e57df2a64c60adc69",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "I12",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/inventory-transfer-contracts-20261003/scripts/I12.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "I12.json.stdout",
+      "stderr": "I12.json.stderr",
+      "stdout_sha256": "a18793b70417c8a9285ecae6cadff1b344aeec024832faeae2b054300017d269",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "completed_utc": "2026-10-03T19:02:27Z"
+}

@@ -1,0 +1,618 @@
+{
+  "checks": 153,
+  "passed": true,
+  "details": [
+    {
+      "name": "frozen predictions",
+      "passed": true
+    },
+    {
+      "name": "binary identity",
+      "passed": true
+    },
+    {
+      "name": "complete case/mode coverage",
+      "passed": true
+    },
+    {
+      "name": "I01 text completed",
+      "passed": true
+    },
+    {
+      "name": "I01 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I01 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I01 json completed",
+      "passed": true
+    },
+    {
+      "name": "I01 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I01 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I01 complete output",
+      "passed": true
+    },
+    {
+      "name": "I01 one atomic refusal",
+      "passed": true
+    },
+    {
+      "name": "I01 complete physical vessels unchanged",
+      "passed": true
+    },
+    {
+      "name": "I01 explicit donor cause",
+      "passed": true
+    },
+    {
+      "name": "I01 zero transfer disclosure",
+      "passed": true
+    },
+    {
+      "name": "I02 text completed",
+      "passed": true
+    },
+    {
+      "name": "I02 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I02 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I02 json completed",
+      "passed": true
+    },
+    {
+      "name": "I02 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I02 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I02 complete output",
+      "passed": true
+    },
+    {
+      "name": "I02 one atomic refusal",
+      "passed": true
+    },
+    {
+      "name": "I02 complete physical vessels unchanged",
+      "passed": true
+    },
+    {
+      "name": "I02 explicit donor cause",
+      "passed": true
+    },
+    {
+      "name": "I02 zero transfer disclosure",
+      "passed": true
+    },
+    {
+      "name": "I03 text completed",
+      "passed": true
+    },
+    {
+      "name": "I03 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I03 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I03 json completed",
+      "passed": true
+    },
+    {
+      "name": "I03 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I03 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I03 complete output",
+      "passed": true
+    },
+    {
+      "name": "I03 one complete cut",
+      "passed": true
+    },
+    {
+      "name": "I03 no solver failure or refusal",
+      "passed": true
+    },
+    {
+      "name": "I03 supplying donor changes",
+      "passed": true
+    },
+    {
+      "name": "I03 complete requested amount",
+      "passed": true
+    },
+    {
+      "name": "I03 bulk component budget",
+      "passed": true
+    },
+    {
+      "name": "I03 latent account",
+      "passed": true
+    },
+    {
+      "name": "I03 event/receiver amount agree",
+      "passed": true
+    },
+    {
+      "name": "I04 text completed",
+      "passed": true
+    },
+    {
+      "name": "I04 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I04 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I04 json completed",
+      "passed": true
+    },
+    {
+      "name": "I04 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I04 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I04 complete output",
+      "passed": true
+    },
+    {
+      "name": "I04 one complete cut",
+      "passed": true
+    },
+    {
+      "name": "I04 no solver failure or refusal",
+      "passed": true
+    },
+    {
+      "name": "I04 supplying donor changes",
+      "passed": true
+    },
+    {
+      "name": "I04 complete requested amount",
+      "passed": true
+    },
+    {
+      "name": "I04 bulk component budget",
+      "passed": true
+    },
+    {
+      "name": "I04 latent account",
+      "passed": true
+    },
+    {
+      "name": "I04 event/receiver amount agree",
+      "passed": true
+    },
+    {
+      "name": "I05 text completed",
+      "passed": true
+    },
+    {
+      "name": "I05 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I05 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I05 json completed",
+      "passed": true
+    },
+    {
+      "name": "I05 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I05 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I05 complete output",
+      "passed": true
+    },
+    {
+      "name": "I05 one atomic refusal",
+      "passed": true
+    },
+    {
+      "name": "I05 complete physical vessels unchanged",
+      "passed": true
+    },
+    {
+      "name": "I05 explicit donor cause",
+      "passed": true
+    },
+    {
+      "name": "I05 zero transfer disclosure",
+      "passed": true
+    },
+    {
+      "name": "I06 text completed",
+      "passed": true
+    },
+    {
+      "name": "I06 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I06 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I06 json completed",
+      "passed": true
+    },
+    {
+      "name": "I06 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I06 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I06 complete output",
+      "passed": true
+    },
+    {
+      "name": "I06 one atomic refusal",
+      "passed": true
+    },
+    {
+      "name": "I06 complete physical vessels unchanged",
+      "passed": true
+    },
+    {
+      "name": "I06 explicit donor cause",
+      "passed": true
+    },
+    {
+      "name": "I06 zero transfer disclosure",
+      "passed": true
+    },
+    {
+      "name": "I07 text completed",
+      "passed": true
+    },
+    {
+      "name": "I07 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I07 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I07 json completed",
+      "passed": true
+    },
+    {
+      "name": "I07 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I07 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I07 complete output",
+      "passed": true
+    },
+    {
+      "name": "I07 one complete cut",
+      "passed": true
+    },
+    {
+      "name": "I07 no solver failure or refusal",
+      "passed": true
+    },
+    {
+      "name": "I07 supplying donor changes",
+      "passed": true
+    },
+    {
+      "name": "I07 complete requested amount",
+      "passed": true
+    },
+    {
+      "name": "I07 bulk component budget",
+      "passed": true
+    },
+    {
+      "name": "I07 latent account",
+      "passed": true
+    },
+    {
+      "name": "I07 event/receiver amount agree",
+      "passed": true
+    },
+    {
+      "name": "I08 text completed",
+      "passed": true
+    },
+    {
+      "name": "I08 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I08 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I08 json completed",
+      "passed": true
+    },
+    {
+      "name": "I08 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I08 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I08 complete output",
+      "passed": true
+    },
+    {
+      "name": "I08 one complete cut",
+      "passed": true
+    },
+    {
+      "name": "I08 no solver failure or refusal",
+      "passed": true
+    },
+    {
+      "name": "I08 supplying donor changes",
+      "passed": true
+    },
+    {
+      "name": "I08 complete requested amount",
+      "passed": true
+    },
+    {
+      "name": "I08 bulk component budget",
+      "passed": true
+    },
+    {
+      "name": "I08 latent account",
+      "passed": true
+    },
+    {
+      "name": "I08 event/receiver amount agree",
+      "passed": true
+    },
+    {
+      "name": "I09 text completed",
+      "passed": true
+    },
+    {
+      "name": "I09 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I09 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I09 json completed",
+      "passed": true
+    },
+    {
+      "name": "I09 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I09 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I09 complete output",
+      "passed": true
+    },
+    {
+      "name": "I09 one atomic refusal",
+      "passed": true
+    },
+    {
+      "name": "I09 complete physical vessels unchanged",
+      "passed": true
+    },
+    {
+      "name": "I09 explicit donor cause",
+      "passed": true
+    },
+    {
+      "name": "I09 zero transfer disclosure",
+      "passed": true
+    },
+    {
+      "name": "I10 text completed",
+      "passed": true
+    },
+    {
+      "name": "I10 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I10 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I10 json completed",
+      "passed": true
+    },
+    {
+      "name": "I10 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I10 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I10 complete output",
+      "passed": true
+    },
+    {
+      "name": "I10 one atomic refusal",
+      "passed": true
+    },
+    {
+      "name": "I10 complete physical vessels unchanged",
+      "passed": true
+    },
+    {
+      "name": "I10 explicit donor cause",
+      "passed": true
+    },
+    {
+      "name": "I10 zero transfer disclosure",
+      "passed": true
+    },
+    {
+      "name": "I11 text completed",
+      "passed": true
+    },
+    {
+      "name": "I11 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I11 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I11 json completed",
+      "passed": true
+    },
+    {
+      "name": "I11 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I11 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I11 complete output",
+      "passed": true
+    },
+    {
+      "name": "I11 one complete cut",
+      "passed": true
+    },
+    {
+      "name": "I11 no solver failure or refusal",
+      "passed": true
+    },
+    {
+      "name": "I11 supplying donor changes",
+      "passed": true
+    },
+    {
+      "name": "I11 complete requested amount",
+      "passed": true
+    },
+    {
+      "name": "I11 bulk component budget",
+      "passed": true
+    },
+    {
+      "name": "I11 latent account",
+      "passed": true
+    },
+    {
+      "name": "I11 event/receiver amount agree",
+      "passed": true
+    },
+    {
+      "name": "I12 text completed",
+      "passed": true
+    },
+    {
+      "name": "I12 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I12 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I12 json completed",
+      "passed": true
+    },
+    {
+      "name": "I12 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "I12 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "I12 complete output",
+      "passed": true
+    },
+    {
+      "name": "I12 one complete cut",
+      "passed": true
+    },
+    {
+      "name": "I12 no solver failure or refusal",
+      "passed": true
+    },
+    {
+      "name": "I12 supplying donor changes",
+      "passed": true
+    },
+    {
+      "name": "I12 complete requested amount",
+      "passed": true
+    },
+    {
+      "name": "I12 bulk component budget",
+      "passed": true
+    },
+    {
+      "name": "I12 latent account",
+      "passed": true
+    },
+    {
+      "name": "I12 event/receiver amount agree",
+      "passed": true
+    }
+  ]
+}

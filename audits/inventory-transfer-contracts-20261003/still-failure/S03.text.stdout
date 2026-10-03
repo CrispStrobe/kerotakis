@@ -1,0 +1,26 @@
+  v2: new vessel
+  v3: new vessel
+  v1: +0.000000 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.000000 mol ethanol (C2H5OH, M = 46.069 g/mol)
+  v1 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+           0.00 pmol  water              Liquid
+           0.00 pmol  ethanol            Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v2 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v1: NOT MODELLED: the complete requested distillation at 101.3 kPa could not finish: the requested cut or a required integration step is too small to retain at this inventory scale. No cut was transferred
+  v1 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+           0.00 pmol  water              Liquid
+           0.00 pmol  ethanol            Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v2 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v3 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)

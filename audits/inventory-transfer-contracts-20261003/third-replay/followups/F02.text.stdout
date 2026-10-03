@@ -1,0 +1,22 @@
+  v2: new vessel
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1 (beaker) — 25.00 °C, 99.7 g, 100.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          5.5343 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v2 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)
+  v1 → v2: Rayleigh batch cut, 4 ideal stage(s) at total reflux (a real column at finite reflux separates less, never more); pot 373.15 K → 373.15 K; latent heat 67.50 kJ paid by the burner and dumped by the condenser, deliberately outside the vessel ledger
+  v2: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1 (beaker) — 25.00 °C, 69.8 g, 70.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          3.8740 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v2 (beaker) — 25.00 °C, 29.9 g, 30.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          1.6603 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
