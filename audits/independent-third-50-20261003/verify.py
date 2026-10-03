@@ -27,6 +27,14 @@ def pure_cut_not_azeotropic(rows):
     return len(cuts)==1 and cuts[0].get('azeotropic') is False
 
 
+def iodine_reading_refuses_missing_spectrum(row):
+    events = row.get('events', [])
+    return (not any(e.get('event') == 'measured' for e in events)
+            and any(e.get('event') == 'not_yet_modeled'
+                    and e.get('reason', {}).get('key') == 'not-modeled.incomplete-absorbance'
+                    and 'I2' in e.get('what', '') for e in events))
+
+
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -186,6 +194,11 @@ def main():
         path=SUITE/(module+'.py')
         import importlib.util
         spec=importlib.util.spec_from_file_location(module,path); loaded=importlib.util.module_from_spec(spec);spec.loader.exec_module(loaded);qualifications.extend(loaded.run(cases,check) or [])
+    for key in ['E107', 'E108']:
+        optical = [row for row in cases[key] if row['operator'].get('instrument') == 'spectrophotometer']
+        check(key+' iodine numerical optics explicitly unavailable', len(optical) == 2 and all(iodine_reading_refuses_missing_spectrum(row) for row in optical))
+        looks = [e for row in cases[key] for e in row['events'] if e['event'] == 'observed' and e['vessel'] in ([1,3] if key == 'E107' else [1,2])]
+        check(key+' iodine appearance discloses missing spectrum', len(looks) == 2 and all('Colour is incomplete' in e['appearance']['words'] and 'I2' in e['appearance']['words'] for e in looks))
     follow = args.evidence/'followups'
     if follow.exists():
         fc = strict((SUITE/'followups/predictions.json').read_text())

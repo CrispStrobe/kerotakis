@@ -40,6 +40,20 @@ def failed(results):
     return [r for r in results if r['ok'] is False]
 
 
+class OpticalEvidenceTests(unittest.TestCase):
+    def test_explicit_iodine_refusal_passes(self):
+        import verify
+        row={'events':[{'event':'not_yet_modeled', 'reason':{'key':'not-modeled.incomplete-absorbance'}, 'what':'no absorption spectrum for I2'}]}
+        self.assertTrue(verify.iodine_reading_refuses_missing_spectrum(row))
+        for damaged in [{'events':[]}, {'events':[{'event':'measured','value':0.0}]}, {'events':[{'event':'not_yet_modeled','reason':{'key':'not-modeled.incomplete-absorbance'},'what':'no data'}]}]:
+            self.assertFalse(verify.iodine_reading_refuses_missing_spectrum(damaged))
+
+    def test_refusal_cannot_hide_a_conflicting_numerical_reading(self):
+        import verify
+        row={'events':[{'event':'not_yet_modeled', 'reason':{'key':'not-modeled.incomplete-absorbance'}, 'what':'no absorption spectrum for I2'}, {'event':'measured','value':0.0}]}
+        self.assertFalse(verify.iodine_reading_refuses_missing_spectrum(row))
+
+
 class EvidenceMutationTests(unittest.TestCase):
     def setUp(self):self.rows=fixture('E124')
 

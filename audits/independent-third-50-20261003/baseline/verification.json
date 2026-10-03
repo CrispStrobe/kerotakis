@@ -1,5 +1,5 @@
 {
-  "checks": 849,
+  "checks": 853,
   "passed": false,
   "failures": [
     {
@@ -68,6 +68,22 @@
           "validity": []
         }
       ]
+    },
+    {
+      "name": "E107 iodine numerical optics explicitly unavailable",
+      "passed": false
+    },
+    {
+      "name": "E107 iodine appearance discloses missing spectrum",
+      "passed": false
+    },
+    {
+      "name": "E108 iodine numerical optics explicitly unavailable",
+      "passed": false
+    },
+    {
+      "name": "E108 iodine appearance discloses missing spectrum",
+      "passed": false
     }
   ],
   "qualified_checks": [],
@@ -4287,6 +4303,22 @@
         6.999374221238,
         6.999380791612
       ]
+    },
+    {
+      "name": "E107 iodine numerical optics explicitly unavailable",
+      "passed": false
+    },
+    {
+      "name": "E107 iodine appearance discloses missing spectrum",
+      "passed": false
+    },
+    {
+      "name": "E108 iodine numerical optics explicitly unavailable",
+      "passed": false
+    },
+    {
+      "name": "E108 iodine appearance discloses missing spectrum",
+      "passed": false
     }
   ]
 }
