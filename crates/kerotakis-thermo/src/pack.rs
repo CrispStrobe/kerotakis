@@ -172,14 +172,18 @@ pub struct ClearedVapourPressure {
 }
 
 impl ClearedVapourPressure {
-    /// Provenance for the segment that owns `t_celsius`, if any does.
+    /// Leading provenance at this temperature. For a blended overlap use
+    /// `provenances_at` to retrieve both contributing source records.
     pub fn provenance_at(&self, t_celsius: f64) -> Option<&'static ParameterProvenance> {
-        let provenance: &'static [ParameterProvenance] = self.provenance;
+        self.provenances_at(t_celsius).first()
+    }
+
+    /// All source records contributing to the evaluated correlation.
+    pub fn provenances_at(&self, t_celsius: f64) -> &'static [ParameterProvenance] {
         self.correlation
-            .segments()
-            .iter()
-            .position(|segment| t_celsius >= segment.valid_c.0 && t_celsius <= segment.valid_c.1)
-            .and_then(|index| provenance.get(index))
+            .contributing_indices(t_celsius)
+            .and_then(|range| self.provenance.get(range))
+            .unwrap_or(&[])
     }
 }
 
@@ -680,7 +684,7 @@ pub const CLEARED_FLUIDS: &[FluidRow] = &[
         },
         vapour_pressure: Some(ClearedVapourPressure {
             correlation: crate::vle::ETHANOL,
-            model: "Antoine, piecewise (Stull 1947; Susial Badajoz et al. 2026)",
+            model: "Antoine, smoothstep log-pressure overlap join (Stull 1947; Susial Badajoz et al. 2026)",
             provenance: ETHANOL_PROVENANCE,
         }),
         gaps: CORRELATION_GAPS,
@@ -981,6 +985,13 @@ mod tests {
         );
         assert_eq!(cleared.provenance[1].lane, RightsLane::OpenLicensedData);
         assert_eq!(cleared.provenance[1].licence, "CC-BY-4.0");
+        assert_eq!(cleared.provenances_at(79.8).len(), 2);
+        assert_eq!(cleared.provenances_at(79.65).len(), 1);
+        assert_eq!(
+            cleared.provenances_at(80.0)[0].lane,
+            RightsLane::OpenLicensedData
+        );
+        assert!(cleared.provenances_at(f64::NAN).is_empty());
         assert_eq!(
             cleared.provenance_at(120.0).map(|p| p.lane),
             Some(RightsLane::OpenLicensedData)

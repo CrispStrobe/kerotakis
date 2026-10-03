@@ -69,6 +69,10 @@ impl Antoine {
 pub enum VapourPressure {
     Antoine(Antoine),
     Piecewise(&'static [Antoine]),
+    /// Smoothstep interpolation of log pressure within adjacent fitted overlaps.
+    /// This numerical join is not a new empirical fit. Both source fits apply
+    /// inside an overlap; outside it their original values are unchanged.
+    Blended(&'static [Antoine]),
 }
 
 impl VapourPressure {
@@ -76,21 +80,51 @@ impl VapourPressure {
     pub const fn segments(&self) -> &[Antoine] {
         match self {
             Self::Antoine(segment) => std::slice::from_ref(segment),
-            Self::Piecewise(segments) => segments,
+            Self::Piecewise(segments) | Self::Blended(segments) => segments,
         }
     }
 
     /// The correlation selected at this temperature, if the temperature is
     /// inside a reviewed segment. Overlaps deliberately select the earlier
-    /// segment until its upper bound.
+    /// segment until its upper bound. For Blended this returns the leading
+    /// constituent, not the effective pressure; use `segments_at` for both
+    /// contributors and `pressure_kpa` for the joined value.
     pub fn segment_at(&self, t_celsius: f64) -> Option<&Antoine> {
-        self.segments()
+        self.segments_at(t_celsius).first()
+    }
+
+    /// Original fitted constituents that contribute at this temperature.
+    pub fn segments_at(&self, t_celsius: f64) -> &[Antoine] {
+        self.contributing_indices(t_celsius)
+            .map(|range| &self.segments()[range])
+            .unwrap_or(&[])
+    }
+
+    pub(crate) fn contributing_indices(&self, t: f64) -> Option<std::ops::Range<usize>> {
+        let segments = self.segments();
+        if matches!(self, Self::Blended(_)) {
+            for (i, pair) in segments.windows(2).enumerate() {
+                let lo = pair[1].valid_c.0;
+                let hi = pair[0].valid_c.1;
+                if t > lo && t < hi {
+                    return Some(i..i + 2);
+                }
+                if t == hi {
+                    return Some(i + 1..i + 2);
+                }
+            }
+        }
+        segments
             .iter()
-            .find(|segment| t_celsius >= segment.valid_c.0 && t_celsius <= segment.valid_c.1)
+            .position(|s| t >= s.valid_c.0 && t <= s.valid_c.1)
+            .map(|i| i..i + 1)
     }
 
     pub fn valid_range(&self) -> Option<(f64, f64)> {
         let segments = self.segments();
+        if matches!(self, Self::Blended(_)) {
+            return blended_valid_range(segments);
+        }
         let first = segments.first()?;
         let lo = first.valid_c.0;
         let mut hi = first.valid_c.1;
@@ -136,12 +170,38 @@ impl VapourPressure {
     }
 
     pub fn pressure_kpa(&self, t_celsius: f64) -> Option<f64> {
+        if matches!(self, Self::Blended(_)) {
+            let (lo, hi) = self.valid_range()?;
+            if !t_celsius.is_finite() || t_celsius < lo || t_celsius > hi {
+                return None;
+            }
+            let p = self.pressure_kpa_unchecked(t_celsius);
+            return (p.is_finite() && p > 0.0).then_some(p);
+        }
         self.segment_at(t_celsius)
             .and_then(|segment| segment.pressure_kpa(t_celsius))
     }
 
     fn pressure_kpa_unchecked(&self, t_celsius: f64) -> f64 {
         let segments = self.segments();
+        if matches!(self, Self::Blended(_)) {
+            for pair in segments.windows(2) {
+                let (lo, hi) = (pair[1].valid_c.0, pair[0].valid_c.1);
+                if t_celsius >= lo && t_celsius <= hi {
+                    if t_celsius == lo {
+                        return pair[0].pressure_kpa_unchecked(t_celsius);
+                    }
+                    if t_celsius == hi {
+                        return pair[1].pressure_kpa_unchecked(t_celsius);
+                    }
+                    let s = (t_celsius - lo) / (hi - lo);
+                    let w = s * s * (3.0 - 2.0 * s);
+                    let low = pair[0].a - pair[0].b / (t_celsius + pair[0].c);
+                    let high = pair[1].a - pair[1].b / (t_celsius + pair[1].c);
+                    return 10f64.powf(low + w * (high - low));
+                }
+            }
+        }
         let segment = self
             .segments()
             .iter()
@@ -155,6 +215,66 @@ impl VapourPressure {
             });
         10f64.powf(segment.a - segment.b / (t_celsius + segment.c))
     }
+}
+
+// Analytic checks rather than a temperature grid: extrema of the log-pressure
+// disagreement occur at endpoints or equal Antoine slopes. A conservative
+// derivative bound proves the joined pure pressure remains increasing.
+fn blended_valid_range(segments: &[Antoine]) -> Option<(f64, f64)> {
+    let first = segments.first()?;
+    for s in segments {
+        let (lo, hi) = s.valid_c;
+        if !lo.is_finite()
+            || !hi.is_finite()
+            || lo >= hi
+            || !s.a.is_finite()
+            || !s.b.is_finite()
+            || s.b <= 0.0
+            || !s.c.is_finite()
+            || lo + s.c <= 0.0
+        {
+            return None;
+        }
+        s.pressure_kpa(lo)?;
+        s.pressure_kpa(hi)?;
+    }
+    for (i, pair) in segments.windows(2).enumerate() {
+        let (low, high) = (&pair[0], &pair[1]);
+        let (lo, hi) = (high.valid_c.0, low.valid_c.1);
+        let width = hi - lo;
+        if !width.is_finite()
+            || width <= 0.0
+            || lo < low.valid_c.0
+            || high.valid_c.1 <= hi
+            || (i > 0 && lo < segments[i - 1].valid_c.1)
+        {
+            return None;
+        }
+        let delta = |t: f64| {
+            std::f64::consts::LN_10
+                * ((high.a - high.b / (t + high.c)) - (low.a - low.b / (t + low.c)))
+        };
+        let mut d_min = delta(lo).min(delta(hi));
+        let mut d_max = delta(lo).max(delta(hi));
+        let (bl, bh) = (low.b.sqrt(), high.b.sqrt());
+        if bl != bh {
+            let critical = (bl * high.c - bh * low.c) / (bh - bl);
+            if critical > lo && critical < hi {
+                d_min = d_min.min(delta(critical));
+                d_max = d_max.max(delta(critical));
+            }
+        }
+        let disagreement = d_min.abs().max(d_max.abs());
+        if !disagreement.is_finite() || disagreement > -0.99_f64.ln() {
+            return None;
+        }
+        let slope = |fit: &Antoine| std::f64::consts::LN_10 * fit.b / (hi + fit.c).powi(2);
+        let bound = slope(low).min(slope(high)) + 1.5 * d_min.min(0.0) / width;
+        if !bound.is_finite() || bound <= 0.0 {
+            return None;
+        }
+    }
+    Some((first.valid_c.0, segments.last()?.valid_c.1))
 }
 
 impl From<Antoine> for VapourPressure {
@@ -295,7 +415,10 @@ pub const ETHANOL_HIGH: Antoine = Antoine {
 };
 
 const ETHANOL_SEGMENTS: &[Antoine] = &[ETHANOL_LOW, ETHANOL_HIGH];
-pub const ETHANOL: VapourPressure = VapourPressure::Piecewise(ETHANOL_SEGMENTS);
+/// Both original ethanol fits, joined in their shared 79.65–80 °C interval.
+/// Smoothstep log-pressure interpolation is a numerical approximation; the
+/// original fitted correlations and their source attribution remain available.
+pub const ETHANOL: VapourPressure = VapourPressure::Blended(ETHANOL_SEGMENTS);
 
 /// Isopropanol over the NIST fit range that spans its normal boiling point.
 /// NIST publishes pressure in bar and temperature in kelvin; `a` includes
