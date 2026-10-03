@@ -1,0 +1,226 @@
+{
+  "checks": 55,
+  "passed": true,
+  "details": [
+    {
+      "name": "frozen predictions",
+      "passed": true
+    },
+    {
+      "name": "binary identity",
+      "passed": true
+    },
+    {
+      "name": "all controls in both modes",
+      "passed": true
+    },
+    {
+      "name": "T01 text completed",
+      "passed": true
+    },
+    {
+      "name": "T01 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "T01 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "T01 json completed",
+      "passed": true
+    },
+    {
+      "name": "T01 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "T01 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "T01 two inspections",
+      "passed": true
+    },
+    {
+      "name": "T01 one operation",
+      "passed": true
+    },
+    {
+      "name": "T01 no completed cut",
+      "passed": true
+    },
+    {
+      "name": "T01 explicit atomic refusal",
+      "passed": true
+    },
+    {
+      "name": "T01 entire vessel state preserved",
+      "passed": true
+    },
+    {
+      "name": "T02 text completed",
+      "passed": true
+    },
+    {
+      "name": "T02 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "T02 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "T02 json completed",
+      "passed": true
+    },
+    {
+      "name": "T02 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "T02 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "T02 two inspections",
+      "passed": true
+    },
+    {
+      "name": "T02 one operation",
+      "passed": true
+    },
+    {
+      "name": "T02 no completed cut",
+      "passed": true
+    },
+    {
+      "name": "T02 explicit atomic refusal",
+      "passed": true
+    },
+    {
+      "name": "T02 entire vessel state preserved",
+      "passed": true
+    },
+    {
+      "name": "T03 text completed",
+      "passed": true
+    },
+    {
+      "name": "T03 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "T03 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "T03 json completed",
+      "passed": true
+    },
+    {
+      "name": "T03 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "T03 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "T03 two inspections",
+      "passed": true
+    },
+    {
+      "name": "T03 one operation",
+      "passed": true
+    },
+    {
+      "name": "T03 no failure or refusal anywhere",
+      "passed": true
+    },
+    {
+      "name": "T03 completed cut",
+      "passed": true
+    },
+    {
+      "name": "T03 water conserved",
+      "passed": true
+    },
+    {
+      "name": "T03 water positive overhead",
+      "passed": true
+    },
+    {
+      "name": "T03 methanol conserved",
+      "passed": true
+    },
+    {
+      "name": "T03 methanol positive overhead",
+      "passed": true
+    },
+    {
+      "name": "T03 requested fraction",
+      "passed": true
+    },
+    {
+      "name": "T03 trace enrichment",
+      "passed": true
+    },
+    {
+      "name": "T04 text completed",
+      "passed": true
+    },
+    {
+      "name": "T04 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "T04 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "T04 json completed",
+      "passed": true
+    },
+    {
+      "name": "T04 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "T04 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "T04 two inspections",
+      "passed": true
+    },
+    {
+      "name": "T04 one operation",
+      "passed": true
+    },
+    {
+      "name": "T04 no failure or refusal anywhere",
+      "passed": true
+    },
+    {
+      "name": "T04 completed cut",
+      "passed": true
+    },
+    {
+      "name": "T04 ethanol conserved",
+      "passed": true
+    },
+    {
+      "name": "T04 ethanol positive overhead",
+      "passed": true
+    },
+    {
+      "name": "T04 requested fraction",
+      "passed": true
+    },
+    {
+      "name": "T04 analytic latent heat",
+      "passed": true
+    }
+  ]
+}

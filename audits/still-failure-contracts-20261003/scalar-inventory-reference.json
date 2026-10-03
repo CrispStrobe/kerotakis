@@ -1,0 +1,33 @@
+{
+  "provenance": "Independent IEEE754 reference arithmetic, not a kerotakis execution; current withdrawal source uses this subtraction pattern. No compensated inventory repair is claimed.",
+  "generated_utc": "2026-10-03T16:35:53.841805+00:00",
+  "cases": [
+    {
+      "take_moles": 1e-14,
+      "count": 1,
+      "requested_total_moles": 1e-14,
+      "scalar_repeated_remaining_moles": 0.99999999999999,
+      "represented_decrement_moles": 9.992007221626409e-15,
+      "nearest_float_to_exact_remaining_moles": 0.99999999999999,
+      "cut_relative_decrement_error": -0.0007992778373591136
+    },
+    {
+      "take_moles": 1e-16,
+      "count": 1,
+      "requested_total_moles": 1e-16,
+      "scalar_repeated_remaining_moles": 0.9999999999999999,
+      "represented_decrement_moles": 1.1102230246251565e-16,
+      "nearest_float_to_exact_remaining_moles": 0.9999999999999999,
+      "cut_relative_decrement_error": 0.11022302462515654
+    },
+    {
+      "take_moles": 1e-20,
+      "count": 32768,
+      "requested_total_moles": 3.2768e-16,
+      "scalar_repeated_remaining_moles": 1.0,
+      "represented_decrement_moles": 0.0,
+      "nearest_float_to_exact_remaining_moles": 0.9999999999999997,
+      "cut_relative_decrement_error": -1.0
+    }
+  ]
+}

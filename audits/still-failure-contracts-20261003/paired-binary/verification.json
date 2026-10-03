@@ -1,0 +1,530 @@
+{
+  "checks": 131,
+  "passed": true,
+  "details": [
+    {
+      "name": "frozen predictions",
+      "passed": true
+    },
+    {
+      "name": "binary identity",
+      "passed": true
+    },
+    {
+      "name": "all controls in both modes",
+      "passed": true
+    },
+    {
+      "name": "B01 text completed",
+      "passed": true
+    },
+    {
+      "name": "B01 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "B01 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "B01 json completed",
+      "passed": true
+    },
+    {
+      "name": "B01 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "B01 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "B01 two inspections",
+      "passed": true
+    },
+    {
+      "name": "B01 one operation",
+      "passed": true
+    },
+    {
+      "name": "B01 no failure or refusal anywhere",
+      "passed": true
+    },
+    {
+      "name": "B01 one completed cut",
+      "passed": true
+    },
+    {
+      "name": "B01 water trace-relative budget",
+      "passed": true
+    },
+    {
+      "name": "B01 water positive received increment",
+      "passed": true
+    },
+    {
+      "name": "B01 ethanol trace-relative budget",
+      "passed": true
+    },
+    {
+      "name": "B01 ethanol positive received increment",
+      "passed": true
+    },
+    {
+      "name": "B01 latent account matches received material",
+      "passed": true
+    },
+    {
+      "name": "B01 fraction completed",
+      "passed": true
+    },
+    {
+      "name": "B01 water cut has a positive residue",
+      "passed": true
+    },
+    {
+      "name": "B01 water event matches explicit receiver trace",
+      "passed": true
+    },
+    {
+      "name": "B02 text completed",
+      "passed": true
+    },
+    {
+      "name": "B02 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "B02 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "B02 json completed",
+      "passed": true
+    },
+    {
+      "name": "B02 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "B02 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "B02 two inspections",
+      "passed": true
+    },
+    {
+      "name": "B02 one operation",
+      "passed": true
+    },
+    {
+      "name": "B02 no failure or refusal anywhere",
+      "passed": true
+    },
+    {
+      "name": "B02 one completed cut",
+      "passed": true
+    },
+    {
+      "name": "B02 water trace-relative budget",
+      "passed": true
+    },
+    {
+      "name": "B02 water positive received increment",
+      "passed": true
+    },
+    {
+      "name": "B02 ethanol trace-relative budget",
+      "passed": true
+    },
+    {
+      "name": "B02 ethanol positive received increment",
+      "passed": true
+    },
+    {
+      "name": "B02 latent account matches received material",
+      "passed": true
+    },
+    {
+      "name": "B02 requested positive heat completed",
+      "passed": true
+    },
+    {
+      "name": "B02 water cut has a positive residue",
+      "passed": true
+    },
+    {
+      "name": "B02 water event matches explicit receiver trace",
+      "passed": true
+    },
+    {
+      "name": "B03 text completed",
+      "passed": true
+    },
+    {
+      "name": "B03 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "B03 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "B03 json completed",
+      "passed": true
+    },
+    {
+      "name": "B03 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "B03 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "B03 two inspections",
+      "passed": true
+    },
+    {
+      "name": "B03 one operation",
+      "passed": true
+    },
+    {
+      "name": "B03 no failure or refusal anywhere",
+      "passed": true
+    },
+    {
+      "name": "B03 one completed cut",
+      "passed": true
+    },
+    {
+      "name": "B03 water trace-relative budget",
+      "passed": true
+    },
+    {
+      "name": "B03 water positive received increment",
+      "passed": true
+    },
+    {
+      "name": "B03 ethanol trace-relative budget",
+      "passed": true
+    },
+    {
+      "name": "B03 ethanol positive received increment",
+      "passed": true
+    },
+    {
+      "name": "B03 latent account matches received material",
+      "passed": true
+    },
+    {
+      "name": "B03 fraction completed",
+      "passed": true
+    },
+    {
+      "name": "B03 water cut has a positive residue",
+      "passed": true
+    },
+    {
+      "name": "B03 water event matches explicit receiver trace",
+      "passed": true
+    },
+    {
+      "name": "B04 text completed",
+      "passed": true
+    },
+    {
+      "name": "B04 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "B04 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "B04 json completed",
+      "passed": true
+    },
+    {
+      "name": "B04 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "B04 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "B04 two inspections",
+      "passed": true
+    },
+    {
+      "name": "B04 one operation",
+      "passed": true
+    },
+    {
+      "name": "B04 no completed cut",
+      "passed": true
+    },
+    {
+      "name": "B04 explicit receiver refusal",
+      "passed": true
+    },
+    {
+      "name": "B04 complete vessel state preserved",
+      "passed": true
+    },
+    {
+      "name": "B05 text completed",
+      "passed": true
+    },
+    {
+      "name": "B05 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "B05 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "B05 json completed",
+      "passed": true
+    },
+    {
+      "name": "B05 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "B05 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "B05 two inspections",
+      "passed": true
+    },
+    {
+      "name": "B05 one operation",
+      "passed": true
+    },
+    {
+      "name": "B05 no completed cut",
+      "passed": true
+    },
+    {
+      "name": "B05 explicit receiver refusal",
+      "passed": true
+    },
+    {
+      "name": "B05 complete vessel state preserved",
+      "passed": true
+    },
+    {
+      "name": "B06 text completed",
+      "passed": true
+    },
+    {
+      "name": "B06 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "B06 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "B06 json completed",
+      "passed": true
+    },
+    {
+      "name": "B06 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "B06 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "B06 two inspections",
+      "passed": true
+    },
+    {
+      "name": "B06 one operation",
+      "passed": true
+    },
+    {
+      "name": "B06 no failure or refusal anywhere",
+      "passed": true
+    },
+    {
+      "name": "B06 one completed cut",
+      "passed": true
+    },
+    {
+      "name": "B06 ethanol trace-relative budget",
+      "passed": true
+    },
+    {
+      "name": "B06 ethanol positive received increment",
+      "passed": true
+    },
+    {
+      "name": "B06 latent account matches received material",
+      "passed": true
+    },
+    {
+      "name": "B06 fraction completed",
+      "passed": true
+    },
+    {
+      "name": "B06 analytic pure heat",
+      "passed": true
+    },
+    {
+      "name": "B07 text completed",
+      "passed": true
+    },
+    {
+      "name": "B07 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "B07 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "B07 json completed",
+      "passed": true
+    },
+    {
+      "name": "B07 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "B07 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "B07 two inspections",
+      "passed": true
+    },
+    {
+      "name": "B07 one operation",
+      "passed": true
+    },
+    {
+      "name": "B07 no completed cut",
+      "passed": true
+    },
+    {
+      "name": "B07 explicit receiver refusal",
+      "passed": true
+    },
+    {
+      "name": "B07 complete vessel state preserved",
+      "passed": true
+    },
+    {
+      "name": "B08 text completed",
+      "passed": true
+    },
+    {
+      "name": "B08 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "B08 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "B08 json completed",
+      "passed": true
+    },
+    {
+      "name": "B08 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "B08 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "B08 two inspections",
+      "passed": true
+    },
+    {
+      "name": "B08 one operation",
+      "passed": true
+    },
+    {
+      "name": "B08 no failure or refusal anywhere",
+      "passed": true
+    },
+    {
+      "name": "B08 one completed cut",
+      "passed": true
+    },
+    {
+      "name": "B08 water trace-relative budget",
+      "passed": true
+    },
+    {
+      "name": "B08 water positive received increment",
+      "passed": true
+    },
+    {
+      "name": "B08 latent account matches received material",
+      "passed": true
+    },
+    {
+      "name": "B08 fraction completed",
+      "passed": true
+    },
+    {
+      "name": "B08 donor fully emptied",
+      "passed": true
+    },
+    {
+      "name": "B09 text completed",
+      "passed": true
+    },
+    {
+      "name": "B09 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "B09 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "B09 json completed",
+      "passed": true
+    },
+    {
+      "name": "B09 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "B09 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "B09 two inspections",
+      "passed": true
+    },
+    {
+      "name": "B09 one operation",
+      "passed": true
+    },
+    {
+      "name": "B09 no completed cut",
+      "passed": true
+    },
+    {
+      "name": "B09 explicit receiver refusal",
+      "passed": true
+    },
+    {
+      "name": "B09 complete vessel state preserved",
+      "passed": true
+    }
+  ]
+}
