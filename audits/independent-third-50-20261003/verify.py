@@ -78,6 +78,9 @@ def main():
         commands = {s['name']:s['command'] for s in validation['stages']}
         check('new core regressions included',all(target in commands.get('core',[]) for target in ['headspace','density_coverage_scaling']))
         check('new native regressions included',all(target in commands.get('phreeqc',[]) for target in ['--lib','settled_carbonate_transfer','trace_inventory','order_invariance','native_delta_h','engine_call_budget']))
+        check('cache-only hook regression included', all(target in commands.get('phreeqc-hook',[]) for target in ['--no-default-features','--lib']))
+        hook_stages = [s for s in validation['stages'] if s['name']=='phreeqc-hook']
+        check('cache-only hook regression executed', len(hook_stages)==1 and 'external_hook_restores_amounts_before_trial_cache_and_refuses_bad_readback ... ok' in (args.validation.parent/hook_stages[0]['log']).read_text())
     check('validated executable', validation['passed'] is True and all(s['exit_code'] == 0 for s in validation['stages']) and validation['commit'] == receipt['binary_source_commit'] and validation['binary_sha256'] == receipt['binary_sha256'])
     for name, expected in validation['source_hashes'].items():
         source = subprocess.check_output(['git','show',validation['commit']+':'+name],cwd=SUITE.parents[1])
