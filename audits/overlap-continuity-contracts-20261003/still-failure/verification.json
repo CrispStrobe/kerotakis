@@ -1,0 +1,375 @@
+{
+  "checks": 91,
+  "passed": true,
+  "classifications": {
+    "S01": "condensate-precision",
+    "S02": "composition-precision",
+    "S03": "request-precision"
+  },
+  "details": [
+    {
+      "name": "frozen predictions",
+      "passed": true
+    },
+    {
+      "name": "binary identity",
+      "passed": true
+    },
+    {
+      "name": "all cases in both modes",
+      "passed": true
+    },
+    {
+      "name": "S01 text completed",
+      "passed": true
+    },
+    {
+      "name": "S01 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "S01 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "S01 json completed",
+      "passed": true
+    },
+    {
+      "name": "S01 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "S01 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "S01 complete output",
+      "passed": true
+    },
+    {
+      "name": "S01 one atomic refusal",
+      "passed": true
+    },
+    {
+      "name": "S01 entire vessels unchanged",
+      "passed": true
+    },
+    {
+      "name": "S01 model boundary cause",
+      "passed": true
+    },
+    {
+      "name": "S01 legacy key preserved",
+      "passed": true
+    },
+    {
+      "name": "S01 zero transfer disclosed",
+      "passed": true
+    },
+    {
+      "name": "S01 explicit explored failure owner",
+      "passed": true
+    },
+    {
+      "name": "S01 readable cause agrees with JSON",
+      "passed": true
+    },
+    {
+      "name": "S02 text completed",
+      "passed": true
+    },
+    {
+      "name": "S02 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "S02 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "S02 json completed",
+      "passed": true
+    },
+    {
+      "name": "S02 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "S02 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "S02 complete output",
+      "passed": true
+    },
+    {
+      "name": "S02 one atomic refusal",
+      "passed": true
+    },
+    {
+      "name": "S02 entire vessels unchanged",
+      "passed": true
+    },
+    {
+      "name": "S02 model boundary cause",
+      "passed": true
+    },
+    {
+      "name": "S02 legacy key preserved",
+      "passed": true
+    },
+    {
+      "name": "S02 zero transfer disclosed",
+      "passed": true
+    },
+    {
+      "name": "S02 predicted failure owner",
+      "passed": true
+    },
+    {
+      "name": "S02 readable cause agrees with JSON",
+      "passed": true
+    },
+    {
+      "name": "S03 text completed",
+      "passed": true
+    },
+    {
+      "name": "S03 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "S03 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "S03 json completed",
+      "passed": true
+    },
+    {
+      "name": "S03 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "S03 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "S03 complete output",
+      "passed": true
+    },
+    {
+      "name": "S03 one atomic refusal",
+      "passed": true
+    },
+    {
+      "name": "S03 entire vessels unchanged",
+      "passed": true
+    },
+    {
+      "name": "S03 model boundary cause",
+      "passed": true
+    },
+    {
+      "name": "S03 legacy key preserved",
+      "passed": true
+    },
+    {
+      "name": "S03 zero transfer disclosed",
+      "passed": true
+    },
+    {
+      "name": "S03 predicted failure owner",
+      "passed": true
+    },
+    {
+      "name": "S03 readable cause agrees with JSON",
+      "passed": true
+    },
+    {
+      "name": "S04 text completed",
+      "passed": true
+    },
+    {
+      "name": "S04 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "S04 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "S04 json completed",
+      "passed": true
+    },
+    {
+      "name": "S04 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "S04 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "S04 complete output",
+      "passed": true
+    },
+    {
+      "name": "S04 one completed cut",
+      "passed": true
+    },
+    {
+      "name": "S04 no operation failure or refusal",
+      "passed": true
+    },
+    {
+      "name": "S04 water positive separate stocks",
+      "passed": true
+    },
+    {
+      "name": "S04 water relative budget",
+      "passed": true
+    },
+    {
+      "name": "S04 ethanol positive separate stocks",
+      "passed": true
+    },
+    {
+      "name": "S04 ethanol relative budget",
+      "passed": true
+    },
+    {
+      "name": "S04 complete fraction",
+      "passed": true
+    },
+    {
+      "name": "S04 latent account",
+      "passed": true
+    },
+    {
+      "name": "S05 text completed",
+      "passed": true
+    },
+    {
+      "name": "S05 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "S05 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "S05 json completed",
+      "passed": true
+    },
+    {
+      "name": "S05 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "S05 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "S05 complete output",
+      "passed": true
+    },
+    {
+      "name": "S05 one completed cut",
+      "passed": true
+    },
+    {
+      "name": "S05 no operation failure or refusal",
+      "passed": true
+    },
+    {
+      "name": "S05 water positive separate stocks",
+      "passed": true
+    },
+    {
+      "name": "S05 water relative budget",
+      "passed": true
+    },
+    {
+      "name": "S05 ethanol positive separate stocks",
+      "passed": true
+    },
+    {
+      "name": "S05 ethanol relative budget",
+      "passed": true
+    },
+    {
+      "name": "S05 complete fraction",
+      "passed": true
+    },
+    {
+      "name": "S05 latent account",
+      "passed": true
+    },
+    {
+      "name": "S06 text completed",
+      "passed": true
+    },
+    {
+      "name": "S06 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "S06 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "S06 json completed",
+      "passed": true
+    },
+    {
+      "name": "S06 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "S06 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "S06 complete output",
+      "passed": true
+    },
+    {
+      "name": "S06 one completed cut",
+      "passed": true
+    },
+    {
+      "name": "S06 no operation failure or refusal",
+      "passed": true
+    },
+    {
+      "name": "S06 water positive separate stocks",
+      "passed": true
+    },
+    {
+      "name": "S06 water relative budget",
+      "passed": true
+    },
+    {
+      "name": "S06 ethanol positive separate stocks",
+      "passed": true
+    },
+    {
+      "name": "S06 ethanol relative budget",
+      "passed": true
+    },
+    {
+      "name": "S06 complete fraction",
+      "passed": true
+    },
+    {
+      "name": "S06 latent account",
+      "passed": true
+    },
+    {
+      "name": "S06 staged enrichment",
+      "passed": true
+    }
+  ]
+}

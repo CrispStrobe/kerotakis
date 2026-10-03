@@ -1,0 +1,13 @@
+T01 text: 0
+T01 json: 0
+T02 text: 0
+T02 json: 0
+T03 text: 0
+T03 json: 0
+T04 text: 0
+T04 json: 0
+{
+  "checks": 55,
+  "passed": true,
+  "failures": []
+}

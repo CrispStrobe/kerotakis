@@ -1,0 +1,11 @@
+{
+  "run": 37142397415,
+  "validated_run": 37141309015,
+  "validated_commit": "c52852344345cd73d3c019a9a86d1f2432ebd25d",
+  "binary_sha256": "67755d78d226387322aa85fbf35dc9ece25c2183256c66c0853adc2d0443d209",
+  "checks": 940,
+  "passed": true,
+  "qualification_count": 9,
+  "raw_artifact": "/mnt/storage/kerotakis-maintenance-20261003/overlap-third-37142397415",
+  "offline_application_execution": false
+}

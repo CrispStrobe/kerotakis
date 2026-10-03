@@ -1,0 +1,241 @@
+{
+  "predictions_sha256": "0c28d9325c0480da657f46c5e7f4b5f208eb136378858c7a7a9269952e43df2f",
+  "binary_source_commit": "c52852344345cd73d3c019a9a86d1f2432ebd25d",
+  "binary_validation_run": null,
+  "binary": "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+  "binary_sha256": "67755d78d226387322aa85fbf35dc9ece25c2183256c66c0853adc2d0443d209",
+  "checkout": "c52852344345cd73d3c019a9a86d1f2432ebd25d",
+  "policy": {
+    "max_load1": 3.5,
+    "min_available_mib": 3200,
+    "min_swap_free_mib": 600,
+    "min_disk_free_mib": 2048,
+    "min_system_free_mib": 512
+  },
+  "started_utc": "2026-10-03T17:54:06Z",
+  "runs": [
+    {
+      "id": "S01",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/still-failure-contracts-20261003/scripts/S01.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 3.07,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "S01.text.stdout",
+      "stderr": "S01.text.stderr",
+      "stdout_sha256": "ed717051f8ab46992a3a9916dfe5df26af5ee6b7080c9b5858e384d17460332c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "S01",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/still-failure-contracts-20261003/scripts/S01.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 3.12,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "S01.json.stdout",
+      "stderr": "S01.json.stderr",
+      "stdout_sha256": "2b33f4cae9ffd0a9ac37ad9bffdf8470146bd52ce3ae2f2d6bca8d40f88e3a32",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "S02",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/still-failure-contracts-20261003/scripts/S02.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.515,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "S02.text.stdout",
+      "stderr": "S02.text.stderr",
+      "stdout_sha256": "7a0387383584293f8981a76689b314c24a04ccb0fea25a7479c5099d433bc75a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "S02",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/still-failure-contracts-20261003/scripts/S02.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.515,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "S02.json.stdout",
+      "stderr": "S02.json.stderr",
+      "stdout_sha256": "5632dde0532c74ac804a1c6b30d0b33230d3b418e094c77699e1dd18130d448b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "S03",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/still-failure-contracts-20261003/scripts/S03.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.515,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "S03.text.stdout",
+      "stderr": "S03.text.stderr",
+      "stdout_sha256": "ee3b3c05e9daa72618d6ad6a1352df31552e2db97a7fc20c16febc7fdf6ffaa5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "S03",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/still-failure-contracts-20261003/scripts/S03.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.515,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "S03.json.stdout",
+      "stderr": "S03.json.stderr",
+      "stdout_sha256": "3a3c14d39c82235a97d5bf9d97d9f38e552f9458e2cda0cf47883c3900a1f2b1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "S04",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/still-failure-contracts-20261003/scripts/S04.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 1.216,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "S04.text.stdout",
+      "stderr": "S04.text.stderr",
+      "stdout_sha256": "9759d56a7ac802661e4f3b63f17cfac56d696b3591d6054758ed043ba7c2f84d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "S04",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/still-failure-contracts-20261003/scripts/S04.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 1.216,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "S04.json.stdout",
+      "stderr": "S04.json.stderr",
+      "stdout_sha256": "3a3371ae282fc508e973fb99613115f4045949fbeb5bdd73304e35bbe4deb59c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "S05",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/still-failure-contracts-20261003/scripts/S05.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 3.42,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "S05.text.stdout",
+      "stderr": "S05.text.stderr",
+      "stdout_sha256": "91918fe41f37d0b45f67a9c675a80debe972d866ce93f3edf231cb6b2d0322f6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "S05",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/still-failure-contracts-20261003/scripts/S05.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 3.419,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "S05.json.stdout",
+      "stderr": "S05.json.stderr",
+      "stdout_sha256": "104f43915f373348df57a492a84b69160efd20fccb0cc4ca7b64bcdd0447a12a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "S06",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/still-failure-contracts-20261003/scripts/S06.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 3.419,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "S06.text.stdout",
+      "stderr": "S06.text.stderr",
+      "stdout_sha256": "d24074a111d939534cc98c9cef1910828fc23e43248a32be18ac7587939252f8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "S06",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/kerotakis/kerotakis/target/debug/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/still-failure-contracts-20261003/scripts/S06.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 3.47,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "S06.json.stdout",
+      "stderr": "S06.json.stderr",
+      "stdout_sha256": "d79001e2401901ec65b38e7dcb8ba1942aba85ec382b7e8c490328f7e694bc8f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "completed_utc": "2026-10-03T17:54:30Z"
+}

@@ -1,0 +1,23 @@
+B01 text: 0
+B01 json: 0
+B02 text: 0
+B02 json: 0
+B03 text: 0
+B03 json: 0
+B04 text: 0
+B04 json: 0
+B05 text: 0
+B05 json: 0
+B06 text: 0
+B06 json: 0
+B07 text: 0
+B07 json: 0
+B08 text: 0
+B08 json: 0
+B09 text: 0
+B09 json: 0
+{
+  "checks": 131,
+  "passed": true,
+  "failures": []
+}

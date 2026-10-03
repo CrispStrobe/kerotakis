@@ -1,0 +1,17 @@
+{
+  "utc": "2026-10-03T18:02:48.315584+00:00",
+  "load": [
+    1.57,
+    2.09,
+    2.07
+  ],
+  "available_mib": 3646.1953125,
+  "swap_free_mib": 8768.66796875,
+  "disk_free_mib": {
+    "/mnt/volume1": 109.3359375,
+    "/mnt/storage": 1791996.875,
+    "/": 690.09765625
+  },
+  "local_large_work_allowed": false,
+  "reason": "Workspace free disk below 2048 MiB; all app execution and builds stayed hosted."
+}
