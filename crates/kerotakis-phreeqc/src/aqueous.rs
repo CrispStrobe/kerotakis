@@ -2948,8 +2948,9 @@ impl PhreeqcEquilibrator {
     ///   after             1.0023e-13       1.8361e-9       1.1000e-10
     /// ```
     ///
-    /// `solvent_kg` is exact to every digit the wire can print because the
-    /// input writes the solvent mass as `{:.9}`, and the conserved
+    /// In this historical measurement, `solvent_kg` was exact to every
+    /// digit the wire could print because the input wrote solvent mass as
+    /// `{:.9}`, and the conserved
     /// inventory's own residue — the two orderings agree on the vessel's
     /// water to about one part in 4e8 — is finer than that quantisation,
     /// so both print the same nine decimals and the solve is answered from
@@ -2958,7 +2959,9 @@ impl PhreeqcEquilibrator {
     /// residue, so a few parts in 1e9 do reach the engine and come back as
     /// the 1.8e-9 above. That remainder is floating-point noise in a
     /// conserved sum, not a difference in representation, and it is four
-    /// orders of magnitude below what the wire publishes.
+    /// orders of magnitude below what the wire publishes. Current inputs
+    /// use `{:.12e}` solvent mass to retain microscopic positive samples;
+    /// they no longer rely on fixed-decimal quantisation for invariance.
     ///
     /// # What it deliberately does NOT do
     ///

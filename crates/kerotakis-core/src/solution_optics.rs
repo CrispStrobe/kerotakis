@@ -56,11 +56,27 @@ pub(crate) fn visible_moles(vessel: &Vessel, key: &str, analytical: f64) -> f64 
     })
 }
 
-/// Missing spectra for native species containing a known chromophore element.
-/// This is a coverage warning, not a claim that each such species is coloured.
+/// Missing spectra for known dissolved chromophores and native species containing
+/// a known chromophore element. This is a coverage warning, not a claim that each
+/// native complex is coloured.
 pub fn spectral_gaps(vessel: &Vessel) -> Vec<String> {
+    // Molecular iodine is a known neutral chromophore, but the registry has no
+    // dissolved absorption spectrum for it. Its crystal tint cannot substitute
+    // for a solvent-specific spectrum. The bounded Lugol/starch appearance
+    // surrogate remains qualitative and does not close this quantitative gap.
+    // Aqueous is also the storage phase for
+    // undissociated solutes in organic solvents, where no native solution exists.
+    // Do not classify every species without a spectrum as coloured or incomplete.
+    let mut gaps: std::collections::BTreeSet<String> = vessel
+        .contents
+        .iter()
+        .filter(|p| p.phase == Phase::Aqueous && p.moles.0 > 0.0)
+        .filter(|p| p.species.0 == "I2")
+        .filter(|p| species::lookup(&p.species).is_some_and(|s| s.spectrum.is_none()))
+        .map(|p| p.species.0.clone())
+        .collect();
     let Some(solution) = &vessel.solution else {
-        return Vec::new();
+        return gaps.into_iter().collect();
     };
     let elements: std::collections::BTreeSet<_> = species::REGISTRY
         .iter()
@@ -70,22 +86,24 @@ pub fn spectral_gaps(vessel: &Vessel) -> Vec<String> {
         .flat_map(|f| f.counts.into_keys())
         .filter(|el| !matches!(el.as_str(), "H" | "O" | "C" | "N" | "S"))
         .collect();
-    solution
-        .species
-        .iter()
-        .filter(|s| s.molality > 1e-9)
-        .filter(|s| {
-            stoich::parse_formula(&s.name)
-                .ok()
-                .is_some_and(|f| f.counts.keys().any(|el| elements.contains(el)))
-        })
-        .filter(|s| {
-            !species::REGISTRY
-                .iter()
-                .any(|data| data.spectrum.is_some() && same_species(&s.name, data.key))
-        })
-        .map(|s| s.name.clone())
-        .collect()
+    gaps.extend(
+        solution
+            .species
+            .iter()
+            .filter(|s| s.molality > 1e-9)
+            .filter(|s| {
+                stoich::parse_formula(&s.name)
+                    .ok()
+                    .is_some_and(|f| f.counts.keys().any(|el| elements.contains(el)))
+            })
+            .filter(|s| {
+                !species::REGISTRY
+                    .iter()
+                    .any(|data| data.spectrum.is_some() && same_species(&s.name, data.key))
+            })
+            .map(|s| s.name.clone()),
+    );
+    gaps.into_iter().collect()
 }
 
 pub fn absorbance(vessel: &Vessel, path_cm: f64) -> [f64; crate::spectrum::BANDS] {
@@ -185,6 +203,101 @@ mod tests {
             .contains("Colour is incomplete"));
         v.solution.as_mut().unwrap().species.remove(0);
         assert_eq!(absorbance(&v, 1.0), [0.0; crate::spectrum::BANDS]);
+    }
+
+    #[test]
+    fn dissolved_iodine_discloses_missing_spectrum_in_water_and_hexane() {
+        use crate::coverage::{observable_support, ObservableStatus};
+        use crate::instrument::{InstrumentContract, Spectrophotometer};
+
+        assert!(species::lookup(&SpeciesId::new("I2"))
+            .unwrap()
+            .spectrum
+            .is_none());
+        for solvent in ["water", "hexane"] {
+            assert!(species::lookup(&SpeciesId::new(solvent)).is_some());
+            for amount in [1e-3, 1e-14] {
+                let mut v = Vessel::new(VesselId(0), "beaker");
+                v.deposit(SpeciesId::new(solvent), Moles(1.0), Phase::Liquid);
+                v.deposit(SpeciesId::new("I2"), Moles(amount), Phase::Aqueous);
+                assert!(v.solution.is_none());
+                assert_eq!(spectral_gaps(&v), vec!["I2"]);
+                assert!(Spectrophotometer::default().measure(&v).is_none());
+                let support = observable_support(&v, "absorbance");
+                assert_eq!(support.status, ObservableStatus::Incomplete);
+                assert!(support.reasons.iter().any(|r| r == "missing-spectrum:I2"));
+                let appearance = crate::appearance::observe(&v);
+                assert_eq!(appearance.spectral_gaps, vec!["I2"]);
+                assert!(appearance.words.contains("Colour is incomplete"));
+
+                // The analytical neutral chromophore is still uncovered when
+                // native aqueous bookkeeping exists without an I2 distribution.
+                if solvent == "water" {
+                    v.solution = Some(SolutionInfo {
+                        solvent_activity: None,
+                        scope: Default::default(),
+                        solvent_kg: Some(0.018),
+                        ph: 7.0,
+                        pe: None,
+                        redox: vec![],
+                        ionic_strength: 0.0,
+                        provenance: None,
+                        species: vec![],
+                    });
+                    assert_eq!(spectral_gaps(&v), vec!["I2"]);
+                    assert!(Spectrophotometer::default().measure(&v).is_none());
+                    assert_eq!(
+                        observable_support(&v, "absorbance").status,
+                        ObservableStatus::Incomplete
+                    );
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn bounded_lugol_starch_appearance_surrogate_remains_with_quantitative_caveat() {
+        use crate::instrument::{InstrumentContract, Spectrophotometer};
+        let mut v = Vessel::new(VesselId(0), "beaker");
+        v.deposit(SpeciesId::new("water"), Moles(5.55), Phase::Liquid);
+        v.deposit(SpeciesId::new("KI"), Moles(0.001), Phase::Aqueous);
+        v.deposit(SpeciesId::new("I2"), Moles(0.0005), Phase::Aqueous);
+        v.deposit(SpeciesId::new("starch"), Moles(0.02), Phase::Solid);
+        let mut surrogate = [0.0; crate::spectrum::BANDS];
+        let complex = crate::starch_iodine::add_absorbance(&v, 0.1, 1.0, &mut surrogate);
+        assert_eq!(complex, 0.0005);
+        assert!(surrogate.iter().any(|a| *a > 0.0));
+        assert_eq!(spectral_gaps(&v), vec!["I2"]);
+        assert!(Spectrophotometer::default().measure(&v).is_none());
+        let appearance = crate::appearance::observe(&v);
+        assert!(appearance.liquid.is_some());
+        assert!(appearance.words.contains("Colour is incomplete"));
+    }
+
+    #[test]
+    fn solid_zero_and_clear_controls_do_not_claim_a_dissolved_iodine_gap() {
+        use crate::instrument::{InstrumentContract, Spectrophotometer};
+        for solvent in ["water", "hexane"] {
+            let mut v = Vessel::new(VesselId(0), "beaker");
+            v.deposit(SpeciesId::new(solvent), Moles(1.0), Phase::Liquid);
+            v.deposit(SpeciesId::new("I2"), Moles(1e-3), Phase::Solid);
+            // Explicitly represent a zero portion; deposit intentionally omits it.
+            v.contents.push(crate::vessel::Portion {
+                species: SpeciesId::new("I2"),
+                moles: Moles(0.0),
+                phase: Phase::Aqueous,
+            });
+            assert!(spectral_gaps(&v).is_empty());
+            assert!(crate::appearance::observe(&v).spectral_gaps.is_empty());
+            v.contents.retain(|p| p.species.0 != "I2");
+            assert!(spectral_gaps(&v).is_empty());
+            assert_eq!(Spectrophotometer::default().measure(&v).unwrap().value, 0.0);
+        }
+        let mut known = Vessel::new(VesselId(0), "beaker");
+        known.deposit(SpeciesId::new("water"), Moles(5.55), Phase::Liquid);
+        known.deposit(SpeciesId::new("MnO4-"), Moles(1e-4), Phase::Aqueous);
+        assert!(spectral_gaps(&known).is_empty());
+        assert!(Spectrophotometer::default().measure(&known).unwrap().value > 0.0);
     }
 
     #[test]
