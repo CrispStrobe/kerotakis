@@ -3490,29 +3490,32 @@ impl Bench {
                     ));
                 } else {
                     let pressure_kpa = src.pressure.0 / 1000.0;
-                    match kerotakis_thermo::vle::ethanol_water_still(
+                    match kerotakis_thermo::vle::ethanol_water_still_checked(
                         w,
                         e,
                         take,
                         *stages,
                         pressure_kpa,
                     ) {
-                        None => {
+                        Err(failure) => {
                             *disposition = ApplyDisposition::Unchanged;
                             events.push(Event::not_modeled(
                                 *from,
                                 crate::ops::NotModelledCause::ModelBoundary,
                                 Phrase::new(
                                     "not-modeled.no-complete-still-cut",
-                                    "the complete requested distillation at {pressure} kPa cannot be represented within the still model: every pot and ideal-stage composition needs a fitted bubble point, and the entire cut must complete within numerical precision and integration limits. No cut was transferred",
-                                    vec![(
-                                        "pressure".to_string(),
-                                        Slot::number(format!("{:.1}", pressure_kpa)),
-                                    )],
+                                    "the complete requested distillation at {pressure} kPa could not finish: {failure}. No cut was transferred",
+                                    vec![
+                                        ("pressure".to_string(), Slot::number(format!("{:.1}", pressure_kpa))),
+                                        ("failure".to_string(), Slot::phrase(Phrase::bare(
+                                            &format!("not-modeled.still-failure.{}", failure.code()),
+                                            &failure.to_string(),
+                                        ))),
+                                    ],
                                 ),
                             ));
                         }
-                        Some(cut) => {
+                        Ok(cut) => {
                             if !can_receive(&water, cut.water_over)
                                 || !can_receive(&ethanol, cut.ethanol_over)
                             {

@@ -65,6 +65,8 @@ SOURCE_FILES = [
     "crates/kerotakis-thermo/tests/trace_phase_representation.rs",
     "crates/kerotakis-thermo/tests/trace_phase_convergence.rs",
     "crates/kerotakis-thermo/tests/paired_binary_still.rs",
+    "crates/kerotakis-thermo/src/still_failure_tests.rs",
+    "crates/kerotakis-thermo/tests/still_diagnostics.rs",
     "crates/kerotakis-thermo/tests/pure_binary_still.rs",
     "crates/kerotakis-thermo/tests/pure_ideal_still.rs",
     "crates/kerotakis-thermo/tests/distillation_completion.rs",
@@ -78,6 +80,10 @@ SOURCE_FILES = [
     "audits/trace-phase-contracts-20261003/predictions.json",
     "audits/trace-phase-contracts-20261003/freeze.json",
     "audits/paired-binary-contracts-20261003/run.py",
+    "audits/still-failure-contracts-20261003/run.py",
+    "audits/still-failure-contracts-20261003/verify_artifact.py",
+    "audits/still-failure-contracts-20261003/predictions.json",
+    "audits/still-failure-contracts-20261003/freeze.json",
     "audits/paired-binary-contracts-20261003/predictions.json",
     "audits/paired-binary-contracts-20261003/freeze.json",
     "audits/distillation-contracts-20261003/predictions.json",
@@ -172,6 +178,8 @@ def main():
                              "--binary", str(binary), "--out", str(out / "trace-phase")])
         run("paired-binary", [sys.executable, str(REPO / "audits/paired-binary-contracts-20261003/run.py"),
                              "--binary", str(binary), "--out", str(out / "paired-binary")])
+        run("still-failure", [sys.executable, str(REPO / "audits/still-failure-contracts-20261003/run.py"),
+                               "--binary", str(binary), "--out", str(out / "still-failure")])
         env.update(KERO_BIN=str(binary), KERO_RESULTS_DIR=str(out / "replay"))
         if run("replay", [sys.executable, str(ROOT / "run.py")]):
             followups = []

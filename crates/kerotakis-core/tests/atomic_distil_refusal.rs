@@ -306,3 +306,56 @@ fn dissolved_receiver_stock_cannot_hide_a_positive_trace_condensate() {
             if what.contains("receiver") && what.contains("No cut was transferred"))));
     }
 }
+
+#[test]
+fn binary_still_refusals_identify_the_failure_without_mutating_the_bench() {
+    for (water, ethanol, fraction, pressure, expected) in [
+        (1.0, 0.0, 0.1, 1e12, "phase-evaluation"),
+        (1e-300, 1e100, 0.1, 101325.0, "composition-precision"),
+        (1e-300, 1e-300, 1e-30, 101325.0, "request-precision"),
+    ] {
+        let mut bench = Bench::new();
+        bench.vessels[0].deposit(SpeciesId::new("water"), Moles(water), Phase::Liquid);
+        if ethanol > 0.0 {
+            bench.vessels[0].deposit(SpeciesId::new("ethanol"), Moles(ethanol), Phase::Liquid);
+        }
+        bench.vessels[0].pressure.0 = pressure;
+        bench.vessels.push(Vessel::new(VesselId(1), "receiver"));
+        let before = physical(&bench);
+        let mut solver = CountingMutator::default();
+        let events = bench
+            .step_with(
+                operation(Some(fraction), None),
+                &mut solver,
+                &PermissiveScreen,
+            )
+            .unwrap();
+        assert_eq!(physical(&bench), before);
+        assert!(solver.calls.is_empty());
+        assert_eq!(bench.log.len(), 1);
+        assert_eq!(events.len(), 1);
+        let Event::NotYetModeled {
+            cause,
+            what,
+            reason,
+            ..
+        } = &events[0]
+        else {
+            panic!("expected atomic refusal, got {:?}", events[0]);
+        };
+        assert_eq!(*cause, ops::NotModelledCause::ModelBoundary);
+        let reason = reason.as_ref().expect("structured still refusal");
+        assert_eq!(reason.key, "not-modeled.no-complete-still-cut");
+        assert!(what.contains("No cut was transferred"));
+        let failure = reason
+            .slots
+            .iter()
+            .find_map(|(name, slot)| match slot {
+                Slot::Phrase { phrase } if name == "failure" => Some(phrase),
+                _ => None,
+            })
+            .expect("structured failure clause");
+        assert_eq!(failure.key, format!("not-modeled.still-failure.{expected}"));
+        assert!(what.contains(&failure.en));
+    }
+}

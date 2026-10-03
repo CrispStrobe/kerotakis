@@ -1640,24 +1640,85 @@ pub enum StillTake {
     EnergyKj(f64),
 }
 
+/// Why a complete binary still cut could not be published.
+///
+/// These failures describe model and representation boundaries, not a partial
+/// transfer. The legacy Option API remains available via `.ok()`.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[non_exhaustive]
+pub enum StillError {
+    InvalidInput,
+    UnrepresentableRequest,
+    PhaseEvaluation,
+    UnrepresentableComposition,
+    UnrepresentableCondensate,
+    UnrepresentableResidue,
+    UnrepresentableEnergy,
+    IntegrationLimit,
+    IncompleteCut,
+}
+
+impl StillError {
+    /// Stable diagnostic identifier; callers need not parse the explanation.
+    pub fn code(self) -> &'static str {
+        match self {
+            Self::InvalidInput => "invalid-input",
+            Self::UnrepresentableRequest => "request-precision",
+            Self::PhaseEvaluation => "phase-evaluation",
+            Self::UnrepresentableComposition => "composition-precision",
+            Self::UnrepresentableCondensate => "condensate-precision",
+            Self::UnrepresentableResidue => "residue-precision",
+            Self::UnrepresentableEnergy => "energy-precision",
+            Self::IntegrationLimit => "integration-limit",
+            Self::IncompleteCut => "incomplete-cut",
+        }
+    }
+}
+
+impl std::fmt::Display for StillError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(match self {
+            Self::InvalidInput => "the still needs finite nonnegative stocks, a valid cut and positive pressure",
+            Self::UnrepresentableRequest => "the requested cut or a required integration step is too small to retain at this inventory scale",
+            Self::PhaseEvaluation => "a pot or column-stage boiling calculation could not return a supported phase state",
+            Self::UnrepresentableComposition => "a positive component is too small to retain in a phase composition",
+            Self::UnrepresentableCondensate => "a positive component cannot be retained in the accumulated condensate; try a smaller cut or fewer stages",
+            Self::UnrepresentableResidue => "a positive remaining component cannot be retained separately from the condensate; try a smaller cut or fewer stages",
+            Self::UnrepresentableEnergy => "the cut's latent heat cannot be retained within numerical precision or range",
+            Self::IntegrationLimit => "the requested cut did not finish within the supported integration limit",
+            Self::IncompleteCut => "the retained condensate does not match the requested cut",
+        })
+    }
+}
+
+impl std::error::Error for StillError {}
+
 /// Closed-form amount and latent heat for one positive pure component.
 /// Callers still validate the phase/pressure model; this helper only books
 /// representable amounts. Pure cuts do not change composition, so neither
 /// a Rayleigh mesh nor an ideal-stage cascade can change their answer.
 pub(crate) fn pure_still_amount(amount: f64, latent: f64, take: StillTake) -> Option<(f64, f64)> {
+    pure_still_amount_checked(amount, latent, take).ok()
+}
+
+fn pure_still_amount_checked(
+    amount: f64,
+    latent: f64,
+    take: StillTake,
+) -> Result<(f64, f64), StillError> {
     if !amount.is_finite() || amount <= 0.0 || !latent.is_finite() || latent <= 0.0 {
-        return None;
+        return Err(StillError::InvalidInput);
     }
     let (mut overhead, full, energy_budget) = match take {
         StillTake::Fraction(f) if (0.0..=1.0).contains(&f) => {
             if f == 0.0 {
-                return Some((0.0, 0.0));
+                return Ok((0.0, 0.0));
             }
             (amount * f, f == 1.0, None)
         }
         StillTake::EnergyKj(energy) if energy.is_finite() && energy >= 0.0 => {
             if energy == 0.0 {
-                return Some((0.0, 0.0));
+                return Ok((0.0, 0.0));
             }
             // Overflow of unrequested full-inventory heat does not prevent
             // a finite affordable partial cut. A full cut must publish finite
@@ -1665,10 +1726,10 @@ pub(crate) fn pure_still_amount(amount: f64, latent: f64, take: StillTake) -> Op
             let full = energy >= amount * latent;
             ((energy / latent).min(amount), full, Some(energy))
         }
-        _ => return None,
+        _ => return Err(StillError::InvalidInput),
     };
     if !overhead.is_finite() || overhead <= 0.0 || overhead > amount {
-        return None;
+        return Err(StillError::UnrepresentableRequest);
     }
     let mut heat = overhead * latent;
     if let Some(budget) = energy_budget {
@@ -1680,13 +1741,19 @@ pub(crate) fn pure_still_amount(amount: f64, latent: f64, take: StillTake) -> Op
             heat = overhead * latent;
         }
         if heat > budget || (!full && (heat / budget - 1.0).abs() > 8.0 * f64::EPSILON) {
-            return None;
+            return Err(StillError::UnrepresentableEnergy);
         }
     }
-    if overhead <= 0.0 || !heat.is_finite() || heat <= 0.0 || (!full && amount - overhead <= 0.0) {
-        return None;
+    if overhead <= 0.0 {
+        return Err(StillError::UnrepresentableRequest);
     }
-    Some((overhead, heat))
+    if !heat.is_finite() || heat <= 0.0 {
+        return Err(StillError::UnrepresentableEnergy);
+    }
+    if !full && amount - overhead <= 0.0 {
+        return Err(StillError::UnrepresentableResidue);
+    }
+    Ok((overhead, heat))
 }
 
 /// What one batch cut produced.
@@ -1718,19 +1785,31 @@ fn cascade(
     stages: u32,
     pressure_kpa: f64,
     phase: &mut impl FnMut([f64; 2], f64) -> Option<BubblePoint>,
-) -> Option<([f64; 2], BubblePoint, bool)> {
-    let x = normalized_binary(pot)?;
-    let pot_bp = phase(x, pressure_kpa)?;
-    let mut y = normalized_binary(pot_bp.y.as_slice().try_into().ok()?)?;
+) -> Result<([f64; 2], BubblePoint, bool), StillError> {
+    let x = normalized_binary(pot).ok_or(StillError::UnrepresentableComposition)?;
+    let pot_bp = phase(x, pressure_kpa).ok_or(StillError::PhaseEvaluation)?;
+    let mut y = normalized_binary(
+        pot_bp
+            .y
+            .as_slice()
+            .try_into()
+            .map_err(|_| StillError::UnrepresentableComposition)?,
+    )
+    .ok_or(StillError::UnrepresentableComposition)?;
     if !preserves_components(&x, &y) {
-        return None;
+        return Err(StillError::UnrepresentableComposition);
     }
     let mut hit = pot_bp.azeotropic;
     for _ in 1..stages {
-        let bp = phase(y, pressure_kpa)?;
-        let next = normalized_binary(bp.y.as_slice().try_into().ok()?)?;
+        let bp = phase(y, pressure_kpa).ok_or(StillError::PhaseEvaluation)?;
+        let next = normalized_binary(
+            bp.y.as_slice()
+                .try_into()
+                .map_err(|_| StillError::UnrepresentableComposition)?,
+        )
+        .ok_or(StillError::UnrepresentableComposition)?;
         if !preserves_components(&y, &next) {
-            return None;
+            return Err(StillError::UnrepresentableComposition);
         }
         if bp.azeotropic {
             hit = true;
@@ -1738,7 +1817,7 @@ fn cascade(
         }
         y = next;
     }
-    Some((y, pot_bp, hit))
+    Ok((y, pot_bp, hit))
 }
 
 /// A batch distillation cut of the ethanol–water binary with full UNIFAC
@@ -1758,6 +1837,18 @@ pub fn ethanol_water_still(
     stages: u32,
     pressure_kpa: f64,
 ) -> Option<StillCut> {
+    ethanol_water_still_checked(water_moles, ethanol_moles, take, stages, pressure_kpa).ok()
+}
+
+/// A complete binary cut, with the model or precision failure reported explicitly.
+/// No material is transferred by this numerical calculation.
+pub fn ethanol_water_still_checked(
+    water_moles: f64,
+    ethanol_moles: f64,
+    take: StillTake,
+    stages: u32,
+    pressure_kpa: f64,
+) -> Result<StillCut, StillError> {
     ethanol_water_still_with_phase(
         water_moles,
         ethanol_moles,
@@ -1774,18 +1865,40 @@ fn ethanol_water_still_with_phase(
     take: StillTake,
     stages: u32,
     pressure_kpa: f64,
+    phase: impl FnMut([f64; 2], f64) -> Option<BubblePoint>,
+) -> Result<StillCut, StillError> {
+    ethanol_water_still_with_limit(
+        water_moles,
+        ethanol_moles,
+        take,
+        stages,
+        pressure_kpa,
+        phase,
+        100_000,
+    )
+}
+
+fn ethanol_water_still_with_limit(
+    water_moles: f64,
+    ethanol_moles: f64,
+    take: StillTake,
+    stages: u32,
+    pressure_kpa: f64,
     mut phase: impl FnMut([f64; 2], f64) -> Option<BubblePoint>,
-) -> Option<StillCut> {
+    max_steps: usize,
+) -> Result<StillCut, StillError> {
     if !water_moles.is_finite()
         || !ethanol_moles.is_finite()
         || water_moles < 0.0
         || ethanol_moles < 0.0
+        || !pressure_kpa.is_finite()
+        || pressure_kpa <= 0.0
     {
-        return None;
+        return Err(StillError::InvalidInput);
     }
     let total0 = water_moles + ethanol_moles;
     if !total0.is_finite() || total0 <= 0.0 {
-        return None;
+        return Err(StillError::InvalidInput);
     }
     let stages = stages.max(1);
     let (mut w, mut e) = (water_moles, ethanol_moles);
@@ -1796,7 +1909,7 @@ fn ethanol_water_still_with_phase(
     let budget = match take {
         StillTake::Fraction(f) => {
             if !(0.0..=1.0).contains(&f) {
-                return None;
+                return Err(StillError::InvalidInput);
             }
             f * total0
         }
@@ -1804,7 +1917,7 @@ fn ethanol_water_still_with_phase(
         // real energy meter below.
         StillTake::EnergyKj(kj) => {
             if !kj.is_finite() || kj < 0.0 {
-                return None;
+                return Err(StillError::InvalidInput);
             }
             (kj / WATER_HVAP_KJ_PER_MOL.min(ETHANOL_HVAP_KJ_PER_MOL)).min(total0)
         }
@@ -1817,14 +1930,15 @@ fn ethanol_water_still_with_phase(
         let bp = phase(
             if is_ethanol { [1.0, 0.0] } else { [0.0, 1.0] },
             pressure_kpa,
-        )?;
+        )
+        .ok_or(StillError::PhaseEvaluation)?;
         let latent = if is_ethanol {
             ETHANOL_HVAP_KJ_PER_MOL
         } else {
             WATER_HVAP_KJ_PER_MOL
         };
-        let (overhead, energy_kj) = pure_still_amount(total0, latent, take)?;
-        return Some(StillCut {
+        let (overhead, energy_kj) = pure_still_amount_checked(total0, latent, take)?;
+        return Ok(StillCut {
             water_over: if is_ethanol { 0.0 } else { overhead },
             ethanol_over: if is_ethanol { overhead } else { 0.0 },
             t_start_c: bp.t_celsius,
@@ -1838,7 +1952,6 @@ fn ethanol_water_still_with_phase(
     let mut t_end_c = t_start_c;
 
     const STEPS: usize = 1024;
-    const MAX_STEPS: usize = 100_000;
     let dn = budget / STEPS as f64;
     if dn <= 0.0 {
         let requested_positive = match take {
@@ -1848,9 +1961,9 @@ fn ethanol_water_still_with_phase(
         if requested_positive {
             // A positive request that underflows in budget/substep sizing
             // is unsupported, not a successful zero transfer.
-            return None;
+            return Err(StillError::UnrepresentableRequest);
         }
-        return Some(StillCut {
+        return Ok(StillCut {
             water_over: 0.0,
             ethanol_over: 0.0,
             t_start_c,
@@ -1861,7 +1974,7 @@ fn ethanol_water_still_with_phase(
     }
     let tolerance = budget * 16.0 * f64::EPSILON;
     let mut completed = false;
-    for _ in 0..MAX_STEPS {
+    for _ in 0..max_steps {
         if matches!(take, StillTake::EnergyKj(kj) if energy_kj == kj) {
             // Exact completion owns no further transfer. In particular it
             // must not enter the affordable-share branch with a zero share.
@@ -1875,7 +1988,7 @@ fn ethanol_water_still_with_phase(
         }
         let pot = w + e;
         if pot <= 0.0 {
-            return None;
+            return Err(StillError::UnrepresentableResidue);
         }
         // A requested cut is one operation. A missing intermediate phase
         // answer cannot be reported as a successful smaller cut: callers
@@ -1891,16 +2004,16 @@ fn ethanol_water_still_with_phase(
             step = step.min(0.25 * w / y_top[1]);
         }
         if !step.is_finite() || step <= 0.0 {
-            return None;
+            return Err(StillError::UnrepresentableRequest);
         }
         let de = step * y_top[0];
         let dw = step * y_top[1];
         if de <= 0.0 || dw <= 0.0 || e_over + de == e_over || w_over + dw == w_over {
-            return None;
+            return Err(StillError::UnrepresentableCondensate);
         }
         let step_kj = de * ETHANOL_HVAP_KJ_PER_MOL + dw * WATER_HVAP_KJ_PER_MOL;
         if !step_kj.is_finite() || !(energy_kj + step_kj).is_finite() {
-            return None;
+            return Err(StillError::UnrepresentableEnergy);
         }
         if let StillTake::EnergyKj(kj) = take {
             if energy_kj + step_kj > kj {
@@ -1914,7 +2027,7 @@ fn ethanol_water_still_with_phase(
                     || e_over + removed_e == e_over
                     || w_over + removed_w == w_over
                 {
-                    return None;
+                    return Err(StillError::UnrepresentableCondensate);
                 }
                 e_over += removed_e;
                 w_over += removed_w;
@@ -1937,25 +2050,31 @@ fn ethanol_water_still_with_phase(
             && ((ethanol_moles > 0.0 && ethanol_moles - e_over <= 0.0)
                 || (water_moles > 0.0 && water_moles - w_over <= 0.0))
         {
-            return None;
+            return Err(StillError::UnrepresentableResidue);
         }
     }
     let overhead = w_over + e_over;
-    if !completed || !overhead.is_finite() || !energy_kj.is_finite() || overhead <= 0.0 {
-        return None;
+    if !completed {
+        return Err(StillError::IntegrationLimit);
+    }
+    if !overhead.is_finite() || overhead <= 0.0 {
+        return Err(StillError::IncompleteCut);
+    }
+    if !energy_kj.is_finite() {
+        return Err(StillError::UnrepresentableEnergy);
     }
     if overhead < total0
         && ((ethanol_moles > 0.0 && ethanol_moles - e_over <= 0.0)
             || (water_moles > 0.0 && water_moles - w_over <= 0.0))
     {
-        return None;
+        return Err(StillError::UnrepresentableResidue);
     }
     if matches!(take, StillTake::Fraction(_))
         && (overhead - budget).abs() > 8.0 * STEPS as f64 * f64::EPSILON * budget
     {
         // Subnormal step rounding or depletion must not turn a requested
         // fraction into an unlabelled smaller/larger successful transfer.
-        return None;
+        return Err(StillError::IncompleteCut);
     }
     // Report the endpoint represented by the public overhead result, not
     // the composition before the last integration step. In particular an
@@ -1966,10 +2085,13 @@ fn ethanol_water_still_with_phase(
     let residual_e = ethanol_moles - e_over;
     let residual_total = residual_w + residual_e;
     if residual_total > 0.0 {
-        let x = normalized_binary([residual_e, residual_w])?;
-        t_end_c = phase(x, pressure_kpa)?.t_celsius;
+        let x = normalized_binary([residual_e, residual_w])
+            .ok_or(StillError::UnrepresentableComposition)?;
+        t_end_c = phase(x, pressure_kpa)
+            .ok_or(StillError::PhaseEvaluation)?
+            .t_celsius;
     }
-    Some(StillCut {
+    Ok(StillCut {
         water_over: w_over,
         ethanol_over: e_over,
         t_start_c,
@@ -2002,7 +2124,7 @@ mod pure_still_cost {
                             azeotropic: false,
                         })
                     })
-                    .is_none());
+                    .is_err());
                     assert_eq!(calls, vanish_at + 1);
                 }
             }
@@ -2090,3 +2212,7 @@ mod pure_still_cost {
         }
     }
 }
+
+#[cfg(test)]
+#[path = "still_failure_tests.rs"]
+mod still_failure_tests;

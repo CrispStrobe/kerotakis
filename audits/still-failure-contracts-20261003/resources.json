@@ -1,0 +1,11 @@
+{
+  "utc": "2026-10-03T16:31:19.793960+00:00",
+  "load": [
+    1.984375,
+    2.09814453125,
+    1.9072265625
+  ],
+  "meminfo": "MemTotal:        7937240 kB\nMemFree:          848128 kB\nMemAvailable:    3791688 kB\nBuffers:          121672 kB\nCached:          1655332 kB\nSwapCached:        69592 kB\nActive:          2284480 kB\nInactive:        2615152 kB\nActive(anon):    1435704 kB\nInactive(anon):  1704520 kB\nActive(file):     848776 kB\nInactive(file):   910632 kB\nUnevictable:       27448 kB\nMlocked:           27448 kB\nSwapTotal:      12582908 kB\nSwapFree:        8978092 kB\nZswap:                 0 kB\nZswapped:              0 kB\nDirty:              1556 kB\nWriteback:             0 kB\nAnonPages:       3127172 kB\nMapped:           331336 kB\nShmem:              9624 kB\nKReclaimable:    1488820 kB\nSlab:            1939856 kB\nSReclaimable:    1488820 kB\nSUnreclaim:       451036 kB\nKernelStack:       15984 kB\nPageTables:        55064 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:    16551528 kB\nCommitted_AS:   12192636 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:       56172 kB\nVmallocChunk:          0 kB\nPercpu:             4224 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:         0 kB\nFilePmdMapped:         0 kB\nUnaccepted:            0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:      405360 kB\nDirectMap2M:     6737920 kB\nDirectMap1G:     1048576 kB\n",
+  "workspace_free_bytes": 142802944,
+  "agents": "two read-only reviews; no local builds or app/CLI execution"
+}

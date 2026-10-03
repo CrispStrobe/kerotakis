@@ -1,0 +1,44 @@
+[
+  {
+    "id": "S01",
+    "script": "register lv3\nnew\nnew\nadd v1 water 5.534276991396059mol\nadd v1 ethanol 0.34252968373526665mol\ninspect\ndistil v1 v2 0.1 stages 4\ninspect\n",
+    "expectation": "The larger E110 cut remains atomic; record its actual checked failure category without predicting which prior numerical guard owns it.",
+    "category": "exploratory",
+    "fraction": 0.1
+  },
+  {
+    "id": "S02",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1e-300mol\nadd v1 ethanol 1e100mol\ninspect\ndistil v1 v2 0.1 stages 1\ninspect\n",
+    "expectation": "The positive water/ethanol ratio underflows on normalization; report composition precision and preserve both vessels.",
+    "category": "composition-precision",
+    "fraction": 0.1
+  },
+  {
+    "id": "S03",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1e-300mol\nadd v1 ethanol 1e-300mol\ninspect\ndistil v1 v2 1e-30 stages 1\ninspect\n",
+    "expectation": "The positive molar request underflows; report request precision and preserve both vessels.",
+    "category": "request-precision",
+    "fraction": 1e-30
+  },
+  {
+    "id": "S04",
+    "script": "register lv3\nnew\nnew\nadd v1 water 0.5mol\nadd v1 ethanol 0.5mol\ninspect\ndistil v1 v2 0.01 stages 1\ninspect\n",
+    "expectation": "Ordinary small binary cut completes, conserves components and publishes a finite latent account.",
+    "category": "supported",
+    "fraction": 0.01
+  },
+  {
+    "id": "S05",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1e-100mol\nadd v1 ethanol 1mol\ninspect\ndistil v1 v2 0.01 stages 4\ninspect\n",
+    "expectation": "Independent positive water trace remains supported through four stages, with trace-relative inventory conservation.",
+    "category": "supported",
+    "fraction": 0.01
+  },
+  {
+    "id": "S06",
+    "script": "register lv3\nnew\nnew\nadd v1 water 5.534276991396059mol\nadd v1 ethanol 0.34252968373526665mol\ninspect\ndistil v1 v2 0.01 stages 4\ninspect\n",
+    "expectation": "The smaller neighboring staged cut remains supported and enriches ethanol.",
+    "category": "supported",
+    "fraction": 0.01
+  }
+]
