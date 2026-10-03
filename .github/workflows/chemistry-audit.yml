@@ -483,6 +483,7 @@ jobs:
         env:
           VALIDATED_COMMIT: ${{ inputs.validated_commit }}
         run: |
+          python3 audits/independent-third-50-20261003/check_b_selftest.py
           python3 audits/independent-next-50-20261002/verify_binary.py "$RUNNER_TEMP/validated-cli" "$VALIDATED_COMMIT"
           chmod +x "$RUNNER_TEMP/validated-cli/kero"
           python3 audits/independent-next-50-20261002/run.py --suite audits/independent-third-50-20261003 --binary "$RUNNER_TEMP/validated-cli/kero" --binary-source-commit "$VALIDATED_COMMIT" --out "$RUNNER_TEMP/third-50"

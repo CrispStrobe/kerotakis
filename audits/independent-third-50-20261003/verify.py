@@ -6,6 +6,7 @@ passing integrity checks does not turn them into scientific agreement.
 import argparse
 import hashlib
 import json
+import math
 import subprocess
 from pathlib import Path
 
@@ -52,6 +53,13 @@ def main():
     forecast = strict((SUITE/'predictions.json').read_text())
     freeze = strict((SUITE/'freeze.json').read_text())
     check('immutable forecast hash', digest(SUITE/'predictions.json') == freeze['predictions_sha256'] == receipt['predictions_sha256'])
+    required_stages = {'thermo','codex','cea','core','phreeqc','cli','wasm','replay'}
+    stages = [s['name'] for s in validation['stages']]
+    check('complete successful validation stages',required_stages.issubset(stages) and len(stages)==len(set(stages)))
+    if not args.baseline:
+        commands = {s['name']:s['command'] for s in validation['stages']}
+        check('new core regressions included',all(target in commands.get('core',[]) for target in ['headspace','density_coverage_scaling']))
+        check('new native regressions included',all(target in commands.get('phreeqc',[]) for target in ['--lib','settled_carbonate_transfer','trace_inventory','order_invariance','native_delta_h','engine_call_budget']))
     check('validated executable', validation['passed'] is True and all(s['exit_code'] == 0 for s in validation['stages']) and validation['commit'] == receipt['binary_source_commit'] and validation['binary_sha256'] == receipt['binary_sha256'])
     for name, expected in validation['source_hashes'].items():
         source = subprocess.check_output(['git','show',validation['commit']+':'+name],cwd=SUITE.parents[1])
@@ -73,9 +81,15 @@ def main():
         if run['mode'] == 'json':
             rows = [strict(line) for line in (args.evidence/run['stdout']).read_text().splitlines()]
             cases[run['id']] = rows
+            prediction = next(c for c in forecast if c['id'] == run['id'])
+            command_count = len([line for line in prediction['script'].splitlines() if line.strip() and not line.startswith(('register','#'))])
+            expected_rows = 1 if run['id'] == 'E147' else command_count
+            check(key+' complete operation output',len(rows)==expected_rows and [r['output_sequence'] for r in rows]==list(range(expected_rows)),expected_rows=expected_rows,actual_rows=len(rows))
+            check(key+' finite thermal/boundary state',all(math.isfinite(v['temperature']) and math.isfinite(v['pressure']) for row in rows for v in row['bench']['vessels']))
+            check(key+' finite available measurements',all(isinstance(e['value'],(int,float)) and math.isfinite(e['value']) for row in rows for e in row['events'] if e['event']=='measured'))
             failures = [e for row in rows for e in row.get('events',[]) if e['event'] == 'solver_failed']
             check(key+' no solver failure', not failures, failures=failures)
-            check(key+' nonnegative finite inventory', all(c['moles'] >= 0 for row in rows for v in row['bench']['vessels'] for c in v['contents']))
+            check(key+' nonnegative finite inventory', all(math.isfinite(c['moles']) and c['moles'] >= 0 for row in rows for v in row['bench']['vessels'] for c in v['contents']))
 
     registry = strict((SUITE.parents[1]/'data/registry/registry-source-v1.json').read_text())
     formulas = {c['species_id']:{e['element']:e['count']['value'] for e in c['elements']} for c in registry['compositions']}

@@ -3,22 +3,110 @@ check_case(case_id, parsed_rows) returns named checks with bool/None and details
 None denotes unavailable physical coverage or a semantic/control limitation.
 """
 import math
+import json
+from pathlib import Path
+
+
+class CoverageUnavailable(Exception):
+    """An explicit model limitation, never missing or malformed evidence."""
+
+
+def _script(case_id):
+    directory = Path(__file__).resolve().parent
+    path = directory / "predictions.json"
+    if not path.exists():
+        path = directory / "E116-E130.json"
+    forecasts = json.loads(path.read_text())
+    return next(r["script"] for r in forecasts if r["id"] == case_id)
+
+
+def _vessel(row, vessel_id):
+    return next(v for v in row["bench"]["vessels"] if v["id"] == vessel_id)
+
+
+def _finite_number(value):
+    return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
+
+
+def _evidence_error(case_id, rows):
+    """Validate every frozen command and its mandatory measurement outcome."""
+    aliases = {"temp": "thermometer", "mass": "balance", "ph": "ph_meter",
+               "pressure": "pressure_gauge", "volume": "volume_meter",
+               "conductivity": "conductivity_meter", "density": "densitometer"}
+    verbs = {"new": "new_vessel"}
+    lines = [line.split() for line in _script(case_id).splitlines()
+             if line.strip() and not line.startswith("register ")]
+    if len(rows) != len(lines):
+        return f"expected {len(lines)} command rows, received {len(rows)}"
+    for sequence, (row, words) in enumerate(zip(rows, lines)):
+        operator = row["operator"]
+        expected_op = verbs.get(words[0], words[0])
+        if operator["op"] != expected_op:
+            return f"row {sequence}: expected {expected_op}, received {operator["op"]}"
+        vessels = row["bench"]["vessels"]
+        ids = [v["id"] for v in vessels]
+        if len(ids) != len(set(ids)):
+            return f"row {sequence}: duplicate vessel identity"
+        for vessel in vessels:
+            for field in ("temperature", "pressure"):
+                if not _finite_number(vessel[field]):
+                    return f"row {sequence}: nonfinite/non-numeric {field}"
+            for portion in vessel["contents"]:
+                if not _finite_number(portion["moles"]) or portion["moles"] < 0:
+                    return f"row {sequence}: invalid inventory moles"
+        if words[0] != "measure":
+            continue
+        vessel_id = int(words[1][1:]) - 1
+        instrument = aliases.get(words[2], words[2])
+        if operator["vessel"] != vessel_id or operator["instrument"] != instrument:
+            return f"row {sequence}: measurement operator differs from frozen command"
+        matching = [e for e in row["events"] if e.get("event") == "measured"
+                    and e.get("vessel") == vessel_id and e.get("instrument") == instrument]
+        refusal = [e for e in row["events"] if e.get("event") == "not_yet_modeled"
+                   and e.get("vessel") == vessel_id and e.get("cause")
+                   and e.get("reason", {}).get("key")]
+        if len(matching) != 1 and not (not matching and refusal):
+            return f"row {sequence}: required measurement has no unique reading or explicit refusal"
+        expected_units = {"thermometer": "°C", "balance": "g", "ph_meter": "pH",
+                          "pressure_gauge": "kPa", "conductivity_meter": "µS/cm",
+                          "densitometer": "g/mL", "volume_meter": "L"}
+        for event in matching:
+            if event["unit"] != expected_units[instrument]:
+                return f"row {sequence}: measurement unit differs from checked physical quantity"
+            support = event["model_support"]
+            if support["status"] not in ("computed", "estimated", "incomplete", "unsupported"):
+                return f"row {sequence}: invalid measurement support status"
+            if not _finite_number(event["value"]):
+                return f"row {sequence}: invalid measured value"
+            if support["status"] in ("incomplete", "unsupported") and not support.get("reasons"):
+                return f"row {sequence}: limited coverage lacks reason"
+    return None
 
 
 def check_case(case_id, rows):
     out=[]
     def check(name, ok, **details):
         out.append({'name':name, 'ok':ok, 'details':details})
+    try:
+        error = _evidence_error(case_id, rows)
+    except (KeyError, IndexError, TypeError, ValueError, StopIteration, OSError) as exc:
+        error = "malformed evidence or missing frozen script: " + str(exc)
+    if error:
+        check('required_evidence_complete', False, reason=error)
+        return out
+    check('required_evidence_complete', True)
     measures={}
     for row in rows:
         for e in row.get('events',[]):
             if e.get('event')=='measured':
                 measures.setdefault((e['vessel'],e['instrument']),[]).append(e)
-    final=rows[-1]['bench']['vessels']
+    final={v['id']:v for v in rows[-1]['bench']['vessels']}
     def readings(v,inst):
         events=measures.get((v,inst),[])
-        if not events or any(e.get('model_support',{}).get('status') in ('unsupported','incomplete') for e in events):
-            raise ValueError('measurement coverage unavailable: '+str((v,inst)))
+        if not events:
+            raise CoverageUnavailable('explicit measurement refusal: '+str((v,inst)))
+        if any(e['model_support']['status'] in ('unsupported','incomplete') for e in events):
+            raise CoverageUnavailable('explicit measurement coverage unavailable: '+str((v,inst)))
         return [e['value'] for e in events]
     def qty(v,species):
         return sum(p['moles'] for p in final[v]['contents'] if p['species']==species)
@@ -103,8 +191,10 @@ def check_case(case_id, rows):
             check('restored_conductivity',close(k[0],k[1],.02) if abs(t[0]-t[1])<=.2 else None,conductivity=k,temperature_c=t)
             check('restored_ph',abs(ph[0]-ph[1])<=.05,ph=ph)
             check('evaporation_thermal_balance',None,reason='explicit missing vaporization enthalpy; composition restoration only')
-    except (ValueError,KeyError,IndexError,ZeroDivisionError) as exc:
+    except CoverageUnavailable as exc:
         check('remaining_physical_checks',None,reason=str(exc))
+    except (ValueError,KeyError,IndexError,ZeroDivisionError,TypeError,StopIteration) as exc:
+        check('physical_evidence_valid',False,reason=str(exc))
     return out
 
 
@@ -127,8 +217,10 @@ def run(cases, check):
                 qualifications.append({'id':case_id, **result})
                 continue
             check(case_id+'_'+result['name'], result['ok'], **result['details'])
+        if any(r['name']=='required_evidence_complete' and r['ok'] is False for r in results):
+            continue
         if case_id=='E126':
-            final=cases[case_id][-1]['bench']['vessels']
+            final={v['id']:v for v in cases[case_id][-1]['bench']['vessels']}
             water=[sum(p['moles'] for p in final[v]['contents'] if p['species']=='water') for v in (0,1)]
             initial_per_100ml=5.534276991396059
             check('E126_observed_additive_dilution_boundary',

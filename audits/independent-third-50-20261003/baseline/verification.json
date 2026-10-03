@@ -1,5 +1,5 @@
 {
-  "checks": 683,
+  "checks": 849,
   "passed": false,
   "failures": [
     {
@@ -177,6 +177,10 @@
   "details": [
     {
       "name": "immutable forecast hash",
+      "passed": true
+    },
+    {
+      "name": "complete successful validation stages",
       "passed": true
     },
     {
@@ -362,6 +366,20 @@
       "exit_code": 0
     },
     {
+      "name": "E101 json complete operation output",
+      "passed": true,
+      "expected_rows": 16,
+      "actual_rows": 16
+    },
+    {
+      "name": "E101 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E101 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E101 json no solver failure",
       "passed": true,
       "failures": []
@@ -395,6 +413,20 @@
       "name": "E102 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E102 json complete operation output",
+      "passed": true,
+      "expected_rows": 16,
+      "actual_rows": 16
+    },
+    {
+      "name": "E102 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E102 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E102 json no solver failure",
@@ -432,6 +464,20 @@
       "exit_code": 0
     },
     {
+      "name": "E103 json complete operation output",
+      "passed": true,
+      "expected_rows": 14,
+      "actual_rows": 14
+    },
+    {
+      "name": "E103 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E103 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E103 json no solver failure",
       "passed": true,
       "failures": []
@@ -467,6 +513,20 @@
       "exit_code": 0
     },
     {
+      "name": "E104 json complete operation output",
+      "passed": true,
+      "expected_rows": 19,
+      "actual_rows": 19
+    },
+    {
+      "name": "E104 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E104 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E104 json no solver failure",
       "passed": true,
       "failures": []
@@ -500,6 +560,20 @@
       "name": "E105 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E105 json complete operation output",
+      "passed": true,
+      "expected_rows": 16,
+      "actual_rows": 16
+    },
+    {
+      "name": "E105 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E105 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E105 json no solver failure",
@@ -544,6 +618,20 @@
       "exit_code": 0
     },
     {
+      "name": "E106 json complete operation output",
+      "passed": true,
+      "expected_rows": 23,
+      "actual_rows": 23
+    },
+    {
+      "name": "E106 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E106 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E106 json no solver failure",
       "passed": true,
       "failures": []
@@ -577,6 +665,20 @@
       "name": "E107 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E107 json complete operation output",
+      "passed": true,
+      "expected_rows": 16,
+      "actual_rows": 16
+    },
+    {
+      "name": "E107 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E107 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E107 json no solver failure",
@@ -614,6 +716,20 @@
       "exit_code": 0
     },
     {
+      "name": "E108 json complete operation output",
+      "passed": true,
+      "expected_rows": 15,
+      "actual_rows": 15
+    },
+    {
+      "name": "E108 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E108 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E108 json no solver failure",
       "passed": true,
       "failures": []
@@ -647,6 +763,20 @@
       "name": "E109 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E109 json complete operation output",
+      "passed": true,
+      "expected_rows": 15,
+      "actual_rows": 15
+    },
+    {
+      "name": "E109 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E109 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E109 json no solver failure",
@@ -684,6 +814,20 @@
       "exit_code": 0
     },
     {
+      "name": "E110 json complete operation output",
+      "passed": true,
+      "expected_rows": 18,
+      "actual_rows": 18
+    },
+    {
+      "name": "E110 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E110 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E110 json no solver failure",
       "passed": true,
       "failures": []
@@ -717,6 +861,20 @@
       "name": "E111 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E111 json complete operation output",
+      "passed": true,
+      "expected_rows": 17,
+      "actual_rows": 17
+    },
+    {
+      "name": "E111 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E111 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E111 json no solver failure",
@@ -754,6 +912,20 @@
       "exit_code": 0
     },
     {
+      "name": "E112 json complete operation output",
+      "passed": true,
+      "expected_rows": 17,
+      "actual_rows": 17
+    },
+    {
+      "name": "E112 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E112 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E112 json no solver failure",
       "passed": true,
       "failures": []
@@ -787,6 +959,20 @@
       "name": "E113 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E113 json complete operation output",
+      "passed": true,
+      "expected_rows": 15,
+      "actual_rows": 15
+    },
+    {
+      "name": "E113 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E113 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E113 json no solver failure",
@@ -824,6 +1010,20 @@
       "exit_code": 0
     },
     {
+      "name": "E114 json complete operation output",
+      "passed": true,
+      "expected_rows": 20,
+      "actual_rows": 20
+    },
+    {
+      "name": "E114 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E114 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E114 json no solver failure",
       "passed": true,
       "failures": []
@@ -857,6 +1057,20 @@
       "name": "E115 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E115 json complete operation output",
+      "passed": true,
+      "expected_rows": 15,
+      "actual_rows": 15
+    },
+    {
+      "name": "E115 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E115 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E115 json no solver failure",
@@ -894,6 +1108,20 @@
       "exit_code": 0
     },
     {
+      "name": "E116 json complete operation output",
+      "passed": true,
+      "expected_rows": 12,
+      "actual_rows": 12
+    },
+    {
+      "name": "E116 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E116 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E116 json no solver failure",
       "passed": true,
       "failures": []
@@ -927,6 +1155,20 @@
       "name": "E117 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E117 json complete operation output",
+      "passed": true,
+      "expected_rows": 17,
+      "actual_rows": 17
+    },
+    {
+      "name": "E117 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E117 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E117 json no solver failure",
@@ -964,6 +1206,20 @@
       "exit_code": 0
     },
     {
+      "name": "E118 json complete operation output",
+      "passed": true,
+      "expected_rows": 14,
+      "actual_rows": 14
+    },
+    {
+      "name": "E118 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E118 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E118 json no solver failure",
       "passed": true,
       "failures": []
@@ -997,6 +1253,20 @@
       "name": "E119 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E119 json complete operation output",
+      "passed": true,
+      "expected_rows": 16,
+      "actual_rows": 16
+    },
+    {
+      "name": "E119 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E119 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E119 json no solver failure",
@@ -1034,6 +1304,20 @@
       "exit_code": 0
     },
     {
+      "name": "E120 json complete operation output",
+      "passed": true,
+      "expected_rows": 16,
+      "actual_rows": 16
+    },
+    {
+      "name": "E120 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E120 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E120 json no solver failure",
       "passed": true,
       "failures": []
@@ -1067,6 +1351,20 @@
       "name": "E121 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E121 json complete operation output",
+      "passed": true,
+      "expected_rows": 18,
+      "actual_rows": 18
+    },
+    {
+      "name": "E121 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E121 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E121 json no solver failure",
@@ -1104,6 +1402,20 @@
       "exit_code": 0
     },
     {
+      "name": "E122 json complete operation output",
+      "passed": true,
+      "expected_rows": 15,
+      "actual_rows": 15
+    },
+    {
+      "name": "E122 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E122 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E122 json no solver failure",
       "passed": true,
       "failures": []
@@ -1137,6 +1449,20 @@
       "name": "E123 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E123 json complete operation output",
+      "passed": true,
+      "expected_rows": 16,
+      "actual_rows": 16
+    },
+    {
+      "name": "E123 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E123 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E123 json no solver failure",
@@ -1174,6 +1500,20 @@
       "exit_code": 0
     },
     {
+      "name": "E124 json complete operation output",
+      "passed": true,
+      "expected_rows": 15,
+      "actual_rows": 15
+    },
+    {
+      "name": "E124 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E124 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E124 json no solver failure",
       "passed": true,
       "failures": []
@@ -1207,6 +1547,20 @@
       "name": "E125 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E125 json complete operation output",
+      "passed": true,
+      "expected_rows": 13,
+      "actual_rows": 13
+    },
+    {
+      "name": "E125 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E125 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E125 json no solver failure",
@@ -1244,6 +1598,20 @@
       "exit_code": 0
     },
     {
+      "name": "E126 json complete operation output",
+      "passed": true,
+      "expected_rows": 19,
+      "actual_rows": 19
+    },
+    {
+      "name": "E126 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E126 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E126 json no solver failure",
       "passed": true,
       "failures": []
@@ -1277,6 +1645,20 @@
       "name": "E127 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E127 json complete operation output",
+      "passed": true,
+      "expected_rows": 21,
+      "actual_rows": 21
+    },
+    {
+      "name": "E127 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E127 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E127 json no solver failure",
@@ -1314,6 +1696,20 @@
       "exit_code": 0
     },
     {
+      "name": "E128 json complete operation output",
+      "passed": true,
+      "expected_rows": 11,
+      "actual_rows": 11
+    },
+    {
+      "name": "E128 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E128 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E128 json no solver failure",
       "passed": true,
       "failures": []
@@ -1347,6 +1743,20 @@
       "name": "E129 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E129 json complete operation output",
+      "passed": true,
+      "expected_rows": 17,
+      "actual_rows": 17
+    },
+    {
+      "name": "E129 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E129 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E129 json no solver failure",
@@ -1384,6 +1794,20 @@
       "exit_code": 0
     },
     {
+      "name": "E130 json complete operation output",
+      "passed": true,
+      "expected_rows": 22,
+      "actual_rows": 22
+    },
+    {
+      "name": "E130 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E130 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E130 json no solver failure",
       "passed": true,
       "failures": []
@@ -1417,6 +1841,20 @@
       "name": "E131 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E131 json complete operation output",
+      "passed": true,
+      "expected_rows": 10,
+      "actual_rows": 10
+    },
+    {
+      "name": "E131 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E131 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E131 json no solver failure",
@@ -1454,6 +1892,20 @@
       "exit_code": 0
     },
     {
+      "name": "E132 json complete operation output",
+      "passed": true,
+      "expected_rows": 7,
+      "actual_rows": 7
+    },
+    {
+      "name": "E132 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E132 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E132 json no solver failure",
       "passed": true,
       "failures": []
@@ -1487,6 +1939,20 @@
       "name": "E133 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E133 json complete operation output",
+      "passed": true,
+      "expected_rows": 7,
+      "actual_rows": 7
+    },
+    {
+      "name": "E133 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E133 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E133 json no solver failure",
@@ -1524,6 +1990,20 @@
       "exit_code": 0
     },
     {
+      "name": "E134 json complete operation output",
+      "passed": true,
+      "expected_rows": 12,
+      "actual_rows": 12
+    },
+    {
+      "name": "E134 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E134 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E134 json no solver failure",
       "passed": true,
       "failures": []
@@ -1557,6 +2037,20 @@
       "name": "E135 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E135 json complete operation output",
+      "passed": true,
+      "expected_rows": 10,
+      "actual_rows": 10
+    },
+    {
+      "name": "E135 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E135 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E135 json no solver failure",
@@ -1594,6 +2088,20 @@
       "exit_code": 0
     },
     {
+      "name": "E136 json complete operation output",
+      "passed": true,
+      "expected_rows": 5,
+      "actual_rows": 5
+    },
+    {
+      "name": "E136 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E136 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E136 json no solver failure",
       "passed": true,
       "failures": []
@@ -1627,6 +2135,20 @@
       "name": "E137 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E137 json complete operation output",
+      "passed": true,
+      "expected_rows": 7,
+      "actual_rows": 7
+    },
+    {
+      "name": "E137 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E137 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E137 json no solver failure",
@@ -1664,6 +2186,20 @@
       "exit_code": 0
     },
     {
+      "name": "E138 json complete operation output",
+      "passed": true,
+      "expected_rows": 10,
+      "actual_rows": 10
+    },
+    {
+      "name": "E138 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E138 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E138 json no solver failure",
       "passed": true,
       "failures": []
@@ -1697,6 +2233,20 @@
       "name": "E139 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E139 json complete operation output",
+      "passed": true,
+      "expected_rows": 5,
+      "actual_rows": 5
+    },
+    {
+      "name": "E139 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E139 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E139 json no solver failure",
@@ -1734,6 +2284,20 @@
       "exit_code": 0
     },
     {
+      "name": "E140 json complete operation output",
+      "passed": true,
+      "expected_rows": 8,
+      "actual_rows": 8
+    },
+    {
+      "name": "E140 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E140 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E140 json no solver failure",
       "passed": true,
       "failures": []
@@ -1767,6 +2331,20 @@
       "name": "E141 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E141 json complete operation output",
+      "passed": true,
+      "expected_rows": 10,
+      "actual_rows": 10
+    },
+    {
+      "name": "E141 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E141 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E141 json no solver failure",
@@ -1804,6 +2382,20 @@
       "exit_code": 0
     },
     {
+      "name": "E142 json complete operation output",
+      "passed": true,
+      "expected_rows": 13,
+      "actual_rows": 13
+    },
+    {
+      "name": "E142 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E142 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E142 json no solver failure",
       "passed": true,
       "failures": []
@@ -1837,6 +2429,20 @@
       "name": "E143 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E143 json complete operation output",
+      "passed": true,
+      "expected_rows": 7,
+      "actual_rows": 7
+    },
+    {
+      "name": "E143 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E143 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E143 json no solver failure",
@@ -1874,6 +2480,20 @@
       "exit_code": 0
     },
     {
+      "name": "E144 json complete operation output",
+      "passed": true,
+      "expected_rows": 6,
+      "actual_rows": 6
+    },
+    {
+      "name": "E144 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E144 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E144 json no solver failure",
       "passed": true,
       "failures": []
@@ -1909,6 +2529,20 @@
       "exit_code": 0
     },
     {
+      "name": "E145 json complete operation output",
+      "passed": true,
+      "expected_rows": 6,
+      "actual_rows": 6
+    },
+    {
+      "name": "E145 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E145 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E145 json no solver failure",
       "passed": true,
       "failures": []
@@ -1942,6 +2576,20 @@
       "name": "E146 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E146 json complete operation output",
+      "passed": true,
+      "expected_rows": 5,
+      "actual_rows": 5
+    },
+    {
+      "name": "E146 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E146 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E146 json no solver failure",
@@ -1987,6 +2635,20 @@
       "passed": true
     },
     {
+      "name": "E147 json complete operation output",
+      "passed": true,
+      "expected_rows": 1,
+      "actual_rows": 1
+    },
+    {
+      "name": "E147 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E147 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E147 json no solver failure",
       "passed": true,
       "failures": []
@@ -2020,6 +2682,20 @@
       "name": "E148 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E148 json complete operation output",
+      "passed": true,
+      "expected_rows": 7,
+      "actual_rows": 7
+    },
+    {
+      "name": "E148 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E148 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E148 json no solver failure",
@@ -2057,6 +2733,20 @@
       "exit_code": 0
     },
     {
+      "name": "E149 json complete operation output",
+      "passed": true,
+      "expected_rows": 6,
+      "actual_rows": 6
+    },
+    {
+      "name": "E149 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E149 json finite available measurements",
+      "passed": true
+    },
+    {
       "name": "E149 json no solver failure",
       "passed": true,
       "failures": []
@@ -2090,6 +2780,20 @@
       "name": "E150 json process outcome",
       "passed": true,
       "exit_code": 0
+    },
+    {
+      "name": "E150 json complete operation output",
+      "passed": true,
+      "expected_rows": 14,
+      "actual_rows": 14
+    },
+    {
+      "name": "E150 json finite thermal/boundary state",
+      "passed": true
+    },
+    {
+      "name": "E150 json finite available measurements",
+      "passed": true
     },
     {
       "name": "E150 json no solver failure",
@@ -3006,6 +3710,10 @@
       "passed": true
     },
     {
+      "name": "E116_required_evidence_complete",
+      "passed": true
+    },
+    {
       "name": "E116_solver_failures_absent",
       "passed": true,
       "events": []
@@ -3031,6 +3739,10 @@
         99.81794224366958,
         99.81794224367029
       ]
+    },
+    {
+      "name": "E117_required_evidence_complete",
+      "passed": true
     },
     {
       "name": "E117_solver_failures_absent",
@@ -3065,6 +3777,10 @@
       "ratio": 1.0000000000000753
     },
     {
+      "name": "E118_required_evidence_complete",
+      "passed": true
+    },
+    {
       "name": "E118_solver_failures_absent",
       "passed": true,
       "events": []
@@ -3097,6 +3813,10 @@
       "ratio": 1.9999999999999936
     },
     {
+      "name": "E119_required_evidence_complete",
+      "passed": true
+    },
+    {
       "name": "E119_solver_failures_absent",
       "passed": true,
       "events": []
@@ -3122,6 +3842,10 @@
     },
     {
       "name": "E119_complete_source_transfer",
+      "passed": true
+    },
+    {
+      "name": "E120_required_evidence_complete",
       "passed": true
     },
     {
@@ -3154,6 +3878,10 @@
       "delta_p_over_t_times_v": 0.008314462617999951
     },
     {
+      "name": "E121_required_evidence_complete",
+      "passed": true
+    },
+    {
       "name": "E121_solver_failures_absent",
       "passed": true,
       "events": []
@@ -3171,6 +3899,10 @@
         16.628925236000068
       ],
       "ratio": 1.0
+    },
+    {
+      "name": "E122_required_evidence_complete",
+      "passed": true
     },
     {
       "name": "E122_solver_failures_absent",
@@ -3223,6 +3955,10 @@
       ]
     },
     {
+      "name": "E123_required_evidence_complete",
+      "passed": true
+    },
+    {
       "name": "E123_solver_failures_absent",
       "passed": true,
       "events": []
@@ -3262,6 +3998,10 @@
         1.4595624349555745,
         1.4595624349555745
       ]
+    },
+    {
+      "name": "E124_required_evidence_complete",
+      "passed": true
     },
     {
       "name": "E124_solver_failures_absent",
@@ -3305,6 +4045,10 @@
       "passed": true
     },
     {
+      "name": "E125_required_evidence_complete",
+      "passed": true
+    },
+    {
       "name": "E125_solver_failures_absent",
       "passed": true,
       "events": []
@@ -3321,6 +4065,10 @@
     },
     {
       "name": "E125_mass_equivalence",
+      "passed": true
+    },
+    {
+      "name": "E126_required_evidence_complete",
       "passed": true
     },
     {
@@ -3343,6 +4091,10 @@
         110,
         130
       ]
+    },
+    {
+      "name": "E127_required_evidence_complete",
+      "passed": true
     },
     {
       "name": "E127_solver_failures_absent",
@@ -3377,6 +4129,10 @@
       ]
     },
     {
+      "name": "E128_required_evidence_complete",
+      "passed": true
+    },
+    {
       "name": "E128_solver_failures_absent",
       "passed": true,
       "events": []
@@ -3405,6 +4161,10 @@
       "passed": false,
       "expected_mol": 1e-12,
       "actual_mol": 0
+    },
+    {
+      "name": "E129_required_evidence_complete",
+      "passed": true
     },
     {
       "name": "E129_solver_failures_absent",
@@ -3474,6 +4234,10 @@
           "validity": []
         }
       ]
+    },
+    {
+      "name": "E130_required_evidence_complete",
+      "passed": true
     },
     {
       "name": "E130_solver_failures_absent",

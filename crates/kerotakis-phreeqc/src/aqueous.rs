@@ -102,8 +102,8 @@ impl ThermalRootBracket {
         };
         let lo = positive_t.min(negative_t);
         let hi = positive_t.max(negative_t);
-        let secant = positive_t
-            - positive_r * (negative_t - positive_t) / (negative_r - positive_r);
+        let secant =
+            positive_t - positive_r * (negative_t - positive_t) / (negative_r - positive_r);
         let margin = (hi - lo) * 0.1;
         if secant.is_finite() && secant > lo + margin && secant < hi - margin {
             secant
@@ -4417,7 +4417,7 @@ impl PhreeqcEquilibrator {
             // the neutral input reference makes both paths converge to the
             // same typed interface and solvent ledgers.
             let modeled_water = strong_sulfate_water + weak_sulfate_water;
-            if modeled_water > TRACE {
+            if modeled_water > 0.0 {
                 distribute_surface_water_release(
                     &mut new_surfaces,
                     SurfaceSiteKind::Strong,
@@ -4882,7 +4882,7 @@ impl PhreeqcEquilibrator {
                             *moles *= scale;
                         }
                     }
-                } else if target > TRACE {
+                } else if target > 0.0 {
                     new_ions.push((element.to_string(), target));
                 }
             }
@@ -4912,7 +4912,7 @@ impl PhreeqcEquilibrator {
             && problem.solid_solutions.is_empty()
             && problem.gases.is_empty()
             && problem.external_gases.is_empty()
-            && new_phases.iter().all(|(_, amount)| *amount <= TRACE);
+            && new_phases.iter().all(|(_, amount)| *amount <= 0.0);
         if homogeneous {
             let mut targets = BTreeMap::<String, f64>::new();
             for (element, amount) in &problem.totals {
@@ -6623,7 +6623,7 @@ fn build_input_at(
                 .iter()
                 .map(|exchange| exchange.bound(ion).0)
                 .sum();
-            if moles > TRACE {
+            if moles > 0.0 {
                 writeln!(
                     input,
                     "    {} {:.12e}",
@@ -6905,7 +6905,11 @@ mod thermal_root_tests {
     #[test]
     fn shrinking_a_discontinuous_bracket_does_not_claim_equilibrium() {
         assert!(settle(|temperature| {
-            if temperature < 299.0 { 299.001 } else { 298.999 }
+            if temperature < 299.0 {
+                299.001
+            } else {
+                298.999
+            }
         })
         .is_none());
     }
@@ -7321,5 +7325,69 @@ mod trace_distribution_tests {
         assert_eq!(species.len(), 1);
         assert_eq!(species[0].name, "Cl-");
         assert_eq!(species[0].molality, 1e-14);
+    }
+}
+
+#[cfg(test)]
+mod trace_interface_tests {
+    use super::*;
+    use kerotakis_core::{Grams, SurfaceModel, VesselId};
+
+    #[test]
+    fn exchange_input_keeps_a_subpicomole_bound_element_budget() {
+        let mut vessel = Vessel::new(VesselId(0), "trace-bound sodium");
+        vessel.deposit(SpeciesId::new("water"), Moles(5.5), Phase::Liquid);
+        vessel.exchanges.push(ExchangeSites {
+            label: "trace sodium resin".into(),
+            dry_mass: Grams(1.0),
+            capacity: Moles(1e-14),
+            occupancy: vec![ExchangeOccupancy {
+                ion: ExchangeIon::Sodium,
+                moles: Moles(1e-14),
+            }],
+        });
+        let problem = partition(&vessel).expect("finite exchanger problem");
+        let input = build_input(&vessel, &problem, "wateq4f");
+        let exchange = input.split("EXCHANGE 1\n").nth(1).expect("exchange block");
+        let sodium = exchange
+            .lines()
+            .find_map(|line| {
+                let mut fields = line.split_whitespace();
+                (fields.next() == Some("NaX"))
+                    .then(|| fields.next().unwrap().parse::<f64>().unwrap())
+            })
+            .expect("the bound sodium must enter the native problem");
+        assert!((sodium / 1e-14 - 1.0).abs() < 1e-12);
+    }
+
+    #[test]
+    fn trace_surface_amount_and_water_return_are_conserved_across_interfaces() {
+        let mut surfaces = vec![
+            SurfaceSites {
+                label: "first oxide".into(),
+                model: SurfaceModel::HydrousFerricOxide,
+                mass: Grams(0.09),
+                specific_area_m2_per_g: 600.0,
+                strong_capacity: Moles(5e-6),
+                weak_capacity: Moles(2e-4),
+                occupancy: vec![],
+                water_release: Moles(0.0),
+            };
+            2
+        ];
+        distribute_surface_occupancy(
+            &mut surfaces,
+            SurfaceSiteKind::Weak,
+            SurfaceSorbate::Sulfate,
+            1e-14,
+        );
+        distribute_surface_water_release(&mut surfaces, SurfaceSiteKind::Weak, 1e-14);
+        let bound: f64 = surfaces
+            .iter()
+            .map(|s| s.bound(SurfaceSorbate::Sulfate).0)
+            .sum();
+        let released: f64 = surfaces.iter().map(|s| s.water_release.0).sum();
+        assert!((bound / 1e-14 - 1.0).abs() < 1e-12);
+        assert!((released / 1e-14 - 1.0).abs() < 1e-12);
     }
 }

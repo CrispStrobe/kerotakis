@@ -273,7 +273,8 @@
         }
       }
     ],
-    "source_causes": []
+    "source_causes": [],
+    "assessment": "pass"
   },
   {
     "id": "E117",
@@ -331,7 +332,8 @@
         }
       }
     ],
-    "source_causes": []
+    "source_causes": [],
+    "assessment": "pass"
   },
   {
     "id": "E118",
@@ -389,7 +391,8 @@
         }
       }
     ],
-    "source_causes": []
+    "source_causes": [],
+    "assessment": "pass"
   },
   {
     "id": "E119",
@@ -442,7 +445,8 @@
         "details": {}
       }
     ],
-    "source_causes": []
+    "source_causes": [],
+    "assessment": "pass"
   },
   {
     "id": "E120",
@@ -497,7 +501,8 @@
         }
       }
     ],
-    "source_causes": []
+    "source_causes": [],
+    "assessment": "pass"
   },
   {
     "id": "E121",
@@ -538,7 +543,8 @@
         }
       }
     ],
-    "source_causes": []
+    "source_causes": [],
+    "assessment": "pass"
   },
   {
     "id": "E122",
@@ -616,7 +622,8 @@
         }
       }
     ],
-    "source_causes": []
+    "source_causes": [],
+    "assessment": "pass"
   },
   {
     "id": "E123",
@@ -686,7 +693,8 @@
     ],
     "source_causes": [
       "crates/kerotakis-core/src/render.rs:4589 hardcodes open\u2192sealed regardless previous boundary"
-    ]
+    ],
+    "assessment": "pass_with_rendering_defect"
   },
   {
     "id": "E124",
@@ -754,7 +762,8 @@
         "details": {}
       }
     ],
-    "source_causes": []
+    "source_causes": [],
+    "assessment": "pass"
   },
   {
     "id": "E125",
@@ -811,7 +820,8 @@
         }
       }
     ],
-    "source_causes": []
+    "source_causes": [],
+    "assessment": "partial_capability_limit"
   },
   {
     "id": "E126",
@@ -861,7 +871,8 @@
         "details": {}
       }
     ],
-    "source_causes": []
+    "source_causes": [],
+    "assessment": "semantic_limit"
   },
   {
     "id": "E127",
@@ -935,7 +946,8 @@
         }
       }
     ],
-    "source_causes": []
+    "source_causes": [],
+    "assessment": "prediction_control_mismatch"
   },
   {
     "id": "E128",
@@ -996,7 +1008,8 @@
       "crates/kerotakis-phreeqc/src/aqueous.rs:5007 drops new_ions <=TRACE=1e-12mol",
       "crates/kerotakis-phreeqc/src/aqueous.rs:6815 presentation distribution filters molality<=1e-9; not itself ledger loss",
       "crates/kerotakis-phreeqc/src/inventory.rs:157 similarly drops acid/base basis<=1e-12mol"
-    ]
+    ],
+    "assessment": "real_defect"
   },
   {
     "id": "E129",
@@ -1117,7 +1130,8 @@
     "source_causes": [
       "crates/kerotakis-core/src/buoyancy.rs:124 ionic_volume_unaccounted requires individual ion moles>OBSERVABLE_MOLES=1e-6",
       "crates/kerotakis-core/src/coverage.rs:291 propagates the absolute visibility predicate to physical support status"
-    ]
+    ],
+    "assessment": "real_coverage_defect_with_physical_agreement"
   },
   {
     "id": "E130",
@@ -1214,7 +1228,8 @@
         }
       }
     ],
-    "source_causes": []
+    "source_causes": [],
+    "assessment": "partial_capability_limit"
   },
   {
     "id": "E131",
