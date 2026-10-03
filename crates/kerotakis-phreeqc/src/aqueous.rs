@@ -6582,7 +6582,7 @@ fn build_input_at(
         // of carbon simply gone, and the sealed-mass lesson drifted 0.04 g
         // away from the conservation it teaches. Invisible for as long as
         // nothing moved a sealed vessel's temperature.
-        writeln!(input, "    -temperature {temp_c:.4}").unwrap();
+        writeln!(input, "    -temperature {temp_c:.8}").unwrap();
         match vessel.headspace {
             Headspace::Sealed { volume } => {
                 writeln!(input, "    -fixed_volume").unwrap();
@@ -6975,6 +6975,24 @@ mod oxidation_sum_tests {
             .parse()
             .unwrap();
         assert!((input_c + 273.15 - vessel.temperature.0).abs() <= 1e-8);
+        // Gas pressure is computed at the same trial temperature. Its
+        // native conversion back to moles must not use a coarser question.
+        vessel.headspace = kerotakis_core::Headspace::Sealed {
+            volume: kerotakis_core::Liters(1.0),
+        };
+        let mut gas_problem = problem.clone();
+        gas_problem
+            .gases
+            .push(("CO2(g)".into(), "CO2".into(), 0.001));
+        let input = build_input(&vessel, &gas_problem, "wateq4f");
+        let gas_c: f64 = input
+            .lines()
+            .find_map(|line| line.trim().strip_prefix("-temperature "))
+            .unwrap()
+            .parse()
+            .unwrap();
+        assert!((gas_c + 273.15 - vessel.temperature.0).abs() <= 1e-8);
+        assert_eq!(gas_c, input_c);
     }
 
     #[test]
