@@ -1,0 +1,9 @@
+{
+  "frozen_utc": "2026-10-03T18:35:12.870654+00:00",
+  "provenance": "Source-informed library and core contracts; not blind experiments",
+  "sha256": {
+    "crates/kerotakis-core/tests/still_donor_precision.rs": "6cc0340e6dd809490d24920699bd979d7104f77a3ebcdb25df308847cfc52719",
+    "crates/kerotakis-core/tests/transport_precision_contracts.rs": "e67a0da76e92bab53180f1bd1eaf27d29dfc2f240144ccd649f6119742a9c663",
+    "audits/inventory-transfer-contracts-20261003/PREDICTIONS.md": "4d628e2cfd2ac1c30814c4abf2ec8b59aed7c4d49c08aa817a6fd70bde8967aa"
+  }
+}

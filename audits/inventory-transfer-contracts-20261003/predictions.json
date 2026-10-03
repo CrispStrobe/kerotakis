@@ -1,0 +1,110 @@
+[
+  {
+    "id": "I01",
+    "species": "water",
+    "latent_kj": 40.657,
+    "fraction": 1e-20,
+    "category": "donor-refusal",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1mol\ninspect\ndistil v1 v2 9.999999999999999e-21 stages 1\ninspect\n",
+    "expectation": "Atomic donor-precision refusal without any physical-state mutation."
+  },
+  {
+    "id": "I02",
+    "species": "water",
+    "latent_kj": 40.657,
+    "fraction": 1e-20,
+    "category": "donor-refusal",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1mol\ninspect\ndistil v1 v2 4.065699999999999e-16J stages 4\ninspect\n",
+    "expectation": "Atomic donor-precision refusal without any physical-state mutation."
+  },
+  {
+    "id": "I03",
+    "species": "water",
+    "latent_kj": 40.657,
+    "fraction": 1e-14,
+    "category": "supported",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1mol\ninspect\ndistil v1 v2 1e-14 stages 1\ninspect\n",
+    "expectation": "Changing microscopic donor retains complete requested cut and latent account. No cut-relative donor-accuracy claim."
+  },
+  {
+    "id": "I04",
+    "species": "water",
+    "latent_kj": 40.657,
+    "fraction": 1e-14,
+    "category": "supported",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1mol\ninspect\ndistil v1 v2 4.0657e-10J stages 4\ninspect\n",
+    "expectation": "Changing microscopic donor retains complete requested cut and latent account. No cut-relative donor-accuracy claim."
+  },
+  {
+    "id": "I05",
+    "species": "ethanol",
+    "latent_kj": 38.58,
+    "fraction": 1e-20,
+    "category": "donor-refusal",
+    "script": "register lv3\nnew\nnew\nadd v1 ethanol 1mol\ninspect\ndistil v1 v2 9.999999999999999e-21 stages 1\ninspect\n",
+    "expectation": "Atomic donor-precision refusal without any physical-state mutation."
+  },
+  {
+    "id": "I06",
+    "species": "ethanol",
+    "latent_kj": 38.58,
+    "fraction": 1e-20,
+    "category": "donor-refusal",
+    "script": "register lv3\nnew\nnew\nadd v1 ethanol 1mol\ninspect\ndistil v1 v2 3.857999999999999e-16J stages 4\ninspect\n",
+    "expectation": "Atomic donor-precision refusal without any physical-state mutation."
+  },
+  {
+    "id": "I07",
+    "species": "ethanol",
+    "latent_kj": 38.58,
+    "fraction": 1e-14,
+    "category": "supported",
+    "script": "register lv3\nnew\nnew\nadd v1 ethanol 1mol\ninspect\ndistil v1 v2 1e-14 stages 1\ninspect\n",
+    "expectation": "Changing microscopic donor retains complete requested cut and latent account. No cut-relative donor-accuracy claim."
+  },
+  {
+    "id": "I08",
+    "species": "ethanol",
+    "latent_kj": 38.58,
+    "fraction": 1e-14,
+    "category": "supported",
+    "script": "register lv3\nnew\nnew\nadd v1 ethanol 1mol\ninspect\ndistil v1 v2 3.858e-10J stages 4\ninspect\n",
+    "expectation": "Changing microscopic donor retains complete requested cut and latent account. No cut-relative donor-accuracy claim."
+  },
+  {
+    "id": "I09",
+    "species": "methanol",
+    "latent_kj": 35.244,
+    "fraction": 1e-20,
+    "category": "donor-refusal",
+    "script": "register lv3\nnew\nnew\nadd v1 methanol 1mol\ninspect\ndistil v1 v2 9.999999999999999e-21 stages 1\ninspect\n",
+    "expectation": "Atomic donor-precision refusal without any physical-state mutation."
+  },
+  {
+    "id": "I10",
+    "species": "methanol",
+    "latent_kj": 35.244,
+    "fraction": 1e-20,
+    "category": "donor-refusal",
+    "script": "register lv3\nnew\nnew\nadd v1 methanol 1mol\ninspect\ndistil v1 v2 3.5244e-16J stages 4\ninspect\n",
+    "expectation": "Atomic donor-precision refusal without any physical-state mutation."
+  },
+  {
+    "id": "I11",
+    "species": "methanol",
+    "latent_kj": 35.244,
+    "fraction": 1e-14,
+    "category": "supported",
+    "script": "register lv3\nnew\nnew\nadd v1 methanol 1mol\ninspect\ndistil v1 v2 1e-14 stages 1\ninspect\n",
+    "expectation": "Changing microscopic donor retains complete requested cut and latent account. No cut-relative donor-accuracy claim."
+  },
+  {
+    "id": "I12",
+    "species": "methanol",
+    "latent_kj": 35.244,
+    "fraction": 1e-14,
+    "category": "supported",
+    "script": "register lv3\nnew\nnew\nadd v1 methanol 1mol\ninspect\ndistil v1 v2 3.5244e-10J stages 4\ninspect\n",
+    "expectation": "Changing microscopic donor retains complete requested cut and latent account. No cut-relative donor-accuracy claim."
+  }
+]

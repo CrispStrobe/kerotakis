@@ -1,0 +1,27 @@
+{
+  "diagnostic_only": true,
+  "commit": "98c891638fed298448609114fc10fc6616a1b347",
+  "command": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-core",
+    "--lib",
+    "--test",
+    "transport",
+    "--test",
+    "transport_precision_contracts",
+    "--test",
+    "still_donor_precision",
+    "--test",
+    "atomic_distil_refusal",
+    "--no-fail-fast",
+    "-j1",
+    "--",
+    "--test-threads=1"
+  ],
+  "exit_code": 101,
+  "seconds": 197.969593176,
+  "log": "transport.log",
+  "log_sha256": "aa647eb2ebeb8dec65980062cc312afc6e1daf9784bd8f17a5572a3ef24f83d8"
+}

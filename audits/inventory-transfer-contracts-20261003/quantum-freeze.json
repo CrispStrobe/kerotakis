@@ -1,0 +1,7 @@
+{
+  "frozen_utc": "2026-10-03T18:46:30.316383+00:00",
+  "expectation": "Half of5minimumsubnormalquanta and quarter of22quanta refuse due fraction distortion; half of8quanta remains supported. These supplementary contracts are frozen before firstexecution, not baseline controls.",
+  "sha256": {
+    "crates/kerotakis-core/tests/transport_subnormal_fraction.rs": "d2c9f75b1f48c0b270d43d0e5383c806ee52ff1c07fa78fb353ce51f6470c5f9"
+  }
+}

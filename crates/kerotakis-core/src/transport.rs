@@ -26,6 +26,7 @@ use crate::vessel::{Portion, ThermalMode, Vessel, VesselId};
 // and the absolute floor still protects very small cells.
 const VOLUME_RELATIVE_TOLERANCE: f64 = 1e-6;
 const VOLUME_ABSOLUTE_TOLERANCE_L: f64 = 1e-12;
+const TRANSFER_RELATIVE_TOLERANCE: f64 = 1e-8;
 
 #[derive(Debug, thiserror::Error)]
 pub enum TransportError {
@@ -165,7 +166,12 @@ impl MobileParcel {
         let mut contents = Vec::with_capacity(self.contents.len());
         for portion in &self.contents {
             let moles = portion.moles.0 * fraction;
-            if fraction > 0.0 && portion.moles.0 > 0.0 && moles <= 0.0 {
+            if fraction > 0.0
+                && portion.moles.0 > 0.0
+                && (moles <= 0.0
+                    || (moles / portion.moles.0 / fraction - 1.0).abs()
+                        > TRANSFER_RELATIVE_TOLERANCE)
+            {
                 return Err(TransportError::TransferPrecision {
                     location: format!("{location} {} parcel", portion.species.0),
                 });
@@ -178,7 +184,12 @@ impl MobileParcel {
             }
         }
         let charge = self.solute_charge * fraction;
-        if fraction > 0.0 && self.solute_charge != 0.0 && charge == 0.0 {
+        if fraction > 0.0
+            && self.solute_charge != 0.0
+            && (charge == 0.0
+                || (charge / self.solute_charge / fraction - 1.0).abs()
+                    > TRANSFER_RELATIVE_TOLERANCE)
+        {
             return Err(TransportError::TransferPrecision {
                 location: format!("{location} charge parcel"),
             });
@@ -386,7 +397,8 @@ impl CellChain {
                 let after = before + portion.moles.0;
                 if !after.is_finite()
                     || after <= before
-                    || ((after - before) / portion.moles.0 - 1.0).abs() > 1e-8
+                    || ((after - before) / portion.moles.0 - 1.0).abs()
+                        > TRANSFER_RELATIVE_TOLERANCE
                 {
                     return Err(TransportError::TransferPrecision {
                         location: format!("transport cell {index} {} receiver", portion.species.0),
@@ -404,7 +416,8 @@ impl CellChain {
             if incoming.solute_charge != 0.0 {
                 let after = cell.solute_charge + incoming.solute_charge;
                 if !after.is_finite()
-                    || ((after - cell.solute_charge) / incoming.solute_charge - 1.0).abs() > 1e-8
+                    || ((after - cell.solute_charge) / incoming.solute_charge - 1.0).abs()
+                        > TRANSFER_RELATIVE_TOLERANCE
                 {
                     return Err(TransportError::TransferPrecision {
                         location: format!("transport cell {index} charge receiver"),

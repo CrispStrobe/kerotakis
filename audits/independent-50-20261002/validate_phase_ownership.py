@@ -22,7 +22,7 @@ CORE_TESTS = """transport transport_verb prepared_kitchen_objects
 material_object_state kitchen_biology transfer_trace interface_conservation
 solver_transactions conservation phase_heat_capacity pressure_boiling states mix
 selected_phase_transfer phase_routes distil atomic_distil_refusal layers
-liquid_extraction vegetable_oil_layers phase_without_aqueous thermal_phase_refusal thermal_phase_budget phase_thaw_recovery energy_transfer heat_integral_precision electrolysis_scope solvent_electrolysis_accounting chromatography_coverage chromatograph headspace density_coverage_scaling""".split()
+liquid_extraction vegetable_oil_layers phase_without_aqueous thermal_phase_refusal thermal_phase_budget phase_thaw_recovery energy_transfer heat_integral_precision electrolysis_scope solvent_electrolysis_accounting chromatography_coverage chromatograph headspace density_coverage_scaling still_donor_precision transport_precision_contracts transport_charge_precision transport_subnormal_fraction""".split()
 SOURCE_FILES = [
     "crates/kerotakis-cea/src/gibbs.rs",
     "crates/kerotakis-core/src/bench.rs",
@@ -57,6 +57,18 @@ SOURCE_FILES = [
     "crates/kerotakis-phreeqc/tests/trace_inventory.rs",
     "crates/kerotakis-phreeqc/tests/order_invariance.rs",
     "crates/kerotakis-core/tests/atomic_distil_refusal.rs",
+    "crates/kerotakis-core/tests/still_donor_precision.rs",
+    "crates/kerotakis-core/tests/transport_precision_contracts.rs",
+    "crates/kerotakis-core/tests/transport_charge_precision.rs",
+    "crates/kerotakis-core/tests/transport_subnormal_fraction.rs",
+    "audits/inventory-transfer-contracts-20261003/quantum-freeze.json",
+    "audits/inventory-transfer-contracts-20261003/PREDICTIONS.md",
+    "audits/inventory-transfer-contracts-20261003/run.py",
+    "audits/inventory-transfer-contracts-20261003/predictions.json",
+    "audits/inventory-transfer-contracts-20261003/freeze.json",
+    "audits/inventory-transfer-contracts-20261003/library-freeze.json",
+    "audits/inventory-transfer-contracts-20261003/supplementary-freeze.json",
+    "audits/inventory-transfer-contracts-20261003/verify_artifact.py",
     "crates/kerotakis-core/tests/distil.rs",
     "crates/kerotakis-thermo/src/vle.rs",
     "crates/kerotakis-thermo/src/batch.rs",
@@ -190,6 +202,8 @@ def main():
                                "--binary", str(binary), "--out", str(out / "still-failure")])
         run("overlap-continuity", [sys.executable, str(REPO / "audits/overlap-continuity-contracts-20261003/run.py"),
                              "--binary", str(binary), "--out", str(out / "overlap-continuity")])
+        run("inventory-transfer", [sys.executable, str(REPO / "audits/inventory-transfer-contracts-20261003/run.py"),
+                             "--binary", str(binary), "--out", str(out / "inventory-transfer")])
         env.update(KERO_BIN=str(binary), KERO_RESULTS_DIR=str(out / "replay"))
         if run("replay", [sys.executable, str(ROOT / "run.py")]):
             followups = []
