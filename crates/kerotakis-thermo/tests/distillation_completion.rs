@@ -68,11 +68,14 @@ fn invalid_stocks_energy_and_overflowing_total_are_refused() {
 #[test]
 fn positive_unrepresentable_requests_refuse_while_zero_requests_succeed() {
     let smallest = f64::from_bits(1);
-    // The first positive mole budget itself rounds to zero; the second
-    // remains positive but its integration substeps round to zero.
-    for water in [smallest, smallest * 64.0] {
-        assert!(ethanol_water_still(water, 0.0, StillTake::Fraction(0.5), 1, 101.325).is_none());
-    }
+    // A positive budget that rounds to zero still refuses. A pure cut no
+    // longer needs an integration mesh, so representable subnormal overhead
+    // is supported even if the old per-step budget would have underflowed.
+    assert!(ethanol_water_still(smallest, 0.0, StillTake::Fraction(0.5), 1, 101.325).is_none());
+    let tiny = ethanol_water_still(smallest * 64.0, 0.0, StillTake::Fraction(0.5), 1, 101.325)
+        .expect("analytic pure cut does not need an unrepresentable mesh");
+    assert_eq!(tiny.water_over, smallest * 32.0);
+    assert!(tiny.energy_kj.is_finite() && tiny.energy_kj > 0.0);
     assert!(ethanol_water_still(1.0, 0.0, StillTake::EnergyKj(smallest), 1, 101.325).is_none());
     let affordable = ethanol_water_still(1.0, 0.0, StillTake::EnergyKj(1.0), 1, 101.325)
         .expect("a finite affordable energy budget still gives a positive cut");

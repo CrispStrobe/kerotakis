@@ -1,0 +1,87 @@
+[
+  {
+    "id": "C01",
+    "kind": "fraction",
+    "species": "water",
+    "script": "register lv3\nnew\nnew\nnew\nnew\nadd v1 water 1mol\nadd v3 water 1mol\ninspect\ndistil v1 v2 0.2 stages 1\ndistil v3 v4 0.2 stages 128\ninspect\n",
+    "expectation": "Both pure cuts transfer exactly one fifth, conserve inventory, match latent demand, preserve boiling temperature and report no azeotrope."
+  },
+  {
+    "id": "C02",
+    "kind": "fraction",
+    "species": "ethanol",
+    "script": "register lv3\nnew\nnew\nnew\nnew\nadd v1 ethanol 1mol\nadd v3 ethanol 1mol\ninspect\ndistil v1 v2 0.2 stages 1\ndistil v3 v4 0.2 stages 128\ninspect\n",
+    "expectation": "Both pure cuts transfer exactly one fifth, conserve inventory, match latent demand, preserve boiling temperature and report no azeotrope."
+  },
+  {
+    "id": "C03",
+    "kind": "fraction",
+    "species": "methanol",
+    "script": "register lv3\nnew\nnew\nnew\nnew\nadd v1 methanol 1mol\nadd v3 methanol 1mol\ninspect\ndistil v1 v2 0.2 stages 1\ndistil v3 v4 0.2 stages 128\ninspect\n",
+    "expectation": "Both pure cuts transfer exactly one fifth, conserve inventory, match latent demand, preserve boiling temperature and report no azeotrope."
+  },
+  {
+    "id": "C04",
+    "kind": "full",
+    "species": "water",
+    "script": "register lv3\nnew\nnew\nnew\nnew\nadd v1 water 1mol\nadd v3 water 1mol\ninspect\ndistil v1 v2 1 stages 1\ndistil v3 v4 100kJ stages 128\ninspect\n",
+    "expectation": "Fraction1 and excess energy both transfer the full mole; heat equals inventory latent demand, not the supplied100kJ."
+  },
+  {
+    "id": "C05",
+    "kind": "zero",
+    "species": "ethanol",
+    "script": "register lv3\nnew\nnew\nnew\nnew\nadd v1 ethanol 1mol\nadd v3 ethanol 1mol\ninspect\ndistil v1 v2 0 stages 1\ndistil v3 v4 0kJ stages 128\ninspect\n",
+    "expectation": "Genuine zero requests transfer nothing and preserve both source and receiver snapshots."
+  },
+  {
+    "id": "C06",
+    "kind": "tiny",
+    "species": "methanol",
+    "script": "register lv3\nnew\nnew\nnew\nnew\nadd v1 methanol 1mol\nadd v3 methanol 1mol\ninspect\ndistil v1 v2 1e-14 stages 1\ndistil v3 v4 3.5244e-13kJ stages 128\ninspect\n",
+    "expectation": "Fraction and equivalent microscopic energy each transfer positive1e-14mol, with no dependence on stage count."
+  },
+  {
+    "id": "C07",
+    "kind": "mixture",
+    "species": "water",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1mol\nadd v1 ethanol 1e-8mol\ninspect\ndistil v1 v2 0.01 stages 1\ninspect\n",
+    "expectation": "A positive ethanol trace remains a second volatile component: positive enriched ethanol overhead and both material budgets conserved; never the pure shortcut."
+  },
+  {
+    "id": "P01",
+    "kind": "profile",
+    "species": "water",
+    "count": 5,
+    "stages": 1,
+    "script": "register lv3\nnew\nnew\nadd v1 water 1mol\ninspect\ndistil v1 v2 0.01 stages 1\ndistil v1 v2 0.01 stages 1\ndistil v1 v2 0.01 stages 1\ndistil v1 v2 0.01 stages 1\ndistil v1 v2 0.01 stages 1\ninspect\n",
+    "expectation": "Every cut completes positively; final source follows0.99^count, receiver carries complementary inventory; heat, boiling temperature and budgets agree. Compare validated baseline/optimized debug executables on the same hosted runner with alternating repetitions; no preset timing threshold."
+  },
+  {
+    "id": "P02",
+    "kind": "profile",
+    "species": "ethanol",
+    "count": 5,
+    "stages": 1,
+    "script": "register lv3\nnew\nnew\nadd v1 ethanol 1mol\ninspect\ndistil v1 v2 0.01 stages 1\ndistil v1 v2 0.01 stages 1\ndistil v1 v2 0.01 stages 1\ndistil v1 v2 0.01 stages 1\ndistil v1 v2 0.01 stages 1\ninspect\n",
+    "expectation": "Every cut completes positively; final source follows0.99^count, receiver carries complementary inventory; heat, boiling temperature and budgets agree. Compare validated baseline/optimized debug executables on the same hosted runner with alternating repetitions; no preset timing threshold."
+  },
+  {
+    "id": "P03",
+    "kind": "profile",
+    "species": "methanol",
+    "count": 5,
+    "stages": 1,
+    "script": "register lv3\nnew\nnew\nadd v1 methanol 1mol\ninspect\ndistil v1 v2 0.01 stages 1\ndistil v1 v2 0.01 stages 1\ndistil v1 v2 0.01 stages 1\ndistil v1 v2 0.01 stages 1\ndistil v1 v2 0.01 stages 1\ninspect\n",
+    "expectation": "Every cut completes positively; final source follows0.99^count, receiver carries complementary inventory; heat, boiling temperature and budgets agree. Compare validated baseline/optimized debug executables on the same hosted runner with alternating repetitions; no preset timing threshold."
+  },
+  {
+    "id": "P04",
+    "kind": "profile",
+    "species": "water",
+    "count": 1,
+    "stages": 4,
+    "script": "register lv3\nnew\nnew\nadd v1 water 1mol\ninspect\ndistil v1 v2 0.01 stages 4\ninspect\n",
+    "expectation": "Every cut completes positively; final source follows0.99^count, receiver carries complementary inventory; heat, boiling temperature and budgets agree. Compare validated baseline/optimized debug executables on the same hosted runner with alternating repetitions; no preset timing threshold."
+  }
+]

@@ -1,0 +1,11 @@
+register lv3
+new
+new
+new
+new
+add v1 ethanol 1mol
+add v3 ethanol 1mol
+inspect
+distil v1 v2 0 stages 1
+distil v3 v4 0kJ stages 128
+inspect

@@ -97,13 +97,27 @@ fn bubble(n: &[f64], models: &[ConstantLatent], pressure: f64) -> Option<(f64, V
 
 /// Integrate a molar or latent-energy cut through ideal stages at total reflux.
 /// Every component limits every step; a domain failure rejects the whole cut.
-/// The default 1024-step amount mesh is refined further near depletion.
+/// Exactly pure stocks use one phase solve and a closed-form latent account.
+/// Mixtures use a 1024-step amount mesh refined further near depletion.
 pub fn ideal_still(
     inventory: &[f64],
     models: &[ConstantLatent],
     take: StillTake,
     stages: u32,
     pressure_kpa: f64,
+) -> Option<BatchCut> {
+    ideal_still_with_bubble(inventory, models, take, stages, pressure_kpa, bubble)
+}
+
+// Passing the evaluator explicitly gives unit tests a local cost counter;
+// production uses the same bubble solver without shared instrumentation.
+fn ideal_still_with_bubble(
+    inventory: &[f64],
+    models: &[ConstantLatent],
+    take: StillTake,
+    stages: u32,
+    pressure_kpa: f64,
+    mut evaluate_bubble: impl FnMut(&[f64], &[ConstantLatent], f64) -> Option<(f64, Vec<f64>)>,
 ) -> Option<BatchCut> {
     if inventory.is_empty()
         || inventory.len() != models.len()
@@ -133,13 +147,25 @@ pub fn ideal_still(
         StillTake::EnergyKj(e) if e.is_finite() && e >= 0.0 => total,
         _ => return None,
     };
-    let (start, _) = bubble(inventory, models, pressure_kpa)?;
+    let (start, _) = evaluate_bubble(inventory, models, pressure_kpa)?;
     let mut cut = BatchCut {
         overhead: vec![0.0; inventory.len()],
         t_start_k: start,
         t_end_k: start,
         energy_kj: 0.0,
     };
+    let mut active = inventory.iter().enumerate().filter(|(_, n)| **n > 0.0);
+    let (active_index, amount) = active.next()?;
+    if active.next().is_none() {
+        // A pure liquid keeps its initial boiling point throughout the cut.
+        // Still validate every model and solve that point before taking this
+        // shortcut; inactive properties and pressure domains remain binding.
+        let (overhead, energy) =
+            crate::vle::pure_still_amount(*amount, models[active_index].latent_kj_mol, take)?;
+        cut.overhead[active_index] = overhead;
+        cut.energy_kj = energy;
+        return Some(cut);
+    }
     if budget == 0.0 || matches!(take, StillTake::EnergyKj(0.0)) {
         return Some(cut);
     }
@@ -191,16 +217,16 @@ pub fn ideal_still(
             if removed_total <= 0.0 || cut.energy_kj <= 0.0 {
                 return None;
             }
-            cut.t_end_k = bubble(&pot, models, pressure_kpa)?.0;
+            cut.t_end_k = evaluate_bubble(&pot, models, pressure_kpa)?.0;
             return Some(cut);
         }
         if remaining <= 0.0 || !remaining.is_finite() {
             return None;
         }
-        let (temperature, mut y) = bubble(&pot, models, pressure_kpa)?;
+        let (temperature, mut y) = evaluate_bubble(&pot, models, pressure_kpa)?;
         cut.t_end_k = temperature;
         for _ in 1..stages {
-            y = bubble(&y, models, pressure_kpa)?.1;
+            y = evaluate_bubble(&y, models, pressure_kpa)?.1;
         }
         let mut dn = remaining.min(budget / 1024.0);
         // Preserve microscopic budgets whose default mesh itself underflows.
@@ -264,6 +290,49 @@ pub fn ideal_still(
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn pure_cut_uses_one_bubble_solve_and_mixtures_keep_integrating() {
+        for take in [
+            StillTake::Fraction(0.0),
+            StillTake::Fraction(0.4),
+            StillTake::Fraction(1.0),
+            StillTake::EnergyKj(7.0),
+            StillTake::EnergyKj(1e6),
+        ] {
+            for stages in [1, 4, 128] {
+                let mut calls = 0;
+                let cut = ideal_still_with_bubble(
+                    &[0.0, 2.0, 0.0],
+                    &[model(330.0), model(350.0), model(390.0)],
+                    take,
+                    stages,
+                    101.325,
+                    |n, models, pressure| {
+                        calls += 1;
+                        bubble(n, models, pressure)
+                    },
+                )
+                .unwrap();
+                assert_eq!(calls, 1, "take={take:?}, stages={stages}");
+                assert_eq!(cut.t_start_k, cut.t_end_k);
+            }
+        }
+        let mut calls = 0;
+        ideal_still_with_bubble(
+            &[1.0, 2.0],
+            &[model(330.0), model(390.0)],
+            StillTake::Fraction(0.2),
+            2,
+            101.325,
+            |n, models, pressure| {
+                calls += 1;
+                bubble(n, models, pressure)
+            },
+        )
+        .unwrap();
+        assert!(calls > 2, "a mixture must retain stage and residual solves");
+    }
+
     fn model(tb: f64) -> ConstantLatent {
         ConstantLatent {
             boiling_k: tb,

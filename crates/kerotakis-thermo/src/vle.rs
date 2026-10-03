@@ -1510,6 +1510,55 @@ pub enum StillTake {
     EnergyKj(f64),
 }
 
+/// Closed-form amount and latent heat for one positive pure component.
+/// Callers still validate the phase/pressure model; this helper only books
+/// representable amounts. Pure cuts do not change composition, so neither
+/// a Rayleigh mesh nor an ideal-stage cascade can change their answer.
+pub(crate) fn pure_still_amount(amount: f64, latent: f64, take: StillTake) -> Option<(f64, f64)> {
+    if !amount.is_finite() || amount <= 0.0 || !latent.is_finite() || latent <= 0.0 {
+        return None;
+    }
+    let (mut overhead, full, energy_budget) = match take {
+        StillTake::Fraction(f) if (0.0..=1.0).contains(&f) => {
+            if f == 0.0 {
+                return Some((0.0, 0.0));
+            }
+            (amount * f, f == 1.0, None)
+        }
+        StillTake::EnergyKj(energy) if energy.is_finite() && energy >= 0.0 => {
+            if energy == 0.0 {
+                return Some((0.0, 0.0));
+            }
+            // Overflow of unrequested full-inventory heat does not prevent
+            // a finite affordable partial cut. A full cut must publish finite
+            // positive latent heat, which is checked below.
+            let full = energy >= amount * latent;
+            ((energy / latent).min(amount), full, Some(energy))
+        }
+        _ => return None,
+    };
+    if !overhead.is_finite() || overhead <= 0.0 || overhead > amount {
+        return None;
+    }
+    let mut heat = overhead * latent;
+    if let Some(budget) = energy_budget {
+        if !full && heat > budget {
+            // Division followed by multiplication can round above the
+            // budget. Choose the adjacent lower amount, then check whether
+            // the requested heat is still representable at ordinary precision.
+            overhead = f64::from_bits(overhead.to_bits() - 1);
+            heat = overhead * latent;
+        }
+        if heat > budget || (!full && (heat / budget - 1.0).abs() > 8.0 * f64::EPSILON) {
+            return None;
+        }
+    }
+    if overhead <= 0.0 || !heat.is_finite() || heat <= 0.0 || (!full && amount - overhead <= 0.0) {
+        return None;
+    }
+    Some((overhead, heat))
+}
+
 /// What one batch cut produced.
 #[derive(Debug, Clone, PartialEq)]
 pub struct StillCut {
@@ -1534,12 +1583,17 @@ pub struct StillCut {
 /// idealisation is stated, not hidden: a real column at finite reflux
 /// separates less, never more, so this is the honest *upper bound* a
 /// learner's column cannot beat.
-fn cascade(x_pot: f64, stages: u32, pressure_kpa: f64) -> Option<(f64, BubblePoint, bool)> {
-    let pot_bp = ethanol_water_bubble_point(x_pot, pressure_kpa)?;
+fn cascade(
+    x_pot: f64,
+    stages: u32,
+    pressure_kpa: f64,
+    phase: &mut impl FnMut(f64, f64) -> Option<BubblePoint>,
+) -> Option<(f64, BubblePoint, bool)> {
+    let pot_bp = phase(x_pot, pressure_kpa)?;
     let mut y = pot_bp.y[0];
     let mut hit = pot_bp.azeotropic;
     for _ in 1..stages {
-        let bp = ethanol_water_bubble_point(y, pressure_kpa)?;
+        let bp = phase(y, pressure_kpa)?;
         if bp.azeotropic {
             hit = true;
             break;
@@ -1553,7 +1607,8 @@ fn cascade(x_pot: f64, stages: u32, pressure_kpa: f64) -> Option<(f64, BubblePoi
 /// γ(T): Rayleigh integration — the vapour composition follows the pot as
 /// it drifts — through an `stages`-stage column at total reflux.
 ///
-/// Integration refines its overhead mesh near component depletion. Every
+/// Exactly pure stocks use one phase solve and a closed-form latent account.
+/// Mixture integration refines its overhead mesh near component depletion. Every
 /// step removes at most a quarter of each present component, so finite
 /// steps cannot manufacture a pure residue by clipping an overshoot.
 /// Returns `None` if any required intermediate phase calculation is outside
@@ -1564,6 +1619,24 @@ pub fn ethanol_water_still(
     take: StillTake,
     stages: u32,
     pressure_kpa: f64,
+) -> Option<StillCut> {
+    ethanol_water_still_with_phase(
+        water_moles,
+        ethanol_moles,
+        take,
+        stages,
+        pressure_kpa,
+        ethanol_water_bubble_point,
+    )
+}
+
+fn ethanol_water_still_with_phase(
+    water_moles: f64,
+    ethanol_moles: f64,
+    take: StillTake,
+    stages: u32,
+    pressure_kpa: f64,
+    mut phase: impl FnMut(f64, f64) -> Option<BubblePoint>,
 ) -> Option<StillCut> {
     if !water_moles.is_finite()
         || !ethanol_moles.is_finite()
@@ -1599,7 +1672,27 @@ pub fn ethanol_water_still(
         }
     };
 
-    let (y0, bp0, _) = cascade(e / (w + e), stages, pressure_kpa)?;
+    if water_moles == 0.0 || ethanol_moles == 0.0 {
+        // Exactly pure only: a positive trace second component still needs
+        // the activity model and the complete drifting integration.
+        let is_ethanol = water_moles == 0.0;
+        let bp = phase(if is_ethanol { 1.0 } else { 0.0 }, pressure_kpa)?;
+        let latent = if is_ethanol {
+            ETHANOL_HVAP_KJ_PER_MOL
+        } else {
+            WATER_HVAP_KJ_PER_MOL
+        };
+        let (overhead, energy_kj) = pure_still_amount(total0, latent, take)?;
+        return Some(StillCut {
+            water_over: if is_ethanol { 0.0 } else { overhead },
+            ethanol_over: if is_ethanol { overhead } else { 0.0 },
+            t_start_c: bp.t_celsius,
+            t_end_c: bp.t_celsius,
+            energy_kj,
+            azeotrope_limited: false,
+        });
+    }
+    let (y0, bp0, _) = cascade(e / (w + e), stages, pressure_kpa, &mut phase)?;
     let _ = y0;
     let t_start_c = bp0.t_celsius;
     let mut t_end_c = t_start_c;
@@ -1642,7 +1735,7 @@ pub fn ethanol_water_still(
         // A requested cut is one operation. A missing intermediate phase
         // answer cannot be reported as a successful smaller cut: callers
         // have no partial-result/domain metadata in this Option contract.
-        let (y_top, pot_bp, hit) = cascade(x, stages, pressure_kpa)?;
+        let (y_top, pot_bp, hit) = cascade(x, stages, pressure_kpa, &mut phase)?;
         t_end_c = pot_bp.t_celsius;
         azeo |= hit;
         let mut step = dn.min(remaining).min(pot);
@@ -1716,7 +1809,7 @@ pub fn ethanol_water_still(
     let residual_e = ethanol_moles - e_over;
     let residual_total = residual_w + residual_e;
     if residual_total > 0.0 {
-        t_end_c = ethanol_water_bubble_point(residual_e / residual_total, pressure_kpa)?.t_celsius;
+        t_end_c = phase(residual_e / residual_total, pressure_kpa)?.t_celsius;
     }
     Some(StillCut {
         water_over: w_over,
@@ -1726,4 +1819,73 @@ pub fn ethanol_water_still(
         energy_kj,
         azeotrope_limited: azeo,
     })
+}
+
+#[cfg(test)]
+mod pure_still_cost {
+    use super::*;
+
+    #[test]
+    fn pure_binary_cuts_require_one_phase_answer_regardless_of_stage_count() {
+        for (water, ethanol) in [(1.0, 0.0), (0.0, 1.0)] {
+            for stages in [1, 4, 128] {
+                let mut calls = 0;
+                let cut = ethanol_water_still_with_phase(
+                    water,
+                    ethanol,
+                    StillTake::Fraction(0.2),
+                    stages,
+                    101.325,
+                    |x, pressure| {
+                        calls += 1;
+                        ethanol_water_bubble_point(x, pressure)
+                    },
+                )
+                .unwrap();
+                assert_eq!(calls, 1);
+                assert_eq!(cut.t_start_c, cut.t_end_c);
+                assert!(!cut.azeotrope_limited);
+            }
+        }
+    }
+
+    #[test]
+    fn every_positive_second_component_keeps_the_integration_path() {
+        let mut calls = 0;
+        // A cheap injected phase law checks path selection without fitting a
+        // physical claim. Existing integration tests exercise real phase data.
+        ethanol_water_still_with_phase(
+            1.0,
+            1e-14,
+            StillTake::Fraction(0.01),
+            1,
+            101.325,
+            |x, _| {
+                calls += 1;
+                Some(BubblePoint {
+                    t_celsius: 90.0,
+                    y: vec![x, 1.0 - x],
+                    azeotropic: false,
+                })
+            },
+        )
+        .unwrap();
+        assert!(
+            calls > 2,
+            "a positive trace was rounded into a pure shortcut"
+        );
+    }
+
+    #[test]
+    fn rounded_partial_requests_never_become_complete_inventory_transfers() {
+        let tiny = f64::from_bits(2);
+        let nearly_one = f64::from_bits(1.0f64.to_bits() - 1);
+        assert!(pure_still_amount(tiny, 40.0, StillTake::Fraction(nearly_one)).is_none());
+        assert!(pure_still_amount(f64::from_bits(1), 0.01, StillTake::EnergyKj(1.0)).is_none());
+        assert!(pure_still_amount(1.0, 40.0, StillTake::EnergyKj(f64::from_bits(1))).is_none());
+        let energy = f64::from_bits(40.0f64.to_bits() - 1);
+        if let Some((amount, heat)) = pure_still_amount(1.0, 40.0, StillTake::EnergyKj(energy)) {
+            assert!(amount < 1.0 && heat <= energy);
+        }
+    }
 }
