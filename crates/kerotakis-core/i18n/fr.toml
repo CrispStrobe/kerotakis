@@ -2,6 +2,8 @@
 "provenance.model.cea-finite-gas" = "Équilibre idéal de gaz identifiables NASA-9 ; matière conservée dans le récipient, sans air ambiant ; sans phases condensées, radicaux, ionisation ni correction de gaz réel ; vapeur d’eau au-dessus de 800 K et pression limitée à 100 bar"
 "routing.cea-finite-gas" = "{route} : équilibre fermé de gaz idéaux avec produits conservés"
 
+"error.transfer-precision" = "Ce récipient ne peut pas conserver le transfert complet de {species} à son échelle actuelle ; utilisez des récipients séparés pour des quantités très différentes"
+
 [vessel]
 open = ", ouvert sur l'atmosphère"
 sealed-before = ", scellé, "
@@ -1773,4 +1775,3 @@ receiver = "récepteur"
 "aqueous-layer" = "La mesure concerne la couche aqueuse ; la couche organique séparée est hors du champ de cette mesure"
 "aqueous-layer-bounded" = "{scope}; {boundary}"
 
-"error.transfer-precision" = "Ce récipient ne peut pas conserver le transfert complet de {species} à son échelle actuelle ; utilisez des récipients séparés pour des quantités très différentes"

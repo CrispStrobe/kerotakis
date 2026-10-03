@@ -1,0 +1,13 @@
+{
+  "file": "crates/kerotakis-core/tests/transfer_receiver_controls.rs",
+  "sha256": "aef150632051cfd1daedcc08f5693660b3380f3b4bd5d4e0bb2971e961d64f9d",
+  "tests": 5,
+  "before_execution_commit": "7712815a",
+  "expectations": [
+    "Empty magnetic and filtered receivers retain traces.",
+    "Accurate preloaded magnetic and filtered additions succeed.",
+    "Equal trace mixing succeeds.",
+    "Draining preserves trace solute and supported bulk additions.",
+    "The error carries the structured species and refusal key."
+  ]
+}

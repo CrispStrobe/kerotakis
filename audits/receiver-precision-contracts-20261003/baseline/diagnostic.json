@@ -1,0 +1,29 @@
+{
+  "diagnostic_only": true,
+  "commit": "b86f5c8183e9b2d3568ba7163d83ebbd7a846acf",
+  "command": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-core",
+    "--lib",
+    "--test",
+    "transfer_receiver_precision",
+    "--test",
+    "transfer_trace",
+    "--test",
+    "mix",
+    "--test",
+    "layers",
+    "--test",
+    "vegetable_oil_layers",
+    "--no-fail-fast",
+    "-j1",
+    "--",
+    "--test-threads=1"
+  ],
+  "exit_code": 101,
+  "seconds": 189.25281012199997,
+  "log": "receiver.log",
+  "log_sha256": "16b0456c8239870406c84a95940b094651a2906c58f792ec8ee592e537a5a717"
+}

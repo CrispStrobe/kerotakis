@@ -62,6 +62,7 @@ SOURCE_FILES = [
     "crates/kerotakis-core/tests/transfer_receiver_precision.rs",
     "crates/kerotakis-core/tests/transfer_receiver_controls.rs",
     "audits/receiver-precision-contracts-20261003/freeze.json",
+    "audits/receiver-precision-contracts-20261003/supplementary-freeze.json",
     "crates/kerotakis-core/tests/still_donor_precision.rs",
     "crates/kerotakis-core/tests/transport_precision_contracts.rs",
     "crates/kerotakis-core/tests/transport_charge_precision.rs",

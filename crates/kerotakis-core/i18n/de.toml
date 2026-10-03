@@ -17,6 +17,8 @@
 "provenance.model.cea-finite-gas" = "NASA-9-Gleichgewicht benennbarer idealer Gase; Stoff bleibt im Gefäß, keine Umgebungsluft; keine kondensierten Phasen, Radikale, Ionisierung oder Realgaskorrektur; Wasserdampf über 800 K, Druck höchstens 100 bar"
 "routing.cea-finite-gas" = "{route}: geschlossenes ideales Gasgleichgewicht mit zurückgehaltenen Produkten"
 
+"error.transfer-precision" = "Dieses Gefäß kann die vollständige Übertragung von {species} bei seiner aktuellen Stoffmenge nicht erhalten; verwende getrennte Gefäße für stark unterschiedliche Mengen"
+
 [vessel]
 open = ", zur Atmosphäre offen"
 sealed-before = ", verschlossen, "
@@ -2035,4 +2037,3 @@ receiver = "Vorlage"
 "aqueous-layer" = "Der Messwert gilt für die wässrige Schicht; die getrennte organische Schicht liegt außerhalb dieser Messung"
 "aqueous-layer-bounded" = "{scope}; {boundary}"
 
-"error.transfer-precision" = "Dieses Gefäß kann die vollständige Übertragung von {species} bei seiner aktuellen Stoffmenge nicht erhalten; verwende getrennte Gefäße für stark unterschiedliche Mengen"
