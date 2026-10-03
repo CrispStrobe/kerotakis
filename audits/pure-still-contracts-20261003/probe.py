@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', type=Path, required=True)
-    parser.add_argument('--scope', choices=['thermo', 'transport'], default='thermo')
+    parser.add_argument('--scope', choices=['thermo', 'transport', 'receiver'], default='thermo')
     args = parser.parse_args()
     if os.environ.get('GITHUB_ACTIONS') != 'true':
         parser.error('Hosted execution only; local execution requires resource headroom')
@@ -26,7 +26,12 @@ def main():
                    '--test', 'transport_subnormal_fraction',
                    '--test', 'still_donor_precision', '--test', 'atomic_distil_refusal',
                    '--no-fail-fast', '-j1', '--', '--test-threads=1']
-    log = args.out/('thermo.log' if args.scope == 'thermo' else 'transport.log')
+    if args.scope == 'receiver':
+        command = ['cargo', 'test', '-p', 'kerotakis-core', '--lib',
+                   '--test', 'transfer_receiver_precision', '--test', 'transfer_trace',
+                   '--test', 'mix', '--test', 'layers', '--test', 'vegetable_oil_layers',
+                   '--no-fail-fast', '-j1', '--', '--test-threads=1']
+    log = args.out/(args.scope + '.log')
     started = time.monotonic()
     with log.open('w') as output:
         result = subprocess.run(command, cwd=ROOT, stdout=output, stderr=subprocess.STDOUT)
