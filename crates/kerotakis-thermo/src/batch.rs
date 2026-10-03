@@ -119,8 +119,17 @@ pub fn ideal_still(
         return None;
     }
     let total: f64 = inventory.iter().sum();
+    if !total.is_finite() || total <= 0.0 {
+        return None;
+    }
     let budget = match take {
-        StillTake::Fraction(f) if f.is_finite() && (0.0..=1.0).contains(&f) => total * f,
+        StillTake::Fraction(f) if f.is_finite() && (0.0..=1.0).contains(&f) => {
+            let amount = total * f;
+            if f > 0.0 && amount == 0.0 {
+                return None; // a positive requested cut underflowed
+            }
+            amount
+        }
         StillTake::EnergyKj(e) if e.is_finite() && e >= 0.0 => total,
         _ => return None,
     };
@@ -131,15 +140,62 @@ pub fn ideal_still(
         t_end_k: start,
         energy_kj: 0.0,
     };
-    if budget == 0.0 {
+    if budget == 0.0 || matches!(take, StillTake::EnergyKj(0.0)) {
         return Some(cut);
     }
+    let inventory_heat: f64 = inventory
+        .iter()
+        .zip(models)
+        .map(|(n, model)| n * model.latent_kj_mol)
+        .sum();
+    let full_take = matches!(take, StillTake::Fraction(1.0))
+        || matches!(take, StillTake::EnergyKj(energy) if energy >= inventory_heat);
+    let energy_target = match take {
+        StillTake::EnergyKj(energy) => energy.min(inventory_heat),
+        StillTake::Fraction(_) => 0.0,
+    };
     let mut pot = inventory.to_vec();
-    let tolerance = total * 1e-12;
+    // Completion is relative to the request, never to the starting inventory
+    // or an absolute one-kilojoule floor. Compare ratios to avoid an underflowed
+    // tolerance for otherwise representable microscopic requests.
     for _ in 0..100_000 {
-        let remaining = budget - cut.overhead.iter().sum::<f64>();
-        if remaining <= tolerance {
+        let removed_total = cut.overhead.iter().sum::<f64>();
+        let remaining = budget - removed_total;
+        let complete = match take {
+            StillTake::Fraction(_) => (remaining / budget).abs() <= 1e-12,
+            StillTake::EnergyKj(_) => {
+                ((energy_target - cut.energy_kj) / energy_target).abs() <= 1e-12
+            }
+        };
+        if complete || (full_take && (remaining / budget).abs() <= 1e-12) {
+            // A complete take has no residual bubble state. Publish its exact
+            // inventory and latent heat, with the last approached boiling
+            // temperature as the endpoint convention.
+            if full_take {
+                cut.overhead = inventory.to_vec();
+                cut.energy_kj = inventory
+                    .iter()
+                    .zip(models)
+                    .map(|(n, model)| n * model.latent_kj_mol)
+                    .sum();
+                return cut.energy_kj.is_finite().then_some(cut);
+            }
+            // Partial cuts cannot silently round a positive residual to zero.
+            // A microscopic positive overhead may leave bulk stock unchanged
+            // at its floating-point resolution; the overhead remains explicit.
+            for (residual, removed) in pot.iter().zip(&cut.overhead) {
+                if *removed > 0.0 && *residual <= 0.0 {
+                    return None;
+                }
+            }
+            if removed_total <= 0.0 || cut.energy_kj <= 0.0 {
+                return None;
+            }
+            cut.t_end_k = bubble(&pot, models, pressure_kpa)?.0;
             return Some(cut);
+        }
+        if remaining <= 0.0 || !remaining.is_finite() {
+            return None;
         }
         let (temperature, mut y) = bubble(&pot, models, pressure_kpa)?;
         cut.t_end_k = temperature;
@@ -147,6 +203,10 @@ pub fn ideal_still(
             y = bubble(&y, models, pressure_kpa)?.1;
         }
         let mut dn = remaining.min(budget / 1024.0);
+        // Preserve microscopic budgets whose default mesh itself underflows.
+        if dn == 0.0 {
+            dn = remaining;
+        }
         for (n, fraction) in pot.iter().zip(&y) {
             if *fraction > 0.0 {
                 dn = dn.min(0.25 * n / fraction);
@@ -157,27 +217,45 @@ pub fn ideal_still(
             return None;
         }
         if let StillTake::EnergyKj(energy) = take {
-            let available = (energy - cut.energy_kj).max(0.0);
+            let available = energy.min(energy_target) - cut.energy_kj;
+            if available <= 0.0 || !available.is_finite() {
+                return None;
+            }
             dn = dn.min(available / latent);
         }
-        if !dn.is_finite() || dn < 0.0 {
+        if !dn.is_finite() || dn <= 0.0 {
             return None;
         }
         for i in 0..pot.len() {
-            let removed = (dn * y[i]).min(pot[i]);
-            pot[i] -= removed;
-            cut.overhead[i] += removed;
-            cut.energy_kj += removed * models[i].latent_kj_mol;
+            let mut removed = dn * y[i];
+            if y[i] > 0.0 && removed == 0.0 {
+                return None;
+            }
+            let mut overhead = cut.overhead[i] + removed;
+            if removed > 0.0 && overhead == cut.overhead[i] && full_take {
+                // A true full take owns the complete component, including a
+                // final residual too small to increment its accumulated cut.
+                // This terminal convention must never apply to partial cuts.
+                removed = pot[i];
+                overhead = inventory[i];
+            }
+            let heat = removed * models[i].latent_kj_mol;
+            if !overhead.is_finite()
+                || overhead > inventory[i]
+                || (removed > 0.0 && (overhead == cut.overhead[i] || heat == 0.0))
+                || !heat.is_finite()
+            {
+                return None;
+            }
+            cut.overhead[i] = overhead;
+            // Accumulate the cut, then subtract once from the original pot.
+            // Repeated subtraction loses small but collectively representable
+            // cuts (for example a 1e-14 fraction split over 1024 steps).
+            pot[i] = inventory[i] - overhead;
+            cut.energy_kj += heat;
         }
-        // Finite inputs can still overflow accumulated heat. Refuse the
-        // whole cut instead of returning a successful nonfinite result.
         if !cut.energy_kj.is_finite() {
             return None;
-        }
-        if let StillTake::EnergyKj(energy) = take {
-            if energy - cut.energy_kj <= energy.max(1.0) * 1e-12 {
-                return Some(cut);
-            }
         }
     }
     None // no partial success disguised as the requested cut

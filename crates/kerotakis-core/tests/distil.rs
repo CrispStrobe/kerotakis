@@ -300,3 +300,42 @@ fn distillation_conserves_matter() {
     assert!((w - 4.0).abs() < 1e-9, "water conserved, got {w}");
     assert!((e - 1.0).abs() < 1e-9, "ethanol conserved, got {e}");
 }
+
+#[test]
+fn tiny_positive_cuts_transfer_material_through_both_still_routes() {
+    for solvent in ["water", "methanol"] {
+        let (mut bench, _) = bench_with(&[
+            Operator::NewVessel { kind: None },
+            Operator::NewVessel { kind: None },
+            Operator::Add {
+                vessel: VesselId(1),
+                species: SpeciesId::new(solvent),
+                moles: Moles(1.0),
+                at: None,
+            },
+        ]);
+        let initial = moles_in(&bench, 1, solvent);
+        let events = bench
+            .step(Operator::Distil {
+                from: VesselId(1),
+                to: VesselId(2),
+                fraction: Some(1e-14),
+                energy: None,
+                stages: 1,
+            })
+            .unwrap();
+        let transferred = moles_in(&bench, 2, solvent);
+        assert!(
+            transferred > 0.0,
+            "{solvent}: positive request silently produced zero"
+        );
+        assert!((transferred / (initial * 1e-14) - 1.0).abs() < 1e-10);
+        assert!((moles_in(&bench, 1, solvent) + transferred - initial).abs() < 1e-14 * initial);
+        assert!(events
+            .iter()
+            .any(|e| matches!(e, Event::Distilled { energy_kj, .. } if *energy_kj > 0.0)));
+        assert!(!events
+            .iter()
+            .any(|e| matches!(e, Event::NotYetModeled { .. })));
+    }
+}

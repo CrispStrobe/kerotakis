@@ -1,0 +1,7 @@
+register lv3
+new
+new
+add v1 methanol 1mol
+inspect
+distil v1 v2 100kJ
+inspect

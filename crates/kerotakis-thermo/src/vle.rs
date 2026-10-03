@@ -1666,8 +1666,10 @@ pub fn ethanol_water_still(
                 // The burner's budget ends mid-step: take the affordable
                 // share of this step and stop.
                 let share = ((kj - energy_kj) / step_kj).clamp(0.0, 1.0);
-                e_over += de * share;
-                w_over += dw * share;
+                let removed_e = de * share;
+                let removed_w = dw * share;
+                e_over += removed_e;
+                w_over += removed_w;
                 energy_kj = kj;
                 completed = true;
                 break;
@@ -1704,6 +1706,17 @@ pub fn ethanol_water_still(
         // Subnormal step rounding or depletion must not turn a requested
         // fraction into an unlabelled smaller/larger successful transfer.
         return None;
+    }
+    // Report the endpoint represented by the public overhead result, not
+    // the composition before the last integration step. In particular an
+    // energy-limited last step may be only a fraction of the mesh interval.
+    // A fully emptied pot has no bubble point; retain its last boiling
+    // temperature. Every positive residue must still have a fitted answer.
+    let residual_w = water_moles - w_over;
+    let residual_e = ethanol_moles - e_over;
+    let residual_total = residual_w + residual_e;
+    if residual_total > 0.0 {
+        t_end_c = ethanol_water_bubble_point(residual_e / residual_total, pressure_kpa)?.t_celsius;
     }
     Some(StillCut {
         water_over: w_over,

@@ -1,0 +1,8 @@
+register lv3
+new
+new
+add v1 water 4mol
+add v1 ethanol 6mol
+inspect
+distil v1 v2 8kJ
+inspect

@@ -57,8 +57,16 @@ SOURCE_FILES = [
     "crates/kerotakis-phreeqc/tests/trace_inventory.rs",
     "crates/kerotakis-phreeqc/tests/order_invariance.rs",
     "crates/kerotakis-core/tests/atomic_distil_refusal.rs",
+    "crates/kerotakis-core/tests/distil.rs",
     "crates/kerotakis-thermo/src/vle.rs",
+    "crates/kerotakis-thermo/src/batch.rs",
+    "crates/kerotakis-thermo/src/unifac.rs",
+    "crates/kerotakis-thermo/tests/ideal_still_precision.rs",
     "crates/kerotakis-thermo/tests/distillation_completion.rs",
+    "audits/independent-next-50-20261002/run.py",
+    "audits/distillation-contracts-20261003/run.py",
+    "audits/distillation-contracts-20261003/predictions.json",
+    "audits/distillation-contracts-20261003/freeze.json",
     ".github/workflows/chemistry-audit.yml",
     "audits/independent-50-20261002/validate_phase_ownership.py",
     "audits/independent-50-20261002/verify_extended.py",
@@ -143,6 +151,8 @@ def main():
         binary = REPO / "target/debug/kero"
         receipt["binary_sha256"] = digest(binary)
         shutil.copyfile(binary, out / "kero")
+        run("distillation", [sys.executable, str(REPO / "audits/distillation-contracts-20261003/run.py"),
+                             "--binary", str(binary), "--out", str(out / "distillation")])
         env.update(KERO_BIN=str(binary), KERO_RESULTS_DIR=str(out / "replay"))
         if run("replay", [sys.executable, str(ROOT / "run.py")]):
             followups = []

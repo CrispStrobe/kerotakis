@@ -192,3 +192,33 @@ fn absolute_resolution_cannot_hide_large_relative_enrichment_of_a_trace_componen
         assert!(!point.azeotropic);
     }
 }
+
+#[test]
+fn reported_end_temperature_matches_the_represented_residue_for_both_cut_controls() {
+    use kerotakis_thermo::vle::ethanol_water_bubble_point;
+    for take in [StillTake::Fraction(0.2), StillTake::EnergyKj(8.0)] {
+        let cut = ethanol_water_still(4.0, 6.0, take, 1, 101.325).unwrap();
+        let water = 4.0 - cut.water_over;
+        let ethanol = 6.0 - cut.ethanol_over;
+        let expected = ethanol_water_bubble_point(ethanol / (water + ethanol), 101.325)
+            .unwrap()
+            .t_celsius;
+        assert!(
+            (cut.t_end_c - expected).abs() < 1e-10,
+            "endpoint was reported before the final withdrawal: {} vs {expected}",
+            cut.t_end_c
+        );
+        let latent = cut.water_over * 40.657 + cut.ethanol_over * 38.58;
+        assert!((cut.energy_kj - latent).abs() <= 1e-11 * latent);
+    }
+}
+
+#[test]
+fn positive_tiny_binary_fraction_is_not_a_successful_zero_cut() {
+    for scale in [1e-100, 1.0, 1e100] {
+        let cut = ethanol_water_still(scale, 0.0, StillTake::Fraction(1e-14), 1, 101.325)
+            .expect("a positive representable overhead remains distinct from the bulk stock");
+        close(cut.water_over, scale * 1e-14);
+        assert!(cut.water_over > 0.0 && cut.energy_kj > 0.0);
+    }
+}

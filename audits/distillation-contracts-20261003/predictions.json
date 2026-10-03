@@ -1,0 +1,22 @@
+[
+  {
+    "id": "D01",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1mol\ninspect\ndistil v1 v2 1e-14\ninspect\n",
+    "expectation": "A representable 1e-14 fraction transfers positive water overhead and positive latent heat, conserving source plus receiver."
+  },
+  {
+    "id": "D02",
+    "script": "register lv3\nnew\nnew\nadd v1 methanol 1mol\ninspect\ndistil v1 v2 1e-14\ninspect\n",
+    "expectation": "The general-solvent route also completes a 1e-14 fraction; a successful zero cut is a defect."
+  },
+  {
+    "id": "D03",
+    "script": "register lv3\nnew\nnew\nadd v1 water 4mol\nadd v1 ethanol 6mol\ninspect\ndistil v1 v2 8kJ\ninspect\n",
+    "expectation": "An energy-limited ethanol/water cut spends 8kJ latent heat on positive, ethanol-enriched overhead; both component budgets remain conserved."
+  },
+  {
+    "id": "D04",
+    "script": "register lv3\nnew\nnew\nadd v1 methanol 1mol\ninspect\ndistil v1 v2 100kJ\ninspect\n",
+    "expectation": "Excess latent-energy supply lifts the whole methanol inventory; the reported latent heat is positive and smaller than the supplied 100kJ, with no invented remaining stock."
+  }
+]
