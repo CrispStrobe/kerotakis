@@ -14,7 +14,17 @@ SUITE = Path(__file__).resolve().parent
 
 
 def strict(text):
-    return json.loads(text, parse_constant=lambda value: (_ for _ in ()).throw(ValueError(value)))
+    def finite_float(raw):
+        value = float(raw)
+        if not math.isfinite(value):
+            raise ValueError('nonfinite JSON number: '+raw)
+        return value
+    return json.loads(text, parse_float=finite_float, parse_constant=lambda value: (_ for _ in ()).throw(ValueError(value)))
+
+
+def pure_cut_not_azeotropic(rows):
+    cuts = [e for row in rows for e in row['events'] if e['event']=='distilled']
+    return len(cuts)==1 and cuts[0].get('azeotropic') is False
 
 
 def digest(path):
@@ -208,7 +218,7 @@ def main():
         rows=inspections(fcases['F02']);before,after=rows[0],rows[-1]
         w0=stock(vessel(before),'water');w=stock(vessel(after),'water');wo=stock(vessel(after,1),'water')
         check('F02 pure water complete thirty-percent cut',near(wo,.3*w0) and near(w+wo,w0) and w>0)
-        check('F02 pure-component cut is not azeotrope',not any(e.get('azeotrope_limited',False) for row in fcases['F02'] for e in row['events']))
+        check('F02 pure-component cut is not azeotrope',pure_cut_not_azeotropic(fcases['F02']))
     elif not args.baseline:
         check('required positive distillation controls captured',False)
     result=dict(checks=len(checks),passed=all(c['passed'] is not False for c in checks),failures=[c for c in checks if c['passed'] is False],qualified_checks=[c for c in checks if c['passed'] is None],qualifications=qualifications,details=checks)

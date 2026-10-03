@@ -95,4 +95,18 @@ class EvidenceMutationTests(unittest.TestCase):
         self.assertFalse(failed(check_b.check_case('E124',rows)))
 
 
+class RootEvidenceMutationTests(unittest.TestCase):
+    def test_pure_cut_requires_the_actual_public_azeotrope_flag(self):
+        from verify import pure_cut_not_azeotropic
+        self.assertTrue(pure_cut_not_azeotropic([{'events':[{'event':'distilled','azeotropic':False}]}]))
+        for events in [[],[{'event':'distilled'}],[{'event':'distilled','azeotropic':True}],[{'event':'distilled','azeotrope_limited':False}]]:
+            self.assertFalse(pure_cut_not_azeotropic([{'events':events}]))
+
+    def test_exponent_overflow_is_invalid_evidence(self):
+        from verify import strict
+        for text in ['{"moles":1e400}','{"temperature":NaN}','{"pressure":Infinity}']:
+            with self.assertRaises(ValueError):strict(text)
+        self.assertEqual(strict('{"moles":1e-12}')['moles'],1e-12)
+
+
 if __name__=='__main__':unittest.main()
