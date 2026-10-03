@@ -2,6 +2,7 @@
 **/*.rs.bk
 Cargo.lock
 !web/app/src-tauri/Cargo.lock
+!audits/**/validation*/Cargo.lock
 .DS_Store
 .env
 /dist
@@ -12,6 +13,7 @@ __pycache__/
 !/crates/**/vendor/**/*.wasm
 error.inp
 phreeqc.log
+!audits/**/validation*/phreeqc.log
 .claude/worktrees/
 data/registry/registry.pack
 data/dbindex/

@@ -1,0 +1,39 @@
+[1m[92m   Compiling[0m chematic-core v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-core-0.18.0)
+[1m[92m   Compiling[0m chematic-perception v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-perception-0.18.0)
+[1m[92m   Compiling[0m chematic-smarts v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-smarts-0.18.0)
+[1m[92m   Compiling[0m chematic-smiles v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-smiles-0.18.0)
+[1m[92m   Compiling[0m chematic-rxn v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-rxn-0.18.0)
+[1m[92m   Compiling[0m chematic-fp v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-fp-0.18.0)
+[1m[92m   Compiling[0m chematic-cip v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-cip-0.18.0)
+[1m[92m   Compiling[0m chematic-iupac v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-iupac-0.18.0)
+[1m[92m   Compiling[0m chematic-inchi v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-inchi-0.18.0)
+[1m[92m   Compiling[0m chematic-chem v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-chem-0.18.0)
+[1m[92m   Compiling[0m kerotakis-phreeqc v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-phreeqc)
+[1m[92m   Compiling[0m chematic-mol v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-mol-0.18.0)
+[1m[92m   Compiling[0m chematic v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-0.18.0)
+[1m[92m   Compiling[0m kerotakis-org v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-org)
+[1m[92m   Compiling[0m kerotakis-stack v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-stack)
+[1m[92m   Compiling[0m kerotakis-safety v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-safety)
+[1m[92m    Finished[0m `test` profile [unoptimized + debuginfo] target(s) in 2m 55s
+[1m[92m     Running[0m tests/chromatograph.rs (target/debug/deps/chromatograph-dd56ef096cb7393b)
+
+running 2 tests
+test a_sample_the_method_cannot_see_is_an_empty_chromatogram_not_a_refusal ... ok
+test dissolved_ions_are_named_outside_the_method ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.65s
+
+[1m[92m     Running[0m tests/exchange_transport.rs (target/debug/deps/exchange_transport-a183bded817d810a)
+
+running 1 test
+test sodium_softener_has_a_finite_calcium_breakthrough_curve ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.80s
+
+[1m[92m     Running[0m tests/surface_transport.rs (target/debug/deps/surface_transport-943cf5578fa2c541)
+
+running 1 test
+test typed_hfo_front_tracks_phreeqc_transport_oracle ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.94s
+
