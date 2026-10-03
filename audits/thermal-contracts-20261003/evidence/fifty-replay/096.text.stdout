@@ -1,0 +1,84 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.001000 mol chalk (calcium carbonate) (CaCO3, M = 100.087 g/mol)
+  v1: 0.000013 mol chalk (calcium carbonate) dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 9.910 · I = 0.0004 mol/kgw
+  v1: reaction heat for CaCO3 is not priced; the temperature estimate is incomplete
+  v1 (beaker) — 25.00 °C, 99.8 g, 100.0 mL liquid, open to atmosphere, pH 9.91, I = 0.0004 m
+      temperature estimate is incomplete: reaction heat for CaCO3 is not priced
+           12.2 µmol  calcium ion        Aqueous
+           2.35 nmol  dissolved carbon dioxide Aqueous
+           8.69 µmol  bicarbonate ion    Aqueous
+           3.54 µmol  carbonate ion      Aqueous
+            988 µmol  chalk (calcium carbonate) Solid
+          5.5343 mol  water              Liquid
+           8.70 µmol  base equivalents   Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1     1.0000e0   γ=0.018
+        O2              2.6770e-4    2.6770e-4   γ=1.000
+        Ca+2            1.1690e-4    1.0693e-4   γ=0.915
+        OH-             8.3167e-5    8.1315e-5   γ=0.978
+        HCO3-           8.3156e-5    8.1325e-5   γ=0.978
+        CO3-2           3.3865e-5    3.0980e-5   γ=0.915
+        CaCO3           5.5490e-6    5.5500e-6   γ=1.000
+        CaOH+           1.4740e-7    1.4410e-7   γ=0.978
+        CaHCO3+         1.1340e-7    1.1090e-7   γ=0.978
+        CO2             2.2509e-8    2.2511e-8   γ=1.000
+  HAZARD [Caution] (L0): strong acid and carbonate fizz vigorously, releasing carbon dioxide — the mixture can spatter; Adding acid to chalk or baking soda foams over if the vessel is too small. CO₂ displaces air in enclosed spaces.
+  v1: +0.001000 mol hydrochloric acid (HCl, M = 36.461 g/mol)
+  v1: 0.000013 mol chalk (calcium carbonate) dissolved
+  v1: 0.000478 mol carbon dioxide evolved (open system; mass leaves)
+  v1: 0.000497 mol chalk (calcium carbonate) dissolved
+  v1: pH 7.785 · I = 0.0157 mol/kgw
+  v1 (beaker) — 25.00 °C, 99.8 g, 100.0 mL liquid, open to atmosphere, pH 7.78, I = 0.0157 m
+      temperature estimate is incomplete: reaction heat for CaCO3 is not priced
+            522 µmol  calcium ion        Aqueous
+           1000 µmol  chloride ion       Aqueous
+           1.39 µmol  dissolved carbon dioxide Aqueous
+           42.6 µmol  bicarbonate ion    Aqueous
+            175 nmol  carbonate ion      Aqueous
+            478 µmol  chalk (calcium carbonate) Solid
+          5.5348 mol  water              Liquid
+            683 nmol  base equivalents   Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9970e-1   γ=0.018
+        Cl-             1.0029e-2    8.8250e-3   γ=0.880
+        Ca+2            5.2114e-3    3.2197e-3   γ=0.618
+        HCO3-           4.0632e-4    3.6028e-4   γ=0.887
+        O2              2.6670e-4    2.6770e-4   γ=1.004
+        CaHCO3+         1.6650e-5    1.4800e-5   γ=0.889
+        CO2             1.3258e-5    1.3306e-5   γ=1.004
+        CaCO3           5.5300e-6    5.5500e-6   γ=1.004
+        CO3-2           1.6643e-6    1.0289e-6   γ=0.618
+        OH-             6.9296e-7    6.0943e-7   γ=0.879
+        CaOH+           3.6600e-8    3.2530e-8   γ=0.889
+        H+              1.8281e-8    1.6422e-8   γ=0.898
+  v1: The liquid is colourless and very slightly hazy. (liquid #FFFFFF, turbidity 0.10)
+  HAZARD [Caution] (L0): strong acid and carbonate fizz vigorously, releasing carbon dioxide — the mixture can spatter; Adding acid to chalk or baking soda foams over if the vessel is too small. CO₂ displaces air in enclosed spaces.
+  v1: +0.001000 mol hydrochloric acid (HCl, M = 36.461 g/mol)
+  v1: 0.000013 mol chalk (calcium carbonate) dissolved
+  v1: 0.000521 mol carbon dioxide evolved (open system; mass leaves)
+  v1: 0.000465 mol chalk (calcium carbonate) dissolved
+  v1: pH 5.595 · I = 0.0301 mol/kgw
+  v1 (beaker) — 25.00 °C, 99.8 g, 100.0 mL liquid, open to atmosphere, pH 5.59, I = 0.0301 m
+      temperature estimate is incomplete: reaction heat for CaCO3 is not priced
+           1000 µmol  calcium ion        Aqueous
+           2.00 mmol  chloride ion       Aqueous
+           1.33 µmol  dissolved carbon dioxide Aqueous
+            274 nmol  bicarbonate ion    Aqueous
+           8.07 pmol  carbonate ion      Aqueous
+          5.5353 mol  water              Liquid
+            274 nmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9950e-1   γ=0.018
+        Cl-             2.0057e-2    1.6941e-2   γ=0.845
+        Ca+2            1.0028e-2    5.3799e-3   γ=0.536
+        O2              2.6580e-4    2.6770e-4   γ=1.007
+        CO2             1.3214e-5    1.3306e-5   γ=1.007
+        H+              2.9097e-6    2.5431e-6   γ=0.874
+        HCO3-           2.7180e-6    2.3259e-6   γ=0.856
+        CaHCO3+         1.8580e-7    1.5960e-7   γ=0.859
+        OH-             4.6627e-9    3.9344e-9   γ=0.844
+  v1: The liquid is colourless and clear. (liquid #FFFFFF, turbidity 0.00)
+  v1 pH meter: 5.5946 pH — This is a model estimate with limited calibration or simplifying assumptions.

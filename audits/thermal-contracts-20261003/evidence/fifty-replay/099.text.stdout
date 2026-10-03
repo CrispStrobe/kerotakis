@@ -1,0 +1,55 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.001000 mol copper sulfate (CuSO4, M = 159.609 g/mol)
+  v1: 0.000001 mol antlerite (green copper sulfate) precipitated
+  v1: 0.001000 mol copper sulfate dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added
+  v1: pH 4.487 · I = 0.0281 mol/kgw
+  v1: reaction heat for antlerite is not priced; the temperature estimate is incomplete
+  v1: T 298.150 K → 298.325 K (ΔT = +0.175 K)
+  v1: net ionic: 3 Cu²⁺(aq) + SO₄²⁻(aq) + 4 H₂O(l) → antlerite(s) + 4 H⁺(aq)
+  v1 (beaker) — 25.18 °C, 99.9 g, 100.0 mL liquid, open to atmosphere, pH 4.49, pe 16.13 (+0.955 V), I = 0.0281 m
+      temperature estimate is incomplete: reaction heat for antlerite is not priced
+      redox — all Cu as Cu(II); all S as S(VI)
+            996 µmol  copper(II) ion     Aqueous
+            999 µmol  sulfate ion        Aqueous
+           1.18 µmol  antlerite (green copper sulfate) Solid
+          5.5343 mol  water              Liquid
+           4.72 µmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9970e-1   γ=0.018
+        SO4-2           7.0267e-3    3.7789e-3   γ=0.538
+        Cu+2            7.0133e-3    3.8794e-3   γ=0.553
+        CuSO4           2.9770e-3    2.9970e-3   γ=1.007
+        O2              2.6520e-4    2.6690e-4   γ=1.006
+        H+              3.7194e-5    3.2605e-5   γ=0.877
+        HSO4-           1.4080e-5    1.2030e-5   γ=0.854
+        CuOH+           1.3980e-6    1.1890e-6   γ=0.851
+        Cu2(OH)2+2      1.1890e-6    6.3000e-7   γ=0.530
+        Cu(OH)2         7.5700e-8    7.6200e-8   γ=1.007
+  v1: NOT MODELLED: complete absorbance is unavailable: no absorption spectrum for CuSO4, CuOH+, Cu2(OH)2+2 and Cu(OH)2
+  v1: The liquid is blue and clear, there is green antlerite (green copper sulfate) at the bottom. Colour is incomplete: no absorption spectrum for CuSO4, CuOH+, Cu2(OH)2+2 and Cu(OH)2. (liquid #CFEBFB, turbidity 0.00)
+  v1: T 298.325 K → 298.238 K (ΔT = -0.088 K)
+  v1: +5.534277 mol H₂O from 0.1000 L dilution water
+  v1: pH 4.694 · I = 0.0154 mol/kgw
+  v1 (beaker) — 25.09 °C, 199.6 g, 200.0 mL liquid, open to atmosphere, pH 4.69, pe 15.93 (+0.942 V), I = 0.0154 m
+      temperature estimate is incomplete: reaction heat for antlerite is not priced
+      redox — all Cu as Cu(II); all S as S(VI)
+            996 µmol  copper(II) ion     Aqueous
+            999 µmol  sulfate ion        Aqueous
+           1.21 µmol  antlerite (green copper sulfate) Solid
+         11.0685 mol  water              Liquid
+           4.82 µmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9980e-1   γ=0.018
+        SO4-2           3.8464e-3    2.3670e-3   γ=0.615
+        Cu+2            3.8361e-3    2.4018e-3   γ=0.626
+        CuSO4           1.1570e-3    1.1610e-3   γ=1.003
+        O2              2.6640e-4    2.6730e-4   γ=1.003
+        H+              2.2526e-5    2.0248e-5   γ=0.899
+        HSO4-           5.2800e-6    4.6690e-6   γ=0.884
+        CuOH+           1.3440e-6    1.1860e-6   γ=0.882
+        Cu2(OH)2+2      1.0200e-6    6.2090e-7   γ=0.609
+        Cu(OH)2         1.2190e-7    1.2240e-7   γ=1.004
+  v1: NOT MODELLED: complete absorbance is unavailable: no absorption spectrum for CuSO4, CuOH+, Cu2(OH)2+2 and Cu(OH)2
+  v1: The liquid is blue and clear, there is green antlerite (green copper sulfate) at the bottom. Colour is incomplete: no absorption spectrum for CuSO4, CuOH+, Cu2(OH)2+2 and Cu(OH)2. (liquid #E4F4FD, turbidity 0.00)

@@ -114,6 +114,20 @@ automatically running all 426 checks after a second text/JSON replay of the
 twelve controls. The [enforcement capture](evidence/automation-enforcement/verification.json)
 retains that receipt and raw outputs separately from the first post-repair run.
 
+The earlier fifty independently designed experiments and thirteen followup
+controls were also replayed against the same validated source in
+[37096789548](https://github.com/CrispStrobe/kerotakis/actions/runs/37096789548):
+126 text/JSON invocations, with all
+[410 repaired-contract checks](evidence/fifty-replay/repair-verification.json)
+passing. All captured-output hashes and
+[source identity](evidence/fifty-replay/source-verification.json) are verified.
+Its verifier now accepts the correct earlier atomic cooling refusal in 097,
+requires no published unsupported dose/state, and still passes the preserved
+historical heating-refusal evidence. The `independent-next-50` workflow now
+enforces that verifier automatically. This is a regression replay of the
+unchanged forecasts; capability/model limitations reported in the original
+audit are not reclassified as physical agreement.
+
 ## Remaining model scope
 
 The bounded thaw recovery is tested across eighteen stock/gas/partial/full

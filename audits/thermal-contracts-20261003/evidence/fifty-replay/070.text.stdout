@@ -1,0 +1,17 @@
+  v2: new vessel
+  v1: +1.0000 mol iron
+  v2: +1.0000 mol iron
+  v1 balance: 55.84 g
+  v2 balance: 55.84 g
+  v1 — what the particles are doing:
+  ▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪   Fe  (solid)
+  one ● ≈ 3.333e-2 mol
+  drawn from the inventory: no solution was characterised, so ion pairs and complexes are not resolved here
+  v2 — what the particles are doing:
+  ▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪   Fe  (solid)
+  one ● ≈ 3.333e-2 mol
+  drawn from the inventory: no solution was characterised, so ion pairs and complexes are not resolved here
+  v1 (beaker) — 25.00 °C, 55.8 g, 0.0 mL liquid, open to atmosphere
+          1.0000 mol  iron               Solid
+  v2 (beaker) — 25.00 °C, 55.8 g, 0.0 mL liquid, open to atmosphere
+          1.0000 mol  iron               Solid

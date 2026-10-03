@@ -1,0 +1,389 @@
+{
+  "predictions_sha256": "7a32e478e2021ce27a79d51737b2c4c2648034d522e8535095509521d885bdd1",
+  "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+  "binary_validation_run": null,
+  "binary": "/home/runner/work/_temp/validated-cli/kero",
+  "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+  "checkout": "6a397d35b129377f21d74811bd366c405d7940be",
+  "policy": {
+    "max_load1": 3.5,
+    "min_available_mib": 3200,
+    "min_swap_free_mib": 600,
+    "min_disk_free_mib": 2048,
+    "min_system_free_mib": 512
+  },
+  "started_utc": "2026-10-03T04:32:04Z",
+  "runs": [
+    {
+      "id": "F052",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/followups/scripts/F052.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.264,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "F052.text.stdout",
+      "stderr": "F052.text.stderr",
+      "stdout_sha256": "b495d90326deafaa4deca79e5c41b3f7fff3b99ba83438d022798bd8233ba879",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "F052",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/followups/scripts/F052.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.265,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "F052.json.stdout",
+      "stderr": "F052.json.stderr",
+      "stdout_sha256": "f347ce0dd8c2b9b0fe10c92a0ea75f322184f0ddf1bc8587d053ac92a1308378",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "F053",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/followups/scripts/F053.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.265,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "F053.text.stdout",
+      "stderr": "F053.text.stderr",
+      "stdout_sha256": "a4a317e362f8a56b77b0aa1512936dcce6ef3a0e8788342b4dd535339d8e0ab3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "F053",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/followups/scripts/F053.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.315,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "F053.json.stdout",
+      "stderr": "F053.json.stderr",
+      "stdout_sha256": "39a905b336d342f9e0c4f9b78c527524d693a9966bcbb92fa2c79089c807c307",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "F054",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/followups/scripts/F054.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.265,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "F054.text.stdout",
+      "stderr": "F054.text.stderr",
+      "stdout_sha256": "2ea10f09d390b1e6a27a177a01cda4abb59b534afc95b5ddca26be3f00542ab8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "F054",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/followups/scripts/F054.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.265,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "F054.json.stdout",
+      "stderr": "F054.json.stderr",
+      "stdout_sha256": "064227fd50ba631b347d0831b61d39bfb4a5569f59e355011af604f63c8b925f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "F055",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/followups/scripts/F055.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.265,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "F055.text.stdout",
+      "stderr": "F055.text.stderr",
+      "stdout_sha256": "1dbbf3bb493155cb02dd2bef2814df324bb76e99fb0b21a71e1c09540db95e8b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "F055",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/followups/scripts/F055.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.315,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "F055.json.stdout",
+      "stderr": "F055.json.stderr",
+      "stdout_sha256": "9816d9728d462833e59031311e42c713f9813f72b29f5e905f6af945c08fcb01",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "F058",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/followups/scripts/F058.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.265,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "F058.text.stdout",
+      "stderr": "F058.text.stderr",
+      "stdout_sha256": "ef9870af694d1ff4e058affce7f6b8afa8214875ec1cd930bfec6022e7bb2560",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "F058",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/followups/scripts/F058.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.265,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "F058.json.stdout",
+      "stderr": "F058.json.stderr",
+      "stdout_sha256": "ced1f8c606ba6da6a435ead0f08f69e1c4c4c3831d294c308bd21649b0f996ad",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "F062",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/followups/scripts/F062.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.265,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "F062.text.stdout",
+      "stderr": "F062.text.stderr",
+      "stdout_sha256": "6fdb6018e8f2a78f6933b0819d71e046124546f0da0e3bd3b3535e78e3a83695",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "F062",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/followups/scripts/F062.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.265,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "F062.json.stdout",
+      "stderr": "F062.json.stderr",
+      "stdout_sha256": "ba05025480c224a90adbade6c25af0770a57c73fed68c1f3da2b8e634cb1d2fa",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "F064",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/followups/scripts/F064.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.615,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "F064.text.stdout",
+      "stderr": "F064.text.stderr",
+      "stdout_sha256": "db0d8902e836c82e70479019acccc9f292447c035bbdf3300a14aa95d3956f05",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "F064",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/followups/scripts/F064.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.615,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "F064.json.stdout",
+      "stderr": "F064.json.stderr",
+      "stdout_sha256": "46341255b44d82882a0c48300dcb7da6ac86c852bd702cf97d7f35c004ee141c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "F065",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/followups/scripts/F065.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.616,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "F065.text.stdout",
+      "stderr": "F065.text.stderr",
+      "stdout_sha256": "9679ffeb1b7d4ea5e8bc60efe54e90089622ffcdaeffa7c94940875402edd31c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "F065",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/followups/scripts/F065.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.666,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "F065.json.stdout",
+      "stderr": "F065.json.stderr",
+      "stdout_sha256": "c5b640884a42da3e17ed6c8ff0692e944595a41094604ca0058884ee53da7e40",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "F066",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/followups/scripts/F066.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.616,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "F066.text.stdout",
+      "stderr": "F066.text.stderr",
+      "stdout_sha256": "4defd02877b031b090ebd3a09289ec6662ed774ea0eb414344e1e1356c852dc2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "F066",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/followups/scripts/F066.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.616,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "F066.json.stdout",
+      "stderr": "F066.json.stderr",
+      "stdout_sha256": "d9a73596f7d687056f91e7bede16a19ac646b243ce9fe39a71e2c4d22c5b9ee5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "F082",
+      "mode": "text",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/followups/scripts/F082.lab"
+      ],
+      "exit_code": 0,
+      "seconds": 0.916,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "F082.text.stdout",
+      "stderr": "F082.text.stderr",
+      "stdout_sha256": "bcdcd5df0ac678147a69c7625626ee20895fe75c77d1ce3bd8af7bd93d852c8a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "F082",
+      "mode": "json",
+      "command": [
+        "/home/runner/work/_temp/validated-cli/kero",
+        "run",
+        "/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/followups/scripts/F082.lab",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.966,
+      "resources": {
+        "hosted_runner": true
+      },
+      "stdout": "F082.json.stdout",
+      "stderr": "F082.json.stderr",
+      "stdout_sha256": "876e5277cb3879f322b433fb86e5b119db2c599d41bba5ccc58089dd7b635039",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "completed_utc": "2026-10-03T04:32:12Z"
+}

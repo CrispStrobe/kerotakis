@@ -1,0 +1,79 @@
+  v2: new vessel
+  v1: +0.5534 mol water
+  v1: answered by vendored USGS phreeqc.dat — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.0100 mol ethanol
+  v1: +0.0100 mol acetic acid
+  v1: answered by minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice — chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid); the input has a potentially concentrated solute load (~1.0 mol/kgw, not a measured ionic strength), but the Pitzer route cannot represent all requested chemistry. This activity-model fallback is not a validated concentrated-mixture prediction
+  v1: pH 2.38
+  v1: +100 µmol sulfuric acid
+  v1: pH 1.84
+  v2: +5.5343 mol water
+  v2: answered by vendored USGS phreeqc.dat — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v2: +0.0100 mol ethanol
+  v2: +0.0100 mol acetic acid
+  v2: answered by minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice — chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)
+  v2: pH 2.88
+  v2: +100 µmol sulfuric acid
+  v2: pH 2.61
+  v1: esterification ran — CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O (0.001 mol reacted)
+  v1: answered by minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice — chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)
+  v1: pH 1.84
+  v2: esterification ran — CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O (0.000 mol reacted)
+  v2: pH 2.61
+  v1: not yet modelled — fischer-esterification v1 matched, but declined at temperature_k: the vessel stands at 298.2 K and the family needs at least 333.1 K. Waiting does not supply a missing reaction rate or satisfy the condition gate
+  v2: not yet modelled — fischer-esterification v1 matched, but declined at temperature_k: the vessel stands at 298.2 K and the family needs at least 333.1 K. Waiting does not supply a missing reaction rate or satisfy the condition gate
+  v1: pH 1.84
+  v2: pH 2.61
+  v1 (beaker) — 25.00 °C, 11.0 g, 10.6 mL liquid, open to atmosphere, pH 1.84, pe 18.76 (+1.110 V), I = 0.0218 m
+      redox — all S as S(VI)
+           9.37 mmol  ethanol            Liquid
+            633 µmol  ethyl_acetate      Liquid
+           9.35 mmol  acetic acid        Aqueous
+           13.2 µmol  acetate ion        Aqueous
+            100 µmol  sulfate ion        Aqueous
+          0.5541 mol  water              Liquid
+            213 µmol  hydrogen ion       Aqueous
+  v2 (beaker) — 25.00 °C, 100.8 g, 100.6 mL liquid, open to atmosphere, pH 2.61, pe 17.99 (+1.064 V), I = 0.0034 m
+      redox — all S as S(VI)
+           9.93 mmol  ethanol            Liquid
+           70.7 µmol  ethyl_acetate      Liquid
+           9.85 mmol  acetic acid        Aqueous
+           75.4 µmol  acetate ion        Aqueous
+            100 µmol  sulfate ion        Aqueous
+          5.5343 mol  water              Liquid
+            275 µmol  hydrogen ion       Aqueous
+  v1: not yet modelled — the column has no retention prediction for CH3COOH and ethyl_acetate; their elution and contribution to the sample are unresolved, even when other components produce modeled peaks
+  v1: chromatogram — ethanol at 68 s, Rf 0.22 (100% of largest modeled peak) — the dissolved ions (CH3COO-, H+, SO4-2) pass with the water and are not separated Incomplete sample coverage: no retention prediction for acetic acid, ethyl_acetate. Peak areas are relative to the largest modeled peak, not the complete sample; the missing components' elution is unknown.
+  v2: not yet modelled — the column has no retention prediction for CH3COOH and ethyl_acetate; their elution and contribution to the sample are unresolved, even when other components produce modeled peaks
+  v2: chromatogram — ethanol at 68 s, Rf 0.22 (100% of largest modeled peak) — the dissolved ions (CH3COO-, H+, SO4-2) pass with the water and are not separated Incomplete sample coverage: no retention prediction for acetic acid, ethyl_acetate. Peak areas are relative to the largest modeled peak, not the complete sample; the missing components' elution is unknown.
+  v1: answered by PHREEQC (IPhreeqc, USGS) using minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice
+    model:   WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)
+    routing: chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)
+    the dataset records its own sources, e.g.:
+      · usbm-ic9429-complexes-25c
+      · sander-2023-hbr-reference
+  the same question, asked of every dataset:
+    wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice cannot express this problem (no Acetate)
+    minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice pH 2.393 · I = 0.0043 m
+      WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)
+    pitzer.dat, with the reviewed Sander HBr gas-uptake slice cannot express this problem (no Acetate)
+  note: only 21 of 683 mineral phases exist in every dataset, so the answers
+  can differ in which solids they may form, not only in activity model
+  v1 (beaker) — 25.00 °C, 11.0 g, 10.6 mL liquid, open to atmosphere, pH 1.84, pe 18.76 (+1.110 V), I = 0.0218 m
+      redox — all S as S(VI)
+           9.37 mmol  ethanol            Liquid
+            633 µmol  ethyl_acetate      Liquid
+           9.35 mmol  acetic acid        Aqueous
+           13.2 µmol  acetate ion        Aqueous
+            100 µmol  sulfate ion        Aqueous
+          0.5541 mol  water              Liquid
+            213 µmol  hydrogen ion       Aqueous
+  v2 (beaker) — 25.00 °C, 100.8 g, 100.6 mL liquid, open to atmosphere, pH 2.61, pe 17.99 (+1.064 V), I = 0.0034 m
+      redox — all S as S(VI)
+           9.93 mmol  ethanol            Liquid
+           70.7 µmol  ethyl_acetate      Liquid
+           9.85 mmol  acetic acid        Aqueous
+           75.4 µmol  acetate ion        Aqueous
+            100 µmol  sulfate ion        Aqueous
+          5.5343 mol  water              Liquid
+            275 µmol  hydrogen ion       Aqueous

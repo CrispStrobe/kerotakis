@@ -1,0 +1,15 @@
+  v2: new vessel
+  v1: +1.0000 mol copper
+  v2: +1.0000 mol copper
+  v1: 25.0 °C → 49.4 °C
+  v1: 0.60 kJ requested; 0.60 kJ delivered — time model not yet coupled The split between sensible heating/cooling and phase or chemical changes is not fully established.
+  v2: 25.0 °C → 33.2 °C
+  v2: 0.20 kJ requested; 0.20 kJ delivered — time model not yet coupled The split between sensible heating/cooling and phase or chemical changes is not fully established.
+  v2: 33.2 °C → 49.4 °C
+  v2: 0.40 kJ requested; 0.40 kJ delivered — time model not yet coupled
+  v1 thermometer: 49.42 °C
+  v2 thermometer: 49.42 °C
+  v1 (beaker) — 49.42 °C, 63.5 g, 0.0 mL liquid, open to atmosphere
+          1.0000 mol  copper             Solid
+  v2 (beaker) — 49.42 °C, 63.5 g, 0.0 mL liquid, open to atmosphere
+          1.0000 mol  copper             Solid

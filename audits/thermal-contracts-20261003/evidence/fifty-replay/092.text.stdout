@@ -1,0 +1,43 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.000100 mol iodine (I2, M = 253.809 g/mol)
+  v1: 0.000100 mol iodine dissolved
+  v2: new vessel
+  v2: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v2: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v2: +0.000100 mol iodine (I2, M = 253.809 g/mol)
+  v2: 0.000100 mol iodine dissolved
+  v3: new vessel
+  v4: new vessel
+  v1 (beaker) — 25.00 °C, 99.7 g, 100.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          5.5343 mol  water              Liquid
+            100 µmol  iodine             Aqueous
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v2 (beaker) — 25.00 °C, 99.7 g, 100.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          5.5343 mol  water              Liquid
+            100 µmol  iodine             Aqueous
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v1 -> v3: repeated equilibrium extraction with 0.100000 mol hexane over 1 equal fresh portion(s); K=[solute]organic/[solute]aqueous; mass balance closes at every stage — iodine: 91.7% extracted (91.7% in one equal-total-solvent stage), K=85.000. I2 [ideal equilibrium stages; fresh equal solvent portions; constant dilute-solution distribution coefficient; K = 85: Edexcel A-level Chemistry, Equilibrium II question 2, I2(aq) <=> I2(hexane); aqueous solubility 0.3393 g/L at 25 °C: Hartley & Campbell, J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741; neither source gives a temperature model]
+  v2 -> v4: repeated equilibrium extraction with 0.100000 mol hexane over 4 equal fresh portion(s); K=[solute]organic/[solute]aqueous; mass balance closes at every stage — iodine: 99.5% extracted (91.7% in one equal-total-solvent stage), K=85.000. I2 [ideal equilibrium stages; fresh equal solvent portions; constant dilute-solution distribution coefficient; K = 85: Edexcel A-level Chemistry, Equilibrium II question 2, I2(aq) <=> I2(hexane); aqueous solubility 0.3393 g/L at 25 °C: Hartley & Campbell, J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741; neither source gives a temperature model]
+  v1 (beaker) — 25.00 °C, 99.7 g, 100.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          5.5343 mol  water              Liquid
+           8.27 µmol  iodine             Aqueous
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v2 (beaker) — 25.00 °C, 99.7 g, 100.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          5.5343 mol  water              Liquid
+            494 nmol  iodine             Aqueous
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v3 (beaker) — 25.00 °C, 8.6 g, 13.0 mL liquid, open to atmosphere
+          0.1000 mol  hexane             Liquid
+           91.7 µmol  iodine             Aqueous
+  v4 (beaker) — 25.00 °C, 8.6 g, 13.0 mL liquid, open to atmosphere
+          0.1000 mol  hexane             Liquid
+           99.5 µmol  iodine             Aqueous

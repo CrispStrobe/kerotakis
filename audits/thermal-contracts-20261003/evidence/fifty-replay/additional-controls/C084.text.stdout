@@ -1,0 +1,125 @@
+  v2: new vessel
+  v1: +2.7671 mol water
+  v1: answered by vendored USGS phreeqc.dat — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +1.00 mmol silver nitrate
+  v1: 1.00 mmol silver nitrate dissolved
+  v1: answered by wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice — the default inorganic aqueous dataset
+  v1: pH 6.80
+  v1: 25.0 °C → 24.9 °C
+  v1: 24.9 °C → 24.9 °C
+  v1: +0.0100 mol ammonia solution
+  v1: answered by wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice — the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added
+  v1: pH 11.04
+  v1: not yet modelled — the solution is supersaturated against Ag2O (SI +5.9). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms
+  v1: not yet modelled — the solution is supersaturated against AgMetal (SI +2.1). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices
+  v1: 24.9 °C → 25.6 °C
+  v1: 25.6 °C → 25.6 °C
+  v1: +2.00 mmol sodium hydroxide
+  v1: 2.00 mmol sodium hydroxide dissolved
+  v1: pH 12.12
+  v1: not yet modelled — the solution is supersaturated against Ag2O (SI +7.0). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms
+  v1: not yet modelled — the solution is supersaturated against AgMetal (SI +2.7). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices
+  v1: 25.6 °C → 25.7 °C
+  v1: +500 µmol D-glucose (dextrose)
+  v1: 500 µmol D-glucose (dextrose) dissolved
+  v1: pH 12.12
+  v1: not yet modelled — the solution is supersaturated against Ag2O (SI +7.0). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms
+  v1: not yet modelled — the solution is supersaturated against AgMetal (SI +2.7). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices
+  v1: reaction heat for glucose is not priced; the temperature estimate is incomplete
+  v2: +2.7671 mol water
+  v2: answered by vendored USGS phreeqc.dat — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v2: +1.00 mmol silver nitrate
+  v2: 1.00 mmol silver nitrate dissolved
+  v2: answered by wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice — the default inorganic aqueous dataset
+  v2: pH 6.80
+  v2: 25.0 °C → 24.9 °C
+  v2: 24.9 °C → 24.9 °C
+  v2: +0.0100 mol ammonia solution
+  v2: answered by wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice — the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added
+  v2: pH 11.04
+  v2: not yet modelled — the solution is supersaturated against Ag2O (SI +5.9). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms
+  v2: not yet modelled — the solution is supersaturated against AgMetal (SI +2.1). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices
+  v2: 24.9 °C → 25.6 °C
+  v2: 25.6 °C → 25.6 °C
+  v2: +2.00 mmol sodium hydroxide
+  v2: 2.00 mmol sodium hydroxide dissolved
+  v2: pH 12.12
+  v2: not yet modelled — the solution is supersaturated against Ag2O (SI +7.0). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms
+  v2: not yet modelled — the solution is supersaturated against AgMetal (SI +2.7). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices
+  v2: 25.6 °C → 25.7 °C
+  v2: +500 µmol propanone
+  v2: pH 12.12
+  v2: not yet modelled — the solution is supersaturated against Ag2O (SI +7.0). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms
+  v2: not yet modelled — the solution is supersaturated against AgMetal (SI +2.7). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices
+  v1: 100% of the suspended particles settle in 600 s
+  v1: 25.7 °C → 25.4 °C
+  v2: 100% of the suspended particles settle in 600 s
+  v2: 25.7 °C → 25.4 °C
+  v1: pH 12.12
+  v1: not yet modelled — the solution is supersaturated against Ag2O (SI +7.0). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms
+  v1: not yet modelled — the solution is supersaturated against AgMetal (SI +2.6). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices
+  v2: pH 12.12
+  v2: not yet modelled — the solution is supersaturated against Ag2O (SI +7.0). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms
+  v2: not yet modelled — the solution is supersaturated against AgMetal (SI +2.6). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices
+  v1: The liquid is colourless and clear.
+  v2: The liquid is colourless and clear.
+  v1 (beaker) — 25.42 °C, 50.4 g, 50.0 mL liquid, open to atmosphere, pH 12.12, pe 8.47 (+0.502 V), I = 0.0457 m
+      temperature estimate is incomplete: reaction heat for glucose is not priced
+      redox — N: 91% N(−III), 9% N(V)
+            500 µmol  D-glucose (dextrose) Aqueous
+           1.00 mmol  silver ion         Aqueous
+           2.00 mmol  sodium ion         Aqueous
+           9.98 mmol  ammonia solution   Aqueous
+           15.6 µmol  ammonium ion       Aqueous
+           1.00 mmol  nitrate ion        Aqueous
+          2.7671 mol  water              Liquid
+           2.02 mmol  base equivalents   Aqueous
+  v2 (beaker) — 25.42 °C, 50.3 g, 50.0 mL liquid, open to atmosphere, pH 12.12, pe 8.47 (+0.502 V), I = 0.0457 m
+      redox — N: 91% N(−III), 9% N(V)
+            500 µmol  propanone          Liquid
+           1.00 mmol  silver ion         Aqueous
+           2.00 mmol  sodium ion         Aqueous
+           9.98 mmol  ammonia solution   Aqueous
+           15.6 µmol  ammonium ion       Aqueous
+           1.00 mmol  nitrate ion        Aqueous
+          2.7671 mol  water              Liquid
+           2.02 mmol  base equivalents   Aqueous
+  v1 spectrophotometer: 0.00 absorbance at 405 nm — This is a model estimate with limited calibration or simplifying assumptions.
+  v1: answered by PHREEQC (IPhreeqc, USGS) using wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice
+    model:   WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)
+    routing: the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added
+    the dataset records its own sources, e.g.:
+      · WATEQ4F, Alpers and others, 1989
+      · log K from llnl.dat  Aug 23, 2005
+      · Dzombak and Morel, 1990
+      · usbm-ic9429-complexes-25c
+      · sander-2023-hbr-reference
+  the same question, asked of every dataset:
+    wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice pH 12.370 · I = 0.0425 m
+      WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)
+    minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice pH 12.365 · I = 0.0425 m
+      WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)
+    pitzer.dat, with the reviewed Sander HBr gas-uptake slice cannot express this problem (no Ag, N(-3), N(5))
+  note: only 21 of 683 mineral phases exist in every dataset, so the answers
+  can differ in which solids they may form, not only in activity model
+  v1 (beaker) — 25.42 °C, 50.4 g, 50.0 mL liquid, open to atmosphere, pH 12.12, pe 8.47 (+0.502 V), I = 0.0457 m
+      temperature estimate is incomplete: reaction heat for glucose is not priced
+      redox — N: 91% N(−III), 9% N(V)
+            500 µmol  D-glucose (dextrose) Aqueous
+           1.00 mmol  silver ion         Aqueous
+           2.00 mmol  sodium ion         Aqueous
+           9.98 mmol  ammonia solution   Aqueous
+           15.6 µmol  ammonium ion       Aqueous
+           1.00 mmol  nitrate ion        Aqueous
+          2.7671 mol  water              Liquid
+           2.02 mmol  base equivalents   Aqueous
+  v2 (beaker) — 25.42 °C, 50.3 g, 50.0 mL liquid, open to atmosphere, pH 12.12, pe 8.47 (+0.502 V), I = 0.0457 m
+      redox — N: 91% N(−III), 9% N(V)
+            500 µmol  propanone          Liquid
+           1.00 mmol  silver ion         Aqueous
+           2.00 mmol  sodium ion         Aqueous
+           9.98 mmol  ammonia solution   Aqueous
+           15.6 µmol  ammonium ion       Aqueous
+           1.00 mmol  nitrate ion        Aqueous
+          2.7671 mol  water              Liquid
+           2.02 mmol  base equivalents   Aqueous

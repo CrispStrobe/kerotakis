@@ -1,0 +1,9 @@
+  v1: 25.0 °C → 100.0 °C
+  v1: +1.0000 mol iron
+  v1 thermometer: 100.00 °C
+  v1: 100.0 °C → 62.1 °C
+  v1: 1.00 kJ requested; 1.00 kJ removed — time model not yet coupled
+  v1 thermometer: 62.09 °C
+  v1 balance: 55.84 g
+  v1 (beaker) — 62.09 °C, 55.8 g, 0.0 mL liquid, open to atmosphere
+          1.0000 mol  iron               Solid

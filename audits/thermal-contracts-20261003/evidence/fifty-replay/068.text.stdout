@@ -1,0 +1,10 @@
+  v1: +1.0000 mol copper
+  v1 thermometer: 25.00 °C — This is a model estimate with limited calibration or simplifying assumptions.
+  v1: 25.0 °C → 45.4 °C
+  v1: 0.50 kJ requested; 0.50 kJ delivered — time model not yet coupled The split between sensible heating/cooling and phase or chemical changes is not fully established.
+  v1: 45.4 °C → 25.0 °C
+  v1: 0.50 kJ requested; 0.50 kJ removed — time model not yet coupled The split between sensible heating/cooling and phase or chemical changes is not fully established.
+  v1 thermometer: 25.00 °C — This is a model estimate with limited calibration or simplifying assumptions.
+  v1 balance: 63.55 g
+  v1 (beaker) — 25.00 °C, 63.5 g, 0.0 mL liquid, open to atmosphere
+          1.0000 mol  copper             Solid

@@ -1,0 +1,29 @@
+{
+  "validation_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+  "validation_run": 37095659202,
+  "replay_run": 37096789548,
+  "passed": true,
+  "suites": [
+    {
+      "suite": ".",
+      "runs": 100,
+      "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+      "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+      "output_hashes_verified": true
+    },
+    {
+      "suite": "followups",
+      "runs": 20,
+      "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+      "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+      "output_hashes_verified": true
+    },
+    {
+      "suite": "additional-controls",
+      "runs": 6,
+      "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+      "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+      "output_hashes_verified": true
+    }
+  ]
+}

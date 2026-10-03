@@ -1,0 +1,1756 @@
+{
+  "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+  "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+  "invocation_count": 126,
+  "canonical_tollens_control": [
+    {
+      "vessel": 0,
+      "silver_metal_mol": 0,
+      "silver_inventory": [
+        {
+          "moles": 0.001,
+          "phase": "aqueous",
+          "species": "Ag+"
+        }
+      ]
+    },
+    {
+      "vessel": 1,
+      "silver_metal_mol": 0,
+      "silver_inventory": [
+        {
+          "moles": 0.001,
+          "phase": "aqueous",
+          "species": "Ag+"
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "name": "independent-next-50-20261002: frozen forecasts",
+      "passed": true
+    },
+    {
+      "name": "independent-next-50-20261002: every case in both modes",
+      "passed": true
+    },
+    {
+      "name": "051 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "051 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "051 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "051 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "051: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "052 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "052 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "052 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "052 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "052: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "053 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "053 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "053 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "053 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "053: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "054 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "054 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "054 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "054 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "054: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "055 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "055 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "055 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "055 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "055: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "056 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "056 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "056 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "056 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "056: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "057 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "057 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "057 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "057 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "057: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "058 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "058 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "058 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "058 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "058: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "059 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "059 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "059 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "059 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "059: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "060 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "060 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "060 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "060 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "060: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "061 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "061 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "061 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "061 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "061: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "062 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "062 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "062 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "062 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "062: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "063 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "063 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "063 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "063 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "063: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "064 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "064 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "064 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "064 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "064: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "065 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "065 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "065 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "065 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "065: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "066 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "066 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "066 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "066 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "066: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "067 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "067 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "067 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "067 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "067: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "068 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "068 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "068 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "068 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "068: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "069 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "069 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "069 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "069 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "069: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "070 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "070 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "070 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "070 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "070: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "071 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "071 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "071 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "071 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "071: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "072 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "072 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "072 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "072 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "072: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "073 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "073 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "073 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "073 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "073: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "074 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "074 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "074 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "074 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "074: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "075 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "075 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "075 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "075 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "075: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "076 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "076 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "076 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "076 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "076: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "077 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "077 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "077 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "077 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "077: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "078 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "078 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "078 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "078 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "078: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "079 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "079 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "079 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "079 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "079: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "080 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "080 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "080 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "080 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "080: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "081 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "081 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "081 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "081 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "081: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "082 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "082 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "082 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "082 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "082: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "083 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "083 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "083 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "083 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "083: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "084 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "084 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "084 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "084 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "084: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "085 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "085 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "085 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "085 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "085: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "086 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "086 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "086 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "086 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "086: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "087 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "087 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "087 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "087 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "087: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "088 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "088 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "088 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "088 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "088: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "089 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "089 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "089 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "089 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "089: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "090 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "090 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "090 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "090 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "090: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "091 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "091 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "091 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "091 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "091: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "092 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "092 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "092 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "092 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "092: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "093 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "093 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "093 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "093 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "093: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "094 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "094 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "094 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "094 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "094: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "095 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "095 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "095 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "095 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "095: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "096 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "096 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "096 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "096 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "096: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "097 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "097 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "097 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "097 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "097: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "098 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "098 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "098 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "098 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "098: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "099 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "099 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "099 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "099 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "099: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "100 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "100 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "100 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "100 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "100: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "followups: frozen forecasts",
+      "passed": true
+    },
+    {
+      "name": "followups: every case in both modes",
+      "passed": true
+    },
+    {
+      "name": "F052 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "F052 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "F052 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "F052 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "F052: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "F053 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "F053 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "F053 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "F053 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "F053: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "F054 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "F054 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "F054 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "F054 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "F054: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "F055 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "F055 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "F055 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "F055 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "F055: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "F058 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "F058 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "F058 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "F058 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "F058: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "F062 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "F062 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "F062 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "F062 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "F062: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "F064 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "F064 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "F064 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "F064 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "F064: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "F065 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "F065 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "F065 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "F065 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "F065: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "F066 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "F066 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "F066 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "F066 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "F066: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "F082 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "F082 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "F082 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "F082 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "F082: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "additional-controls: frozen forecasts",
+      "passed": true
+    },
+    {
+      "name": "additional-controls: every case in both modes",
+      "passed": true
+    },
+    {
+      "name": "C084 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "C084 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "C084 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "C084 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "C084: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "C097 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "C097 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "C097 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "C097 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "C097: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "C098 text: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "C098 text: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "C098 json: stdout digest",
+      "passed": true
+    },
+    {
+      "name": "C098 json: stderr digest",
+      "passed": true
+    },
+    {
+      "name": "C098: strict NDJSON",
+      "passed": true
+    },
+    {
+      "name": "followups: every invocation succeeds",
+      "passed": true
+    },
+    {
+      "name": "additional-controls: every invocation succeeds",
+      "passed": true
+    },
+    {
+      "name": "one validated executable for all suites",
+      "passed": true
+    },
+    {
+      "name": "074: both modes execute successfully",
+      "passed": true
+    },
+    {
+      "name": "074: every predicted electrolysis occurs",
+      "passed": true
+    },
+    {
+      "name": "074 v0: cathodic Faraday budget",
+      "passed": true,
+      "hydrogen_mol": 0.0003109280896985319,
+      "expected_electrons_mol": 0.0006218561793970638
+    },
+    {
+      "name": "074 v0: anodic Faraday budget",
+      "passed": true
+    },
+    {
+      "name": "074 v0: anodic product enters physical stock",
+      "passed": true,
+      "gas_inventory_gain_mol": 0.00015546404484926603,
+      "reported_mol": 0.00015546404484926594
+    },
+    {
+      "name": "074 v0: conserved C inventory",
+      "passed": true,
+      "inventory_delta_mol": -9.322697308584819e-14
+    },
+    {
+      "name": "074 v0: conserved H inventory",
+      "passed": true,
+      "inventory_delta_mol": 1.7763568394002505e-15
+    },
+    {
+      "name": "074 v0: conserved N inventory",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "074 v0: conserved Na inventory",
+      "passed": true,
+      "inventory_delta_mol": -7.2300685403925424e-12
+    },
+    {
+      "name": "074 v0: conserved O inventory",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "074 v0: conserved S inventory",
+      "passed": true,
+      "inventory_delta_mol": -3.616031302514089e-12
+    },
+    {
+      "name": "074 v0: conserved charge inventory",
+      "passed": true,
+      "inventory_delta_mol": -2.929916248853304e-11
+    },
+    {
+      "name": "074 v0: water consumption",
+      "passed": true,
+      "water_loss_mol": 0.00031092806769450476,
+      "expected_mol": 0.0003109280896985319
+    },
+    {
+      "name": "074 v0: no spurious electron-equivalent acid",
+      "passed": true,
+      "proton_inventory_delta_mol": -3.665444510414506e-11
+    },
+    {
+      "name": "074 v0: electrode assumptions disclosed",
+      "passed": true
+    },
+    {
+      "name": "075: both modes execute successfully",
+      "passed": true
+    },
+    {
+      "name": "075: every predicted electrolysis occurs",
+      "passed": true
+    },
+    {
+      "name": "075 v0: cathodic Faraday budget",
+      "passed": true,
+      "hydrogen_mol": 0.00015546404484926594,
+      "expected_electrons_mol": 0.0003109280896985319
+    },
+    {
+      "name": "075 v0: anodic Faraday budget",
+      "passed": true
+    },
+    {
+      "name": "075 v0: anodic product enters physical stock",
+      "passed": true,
+      "gas_inventory_gain_mol": 7.773202242463296e-05,
+      "reported_mol": 7.773202242463297e-05
+    },
+    {
+      "name": "075 v0: conserved C inventory",
+      "passed": true,
+      "inventory_delta_mol": -9.047725617016542e-14
+    },
+    {
+      "name": "075 v0: conserved H inventory",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "075 v0: conserved N inventory",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "075 v0: conserved Na inventory",
+      "passed": true,
+      "inventory_delta_mol": -9.066519236766712e-13
+    },
+    {
+      "name": "075 v0: conserved O inventory",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "075 v0: conserved S inventory",
+      "passed": true,
+      "inventory_delta_mol": -4.533261786787701e-13
+    },
+    {
+      "name": "075 v0: conserved charge inventory",
+      "passed": true,
+      "inventory_delta_mol": -3.988517849329298e-12
+    },
+    {
+      "name": "075 v0: water consumption",
+      "passed": true,
+      "water_loss_mol": 0.00015546403917543472,
+      "expected_mol": 0.00015546404484926594
+    },
+    {
+      "name": "075 v0: no spurious electron-equivalent acid",
+      "passed": true,
+      "proton_inventory_delta_mol": -7.66802420171242e-12
+    },
+    {
+      "name": "075 v0: electrode assumptions disclosed",
+      "passed": true
+    },
+    {
+      "name": "075 v1: cathodic Faraday budget",
+      "passed": true,
+      "hydrogen_mol": 0.0003109280896985319,
+      "expected_electrons_mol": 0.0006218561793970638
+    },
+    {
+      "name": "075 v1: anodic Faraday budget",
+      "passed": true
+    },
+    {
+      "name": "075 v1: anodic product enters physical stock",
+      "passed": true,
+      "gas_inventory_gain_mol": 0.00015546404484926603,
+      "reported_mol": 0.00015546404484926594
+    },
+    {
+      "name": "075 v1: conserved C inventory",
+      "passed": true,
+      "inventory_delta_mol": -9.322697245057348e-14
+    },
+    {
+      "name": "075 v1: conserved H inventory",
+      "passed": true,
+      "inventory_delta_mol": 1.7763568394002505e-15
+    },
+    {
+      "name": "075 v1: conserved N inventory",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "075 v1: conserved Na inventory",
+      "passed": true,
+      "inventory_delta_mol": -7.2300685403925424e-12
+    },
+    {
+      "name": "075 v1: conserved O inventory",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "075 v1: conserved S inventory",
+      "passed": true,
+      "inventory_delta_mol": -3.616031302514089e-12
+    },
+    {
+      "name": "075 v1: conserved charge inventory",
+      "passed": true,
+      "inventory_delta_mol": -2.9299163789575644e-11
+    },
+    {
+      "name": "075 v1: water consumption",
+      "passed": true,
+      "water_loss_mol": 0.00031092806769450476,
+      "expected_mol": 0.0003109280896985319
+    },
+    {
+      "name": "075 v1: no spurious electron-equivalent acid",
+      "passed": true,
+      "proton_inventory_delta_mol": -3.665444683886854e-11
+    },
+    {
+      "name": "075 v1: electrode assumptions disclosed",
+      "passed": true
+    },
+    {
+      "name": "077: both modes execute successfully",
+      "passed": true
+    },
+    {
+      "name": "077: every predicted electrolysis occurs",
+      "passed": true
+    },
+    {
+      "name": "077 v0: cathodic Faraday budget",
+      "passed": true,
+      "hydrogen_mol": 3.109280896985319e-05,
+      "expected_electrons_mol": 6.218561793970638e-05
+    },
+    {
+      "name": "077 v0: anodic Faraday budget",
+      "passed": true
+    },
+    {
+      "name": "077 v0: anodic product enters physical stock",
+      "passed": true,
+      "gas_inventory_gain_mol": 3.109280896985319e-05,
+      "reported_mol": 3.109280896985319e-05
+    },
+    {
+      "name": "077 v0: conserved C inventory",
+      "passed": true,
+      "inventory_delta_mol": 1.6315434185273247e-12
+    },
+    {
+      "name": "077 v0: conserved Cl inventory",
+      "passed": true,
+      "inventory_delta_mol": -2.4119361369256964e-10
+    },
+    {
+      "name": "077 v0: conserved H inventory",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "077 v0: conserved N inventory",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "077 v0: conserved Na inventory",
+      "passed": true,
+      "inventory_delta_mol": -2.414712735321345e-10
+    },
+    {
+      "name": "077 v0: conserved O inventory",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "077 v0: conserved charge inventory",
+      "passed": true,
+      "inventory_delta_mol": 6.248509522299717e-12
+    },
+    {
+      "name": "077 v0: electrode assumptions disclosed",
+      "passed": true
+    },
+    {
+      "name": "077 v1: cathodic Faraday budget",
+      "passed": true,
+      "hydrogen_mol": 3.109280896985319e-05,
+      "expected_electrons_mol": 6.218561793970638e-05
+    },
+    {
+      "name": "077 v1: anodic Faraday budget",
+      "passed": true
+    },
+    {
+      "name": "077 v1: anodic product enters physical stock",
+      "passed": true,
+      "gas_inventory_gain_mol": 1.5546404484926635e-05,
+      "reported_mol": 1.5546404484926594e-05
+    },
+    {
+      "name": "077 v1: conserved C inventory",
+      "passed": true,
+      "inventory_delta_mol": 8.155861820490385e-14
+    },
+    {
+      "name": "077 v1: conserved H inventory",
+      "passed": true,
+      "inventory_delta_mol": 8.881784197001252e-16
+    },
+    {
+      "name": "077 v1: conserved N inventory",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "077 v1: conserved Na inventory",
+      "passed": true,
+      "inventory_delta_mol": 5.0649191438156826e-11
+    },
+    {
+      "name": "077 v1: conserved O inventory",
+      "passed": true,
+      "inventory_delta_mol": 0.0
+    },
+    {
+      "name": "077 v1: conserved S inventory",
+      "passed": true,
+      "inventory_delta_mol": 2.532459658644015e-11
+    },
+    {
+      "name": "077 v1: conserved charge inventory",
+      "passed": true,
+      "inventory_delta_mol": 2.029230047884134e-10
+    },
+    {
+      "name": "077 v1: water consumption",
+      "passed": true,
+      "water_loss_mol": 3.10929090252543e-05,
+      "expected_mol": 3.109280896985319e-05
+    },
+    {
+      "name": "077 v1: no spurious electron-equivalent acid",
+      "passed": true,
+      "proton_inventory_delta_mol": 2.0151704610560373e-10
+    },
+    {
+      "name": "077 v1: electrode assumptions disclosed",
+      "passed": true
+    },
+    {
+      "name": "097: no superheated observable ice",
+      "passed": true
+    },
+    {
+      "name": "097: unsupported thermal operation refused explicitly in both modes",
+      "passed": true
+    },
+    {
+      "name": "097: unsupported cooling publishes neither dose nor changed state",
+      "passed": true
+    },
+    {
+      "name": "098 stages 1: complete refusal preserves physical state",
+      "passed": true,
+      "diagnostic": [
+        "the complete requested distillation at 101.3 kPa cannot be represented within the fitted Antoine ranges: the initial pot, intermediate pot, and every ideal-stage composition must have a fitted bubble point. No cut was transferred"
+      ]
+    },
+    {
+      "name": "098 stages 2: complete refusal preserves physical state",
+      "passed": true,
+      "diagnostic": [
+        "the complete requested distillation at 101.3 kPa cannot be represented within the fitted Antoine ranges: the initial pot, intermediate pot, and every ideal-stage composition must have a fitted bubble point. No cut was transferred"
+      ]
+    },
+    {
+      "name": "F082: missing neutrals visible alongside ethanol",
+      "passed": true
+    },
+    {
+      "name": "F082: text discloses incomplete coverage",
+      "passed": true
+    },
+    {
+      "name": "C097: independent pure-water heat cycle closes",
+      "passed": true,
+      "final_temperature_k": 298.15
+    },
+    {
+      "name": "C097: water conserved",
+      "passed": true
+    },
+    {
+      "name": "C098 receiver 2: complete 1% cut",
+      "passed": true,
+      "cut_mol": 0.010000000000000009
+    },
+    {
+      "name": "C098 pair 0/2: water conserved",
+      "passed": true
+    },
+    {
+      "name": "C098 pair 0/2: ethanol conserved",
+      "passed": true
+    },
+    {
+      "name": "C098 receiver 3: complete 1% cut",
+      "passed": true,
+      "cut_mol": 0.009999999999999995
+    },
+    {
+      "name": "C098 pair 1/3: water conserved",
+      "passed": true
+    },
+    {
+      "name": "C098 pair 1/3: ethanol conserved",
+      "passed": true
+    },
+    {
+      "name": "C098: second stage enriches ethanol",
+      "passed": true,
+      "ethanol_fractions": [
+        0.6549361202663809,
+        0.7335336990792114
+      ]
+    },
+    {
+      "name": "C084: canonical propanone fixture executes in both modes",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "limitations": [
+    "Original sealed freeze-thaw forecast remains unsupported.",
+    "These contract checks do not certify every reaction or optical/retention parameter."
+  ]
+}
