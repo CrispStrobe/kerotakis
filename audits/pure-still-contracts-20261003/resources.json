@@ -1,0 +1,22 @@
+{
+  "utc": "2026-10-03T09:34:40.755713+00:00",
+  "load": [
+    7.7158203125,
+    6.08837890625,
+    5.16943359375
+  ],
+  "available_mib": 3933.25390625,
+  "swap_free_mib": 8766.5546875,
+  "workspace_free_mib": 900.109375,
+  "root_free_mib": 3884.20703125,
+  "storage_free_gib": 1756.5003662109375,
+  "policy": "All builds and CLI execution hosted. Two agents used for light source review/edits when initial load and memory allowed. No local app/build executions. Large executables and raw performance samples on NAS; dirty/unmerged worktrees preserved.",
+  "local_execution_gate": {
+    "max_load1": 3.5,
+    "min_available_mib": 3200,
+    "min_swap_free_mib": 600,
+    "min_workspace_free_mib": 2048,
+    "min_root_free_mib": 512
+  },
+  "local_execution_allowed_at_final_snapshot": false
+}

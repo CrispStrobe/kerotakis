@@ -1,0 +1,230 @@
+{
+  "checks": 56,
+  "passed": true,
+  "details": [
+    {
+      "name": "frozen predictions",
+      "passed": true
+    },
+    {
+      "name": "executable identity",
+      "passed": true
+    },
+    {
+      "name": "all controls in both modes",
+      "passed": true
+    },
+    {
+      "name": "D01 text completed",
+      "passed": true
+    },
+    {
+      "name": "D01 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "D01 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "D01 json completed",
+      "passed": true
+    },
+    {
+      "name": "D01 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "D01 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "D01 exactly two inspections",
+      "passed": true
+    },
+    {
+      "name": "D01 no failure or capability refusal",
+      "passed": true
+    },
+    {
+      "name": "D01 one completed cut",
+      "passed": true
+    },
+    {
+      "name": "D01 positive finite heat",
+      "passed": true
+    },
+    {
+      "name": "D01 water conserved",
+      "passed": true
+    },
+    {
+      "name": "D01 requested positive microscopic cut",
+      "passed": true
+    },
+    {
+      "name": "D02 text completed",
+      "passed": true
+    },
+    {
+      "name": "D02 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "D02 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "D02 json completed",
+      "passed": true
+    },
+    {
+      "name": "D02 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "D02 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "D02 exactly two inspections",
+      "passed": true
+    },
+    {
+      "name": "D02 no failure or capability refusal",
+      "passed": true
+    },
+    {
+      "name": "D02 one completed cut",
+      "passed": true
+    },
+    {
+      "name": "D02 positive finite heat",
+      "passed": true
+    },
+    {
+      "name": "D02 methanol conserved",
+      "passed": true
+    },
+    {
+      "name": "D02 requested positive microscopic cut",
+      "passed": true
+    },
+    {
+      "name": "D03 text completed",
+      "passed": true
+    },
+    {
+      "name": "D03 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "D03 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "D03 json completed",
+      "passed": true
+    },
+    {
+      "name": "D03 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "D03 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "D03 exactly two inspections",
+      "passed": true
+    },
+    {
+      "name": "D03 no failure or capability refusal",
+      "passed": true
+    },
+    {
+      "name": "D03 one completed cut",
+      "passed": true
+    },
+    {
+      "name": "D03 positive finite heat",
+      "passed": true
+    },
+    {
+      "name": "D03 water conserved",
+      "passed": true
+    },
+    {
+      "name": "D03 ethanol conserved",
+      "passed": true
+    },
+    {
+      "name": "D03 spends requested heat",
+      "passed": true
+    },
+    {
+      "name": "D03 latent meter matches material",
+      "passed": true
+    },
+    {
+      "name": "D03 positive enriched overhead",
+      "passed": true
+    },
+    {
+      "name": "D03 endpoint boiling drift",
+      "passed": true
+    },
+    {
+      "name": "D04 text completed",
+      "passed": true
+    },
+    {
+      "name": "D04 text stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "D04 text stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "D04 json completed",
+      "passed": true
+    },
+    {
+      "name": "D04 json stdout integrity",
+      "passed": true
+    },
+    {
+      "name": "D04 json stderr integrity",
+      "passed": true
+    },
+    {
+      "name": "D04 exactly two inspections",
+      "passed": true
+    },
+    {
+      "name": "D04 no failure or capability refusal",
+      "passed": true
+    },
+    {
+      "name": "D04 one completed cut",
+      "passed": true
+    },
+    {
+      "name": "D04 positive finite heat",
+      "passed": true
+    },
+    {
+      "name": "D04 methanol conserved",
+      "passed": true
+    },
+    {
+      "name": "D04 whole inventory lifted",
+      "passed": true
+    },
+    {
+      "name": "D04 surplus heat not claimed",
+      "passed": true
+    }
+  ]
+}

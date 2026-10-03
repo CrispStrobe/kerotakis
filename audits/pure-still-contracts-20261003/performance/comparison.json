@@ -1,0 +1,108 @@
+{
+  "passed": true,
+  "checks": 861,
+  "invocation_count": 47,
+  "predictions_sha256": "e32c5af45d83ee11e0423c5c2650fcf57a1c2a138483058d75cd7aef9a56297c",
+  "executables": {
+    "baseline": {
+      "commit": "8744d131928dd7416c1d207f22408ba228540570",
+      "sha256": "11cd342ab32cccce909ba97f5389609ad2c7f4d516a7c71853def2d19ba41265"
+    },
+    "optimized": {
+      "commit": "fbefd55a9b5fe2eec3139b5c2ba3d57ecb468007",
+      "sha256": "fcbbee6c8b982c0e5b326919e7b96c0901d9ec8ecba8e9c912e5a9ac9e5fab70"
+    }
+  },
+  "timing_scope": "Validated debug CLI executables, same hosted runner, serial ABBA repetitions after warmup; no threshold assertion or release/browser throughput claim.",
+  "timings": [
+    {
+      "id": "P01",
+      "samples": {
+        "baseline": [
+          5.675532180000005,
+          5.726023325,
+          5.675305308000006,
+          5.6754606129999985
+        ],
+        "optimized": [
+          0.7152401120000036,
+          0.6653698240000097,
+          0.7153759299999933,
+          0.7153352269999971
+        ]
+      },
+      "medians": {
+        "baseline": 5.675496396500002,
+        "optimized": 0.7152876695000003
+      },
+      "baseline_over_optimized": 7.934564845032603
+    },
+    {
+      "id": "P02",
+      "samples": {
+        "baseline": [
+          5.927004595,
+          5.777132261999995,
+          5.77430241399999,
+          5.775354536999998
+        ],
+        "optimized": [
+          0.6653865429999968,
+          0.6653485319999959,
+          0.6652465419999913,
+          0.6655763469999982
+        ]
+      },
+      "medians": {
+        "baseline": 5.776243399499997,
+        "optimized": 0.6653675374999963
+      },
+      "baseline_over_optimized": 8.681282259731567
+    },
+    {
+      "id": "P03",
+      "samples": {
+        "baseline": [
+          0.7654308280000066,
+          0.7654063789999981,
+          0.7653967899999969,
+          0.765550317000006
+        ],
+        "optimized": [
+          0.6653424929999971,
+          0.6656140580000027,
+          0.6653258709999932,
+          0.6654653789999969
+        ]
+      },
+      "medians": {
+        "baseline": 0.7654186035000023,
+        "optimized": 0.665403935999997
+      },
+      "baseline_over_optimized": 1.1503066965627413
+    },
+    {
+      "id": "P04",
+      "samples": {
+        "baseline": [
+          4.674302022999996,
+          4.673921586999995,
+          4.672340539000004,
+          4.672282714999994
+        ],
+        "optimized": [
+          0.66553337900001,
+          0.6653148380000005,
+          0.6653178939999975,
+          0.6651957880000055
+        ]
+      },
+      "medians": {
+        "baseline": 4.673131063,
+        "optimized": 0.665316365999999
+      },
+      "baseline_over_optimized": 7.023923206783112
+    }
+  ],
+  "failures": []
+}

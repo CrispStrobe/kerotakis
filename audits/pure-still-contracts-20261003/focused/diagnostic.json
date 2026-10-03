@@ -1,0 +1,20 @@
+{
+  "diagnostic_only": true,
+  "commit": "fbefd55a9b5fe2eec3139b5c2ba3d57ecb468007",
+  "command": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-thermo",
+    "--lib",
+    "--tests",
+    "--no-fail-fast",
+    "-j1",
+    "--",
+    "--test-threads=1"
+  ],
+  "exit_code": 0,
+  "seconds": 77.746921061,
+  "log": "thermo.log",
+  "log_sha256": "150216246536cd54beee06be8b1245dc75bd22f69c00f2ce1054d2bdf69a4f7c"
+}

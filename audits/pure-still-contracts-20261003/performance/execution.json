@@ -1,0 +1,4104 @@
+[
+  {
+    "id": "C01",
+    "variant": "optimized",
+    "sample": "control",
+    "timed": false,
+    "seconds": 0.6656583199999986,
+    "exit_code": 0,
+    "stdout": "C01.optimized.control.stdout",
+    "stderr": "C01.optimized.control.stderr",
+    "stdout_sha256": "5312ebaacb1d9edc972430b7b48b183e563afa4ef4b6a428a8d6d860ba92db5c",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "2 requested amount",
+        "passed": true
+      },
+      {
+        "name": "2 residue",
+        "passed": true
+      },
+      {
+        "name": "2 budget",
+        "passed": true
+      },
+      {
+        "name": "3 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "3 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "3 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "C02",
+    "variant": "optimized",
+    "sample": "control",
+    "timed": false,
+    "seconds": 0.6654100709999966,
+    "exit_code": 0,
+    "stdout": "C02.optimized.control.stdout",
+    "stderr": "C02.optimized.control.stderr",
+    "stdout_sha256": "2843cb72a6bdd6809b34046e291f3d9eeba7948734f43936abc7bf7d68f4dd45",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "2 requested amount",
+        "passed": true
+      },
+      {
+        "name": "2 residue",
+        "passed": true
+      },
+      {
+        "name": "2 budget",
+        "passed": true
+      },
+      {
+        "name": "3 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "3 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "3 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "C03",
+    "variant": "optimized",
+    "sample": "control",
+    "timed": false,
+    "seconds": 0.6655178529999972,
+    "exit_code": 0,
+    "stdout": "C03.optimized.control.stdout",
+    "stderr": "C03.optimized.control.stderr",
+    "stdout_sha256": "5fd6cbe2708ef072d35064f70ef97d843688ce7de2bd5cef3c4c24f01bffcbe9",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "2 requested amount",
+        "passed": true
+      },
+      {
+        "name": "2 residue",
+        "passed": true
+      },
+      {
+        "name": "2 budget",
+        "passed": true
+      },
+      {
+        "name": "3 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "3 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "3 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "C04",
+    "variant": "optimized",
+    "sample": "control",
+    "timed": false,
+    "seconds": 0.6654739840000019,
+    "exit_code": 0,
+    "stdout": "C04.optimized.control.stdout",
+    "stderr": "C04.optimized.control.stderr",
+    "stdout_sha256": "1403ca3e7ec978cd52e54acf7d552cd57b7f92df341b822de4a4ba096e28ca16",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "2 requested amount",
+        "passed": true
+      },
+      {
+        "name": "2 residue",
+        "passed": true
+      },
+      {
+        "name": "2 budget",
+        "passed": true
+      },
+      {
+        "name": "3 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "3 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "3 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "C05",
+    "variant": "optimized",
+    "sample": "control",
+    "timed": false,
+    "seconds": 0.6655558770000027,
+    "exit_code": 0,
+    "stdout": "C05.optimized.control.stdout",
+    "stderr": "C05.optimized.control.stderr",
+    "stdout_sha256": "eeae3b199b6036b675ad911d98bc90dbc9f1a7c7852ff4290642c05789cf6454",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "0 zero request preserves contents",
+        "passed": true
+      },
+      {
+        "name": "0 zero request preserves temperature",
+        "passed": true
+      },
+      {
+        "name": "0 zero request preserves pressure",
+        "passed": true
+      },
+      {
+        "name": "0 zero request preserves headspace",
+        "passed": true
+      },
+      {
+        "name": "1 zero request preserves contents",
+        "passed": true
+      },
+      {
+        "name": "1 zero request preserves temperature",
+        "passed": true
+      },
+      {
+        "name": "1 zero request preserves pressure",
+        "passed": true
+      },
+      {
+        "name": "1 zero request preserves headspace",
+        "passed": true
+      },
+      {
+        "name": "2 requested amount",
+        "passed": true
+      },
+      {
+        "name": "2 residue",
+        "passed": true
+      },
+      {
+        "name": "2 budget",
+        "passed": true
+      },
+      {
+        "name": "3 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "3 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "2 zero request preserves contents",
+        "passed": true
+      },
+      {
+        "name": "2 zero request preserves temperature",
+        "passed": true
+      },
+      {
+        "name": "2 zero request preserves pressure",
+        "passed": true
+      },
+      {
+        "name": "2 zero request preserves headspace",
+        "passed": true
+      },
+      {
+        "name": "3 zero request preserves contents",
+        "passed": true
+      },
+      {
+        "name": "3 zero request preserves temperature",
+        "passed": true
+      },
+      {
+        "name": "3 zero request preserves pressure",
+        "passed": true
+      },
+      {
+        "name": "3 zero request preserves headspace",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "C06",
+    "variant": "optimized",
+    "sample": "control",
+    "timed": false,
+    "seconds": 0.6653651269999941,
+    "exit_code": 0,
+    "stdout": "C06.optimized.control.stdout",
+    "stderr": "C06.optimized.control.stderr",
+    "stdout_sha256": "ad7b98eaff3db39a50e4af56cdc7f6d3b4912c16f07a6188f6603bf5cd70ee62",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "2 requested amount",
+        "passed": true
+      },
+      {
+        "name": "2 residue",
+        "passed": true
+      },
+      {
+        "name": "2 budget",
+        "passed": true
+      },
+      {
+        "name": "3 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "3 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "3 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "C07",
+    "variant": "optimized",
+    "sample": "control",
+    "timed": false,
+    "seconds": 1.667477230000003,
+    "exit_code": 0,
+    "stdout": "C07.optimized.control.stdout",
+    "stderr": "C07.optimized.control.stderr",
+    "stdout_sha256": "833a02cc061f8cedb5e5a739efd9a44806144cb02b770e95839887b1d87baea8",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "one complete mixed cut",
+        "passed": true
+      },
+      {
+        "name": "water conserved",
+        "passed": true
+      },
+      {
+        "name": "ethanol conserved",
+        "passed": true
+      },
+      {
+        "name": "complete fraction",
+        "passed": true
+      },
+      {
+        "name": "trace enriched positively",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P01",
+    "variant": "baseline",
+    "sample": "warmup",
+    "timed": false,
+    "seconds": 5.724463204000003,
+    "exit_code": 0,
+    "stdout": "P01.baseline.warmup.stdout",
+    "stderr": "P01.baseline.warmup.stderr",
+    "stdout_sha256": "0b76ab5c42234b3a06f5d25f98d4abccddc73a5696e9a9b590124fe994def3c9",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P01",
+    "variant": "optimized",
+    "sample": "warmup",
+    "timed": false,
+    "seconds": 0.6652184520000048,
+    "exit_code": 0,
+    "stdout": "P01.optimized.warmup.stdout",
+    "stderr": "P01.optimized.warmup.stderr",
+    "stdout_sha256": "4c41cec551c9cf9b9e0484e81b89a868cd94c6d6b6fa193237c549b1d48118d1",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P01",
+    "variant": "baseline",
+    "sample": "0",
+    "timed": true,
+    "seconds": 5.675532180000005,
+    "exit_code": 0,
+    "stdout": "P01.baseline.0.stdout",
+    "stderr": "P01.baseline.0.stderr",
+    "stdout_sha256": "0b76ab5c42234b3a06f5d25f98d4abccddc73a5696e9a9b590124fe994def3c9",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P01",
+    "variant": "optimized",
+    "sample": "1",
+    "timed": true,
+    "seconds": 0.7152401120000036,
+    "exit_code": 0,
+    "stdout": "P01.optimized.1.stdout",
+    "stderr": "P01.optimized.1.stderr",
+    "stdout_sha256": "4c41cec551c9cf9b9e0484e81b89a868cd94c6d6b6fa193237c549b1d48118d1",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P01",
+    "variant": "optimized",
+    "sample": "2",
+    "timed": true,
+    "seconds": 0.6653698240000097,
+    "exit_code": 0,
+    "stdout": "P01.optimized.2.stdout",
+    "stderr": "P01.optimized.2.stderr",
+    "stdout_sha256": "4c41cec551c9cf9b9e0484e81b89a868cd94c6d6b6fa193237c549b1d48118d1",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P01",
+    "variant": "baseline",
+    "sample": "3",
+    "timed": true,
+    "seconds": 5.726023325,
+    "exit_code": 0,
+    "stdout": "P01.baseline.3.stdout",
+    "stderr": "P01.baseline.3.stderr",
+    "stdout_sha256": "0b76ab5c42234b3a06f5d25f98d4abccddc73a5696e9a9b590124fe994def3c9",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P01",
+    "variant": "baseline",
+    "sample": "4",
+    "timed": true,
+    "seconds": 5.675305308000006,
+    "exit_code": 0,
+    "stdout": "P01.baseline.4.stdout",
+    "stderr": "P01.baseline.4.stderr",
+    "stdout_sha256": "0b76ab5c42234b3a06f5d25f98d4abccddc73a5696e9a9b590124fe994def3c9",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P01",
+    "variant": "optimized",
+    "sample": "5",
+    "timed": true,
+    "seconds": 0.7153759299999933,
+    "exit_code": 0,
+    "stdout": "P01.optimized.5.stdout",
+    "stderr": "P01.optimized.5.stderr",
+    "stdout_sha256": "4c41cec551c9cf9b9e0484e81b89a868cd94c6d6b6fa193237c549b1d48118d1",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P01",
+    "variant": "optimized",
+    "sample": "6",
+    "timed": true,
+    "seconds": 0.7153352269999971,
+    "exit_code": 0,
+    "stdout": "P01.optimized.6.stdout",
+    "stderr": "P01.optimized.6.stderr",
+    "stdout_sha256": "4c41cec551c9cf9b9e0484e81b89a868cd94c6d6b6fa193237c549b1d48118d1",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P01",
+    "variant": "baseline",
+    "sample": "7",
+    "timed": true,
+    "seconds": 5.6754606129999985,
+    "exit_code": 0,
+    "stdout": "P01.baseline.7.stdout",
+    "stderr": "P01.baseline.7.stderr",
+    "stdout_sha256": "0b76ab5c42234b3a06f5d25f98d4abccddc73a5696e9a9b590124fe994def3c9",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P02",
+    "variant": "baseline",
+    "sample": "warmup",
+    "timed": false,
+    "seconds": 5.774275423000006,
+    "exit_code": 0,
+    "stdout": "P02.baseline.warmup.stdout",
+    "stderr": "P02.baseline.warmup.stderr",
+    "stdout_sha256": "4b89c662a2705961137c2a0d145fb2b7cff29c66b2a62411a345d1ad5e958198",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P02",
+    "variant": "optimized",
+    "sample": "warmup",
+    "timed": false,
+    "seconds": 0.6653838489999941,
+    "exit_code": 0,
+    "stdout": "P02.optimized.warmup.stdout",
+    "stderr": "P02.optimized.warmup.stderr",
+    "stdout_sha256": "ce6858b3d1650e3deda1cbea57b9dc9395ba24ccbad7501ccbcdb718171297d3",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P02",
+    "variant": "baseline",
+    "sample": "0",
+    "timed": true,
+    "seconds": 5.927004595,
+    "exit_code": 0,
+    "stdout": "P02.baseline.0.stdout",
+    "stderr": "P02.baseline.0.stderr",
+    "stdout_sha256": "4b89c662a2705961137c2a0d145fb2b7cff29c66b2a62411a345d1ad5e958198",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P02",
+    "variant": "optimized",
+    "sample": "1",
+    "timed": true,
+    "seconds": 0.6653865429999968,
+    "exit_code": 0,
+    "stdout": "P02.optimized.1.stdout",
+    "stderr": "P02.optimized.1.stderr",
+    "stdout_sha256": "ce6858b3d1650e3deda1cbea57b9dc9395ba24ccbad7501ccbcdb718171297d3",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P02",
+    "variant": "optimized",
+    "sample": "2",
+    "timed": true,
+    "seconds": 0.6653485319999959,
+    "exit_code": 0,
+    "stdout": "P02.optimized.2.stdout",
+    "stderr": "P02.optimized.2.stderr",
+    "stdout_sha256": "ce6858b3d1650e3deda1cbea57b9dc9395ba24ccbad7501ccbcdb718171297d3",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P02",
+    "variant": "baseline",
+    "sample": "3",
+    "timed": true,
+    "seconds": 5.777132261999995,
+    "exit_code": 0,
+    "stdout": "P02.baseline.3.stdout",
+    "stderr": "P02.baseline.3.stderr",
+    "stdout_sha256": "4b89c662a2705961137c2a0d145fb2b7cff29c66b2a62411a345d1ad5e958198",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P02",
+    "variant": "baseline",
+    "sample": "4",
+    "timed": true,
+    "seconds": 5.77430241399999,
+    "exit_code": 0,
+    "stdout": "P02.baseline.4.stdout",
+    "stderr": "P02.baseline.4.stderr",
+    "stdout_sha256": "4b89c662a2705961137c2a0d145fb2b7cff29c66b2a62411a345d1ad5e958198",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P02",
+    "variant": "optimized",
+    "sample": "5",
+    "timed": true,
+    "seconds": 0.6652465419999913,
+    "exit_code": 0,
+    "stdout": "P02.optimized.5.stdout",
+    "stderr": "P02.optimized.5.stderr",
+    "stdout_sha256": "ce6858b3d1650e3deda1cbea57b9dc9395ba24ccbad7501ccbcdb718171297d3",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P02",
+    "variant": "optimized",
+    "sample": "6",
+    "timed": true,
+    "seconds": 0.6655763469999982,
+    "exit_code": 0,
+    "stdout": "P02.optimized.6.stdout",
+    "stderr": "P02.optimized.6.stderr",
+    "stdout_sha256": "ce6858b3d1650e3deda1cbea57b9dc9395ba24ccbad7501ccbcdb718171297d3",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P02",
+    "variant": "baseline",
+    "sample": "7",
+    "timed": true,
+    "seconds": 5.775354536999998,
+    "exit_code": 0,
+    "stdout": "P02.baseline.7.stdout",
+    "stderr": "P02.baseline.7.stderr",
+    "stdout_sha256": "4b89c662a2705961137c2a0d145fb2b7cff29c66b2a62411a345d1ad5e958198",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P03",
+    "variant": "baseline",
+    "sample": "warmup",
+    "timed": false,
+    "seconds": 0.7655491090000055,
+    "exit_code": 0,
+    "stdout": "P03.baseline.warmup.stdout",
+    "stderr": "P03.baseline.warmup.stderr",
+    "stdout_sha256": "a80af4c0bf948e208e98f6c3f9351fafe140070dfa0e602f03eff98d601a1b4a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P03",
+    "variant": "optimized",
+    "sample": "warmup",
+    "timed": false,
+    "seconds": 0.6654615759999984,
+    "exit_code": 0,
+    "stdout": "P03.optimized.warmup.stdout",
+    "stderr": "P03.optimized.warmup.stderr",
+    "stdout_sha256": "4fcf1fbd9fbb92b4536a8e65e1c8a6e79050878d26dfc40cdbb4ed8976150303",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P03",
+    "variant": "baseline",
+    "sample": "0",
+    "timed": true,
+    "seconds": 0.7654308280000066,
+    "exit_code": 0,
+    "stdout": "P03.baseline.0.stdout",
+    "stderr": "P03.baseline.0.stderr",
+    "stdout_sha256": "a80af4c0bf948e208e98f6c3f9351fafe140070dfa0e602f03eff98d601a1b4a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P03",
+    "variant": "optimized",
+    "sample": "1",
+    "timed": true,
+    "seconds": 0.6653424929999971,
+    "exit_code": 0,
+    "stdout": "P03.optimized.1.stdout",
+    "stderr": "P03.optimized.1.stderr",
+    "stdout_sha256": "4fcf1fbd9fbb92b4536a8e65e1c8a6e79050878d26dfc40cdbb4ed8976150303",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P03",
+    "variant": "optimized",
+    "sample": "2",
+    "timed": true,
+    "seconds": 0.6656140580000027,
+    "exit_code": 0,
+    "stdout": "P03.optimized.2.stdout",
+    "stderr": "P03.optimized.2.stderr",
+    "stdout_sha256": "4fcf1fbd9fbb92b4536a8e65e1c8a6e79050878d26dfc40cdbb4ed8976150303",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P03",
+    "variant": "baseline",
+    "sample": "3",
+    "timed": true,
+    "seconds": 0.7654063789999981,
+    "exit_code": 0,
+    "stdout": "P03.baseline.3.stdout",
+    "stderr": "P03.baseline.3.stderr",
+    "stdout_sha256": "a80af4c0bf948e208e98f6c3f9351fafe140070dfa0e602f03eff98d601a1b4a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P03",
+    "variant": "baseline",
+    "sample": "4",
+    "timed": true,
+    "seconds": 0.7653967899999969,
+    "exit_code": 0,
+    "stdout": "P03.baseline.4.stdout",
+    "stderr": "P03.baseline.4.stderr",
+    "stdout_sha256": "a80af4c0bf948e208e98f6c3f9351fafe140070dfa0e602f03eff98d601a1b4a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P03",
+    "variant": "optimized",
+    "sample": "5",
+    "timed": true,
+    "seconds": 0.6653258709999932,
+    "exit_code": 0,
+    "stdout": "P03.optimized.5.stdout",
+    "stderr": "P03.optimized.5.stderr",
+    "stdout_sha256": "4fcf1fbd9fbb92b4536a8e65e1c8a6e79050878d26dfc40cdbb4ed8976150303",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P03",
+    "variant": "optimized",
+    "sample": "6",
+    "timed": true,
+    "seconds": 0.6654653789999969,
+    "exit_code": 0,
+    "stdout": "P03.optimized.6.stdout",
+    "stderr": "P03.optimized.6.stderr",
+    "stdout_sha256": "4fcf1fbd9fbb92b4536a8e65e1c8a6e79050878d26dfc40cdbb4ed8976150303",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P03",
+    "variant": "baseline",
+    "sample": "7",
+    "timed": true,
+    "seconds": 0.765550317000006,
+    "exit_code": 0,
+    "stdout": "P03.baseline.7.stdout",
+    "stderr": "P03.baseline.7.stderr",
+    "stdout_sha256": "a80af4c0bf948e208e98f6c3f9351fafe140070dfa0e602f03eff98d601a1b4a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P04",
+    "variant": "baseline",
+    "sample": "warmup",
+    "timed": false,
+    "seconds": 4.6241455410000185,
+    "exit_code": 0,
+    "stdout": "P04.baseline.warmup.stdout",
+    "stderr": "P04.baseline.warmup.stderr",
+    "stdout_sha256": "9c002309552612a59697b3c8cd261ecf99ee199a7f28291a5cf02ae41936b3d1",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P04",
+    "variant": "optimized",
+    "sample": "warmup",
+    "timed": false,
+    "seconds": 0.6654531850000183,
+    "exit_code": 0,
+    "stdout": "P04.optimized.warmup.stdout",
+    "stderr": "P04.optimized.warmup.stderr",
+    "stdout_sha256": "2c652b59b0adb92091a8172302d692988e2fccfb18f10a8c954f0fee2966399e",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P04",
+    "variant": "baseline",
+    "sample": "0",
+    "timed": true,
+    "seconds": 4.674302022999996,
+    "exit_code": 0,
+    "stdout": "P04.baseline.0.stdout",
+    "stderr": "P04.baseline.0.stderr",
+    "stdout_sha256": "9c002309552612a59697b3c8cd261ecf99ee199a7f28291a5cf02ae41936b3d1",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P04",
+    "variant": "optimized",
+    "sample": "1",
+    "timed": true,
+    "seconds": 0.66553337900001,
+    "exit_code": 0,
+    "stdout": "P04.optimized.1.stdout",
+    "stderr": "P04.optimized.1.stderr",
+    "stdout_sha256": "2c652b59b0adb92091a8172302d692988e2fccfb18f10a8c954f0fee2966399e",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P04",
+    "variant": "optimized",
+    "sample": "2",
+    "timed": true,
+    "seconds": 0.6653148380000005,
+    "exit_code": 0,
+    "stdout": "P04.optimized.2.stdout",
+    "stderr": "P04.optimized.2.stderr",
+    "stdout_sha256": "2c652b59b0adb92091a8172302d692988e2fccfb18f10a8c954f0fee2966399e",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P04",
+    "variant": "baseline",
+    "sample": "3",
+    "timed": true,
+    "seconds": 4.673921586999995,
+    "exit_code": 0,
+    "stdout": "P04.baseline.3.stdout",
+    "stderr": "P04.baseline.3.stderr",
+    "stdout_sha256": "9c002309552612a59697b3c8cd261ecf99ee199a7f28291a5cf02ae41936b3d1",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P04",
+    "variant": "baseline",
+    "sample": "4",
+    "timed": true,
+    "seconds": 4.672340539000004,
+    "exit_code": 0,
+    "stdout": "P04.baseline.4.stdout",
+    "stderr": "P04.baseline.4.stderr",
+    "stdout_sha256": "9c002309552612a59697b3c8cd261ecf99ee199a7f28291a5cf02ae41936b3d1",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P04",
+    "variant": "optimized",
+    "sample": "5",
+    "timed": true,
+    "seconds": 0.6653178939999975,
+    "exit_code": 0,
+    "stdout": "P04.optimized.5.stdout",
+    "stderr": "P04.optimized.5.stderr",
+    "stdout_sha256": "2c652b59b0adb92091a8172302d692988e2fccfb18f10a8c954f0fee2966399e",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P04",
+    "variant": "optimized",
+    "sample": "6",
+    "timed": true,
+    "seconds": 0.6651957880000055,
+    "exit_code": 0,
+    "stdout": "P04.optimized.6.stdout",
+    "stderr": "P04.optimized.6.stderr",
+    "stdout_sha256": "2c652b59b0adb92091a8172302d692988e2fccfb18f10a8c954f0fee2966399e",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  },
+  {
+    "id": "P04",
+    "variant": "baseline",
+    "sample": "7",
+    "timed": true,
+    "seconds": 4.672282714999994,
+    "exit_code": 0,
+    "stdout": "P04.baseline.7.stdout",
+    "stderr": "P04.baseline.7.stderr",
+    "stdout_sha256": "9c002309552612a59697b3c8cd261ecf99ee199a7f28291a5cf02ae41936b3d1",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": [
+      {
+        "name": "process completed",
+        "passed": true
+      },
+      {
+        "name": "two inspections",
+        "passed": true
+      },
+      {
+        "name": "no solver failure or refusal",
+        "passed": true
+      },
+      {
+        "name": "all cuts complete",
+        "passed": true
+      },
+      {
+        "name": "0 requested amount",
+        "passed": true
+      },
+      {
+        "name": "0 residue",
+        "passed": true
+      },
+      {
+        "name": "0 budget",
+        "passed": true
+      },
+      {
+        "name": "1 pure condensate",
+        "passed": true
+      },
+      {
+        "name": "1 material/heat agreement",
+        "passed": true
+      },
+      {
+        "name": "1 positive heat and amount",
+        "passed": true
+      },
+      {
+        "name": "pure boiling temperature fixed",
+        "passed": true
+      },
+      {
+        "name": "pure cut not azeotropic",
+        "passed": true
+      }
+    ]
+  }
+]

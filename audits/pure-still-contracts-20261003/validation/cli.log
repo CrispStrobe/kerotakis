@@ -1,0 +1,112 @@
+[1m[92m   Compiling[0m kerotakis-data v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-data)
+[1m[92m   Compiling[0m diffsol v0.16.2
+[1m[92m   Compiling[0m kerotakis-thermo v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-thermo)
+[1m[92m   Compiling[0m kerotakis-core v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-core)
+[1m[92m   Compiling[0m chematic-mol v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-mol-0.18.0)
+[1m[92m   Compiling[0m chematic v0.18.0 (/home/runner/work/kerotakis/kerotakis/vendor/chematic-0.18/chematic-0.18.0)
+[1m[92m   Compiling[0m kerotakis-phreeqc v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-phreeqc)
+[1m[92m   Compiling[0m kerotakis-org v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-org)
+[1m[92m   Compiling[0m kerotakis-cea v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-cea)
+[1m[92m   Compiling[0m kerotakis-stack v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-stack)
+[1m[92m   Compiling[0m kerotakis-codex v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-codex)
+[1m[92m   Compiling[0m kerotakis-safety v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-safety)
+[1m[92m   Compiling[0m kerotakis-cli v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-cli)
+[1m[92m    Finished[0m `test` profile [unoptimized + debuginfo] target(s) in 46.51s
+[1m[92m     Running[0m unittests src/main.rs (target/debug/deps/kero-1084591089776280)
+
+running 50 tests
+test balance_exercise::tests::a_blank_or_impossible_coefficient_is_not_an_answer ... ok
+test balance_exercise::tests::a_correct_multiple_is_balanced_and_named_as_a_multiple ... ok
+test balance_exercise::tests::charge_is_marked_as_well_as_the_atoms ... ok
+test balance_exercise::tests::every_shipped_exercise_accepts_its_answer_and_refuses_a_perturbation ... ok
+test balance_exercise::tests::the_solvers_own_answer_is_correct_and_simplest ... ok
+test balance_exercise::tests::what_cannot_be_drilled_is_reported_rather_than_dropped ... ok
+test coverage::tests::a_requirement_is_a_floor_and_an_exceeded_floor_is_met ... ok
+test coverage::tests::a_solver_failure_cannot_be_reported_as_observable_coverage ... ok
+test coverage::tests::an_unmet_requirement_is_sorted_by_where_missing_sits ... ok
+test coverage::tests::baseline_reports_changed_added_and_removed_prompts ... ok
+test coverage::tests::boundary_is_off_the_scale_and_compares_only_for_equality ... ok
+test coverage::tests::computed_and_curated_are_one_grade_in_both_directions ... ok
+test coverage::tests::smoke_comparison_ignores_baseline_entries_outside_the_subset ... ok
+test native_startup_tests::primary_engine_initialization_failure_never_constructs_a_reduced_stack ... ok
+test native_startup_tests::semantic_event_adapter_exposes_only_documented_scalar_fields ... ok
+test native_startup_tests::successful_native_startup_retains_aqueous_computation_and_provenance ... ok
+test provenance::tests::a_distributed_lane_still_demands_a_verdict ... ok
+test provenance::tests::a_quarantine_snapshot_may_await_its_review ... ok
+test provenance::tests::accepts_a_complete_allowlisted_record ... ok
+test provenance::tests::federal_data_approvals_do_not_admit_copyleft_nc_or_unreviewed_references ... ok
+test provenance::tests::olive_oil_approval_is_bound_to_the_single_reviewed_density ... ok
+test provenance::tests::parker_approval_is_bound_to_the_reviewed_data_record ... ok
+test provenance::tests::permits_copyleft_only_outside_distribution ... ok
+test provenance::tests::rejects_an_unpinned_revision ... ok
+test provenance::tests::rejects_checksum_drift ... ok
+test provenance::tests::rejects_copyleft_in_a_distributed_lane ... ok
+test provenance::tests::rejects_unknown_upstream_inputs ... ok
+test provenance::tests::rejects_unsafe_or_missing_paths ... ok
+test provenance::tests::reviewed_federal_data_references_are_explicit_and_not_code_approvals ... ok
+test upstreams::tests::a_ceiling_is_only_legal_where_the_refusal_is_about_bulk ... ok
+test upstreams::tests::a_ceiling_must_say_why_it_is_that_number ... ok
+test upstreams::tests::a_citation_wrapped_across_lines_still_reads_as_one_sentence ... ok
+test upstreams::tests::a_cleared_upstream_in_the_same_position_is_not ... ok
+test upstreams::tests::a_comment_is_commentary_and_a_field_is_a_claim ... ok
+test upstreams::tests::a_judgement_covers_exactly_one_subject_and_upstream ... ok
+test upstreams::tests::a_judgement_for_a_cleared_upstream_judges_nothing ... ok
+test upstreams::tests::a_judgement_that_covers_nothing_is_reported ... ok
+test upstreams::tests::a_page_cannot_cure_a_permission ... ok
+test upstreams::tests::a_refused_row_may_not_be_allowed_to_touch_anything ... ok
+test upstreams::tests::a_refused_upstream_in_a_value_bound_field_is_a_finding ... ok
+test upstreams::tests::a_word_boundary_is_what_separates_echa_from_mechanism ... ok
+test upstreams::tests::an_attributed_claim_on_a_book_is_ordinary_practice ... ok
+test upstreams::tests::an_inherited_row_must_say_when_its_terms_were_read ... ok
+test upstreams::tests::attributed_claims_past_the_ceiling_are_one_finding_not_many ... ok
+test upstreams::tests::matching_narrows_a_judgement_from_a_file_to_a_string ... ok
+test upstreams::tests::scanning_the_repository_finds_the_known_offenders ... ok
+test upstreams::tests::source_id_is_not_a_provenance_field ... ok
+test upstreams::tests::the_same_claim_without_a_page_is_still_a_finding ... ok
+test upstreams::tests::the_shipped_audit_is_well_formed ... ok
+test upstreams::tests::via_names_the_right_work_and_is_still_a_finding ... ok
+
+test result: ok. 50 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.89s
+
+[1m[92m     Running[0m tests/headspace_json.rs (target/debug/deps/headspace_json-4704ee899b1f5bde)
+
+running 1 test
+test every_gas_boundary_round_trips_through_the_cli_contract ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.67s
+
+[1m[92m     Running[0m tests/json_contract.rs (target/debug/deps/json_contract-9c13490959b71203)
+
+running 1 test
+test json_output_is_the_api_contract ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.67s
+
+[1m[92m     Running[0m tests/observable_coverage.rs (target/debug/deps/observable_coverage-17d036a18de99b8f)
+
+running 3 tests
+test a_missing_rate_is_a_supported_report_with_an_unsupported_observable ... ok
+test coverage_matches_final_scene_after_real_chemistry ... ok
+test invalid_input_never_produces_a_successful_capability_report ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.47s
+
+[1m[92m     Running[0m tests/provenance.rs (target/debug/deps/provenance-fb8213b23f03fa59)
+
+running 2 tests
+test command_rejects_a_non_allowlisted_runtime_source ... ok
+test repository_source_manifest_passes_the_live_gate ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s
+
+[1m[92m     Running[0m tests/thermal_contracts.rs (target/debug/deps/thermal_contracts-d04911da7a693de4)
+
+running 5 tests
+test a_finite_mole_input_that_overflows_heat_capacity_is_an_atomic_cli_refusal ... ok
+test a_hot_sealed_flame_bursts_and_accounts_for_the_released_products ... ok
+test a_pressure_controlled_flame_retains_products_and_expands ... ok
+test finite_flame_keeps_products_and_closes_pressure_on_the_actual_cli ... ok
+test open_combustion_does_not_price_its_gas_products_again_on_water_addition ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.27s
+
