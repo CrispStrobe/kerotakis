@@ -16,7 +16,7 @@ use crate::phrase::{Phrase, Slot};
 use crate::refusal::{Refusal, Refuses};
 use crate::solve::{
     adiabatic_mix_into, portions_enthalpy, Equilibrator, HonestyEquilibrator, MixingEquilibrator,
-    PermissiveScreen, SafetyScreen, SafetyVerdict, SolverRoute, SolverRouteKind,
+    PermissiveScreen, SafetyScreen, SafetyVerdict, SolveError, SolverRoute, SolverRouteKind,
     SolverRouteOutcome, SolverStack,
 };
 use crate::species::{self, Phase, SpeciesId};
