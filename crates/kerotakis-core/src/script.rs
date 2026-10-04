@@ -1156,7 +1156,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
             // `wait 30s` — the clock the rate experiments need.
             let raw = words.get(1).ok_or_else(|| usage("wait <n><s|min|h>"))?;
             Operator::Wait {
-                seconds: parse_duration_seconds(raw)?,
+                seconds: parse_duration_seconds_with_zero(raw, true)?,
             }
         }
         "ignite" => Operator::Ignite {
@@ -1440,8 +1440,13 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                 return Err(usage("electrolyse <vessel> <current>A <time><s|min|h>"));
             }
             let vessel = parse_vessel(words[1])?;
-            let amps = parse_suffixed(words[2], &[("a", 1.0), ("ma", 1e-3), ("", 1.0)], "current")?;
-            let seconds = parse_suffixed(
+            let amps = parse_suffixed_checked(
+                words[2],
+                &[("a", 1.0), ("ma", 1e-3), ("", 1.0)],
+                "current",
+                true,
+            )?;
+            let seconds = parse_suffixed_checked(
                 words[3],
                 &[
                     ("s", 1.0),
@@ -1457,6 +1462,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                     ("", 1.0),
                 ],
                 "time",
+                true,
             )?;
             Operator::Electrolyse {
                 vessel,
@@ -1970,7 +1976,11 @@ pub fn parse_at(words: &[&str]) -> Result<Option<Kelvin>, Refusal> {
 }
 
 fn parse_duration_seconds(raw: &str) -> Result<f64, Refusal> {
-    parse_suffixed(
+    parse_duration_seconds_with_zero(raw, false)
+}
+
+fn parse_duration_seconds_with_zero(raw: &str, allow_zero: bool) -> Result<f64, Refusal> {
+    parse_suffixed_checked(
         raw,
         &[
             ("", 1.0),
@@ -1986,6 +1996,7 @@ fn parse_duration_seconds(raw: &str) -> Result<f64, Refusal> {
             ("hours", 3600.0),
         ],
         "duration",
+        allow_zero,
     )
 }
 
@@ -2011,35 +2022,56 @@ fn split_unit(word: &str) -> Result<(f64, &str), Refusal> {
 /// A number with a unit suffix, matched longest-first so `ms` cannot be
 /// read as `m`. Shared by the operators that take a physical quantity.
 fn parse_suffixed(raw: &str, units: &[(&str, f64)], what: &str) -> Result<f64, Refusal> {
-    let digits: String = raw
+    parse_suffixed_checked(raw, units, what, false)
+}
+
+fn parse_suffixed_checked(
+    raw: &str,
+    units: &[(&str, f64)],
+    what: &str,
+    allow_zero: bool,
+) -> Result<f64, Refusal> {
+    let lower = raw.trim().to_ascii_lowercase();
+    let mut candidates = units.to_vec();
+    candidates.sort_by_key(|(name, _)| std::cmp::Reverse(name.len()));
+    for (name, scale) in candidates {
+        let Some(number) = lower.strip_suffix(name) else {
+            continue;
+        };
+        let Ok(value) = number.parse::<f64>() else {
+            continue;
+        };
+        let scaled = value * scale;
+        if !value.is_finite() || !scaled.is_finite() {
+            return Err(Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
+                .with("what", what)
+                .with("raw", raw));
+        }
+        if value < 0.0 || (!allow_zero && value == 0.0) {
+            return Err(
+                Refusal::new("error.quantity-positive", "{what} must be positive")
+                    .with("what", what),
+            );
+        }
+        return Ok(scaled);
+    }
+    // Retain the established unknown-unit diagnostic when a numeric prefix
+    // exists; exponent spelling is parsed above against the declared units.
+    let digits: String = lower
         .chars()
         .take_while(|c| c.is_ascii_digit() || *c == '.')
         .collect();
-    let value: f64 = digits.parse().map_err(|_| {
-        Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
-            .with("what", what)
-            .with("raw", raw)
-    })?;
-    let suffix = raw[digits.len()..].trim().to_ascii_lowercase();
-    let mut best: Option<f64> = None;
-    for (name, scale) in units {
-        if suffix == *name {
-            best = Some(*scale);
-            break;
-        }
-    }
-    match best {
-        Some(scale) if value > 0.0 => Ok(value * scale),
-        Some(_) => Err(
-            Refusal::new("error.quantity-positive", "{what} must be positive").with("what", what),
-        ),
-        None => Err(Refusal::new(
+    if digits.parse::<f64>().is_ok() {
+        return Err(Refusal::new(
             "error.unknown-quantity-unit",
             "unknown {what} unit '{unit}'",
         )
         .with("what", what)
-        .with("unit", suffix)),
+        .with("unit", lower[digits.len()..].trim()));
     }
+    Err(Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
+        .with("what", what)
+        .with("raw", raw))
 }
 
 #[cfg(test)]
