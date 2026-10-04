@@ -40,11 +40,12 @@ def main():
                    '--no-fail-fast', '-j1', '--', '--test-threads=1']
     if args.scope == 'safety':
         command = ['cargo', 'test', '-p', 'kerotakis-core', '--lib',
-                   '--test', 'safety_veto_contracts', '--test', 'transfer_probe_contracts',
+                   '--test', 'safety_veto_contracts', '--test', 'safety_extraction_controls', '--test', 'transfer_probe_contracts',
                    '--test', 'mix', '--test', 'magic_milk', '--test', 'liquid_extraction',
                    '--test', 'spill_breakage', '--test', 'spill_persistence',
                    '--test', 'transfer_trace', '--test', 'solver_transactions',
-                   '--no-fail-fast', '-j1', '--', '--test-threads=1']
+                   '--no-fail-fast', '-j1', '--', '--test-threads=1',
+                   '--skip', 'extraction_veto_retains_its_atomic_contract']
     log = args.out/(args.scope + '.log')
     started = time.monotonic()
     with log.open('w') as output:

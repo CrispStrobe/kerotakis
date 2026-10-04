@@ -1,0 +1,33 @@
+{
+  "run": 37182463480,
+  "commit": "1d9a3d7edc5671116da8ea6c78a12b5d03400184",
+  "frozen_tests": 20,
+  "failed_contracts": [
+    "add_veto_is_atomic",
+    "decant_veto_is_atomic",
+    "decant_veto_removes_automatically_created_receiver",
+    "deliberate_discard_veto_is_atomic",
+    "extraction_veto_retains_its_atomic_contract",
+    "filter_veto_removes_automatically_created_receiver",
+    "material_add_veto_is_atomic",
+    "mix_veto_is_atomic",
+    "spill_recovery_veto_is_atomic",
+    "decant_probe_has_applied_adiabatic_temperature",
+    "decant_probe_has_applied_surface_geometry",
+    "decant_probe_includes_incoming_unresolved_liquid",
+    "filter_probe_has_applied_adiabatic_temperature",
+    "filter_probe_has_applied_surface_geometry",
+    "filtration_moves_declared_unresolved_liquid_and_keeps_solid",
+    "mix_probe_has_applied_adiabatic_temperature",
+    "mix_probe_has_applied_surface_geometry",
+    "mix_probe_includes_incoming_unresolved_liquid"
+  ],
+  "failed": 18,
+  "passed_contracts": [
+    "an_accidental_spill_still_happens_with_a_hazard",
+    "zero_pours_preserve_receiver_surface_geometry"
+  ],
+  "forecast_correction": "The extraction control was expected to retain atomic refusal but also failed before repair; the original forecast is unchanged.",
+  "raw_log_sha256": "7e71b33981ff8fd69a724f7dfac1081c5622e23ab4ad8a0c1cbe6e6f27945c38",
+  "frozen_hashes_verified": true
+}

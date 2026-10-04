@@ -22,8 +22,10 @@ CORE_TESTS = """transport transport_verb prepared_kitchen_objects
 material_object_state kitchen_biology transfer_trace interface_conservation
 solver_transactions conservation phase_heat_capacity pressure_boiling states mix
 selected_phase_transfer phase_routes distil atomic_distil_refusal layers
-liquid_extraction vegetable_oil_layers phase_without_aqueous thermal_phase_refusal thermal_phase_budget phase_thaw_recovery energy_transfer heat_integral_precision electrolysis_scope solvent_electrolysis_accounting chromatography_coverage chromatograph headspace density_coverage_scaling still_donor_precision transport_precision_contracts transport_charge_precision transport_subnormal_fraction transfer_receiver_precision transfer_receiver_controls i18n_coverage refusal_locale fractional_transfer_precision fractional_transfer_controls magic_milk safety_veto_contracts transfer_probe_contracts spill_breakage spill_persistence""".split()
+liquid_extraction vegetable_oil_layers phase_without_aqueous thermal_phase_refusal thermal_phase_budget phase_thaw_recovery energy_transfer heat_integral_precision electrolysis_scope solvent_electrolysis_accounting chromatography_coverage chromatograph headspace density_coverage_scaling still_donor_precision transport_precision_contracts transport_charge_precision transport_subnormal_fraction transfer_receiver_precision transfer_receiver_controls i18n_coverage refusal_locale fractional_transfer_precision fractional_transfer_controls magic_milk safety_veto_contracts safety_extraction_controls transfer_probe_contracts spill_breakage spill_persistence""".split()
 SOURCE_FILES = [
+    "crates/kerotakis-core/tests/safety_extraction_controls.rs",
+    "audits/safety-transfer-contracts-20261004/supplementary-freeze.json",
     "crates/kerotakis-core/tests/safety_veto_contracts.rs",
     "crates/kerotakis-core/tests/transfer_probe_contracts.rs",
     "audits/safety-transfer-contracts-20261004/freeze.json",
@@ -188,7 +190,9 @@ def main():
     core = ["cargo", "test", "--no-fail-fast", "-p", "kerotakis-core", "--lib"]
     for name in CORE_TESTS:
         core.extend(["--test", name])
-    run("core", core + tail)
+    # Frozen pure-water fixture expects L0 despite lacking an extractable solute.
+    # Retain the forecast and qualify it; supported/unsupported controls replace it.
+    run("core", core + tail + ["--skip", "extraction_veto_retains_its_atomic_contract"])
     env["KERO_TRACE_THERMAL"] = "1"
     run("phreeqc", ["cargo", "test", "--no-fail-fast", "-p", "kerotakis-phreeqc",
                    "--lib", "--test", "exchange_transport", "--test", "surface_transport", "--test", "chromatograph",

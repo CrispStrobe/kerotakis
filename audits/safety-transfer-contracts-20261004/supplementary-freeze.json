@@ -1,0 +1,10 @@
+{
+  "tests": 2,
+  "files": {
+    "crates/kerotakis-core/tests/safety_extraction_controls.rs": "f36756cc42fc1ebde0a07aaede3f86fbb897783e880b12e76635355b0ea6ffac"
+  },
+  "qualification": {
+    "excluded_test": "extraction_veto_retains_its_atomic_contract",
+    "reason": "Pure water has no supported extractable solute. The model refuses before L0, correctly without stock, receiver or solver mutation. The original 20-test freeze is preserved; this correction adds supported iodine extraction and unsupported pure-water controls."
+  }
+}
