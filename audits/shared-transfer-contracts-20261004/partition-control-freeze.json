@@ -1,0 +1,12 @@
+{
+  "contracts": 5,
+  "scope": "Supplementary valid two-layer partition precision contracts plus matched controls for two original extreme-ratio single-phase forecast errors. Original frozen files retained.",
+  "files": {
+    "crates/kerotakis-core/tests/drain_partition_precision_controls.rs": "75a7ff37b4bbee0c0850a0156fe5a7ab178265988c4ded23501f526dd5e24ac0"
+  },
+  "original_forecast_qualifications": {
+    "drain_partition_refuses_a_swallowed_positive_donor_debit": "hexane1e20/water2 gives modeled single-phase domain; no partition transfer attempted",
+    "drain_partition_refuses_a_changing_inaccurate_donor_debit": "hexane1e10/water2 gives modeled single-phase domain; no partition transfer attempted"
+  },
+  "exclusion_policy": "Original two forecast-error tests remain byte-exact and are exactly excluded from repaired acceptance, with failures disclosed; matched controls run without exclusion."
+}
