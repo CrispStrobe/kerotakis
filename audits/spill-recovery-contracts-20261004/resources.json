@@ -1,0 +1,27 @@
+{
+  "utc": "2026-10-04T12:22:08.067668+00:00",
+  "load_average": [
+    1.78759765625,
+    2.64599609375,
+    2.994140625
+  ],
+  "memory_available_bytes": 5895868416,
+  "disks": {
+    "/": {
+      "total": 80314085376,
+      "used": 71798546432,
+      "free": 5204676608
+    },
+    "/mnt/volume1": {
+      "total": 263892987904,
+      "used": 258228056064,
+      "free": 5379719168
+    },
+    "/mnt/storage": {
+      "total": 5492911112192,
+      "used": 3631186837504,
+      "free": 1861724274688
+    }
+  },
+  "policy": "Two read-only review agents; all builds and app execution serial on hosted runners."
+}

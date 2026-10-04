@@ -803,80 +803,89 @@ impl Bench {
             .position(|spill| spill.destination == *destination)
             .ok_or(BenchError::NoSuchSpill)?;
         let spill = self.spills[index].clone();
-        let mut probe = self.vessel(to)?.clone();
-        for portion in &spill.contents {
-            probe.deposit(
-                portion.species.clone(),
-                Moles(portion.moles.0 * fraction),
-                portion.phase,
-            );
+        // Recovery can include every phase and unresolved parcel (including
+        // broken-container solids), so prepare all inventory, not only liquids.
+        let mut retained = spill.clone();
+        let mut moved = Vec::new();
+        for portion in &mut retained.contents {
+            let (out, rest) =
+                checked_transfer_split(portion.moles.0, fraction, &portion.species.0)?;
+            if out > 0.0 {
+                moved.push((portion.species.clone(), Moles(out), portion.phase));
+            }
+            portion.moles = Moles(rest);
         }
-        match screen.assess(&probe) {
+        retained.contents.retain(|p| p.moles.0 > 0.0);
+        let mut unresolved = Vec::new();
+        for portion in &mut retained.unresolved_materials {
+            let (out, rest) = checked_transfer_split(portion.amount, fraction, &portion.material)?;
+            if out > 0.0 {
+                let mut parcel = portion.clone();
+                parcel.amount = out;
+                unresolved.push(parcel);
+            }
+            portion.amount = rest;
+        }
+        retained.unresolved_materials.retain(|p| p.amount > 0.0);
+        let before = self.vessel(to)?;
+        let mut probe = prepare_transfer_receiver(
+            before,
+            &[(&moved, spill.temperature)],
+            unresolved.iter(),
+            !moved.is_empty() || !unresolved.is_empty(),
+        )?;
+        if matches!(probe.thermal_mode, ThermalMode::Adiabatic) {
+            for sid in &spill.unpriced_heat {
+                if !probe.unpriced_heat.contains(sid) {
+                    probe.unpriced_heat.push(sid.clone());
+                }
+            }
+        }
+        probe.refresh_pressure();
+        let errors = crate::delta::StateDelta::validate_state(&probe);
+        if !errors.is_empty() {
+            return Err(BenchError::InvalidState(
+                errors
+                    .iter()
+                    .map(ToString::to_string)
+                    .collect::<Vec<_>>()
+                    .join("; "),
+            ));
+        }
+        match screen.assess_pour(before, &probe) {
             SafetyVerdict::Allow => {}
             SafetyVerdict::Warn {
                 severity,
                 rule,
                 hazard,
                 real_world,
-            } => events.push(Event::HazardWarning {
-                severity,
-                rule,
-                hazard,
-                real_world,
-            }),
+            } => {
+                events.push(Event::HazardWarning {
+                    severity,
+                    rule,
+                    hazard,
+                    real_world,
+                });
+            }
             SafetyVerdict::Veto { reason } => {
                 events.push(Event::SafetyVeto { reason });
                 return Ok(false);
             }
         }
-        let receiver = self.vessel_mut(to)?;
-        if matches!(receiver.thermal_mode, ThermalMode::Adiabatic) {
-            let settled = adiabatic_mix_into(receiver, spill.temperature, |t| {
-                portions_enthalpy(
-                    spill.contents.iter().map(|portion| {
-                        (&portion.species, portion.moles.0 * fraction, portion.phase)
-                    }),
-                    spill.temperature.0,
-                    t,
-                )
+        let surface_count = before.surface_colours.len();
+        if surface_count > 0 && probe.surface_colours.is_empty() {
+            events.push(Event::SurfaceColourMixed {
+                vessel: to,
+                spot_count: surface_count,
             });
-            receiver.temperature = settled;
-            for sid in &spill.unpriced_heat {
-                if !receiver.unpriced_heat.contains(sid) {
-                    receiver.unpriced_heat.push(sid.clone());
-                }
-            }
         }
-        for portion in &spill.contents {
-            receiver.deposit(
-                portion.species.clone(),
-                Moles(portion.moles.0 * fraction),
-                portion.phase,
-            );
-        }
-        receiver
-            .unresolved_materials
-            .extend(spill.unresolved_materials.iter().map(|portion| {
-                let mut moved = portion.clone();
-                moved.amount *= fraction;
-                moved
-            }));
-        for portion in &mut self.spills[index].contents {
-            portion.moles.0 *= 1.0 - fraction;
-        }
-        self.spills[index]
-            .contents
-            .retain(|portion| portion.moles.0 > 0.0);
-        for portion in &mut self.spills[index].unresolved_materials {
-            portion.amount *= 1.0 - fraction;
-        }
-        self.spills[index]
-            .unresolved_materials
-            .retain(|portion| portion.amount > 0.0);
-        if self.spills[index].contents.is_empty()
-            && self.spills[index].unresolved_materials.is_empty()
-        {
+        // The screened receiver and checked retained donor are the exact
+        // states accepted by this transfer; the outer checkpoint handles errors.
+        *self.vessel_mut(to)? = probe;
+        if retained.contents.is_empty() && retained.unresolved_materials.is_empty() {
             self.spills.remove(index);
+        } else {
+            self.spills[index] = retained;
         }
         Ok(true)
     }
@@ -2967,6 +2976,7 @@ impl Bench {
                     return Err(BenchError::BadFraction);
                 }
                 if *fraction == 0.0 {
+                    *disposition = ApplyDisposition::Unchanged;
                     return Ok(events);
                 }
                 if self.is_broken(*to) {

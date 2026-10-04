@@ -61,7 +61,7 @@ def main():
                    '--no-fail-fast', '-j1', '--', '--test-threads=1']
     if args.scope == 'recovery':
         command = ['cargo', 'test', '-p', 'kerotakis-core', '--lib',
-                   '--test', 'spill_recovery_contracts', '--test', 'spill_breakage', '--test', 'spill_persistence',
+                   '--test', 'spill_recovery_contracts', '--test', 'spill_recovery_pour_hook', '--test', 'spill_recovery_pressure', '--test', 'spill_breakage', '--test', 'spill_persistence',
                    '--test', 'transfer_probe_contracts', '--test', 'fractional_transfer_precision',
                    '--test', 'fractional_transfer_controls', '--test', 'solver_transactions',
                    '--test', 'i18n_coverage', '--test', 'refusal_locale',
