@@ -6331,7 +6331,12 @@ impl Bench {
             }
         }
 
-        let final_ph = curve.last().map(|&(_, p)| p).unwrap_or(f64::NAN);
+        let final_ph = self
+            .vessel(vessel)?
+            .solution
+            .as_ref()
+            .map(|info| info.ph)
+            .unwrap_or(f64::NAN);
         let step_count = committed_steps;
 
         if final_ph.is_finite() && (step_count > 0 || reached) {
