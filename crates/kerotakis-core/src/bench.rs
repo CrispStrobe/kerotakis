@@ -154,6 +154,44 @@ fn prepare_mobile_transfer(
     })
 }
 
+/// Prepare the same receiver inventory, surface geometry, and temperature
+/// that will be committed after the safety screen allows the transfer.
+fn prepare_transfer_receiver<'a>(
+    receiver: &Vessel,
+    streams: &[(&[(SpeciesId, Moles, Phase)], Kelvin)],
+    materials: impl Iterator<Item = &'a UnresolvedMaterialPortion>,
+    disturb_surface: bool,
+) -> Result<Vessel, BenchError> {
+    let mut probe = receiver.clone();
+    if disturb_surface {
+        crate::surface_colour::homogenize(&mut probe);
+    }
+    if matches!(probe.thermal_mode, ThermalMode::Adiabatic) {
+        let held = probe.temperature.0;
+        let lo = streams
+            .iter()
+            .fold(held, |t, (_, incoming)| t.min(incoming.0));
+        let hi = streams
+            .iter()
+            .fold(held, |t, (_, incoming)| t.max(incoming.0));
+        probe.temperature = crate::solve::adiabatic_rest_temperature(lo, hi, |t| {
+            let mut energy = probe.energy_between(held, t);
+            for (portions, incoming) in streams {
+                energy +=
+                    portions_enthalpy(portions.iter().map(|(s, n, p)| (s, n.0, *p)), incoming.0, t);
+            }
+            energy
+        });
+    }
+    for (portions, _) in streams {
+        for (species, amount, phase) in *portions {
+            checked_transfer_deposit(&mut probe, species.clone(), *amount, *phase)?;
+        }
+    }
+    probe.unresolved_materials.extend(materials.cloned());
+    Ok(probe)
+}
+
 /// Whether applying an operator permits subsequent physical-state mutation.
 /// Explicit atomic refusals keep their diagnostics/log entry but must not
 /// turn an unchanged vessel into another equilibrium or contact-history step.
@@ -981,6 +1019,23 @@ impl Bench {
         let applied = self
             .apply(&op, screen, &mut disposition)
             .and_then(|events| {
+                // A refused command records its veto but changes no physical
+                // state, including any receiver created while preparing it.
+                if events
+                    .iter()
+                    .any(|event| matches!(event, Event::SafetyVeto { .. }))
+                {
+                    self.vessels = checkpoint.0.clone();
+                    self.spills = checkpoint.1.clone();
+                    self.broken_vessels = checkpoint.2.clone();
+                    self.stock = checkpoint.3.clone();
+                    self.log.truncate(checkpoint.4);
+                    disposition = ApplyDisposition::Unchanged;
+                    return Ok(events
+                        .into_iter()
+                        .filter(|event| matches!(event, Event::SafetyVeto { .. }))
+                        .collect());
+                }
                 let errors: Vec<_> = self
                     .vessels
                     .iter()
@@ -2879,10 +2934,12 @@ impl Bench {
 
                 // L0 on the prospective target state, before mutation —
                 // pouring one vessel into another can create the hazard.
-                let mut probe = self.vessel(*to)?.clone();
-                for (s, n, phase) in &would_move {
-                    checked_transfer_deposit(&mut probe, s.clone(), *n, *phase)?;
-                }
+                let probe = prepare_transfer_receiver(
+                    self.vessel(*to)?,
+                    &[(&would_move, t_from)],
+                    unresolved_move.iter(),
+                    *fraction > 0.0,
+                )?;
                 match screen.assess(&probe) {
                     SafetyVerdict::Allow => {}
                     SafetyVerdict::Warn {
@@ -2927,27 +2984,16 @@ impl Bench {
                 };
                 // …and mix it into `to` with the energy balance.
                 let dst = self.vessel_mut(*to)?;
-                if matches!(dst.thermal_mode, ThermalMode::Adiabatic) {
-                    let t_new = adiabatic_mix_into(dst, t_from, |t| {
-                        portions_enthalpy(
-                            portions.iter().map(|(s, n, p)| (s, n.0, *p)),
-                            t_from.0,
-                            t,
-                        )
+                if !portions.is_empty() && (probe.temperature.0 - dst.temperature.0).abs() > 1e-9 {
+                    events.push(Event::TemperatureChanged {
+                        vessel: *to,
+                        from: dst.temperature,
+                        to: probe.temperature,
                     });
-                    if !portions.is_empty() && (t_new.0 - dst.temperature.0).abs() > 1e-9 {
-                        events.push(Event::TemperatureChanged {
-                            vessel: *to,
-                            from: dst.temperature,
-                            to: t_new,
-                        });
-                    }
-                    dst.temperature = t_new;
                 }
-                for (s, n, phase) in portions {
-                    checked_transfer_deposit(dst, s, n, phase)?;
-                }
-                dst.unresolved_materials.extend(unresolved_move);
+                dst.temperature = probe.temperature;
+                dst.contents = probe.contents;
+                dst.unresolved_materials = probe.unresolved_materials;
                 events.push(Event::Transferred {
                     from: *from,
                     to: *to,
@@ -2984,10 +3030,12 @@ impl Bench {
                 let t_b = self.vessel(*b)?.temperature;
 
                 // L0 on the prospective target state.
-                let mut probe = self.vessel(*into)?.clone();
-                for (s, n, phase) in move_a.iter().chain(move_b.iter()) {
-                    checked_transfer_deposit(&mut probe, s.clone(), *n, *phase)?;
-                }
+                let probe = prepare_transfer_receiver(
+                    self.vessel(*into)?,
+                    &[(&move_a, t_a), (&move_b, t_b)],
+                    unresolved_a.iter().chain(unresolved_b.iter()),
+                    *fraction_a > 0.0 || *fraction_b > 0.0,
+                )?;
                 match screen.assess(&probe) {
                     SafetyVerdict::Allow => {}
                     SafetyVerdict::Warn {
@@ -3042,40 +3090,16 @@ impl Bench {
 
                 // Deposit into target with adiabatic energy balance.
                 let dst = self.vessel_mut(*into)?;
-                if matches!(dst.thermal_mode, ThermalMode::Adiabatic) {
-                    // Three-body adiabatic mix: vessel + stream_a + stream_b.
-                    // One root, three enthalpies, all measured from where
-                    // their own matter currently is.
-                    let held = dst.temperature.0;
-                    let lo = held.min(t_a.0).min(t_b.0);
-                    let hi = held.max(t_a.0).max(t_b.0);
-                    let t_new = crate::solve::adiabatic_rest_temperature(lo, hi, |t| {
-                        dst.energy_between(held, t)
-                            + portions_enthalpy(
-                                move_a.iter().map(|(s, n, p)| (s, n.0, *p)),
-                                t_a.0,
-                                t,
-                            )
-                            + portions_enthalpy(
-                                move_b.iter().map(|(s, n, p)| (s, n.0, *p)),
-                                t_b.0,
-                                t,
-                            )
+                if (probe.temperature.0 - dst.temperature.0).abs() > 1e-9 {
+                    events.push(Event::TemperatureChanged {
+                        vessel: *into,
+                        from: dst.temperature,
+                        to: probe.temperature,
                     });
-                    if (t_new.0 - dst.temperature.0).abs() > 1e-9 {
-                        events.push(Event::TemperatureChanged {
-                            vessel: *into,
-                            from: dst.temperature,
-                            to: t_new,
-                        });
-                    }
-                    dst.temperature = t_new;
                 }
-                for (s, n, phase) in move_a.into_iter().chain(move_b) {
-                    checked_transfer_deposit(dst, s, n, phase)?;
-                }
-                dst.unresolved_materials
-                    .extend(unresolved_a.into_iter().chain(unresolved_b));
+                dst.temperature = probe.temperature;
+                dst.contents = probe.contents;
+                dst.unresolved_materials = probe.unresolved_materials;
                 events.push(Event::Mixed {
                     a: *a,
                     b: *b,
@@ -3093,7 +3117,7 @@ impl Bench {
                 }
                 self.ensure_destination(*to, &mut events);
                 // Everything liquid + dissolved would move; probe the target.
-                let (would_move, t_from) = {
+                let (would_move, unresolved_move, t_from) = {
                     let src = self.vessel(*from)?;
                     let moved: Vec<_> = src
                         .contents
@@ -3101,12 +3125,20 @@ impl Bench {
                         .filter(|p| matches!(p.phase, Phase::Liquid | Phase::Aqueous))
                         .map(|p| (p.species.clone(), p.moles, p.phase))
                         .collect();
-                    (moved, src.temperature)
+                    let unresolved: Vec<_> = src
+                        .unresolved_materials
+                        .iter()
+                        .filter(|p| material::unresolved_portion_is_liquid(p))
+                        .cloned()
+                        .collect();
+                    (moved, unresolved, src.temperature)
                 };
-                let mut probe = self.vessel(*to)?.clone();
-                for (s, n, phase) in &would_move {
-                    checked_transfer_deposit(&mut probe, s.clone(), *n, *phase)?;
-                }
+                let probe = prepare_transfer_receiver(
+                    self.vessel(*to)?,
+                    &[(&would_move, t_from)],
+                    unresolved_move.iter(),
+                    true,
+                )?;
                 match screen.assess(&probe) {
                     SafetyVerdict::Allow => {}
                     SafetyVerdict::Warn {
@@ -3144,20 +3176,12 @@ impl Bench {
                 // remains owned by the source; filtration is not a vent.
                 src.contents
                     .retain(|p| !matches!(p.phase, Phase::Liquid | Phase::Aqueous));
+                src.unresolved_materials
+                    .retain(|p| !material::unresolved_portion_is_liquid(p));
                 let dst = self.vessel_mut(*to)?;
-                if matches!(dst.thermal_mode, ThermalMode::Adiabatic) {
-                    let settled = adiabatic_mix_into(dst, t_from, |t| {
-                        portions_enthalpy(
-                            would_move.iter().map(|(s, n, p)| (s, n.0, *p)),
-                            t_from.0,
-                            t,
-                        )
-                    });
-                    dst.temperature = settled;
-                }
-                for (s, n, phase) in would_move {
-                    checked_transfer_deposit(dst, s, n, phase)?;
-                }
+                dst.temperature = probe.temperature;
+                dst.contents = probe.contents;
+                dst.unresolved_materials = probe.unresolved_materials;
                 events.push(Event::Filtered {
                     from: *from,
                     to: *to,
