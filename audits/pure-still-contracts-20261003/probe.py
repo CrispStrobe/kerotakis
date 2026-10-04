@@ -102,7 +102,7 @@ def main():
         command = ['cargo', 'test', '-p', 'kerotakis-core',
                    '--test', 'required_solver_ledger_boundaries', '--test', 'required_solver_ledger_supplement',
                    '--test', 'shared_transfer_contracts', '--test', 'sparse_optics_quantization_contracts',
-                   '--test', 'nuclide_inventory_serde_contracts', '--test', 'drain_partition_precision_controls',
+                   '--test', 'nuclide_inventory_serde_contracts', '--test', 'nuclide_state_validation_contracts', '--test', 'drain_partition_precision_controls',
                    '--test', 'required_solver_conservation_contracts', '--test', 'transfer_probe_contracts',
                    '--test', 'zero_transfer_surface_contracts', '--test', 'titration_final_safety_contracts',
                    '--test', 'titration_raw_proposal_contracts', '--test', 'titration_safety_contracts', '--test', 'titration_safety_controls',

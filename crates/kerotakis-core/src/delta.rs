@@ -400,6 +400,21 @@ impl StateDelta {
                 });
             }
         }
+        // Tracer ownership is a separate nuclear ledger, but every accepted
+        // state must still have valid identities and serializable amounts. Do
+        // not require curated decay support or chemical conservation here.
+        for (nuclide, moles) in &candidate.nuclides.inventory {
+            if !crate::stoich::is_element(&nuclide.element) || nuclide.mass_number == 0 {
+                errors.push(DeltaError::InvalidState {
+                    field: format!("nuclide identity {}", nuclide.notation()),
+                });
+            }
+            if !moles.is_finite() || *moles < 0.0 {
+                errors.push(DeltaError::InvalidState {
+                    field: format!("nuclide inventory {}", nuclide.notation()),
+                });
+            }
+        }
         let amounts = candidate
             .adsorbed
             .iter()

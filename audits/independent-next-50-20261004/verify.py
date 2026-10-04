@@ -25,7 +25,7 @@ INVALID = {
 }
 PROTOCOL = {"B13": "mix", "B14": "mix", **{f"B{i:02}": "particles" for i in range(19, 26)},
             "B13C": "same", "B14C": "same"}
-QUALIFIED = {"A11", "A19", "B11", "B12", "B16", "B17", "B18", "B20", "B21", "B22", "B23", "B24", "B25", "B14D"}
+QUALIFIED = {"A11", "A19", "B11", "B12", "B16", "B17", "B18", "B20", "B21", "B22", "B23", "B24", "B25", "B14"}
 
 
 def strict(text):
@@ -220,6 +220,8 @@ def main():
                 text=confined(evidence,text_run["stdout"]).read_text().lower()
                 remaining_copper=sum(p["moles"] for p in vessel(rows[-1])["contents"] if p["species"] in {"Cu+","Cu+1","Cu+2","CuSO4"} and p["phase"]=="aqueous")
                 claims.append(dict(claim="copper exhaustion narration does not overstate remaining copper inventory",passed=not (remaining_copper>1e-12 and "all the copper has plated out" in text)))
+            if category in {"bounded_observable_agreement", "qualified_observable_agreement"} and any(not c["passed"] for c in claims):
+                category = "unmet_observable_expectation"
             for claim in claims:check(key+" "+claim["claim"],claim["passed"])
             if not claims and key not in INVALID:limits.append("No physical claim checked: refusal/protocol integrity only.")
             assessments.append(dict(id=key,original_id=case.get("original_id",key),kind="corrected_followup" if followup else "original_frozen_case",full_forecast_established=False,category=category,forecast=case.get("physical_expectation",case.get("original_physical_expectation")),exit_code=jr["exit_code"],claims=claims,limitations=limits,historical_baseline_review=review.get(key[:3]),emitted_model_qualifications=[e for e in events(rows) if e.get("event") in {"not_yet_modeled","solver_failed"}],measurement_support=[e.get("model_support") for e in events(rows,"measured")]))
