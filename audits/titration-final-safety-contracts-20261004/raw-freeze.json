@@ -1,0 +1,7 @@
+{
+  "contracts": 3,
+  "scope": "Separate raw titration pressure/characterization/cache preparation before screening",
+  "files": {
+    "crates/kerotakis-core/tests/titration_raw_proposal_contracts.rs": "8cffad54a19b21bf28a752f70361b77e6c3d214e074f0a82e4e65ef8c4bf5530"
+  }
+}

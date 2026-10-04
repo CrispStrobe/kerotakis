@@ -1,0 +1,7 @@
+{
+  "contracts": 8,
+  "scope": "Source-informed titration final safety hook and atomic per-increment acceptance",
+  "files": {
+    "crates/kerotakis-core/tests/titration_final_safety_contracts.rs": "6954c75ecf52b45c965d8a811b810d914d0c964046285de92a9d06b04c5203ba"
+  }
+}
