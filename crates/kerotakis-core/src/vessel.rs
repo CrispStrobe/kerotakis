@@ -574,6 +574,8 @@ impl SolidSolution {
                 .components
                 .iter()
                 .all(|entry| entry.moles.0.is_finite() && entry.moles.0 >= 0.0)
+            && self.total_moles().0.is_finite()
+            && self.mass().0.is_finite()
     }
 }
 

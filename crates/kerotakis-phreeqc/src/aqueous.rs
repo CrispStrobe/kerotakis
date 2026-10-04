@@ -4509,7 +4509,16 @@ impl PhreeqcEquilibrator {
             for amount in &mut solid_solution.components {
                 let phase = phreeqc_solid_solution_component(amount.component);
                 let column = format!("s_{phase}");
-                amount.moles = Moles(value(&column).ok_or_else(|| missing(&column))?.max(0.0));
+                let raw = value(&column).ok_or_else(|| missing(&column))?;
+                if !raw.is_finite() || raw < 0.0 {
+                    return Err(SolveError::NotConverged {
+                        solver: self.name().to_string(),
+                        detail: format!(
+                            "PHREEQC returned an invalid finite nonnegative component amount for '{column}': {raw}"
+                        ),
+                    });
+                }
+                amount.moles = Moles(raw);
             }
             if !solid_solution.has_valid_state() {
                 return Err(SolveError::NotConverged {

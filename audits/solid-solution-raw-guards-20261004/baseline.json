@@ -1,0 +1,30 @@
+{
+  "diagnostic_only": true,
+  "commit": "c3a21d592a590790b21e629e6356d90fbb32fe55",
+  "command": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-phreeqc",
+    "--no-default-features",
+    "--lib",
+    "solid_solution_raw_readback_contracts",
+    "-j1",
+    "--",
+    "--test-threads=1",
+    "--skip",
+    "zero_pours_preserve_receiver_surface_geometry",
+    "--skip",
+    "drain_partition_refuses_a_swallowed_positive_donor_debit",
+    "--skip",
+    "drain_partition_refuses_a_changing_inaccurate_donor_debit"
+  ],
+  "exit_code": 101,
+  "seconds": 159.80030447299998,
+  "log": "crystal-readback.log",
+  "log_sha256": "fa739a64fe997407746387cda4fd7a750c0982fbfb236bbb64dad2b5c057d7a7",
+  "run_id": 37240626139,
+  "passed_tests": 3,
+  "failed_tests": 4,
+  "note": "Behavioral baseline with unchanged frozen contracts and corrected cfg(test) import. Valid positive, zero and missing controls pass; negative, NaN, negative infinity and named positive-infinity refusal fail."
+}

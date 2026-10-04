@@ -415,6 +415,14 @@ impl StateDelta {
                 });
             }
         }
+        let mut crystal_labels = std::collections::BTreeSet::new();
+        for crystal in &candidate.solid_solutions {
+            if !crystal.has_valid_state() || !crystal_labels.insert(&crystal.label) {
+                errors.push(DeltaError::InvalidState {
+                    field: "invalid or ambiguous solid-solution ownership".into(),
+                });
+            }
+        }
         let amounts = candidate
             .adsorbed
             .iter()

@@ -14,10 +14,20 @@
 //! Untyped material owners and unsupported identities are explicit coverage
 //! refusals. This policy is separate from legacy native-route element checks.
 
-use crate::{amount::Amount, delta::DeltaError, ops::Event, species, stoich, Vessel};
+use crate::{
+    amount::Amount, delta::DeltaError, ops::Event, species, stoich, vessel::SolidSolutionComponent,
+    Vessel,
+};
 use std::collections::{BTreeMap, BTreeSet};
 
-type Inventory = BTreeMap<String, Amount>;
+/// Formula metadata comes from the owner that admitted the amount. A typed
+/// crystal can represent an end member absent from the bottle registry without
+/// granting unknown primary contents a formula-string escape hatch.
+struct OwnedAmount {
+    amount: Amount,
+    formula: stoich::Formula,
+}
+type Inventory = BTreeMap<String, OwnedAmount>;
 type Result<T> = std::result::Result<T, String>;
 
 fn zero() -> Amount {
@@ -76,15 +86,53 @@ fn supported(key: &str) -> Result<(&'static species::SpeciesData, stoich::Formul
     Ok((data, formula))
 }
 
+fn merge_owned(
+    inventory: &mut Inventory,
+    key: &str,
+    amount: Amount,
+    formula: stoich::Formula,
+) -> Result<()> {
+    if let Some(previous) = inventory.get_mut(key) {
+        if previous.formula.counts != formula.counts || previous.formula.charge != formula.charge {
+            return Err(format!("conflicting owned molecular composition: {key}"));
+        }
+        previous.amount = add(previous.amount, amount)?;
+    } else {
+        inventory.insert(key.to_owned(), OwnedAmount { amount, formula });
+    }
+    Ok(())
+}
+
 fn deposit(inventory: &mut Inventory, key: &str, value: f64) -> Result<()> {
     let amount = Amount::new(value).map_err(|e| format!("{key}: {e}"))?;
     if !nonzero(amount) {
         return Ok(());
     }
-    let (data, _) = supported(key)?;
-    let previous = inventory.get(data.key).copied().unwrap_or_else(zero);
-    inventory.insert(data.key.to_owned(), add(previous, amount)?);
-    Ok(())
+    let (data, formula) = supported(key)?;
+    merge_owned(inventory, data.key, amount, formula)
+}
+
+fn deposit_crystal_component(
+    inventory: &mut Inventory,
+    component: SolidSolutionComponent,
+    value: f64,
+) -> Result<()> {
+    let amount = Amount::new(value).map_err(|e| e.to_string())?;
+    if !nonzero(amount) {
+        return Ok(());
+    }
+    // This exhaustive mapping is limited to the model's explicit formula-unit
+    // owners. It supplies composition, not solubility, kinetics or heat data.
+    let formula_text = match component {
+        SolidSolutionComponent::CalciumCarbonate => "CaCO3",
+        SolidSolutionComponent::StrontiumCarbonate => "SrCO3",
+    };
+    let formula = stoich::parse_formula(formula_text).map_err(|e| format!("{e:?}"))?;
+    let identity = component.species();
+    let key = species::lookup(&identity)
+        .map(|data| data.key)
+        .unwrap_or(&identity.0);
+    merge_owned(inventory, key, amount, formula)
 }
 
 fn closes(produced: Amount, consumed: Amount, tolerance: f64) -> Result<bool> {
@@ -126,14 +174,18 @@ fn inventory(vessel: &Vessel, tolerance: f64) -> Result<Inventory> {
     if vessel.nuclides.inventory.values().any(|n| *n != 0.0) {
         return Err("nuclide ownership requires its separate nuclear certificate".into());
     }
-    if !vessel.solid_solutions.is_empty() {
-        return Err(
-            "typed solid-solution composition is not yet part of strict molecular closure".into(),
-        );
-    }
     let mut inventory = Inventory::new();
     for portion in &vessel.contents {
         deposit(&mut inventory, &portion.species.0, portion.moles.0)?;
+    }
+    let mut crystal_labels = BTreeSet::new();
+    for crystal in &vessel.solid_solutions {
+        if !crystal.has_valid_state() || !crystal_labels.insert(&crystal.label) {
+            return Err("invalid or ambiguous typed crystal ownership".into());
+        }
+        for component in &crystal.components {
+            deposit_crystal_component(&mut inventory, component.component, component.moles.0)?;
+        }
     }
     for bound in &vessel.adsorbed {
         deposit(&mut inventory, &bound.sorbate.0, bound.moles.0)?;
@@ -223,16 +275,30 @@ fn validate(before: &Vessel, after: &Vessel, events: &[Event], tolerance: f64) -
     let mut elements = BTreeMap::<String, Balance>::new();
     let mut charge = Balance::default();
     for key in identities {
-        let before_amount = before_inventory.get(key).copied().unwrap_or_else(zero);
-        let after_amount = after_inventory.get(key).copied().unwrap_or_else(zero);
+        let before = before_inventory.get(key);
+        let after = after_inventory.get(key);
+        if let (Some(before), Some(after)) = (before, after) {
+            if before.formula.counts != after.formula.counts
+                || before.formula.charge != after.formula.charge
+            {
+                return Err(format!(
+                    "owned molecular composition changed identity: {key}"
+                ));
+            }
+        }
+        let before_amount = before.map(|entry| entry.amount).unwrap_or_else(zero);
+        let after_amount = after.map(|entry| entry.amount).unwrap_or_else(zero);
         let (positive, changed) = difference(after_amount, before_amount)?;
         if !nonzero(changed) {
             continue;
         }
-        let (_, formula) = supported(key)?;
-        for (element, count) in formula.counts {
-            let count = changed.checked_scale(count).map_err(|e| e.to_string())?;
-            elements.entry(element).or_default().note(positive, count)?;
+        let formula = &after.or(before).expect("union inventory identity").formula;
+        for (element, count) in &formula.counts {
+            let count = changed.checked_scale(*count).map_err(|e| e.to_string())?;
+            elements
+                .entry(element.clone())
+                .or_default()
+                .note(positive, count)?;
         }
         if formula.charge != 0.0 {
             let charge_amount = changed

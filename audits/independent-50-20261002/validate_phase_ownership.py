@@ -18,12 +18,21 @@ import time
 ROOT = Path(__file__).resolve().parent
 REPO = ROOT.parents[1]
 PREDICTIONS_SHA = "0fd6e4831f5da264c892a5718b8619ae267388df0512fe54dab04fff30287064"
-CORE_TESTS = """nuclide_state_validation_contracts nuclide_inventory_serde_contracts drain_partition_precision_controls titration_final_safety_contracts titration_raw_proposal_contracts required_solver_ledger_boundaries required_solver_ledger_supplement shared_transfer_contracts zero_transfer_surface_contracts transport transport_verb prepared_kitchen_objects
+CORE_TESTS = """required_solid_solution_contracts solid_solution_state_contracts solid_solution_aggregate_validity solid_solution nuclide_state_validation_contracts nuclide_inventory_serde_contracts drain_partition_precision_controls titration_final_safety_contracts titration_raw_proposal_contracts required_solver_ledger_boundaries required_solver_ledger_supplement shared_transfer_contracts zero_transfer_surface_contracts transport transport_verb prepared_kitchen_objects
 material_object_state kitchen_biology transfer_trace interface_conservation
 solver_transactions conservation phase_heat_capacity pressure_boiling states mix
 selected_phase_transfer phase_routes distil atomic_distil_refusal layers
 liquid_extraction vegetable_oil_layers phase_without_aqueous thermal_phase_refusal thermal_phase_budget phase_thaw_recovery energy_transfer heat_integral_precision electrolysis_scope solvent_electrolysis_accounting chromatography_coverage chromatograph headspace density_coverage_scaling still_donor_precision transport_precision_contracts transport_charge_precision transport_subnormal_fraction transfer_receiver_precision transfer_receiver_controls i18n_coverage refusal_locale fractional_transfer_precision fractional_transfer_controls magic_milk safety_veto_contracts safety_extraction_controls titration_safety_contracts titration_safety_controls titration_quantity_contracts titration_stock_contracts stock_precision_contracts titration_missing_characterization titration_raw_state_contracts titration_progress_contracts titration_product_precision titration_accounting_controls stock displacement_pathway_narration zero_operator_settlement_contracts zero_and_numeric_clock_contracts extraction_stage_contracts compensated_stock_contracts compensated_stock_precision_boundaries post_equilibrium_safety_contracts required_solver_conservation_contracts compensated_amount_contracts sparse_iodine_optics_contracts sparse_optics_quantization_contracts spill_creation_contracts extraction_quantity_contracts extraction_numerical_contracts extraction_review_controls redox_titrimetry spill_recovery_contracts spill_recovery_pour_hook spill_recovery_pressure transfer_probe_contracts spill_breakage spill_persistence""".split()
 SOURCE_FILES = [
+    "crates/kerotakis-core/tests/required_solid_solution_contracts.rs",
+    "crates/kerotakis-core/tests/solid_solution_state_contracts.rs",
+    "crates/kerotakis-core/tests/solid_solution_aggregate_validity.rs",
+    "crates/kerotakis-core/tests/solid_solution.rs",
+    "crates/kerotakis-phreeqc/tests/solid_solution.rs",
+    "crates/kerotakis-phreeqc/tests/solid_solution_raw_readback/contracts.rs",
+    "audits/strict-solid-solution-owner-contracts-20261004/freeze.json",
+    "audits/solid-solution-raw-guards-20261004/freeze.json",
+
     "crates/kerotakis-core/tests/nuclide_state_validation_contracts.rs",
     "audits/nuclide-state-validation-contracts-20261004/freeze.json",
 
@@ -292,7 +301,8 @@ def main():
     run("phreeqc", ["cargo", "test", "--no-fail-fast", "-p", "kerotakis-phreeqc",
                    "--lib", "--test", "exchange_transport", "--test", "surface_transport", "--test", "chromatograph",
                    "--test", "settled_carbonate_transfer", "--test", "trace_inventory",
-                   "--test", "order_invariance", "--test", "native_delta_h", "--test", "engine_call_budget"] + tail)
+                   "--test", "order_invariance", "--test", "native_delta_h", "--test", "engine_call_budget",
+                   "--test", "solid_solution"] + tail)
     env.pop("KERO_TRACE_THERMAL", None)
     run("phreeqc-hook", ["cargo", "test", "--no-fail-fast", "-p", "kerotakis-phreeqc",
                          "--no-default-features", "--lib"] + tail)
