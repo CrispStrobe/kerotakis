@@ -1,0 +1,28 @@
+{
+  "utc": "2026-10-04T11:46:49.727018+00:00",
+  "load_average": [
+    1.767578125,
+    1.93359375,
+    2.21044921875
+  ],
+  "memory_available_bytes": 5955002368,
+  "swap_free_bytes": 10084806656,
+  "disks": {
+    "/": {
+      "total": 80314085376,
+      "used": 71547158528,
+      "free": 5456064512
+    },
+    "/mnt/volume1": {
+      "total": 263892987904,
+      "used": 258225004544,
+      "free": 5382770688
+    },
+    "/mnt/storage": {
+      "total": 5492910981120,
+      "used": 3631061008384,
+      "free": 1861849972736
+    }
+  },
+  "policy": "All compilation and CLI app execution serial on hosted runners; only small source, receipt and Git operations local. Two read-only review agents completed; no additional local builds or agents."
+}
