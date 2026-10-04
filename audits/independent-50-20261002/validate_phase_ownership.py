@@ -22,8 +22,14 @@ CORE_TESTS = """transport transport_verb prepared_kitchen_objects
 material_object_state kitchen_biology transfer_trace interface_conservation
 solver_transactions conservation phase_heat_capacity pressure_boiling states mix
 selected_phase_transfer phase_routes distil atomic_distil_refusal layers
-liquid_extraction vegetable_oil_layers phase_without_aqueous thermal_phase_refusal thermal_phase_budget phase_thaw_recovery energy_transfer heat_integral_precision electrolysis_scope solvent_electrolysis_accounting chromatography_coverage chromatograph headspace density_coverage_scaling still_donor_precision transport_precision_contracts transport_charge_precision transport_subnormal_fraction transfer_receiver_precision transfer_receiver_controls i18n_coverage refusal_locale""".split()
+liquid_extraction vegetable_oil_layers phase_without_aqueous thermal_phase_refusal thermal_phase_budget phase_thaw_recovery energy_transfer heat_integral_precision electrolysis_scope solvent_electrolysis_accounting chromatography_coverage chromatograph headspace density_coverage_scaling still_donor_precision transport_precision_contracts transport_charge_precision transport_subnormal_fraction transfer_receiver_precision transfer_receiver_controls i18n_coverage refusal_locale fractional_transfer_precision fractional_transfer_controls magic_milk""".split()
 SOURCE_FILES = [
+    "crates/kerotakis-core/tests/fractional_transfer_precision.rs",
+    "crates/kerotakis-core/tests/fractional_transfer_controls.rs",
+    "audits/fractional-transfer-contracts-20261004/supplementary-freeze.json",
+    "crates/kerotakis-core/tests/magic_milk.rs",
+    "crates/kerotakis-core/src/surface_colour.rs",
+    "audits/fractional-transfer-contracts-20261004/freeze.json",
     "crates/kerotakis-cea/src/gibbs.rs",
     "crates/kerotakis-core/src/bench.rs",
     "crates/kerotakis-core/src/transport.rs",

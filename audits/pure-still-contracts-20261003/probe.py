@@ -33,7 +33,7 @@ def main():
                    '--no-fail-fast', '-j1', '--', '--test-threads=1']
     if args.scope == 'fractional':
         command = ['cargo', 'test', '-p', 'kerotakis-core', '--lib',
-                   '--test', 'fractional_transfer_precision', '--test', 'transfer_trace',
+                   '--test', 'fractional_transfer_precision', '--test', 'fractional_transfer_controls', '--test', 'transfer_trace',
                    '--test', 'mix', '--test', 'magic_milk', '--test', 'vegetable_oil_layers',
                    '--test', 'transfer_receiver_precision', '--test', 'transfer_receiver_controls',
                    '--test', 'i18n_coverage', '--test', 'refusal_locale',

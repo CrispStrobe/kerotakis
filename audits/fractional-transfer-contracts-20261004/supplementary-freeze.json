@@ -1,0 +1,9 @@
+{
+  "file": "crates/kerotakis-core/tests/fractional_transfer_controls.rs",
+  "sha256": "8e255370576a21b915a4246e6508c56182c9b57d9994da4fc2eaa4f81ff07956",
+  "tests": 2,
+  "expectations": [
+    "Different-species second stream cannot hide a donor error behind receiver rounding.",
+    "An inaccurate near-full retained tail refuses; an exactly represented near-full tail succeeds."
+  ]
+}

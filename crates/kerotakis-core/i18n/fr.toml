@@ -4,6 +4,8 @@
 
 "error.transfer-precision" = "Ce récipient ne peut pas conserver le transfert complet de {species} à son échelle actuelle ; utilisez des récipients séparés pour des quantités très différentes"
 
+"error.transfer-donor-precision" = "Le récipient source ne peut pas représenter précisément le partage demandé de {component} ; choisissez un transfert plus grand ou transférez la totalité"
+
 [vessel]
 open = ", ouvert sur l'atmosphère"
 sealed-before = ", scellé, "

@@ -19,6 +19,8 @@
 
 "error.transfer-precision" = "Dieses Gefäß kann die vollständige Übertragung von {species} bei seiner aktuellen Stoffmenge nicht erhalten; verwende getrennte Gefäße für stark unterschiedliche Mengen"
 
+"error.transfer-donor-precision" = "Das Ausgangsgefäß kann die gewünschte Aufteilung von {component} nicht genau darstellen; wähle eine größere Übertragung oder übertrage die ganze Menge"
+
 [vessel]
 open = ", zur Atmosphäre offen"
 sealed-before = ", verschlossen, "

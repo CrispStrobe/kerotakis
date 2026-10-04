@@ -66,6 +66,94 @@ fn checked_transfer_deposit(
     Ok(())
 }
 
+/// Prepare both sides of one scalar split. Conservation of rounded totals
+/// alone cannot detect zero debits or inaccurate subnormal fractions.
+fn checked_transfer_split(
+    amount: f64,
+    fraction: f64,
+    component: &str,
+) -> Result<(f64, f64), BenchError> {
+    let refuse = || BenchError::TransferDonorPrecision {
+        component: component.to_string(),
+    };
+    if !amount.is_finite()
+        || amount < 0.0
+        || !fraction.is_finite()
+        || !(0.0..=1.0).contains(&fraction)
+    {
+        return Err(refuse());
+    }
+    if amount == 0.0 || fraction == 0.0 {
+        return Ok((0.0, amount));
+    }
+    if fraction == 1.0 {
+        return Ok((amount, 0.0));
+    }
+    let moved = amount * fraction;
+    let retained = amount - moved;
+    let accurate = |ratio: f64| ratio.is_finite() && (ratio - 1.0).abs() <= 1e-8;
+    if moved <= 0.0
+        || retained <= 0.0
+        || !accurate(moved / amount / fraction)
+        || !accurate((amount - retained) / moved)
+        || !accurate(retained / amount / (1.0 - fraction))
+    {
+        return Err(refuse());
+    }
+    Ok((moved, retained))
+}
+
+/// The prepared donor is only used for its inventory fields: clearing surface
+/// localization later must not be undone by restoring a complete vessel.
+struct TransferInventory {
+    contents: Vec<crate::vessel::Portion>,
+    unresolved_materials: Vec<UnresolvedMaterialPortion>,
+}
+struct MobileTransferPlan {
+    retained: TransferInventory,
+    moved: Vec<(SpeciesId, Moles, Phase)>,
+    unresolved: Vec<UnresolvedMaterialPortion>,
+}
+fn prepare_mobile_transfer(
+    source: &Vessel,
+    fraction: f64,
+) -> Result<MobileTransferPlan, BenchError> {
+    let mut retained = TransferInventory {
+        contents: source.contents.clone(),
+        unresolved_materials: source.unresolved_materials.clone(),
+    };
+    let mut moved = Vec::new();
+    for portion in &mut retained.contents {
+        if matches!(portion.phase, Phase::Liquid | Phase::Aqueous) {
+            let (out, rest) =
+                checked_transfer_split(portion.moles.0, fraction, &portion.species.0)?;
+            if out > 0.0 {
+                moved.push((portion.species.clone(), Moles(out), portion.phase));
+            }
+            portion.moles = Moles(rest);
+        }
+    }
+    retained.contents.retain(|p| p.moles.0 > 0.0);
+    let mut unresolved = Vec::new();
+    for portion in &mut retained.unresolved_materials {
+        if material::unresolved_portion_is_liquid(portion) {
+            let (out, rest) = checked_transfer_split(portion.amount, fraction, &portion.material)?;
+            if out > 0.0 {
+                let mut parcel = portion.clone();
+                parcel.amount = out;
+                unresolved.push(parcel);
+            }
+            portion.amount = rest;
+        }
+    }
+    retained.unresolved_materials.retain(|p| p.amount > 0.0);
+    Ok(MobileTransferPlan {
+        retained,
+        moved,
+        unresolved,
+    })
+}
+
 /// Whether applying an operator permits subsequent physical-state mutation.
 /// Explicit atomic refusals keep their diagnostics/log entry but must not
 /// turn an unchanged vessel into another equilibrium or contact-history step.
@@ -112,6 +200,9 @@ pub enum BenchError {
     MaterialRecipeMismatch,
     NonPositiveAmount,
     InvalidState(String),
+    TransferDonorPrecision {
+        component: String,
+    },
     TransferPrecision {
         species: SpeciesId,
     },
@@ -183,6 +274,10 @@ impl Refuses for BenchError {
                 "operation exceeds the model's numeric domain: {detail}",
             )
             .with("detail", detail),
+            BenchError::TransferDonorPrecision { component } => Refusal::new(
+                "error.transfer-donor-precision",
+                "the source cannot represent the requested split of {component} accurately; choose a larger transfer or transfer the whole amount",
+            ).with("component", component),
             BenchError::TransferPrecision { species } => Refusal::new(
                 "error.transfer-precision",
                 "this receiver cannot retain the complete {species} transfer at its current inventory scale; use separate receivers for quantities at widely different scales",
@@ -2775,31 +2870,12 @@ impl Bench {
                 if from == to {
                     return Err(BenchError::SelfTransfer);
                 }
-                // Work out what would move, without mutating yet.
-                let (would_move, unresolved_move, t_from) = {
-                    let src = self.vessel(*from)?;
-                    let moved: Vec<_> = src
-                        .contents
-                        .iter()
-                        .filter(|p| matches!(p.phase, Phase::Liquid | Phase::Aqueous))
-                        .filter_map(|p| {
-                            let n = Moles(p.moles.0 * fraction);
-                            (n.0 > 0.0).then(|| (p.species.clone(), n, p.phase))
-                        })
-                        .collect();
-                    let unresolved: Vec<_> = src
-                        .unresolved_materials
-                        .iter()
-                        .filter(|portion| material::unresolved_portion_is_liquid(portion))
-                        .map(|portion| {
-                            let mut moved = portion.clone();
-                            moved.amount *= fraction;
-                            moved
-                        })
-                        .filter(|portion| portion.amount > 0.0)
-                        .collect();
-                    (moved, unresolved, src.temperature)
-                };
+                let MobileTransferPlan {
+                    retained,
+                    moved: would_move,
+                    unresolved: unresolved_move,
+                } = prepare_mobile_transfer(self.vessel(*from)?, *fraction)?;
+                let t_from = self.vessel(*from)?.temperature;
 
                 // L0 on the prospective target state, before mutation —
                 // pouring one vessel into another can create the hazard.
@@ -2845,19 +2921,8 @@ impl Bench {
                 // Apply: take the liquid fraction out of `from`…
                 let portions = {
                     let src = self.vessel_mut(*from)?;
-                    for p in src.contents.iter_mut() {
-                        if matches!(p.phase, Phase::Liquid | Phase::Aqueous) {
-                            p.moles = Moles(p.moles.0 * (1.0 - fraction));
-                        }
-                    }
-                    src.contents.retain(|p| p.moles.0 > 0.0);
-                    for portion in &mut src.unresolved_materials {
-                        if material::unresolved_portion_is_liquid(portion) {
-                            portion.amount *= 1.0 - fraction;
-                        }
-                    }
-                    src.unresolved_materials
-                        .retain(|portion| portion.amount > 0.0);
+                    src.contents = retained.contents;
+                    src.unresolved_materials = retained.unresolved_materials;
                     would_move
                 };
                 // …and mix it into `to` with the energy balance.
@@ -2905,55 +2970,18 @@ impl Bench {
                 if a == b {
                     return Err(BenchError::SelfTransfer);
                 }
-                // Gather what would move from each source.
-                let (move_a, unresolved_a, t_a) = {
-                    let src = self.vessel(*a)?;
-                    let moved: Vec<_> = src
-                        .contents
-                        .iter()
-                        .filter(|p| matches!(p.phase, Phase::Liquid | Phase::Aqueous))
-                        .filter_map(|p| {
-                            let n = Moles(p.moles.0 * fraction_a);
-                            (n.0 > 0.0).then(|| (p.species.clone(), n, p.phase))
-                        })
-                        .collect();
-                    let unresolved: Vec<_> = src
-                        .unresolved_materials
-                        .iter()
-                        .filter(|portion| material::unresolved_portion_is_liquid(portion))
-                        .map(|portion| {
-                            let mut moved = portion.clone();
-                            moved.amount *= fraction_a;
-                            moved
-                        })
-                        .filter(|portion| portion.amount > 0.0)
-                        .collect();
-                    (moved, unresolved, src.temperature)
-                };
-                let (move_b, unresolved_b, t_b) = {
-                    let src = self.vessel(*b)?;
-                    let moved: Vec<_> = src
-                        .contents
-                        .iter()
-                        .filter(|p| matches!(p.phase, Phase::Liquid | Phase::Aqueous))
-                        .filter_map(|p| {
-                            let n = Moles(p.moles.0 * fraction_b);
-                            (n.0 > 0.0).then(|| (p.species.clone(), n, p.phase))
-                        })
-                        .collect();
-                    let unresolved: Vec<_> = src
-                        .unresolved_materials
-                        .iter()
-                        .filter(|portion| material::unresolved_portion_is_liquid(portion))
-                        .map(|portion| {
-                            let mut moved = portion.clone();
-                            moved.amount *= fraction_b;
-                            moved
-                        })
-                        .filter(|portion| portion.amount > 0.0)
-                        .collect();
-                    (moved, unresolved, src.temperature)
-                };
+                let MobileTransferPlan {
+                    retained: retained_a,
+                    moved: move_a,
+                    unresolved: unresolved_a,
+                } = prepare_mobile_transfer(self.vessel(*a)?, *fraction_a)?;
+                let MobileTransferPlan {
+                    retained: retained_b,
+                    moved: move_b,
+                    unresolved: unresolved_b,
+                } = prepare_mobile_transfer(self.vessel(*b)?, *fraction_b)?;
+                let t_a = self.vessel(*a)?.temperature;
+                let t_b = self.vessel(*b)?.temperature;
 
                 // L0 on the prospective target state.
                 let mut probe = self.vessel(*into)?.clone();
@@ -3001,38 +3029,14 @@ impl Bench {
                 // Withdraw fractions from sources.
                 {
                     let src_a = self.vessel_mut(*a)?;
-                    for p in src_a.contents.iter_mut() {
-                        if matches!(p.phase, Phase::Liquid | Phase::Aqueous) {
-                            p.moles = Moles(p.moles.0 * (1.0 - fraction_a));
-                        }
-                    }
-                    src_a.contents.retain(|p| p.moles.0 > 0.0);
-                    for portion in &mut src_a.unresolved_materials {
-                        if material::unresolved_portion_is_liquid(portion) {
-                            portion.amount *= 1.0 - fraction_a;
-                        }
-                    }
-                    src_a
-                        .unresolved_materials
-                        .retain(|portion| portion.amount > 0.0);
+                    src_a.contents = retained_a.contents;
+                    src_a.unresolved_materials = retained_a.unresolved_materials;
                     src_a.solution = None;
                 }
                 {
                     let src_b = self.vessel_mut(*b)?;
-                    for p in src_b.contents.iter_mut() {
-                        if matches!(p.phase, Phase::Liquid | Phase::Aqueous) {
-                            p.moles = Moles(p.moles.0 * (1.0 - fraction_b));
-                        }
-                    }
-                    src_b.contents.retain(|p| p.moles.0 > 0.0);
-                    for portion in &mut src_b.unresolved_materials {
-                        if material::unresolved_portion_is_liquid(portion) {
-                            portion.amount *= 1.0 - fraction_b;
-                        }
-                    }
-                    src_b
-                        .unresolved_materials
-                        .retain(|portion| portion.amount > 0.0);
+                    src_b.contents = retained_b.contents;
+                    src_b.unresolved_materials = retained_b.unresolved_materials;
                     src_b.solution = None;
                 }
 
