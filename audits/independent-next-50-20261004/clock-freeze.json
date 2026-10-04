@@ -1,0 +1,7 @@
+{
+  "contracts": 6,
+  "files": {
+    "crates/kerotakis-core/tests/zero_and_numeric_clock_contracts.rs": "8e6ed1920040559af1b7ad1da08866c94d01c849f7cfc85e5ac79f56764d374d"
+  },
+  "origin": "Frozen fourth-fiftyA17/A21/B15 CLI captures reject zero current and zero wait. Supplemental directAPI and grammar controls frozen before repair; no separate directAPI baseline claimed."
+}
