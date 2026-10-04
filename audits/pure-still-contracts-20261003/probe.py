@@ -54,7 +54,7 @@ def main():
     if args.scope == 'accounting':
         command = ['cargo', 'test', '-p', 'kerotakis-core', '--lib',
                    '--test', 'titration_quantity_contracts', '--test', 'titration_stock_contracts',
-                   '--test', 'stock_precision_contracts', '--test', 'titration_raw_state_contracts', '--test', 'titration_product_precision', '--test', 'titration_progress_contracts', '--test', 'titration_accounting_controls', '--test', 'stock',
+                   '--test', 'stock_precision_contracts', '--test', 'titration_missing_characterization', '--test', 'titration_raw_state_contracts', '--test', 'titration_product_precision', '--test', 'titration_progress_contracts', '--test', 'titration_accounting_controls', '--test', 'stock',
                    '--test', 'titration_safety_contracts', '--test', 'titration_safety_controls',
                    '--test', 'redox_titrimetry', '--test', 'solver_transactions',
                    '--test', 'i18n_coverage', '--test', 'refusal_locale',

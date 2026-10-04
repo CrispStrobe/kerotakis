@@ -1,0 +1,7 @@
+{
+  "tests": 1,
+  "files": {
+    "crates/kerotakis-core/tests/titration_missing_characterization.rs": "21ae05b5baef6a3cde96945259c3761181b5d5b601c0680a68e02bb2c6d6120f"
+  },
+  "expectation": "Accepted raw doses with no fresh solution characterization debit real stock and disclose the absent solver, but do not reuse the initial pH as final. Supplementary source-informed progress regression control; no separate pre-repair execution."
+}
