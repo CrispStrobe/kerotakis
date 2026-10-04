@@ -194,6 +194,17 @@ fn prepare_transfer_receiver<'a>(
 
 /// A virtual titration trial has no donor debit, but each positive scaled
 /// quantity and actual receiver/volume increment must remain representable.
+fn checked_titration_product(actual: f64, a: f64, b: f64) -> Result<(), BenchError> {
+    // Cancel the smaller operand first so an intermediate subnormal quotient
+    // cannot round an inaccurate product back into the requested operand.
+    let ratio = actual / a.min(b) / a.max(b);
+    if !actual.is_finite() || actual <= 0.0 || !ratio.is_finite() || (ratio - 1.0).abs() > 1e-8 {
+        return Err(BenchError::InvalidState(
+            "nominal titration dose conversion is not representable".into(),
+        ));
+    }
+    Ok(())
+}
 fn checked_titration_scale(amount: f64, fraction: f64) -> Result<f64, BenchError> {
     let scaled = amount * fraction;
     if !amount.is_finite()
@@ -2123,7 +2134,7 @@ impl Bench {
                 moles,
                 at,
             } => {
-                if moles.0 <= 0.0 {
+                if !moles.0.is_finite() || moles.0 <= 0.0 {
                     return Err(BenchError::NonPositiveAmount);
                 }
                 let data =
@@ -5915,11 +5926,16 @@ impl Bench {
         }
 
         let carrier_per_liter = water_data.moles_from_liters(Liters(1.0)).0;
-        if (moles_per_step.0 / concentration / step.0 - 1.0).abs() > 1e-8
-            || (water_per_step.0 / carrier_per_liter / step.0 - 1.0).abs() > 1e-8
+        checked_titration_product(moles_per_step.0, concentration, step.0)?;
+        checked_titration_product(water_per_step.0, carrier_per_liter, step.0)?;
+        if self
+            .vessel(vessel)?
+            .solution
+            .as_ref()
+            .is_some_and(|info| !info.ph.is_finite() || info.pe.is_some_and(|pe| !pe.is_finite()))
         {
             return Err(BenchError::InvalidState(
-                "nominal titration dose conversion is not representable".into(),
+                "initial titration curve point is not finite".into(),
             ));
         }
         let mut events = Vec::new();
@@ -5949,6 +5965,7 @@ impl Bench {
 
         let mut total_volume = Liters(0.0);
         let mut reached = false;
+        let mut committed_steps = 0;
         let mut stopped_early = false;
         let mut pe_ever_pinned = false;
 
@@ -6175,6 +6192,7 @@ impl Bench {
             }
             *self.vessel_mut(vessel)? = accepted;
             self.stock = stock;
+            committed_steps += 1;
             events.append(&mut accepted_events);
             total_volume = Liters(next_volume);
 
@@ -6304,13 +6322,9 @@ impl Bench {
         }
 
         let final_ph = curve.last().map(|&(_, p)| p).unwrap_or(f64::NAN);
-        let step_count = if curve.is_empty() {
-            0
-        } else {
-            (curve.len() as u32).saturating_sub(1)
-        };
+        let step_count = committed_steps;
 
-        if step_count > 0 || reached {
+        if final_ph.is_finite() && (step_count > 0 || reached) {
             events.push(Event::Titrated {
                 vessel,
                 titrant,
