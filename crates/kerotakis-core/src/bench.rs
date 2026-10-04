@@ -645,71 +645,66 @@ impl Bench {
     ) -> Result<bool, BenchError> {
         let source = self.vessel(from)?.clone();
         let eligible = |phase: Phase| kind.takes(phase);
-        let moved = source
-            .contents
-            .iter()
-            .filter(|portion| eligible(portion.phase))
-            .map(|portion| {
-                let mut moved = portion.clone();
-                moved.moles.0 *= fraction;
-                moved
-            })
-            .filter(|portion| portion.moles.0 > 0.0)
-            .collect::<Vec<_>>();
-        let unresolved = source
-            .unresolved_materials
-            .iter()
-            .filter(|portion| kind.takes_unresolved(portion))
-            .map(|portion| {
-                let mut moved = portion.clone();
-                moved.amount *= fraction;
-                moved
-            })
-            .filter(|portion| portion.amount > 0.0)
-            .collect::<Vec<_>>();
-
+        let mut retained = source.clone();
+        let mut moved = Vec::new();
+        for portion in &mut retained.contents {
+            if eligible(portion.phase) {
+                let (out, rest) =
+                    checked_transfer_split(portion.moles.0, fraction, &portion.species.0)?;
+                if out > 0.0 {
+                    moved.push((portion.species.clone(), Moles(out), portion.phase));
+                }
+                portion.moles = Moles(rest);
+            }
+        }
+        retained.contents.retain(|p| p.moles.0 > 0.0);
+        let mut unresolved = Vec::new();
+        for portion in &mut retained.unresolved_materials {
+            if kind.takes_unresolved(portion) {
+                let (out, rest) =
+                    checked_transfer_split(portion.amount, fraction, &portion.material)?;
+                if out > 0.0 {
+                    let mut parcel = portion.clone();
+                    parcel.amount = out;
+                    unresolved.push(parcel);
+                }
+                portion.amount = rest;
+            }
+        }
+        retained.unresolved_materials.retain(|p| p.amount > 0.0);
         let mut spill = self
             .spill(destination)
             .cloned()
             .unwrap_or_else(|| SpillCompartment::new(destination.clone(), source.temperature));
-        // The same enthalpy balance the vessels use: a puddle that read a
-        // different table from the beaker it came out of would not conserve
-        // energy across a spill.
-        let held = spill.temperature.0;
-        let arriving = source.temperature.0;
-        let settled =
-            crate::solve::adiabatic_rest_temperature(held.min(arriving), held.max(arriving), |t| {
-                crate::solve::portions_enthalpy(
-                    spill
-                        .contents
-                        .iter()
-                        .map(|portion| (&portion.species, portion.moles.0, portion.phase)),
-                    held,
-                    t,
-                ) + crate::solve::portions_enthalpy(
-                    moved
-                        .iter()
-                        .map(|portion| (&portion.species, portion.moles.0, portion.phase)),
-                    arriving,
-                    t,
-                )
-            });
-        spill.temperature = settled;
+        // The common receiver planner uses the same quantity and enthalpy
+        // contracts for vessel receivers and authoritative spill compartments.
+        let mut before = spill.as_vessel_probe();
+        before.thermal_mode = ThermalMode::Adiabatic;
+        let mut probe = prepare_transfer_receiver(
+            &before,
+            &[(&moved, source.temperature)],
+            unresolved.iter(),
+            false,
+        )?;
         for sid in &source.unpriced_heat {
-            if !spill.unpriced_heat.contains(sid) {
-                spill.unpriced_heat.push(sid.clone());
+            if !probe.unpriced_heat.contains(sid) {
+                probe.unpriced_heat.push(sid.clone());
             }
         }
-        for portion in &moved {
-            if let Some(existing) = spill.contents.iter_mut().find(|candidate| {
-                candidate.species == portion.species && candidate.phase == portion.phase
-            }) {
-                existing.moles.0 += portion.moles.0;
-            } else {
-                spill.contents.push(portion.clone());
-            }
+        let errors = crate::delta::StateDelta::validate_state(&probe);
+        if !errors.is_empty() {
+            return Err(BenchError::InvalidState(
+                errors
+                    .iter()
+                    .map(ToString::to_string)
+                    .collect::<Vec<_>>()
+                    .join("; "),
+            ));
         }
-        spill.unresolved_materials.extend(unresolved.clone());
+        spill.temperature = probe.temperature;
+        spill.contents = probe.contents;
+        spill.unresolved_materials = probe.unresolved_materials;
+        spill.unpriced_heat = probe.unpriced_heat;
         if !spill.sources.contains(&from) {
             spill.sources.push(from);
         }
@@ -763,20 +758,8 @@ impl Bench {
         }
 
         let source = self.vessel_mut(from)?;
-        for portion in &mut source.contents {
-            if eligible(portion.phase) {
-                portion.moles.0 *= 1.0 - fraction;
-            }
-        }
-        source.contents.retain(|portion| portion.moles.0 > 0.0);
-        for portion in &mut source.unresolved_materials {
-            if kind.takes_unresolved(portion) {
-                portion.amount *= 1.0 - fraction;
-            }
-        }
-        source
-            .unresolved_materials
-            .retain(|portion| portion.amount > 0.0);
+        source.contents = retained.contents;
+        source.unresolved_materials = retained.unresolved_materials;
         if let Some(existing) = self
             .spills
             .iter_mut()
@@ -2903,6 +2886,7 @@ impl Bench {
                     return Err(BenchError::BadFraction);
                 }
                 if *fraction == 0.0 {
+                    *disposition = ApplyDisposition::Unchanged;
                     return Ok(events);
                 }
                 if self.is_broken(*from) {
