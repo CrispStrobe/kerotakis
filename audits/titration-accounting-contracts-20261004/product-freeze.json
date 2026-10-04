@@ -1,0 +1,7 @@
+{
+  "tests": 3,
+  "files": {
+    "crates/kerotakis-core/tests/titration_product_precision.rs": "c8e542719cf14fc540cc3f48ca7779e4b814bff385bc7c4638751205a7b39174"
+  },
+  "expectation": "Product accuracy must expose subnormal error regardless of which operand is small. Exactly represented subnormal nominal concentration remains supported. Initial pH/pe chart points must be finite before any trial, even if a solver would repair the live state. Source-informed supplementary review controls; no separate pre-repair execution."
+}
