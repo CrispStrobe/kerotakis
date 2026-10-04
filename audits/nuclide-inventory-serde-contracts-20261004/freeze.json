@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "created_utc": "2026-10-04T16:26:26.336111+00:00",
+  "count": 11,
+  "test_file": "crates/kerotakis-core/tests/nuclide_inventory_serde_contracts.rs",
+  "test_sha256": "fc66ed099b5baff819cc9f79caa9a41032ce948f461bf3ef67d15ed0ecb7afe8",
+  "policy": "Source-informed JSON inventory boundary controls frozen before serde repair. Original required-conservation supplement unchanged. Canonical inventory keys only; duplicate canonical keys and noncanonical aliases refuse. Ordinary Nuclide object serde remains unchanged. Syntax validation does not certify isotope existence or nuclear data."
+}
