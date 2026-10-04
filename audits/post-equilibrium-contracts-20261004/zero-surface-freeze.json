@@ -1,0 +1,7 @@
+{
+  "contracts": 1,
+  "files": {
+    "crates/kerotakis-core/tests/zero_transfer_surface_contracts.rs": "430390b5f7feae10e5e5edea0c43c804c7d6ccdd987eb18127ff32861c0e7830"
+  },
+  "origin": "Replacement observer frozen after the zero-work repair: preserves the legacy physical forecast and adds explicit zero solver/screen counts. The original zero_pours_preserve_receiver_surface_geometry remains byte-exact but is excluded because its recorder[0] requires a screen call that intentionally no longer occurs."
+}
