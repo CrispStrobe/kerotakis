@@ -1,0 +1,20 @@
+{
+  "utc": "2026-10-04T14:10:06.706293+00:00",
+  "worktree": "/mnt/volume1/kero-satphase",
+  "pointer": "/mnt/akademie_storage/volume1-offload/kero-satphase/sundials-kinetics-rs/.git",
+  "before": "gitdir: ../../kerotakis/.git/worktrees/kero-satphase/modules/sundials-kinetics-rs\n",
+  "after": "gitdir: /mnt/volume1/kerotakis/.git/worktrees/kero-satphase/modules/sundials-kinetics-rs\n",
+  "backup": "/mnt/storage/kerotakis-maintenance-20261004/satphase-submodule-git-pointer-before.txt",
+  "scope": "Only relocated submodule Git pointer repaired; no source, commits, branches or worktrees removed.",
+  "initial_secondary_inventory": {
+    "total": 67,
+    "clean_unmerged": 61,
+    "dirty": 5,
+    "status_error": 1,
+    "clean_merged": 0
+  },
+  "status_exit_code": 0,
+  "status_warning": "warning: unable to access '.gitignore': Too many levels of symbolic links",
+  "status_archive": "/mnt/storage/kerotakis-maintenance-20261004/satphase-status-after-pointer-repair.txt",
+  "remaining": "Offloaded top-level symlinks cause tracked type/deletion statuses and a circular .gitignore warning. Preserve that layout and all unmerged/dirty authored work; no reset, restore, cleanup or removal performed."
+}
