@@ -1,0 +1,7 @@
+{
+  "tests": 8,
+  "files": {
+    "crates/kerotakis-core/tests/titration_safety_contracts.rs": "28bc986b7dd2989a17ef49494223ff1381f1e38d3d7e6e1a846180549b760739"
+  },
+  "expectation": "Screen each raw dose including fractional trials before its solver; veto stops current increment and retains prior accepted doses; warnings come only from accepted proposal; already-reached endpoint does not pour."
+}

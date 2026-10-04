@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', type=Path, required=True)
-    parser.add_argument('--scope', choices=['thermo', 'transport', 'receiver', 'fractional', 'safety'], default='thermo')
+    parser.add_argument('--scope', choices=['thermo', 'transport', 'receiver', 'fractional', 'safety', 'titration'], default='thermo')
     args = parser.parse_args()
     if os.environ.get('GITHUB_ACTIONS') != 'true':
         parser.error('Hosted execution only; local execution requires resource headroom')
@@ -46,6 +46,11 @@ def main():
                    '--test', 'transfer_trace', '--test', 'solver_transactions',
                    '--no-fail-fast', '-j1', '--', '--test-threads=1',
                    '--skip', 'extraction_veto_retains_its_atomic_contract']
+    if args.scope == 'titration':
+        command = ['cargo', 'test', '-p', 'kerotakis-core', '--lib',
+                   '--test', 'titration_safety_contracts', '--test', 'redox_titrimetry',
+                   '--test', 'solver_transactions',
+                   '--no-fail-fast', '-j1', '--', '--test-threads=1']
     log = args.out/(args.scope + '.log')
     started = time.monotonic()
     with log.open('w') as output:
