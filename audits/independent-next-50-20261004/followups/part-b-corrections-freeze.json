@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "tests": 10,
+  "files": {
+    "audits/independent-next-50-20261004/followups/part-b-corrections.json": "a421850fb292a22553a0bcb0f0fc0980324ca6f114e6e9738fb129bdba5497af",
+    "audits/independent-next-50-20261004/followups/scripts/B13C.lab": "00b7c15a1a31f8dbac3eba2005613d4c061591af07ef422a674fc917e62f4526",
+    "audits/independent-next-50-20261004/followups/scripts/B14C.lab": "03ca3c8bc65759c50ade4892b1e818952e370d83563d237b130e7e2e524e5bc0",
+    "audits/independent-next-50-20261004/followups/scripts/B15C.lab": "dd98a8f2c85029be3c532036a502b5c691f4d8d25a2a6ba92f5502413fc49f72",
+    "audits/independent-next-50-20261004/followups/scripts/B19C.lab": "ebbd5af788ca14cdf6b8bf579dd276bbe076eeaa4b0016c661669fe48e02215a",
+    "audits/independent-next-50-20261004/followups/scripts/B20C.lab": "d066a5714010155df67f17299667bbe3068a412dd468a2921053c1064a139553",
+    "audits/independent-next-50-20261004/followups/scripts/B21C.lab": "97caf3f28326f53a2ca1efce5127e4fa878251822d42433f66cbfc5c753ccc96",
+    "audits/independent-next-50-20261004/followups/scripts/B22C.lab": "2c2588b470e64d634c3773425c00bb96dcb66c765a2bd00bfeab81ead7cc4fbf",
+    "audits/independent-next-50-20261004/followups/scripts/B23C.lab": "4d9bf6a2284df370416e270c4f42dc76269a57f7c0d58b8c88a03412ee48b35c",
+    "audits/independent-next-50-20261004/followups/scripts/B24C.lab": "ce9091ca7f39a324315e1e5d27cdde5bfdab0e9bd75ef949157bf4ce177f4f0b",
+    "audits/independent-next-50-20261004/followups/scripts/B25C.lab": "7befdee9cc8e216d4456300a7a0226308df57c17aaa102789232c230706d4133"
+  }
+}

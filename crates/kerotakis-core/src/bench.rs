@@ -4602,6 +4602,11 @@ impl Bench {
                         });
                     }
                     split.staged_efficiency = split.extracted.0 / initial;
+                    if *stages > 1 {
+                        split.model.push_str(
+                            "; single-stage comparison uses the first contact coefficient, not a separately simulated bulk-contact temperature",
+                        );
+                    }
                 }
                 let mut stock = self.stock.clone();
                 if let Err(refusal) = stock.draw(&solvent.0, total_solvent.0) {

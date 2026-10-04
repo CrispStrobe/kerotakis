@@ -15,7 +15,7 @@ on:
         description: Audit selection
         type: choice
         default: fleets
-        options: [fleets, independent-50, independent-next-50, independent-fourth-50, thermal-contracts, independent-third-50, native-scale-contracts, pure-still-contracts, pure-still-performance]
+        options: [fleets, independent-50, independent-next-50, independent-fourth-50, thermal-contracts, independent-third-50, native-scale-contracts, pure-still-contracts, pure-still-performance, representative-performance]
       validated_run:
         description: Successful independent-50 validation run supplying the executable
         type: string
@@ -48,7 +48,7 @@ env:
 jobs:
   build-cli:
     name: Build audited CLI once
-    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance')
+    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -72,7 +72,7 @@ jobs:
 
   sixth-fleet:
     name: Frozen fleet 195-218
-    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance')
+    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance')
     needs: build-cli
     runs-on: ubuntu-latest
     steps:
@@ -117,7 +117,7 @@ jobs:
 
   seventh-fleet:
     name: Frozen fleet 459-488
-    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance')
+    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance')
     needs: build-cli
     runs-on: ubuntu-latest
     steps:
@@ -162,7 +162,7 @@ jobs:
 
   source-fleets:
     name: Source fleet ${{ matrix.family }}
-    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance')
+    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance')
     needs: build-cli
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -215,7 +215,7 @@ jobs:
 
   source-fleet-aggregate:
     name: All 240 source-informed cases
-    if: ${{ always() && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance')) }}
+    if: ${{ always() && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance')) }}
     needs: source-fleets
     runs-on: ubuntu-latest
     steps:
@@ -228,7 +228,7 @@ jobs:
 
   source-fleets-v2:
     name: Source fleet v2 ${{ matrix.family }}
-    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance')
+    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance')
     needs: build-cli
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -294,7 +294,7 @@ jobs:
 
   source-fleet-v2-aggregate:
     name: All 288 source-informed v2 cases
-    if: ${{ always() && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance')) }}
+    if: ${{ always() && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance')) }}
     needs: source-fleets-v2
     runs-on: ubuntu-latest
     steps:
@@ -307,7 +307,7 @@ jobs:
 
   source-fleets-v3:
     name: Source fleet v3 ${{ matrix.family }}
-    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance')
+    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance')
     needs: build-cli
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -364,7 +364,7 @@ jobs:
 
   source-fleet-v3-aggregate:
     name: All 120 source-informed v3 cases
-    if: ${{ always() && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance')) }}
+    if: ${{ always() && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance')) }}
     needs: source-fleets-v3
     runs-on: ubuntu-latest
     steps:
@@ -466,6 +466,8 @@ jobs:
           chmod +x "$RUNNER_TEMP/validated-cli/kero"
           python3 audits/independent-next-50-20261002/run.py --suite audits/independent-next-50-20261004 --binary "$RUNNER_TEMP/validated-cli/kero" --binary-source-commit "$VALIDATED_COMMIT" --out "$RUNNER_TEMP/fourth-50"
           python3 audits/independent-next-50-20261002/summarize.py "$RUNNER_TEMP/fourth-50"
+          python3 audits/independent-next-50-20261002/run.py --suite audits/independent-next-50-20261004/followups --binary "$RUNNER_TEMP/validated-cli/kero" --binary-source-commit "$VALIDATED_COMMIT" --out "$RUNNER_TEMP/fourth-50/followups"
+          python3 audits/independent-next-50-20261002/summarize.py "$RUNNER_TEMP/fourth-50/followups"
       - uses: actions/upload-artifact@v6
         if: always()
         with:
@@ -624,4 +626,29 @@ jobs:
         with:
           name: pure-still-performance-${{ github.sha }}
           path: ${{ runner.temp }}/pure-still-performance
+          retention-days: 30
+
+  representative-performance:
+    name: Matched representative CLI wall CPU and RSS
+    if: github.event_name == 'workflow_dispatch' && inputs.audit == 'representative-performance'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Fetch and verify both validated executable identities
+        run: |
+          gh run download '${{ inputs.baseline_run }}' --name 'independent-50-${{ inputs.baseline_commit }}' --dir "$RUNNER_TEMP/baseline"
+          gh run download '${{ inputs.validated_run }}' --name 'independent-50-${{ inputs.validated_commit }}' --dir "$RUNNER_TEMP/candidate"
+          python3 audits/independent-next-50-20261002/verify_binary.py "$RUNNER_TEMP/baseline" '${{ inputs.baseline_commit }}'
+          python3 audits/independent-next-50-20261002/verify_binary.py "$RUNNER_TEMP/candidate" '${{ inputs.validated_commit }}'
+          chmod +x "$RUNNER_TEMP/baseline/kero" "$RUNNER_TEMP/candidate/kero"
+      - name: Serial warmed alternating process profiles
+        run: python3 audits/independent-next-50-20261004/profile.py --baseline "$RUNNER_TEMP/baseline" --candidate "$RUNNER_TEMP/candidate" --out "$RUNNER_TEMP/representative-performance"
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: representative-performance-${{ github.sha }}
+          path: ${{ runner.temp }}/representative-performance
           retention-days: 30

@@ -1,0 +1,14 @@
+new
+new
+new
+new
+add v1 water 10g @ 20C
+add v2 water 10g @ 80C
+add v3 water 10g @ 20C
+add v4 water 10g @ 80C
+mix v2 1 v1 1 into v1
+mix v3 1 v4 1 into v4
+measure v1 thermometer
+measure v4 thermometer
+measure v1 balance
+measure v4 balance

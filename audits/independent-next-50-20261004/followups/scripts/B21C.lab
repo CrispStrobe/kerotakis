@@ -1,0 +1,8 @@
+new
+add v1 water 100mL
+add v1 CuSO4 0.001mol
+add v1 Fe 0.001mol
+wait 60s
+measure v1 eyes
+particles v1
+measure v1 balance

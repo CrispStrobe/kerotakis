@@ -1,0 +1,11 @@
+new
+add v1 water 100mL
+seal v1 500mL
+measure v1 pressure
+add v1 CaCO3 0.001mol
+add v1 HCl 0.002mol
+measure v1 pressure
+particles v1
+test v1 limewater
+particles v1
+measure v1 pressure

@@ -1,0 +1,9 @@
+new
+add v1 water 100mL
+add v1 NaCl 0.001mol
+measure v1 balance
+measure v1 conductivity
+dilute v1 100mL
+measure v1 balance
+measure v1 conductivity
+particles v1

@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "created_utc": "2026-10-04T15:36:19.024200+00:00",
+  "source_baseline_run": 37213155316,
+  "freeze_stage": "Corrected/followup scripts frozen after observing original author syntax failures, before any execution of these scripts. They are not independent fresh forecasts. Original files and expectations remain unchanged.",
+  "cases": [
+    {
+      "id": "B13C",
+      "original_id": "B13",
+      "file": "audits/independent-next-50-20261004/followups/scripts/B13C.lab",
+      "original_physical_expectation": "Final mixture temperature is strictly between 20 and 80 C, total water mass is 20 g in the receiver, and donor is empty. A precise 50 C claim would require separately accounting for glass heat capacity.",
+      "followup_policy": "Only the author syntax is corrected; original physical forecast retained. Qualify explicit model limits and do not credit parser rejection as a product chemistry failure.",
+      "sha256": "00b7c15a1a31f8dbac3eba2005613d4c061591af07ef422a674fc917e62f4526"
+    },
+    {
+      "id": "B14C",
+      "original_id": "B14",
+      "file": "audits/independent-next-50-20261004/followups/scripts/B14C.lab",
+      "original_physical_expectation": "Both receivers contain 20 g water and have physically consistent temperatures between 20 and 80 C. Any temperature difference must be attributable to documented receiver/glass energy, not an arbitrary last-added-temperature rule.",
+      "followup_policy": "Only the author syntax is corrected; original physical forecast retained. Qualify explicit model limits and do not credit parser rejection as a product chemistry failure.",
+      "sha256": "03ca3c8bc65759c50ade4892b1e818952e370d83563d237b130e7e2e524e5bc0"
+    },
+    {
+      "id": "B15C",
+      "original_id": "B15",
+      "file": "audits/independent-next-50-20261004/followups/scripts/B15C.lab",
+      "original_physical_expectation": "Zero elapsed time preserves material and thermal state exactly; it cannot advance kinetics, evaporation, or cooling.",
+      "followup_policy": "A separate tiny-positive-duration control; this does NOT satisfy or replace the frozen zero-duration forecast. Expect finite state, elapsed time 1e-12 s and temperature/mass unchanged within 1e-8 relative.",
+      "sha256": "dd98a8f2c85029be3c532036a502b5c691f4d8d25a2a6ba92f5502413fc49f72"
+    },
+    {
+      "id": "B19C",
+      "original_id": "B19",
+      "file": "audits/independent-next-50-20261004/followups/scripts/B19C.lab",
+      "original_physical_expectation": "A white AgCl precipitate forms. Filtering separates solid from aqueous solution, and masses sum to the pre-filter mass. Expected AgCl solid is close to 0.001 mol, with small equilibrium solubility corrections rather than complete disappearance.",
+      "followup_policy": "Only the author syntax is corrected; original physical forecast retained. Qualify explicit model limits and do not credit parser rejection as a product chemistry failure.",
+      "sha256": "ebbd5af788ca14cdf6b8bf579dd276bbe076eeaa4b0016c661669fe48e02215a"
+    },
+    {
+      "id": "B20C",
+      "original_id": "B20",
+      "file": "audits/independent-next-50-20261004/followups/scripts/B20C.lab",
+      "original_physical_expectation": "Carbonate and sufficient acid generate up to 0.001 mol CO2, with positive CO2 identification and increased sealed pressure relative to the initial state. Dissolved CO2 may reduce the gas amount; it cannot exceed the carbon inventory. A contact veto or missing kinetics is a capability qualification.",
+      "followup_policy": "Only the author syntax is corrected; original physical forecast retained. Qualify explicit model limits and do not credit parser rejection as a product chemistry failure. Carbon and pressure predictions apply before the explicitly destructive limewater assay; consumed CO2 is an assay export, not unexplained inventory loss.",
+      "sha256": "d066a5714010155df67f17299667bbe3068a412dd468a2921053c1064a139553"
+    },
+    {
+      "id": "B21C",
+      "original_id": "B21",
+      "file": "audits/independent-next-50-20261004/followups/scripts/B21C.lab",
+      "original_physical_expectation": "Iron can reduce aqueous Cu(II) to copper metal while oxidizing to Fe(II). Copper production must be bounded by both 0.001 mol copper and iron inventories; slow or unmodeled surface kinetics require an explicit qualification.",
+      "followup_policy": "Only the author syntax is corrected; original physical forecast retained. Qualify explicit model limits and do not credit parser rejection as a product chemistry failure.",
+      "sha256": "97caf3f28326f53a2ca1efce5127e4fa878251822d42433f66cbfc5c753ccc96"
+    },
+    {
+      "id": "B22C",
+      "original_id": "B22",
+      "file": "audits/independent-next-50-20261004/followups/scripts/B22C.lab",
+      "original_physical_expectation": "Copper does not spontaneously produce substantial iron metal from aqueous Fe(II) under these simple conditions. No reaction loop may generate both displacement directions as equally favorable.",
+      "followup_policy": "Only the author syntax is corrected; original physical forecast retained. Qualify explicit model limits and do not credit parser rejection as a product chemistry failure.",
+      "sha256": "2c2588b470e64d634c3773425c00bb96dcb66c765a2bd00bfeab81ead7cc4fbf"
+    },
+    {
+      "id": "B23C",
+      "original_id": "B23",
+      "file": "audits/independent-next-50-20261004/followups/scripts/B23C.lab",
+      "original_physical_expectation": "At ordinary temperature, 10 mL water cannot dissolve 20 g NaCl; more than 10 g remains solid. Filtration leaves substantial solid in the donor and dissolved salt in the filtrate; their total mass equals the input.",
+      "followup_policy": "Only the author syntax is corrected; original physical forecast retained. Qualify explicit model limits and do not credit parser rejection as a product chemistry failure.",
+      "sha256": "4d9bf6a2284df370416e270c4f42dc76269a57f7c0d58b8c88a03412ee48b35c"
+    },
+    {
+      "id": "B24C",
+      "original_id": "B24",
+      "file": "audits/independent-next-50-20261004/followups/scripts/B24C.lab",
+      "original_physical_expectation": "Dilution doubles approximately the solvent amount, preserves the salt inventory, increases total mass by the added water mass, and decreases conductivity in this dilute range. Dissociation changes chemical representation, not sodium/chlorine atom counts.",
+      "followup_policy": "Only the author syntax is corrected; original physical forecast retained. Qualify explicit model limits and do not credit parser rejection as a product chemistry failure.",
+      "sha256": "ce9091ca7f39a324315e1e5d27cdde5bfdab0e9bd75ef949157bf4ce177f4f0b"
+    },
+    {
+      "id": "B25C",
+      "original_id": "B25",
+      "file": "audits/independent-next-50-20261004/followups/scripts/B25C.lab",
+      "original_physical_expectation": "Peroxide decomposition, if it occurs on this timescale, produces no more than 0.0005 mol oxygen and consumes twice that many peroxide moles; absence of a catalyst may mean little or no gas. The experiment tests conservation and truthful rate qualification, not guaranteed rapid decomposition.",
+      "followup_policy": "Only the author syntax is corrected; original physical forecast retained. Qualify explicit model limits and do not credit parser rejection as a product chemistry failure.",
+      "sha256": "7befdee9cc8e216d4456300a7a0226308df57c17aaa102789232c230706d4133"
+    }
+  ]
+}

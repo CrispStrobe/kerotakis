@@ -1,0 +1,898 @@
+{
+  "binary_source_commit": "3b46a652c2e4a90078abc8df5412193a22aa4ab0",
+  "binary_sha256": "3784c4401c81384f730e127be1402babd4596153ab8aa5cf29b3a42913432cd8",
+  "run_id": 37213155316,
+  "predictions_sha256": "10754ce4a775529e9e353e8155d78c609750cc8af46a3e946deff82ae1f2b024",
+  "classification": "Manual comparison against original frozen forecasts, using rawCLIoutputs. Refusal atomicity unavailable afterprocessabort remains explicitly unproved byCLIalone.",
+  "cases": [
+    {
+      "id": "A01",
+      "status": "physical_observables_agree",
+      "original_expectation": "All water returns to v1 (80 g within 1e-8 relative), v2 empty, finite unchanged ambient temperature.",
+      "exit_code": 0,
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 80.00000000000001,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 0.0,
+          "vessel": 1
+        }
+      ],
+      "stderr": "",
+      "raw_json_sha256": "7f8056901d8a574f202b23e0e5ad8ca55a9041831dc2a2204ed061370f741ff9",
+      "notes": []
+    },
+    {
+      "id": "A02",
+      "status": "physical_observables_agree",
+      "original_expectation": "Retained masses both20g, receiver masses both60g, combined mass conserved within1e-8 relative.",
+      "exit_code": 0,
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 20.000000000000004,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 60.00000000000001,
+          "vessel": 1
+        },
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 20.000000000000004,
+          "vessel": 2
+        },
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 60.00000000000001,
+          "vessel": 3
+        }
+      ],
+      "stderr": "",
+      "raw_json_sha256": "2f3706ec4f6f66b48d17e31bb1f540cf3dc444239a1bfa82cf7f06e3ae5064f3",
+      "notes": []
+    },
+    {
+      "id": "A03",
+      "status": "physical_observables_agree",
+      "original_expectation": "Final receiver temperature lies strictly between15C and65C and near40C, total80g, donor exhausted.",
+      "exit_code": 0,
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "thermometer",
+          "model_support": {
+            "assumptions": [
+              "represented thermal inventory; omitted reaction heats are not zero heat"
+            ],
+            "observable": "temperature",
+            "provenance": [
+              "NASA Chemical Equilibrium with Applications (CEA) thermodynamic database, thermo.inp, vendored at vendor/nasa-cea/thermo.inp and documented by NASA TP-2002-211556 (McBride, Zehe and Gordon, \"NASA Glenn Coefficients for Calculating Thermodynamic Properties of Individual Species\"). Copyright (c) United States Government as represented by the Administrator of NASA, licensed under Apache-2.0; the file is already vendored and read by kerotakis-cea, and these records are the same bytes read a second time rather than a second compilation. Each record carries its own literature reference verbatim - Gurvich, Chase (JANAF), Pankratz, Cox - and that line is kept on every interval so the reader lands on the table the coefficients came from, not on this envelope. The NASA-9 form is Cp/R = a1/T^2 + a2/T + a3 + a4*T + a5*T^2 + a6*T^3 + a7*T^4 with T in kelvin, and only a1..a7 are transcribed: the two integration constants b1 and b2 fix absolute enthalpy and entropy, which this tranche does not claim, because a bench that only needs a sensible-heat difference should not carry a formation enthalpy it never checks. What each row DOES claim is a molar heat capacity as a function of temperature over a stated interval; what it does not claim is any value outside that interval, any enthalpy of a phase or crystal transition, and any property of a real impure sample. The 298.15 K value of every curve is pinned against the constant heat capacity the registry already carried for that species, and agrees with it to better than 3 percent throughout - which is the check that these are the same substances and not merely the same names. Transcribed 2026-09-07"
+            ],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": [
+              {
+                "lower": 273.15,
+                "quantity": "heat-capacity-temperature:water",
+                "unit": "K",
+                "upper": 600.0
+              }
+            ]
+          },
+          "unit": "\u00b0C",
+          "value": 39.998024523074946,
+          "vessel": 1
+        },
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 80.00000000000001,
+          "vessel": 1
+        }
+      ],
+      "stderr": "",
+      "raw_json_sha256": "de4fe6fb1cbb7de973f74c997cf04ce422e83c59811c142b1a3e7ea448562f92",
+      "notes": []
+    },
+    {
+      "id": "A04",
+      "status": "expected_input_refusal_atomicity_not_visible_after_cli_abort",
+      "original_expectation": "Reject self transfer without matter loss, heat change or solver advancement.",
+      "exit_code": 1,
+      "measurements": [],
+      "stderr": "kero: /home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261004/scripts/A04.lab:3: source and target vessel are the same\n",
+      "raw_json_sha256": "6d6d99a388757c8c4dc9fc3fbb2688f51b56d22a31edb65a46f92654a8bd8bcc",
+      "notes": []
+    },
+    {
+      "id": "A05",
+      "status": "expected_input_refusal_atomicity_not_visible_after_cli_abort",
+      "original_expectation": "Reject fraction above1 atomically; no receiver deposit.",
+      "exit_code": 1,
+      "measurements": [],
+      "stderr": "kero: /home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261004/scripts/A05.lab:4: fraction must be within 0..=1\n",
+      "raw_json_sha256": "6eced4b0925621fd177b2fd36e7c34e8ed37dde75ae4bac74305cccd2cc76ea4",
+      "notes": []
+    },
+    {
+      "id": "A06",
+      "status": "physical_observables_agree",
+      "original_expectation": "No physical change or chemistry advancement; donor40g, receiver0g.",
+      "exit_code": 0,
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 40.00000000000001,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 0.0,
+          "vessel": 1
+        }
+      ],
+      "stderr": "",
+      "raw_json_sha256": "62dcd26eb0789d517f4634ace6d24710de3774345aeca541645ad8bac7be8af8",
+      "notes": []
+    },
+    {
+      "id": "A07",
+      "status": "physical_observables_agree",
+      "original_expectation": "Empty filtration creates no matter or thermal excursion; both masses0g.",
+      "exit_code": 0,
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 0.0,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 0.0,
+          "vessel": 1
+        }
+      ],
+      "stderr": "",
+      "raw_json_sha256": "1fa346df22449d905be40753e773a1145ae3ca899a3ff531198cb0fed6377b69",
+      "notes": []
+    },
+    {
+      "id": "A08",
+      "status": "physical_observables_agree",
+      "original_expectation": "Dissolved NaCl and water move together into filtrate; no fictitious solid residue; all chemical element totals conserved within1e-8 relative.",
+      "exit_code": 0,
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 0.0,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 99.758443,
+          "vessel": 1
+        }
+      ],
+      "stderr": "",
+      "raw_json_sha256": "6ae8b43b69d51556e02b831f65599beaf7aeeddf329d1b178121ea5e5bdde074",
+      "notes": [
+        "Water added by100mL has99.7g at model density; no100g assumption used."
+      ]
+    },
+    {
+      "id": "A09",
+      "status": "physical_observables_agree",
+      "original_expectation": "Only ferromagnetic iron moves, not sodium chloride; masses1g each within1e-8 relative; explicit unsupported identifier/model remains unmet capability.",
+      "exit_code": 0,
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 0.9999999999999999,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 1.0,
+          "vessel": 1
+        }
+      ],
+      "stderr": "",
+      "raw_json_sha256": "31408734b35b2739d048c9f867a8b7f9109fb8571eb5930eafd33aafbb80926c",
+      "notes": []
+    },
+    {
+      "id": "A10",
+      "status": "physical_observables_agree",
+      "original_expectation": "Water remains25g in donor, receiverempty, no fictitious magnetic transfer.",
+      "exit_code": 0,
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 25.0,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 0.0,
+          "vessel": 1
+        }
+      ],
+      "stderr": "",
+      "raw_json_sha256": "a55c1f847de790263f149d3f469a4cb6c44d21d9fdbab466a487cb2b957bb1c5",
+      "notes": []
+    },
+    {
+      "id": "A11",
+      "status": "physical_observables_agree",
+      "original_expectation": "For sealed positive gas headspace, finite pressure rises with temperature under an explicit gas/vapor policy; unsupported vapor model must be qualified rather than silently constant pressure.",
+      "exit_code": 0,
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "pressure_gauge",
+          "model_support": {
+            "assumptions": [
+              "represented headspace and imposed pressure boundary"
+            ],
+            "observable": "pressure",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "kPa",
+          "value": 101.32494280801598,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "pressure_gauge",
+          "model_support": {
+            "assumptions": [
+              "represented headspace and imposed pressure boundary"
+            ],
+            "observable": "pressure",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "kPa",
+          "value": 105.01134491632226,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "thermometer",
+          "model_support": {
+            "assumptions": [
+              "represented thermal inventory; omitted reaction heats are not zero heat"
+            ],
+            "observable": "temperature",
+            "provenance": [
+              "NASA Chemical Equilibrium with Applications (CEA) thermodynamic database, thermo.inp, vendored at vendor/nasa-cea/thermo.inp and documented by NASA TP-2002-211556 (McBride, Zehe and Gordon, \"NASA Glenn Coefficients for Calculating Thermodynamic Properties of Individual Species\"). Copyright (c) United States Government as represented by the Administrator of NASA, licensed under Apache-2.0; the file is already vendored and read by kerotakis-cea, and these records are the same bytes read a second time rather than a second compilation. Each record carries its own literature reference verbatim - Gurvich, Chase (JANAF), Pankratz, Cox - and that line is kept on every interval so the reader lands on the table the coefficients came from, not on this envelope. The NASA-9 form is Cp/R = a1/T^2 + a2/T + a3 + a4*T + a5*T^2 + a6*T^3 + a7*T^4 with T in kelvin, and only a1..a7 are transcribed: the two integration constants b1 and b2 fix absolute enthalpy and entropy, which this tranche does not claim, because a bench that only needs a sensible-heat difference should not carry a formation enthalpy it never checks. What each row DOES claim is a molar heat capacity as a function of temperature over a stated interval; what it does not claim is any value outside that interval, any enthalpy of a phase or crystal transition, and any property of a real impure sample. The 298.15 K value of every curve is pinned against the constant heat capacity the registry already carried for that species, and agrees with it to better than 3 percent throughout - which is the check that these are the same substances and not merely the same names. Transcribed 2026-09-07"
+            ],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": [
+              {
+                "lower": 200.0,
+                "quantity": "heat-capacity-temperature:N2",
+                "unit": "K",
+                "upper": 20000.0
+              },
+              {
+                "lower": 200.0,
+                "quantity": "heat-capacity-temperature:O2",
+                "unit": "K",
+                "upper": 20000.0
+              },
+              {
+                "lower": 200.0,
+                "quantity": "heat-capacity-temperature:CO2",
+                "unit": "K",
+                "upper": 20000.0
+              },
+              {
+                "lower": 273.15,
+                "quantity": "heat-capacity-temperature:water",
+                "unit": "K",
+                "upper": 600.0
+              }
+            ]
+          },
+          "unit": "\u00b0C",
+          "value": 35.847310597381465,
+          "vessel": 0
+        }
+      ],
+      "stderr": "",
+      "raw_json_sha256": "89f7dfd1e1ec95c1b5ed11ca388a4b05d92e06dc05433ff69208f45922f27b4b",
+      "notes": [
+        "Initial gas trapped byseal; pressure ratio tracks gas absolute temperature."
+      ]
+    },
+    {
+      "id": "A12",
+      "status": "expected_input_refusal_atomicity_not_visible_after_cli_abort",
+      "original_expectation": "Reject negative headspace atomically.",
+      "exit_code": 1,
+      "measurements": [],
+      "stderr": "kero: /home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261004/scripts/A12.lab:3: headspace volume must be positive\n",
+      "raw_json_sha256": "726928f6477298f1115ab0f900c3b1ee0bbb5ae128f34f35967126f41361049f",
+      "notes": []
+    },
+    {
+      "id": "A13",
+      "status": "expected_input_refusal_atomicity_not_visible_after_cli_abort",
+      "original_expectation": "Reject negative absolute pressure; no invalid persisted state.",
+      "exit_code": 1,
+      "measurements": [],
+      "stderr": "kero: /home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261004/scripts/A13.lab:3: pressure must be positive\n",
+      "raw_json_sha256": "726928f6477298f1115ab0f900c3b1ee0bbb5ae128f34f35967126f41361049f",
+      "notes": []
+    },
+    {
+      "id": "A14",
+      "status": "physical_observables_agree",
+      "original_expectation": "Open boundary returns ambient pressure and truthfully records any gas exchange; no negative/nonfinite inventory. Unsupported N2 is an unmet capability.",
+      "exit_code": 0,
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "pressure_gauge",
+          "model_support": {
+            "assumptions": [
+              "represented headspace and imposed pressure boundary"
+            ],
+            "observable": "pressure",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "kPa",
+          "value": 101.325,
+          "vessel": 0
+        }
+      ],
+      "stderr": "",
+      "raw_json_sha256": "90529a636f467face14eb34ee78f0eeb821302b23bb436f340eed7fe30ace0b6",
+      "notes": []
+    },
+    {
+      "id": "A15",
+      "status": "physical_observables_agree",
+      "original_expectation": "Both ordinary additions succeed, exhaust stock exactly, equal water masses18.01528g approximately.",
+      "exit_code": 0,
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 18.015,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 18.015,
+          "vessel": 1
+        }
+      ],
+      "stderr": "",
+      "raw_json_sha256": "3ed25ddbc3ab1c2226f7e5c3aae719f6f74115e65c864014662766f5d2d0864e",
+      "notes": [
+        "App molar mass18.015g/mol versus forecast approximate18.01528; rounded property difference not conservation bug."
+      ]
+    },
+    {
+      "id": "A16",
+      "status": "physical_observables_agree",
+      "original_expectation": "Third addition explicitly refuses and does not change accepted2mol inventory or stock.",
+      "exit_code": 0,
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 36.03,
+          "vessel": 0
+        }
+      ],
+      "stderr": "",
+      "raw_json_sha256": "2c4bc36467938f5e855c92b08bf0a92a38e2aa300358e22819ba513c8a546830",
+      "notes": [
+        "StockExhausted event qualifies refused third draw although CLIexit0; accepted2mol retained."
+      ]
+    },
+    {
+      "id": "A17",
+      "status": "zero_work_behavior_gap",
+      "original_expectation": "Zero current produces zero charge and zero products; no reaction or consumed water.",
+      "exit_code": 1,
+      "measurements": [],
+      "stderr": "kero: /home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261004/scripts/A17.lab:3: current must be positive\n",
+      "raw_json_sha256": "a48d034ae2fea7d4d869b402f42baac61b02fe446c2bcaf6e851297928f67cd8",
+      "notes": [
+        "CLIrejects0 instead of no-op. Frozen supplemental direct/API controls cover repair and physical/solver invariance."
+      ]
+    },
+    {
+      "id": "A18",
+      "status": "expected_input_refusal_atomicity_not_visible_after_cli_abort",
+      "original_expectation": "Reject negative duration atomically rather than negative product amounts or silent backward electrolysis.",
+      "exit_code": 1,
+      "measurements": [],
+      "stderr": "kero: /home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261004/scripts/A18.lab:3: bad time '-30s'\n",
+      "raw_json_sha256": "a48d034ae2fea7d4d869b402f42baac61b02fe446c2bcaf6e851297928f67cd8",
+      "notes": []
+    },
+    {
+      "id": "A19",
+      "status": "physical_observables_agree",
+      "original_expectation": "Setting illumination alone does not invent photochemical conversion or material; unsupported photochemistry is explicit.",
+      "exit_code": 0,
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 19.94,
+          "vessel": 0
+        }
+      ],
+      "stderr": "",
+      "raw_json_sha256": "ed0329f69991754c0ccaad5d39c559d2d0439c8a7fcfbcb4a2a6606d4bf3d61d",
+      "notes": []
+    },
+    {
+      "id": "A20",
+      "status": "expected_input_refusal_atomicity_not_visible_after_cli_abort",
+      "original_expectation": "Reject physically negative irradiance without state mutation.",
+      "exit_code": 1,
+      "measurements": [],
+      "stderr": "kero: /home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261004/scripts/A20.lab:3: bad irradiance '-1W/m2'\n",
+      "raw_json_sha256": "797eee5c18554541f960b68a71fdb83a044754cb735239d86fd2fb22479d73bd",
+      "notes": []
+    },
+    {
+      "id": "A21",
+      "status": "zero_work_behavior_gap",
+      "original_expectation": "No elapsed-time increase, thermal change or mass change for two zero waits.",
+      "exit_code": 1,
+      "measurements": [],
+      "stderr": "kero: /home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261004/scripts/A21.lab:3: duration must be positive\n",
+      "raw_json_sha256": "797eee5c18554541f960b68a71fdb83a044754cb735239d86fd2fb22479d73bd",
+      "notes": [
+        "CLIrejects0 instead of no-op. Frozen supplemental direct/API controls cover repair and physical/solver invariance."
+      ]
+    },
+    {
+      "id": "A22",
+      "status": "expected_input_refusal_atomicity_not_visible_after_cli_abort",
+      "original_expectation": "Negative elapsed time must be rejected atomically; clamping to zero without a disclosed refusal is not agreement.",
+      "exit_code": 1,
+      "measurements": [],
+      "stderr": "kero: /home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261004/scripts/A22.lab:3: bad duration '-1s'\n",
+      "raw_json_sha256": "797eee5c18554541f960b68a71fdb83a044754cb735239d86fd2fb22479d73bd",
+      "notes": []
+    },
+    {
+      "id": "A23",
+      "status": "physical_observables_agree",
+      "original_expectation": "Swap of donor ordering produces same60g composition and temperature within0.01K; no order-dependent heat.",
+      "exit_code": 0,
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "thermometer",
+          "model_support": {
+            "assumptions": [
+              "represented thermal inventory; omitted reaction heats are not zero heat"
+            ],
+            "observable": "temperature",
+            "provenance": [
+              "NASA Chemical Equilibrium with Applications (CEA) thermodynamic database, thermo.inp, vendored at vendor/nasa-cea/thermo.inp and documented by NASA TP-2002-211556 (McBride, Zehe and Gordon, \"NASA Glenn Coefficients for Calculating Thermodynamic Properties of Individual Species\"). Copyright (c) United States Government as represented by the Administrator of NASA, licensed under Apache-2.0; the file is already vendored and read by kerotakis-cea, and these records are the same bytes read a second time rather than a second compilation. Each record carries its own literature reference verbatim - Gurvich, Chase (JANAF), Pankratz, Cox - and that line is kept on every interval so the reader lands on the table the coefficients came from, not on this envelope. The NASA-9 form is Cp/R = a1/T^2 + a2/T + a3 + a4*T + a5*T^2 + a6*T^3 + a7*T^4 with T in kelvin, and only a1..a7 are transcribed: the two integration constants b1 and b2 fix absolute enthalpy and entropy, which this tranche does not claim, because a bench that only needs a sensible-heat difference should not carry a formation enthalpy it never checks. What each row DOES claim is a molar heat capacity as a function of temperature over a stated interval; what it does not claim is any value outside that interval, any enthalpy of a phase or crystal transition, and any property of a real impure sample. The 298.15 K value of every curve is pinned against the constant heat capacity the registry already carried for that species, and agrees with it to better than 3 percent throughout - which is the check that these are the same substances and not merely the same names. Transcribed 2026-09-07"
+            ],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": [
+              {
+                "lower": 273.15,
+                "quantity": "heat-capacity-temperature:water",
+                "unit": "K",
+                "upper": 600.0
+              }
+            ]
+          },
+          "unit": "\u00b0C",
+          "value": 31.664536422901733,
+          "vessel": 2
+        },
+        {
+          "event": "measured",
+          "instrument": "thermometer",
+          "model_support": {
+            "assumptions": [
+              "represented thermal inventory; omitted reaction heats are not zero heat"
+            ],
+            "observable": "temperature",
+            "provenance": [
+              "NASA Chemical Equilibrium with Applications (CEA) thermodynamic database, thermo.inp, vendored at vendor/nasa-cea/thermo.inp and documented by NASA TP-2002-211556 (McBride, Zehe and Gordon, \"NASA Glenn Coefficients for Calculating Thermodynamic Properties of Individual Species\"). Copyright (c) United States Government as represented by the Administrator of NASA, licensed under Apache-2.0; the file is already vendored and read by kerotakis-cea, and these records are the same bytes read a second time rather than a second compilation. Each record carries its own literature reference verbatim - Gurvich, Chase (JANAF), Pankratz, Cox - and that line is kept on every interval so the reader lands on the table the coefficients came from, not on this envelope. The NASA-9 form is Cp/R = a1/T^2 + a2/T + a3 + a4*T + a5*T^2 + a6*T^3 + a7*T^4 with T in kelvin, and only a1..a7 are transcribed: the two integration constants b1 and b2 fix absolute enthalpy and entropy, which this tranche does not claim, because a bench that only needs a sensible-heat difference should not carry a formation enthalpy it never checks. What each row DOES claim is a molar heat capacity as a function of temperature over a stated interval; what it does not claim is any value outside that interval, any enthalpy of a phase or crystal transition, and any property of a real impure sample. The 298.15 K value of every curve is pinned against the constant heat capacity the registry already carried for that species, and agrees with it to better than 3 percent throughout - which is the check that these are the same substances and not merely the same names. Transcribed 2026-09-07"
+            ],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": [
+              {
+                "lower": 273.15,
+                "quantity": "heat-capacity-temperature:water",
+                "unit": "K",
+                "upper": 600.0
+              }
+            ]
+          },
+          "unit": "\u00b0C",
+          "value": 31.664536422901733,
+          "vessel": 5
+        },
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 60.00000000000001,
+          "vessel": 2
+        },
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 60.00000000000001,
+          "vessel": 5
+        }
+      ],
+      "stderr": "",
+      "raw_json_sha256": "e5ad1ca5877be5d7cb49c4542699cc161aaa667239fcc2ed66c0b2b476766dc1",
+      "notes": []
+    },
+    {
+      "id": "A24",
+      "status": "physical_observables_agree",
+      "original_expectation": "Exactly25g enters waste once; donorremainszero and second discard does not duplicate waste.",
+      "exit_code": 0,
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "model_support": {
+            "assumptions": [
+              "represented material inventory; excludes vessel tare"
+            ],
+            "observable": "mass",
+            "provenance": [],
+            "reasons": [],
+            "scope": "whole_vessel",
+            "status": "computed",
+            "validity": []
+          },
+          "unit": "g",
+          "value": 0.0,
+          "vessel": 0
+        }
+      ],
+      "stderr": "",
+      "raw_json_sha256": "b252296f207822b6fc1ae2387b98a2db442105df24e229bf916cf77281b2f926",
+      "notes": []
+    },
+    {
+      "id": "A25",
+      "status": "expected_input_refusal_atomicity_not_visible_after_cli_abort",
+      "original_expectation": "Refuse removal while occupied, preserving water; user must discard first. Silent deletion of matter fails.",
+      "exit_code": 1,
+      "measurements": [],
+      "stderr": "kero: /home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261004/scripts/A25.lab:3: vessel v1 is not empty \u2014 transfer or dispose of its contents first\n",
+      "raw_json_sha256": "9d8b0882eccfcf0a96df8c6e4b791493b0a00afbff752fecd4fb028f115564bf",
+      "notes": []
+    }
+  ]
+}
