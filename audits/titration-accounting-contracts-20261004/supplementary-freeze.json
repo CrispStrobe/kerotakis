@@ -1,0 +1,7 @@
+{
+  "tests": 4,
+  "files": {
+    "crates/kerotakis-core/tests/titration_accounting_controls.rs": "b2f967636323a06d43b7b24c5846f6df32fcb7829b8c02fa9b41d9460a2ef79e"
+  },
+  "expectation": "Ordinary species/material stock refusals preserve the physical bench and skip settlement; nominal titrant/carrier products must preserve the requested conversion within relative 1e-8, including subnormal steps. Frozen after inspection of baseline; no separate pre-repair execution."
+}
