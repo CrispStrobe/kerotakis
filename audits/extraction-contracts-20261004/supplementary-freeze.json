@@ -1,0 +1,7 @@
+{
+  "tests": 2,
+  "files": {
+    "crates/kerotakis-core/tests/extraction_review_controls.rs": "d402d940e6750f1c639beb2570bb895aaae354a6144d60897b47e40518a885a3"
+  },
+  "expectation": "Two source-informed review controls frozen before correction: screened heat markers and rejected proposal diagnostic isolation. No separate pre-repair execution."
+}
