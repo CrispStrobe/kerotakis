@@ -1,0 +1,28 @@
+{
+  "diagnostic_only": true,
+  "commit": "6a08a0c9342bd12cdcfcd48df57fb4e38057fa26",
+  "command": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-phreeqc",
+    "--no-default-features",
+    "--lib",
+    "solid_solution_raw_readback_contracts",
+    "-j1",
+    "--",
+    "--test-threads=1",
+    "--skip",
+    "zero_pours_preserve_receiver_surface_geometry",
+    "--skip",
+    "drain_partition_refuses_a_swallowed_positive_donor_debit",
+    "--skip",
+    "drain_partition_refuses_a_changing_inaccurate_donor_debit"
+  ],
+  "exit_code": 101,
+  "seconds": 94.163979583,
+  "log": "crystal-readback.log",
+  "log_sha256": "7c05a363f4a809d1d42fa0bca3450725b88822cfcba9af173e43882c106b2671",
+  "run_id": 37240279145,
+  "note": "Harness-only compilation failure: missing VesselId import. No behavioral results; frozen tests unchanged."
+}

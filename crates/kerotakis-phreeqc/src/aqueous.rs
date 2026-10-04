@@ -8173,5 +8173,7 @@ mod trace_interface_tests {
 
 // Frozen source-informed raw mixed-crystal readback contracts.
 #[cfg(test)]
+use kerotakis_core::VesselId;
+#[cfg(test)]
 #[path = "../tests/solid_solution_raw_readback/contracts.rs"]
 mod solid_solution_raw_readback_contracts;
