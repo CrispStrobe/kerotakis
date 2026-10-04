@@ -1,0 +1,8 @@
+{
+  "contracts": 2,
+  "files": {
+    "crates/kerotakis-core/tests/sparse_optics_quantization_contracts.rs": "2584ed996e9c64c1d87cf61854baa9722c4d1e10dc7ba6e6c58c71843792bbf7"
+  },
+  "scope": "Computational accuracy only, not measured concentration-range validation. Require1e-8relativeaccuracy fornonzero subnormal Beer-Lambert results; retain accurate subnormal controls.",
+  "baseline": "Source-reviewed inferred coarse quantization (0.746quantum rounds1quantum); no separate runtimebaseline claimed."
+}
