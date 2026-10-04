@@ -468,6 +468,7 @@ jobs:
           python3 audits/independent-next-50-20261002/summarize.py "$RUNNER_TEMP/fourth-50"
           python3 audits/independent-next-50-20261002/run.py --suite audits/independent-next-50-20261004/followups --binary "$RUNNER_TEMP/validated-cli/kero" --binary-source-commit "$VALIDATED_COMMIT" --out "$RUNNER_TEMP/fourth-50/followups"
           python3 audits/independent-next-50-20261002/summarize.py "$RUNNER_TEMP/fourth-50/followups"
+          python3 audits/independent-next-50-20261004/verify.py "$RUNNER_TEMP/fourth-50" --validation "$RUNNER_TEMP/validated-cli/validation.json" --require-followups
       - uses: actions/upload-artifact@v6
         if: always()
         with:

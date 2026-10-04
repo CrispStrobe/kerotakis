@@ -84,8 +84,91 @@ pub struct DecayChainEntry {
 /// from the bulk element inventory.
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct NuclideLedger {
-    /// Nuclide → moles.
+    /// Nuclide → finite nonnegative moles. JSON inventory keys use canonical
+    /// `El-A` / `El-Am` strings; individual Nuclide values retain object serde.
+    #[serde(with = "inventory_serde")]
     pub inventory: BTreeMap<Nuclide, f64>,
+}
+
+/// JSON-safe representation confined to owned inventory map keys. Canonical
+/// notation identifies isotope syntax only; it does not assert a curated decay
+/// record exists for every admissible positive mass number.
+mod inventory_serde {
+    use super::Nuclide;
+    use serde::{
+        de::{Error as _, MapAccess, Visitor},
+        ser::{Error as _, SerializeMap},
+        Deserializer, Serializer,
+    };
+    use std::{collections::BTreeMap, fmt};
+
+    fn valid_identity(nuclide: &Nuclide) -> bool {
+        crate::stoich::is_element(&nuclide.element) && nuclide.mass_number > 0
+    }
+
+    pub fn serialize<S>(
+        inventory: &BTreeMap<Nuclide, f64>,
+        serializer: S,
+    ) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        // Validate every entry before emitting any map content. serde_json would
+        // otherwise encode nonfinite floats as null, obscuring invalid amounts.
+        for (nuclide, moles) in inventory {
+            if !valid_identity(nuclide) {
+                return Err(S::Error::custom("invalid owned nuclide identity"));
+            }
+            if !moles.is_finite() || *moles < 0.0 {
+                return Err(S::Error::custom(
+                    "nuclide inventory amount must be finite and nonnegative",
+                ));
+            }
+        }
+        let mut map = serializer.serialize_map(Some(inventory.len()))?;
+        for (nuclide, moles) in inventory {
+            map.serialize_entry(&nuclide.notation(), moles)?;
+        }
+        map.end()
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<BTreeMap<Nuclide, f64>, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        struct InventoryVisitor;
+        impl<'de> Visitor<'de> for InventoryVisitor {
+            type Value = BTreeMap<Nuclide, f64>;
+            fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+                formatter.write_str("an inventory map with canonical El-A or El-Am keys and finite nonnegative amounts")
+            }
+            fn visit_map<A>(self, mut access: A) -> Result<Self::Value, A::Error>
+            where
+                A: MapAccess<'de>,
+            {
+                let mut inventory = BTreeMap::new();
+                while let Some((notation, moles)) = access.next_entry::<String, f64>()? {
+                    let nuclide = Nuclide::parse(&notation)
+                        .filter(|n| valid_identity(n) && n.notation() == notation)
+                        .ok_or_else(|| {
+                            A::Error::custom(
+                                "nuclide inventory key must use canonical El-A or El-Am notation",
+                            )
+                        })?;
+                    if !moles.is_finite() || moles < 0.0 {
+                        return Err(A::Error::custom(
+                            "nuclide inventory amount must be finite and nonnegative",
+                        ));
+                    }
+                    if inventory.insert(nuclide, moles).is_some() {
+                        return Err(A::Error::custom("duplicate nuclide inventory key"));
+                    }
+                }
+                Ok(inventory)
+            }
+        }
+        deserializer.deserialize_map(InventoryVisitor)
+    }
 }
 
 impl NuclideLedger {

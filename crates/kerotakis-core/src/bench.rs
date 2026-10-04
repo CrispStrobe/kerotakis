@@ -223,6 +223,9 @@ fn prepare_screened_transfer_receiver<'a>(
                 .join("; "),
         ));
     }
+    // The safety proposal includes the same step-origin metadata supplied to
+    // the first solver. This is rebuilt again after commit for all touched vessels.
+    probe.step_start = Some(crate::vessel::StepStart::capture(&probe));
     Ok(probe)
 }
 
@@ -4145,14 +4148,23 @@ impl Bench {
                         }
                         match partition_k(&p.species, &upper_id, &lower_id, t_k) {
                             Some(prediction) if lower_volume_l > 0.0 && upper_volume_l > 0.0 => {
+                                // The distribution fraction depends on the
+                                // solvents and coefficient, not solute amount.
+                                // Recovering it from an already quantized tiny
+                                // yield would certify that rounding error as
+                                // the intended fraction (or invent zero flow).
                                 let f = crate::apparatus::extract(
-                                    p.moles.0,
+                                    1.0,
                                     lower_volume_l,
                                     upper_volume_l,
                                     prediction.k_organic_over_aqueous,
                                 )
-                                .aqueous_moles
-                                    / p.moles.0;
+                                .aqueous_moles;
+                                if !f.is_finite() || f <= 0.0 {
+                                    return Err(BenchError::TransferDonorPrecision {
+                                        component: p.species.0.clone(),
+                                    });
+                                }
                                 let (out, rest) =
                                     checked_transfer_split(p.moles.0, f, &p.species.0)?;
                                 if out > 0.0 {
@@ -6388,6 +6400,11 @@ impl Bench {
             .map_err(TitrationTrialError::Quantity)?;
             checked_transfer_deposit(&mut v, water.clone(), Moles(carrier_amount), Phase::Liquid)
                 .map_err(TitrationTrialError::Quantity)?;
+            // The dose changes primary state: screen current raw pressure,
+            // without presenting the previous solution or cache as current.
+            v.solution = None;
+            v.resolved.invalidate();
+            v.refresh_pressure();
             let errors = crate::delta::StateDelta::validate_state(&v);
             if !errors.is_empty() {
                 return Err(TitrationTrialError::Quantity(BenchError::InvalidState(
@@ -6421,8 +6438,8 @@ impl Bench {
                     return Ok((None, vec![Event::SafetyVeto { reason }]));
                 }
             }
-            v.solution = None;
             v.step_start = Some(crate::vessel::StepStart::capture(&v));
+            let equilibrium_before = v.clone();
             let result = if solver.applies(&v) {
                 solver.equilibrate(&mut v)
             } else {
@@ -6442,6 +6459,33 @@ impl Bench {
                         .collect::<Vec<_>>()
                         .join("; "),
                 }));
+            }
+            // Titration bypasses step_with's ordinary final acceptance path.
+            // Apply the same opt-in hook to every virtual settled dose; a veto
+            // rejects this increment (including its provisional full dose),
+            // while previously committed increments remain accepted.
+            match screen.assess_equilibrated(&equilibrium_before, &v) {
+                SafetyVerdict::Allow => {}
+                SafetyVerdict::Warn {
+                    severity,
+                    rule,
+                    hazard,
+                    real_world,
+                } => {
+                    if !dose_events.iter().chain(events.iter()).any(|event| {
+                        matches!(event, Event::HazardWarning { rule: seen, .. } if seen == &rule)
+                    }) {
+                        events.push(Event::HazardWarning {
+                            severity,
+                            rule,
+                            hazard,
+                            real_world,
+                        });
+                    }
+                }
+                SafetyVerdict::Veto { reason } => {
+                    return Ok((None, vec![Event::SafetyVeto { reason }]));
+                }
             }
             Ok({
                 dose_events.append(&mut events);

@@ -1,0 +1,58 @@
+{
+  "diagnostic_only": true,
+  "commit": "d272df138c3b2d501baf1cd9a1d18175013d6f10",
+  "command": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "required_solver_ledger_boundaries",
+    "--test",
+    "required_solver_ledger_supplement",
+    "--test",
+    "shared_transfer_contracts",
+    "--test",
+    "sparse_optics_quantization_contracts",
+    "--test",
+    "required_solver_conservation_contracts",
+    "--test",
+    "transfer_probe_contracts",
+    "--no-fail-fast",
+    "-j1",
+    "--",
+    "--test-threads=1"
+  ],
+  "exit_code": 101,
+  "seconds": 126.53024011199999,
+  "log": "boundaries.log",
+  "log_sha256": "1aef5a850c28e2875e8d6aff27e72b8cb08e7da91a7fecb092ae93e078402392",
+  "run_id": 37215455113,
+  "targets": {
+    "required_solver_ledger_boundaries": {
+      "passed": 7,
+      "failed": 18
+    },
+    "required_solver_ledger_supplement": {
+      "passed": 2,
+      "failed": 8
+    },
+    "shared_transfer_contracts": {
+      "passed": 1,
+      "failed": 25
+    },
+    "sparse_optics_quantization_contracts": {
+      "passed": 1,
+      "failed": 1
+    },
+    "required_solver_conservation_contracts": {
+      "passed": 5,
+      "failed": 0
+    },
+    "transfer_probe_contracts": {
+      "passed": 9,
+      "failed": 1
+    }
+  },
+  "note": "The legacy zero-pours failure requires a removed screen call. Source remains preserved; a separate frozen replacement checks geometry/state and zero processing. Other failures are observed behavioral baselines before their repair."
+}

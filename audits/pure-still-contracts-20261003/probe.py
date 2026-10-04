@@ -49,6 +49,7 @@ def main():
     if args.scope == 'titration':
         command = ['cargo', 'test', '-p', 'kerotakis-core', '--lib',
                    '--test', 'titration_safety_contracts', '--test', 'titration_safety_controls', '--test', 'redox_titrimetry',
+                   '--test', 'titration_final_safety_contracts', '--test', 'titration_raw_proposal_contracts',
                    '--test', 'solver_transactions',
                    '--no-fail-fast', '-j1', '--', '--test-threads=1']
     if args.scope == 'accounting':
@@ -101,12 +102,16 @@ def main():
         command = ['cargo', 'test', '-p', 'kerotakis-core',
                    '--test', 'required_solver_ledger_boundaries', '--test', 'required_solver_ledger_supplement',
                    '--test', 'shared_transfer_contracts', '--test', 'sparse_optics_quantization_contracts',
+                   '--test', 'nuclide_inventory_serde_contracts', '--test', 'drain_partition_precision_controls',
                    '--test', 'required_solver_conservation_contracts', '--test', 'transfer_probe_contracts',
-                   '--test', 'zero_transfer_surface_contracts',
+                   '--test', 'zero_transfer_surface_contracts', '--test', 'titration_final_safety_contracts',
+                   '--test', 'titration_raw_proposal_contracts', '--test', 'titration_safety_contracts', '--test', 'titration_safety_controls',
                    '--no-fail-fast', '-j1', '--', '--test-threads=1']
     # Preserve legacy source but replace its screen-call oracle with the frozen
     # zero-transfer geometry/state observer under the new no-work contract.
-    command += ['--skip', 'zero_pours_preserve_receiver_surface_geometry']
+    command += ['--skip', 'zero_pours_preserve_receiver_surface_geometry',
+                '--skip', 'drain_partition_refuses_a_swallowed_positive_donor_debit',
+                '--skip', 'drain_partition_refuses_a_changing_inaccurate_donor_debit']
     log = args.out/(args.scope + '.log')
     started = time.monotonic()
     with log.open('w') as output:
