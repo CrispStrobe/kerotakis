@@ -1,0 +1,7 @@
+{
+  "tests": 15,
+  "files": {
+    "crates/kerotakis-core/tests/spill_recovery_contracts.rs": "3096b016e467f4af91cef0f61fe4ba15cdf5256efe39dbad5b94e6f50dbb1a60"
+  },
+  "expectation": "Source-informed spill recovery contracts: screening must match committed material, surface, temperature and heat metadata; fractional debit and receiver increment must be accurate; refused proposals are atomic; zero skips settlement; ordinary/full-quantum recovery and veto controls remain supported."
+}

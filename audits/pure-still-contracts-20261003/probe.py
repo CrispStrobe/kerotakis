@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', type=Path, required=True)
-    parser.add_argument('--scope', choices=['thermo', 'transport', 'receiver', 'fractional', 'safety', 'titration', 'accounting'], default='thermo')
+    parser.add_argument('--scope', choices=['thermo', 'transport', 'receiver', 'fractional', 'safety', 'titration', 'accounting', 'recovery'], default='thermo')
     args = parser.parse_args()
     if os.environ.get('GITHUB_ACTIONS') != 'true':
         parser.error('Hosted execution only; local execution requires resource headroom')
@@ -57,6 +57,13 @@ def main():
                    '--test', 'stock_precision_contracts', '--test', 'titration_missing_characterization', '--test', 'titration_raw_state_contracts', '--test', 'titration_product_precision', '--test', 'titration_progress_contracts', '--test', 'titration_accounting_controls', '--test', 'stock',
                    '--test', 'titration_safety_contracts', '--test', 'titration_safety_controls',
                    '--test', 'redox_titrimetry', '--test', 'solver_transactions',
+                   '--test', 'i18n_coverage', '--test', 'refusal_locale',
+                   '--no-fail-fast', '-j1', '--', '--test-threads=1']
+    if args.scope == 'recovery':
+        command = ['cargo', 'test', '-p', 'kerotakis-core', '--lib',
+                   '--test', 'spill_recovery_contracts', '--test', 'spill_breakage', '--test', 'spill_persistence',
+                   '--test', 'transfer_probe_contracts', '--test', 'fractional_transfer_precision',
+                   '--test', 'fractional_transfer_controls', '--test', 'solver_transactions',
                    '--test', 'i18n_coverage', '--test', 'refusal_locale',
                    '--no-fail-fast', '-j1', '--', '--test-threads=1']
     log = args.out/(args.scope + '.log')
