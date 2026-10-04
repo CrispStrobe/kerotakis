@@ -19,7 +19,7 @@ on:
       validated_run:
         description: Successful independent-50 validation run supplying the executable
         type: string
-        default: '37148380814'
+        default: '37177775858'
       focused_scope:
         description: Focused diagnostic target for pure-still-contracts
         type: choice
@@ -28,7 +28,7 @@ on:
       validated_commit:
         description: Exact commit tested by that run
         type: string
-        default: 50b513959d733fd36740fdbfc55214a52d67baa7
+        default: 8ffa6c91f5dc910e2b389645ffd5700d08396a83
       baseline_run:
         description: Validated baseline executable for pure-still performance comparison
         type: string
