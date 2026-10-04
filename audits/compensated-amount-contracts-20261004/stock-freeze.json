@@ -1,0 +1,9 @@
+{
+  "scope": "Explicit opt-in Amount-owned StockLedger; default conservative refusal contracts preserved. Does not close still/default stock precision gaps.",
+  "contracts": 15,
+  "files": {
+    "crates/kerotakis-core/tests/compensated_stock_contracts.rs": "1abf73173c041ac2eb7bcc56613454c8fed52bb15855e3e2bd87518e906d490a"
+  },
+  "new_schema": "kerotakis-stock/2",
+  "semantics": "Compensated mode strictly rejects overdraw including decimal last-bit overdraw. Default ledger retains previous last-bit tolerance."
+}

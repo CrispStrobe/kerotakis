@@ -1,0 +1,8 @@
+{
+  "contracts": 6,
+  "files": {
+    "crates/kerotakis-core/tests/post_equilibrium_safety_contracts.rs": "59b51554be5d8c07f0421b6454dbe8e318cddb4473beccaf6309bb0da06792aa"
+  },
+  "scope": "Explicit final-state safety hook. Legacy screen default leaves existing prospective-screen call contracts intact; production reactive-group screen opts in.",
+  "baseline": "New API absent; missing-API compilation, not behavioral failure count."
+}
