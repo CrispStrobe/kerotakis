@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "scope": "17 independently authored contracts frozen before new sparse optical API implementation. This is a source-informed contract audit, not part of the independent fifty.",
+  "tests": 17,
+  "files": {
+    "crates/kerotakis-core/tests/sparse_iodine_optics_contracts.rs": "ae1433ebfaf3416d1481acb972397129863f78828b8a4a5a4f46cab2d33a4adc"
+  },
+  "baseline_limit": "The new API/module does not exist at freeze time, so an old-source test run would be a missing-API compile refusal rather than a behavioral failure count.",
+  "point_scope": "Neutral free-I2 at460nm in the documented aqueousHClO4/KIO3 medium at25C; caller evidence is provenance and not automatically verified proof; no vessel speciation or full-spectrum claim."
+}

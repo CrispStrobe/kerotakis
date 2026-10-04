@@ -1,0 +1,3 @@
+new
+add v1 water 1g
+regulate v1 -1bar 500mL

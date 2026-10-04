@@ -1,0 +1,7 @@
+new
+add v1 water 100mL
+add v1 H2O2 0.001mol
+wait 60s
+test v1 splint
+measure v1 particles
+measure v1 balance

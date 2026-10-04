@@ -1,0 +1,7 @@
+new
+new
+add v1 Fe 1g
+add v1 NaCl 1g
+magnet v1 v2
+measure v1 balance
+measure v2 balance

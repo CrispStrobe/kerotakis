@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "review_stage": "After part-B forecast freeze; read-only implementation inspection and primary-source research",
+  "current_contract": {
+    "files": [
+      "crates/kerotakis-core/src/solution_optics.rs",
+      "crates/kerotakis-core/src/spectrum.rs",
+      "crates/kerotakis-core/src/instrument.rs"
+    ],
+    "summary": "The existing spectrum has16 bands405\u2013705nm at20nm intervals. None equals460 or524nm. Neutral I2 lacks a solvent-specific spectrum and is explicitly reported as missing-spectrum:I2. Spectrophotometer.measure refuses a complete reading when spectral_gaps is nonempty. visible_moles currently falls back to analytical neutral inventory, not resolved I2/I3-/HOI speciation."
+  },
+  "primary_aqueous_evidence": {
+    "citation": "Alice D. Awtrey and Robert E. Connick, JACS73(4),1842\u20131843(1951)",
+    "doi": "10.1021/ja01148a504",
+    "publisher": "https://pubs.acs.org/doi/10.1021/ja01148a504",
+    "indexed_primary_scan": "https://electronicsandbooks.com/edt/manual/Magazine/J/Journal%20of%20the%20American%20Chemical%20Society%20US/1951%20%20%28vol%20073%29/04%20%20%281393-1900%29/1842-1843.pdf",
+    "observations": [
+      {
+        "species": "neutral I2",
+        "wavelength_nm": 460,
+        "epsilon_l_mol_cm": 746
+      },
+      {
+        "species": "neutral I2",
+        "wavelength_nm": 353,
+        "epsilon_l_mol_cm": 18
+      },
+      {
+        "species": "neutral I2",
+        "wavelength_nm": 287.5,
+        "epsilon_l_mol_cm": 95
+      },
+      {
+        "species": "neutral I2",
+        "wavelength_nm": 270,
+        "epsilon_l_mol_cm": 121
+      }
+    ],
+    "conditions": {
+      "temperature_c": 25,
+      "iodine_initial_molar_approx": 0.0005,
+      "potassium_iodate_molar": 1.5e-06,
+      "perchloric_acid_molar": 0.1,
+      "preparation": "Sealed sample equilibrated10days; acid and iodate suppress competing iodine forms. Free I2 was chemically separated in the interpretation from triiodide."
+    },
+    "do_not_confuse": "The460nm I3- coefficient975 is not the molecular I2 coefficient746. Other I3- bands are much stronger.",
+    "correction": "1954 JACS76p6417 correction changes reaction-heat signs, not the extinction table.",
+    "access_limit": "Primary text/table/conditions retrieved through the web search index. Direct PDF web open timed out; direct small-file download failed No route to host. No original PDF has been saved. OCR equilibrium concentrations are internally inconsistent and must not be imported."
+  },
+  "primary_hexane_candidate": {
+    "citation": "F.H.Krenz1955 Edinburgh thesis, printedpp86\u201387",
+    "url": "https://era.ed.ac.uk/server/api/core/bitstreams/0467f577-cc1f-4175-9fb5-ae41b1ea5b40/content",
+    "wavelength_nm": 524,
+    "epsilon_l_mol_cm_average": 760,
+    "concentration_range_molar": [
+      0.0001,
+      0.001
+    ],
+    "limitations": [
+      "Reported coefficient slightly concentration-dependent.",
+      "Measurement temperature not verified.",
+      "Full PDF larger than10MiB and not retrieved.",
+      "This is a primary thesis result, not a complete solvent-specific visible spectrum."
+    ],
+    "import_status": "Do not import as unconditional spectrum or temperature-independent precise point until missing conditions are verified."
+  },
+  "full_hexane_spectrum_lead": {
+    "citation": "Frederick H.Getman, The Color of Iodine Solutions, JACS50(11),2883\u20132890(1928)",
+    "doi": "10.1021/ja01398a005",
+    "publisher": "https://pubs.acs.org/doi/10.1021/ja01398a005",
+    "status": "Publisher confirms primary article; full tables/figures unavailable in inspected access. No wavelength-specific coefficients imported."
+  },
+  "bounded_actionable_extension": [
+    "Introduce reviewed sparse wavelength-specific molecular absorptivity records keyed by species, solvent, temperature and chemical conditions; preserve source provenance and uncertainty/scope.",
+    "Expose an exact-wavelength API whose output reports which chromophores and conditions are supported. Unknown wavelength/solvent must remain missing data, never zero.",
+    "The aqueous460nm point permits a bounded quantitative Beer\u2013Lambert demonstration for independently established free-I2 concentration at reviewed conditions. It does not by itself permit arbitrary pure-water vessel readings because free-I2 speciation is not resolved by the current neutral inventory fallback.",
+    "Do not set the465nm grid bin equal to the460nm maximum, fabricate a smooth Gaussian, fill unknown bands with zero, or remove the full-spectrum I2 qualification.",
+    "A general dissolved-I2 instrument reading requires concentration ownership for I2/I3-/HOI and complexes, solvent-specific liquid volume, multiphase exclusion, and condition matching.",
+    "A complete appearance/color claim additionally needs reviewed absorptivities across all visible bands or digitized primary curves with interpolation provenance and uncertainty."
+  ],
+  "independent_acceptance_controls": [
+    "At460nm, freeI2=1e-4M and1cm givesA=0.0746; doubling concentration or path independently doublesA.",
+    "I3- is neither assigned I2 coefficients nor counted as freeI2; sequestered starch/polyiodide is excluded.",
+    "Water and hexane are distinct keys; aqueous coefficients never transfer into an organic receiver.",
+    "Unknown465nm/525nm requests remain explicit partial coverage unless separately reviewed values exist.",
+    "Out-of-range temperature, ambiguous solvent mixture, solid iodine, unresolved iodine distribution and zero/invalid path have truthful bounded outcomes.",
+    "Adding isolated data points does not close spectral_gaps or authorize complete peak/color measurements."
+  ]
+}

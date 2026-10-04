@@ -1,0 +1,11 @@
+new
+new
+add v1 water 100mL
+add v1 NaCl 0.001mol
+add v1 AgNO3 0.001mol
+measure v1 eyes
+filter v1 v2
+measure v1 balance
+measure v2 balance
+measure v1 particles
+measure v2 particles

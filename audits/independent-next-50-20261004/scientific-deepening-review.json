@@ -1,0 +1,39 @@
+{
+  "created_after_forecast_freeze": true,
+  "recommendation": "Temperature-dependent pure-water enthalpy and heat capacity, explicitly bounded by phase and pressure",
+  "reasoning": "Water is used by most thermal, dilution, titration, and extraction workflows. A shared reviewed enthalpy model can improve these without pretending to supply missing chemistry or mixture activity data. This recommendation is architectural inference, not a claim that current implementation lacks every listed property.",
+  "primary_sources": [
+    {
+      "title": "IAPWS SR6-08(2011), Properties of Liquid Water at 0.1 MPa",
+      "url": "https://iapws.org/technical-guidance/release/LiquidWater",
+      "reviewed_scope": "Simple thermodynamic and transport correlations near 0.1 MPa; liquid-water validity 253.15\u2013383.15 K includes metastable states. Metastable validity alone does not authorize bulk liquid across an equilibrium phase transition."
+    },
+    {
+      "title": "NIST Chemistry WebBook water, SI thermochemistry",
+      "url": "https://webbook.nist.gov/cgi/cbook.cgi?ID=C7732185&Mask=3&Units=SI",
+      "reviewed_scope": "Liquid Shomate heat capacity/enthalpy fit valid 298\u2013500 K; gas fits begin at 500 K. Cp units J/mol/K; enthalpy kJ/mol; t=T/1000. Do not apply the gas fit near 373 K or liquid fit below 298 K without a documented alternative."
+    },
+    {
+      "title": "IAPWS R6-95(2018), IAPWS-95 water and steam",
+      "url": "https://www.iapws.org/relguide/IAPWS-95.html",
+      "reviewed_scope": "Broad fluid thermodynamics and vapor-liquid equilibrium. Suitable reference for validation; implementing full formulation is a larger project than an ambient-water bounded correlation."
+    }
+  ],
+  "implementation_sequence": [
+    "Audit the current energy reference and phase-ledger semantics before selecting coefficients. Freeze numerical checkpoints independently from the runtime implementation.",
+    "Add a typed, provenance-bearing pure-water property provider with explicit temperature/pressure/phase validity and SI conversion. Preserve unsupported-state qualifications.",
+    "Use an integrated enthalpy difference for finite heating/cooling; do not replace it with Cp at one endpoint times delta-T. Inverse temperature solving needs a monotone bounded bracket.",
+    "Separate glass heat capacity from contents, and account for phase latent heat exactly once. Preserve recorded evaporated/vented mass and its energy.",
+    "Validate unit agreement, split-dose equivalence, inverse heat/cool, mixing orientation, phase transitions and finite-state refusal. Include pressure-dependent saturation as a separate extension, not an implicit liquid-property change."
+  ],
+  "performance_experiments": [
+    "Serial warm-process microprofiles: pure water heat/cool loops versus brine thermal loops, mixture equilibration, acid/base settlement, gas pressure and CLI startup.",
+    "Report whole CLI wall time separately from kernel time; debug and release results cannot be combined.",
+    "Collect repeated medians and peak RSS on a controlled hosted runner, record binary/source identity, and gate optimizations on unchanged energy/material certificates."
+  ],
+  "exclusions": [
+    "No arbitrary mixture enthalpy inferred from pure-water coefficients.",
+    "No density correction for concentrated electrolytes without reviewed partial molar volume data.",
+    "No claim that all retained nine scientific qualifications disappear."
+  ]
+}

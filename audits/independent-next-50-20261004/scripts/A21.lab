@@ -1,0 +1,6 @@
+new
+add v1 water 20mL
+wait 0s
+wait 0s
+measure v1 thermometer
+measure v1 balance

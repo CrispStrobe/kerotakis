@@ -1,0 +1,7 @@
+new
+add v1 water 1g
+seal v1 500mL
+measure v1 pressure
+heat v1 50J
+measure v1 pressure
+measure v1 thermometer

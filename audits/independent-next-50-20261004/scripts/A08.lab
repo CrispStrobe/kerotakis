@@ -1,0 +1,7 @@
+new
+new
+add v1 water 100mL
+add v1 NaCl 0.001mol
+filter v1 v2
+measure v1 balance
+measure v2 balance

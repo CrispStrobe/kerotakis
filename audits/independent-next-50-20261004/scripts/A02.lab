@@ -1,0 +1,13 @@
+new
+new
+new
+new
+add v1 water 80g
+add v3 water 80g
+decant v1 v2 0.5
+decant v1 v2 0.5
+decant v3 v4 0.75
+measure v1 balance
+measure v2 balance
+measure v3 balance
+measure v4 balance

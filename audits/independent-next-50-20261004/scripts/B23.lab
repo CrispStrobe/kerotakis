@@ -1,0 +1,8 @@
+new
+new
+add v1 water 10mL
+add v1 NaCl 20g
+measure v1 particles
+filter v1 v2
+measure v1 balance
+measure v2 balance

@@ -1,0 +1,4 @@
+new
+add v1 water 50mL
+electrolyse v1 0A 30s
+measure v1 balance

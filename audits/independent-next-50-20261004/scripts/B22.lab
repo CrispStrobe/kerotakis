@@ -1,0 +1,7 @@
+new
+add v1 water 100mL
+add v1 FeSO4 0.001mol
+add v1 Cu 0.001mol
+wait 60s
+measure v1 particles
+measure v1 balance

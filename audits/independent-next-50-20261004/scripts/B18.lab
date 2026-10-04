@@ -1,0 +1,5 @@
+new
+add v1 water 100mL
+add v1 HCl 0.001mol
+add v1 NaOH 0.002mol
+measure v1 ph

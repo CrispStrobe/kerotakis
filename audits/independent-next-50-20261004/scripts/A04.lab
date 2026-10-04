@@ -1,0 +1,4 @@
+new
+add v1 water 40g
+decant v1 v1 0.5
+measure v1 balance

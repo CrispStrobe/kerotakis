@@ -1,0 +1,8 @@
+new
+add v1 water 100g
+measure v1 thermometer
+measure v1 balance
+heat v1 0J
+cool v1 0J
+measure v1 thermometer
+measure v1 balance

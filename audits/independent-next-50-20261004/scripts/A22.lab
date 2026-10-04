@@ -1,0 +1,4 @@
+new
+add v1 water 20mL
+wait -1s
+measure v1 balance

@@ -1,0 +1,9 @@
+{
+  "count": 50,
+  "predictions_sha256": "10754ce4a775529e9e353e8155d78c609750cc8af46a3e946deff82ae1f2b024",
+  "parts": {
+    "part-a-frozen.json": "c521b50c3b9508288ba892d463578fc3bd92493731520f001d5775a9c46cbf02",
+    "part-b-frozen.json": "3dd40c8c67e1ae651d389bfb9cf3df42324522b65f1ccaa953ecdf3ea06f9f62"
+  },
+  "policy": "Authored forecasts before new-case execution. Retained historical app knowledge disclosed; no rewriting original forecasts after results."
+}

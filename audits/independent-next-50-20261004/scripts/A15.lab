@@ -1,0 +1,7 @@
+stock water 2mol
+new
+new
+add v1 water 1mol
+add v2 water 1mol
+measure v1 balance
+measure v2 balance

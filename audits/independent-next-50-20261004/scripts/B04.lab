@@ -1,0 +1,5 @@
+new
+add v1 water 100g
+measure v1 thermometer
+heat v1 -1kJ
+measure v1 thermometer

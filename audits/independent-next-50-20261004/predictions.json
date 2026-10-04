@@ -1,0 +1,402 @@
+[
+  {
+    "id": "A01",
+    "title": "Round-trip water transfer",
+    "script": "new\nnew\nadd v1 water 80g\ndecant v1 v2 0.375\ndecant v2 v1 1\nmeasure v1 balance\nmeasure v2 balance\n",
+    "physical_expectation": "All water returns to v1 (80 g within 1e-8 relative), v2 empty, finite unchanged ambient temperature.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A02",
+    "title": "Two half pours equal three-quarter removal",
+    "script": "new\nnew\nnew\nnew\nadd v1 water 80g\nadd v3 water 80g\ndecant v1 v2 0.5\ndecant v1 v2 0.5\ndecant v3 v4 0.75\nmeasure v1 balance\nmeasure v2 balance\nmeasure v3 balance\nmeasure v4 balance\n",
+    "physical_expectation": "Retained masses both20g, receiver masses both60g, combined mass conserved within1e-8 relative.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A03",
+    "title": "Receiver temperature bounds",
+    "script": "new\nnew\nadd v1 water 40g @ 65C\nadd v2 water 40g @ 15C\ndecant v1 v2 1\nmeasure v2 thermometer\nmeasure v2 balance\n",
+    "physical_expectation": "Final receiver temperature lies strictly between15C and65C and near40C, total80g, donor exhausted.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A04",
+    "title": "Self pour refuses",
+    "script": "new\nadd v1 water 40g\ndecant v1 v1 0.5\nmeasure v1 balance\n",
+    "physical_expectation": "Reject self transfer without matter loss, heat change or solver advancement.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A05",
+    "title": "Out-of-range fractional pour",
+    "script": "new\nnew\nadd v1 water 40g\ndecant v1 v2 1.01\n",
+    "physical_expectation": "Reject fraction above1 atomically; no receiver deposit.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A06",
+    "title": "Zero water pour",
+    "script": "new\nnew\nadd v1 water 40g\ndecant v1 v2 0\nmeasure v1 balance\nmeasure v2 balance\n",
+    "physical_expectation": "No physical change or chemistry advancement; donor40g, receiver0g.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A07",
+    "title": "Empty filter",
+    "script": "new\nnew\nfilter v1 v2\nmeasure v1 balance\nmeasure v2 balance\n",
+    "physical_expectation": "Empty filtration creates no matter or thermal excursion; both masses0g.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A08",
+    "title": "Dissolved salt passes filter",
+    "script": "new\nnew\nadd v1 water 100mL\nadd v1 NaCl 0.001mol\nfilter v1 v2\nmeasure v1 balance\nmeasure v2 balance\n",
+    "physical_expectation": "Dissolved NaCl and water move together into filtrate; no fictitious solid residue; all chemical element totals conserved within1e-8 relative.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A09",
+    "title": "Magnetic selection of iron",
+    "script": "new\nnew\nadd v1 Fe 1g\nadd v1 NaCl 1g\nmagnet v1 v2\nmeasure v1 balance\nmeasure v2 balance\n",
+    "physical_expectation": "Only ferromagnetic iron moves, not sodium chloride; masses1g each within1e-8 relative; explicit unsupported identifier/model remains unmet capability.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A10",
+    "title": "Magnet leaves water",
+    "script": "new\nnew\nadd v1 water 25g\nmagnet v1 v2\nmeasure v1 balance\nmeasure v2 balance\n",
+    "physical_expectation": "Water remains25g in donor, receiverempty, no fictitious magnetic transfer.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A11",
+    "title": "Closed water pressure law",
+    "script": "new\nadd v1 water 1g\nseal v1 500mL\nmeasure v1 pressure\nheat v1 50J\nmeasure v1 pressure\nmeasure v1 thermometer\n",
+    "physical_expectation": "For sealed positive gas headspace, finite pressure rises with temperature under an explicit gas/vapor policy; unsupported vapor model must be qualified rather than silently constant pressure.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A12",
+    "title": "Sealing negative headspace",
+    "script": "new\nadd v1 water 1g\nseal v1 -1mL\n",
+    "physical_expectation": "Reject negative headspace atomically.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A13",
+    "title": "Negative regulation pressure",
+    "script": "new\nadd v1 water 1g\nregulate v1 -1bar 500mL\n",
+    "physical_expectation": "Reject negative absolute pressure; no invalid persisted state.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A14",
+    "title": "Open sealed gas",
+    "script": "new\nadd v1 N2 0.001mol\nseal v1 100mL\nopen v1\nmeasure v1 pressure\n",
+    "physical_expectation": "Open boundary returns ambient pressure and truthfully records any gas exchange; no negative/nonfinite inventory. Unsupported N2 is an unmet capability.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A15",
+    "title": "Equal-stock exact exhaustion",
+    "script": "stock water 2mol\nnew\nnew\nadd v1 water 1mol\nadd v2 water 1mol\nmeasure v1 balance\nmeasure v2 balance\n",
+    "physical_expectation": "Both ordinary additions succeed, exhaust stock exactly, equal water masses18.01528g approximately.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A16",
+    "title": "Stock refuses third draw",
+    "script": "stock water 2mol\nnew\nadd v1 water 1mol\nadd v1 water 1mol\nadd v1 water 0.1mol\nmeasure v1 balance\n",
+    "physical_expectation": "Third addition explicitly refuses and does not change accepted2mol inventory or stock.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A17",
+    "title": "Zero electrolysis current",
+    "script": "new\nadd v1 water 50mL\nelectrolyse v1 0A 30s\nmeasure v1 balance\n",
+    "physical_expectation": "Zero current produces zero charge and zero products; no reaction or consumed water.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A18",
+    "title": "Negative electrolysis duration",
+    "script": "new\nadd v1 water 50mL\nelectrolyse v1 0.1A -30s\n",
+    "physical_expectation": "Reject negative duration atomically rather than negative product amounts or silent backward electrolysis.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A19",
+    "title": "Irradiation without time",
+    "script": "new\nadd v1 water 20mL\nirradiate v1 254nm 1W/m2\nmeasure v1 balance\n",
+    "physical_expectation": "Setting illumination alone does not invent photochemical conversion or material; unsupported photochemistry is explicit.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A20",
+    "title": "Negative irradiance",
+    "script": "new\nadd v1 water 20mL\nirradiate v1 254nm -1W/m2\n",
+    "physical_expectation": "Reject physically negative irradiance without state mutation.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A21",
+    "title": "Zero wait idempotence",
+    "script": "new\nadd v1 water 20mL\nwait 0s\nwait 0s\nmeasure v1 thermometer\nmeasure v1 balance\n",
+    "physical_expectation": "No elapsed-time increase, thermal change or mass change for two zero waits.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A22",
+    "title": "Negative wait",
+    "script": "new\nadd v1 water 20mL\nwait -1s\nmeasure v1 balance\n",
+    "physical_expectation": "Negative elapsed time must be rejected atomically; clamping to zero without a disclosed refusal is not agreement.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A23",
+    "title": "Mix order symmetry",
+    "script": "new\nnew\nnew\nnew\nnew\nnew\nadd v1 water 20g @ 55C\nadd v2 water 40g @ 20C\nadd v4 water 20g @ 55C\nadd v5 water 40g @ 20C\nmix v1 1 v2 1 into v3\nmix v5 1 v4 1 into v6\nmeasure v3 thermometer\nmeasure v6 thermometer\nmeasure v3 balance\nmeasure v6 balance\n",
+    "physical_expectation": "Swap of donor ordering produces same60g composition and temperature within0.01K; no order-dependent heat.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A24",
+    "title": "Repeated discard is idempotent",
+    "script": "new\nadd v1 water 25g\ndiscard v1\ndiscard v1\nmeasure v1 balance\n",
+    "physical_expectation": "Exactly25g enters waste once; donorremainszero and second discard does not duplicate waste.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "A25",
+    "title": "Remove occupied vessel refuses",
+    "script": "new\nadd v1 water 25g\nremove v1\n",
+    "physical_expectation": "Refuse removal while occupied, preserving water; user must discard first. Silent deletion of matter fails.",
+    "supported_identifier_assumption": "Species/instrument spellings chosen without consulting the registry; unknown support is unmet capability.",
+    "qualification_policy": "Physical forecasts remain unchanged. Explicit capability refusal is qualified, never physical agreement; silent completion, invalid state and conservation loss fail."
+  },
+  {
+    "id": "B01",
+    "title": "Energy units agree",
+    "script": "new\nnew\nadd v1 water 100g\nadd v2 water 100g\nheat v1 1000J\nheat v2 1kJ\nmeasure v1 thermometer\nmeasure v2 thermometer\nmeasure v1 balance\nmeasure v2 balance\n",
+    "physical_expectation": "Same final temperature within 0.01 K and equal mass; energy unit spelling must not change the experiment.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B02",
+    "title": "Subdividing sensible heat",
+    "script": "new\nnew\nadd v1 water 100g\nadd v2 water 100g\nheat v1 2kJ\nheat v2 1kJ\nheat v2 1kJ\nmeasure v1 thermometer\nmeasure v2 thermometer\n",
+    "physical_expectation": "Away from a phase transition, equal total heat gives equal temperatures within 0.05 K; command subdivision does not create energy.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B03",
+    "title": "Sensible heat reversibility",
+    "script": "new\nadd v1 water 100g\nmeasure v1 thermometer\nmeasure v1 balance\nheat v1 1kJ\ncool v1 1kJ\nmeasure v1 thermometer\nmeasure v1 balance\n",
+    "physical_expectation": "Temperature returns within 0.05 K and mass within 1e-8 relative of the initial measurements, absent explicitly reported exchange with the environment.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B04",
+    "title": "Negative heating is invalid",
+    "script": "new\nadd v1 water 100g\nmeasure v1 thermometer\nheat v1 -1kJ\nmeasure v1 thermometer\n",
+    "physical_expectation": "Negative heat must be rejected atomically, rather than silently functioning as cool or advancing chemistry.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B05",
+    "title": "Negative cooling is invalid",
+    "script": "new\nadd v1 water 100g\nmeasure v1 thermometer\ncool v1 -1kJ\nmeasure v1 thermometer\n",
+    "physical_expectation": "Negative cooling must be rejected atomically, rather than silently functioning as heat.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B06",
+    "title": "Zero heat is a no-op",
+    "script": "new\nadd v1 water 100g\nmeasure v1 thermometer\nmeasure v1 balance\nheat v1 0J\ncool v1 0J\nmeasure v1 thermometer\nmeasure v1 balance\n",
+    "physical_expectation": "Zero heat/cool leaves temperature, mass and physical composition unchanged; no phantom phase transition or reaction advancement.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B07",
+    "title": "Temperature below absolute zero",
+    "script": "new\nadd v1 water 1g @ -274C\nmeasure v1 balance\nmeasure v1 thermometer\n",
+    "physical_expectation": "Addition at a negative absolute temperature must fail without material deposit, stock consumption, or impossible temperature state.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B08",
+    "title": "NaN energy cannot enter state",
+    "script": "new\nadd v1 water 10g\nheat v1 NaNJ\nmeasure v1 thermometer\nmeasure v1 balance\n",
+    "physical_expectation": "Nonfinite heating must fail atomically. Final measurable state, if execution continues, remains finite and unchanged.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B09",
+    "title": "Infinite cooling cannot enter state",
+    "script": "new\nadd v1 water 10g\ncool v1 infJ\nmeasure v1 thermometer\nmeasure v1 balance\n",
+    "physical_expectation": "Infinite cooling must fail atomically rather than manufacture an absolute-zero state or nonfinite energy.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B10",
+    "title": "Freezing plateau",
+    "script": "new\nadd v1 water 50g @ 5C\nmeasure v1 thermometer\ncool v1 5kJ\nmeasure v1 thermometer\nmeasure v1 eyes\nmeasure v1 balance\n",
+    "physical_expectation": "Cooling first reaches approximately 0 C, then produces a water/ice coexistence region rather than lowering an all-liquid sample deep below freezing. Total water mass remains 50 g. If glass heat capacity shifts the dose outside coexistence, energy/phase accounting must explicitly explain it.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B11",
+    "title": "Boiling consumes latent heat",
+    "script": "new\nadd v1 water 50g @ 95C\nmeasure v1 thermometer\nmeasure v1 balance\nheat v1 10kJ\nmeasure v1 thermometer\nmeasure v1 balance\nmeasure v1 eyes\n",
+    "physical_expectation": "At approximately atmospheric pressure, liquid water approaches about 100 C and supplied excess heat causes evaporation; surviving bulk liquid should not reach a temperature far above boiling. Vapor loss may reduce vessel mass, but must be explicit and bounded by available material.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B12",
+    "title": "Heat capacity distinguishes liquids",
+    "script": "new\nnew\nadd v1 water 50g @ 20C\nadd v2 ethanol 50g @ 20C\nheat v1 1kJ\nheat v2 1kJ\nmeasure v1 thermometer\nmeasure v2 thermometer\n",
+    "physical_expectation": "For equal masses below either boiling point and the same glassware, ethanol warms more than water under equal positive heat. Both temperatures and masses remain finite.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B13",
+    "title": "Hot and cold water equilibrate",
+    "script": "new\nnew\nadd v1 water 10g @ 20C\nadd v2 water 10g @ 80C\nmix v2 v1\nmeasure v1 thermometer\nmeasure v1 balance\nmeasure v2 balance\n",
+    "physical_expectation": "Final mixture temperature is strictly between 20 and 80 C, total water mass is 20 g in the receiver, and donor is empty. A precise 50 C claim would require separately accounting for glass heat capacity.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B14",
+    "title": "Thermal pouring orientation",
+    "script": "new\nnew\nnew\nnew\nadd v1 water 10g @ 20C\nadd v2 water 10g @ 80C\nadd v3 water 10g @ 20C\nadd v4 water 10g @ 80C\nmix v2 v1\nmix v3 v4\nmeasure v1 thermometer\nmeasure v4 thermometer\nmeasure v1 balance\nmeasure v4 balance\n",
+    "physical_expectation": "Both receivers contain 20 g water and have physically consistent temperatures between 20 and 80 C. Any temperature difference must be attributable to documented receiver/glass energy, not an arbitrary last-added-temperature rule.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B15",
+    "title": "Zero elapsed time is a no-op",
+    "script": "new\nadd v1 water 10g @ 40C\nmeasure v1 thermometer\nmeasure v1 balance\nwait 0s\nmeasure v1 thermometer\nmeasure v1 balance\n",
+    "physical_expectation": "Zero elapsed time preserves material and thermal state exactly; it cannot advance kinetics, evaporation, or cooling.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B16",
+    "title": "Dilute strong acid/base equivalence",
+    "script": "new\nadd v1 water 100mL\nadd v1 HCl 0.001mol\nadd v1 NaOH 0.001mol\nmeasure v1 ph\nmeasure v1 calorimeter\nmeasure v1 balance\n",
+    "physical_expectation": "At room temperature, dilute equimolar strong acid/base leaves near-neutral solution (pH 6 to 8). Neutralization releases heat if the model reports reaction energy; omitting energy must be qualified rather than fabricated.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B17",
+    "title": "Residual strong acid controls pH",
+    "script": "new\nadd v1 water 100mL\nadd v1 HCl 0.002mol\nadd v1 NaOH 0.001mol\nmeasure v1 ph\n",
+    "physical_expectation": "Residual approximately 0.01 M strong acid gives clearly acidic solution, pH below 3; neutralization cannot report a neutral endpoint merely because both reagents were present.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B18",
+    "title": "Residual strong base controls pH",
+    "script": "new\nadd v1 water 100mL\nadd v1 HCl 0.001mol\nadd v1 NaOH 0.002mol\nmeasure v1 ph\n",
+    "physical_expectation": "Residual approximately 0.01 M strong base gives clearly basic solution, pH above 11; reversing reagent excess must reverse the acid/base outcome.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B19",
+    "title": "Silver chloride precipitation and filtration",
+    "script": "new\nnew\nadd v1 water 100mL\nadd v1 NaCl 0.001mol\nadd v1 AgNO3 0.001mol\nmeasure v1 eyes\nfilter v1 v2\nmeasure v1 balance\nmeasure v2 balance\nmeasure v1 particles\nmeasure v2 particles\n",
+    "physical_expectation": "A white AgCl precipitate forms. Filtering separates solid from aqueous solution, and masses sum to the pre-filter mass. Expected AgCl solid is close to 0.001 mol, with small equilibrium solubility corrections rather than complete disappearance.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B20",
+    "title": "Carbonate acid gas generation",
+    "script": "new\nadd v1 water 100mL\nseal v1 500mL\nadd v1 CaCO3 0.001mol\nadd v1 HCl 0.002mol\nmeasure v1 pressure\ntest v1 limewater\nmeasure v1 particles\n",
+    "physical_expectation": "Carbonate and sufficient acid generate up to 0.001 mol CO2, with positive CO2 identification and increased sealed pressure relative to the initial state. Dissolved CO2 may reduce the gas amount; it cannot exceed the carbon inventory. A contact veto or missing kinetics is a capability qualification.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B21",
+    "title": "Iron displaces copper",
+    "script": "new\nadd v1 water 100mL\nadd v1 CuSO4 0.001mol\nadd v1 Fe 0.001mol\nwait 60s\nmeasure v1 eyes\nmeasure v1 particles\nmeasure v1 balance\n",
+    "physical_expectation": "Iron can reduce aqueous Cu(II) to copper metal while oxidizing to Fe(II). Copper production must be bounded by both 0.001 mol copper and iron inventories; slow or unmodeled surface kinetics require an explicit qualification.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B22",
+    "title": "Reverse displacement is unfavorable",
+    "script": "new\nadd v1 water 100mL\nadd v1 FeSO4 0.001mol\nadd v1 Cu 0.001mol\nwait 60s\nmeasure v1 particles\nmeasure v1 balance\n",
+    "physical_expectation": "Copper does not spontaneously produce substantial iron metal from aqueous Fe(II) under these simple conditions. No reaction loop may generate both displacement directions as equally favorable.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B23",
+    "title": "Solubility limit leaves excess salt solid",
+    "script": "new\nnew\nadd v1 water 10mL\nadd v1 NaCl 20g\nmeasure v1 particles\nfilter v1 v2\nmeasure v1 balance\nmeasure v2 balance\n",
+    "physical_expectation": "At ordinary temperature, 10 mL water cannot dissolve 20 g NaCl; more than 10 g remains solid. Filtration leaves substantial solid in the donor and dissolved salt in the filtrate; their total mass equals the input.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B24",
+    "title": "Nonreactive tracer survives dilution",
+    "script": "new\nadd v1 water 100mL\nadd v1 NaCl 0.001mol\nmeasure v1 balance\nmeasure v1 conductivity\ndilute v1 100mL\nmeasure v1 balance\nmeasure v1 conductivity\nmeasure v1 particles\n",
+    "physical_expectation": "Dilution doubles approximately the solvent amount, preserves the salt inventory, increases total mass by the added water mass, and decreases conductivity in this dilute range. Dissociation changes chemical representation, not sodium/chlorine atom counts.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  },
+  {
+    "id": "B25",
+    "title": "Stoichiometric oxidant limitation",
+    "script": "new\nadd v1 water 100mL\nadd v1 H2O2 0.001mol\nwait 60s\ntest v1 splint\nmeasure v1 particles\nmeasure v1 balance\n",
+    "physical_expectation": "Peroxide decomposition, if it occurs on this timescale, produces no more than 0.0005 mol oxygen and consumes twice that many peroxide moles; absence of a catalyst may mean little or no gas. The experiment tests conservation and truthful rate qualification, not guaranteed rapid decomposition.",
+    "supported_identifier_assumption": "Identifiers selected without consulting the registry. An unknown identifier is a capability limitation, not evidence that the physical prediction was met.",
+    "qualification_policy": "A clear unsupported-model or safety refusal is reported as qualified/unmet capability; it is not counted as satisfying the physical forecast. Nonfinite outputs, false completion, lost material or unintended mutation are failures."
+  }
+]

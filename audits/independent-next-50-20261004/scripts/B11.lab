@@ -1,0 +1,8 @@
+new
+add v1 water 50g @ 95C
+measure v1 thermometer
+measure v1 balance
+heat v1 10kJ
+measure v1 thermometer
+measure v1 balance
+measure v1 eyes

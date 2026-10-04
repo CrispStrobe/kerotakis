@@ -1,0 +1,16 @@
+new
+new
+new
+new
+new
+new
+add v1 water 20g @ 55C
+add v2 water 40g @ 20C
+add v4 water 20g @ 55C
+add v5 water 40g @ 20C
+mix v1 1 v2 1 into v3
+mix v5 1 v4 1 into v6
+measure v3 thermometer
+measure v6 thermometer
+measure v3 balance
+measure v6 balance

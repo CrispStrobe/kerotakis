@@ -1,0 +1,7 @@
+new
+add v1 water 10g @ 40C
+measure v1 thermometer
+measure v1 balance
+wait 0s
+measure v1 thermometer
+measure v1 balance
