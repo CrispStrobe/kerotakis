@@ -1,5 +1,9 @@
 {
-  "count": 10,
-  "predictions_sha256": "92b5d9eeaf1c3ad44f59a970378370d07897871a0a41d50be11af44917c95d6b",
-  "origin": "Exact case conversion from frozen part-b-corrections manifest; original50 unchanged."
+  "count": 12,
+  "predictions_sha256": "0efda61af7800f907a43e5647169bb005588e97fb221fa8a1941f4b731ee4972",
+  "source_manifests": {
+    "part-b-corrections.json": "a421850fb292a22553a0bcb0f0fc0980324ca6f114e6e9738fb129bdba5497af",
+    "part-b-second-corrections.json": "faa074333d1d673e4de4d30f5663621c5a7668b6331628cca321f1236465e70d"
+  },
+  "origin": "Lossless runner-schema adaptation of frozen case manifests and scripts, plus separately frozenD controls. No authored forecasts rewritten."
 }

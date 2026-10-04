@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "created_utc": "2026-10-04T16:02:54.974667+00:00",
+  "freeze_stage": "Second corrections after source-informed API domain inspection, before any D execution. No original/C forecast or script rewritten.",
+  "cases": [
+    {
+      "id": "B13D",
+      "original_id": "B13",
+      "supersedes_followup_for_physical_execution": "B13C",
+      "why_additional_correction": "C follows mix grammar but aliases a source as target. The current Mix API explicitly forbids that. Preserve C as authored evidence; D uses full decant pours matching the original receiver/donor physical intent.",
+      "file": "audits/independent-next-50-20261004/followups/scripts/B13D.lab",
+      "physical_expectation": "Final mixture temperature is strictly between 20 and 80 C, total water mass is 20 g in the receiver, and donor is empty. A precise 50 C claim would require separately accounting for glass heat capacity.",
+      "sha256": "1730d417181e028a05381b9792ebbf15d68c5f47bf8391973be93a61110c8236"
+    },
+    {
+      "id": "B14D",
+      "original_id": "B14",
+      "supersedes_followup_for_physical_execution": "B14C",
+      "why_additional_correction": "C follows mix grammar but aliases a source as target. The current Mix API explicitly forbids that. Preserve C as authored evidence; D uses full decant pours matching the original receiver/donor physical intent.",
+      "file": "audits/independent-next-50-20261004/followups/scripts/B14D.lab",
+      "physical_expectation": "Both receivers contain 20 g water and have physically consistent temperatures between 20 and 80 C. Any temperature difference must be attributable to documented receiver/glass energy, not an arbitrary last-added-temperature rule.",
+      "sha256": "06660e53404ecd096a31e709363538f74659bdc671d4f3e10f68fbd556ff0ac8"
+    }
+  ]
+}

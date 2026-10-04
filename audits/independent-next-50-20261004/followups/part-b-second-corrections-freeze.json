@@ -1,0 +1,8 @@
+{
+  "contracts": 2,
+  "files": {
+    "audits/independent-next-50-20261004/followups/part-b-second-corrections.json": "faa074333d1d673e4de4d30f5663621c5a7668b6331628cca321f1236465e70d",
+    "audits/independent-next-50-20261004/followups/scripts/B13D.lab": "1730d417181e028a05381b9792ebbf15d68c5f47bf8391973be93a61110c8236",
+    "audits/independent-next-50-20261004/followups/scripts/B14D.lab": "06660e53404ecd096a31e709363538f74659bdc671d4f3e10f68fbd556ff0ac8"
+  }
+}
