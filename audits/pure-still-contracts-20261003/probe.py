@@ -68,7 +68,7 @@ def main():
                    '--no-fail-fast', '-j1', '--', '--test-threads=1']
     if args.scope == 'extraction':
         command = ['cargo', 'test', '-p', 'kerotakis-core', '--lib',
-                   '--test', 'extraction_quantity_contracts', '--test', 'extraction_numerical_contracts',
+                   '--test', 'extraction_quantity_contracts', '--test', 'extraction_numerical_contracts', '--test', 'extraction_review_controls',
                    '--test', 'liquid_extraction', '--test', 'safety_extraction_controls',
                    '--test', 'transfer_receiver_precision', '--test', 'transfer_receiver_controls',
                    '--test', 'solver_transactions', '--test', 'stock_precision_contracts',

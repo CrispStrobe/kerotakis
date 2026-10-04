@@ -384,32 +384,36 @@ pub fn extract(
     organic_volume_l: f64,
     partition_coefficient: f64,
 ) -> ExtractionResult {
-    if !solute_moles.is_finite()
-        || !aqueous_volume_l.is_finite()
-        || !organic_volume_l.is_finite()
-        || !partition_coefficient.is_finite()
-        || solute_moles <= 0.0
-        || aqueous_volume_l <= 0.0
-        || organic_volume_l <= 0.0
-        || partition_coefficient <= 0.0
-    {
-        return ExtractionResult {
-            aqueous_moles: solute_moles.max(0.0),
-            organic_moles: 0.0,
-            efficiency: 0.0,
-        };
-    }
-    // At equilibrium: K = (n_org / V_org) / (n_aq / V_aq)
-    // n_org + n_aq = n_total
-    // n_org = K * V_org / V_aq * n_aq
-    // n_total = n_aq * (1 + K * V_org / V_aq)
-    let ratio = partition_coefficient * organic_volume_l / aqueous_volume_l;
-    let n_aq = solute_moles / (1.0 + ratio);
-    let n_org = solute_moles - n_aq;
+    extract_repeated(
+        solute_moles,
+        aqueous_volume_l,
+        organic_volume_l,
+        partition_coefficient,
+        1,
+    )
+}
+
+fn extraction_inputs_valid(n: f64, aqueous: f64, organic: f64, k: f64) -> bool {
+    [n, aqueous, organic, k]
+        .iter()
+        .all(|value| value.is_finite() && *value > 0.0)
+}
+
+fn extraction_unchanged(n: f64) -> ExtractionResult {
     ExtractionResult {
-        aqueous_moles: n_aq,
-        organic_moles: n_org,
-        efficiency: n_org / solute_moles,
+        aqueous_moles: n.max(0.0),
+        organic_moles: 0.0,
+        efficiency: 0.0,
+    }
+}
+
+// Multiplying a normalized subnormal fraction can lose most of its useful
+// digits, or erase it completely, before a large inventory rescales it.
+fn extraction_scaled_fraction(n: f64, log_fraction: f64) -> f64 {
+    if log_fraction >= f64::MIN_POSITIVE.ln() {
+        n * log_fraction.exp()
+    } else {
+        (n.ln() + log_fraction).exp()
     }
 }
 
@@ -422,33 +426,52 @@ pub fn extract_repeated(
     partition_coefficient: f64,
     stages: usize,
 ) -> ExtractionResult {
-    if stages == 0 {
+    if stages == 0
+        || !extraction_inputs_valid(
+            solute_moles,
+            aqueous_volume_l,
+            organic_volume_per_stage_l,
+            partition_coefficient,
+        )
+    {
+        return extraction_unchanged(solute_moles);
+    }
+
+    // r = K V_org / V_aq, and the remaining fraction is (1+r)^(-stages).
+    // Logarithms avoid intermediate product overflow/underflow. Keep the
+    // logarithm of ln(1+r), too: r itself may be unrepresentable while n*r
+    // is a perfectly representable extracted inventory.
+    let log_ratio =
+        partition_coefficient.ln() + organic_volume_per_stage_l.ln() - aqueous_volume_l.ln();
+    if stages == 1 && log_ratio == 0.0 {
+        let half = solute_moles * 0.5;
         return ExtractionResult {
-            aqueous_moles: solute_moles.max(0.0),
-            organic_moles: 0.0,
-            efficiency: 0.0,
+            aqueous_moles: half,
+            organic_moles: half,
+            efficiency: half / solute_moles,
         };
     }
-    let one = extract(
-        solute_moles,
-        aqueous_volume_l,
-        organic_volume_per_stage_l,
-        partition_coefficient,
-    );
-    if one.efficiency == 0.0 {
-        return one;
-    }
-    // Every stage sees a fresh, equal solvent portion. The fraction left
-    // after one stage is therefore raised to `stages`; this closed form is
-    // mathematically identical to a loop but remains fast for thousands or
-    // millions of requested stages and avoids accumulated subtraction error.
-    let remaining_fraction = (one.aqueous_moles / solute_moles).powf(stages as f64);
-    let remaining = solute_moles * remaining_fraction;
-    let total_organic = solute_moles - remaining;
+    let log_per_stage_decay = if log_ratio < -36.0 {
+        // ln(1+r)/r differs from one by less than double precision here.
+        log_ratio
+    } else if log_ratio <= 0.0 {
+        log_ratio.exp().ln_1p().ln()
+    } else {
+        (log_ratio + (-log_ratio).exp().ln_1p()).ln()
+    };
+    let log_decay = (stages as f64).ln() + log_per_stage_decay;
+    let decay = log_decay.exp();
+    let remaining = extraction_scaled_fraction(solute_moles, -decay);
+    let log_extracted_fraction = if log_decay < -36.0 {
+        log_decay
+    } else {
+        (-(-decay).exp_m1()).ln()
+    };
+    let extracted = extraction_scaled_fraction(solute_moles, log_extracted_fraction);
     ExtractionResult {
         aqueous_moles: remaining,
-        organic_moles: total_organic,
-        efficiency: total_organic / solute_moles,
+        organic_moles: extracted,
+        efficiency: extracted / solute_moles,
     }
 }
 
@@ -466,41 +489,63 @@ pub fn extract_repeated_with_aqueous_solubility(
     aqueous_solubility_mol_l: f64,
     stages: usize,
 ) -> Option<ExtractionResult> {
-    if stages == 0 || !aqueous_solubility_mol_l.is_finite() || aqueous_solubility_mol_l <= 0.0 {
+    if stages == 0
+        || !aqueous_solubility_mol_l.is_finite()
+        || aqueous_solubility_mol_l <= 0.0
+        || !extraction_inputs_valid(
+            solute_moles,
+            aqueous_volume_l,
+            organic_volume_per_stage_l,
+            partition_coefficient,
+        )
+    {
         return None;
     }
-    let one = extract(
-        solute_moles,
+    // Normalize capacities against the loading in log space. Multiplying
+    // K * solubility * volume first can overflow even when its final capacity
+    // is finite. An overflowing normalized capacity simply exceeds loading.
+    let log_loading = solute_moles.ln();
+    let aqueous_capacity =
+        (aqueous_solubility_mol_l.ln() + aqueous_volume_l.ln() - log_loading).exp();
+    let organic_capacity = (partition_coefficient.ln()
+        + aqueous_solubility_mol_l.ln()
+        + organic_volume_per_stage_l.ln()
+        - log_loading)
+        .exp();
+    let first_stage_capacity = aqueous_capacity + organic_capacity;
+    if first_stage_capacity >= 1.0 {
+        return Some(extract_repeated(
+            solute_moles,
+            aqueous_volume_l,
+            organic_volume_per_stage_l,
+            partition_coefficient,
+            stages,
+        ));
+    }
+    let total_capacity = aqueous_capacity + organic_capacity * stages as f64;
+    if total_capacity * (1.0 + 1e-12) < 1.0 || organic_capacity == 0.0 {
+        return None;
+    }
+    let saturated_stages = ((1.0 - first_stage_capacity) / organic_capacity)
+        .ceil()
+        .min(stages as f64) as usize;
+    let saturated_fraction = saturated_stages as f64 * organic_capacity;
+    let after_saturated = solute_moles * (1.0 - saturated_fraction);
+    if !after_saturated.is_finite() || after_saturated <= 0.0 {
+        // A rounded saturated-capacity subtraction cannot certify the
+        // remaining aqueous inventory; do not invent a negative or zero pool.
+        return None;
+    }
+    let tail = extract_repeated(
+        after_saturated,
         aqueous_volume_l,
         organic_volume_per_stage_l,
         partition_coefficient,
+        stages - saturated_stages,
     );
-    if one.efficiency == 0.0 {
-        return None;
-    }
-    let aqueous_at_saturation = aqueous_solubility_mol_l * aqueous_volume_l;
-    let organic_at_saturation =
-        partition_coefficient * aqueous_solubility_mol_l * organic_volume_per_stage_l;
-    let total_capacity = aqueous_at_saturation + organic_at_saturation * stages as f64;
-    if solute_moles > total_capacity * (1.0 + 1e-12) {
-        return None;
-    }
-
-    let first_stage_capacity = aqueous_at_saturation + organic_at_saturation;
-    let saturated_stages = if solute_moles <= first_stage_capacity {
-        0
-    } else {
-        ((solute_moles - first_stage_capacity) / organic_at_saturation)
-            .ceil()
-            .min(stages as f64) as usize
-    };
-    let after_saturated = solute_moles - saturated_stages as f64 * organic_at_saturation;
-    let unsaturated_stages = stages - saturated_stages;
-    let fraction_left_per_stage = one.aqueous_moles / solute_moles;
-    let remaining = after_saturated * fraction_left_per_stage.powf(unsaturated_stages as f64);
-    let extracted = solute_moles - remaining;
+    let extracted = (solute_moles * saturated_fraction + tail.organic_moles).min(solute_moles);
     Some(ExtractionResult {
-        aqueous_moles: remaining,
+        aqueous_moles: tail.aqueous_moles,
         organic_moles: extracted,
         efficiency: extracted / solute_moles,
     })

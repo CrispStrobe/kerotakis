@@ -4076,6 +4076,31 @@ impl Bench {
                     return Ok(events);
                 }
 
+                if self.is_broken(*to) {
+                    return Err(BenchError::BrokenVessel(*to));
+                }
+                // Retain the existing conservative total-solvent contact policy
+                // for staged extraction; this is not per-stage vessel geometry.
+                let solvent_stream = vec![(solvent.clone(), *total_solvent, Phase::Liquid)];
+                let mut contact = prepare_transfer_receiver(
+                    &source,
+                    &[(&solvent_stream, Kelvin::STANDARD)],
+                    std::iter::empty(),
+                    true,
+                )?;
+                contact.refresh_pressure();
+                let errors = crate::delta::StateDelta::validate_state(&contact);
+                if !errors.is_empty() {
+                    return Err(BenchError::InvalidState(
+                        errors
+                            .iter()
+                            .map(ToString::to_string)
+                            .collect::<Vec<_>>()
+                            .join("; "),
+                    ));
+                }
+                let contact_temperature = contact.temperature;
+
                 // Track dissolved and crystalline inventory separately.
                 // A distribution coefficient acts on the first. A solid
                 // can join only when the empirical row also carries a
@@ -4104,7 +4129,7 @@ impl Bench {
                             &solute,
                             solvent,
                             &water,
-                            source.temperature.0,
+                            contact_temperature.0,
                         )
                         .is_none()
                         {
@@ -4114,14 +4139,14 @@ impl Bench {
                                             Phrase::new(
                                                 "not-modeled.water-distribution-coefficient-temperature",
                                                 "the {solute} {solvent}/water distribution coefficient is only reviewed at {reviewed} K (tolerance +/- {tolerance} K); this vessel is at {actual} K",
-                                                vec![("solute".to_string(), Slot::text(solute.0.clone())), ("solvent".to_string(), Slot::text(solvent.0.clone())), ("reviewed".to_string(), Slot::number(format!("{:.2}", row.reference_temperature_k))), ("tolerance".to_string(), Slot::number(format!("{:.2}", row.temperature_tolerance_k))), ("actual".to_string(), Slot::number(format!("{:.2}", source.temperature.0)))],
+                                                vec![("solute".to_string(), Slot::text(solute.0.clone())), ("solvent".to_string(), Slot::text(solvent.0.clone())), ("reviewed".to_string(), Slot::number(format!("{:.2}", row.reference_temperature_k))), ("tolerance".to_string(), Slot::number(format!("{:.2}", row.temperature_tolerance_k))), ("actual".to_string(), Slot::number(format!("{:.2}", contact_temperature.0)))],
                                             ),
                                         ));
                             continue;
                         }
                     }
                     let Some(prediction) =
-                        partition_k(&solute, solvent, &water, source.temperature.0)
+                        partition_k(&solute, solvent, &water, contact_temperature.0)
                     else {
                         if aqueous_moles > 0.0 || solid_moles > 0.0 {
                             outside.push(solute);
@@ -4129,7 +4154,7 @@ impl Bench {
                         continue;
                     };
                     let solubility = species::lookup(&solute).and_then(|data| {
-                        data.aqueous_solubility_at(source.temperature.0)
+                        data.aqueous_solubility_at(contact_temperature.0)
                             .map(|grams_per_100_ml| grams_per_100_ml * 10.0 / data.molar_mass)
                     });
                     let moles = if solid_moles > 0.0 {
@@ -4169,7 +4194,7 @@ impl Bench {
                                             Phrase::new(
                                                 "not-modeled.loading-exceeds-capacity",
                                                 "the {solute} loading exceeds the reviewed water/{solvent} capacity implied by its {solubility} mol/L aqueous solubility at {temperature} K; a persistent solid/liquid/organic three-phase equilibrium is not yet modelled",
-                                                vec![("solute".to_string(), Slot::text(solute.0.clone())), ("solvent".to_string(), Slot::text(solvent.0.clone())), ("solubility".to_string(), Slot::number(format!("{:.6}", limit))), ("temperature".to_string(), Slot::number(format!("{:.2}", source.temperature.0)))],
+                                                vec![("solute".to_string(), Slot::text(solute.0.clone())), ("solvent".to_string(), Slot::text(solvent.0.clone())), ("solubility".to_string(), Slot::number(format!("{:.6}", limit))), ("temperature".to_string(), Slot::number(format!("{:.2}", contact_temperature.0)))],
                                             ),
                                         ));
                             continue;
@@ -4259,54 +4284,102 @@ impl Bench {
                                 ));
                 }
 
-                let mut probe = source.clone();
-                probe.deposit(solvent.clone(), *total_solvent, Phase::Liquid);
-                match screen.assess(&probe) {
-                    SafetyVerdict::Allow => {}
-                    SafetyVerdict::Warn {
-                        severity,
-                        rule,
-                        hazard,
-                        real_world,
-                    } => events.push(Event::HazardWarning {
-                        severity,
-                        rule,
-                        hazard,
-                        real_world,
-                    }),
-                    SafetyVerdict::Veto { reason } => {
-                        events.push(Event::SafetyVeto { reason });
-                        *disposition = ApplyDisposition::Unchanged;
-                        return Ok(events);
+                // Certify the actual debit, not just extracted + remaining:
+                // that sum can round to the original and hide a zero debit.
+                let mut retained = source.clone();
+                crate::surface_colour::homogenize(&mut retained);
+                retained.temperature = contact_temperature;
+                for split in &splits {
+                    let eligible = |p: &&crate::vessel::Portion| {
+                        p.species == split.species
+                            && matches!(p.phase, Phase::Aqueous | Phase::Solid)
+                    };
+                    let before: f64 = source
+                        .contents
+                        .iter()
+                        .filter(eligible)
+                        .map(|p| p.moles.0)
+                        .sum();
+                    let moved = split.extracted.0;
+                    let rest = split.remaining.0;
+                    let accurate = |ratio: f64| ratio.is_finite() && (ratio - 1.0).abs() <= 1e-8;
+                    if !before.is_finite()
+                        || before <= 0.0
+                        || !moved.is_finite()
+                        || moved <= 0.0
+                        || !rest.is_finite()
+                        || rest < 0.0
+                        || !accurate((before - rest) / moved)
+                        || !accurate((moved + rest) / before)
+                    {
+                        return Err(BenchError::TransferDonorPrecision {
+                            component: split.species.0.clone(),
+                        });
+                    }
+                    retained.contents.retain(|p| {
+                        !(p.species == split.species
+                            && matches!(p.phase, Phase::Aqueous | Phase::Solid))
+                    });
+                    retained.deposit(split.species.clone(), split.remaining, Phase::Aqueous);
+                }
+                retained.refresh_pressure();
+                let receiver_before = self
+                    .vessel(*to)
+                    .cloned()
+                    .unwrap_or_else(|_| Vessel::new(*to, "beaker"));
+                let mut incoming = solvent_stream;
+                incoming.extend(
+                    splits
+                        .iter()
+                        .map(|split| (split.species.clone(), split.extracted, Phase::Aqueous)),
+                );
+                let mut receiver = prepare_transfer_receiver(
+                    &receiver_before,
+                    &[(&incoming, contact_temperature)],
+                    std::iter::empty(),
+                    true,
+                )?;
+                receiver.lots.push(MaterialLot {
+                    species: solvent.clone(),
+                    moles: *total_solvent,
+                    phase: Phase::Liquid,
+                    added_at: receiver.elapsed_seconds,
+                    hydrated_at: None,
+                    source: Some("fresh extracting solvent".into()),
+                    particle_size_um: None,
+                    suspended_fraction: None,
+                });
+                receiver.mark_liquid_contact();
+                receiver.resolved.invalidate();
+                receiver.refresh_pressure();
+                if matches!(receiver.thermal_mode, ThermalMode::Adiabatic)
+                    && (receiver.mass().0 - receiver_before.mass().0).abs() > 1e-12
+                {
+                    for sid in &source.unpriced_heat {
+                        if !receiver.unpriced_heat.contains(sid) {
+                            receiver.unpriced_heat.push(sid.clone());
+                        }
                     }
                 }
-                if let Ok(existing) = self.vessel(*to) {
-                    let mut receiver_probe = existing.clone();
-                    receiver_probe.deposit(solvent.clone(), *total_solvent, Phase::Liquid);
-                    for split in &splits {
-                        receiver_probe.deposit(
-                            split.species.clone(),
-                            split.extracted,
-                            Phase::Aqueous,
-                        );
-                    }
-                    match screen.assess(&receiver_probe) {
+                let errors: Vec<_> = [&retained, &receiver]
+                    .into_iter()
+                    .flat_map(crate::delta::StateDelta::validate_state)
+                    .collect();
+                if !errors.is_empty() {
+                    return Err(BenchError::InvalidState(
+                        errors
+                            .iter()
+                            .map(ToString::to_string)
+                            .collect::<Vec<_>>()
+                            .join("; "),
+                    ));
+                }
+                for (before, after) in [(&source, &contact), (&receiver_before, &receiver)] {
+                    match screen.assess_pour(before, after) {
                         SafetyVerdict::Allow => {}
-                        SafetyVerdict::Warn {
-                            severity,
-                            rule,
-                            hazard,
-                            real_world,
-                        } => {
-                            if !events.iter().any(
-                                |event| matches!(event, Event::HazardWarning { rule: seen, .. } if seen == &rule),
-                            ) {
-                                events.push(Event::HazardWarning {
-                                    severity,
-                                    rule,
-                                    hazard,
-                                    real_world,
-                                });
+                        SafetyVerdict::Warn { severity, rule, hazard, real_world } => {
+                            if !events.iter().any(|event| matches!(event, Event::HazardWarning { rule: seen, .. } if seen == &rule)) {
+                                events.push(Event::HazardWarning { severity, rule, hazard, real_world });
                             }
                         }
                         SafetyVerdict::Veto { reason } => {
@@ -4316,86 +4389,34 @@ impl Bench {
                         }
                     }
                 }
-                // Refusals above are atomic: a command that cannot be
-                // computed must not leave behind even an empty receiver.
-                // A broken target is not creatable, so detect that before
-                // consuming stock; every other absent target can safely be
-                // materialised after the stock draw succeeds.
-                if !self.vessels.iter().any(|vessel| vessel.id == *to)
-                    && self.broken_vessels.contains(to)
-                {
-                    return Err(BenchError::NoSuchVessel(*to));
-                }
-                if let Err(refusal) = self.stock.draw(&solvent.0, total_solvent.0) {
+                let mut stock = self.stock.clone();
+                if let Err(refusal) = stock.draw(&solvent.0, total_solvent.0) {
+                    // This proposal was never accepted: do not report its
+                    // warnings or claim that unsupported solutes were moved.
+                    events.clear();
                     events.push(stock_refusal_event(*from, &solvent.0, refusal));
                     *disposition = ApplyDisposition::Unchanged;
                     return Ok(events);
                 }
                 self.ensure_destination(*to, &mut events);
-
-                let source_temperature = source.temperature;
-                let contact_temperature = if matches!(source.thermal_mode, ThermalMode::Adiabatic) {
-                    adiabatic_mix_into(&source, Kelvin::STANDARD, |temperature| {
-                        portions_enthalpy(
-                            [(solvent, total_solvent.0, Phase::Liquid)],
-                            Kelvin::STANDARD.0,
-                            temperature,
-                        )
-                    })
-                } else {
-                    source_temperature
-                };
-                if (contact_temperature.0 - source_temperature.0).abs() > 1e-9 {
+                if (contact_temperature.0 - source.temperature.0).abs() > 1e-9 {
                     events.push(Event::TemperatureChanged {
                         vessel: *from,
-                        from: source_temperature,
+                        from: source.temperature,
                         to: contact_temperature,
                     });
                 }
-                {
-                    let src = self.vessel_mut(*from)?;
-                    src.temperature = contact_temperature;
-                    for split in &splits {
-                        let total = split.extracted.0 + split.remaining.0;
-                        let aqueous =
-                            src.withdraw_phase(&split.species, Moles(total), Phase::Aqueous);
-                        src.withdraw_phase(
-                            &split.species,
-                            Moles((total - aqueous.0).max(0.0)),
-                            Phase::Solid,
-                        );
-                        src.deposit(split.species.clone(), split.remaining, Phase::Aqueous);
+                for (before, after) in [(&source, &retained), (&receiver_before, &receiver)] {
+                    if !before.surface_colours.is_empty() && after.surface_colours.is_empty() {
+                        events.push(Event::SurfaceColourMixed {
+                            vessel: before.id,
+                            spot_count: before.surface_colours.len(),
+                        });
                     }
                 }
-                let incoming = std::iter::once((solvent, total_solvent.0, Phase::Liquid)).chain(
-                    splits
-                        .iter()
-                        .map(|split| (&split.species, split.extracted.0, Phase::Aqueous)),
-                );
-                let receiver_temperature = {
-                    let dst = self.vessel(*to)?;
-                    if matches!(dst.thermal_mode, ThermalMode::Adiabatic) {
-                        adiabatic_mix_into(dst, contact_temperature, |temperature| {
-                            portions_enthalpy(incoming.clone(), contact_temperature.0, temperature)
-                        })
-                    } else {
-                        dst.temperature
-                    }
-                };
-                {
-                    let dst = self.vessel_mut(*to)?;
-                    dst.temperature = receiver_temperature;
-                    dst.deposit_lot(
-                        solvent.clone(),
-                        *total_solvent,
-                        Phase::Liquid,
-                        Some("fresh extracting solvent".to_string()),
-                        None,
-                    );
-                    for split in &splits {
-                        dst.deposit(split.species.clone(), split.extracted, Phase::Aqueous);
-                    }
-                }
+                *self.vessel_mut(*from)? = retained;
+                *self.vessel_mut(*to)? = receiver;
+                self.stock = stock;
                 events.push(Event::Extracted {
                     from: *from,
                     to: *to,
