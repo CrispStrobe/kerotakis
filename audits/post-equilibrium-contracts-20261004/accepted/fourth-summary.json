@@ -1,0 +1,23 @@
+{
+  "run_id": 37219356461,
+  "passed": true,
+  "checks": 1140,
+  "original_cases": 50,
+  "corrected_followups": 12,
+  "process_captures": 124,
+  "counts": {
+    "bounded_observable_agreement": 21,
+    "expected_invalid_input_refusal": 13,
+    "qualified_observable_agreement": 7,
+    "author_protocol_error": 9
+  },
+  "followup_counts": {
+    "author_protocol_error": 2,
+    "bounded_observable_agreement": 3,
+    "qualified_observable_agreement": 7
+  },
+  "binary_source_commit": "152854c380347c6d70a9e358bf967708fd468054",
+  "binary_sha256": "10fbb71b4d2706c11e2aa69c414ee41a56eb08366a6b4e698bf356953c39138a",
+  "verification_sha256": "c9ef03f34d68425b49066450f0756a78da8c5b37641b99a2104623fb73409415",
+  "policy": "A verifier pass is bounded artifact/observable agreement, never all50 expectations met. Original author errors, expected invalid refusals and corrected followups remain separate."
+}

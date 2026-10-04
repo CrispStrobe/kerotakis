@@ -1,0 +1,41 @@
+# Systematic closure, 2026-10-04
+
+This phase repairs shared preparation and acceptance paths exposed by independent CLI experiments and subsequent source-informed controls. Original forecasts and scripts remain preserved. Focused contracts are not additional blind experiments.
+
+## Implemented
+
+- Spill creation now prepares and certifies both donor debit and prospective receiver, with deliberate-discard veto rollback and the separate accidental-spill hazard policy.
+- Mechanical Decant, Mix, Filter, Magnet and Drain screen contextual prospective states carrying current pressure, heat uncertainty, invalidated characterization and solver step-origin metadata. They commit the complete accepted proposal. Magnetic transfer includes sensible heat; Drain certifies an independently computed partition fraction.
+- Extraction simulates sequential fresh-solvent contacts at each actual contact temperature, evolves donor and collector proposals, screens each stage and commits once. Later refusal rolls back the whole extraction and stock proposal. Bounded saturation and coefficient coverage remain explicit.
+- Accepted final equilibrated states have an opt-in safety hook. Titration applies it inside its special virtual-dose path; vetoes discard the current trial and stock debit while preserving earlier accepted increments. Discarded virtual warnings never appear as accepted history.
+- `SolverStack::with_required_conservation` requires represented molecular element and formal-charge closure. It subtracts compensated species inventories before computing reaction throughput; no unchanged background or absolute trace floor masks changes. Gas events extend that same ledger. Incomplete ownership or unsafe bounded arithmetic refuses the certificate. Legacy native policy remains unchanged.
+- Zero-work operators skip solver and safety processing. Wait/charge syntax accepts zero and scientific notation, validates finite unit conversion, and still refuses invalid negative/nonfinite work.
+- `Amount` supplies bounded two-component arithmetic and persistence. Opt-in stock balances own it directly and preserve their mode across empty-ledger saves. Existing default stock policy remains conservative.
+- General state validation rejects invalid nuclide identities/amounts before delta or custom-solver commit, preserving rollback and valid zero/subnormal tracers.
+- Populated nuclide ledgers serialize using canonical isotope map keys, retaining distinct ground/metastable identities and refusing malformed or ambiguous saves.
+- A provenance-bearing sparse iodine optics API exposes one reviewed 460 nm aqueous measurement with its exact acidic medium and temperature. It provides no fabricated full spectrum or plain-water calibration. Mathematical extreme-value support is separate from experimental validity; coarse subnormal output refuses.
+- Copper displacement narration names the supported Cu(II) pathway and reports actual remaining copper instead of claiming all copper disappeared.
+
+## Evidence so far
+
+Focused run [37214650952](https://github.com/CrispStrobe/kerotakis/actions/runs/37214650952) passed 825 Rust tests in 19 targets at `9f3d02108255bbd458a568942890401de126af21`.
+
+Focused run [37216940086](https://github.com/CrispStrobe/kerotakis/actions/runs/37216940086) passed 113 Rust tests in 13 targets at `a5018b67f85a92f4e3fa918e83a3ccf83c963e24`. This includes the shared transfer, strict ledger, titration final safety, valid Drain precision and nuclide persistence controls. These are diagnostic receipts, not complete native/WASM/CLI acceptance.
+
+Baseline run 37215455113 measured 26 failures among 35 new strict-ledger controls, 25 among 26 shared-transfer controls, and one of two optics quantization controls. The original five strict-constructor controls passed. Subsequent focused failures and corrections are retained in JSON receipts.
+
+Four exact source-preserving exclusions are disclosed in the full validator: the previously qualified pure-water extraction fixture; a legacy zero-transfer observer requiring a screen call; and two Drain forecasts whose extreme solvent ratios occupy the modeled single-phase domain. Independent replacement controls preserve the applicable geometry or phase forecast and test real precision on valid two-layer fixtures. No phase model was weakened to force those forecasts to pass.
+
+The fourth fifty retains all original forecasts. Thirteen scripts intentionally probe invalid inputs; nine have author protocol errors. Corrected followups are separate evidence. The offline verifier distinguishes bounded observable agreement, qualified physics, expected refusal, author error and unmet observable expectations. CLI aborts cannot establish post-abort atomicity; waste snapshots and complete reaction-energy closure are not inferred from partial output.
+
+The first fourth-replay attempt 37219003355 failed in the verifier after all 124 captures: the shallow checkout lacked the validated source, particles output has no Bench snapshot, and the separately frozen positive-time control allows `1e-8` relative differences. The harness was corrected without changing original or followup forecasts; the accepted hosted rerun retains exact zero-work equality for the original controls.
+
+## Still open
+
+Authoritative compensated vessel/still accounting is not migrated. Supporting existing tiny cuts is not proof of transfer-relative donor precision. See [MIGRATION.md](../compensated-amount-contracts-20261004/MIGRATION.md) for the required inventory-writer, solver reconciliation, public API and save-schema work.
+
+The strict molecular certificate intentionally refuses unsupported surface/exchanger support, unresolved materials/object mass, soap aggregates, nuclides and solid solutions. Typed ownership providers and separate energy/nuclear/speciation certificates are future work; refusal is not positive chemical support.
+
+The existing scientific qualifications remain: kinetics, reaction energy, concentrated-solution volume and incomplete optical coverage need separately reviewed models. One sparse iodine datum does not close these general gaps.
+
+Complete source validation passed at `152854c380347c6d70a9e358bf967708fd468054`: run [37217585619](https://github.com/CrispStrobe/kerotakis/actions/runs/37217585619) passed 1,818 Rust tests, all 17 native/WASM/CLI stages and 190 source bindings. Its executable SHA-256 is `10fbb71b4d2706c11e2aa69c414ee41a56eb08366a6b4e698bf356953c39138a`. The third-fifty replay [37218809560](https://github.com/CrispStrobe/kerotakis/actions/runs/37218809560) passed 1,057 checks with retained qualifications. The fourth-fifty replay [37219356461](https://github.com/CrispStrobe/kerotakis/actions/runs/37219356461) passed 1,140 checks across 124 text/JSON process captures: 50 original cases and 12 separately frozen followups. Original classifications are 21 bounded agreements, seven qualified agreements, 13 expected invalid-input refusals and nine author protocol errors. The followups retain two Mix author errors, three bounded agreements and seven qualified agreements. The first representative profile (37219482747) completed ten workloads, but its parent wall timing was contaminated by Python timeout-polling lag. It is retained as diagnostic evidence, not a speedup claim. The corrected blocking-wait/process-group-watchdog run [37219758069](https://github.com/CrispStrobe/kerotakis/actions/runs/37219758069) completed ten workloads, 20 warmups and 80 timed process runs. Candidate median wall changes ranged from about 0.6% faster to 2.5% slower, with similar CPU and roughly 39 MB peak RSS. Four repetitions do not establish statistical equivalence or a speedup. Debug startup is included; these measurements cannot be extrapolated to release, browser or warm-kernel performance. Raw output/script hashes and both accepted binary identities are bound in the archived profile. Resource checks keep large builds on hosted runners and evidence on `/mnt/storage`. Secondary worktrees contain unmerged or dirty authored work; no clean merged candidates were found for safe removal.

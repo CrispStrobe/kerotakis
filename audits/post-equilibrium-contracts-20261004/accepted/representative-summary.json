@@ -1,0 +1,13 @@
+{
+  "run_id": 37219758069,
+  "workloads": 10,
+  "process_runs": 100,
+  "timed_runs": 80,
+  "warmups": 20,
+  "profile_sha256": "c2fb84dcf0158ad0fa6e51814c5d9e5c1667a5dbf0baaaddf0efc280604c3772",
+  "policy": "Hosted serial ABBA/BAAB, one warmup per variant and four timed repetitions. High-resolution parent wall measurements include time-wrapper/CLI startup; GNUtime wall/user/system/RSS include CLI startup and child processes. Completion uses blocking wait with a process-group watchdog, avoiding timeout-polling lag. GNU wall/CPU clocks have centisecond granularity; RSS is a GNUtime child-process maximum, not aggregate simultaneous resident memory. Source-informed extraction workloads are separate from frozen50.",
+  "max_candidate_median_slowdown_percent": 2.4749013028413813,
+  "max_candidate_median_speedup_percent": 0.6418232224887577,
+  "passed": true,
+  "interpretation": "Four timed repetitions per variant; debug CLI startup included. Similar CPU/RSS and observed wall medians, not a statistically established speedup or release/browser/warm-kernel claim."
+}

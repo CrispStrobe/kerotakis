@@ -1,0 +1,11 @@
+{
+  "run_id": 37218809560,
+  "passed": true,
+  "verification_sha256": "8520eced7cb1d7605087f774f6349bfc6df6571520a9067f08bafa8edcadcab0",
+  "integrity_sha256": "0799227807e1a6db363ab43a7a2ec4a2067b48b847c87c9fed4c4976fb54799e",
+  "checks": 1057,
+  "qualified_checks": 0,
+  "qualifications": 9,
+  "binary_source_commit": "152854c380347c6d70a9e358bf967708fd468054",
+  "note": "Retained original predictions and qualifications; verifier agreement does not establish all intended physics."
+}

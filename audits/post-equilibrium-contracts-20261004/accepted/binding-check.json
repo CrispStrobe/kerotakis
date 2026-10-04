@@ -1,0 +1,10 @@
+{
+  "run_id": 37217585619,
+  "commit": "152854c380347c6d70a9e358bf967708fd468054",
+  "binary_sha256": "10fbb71b4d2706c11e2aa69c414ee41a56eb08366a6b4e698bf356953c39138a",
+  "checked": 208,
+  "source_files": 190,
+  "stages": 17,
+  "passed": true,
+  "scope": "Offline exact source, validation log and executable hash binding; raw artifact retained on NAS."
+}
