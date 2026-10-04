@@ -1,0 +1,7 @@
+{
+  "contracts": 3,
+  "scope": "Cu(II) pathway completion is not disappearance of Cu(I) or other copper forms; all active locales/registers explicitly name supported Cu+2 pathway. No kinetics model extension.",
+  "files": {
+    "crates/kerotakis-core/tests/displacement_pathway_narration.rs": "bcf7f4bd97e4448ad8bcd2924c58d5c2728aef96d486b244048df98daa2a9d96"
+  }
+}
