@@ -10,7 +10,7 @@ def check(name,value):
  checks.append({'name':name,'passed':bool(value)})
 check('full validation',r['passed'] and len(r['stages'])==17 and all(x['exit_code']==0 for x in r['stages']))
 for name,s in r['source_hashes'].items():
- data=subprocess.check_output(['git','show',r['commit']+':'+name],cwd='/mnt/volume1/kerotakis'); check('source '+name,hashlib.sha256(data).hexdigest()==s)
+ data=subprocess.check_output(['git','show',r['commit']+':'+name],cwd=Path(__file__).resolve().parents[2]); check('source '+name,hashlib.sha256(data).hexdigest()==s)
 for s in r['stages']: check('log '+s['name'],sha(p/s['log'])==s['log_sha256'])
 check('dependency lock',sha(p/'Cargo.lock')==r['cargo_lock_sha256']); check('executable',sha(p/'kero')==r['binary_sha256'])
 for name in ('distillation','trace-phase','paired-binary','still-failure','overlap-continuity','inventory-transfer','fractional-transfer'):
