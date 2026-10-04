@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "tests": 25,
+  "files": {
+    "crates/kerotakis-core/tests/required_solver_ledger_boundaries.rs": "3f7925ada6932cbf741e486e9232a8d1a78f112e21e86dd28fb15f3a0e746238"
+  },
+  "scope": "Source-informed strict opt-in solver ledger completeness and reaction-difference certificates; frozen before implementation. Not a blind independent chemistry batch.",
+  "policy": "Required conservation must either certify authoritative owned inventory or refuse unsupported coverage. Positive unknown identities, unresolved gram mass and unresolved object mass cannot be silently skipped. Zero unknown portions and external apparatus without owned matter do not block closure.",
+  "numerical_contract": "Subtract authoritative before/after inventories before element/charge totals; normalize against changed reaction throughput, not huge unchanged vessel background. No absolute1e-15 floor may erase unique traces. Unsafe aggregation across phase ownership must refuse or preserve differences; no arbitrary-exactness claim.",
+  "physical_contract": "Elements and formal charge must close unless explicit supported boundary ownership is represented. Legitimate phase changes and balanced trace redox remain supported; historical addition lots are provenance, never duplicate matter. Energy conservation is a distinct policy, so Warm controls remain allowed on complete elemental ledgers.",
+  "coverage_limitations_remaining": [
+    "Surface oxide dry mass, exchanger dry mass, soap-scum aggregate mass and nuclide tracer ownership also require completeness policy decisions. No new positive closure claims are made for these untested owners.",
+    "Gas boundary events must extend the same difference-ledger and formal-charge accounting, including tiny flux and large unchanged inventory. Existing gas-event validation is not by itself a throughput certificate."
+  ]
+}
