@@ -1,0 +1,1376 @@
+{
+  "passed": true,
+  "checks": 342,
+  "commit": "a7893c7bafd510ae41087c7f27d245c926cb32cc",
+  "binary_sha256": "6cc934c00547e87709cdd275727ac150f2433bc40de5ac407a88e73042f92d46",
+  "details": [
+    {
+      "name": "full validation",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/safety_extraction_controls.rs",
+      "passed": true
+    },
+    {
+      "name": "source audits/safety-transfer-contracts-20261004/supplementary-freeze.json",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/safety_veto_contracts.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/transfer_probe_contracts.rs",
+      "passed": true
+    },
+    {
+      "name": "source audits/safety-transfer-contracts-20261004/freeze.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/fractional-transfer-contracts-20261004/run.py",
+      "passed": true
+    },
+    {
+      "name": "source audits/fractional-transfer-contracts-20261004/cli/predictions.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/fractional-transfer-contracts-20261004/cli/freeze.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/fractional-transfer-contracts-20261004/verify_artifact.py",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/fractional_transfer_precision.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/fractional_transfer_controls.rs",
+      "passed": true
+    },
+    {
+      "name": "source audits/fractional-transfer-contracts-20261004/supplementary-freeze.json",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/magic_milk.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/surface_colour.rs",
+      "passed": true
+    },
+    {
+      "name": "source audits/fractional-transfer-contracts-20261004/freeze.json",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-cea/src/gibbs.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/bench.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/transport.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/transport.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/selected_phase_transfer.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/thermal_phase_refusal.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/thermal_phase_budget.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/phase_thaw_recovery.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/energy_transfer.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/solve.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/heat_capacity.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/heat_integral_precision.rs",
+      "passed": true
+    },
+    {
+      "name": "source audits/thermal-contracts-20261003/integral-references.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/thermal-contracts-20261003/generate_integral_references.py",
+      "passed": true
+    },
+    {
+      "name": "source data/registry/registry-source-v1.json",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/electrolysis_scope.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/displacement.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/chromatography.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/lib.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/ops.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/chromatography_coverage.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/solvent_electrolysis_accounting.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/render.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/buoyancy.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/src/solution_optics.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/headspace.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/density_coverage_scaling.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-phreeqc/src/aqueous.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-phreeqc/src/inventory.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-phreeqc/tests/settled_carbonate_transfer.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-phreeqc/tests/trace_inventory.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-phreeqc/tests/order_invariance.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/atomic_distil_refusal.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/i18n/de.toml",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/i18n/fr.toml",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/transfer_receiver_precision.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/transfer_receiver_controls.rs",
+      "passed": true
+    },
+    {
+      "name": "source audits/receiver-precision-contracts-20261003/freeze.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/receiver-precision-contracts-20261003/supplementary-freeze.json",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/still_donor_precision.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/transport_precision_contracts.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/transport_charge_precision.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/transport_subnormal_fraction.rs",
+      "passed": true
+    },
+    {
+      "name": "source audits/inventory-transfer-contracts-20261003/quantum-freeze.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/inventory-transfer-contracts-20261003/PREDICTIONS.md",
+      "passed": true
+    },
+    {
+      "name": "source audits/inventory-transfer-contracts-20261003/run.py",
+      "passed": true
+    },
+    {
+      "name": "source audits/inventory-transfer-contracts-20261003/predictions.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/inventory-transfer-contracts-20261003/freeze.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/inventory-transfer-contracts-20261003/library-freeze.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/inventory-transfer-contracts-20261003/supplementary-freeze.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/inventory-transfer-contracts-20261003/verify_artifact.py",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-core/tests/distil.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/src/vle.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/src/batch.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/src/unifac.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/tests/ideal_still_precision.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/tests/trace_phase_representation.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/tests/trace_phase_convergence.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/tests/paired_binary_still.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/src/still_failure_tests.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/src/overlap_tests.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/src/pack.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/tests/overlap_continuity.rs",
+      "passed": true
+    },
+    {
+      "name": "source audits/overlap-continuity-contracts-20261003/PREDICTIONS.md",
+      "passed": true
+    },
+    {
+      "name": "source audits/overlap-continuity-contracts-20261003/run.py",
+      "passed": true
+    },
+    {
+      "name": "source audits/overlap-continuity-contracts-20261003/predictions.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/overlap-continuity-contracts-20261003/freeze.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/overlap-continuity-contracts-20261003/verify_artifact.py",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/tests/still_diagnostics.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/tests/pure_binary_still.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/tests/pure_ideal_still.rs",
+      "passed": true
+    },
+    {
+      "name": "source crates/kerotakis-thermo/tests/distillation_completion.rs",
+      "passed": true
+    },
+    {
+      "name": "source audits/independent-next-50-20261002/run.py",
+      "passed": true
+    },
+    {
+      "name": "source audits/distillation-contracts-20261003/run.py",
+      "passed": true
+    },
+    {
+      "name": "source audits/pure-still-contracts-20261003/compare.py",
+      "passed": true
+    },
+    {
+      "name": "source audits/pure-still-contracts-20261003/probe.py",
+      "passed": true
+    },
+    {
+      "name": "source audits/pure-still-contracts-20261003/predictions.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/pure-still-contracts-20261003/freeze.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/trace-phase-contracts-20261003/run.py",
+      "passed": true
+    },
+    {
+      "name": "source audits/trace-phase-contracts-20261003/predictions.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/trace-phase-contracts-20261003/freeze.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/paired-binary-contracts-20261003/run.py",
+      "passed": true
+    },
+    {
+      "name": "source audits/still-failure-contracts-20261003/run.py",
+      "passed": true
+    },
+    {
+      "name": "source audits/still-failure-contracts-20261003/verify_artifact.py",
+      "passed": true
+    },
+    {
+      "name": "source audits/still-failure-contracts-20261003/predictions.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/still-failure-contracts-20261003/freeze.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/paired-binary-contracts-20261003/predictions.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/paired-binary-contracts-20261003/freeze.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/distillation-contracts-20261003/predictions.json",
+      "passed": true
+    },
+    {
+      "name": "source audits/distillation-contracts-20261003/freeze.json",
+      "passed": true
+    },
+    {
+      "name": "source .github/workflows/chemistry-audit.yml",
+      "passed": true
+    },
+    {
+      "name": "source audits/independent-50-20261002/validate_phase_ownership.py",
+      "passed": true
+    },
+    {
+      "name": "source audits/independent-50-20261002/verify_extended.py",
+      "passed": true
+    },
+    {
+      "name": "log thermo",
+      "passed": true
+    },
+    {
+      "name": "log codex",
+      "passed": true
+    },
+    {
+      "name": "log cea",
+      "passed": true
+    },
+    {
+      "name": "log core",
+      "passed": true
+    },
+    {
+      "name": "log phreeqc",
+      "passed": true
+    },
+    {
+      "name": "log phreeqc-hook",
+      "passed": true
+    },
+    {
+      "name": "log cli",
+      "passed": true
+    },
+    {
+      "name": "log wasm",
+      "passed": true
+    },
+    {
+      "name": "log distillation",
+      "passed": true
+    },
+    {
+      "name": "log trace-phase",
+      "passed": true
+    },
+    {
+      "name": "log paired-binary",
+      "passed": true
+    },
+    {
+      "name": "log still-failure",
+      "passed": true
+    },
+    {
+      "name": "log overlap-continuity",
+      "passed": true
+    },
+    {
+      "name": "log inventory-transfer",
+      "passed": true
+    },
+    {
+      "name": "log fractional-transfer",
+      "passed": true
+    },
+    {
+      "name": "log replay",
+      "passed": true
+    },
+    {
+      "name": "log assessment",
+      "passed": true
+    },
+    {
+      "name": "dependency lock",
+      "passed": true
+    },
+    {
+      "name": "executable",
+      "passed": true
+    },
+    {
+      "name": "distillation controls passed",
+      "passed": true
+    },
+    {
+      "name": "distillation binary identity",
+      "passed": true
+    },
+    {
+      "name": "distillation D01 text stdout",
+      "passed": true
+    },
+    {
+      "name": "distillation D01 text stderr",
+      "passed": true
+    },
+    {
+      "name": "distillation D01 json stdout",
+      "passed": true
+    },
+    {
+      "name": "distillation D01 json stderr",
+      "passed": true
+    },
+    {
+      "name": "distillation D02 text stdout",
+      "passed": true
+    },
+    {
+      "name": "distillation D02 text stderr",
+      "passed": true
+    },
+    {
+      "name": "distillation D02 json stdout",
+      "passed": true
+    },
+    {
+      "name": "distillation D02 json stderr",
+      "passed": true
+    },
+    {
+      "name": "distillation D03 text stdout",
+      "passed": true
+    },
+    {
+      "name": "distillation D03 text stderr",
+      "passed": true
+    },
+    {
+      "name": "distillation D03 json stdout",
+      "passed": true
+    },
+    {
+      "name": "distillation D03 json stderr",
+      "passed": true
+    },
+    {
+      "name": "distillation D04 text stdout",
+      "passed": true
+    },
+    {
+      "name": "distillation D04 text stderr",
+      "passed": true
+    },
+    {
+      "name": "distillation D04 json stdout",
+      "passed": true
+    },
+    {
+      "name": "distillation D04 json stderr",
+      "passed": true
+    },
+    {
+      "name": "trace-phase controls passed",
+      "passed": true
+    },
+    {
+      "name": "trace-phase binary identity",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T01 text stdout",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T01 text stderr",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T01 json stdout",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T01 json stderr",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T02 text stdout",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T02 text stderr",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T02 json stdout",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T02 json stderr",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T03 text stdout",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T03 text stderr",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T03 json stdout",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T03 json stderr",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T04 text stdout",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T04 text stderr",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T04 json stdout",
+      "passed": true
+    },
+    {
+      "name": "trace-phase T04 json stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary controls passed",
+      "passed": true
+    },
+    {
+      "name": "paired-binary binary identity",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B01 text stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B01 text stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B01 json stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B01 json stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B02 text stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B02 text stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B02 json stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B02 json stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B03 text stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B03 text stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B03 json stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B03 json stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B04 text stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B04 text stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B04 json stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B04 json stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B05 text stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B05 text stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B05 json stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B05 json stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B06 text stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B06 text stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B06 json stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B06 json stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B07 text stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B07 text stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B07 json stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B07 json stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B08 text stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B08 text stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B08 json stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B08 json stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B09 text stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B09 text stderr",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B09 json stdout",
+      "passed": true
+    },
+    {
+      "name": "paired-binary B09 json stderr",
+      "passed": true
+    },
+    {
+      "name": "still-failure controls passed",
+      "passed": true
+    },
+    {
+      "name": "still-failure binary identity",
+      "passed": true
+    },
+    {
+      "name": "still-failure S01 text stdout",
+      "passed": true
+    },
+    {
+      "name": "still-failure S01 text stderr",
+      "passed": true
+    },
+    {
+      "name": "still-failure S01 json stdout",
+      "passed": true
+    },
+    {
+      "name": "still-failure S01 json stderr",
+      "passed": true
+    },
+    {
+      "name": "still-failure S02 text stdout",
+      "passed": true
+    },
+    {
+      "name": "still-failure S02 text stderr",
+      "passed": true
+    },
+    {
+      "name": "still-failure S02 json stdout",
+      "passed": true
+    },
+    {
+      "name": "still-failure S02 json stderr",
+      "passed": true
+    },
+    {
+      "name": "still-failure S03 text stdout",
+      "passed": true
+    },
+    {
+      "name": "still-failure S03 text stderr",
+      "passed": true
+    },
+    {
+      "name": "still-failure S03 json stdout",
+      "passed": true
+    },
+    {
+      "name": "still-failure S03 json stderr",
+      "passed": true
+    },
+    {
+      "name": "still-failure S04 text stdout",
+      "passed": true
+    },
+    {
+      "name": "still-failure S04 text stderr",
+      "passed": true
+    },
+    {
+      "name": "still-failure S04 json stdout",
+      "passed": true
+    },
+    {
+      "name": "still-failure S04 json stderr",
+      "passed": true
+    },
+    {
+      "name": "still-failure S05 text stdout",
+      "passed": true
+    },
+    {
+      "name": "still-failure S05 text stderr",
+      "passed": true
+    },
+    {
+      "name": "still-failure S05 json stdout",
+      "passed": true
+    },
+    {
+      "name": "still-failure S05 json stderr",
+      "passed": true
+    },
+    {
+      "name": "still-failure S06 text stdout",
+      "passed": true
+    },
+    {
+      "name": "still-failure S06 text stderr",
+      "passed": true
+    },
+    {
+      "name": "still-failure S06 json stdout",
+      "passed": true
+    },
+    {
+      "name": "still-failure S06 json stderr",
+      "passed": true
+    },
+    {
+      "name": "overlap-continuity controls passed",
+      "passed": true
+    },
+    {
+      "name": "overlap-continuity binary identity",
+      "passed": true
+    },
+    {
+      "name": "overlap-continuity O01 text stdout",
+      "passed": true
+    },
+    {
+      "name": "overlap-continuity O01 text stderr",
+      "passed": true
+    },
+    {
+      "name": "overlap-continuity O01 json stdout",
+      "passed": true
+    },
+    {
+      "name": "overlap-continuity O01 json stderr",
+      "passed": true
+    },
+    {
+      "name": "overlap-continuity O02 text stdout",
+      "passed": true
+    },
+    {
+      "name": "overlap-continuity O02 text stderr",
+      "passed": true
+    },
+    {
+      "name": "overlap-continuity O02 json stdout",
+      "passed": true
+    },
+    {
+      "name": "overlap-continuity O02 json stderr",
+      "passed": true
+    },
+    {
+      "name": "overlap-continuity O03 text stdout",
+      "passed": true
+    },
+    {
+      "name": "overlap-continuity O03 text stderr",
+      "passed": true
+    },
+    {
+      "name": "overlap-continuity O03 json stdout",
+      "passed": true
+    },
+    {
+      "name": "overlap-continuity O03 json stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer controls passed",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer binary identity",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I01 text stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I01 text stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I01 json stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I01 json stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I02 text stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I02 text stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I02 json stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I02 json stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I03 text stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I03 text stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I03 json stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I03 json stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I04 text stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I04 text stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I04 json stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I04 json stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I05 text stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I05 text stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I05 json stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I05 json stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I06 text stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I06 text stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I06 json stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I06 json stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I07 text stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I07 text stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I07 json stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I07 json stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I08 text stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I08 text stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I08 json stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I08 json stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I09 text stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I09 text stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I09 json stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I09 json stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I10 text stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I10 text stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I10 json stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I10 json stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I11 text stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I11 text stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I11 json stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I11 json stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I12 text stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I12 text stderr",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I12 json stdout",
+      "passed": true
+    },
+    {
+      "name": "inventory-transfer I12 json stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer controls passed",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer binary identity",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F01 text stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F01 text stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F01 json stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F01 json stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F02 text stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F02 text stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F02 json stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F02 json stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F03 text stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F03 text stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F03 json stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F03 json stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F04 text stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F04 text stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F04 json stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F04 json stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F05 text stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F05 text stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F05 json stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F05 json stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F06 text stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F06 text stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F06 json stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F06 json stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F07 text stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F07 text stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F07 json stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F07 json stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F08 text stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F08 text stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F08 json stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F08 json stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F09 text stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F09 text stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F09 json stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F09 json stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F10 text stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F10 text stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F10 json stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F10 json stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F11 text stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F11 text stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F11 json stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F11 json stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F12 text stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F12 text stderr",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F12 json stdout",
+      "passed": true
+    },
+    {
+      "name": "fractional-transfer F12 json stderr",
+      "passed": true
+    }
+  ]
+}

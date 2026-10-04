@@ -30,7 +30,7 @@ Small accepted receipts are retained here. Complete replay evidence is at `/mnt/
 
 ## Corrected inspection concern and remaining scope
 
-Surface-colour homogenization only clears localization metadata. Dye already lives in `Vessel.contents`; preparing transfer quantities before homogenization does not omit dye inventory. The existing magic-milk half-pour test establishes dye conservation, and this round includes it in both focused and full validation. The earlier receiver report has been corrected. A custom safety screen reading surface localization can still observe a different receiver geometry from the accepted state; that separate prospective-state issue needs its own contracts.
+Surface-colour homogenization only clears localization metadata. Dye already lives in `Vessel.contents`; preparing transfer quantities before homogenization does not omit dye inventory. The existing magic-milk half-pour test establishes dye conservation, and this round includes it in both focused and full validation. The earlier receiver report has been corrected. The subsequent [safety/transfer audit](../safety-transfer-contracts-20261004/RESULTS.md) closes that prospective receiver geometry gap for decant, mix and filter, along with raw inventory/temperature consistency and ordinary-command veto atomicity.
 
 This repair covers decant/mix donor splitting. Still cuts continue their previously established changing-donor policy; their near-ULP debit accuracy, other transfer paths and a persisted compensated quantity representation remain open. It does not establish solver-relative conservation for every physical coordinate.
 

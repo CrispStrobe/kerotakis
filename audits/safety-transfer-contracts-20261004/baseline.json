@@ -27,7 +27,9 @@
     "an_accidental_spill_still_happens_with_a_hazard",
     "zero_pours_preserve_receiver_surface_geometry"
   ],
-  "forecast_correction": "The extraction control was expected to retain atomic refusal but also failed before repair; the original forecast is unchanged.",
+  "forecast_correction": "The pure-water extraction control expects L0 despite having no supported extractable solute. It correctly returns an atomic model refusal before screening; the original forecast remains frozen, its exact-name exclusion is explicit in the acceptance harness, and separately frozen supported/unsupported extraction controls replace it.",
   "raw_log_sha256": "7e71b33981ff8fd69a724f7dfac1081c5622e23ab4ad8a0c1cbe6e6f27945c38",
-  "frozen_hashes_verified": true
+  "frozen_hashes_verified": true,
+  "product_gap_failures": 17,
+  "qualified_fixture_failures": 1
 }
