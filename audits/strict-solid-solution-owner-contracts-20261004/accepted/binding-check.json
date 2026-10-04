@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "source_commit": "8cdab1f6ecd0b1132c4008014a5a0c5476429d17",
+  "binary_sha256": "67797d56ced1531f44dce7252c272b34d19183a4d4571a076b9dcf67d3a634cb",
+  "runs": {
+    "full": 37241135174,
+    "third": 37242349555,
+    "fourth": 37242514682
+  },
+  "rust_test_executions": 1865,
+  "stages": 17,
+  "source_bindings": 198,
+  "integrity_checks": 432,
+  "third_checks": 1065,
+  "third_qualifications": 9,
+  "fourth_checks": 1148,
+  "fourth_original_classifications": {
+    "bounded_observable_agreement": 21,
+    "expected_invalid_input_refusal": 13,
+    "qualified_observable_agreement": 7,
+    "author_protocol_error": 9
+  },
+  "artifact_roots": {
+    "full": "/mnt/storage/kerotakis-maintenance-20261004/crystals-full-37241135174",
+    "third": "/mnt/storage/kerotakis-maintenance-20261004/crystals-third-37242349555",
+    "fourth": "/mnt/storage/kerotakis-maintenance-20261004/crystals-fourth-37242514682"
+  },
+  "receipt_sha256": {
+    "fourth-summary.json": "a971fb594a42e853fb660a12aab656ac68ad71eb0246e1d085fedffb92df6001",
+    "fourth-verification.json": "112d355cf240d4ff36d9700e737150a9ee523f45cdc038903f792ee701db1de9",
+    "full-integrity.json": "26aa1ce6b97028d7d0beceb4401b44a7ade4f40b7d35af3c02cb3cfe9cdcf0c7",
+    "full-validation.json": "58aab7751efbc7bf8ebbd5a5b08bbeee02832e6f2900158e220e66709b3fa121",
+    "third-full-integrity.json": "26aa1ce6b97028d7d0beceb4401b44a7ade4f40b7d35af3c02cb3cfe9cdcf0c7",
+    "third-summary.json": "e9e8eaa1eaf19bcbd4929d1f21a3e7c97c01974daf70b77fa6a2122ed702d76b",
+    "third-verification.json": "04406cadb02fb61383e7ae48894e794610819191beba97d7bb85240c521262ff"
+  },
+  "fourth_followup_classifications": {
+    "author_protocol_error": 2,
+    "bounded_observable_agreement": 3,
+    "qualified_observable_agreement": 7
+  }
+}
