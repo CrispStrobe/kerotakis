@@ -192,6 +192,56 @@ fn prepare_transfer_receiver<'a>(
     Ok(probe)
 }
 
+/// A virtual titration trial has no donor debit, but each positive scaled
+/// quantity and actual receiver/volume increment must remain representable.
+fn checked_titration_scale(amount: f64, fraction: f64) -> Result<f64, BenchError> {
+    let scaled = amount * fraction;
+    if !amount.is_finite()
+        || amount <= 0.0
+        || !fraction.is_finite()
+        || fraction <= 0.0
+        || fraction > 1.0
+        || !scaled.is_finite()
+        || scaled <= 0.0
+        || (scaled / amount / fraction - 1.0).abs() > 1e-8
+    {
+        return Err(BenchError::InvalidState(
+            "titration dose fraction is not representable".into(),
+        ));
+    }
+    Ok(scaled)
+}
+fn checked_titration_increment(before: f64, amount: f64) -> Result<f64, BenchError> {
+    let after = before + amount;
+    if !before.is_finite()
+        || before < 0.0
+        || !amount.is_finite()
+        || amount <= 0.0
+        || !after.is_finite()
+        || ((after - before) / amount - 1.0).abs() > 1e-8
+    {
+        return Err(BenchError::InvalidState(
+            "titration delivered quantity is not representable".into(),
+        ));
+    }
+    Ok(after)
+}
+enum TitrationTrialError {
+    Quantity(BenchError),
+    Solver(SolveError),
+}
+fn titration_quantity_refusal(vessel: VesselId, error: BenchError) -> Event {
+    Event::not_modeled(
+        vessel,
+        crate::ops::NotModelledCause::ModelBoundary,
+        Phrase::new(
+            "not-modeled.titration-dose-precision",
+            "titration stopped before committing this dose: {detail}",
+            vec![("detail".into(), Slot::text(error.to_string()))],
+        ),
+    )
+}
+
 /// Whether applying an operator permits subsequent physical-state mutation.
 /// Explicit atomic refusals keep their diagnostics/log entry but must not
 /// turn an unchanged vessel into another equilibrium or contact-history step.
@@ -2105,7 +2155,8 @@ impl Bench {
                 // has let the operation through — a vetoed dispense must
                 // not cost the shelf anything, because it never happened.
                 if let Err(refusal) = self.stock.draw(&sid.0, moles.0) {
-                    events.push(stock_refusal_event(&sid.0, refusal));
+                    events.push(stock_refusal_event(*vessel, &sid.0, refusal));
+                    *disposition = ApplyDisposition::Unchanged;
                     return Ok(events);
                 }
 
@@ -2233,7 +2284,8 @@ impl Bench {
                 // poured — not in moles of acetic acid, which is a number
                 // nobody reads off a label.
                 if let Err(refusal) = self.stock.draw(&recipe.canonical_key, *total_amount) {
-                    events.push(stock_refusal_event(&recipe.canonical_key, refusal));
+                    events.push(stock_refusal_event(*vessel, &recipe.canonical_key, refusal));
+                    *disposition = ApplyDisposition::Unchanged;
                     return Ok(events);
                 }
 
@@ -4254,7 +4306,7 @@ impl Bench {
                     return Err(BenchError::NoSuchVessel(*to));
                 }
                 if let Err(refusal) = self.stock.draw(&solvent.0, total_solvent.0) {
-                    events.push(stock_refusal_event(&solvent.0, refusal));
+                    events.push(stock_refusal_event(*from, &solvent.0, refusal));
                     *disposition = ApplyDisposition::Unchanged;
                     return Ok(events);
                 }
@@ -5840,15 +5892,36 @@ impl Bench {
         // of the step volume. (Delivering the *pure* substance by volume
         // — the previous reading — doses ~50× per mL for NaOH and leaps
         // the whole curve in one step; no practical is run that way.)
+        if !concentration.is_finite()
+            || concentration <= 0.0
+            || !step.0.is_finite()
+            || step.0 <= 0.0
+            || matches!(endpoint, Endpoint::Ph) && !target_ph.is_finite()
+            || matches!(endpoint, Endpoint::Pe { value, .. } if !value.is_finite())
+        {
+            return Err(BenchError::NonPositiveAmount);
+        }
         let moles_per_step = Moles(concentration * step.0);
         let water = SpeciesId::new("water");
         let water_data =
             species::lookup(&water).ok_or_else(|| BenchError::UnknownSpecies(water.clone()))?;
         let water_per_step = water_data.moles_from_liters(step);
-        if moles_per_step.0 <= 0.0 {
+        if !moles_per_step.0.is_finite()
+            || moles_per_step.0 <= 0.0
+            || !water_per_step.0.is_finite()
+            || water_per_step.0 <= 0.0
+        {
             return Err(BenchError::NonPositiveAmount);
         }
 
+        let carrier_per_liter = water_data.moles_from_liters(Liters(1.0)).0;
+        if (moles_per_step.0 / concentration / step.0 - 1.0).abs() > 1e-8
+            || (water_per_step.0 / carrier_per_liter / step.0 - 1.0).abs() > 1e-8
+        {
+            return Err(BenchError::InvalidState(
+                "nominal titration dose conversion is not representable".into(),
+            ));
+        }
         let mut events = Vec::new();
         let mut curve: Vec<(f64, f64)> = Vec::new();
         // EXP-39: the redox half of the same curve, sparse by design —
@@ -5876,12 +5949,17 @@ impl Bench {
 
         let mut total_volume = Liters(0.0);
         let mut reached = false;
-        let mut vetoed = false;
+        let mut stopped_early = false;
         let mut pe_ever_pinned = false;
 
         // Every trial starts from the SAME pre-increment inventory. This avoids
         // accumulating matter, heat or gas-exchange events during root finding.
         let dose = |start: &Vessel, fraction: f64, solver: &mut dyn Equilibrator| {
+            let titrant_amount = checked_titration_scale(moles_per_step.0, fraction)
+                .map_err(TitrationTrialError::Quantity)?;
+            let carrier_amount = checked_titration_scale(water_per_step.0, fraction)
+                .map_err(TitrationTrialError::Quantity)?;
+            checked_titration_scale(step.0, fraction).map_err(TitrationTrialError::Quantity)?;
             let mut v = start.clone();
             if matches!(v.thermal_mode, ThermalMode::Adiabatic) {
                 // Main integrates each side along its own Cp(T) rather than
@@ -5893,8 +5971,8 @@ impl Bench {
                 let settled = adiabatic_mix_into(&v, Kelvin::STANDARD, |t| {
                     portions_enthalpy(
                         [
-                            (&titrant, fraction * moles_per_step.0, data.standard_phase),
-                            (&water, fraction * water_per_step.0, Phase::Liquid),
+                            (&titrant, titrant_amount, data.standard_phase),
+                            (&water, carrier_amount, Phase::Liquid),
                         ],
                         Kelvin::STANDARD.0,
                         t,
@@ -5902,16 +5980,15 @@ impl Bench {
                 });
                 v.temperature = settled;
             }
-            v.deposit(
+            checked_transfer_deposit(
+                &mut v,
                 titrant.clone(),
-                Moles(fraction * moles_per_step.0),
+                Moles(titrant_amount),
                 data.standard_phase,
-            );
-            v.deposit(
-                water.clone(),
-                Moles(fraction * water_per_step.0),
-                Phase::Liquid,
-            );
+            )
+            .map_err(TitrationTrialError::Quantity)?;
+            checked_transfer_deposit(&mut v, water.clone(), Moles(carrier_amount), Phase::Liquid)
+                .map_err(TitrationTrialError::Quantity)?;
             // Screen the raw physical pour before settlement, including the
             // carrier water and adiabatic temperature of this exact fraction.
             // Trial warnings stay with their proposal until it is committed.
@@ -5945,7 +6022,19 @@ impl Bench {
             v.step_start = None;
             v.heat_input = None;
             v.refresh_pressure();
-            result.map(|mut events| {
+            let mut events = result.map_err(TitrationTrialError::Solver)?;
+            let errors = crate::delta::StateDelta::validate_state(&v);
+            if !errors.is_empty() {
+                return Err(TitrationTrialError::Solver(SolveError::NotConverged {
+                    solver: solver.name().into(),
+                    detail: errors
+                        .iter()
+                        .map(ToString::to_string)
+                        .collect::<Vec<_>>()
+                        .join("; "),
+                }));
+            }
+            Ok({
                 dose_events.append(&mut events);
                 (Some(v), dose_events)
             })
@@ -5966,10 +6055,16 @@ impl Bench {
                 Ok((Some(v), events)) => (v, events),
                 Ok((None, refused)) => {
                     events.extend(refused);
-                    vetoed = true;
+                    stopped_early = true;
                     break;
                 }
-                Err(e) => {
+                Err(TitrationTrialError::Quantity(error)) => {
+                    events.push(titration_quantity_refusal(vessel, error));
+                    stopped_early = true;
+                    break;
+                }
+                Err(TitrationTrialError::Solver(e)) => {
+                    stopped_early = true;
                     events.push(Event::SolverFailed {
                         vessel,
                         solver: solver.name().to_string(),
@@ -5998,10 +6093,15 @@ impl Bench {
                                 // Even the provisional full dose has not been
                                 // committed. Stop this increment on any veto.
                                 events.extend(refused);
-                                vetoed = true;
+                                stopped_early = true;
                                 break 'increments;
                             }
-                            Err(_) => break,
+                            Err(TitrationTrialError::Quantity(error)) => {
+                                events.push(titration_quantity_refusal(vessel, error));
+                                stopped_early = true;
+                                break 'increments;
+                            }
+                            Err(TitrationTrialError::Solver(_)) => break,
                         };
                         let Some(info) = &trial.solution else {
                             break;
@@ -6025,7 +6125,7 @@ impl Bench {
                     }
                     refined = error <= 1e-4;
                     if !refined {
-                        events.push(Event::not_modeled(
+                        accepted_events.push(Event::not_modeled(
                                         vessel,
                                         crate::ops::NotModelledCause::ModelBoundary,
                                         Phrase::bare(
@@ -6036,9 +6136,47 @@ impl Bench {
                     }
                 }
             }
+            // Virtual trials do not consume bottles. Reserve only the final
+            // accepted fraction, then commit stock and flask together.
+            let quantities = (|| {
+                let titrant_amount = checked_titration_scale(moles_per_step.0, fraction)?;
+                let carrier_amount = checked_titration_scale(water_per_step.0, fraction)?;
+                let volume = checked_titration_scale(step.0, fraction)?;
+                let next_volume = checked_titration_increment(total_volume.0, volume)?;
+                if !(next_volume * 1000.0).is_finite() {
+                    return Err(BenchError::InvalidState(
+                        "titration curve volume overflows".into(),
+                    ));
+                }
+                let requests = if titrant == water {
+                    let combined = checked_titration_increment(titrant_amount, carrier_amount)?;
+                    checked_titration_increment(carrier_amount, titrant_amount)?;
+                    vec![(&titrant, combined)]
+                } else {
+                    vec![(&titrant, titrant_amount), (&water, carrier_amount)]
+                };
+                Ok((next_volume, requests))
+            })();
+            let (next_volume, requests) = match quantities {
+                Ok(result) => result,
+                Err(error) => {
+                    events.push(titration_quantity_refusal(vessel, error));
+                    stopped_early = true;
+                    break;
+                }
+            };
+            let mut stock = self.stock.clone();
+            for (key, amount) in requests {
+                if let Err(refusal) = stock.draw(&key.0, amount) {
+                    events.push(stock_refusal_event(vessel, &key.0, refusal));
+                    stopped_early = true;
+                    break 'increments;
+                }
+            }
             *self.vessel_mut(vessel)? = accepted;
+            self.stock = stock;
             events.append(&mut accepted_events);
-            total_volume = Liters(total_volume.0 + step.0 * fraction);
+            total_volume = Liters(next_volume);
 
             // Read pH after this step.
             let v = self.vessel(vessel)?;
@@ -6069,6 +6207,7 @@ impl Bench {
                     }
                 }
                 None => {
+                    stopped_early = true;
                     // Without a characterised solution there is no pH and
                     // no speciation, so no endpoint of any kind can be
                     // read. The colour endpoint is the one exception worth
@@ -6099,7 +6238,7 @@ impl Bench {
         // a flask holding only the reduced half of a couple has no
         // potential, and reporting that as "pe never got high enough"
         // would invent a measurement to explain a missing one.
-        if !reached && !vetoed && !curve.is_empty() {
+        if !reached && !stopped_early && !curve.is_empty() {
             // `{steps}` is a COUNT, `{target}` is the comparison as the
             // reader typed it (`>=`, a number) — notation, not words —
             // and the liquid's colour is an appearance word, which is
@@ -6532,17 +6671,21 @@ fn gas_made_this_step(events: &[Event], vessel: VesselId) -> (f64, Option<usize>
 /// form still exists ([`crate::stock::StockRefusal`], and
 /// [`BenchError::StockExhausted`] for callers who reach the ledger
 /// directly); this is how it speaks.
-fn stock_refusal_event(key: &str, refusal: crate::stock::StockRefusal) -> Event {
-    let crate::stock::StockRefusal::Exhausted {
-        requested,
-        remaining,
-        unit,
-    } = refusal;
-    Event::StockExhausted {
-        key: key.to_string(),
-        requested,
-        remaining,
-        unit,
+fn stock_refusal_event(vessel: VesselId, key: &str, refusal: crate::stock::StockRefusal) -> Event {
+    match refusal {
+        crate::stock::StockRefusal::Exhausted { requested, remaining, unit } =>
+            Event::StockExhausted { key: key.into(), requested, remaining, unit },
+        crate::stock::StockRefusal::InvalidRequest { requested } => Event::not_modeled(
+            vessel, crate::ops::NotModelledCause::ModelBoundary,
+            Phrase::new("not-modeled.stock-invalid-draw", "stock withdrawal must be finite and nonnegative, got {requested}",
+                vec![("requested".into(), Slot::text(requested.to_string()))])),
+        crate::stock::StockRefusal::Precision { requested, remaining, unit } => Event::not_modeled(
+            vessel, crate::ops::NotModelledCause::ModelBoundary,
+            Phrase::new("not-modeled.stock-draw-precision",
+                "cannot represent a {requested} {unit} withdrawal from {remaining} {unit} of {key}; no stock was withdrawn",
+                vec![("requested".into(), Slot::number(requested.to_string())),
+                    ("remaining".into(), Slot::number(remaining.to_string())),
+                    ("unit".into(), Slot::text(unit.label())), ("key".into(), Slot::text(key))])),
     }
 }
 

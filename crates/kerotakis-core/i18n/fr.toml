@@ -1470,6 +1470,9 @@ PVA = "PVA"
 "muscle protein" = "protéine musculaire"
 
 [not-modeled]
+titration-dose-precision = "La titration a été arrêtée avant de valider cette dose : {detail}"
+stock-invalid-draw = "Un retrait de stock doit être fini et non négatif ; demande : {requested}"
+stock-draw-precision = "Un retrait de {requested} {unit} sur {remaining} {unit} de {key} ne peut pas être représenté ; aucun stock n'a été retiré"
 "cea-sealed-energy-boundary" = "Cette charge fermée dépasse le domaine validé des bilans d’énergie et de pression des gaz idéaux ; phases condensées, interfaces, combustible riche en carbone, vapeur d’eau sous 800 K et pressions au-dessus de 100 bar restent non modélisés, donc son inventaire est conservé"
 "cea-finite-pressure-boundary" = "Cette charge à pression régulée dépasse le domaine validé des bilans d’enthalpie et de travail d’expansion des gaz idéaux ; phases condensées, interfaces, combustible riche en carbone, vapeur d’eau sous 800 K et pressions au-dessus de 100 bar restent non modélisés, donc son inventaire est conservé"
 "cea-swept-boundary" = "Le récipient balayé par un gaz n’admet pas d’oxygène ambiant ; la voie CEA de flamme à l’air libre ne dispose pas d’un bilan d’entrée et de sortie du gaz porteur pour cette condition limite, donc aucune chimie thermique n’a été appliquée"

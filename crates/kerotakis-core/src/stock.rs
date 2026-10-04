@@ -68,6 +68,14 @@ pub struct StockAmount {
 /// empty" is a fact a caller may want to act on, not a sentence.
 #[derive(Debug, Clone, Copy, PartialEq, thiserror::Error)]
 pub enum StockRefusal {
+    #[error("stock withdrawal must be finite and nonnegative, got {requested}")]
+    InvalidRequest { requested: f64 },
+    #[error("cannot represent withdrawal of {requested} {unit} from {remaining} {unit}")]
+    Precision {
+        requested: f64,
+        remaining: f64,
+        unit: StockUnit,
+    },
     #[error("the bottle holds {remaining} {unit}, and {requested} {unit} was asked for")]
     Exhausted {
         requested: f64,
@@ -147,21 +155,34 @@ impl StockLedger {
     /// refused whole: no partial pour, because the operator that asked has
     /// one amount and half of it is a different experiment.
     pub fn draw(&mut self, key: &str, amount: f64) -> Result<(), StockRefusal> {
+        if !amount.is_finite() || amount < 0.0 {
+            return Err(StockRefusal::InvalidRequest { requested: amount });
+        }
+        if amount == 0.0 {
+            return Ok(());
+        }
         let Some(bottle) = self.bottles.get_mut(key) else {
             return Ok(());
         };
-        // A hair of float slack, so that drawing 100 mL from a bottle
-        // stocked at 100 mL is the last dispense rather than a refusal
-        // decided by the last bit of a f64.
-        let tolerance = 1e-9 * bottle.amount.abs().max(1.0);
-        if amount > bottle.amount + tolerance {
+        let before = bottle.amount;
+        // Permit final-bit rounding relative to the requested withdrawal,
+        // never an absolute allowance that can mint stock from an empty bottle.
+        if before == 0.0 || (amount > before && (amount / before - 1.0).abs() > 1e-8) {
             return Err(StockRefusal::Exhausted {
                 requested: amount,
-                remaining: bottle.amount,
+                remaining: before,
                 unit: bottle.unit,
             });
         }
-        bottle.amount = (bottle.amount - amount).max(0.0);
+        let after = (before - amount).max(0.0);
+        if !after.is_finite() || ((before - after) / amount - 1.0).abs() > 1e-8 {
+            return Err(StockRefusal::Precision {
+                requested: amount,
+                remaining: before,
+                unit: bottle.unit,
+            });
+        }
+        bottle.amount = after;
         Ok(())
     }
 }
@@ -190,7 +211,10 @@ mod tests {
             requested,
             remaining,
             unit,
-        } = refusal;
+        } = refusal
+        else {
+            panic!("expected exhaustion, got {refusal:?}");
+        };
         assert!((requested - 0.4).abs() < 1e-12);
         assert!((remaining - 0.3).abs() < 1e-12);
         assert_eq!(unit, StockUnit::Mole);

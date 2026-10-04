@@ -1678,6 +1678,9 @@ PVA = "PVA"
 # falls back to `[refusal]`; `tools/engine-locale-lint.py` counts how many
 # of each there are, with the denominator read out of the Rust.
 [not-modeled]
+titration-dose-precision = "Die Titration wurde vor der Übernahme dieser Dosis gestoppt: {detail}"
+stock-invalid-draw = "Eine Bestandsentnahme muss endlich und nicht negativ sein; angefordert wurde {requested}"
+stock-draw-precision = "Eine Entnahme von {requested} {unit} aus {remaining} {unit} {key} ist nicht darstellbar; nichts wurde entnommen"
 "cea-sealed-energy-boundary" = "Diese geschlossene Charge liegt außerhalb des validierten Bereichs der Energie- und Druckbilanz idealer Gase; kondensierte Phasen, Grenzflächen, kohlenstoffreicher Brennstoff, Wasserdampf unter 800 K und Drücke über 100 bar sind nicht unterstützt, daher bleibt ihr Inventar erhalten"
 "cea-finite-pressure-boundary" = "Diese druckgeregelte Charge liegt außerhalb des validierten Bereichs der Enthalpie- und Expansionsarbeitsbilanz idealer Gase; kondensierte Phasen, Grenzflächen, kohlenstoffreicher Brennstoff, Wasserdampf unter 800 K und Drücke über 100 bar sind nicht unterstützt, daher bleibt ihr Inventar erhalten"
 "cea-swept-boundary" = "Das durchströmte Gefäß nimmt keinen Sauerstoff aus der Raumluft auf; der CEA-Pfad für offene Flammen besitzt für diese Randbedingung keine Bilanz für Trägergas-Einlass und -Auslass, daher wurde keine thermische Chemie übernommen"
