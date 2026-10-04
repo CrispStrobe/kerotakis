@@ -1,0 +1,7 @@
+{
+  "scope": "Supplementary finite-precision debit boundary controls before production implementation",
+  "contracts": 2,
+  "files": {
+    "crates/kerotakis-core/tests/compensated_stock_precision_boundaries.rs": "833e09b5e89922e6bf3fe0441bbbcdb1ce35919e72119b656abac3bab463b0bf"
+  }
+}
