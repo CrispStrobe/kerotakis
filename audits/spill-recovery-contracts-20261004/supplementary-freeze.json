@@ -1,0 +1,7 @@
+{
+  "tests": 1,
+  "files": {
+    "crates/kerotakis-core/tests/spill_recovery_pour_hook.rs": "bc510eb4d0886c10b3645b3f8c58dff531b9cec72cc9f1148029e39f848b2fad"
+  },
+  "expectation": "Supplementary source-informed recovery pour-hook before/after snapshot control; no separate pre-repair execution."
+}
