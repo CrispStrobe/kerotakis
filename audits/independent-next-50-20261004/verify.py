@@ -76,7 +76,7 @@ def observable_contract(key, rows):
     t = measurements(rows, "thermometer")
     pressure = measurements(rows, "pressure_gauge")
     ph = measurements(rows, "ph_meter") or measurements(rows, "ph")
-    final = rows[-1] if rows else None
+    final = next((r for r in reversed(rows) if "bench" in r), None)
     assertions = []
     def note(label, passed):
         assertions.append(dict(claim=label, passed=bool(passed)))
@@ -107,7 +107,15 @@ def observable_contract(key, rows):
         for i in indexes:
             before,after=vessel(rows[i-1]),vessel(rows[i])
             fields=["contents","temperature"] + ([] if base=="A19" or key=="B15C" else ["elapsed_seconds"])
-            note("represented physical state unchanged at operation",all(before.get(f)==after.get(f) for f in fields))
+            if key == "B15C":
+                # The separately frozen C control requests a tiny positive time
+                # and permits 1e-8 relative thermal/mass differences. Exact
+                # no-work equality belongs to the unchanged original B15.
+                note("tiny positive control preserves contents",before["contents"]==after["contents"])
+                note("tiny positive control thermal bound",near(before["temperature"],after["temperature"]))
+                note("tiny positive control advances the requested clock",near(after["elapsed_seconds"]-before["elapsed_seconds"],1e-12))
+            else:
+                note("represented physical state unchanged at operation",all(before.get(f)==after.get(f) for f in fields))
         if key=="B15C": note("tiny positive wait is separate control",True)
     elif base == "A23":
         masses([60,60]);note("donor order thermal agreement",len(t)==2 and abs(t[0]-t[1])<=.01)
@@ -195,7 +203,8 @@ def main():
             error=confined(evidence,jr["stderr"]).read_text()
             check(key+" modes same process outcome",len({r["exit_code"] for r in runs})==1)
             check(key+" sequential output",[r["output_sequence"] for r in rows]==list(range(len(rows))))
-            check(key+" finite nonnegative represented state",all(math.isfinite(v["temperature"]) and v["temperature"]>0 and math.isfinite(v["pressure"]) and v["pressure"]>=0 and all(math.isfinite(p["moles"]) and p["moles"]>=0 for p in v["contents"]) for r in rows for v in r["bench"]["vessels"]))
+            check(key+" recognized state or particles frame",all("bench" in r or (r.get("operator",{}).get("op")=="particles" and "particles" in r) for r in rows))
+            check(key+" finite nonnegative represented state",all(math.isfinite(v["temperature"]) and v["temperature"]>0 and math.isfinite(v["pressure"]) and v["pressure"]>=0 and all(math.isfinite(p["moles"]) and p["moles"]>=0 for p in v["contents"]) for r in rows if "bench" in r for v in r["bench"]["vessels"]))
             check(key+" finite available readings",all(math.isfinite(e["value"]) for e in events(rows,"measured")))
             if key in INVALID:
                 category="expected_invalid_input_refusal";check(key+" explicit expected refusal",jr["exit_code"]==1 and INVALID[key].lower() in error.lower())
