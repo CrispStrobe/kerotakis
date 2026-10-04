@@ -1,0 +1,30 @@
+{
+  "diagnostic_only": true,
+  "commit": "0126790b7329aa374fa592d69aa116e368bc106c",
+  "command": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-core",
+    "--lib",
+    "--test",
+    "titration_safety_contracts",
+    "--test",
+    "titration_safety_controls",
+    "--test",
+    "redox_titrimetry",
+    "--test",
+    "solver_transactions",
+    "--no-fail-fast",
+    "-j1",
+    "--",
+    "--test-threads=1"
+  ],
+  "exit_code": 0,
+  "seconds": 173.37582456599998,
+  "log": "titration.log",
+  "log_sha256": "4375e6c5e5e00470625a1719fd20ac5eb10d3c49565719b73c4988f58586fb1e",
+  "run": 37185907627,
+  "passed_tests": 679,
+  "frozen_tests": 10
+}
