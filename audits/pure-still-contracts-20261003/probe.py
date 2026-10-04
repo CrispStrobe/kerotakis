@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', type=Path, required=True)
-    parser.add_argument('--scope', choices=['thermo', 'transport', 'receiver', 'fractional', 'safety', 'titration'], default='thermo')
+    parser.add_argument('--scope', choices=['thermo', 'transport', 'receiver', 'fractional', 'safety', 'titration', 'accounting'], default='thermo')
     args = parser.parse_args()
     if os.environ.get('GITHUB_ACTIONS') != 'true':
         parser.error('Hosted execution only; local execution requires resource headroom')
@@ -50,6 +50,14 @@ def main():
         command = ['cargo', 'test', '-p', 'kerotakis-core', '--lib',
                    '--test', 'titration_safety_contracts', '--test', 'titration_safety_controls', '--test', 'redox_titrimetry',
                    '--test', 'solver_transactions',
+                   '--no-fail-fast', '-j1', '--', '--test-threads=1']
+    if args.scope == 'accounting':
+        command = ['cargo', 'test', '-p', 'kerotakis-core', '--lib',
+                   '--test', 'titration_quantity_contracts', '--test', 'titration_stock_contracts',
+                   '--test', 'stock_precision_contracts', '--test', 'stock',
+                   '--test', 'titration_safety_contracts', '--test', 'titration_safety_controls',
+                   '--test', 'redox_titrimetry', '--test', 'solver_transactions',
+                   '--test', 'i18n_coverage', '--test', 'refusal_locale',
                    '--no-fail-fast', '-j1', '--', '--test-threads=1']
     log = args.out/(args.scope + '.log')
     started = time.monotonic()

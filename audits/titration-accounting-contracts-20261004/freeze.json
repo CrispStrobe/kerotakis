@@ -1,0 +1,10 @@
+{
+  "tests": 32,
+  "files": {
+    "crates/kerotakis-core/tests/titration_quantity_contracts.rs": "2a4ae9b6c19a4a870e828498d2edd159911cf9d74a49613f4f779329cd6f8f57",
+    "crates/kerotakis-core/tests/titration_stock_contracts.rs": "7c6b7a74201f4719aa0424a2db809efdda09d75301e5c64899b69d86c3f031dd",
+    "crates/kerotakis-core/tests/stock_precision_contracts.rs": "3c656efdca366b64c133ce981a00f98b506c76ae8c651e827d48447ec6eb6d08",
+    "crates/kerotakis-core/tests/common/titration_accounting.rs": "0d1ac3e64103cb7f62e86406315eedbd404272b08dc161e1666775ae3ae1a6ce"
+  },
+  "expectation": "Finite positive inputs; representable raw and fractional receiver doses; only accepted doses debit titrant/carrier stock atomically; physical numeric/refinement failures retain prior progress and journal explicit refusal; invalid solver proposals never commit; stock requests never invent inventory, lose a requested debit or allow microscopic overdraw; supported endpoints, fractions, subnormal full doses and final-bit exhaustion retain their behavior. Source-informed contracts."
+}

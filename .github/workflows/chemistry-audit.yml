@@ -24,7 +24,7 @@ on:
         description: Focused diagnostic target for pure-still-contracts
         type: choice
         default: thermo
-        options: [thermo, transport, receiver, fractional, safety, titration]
+        options: [thermo, transport, receiver, fractional, safety, titration, accounting]
       validated_commit:
         description: Exact commit tested by that run
         type: string
