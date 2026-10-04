@@ -1,0 +1,7 @@
+{
+  "contracts": 2,
+  "files": {
+    "crates/kerotakis-core/tests/zero_operator_settlement_contracts.rs": "ddd6d040cd0ed2a78074172fd2d627553f75ebfcb7332997740735834a098cbc"
+  },
+  "origin": "Focused37213421187 showed zeroDecant still invokes solver and finalscreen. This extends the independently frozen no-op requirement across six accepted zero-work routes. Supplemental before repair; no separate six-route baseline claimed."
+}
