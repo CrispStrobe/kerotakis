@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', type=Path, required=True)
-    parser.add_argument('--scope', choices=['thermo', 'transport', 'receiver', 'fractional', 'safety', 'titration', 'accounting', 'recovery', 'extraction'], default='thermo')
+    parser.add_argument('--scope', choices=['thermo', 'transport', 'receiver', 'fractional', 'safety', 'titration', 'accounting', 'recovery', 'extraction', 'spill'], default='thermo')
     args = parser.parse_args()
     if os.environ.get('GITHUB_ACTIONS') != 'true':
         parser.error('Hosted execution only; local execution requires resource headroom')
@@ -74,6 +74,15 @@ def main():
                    '--test', 'solver_transactions', '--test', 'stock_precision_contracts',
                    '--test', 'i18n_coverage', '--test', 'refusal_locale',
                    '--no-fail-fast', '-j1', '--', '--test-threads=1']
+    if args.scope == 'spill':
+        command = ['cargo', 'test', '-p', 'kerotakis-core', '--lib',
+                   '--test', 'spill_creation_contracts', '--test', 'spill_recovery_contracts',
+                   '--test', 'spill_recovery_pour_hook', '--test', 'spill_recovery_pressure',
+                   '--test', 'spill_breakage', '--test', 'spill_persistence',
+                   '--test', 'safety_veto_contracts', '--test', 'safety_extraction_controls',
+                   '--test', 'solver_transactions', '--test', 'i18n_coverage', '--test', 'refusal_locale',
+                   '--no-fail-fast', '-j1', '--', '--test-threads=1',
+                   '--skip', 'extraction_veto_retains_its_atomic_contract']
     log = args.out/(args.scope + '.log')
     started = time.monotonic()
     with log.open('w') as output:

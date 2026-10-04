@@ -1,0 +1,7 @@
+{
+  "tests": 16,
+  "files": {
+    "crates/kerotakis-core/tests/spill_creation_contracts.rs": "2ee807f61b6b55d624f9a44aec8b5c507d2d0af697f4f8682b29c5e6ded4029e"
+  },
+  "expectation": "Source-informed spill and discard donor/receiver precision, zero-operation settlement, atomic numeric refusal, supported ordinary/full quantum, and intentional accidental-vs-deliberate hazard controls."
+}
