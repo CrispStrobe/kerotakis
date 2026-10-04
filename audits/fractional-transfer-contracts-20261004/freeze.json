@@ -1,0 +1,6 @@
+{
+  "file": "crates/kerotakis-core/tests/fractional_transfer_precision.rs",
+  "sha256": "8cde70b7ecc3ee8ec507044d3c28be22a5c94bbb98c82d2a3da90f47ef818941",
+  "tests": 12,
+  "expectation": "Eleven atomic refusal tests are predicted to fail on the baseline; represented molecular/material split controls must pass. Source-informed contracts, not a blind fifty."
+}
