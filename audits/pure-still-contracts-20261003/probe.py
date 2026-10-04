@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', type=Path, required=True)
-    parser.add_argument('--scope', choices=['thermo', 'transport', 'receiver', 'fractional', 'safety', 'titration', 'accounting', 'recovery'], default='thermo')
+    parser.add_argument('--scope', choices=['thermo', 'transport', 'receiver', 'fractional', 'safety', 'titration', 'accounting', 'recovery', 'extraction'], default='thermo')
     args = parser.parse_args()
     if os.environ.get('GITHUB_ACTIONS') != 'true':
         parser.error('Hosted execution only; local execution requires resource headroom')
@@ -64,6 +64,14 @@ def main():
                    '--test', 'spill_recovery_contracts', '--test', 'spill_recovery_pour_hook', '--test', 'spill_recovery_pressure', '--test', 'spill_breakage', '--test', 'spill_persistence',
                    '--test', 'transfer_probe_contracts', '--test', 'fractional_transfer_precision',
                    '--test', 'fractional_transfer_controls', '--test', 'solver_transactions',
+                   '--test', 'i18n_coverage', '--test', 'refusal_locale',
+                   '--no-fail-fast', '-j1', '--', '--test-threads=1']
+    if args.scope == 'extraction':
+        command = ['cargo', 'test', '-p', 'kerotakis-core', '--lib',
+                   '--test', 'extraction_quantity_contracts', '--test', 'extraction_numerical_contracts',
+                   '--test', 'liquid_extraction', '--test', 'safety_extraction_controls',
+                   '--test', 'transfer_receiver_precision', '--test', 'transfer_receiver_controls',
+                   '--test', 'solver_transactions', '--test', 'stock_precision_contracts',
                    '--test', 'i18n_coverage', '--test', 'refusal_locale',
                    '--no-fail-fast', '-j1', '--', '--test-threads=1']
     log = args.out/(args.scope + '.log')

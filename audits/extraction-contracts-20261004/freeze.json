@@ -1,0 +1,8 @@
+{
+  "tests": 30,
+  "files": {
+    "crates/kerotakis-core/tests/extraction_quantity_contracts.rs": "8730b00d5d7a36b606f8da0df8514ba71a0d588f2652fc8ea4abc289e13f7ab0",
+    "crates/kerotakis-core/tests/extraction_numerical_contracts.rs": "731cacb61f0b6c9ff4d446a1e4f97c71e56dd61bcdc3110ae057d134d6394505"
+  },
+  "expectation": "Source-informed extraction bench and numerical contracts frozen before baseline. Screen virtual receivers and prepared temperatures/surfaces via pour hooks; donor/receiver represented increments must be accurate; stable small/extreme partition quantities; atomic refusals and supported ordinary/tiny controls."
+}
