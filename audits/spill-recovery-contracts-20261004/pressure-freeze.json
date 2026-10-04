@@ -1,0 +1,7 @@
+{
+  "tests": 1,
+  "files": {
+    "crates/kerotakis-core/tests/spill_recovery_pressure.rs": "979832bd63e92ff7701b31367957480b1705d723734311972a7217dd228fe77c"
+  },
+  "expectation": "Supplementary source-informed gas recovery pressure veto, frozen before correction; no separate pre-repair execution."
+}
