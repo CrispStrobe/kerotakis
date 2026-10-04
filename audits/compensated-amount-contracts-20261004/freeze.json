@@ -1,0 +1,8 @@
+{
+  "scope": "Standalone normalized hi/lo finite nonnegative Amount. No production inventory migration or still donor closure claimed.",
+  "contracts": 15,
+  "files": {
+    "crates/kerotakis-core/tests/compensated_amount_contracts.rs": "a8eedfad311928ee275da464b220464ca9a3e92b586e55de9cedfa1e4193db48"
+  },
+  "arithmetic_limit": "Two f64 components; bounded compensated arithmetic, not arbitrary precision. Scale refuses zero and materially quantized underflow."
+}
