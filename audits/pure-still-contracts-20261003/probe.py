@@ -85,7 +85,7 @@ def main():
                    '--skip', 'extraction_veto_retains_its_atomic_contract']
     if args.scope == 'foundations':
         command = ['cargo', 'test', '-p', 'kerotakis-core', '--lib',
-                   '--test', 'zero_operator_settlement_contracts', '--test', 'zero_and_numeric_clock_contracts', '--test', 'compensated_amount_contracts', '--test', 'compensated_stock_contracts',
+                   '--test', 'displacement_pathway_narration', '--test', 'extraction_stage_contracts', '--test', 'i18n_coverage', '--test', 'refusal_locale', '--test', 'zero_operator_settlement_contracts', '--test', 'zero_and_numeric_clock_contracts', '--test', 'compensated_amount_contracts', '--test', 'compensated_stock_contracts',
                    '--test', 'compensated_stock_precision_boundaries', '--test', 'sparse_iodine_optics_contracts',
                    '--test', 'post_equilibrium_safety_contracts', '--test', 'required_solver_conservation_contracts',
                    '--test', 'stock', '--test', 'stock_precision_contracts', '--test', 'solver_transactions',

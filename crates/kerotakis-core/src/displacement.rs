@@ -1003,6 +1003,7 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
             let mut slots = vec![
                 ("name".to_string(), Slot::term("species", name)),
                 ("other".to_string(), Slot::term("species", other)),
+                ("ion".to_string(), Slot::text(o.oxidised)),
                 (
                     "e_self".to_string(),
                     Slot::number(format!("{:+.3}", c.e0_volts)),
@@ -1013,16 +1014,17 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
                 ),
             ];
             let reason = if ion_left <= crate::OBSERVABLE_MOLES {
+                slots.push(("left".to_string(), Slot::number(format!("{ion_left:.3e}"))));
                 Phrase::new(
                     "inert.couple-spent",
-                    "all the {other} has plated out; the remaining {name} has nothing left to displace. The couple still runs downhill (E° {e_self} V for {name} against {e_other} V for {other}) — it has simply run out of {other} ions",
+                    "the represented {ion} has plated out to the observation threshold or below ({left} mol left); the remaining {name} has nothing left to displace above that threshold in this supported {ion}/{other} pathway. The couple still runs downhill (E° {e_self} V for {name} against {e_other} V for {other}). Other dissolved forms and reactions are not decided by this result",
                     slots,
                 )
             } else {
                 slots.push(("left".to_string(), Slot::number(format!("{ion_left:.3e}"))));
                 Phrase::new(
                     "inert.couple-spent-trace",
-                    "all but a trace of the {other} has plated out ({left} mol of ion left, which is where the Nernst root put the equilibrium); the remaining {name} has nothing left to displace. The couple still runs downhill (E° {e_self} V for {name} against {e_other} V for {other})",
+                    "the represented {ion} has mostly plated out ({left} mol of this ion left at the Nernst equilibrium); the remaining {name} has nothing left to displace beyond that equilibrium in this supported {ion}/{other} pathway. The couple still runs downhill (E° {e_self} V for {name} against {e_other} V for {other}). Other dissolved forms and reactions are not decided by this result",
                     slots,
                 )
             };

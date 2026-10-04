@@ -3119,8 +3119,13 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 let other = species_name(locale, gone);
                 return locale.fill(
                     "event.inert-spent.lv1",
-                    "The {other} is all out of the water in {vessel} now, so the rest of the {name} has nothing left to do.",
-                    &[("other", other), ("vessel", &vessel.to_string()), ("name", name)],
+                    "The supported {other} ({ion}) displacement pathway in {vessel} has reached its observation or equilibrium bound; the remaining {name} has nothing left to do in that pathway. This does not decide other dissolved forms or reactions.",
+                    &[
+                        ("other", other),
+                        ("ion", gone.0.as_str()),
+                        ("vessel", &vessel.to_string()),
+                        ("name", name),
+                    ],
                 );
             }
             match register.level() {
