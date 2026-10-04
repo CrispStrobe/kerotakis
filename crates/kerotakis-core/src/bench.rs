@@ -6006,6 +6006,16 @@ impl Bench {
             .map_err(TitrationTrialError::Quantity)?;
             checked_transfer_deposit(&mut v, water.clone(), Moles(carrier_amount), Phase::Liquid)
                 .map_err(TitrationTrialError::Quantity)?;
+            let errors = crate::delta::StateDelta::validate_state(&v);
+            if !errors.is_empty() {
+                return Err(TitrationTrialError::Quantity(BenchError::InvalidState(
+                    errors
+                        .iter()
+                        .map(ToString::to_string)
+                        .collect::<Vec<_>>()
+                        .join("; "),
+                )));
+            }
             // Screen the raw physical pour before settlement, including the
             // carrier water and adiabatic temperature of this exact fraction.
             // Trial warnings stay with their proposal until it is committed.
