@@ -48,7 +48,7 @@ def main():
                    '--skip', 'extraction_veto_retains_its_atomic_contract']
     if args.scope == 'titration':
         command = ['cargo', 'test', '-p', 'kerotakis-core', '--lib',
-                   '--test', 'titration_safety_contracts', '--test', 'redox_titrimetry',
+                   '--test', 'titration_safety_contracts', '--test', 'titration_safety_controls', '--test', 'redox_titrimetry',
                    '--test', 'solver_transactions',
                    '--no-fail-fast', '-j1', '--', '--test-threads=1']
     log = args.out/(args.scope + '.log')

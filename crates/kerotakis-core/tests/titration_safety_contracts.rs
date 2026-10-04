@@ -1,4 +1,5 @@
 //! Source-informed titration screen contracts, frozen before execution.
+use kerotakis_core::ops::Endpoint;
 use kerotakis_core::*;
 use std::cell::RefCell;
 #[derive(Default)]

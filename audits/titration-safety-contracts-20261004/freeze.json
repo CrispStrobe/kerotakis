@@ -1,7 +1,12 @@
 {
   "tests": 8,
   "files": {
-    "crates/kerotakis-core/tests/titration_safety_contracts.rs": "28bc986b7dd2989a17ef49494223ff1381f1e38d3d7e6e1a846180549b760739"
+    "crates/kerotakis-core/tests/titration_safety_contracts.rs": "2a4b6c801fc883a2e159a92f4d90c10a5c18944f44b4071014d810c5f8cb53c0"
   },
-  "expectation": "Screen each raw dose including fractional trials before its solver; veto stops current increment and retains prior accepted doses; warnings come only from accepted proposal; already-reached endpoint does not pour."
+  "expectation": "Screen each raw dose including fractional trials before its solver; veto stops current increment and retains prior accepted doses; warnings come only from accepted proposal; already-reached endpoint does not pour.",
+  "initial_compile_correction": {
+    "run": 37185433087,
+    "reason": "Endpoint is not included in the crate glob re-export; explicit ops::Endpoint import added. No behavioral test ran and expectations remain unchanged.",
+    "original_freeze": "initial-freeze.json"
+  }
 }

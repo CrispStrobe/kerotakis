@@ -1,0 +1,7 @@
+{
+  "tests": 2,
+  "files": {
+    "crates/kerotakis-core/tests/titration_safety_controls.rs": "d5310cc7fbfccb0c15a543ab47bee8198aa00efd2af2fb3b96c3331c42f32e17"
+  },
+  "expectation": "A veto of colour/potential endpoint titration stops without solver calls or misleading max-step exhaustion diagnostics. Default assess_pour delegation remains supported."
+}
