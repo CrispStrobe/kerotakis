@@ -15,6 +15,7 @@
 pub const OBSERVABLE_MOLES: f64 = 1e-6;
 
 pub mod adsorption;
+pub mod amount;
 pub mod apparatus;
 pub mod appearance;
 pub mod authority;
@@ -97,6 +98,7 @@ pub mod solve;
 pub mod species;
 pub mod species_loader;
 pub mod spectrum;
+pub mod sparse_optics;
 pub mod spill;
 mod starch_iodine;
 pub mod states;

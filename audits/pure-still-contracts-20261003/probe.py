@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', type=Path, required=True)
-    parser.add_argument('--scope', choices=['thermo', 'transport', 'receiver', 'fractional', 'safety', 'titration', 'accounting', 'recovery', 'extraction', 'spill'], default='thermo')
+    parser.add_argument('--scope', choices=['thermo', 'transport', 'receiver', 'fractional', 'safety', 'titration', 'accounting', 'recovery', 'extraction', 'spill', 'foundations'], default='thermo')
     args = parser.parse_args()
     if os.environ.get('GITHUB_ACTIONS') != 'true':
         parser.error('Hosted execution only; local execution requires resource headroom')
@@ -83,6 +83,14 @@ def main():
                    '--test', 'solver_transactions', '--test', 'i18n_coverage', '--test', 'refusal_locale',
                    '--no-fail-fast', '-j1', '--', '--test-threads=1',
                    '--skip', 'extraction_veto_retains_its_atomic_contract']
+    if args.scope == 'foundations':
+        command = ['cargo', 'test', '-p', 'kerotakis-core', '--lib',
+                   '--test', 'compensated_amount_contracts', '--test', 'compensated_stock_contracts',
+                   '--test', 'compensated_stock_precision_boundaries', '--test', 'sparse_iodine_optics_contracts',
+                   '--test', 'post_equilibrium_safety_contracts', '--test', 'required_solver_conservation_contracts',
+                   '--test', 'stock', '--test', 'stock_precision_contracts', '--test', 'solver_transactions',
+                   '--test', 'spill_creation_contracts', '--test', 'extraction_quantity_contracts', '--test', 'extraction_review_controls',
+                   '--no-fail-fast', '-j1', '--', '--test-threads=1']
     log = args.out/(args.scope + '.log')
     started = time.monotonic()
     with log.open('w') as output:

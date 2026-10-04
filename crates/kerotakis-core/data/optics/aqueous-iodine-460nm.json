@@ -1,0 +1,26 @@
+{
+  "species": "I2",
+  "wavelength_nm": 460.0,
+  "epsilon_l_mol_cm": 746.0,
+  "temperature_k": 298.15,
+  "medium": {
+    "solvent": "water",
+    "perchloric_acid_molar": 0.1,
+    "potassium_iodate_molar": 1.5e-06
+  },
+  "source_doi": "10.1021/ja01148a504",
+  "source_citation": "Alice D. Awtrey and Robert E. Connick, JACS73(4),1842\u20131843(1951), TableI and Experimental",
+  "source_url": "https://pubs.acs.org/doi/10.1021/ja01148a504",
+  "published_initial_iodine_loading_molar_approx": 0.0005,
+  "validated_concentration_range_molar": null,
+  "preparation": "Sealed sample equilibrated10days at25C. Initial iodine loading is approximate; it is not a certified free-I2 concentration range.",
+  "limitations": [
+    "One measured wavelength, not a complete spectrum or a value for the465nm visible grid.",
+    "Only the specified acid/iodate aqueous medium at298.15K is represented.",
+    "No validated concentration sweep or extinction-coefficient uncertainty is supplied by this record. Beer-Lambert scaling outside the published sample is mathematical extrapolation.",
+    "Caller independently certifies free molecular I2 concentration; evidence text is provenance, not verified proof.",
+    "Analytical iodine inventory, I3-, HOI, starch complexes and polyiodide are not certified freeI2.",
+    "Hexane, other solvents, mixtures and other wavelengths remain unsupported.",
+    "This record supplies no vessel-level speciation, peak measurement, RGB color, or full-spectrum coverage."
+  ]
+}

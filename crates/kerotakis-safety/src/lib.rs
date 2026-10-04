@@ -1130,6 +1130,10 @@ const INCOMPATIBLE: &[Incompatibility] = &[
 pub struct ReactiveGroupScreen;
 
 impl SafetyScreen for ReactiveGroupScreen {
+    fn assess_equilibrated(&self, _before: &Vessel, after: &Vessel) -> SafetyVerdict {
+        self.assess(after)
+    }
+
     fn assess(&self, vessel: &Vessel) -> SafetyVerdict {
         if vessel
             .contents

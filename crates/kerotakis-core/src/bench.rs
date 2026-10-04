@@ -515,7 +515,10 @@ pub struct Bench {
     /// bottle is bottomless, which is what a sandbox wants and what every
     /// snapshot written before this field carried — hence `default`, so an
     /// older token still restores.
-    #[serde(default, skip_serializing_if = "crate::stock::StockLedger::is_empty")]
+    #[serde(
+        default,
+        skip_serializing_if = "crate::stock::StockLedger::is_serialization_empty"
+    )]
     pub stock: crate::stock::StockLedger,
 }
 
@@ -1151,6 +1154,11 @@ impl Bench {
             _ => op_touches(&op),
         };
 
+        let equilibrium_before: Vec<Vessel> = touched
+            .iter()
+            .filter_map(|id| self.vessel(*id).ok().cloned())
+            .collect();
+
         // Re-equilibrate every vessel the operator touched (v0: mutating ops
         // touch at most two). A touched vessel's previous solution
         // characterisation is stale by definition; the solver stack either
@@ -1745,6 +1753,75 @@ impl Bench {
             let v = self.vessel_mut(*vessel)?;
             v.ignition_trial = false;
             v.ignition_feed_temperature = None;
+        }
+        // A solver's final state must be safe and finite before any account of
+        // this operation is committed. In particular a final veto must undo
+        // donor/receiver changes, new destinations and stock consumption.
+        let final_errors: Vec<_> = self
+            .vessels
+            .iter()
+            .flat_map(crate::delta::StateDelta::validate_state)
+            .chain(self.spills.iter().flat_map(|spill| {
+                crate::delta::StateDelta::validate_state(&spill.as_vessel_probe())
+            }))
+            .collect();
+        if !final_errors.is_empty() {
+            self.vessels = checkpoint.0;
+            self.spills = checkpoint.1;
+            self.broken_vessels = checkpoint.2;
+            self.stock = checkpoint.3;
+            self.log.truncate(checkpoint.4);
+            return Err(BenchError::InvalidState(
+                final_errors
+                    .iter()
+                    .map(ToString::to_string)
+                    .collect::<Vec<_>>()
+                    .join("; "),
+            ));
+        }
+        let mut final_veto = None;
+        for before in &equilibrium_before {
+            if let Ok(after) = self.vessel(before.id) {
+                match screen.assess_equilibrated(before, after) {
+                    SafetyVerdict::Allow => {}
+                    SafetyVerdict::Warn {
+                        severity,
+                        rule,
+                        hazard,
+                        real_world,
+                    } => {
+                        if !events.iter().any(|event| {
+                            matches!(event,
+                            Event::HazardWarning { rule: seen, .. } if seen == &rule)
+                        }) {
+                            events.push(Event::HazardWarning {
+                                severity,
+                                rule,
+                                hazard,
+                                real_world,
+                            });
+                        }
+                    }
+                    SafetyVerdict::Veto { reason } => {
+                        final_veto = Some(reason);
+                        break;
+                    }
+                }
+            }
+        }
+        if let Some(reason) = final_veto {
+            self.vessels = checkpoint.0;
+            self.spills = checkpoint.1;
+            self.broken_vessels = checkpoint.2;
+            self.stock = checkpoint.3;
+            self.log.truncate(checkpoint.4);
+            events = vec![Event::SafetyVeto { reason }];
+            self.log.push(LogEntry {
+                step: self.log.len(),
+                operator: op,
+                events: events.clone(),
+            });
+            return Ok(events);
         }
         self.record_direct_model_route(&op, &events, solver);
 

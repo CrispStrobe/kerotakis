@@ -244,6 +244,7 @@ pub fn decline_reason(solver: &dyn Equilibrator, vessel: &Vessel) -> Option<Stri
 pub struct SolverStack {
     pub solvers: Vec<Box<dyn Equilibrator>>,
     pub last_routes: Vec<SolverRoute>,
+    required_conservation_tolerance: Option<f64>,
 }
 
 impl SolverStack {
@@ -251,7 +252,41 @@ impl SolverStack {
         SolverStack {
             solvers,
             last_routes: Vec::new(),
+            required_conservation_tolerance: None,
         }
+    }
+}
+
+impl SolverStack {
+    /// Require an elemental-balance certificate from every accepted route,
+    /// including custom routes which provide no individual conservation policy.
+    /// Gas inlet/outlet events must describe exchanges across the boundary.
+    /// A tighter individual route tolerance is preserved. Legacy `new` remains
+    /// appropriate only when callers have independently reviewed route coverage.
+    pub fn with_required_conservation(
+        solvers: Vec<Box<dyn Equilibrator>>,
+        tolerance: f64,
+    ) -> Result<Self, SolveError> {
+        if !tolerance.is_finite() || tolerance <= 0.0 || tolerance >= 1.0 {
+            return Err(SolveError::NotConverged {
+                solver: "solver-stack".into(),
+                detail: "required conservation tolerance must be finite and between zero and one"
+                    .into(),
+            });
+        }
+        Ok(Self {
+            solvers,
+            last_routes: Vec::new(),
+            required_conservation_tolerance: Some(tolerance),
+        })
+    }
+}
+
+fn effective_conservation_tolerance(required: Option<f64>, route: Option<f64>) -> Option<f64> {
+    match (required, route) {
+        (Some(a), Some(b)) if b.is_finite() && b >= 0.0 => Some(a.min(b)),
+        (_, Some(b)) => Some(b), // Invalid route certificates must still refuse.
+        (a, None) => a,
     }
 }
 
@@ -301,7 +336,10 @@ impl Equilibrator for SolverStack {
                 errors.extend(crate::delta::StateDelta::validate_gas_events(
                     vessel, &events,
                 ));
-                if let Some(tolerance) = solver.element_conservation_tolerance() {
+                if let Some(tolerance) = effective_conservation_tolerance(
+                    self.required_conservation_tolerance,
+                    solver.element_conservation_tolerance(),
+                ) {
                     errors.extend(crate::delta::StateDelta::validate_conservation(
                         &checkpoint,
                         vessel,
@@ -400,7 +438,10 @@ impl Equilibrator for SolverStack {
                     errors.extend(crate::delta::StateDelta::validate_gas_events(
                         vessel, &events,
                     ));
-                    if let Some(tolerance) = solver.element_conservation_tolerance() {
+                    if let Some(tolerance) = effective_conservation_tolerance(
+                        self.required_conservation_tolerance,
+                        solver.element_conservation_tolerance(),
+                    ) {
                         errors.extend(crate::delta::StateDelta::validate_conservation(
                             &checkpoint,
                             vessel,
@@ -474,6 +515,16 @@ pub enum SafetyVerdict {
 /// L0. Runs before any chemistry, on the prospective state.
 pub trait SafetyScreen {
     fn assess(&self, vessel: &Vessel) -> SafetyVerdict;
+
+    /// Final acceptance after solver and physical settlement. `before` is the
+    /// accepted operator proposal before the solver pass, `after` is the state
+    /// that would be committed. A veto restores the entire bench operation.
+    /// Screens explicitly opt in; legacy prospective-screen implementations
+    /// retain their call contract. Production screens should assess new hazards
+    /// here without interpreting the solver pass as another user pour.
+    fn assess_equilibrated(&self, _before: &Vessel, _after: &Vessel) -> SafetyVerdict {
+        SafetyVerdict::Allow
+    }
 
     /// KID-3: assess a *pour* rather than a state.
     ///

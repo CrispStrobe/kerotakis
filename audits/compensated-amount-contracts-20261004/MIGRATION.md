@@ -39,3 +39,13 @@ External solvers return approximate scalar chemical states. Retaining an old per
 4. Migrate all mutations of that inventory, including reconstruction, before allowing compensated state through those paths.
 5. Expand to chemical/solver-owned quantities only after the conservation and reconciliation policy has independent tests.
 6. Re-run the preserved still controls plus new requested/debited/receiver/energy contracts. Only then describe the corresponding production precision gap as closed.
+
+## Narrow opt-in stock adoption
+
+Stock is a useful first production owner because its bottle map is private, its quantities do not react, and its write paths are confined to stock replacement, draw, and unlimit. Internal balances can therefore own `Amount` directly. `StockAmount` remains a projected display DTO; `remaining_exact` exposes the authoritative pair separately.
+
+The existing default ledger deliberately refuses scalar-inaccurate withdrawals. Those frozen contracts remain in force. Compensated mode must be selected explicitly through `StockLedger::compensated()`; no existing script automatically opts in. Its stricter exhaustion policy rejects genuine compensated overdraw, including the representational difference in the decimal sequence `0.3 - 0.1 - 0.2`. The legacy mode retains its prior relative last-bit allowance.
+
+Compensated ledgers serialize using the tagged `kerotakis-stock/2` schema, including both amount components. Legacy scalar ledger readers reject the wrapper instead of silently dropping the low component. Legacy map snapshots load in conservative mode and continue serializing in their original shape. An empty compensated ledger also needs persistence; a Bench serializer must omit only empty default-mode ledgers, not every empty shelf.
+
+Compensated draws require an actual authoritative balance change and a before/after debit certificate accurate within `1e-8` relative to the requested amount. Once both components are too coarse for a withdrawal, the draw refuses atomically. This is bounded support, not arbitrarily small debit support. This adoption does not change vessel transfers, still donor quantities, or the default stock precision contract.
