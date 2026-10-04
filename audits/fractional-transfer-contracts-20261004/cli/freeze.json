@@ -1,5 +1,6 @@
 {
   "predictions_sha256": "39319153c7ffbf452b0ab9b744507e77d5e09b87250a2721c3a76f9b1625ba9b",
   "cases": 12,
-  "kind": "source-informed supplementary CLI contracts; no pre-repair CLI baseline"
+  "kind": "source-informed supplementary CLI contracts; no pre-repair CLI baseline",
+  "count": 12
 }

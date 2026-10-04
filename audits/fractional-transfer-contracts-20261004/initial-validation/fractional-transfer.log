@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/run.py", line 89, in <module>
+    main()
+  File "/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/run.py", line 50, in main
+    assert len(cases) == manifest['count'] and len({c['id'] for c in cases}) == len(cases)
+                         ~~~~~~~~^^^^^^^^^
+KeyError: 'count'
+Traceback (most recent call last):
+  File "/home/runner/work/kerotakis/kerotakis/audits/fractional-transfer-contracts-20261004/run.py", line 87, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/runner/work/kerotakis/kerotakis/audits/fractional-transfer-contracts-20261004/run.py", line 44, in main
+    subprocess.run([sys.executable,str(REPO/'audits/independent-next-50-20261002/run.py'),
+  File "/usr/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/usr/bin/python3', '/home/runner/work/kerotakis/kerotakis/audits/independent-next-50-20261002/run.py', '--suite', '/home/runner/work/kerotakis/kerotakis/audits/fractional-transfer-contracts-20261004/cli', '--binary', '/home/runner/work/kerotakis/kerotakis/target/debug/kero', '--binary-source-commit', '65d62c3a0cb6624c5148f4bb256b3226ff18c79e', '--out', '/home/runner/work/_temp/independent-50/fractional-transfer']' returned non-zero exit status 1.
