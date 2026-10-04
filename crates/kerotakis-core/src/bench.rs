@@ -5810,7 +5810,7 @@ impl Bench {
         &mut self,
         op: Operator,
         solver: &mut dyn Equilibrator,
-        _screen: &dyn SafetyScreen,
+        screen: &dyn SafetyScreen,
     ) -> Result<Vec<Event>, BenchError> {
         let (vessel, titrant, concentration, step, target_ph, max_steps, endpoint) = match &op {
             Operator::Titrate {
@@ -5876,6 +5876,7 @@ impl Bench {
 
         let mut total_volume = Liters(0.0);
         let mut reached = false;
+        let mut vetoed = false;
         let mut pe_ever_pinned = false;
 
         // Every trial starts from the SAME pre-increment inventory. This avoids
@@ -5911,6 +5912,29 @@ impl Bench {
                 Moles(fraction * water_per_step.0),
                 Phase::Liquid,
             );
+            // Screen the raw physical pour before settlement, including the
+            // carrier water and adiabatic temperature of this exact fraction.
+            // Trial warnings stay with their proposal until it is committed.
+            let mut dose_events = Vec::new();
+            match screen.assess_pour(start, &v) {
+                SafetyVerdict::Allow => {}
+                SafetyVerdict::Warn {
+                    severity,
+                    rule,
+                    hazard,
+                    real_world,
+                } => {
+                    dose_events.push(Event::HazardWarning {
+                        severity,
+                        rule,
+                        hazard,
+                        real_world,
+                    });
+                }
+                SafetyVerdict::Veto { reason } => {
+                    return Ok((None, vec![Event::SafetyVeto { reason }]));
+                }
+            }
             v.solution = None;
             v.step_start = Some(crate::vessel::StepStart::capture(&v));
             let result = if solver.applies(&v) {
@@ -5921,10 +5945,13 @@ impl Bench {
             v.step_start = None;
             v.heat_input = None;
             v.refresh_pressure();
-            result.map(|events| (v, events))
+            result.map(|mut events| {
+                dose_events.append(&mut events);
+                (Some(v), dose_events)
+            })
         };
 
-        for _ in 0..max_steps {
+        'increments: for _ in 0..max_steps {
             let start = self.vessel(vessel)?.clone();
             if matches!(endpoint, Endpoint::Ph)
                 && start
@@ -5936,7 +5963,12 @@ impl Bench {
                 break;
             }
             let (mut accepted, mut accepted_events) = match dose(&start, 1.0, solver) {
-                Ok(result) => result,
+                Ok((Some(v), events)) => (v, events),
+                Ok((None, refused)) => {
+                    events.extend(refused);
+                    vetoed = true;
+                    break;
+                }
                 Err(e) => {
                     events.push(Event::SolverFailed {
                         vessel,
@@ -5960,8 +5992,16 @@ impl Bench {
                             break;
                         }
                         let mid = 0.5 * (lo + hi);
-                        let Ok((trial, trial_events)) = dose(&start, mid, solver) else {
-                            break;
+                        let (trial, trial_events) = match dose(&start, mid, solver) {
+                            Ok((Some(v), events)) => (v, events),
+                            Ok((None, refused)) => {
+                                // Even the provisional full dose has not been
+                                // committed. Stop this increment on any veto.
+                                events.extend(refused);
+                                vetoed = true;
+                                break 'increments;
+                            }
+                            Err(_) => break,
                         };
                         let Some(info) = &trial.solution else {
                             break;
@@ -6059,7 +6099,7 @@ impl Bench {
         // a flask holding only the reduced half of a couple has no
         // potential, and reporting that as "pe never got high enough"
         // would invent a measurement to explain a missing one.
-        if !reached && !curve.is_empty() {
+        if !reached && !vetoed && !curve.is_empty() {
             // `{steps}` is a COUNT, `{target}` is the comparison as the
             // reader typed it (`>=`, a number) — notation, not words —
             // and the liquid's colour is an appearance word, which is
