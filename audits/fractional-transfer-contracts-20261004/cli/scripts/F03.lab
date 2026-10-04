@@ -1,0 +1,7 @@
+register lv3
+new
+new
+add v1 water 1mol
+inspect
+decant v1 v2 0.25
+inspect

@@ -1,0 +1,8 @@
+register lv3
+new
+new
+new
+add v1 olive_oil 1g
+inspect
+mix v1 0.25 v2 0 into v3
+inspect

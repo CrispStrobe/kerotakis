@@ -24,6 +24,10 @@ solver_transactions conservation phase_heat_capacity pressure_boiling states mix
 selected_phase_transfer phase_routes distil atomic_distil_refusal layers
 liquid_extraction vegetable_oil_layers phase_without_aqueous thermal_phase_refusal thermal_phase_budget phase_thaw_recovery energy_transfer heat_integral_precision electrolysis_scope solvent_electrolysis_accounting chromatography_coverage chromatograph headspace density_coverage_scaling still_donor_precision transport_precision_contracts transport_charge_precision transport_subnormal_fraction transfer_receiver_precision transfer_receiver_controls i18n_coverage refusal_locale fractional_transfer_precision fractional_transfer_controls magic_milk""".split()
 SOURCE_FILES = [
+    "audits/fractional-transfer-contracts-20261004/run.py",
+    "audits/fractional-transfer-contracts-20261004/cli/predictions.json",
+    "audits/fractional-transfer-contracts-20261004/cli/freeze.json",
+    "audits/fractional-transfer-contracts-20261004/verify_artifact.py",
     "crates/kerotakis-core/tests/fractional_transfer_precision.rs",
     "crates/kerotakis-core/tests/fractional_transfer_controls.rs",
     "audits/fractional-transfer-contracts-20261004/supplementary-freeze.json",
@@ -216,6 +220,8 @@ def main():
                              "--binary", str(binary), "--out", str(out / "overlap-continuity")])
         run("inventory-transfer", [sys.executable, str(REPO / "audits/inventory-transfer-contracts-20261003/run.py"),
                              "--binary", str(binary), "--out", str(out / "inventory-transfer")])
+        run("fractional-transfer", [sys.executable, str(REPO / "audits/fractional-transfer-contracts-20261004/run.py"),
+                             "--binary", str(binary), "--out", str(out / "fractional-transfer")])
         env.update(KERO_BIN=str(binary), KERO_RESULTS_DIR=str(out / "replay"))
         if run("replay", [sys.executable, str(ROOT / "run.py")]):
             followups = []

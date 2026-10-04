@@ -1,0 +1,122 @@
+[
+  {
+    "id": "F01",
+    "category": "refusal",
+    "material": false,
+    "fraction": 1e-20,
+    "target": 1,
+    "operator": "decant",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1mol\ninspect\ndecant v1 v2 9.9999999999999995e-21\ninspect\n",
+    "expectation": "Source precision error and no successful transfer row."
+  },
+  {
+    "id": "F02",
+    "category": "refusal",
+    "material": false,
+    "fraction": 1e-14,
+    "target": 1,
+    "operator": "decant",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1mol\ninspect\ndecant v1 v2 1e-14\ninspect\n",
+    "expectation": "Source precision error and no successful transfer row."
+  },
+  {
+    "id": "F03",
+    "category": "supported",
+    "material": false,
+    "fraction": 0.25,
+    "target": 1,
+    "operator": "decant",
+    "script": "register lv3\nnew\nnew\nadd v1 water 1mol\ninspect\ndecant v1 v2 0.25\ninspect\n",
+    "expectation": "Requested fraction and donor debit agree within relative 1e-8."
+  },
+  {
+    "id": "F04",
+    "category": "refusal",
+    "material": true,
+    "fraction": 1e-20,
+    "target": 1,
+    "operator": "decant",
+    "script": "register lv3\nnew\nnew\nadd v1 olive_oil 1g\ninspect\ndecant v1 v2 9.9999999999999995e-21\ninspect\n",
+    "expectation": "Source precision error and no successful transfer row."
+  },
+  {
+    "id": "F05",
+    "category": "refusal",
+    "material": true,
+    "fraction": 1e-14,
+    "target": 1,
+    "operator": "decant",
+    "script": "register lv3\nnew\nnew\nadd v1 olive_oil 1g\ninspect\ndecant v1 v2 1e-14\ninspect\n",
+    "expectation": "Source precision error and no successful transfer row."
+  },
+  {
+    "id": "F06",
+    "category": "supported",
+    "material": true,
+    "fraction": 0.25,
+    "target": 1,
+    "operator": "decant",
+    "script": "register lv3\nnew\nnew\nadd v1 olive_oil 1g\ninspect\ndecant v1 v2 0.25\ninspect\n",
+    "expectation": "Requested fraction and donor debit agree within relative 1e-8."
+  },
+  {
+    "id": "F07",
+    "category": "refusal",
+    "material": false,
+    "fraction": 1e-20,
+    "target": 2,
+    "operator": "mix",
+    "script": "register lv3\nnew\nnew\nnew\nadd v1 water 1mol\ninspect\nmix v1 9.9999999999999995e-21 v2 0 into v3\ninspect\n",
+    "expectation": "Source precision error and no successful transfer row."
+  },
+  {
+    "id": "F08",
+    "category": "refusal",
+    "material": false,
+    "fraction": 1e-14,
+    "target": 2,
+    "operator": "mix",
+    "script": "register lv3\nnew\nnew\nnew\nadd v1 water 1mol\ninspect\nmix v1 1e-14 v2 0 into v3\ninspect\n",
+    "expectation": "Source precision error and no successful transfer row."
+  },
+  {
+    "id": "F09",
+    "category": "supported",
+    "material": false,
+    "fraction": 0.25,
+    "target": 2,
+    "operator": "mix",
+    "script": "register lv3\nnew\nnew\nnew\nadd v1 water 1mol\ninspect\nmix v1 0.25 v2 0 into v3\ninspect\n",
+    "expectation": "Requested fraction and donor debit agree within relative 1e-8."
+  },
+  {
+    "id": "F10",
+    "category": "refusal",
+    "material": true,
+    "fraction": 1e-20,
+    "target": 2,
+    "operator": "mix",
+    "script": "register lv3\nnew\nnew\nnew\nadd v1 olive_oil 1g\ninspect\nmix v1 9.9999999999999995e-21 v2 0 into v3\ninspect\n",
+    "expectation": "Source precision error and no successful transfer row."
+  },
+  {
+    "id": "F11",
+    "category": "refusal",
+    "material": true,
+    "fraction": 1e-14,
+    "target": 2,
+    "operator": "mix",
+    "script": "register lv3\nnew\nnew\nnew\nadd v1 olive_oil 1g\ninspect\nmix v1 1e-14 v2 0 into v3\ninspect\n",
+    "expectation": "Source precision error and no successful transfer row."
+  },
+  {
+    "id": "F12",
+    "category": "supported",
+    "material": true,
+    "fraction": 0.25,
+    "target": 2,
+    "operator": "mix",
+    "script": "register lv3\nnew\nnew\nnew\nadd v1 olive_oil 1g\ninspect\nmix v1 0.25 v2 0 into v3\ninspect\n",
+    "expectation": "Requested fraction and donor debit agree within relative 1e-8."
+  }
+]
