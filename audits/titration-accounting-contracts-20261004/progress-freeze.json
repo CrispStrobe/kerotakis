@@ -1,0 +1,7 @@
+{
+  "tests": 1,
+  "files": {
+    "crates/kerotakis-core/tests/titration_progress_contracts.rs": "164281ab308748e64b47b462cf62a83d5e40e78a1eb7fc7b6d2997adad83d5f4"
+  },
+  "expectation": "One accepted dose counts as one step even if the initial solution has no pH; accepted volume, curve and stock debit must agree. Source-informed supplementary inspection control, no separate pre-repair execution."
+}
