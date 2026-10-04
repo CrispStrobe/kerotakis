@@ -1,0 +1,7 @@
+{
+  "tests": 1,
+  "files": {
+    "crates/kerotakis-core/tests/titration_raw_state_contracts.rs": "57b778a56d14e6424e4cfafb4a93edc05b0017e781f92318293aa84e5d6150db"
+  },
+  "expectation": "Finite per-species receiver totals whose aggregate mass/energy overflow must refuse without screen/solver calls, physical mutation or fabricated titration progress. Supplementary source-informed boundary control; no separate pre-repair execution."
+}
