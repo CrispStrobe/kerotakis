@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "scope": "Source-informed stagewise extraction thermal/geometry/safety/sequence forecasts, frozen before rewriting productionExtract",
+  "tests": 20,
+  "files": {
+    "crates/kerotakis-core/tests/extraction_stage_contracts.rs": "d9f3919330b14f80856dd23d7d8f052d4b09a8a56418e8c4495d7f0fa104bceb"
+  },
+  "compatibility": "Existing single-stage and equal-temperature repeated-yield contracts retain their forecasts. No old assertion requiring bulk total-solvent contact found. New stagewise contacts intentionally change multi-stage thermal states, source geometry, contextual hook frequency and fresh lotcount.",
+  "bounded_model": "Implementation should reject more than1024 stages before O(stages) work. Test covers u32MAX without hardcoding a cap; this is an explicit bounded numerical-model contract, not a physical maximum.",
+  "transaction": "All stages are prepared provisionally. Any later safety, quantity, stock or coefficient refusal rolls back the entire Extract operation.",
+  "thermal_oracle": "Metamorphic comparison with separately executed existing one-stage operations using the same evolving donor and accumulating receiver. This is source-informed, not a blind new50experiment batch."
+}
