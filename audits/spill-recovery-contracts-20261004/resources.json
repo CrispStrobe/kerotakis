@@ -23,5 +23,19 @@
       "free": 1861724274688
     }
   },
-  "policy": "Two read-only review agents; all builds and app execution serial on hosted runners."
+  "policy": "Two read-only review agents; all builds and app execution serial on hosted runners.",
+  "during_full_validation": {
+    "utc": "2026-10-04T12:37:34.934123+00:00",
+    "load_average": [
+      4.3974609375,
+      4.4873046875,
+      3.3720703125
+    ],
+    "memory_available_bytes": 4284784640,
+    "disk_free_bytes": {
+      "/": 5186506752,
+      "/mnt/volume1": 5379280896
+    },
+    "action": "No additional agents or local heavy work; existing hosted validation continues."
+  }
 }
