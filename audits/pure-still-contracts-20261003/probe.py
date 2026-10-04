@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', type=Path, required=True)
-    parser.add_argument('--scope', choices=['thermo', 'transport', 'receiver', 'fractional', 'safety', 'titration', 'accounting', 'recovery', 'extraction', 'spill', 'foundations', 'stages', 'boundaries'], default='thermo')
+    parser.add_argument('--scope', choices=['thermo', 'transport', 'receiver', 'fractional', 'safety', 'titration', 'accounting', 'recovery', 'extraction', 'spill', 'foundations', 'stages', 'boundaries', 'crystals'], default='thermo')
     args = parser.parse_args()
     if os.environ.get('GITHUB_ACTIONS') != 'true':
         parser.error('Hosted execution only; local execution requires resource headroom')
@@ -106,6 +106,13 @@ def main():
                    '--test', 'required_solver_conservation_contracts', '--test', 'transfer_probe_contracts',
                    '--test', 'zero_transfer_surface_contracts', '--test', 'titration_final_safety_contracts',
                    '--test', 'titration_raw_proposal_contracts', '--test', 'titration_safety_contracts', '--test', 'titration_safety_controls',
+                   '--no-fail-fast', '-j1', '--', '--test-threads=1']
+    if args.scope == 'crystals':
+        command = ['cargo', 'test', '-p', 'kerotakis-core',
+                   '--test', 'required_solid_solution_contracts', '--test', 'solid_solution_state_contracts',
+                   '--test', 'solid_solution', '--test', 'required_solver_conservation_contracts',
+                   '--test', 'required_solver_ledger_boundaries', '--test', 'required_solver_ledger_supplement',
+                   '--test', 'solver_transactions',
                    '--no-fail-fast', '-j1', '--', '--test-threads=1']
     # Preserve legacy source but replace its screen-call oracle with the frozen
     # zero-transfer geometry/state observer under the new no-work contract.
