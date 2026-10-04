@@ -8170,3 +8170,8 @@ mod trace_interface_tests {
         assert!((released / 1e-14 - 1.0).abs() < 1e-12);
     }
 }
+
+// Frozen source-informed raw mixed-crystal readback contracts.
+#[cfg(test)]
+#[path = "../tests/solid_solution_raw_readback/contracts.rs"]
+mod solid_solution_raw_readback_contracts;
