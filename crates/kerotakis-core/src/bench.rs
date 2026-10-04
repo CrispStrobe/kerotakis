@@ -4576,7 +4576,8 @@ impl Bench {
                         }
                     }
                     staged_source = retained;
-                    staged_source.clear_solution();
+                    staged_source.solution = None;
+                    staged_source.resolved.invalidate();
                     staged_receiver = receiver;
                 }
                 let retained = staged_source;
