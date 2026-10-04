@@ -1,0 +1,8 @@
+{
+  "tests": 20,
+  "files": {
+    "crates/kerotakis-core/tests/safety_veto_contracts.rs": "6150f08325a23de1663981d88392f37bd757ff1707e5ffa29f5ef5534cb529cd",
+    "crates/kerotakis-core/tests/transfer_probe_contracts.rs": "a2061677bc65b50e88346674f2dd5d02898a61b1fa2a7b89441886d85f33097a"
+  },
+  "expectation": "Vetoes preserve physical state and skip all solver calls; probes include applied geometry, unresolved liquid and temperature; filtration moves unresolved liquid. Existing extraction refusal, accidental spills and zero pours retain their behavior. Source-informed contracts."
+}

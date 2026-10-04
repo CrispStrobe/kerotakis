@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', type=Path, required=True)
-    parser.add_argument('--scope', choices=['thermo', 'transport', 'receiver', 'fractional'], default='thermo')
+    parser.add_argument('--scope', choices=['thermo', 'transport', 'receiver', 'fractional', 'safety'], default='thermo')
     args = parser.parse_args()
     if os.environ.get('GITHUB_ACTIONS') != 'true':
         parser.error('Hosted execution only; local execution requires resource headroom')
@@ -37,6 +37,13 @@ def main():
                    '--test', 'mix', '--test', 'magic_milk', '--test', 'vegetable_oil_layers',
                    '--test', 'transfer_receiver_precision', '--test', 'transfer_receiver_controls',
                    '--test', 'i18n_coverage', '--test', 'refusal_locale',
+                   '--no-fail-fast', '-j1', '--', '--test-threads=1']
+    if args.scope == 'safety':
+        command = ['cargo', 'test', '-p', 'kerotakis-core', '--lib',
+                   '--test', 'safety_veto_contracts', '--test', 'transfer_probe_contracts',
+                   '--test', 'mix', '--test', 'magic_milk', '--test', 'liquid_extraction',
+                   '--test', 'spill_breakage', '--test', 'spill_persistence',
+                   '--test', 'transfer_trace', '--test', 'solver_transactions',
                    '--no-fail-fast', '-j1', '--', '--test-threads=1']
     log = args.out/(args.scope + '.log')
     started = time.monotonic()
