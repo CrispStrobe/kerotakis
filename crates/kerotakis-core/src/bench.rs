@@ -192,6 +192,40 @@ fn prepare_transfer_receiver<'a>(
     Ok(probe)
 }
 
+/// Complete receiver preparation for mechanical transfers. The legacy
+/// inventory/enthalpy planner is also used by staged extraction and spills,
+/// which keep their existing contextual preparation and acceptance policies.
+fn prepare_screened_transfer_receiver<'a>(
+    receiver: &Vessel,
+    streams: &[(&[(SpeciesId, Moles, Phase)], Kelvin)],
+    materials: impl Iterator<Item = &'a UnresolvedMaterialPortion>,
+    unpriced_heat: impl Iterator<Item = &'a SpeciesId>,
+    disturb_surface: bool,
+) -> Result<Vessel, BenchError> {
+    let mut probe = prepare_transfer_receiver(receiver, streams, materials, disturb_surface)?;
+    if matches!(probe.thermal_mode, ThermalMode::Adiabatic) {
+        for species in unpriced_heat {
+            if !probe.unpriced_heat.contains(species) {
+                probe.unpriced_heat.push(species.clone());
+            }
+        }
+    }
+    probe.solution = None;
+    probe.resolved.invalidate();
+    probe.refresh_pressure();
+    let errors = crate::delta::StateDelta::validate_state(&probe);
+    if !errors.is_empty() {
+        return Err(BenchError::InvalidState(
+            errors
+                .iter()
+                .map(ToString::to_string)
+                .collect::<Vec<_>>()
+                .join("; "),
+        ));
+    }
+    Ok(probe)
+}
+
 /// A virtual titration trial has no donor debit, but each positive scaled
 /// quantity and actual receiver/volume increment must remain representable.
 fn checked_titration_product(actual: f64, a: f64, b: f64) -> Result<(), BenchError> {
@@ -3122,13 +3156,17 @@ impl Bench {
 
                 // L0 on the prospective target state, before mutation —
                 // pouring one vessel into another can create the hazard.
-                let probe = prepare_transfer_receiver(
+                let probe = prepare_screened_transfer_receiver(
                     self.vessel(*to)?,
                     &[(&would_move, t_from)],
                     unresolved_move.iter(),
+                    self.vessel(*from)?
+                        .unpriced_heat
+                        .iter()
+                        .filter(|_| !would_move.is_empty() || !unresolved_move.is_empty()),
                     *fraction > 0.0,
                 )?;
-                match screen.assess(&probe) {
+                match screen.assess_pour(self.vessel(*to)?, &probe) {
                     SafetyVerdict::Allow => {}
                     SafetyVerdict::Warn {
                         severity,
@@ -3179,9 +3217,7 @@ impl Bench {
                         to: probe.temperature,
                     });
                 }
-                dst.temperature = probe.temperature;
-                dst.contents = probe.contents;
-                dst.unresolved_materials = probe.unresolved_materials;
+                *dst = probe;
                 events.push(Event::Transferred {
                     from: *from,
                     to: *to,
@@ -3218,13 +3254,23 @@ impl Bench {
                 let t_b = self.vessel(*b)?.temperature;
 
                 // L0 on the prospective target state.
-                let probe = prepare_transfer_receiver(
+                let probe = prepare_screened_transfer_receiver(
                     self.vessel(*into)?,
                     &[(&move_a, t_a), (&move_b, t_b)],
                     unresolved_a.iter().chain(unresolved_b.iter()),
+                    self.vessel(*a)?
+                        .unpriced_heat
+                        .iter()
+                        .filter(|_| !move_a.is_empty() || !unresolved_a.is_empty())
+                        .chain(
+                            self.vessel(*b)?
+                                .unpriced_heat
+                                .iter()
+                                .filter(|_| !move_b.is_empty() || !unresolved_b.is_empty()),
+                        ),
                     *fraction_a > 0.0 || *fraction_b > 0.0,
                 )?;
-                match screen.assess(&probe) {
+                match screen.assess_pour(self.vessel(*into)?, &probe) {
                     SafetyVerdict::Allow => {}
                     SafetyVerdict::Warn {
                         severity,
@@ -3285,9 +3331,7 @@ impl Bench {
                         to: probe.temperature,
                     });
                 }
-                dst.temperature = probe.temperature;
-                dst.contents = probe.contents;
-                dst.unresolved_materials = probe.unresolved_materials;
+                *dst = probe;
                 events.push(Event::Mixed {
                     a: *a,
                     b: *b,
@@ -3321,13 +3365,17 @@ impl Bench {
                         .collect();
                     (moved, unresolved, src.temperature)
                 };
-                let probe = prepare_transfer_receiver(
+                let probe = prepare_screened_transfer_receiver(
                     self.vessel(*to)?,
                     &[(&would_move, t_from)],
                     unresolved_move.iter(),
+                    self.vessel(*from)?
+                        .unpriced_heat
+                        .iter()
+                        .filter(|_| !would_move.is_empty() || !unresolved_move.is_empty()),
                     true,
                 )?;
-                match screen.assess(&probe) {
+                match screen.assess_pour(self.vessel(*to)?, &probe) {
                     SafetyVerdict::Allow => {}
                     SafetyVerdict::Warn {
                         severity,
@@ -3367,9 +3415,7 @@ impl Bench {
                 src.unresolved_materials
                     .retain(|p| !material::unresolved_portion_is_liquid(p));
                 let dst = self.vessel_mut(*to)?;
-                dst.temperature = probe.temperature;
-                dst.contents = probe.contents;
-                dst.unresolved_materials = probe.unresolved_materials;
+                *dst = probe;
                 events.push(Event::Filtered {
                     from: *from,
                     to: *to,
@@ -3409,6 +3455,34 @@ impl Bench {
                         remained: remained_ids,
                     });
                 } else {
+                    let source = self.vessel(*from)?;
+                    let probe = prepare_screened_transfer_receiver(
+                        self.vessel(*to)?,
+                        &[(&magnetic_solids, source.temperature)],
+                        std::iter::empty(),
+                        source.unpriced_heat.iter(),
+                        false,
+                    )?;
+                    match screen.assess_pour(self.vessel(*to)?, &probe) {
+                        SafetyVerdict::Allow => {}
+                        SafetyVerdict::Warn {
+                            severity,
+                            rule,
+                            hazard,
+                            real_world,
+                        } => {
+                            events.push(Event::HazardWarning {
+                                severity,
+                                rule,
+                                hazard,
+                                real_world,
+                            });
+                        }
+                        SafetyVerdict::Veto { reason } => {
+                            events.push(Event::SafetyVeto { reason });
+                            return Ok(events);
+                        }
+                    }
                     let src = self.vessel_mut(*from)?;
                     src.contents.retain(|p| {
                         !(p.phase == Phase::Solid
@@ -3417,9 +3491,14 @@ impl Bench {
                     let dst = self.vessel_mut(*to)?;
                     let attracted_ids: Vec<_> =
                         magnetic_solids.iter().map(|(s, _, _)| s.clone()).collect();
-                    for (s, n, phase) in magnetic_solids {
-                        checked_transfer_deposit(dst, s, n, phase)?;
+                    if (probe.temperature.0 - dst.temperature.0).abs() > 1e-9 {
+                        events.push(Event::TemperatureChanged {
+                            vessel: *to,
+                            from: dst.temperature,
+                            to: probe.temperature,
+                        });
                     }
+                    *dst = probe;
                     events.push(Event::MagnetSeparated {
                         from: *from,
                         to: *to,
@@ -4028,14 +4107,20 @@ impl Bench {
                 let t_k = source.temperature.0;
                 let mut partitioned: Vec<(SpeciesId, f64)> = Vec::new();
                 let mut moved: Vec<(SpeciesId, Moles, Phase)> = Vec::new();
-                for p in &source.contents {
+                let mut retained = source.contents.clone();
+                for (index, p) in source.contents.iter().enumerate() {
+                    if p.moles.0 == 0.0 {
+                        continue;
+                    }
                     let is_lower_solvent = p.species == lower_id && p.phase == Phase::Liquid;
                     let dissolved = p.phase == Phase::Aqueous
                         || (p.phase == Phase::Liquid
                             && p.species != lower_id
                             && p.species != upper_id);
                     if is_lower_solvent {
-                        moved.push((p.species.clone(), p.moles, p.phase));
+                        let (out, rest) = checked_transfer_split(p.moles.0, 1.0, &p.species.0)?;
+                        moved.push((p.species.clone(), Moles(out), p.phase));
+                        retained[index].moles = Moles(rest);
                     } else if dissolved {
                         if let Some(row) = crate::apparatus::partition_coefficient_row(
                             &p.species, &upper_id, &lower_id,
@@ -4068,10 +4153,20 @@ impl Bench {
                                 )
                                 .aqueous_moles
                                     / p.moles.0;
-                                moved.push((p.species.clone(), Moles(p.moles.0 * f), p.phase));
+                                let (out, rest) =
+                                    checked_transfer_split(p.moles.0, f, &p.species.0)?;
+                                if out > 0.0 {
+                                    moved.push((p.species.clone(), Moles(out), p.phase));
+                                }
+                                retained[index].moles = Moles(rest);
                                 partitioned.push((p.species.clone(), f));
                             }
-                            Some(_) | None => moved.push((p.species.clone(), p.moles, p.phase)),
+                            Some(_) | None => {
+                                let (out, rest) =
+                                    checked_transfer_split(p.moles.0, 1.0, &p.species.0)?;
+                                moved.push((p.species.clone(), Moles(out), p.phase));
+                                retained[index].moles = Moles(rest);
+                            }
                         }
                     }
                 }
@@ -4080,30 +4175,54 @@ impl Bench {
                     .filter(|(s, ..)| *s == lower_id)
                     .map(|(_, m, _)| m.0)
                     .sum::<f64>();
-                {
-                    let src = self.vessel_mut(*from)?;
-                    for (spec, m, phase) in &moved {
-                        src.withdraw_phase(spec, *m, *phase);
-                    }
-                }
-                let t_from = source.temperature;
-                let dst = self.vessel_mut(*to)?;
-                if matches!(dst.thermal_mode, ThermalMode::Adiabatic) {
-                    let t_new = adiabatic_mix_into(dst, t_from, |t| {
-                        portions_enthalpy(moved.iter().map(|(s, n, p)| (s, n.0, *p)), t_from.0, t)
-                    });
-                    if !moved.is_empty() && (t_new.0 - dst.temperature.0).abs() > 1e-9 {
-                        events.push(Event::TemperatureChanged {
-                            vessel: *to,
-                            from: dst.temperature,
-                            to: t_new,
+                let probe = prepare_screened_transfer_receiver(
+                    self.vessel(*to)?,
+                    &[(&moved, source.temperature)],
+                    std::iter::empty(),
+                    source.unpriced_heat.iter().filter(|_| !moved.is_empty()),
+                    !moved.is_empty(),
+                )?;
+                match screen.assess_pour(self.vessel(*to)?, &probe) {
+                    SafetyVerdict::Allow => {}
+                    SafetyVerdict::Warn {
+                        severity,
+                        rule,
+                        hazard,
+                        real_world,
+                    } => {
+                        events.push(Event::HazardWarning {
+                            severity,
+                            rule,
+                            hazard,
+                            real_world,
                         });
                     }
-                    dst.temperature = t_new;
+                    SafetyVerdict::Veto { reason } => {
+                        events.push(Event::SafetyVeto { reason });
+                        return Ok(events);
+                    }
                 }
-                for (spec, m, phase) in moved {
-                    checked_transfer_deposit(dst, spec, m, phase)?;
+                retained.retain(|portion| portion.moles.0 > 0.0);
+                let src = self.vessel_mut(*from)?;
+                src.contents = retained;
+                src.solution = None;
+                src.resolved.invalidate();
+                let count = self.vessel(*to)?.surface_colours.len();
+                if count > 0 && !moved.is_empty() {
+                    events.push(Event::SurfaceColourMixed {
+                        vessel: *to,
+                        spot_count: count,
+                    });
                 }
+                let dst = self.vessel_mut(*to)?;
+                if !moved.is_empty() && (probe.temperature.0 - dst.temperature.0).abs() > 1e-9 {
+                    events.push(Event::TemperatureChanged {
+                        vessel: *to,
+                        from: dst.temperature,
+                        to: probe.temperature,
+                    });
+                }
+                *dst = probe;
                 for (species, f) in partitioned {
                     events.push(Event::Partitioned {
                         vessel: *from,

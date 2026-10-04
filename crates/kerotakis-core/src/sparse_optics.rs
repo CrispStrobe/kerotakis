@@ -183,6 +183,15 @@ pub fn measure_free_iodine(
         .find(|a| a.is_finite() && *a > 0.0)
         .ok_or(SparseOpticsError::UnrepresentableAbsorbance)?
     };
+    if c > 0.0 && absorbance < f64::MIN_POSITIVE {
+        // With a subnormal final result, dividing by the smaller input first
+        // stays finite and exposes the final rounding quantum without creating
+        // another quantized subnormal intermediate.
+        let ratio = absorbance / c.min(path_cm) / c.max(path_cm) / epsilon;
+        if !ratio.is_finite() || (ratio - 1.0).abs() > 1e-8 {
+            return Err(SparseOpticsError::UnrepresentableAbsorbance);
+        }
+    }
     Ok(SparseAbsorbance {
         absorbance,
         wavelength_nm,

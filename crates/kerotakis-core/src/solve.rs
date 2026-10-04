@@ -258,11 +258,15 @@ impl SolverStack {
 }
 
 impl SolverStack {
-    /// Require an elemental-balance certificate from every accepted route,
-    /// including custom routes which provide no individual conservation policy.
-    /// Gas inlet/outlet events must describe exchanges across the boundary.
-    /// A tighter individual route tolerance is preserved. Legacy `new` remains
-    /// appropriate only when callers have independently reviewed route coverage.
+    /// Require represented molecular-inventory and formal-charge closure from
+    /// every accepted route, including custom routes without their own policy.
+    /// Unsupported owned matter explicitly refuses this bounded certificate.
+    /// Differences precede elemental sums; tolerance is relative to changed
+    /// reaction throughput, with no absolute trace floor. Gas inlet/outlet events
+    /// extend that inventory boundary. This does not certify reaction energy or
+    /// the correctness of a derived aqueous-species distribution. A tighter
+    /// individual route tolerance is preserved. Legacy `new` retains its native
+    /// element-policy behavior for independently reviewed route coverage.
     pub fn with_required_conservation(
         solvers: Vec<Box<dyn Equilibrator>>,
         tolerance: f64,
@@ -340,12 +344,16 @@ impl Equilibrator for SolverStack {
                     self.required_conservation_tolerance,
                     solver.element_conservation_tolerance(),
                 ) {
-                    errors.extend(crate::delta::StateDelta::validate_conservation(
-                        &checkpoint,
-                        vessel,
-                        &events,
-                        tolerance,
-                    ));
+                    if self.required_conservation_tolerance.is_some() {
+                        errors.extend(crate::required_conservation::validate_required_conservation(
+                            &checkpoint, vessel, &events, tolerance,
+                        ));
+                    } else {
+                        // Legacy individual native-route policy remains unchanged.
+                        errors.extend(crate::delta::StateDelta::validate_conservation(
+                            &checkpoint, vessel, &events, tolerance,
+                        ));
+                    }
                 }
                 if vessel.id != checkpoint.id || vessel.label != checkpoint.label {
                     errors.push(crate::delta::DeltaError::InvalidState {
@@ -442,12 +450,16 @@ impl Equilibrator for SolverStack {
                         self.required_conservation_tolerance,
                         solver.element_conservation_tolerance(),
                     ) {
-                        errors.extend(crate::delta::StateDelta::validate_conservation(
-                            &checkpoint,
-                            vessel,
-                            &events,
-                            tolerance,
-                        ));
+                        if self.required_conservation_tolerance.is_some() {
+                            errors.extend(crate::required_conservation::validate_required_conservation(
+                                &checkpoint, vessel, &events, tolerance,
+                            ));
+                        } else {
+                            // Legacy individual native-route policy remains unchanged.
+                            errors.extend(crate::delta::StateDelta::validate_conservation(
+                                &checkpoint, vessel, &events, tolerance,
+                            ));
+                        }
                     }
                     if vessel.id != checkpoint.id || vessel.label != checkpoint.label {
                         errors.push(crate::delta::DeltaError::InvalidState {
