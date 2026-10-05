@@ -538,9 +538,8 @@ Six mutants — the six above — were recorded as caught by the `cli-property`
 rung, with three real test names under them, parsed out of a real `failures:`
 block. The rung had taken **0.1 seconds**. It takes 34 at baseline.
 
-`run_tier` set `TMPDIR` to `/mnt/volume1/tmp-overflow/kero-build` when the
-caller had not set one: this project's development box's overflow directory,
-hardcoded into the tool. On a GitHub runner that path does not exist,
+`run_tier` set `TMPDIR` to a hardcoded development-host directory when the
+caller had not set one. On a GitHub runner that path does not exist,
 `std::env::temp_dir()` inside `metamorphic.rs` returned it anyway,
 `create_dir_all` failed with `PermissionDenied`, and all three metamorphic
 tests panicked in their first statement — which looks, in a results file that
