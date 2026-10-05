@@ -6,6 +6,10 @@ general models; it must never dispatch on an audit case or embed an expected
 result. Nothing in this directory is part of the shipped engine — these are
 evidence harnesses, and they are never imported by a crate or the web app.
 
+## Current handoff
+
+Read [the 2026-10-05 checkpoint](../../docs/chemistry-audit-status-20261005.md) and [next-step lanes](../../docs/chemistry-audit-next-lanes.md) for current accepted evidence, main/branch integration status and pickup instructions. The older fleet history below remains revision-specific.
+
 ## What is here
 
 | File | Role |

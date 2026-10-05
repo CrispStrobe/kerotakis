@@ -1,5 +1,7 @@
 # Kerotakis — Optimization tasks
 
+The latest correctness audit and performance limitations are summarized in [the checkpoint](docs/chemistry-audit-status-20261005.md). [PERF-01](docs/chemistry-audit-next-lanes.md#perf-01--measure-release-behavior-then-optimize-one-verified-hot-path) scopes a release measurement lane; existing OPT task numbers remain unchanged.
+
 > Finished work is not listed here. What landed, and what it taught us, is in
 > [HISTORY.md](HISTORY.md). Task numbers are never renumbered and never reused.
 

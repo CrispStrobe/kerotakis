@@ -24,6 +24,10 @@ appearances or changes scientific behavior.
 > Items marked **wasm ✓** were compile-tested locally against
 > `wasm32-unknown-unknown` on that date, not read off a README.
 
+## Current systematic chemistry checkpoint (2026-10-05)
+
+Read [the accepted-state checkpoint](docs/chemistry-audit-status-20261005.md) and [actionable task lanes](docs/chemistry-audit-next-lanes.md) before resuming audit-derived work. The accepted engine is on the audit branch, not yet integrated into main. AUD-00 scopes that integration; the remaining lanes specify dependencies, controls and completion evidence. Existing task IDs below retain their meanings.
+
 ## How these files are used
 
 - **PLAN.md** — intent and open work: the thesis, the architecture, the build
