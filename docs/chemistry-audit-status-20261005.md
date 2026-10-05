@@ -6,7 +6,7 @@ Start here, then choose a task from [the next-step lanes](chemistry-audit-next-l
 
 The accepted engine source is [`8cdab1f6ecd0b1132c4008014a5a0c5476429d17`](https://github.com/CrispStrobe/kerotakis/commit/8cdab1f6ecd0b1132c4008014a5a0c5476429d17). Reports and acceptance receipts were published through [`9331f9e9`](https://github.com/CrispStrobe/kerotakis/commit/9331f9e974ff460a91a1617883ae22e1d319e4d1) on [`audit/systematic-chemistry-20261002`](https://github.com/CrispStrobe/kerotakis/tree/audit/systematic-chemistry-20261002).
 
-At this documentation checkpoint, that branch is 168 commits ahead of `main` at [`f7d45f6f`](https://github.com/CrispStrobe/kerotakis/commit/f7d45f6fefacc0a53312356f8b801f7e371b8042), with no commits behind it. **Branch-verified does not mean merged into main, released, or deployed.** A documentation-only cherry-pick also does not port the implementation. Recheck ancestry before starting integration lane AUD-00.
+At implementation checkpoint `9331f9e9`, that branch was 168 commits ahead of `main` at [`f7d45f6f`](https://github.com/CrispStrobe/kerotakis/commit/f7d45f6fefacc0a53312356f8b801f7e371b8042), with no commits behind it. Subsequent documentation commits do not change that accepted engine source. **Branch-verified does not mean merged into main, released, or deployed.** A documentation-only cherry-pick also does not port the implementation. Recheck ancestry before starting integration lane AUD-00.
 
 ## Accepted evidence
 

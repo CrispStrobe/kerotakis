@@ -239,7 +239,7 @@ AUD-01/AUD-02/VAL-01 must not edit native reconstruction concurrently. NUM-02/NU
 
 ## EXP-01 — Freeze and execute the next independently authored fifty
 
-**Start:** CLI syntax/documentation only; the immutable independent audit harnesses after forecasts are frozen.
+**Start:** CLI syntax in `PROTOCOL.md` and the command examples in `README.md` only; the immutable independent audit harnesses after forecasts are frozen. Do not read existing corpus outcomes or production chemistry code before the freeze.
 
 **Do:** independently invent 50 protocols/questions without reading existing corpus outcomes or implementation first. Declare expected observables, units, boundaries, applicability, positive/negative controls and independently justified bounds. Freeze scripts/predictions before execution. Only then inspect failed behavior/source and propose general repairs.
 
