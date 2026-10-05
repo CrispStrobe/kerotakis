@@ -1,5 +1,7 @@
 # Kerotakis
 
+For the latest branch-verified chemistry audit status and independently scoped next tasks, read [the checkpoint](docs/chemistry-audit-status-20261005.md) and [task lanes](docs/chemistry-audit-next-lanes.md). The checkpoint distinguishes accepted branch behavior from main/release availability.
+
 A virtual chemistry laboratory that computes real chemistry.
 
 Offline-first, cross-platform, no runtime Python. One simulation, rendered at
