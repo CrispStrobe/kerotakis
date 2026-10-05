@@ -3200,14 +3200,10 @@ that raised it. Nothing below is a commitment to an order.
   `native_startup_tests::successful_native_startup_retains_aqueous_computation_and_provenance`
   and `unsupported_ionic::unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute`
   — assert the boundary the product actually has, and say so in a comment.
-- **19 redundant worktrees (re-audited 2026-09-13)** — the triage list is at
-  `/mnt/volume1/tmp-overflow/triage-prune-list-20260907.txt`. None was deleted:
-  main absorbed that work through re-authored PRs rather than cherry-picks, so
-  no branch HEAD is an ancestor of `origin/main` and every branch still differs
-  on at least one touched file. All 19 are now clean, inactive and without a
-  recent non-build write, but each still has a patch-unique commit, so none was
-  deleted. `docs/WORKTREE-AUDIT-20260913.md` records the gate and grouped
-  counts; semantic comparison with the named merged PR remains mandatory.
+- **Development-history preservation** — operational worktree inventories and
+  local triage are maintained privately. Re-authored merges can leave patches
+  unique by ancestry or byte comparison; semantic equivalence and preservation
+  of authored work must be established before cleanup.
 
 ### Scoped tasks, 2026-09-16
 

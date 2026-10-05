@@ -34,7 +34,7 @@ Run from the repository root:
 ```sh
 npm ci --prefix spikes/brd080 --ignore-scripts --no-audit --no-fund
 npm test --prefix spikes/brd080
-node spikes/brd080/evidence.mjs > /tmp/brd080-evidence.json
+node spikes/brd080/evidence.mjs > brd080-evidence.json
 npm run build --prefix spikes/brd080
 npm run test:browser --prefix spikes/brd080
 ```

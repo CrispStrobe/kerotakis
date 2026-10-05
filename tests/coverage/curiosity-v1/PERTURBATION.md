@@ -310,7 +310,7 @@ claim about the chemistry rather than about bookkeeping.
 The measurement harness already reaches the whole corpus:
 
 ```sh
-KERO_PERTURBATION_SWEEP=/tmp/sweep.jsonl KERO_PERTURBATION_ALL=1 \
+KERO_PERTURBATION_SWEEP=sweep.jsonl KERO_PERTURBATION_ALL=1 \
   cargo test -p kerotakis-cli --test corpus_perturbation -- --ignored --nocapture sweep
 ```
 

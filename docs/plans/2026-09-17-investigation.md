@@ -15,7 +15,7 @@
 
 ## Verification environment
 
-The existing Rust installation is inaccessible. An isolated minimal stable toolchain is installed under /tmp/kerotakis-cargo and /tmp/kerotakis-rustup; use CARGO_TARGET_DIR=/tmp/kerotakis-target. Do not change the user's shell files or inaccessible installation. Run baseline protein tests before the first production change. Cargo.lock is locally generated and explicitly ignored by .gitignore, not tracked upstream; reconcile it against the fetched manifests, then use --locked for repeat runs. A fresh Cargo home needs online dependency downloads before offline tests can run. Background-shell exports did not survive into the next tool call here, so pass the isolated environment explicitly on each build invocation. No commits or pushes requested.
+Historical machine-specific toolchain instructions are retained privately. Use the repository build prerequisites and an isolated build directory; preserve dependency resolution before repeating validation.
 
 ## 1. First regression: irreversible protein heat history
 

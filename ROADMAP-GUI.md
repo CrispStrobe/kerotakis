@@ -2700,9 +2700,9 @@ The virtualisation (#650) was justified by numbers, and the harness that
 produced them is left on disk so the next person can reproduce rather than
 trust them:
 
-    /mnt/volume1/tmp-overflow/kero-build/catwin-site   (13 MB)
+    Generated catalogue-window payload (13 MB); storage recorded privately
 
-    CHROME_PATH=~/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome \
+    CHROME_PATH="$CHROMIUM_EXECUTABLE" \
       node --experimental-websocket tools/test-ux-quality.mjs <payload>
 
 **It needs no cargo** — it is the checked-in golden codex export plus the
@@ -2718,7 +2718,7 @@ open-to-visible **3,921 ms → 911 ms** at a 4× CPU throttle. The trade, also
 measured: a synthetic fling at 646 px/frame is *worse* windowed on a
 throttled CPU, 52.7 against 39.4 ms.
 
-`/mnt/volume1/tmp-overflow` is scratch and may be swept; if it is gone, the
+A generated payload may be discarded; if it is absent, the
 recipe above rebuilds it.
 
 ## Two doors onto one question (GUI-105) — landed 2026-09-17

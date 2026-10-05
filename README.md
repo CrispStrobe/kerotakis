@@ -252,9 +252,9 @@ contract the future UI consumes).
 To build and look at the browser bench:
 
 ```bash
-tools/build-web.sh /tmp/site            # the whole payload, not just web/app/dist
-node tools/test-pwa.mjs /tmp/site       # installable, offline-first
-node tools/shot.mjs /tmp/site shots --locale de --clicks "Sandbox betreten"
+tools/build-web.sh build/site            # the whole payload, not just web/app/dist
+node tools/test-pwa.mjs build/site       # installable, offline-first
+node tools/shot.mjs build/site shots --locale de --clicks "Sandbox betreten"
 ```
 
 `tools/shot.mjs` drives the built site in headless Chrome at a tablet

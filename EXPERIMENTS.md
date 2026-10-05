@@ -810,7 +810,7 @@ numbers are never re-bound.
   as executed, full stdout/stderr, exit state, the frozen law-check reports,
   per-fleet source-revision manifests with SHA-256, and every failed and
   unsupported result — are retained outside the checkout as one archive:
-  `/mnt/storage/kerotakis-archive/chemistry-audit-evidence-20260906.tar.gz`,
+  `chemistry-audit-evidence-20260906.tar.gz`,
   SHA-256 `9053802227ce2fc57ed74d65d6074a661f30affe8fdaf40e2d8e724be759bb28`,
   3,120,920 bytes, 2,260 files, taken from commit `a96c4a74` on branch
   `audit/chemistry-experiments-20260906`, which is kept so the archive can be

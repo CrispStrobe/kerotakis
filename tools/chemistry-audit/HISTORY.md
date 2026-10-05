@@ -90,7 +90,7 @@ remain positive despite water/temperature partitioning; one evaluated the
 post-aqueous molecular ester inventory rather than the explicit reaction step.
 Those were checker/expectation defects, not engine output changes. Reanalysis of
 the preserved raw run passed 69/69 conservation, equilibrium, threshold and
-ideal-gas checks. Raw evidence remains private in `/tmp/kero-seventh-459-488`
+ideal-gas checks. Raw evidence remains private in the separately retained artifact
 for this worktree and is uploaded by CI for durable retention.
 
 The run confirms ammonia dose, water-retention and temperature orderings;
@@ -143,7 +143,7 @@ scientific exponents. The blank is computed at 25 °C from water autoprotolysis
 and the existing H⁺/OH⁻ limiting ionic conductivities, with temperature,
 dissolved CO₂ and contamination explicitly out of scope. A repaired replay is
 pending CI. The failed evidence archive is
-`/mnt/storage/kerotakis-archive/chemistry-audit-sixth-195-218-ef4d11b8.tar.gz`
+`chemistry-audit-sixth-195-218-ef4d11b8.tar.gz`
 (SHA-256 `95f3a114b5c4f3d0f4642efda0848e856c0e1d481748e6a2e5b66098ce431975`).
 
 ## 2026-09-08 — audit closure and successor repairs
@@ -452,7 +452,7 @@ false claim that those paths are thermodynamically identical.
 The final fleet execution at merge revision `957cfce3` passed all 404 checks:
 66 for cases 195–218 and 338 execution/relation checks for all 240 cases
 219–458. Its complete 822-file artifact is retained as
-`/mnt/storage/kerotakis-archive/chemistry-audit-source-final-195-458-957cfce3.tar.gz`
+`chemistry-audit-source-final-195-458-957cfce3.tar.gz`
 with SHA-256
 `970f6f5e6ea59448ce247f2b0c748bd323eecbdc21fdc71af73521baa0f629f5`.
 
