@@ -75,7 +75,7 @@ below 2 GiB. Per-command replay waiting is recorded separately: its reported
 wall times include waiting and are not a performance benchmark. No unrelated
 processes, worktrees, branches or active build files were removed in this pass.
 
-Tested source and CLI artifacts were archived on `/mnt/storage`; six changed
+Tested source and CLI artifacts were archived in the corresponding archived CI evidence; six changed
 source members and the copied binary were hash-verified. Their
 [artifact receipt](components/tested-artifact-hashes.json) accompanies the
 [resource events](components/resource-events.json). The final archive completed

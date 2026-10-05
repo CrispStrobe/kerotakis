@@ -66,7 +66,7 @@ rate-boundary and layer-scope checks pass. Prediction SHA-256 remains
 [CLI comparison](inventory-routes/filter-assessment.json),
 [assessment](inventory-routes/assessment.txt) and all raw replay output are
 retained. The tested primary Git source archive and CLI binary were copied to
-`/mnt/storage`; ten changed source members and the binary copy were verified
+the separately retained artifact; ten changed source members and the binary copy were verified
 against their recorded hashes. The [artifact receipt](inventory-routes/tested-artifact-hashes.json)
 pins those files to the tested checkpoint.
 

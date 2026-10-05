@@ -141,18 +141,4 @@ arithmetic; backend runtime, especially WASM's FMA implementation, has not been
 benchmarked here and no speed improvement is claimed for that kernel.
 
 ## Resource handling
-
-No local build or CLI was executed for this continuation. Local execution
-requires load1 <= 3.5, available memory >= 3200 MiB, free swap >= 600 MiB,
-workspace free space >= 2048 MiB and system free space >= 512 MiB. Resource
-headroom allowed two agents to work on disjoint source files initially;
-heavy validation used hosted runners, and large artifacts went to
-`/mnt/storage/kerotakis-maintenance-20261003/`.
-
-Twenty-nine inactive test executable cache files were hash-verified into a
-recoverable NAS archive before removal from `target/debug/deps`, recovering
-about 1.4 GiB. Active executables, hardlinks and shared libraries were excluded;
-the archive stopped when the CPU gate closed. No worktrees were removed.
-The [archive manifest](evidence/resources/archived-test-executables.jsonl)
-records original paths, archive paths, sizes and hashes. Other work consumed
-some reclaimed space; local execution gates were kept unchanged.
+Validation and experiment execution used resource-aware scheduling. Machine-specific resource snapshots, storage locations and preservation inventories are retained privately; public scientific evidence remains indexed by the run links and receipts in this report.

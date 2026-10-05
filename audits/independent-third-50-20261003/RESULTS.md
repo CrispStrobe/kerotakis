@@ -63,8 +63,7 @@ Remaining work should use the same contracts rather than adding isolated example
 | Missing extensive properties | Curate dissolved ionic partial volumes and reaction heats with conditions; solid density and default heat capacities cannot supply the missing solution data. |
 
 ## Resources and preservation
-
-Two fresh agents were used for light design, review and edits when resource snapshots permitted it. Compilation and experiment replays used serial hosted jobs. Large executables and downloads remain on `/mnt/storage/kerotakis-maintenance-20261003`; the fast workspace contains source and small reviewable evidence. No local app/build execution was used in this round. Registered worktrees: 68; prunable: zero. Dirty or unmerged history was preserved. The prior inactive-build archive is separately hash-manifested in the thermal audit. `resources.json` records the local resource policy and final snapshot.
+Validation and experiment execution used resource-aware scheduling. Machine-specific resource snapshots, storage locations and preservation inventories are retained privately; public scientific evidence remains indexed by the run links and receipts in this report.
 
 ## Per-case baseline assessment
 

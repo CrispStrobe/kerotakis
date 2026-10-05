@@ -7,7 +7,7 @@ This implements the follow-up to [SYSTEMATIC.md](SYSTEMATIC.md). The original
 50 scripts and prediction hash remain unchanged. Baseline and targeted-fix
 results remain in `results/` and `after/`; this extension's raw CLI output is in
 `systematic/`. Resource/build logs and cleanup receipts live under
-`/mnt/storage/kerotakis-maintenance-20261002/`.
+the separately retained artifact.
 
 ## Changes and newly discovered causes
 
@@ -145,10 +145,4 @@ operator, phase, concentration or timescale. No runtime-speed improvement is
 claimed without profiling.
 
 ## Resource handling
-
-Three agents coordinated source/review work; only the root ran builds. Builds,
-native tests and CLI runs used one worker. Active libraries and CLI remain on
-`/mnt/volume1`; archives, logs and hash receipts are on `/mnt/storage`. Completed
-session-generated test executables were reclaimed when disk space became tight.
-Only clean, merged, inactive worktrees were consolidated; dirty or unmerged work
-and branches were retained.
+Validation and experiment execution used resource-aware scheduling. Machine-specific resource snapshots, storage locations and preservation inventories are retained privately; public scientific evidence remains indexed by the run links and receipts in this report.

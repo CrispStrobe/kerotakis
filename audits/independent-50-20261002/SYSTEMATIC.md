@@ -164,6 +164,6 @@ Use a small deterministic CI matrix and a larger scheduled matrix of bounded
 operation sequences. Record seeds, failing scripts, solver route and accounting
 residuals. Cap run time and workers; minimize a failure before expanding the
 matrix. This host should retain single-job builds and single-worker runs while
-memory is tight. Store bulk results/reference data on /mnt/storage and the active
-CLI/libraries on /mnt/volume1. Profile a release build before selecting performance
+memory is tight. Store bulk results/reference data on the archived CI artifact and the active
+CLI/libraries in an isolated build directory Profile a release build before selecting performance
 optimizations: this audit supports correctness work, not a runtime-speed claim.

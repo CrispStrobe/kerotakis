@@ -22,7 +22,7 @@ The full selection retains four exact source-preserving legacy exclusions alread
 
 Hosted run [37241135174](https://github.com/CrispStrobe/kerotakis/actions/runs/37241135174) passed at repair source `8cdab1f6ecd0b1132c4008014a5a0c5476429d17`: 1,865 Rust test executions, all 17 native/WASM/CLI stages and 198 source bindings. This includes every new frozen control, both raw-readback feature modes, the existing typed crystal state tests, and live precipitation, acid dissolution and settled repeated-equilibrium controls. The executable SHA-256 is `67797d56ced1531f44dce7252c272b34d19183a4d4571a076b9dcf67d3a634cb`.
 
-An independent artifact check passed all 432 bindings, including source content at the tested commit, stage logs, resolved dependency lock, executable and seven CLI control-family captures. The compact receipts are stored in [accepted](accepted); the complete hosted artifact is archived at `/mnt/storage/kerotakis-maintenance-20261004/crystals-full-37241135174`. No local build or application run was needed.
+An independent artifact check passed all 432 bindings, including source content at the tested commit, stage logs, resolved dependency lock, executable and seven CLI control-family captures. The compact receipts are stored in [accepted](accepted); the complete hosted artifact is retained with the corresponding CI run. No local build or application run was needed.
 
 The third-fifty replay [37242349555](https://github.com/CrispStrobe/kerotakis/actions/runs/37242349555) passed 1,065 checks against that exact executable, retaining all nine original qualifications. Its full-artifact integrity check independently passed 432 bindings. The increase over the earlier replay count comes from eight additional source bindings, not eight additional blind experiments.
 
@@ -38,6 +38,6 @@ Native analytical Ca/Sr/C balance correction still computes nonnegative remainde
 
 Unsupported surface/exchanger owners, unresolved/object mass, soap aggregates and nuclear ownership remain outside the strict molecular certificate. Authoritative compensated vessel/still migration remains open; see [MIGRATION.md](../compensated-amount-contracts-20261004/MIGRATION.md).
 
-All builds and app executions in this phase run on hosted CI. Large artifacts are stored on `/mnt/storage`; local checks are limited to source, hashes and metadata. A second agent performed a read-only source review without finding a concrete regression. Existing unmerged/dirty secondary worktrees remain preserved.
+All builds and app executions in this phase run on hosted CI. Large artifacts are retained separately from this source checkout; local checks are limited to source, hashes and metadata. A second agent performed a read-only source review without finding a concrete regression. Existing unmerged/dirty secondary worktrees remain preserved.
 
 The next native correction change is specified in [NEXT.md](../solid-solution-raw-guards-20261004/NEXT.md), including future forecasts to freeze independently, raw phase budgets and same-solve reporting witnesses.

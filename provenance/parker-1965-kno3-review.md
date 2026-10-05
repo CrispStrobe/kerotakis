@@ -13,7 +13,7 @@ No finite-concentration or temperature correction is asserted.
 Retrieved 2026-10-02 from
 https://nvlpubs.nist.gov/nistpubs/Legacy/NSRDS/nbsnsrds2.pdf
 SHA-256: 6e5a30917ba61a22e542766195b71e0b3cfd7463a0c6ae11b97ffdd1f8b88743. The original PDF is archived outside shipping paths under
-/mnt/storage/kerotakis-maintenance-20261002/.
+the archived CI artifact
 
 Rights review: this is a 1965 NBS employee-authored government report,
 published before the 1968 Standard Reference Data Act; the numerical slice

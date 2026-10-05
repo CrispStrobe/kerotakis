@@ -80,7 +80,7 @@ returned. [Resource events](coexistence/resource-events.json) retain the
 gates. No worktrees or unrelated processes were removed in this pass.
 
 Source and executable archives reside under
-`/mnt/storage/kerotakis-maintenance-20261002`; their sizes and verified hashes
+the separately retained artifact; their sizes and verified hashes
 are in the [archive receipt](coexistence/coexistence-artifact-hashes.json).
 The archived executable hash matches the new CLI and original replay runs.
 At archive completion (2026-10-02 17:05:07 UTC), load1 was 2.36, available

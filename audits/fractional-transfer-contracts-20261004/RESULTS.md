@@ -26,7 +26,7 @@ Corrected full hosted [37177775858](https://github.com/CrispStrobe/kerotakis/act
 
 Hosted [37178742247](https://github.com/CrispStrobe/kerotakis/actions/runs/37178742247) verified that full artifact with 337 source, log, dependency-lock, executable and raw-stream integrity checks, then replayed the original third fifty and passed its 970 checks. All nine existing scientific/protocol qualifications remain. The third-fifty workflow now performs this full-artifact verification for fractional-transfer artifacts and preserves the small full validation/integrity receipts with the replay. The checker uses the actual checkout directory, allowing this work to stay on the hosted runner.
 
-Small accepted receipts are retained here. Complete replay evidence is at `/mnt/storage/kerotakis-maintenance-20261004/fractional-third-37178742247/`. The accepted full build artifact remains in the linked full CI run; it was not brought onto the overloaded local host. Its receipt and all executable/log/raw-stream hashes were checked on the hosted replay runner. No local build or app execution was performed.
+Small accepted receipts are retained here. Complete replay evidence is retained with the corresponding archived CI evidence. The accepted full build artifact remains in the linked full CI run; it was not brought onto the overloaded local host. Its receipt and all executable/log/raw-stream hashes were checked on the hosted replay runner. No local build or app execution was performed.
 
 ## Corrected inspection concern and remaining scope
 
@@ -34,4 +34,4 @@ Surface-colour homogenization only clears localization metadata. Dye already liv
 
 This repair covers decant/mix donor splitting. Still cuts continue their previously established changing-donor policy; their near-ULP debit accuracy, other transfer paths and a persisted compensated quantity representation remain open. It does not establish solver-relative conservation for every physical coordinate.
 
-Two lightweight read-only agents reviewed donor arithmetic and surface-colour ownership while initial load and memory permitted it. Disk gates kept every build and CLI execution on hosted runners. Later local load rose above five and available memory fell below three GiB; no additional agents or local builds were started. Large artifacts remain on `/mnt/storage`.
+Two lightweight read-only agents reviewed donor arithmetic and surface-colour ownership while initial load and memory permitted it. Disk gates kept every build and CLI execution on hosted runners. Later local load rose above five and available memory fell below three GiB; no additional agents or local builds were started. Large artifacts are retained separately.

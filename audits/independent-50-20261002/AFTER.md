@@ -156,8 +156,8 @@ Final binary SHA-256: `a4821caad931edafbe8b3af5176c06eadfe7b573fae495f4b4c832d12
 Frozen prediction SHA-256: `0fd6e4831f5da264c892a5718b8619ae267388df0512fe54dab04fff30287064`.
 
 Builds used one job and CLI replays one worker. Scientific PDFs, logs, receipts
-and maintenance archives are under `/mnt/storage/kerotakis-maintenance-20261002/`;
-active build libraries and the CLI remain on `/mnt/volume1`.
+and maintenance archives are with the corresponding archived CI evidence;
+active build libraries and the CLI use an isolated build directory.
 The earlier cleanup removed two verified merged, clean worktrees, retained their
 branches and archived the submodule-bearing tree and metadata. It also removed
 an inactive reproducible target cache. Dirty and unmerged worktrees were retained;

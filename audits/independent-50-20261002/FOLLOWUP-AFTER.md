@@ -89,8 +89,8 @@ successful assessment. Numeric inventory is not filtered to satisfy the audit.
 Builds remain single-job and tests serial. Resource guards gate startup by
 available RAM, swap, load and disk space and terminate only their own process
 when RAM/swap or disk headroom becomes unsafe. Large receipts and verified
-archives stay under `/mnt/storage/kerotakis-maintenance-20261002/`; active
-compilation stays on `/mnt/volume1`. Completed reproducible test executables
+archives stay with the corresponding archived CI evidence; active
+compilation stays in the corresponding archived CI evidence. Completed reproducible test executables
 and a verified superseded library archive were removed to recover
 728,445,777 bytes of disk space; source, branches and active build outputs
 were preserved. Tested source and CLI artifacts were archived on storage with

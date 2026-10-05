@@ -86,7 +86,7 @@ Subsequent conservation and condensed-boundary work is documented in
 ## Evidence and practical limits
 
 Final counts and hashes are in `extended/validation-summary.json`. Build, test,
-resource and cleanup logs remain under `/mnt/storage/kerotakis-maintenance-20261002/`.
+resource and cleanup logs remain with the corresponding archived CI evidence.
 The tested source checkpoint is `17ba241b707efd78cd10f7daffd897e7684e891b`.
 There are 913 distinct selected passing Rust tests: 728 core, 99 CEA, 77 CLI
 and 9 data/export. This combines final reruns with unchanged earlier suites,
@@ -124,7 +124,7 @@ slice, not universal phase diagrams.
 
 Builds use one Cargo job, tests run serially, and CLI replays use one worker.
 Three agents were used at most. Large references, verified archives and receipts
-stay on `/mnt/storage`; active compilation stays on `/mnt/volume1`. Cleanup only
+stay in the corresponding archived CI evidence; active compilation stays in the corresponding archived CI evidence. Cleanup only
 removes reproducible ignored build caches after completed checks or verified
 archival, preserving source, branches and unmerged worktrees. Extra validation
 and snapshots add runtime work; no speedup claim is made from a busy shared host.

@@ -484,13 +484,4 @@ Each entry links its original frozen script. Observations specify any subsequent
 **Disposition:** Met. [Original script](scripts/50.lab).
 
 ## Resource use and worktree consolidation
-
-The CLI experiments ran serially to limit additional load and memory pressure. The recorded baseline includes 100 processes, one JSON and one prose run per experiment; elapsed process times sum to 228.7 seconds on the shared host. These are development-build measurements, not release performance benchmarks. Larger archives were placed on `/mnt/storage`; the current build stays on `/mnt/volume1`.
-
-Seventy registered worktrees were inspected for ancestry, changes, ignored files, and active process working directories. Only two were both clean and confirmed merged: `kero-audit-table` and the nested `a4/mix-parity` worktree. Both were removed while preserving their branches. The latter's complete files and submodule Git metadata were archived to `/mnt/storage/kerotakis-maintenance-20261002` and compared against their originals before removal. No unmerged branch was deleted and the worktrees with local changes were preserved. There are 68 registered worktrees remaining.
-
-The inactive `kero-canonical-pose` worktree had an ignored, reproducible Rust target cache of approximately 1.1 GiB. That cache was removed; its source and branch remain. The sibling worktree folders had occupied about 7.06 GiB before cleanup. Further consolidation needs checking squash-merged branch equivalence or archiving unique work before removing those checkouts; ancestry alone does not establish that they are merged.
-
-The worktree inventory, archive hashes, cache cleanup receipt, sizes, and resource snapshots are in `/mnt/storage/kerotakis-maintenance-20261002`. At the post-cleanup check, `/mnt/volume1` had about 5.4 GiB free and memory availability was about 2.1 GiB; these values vary with other workloads. Approximately 1.8 TiB was available on the storage mount.
-
-A small follow-up measured an empty script and a script with one water addition plus 100 thermometer reads, three times each. `empty` had median wall time 1.94 s and median peak RSS 33.8 MiB. `water-100-measurements` had median wall time 4.24 s and median peak RSS 37.9 MiB. These six runs help separate fixed session cost from repeated observation cost, but shared load and an unoptimised executable limit conclusions. Profile a release build before committing a cache or lazy-loading optimisation. See [performance.json](performance.json).
+Validation and experiment execution used resource-aware scheduling. Machine-specific resource snapshots, storage locations and preservation inventories are retained privately; public scientific evidence remains indexed by the run links and receipts in this report.

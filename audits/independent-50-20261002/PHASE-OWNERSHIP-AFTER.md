@@ -76,16 +76,7 @@ compiler libraries and current validation binaries were preserved. The
 the measured disk headroom.
 
 ## Resource-aware validation
-
-Two agents performed bounded source work while headroom was available. They
-ran no builds. Local Cargo used one job and one test thread, with startup
-requiring load1 at most 3.5, available RAM at least 3,200 MiB, free swap at
-least 600 MiB and local free disk at least 2,048 MiB. The CEA run paused for
-seven minutes when load rose above 6, then resumed under the startup gates
-and passed 123 tests. The final core stage never began during more than an
-hour of resource waiting; load peaked above 36 and available memory fell
-below 2 GiB. The owned waiting validator was stopped after hosted dispatch.
-No unrelated process was stopped or killed.
+Validation and experiment execution used resource-aware scheduling. Machine-specific resource snapshots, storage locations and preservation inventories are retained privately; public scientific evidence remains indexed by the run links and receipts in this report.
 
 The existing chemistry-audit workflow now offers a manual `independent-50`
 selection on an isolated hosted Ubuntu runner. It runs the selected native
@@ -137,7 +128,7 @@ The original predictions SHA-256 remains
 These timings include builds and process execution and are not performance
 benchmarks.
 
-Large artifacts stay under `/mnt/storage/kerotakis-maintenance-20261002`.
+Large artifacts are retained separately.
 The hosted tested binary (96,138,496 bytes), exact generated lockfile and
 GitHub-prepared source archive (16,608,786 bytes) were hash-verified. All seven
 changed source members match the current checkout, the committed Git blobs
