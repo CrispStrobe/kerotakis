@@ -44,3 +44,9 @@ AUD-02 must bound raw aqueous reconciliation using same-solve witnesses.
 NUM-01 needs a public API/save decision and one authoritative migrated owner;
 exporting Amount is only its prerequisite. See [the executable lane
 descriptions](chemistry-audit-next-lanes.md) for fixtures and completion criteria.
+
+## Delivery and native baseline
+
+[PR #756](https://github.com/CrispStrobe/kerotakis/pull/756) contains the Amount foundation; [PR #757](https://github.com/CrispStrobe/kerotakis/pull/757) contains stock ownership and depends on #756. Both await hosted gates. Merge the prerequisite first, retarget stock to main and require its main-based checks.
+
+Native budget/reconciliation expectations are separately frozen in [3746d277](https://github.com/CrispStrobe/kerotakis/tree/3746d277/audits/native-budget-contracts-20261007). [Baseline run 37704022496](https://github.com/CrispStrobe/kerotakis/actions/runs/37704022496) is queued. Its 18 new direct contracts plus seven unchanged raw guards do not yet constitute executed evidence or a repair. Production corrections are unchanged.
