@@ -1,5 +1,7 @@
 # Kerotakis
 
+For the latest branch-verified chemistry audit status and independently scoped next tasks, read [the checkpoint](docs/chemistry-audit-status-20261005.md) and [task lanes](docs/chemistry-audit-next-lanes.md). The checkpoint distinguishes accepted branch behavior from main/release availability.
+
 A virtual chemistry laboratory that computes real chemistry.
 
 Offline-first, cross-platform, no runtime Python. One simulation, rendered at
@@ -252,9 +254,9 @@ contract the future UI consumes).
 To build and look at the browser bench:
 
 ```bash
-tools/build-web.sh /tmp/site            # the whole payload, not just web/app/dist
-node tools/test-pwa.mjs /tmp/site       # installable, offline-first
-node tools/shot.mjs /tmp/site shots --locale de --clicks "Sandbox betreten"
+tools/build-web.sh build/site            # the whole payload, not just web/app/dist
+node tools/test-pwa.mjs build/site       # installable, offline-first
+node tools/shot.mjs build/site shots --locale de --clicks "Sandbox betreten"
 ```
 
 `tools/shot.mjs` drives the built site in headless Chrome at a tablet

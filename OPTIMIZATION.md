@@ -1,5 +1,7 @@
 # Kerotakis — Optimization tasks
 
+The latest correctness audit and performance limitations are summarized in [the checkpoint](docs/chemistry-audit-status-20261005.md). [PERF-01](docs/chemistry-audit-next-lanes.md#perf-01--measure-release-behavior-then-optimize-one-verified-hot-path) scopes a release measurement lane; existing OPT task numbers remain unchanged.
+
 > Finished work is not listed here. What landed, and what it taught us, is in
 > [HISTORY.md](HISTORY.md). Task numbers are never renumbered and never reused.
 
@@ -29,15 +31,14 @@ file. They exist because each was violated once and cost a day.
    shared checkout. Consolidate only by merge/fast-forward/cherry-pick or
    rebasing your own unpushed work. No `git reset` on shared branches, no
    force-push, no history rewriting — shared history is append-only.
-2. **Build with a private `CARGO_TARGET_DIR`.** The shell environment on
-   the primary machine redirects it to a backup volume that is not always
-   mounted, and a *shared* target dir can serve another worktree's rmeta
+2. **Build with a private `CARGO_TARGET_DIR`.** A *shared* target dir can
+   serve another worktree's rmeta
    under an identical fingerprint — observed as a compile error demanding
    an enum variant that existed only in a peer's in-progress sources.
    `export CARGO_TARGET_DIR="$(pwd)/.target-local"` (gitignored) is fine.
 3. **Main moves only by PR; the full gate is CI's job.** Enforced by
-   branch protection since 2026-08-25 (owner-directed, the day the box
-   near-OOMed running stacked local full gates on 7.6 GiB of RAM):
+   branch protection since 2026-08-25 (owner-directed after stacked full
+   gates exhausted build resources):
    five required checks (`Full preflight gate`, native tests ×2, wasm
    bench, browser demo), `enforce_admins` on, auto-merge enabled,
    merged branches auto-delete. The flow: branch → push →
@@ -133,9 +134,9 @@ Owner: kero1 (commits b77260f/18a0649 on its branch, there labelled
 parser, already landed). build.rs for kerotakis-phreeqc and sundials-sys
 adds CMAKE_*_COMPILER_LAUNCHER=ccache and the Ninja generator ONLY when
 the tools are on PATH; a machine without them builds exactly as before.
-The cache is system-wide and shared across projects: /etc/ccache.conf
-pins cache_dir=/mnt/volume1/ccache, max_size=5G; never set CCACHE_DIR in
-env or scripts. Acceptance: `ccache -s` evidence of a near-100%-hit
+Respect the operator-managed cache configuration; machine-specific locations
+and limits are maintained privately. Do not override shared cache settings in
+project scripts. Acceptance: `ccache -s` evidence of a near-100%-hit
 second clean build of kerotakis-phreeqc, plus one configure proving the
 no-ccache path still builds.
 

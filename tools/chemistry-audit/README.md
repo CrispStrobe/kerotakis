@@ -6,6 +6,10 @@ general models; it must never dispatch on an audit case or embed an expected
 result. Nothing in this directory is part of the shipped engine — these are
 evidence harnesses, and they are never imported by a crate or the web app.
 
+## Current handoff
+
+Read [the 2026-10-05 checkpoint](../../docs/chemistry-audit-status-20261005.md) and [next-step lanes](../../docs/chemistry-audit-next-lanes.md) for current accepted evidence, main/branch integration status and pickup instructions. The older fleet history below remains revision-specific.
+
 ## What is here
 
 | File | Role |
@@ -44,8 +48,8 @@ Fleet runners need a `kero` binary and a fresh output directory; they refuse to
 reuse one, so a replay can never overwrite an earlier run's raw evidence:
 
 ```sh
-python3 tools/chemistry-audit/run.py --binary target/debug/kero --out /tmp/fleet-1
-python3 tools/chemistry-audit/analyse.py /tmp/fleet-1 --out /tmp/fleet-1/law-checks.json
+python3 tools/chemistry-audit/run.py --binary target/debug/kero --out audit-results/fleet-1
+python3 tools/chemistry-audit/analyse.py audit-results/fleet-1 --out audit-results/fleet-1/law-checks.json
 ```
 
 The repository's `Chemistry audit fleets` workflow performs authoritative
@@ -63,11 +67,11 @@ aggregate gate. Its scripts still run sequentially inside each shard, and all
 authoritative execution remains on GitHub rather than the deployment VPS.
 
 Run 34200411053 established 66/66 for fleet 195–218. Its 78-file artifact is
-archived at `/mnt/storage/kerotakis-archive/chemistry-audit-sixth-195-218-36eb425c.tar.gz`
+archived at `chemistry-audit-sixth-195-218-36eb425c.tar.gz`
 (SHA-256 `5f19afcf35ffdf8047a43eaaf19429ec2c35fc24baaf315cbe37a6855f177459`).
 The same run's first 219–458 execution, including all failures used by the next
 repair, is an 821-file archive at
-`/mnt/storage/kerotakis-archive/chemistry-audit-source-219-458-36eb425c.tar.gz`
+`chemistry-audit-source-219-458-36eb425c.tar.gz`
 (SHA-256 `98cbfe7e1c82c57edd3f5868840df40da1d6e77eecf53a9d27bcfc1912a73808`).
 
 `basis_records.py` is a completed one-time migration and now refuses by design;
@@ -83,7 +87,7 @@ including copies of every file in this directory:
 
 | | |
 | --- | --- |
-| Path | `/mnt/storage/kerotakis-archive/chemistry-audit-evidence-20260906.tar.gz` |
+| Artifact | `chemistry-audit-evidence-20260906.tar.gz` |
 | SHA-256 | `9053802227ce2fc57ed74d65d6074a661f30affe8fdaf40e2d8e724be759bb28` |
 | Size | 3,120,920 bytes compressed; 30,289,920 bytes as tar |
 | Contents | 2,260 files (2,971 tar entries) under `tools/chemistry-audit/` |
@@ -104,17 +108,16 @@ This is evidence for declared model domains, not empirical certification.
 ### Verifying the archive
 
 ```sh
-sha256sum /mnt/storage/kerotakis-archive/chemistry-audit-evidence-20260906.tar.gz
+sha256sum chemistry-audit-evidence-20260906.tar.gz
 # 9053802227ce2fc57ed74d65d6074a661f30affe8fdaf40e2d8e724be759bb28
 
-tar -tzf /mnt/storage/kerotakis-archive/chemistry-audit-evidence-20260906.tar.gz \
+tar -tzf chemistry-audit-evidence-20260906.tar.gz \
   | grep -vc '/$'
 # 2260
 ```
 
-`/mnt/storage` is the project's CIFS share on the build host, so this is
-checkable from that host only; the SHA-256 above identifies the file wherever a
-copy is kept. The archive was produced by `git archive` from the commit named
+Physical archive locations are recorded privately. The SHA-256 above
+identifies the file wherever a copy is obtained. The archive was produced by `git archive` from the commit named
 above, so it can be rebuilt byte-for-byte from Git as long as that branch
 exists — it was not deleted:
 

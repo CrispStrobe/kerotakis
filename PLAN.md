@@ -24,6 +24,10 @@ appearances or changes scientific behavior.
 > Items marked **wasm ✓** were compile-tested locally against
 > `wasm32-unknown-unknown` on that date, not read off a README.
 
+## Current systematic chemistry checkpoint (2026-10-05)
+
+Read [the accepted-state checkpoint](docs/chemistry-audit-status-20261005.md) and [actionable task lanes](docs/chemistry-audit-next-lanes.md) before resuming audit-derived work. The accepted engine is on the audit branch, not yet integrated into main. AUD-00 scopes that integration; the remaining lanes specify dependencies, controls and completion evidence. Existing task IDs below retain their meanings.
+
 ## How these files are used
 
 - **PLAN.md** — intent and open work: the thesis, the architecture, the build
@@ -3200,14 +3204,10 @@ that raised it. Nothing below is a commitment to an order.
   `native_startup_tests::successful_native_startup_retains_aqueous_computation_and_provenance`
   and `unsupported_ionic::unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute`
   — assert the boundary the product actually has, and say so in a comment.
-- **19 redundant worktrees (re-audited 2026-09-13)** — the triage list is at
-  `/mnt/volume1/tmp-overflow/triage-prune-list-20260907.txt`. None was deleted:
-  main absorbed that work through re-authored PRs rather than cherry-picks, so
-  no branch HEAD is an ancestor of `origin/main` and every branch still differs
-  on at least one touched file. All 19 are now clean, inactive and without a
-  recent non-build write, but each still has a patch-unique commit, so none was
-  deleted. `docs/WORKTREE-AUDIT-20260913.md` records the gate and grouped
-  counts; semantic comparison with the named merged PR remains mandatory.
+- **Development-history preservation** — operational worktree inventories and
+  local triage are maintained privately. Re-authored merges can leave patches
+  unique by ancestry or byte comparison; semantic equivalence and preservation
+  of authored work must be established before cleanup.
 
 ### Scoped tasks, 2026-09-16
 
