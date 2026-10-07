@@ -1,0 +1,21 @@
+{
+  "accepted_source_commit": "8cdab1f6ecd0b1132c4008014a5a0c5476429d17",
+  "prerequisite_pr": 756,
+  "source_mapping": {
+    "stock.rs": "accepted implementation including conservative refusal and opt-in compensated ownership",
+    "bench.rs": "Only stock snapshot omission predicate, three refusal call-site vessel arguments and refusal adapter are ported."
+  },
+  "adaptation": "Tests retain original assertion bodies and imports; rustfmt only. Original bytes preserved in adjacent .rs.txt snapshots.",
+  "sha256": {
+    "crates/kerotakis-core/src/stock.rs": "4f9cf8f403aa694e6e9daceb7154266d863bbff5fd0639782c76eb63b0a92af0",
+    "crates/kerotakis-core/tests/stock_precision_contracts.rs": "3c656efdca366b64c133ce981a00f98b506c76ae8c651e827d48447ec6eb6d08",
+    "crates/kerotakis-core/tests/compensated_stock_contracts.rs": "37b2d8b9910992e0af42ae5a1c8496a6ed5d425bf09dcf5c385a9261c57d90f8",
+    "crates/kerotakis-core/tests/compensated_stock_precision_boundaries.rs": "833e09b5e89922e6bf3fe0441bbbcdb1ce35919e72119b656abac3bab463b0bf"
+  },
+  "original_test_sha256": {
+    "crates/kerotakis-core/tests/stock_precision_contracts.rs": "3c656efdca366b64c133ce981a00f98b506c76ae8c651e827d48447ec6eb6d08",
+    "crates/kerotakis-core/tests/compensated_stock_contracts.rs": "1abf73173c041ac2eb7bcc56613454c8fed52bb15855e3e2bd87518e906d490a",
+    "crates/kerotakis-core/tests/compensated_stock_precision_boundaries.rs": "833e09b5e89922e6bf3fe0441bbbcdb1ce35919e72119b656abac3bab463b0bf"
+  },
+  "validation": "Hosted integration gates pending; source-port preparation only."
+}

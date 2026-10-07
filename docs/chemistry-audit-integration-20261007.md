@@ -16,6 +16,7 @@ repairs without their foundations.
 | Order | Scope and original source | Prerequisites and acceptance |
 | --- | --- | --- |
 | 1 | Amount foundation: `core/src/amount.rs`; original introduction `fe574d02`, frozen contracts `9b32b696` | Main-based primitive and public-module export only. Preserve original test bytes and execute adapted imports. [Port receipt](../audits/integration-20261007/amount-port.json); hosted validation pending. |
+| 1b | Compensated stock: `core/src/stock.rs` and minimal Bench adapters | Depends on PR #756. Carries 25 frozen stock contracts; [port mapping](../audits/integration-20261007/stock-port.json) and [ownership decision](chemistry-amount-ownership-decision-20261007.md). Hosted validation pending. |
 | 2 | Thermodynamic kernels: `kerotakis-thermo/src/{batch,pack,unifac,vle}.rs` and continuity/still/trace controls | Inspect changed diagnostics/error APIs against existing core callers. Carry all prerequisite positive and refusal controls; no core still rewrite until these APIs pass. |
 | 3 | Equilibrium/thermal kernels: `kerotakis-cea/src/{gibbs,thermal,carbonate,closed}.rs` | Inspect callers of thermal and closed-gas APIs. Carry heat ceiling, vented products, finite boundaries and closed-gas controls together. |
 | 4 | Core ownership and transactions: `core/src/{delta,required_conservation,stock,bench,solve,vessel}.rs` | Depends on Amount and the kernel APIs actually used. Transfer, spill, extraction, receiver/donor acceptance, safety and titration share ownership seams; split only at a compiling conservative boundary. |
