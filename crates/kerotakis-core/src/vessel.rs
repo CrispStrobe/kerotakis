@@ -1704,7 +1704,9 @@ impl Vessel {
                 remaining -= take;
             }
         }
-        self.contents.retain(|p| p.moles.0 > 1e-15);
+        // Positive trace portions remain owned matter, including species that
+        // this withdrawal did not touch. Remove only exhausted portions.
+        self.contents.retain(|p| p.moles.0 > 0.0);
         Moles(moles.0 - remaining)
     }
 
@@ -1729,7 +1731,9 @@ impl Vessel {
                 break;
             }
         }
-        self.contents.retain(|p| p.moles.0 > 1e-15);
+        // A phase-specific debit must also preserve positive portions in all
+        // other species and phases, however small their scalar amount is.
+        self.contents.retain(|p| p.moles.0 > 0.0);
         Moles(moles.0 - remaining)
     }
 
