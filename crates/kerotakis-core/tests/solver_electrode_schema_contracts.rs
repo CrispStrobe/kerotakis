@@ -67,6 +67,7 @@ fn malformed() -> Vec<ElectrodeState> {
         moles: 0.1,
         thickness_m: None,
         coverage_fraction: None,
+        effect: None,
         electrical_resistivity_ohm_m: None,
     });
     rows.push(e);

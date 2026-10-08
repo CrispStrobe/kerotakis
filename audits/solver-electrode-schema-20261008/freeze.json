@@ -1,7 +1,10 @@
 {
   "parent": "0c64efc38579401b1a32b17c834d72aef147eeb1",
   "fixture": "crates/kerotakis-core/tests/solver_electrode_schema_contracts.rs",
-  "fixture_sha256": "53bb14fcfd8ce8ce2e7943dbca36a76a32d9071c3109cdcd748f745b30ec8fe1",
+  "fixture_sha256": "e9b7aacc9ca79ea0941bfdf722f7d718ef64d155c4cbd00f402a69cd206433fa",
   "expected_test_functions": 8,
-  "scope": "Existing public APIs: canonical electrode validation, unique electrode labels, snapshot/direct/MIX atomic refusal and supported positive controls. Frozen before schema production edits and execution; source-informed, not an independent chemistry forecast."
+  "scope": "Existing public APIs: canonical electrode validation, unique electrode labels, snapshot/direct/MIX atomic refusal and supported positive controls. Frozen before schema production edits and execution; source-informed, not an independent chemistry forecast.",
+  "original_fixture_sha256": "53bb14fcfd8ce8ce2e7943dbca36a76a32d9071c3109cdcd748f745b30ec8fe1",
+  "original_freeze": "fbe0ca0b5698332b9586985b879fe639acf2c2e7",
+  "pre_execution_correction": "Explicitly initialize existing optional deposit effect field; source review caught missing struct field before production edits or execution. Expectations and eight-function count unchanged."
 }
