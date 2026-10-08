@@ -1,0 +1,82 @@
+{
+  "lane": "snapshot",
+  "harness": "66c7129c22048ac12a1e2dfc4d579937048cea66",
+  "manifest_sha256": "25c6f93bca9dcf68b24f3f16ce7e745d245efc30040f6b3ddf91c3e485278c16",
+  "sources": [
+    {
+      "label": "baseline",
+      "source": "5aa4757e74120ded09ee2c826c158e2df6ce9b39",
+      "passed": [
+        "unbalanced_snapshot_restores_all_fields",
+        "unchanged_snapshot_is_empty_and_preserves_state"
+      ],
+      "failed": [
+        "candidate_identity_cannot_replace_another_vessel",
+        "complete_snapshot_has_no_uniform_inventory_scaling",
+        "complete_snapshot_preserves_solver_boundary_state",
+        "derived_only_proposal_commits_complete_state",
+        "edited_public_terms_refuse_instead_of_disagreeing_with_snapshot",
+        "invalid_candidate_bulk_never_commits",
+        "invalid_candidate_derived_solution_never_commits",
+        "invalid_candidate_pressure_and_boundary_never_commit",
+        "invalid_candidate_provenance_lots_never_commit",
+        "invalid_candidate_temperature_never_commits",
+        "invalid_candidate_transient_amounts_never_commit",
+        "stale_material_change_refuses_without_overwriting",
+        "stale_transient_narration_refuses_without_overwriting",
+        "tiny_addition_and_removal_survive_snapshot_application"
+      ],
+      "evidence_sha256": {
+        "Cargo.lock": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+        "controls-exit.txt": "39b8dc3fc8b44765c8e6f1adee04c5b465e555ab791cc42d0d9e810d5b64297c",
+        "controls.log": "fcead2a5d50c334770f1f206c4fc3a9532eab03bd32706fd1afb80af3c8ce9f6",
+        "fixture-sha256.txt": "5765c2fa6871488370d8add2eead5d1c6207087d9782d34085e3b869db6f5f8b",
+        "generated-lock-sha256.txt": "38423fbf7885574f98ac58f1767fc7a186db189e1d2fce61eca28f5f0d14b2e4",
+        "inherited-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "inherited.log": "25c7016b249f697b11513339fcf122268d7622854223484201d003b54eb7add9",
+        "source-commit.txt": "48fffdce22c7c8e6fd15cbc0e5076c9e86a29177175db8f674a25bf17ab12f0a",
+        "source-tree.txt": "7374bab833b9e8217f45cf653bef0dc1ef70bd6c31b65ae7c850fcffe9059a1b",
+        "status-before.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "submodules.txt": "bfdd1930cec157acbba4c8da9aec06670162f5a9a25c1a05d4f17476e6c4468e"
+      }
+    },
+    {
+      "label": "repair",
+      "source": "a51982b4144424585de36e90df2be277216525ed",
+      "passed": [
+        "candidate_identity_cannot_replace_another_vessel",
+        "complete_snapshot_has_no_uniform_inventory_scaling",
+        "complete_snapshot_preserves_solver_boundary_state",
+        "derived_only_proposal_commits_complete_state",
+        "edited_public_terms_refuse_instead_of_disagreeing_with_snapshot",
+        "invalid_candidate_bulk_never_commits",
+        "invalid_candidate_derived_solution_never_commits",
+        "invalid_candidate_pressure_and_boundary_never_commit",
+        "invalid_candidate_provenance_lots_never_commit",
+        "invalid_candidate_temperature_never_commits",
+        "invalid_candidate_transient_amounts_never_commit",
+        "stale_material_change_refuses_without_overwriting",
+        "stale_transient_narration_refuses_without_overwriting",
+        "tiny_addition_and_removal_survive_snapshot_application",
+        "unbalanced_snapshot_restores_all_fields",
+        "unchanged_snapshot_is_empty_and_preserves_state"
+      ],
+      "failed": [],
+      "evidence_sha256": {
+        "Cargo.lock": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+        "controls-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "controls.log": "b15b50aae16e2ed6ad21ab7b28b518516e7b8b14764b7485a0cfef63db4d511a",
+        "fixture-sha256.txt": "5765c2fa6871488370d8add2eead5d1c6207087d9782d34085e3b869db6f5f8b",
+        "generated-lock-sha256.txt": "38423fbf7885574f98ac58f1767fc7a186db189e1d2fce61eca28f5f0d14b2e4",
+        "inherited-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "inherited.log": "0282e9e453534ef5c8fcbf9b56f9dbc1b1c588b65bcc5366e4e1a2a1a29d791f",
+        "source-commit.txt": "e4581920a87265fabab44bba35b00ed424c565b24a15451347d37924e0b44ea9",
+        "source-tree.txt": "d14dbc8ed28b93a4af16a26a56e5e770e0d9d9d25ab49d3da74711b7f6feb52d",
+        "status-before.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "submodules.txt": "bfdd1930cec157acbba4c8da9aec06670162f5a9a25c1a05d4f17476e6c4468e"
+      }
+    }
+  ],
+  "generated_lock_sha256": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+  "accepted_bounded_diagnostic": true
+}
