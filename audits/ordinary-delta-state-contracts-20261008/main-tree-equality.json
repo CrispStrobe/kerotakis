@@ -1,0 +1,8 @@
+{
+  "accepted_replay_source": "26cd8fc7d3554ddadaeebeb2750b3a92c4eadf54",
+  "tested_pr_head": "dec6b593d50fabdab2b45db855840e4cdd646673",
+  "merged_main": "18dc39873277971a6270089ac1173c40cbe51e3b",
+  "complete_tree": "3a18dfefb521905d4fc2d4f46bf4cb4ea4ae52c2",
+  "complete_tree_equal": true,
+  "scope": "The accepted 164-process corrected CLI replay covers this exact merged main tree. Original candidate manifests remain unchanged; no historical full-audit or performance acceptance."
+}

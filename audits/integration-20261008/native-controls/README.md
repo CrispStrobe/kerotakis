@@ -31,4 +31,6 @@ The initial #771 preflight exposed five tracer validity failures. [The repaired 
 
 [The integrated #771 plan](pr771-dec6b593-plan.json) binds final head `dec6b593` after actual main ancestry was merged. All fifteen fixture hashes and 151 functions are unchanged from `26cd8fc7`, but fresh exact-head native logs and required gates remain necessary. The existing `pr771-mac.json` receipt remains pinned to its original source.
 
-[Fresh #771 Mac review](pr771-dec6-mac.json) now verifies all 151 functions on `dec6b593`. Mac native and WebAssembly gates pass; remaining gates are pending. [The separate native-host failure](pr771-dec6-native-host-first-failure.json) occurred during SUNDIALS download before compilation. Preserve it and retry that job on the same head after the containing workflow finishes.
+[Fresh #771 Mac review](pr771-dec6-mac.json) now verifies all 151 functions on `dec6b593`. All five required gates now pass. [The separate native-host failure](pr771-dec6-native-host-first-failure.json) occurred during SUNDIALS download before compilation; [its same-head retry passed](pr771-dec6-native-host-retry.json), and #771 is merged. The original failure remains unchanged.
+
+Next plans: [#772 native151](pr772-plan.json) at `8037f069` and [#773 native204](pr773-plan.json) at `fb50bebc`. Both include actual merged main ancestry; their new gates remain pending. Create separately named plans after any later source-head change.

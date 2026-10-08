@@ -1,0 +1,14 @@
+{
+  "pr": 771,
+  "head": "dec6b593d50fabdab2b45db855840e4cdd646673",
+  "job": 113560869340,
+  "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37824749685/job/113560869340",
+  "conclusion": "success",
+  "log_sha256": "f05b02b72de0e3acf27fb5ac9e841b2859bd30f071f09a4569346af18833d9b4",
+  "job_metadata_sha256": "91c847b23339af943457f2eef6c1f8629830fde03b7204a6752392992ae088bf",
+  "tested_checkout": "1092f69f58ddf06c2e5fe0dbacde9dabade3be4b",
+  "tested_tree": "3a18dfefb521905d4fc2d4f46bf4cb4ea4ae52c2",
+  "fetch_and_cargo_check_passed": true,
+  "original_failure_receipt": "pr771-dec6-native-host-first-failure.json",
+  "scope": "Same-head retry resolves the preserved transient dependency download failure; separate native151 and required gates establish integration acceptance."
+}
