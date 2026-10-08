@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "production_base": "5d21e8bd9ebdf5201cef2de30d9aa1ca23b087e6",
+  "scope": "33 pre-repair raw and allocation controls; only two fixture hooks changed to preserved copies with external boundary reset. No production behavior edits.",
+  "source_before_sha256": "b71355bc7781039e16a04ba5682b999ae716351adbe02d06d3e88264e79b476d",
+  "source_with_hooks_sha256": "365943e6ba34dbb0935267e20b63b8139cc825c1cefc7acc68c8c4bf4e5e1131",
+  "expectations": "Frozen original assertions unchanged; corrected closed boundary removes atmospheric CO2 inherited by Vessel::new. Outcome pending hosted baseline."
+}
