@@ -1,0 +1,72 @@
+{
+  "lane": "nuclide",
+  "harness": "ec003cc9fc4ae6626b313f7f5a97faf2f82287ed",
+  "manifest_sha256": "952a37043436a24dd19041ad178ed3c9b9fa0772d7a3c3333b6abfa775607331",
+  "sources": [
+    {
+      "label": "baseline",
+      "source": "0028f3a75df0daa92420a28fa8a8bd6bd238de97",
+      "passed": [
+        "duplicate_and_alias_collisions_cannot_silently_overwrite",
+        "empty_inventory_preserves_existing_json_object",
+        "malformed_or_noncanonical_inventory_keys_are_rejected",
+        "malformed_owned_keys_cannot_be_serialized_as_valid_inventory",
+        "nonfinite_and_negative_inventory_values_refuse_serialization",
+        "null_nonfinite_overflow_and_negative_json_values_are_rejected",
+        "ordinary_nuclide_object_representation_is_unchanged"
+      ],
+      "failed": [
+        "ground_state_inventory_uses_canonical_key_and_roundtrips",
+        "metastable_and_ground_state_remain_distinct",
+        "vessel_with_owned_nuclides_has_json_roundtrip",
+        "zero_and_smallest_positive_amounts_roundtrip_without_pruning"
+      ],
+      "evidence_sha256": {
+        "Cargo.lock": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+        "controls-exit.txt": "39b8dc3fc8b44765c8e6f1adee04c5b465e555ab791cc42d0d9e810d5b64297c",
+        "controls.log": "473594c3b59b41fdecba79a2a42bc9b65969eb21e15d84f6ac9e5d7edc306195",
+        "fixture-sha256.txt": "e77369c10f4872c50872221cdf0ecb82b3511749cd61cac4fc70698cdeaa3503",
+        "generated-lock-sha256.txt": "38423fbf7885574f98ac58f1767fc7a186db189e1d2fce61eca28f5f0d14b2e4",
+        "inherited-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "inherited.log": "3c8b43fdf3f7e6c8544543893eba95595894c66decc035232216b6dda8d344c8",
+        "source-commit.txt": "126990af531fbcbb04ea8342eab0fa8bc333aea35d85c10eacb0dc30fbff24a8",
+        "source-tree.txt": "070eac1a4ddbaea2e0669417d9b85d568ce2bd8f1052e01f1a39a4d77582ecbe",
+        "status-before.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "submodules.txt": "bfdd1930cec157acbba4c8da9aec06670162f5a9a25c1a05d4f17476e6c4468e"
+      }
+    },
+    {
+      "label": "repair",
+      "source": "b42732c17f1c2afc78c7e45c9ae0bfbc7603444a",
+      "passed": [
+        "duplicate_and_alias_collisions_cannot_silently_overwrite",
+        "empty_inventory_preserves_existing_json_object",
+        "ground_state_inventory_uses_canonical_key_and_roundtrips",
+        "malformed_or_noncanonical_inventory_keys_are_rejected",
+        "malformed_owned_keys_cannot_be_serialized_as_valid_inventory",
+        "metastable_and_ground_state_remain_distinct",
+        "nonfinite_and_negative_inventory_values_refuse_serialization",
+        "null_nonfinite_overflow_and_negative_json_values_are_rejected",
+        "ordinary_nuclide_object_representation_is_unchanged",
+        "vessel_with_owned_nuclides_has_json_roundtrip",
+        "zero_and_smallest_positive_amounts_roundtrip_without_pruning"
+      ],
+      "failed": [],
+      "evidence_sha256": {
+        "Cargo.lock": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+        "controls-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "controls.log": "c5ff198dd3a069404af5435755d311819e8cd49d7cea62de96e1e2d33995da77",
+        "fixture-sha256.txt": "e77369c10f4872c50872221cdf0ecb82b3511749cd61cac4fc70698cdeaa3503",
+        "generated-lock-sha256.txt": "38423fbf7885574f98ac58f1767fc7a186db189e1d2fce61eca28f5f0d14b2e4",
+        "inherited-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "inherited.log": "c45a1010ce5ffeb0757032da7023d136413aab3200890bc18e97d82f29cf282e",
+        "source-commit.txt": "a1566a838313eab9902ec77fd94892812b038c314870739a834471c00cb17a29",
+        "source-tree.txt": "b08419a86e9ba11e9d1783f0e7d84ea277f0212041a8a1300edaef762bf50ab1",
+        "status-before.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "submodules.txt": "bfdd1930cec157acbba4c8da9aec06670162f5a9a25c1a05d4f17476e6c4468e"
+      }
+    }
+  ],
+  "generated_lock_sha256": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+  "accepted_bounded_diagnostic": true
+}
