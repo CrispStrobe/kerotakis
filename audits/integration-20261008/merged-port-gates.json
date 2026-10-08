@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "main_after_ports": "cb741925827ae293cf0976a08ff4b35cb7de074c",
+  "main_after_ports": "7f5159a3832b70908fa8216c2f5fe92c4daf9796",
   "ports": [
     {
       "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/757",
@@ -221,6 +221,138 @@
         }
       ],
       "remaining_checks": "Some nonrequired fleet jobs remain queued; no observed failure at merge. Required repository protection is non-strict; combined main needs its own validation."
+    },
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/763",
+      "tested_head": "d30f0c4cd7ba24f06004f062ebdb26bf179ec212",
+      "merge_commit": "8eb1e75c0f72a4b74af0cdb6611a965ab81d8215",
+      "merged_at": "2026-10-08T12:06:47Z",
+      "required_checks": [
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37759288683/job/113251495396",
+          "started_at": "2026-10-08T11:11:15Z",
+          "completed_at": "2026-10-08T11:34:41Z"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37759288683/job/113251495421",
+          "started_at": "2026-10-08T11:19:28Z",
+          "completed_at": "2026-10-08T11:40:05Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37759288683/job/113251495472",
+          "started_at": "2026-10-08T10:30:10Z",
+          "completed_at": "2026-10-08T10:56:07Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37759288683/job/113251495592",
+          "started_at": "2026-10-08T11:26:09Z",
+          "completed_at": "2026-10-08T11:31:38Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37759288683/job/113251495439",
+          "started_at": "2026-10-08T11:26:04Z",
+          "completed_at": "2026-10-08T11:39:02Z"
+        }
+      ],
+      "all_reported_checks_success_or_skipped": true
+    },
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/764",
+      "tested_head": "ab644c6c818ce3bd4be2ec50c4f9fde649d0e244",
+      "merge_commit": "4206b0ed2f90e37cff1cb99f70862895dfd5bc32",
+      "merged_at": "2026-10-08T12:06:52Z",
+      "required_checks": [
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37759284328/job/113251479179",
+          "started_at": "2026-10-08T10:43:30Z",
+          "completed_at": "2026-10-08T11:07:55Z"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37759284328/job/113251479227",
+          "started_at": "2026-10-08T11:00:21Z",
+          "completed_at": "2026-10-08T11:20:50Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37759284328/job/113251479118",
+          "started_at": "2026-10-08T10:12:53Z",
+          "completed_at": "2026-10-08T10:38:58Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37759284328/job/113251479059",
+          "started_at": "2026-10-08T10:35:26Z",
+          "completed_at": "2026-10-08T10:39:48Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37759284328/job/113251479501",
+          "started_at": "2026-10-08T11:31:39Z",
+          "completed_at": "2026-10-08T11:41:57Z"
+        }
+      ],
+      "all_reported_checks_success_or_skipped": true
+    },
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/765",
+      "tested_head": "3d2c6b3a744cf3993ddcc036b135371fa8d6e1d2",
+      "merge_commit": "7f5159a3832b70908fa8216c2f5fe92c4daf9796",
+      "merged_at": "2026-10-08T12:06:56Z",
+      "required_checks": [
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37759294006/job/113251510213",
+          "started_at": "2026-10-08T11:19:27Z",
+          "completed_at": "2026-10-08T11:43:46Z"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37759294006/job/113251510400",
+          "started_at": "2026-10-08T11:24:09Z",
+          "completed_at": "2026-10-08T11:36:53Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37759294006/job/113251510246",
+          "started_at": "2026-10-08T10:32:42Z",
+          "completed_at": "2026-10-08T10:57:15Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37759294006/job/113251510626",
+          "started_at": "2026-10-08T11:24:11Z",
+          "completed_at": "2026-10-08T11:29:29Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37759294006/job/113251510231",
+          "started_at": "2026-10-08T11:21:00Z",
+          "completed_at": "2026-10-08T11:34:08Z"
+        }
+      ],
+      "all_reported_checks_success_or_skipped": true
     }
   ],
   "scope": "Independent matching-head required PR gates. Not a full integrated-source audit/replay or performance acceptance.",
