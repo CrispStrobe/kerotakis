@@ -10,7 +10,7 @@ Each lane must produce independently declared expectations, a preserved failing 
 
 Use existing hosted validation in `.github/workflows/chemistry-audit.yml`; bind replay to a successful `validated_run` and its exact `validated_commit`. Run only the checks needed for the change, then required integration gates. Do not substitute the selected 17-stage audit for the repository's full required PR gates. One workflow concurrency group cancels older runs on the same ref: wait for completion before dispatching a dependent replay. Private machine policy controls local execution and agent count.
 
-## Current priority order — 2026-10-08 14:16 UTC
+## Current priority order — 2026-10-08 14:15 UTC
 
 Use [the integration checkpoint](../audits/integration-20261008/STATUS.md) for actual delivered heads and reviewed receipts; the earlier dated checkpoint is historical. The measured startup cache is merged with bounded single-host gains. Additional optimization is lower priority than the remaining ownership and transaction seams.
 
