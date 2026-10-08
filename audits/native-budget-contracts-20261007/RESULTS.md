@@ -23,7 +23,7 @@ The raw cap scales to the aqueous/remainder comparison; the phase cap scales
 to available/final owned totals. Zero raw aqueous with a positive remainder
 refuses even when the remainder is small.
 
-Supplemental baseline and repair validation are pending. Live native
+The initial and expanded pre-repair baselines are recorded below; repair validation remains pending. Live native
 precipitation/dissolution/repeated equilibrium and native/stack rollback must
 also pass before claiming this bounded repair accepted.
 
@@ -38,3 +38,9 @@ Vendored `print.cpp:punch_totals` reads aqueous master totals; `model.cpp` build
 Strict carbon validation exposed a source-informed fixture omission: the original seven raw guard contracts did not supply the `C(-4)` column that direct and MIX builders request on the WATEQ4F route. The original file is preserved unchanged. A separate corrected harness adds only that zero column, with all seven assertion bodies unchanged; [its adaptation receipt](raw-harness-adaptation.json) binds both forms. No original forecasts were regenerated and no test identity is recognized by production.
 
 Production refinements and the complete-column harness await hosted native and live precipitation/dissolution/repeat validation. No accepted repair claim is made yet.
+
+## Latest source and pending gates
+
+The current production repair is [9140ee58](https://github.com/CrispStrobe/kerotakis/commit/9140ee58). The [50 boundary contracts](README.md) include external-phase validation and complete native/stack refusal preservation. [Native/live validation 37730149327](https://github.com/CrispStrobe/kerotakis/actions/runs/37730149327) is queued. Refinement baseline [37729480945](https://github.com/CrispStrobe/kerotakis/actions/runs/37729480945) and external-phase baseline [37730066599](https://github.com/CrispStrobe/kerotakis/actions/runs/37730066599) are queued separately. No results are inferred from queue state.
+
+The earlier unstarted repair dispatches 37729120125 and 37729728076 were cancelled and superseded by the complete native/live scope. They are not acceptance evidence. [The source inventory](repair-source-9140.json) binds the production module and frozen/adapted contracts; original receipt files remain unchanged. This repair branch is not yet integrated into main or released.

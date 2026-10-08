@@ -1,10 +1,11 @@
 # Native phase budget and reconciliation freeze, 2026-10-07
 
-These 18 source-informed tests exercise the production
+These 18 initial source-informed tests exercise the production
 `PhreeqcEquilibrator::apply_balance_corrections` seam directly without running
-a PHREEQC solve. This is a frozen baseline proposal, not an implemented repair
-or a captured failure report. [The receipt](freeze.json) binds the contracts.
-The only source edit is a `cfg(test)` module inclusion.
+a PHREEQC solve. At freeze commit `3746d277`, the only source edit was a
+`cfg(test)` module inclusion. [The immutable receipt](freeze.json) binds those
+contracts. [RESULTS.md](RESULTS.md) records the executed failing baselines and
+subsequent repair work; freezing expectations does not establish acceptance.
 
 Independent budget: initial aqueous Ca 0.002 and C 0.002 mol plus typed
 CaCO3 0.003 and SrCO3 0.004 mol. Available Ca/Sr/C is 0.005/0.004/0.009.
@@ -19,15 +20,23 @@ aqueous matter and apparently inclusive totals without a witness to refuse.
 The supported exact controls use a 32-epsilon arithmetic assertion bound;
 this is not a selected-output or native solver convergence allowance.
 
-Run the existing hosted `pure-still-contracts` dispatch with
-`focused_scope=crystal-readback` on this branch. Its existing substring filter
-includes this new module and the seven unchanged original raw guards.
-Preserve failures as baseline evidence before production edits. A compile or
-harness failure is not a demonstrated engine failure.
+The current suite has 50 boundary test functions: 18 initial allocation
+controls, eight numerical controls, nine cancellation/carbon/boundary controls,
+eight external-phase/refusal controls and seven original raw guards through
+the explicitly corrected complete-column harness. The original seven-test
+source is preserved unchanged; see [the adaptation](raw-harness-adaptation.json).
+These are source-informed boundary contracts, not fifty blind CLI experiments.
 
-Still required before the repair: aggregate overflow and boundary-budget
-fixtures; a justified separate selected-output/arithmetic/solver allowance;
-external-carbon controls; witnessed inclusive representation if supported;
-live precipitation/dissolution/repeat tests; full-state refusal/rollback
-through native and stack callers. Do not claim full H/O/charge, speciation,
-heat accuracy or general solid-solution chemistry.
+Hosted `pure-still-contracts` with `focused_scope=crystal-readback` runs the
+boundary contracts without a native engine. `focused_scope=native-budget`
+runs the native library tests plus existing live crystal precipitation,
+dissolution and repeated-equilibrium controls. Baseline, harness failure and
+accepted repair outcomes must be reported separately.
+
+The production guard at `9140ee58` checks nonduplicated Ca/Sr/C owners and
+finite nonnegative gas/phase/aqueous values, uses compensated owner sums,
+bounds raw reconciliation and preserves arithmetic-only trace discrepancies.
+Only a CO2 external boundary opens carbon. Interface co-ownership and
+unwitnessed inclusive reporting refuse. Hosted validation and complete-state
+refusal controls remain pending; do not claim H/O/charge, speciation, heat
+accuracy or general solid-solution chemistry.
