@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37737808316",
+  "source_commit": "30a0e2b379d3fc9ce7679dca9713f7f3eae2dc3c",
+  "production_reference": "a1685e9d777d6745b62868bb21b2edeecec78c01",
+  "compile": "success",
+  "passed": 2,
+  "failed": 1,
+  "exit_status": 101,
+  "log_sha256": "d8bffc77e1ead66dbf0def0b1689587de86e327e65796cedcd5d2dcf6c0bd431",
+  "generated_lock_sha256": "f82884ebf1ee635029a79c4ee913386f54e99adf40169c98a701cbb9fbfed194",
+  "toolchain": [
+    "rustc 1.99.0 (b940084d7 2026-09-28)",
+    "cargo 1.99.0 (5f94df478 2026-08-27)"
+  ],
+  "source_and_fixture_bindings": [
+    "761a34aa6266bd55994b7787bf14d2e8f11e58fce117725b87e7d1a5523d54bd  crates/kerotakis-core/src/volatility.rs",
+    "81f85c28f6d40af92f9abd651afb9b9b9f698f55c784f9984e02fb4d48f5fff7  crates/kerotakis-core/src/bench.rs",
+    "1c67c85d653caa0fd407a476f16f54344352272ccb6972d473eede1cddcd0a19  crates/kerotakis-core/tests/ideal_still_portion_validation.rs",
+    "13d7265929d2f734281c868ca2d3b386947dd2cba3ea7dd7d2d6ad03041d31a9  crates/kerotakis-thermo/src/batch.rs",
+    "00c4ec30f39a37183fa559ab5068d18225cb3850bc678490da002511737a8e99  audits/ideal-still-diagnostics-20261008/original-batch.rs.txt",
+    "dffb548a7718f423a55e8de0eb767d82a29441c114cebe807245e734a98e9a5a  Cargo.toml",
+    "46b65c88ee9e4855a8c0d3583b0a599df1df17581401e6fe81a44c88610a0f0a  crates/kerotakis-core/Cargo.toml",
+    "8725b0eda3b52e650964f9246e6ce6d0b15beb0435ab1132c63eb26ce7155269  crates/kerotakis-thermo/Cargo.toml",
+    "fe0d5fc1795ff4ba4df1011d0b4710380c6e2d2e93f57f6d29d7c0aa956e8d7e  .github/workflows/chemistry-audit.yml"
+  ],
+  "command": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "ideal_still_portion_validation",
+    "-j1",
+    "--",
+    "--test-threads=1"
+  ],
+  "outcomes": {
+    "binary_only_selection_and_zero_additional_coordinates_keep_existing_route": "passed",
+    "zero_inactive_components_do_not_block_an_ordinary_additional_solvent_cut": "passed",
+    "malformed_individual_portions_refuse_before_route_loss_or_coalescing": "failed at first case: water 1 mol plus methanol -1 mol, both liquid; downstream solver calls actual 2, expected 0"
+  },
+  "interpretation": "Production unchanged before individual-owner guard. First failing loop row stops execution; later malformed rows were not observed in this baseline. Test and generated dependency lock are independently hashed."
+}

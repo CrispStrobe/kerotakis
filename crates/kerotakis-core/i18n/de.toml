@@ -1693,7 +1693,6 @@ still-unsupported-boundary = "Die binäre Destille hat eine nicht unterstützte 
 # could never reach any of these. New German, authored.
 cooling-below-absolute-zero = "dieses Gefäß konnte bis zum absoluten Nullpunkt nur {available} kJ abgeben, verlangt wurden {asked} kJ. Hier ist kein Kühlmittel modelliert — nichts legt fest, wie kalt die Umgebung ist — der Rest konnte also schlicht nicht entzogen werden. Die Wärme, die ein Stoff hält, wird über seine eigene Wärmekapazität integriert, wo das Verzeichnis eine führt; unterhalb von etwa 200 K ist aber selbst eine tabellierte Kurve am Ende der Tabelle und wird flach gehalten, diese Untergrenze ist also eine Modellgrenze und keine Messung"
 co-evaporation = "die gemeinsame Verdampfung von {liquids} braucht ein Dampf-Flüssigkeits-Gleichgewicht — das ist die Aufgabe von `distil`; entfernt wurde nur das Wasser"
-no-bubble-point = "einen Siedebeginn für dieses Gemisch bei {pressure} kPa — außerhalb der angepassten Antoine-Bereiche"
 distribution-coefficient-temperature = "der Verteilungskoeffizient von {species} für {upper}/{lower} ist nur bei {reviewed} K geprüft (Toleranz +/- {tolerance} K); dieses Gefäß ist bei {actual} K"
 not-an-extracting-solvent = "{solvent} ist bei Raumbedingungen kein flüssiges Extraktionsmittel"
 water-distribution-coefficient-temperature = "der Verteilungskoeffizient von {solute} für {solvent}/Wasser ist nur bei {reviewed} K geprüft (Toleranz +/- {tolerance} K); dieses Gefäß ist bei {actual} K"
@@ -1779,7 +1778,6 @@ proton-consuming-kinetics = "{reaction}: Protonenverbrauchende Kinetik erfordert
 template-refused = "die Reaktionsvorlage der Familie {family} ließ sich nicht anwenden: {detail}"
 unregistered-condensed-species = "nicht verzeichnete kondensierte Spezies {key}"
 no-reviewed-still-properties = "die Destillation braucht geprüfte Dampfdruck- und Verdampfungswärme-Werte für {key}; es wurde keine Komponente übertragen"
-outside-constant-latent-domain = "die Mehrkomponentendestillation liegt außerhalb des begrenzten Clausius-Clapeyron-Bereichs mit konstanter Verdampfungswärme (innerhalb von 40 K um jeden Normalsiedepunkt, 1–128 ideale Stufen); es wurde keine Komponente übertragen"
 titration-pe-never-pinned = "die Bürette lief bis zu ihrer Grenze von {steps} Schritt(en), ohne pe {target} zu erreichen: an keiner Stelle dieser Titration wurde ein Potential festgelegt. Liegt nur eine Oxidationsstufe eines Redoxpaars im Kolben, hat die Elektronenbilanz keine Wurzel — pe ist dann unbestimmt und nicht etwa niedrig. Gib die andere Hälfte eines Redoxpaars zu oder titriere stattdessen auf eine Farbe"
 titration-pe-out-of-reach = "die Bürette lief bis zu ihrer Grenze von {steps} Schritt(en), ohne pe {target} zu erreichen; das zuletzt in diesem Kolben festgelegte Potential war {last}"
 # `{colour}` stands predicatively after "ist noch immer", where a German

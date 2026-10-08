@@ -1485,7 +1485,6 @@ still-unsupported-boundary = "La distillation binaire a rencontré une limite de
 # could never reach any of these. New German, authored.
 cooling-below-absolute-zero = "ce récipient n'avait que {available} kJ à céder avant le zéro absolu, et on lui en a demandé {asked} kJ. Aucun fluide frigorigène n'est modélisé ici — rien ne fixe la température de l'environnement — le reste ne pouvait donc simplement pas être retiré. La chaleur que contient une substance est intégrée sur sa propre capacité thermique là où le registre en porte une, mais en dessous d'environ 200 K même une courbe tabulée est à court de table et est maintenue constante : ce plancher est donc une limite de modèle et non une mesure"
 co-evaporation = "la co-évaporation de {liquids} demande un équilibre liquide-vapeur — c'est le travail de `distil` ; seule l'eau a été retirée"
-no-bubble-point = "un point de bulle pour ce mélange à {pressure} kPa — hors des domaines d'Antoine ajustés"
 distribution-coefficient-temperature = "le coefficient de partage {upper}/{lower} de {species} n'est vérifié qu'à {reviewed} K (tolérance +/- {tolerance} K) ; ce récipient est à {actual} K"
 not-an-extracting-solvent = "{solvent} n'est pas un solvant d'extraction liquide dans les conditions ambiantes"
 water-distribution-coefficient-temperature = "le coefficient de partage {solvent}/eau de {solute} n'est vérifié qu'à {reviewed} K (tolérance +/- {tolerance} K) ; ce récipient est à {actual} K"
@@ -1571,7 +1570,6 @@ proton-consuming-kinetics = "{reaction} : une cinétique consommatrice de proton
 template-refused = "le modèle de réaction de la famille {family} n'a pas pu être appliqué : {detail}"
 unregistered-condensed-species = "espèce condensée non enregistrée {key}"
 no-reviewed-still-properties = "la distillation demande des propriétés de pression de vapeur et de chaleur latente vérifiées pour {key} ; aucun composant n'a été transféré"
-outside-constant-latent-domain = "la distillation multiconstituant est hors du domaine borné de Clausius-Clapeyron à chaleur latente constante (à moins de 40 K de chaque point d'ébullition normal, 1 à 128 étages théoriques) ; aucun composant n'a été transféré"
 titration-pe-never-pinned = "la burette a atteint sa limite de {steps} incrément(s) sans arriver au pe {target} : aucun potentiel n'a été fixé à aucun moment de ce titrage. Avec un seul degré d'oxydation d'un couple dans le ballon, le bilan électronique n'a pas de racine, et le pe est donc indéfini plutôt que bas — ajoute l'autre moitié d'un couple rédox, ou titre jusqu'à une couleur"
 titration-pe-out-of-reach = "la burette a atteint sa limite de {steps} incrément(s) sans arriver au pe {target} ; le dernier potentiel fixé par ce ballon était {last}"
 # `{colour}` stands predicatively after "ist noch immer", where a German

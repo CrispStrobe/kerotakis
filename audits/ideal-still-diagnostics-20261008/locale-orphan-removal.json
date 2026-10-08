@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "source_commit": "ee943c851f31bcde603d7f83eed9691a38c3c99a",
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37737811404/job/113181441940",
+  "failed_job_log_sha256": "8374fd374a04ea8e66edf904f50f3235668c486cce8660e2cfe68d2abbc79701",
+  "cause": "Four orphan translation entries after checked still APIs replaced their final source callers; all reachable keys were translated.",
+  "preserved_removed_lines": {
+    "crates/kerotakis-core/i18n/de.toml": [
+      "no-bubble-point = \"einen Siedebeginn für dieses Gemisch bei {pressure} kPa — außerhalb der angepassten Antoine-Bereiche\"",
+      "outside-constant-latent-domain = \"die Mehrkomponentendestillation liegt außerhalb des begrenzten Clausius-Clapeyron-Bereichs mit konstanter Verdampfungswärme (innerhalb von 40 K um jeden Normalsiedepunkt, 1–128 ideale Stufen); es wurde keine Komponente übertragen\""
+    ],
+    "crates/kerotakis-core/i18n/fr.toml": [
+      "no-bubble-point = \"un point de bulle pour ce mélange à {pressure} kPa — hors des domaines d'Antoine ajustés\"",
+      "outside-constant-latent-domain = \"la distillation multiconstituant est hors du domaine borné de Clausius-Clapeyron à chaleur latente constante (à moins de 40 K de chaque point d'ébullition normal, 1 à 128 étages théoriques) ; aucun composant n'a été transféré\""
+    ]
+  },
+  "scope": "Remove only these four stale entries; no kernel, fixtures or reachable translations changed."
+}

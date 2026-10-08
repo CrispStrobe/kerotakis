@@ -1,4 +1,39 @@
-# Prepared ideal-liquid still diagnostic integration
+# Ideal-liquid still diagnostics: executed evidence and integration status
+
+## Current evidence checkpoint
+
+At PR head `ee943c85`, hosted Linux and macOS native jobs both passed. Their
+actual checkout was PR merge commit `5dc2f5023d575795b9c7cc580d6d41c3c00eace5`;
+[hosted-acceptance.json](hosted-acceptance.json) binds source and test bytes to
+that executed checkout and hashes each job log. Per platform, all three kernel
+contracts, the private exhausted-budget contract, both operator contracts and
+all three individual-portion contracts passed. Passing loops complete all five
+operator refusal fixtures and all 24 malformed-portion combinations, including
+zero downstream calls and preserved state. Positive controls and binary route
+controls also pass. Native generated dependency locks were not captured, so
+this evidence does not assert identical baseline/native dependency resolution.
+
+The corrected unchanged-production [portion baseline 37737808316](https://github.com/CrispStrobe/kerotakis/actions/runs/37737808316)
+compiled three tests: two passed, one failed. With water 1 mol and methanol
+-1 mol, the solver was called twice instead of zero times. The first failing
+loop row prevents observing subsequent malformed rows on baseline source.
+[portion-baseline.json](portion-baseline.json) binds source, exact execution
+test, manifests, log, toolchain and generated Cargo.lock. It supersedes the
+previous harness failure as behavioral evidence without changing that receipt.
+
+Full preflight at the same PR head passed its Rust tests but failed engine
+locale lint on exactly four obsolete DE/FR entries, left after checked APIs
+replaced the last callers of `no-bubble-point` and
+`outside-constant-latent-domain`. [locale-orphan-removal.json](locale-orphan-removal.json)
+preserves their original lines and the failed job log hash. Removing only those
+entries passes the engine locale check with all 731 reachable keys translated
+in both languages. Numerical code and frozen test bytes are unchanged.
+
+Latest-head hosted gates remain required after this locale cleanup and the
+refreshed binary prerequisite. The preparation checkpoints below record what
+was known at those earlier commits; their pending wording is historical.
+
+## Original preparation checkpoint
 
 This follow-up starts from binary diagnostic source
 `73d231b3210b8c512c24268cad961d3b4a5be19e`. Forecast commit `a5377136`
