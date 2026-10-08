@@ -244,7 +244,7 @@ impl StateDelta {
 
     /// Numeric schema guard for complete cloned candidates. Model validity and
     /// boundary-flow conservation remain separate acceptance contracts.
-    fn validate_snapshot_state(candidate: &crate::vessel::Vessel) -> Vec<DeltaError> {
+    pub(crate) fn validate_state(candidate: &crate::vessel::Vessel) -> Vec<DeltaError> {
         let mut errors = Vec::new();
         let ledger = crate::ledger::ConservedLedger::from_vessel(candidate);
         if !candidate.liquid_volume().0.is_finite()
@@ -621,6 +621,53 @@ impl StateDelta {
         errors
     }
 
+    /// Gas narration is also the numeric boundary ledger used by later stages.
+    pub(crate) fn validate_gas_events(
+        vessel: &crate::vessel::Vessel,
+        events: &[crate::ops::Event],
+    ) -> Vec<DeltaError> {
+        events
+            .iter()
+            .filter_map(|event| {
+                let (id, species, moles) = match event {
+                    crate::ops::Event::GasEvolved {
+                        vessel,
+                        species,
+                        moles,
+                        ..
+                    }
+                    | crate::ops::Event::GasAbsorbed {
+                        vessel,
+                        species,
+                        moles,
+                        ..
+                    }
+                    | crate::ops::Event::GasContained {
+                        vessel,
+                        species,
+                        moles,
+                        ..
+                    } => (*vessel, species, moles.0),
+                    _ => return None,
+                };
+                if id != vessel.id || !moles.is_finite() || moles < 0.0 {
+                    return Some(DeltaError::InvalidState {
+                        field: "gas event identity/amount".into(),
+                    });
+                }
+                if crate::species::lookup(species)
+                    .and_then(|data| crate::stoich::parse_formula(data.formula).ok())
+                    .is_none()
+                {
+                    return Some(DeltaError::InvalidState {
+                        field: format!("unaccounted gas {}", species.0),
+                    });
+                }
+                None
+            })
+            .collect()
+    }
+
     pub fn with_electrode_moles(
         mut self,
         electrode: impl Into<String>,
@@ -709,7 +756,7 @@ impl StateDelta {
                     field: "solver candidate vessel identity".into(),
                 });
             }
-            errors.extend(Self::validate_snapshot_state(&snapshot.candidate));
+            errors.extend(Self::validate_state(&snapshot.candidate));
             return errors;
         }
 

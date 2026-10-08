@@ -247,6 +247,22 @@ impl SolverStack {
             last_routes: Vec::new(),
         }
     }
+    // Numeric acceptance is shared with complete cloned proposals. Element
+    // balance/model coverage remain separate route-policy contracts.
+    fn validate_result(
+        before: &Vessel,
+        after: &Vessel,
+        events: &[Event],
+    ) -> Vec<crate::delta::DeltaError> {
+        let mut errors = crate::delta::StateDelta::validate_state(after);
+        errors.extend(crate::delta::StateDelta::validate_gas_events(after, events));
+        if before.id != after.id || before.label != after.label {
+            errors.push(crate::delta::DeltaError::InvalidState {
+                field: "solver target identity".into(),
+            });
+        }
+        errors
+    }
 }
 
 impl Equilibrator for SolverStack {
@@ -287,7 +303,49 @@ impl Equilibrator for SolverStack {
                 });
                 continue;
             }
-            match solver.equilibrate(vessel) {
+            let checkpoint = vessel.clone();
+            let result =
+                solver.equilibrate(vessel).and_then(|more| {
+                    let mut errors = Self::validate_result(&checkpoint, vessel, &more);
+                    if errors.is_empty() {
+                        // Gas this solver sent out of the vessel, booked on the
+                        // step's snapshot before the next solver runs: the
+                        // aqueous tail prices the whole step's heat, and the
+                        // carbon dioxide a curated row evolved ahead of it must
+                        // not cease to exist on the way. `GasContained` stays a
+                        // portion and is not an outward transfer.
+                        if let Some(start) = vessel.step_start.as_mut() {
+                            for event in &more {
+                                match event {
+                                    Event::GasEvolved { species, moles, .. } => {
+                                        start.note_gas_out(species, moles.0);
+                                    }
+                                    Event::GasAbsorbed { species, moles, .. } => {
+                                        start.note_gas_out(species, -moles.0);
+                                    }
+                                    _ => {}
+                                }
+                            }
+                        }
+
+                        if vessel.step_start.as_ref().is_some_and(|start| {
+                            start.gas_out.iter().any(|(_, n)| !n.0.is_finite())
+                        }) {
+                            errors.push(crate::delta::DeltaError::InvalidState {
+                                field: "accumulated gas boundary".into(),
+                            });
+                        }
+                    }
+                    if errors.is_empty() {
+                        Ok(more)
+                    } else {
+                        Err(SolveError::NotConverged {
+                            solver: solver.name().into(),
+                            detail: format!("invalid solver result: {errors:?}"),
+                        })
+                    }
+                });
+            match result {
                 Ok(mut more) => {
                     self.last_routes.push(SolverRoute {
                         solver: solver_name,
@@ -299,25 +357,6 @@ impl Equilibrator for SolverStack {
                         vessel: Some(vessel.id),
                         reason: None,
                     });
-                    // Gas this solver sent out of the vessel, booked on the
-                    // step's snapshot before the next solver runs: the
-                    // aqueous tail prices the whole step's heat, and the
-                    // carbon dioxide a curated row evolved ahead of it must
-                    // not cease to exist on the way. `GasContained` stays a
-                    // portion and is not an outward transfer.
-                    if let Some(start) = vessel.step_start.as_mut() {
-                        for event in &more {
-                            match event {
-                                Event::GasEvolved { species, moles, .. } => {
-                                    start.note_gas_out(species, moles.0);
-                                }
-                                Event::GasAbsorbed { species, moles, .. } => {
-                                    start.note_gas_out(species, -moles.0);
-                                }
-                                _ => {}
-                            }
-                        }
-                    }
                     events.append(&mut more);
                 }
                 // One solver failing must not silence the rest. The stack is
@@ -328,6 +367,7 @@ impl Equilibrator for SolverStack {
                 // −24 °C, because the freezing pass never ran once PHREEQC
                 // had declined the solution.
                 Err(e) => {
+                    *vessel = checkpoint;
                     self.last_routes.push(SolverRoute {
                         solver: solver_name.clone(),
                         kind,
@@ -356,8 +396,24 @@ impl Equilibrator for SolverStack {
         frac_b: f64,
     ) -> Option<Result<Vec<Event>, SolveError>> {
         for solver in &mut self.solvers {
-            if let Some(result) = solver.mix(vessel, soln_a, frac_a, soln_b, frac_b) {
-                return Some(result);
+            let checkpoint = vessel.clone();
+            match solver.mix(vessel, soln_a, frac_a, soln_b, frac_b) {
+                Some(Ok(events)) => {
+                    let errors = Self::validate_result(&checkpoint, vessel, &events);
+                    if errors.is_empty() {
+                        return Some(Ok(events));
+                    }
+                    *vessel = checkpoint;
+                    return Some(Err(SolveError::NotConverged {
+                        solver: solver.name().into(),
+                        detail: format!("invalid MIX result: {errors:?}"),
+                    }));
+                }
+                Some(Err(error)) => {
+                    *vessel = checkpoint;
+                    return Some(Err(error));
+                }
+                None => *vessel = checkpoint,
             }
         }
         None
