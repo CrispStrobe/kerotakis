@@ -2353,7 +2353,16 @@ fn checked_crystal_reconciliation(
         }
         // Pure phases are independent owners, absent from SOLUTION totals.
         for (phase, initial, _) in &problem.phases {
-            if problem.external_gases.iter().any(|gas| gas.phase == *phase) {
+            if let Some(external) = problem
+                .external_gases
+                .iter()
+                .find(|gas| gas.phase == *phase)
+            {
+                let final_amount = value(phase).ok_or_else(|| missing(phase))?;
+                checked_crystal_sum(&[*initial], phase)?;
+                checked_crystal_sum(&[external.initial_moles], phase)?;
+                checked_crystal_sum(&[final_amount], phase)?;
+
                 // Reviewed gas boundaries have no Ca/Sr owner. Only CO2 opens
                 // carbon; HBr and atmospheric O2/N2 leave its budget closed.
                 let formula = crate::dbindex::parse_formula(phase.trim_end_matches("(g)"))
