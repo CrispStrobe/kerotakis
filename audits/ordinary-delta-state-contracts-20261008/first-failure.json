@@ -1,0 +1,29 @@
+{
+  "pr": 771,
+  "run": 37817222213,
+  "job": 113448821532,
+  "source": "6080dfa0b5fd9077bee3abec4c0d57c16bc0853e",
+  "tested_checkout": "32b89bc7e973fb354311bfc39d4d930714fb9067",
+  "tested_tree": "57d011d64ce96d54c6d6ee5c970f22fb66ecf803",
+  "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37817222213/job/113448821532",
+  "fixture": "crates/kerotakis-core/tests/nuclide_state_validation_contracts.rs",
+  "fixture_sha256": "498d3456988fcb153445139f5c16dc2b96ffe9bd893041ee6145984431d5a5fc",
+  "log_sha256": "89a9bbfd654721a356f99f5ee155dc58f89161f1c85d84557fa90938571a94ef",
+  "passed": [
+    "nan_amount_legacy_solver_rolls_back",
+    "infinite_amount_legacy_solver_rolls_back",
+    "negative_amount_legacy_solver_rolls_back",
+    "positive_subnormal_and_zero_tracers_allow_delta_commit",
+    "positive_subnormal_and_zero_tracers_allow_legacy_solver",
+    "unknown_element_legacy_solver_rolls_back",
+    "zero_mass_number_legacy_solver_rolls_back"
+  ],
+  "failed": [
+    "infinite_amount_refuses_delta",
+    "nan_amount_refuses_delta",
+    "negative_amount_refuses_delta",
+    "unknown_element_refuses_delta",
+    "zero_mass_number_refuses_delta"
+  ],
+  "scope": "Observed preflight failure on unchanged historical contracts, with compiling 12-function target and exact checkout tree. Other restored targets are not accepted by this receipt."
+}

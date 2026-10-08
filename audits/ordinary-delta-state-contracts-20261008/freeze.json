@@ -1,0 +1,19 @@
+{
+  "fixture": "crates/kerotakis-core/tests/ordinary_delta_state_contracts.rs",
+  "fixture_sha256": "f73b2e8a3acbbf8def04b65b1c73ce4ea1aa2095e3ebe053d054b60cc72cd132",
+  "functions": 8,
+  "kind": "Source-informed extension after observed five nuclide delta failures in PR771 preflight; frozen before ordinary-commit production repair.",
+  "negative_scope": [
+    "canonical electrode/duplicate labels",
+    "typed crystal shape",
+    "unrelated nonfinite state",
+    "invalid boundary",
+    "apply-created pressure overflow",
+    "invalid state with empty delta"
+  ],
+  "positive_scope": [
+    "external matter changes remain allowed",
+    "trace owners and narration survive valid commit"
+  ],
+  "expectation": "Refuse invalid complete candidate without any original-state mutation; retain valid ordinary matter changes. No conservation policy is added."
+}
