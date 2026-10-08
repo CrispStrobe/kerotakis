@@ -21,11 +21,7 @@ fn zero_withdrawal_preserves_all_owned_portions() {
             vessel.withdraw(&SpeciesId::new("water"), Moles(0.0)),
             Moles(0.0)
         );
-        assert_eq!(
-            serde_json::to_value(&vessel).unwrap(),
-            serde_json::to_value(&before).unwrap(),
-            "trace {trace:e}"
-        );
+        assert_eq!(vessel, before, "trace {trace:e}");
     }
 }
 
@@ -38,11 +34,7 @@ fn absent_species_withdrawal_preserves_all_owned_portions() {
             vessel.withdraw(&SpeciesId::new("ethanol"), Moles(1.0)),
             Moles(0.0)
         );
-        assert_eq!(
-            serde_json::to_value(&vessel).unwrap(),
-            serde_json::to_value(&before).unwrap(),
-            "trace {trace:e}"
-        );
+        assert_eq!(vessel, before, "trace {trace:e}");
     }
 }
 
@@ -55,11 +47,7 @@ fn zero_phase_withdrawal_preserves_all_owned_portions() {
             vessel.withdraw_phase(&SpeciesId::new("water"), Moles(0.0), Phase::Liquid),
             Moles(0.0)
         );
-        assert_eq!(
-            serde_json::to_value(&vessel).unwrap(),
-            serde_json::to_value(&before).unwrap(),
-            "trace {trace:e}"
-        );
+        assert_eq!(vessel, before, "trace {trace:e}");
     }
 }
 
@@ -72,11 +60,7 @@ fn absent_phase_withdrawal_preserves_all_owned_portions() {
             vessel.withdraw_phase(&SpeciesId::new("water"), Moles(1.0), Phase::Solid),
             Moles(0.0)
         );
-        assert_eq!(
-            serde_json::to_value(&vessel).unwrap(),
-            serde_json::to_value(&before).unwrap(),
-            "trace {trace:e}"
-        );
+        assert_eq!(vessel, before, "trace {trace:e}");
     }
 }
 

@@ -1,0 +1,7 @@
+{
+  "original_test_sha256": "d38347675bb83cc6a9defabc052ad91c786cf05beb74147775d989a7ec481583",
+  "adapted_test_sha256": "e5085dfdf8efab27f5c5af0576e47cb2b31e5f4cd9c1f9f6801ce2afb218ebb4",
+  "reason": "Static review: Vessel has no PartialEq. Four complete-state comparisons now compare serde_json values; no production API change.",
+  "scope": "Comparison representation only; inputs, expected values, bounds and full-state equality contract unchanged.",
+  "execution": "Neither fixture version executed before this correction."
+}
