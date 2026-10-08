@@ -248,7 +248,7 @@ impl Balance {
 }
 
 fn validate(before: &Vessel, after: &Vessel, events: &[Event], tolerance: f64) -> Result<()> {
-    if !tolerance.is_finite() || tolerance < 0.0 || tolerance >= 1.0 {
+    if !tolerance.is_finite() || !(0.0..1.0).contains(&tolerance) {
         return Err("required conservation tolerance must be finite and below one".into());
     }
     let gas_errors = crate::delta::StateDelta::validate_gas_events(after, events);
