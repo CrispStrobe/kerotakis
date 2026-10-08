@@ -50,6 +50,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--binary', type=Path)
     parser.add_argument('--build-binding', type=Path, required=True)
+    parser.add_argument('--source-manifest', type=Path, default=ROOT / 'audits/combined-cli-replay-20261008/source.json')
     parser.add_argument('--out', type=Path, required=True)
     parser.add_argument('--review', action='store_true')
     parser.add_argument('--report', type=Path)
@@ -57,7 +58,7 @@ def main():
     forecast_path = ROOT / 'audits/main-cli-replay-20261008/forecast.json'
     assert digest(forecast_path) == FORECAST_SHA
     forecast = json.loads(forecast_path.read_text())
-    source = json.loads((ROOT / 'audits/combined-cli-replay-20261008/source.json').read_text())
+    source = json.loads(args.source_manifest.read_text())
     binding = json.loads(args.build_binding.read_text())
     assert source['forecast_sha256'] == FORECAST_SHA
     assert binding['compiled_source'] == source['compiled_source']
