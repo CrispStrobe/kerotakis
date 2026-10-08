@@ -10,6 +10,7 @@ on:
           - fifty
           - syntax-replay
           - sixth-fifty
+          - solid-index-comparison
 
 permissions:
   contents: read
@@ -82,6 +83,76 @@ jobs:
         with:
           name: fifth-main-build-${{ github.run_id }}
           path: build-evidence/
+          retention-days: 30
+          if-no-files-found: error
+
+  solid-index-comparison:
+    name: Paired solid registry startup comparison
+    if: inputs.campaign == 'solid-index-comparison'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            .github/workflows
+            audits/startup-solid-index-20261008
+            tools/startup-solid-index
+            tools/fifth-independent-50
+      - uses: actions/checkout@v6
+        with:
+          ref: audit/startup-solid-index-20261008
+          path: source
+          fetch-depth: 0
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: source
+      - name: Install prerequisites
+        run: |
+          bash source/tools/fetch-sundials.sh
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq valgrind
+      - name: Build and test both exact sources under one resolution
+        shell: bash
+        run: |
+          mkdir -p paired-build/harness
+          git rev-parse HEAD > paired-build/harness/commit.txt
+          sha256sum tools/startup-solid-index/compare.py audits/startup-solid-index-20261008/comparison.json .github/workflows/chemistry-audit.yml > paired-build/harness/sha256.txt
+          rustc -Vv > paired-build/harness/rustc.txt
+          cargo -V > paired-build/harness/cargo.txt
+          for label in baseline repair; do
+            source_pin=$(python3 -c "import json; print(json.load(open('audits/startup-solid-index-20261008/comparison.json'))['$label'])")
+            mkdir -p "paired-build/$label"
+            git -C source checkout --detach "$source_pin"
+            git -C source rev-parse HEAD > "paired-build/$label/source-commit.txt"
+            git -C source rev-parse HEAD^{tree} > "paired-build/$label/source-tree.txt"
+            git -C source status --short > "paired-build/$label/status-before.txt"
+            git -C source submodule status --recursive > "paired-build/$label/submodules.txt"
+            if [[ "$label" = baseline ]]; then
+              (cd source && cargo generate-lockfile)
+            fi
+            cp source/Cargo.lock "paired-build/$label/Cargo.lock"
+            sha256sum source/Cargo.lock | cut -d' ' -f1 > "paired-build/$label/generated-lock-sha256.txt"
+            (cd source && cargo build --locked --release -p kerotakis-cli) > "paired-build/$label/build.log" 2>&1
+            cp source/target/release/kero "paired-build/$label/kero"
+            sha256sum "paired-build/$label/kero" > "paired-build/$label/binary-sha256.txt"
+            (cd source && cargo test --locked -p kerotakis-phreeqc --test solid_registry_matching) > "paired-build/$label/identity-tests.log" 2>&1
+            (cd source && cargo test --locked -p kerotakis-phreeqc --lib derived::tests) > "paired-build/$label/derivation-tests.log" 2>&1
+          done
+      - name: Compare complete outputs and interleaved native samples
+        run: python3 tools/startup-solid-index/compare.py --build paired-build --out paired-comparison
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: solid-index-comparison-${{ github.run_id }}
+          path: |
+            paired-build/
+            paired-comparison/
+            audits/startup-solid-index-20261008/
+            tools/startup-solid-index/
+            tools/fifth-independent-50/
           retention-days: 30
           if-no-files-found: error
 
