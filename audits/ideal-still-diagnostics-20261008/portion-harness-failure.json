@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37734270825",
+  "source_commit": "cc1158aa22203477115cc4b7fe21bfa75679828a",
+  "classification": "harness failure before Cargo execution",
+  "cause": "Hash list referenced nonexistent audits/ideal-still-portions-20261008/original-batch.rs.txt; actual preserved snapshot is audits/ideal-still-diagnostics-20261008/original-batch.rs.txt.",
+  "behavior_tests_executed": 0,
+  "log_sha256": "eaa42029aa9fe5f2ec11a77e9d8ce9df6ff141863b9eb9115b3ba02fc8c61b8b",
+  "correction": "Correct only the hash-list path; bind unchanged pre-guard production and matching adapted fixture before fresh hosted dispatch."
+}

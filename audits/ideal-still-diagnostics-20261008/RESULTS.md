@@ -116,3 +116,11 @@ original snapshots; adapted execution bytes have their own hashes.
 Queued ideal baselines `37732719083` and `37734101871` were cancelled before
 execution. Neither supplies behavior evidence. Corrected baseline delivery and
 acceptance remain pending.
+
+## Executed baseline
+
+[Run 37734288808](https://github.com/CrispStrobe/kerotakis/actions/runs/37734288808) at `980f971c20bb01346732616644f5c04c6412c509` compiled 2 tests: 1 passed, 1 failed. [operator-baseline.json](operator-baseline.json) binds raw evidence. Refusal reports generic outside-constant-latent-domain instead of composition precision; supported methanol control passes. Repaired-source checks remain pending; table-loop failures do not exercise subsequent rows.
+
+## Hosted harness and lint corrections
+
+[Portion baseline 37734270825](https://github.com/CrispStrobe/kerotakis/actions/runs/37734270825) failed before Cargo because its hash list named a nonexistent snapshot directory. [Harness receipt](portion-harness-failure.json) preserves this failure; it supplies no behavior evidence. The corrected harness hashes the existing preserved snapshot. Repaired CI also found a redundant explicit dereference in fixture construction; [lint adaptation](lint-adaptation.json) preserves its previous bytes and identical expectations. Fresh execution is required.

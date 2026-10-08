@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "classification": "CI lint failure before test execution",
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37734267596",
+  "adaptation": "Remove explicit auto-deref in fixture species construction; identical values, inputs and assertions, no production API change.",
+  "original_sha256": "158ec5f2b6fb5914d8e3d89815283ebf7d9eb8a4cde8b59072f2fe4dd8634bed",
+  "adapted_sha256": "1c67c85d653caa0fd407a476f16f54344352272ccb6972d473eede1cddcd0a19"
+}
