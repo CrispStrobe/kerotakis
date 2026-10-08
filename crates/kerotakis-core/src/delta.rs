@@ -403,8 +403,11 @@ impl StateDelta {
                 });
             }
         }
+        let mut electrode_labels = std::collections::BTreeSet::new();
         for electrode in &candidate.electrodes {
-            if !electrode.area_m2.is_finite()
+            if electrode.validate().is_err()
+                || !electrode_labels.insert(&electrode.label)
+                || !electrode.area_m2.is_finite()
                 || electrode.area_m2 < 0.0
                 || !electrode.roughness.is_finite()
                 || electrode.roughness < 0.0
