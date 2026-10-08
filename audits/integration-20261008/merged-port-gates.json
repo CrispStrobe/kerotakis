@@ -441,6 +441,94 @@
         }
       ],
       "scope": "Ordered bulk/adsorbed/electrode inventory prefixes, positive trace preservation and invalid thermal-input rejection. Inventory and thermal paired diagnostics separately reviewed."
+    },
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/768",
+      "tested_head": "6ff42221604c2face169a59eb3032592c4181c9e",
+      "merge_commit": "bb000c80f9b6f502ffeeed723a3d99b390964918",
+      "merged_at": "2026-10-08T17:15:15Z",
+      "required_checks": [
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37797666610/job/113381257665",
+          "started_at": "2026-10-08T15:50:51Z",
+          "completed_at": "2026-10-08T16:13:01Z"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37797666610/job/113381257307",
+          "started_at": "2026-10-08T15:20:31Z",
+          "completed_at": "2026-10-08T15:38:48Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37797666610/job/113381257630",
+          "started_at": "2026-10-08T15:34:39Z",
+          "completed_at": "2026-10-08T15:56:45Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37797666610/job/113381257284",
+          "started_at": "2026-10-08T16:05:32Z",
+          "completed_at": "2026-10-08T16:11:13Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37797666610/job/113381257558",
+          "started_at": "2026-10-08T15:25:31Z",
+          "completed_at": "2026-10-08T15:36:41Z"
+        }
+      ],
+      "scope": "Complete solver candidate snapshots, edited emptiness, per-attempt direct/MIX rollback and explicit gas-boundary validation. All 42 transaction integration functions separately reviewed in native CI."
+    },
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/769",
+      "tested_head": "50088c4e3746288510d41765677a2829a3d641f6",
+      "merge_commit": "824b1b89f1aff5d08b4730c2044c1d67cb4621dd",
+      "merged_at": "2026-10-08T17:15:22Z",
+      "required_checks": [
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37797710051/job/113381415477",
+          "started_at": "2026-10-08T15:28:57Z",
+          "completed_at": "2026-10-08T15:51:37Z"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37797710051/job/113381415998",
+          "started_at": "2026-10-08T16:46:07Z",
+          "completed_at": "2026-10-08T17:04:55Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37797710051/job/113381415716",
+          "started_at": "2026-10-08T15:22:20Z",
+          "completed_at": "2026-10-08T15:35:01Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37797710051/job/113381415672",
+          "started_at": "2026-10-08T16:29:22Z",
+          "completed_at": "2026-10-08T16:34:31Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37797710051/job/113381415660",
+          "started_at": "2026-10-08T16:30:44Z",
+          "completed_at": "2026-10-08T16:43:37Z"
+        }
+      ],
+      "scope": "Canonical owned-nuclide JSON keys, identity/amount validation and duplicate rejection; all 11 persistence controls separately reviewed in native CI. No nuclear-model certification."
     }
   ],
   "scope": "Independent matching-head required PR gates. Not a full integrated-source audit/replay or performance acceptance.",

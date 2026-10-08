@@ -1,0 +1,66 @@
+{
+  "lane": "electrode",
+  "harness": "b9bcd5f6e71c7d10d105b806af13d21ccfce7460",
+  "manifest_sha256": "9d2105e417a501bce96149bc96d01fa32c31bf852195406e8e271ecd9742c775",
+  "sources": [
+    {
+      "label": "baseline",
+      "source": "9e1f3f88f450855e68d22b4801ed03d0102cef02",
+      "passed": [
+        "distinct_electrode_labels_remain_supported",
+        "same_species_in_distinct_interface_reactions_remains_supported",
+        "valid_direct_and_mix_routes_keep_electrodes_and_narration",
+        "valid_transient_electrode_snapshot_preserves_complete_state"
+      ],
+      "failed": [
+        "duplicate_electrode_labels_refuse_all_commit_paths",
+        "malformed_canonical_electrodes_refuse_complete_snapshot_commits",
+        "malformed_canonical_electrodes_refuse_successful_direct_routes",
+        "malformed_canonical_electrodes_refuse_successful_mix_routes"
+      ],
+      "evidence_sha256": {
+        "Cargo.lock": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+        "controls-exit.txt": "39b8dc3fc8b44765c8e6f1adee04c5b465e555ab791cc42d0d9e810d5b64297c",
+        "controls.log": "4e32c5103ee0b5b7d4eee27813ab75d4657fc622b0dba65e0c1f4ccbc7dc1007",
+        "fixture-sha256.txt": "c581246a7a024fa3aa02f928c838fba2c97bd11e14dd7b8e725175ac0afdbb34",
+        "generated-lock-sha256.txt": "38423fbf7885574f98ac58f1767fc7a186db189e1d2fce61eca28f5f0d14b2e4",
+        "inherited-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "inherited.log": "ad55df3ad86d4a352cec136ef27724d0d9271b54039a69632110c48cdaec4fe0",
+        "source-commit.txt": "5a01a153a3d91e6c5876318bc52950301c46be90afc93e12666cc973ab90de19",
+        "source-tree.txt": "e03b1cfadc1946174d5c336076291a97cde8c5446ebeb0931d64b0b4f5228727",
+        "status-before.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "submodules.txt": "bfdd1930cec157acbba4c8da9aec06670162f5a9a25c1a05d4f17476e6c4468e"
+      }
+    },
+    {
+      "label": "repair",
+      "source": "d530ddf33fa6a9606ad85fcd613d39debf64f523",
+      "passed": [
+        "distinct_electrode_labels_remain_supported",
+        "duplicate_electrode_labels_refuse_all_commit_paths",
+        "malformed_canonical_electrodes_refuse_complete_snapshot_commits",
+        "malformed_canonical_electrodes_refuse_successful_direct_routes",
+        "malformed_canonical_electrodes_refuse_successful_mix_routes",
+        "same_species_in_distinct_interface_reactions_remains_supported",
+        "valid_direct_and_mix_routes_keep_electrodes_and_narration",
+        "valid_transient_electrode_snapshot_preserves_complete_state"
+      ],
+      "failed": [],
+      "evidence_sha256": {
+        "Cargo.lock": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+        "controls-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "controls.log": "68c1e1e9d39121ef20b0faf08b07479eedbf6e48018fe7b840ae54d8788999b8",
+        "fixture-sha256.txt": "c581246a7a024fa3aa02f928c838fba2c97bd11e14dd7b8e725175ac0afdbb34",
+        "generated-lock-sha256.txt": "38423fbf7885574f98ac58f1767fc7a186db189e1d2fce61eca28f5f0d14b2e4",
+        "inherited-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "inherited.log": "06b1d45171048a607526088a9309108734e6e66c57a584dbec28b641670512bf",
+        "source-commit.txt": "c496258ac69a25503e75124685794b21ee4d969d25e469207d6988a6ace557bb",
+        "source-tree.txt": "398fff4afd4489b7ded76b3675217fdbd3eab7ed63638fae1c949f64805d7628",
+        "status-before.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "submodules.txt": "bfdd1930cec157acbba4c8da9aec06670162f5a9a25c1a05d4f17476e6c4468e"
+      }
+    }
+  ],
+  "generated_lock_sha256": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+  "accepted_bounded_diagnostic": true
+}
