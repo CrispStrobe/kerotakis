@@ -1,0 +1,124 @@
+{
+  "schema": 1,
+  "pr": 758,
+  "source_head": "45c44a4a84a521b909d49840f86d183f4d78fe06",
+  "tested_merge_commit": "8b0eab4a18bc677b17d123d6d2ed43b6c2048602",
+  "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37730184440/job/113157305962",
+  "artifact_id": 11530322658,
+  "artifact_name": "snapshot-differences-macOS-8b0eab4a18bc677b17d123d6d2ed43b6c2048602",
+  "original_sha256": "066f36b854063796c95090964f3642b27a8dc8b77c5080f20b7647aa8c459ed0",
+  "observed_snapshot_sha256": "c50972e2cf90a60d4b244f674b5b5d73df99cc40b4ae3d625bb46d08fcdc6f77",
+  "raw_job_log_sha256": "e33310814ab63422d8b9c9e953b0e39c0fdeb39e59fc0e977a7aad22c8258653",
+  "changes": [
+    {
+      "path": [
+        "spirit-still",
+        "vessels",
+        0,
+        "contents",
+        0,
+        "moles"
+      ],
+      "old": 0.27108082,
+      "new": 0.27121282
+    },
+    {
+      "path": [
+        "spirit-still",
+        "vessels",
+        0,
+        "contents",
+        1,
+        "moles"
+      ],
+      "old": 8.72891918,
+      "new": 8.72878718
+    },
+    {
+      "path": [
+        "spirit-still",
+        "vessels",
+        1,
+        "contents",
+        0,
+        "moles"
+      ],
+      "old": 0.15942175,
+      "new": 0.15932472
+    },
+    {
+      "path": [
+        "spirit-still",
+        "vessels",
+        1,
+        "contents",
+        1,
+        "moles"
+      ],
+      "old": 0.54057825,
+      "new": 0.54067528
+    },
+    {
+      "path": [
+        "spirit-still",
+        "vessels",
+        2,
+        "contents",
+        0,
+        "moles"
+      ],
+      "old": 0.09642894,
+      "new": 0.0963967
+    },
+    {
+      "path": [
+        "spirit-still",
+        "vessels",
+        2,
+        "contents",
+        1,
+        "moles"
+      ],
+      "old": 0.11357106,
+      "new": 0.1136033
+    },
+    {
+      "path": [
+        "spirit-still",
+        "vessels",
+        3,
+        "contents",
+        0,
+        "moles"
+      ],
+      "old": 0.07306849,
+      "new": 0.07306577
+    },
+    {
+      "path": [
+        "spirit-still",
+        "vessels",
+        3,
+        "contents",
+        1,
+        "moles"
+      ],
+      "old": 0.01693151,
+      "new": 0.01693423
+    }
+  ],
+  "independent_checks": {
+    "four_vessel_totals_mol": [
+      "9.00000000",
+      "0.70000000",
+      "0.2100000",
+      "0.09000000"
+    ],
+    "water_total_mol": "9.39999999",
+    "ethanol_total_mol": "0.60000001",
+    "component_rounding_allowance_mol": "2.0E-8",
+    "successive_ethanol_enrichment": true
+  },
+  "rationale": "The accepted binary mixture integration changes its base mesh from 256 to 1024 and refines near depletion; supported bulk still answers therefore move at the fourth decimal. Only eight rounded amounts in spirit-still change. Event text/counts and every other lesson field remain identical. Original golden bytes are preserved separately. This is an explicit behavior snapshot update, not regenerated independent audit forecasts or empirical accuracy evidence.",
+  "acceptance": "The original required macOS job failed its frozen snapshot. New required gates must pass after this reviewed snapshot correction; pending."
+}

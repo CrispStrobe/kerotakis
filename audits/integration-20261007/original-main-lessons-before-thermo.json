@@ -7512,12 +7512,12 @@
       {
         "contents": [
           {
-            "moles": 0.27121282,
+            "moles": 0.27108082,
             "phase": "Liquid",
             "species": "ethanol"
           },
           {
-            "moles": 8.72878718,
+            "moles": 8.72891918,
             "phase": "Liquid",
             "species": "water"
           }
@@ -7529,12 +7529,12 @@
       {
         "contents": [
           {
-            "moles": 0.15932472,
+            "moles": 0.15942175,
             "phase": "Liquid",
             "species": "ethanol"
           },
           {
-            "moles": 0.54067528,
+            "moles": 0.54057825,
             "phase": "Liquid",
             "species": "water"
           }
@@ -7546,12 +7546,12 @@
       {
         "contents": [
           {
-            "moles": 0.0963967,
+            "moles": 0.09642894,
             "phase": "Liquid",
             "species": "ethanol"
           },
           {
-            "moles": 0.1136033,
+            "moles": 0.11357106,
             "phase": "Liquid",
             "species": "water"
           }
@@ -7563,12 +7563,12 @@
       {
         "contents": [
           {
-            "moles": 0.07306577,
+            "moles": 0.07306849,
             "phase": "Liquid",
             "species": "ethanol"
           },
           {
-            "moles": 0.01693423,
+            "moles": 0.01693151,
             "phase": "Liquid",
             "species": "water"
           }

@@ -4,7 +4,7 @@
 //! preserves a small correction that ordinary scalar updates can discard.
 //! It is bounded compensated arithmetic, not arbitrary precision: a third
 //! component can round away, and underflow can erase a product correction.
-//! No existing vessel, stock, or `Moles` inventory uses this type yet.
+//! Vessel and `Moles` inventories remain scalar; stock can opt into Amount.
 
 use serde::{Deserialize, Deserializer, Serialize};
 use std::fmt;

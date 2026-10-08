@@ -1,0 +1,48 @@
+{
+  "base_commit": "b31455cc9b5946cfdf8c3e43f29707f76b7ac688",
+  "contracts_before_port_commit": "00ea2cddd8f2d1c607fe4d868672802ca5b3e237",
+  "donor_commit": "c1d919907ca679ef4c1cb203ba33db1a9309c5fe",
+  "donor_aqueous_sha256": "3238241afaf9cbc43e1682d2d7be3f4c39149db5c08feca2c64047267e7a0dc7",
+  "hunks": [
+    {
+      "context": "replace obsolete solid_solution_element_inventory with checked_crystal_* helpers and declared caps",
+      "donor_sha256": "c52c45db4e0dbde907d628ce25c67387f2714e1040a83f82f0a1e3961842b5eb"
+    },
+    {
+      "context": "readback_raw_values: validate solvent mass and mandatory Ca/Sr/C base/state columns before clamps",
+      "donor_sha256": "cb799feca996c405d33e57faee7e22dc5b27061b2eefce4b2a48690a10d95e89"
+    },
+    {
+      "context": "readback_raw_values: typed component finite/nonnegative validation before assignment",
+      "donor_sha256": "36f52ef4a8b819f1a4d90df9cd07d6aa9a69b6f8d8af003410d85f171a83028d"
+    },
+    {
+      "context": "apply_balance_corrections: replace unconditional mixed-crystal rescaling/synthesis with checked helper",
+      "donor_sha256": "a434108bfd4a33f40c3d45b99ce5c861547394eafefb6a0e1e30fd57d5ad15e6"
+    },
+    {
+      "context": "core SolidSolution::has_valid_state: additionally require finite total_moles and mass",
+      "lines_added": 2
+    }
+  ],
+  "exclusions": [
+    "Native extensive scale wrapper/metadata/restoration and input precision changes",
+    "Trace-retention changes in distribution, rebuilding, inventory basis and vessel withdrawal",
+    "Thermal fixed-point/characterization changes",
+    "KNO3 dissociation heat data",
+    "unpriced_heat/Event::HeatUnpriced and uncertainty propagation",
+    "Broader solver-stack transaction changes"
+  ],
+  "compatibility": "Existing Amount and typed phase APIs on base; no new public Rust fields or event variants. Stricter refusal within existing SolveError::NotConverged and existing SolverFailed path. Original/adapted test bytes copied unchanged; donor validation does not establish main-based correctness.",
+  "validation": "Formatting and static provenance only; hosted baseline and repair execution pending.",
+  "ported_files": [
+    {
+      "path": "crates/kerotakis-phreeqc/src/aqueous.rs",
+      "sha256": "e451234f20fde7a33ebf851be9119a9822c90fcf2299bc510221503f1a5fddac"
+    },
+    {
+      "path": "crates/kerotakis-core/src/vessel.rs",
+      "sha256": "3d3d21eb92115619f553f604ad9abdae0f6e299918612255807c2039fc2cdd45"
+    }
+  ]
+}

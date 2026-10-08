@@ -22,7 +22,9 @@
 
 use std::collections::BTreeMap;
 
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Deserializer, Serialize, Serializer};
+
+use crate::amount::{Amount, AmountError};
 
 use crate::material;
 use crate::species;
@@ -68,6 +70,14 @@ pub struct StockAmount {
 /// empty" is a fact a caller may want to act on, not a sentence.
 #[derive(Debug, Clone, Copy, PartialEq, thiserror::Error)]
 pub enum StockRefusal {
+    #[error("stock withdrawal must be finite and nonnegative, got {requested}")]
+    InvalidRequest { requested: f64 },
+    #[error("cannot represent withdrawal of {requested} {unit} from {remaining} {unit}")]
+    Precision {
+        requested: f64,
+        remaining: f64,
+        unit: StockUnit,
+    },
     #[error("the bottle holds {remaining} {unit}, and {requested} {unit} was asked for")]
     Exhausted {
         requested: f64,
@@ -93,76 +103,217 @@ pub fn stock_unit(key: &str) -> Option<StockUnit> {
     })
 }
 
-/// Finite bottles, by shelf key. An absent key is an unlimited supply —
-/// the sandbox default — not a zero.
-#[derive(Debug, Clone, Default, PartialEq, Serialize, Deserialize)]
-#[serde(transparent)]
+/// The authoritative balance; the public StockAmount is only its scalar view.
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct OwnedStockAmount {
+    amount: Amount,
+    unit: StockUnit,
+}
+
+impl OwnedStockAmount {
+    fn projected(self) -> StockAmount {
+        StockAmount {
+            amount: self.amount.to_f64(),
+            unit: self.unit,
+        }
+    }
+}
+
+/// Finite bottles, by shelf key. An absent key is an unlimited supply.
+///
+/// The default retains the conservative scalar debit acceptance policy.
+/// Compensated accounting is deliberately opt-in; both modes own their
+/// balances as Amount, never as a scalar plus an independent residual map.
+#[derive(Debug, Clone, Default, PartialEq)]
 pub struct StockLedger {
-    bottles: BTreeMap<String, StockAmount>,
+    bottles: BTreeMap<String, OwnedStockAmount>,
+    compensated: bool,
 }
 
 impl StockLedger {
+    /// Explicitly opt into compensated bottle balances and strict overdraw
+    /// refusal. No ordinary script or legacy snapshot switches modes.
+    pub fn compensated() -> Self {
+        Self {
+            bottles: BTreeMap::new(),
+            compensated: true,
+        }
+    }
+
+    pub fn is_compensated(&self) -> bool {
+        self.compensated
+    }
+
     pub fn is_empty(&self) -> bool {
         self.bottles.is_empty()
     }
 
-    /// Put a finite amount of one key on the shelf, replacing whatever was
-    /// there. A negative request is clamped to an empty bottle rather than
-    /// creating a debt.
-    pub fn stock(&mut self, key: &str, amount: f64, unit: StockUnit) {
-        self.bottles.insert(
-            key.to_string(),
-            StockAmount {
-                amount: if amount.is_finite() && amount > 0.0 {
-                    amount
-                } else {
-                    0.0
-                },
-                unit,
-            },
-        );
+    /// Empty opted-in ledgers retain their mode in a Bench snapshot.
+    pub fn is_serialization_empty(&self) -> bool {
+        self.bottles.is_empty() && !self.compensated
     }
 
-    /// Return this key to an unlimited supply.
+    /// Replace a bottle. Invalid or negative input retains the established
+    /// stock API policy of creating an empty bottle rather than a debt.
+    pub fn stock(&mut self, key: &str, amount: f64, unit: StockUnit) {
+        let amount = Amount::new(amount).unwrap_or_else(|_| Amount::new(0.0).unwrap());
+        self.bottles
+            .insert(key.to_string(), OwnedStockAmount { amount, unit });
+    }
+
     pub fn unlimit(&mut self, key: &str) {
         self.bottles.remove(key);
     }
 
-    /// What is left, or `None` when this key is not tracked at all.
+    /// Rounded display value. In compensated mode a debit can change the
+    /// authoritative low component while leaving this projection unchanged.
     pub fn remaining(&self, key: &str) -> Option<StockAmount> {
-        self.bottles.get(key).copied()
+        self.bottles
+            .get(key)
+            .copied()
+            .map(OwnedStockAmount::projected)
     }
 
-    /// Every tracked bottle, in stable key order.
+    /// Complete authoritative amount, including its signed low component.
+    pub fn remaining_exact(&self, key: &str) -> Option<Amount> {
+        self.bottles.get(key).map(|bottle| bottle.amount)
+    }
+
     pub fn entries(&self) -> impl Iterator<Item = (&str, StockAmount)> + '_ {
         self.bottles
             .iter()
-            .map(|(key, amount)| (key.as_str(), *amount))
+            .map(|(key, amount)| (key.as_str(), amount.projected()))
     }
 
-    /// Take `amount` of `key` off the shelf.
-    ///
-    /// An untracked key succeeds and changes nothing — an unlimited supply
-    /// has nothing to decrement. A tracked key with too little left is
-    /// refused whole: no partial pour, because the operator that asked has
-    /// one amount and half of it is a different experiment.
+    /// Debit atomically. Default mode retains the existing scalar accuracy
+    /// certificate and relative final-bit exhaustion allowance. Compensated
+    /// mode instead certifies the change in both authoritative components and
+    /// refuses genuine overdraw without that allowance.
     pub fn draw(&mut self, key: &str, amount: f64) -> Result<(), StockRefusal> {
+        if !amount.is_finite() || amount < 0.0 {
+            return Err(StockRefusal::InvalidRequest { requested: amount });
+        }
+        if amount == 0.0 {
+            return Ok(());
+        }
         let Some(bottle) = self.bottles.get_mut(key) else {
             return Ok(());
         };
-        // A hair of float slack, so that drawing 100 mL from a bottle
-        // stocked at 100 mL is the last dispense rather than a refusal
-        // decided by the last bit of a f64.
-        let tolerance = 1e-9 * bottle.amount.abs().max(1.0);
-        if amount > bottle.amount + tolerance {
-            return Err(StockRefusal::Exhausted {
-                requested: amount,
-                remaining: bottle.amount,
-                unit: bottle.unit,
-            });
+        let before = bottle.amount;
+        let projected = before.to_f64();
+        let exhausted = || StockRefusal::Exhausted {
+            requested: amount,
+            remaining: projected,
+            unit: bottle.unit,
+        };
+        let precision = || StockRefusal::Precision {
+            requested: amount,
+            remaining: projected,
+            unit: bottle.unit,
+        };
+        if self.compensated {
+            let requested = Amount::new(amount).map_err(|_| precision())?;
+            let after = before.checked_sub(requested).map_err(|error| {
+                if error == AmountError::Negative {
+                    exhausted()
+                } else {
+                    precision()
+                }
+            })?;
+            let debit = before.checked_sub(after).map_err(|_| precision())?;
+            if after == before || (debit.to_f64() / amount - 1.0).abs() > 1e-8 {
+                return Err(precision());
+            }
+            bottle.amount = after;
+        } else {
+            // Conservative entries are scalar by construction and legacy
+            // loading. No serialization projection discards a low component.
+            if projected == 0.0 || (amount > projected && (amount / projected - 1.0).abs() > 1e-8) {
+                return Err(exhausted());
+            }
+            let after = (projected - amount).max(0.0);
+            if !after.is_finite() || ((projected - after) / amount - 1.0).abs() > 1e-8 {
+                return Err(precision());
+            }
+            bottle.amount = Amount::new(after).map_err(|_| precision())?;
         }
-        bottle.amount = (bottle.amount - amount).max(0.0);
         Ok(())
+    }
+}
+
+impl Serialize for StockLedger {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        if self.compensated {
+            #[derive(Serialize)]
+            struct Versioned<'a> {
+                schema: &'static str,
+                bottles: &'a BTreeMap<String, OwnedStockAmount>,
+            }
+            Versioned {
+                schema: "kerotakis-stock/2",
+                bottles: &self.bottles,
+            }
+            .serialize(serializer)
+        } else {
+            let legacy: BTreeMap<&str, StockAmount> = self.entries().collect();
+            legacy.serialize(serializer)
+        }
+    }
+}
+
+impl<'de> Deserialize<'de> for StockLedger {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        #[derive(Deserialize)]
+        #[serde(deny_unknown_fields)]
+        struct Versioned {
+            schema: String,
+            bottles: BTreeMap<String, OwnedStockAmount>,
+        }
+        #[derive(Deserialize)]
+        #[serde(untagged)]
+        enum Stored {
+            Versioned(Versioned),
+            Legacy(BTreeMap<String, StockAmount>),
+        }
+        match Stored::deserialize(deserializer)? {
+            Stored::Versioned(value) => {
+                if value.schema != "kerotakis-stock/2" {
+                    return Err(serde::de::Error::custom("unsupported stock ledger schema"));
+                }
+                Ok(Self {
+                    bottles: value.bottles,
+                    compensated: true,
+                })
+            }
+            Stored::Legacy(value) => {
+                let bottles = value
+                    .into_iter()
+                    .map(|(key, entry)| {
+                        Amount::new(entry.amount).map(|amount| {
+                            (
+                                key,
+                                OwnedStockAmount {
+                                    amount,
+                                    unit: entry.unit,
+                                },
+                            )
+                        })
+                    })
+                    .collect::<Result<_, _>>()
+                    .map_err(serde::de::Error::custom)?;
+                Ok(Self {
+                    bottles,
+                    compensated: false,
+                })
+            }
+        }
     }
 }
 
@@ -190,7 +341,10 @@ mod tests {
             requested,
             remaining,
             unit,
-        } = refusal;
+        } = refusal
+        else {
+            panic!("expected exhaustion, got {refusal:?}");
+        };
         assert!((requested - 0.4).abs() < 1e-12);
         assert!((remaining - 0.3).abs() < 1e-12);
         assert_eq!(unit, StockUnit::Mole);
