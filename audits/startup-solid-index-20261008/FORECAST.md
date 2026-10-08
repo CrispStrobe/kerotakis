@@ -1,0 +1,11 @@
+# Cache immutable solid formulas: frozen comparison contract
+
+Baseline production source: `7f5159a3832b70908fa8216c2f5fe92c4daf9796`, after the refusal, additional-solvent and withdrawal repairs merged. This is a source-informed optimization, separate from the independently forecast fifty experiments.
+
+The validated original profile on source `7bc43e08` attributes 533,395,842 inclusive instructions (38.64% of the F19 whole-process total) to `derived::registry_solid_matching`. The current baseline's matching implementation is identical. That function repeatedly parses every solid registry formula while matching database phases. The proposed change parses this immutable registry once per process, retaining registry order, exact elemental composition and exact hydrate count. It must not change aqueous routing, database initialization failures, chemical constants, numerical solve rules, or inspection/provenance output.
+
+Before production changes, `solid_registry_matching.rs` freezes positive carbonate/chloride/gypsum identities, incompatible hydrates, absent compositions, nonfinite hydrate refusal and concurrent lookup controls. Existing database crosswalk and chemistry controls remain required.
+
+Hosted comparison must build baseline and repair under the same generated dependency lock, toolchain and flags. Preserve source/tree/manifests/submodule/executable bindings and both build logs. Execute the same successful input on each binary; compare complete parsed JSON records exactly, including events, notices, provenance and inventory. Repeat seven interleaved native samples per binary after warmup. Report each sample, median and range; seven samples do not establish stable tail latency. A failed or changed workload cannot support an optimization claim.
+
+Measure the original F19, F39 and F45 scripts, preserving their forecast and binary provenance. Include a small pure-water setup and a neutral-salt control. Preserve any failed comparisons. An expected instruction reduction is a hypothesis until measured; no speedup is claimed by this forecast. Required PR checks must pass on the final implementation head. Combined-main full audit remains a separate acceptance requirement.
