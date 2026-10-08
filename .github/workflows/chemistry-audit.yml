@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          fetch-depth: 2
+          fetch-depth: 0
           submodules: recursive
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
@@ -30,7 +30,7 @@ jobs:
           mkdir -p baseline-evidence
           git rev-parse HEAD > baseline-evidence/revision.txt
           git diff --exit-code 45c44a4a84a521b909d49840f86d183f4d78fe06 HEAD -- crates/kerotakis-core/src
-          sha256sum crates/kerotakis-core/src/bench.rs crates/kerotakis-core/tests/still_refusal_diagnostics.rs Cargo.lock .github/workflows/chemistry-audit.yml > baseline-evidence/sha256.txt
+          sha256sum crates/kerotakis-core/src/bench.rs crates/kerotakis-core/tests/still_refusal_diagnostics.rs Cargo.toml .github/workflows/chemistry-audit.yml > baseline-evidence/sha256.txt
           cp crates/kerotakis-core/tests/still_refusal_diagnostics.rs baseline-evidence/
           rustc --version > baseline-evidence/toolchain.txt
           cargo --version >> baseline-evidence/toolchain.txt
@@ -41,6 +41,10 @@ jobs:
           cargo test -p kerotakis-core --test still_refusal_diagnostics -j1 -- --test-threads=1 2>&1 | tee baseline-evidence/test.log
           test_status=${PIPESTATUS[0]}
           printf '%s\n' "$test_status" > baseline-evidence/exit-status.txt
+          if [[ -f Cargo.lock ]]; then
+            sha256sum Cargo.lock > baseline-evidence/generated-lock-sha256.txt
+            cp Cargo.lock baseline-evidence/Cargo.lock
+          fi
           exit "$test_status"
       - name: Preserve baseline evidence regardless of result
         if: always()
