@@ -1,0 +1,30 @@
+{
+  "historical_source": "8cdab1f6ecd0b1132c4008014a5a0c5476429d17",
+  "prerequisite_source": "26cd8fc7d3554ddadaeebeb2750b3a92c4eadf54",
+  "kind": "Unchanged historical test restoration after implementation; not new independently frozen forecasts.",
+  "production_changes": false,
+  "files": [
+    {
+      "path": "crates/kerotakis-core/tests/solver_transactions.rs",
+      "sha256": "b7f47052a1cf1605dd682819faa16cea6d864f5bc95e73057540dff4c8639262",
+      "functions": 38
+    },
+    {
+      "path": "crates/kerotakis-core/tests/compensated_amount_contracts.rs",
+      "sha256": "a8eedfad311928ee275da464b220464ca9a3e92b586e55de9cedfa1e4193db48",
+      "functions": 15
+    },
+    {
+      "path": "audits/compensated-amount-contracts-20261004/freeze.json",
+      "sha256": "3fc244ac2450a6a0f97df678c21cb25a79bf4552c215192b9ee7ea512c5eb844"
+    }
+  ],
+  "functions": 53,
+  "acceptance": "Await PR771 repair acceptance. Then create a narrow PR, integrate actual main ancestry, compile all restored tests, preserve any first failure, and require all inherited workspace checks and five final-head gates. Do not weaken original contracts or count missing APIs as behavioral failures.",
+  "limitations": [
+    "Source compatibility is expected from code review but unverified by compilation.",
+    "Standalone Amount tests do not migrate authoritative vessel owners.",
+    "Historical full-audit bindings and exclusions remain unchanged."
+  ],
+  "formatting": "The historical Amount fixture needs rustfmt normalization under current CI. Preserve its original bytes separately and bind the formatted target before review. No expectation changes are permitted."
+}
