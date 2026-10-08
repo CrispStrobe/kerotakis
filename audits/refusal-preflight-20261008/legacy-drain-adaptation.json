@@ -1,0 +1,25 @@
+{
+  "kind": "explicit legacy Drain fixture adaptation after observed CI conflicts",
+  "pr_head_revision": "faea153bc77a1e0093e480c367ebdd341915796b",
+  "actual_executed_merge_revision": "05eb16de03c8236285c07b03be8e8135f9157b1b",
+  "source_binding": "Hosted checkout log records actual merge revision. GitHub compare from PR head to merge revision reports no changed files; both have identical source tree. The earlier runtime receipt source_revision identifies the PR head.",
+  "runtime_receipt": "audits/refusal-preflight-20261008/mac-native-faea153b.json",
+  "production_changes": "none",
+  "adaptations": [
+    {
+      "file": "crates/kerotakis-core/tests/liquid_extraction.rs",
+      "original_archive": "audits/refusal-preflight-20261008/legacy-drain-originals/liquid_extraction.rs",
+      "before_sha256": "b9b5bee8a6ba342f49a0405332729eccb898ddf1ee7b022b9f43651215ccaad8",
+      "after_sha256": "70c81cab7daedd15e960eb592d8ea499aa3cb617a99d1493e9e8739926b3d516",
+      "change": "Replace rejected-Drain empty-created-receiver assertions with complete Bench except log equality and no VesselCreated. Original source-vessel and temperature-boundary diagnostic assertions retained."
+    },
+    {
+      "file": "crates/kerotakis-core/tests/proportional_transfer.rs",
+      "original_archive": "audits/refusal-preflight-20261008/legacy-drain-originals/proportional_transfer.rs",
+      "before_sha256": "18528157fac382f3f114c4f2f034dccd7b23ddb0050d6e8a40385dd8593977fe",
+      "after_sha256": "2322d79e9cd2ce9fb23ded40e2d90974d16cddeff6d7919bbd7f4663c5ebec0b",
+      "change": "For accepted Drain only, add 10mL hexane and require actual layered_pair before existing receiver creation/count assertions. Filter and Decant setup/assertions unchanged."
+    }
+  ],
+  "pending": "Adapted controls and refreshed required CI have not run. Original 30 new and20 inherited targeted controls passed in the failed Mac job; that is not full-job acceptance."
+}

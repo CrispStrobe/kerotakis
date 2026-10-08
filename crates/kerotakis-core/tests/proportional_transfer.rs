@@ -164,6 +164,15 @@ fn a_transfer_creates_the_vessel_it_is_aimed_at() {
             let op = parse_op(setup).expect("valid").expect("operator");
             bench.step(op).expect("setup");
         }
+        if command.starts_with("drain ") {
+            // Drain creates a receiver for an accepted layer separation.
+            // A single liquid phase is an unchanged diagnostic refusal.
+            let op = parse_op("add v1 hexane 10mL")
+                .expect("valid")
+                .expect("operator");
+            bench.step(op).expect("layered drain setup");
+            assert!(kerotakis_core::solve::layered_pair(&bench.vessels[0]).is_some());
+        }
         let op = parse_op(command).expect("valid").expect("operator");
         let events = bench.step(op).unwrap_or_else(|e| panic!("{command}: {e}"));
         assert!(
