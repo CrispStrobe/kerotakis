@@ -1,0 +1,16 @@
+{
+  "base_commit": "b31455cc9b5946cfdf8c3e43f29707f76b7ac688",
+  "forecast_freeze_commit": "b1823e06a396a00a528968e23f3abc9bde229a2d",
+  "source_path": "crates/kerotakis-core/src/bench.rs",
+  "base_source_sha256": "71f9c17bf34309f32f3e3d784aa996c1984443694c665c657ad4cd9f451aedd1",
+  "prepared_source_sha256": "dc09b0ba4abb581e48f988330c6c3ced95c5d1c963518e9a3780d13082b16af0",
+  "frozen_tests_sha256": "9a73c728b8f6634d0c21568971ccbd3b975caf348bf1047c1fb605ed21e81d20",
+  "change": "Set ApplyDisposition::Unchanged only on five direct SafetyVeto branches and two false discard/recovery helper branches. Decant/Filter veto removes only a newly auto-created receiver and its corresponding VesselCreated event.",
+  "preserved_behavior": [
+    "Accepted transfer creation/warning/success order",
+    "Existing missing Mix receiver error",
+    "Accidental Poured/Broken spill progression",
+    "Stock-draw and binary-still behavior unchanged by this lane"
+  ],
+  "validation": "rustfmt and git diff --check only; no local builds; hosted baseline and repair pending"
+}
