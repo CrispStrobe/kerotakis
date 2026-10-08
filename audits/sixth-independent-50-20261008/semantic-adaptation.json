@@ -1,0 +1,87 @@
+{
+  "parent_forecast_sha256": "45e554283e8dd27e9483d45fe9cd33dd66a2d4fa208a8e47b7d3b2fb99ea3a0d",
+  "adapted_forecast_sha256": "9296a251a40c432155f841eae8dba48e1ab4bf8c358be4cd4ef47b1f401acd66",
+  "changes": [
+    {
+      "id": "S04",
+      "original_checks_sha256": "a92acab2bfa54a4b299da92f55cb858ba7719b943676a7863780c33b4f21c7e3",
+      "adapted_checks_sha256": "3bdf0c141e882f9476ef255da56e5ad58b8bede5e876e5459bcfd3a17a5db730",
+      "added_variants": []
+    },
+    {
+      "id": "S05",
+      "original_checks_sha256": "96f1ac67fdb2e7582a21d46fc0e790b12502a2ed6214e5269c5140377f31bca9",
+      "adapted_checks_sha256": "57a67620635429edf436494732c6221a590b791bacbbc34678350d7e627c182b",
+      "added_variants": []
+    },
+    {
+      "id": "S07",
+      "original_checks_sha256": "e12e1f7c5b3204e9ab295a6cfdd42fea2fdc6d0fe072cd43bb70e6bbce3df57c",
+      "adapted_checks_sha256": "4359ca9421fd007d397eb81387dd9de1189b451873bc3f4661ed076412adf342",
+      "added_variants": []
+    },
+    {
+      "id": "S08",
+      "original_checks_sha256": "d70d53b0e2d09c9a801d352421c5292c4a5e863a523f81f655da952da8910126",
+      "adapted_checks_sha256": "39f8d2f284d3b38909d2377ecc394339c7c7122fe3a35d941a318333509ac2c3",
+      "added_variants": []
+    },
+    {
+      "id": "S12",
+      "original_checks_sha256": "c1920d458ce995c6286bfebf49288b3ac1dc9a7cde1b9c38cc23fd75043a3ff9",
+      "adapted_checks_sha256": "f672b3c5b0e5159e647e542782daf2100005d871452a22ff548ea0722be82613",
+      "added_variants": []
+    },
+    {
+      "id": "S13",
+      "original_checks_sha256": "cdbfc136126fe40bce0829824295dcc90bb7406b807f90062261e1542ef7c576",
+      "adapted_checks_sha256": "3c024bcb9884aa777e5dc111b11137b0f149960df13459888204ff9944b7d895",
+      "added_variants": []
+    },
+    {
+      "id": "S45",
+      "original_checks_sha256": "043f8b877b685a3a127c6d6e2d0a10175d6a6a895ff7b42ab70763b237db4cbe",
+      "adapted_checks_sha256": "6e17028f4f13b08e00af66a8beb430affafa3861820d0af83f840780e5b958fa",
+      "added_variants": []
+    },
+    {
+      "id": "S46",
+      "original_checks_sha256": "2df198acf212f63a6990789407f76299ed9a02b608157884d1f43af30d07e92f",
+      "adapted_checks_sha256": "7de733b6c79439e7444d47fc9605eeca767a60425bb155591bd0bf7af2e78ebe",
+      "added_variants": [
+        "b"
+      ]
+    },
+    {
+      "id": "S47",
+      "original_checks_sha256": "70f4253eb50485347e575a3e3d591578f91db455bcb79b35dc9912c852c07add",
+      "adapted_checks_sha256": "38d85c073a38aa09c737389955ea291fc0f1cf68bacd53961ff4f8cbffdaba6c",
+      "added_variants": [
+        "c",
+        "d"
+      ]
+    },
+    {
+      "id": "S48",
+      "original_checks_sha256": "c9942092202c02bc030e45d9d5936cd51d42e3c7888b6d7d6c7cf1c6e58abfd4",
+      "adapted_checks_sha256": "e22330a6b0e79941b8bb5c42c72031ac5b92a01784827b0555cffae778ddd475",
+      "added_variants": [
+        "c"
+      ]
+    },
+    {
+      "id": "S50",
+      "original_checks_sha256": "d46f8bbf240a7fb2ce44d3757f44602b2c27fc1bf6174be3fd65fefb36ac8028",
+      "adapted_checks_sha256": "d4630681411c04ddc28fb7b20245bfd0b10c0bebc7b275263a958537a92050ed",
+      "added_variants": [
+        "b"
+      ]
+    }
+  ],
+  "limitations": [
+    "Ten original mismatches remain preserved.",
+    "S07 originally compared absent NaCl values (zero versus zero); this additional control closes that vacuous comparison.",
+    "Dissolved ions and sealed-in air are physical inventory, not material loss.",
+    "This replay changes observables and adds controls; it is not the syntax-only adaptation used for the fifth batch."
+  ]
+}

@@ -1,0 +1,910 @@
+{
+  "schema": 1,
+  "campaign": "sixth-semantic-replay-20261008",
+  "source_commit": "7bc43e089753483710507133ccc8377591bb3490",
+  "binary_sha256": "fcf424a65384c5ef5949960f228fda4e1c3e893ec93c65d58fe5b12064352967",
+  "source_scope": "Original fifth hosted executable, reused without compilation; predates subsequent main repairs.",
+  "independence": "Disclosed post-result semantic correction, not new independent experiments. Original scientific intent retained, ownership observables and boundary controls explicitly corrected before replay execution.",
+  "policy": "All scripts must exit zero, contain valid JSON, end in inspect, and satisfy every frozen check. Any model/safety notice remains a qualification even when numerical checks pass. Author, domain and engine failures must be distinguished by raw review; no silent edits.",
+  "parent_forecast_sha256": "45e554283e8dd27e9483d45fe9cd33dd66a2d4fa208a8e47b7d3b2fb99ea3a0d",
+  "cases": [
+    {
+      "id": "S04",
+      "title": "Partition and recombine brine",
+      "expectation": "Recombining both halves restores salt and solvent.",
+      "variants": {
+        "a": "new\nnew\nnew\nadd v1 water 2mol\nadd v1 NaCl 0.01mol\ndecant v1 v2 0.5\ndecant v2 v1 1\ninspect\n"
+      },
+      "checks": [
+        {
+          "lhs": {
+            "kind": "species",
+            "variant": "a",
+            "vessel": 1,
+            "species": "water"
+          },
+          "op": "near",
+          "rhs": 2,
+          "atol": 1e-10,
+          "rtol": 1e-07
+        },
+        {
+          "lhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "NaCl"
+              },
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "Na+"
+              }
+            ]
+          },
+          "op": "near",
+          "rhs": 0.01,
+          "atol": 1e-10,
+          "rtol": 1e-07
+        },
+        {
+          "lhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "NaCl"
+              },
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "Cl-"
+              }
+            ]
+          },
+          "op": "near",
+          "rhs": 0.01,
+          "atol": 1e-10,
+          "rtol": 1e-07
+        },
+        {
+          "lhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "NaCl"
+              },
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "Na+"
+              }
+            ]
+          },
+          "op": "near",
+          "rhs": 0.01,
+          "atol": 1e-10,
+          "rtol": 1e-07
+        }
+      ],
+      "adaptation": "Post-result ownership oracle correction; original outcome remains immutable."
+    },
+    {
+      "id": "S05",
+      "title": "Fine dilute tracer survives pour",
+      "expectation": "A soluble micromole-scale addition must be conserved under transfer.",
+      "variants": {
+        "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 KCl 1e-7mol\ndecant v1 v2 0.4\ninspect\n"
+      },
+      "checks": [
+        {
+          "lhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "KCl"
+              },
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "K+"
+              }
+            ]
+          },
+          "op": "near",
+          "rhs": 1e-07,
+          "atol": 1e-15,
+          "rtol": 1e-07
+        },
+        {
+          "lhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "KCl"
+              },
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "K+"
+              }
+            ]
+          },
+          "op": "gt",
+          "rhs": 0
+        },
+        {
+          "lhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "KCl"
+              },
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "Cl-"
+              }
+            ]
+          },
+          "op": "near",
+          "rhs": 1e-07,
+          "atol": 1e-15,
+          "rtol": 1e-07
+        },
+        {
+          "lhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "KCl"
+              },
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "K+"
+              }
+            ]
+          },
+          "op": "near",
+          "rhs": 1e-07,
+          "atol": 1e-15,
+          "rtol": 1e-07
+        }
+      ],
+      "adaptation": "Post-result ownership oracle correction; original outcome remains immutable."
+    },
+    {
+      "id": "S07",
+      "title": "Split salt dosing equals combined dosing",
+      "expectation": "Adding the same total neutral salt in two doses preserves ownership and pH.",
+      "variants": {
+        "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 NaCl 0.005mol\nadd v1 NaCl 0.005mol\ninspect\n",
+        "b": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 NaCl 0.01mol\ninspect\n"
+      },
+      "checks": [
+        {
+          "lhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "NaCl"
+              },
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "Na+"
+              }
+            ]
+          },
+          "op": "near",
+          "rhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 1,
+                "species": "NaCl"
+              },
+              {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 1,
+                "species": "Na+"
+              }
+            ]
+          },
+          "atol": 1e-10,
+          "rtol": 1e-07
+        },
+        {
+          "lhs": {
+            "kind": "ph",
+            "variant": "a",
+            "vessel": 1
+          },
+          "op": "near",
+          "rhs": {
+            "kind": "ph",
+            "variant": "b",
+            "vessel": 1
+          },
+          "atol": 0.02,
+          "rtol": 1e-07
+        },
+        {
+          "lhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "NaCl"
+              },
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "Cl-"
+              }
+            ]
+          },
+          "op": "near",
+          "rhs": 0.01,
+          "atol": 1e-10,
+          "rtol": 1e-07
+        },
+        {
+          "lhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "NaCl"
+              },
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "Na+"
+              }
+            ]
+          },
+          "op": "near",
+          "rhs": 0.01,
+          "atol": 1e-10,
+          "rtol": 1e-07
+        }
+      ],
+      "adaptation": "Post-result ownership oracle correction; original outcome remains immutable."
+    },
+    {
+      "id": "S08",
+      "title": "Filter clear brine twice",
+      "expectation": "Clear solution passes through a filter without salt creation or loss.",
+      "variants": {
+        "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 NaCl 0.001mol\nfilter v1 v2\nfilter v2 v3\ninspect\n"
+      },
+      "checks": [
+        {
+          "lhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "NaCl"
+              },
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "Na+"
+              }
+            ]
+          },
+          "op": "near",
+          "rhs": 0.001,
+          "atol": 1e-10,
+          "rtol": 1e-07
+        },
+        {
+          "lhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 3,
+                "species": "NaCl"
+              },
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 3,
+                "species": "Na+"
+              }
+            ]
+          },
+          "op": "gt",
+          "rhs": 0.0009
+        },
+        {
+          "lhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "NaCl"
+              },
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "Cl-"
+              }
+            ]
+          },
+          "op": "near",
+          "rhs": 0.001,
+          "atol": 1e-10,
+          "rtol": 1e-07
+        },
+        {
+          "lhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "NaCl"
+              },
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "Na+"
+              }
+            ]
+          },
+          "op": "near",
+          "rhs": 0.001,
+          "atol": 1e-10,
+          "rtol": 1e-07
+        }
+      ],
+      "adaptation": "Post-result ownership oracle correction; original outcome remains immutable."
+    },
+    {
+      "id": "S12",
+      "title": "Stirring preserves inert mixture",
+      "expectation": "Stirring dilute brine must conserve its components.",
+      "variants": {
+        "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 KCl 0.001mol\nstir v1 300rpm 5s\ninspect\n"
+      },
+      "checks": [
+        {
+          "lhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "KCl"
+              },
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "K+"
+              }
+            ]
+          },
+          "op": "near",
+          "rhs": 0.001,
+          "atol": 1e-10,
+          "rtol": 1e-07
+        },
+        {
+          "lhs": {
+            "kind": "species",
+            "variant": "a",
+            "vessel": 1,
+            "species": "water"
+          },
+          "op": "gt",
+          "rhs": 5
+        },
+        {
+          "lhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "KCl"
+              },
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "Cl-"
+              }
+            ]
+          },
+          "op": "near",
+          "rhs": 0.001,
+          "atol": 1e-10,
+          "rtol": 1e-07
+        },
+        {
+          "lhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "KCl"
+              },
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "K+"
+              }
+            ]
+          },
+          "op": "near",
+          "rhs": 0.001,
+          "atol": 1e-10,
+          "rtol": 1e-07
+        }
+      ],
+      "adaptation": "Post-result ownership oracle correction; original outcome remains immutable."
+    },
+    {
+      "id": "S13",
+      "title": "Double filtering an insoluble mineral",
+      "expectation": "Filtering should retain calcium carbonate while transferring solvent.",
+      "variants": {
+        "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 CaCO3 0.005mol\nfilter v1 v2\nfilter v2 v3\ninspect\n"
+      },
+      "checks": [
+        {
+          "lhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "CaCO3"
+              },
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "Ca+2"
+              }
+            ]
+          },
+          "op": "near",
+          "rhs": 0.005,
+          "atol": 1e-10,
+          "rtol": 1e-07
+        },
+        {
+          "lhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "CaCO3"
+              },
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "Ca+2"
+              }
+            ]
+          },
+          "op": "gt",
+          "rhs": 0.004
+        },
+        {
+          "lhs": {
+            "kind": "species",
+            "variant": "a",
+            "vessel": 3,
+            "species": "water"
+          },
+          "op": "gt",
+          "rhs": 4
+        }
+      ],
+      "adaptation": "Post-result ownership oracle correction; original outcome remains immutable."
+    },
+    {
+      "id": "S45",
+      "title": "Dilute potassium chloride remains dissolved",
+      "expectation": "A millimole of KCl in 100 mL should not precipitate.",
+      "variants": {
+        "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 KCl 0.001mol\ninspect\n"
+      },
+      "checks": [
+        {
+          "lhs": {
+            "kind": "solid",
+            "variant": "a",
+            "vessel": 1
+          },
+          "op": "lt",
+          "rhs": 1e-08
+        },
+        {
+          "lhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "KCl"
+              },
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "K+"
+              }
+            ]
+          },
+          "op": "near",
+          "rhs": 0.001,
+          "atol": 1e-10,
+          "rtol": 1e-07
+        },
+        {
+          "lhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "KCl"
+              },
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "Cl-"
+              }
+            ]
+          },
+          "op": "near",
+          "rhs": 0.001,
+          "atol": 1e-10,
+          "rtol": 1e-07
+        },
+        {
+          "lhs": {
+            "kind": "sum",
+            "terms": [
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "KCl"
+              },
+              {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "K+"
+              }
+            ]
+          },
+          "op": "near",
+          "rhs": 0.001,
+          "atol": 1e-10,
+          "rtol": 1e-07
+        }
+      ],
+      "adaptation": "Post-result ownership oracle correction; original outcome remains immutable."
+    },
+    {
+      "id": "S46",
+      "title": "Seal preserves nitrogen ownership",
+      "expectation": "Closing a nitrogen-containing vessel should not create or delete nitrogen.",
+      "variants": {
+        "a": "new\nnew\nnew\nadd v1 N2 0.001mol\nseal v1 100mL\ninspect\n",
+        "b": "new\nnew\nnew\nseal v1 100mL\ninspect\n"
+      },
+      "checks": [
+        {
+          "lhs": {
+            "kind": "difference",
+            "left": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "N2"
+            },
+            "right": {
+              "kind": "species",
+              "variant": "b",
+              "vessel": 1,
+              "species": "N2"
+            }
+          },
+          "op": "near",
+          "rhs": 0.001,
+          "atol": 1e-10,
+          "rtol": 1e-07
+        }
+      ],
+      "adaptation": "Post-result ownership oracle correction; original outcome remains immutable."
+    },
+    {
+      "id": "S47",
+      "title": "Smaller nitrogen headspace raises pressure",
+      "expectation": "At equal gas amount and temperature, halving headspace raises pressure.",
+      "variants": {
+        "a": "new\nnew\nnew\nadd v1 N2 0.001mol\nseal v1 100mL\ninspect\n",
+        "b": "new\nnew\nnew\nadd v1 N2 0.001mol\nseal v1 200mL\ninspect\n",
+        "c": "new\nnew\nnew\nseal v1 100mL\ninspect\n",
+        "d": "new\nnew\nnew\nseal v1 200mL\ninspect\n"
+      },
+      "checks": [
+        {
+          "lhs": {
+            "kind": "pressure",
+            "variant": "a",
+            "vessel": 1
+          },
+          "op": "gt",
+          "rhs": {
+            "kind": "pressure",
+            "variant": "b",
+            "vessel": 1
+          }
+        },
+        {
+          "lhs": {
+            "kind": "ratio",
+            "left": {
+              "kind": "difference",
+              "left": {
+                "kind": "pressure",
+                "variant": "a",
+                "vessel": 1
+              },
+              "right": {
+                "kind": "pressure",
+                "variant": "c",
+                "vessel": 1
+              }
+            },
+            "right": {
+              "kind": "difference",
+              "left": {
+                "kind": "pressure",
+                "variant": "b",
+                "vessel": 1
+              },
+              "right": {
+                "kind": "pressure",
+                "variant": "d",
+                "vessel": 1
+              }
+            }
+          },
+          "op": "between",
+          "rhs": [
+            1.5,
+            2.5
+          ]
+        }
+      ],
+      "adaptation": "Post-result ownership oracle correction; original outcome remains immutable."
+    },
+    {
+      "id": "S48",
+      "title": "Heating sealed nitrogen raises pressure",
+      "expectation": "A warmed sealed gas should show higher pressure than its unheated control.",
+      "variants": {
+        "a": "new\nnew\nnew\nadd v1 N2 0.01mol\nseal v1 1L\nheat v1 10J\ninspect\n",
+        "b": "new\nnew\nnew\nadd v1 N2 0.01mol\nseal v1 1L\ninspect\n",
+        "c": "new\nnew\nnew\nseal v1 1L\ninspect\n"
+      },
+      "checks": [
+        {
+          "lhs": {
+            "kind": "pressure",
+            "variant": "a",
+            "vessel": 1
+          },
+          "op": "gt",
+          "rhs": {
+            "kind": "pressure",
+            "variant": "b",
+            "vessel": 1
+          }
+        },
+        {
+          "lhs": {
+            "kind": "species",
+            "variant": "a",
+            "vessel": 1,
+            "species": "N2"
+          },
+          "op": "near",
+          "rhs": {
+            "kind": "species",
+            "variant": "b",
+            "vessel": 1,
+            "species": "N2"
+          },
+          "atol": 1e-10,
+          "rtol": 1e-07
+        },
+        {
+          "lhs": {
+            "kind": "difference",
+            "left": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "N2"
+            },
+            "right": {
+              "kind": "species",
+              "variant": "c",
+              "vessel": 1,
+              "species": "N2"
+            }
+          },
+          "op": "near",
+          "rhs": 0.01,
+          "atol": 1e-10,
+          "rtol": 1e-07
+        }
+      ],
+      "adaptation": "Post-result ownership oracle correction; original outcome remains immutable."
+    },
+    {
+      "id": "S50",
+      "title": "Sealed carbon dioxide inventory",
+      "expectation": "A finite gas charge in a sealed aqueous vessel remains owned across inspection.",
+      "variants": {
+        "a": "new\nnew\nnew\nadd v1 water 100mL\nseal v1 200mL\nadd v1 CO2 0.0001mol\ninspect\n",
+        "b": "new\nnew\nnew\nadd v1 water 100mL\nseal v1 200mL\ninspect\n"
+      },
+      "checks": [
+        {
+          "lhs": {
+            "kind": "difference",
+            "left": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "CO2"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "CO2(aq)"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "HCO3-"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "CO3-2"
+                }
+              ]
+            },
+            "right": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "b",
+                  "vessel": 1,
+                  "species": "CO2"
+                },
+                {
+                  "kind": "species",
+                  "variant": "b",
+                  "vessel": 1,
+                  "species": "CO2(aq)"
+                },
+                {
+                  "kind": "species",
+                  "variant": "b",
+                  "vessel": 1,
+                  "species": "HCO3-"
+                },
+                {
+                  "kind": "species",
+                  "variant": "b",
+                  "vessel": 1,
+                  "species": "CO3-2"
+                }
+              ]
+            }
+          },
+          "op": "near",
+          "rhs": 0.0001,
+          "atol": 1e-10,
+          "rtol": 1e-07
+        },
+        {
+          "lhs": {
+            "kind": "ph",
+            "variant": "a",
+            "vessel": 1
+          },
+          "op": "lt",
+          "rhs": 7
+        }
+      ],
+      "adaptation": "Post-result ownership oracle correction; original outcome remains immutable."
+    }
+  ]
+}
