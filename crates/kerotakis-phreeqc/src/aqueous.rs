@@ -8190,3 +8190,7 @@ mod solid_solution_raw_readback_contracts;
 #[cfg(test)]
 #[path = "../tests/solid_solution_phase_budget/contracts.rs"]
 mod solid_solution_raw_readback_contracts_budget;
+
+#[cfg(test)]
+#[path = "../tests/solid_solution_phase_budget/supplement.rs"]
+mod solid_solution_raw_readback_contracts_budget_supplement;
