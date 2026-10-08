@@ -1,0 +1,7 @@
+{
+  "parent": "0c64efc38579401b1a32b17c834d72aef147eeb1",
+  "fixture": "crates/kerotakis-core/tests/solver_electrode_schema_contracts.rs",
+  "fixture_sha256": "53bb14fcfd8ce8ce2e7943dbca36a76a32d9071c3109cdcd748f745b30ec8fe1",
+  "expected_test_functions": 8,
+  "scope": "Existing public APIs: canonical electrode validation, unique electrode labels, snapshot/direct/MIX atomic refusal and supported positive controls. Frozen before schema production edits and execution; source-informed, not an independent chemistry forecast."
+}
