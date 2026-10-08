@@ -1,0 +1,3670 @@
+{
+  "schema": 1,
+  "compiled_source": "80ed1c36450359d01c1db3c48db471ccb59ae393",
+  "main_commit": "b4455b7871889d0f1e1423390a3bc33a3ec9cdbd",
+  "identical_tree": "cf3766ba38223c674de733f1615570b1c9498d86",
+  "binary_sha256": "1e6d6373373909ee67e20a4aeaa6fefda2e85a43b5560d2515f917cce2b51c37",
+  "build_run": 37775230032,
+  "generated_lock_sha256": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+  "disclosure": "Source-informed replay, not new independent experiments. Fifth disclosed syntax fixes and sixth disclosed semantic controls replace their original cases; original scores and immutable forecasts remain preserved. Tree equality binds compiled source to this main checkpoint, not later PR767. Preserve every existing check and qualification.",
+  "parents": {
+    "fifth": {
+      "original_sha256": "4041d15bc70b108437bf6df909cbbf892f79d737b6ef6faae7f99bbde21a15f5",
+      "adapted_sha256": "6baa2c0e14347540e6bf329f5de64cde5636683f0efc0fb3b83866c6488c91da"
+    },
+    "sixth": {
+      "original_sha256": "45e554283e8dd27e9483d45fe9cd33dd66a2d4fa208a8e47b7d3b2fb99ea3a0d",
+      "adapted_sha256": "9296a251a40c432155f841eae8dba48e1ab4bf8c358be4cd4ef47b1f401acd66"
+    }
+  },
+  "sets": [
+    {
+      "name": "fifth",
+      "cases": [
+        {
+          "id": "F01",
+          "title": "An aliquot returns home",
+          "expectation": "A supported out-and-back water transfer conserves the original donor inventory.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 1mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 1mol\ndecant v1 v2 0.375\ndecant v2 v1 1\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 1,
+                "species": "water"
+              },
+              "atol": 2e-07,
+              "rtol": 2e-07
+            }
+          ]
+        },
+        {
+          "id": "F02",
+          "title": "Two quarter withdrawals",
+          "expectation": "Two successive quarter withdrawals leave the same water as one 7/16 withdrawal.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 1mol\ndecant v1 v2 0.25\ndecant v1 v2 0.25\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 1mol\ndecant v1 v2 0.4375\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 1,
+                "species": "water"
+              },
+              "atol": 2e-07,
+              "rtol": 2e-07
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 2,
+                "species": "water"
+              },
+              "atol": 2e-07,
+              "rtol": 2e-07
+            }
+          ]
+        },
+        {
+          "id": "F03",
+          "title": "Three-way split and reunion",
+          "expectation": "Water can travel through two receivers and return without loss.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 1mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 1mol\ndecant v1 v2 0.4\ndecant v1 v3 0.5\ndecant v2 v1 1\ndecant v3 v1 1\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 1,
+                "species": "water"
+              },
+              "atol": 2e-07,
+              "rtol": 2e-07
+            }
+          ]
+        },
+        {
+          "id": "F04",
+          "title": "Millilitres versus litres",
+          "expectation": "Equivalent water volume units produce equivalent mole inventory.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 137mL\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 0.137L\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 1,
+                "species": "water"
+              },
+              "atol": 2e-07,
+              "rtol": 2e-07
+            }
+          ]
+        },
+        {
+          "id": "F05",
+          "title": "Dose partitioning",
+          "expectation": "Four independent 0.125 mol doses equal a single 0.5 mol water dose.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 0.5mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 0.125mol\nadd v1 water 0.125mol\nadd v1 water 0.125mol\nadd v1 water 0.125mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 1,
+                "species": "water"
+              },
+              "atol": 2e-07,
+              "rtol": 2e-07
+            }
+          ]
+        },
+        {
+          "id": "F06",
+          "title": "Zero aliquot",
+          "expectation": "A zero-fraction decant transfers no water.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 1mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 1mol\ndecant v1 v2 0\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 1,
+                "species": "water"
+              },
+              "atol": 2e-07,
+              "rtol": 2e-07
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 2,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": 0,
+              "atol": 2e-07,
+              "rtol": 2e-07
+            }
+          ]
+        },
+        {
+          "id": "F07",
+          "title": "Exhaust the donor",
+          "expectation": "A complete water decant empties the donor and credits one mole to the receiver.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 1mol\ndecant v1 v2 1\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": 0,
+              "atol": 2e-07,
+              "rtol": 2e-07
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": 1,
+              "atol": 2e-07,
+              "rtol": 2e-07
+            }
+          ]
+        },
+        {
+          "id": "F08",
+          "title": "Filter a homogeneous liquid",
+          "expectation": "Filtering pure water transfers the liquid without creating or losing water.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 1mol\nfilter v1 v2\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": 0,
+              "atol": 2e-07,
+              "rtol": 2e-07
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": 1,
+              "atol": 2e-07,
+              "rtol": 2e-07
+            }
+          ]
+        },
+        {
+          "id": "F09",
+          "title": "Stirring is not matter creation",
+          "expectation": "Stirring homogeneous water preserves its molecular inventory.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 1mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 1mol\nstir v1 450rpm 12s\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 1,
+                "species": "water"
+              },
+              "atol": 2e-07,
+              "rtol": 2e-07
+            }
+          ]
+        },
+        {
+          "id": "F10",
+          "title": "Partition the clock",
+          "expectation": "Splitting a wait into two pieces preserves equilibrium water inventory.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 1mol\nwait 24s\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 1mol\nwait 7s\nwait 17s\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 1,
+                "species": "water"
+              },
+              "atol": 2e-07,
+              "rtol": 2e-07
+            }
+          ]
+        },
+        {
+          "id": "F11",
+          "title": "Larger thermal ballast",
+          "expectation": "The same 1 kJ heats 50 mL of water more than 200 mL, below phase transitions.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 50mL\nheat v1 1kJ\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 200mL\nheat v1 1kJ\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "temperature",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": {
+                "kind": "temperature",
+                "variant": "b",
+                "vessel": 1
+              }
+            },
+            {
+              "lhs": {
+                "kind": "temperature",
+                "variant": "b",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": 298.15
+            }
+          ]
+        },
+        {
+          "id": "F12",
+          "title": "Energy additivity",
+          "expectation": "Two 0.5 kJ additions and one 1 kJ addition reach the same single-phase temperature.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 1mol\nheat v1 0.5kJ\nheat v1 0.5kJ\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 1mol\nheat v1 1kJ\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "temperature",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "temperature",
+                "variant": "b",
+                "vessel": 1
+              },
+              "atol": 0.02,
+              "rtol": 0
+            }
+          ]
+        },
+        {
+          "id": "F13",
+          "title": "Thermal round trip",
+          "expectation": "Below phase transitions, adding and removing 0.5 kJ restores the initial temperature.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 1mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 1mol\nheat v1 0.5kJ\ncool v1 0.5kJ\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "temperature",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "temperature",
+                "variant": "b",
+                "vessel": 1
+              },
+              "atol": 0.1,
+              "rtol": 0
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 1,
+                "species": "water"
+              },
+              "atol": 2e-07,
+              "rtol": 2e-07
+            }
+          ]
+        },
+        {
+          "id": "F14",
+          "title": "Mix hot and cold portions",
+          "expectation": "A receiver mixing equal portions of hot and cold water ends between their temperatures.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nheat v1 1kJ\nadd v2 water 100mL\nmix v1 0.5 v2 0.5 into v3\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "temperature",
+                "variant": "a",
+                "vessel": 3
+              },
+              "op": "gt",
+              "rhs": {
+                "kind": "temperature",
+                "variant": "a",
+                "vessel": 2
+              }
+            },
+            {
+              "lhs": {
+                "kind": "temperature",
+                "variant": "a",
+                "vessel": 3
+              },
+              "op": "lt",
+              "rhs": {
+                "kind": "temperature",
+                "variant": "a",
+                "vessel": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "F15",
+          "title": "Molar heat capacity contrast",
+          "expectation": "Equal-mole water warms more than ethanol under the same small heat input.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 1mol\nheat v1 0.2kJ\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 ethanol 1mol\nheat v1 0.2kJ\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "temperature",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": {
+                "kind": "temperature",
+                "variant": "b",
+                "vessel": 1
+              }
+            },
+            {
+              "lhs": {
+                "kind": "temperature",
+                "variant": "b",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": 298.15
+            }
+          ]
+        },
+        {
+          "id": "F16",
+          "title": "Zero heat request",
+          "expectation": "Zero added energy preserves temperature and water inventory.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 1mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 1mol\nheat v1 0J\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "temperature",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "temperature",
+                "variant": "b",
+                "vessel": 1
+              },
+              "atol": 1e-08,
+              "rtol": 0
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 1,
+                "species": "water"
+              },
+              "atol": 2e-07,
+              "rtol": 2e-07
+            }
+          ]
+        },
+        {
+          "id": "F17",
+          "title": "Heat a rigid headspace",
+          "expectation": "Heating a sealed nitrogen/water system increases its temperature and pressure.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 10mL\nseal v1 500mL\nadd v1 N2 0.01mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 10mL\nseal v1 500mL\nadd v1 N2 0.01mol\nheat v1 0.5kJ\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "temperature",
+                "variant": "b",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": {
+                "kind": "temperature",
+                "variant": "a",
+                "vessel": 1
+              }
+            },
+            {
+              "lhs": {
+                "kind": "pressure",
+                "variant": "b",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": {
+                "kind": "pressure",
+                "variant": "a",
+                "vessel": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "F18",
+          "title": "Give gas more room",
+          "expectation": "A fixed nitrogen dose has lower pressure in a larger rigid headspace.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 10mL\nseal v1 100mL\nadd v1 N2 0.01mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 10mL\nseal v1 400mL\nadd v1 N2 0.01mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "pressure",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": {
+                "kind": "pressure",
+                "variant": "b",
+                "vessel": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "F19",
+          "title": "Dilute a strong acid",
+          "expectation": "Tenfold dilution raises dilute HCl pH by approximately one unit.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 HCl 0.001mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 HCl 0.001mol\ndilute v1 900mL\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "difference",
+                "left": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                },
+                "right": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                }
+              },
+              "op": "between",
+              "rhs": [
+                0.8,
+                1.2
+              ]
+            }
+          ]
+        },
+        {
+          "id": "F20",
+          "title": "Dilute a strong base",
+          "expectation": "Tenfold dilution lowers dilute NaOH pH by approximately one unit.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 NaOH 0.001mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 NaOH 0.001mol\ndilute v1 900mL\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "difference",
+                "left": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                },
+                "right": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                }
+              },
+              "op": "between",
+              "rhs": [
+                0.8,
+                1.2
+              ]
+            }
+          ]
+        },
+        {
+          "id": "F21",
+          "title": "Neutralization equivalence",
+          "expectation": "Equal dilute strong acid/base doses yield a nearly neutral solution.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 HCl 0.001mol\nadd v1 NaOH 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "between",
+              "rhs": [
+                6,
+                8
+              ]
+            }
+          ]
+        },
+        {
+          "id": "F22",
+          "title": "Acid beyond equivalence",
+          "expectation": "A two-to-one strong acid/base dose ratio leaves an acidic solution.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 HCl 0.002mol\nadd v1 NaOH 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "lt",
+              "rhs": 4
+            }
+          ]
+        },
+        {
+          "id": "F23",
+          "title": "Base beyond equivalence",
+          "expectation": "A two-to-one strong base/acid dose ratio leaves a basic solution.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 NaOH 0.002mol\nadd v1 HCl 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": 10
+            }
+          ]
+        },
+        {
+          "id": "F24",
+          "title": "Neutralization order",
+          "expectation": "Reversing dilute HCl/NaOH addition order reaches equivalent final pH.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 HCl 0.001mol\nadd v1 NaOH 0.001mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 NaOH 0.001mol\nadd v1 HCl 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              },
+              "atol": 0.05,
+              "rtol": 0
+            }
+          ]
+        },
+        {
+          "id": "F25",
+          "title": "Weak versus strong acid",
+          "expectation": "An equal analytical dose of acetic acid has higher pH than HCl.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 CH3COOH 0.001mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 HCl 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "F26",
+          "title": "Buffer resists acid",
+          "expectation": "A small HCl challenge lowers acetate-buffer pH by less than 0.2 units.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 CH3COOH 0.01mol\nadd v1 NaOAc 0.01mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 CH3COOH 0.01mol\nadd v1 NaOAc 0.01mol\nadd v1 HCl 0.0001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "difference",
+                "left": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                },
+                "right": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                }
+              },
+              "op": "between",
+              "rhs": [
+                0,
+                0.2
+              ]
+            }
+          ]
+        },
+        {
+          "id": "F27",
+          "title": "Buffer resists base",
+          "expectation": "A small NaOH challenge raises acetate-buffer pH by less than 0.2 units.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 CH3COOH 0.01mol\nadd v1 NaOAc 0.01mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 CH3COOH 0.01mol\nadd v1 NaOAc 0.01mol\nadd v1 NaOH 0.0001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "difference",
+                "left": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                },
+                "right": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                }
+              },
+              "op": "between",
+              "rhs": [
+                0,
+                0.2
+              ]
+            }
+          ]
+        },
+        {
+          "id": "F28",
+          "title": "Dilute both buffer partners",
+          "expectation": "Tenfold dilution of both buffer components changes pH by less than 0.25 units.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 CH3COOH 0.01mol\nadd v1 NaOAc 0.01mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 CH3COOH 0.01mol\nadd v1 NaOAc 0.01mol\ndilute v1 1800mL\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              },
+              "atol": 0.25,
+              "rtol": 0
+            }
+          ]
+        },
+        {
+          "id": "F29",
+          "title": "A neutral salt is not a strong acid or base",
+          "expectation": "Moderate NaCl in water remains broadly neutral, allowing an air boundary.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 NaCl 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "between",
+              "rhs": [
+                5,
+                9
+              ]
+            }
+          ]
+        },
+        {
+          "id": "F30",
+          "title": "Increase strong acid concentration",
+          "expectation": "A tenfold analytical HCl increase lowers pH by approximately one.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 HCl 0.0002mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 HCl 0.002mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "difference",
+                "left": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                },
+                "right": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                }
+              },
+              "op": "between",
+              "rhs": [
+                0.8,
+                1.2
+              ]
+            }
+          ]
+        },
+        {
+          "id": "F31",
+          "title": "Increase strong base concentration",
+          "expectation": "A tenfold analytical NaOH increase raises pH by approximately one.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 NaOH 0.0002mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 NaOH 0.002mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "difference",
+                "left": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                },
+                "right": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                }
+              },
+              "op": "between",
+              "rhs": [
+                0.8,
+                1.2
+              ]
+            }
+          ]
+        },
+        {
+          "id": "F32",
+          "title": "An aliquot retains intensive pH",
+          "expectation": "A homogeneous acid aliquot has the same pH as its remaining donor.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 HCl 0.001mol\ndecant v1 v2 0.4\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 2
+              },
+              "atol": 0.05,
+              "rtol": 0
+            }
+          ]
+        },
+        {
+          "id": "F33",
+          "title": "Retained CO2 changes pressure",
+          "expectation": "A sealed finite CO2 dose raises pressure compared with the same sealed water blank.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 20mL\nseal v1 100mL\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 20mL\nseal v1 100mL\nadd v1 CO2 0.002mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "pressure",
+                "variant": "b",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": {
+                "kind": "pressure",
+                "variant": "a",
+                "vessel": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "F34",
+          "title": "CO2 acidifies water",
+          "expectation": "A finite CO2 dose lowers water pH compared with an otherwise identical blank.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 CO2 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              },
+              "op": "lt",
+              "rhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "F35",
+          "title": "Generate gas inside a seal",
+          "expectation": "Acid plus bicarbonate raises sealed pressure compared with acid alone.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 20mL\nadd v1 HCl 0.002mol\nseal v1 100mL\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 20mL\nadd v1 HCl 0.002mol\nseal v1 100mL\nadd v1 NaHCO3 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "pressure",
+                "variant": "b",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": {
+                "kind": "pressure",
+                "variant": "a",
+                "vessel": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "F36",
+          "title": "Open and closed gas generation",
+          "expectation": "A closed bicarbonate reaction retains greater pressure than an open one.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 20mL\nadd v1 HCl 0.002mol\nadd v1 NaHCO3 0.001mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 20mL\nadd v1 HCl 0.002mol\nseal v1 100mL\nadd v1 NaHCO3 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "pressure",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "near",
+              "rhs": 101325,
+              "atol": 1,
+              "rtol": 0
+            },
+            {
+              "lhs": {
+                "kind": "pressure",
+                "variant": "b",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": {
+                "kind": "pressure",
+                "variant": "a",
+                "vessel": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "F37",
+          "title": "Opening releases excess pressure",
+          "expectation": "Opening a pressurized nitrogen vessel returns it to ambient pressure.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 10mL\nseal v1 100mL\nadd v1 N2 0.01mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 10mL\nseal v1 100mL\nadd v1 N2 0.01mol\nopen v1\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "pressure",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": {
+                "kind": "pressure",
+                "variant": "b",
+                "vessel": 1
+              }
+            },
+            {
+              "lhs": {
+                "kind": "pressure",
+                "variant": "b",
+                "vessel": 1
+              },
+              "op": "near",
+              "rhs": 101325,
+              "atol": 1,
+              "rtol": 0
+            }
+          ]
+        },
+        {
+          "id": "F38",
+          "title": "Rigid headspace preserves dose dependence",
+          "expectation": "A larger nitrogen dose raises rigid-headspace pressure.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 10mL\nseal v1 200mL\nadd v1 N2 0.005mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 10mL\nseal v1 200mL\nadd v1 N2 0.01mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "pressure",
+                "variant": "b",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": {
+                "kind": "pressure",
+                "variant": "a",
+                "vessel": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "F39",
+          "title": "Volatility enriches the first cut",
+          "expectation": "The early water/ethanol condensate is richer in ethanol than the 0.2 mole-fraction feed.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 4mol\nadd v1 ethanol 1mol\ndistil v1 v2 0.1\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ratio",
+                "left": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 2,
+                  "species": "ethanol"
+                },
+                "right": {
+                  "kind": "sum",
+                  "terms": [
+                    {
+                      "kind": "species",
+                      "variant": "a",
+                      "vessel": 2,
+                      "species": "water"
+                    },
+                    {
+                      "kind": "species",
+                      "variant": "a",
+                      "vessel": 2,
+                      "species": "ethanol"
+                    }
+                  ]
+                }
+              },
+              "op": "gt",
+              "rhs": 0.2
+            }
+          ]
+        },
+        {
+          "id": "F40",
+          "title": "Distillation closes both species",
+          "expectation": "A supported binary cut conserves total water and ethanol separately.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 4mol\nadd v1 ethanol 1mol\ndistil v1 v2 0.2\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": 4,
+              "atol": 1e-06,
+              "rtol": 1e-06
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "ethanol"
+              },
+              "op": "near",
+              "rhs": 1,
+              "atol": 1e-06,
+              "rtol": 1e-06
+            }
+          ]
+        },
+        {
+          "id": "F41",
+          "title": "Analytic pure-water cut",
+          "expectation": "A 20 percent pure-water cut moves 0.2 mol and leaves 0.8 mol.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 1mol\ndistil v1 v2 0.2\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": 0.8,
+              "atol": 2e-07,
+              "rtol": 2e-07
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": 0.2,
+              "atol": 2e-07,
+              "rtol": 2e-07
+            }
+          ]
+        },
+        {
+          "id": "F42",
+          "title": "More latent energy makes more condensate",
+          "expectation": "Below exhaustion, an 8 kJ pure-water cut collects more than a 4 kJ cut.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 1mol\ndistil v1 v2 4kJ\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 1mol\ndistil v1 v2 8kJ\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 2,
+                "species": "water"
+              },
+              "op": "gt",
+              "rhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "water"
+              }
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "water"
+              },
+              "op": "gt",
+              "rhs": 0
+            }
+          ]
+        },
+        {
+          "id": "F43",
+          "title": "Compose pure cuts",
+          "expectation": "Two 10 percent residual cuts collect the same pure water as a single 19 percent cut.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 1mol\ndistil v1 v2 0.1\ndistil v1 v2 0.1\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 1mol\ndistil v1 v2 0.19\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 2,
+                "species": "water"
+              },
+              "atol": 1e-06,
+              "rtol": 1e-06
+            }
+          ]
+        },
+        {
+          "id": "F44",
+          "title": "A filter separates insoluble solid",
+          "expectation": "Filtering a calcium-carbonate slurry leaves more explicit solid in the donor than receiver.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 CaCO3 0.1mol\nfilter v1 v2\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "solid",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": {
+                "kind": "solid",
+                "variant": "a",
+                "vessel": 2
+              }
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "water"
+              },
+              "op": "gt",
+              "rhs": 0
+            }
+          ]
+        },
+        {
+          "id": "F45",
+          "title": "Drain the denser liquid layer",
+          "expectation": "Water/hexane drainage selects the lower aqueous layer rather than the upper hexane inventory.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 1mol\nadd v1 hexane 1mol\ndrain v1 v2\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "water"
+              },
+              "op": "gt",
+              "rhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "hexane"
+              }
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "hexane"
+              },
+              "op": "gt",
+              "rhs": 0
+            }
+          ]
+        },
+        {
+          "id": "F46",
+          "title": "Nonvolatile sugar stays in the pot",
+          "expectation": "A small sucrose addition stays behind when a supported water cut distils.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 1mol\nadd v1 sucrose 0.001mol\ndistil v1 v2 0.1\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "sucrose"
+              },
+              "op": "near",
+              "rhs": 0,
+              "atol": 2e-07,
+              "rtol": 2e-07
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "sucrose"
+              },
+              "op": "gt",
+              "rhs": 0
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "water"
+              },
+              "op": "gt",
+              "rhs": 0
+            }
+          ]
+        },
+        {
+          "id": "F47",
+          "title": "Evaporation removes the requested solvent fraction",
+          "expectation": "Half evaporation of pure water leaves half its starting molecular inventory.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 1mol\nevaporate v1 0.5\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": 0.5,
+              "atol": 1e-06,
+              "rtol": 1e-06
+            }
+          ]
+        },
+        {
+          "id": "F48",
+          "title": "A dry salt cannot supply liquid distillate",
+          "expectation": "Dry nonvolatile salt distillation refuses visibly and preserves the donor state.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 NaCl 0.01mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 NaCl 0.01mol\ndistil v1 v2 0.2\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "state",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "equal",
+              "rhs": {
+                "kind": "state",
+                "variant": "b",
+                "vessel": 1
+              }
+            },
+            {
+              "lhs": {
+                "kind": "refusal",
+                "variant": "b",
+                "vessel": 1
+              },
+              "op": "eq",
+              "rhs": true
+            }
+          ]
+        },
+        {
+          "id": "F49",
+          "title": "Reject a negative transfer fraction",
+          "expectation": "A negative decant fraction is an explicit CLI failure, rather than a fabricated successful transfer.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 1mol\ndecant v1 v2 -0.2\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "exit_code",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "ne",
+              "rhs": 0
+            }
+          ]
+        },
+        {
+          "id": "F50",
+          "title": "Reject an excessive stage count",
+          "expectation": "A request for 129 ideal stages refuses visibly and preserves pure-water ownership.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 1mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 1mol\ndistil v1 v2 0.1 stages 129\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 1,
+                "species": "water"
+              },
+              "atol": 2e-07,
+              "rtol": 2e-07
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 2,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": 0,
+              "atol": 2e-07,
+              "rtol": 2e-07
+            },
+            {
+              "lhs": {
+                "kind": "refusal",
+                "variant": "b",
+                "vessel": 1
+              },
+              "op": "eq",
+              "rhs": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sixth",
+      "cases": [
+        {
+          "id": "S01",
+          "title": "Two serial half pours leave one quarter",
+          "expectation": "Successive fractions act on the remaining donor, preserving total water.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 1mol\ndecant v1 v2 0.5\ndecant v1 v3 0.5\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": 0.25,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": 0.5,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 3,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": 0.25,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": 1,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            }
+          ]
+        },
+        {
+          "id": "S02",
+          "title": "Return a poured aliquot",
+          "expectation": "Pouring the complete aliquot back restores water ownership.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 2mol\ndecant v1 v2 0.3\ndecant v2 v1 1\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": 2,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": 0,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            }
+          ]
+        },
+        {
+          "id": "S03",
+          "title": "Empty donor does not invent liquid",
+          "expectation": "A subsequent pour from an exhausted donor has no material to transfer.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 1mol\ndecant v1 v2 1\ndecant v1 v3 0.5\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": 1,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 3,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": 0,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            }
+          ]
+        },
+        {
+          "id": "S04",
+          "title": "Partition and recombine brine",
+          "expectation": "Recombining both halves restores salt and solvent.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 2mol\nadd v1 NaCl 0.01mol\ndecant v1 v2 0.5\ndecant v2 v1 1\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": 2,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 1,
+                    "species": "NaCl"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 1,
+                    "species": "Na+"
+                  }
+                ]
+              },
+              "op": "near",
+              "rhs": 0.01,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "NaCl"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "Cl-"
+                  }
+                ]
+              },
+              "op": "near",
+              "rhs": 0.01,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "NaCl"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "Na+"
+                  }
+                ]
+              },
+              "op": "near",
+              "rhs": 0.01,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            }
+          ],
+          "adaptation": "Post-result ownership oracle correction; original outcome remains immutable."
+        },
+        {
+          "id": "S05",
+          "title": "Fine dilute tracer survives pour",
+          "expectation": "A soluble micromole-scale addition must be conserved under transfer.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 KCl 1e-7mol\ndecant v1 v2 0.4\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "KCl"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "K+"
+                  }
+                ]
+              },
+              "op": "near",
+              "rhs": 1e-07,
+              "atol": 1e-15,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 2,
+                    "species": "KCl"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 2,
+                    "species": "K+"
+                  }
+                ]
+              },
+              "op": "gt",
+              "rhs": 0
+            },
+            {
+              "lhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "KCl"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "Cl-"
+                  }
+                ]
+              },
+              "op": "near",
+              "rhs": 1e-07,
+              "atol": 1e-15,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "KCl"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "K+"
+                  }
+                ]
+              },
+              "op": "near",
+              "rhs": 1e-07,
+              "atol": 1e-15,
+              "rtol": 1e-07
+            }
+          ],
+          "adaptation": "Post-result ownership oracle correction; original outcome remains immutable."
+        },
+        {
+          "id": "S06",
+          "title": "Gravimetric water unit equivalence",
+          "expectation": "18.01528 grams and one mole denote essentially the same water amount.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 18.01528g\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 1mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 1,
+                "species": "water"
+              },
+              "atol": 1e-05,
+              "rtol": 0.0001
+            }
+          ]
+        },
+        {
+          "id": "S07",
+          "title": "Split salt dosing equals combined dosing",
+          "expectation": "Adding the same total neutral salt in two doses preserves ownership and pH.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 NaCl 0.005mol\nadd v1 NaCl 0.005mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 NaCl 0.01mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 1,
+                    "species": "NaCl"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 1,
+                    "species": "Na+"
+                  }
+                ]
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "b",
+                    "vessel": 1,
+                    "species": "NaCl"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "b",
+                    "vessel": 1,
+                    "species": "Na+"
+                  }
+                ]
+              },
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              },
+              "atol": 0.02,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "NaCl"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "Cl-"
+                  }
+                ]
+              },
+              "op": "near",
+              "rhs": 0.01,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "NaCl"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "Na+"
+                  }
+                ]
+              },
+              "op": "near",
+              "rhs": 0.01,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            }
+          ],
+          "adaptation": "Post-result ownership oracle correction; original outcome remains immutable."
+        },
+        {
+          "id": "S08",
+          "title": "Filter clear brine twice",
+          "expectation": "Clear solution passes through a filter without salt creation or loss.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 NaCl 0.001mol\nfilter v1 v2\nfilter v2 v3\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "NaCl"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "Na+"
+                  }
+                ]
+              },
+              "op": "near",
+              "rhs": 0.001,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 3,
+                    "species": "NaCl"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 3,
+                    "species": "Na+"
+                  }
+                ]
+              },
+              "op": "gt",
+              "rhs": 0.0009
+            },
+            {
+              "lhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "NaCl"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "Cl-"
+                  }
+                ]
+              },
+              "op": "near",
+              "rhs": 0.001,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "NaCl"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "Na+"
+                  }
+                ]
+              },
+              "op": "near",
+              "rhs": 0.001,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            }
+          ],
+          "adaptation": "Post-result ownership oracle correction; original outcome remains immutable."
+        },
+        {
+          "id": "S09",
+          "title": "Magnet leaves water and copper behind",
+          "expectation": "A magnet should not carry nonmagnetic water or copper to its receiver.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 Cu 0.001mol\nmagnet v1 v2\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "Cu"
+              },
+              "op": "near",
+              "rhs": 0,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": 0,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "Cu"
+              },
+              "op": "near",
+              "rhs": 0.001,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            }
+          ]
+        },
+        {
+          "id": "S10",
+          "title": "Magnet separates iron from copper",
+          "expectation": "A magnetic separation should selectively transfer iron.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 Fe 0.001mol\nadd v1 Cu 0.001mol\nmagnet v1 v2\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "Fe"
+              },
+              "op": "gt",
+              "rhs": 0.0009
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "Cu"
+              },
+              "op": "near",
+              "rhs": 0,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 0,
+                "species": "Fe"
+              },
+              "op": "near",
+              "rhs": 0.001,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            }
+          ]
+        },
+        {
+          "id": "S11",
+          "title": "Grinding preserves solid amount",
+          "expectation": "Changing iron particle size should not change owned iron.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 Fe 0.002mol\ngrind v1 Fe 20um\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "Fe"
+              },
+              "op": "near",
+              "rhs": 0.002,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            }
+          ]
+        },
+        {
+          "id": "S12",
+          "title": "Stirring preserves inert mixture",
+          "expectation": "Stirring dilute brine must conserve its components.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 KCl 0.001mol\nstir v1 300rpm 5s\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 1,
+                    "species": "KCl"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 1,
+                    "species": "K+"
+                  }
+                ]
+              },
+              "op": "near",
+              "rhs": 0.001,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "water"
+              },
+              "op": "gt",
+              "rhs": 5
+            },
+            {
+              "lhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "KCl"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "Cl-"
+                  }
+                ]
+              },
+              "op": "near",
+              "rhs": 0.001,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "KCl"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "K+"
+                  }
+                ]
+              },
+              "op": "near",
+              "rhs": 0.001,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            }
+          ],
+          "adaptation": "Post-result ownership oracle correction; original outcome remains immutable."
+        },
+        {
+          "id": "S13",
+          "title": "Double filtering an insoluble mineral",
+          "expectation": "Filtering should retain calcium carbonate while transferring solvent.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 CaCO3 0.005mol\nfilter v1 v2\nfilter v2 v3\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "CaCO3"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "Ca+2"
+                  }
+                ]
+              },
+              "op": "near",
+              "rhs": 0.005,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 1,
+                    "species": "CaCO3"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 1,
+                    "species": "Ca+2"
+                  }
+                ]
+              },
+              "op": "gt",
+              "rhs": 0.004
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 3,
+                "species": "water"
+              },
+              "op": "gt",
+              "rhs": 4
+            }
+          ],
+          "adaptation": "Post-result ownership oracle correction; original outcome remains immutable."
+        },
+        {
+          "id": "S14",
+          "title": "Vessel independence under heating",
+          "expectation": "Heating one beaker must not heat a separate control beaker.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v2 water 100mL\nheat v1 1kJ\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 100mL\nadd v2 water 100mL\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "temperature",
+                "variant": "a",
+                "vessel": 2
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "temperature",
+                "variant": "b",
+                "vessel": 2
+              },
+              "atol": 1e-09,
+              "rtol": 1e-07
+            }
+          ]
+        },
+        {
+          "id": "S15",
+          "title": "Empty receiver identity",
+          "expectation": "Creating an unused receiver leaves its inventory empty.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\ndecant v1 v2 0.25\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 3,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": 0,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 3,
+                "species": "NaCl"
+              },
+              "op": "near",
+              "rhs": 0,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            }
+          ]
+        },
+        {
+          "id": "S16",
+          "title": "Heat then equal cool restores temperature",
+          "expectation": "Equal moderate energy increments should cancel for liquid water.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nheat v1 1kJ\ncool v1 1kJ\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 100mL\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "temperature",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "temperature",
+                "variant": "b",
+                "vessel": 1
+              },
+              "atol": 0.1,
+              "rtol": 1e-07
+            }
+          ]
+        },
+        {
+          "id": "S17",
+          "title": "Two heat pulses equal one",
+          "expectation": "In the same phase, splitting an energy dose should produce the same temperature.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nheat v1 500J\nheat v1 500J\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 100mL\nheat v1 1kJ\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "temperature",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "temperature",
+                "variant": "b",
+                "vessel": 1
+              },
+              "atol": 0.1,
+              "rtol": 1e-07
+            }
+          ]
+        },
+        {
+          "id": "S18",
+          "title": "Cooling pulse scales with dose",
+          "expectation": "A larger cooling dose must lower temperature further.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\ncool v1 1kJ\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 100mL\ncool v1 500J\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "temperature",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "lt",
+              "rhs": {
+                "kind": "temperature",
+                "variant": "b",
+                "vessel": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "S19",
+          "title": "Double water mass halves warming",
+          "expectation": "Sensible temperature rise should scale inversely with water mass.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nheat v1 1kJ\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 200mL\nheat v1 1kJ\ninspect\n",
+            "c": "new\nnew\nnew\nadd v1 water 100mL\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "difference",
+                "left": {
+                  "kind": "temperature",
+                  "variant": "a",
+                  "vessel": 1
+                },
+                "right": {
+                  "kind": "temperature",
+                  "variant": "c",
+                  "vessel": 1
+                }
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "difference",
+                    "left": {
+                      "kind": "temperature",
+                      "variant": "b",
+                      "vessel": 1
+                    },
+                    "right": {
+                      "kind": "temperature",
+                      "variant": "c",
+                      "vessel": 1
+                    }
+                  },
+                  {
+                    "kind": "difference",
+                    "left": {
+                      "kind": "temperature",
+                      "variant": "b",
+                      "vessel": 1
+                    },
+                    "right": {
+                      "kind": "temperature",
+                      "variant": "c",
+                      "vessel": 1
+                    }
+                  }
+                ]
+              },
+              "atol": 0.2,
+              "rtol": 0.05
+            }
+          ]
+        },
+        {
+          "id": "S20",
+          "title": "Joule and kilojoule notation agree",
+          "expectation": "Equivalent energy units should produce equal temperatures.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nheat v1 1200J\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 100mL\nheat v1 1.2kJ\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "temperature",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "temperature",
+                "variant": "b",
+                "vessel": 1
+              },
+              "atol": 1e-08,
+              "rtol": 1e-07
+            }
+          ]
+        },
+        {
+          "id": "S21",
+          "title": "Warm donor aliquot carries temperature",
+          "expectation": "Pouring pure warm water into an empty receiver should preserve its temperature.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL @ 40C\ndecant v1 v2 0.5\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "temperature",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "temperature",
+                "variant": "a",
+                "vessel": 2
+              },
+              "atol": 0.2,
+              "rtol": 1e-07
+            }
+          ]
+        },
+        {
+          "id": "S22",
+          "title": "Mix equal hot and cool water",
+          "expectation": "Equal water masses at 20 and 40 Celsius should mix near 30 Celsius.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL @ 20C\nadd v2 water 100mL @ 40C\ndecant v2 v1 1\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "temperature",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "between",
+              "rhs": [
+                302.15,
+                304.15
+              ]
+            }
+          ]
+        },
+        {
+          "id": "S23",
+          "title": "Cooling then heating restores temperature",
+          "expectation": "Reversing pulse order should also cancel away from phase changes.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\ncool v1 500J\nheat v1 500J\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 100mL\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "temperature",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "temperature",
+                "variant": "b",
+                "vessel": 1
+              },
+              "atol": 0.1,
+              "rtol": 1e-07
+            }
+          ]
+        },
+        {
+          "id": "S24",
+          "title": "Thermometer is passive",
+          "expectation": "Reading a thermometer must preserve material and temperature.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nmeasure v1 thermometer\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 100mL\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "temperature",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "temperature",
+                "variant": "b",
+                "vessel": 1
+              },
+              "atol": 1e-09,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "water"
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 1,
+                "species": "water"
+              },
+              "atol": 1e-10,
+              "rtol": 1e-07
+            }
+          ]
+        },
+        {
+          "id": "S25",
+          "title": "Energy splitting across aliquots",
+          "expectation": "Heating two equal halves by half the energy and recombining should match whole heating.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\ndecant v1 v2 0.5\nheat v1 500J\nheat v2 500J\ndecant v2 v1 1\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 100mL\nheat v1 1kJ\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "temperature",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "temperature",
+                "variant": "b",
+                "vessel": 1
+              },
+              "atol": 0.2,
+              "rtol": 1e-07
+            }
+          ]
+        },
+        {
+          "id": "S26",
+          "title": "Ammonia is basic",
+          "expectation": "An ammonia solution should be measurably basic.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 NH3 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "between",
+              "rhs": [
+                9,
+                12.5
+              ]
+            }
+          ]
+        },
+        {
+          "id": "S27",
+          "title": "Ammonium chloride is acidic",
+          "expectation": "Ammonium hydrolysis should lower pH below neutrality.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 NH4Cl 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "between",
+              "rhs": [
+                4,
+                6.8
+              ]
+            }
+          ]
+        },
+        {
+          "id": "S28",
+          "title": "Ammonia dilution lowers basicity",
+          "expectation": "Dilution of a weak base should move pH toward neutrality.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 NH3 0.001mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 NH3 0.001mol\ndilute v1 100mL\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              }
+            },
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": 7
+            }
+          ]
+        },
+        {
+          "id": "S29",
+          "title": "Ammonium dilution lowers acidity",
+          "expectation": "Dilution of a weak acid should raise pH toward neutrality.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 NH4Cl 0.001mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 NH4Cl 0.001mol\ndilute v1 100mL\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "lt",
+              "rhs": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              }
+            },
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              },
+              "op": "lt",
+              "rhs": 7
+            }
+          ]
+        },
+        {
+          "id": "S30",
+          "title": "Acetate salt is basic",
+          "expectation": "A sodium acetate solution should show conjugate-base hydrolysis.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 NaOAc 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "between",
+              "rhs": [
+                7.5,
+                10.5
+              ]
+            }
+          ]
+        },
+        {
+          "id": "S31",
+          "title": "Equal ammonia and ammonium buffer",
+          "expectation": "An equimolar weak-base buffer should lie near the ammonium pKa.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 NH3 0.001mol\nadd v1 NH4Cl 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "between",
+              "rhs": [
+                8.7,
+                9.8
+              ]
+            }
+          ]
+        },
+        {
+          "id": "S32",
+          "title": "Ammonia buffer resists small acid dose",
+          "expectation": "A buffer should remain basic after a small strong-acid dose.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 NH3 0.001mol\nadd v1 NH4Cl 0.001mol\nadd v1 HCl 0.0001mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 NH3 0.001mol\nadd v1 NH4Cl 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": 8
+            },
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "lt",
+              "rhs": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              }
+            },
+            {
+              "lhs": {
+                "kind": "difference",
+                "left": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                },
+                "right": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                }
+              },
+              "op": "lt",
+              "rhs": 0.5
+            }
+          ]
+        },
+        {
+          "id": "S33",
+          "title": "Ammonia buffer resists small base dose",
+          "expectation": "A small base dose should raise buffer pH only modestly.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 NH3 0.001mol\nadd v1 NH4Cl 0.001mol\nadd v1 NaOH 0.0001mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 NH3 0.001mol\nadd v1 NH4Cl 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              }
+            },
+            {
+              "lhs": {
+                "kind": "difference",
+                "left": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                },
+                "right": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                }
+              },
+              "op": "lt",
+              "rhs": 0.5
+            }
+          ]
+        },
+        {
+          "id": "S34",
+          "title": "Weak acid buffer dilution",
+          "expectation": "Diluting an equimolar acetate buffer should change pH little.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 CH3COOH 0.001mol\nadd v1 NaOAc 0.001mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 CH3COOH 0.001mol\nadd v1 NaOAc 0.001mol\ndilute v1 100mL\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              },
+              "atol": 0.15,
+              "rtol": 1e-07
+            }
+          ]
+        },
+        {
+          "id": "S35",
+          "title": "Acetate buffer composition ratio",
+          "expectation": "More conjugate base at fixed acid should raise buffer pH.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 CH3COOH 0.001mol\nadd v1 NaOAc 0.002mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 CH3COOH 0.001mol\nadd v1 NaOAc 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              }
+            },
+            {
+              "lhs": {
+                "kind": "difference",
+                "left": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                },
+                "right": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                }
+              },
+              "op": "between",
+              "rhs": [
+                0.15,
+                0.5
+              ]
+            }
+          ]
+        },
+        {
+          "id": "S36",
+          "title": "Partial weak-acid neutralization forms buffer",
+          "expectation": "Half-neutralized acetic acid should lie near its pKa.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 CH3COOH 0.002mol\nadd v1 NaOH 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "between",
+              "rhs": [
+                4.3,
+                5.2
+              ]
+            }
+          ]
+        },
+        {
+          "id": "S37",
+          "title": "Strong base in excess remains basic",
+          "expectation": "A millimole of excess hydroxide should dominate pH.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 HCl 0.001mol\nadd v1 NaOH 0.002mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "between",
+              "rhs": [
+                11,
+                13
+              ]
+            }
+          ]
+        },
+        {
+          "id": "S38",
+          "title": "Strong acid in excess remains acidic",
+          "expectation": "A millimole of excess strong acid should dominate pH.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 HCl 0.002mol\nadd v1 NaOH 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "between",
+              "rhs": [
+                1,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "id": "S39",
+          "title": "Neutralization addition order",
+          "expectation": "Reversing reagent addition should not change final equilibrium pH.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 HCl 0.001mol\nadd v1 NaOH 0.0005mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 NaOH 0.0005mol\nadd v1 HCl 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              },
+              "atol": 0.05,
+              "rtol": 1e-07
+            }
+          ]
+        },
+        {
+          "id": "S40",
+          "title": "Transferred buffer keeps pH",
+          "expectation": "An aliquot of a homogeneous acetate buffer should retain its donor pH.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 CH3COOH 0.001mol\nadd v1 NaOAc 0.001mol\ndecant v1 v2 0.4\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 2
+              },
+              "atol": 0.1,
+              "rtol": 1e-07
+            }
+          ]
+        },
+        {
+          "id": "S41",
+          "title": "Silver chloride precipitates",
+          "expectation": "Mixing dilute silver nitrate and chloride should produce a solid.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 AgNO3 0.001mol\nadd v1 NaCl 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "solid",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": 0.0005
+            }
+          ]
+        },
+        {
+          "id": "S42",
+          "title": "Precipitate filtering leaves solid donor",
+          "expectation": "Filtering silver chloride should retain most of the solid in its donor.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 AgNO3 0.001mol\nadd v1 NaCl 0.001mol\nfilter v1 v2\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "solid",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": 0.0005
+            },
+            {
+              "lhs": {
+                "kind": "solid",
+                "variant": "a",
+                "vessel": 2
+              },
+              "op": "lt",
+              "rhs": 0.0001
+            }
+          ]
+        },
+        {
+          "id": "S43",
+          "title": "Calcium carbonate from soluble salts",
+          "expectation": "Calcium and carbonate solutions should produce insoluble carbonate.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 CaCl2 0.001mol\nadd v1 Na2CO3 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "solid",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": 0.0005
+            }
+          ]
+        },
+        {
+          "id": "S44",
+          "title": "Barium sulfate precipitation",
+          "expectation": "Mixing soluble barium and sulfate should precipitate strongly.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2SO4 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "solid",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": 0.0005
+            }
+          ]
+        },
+        {
+          "id": "S45",
+          "title": "Dilute potassium chloride remains dissolved",
+          "expectation": "A millimole of KCl in 100 mL should not precipitate.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 KCl 0.001mol\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "solid",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "lt",
+              "rhs": 1e-08
+            },
+            {
+              "lhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 1,
+                    "species": "KCl"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 1,
+                    "species": "K+"
+                  }
+                ]
+              },
+              "op": "near",
+              "rhs": 0.001,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "KCl"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "Cl-"
+                  }
+                ]
+              },
+              "op": "near",
+              "rhs": 0.001,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "KCl"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 0,
+                    "species": "K+"
+                  }
+                ]
+              },
+              "op": "near",
+              "rhs": 0.001,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            }
+          ],
+          "adaptation": "Post-result ownership oracle correction; original outcome remains immutable."
+        },
+        {
+          "id": "S46",
+          "title": "Seal preserves nitrogen ownership",
+          "expectation": "Closing a nitrogen-containing vessel should not create or delete nitrogen.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 N2 0.001mol\nseal v1 100mL\ninspect\n",
+            "b": "new\nnew\nnew\nseal v1 100mL\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "difference",
+                "left": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "N2"
+                },
+                "right": {
+                  "kind": "species",
+                  "variant": "b",
+                  "vessel": 1,
+                  "species": "N2"
+                }
+              },
+              "op": "near",
+              "rhs": 0.001,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            }
+          ],
+          "adaptation": "Post-result ownership oracle correction; original outcome remains immutable."
+        },
+        {
+          "id": "S47",
+          "title": "Smaller nitrogen headspace raises pressure",
+          "expectation": "At equal gas amount and temperature, halving headspace raises pressure.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 N2 0.001mol\nseal v1 100mL\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 N2 0.001mol\nseal v1 200mL\ninspect\n",
+            "c": "new\nnew\nnew\nseal v1 100mL\ninspect\n",
+            "d": "new\nnew\nnew\nseal v1 200mL\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "pressure",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": {
+                "kind": "pressure",
+                "variant": "b",
+                "vessel": 1
+              }
+            },
+            {
+              "lhs": {
+                "kind": "ratio",
+                "left": {
+                  "kind": "difference",
+                  "left": {
+                    "kind": "pressure",
+                    "variant": "a",
+                    "vessel": 1
+                  },
+                  "right": {
+                    "kind": "pressure",
+                    "variant": "c",
+                    "vessel": 1
+                  }
+                },
+                "right": {
+                  "kind": "difference",
+                  "left": {
+                    "kind": "pressure",
+                    "variant": "b",
+                    "vessel": 1
+                  },
+                  "right": {
+                    "kind": "pressure",
+                    "variant": "d",
+                    "vessel": 1
+                  }
+                }
+              },
+              "op": "between",
+              "rhs": [
+                1.5,
+                2.5
+              ]
+            }
+          ],
+          "adaptation": "Post-result ownership oracle correction; original outcome remains immutable."
+        },
+        {
+          "id": "S48",
+          "title": "Heating sealed nitrogen raises pressure",
+          "expectation": "A warmed sealed gas should show higher pressure than its unheated control.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 N2 0.01mol\nseal v1 1L\nheat v1 10J\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 N2 0.01mol\nseal v1 1L\ninspect\n",
+            "c": "new\nnew\nnew\nseal v1 1L\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "pressure",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "gt",
+              "rhs": {
+                "kind": "pressure",
+                "variant": "b",
+                "vessel": 1
+              }
+            },
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "N2"
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 1,
+                "species": "N2"
+              },
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "difference",
+                "left": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "N2"
+                },
+                "right": {
+                  "kind": "species",
+                  "variant": "c",
+                  "vessel": 1,
+                  "species": "N2"
+                }
+              },
+              "op": "near",
+              "rhs": 0.01,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            }
+          ],
+          "adaptation": "Post-result ownership oracle correction; original outcome remains immutable."
+        },
+        {
+          "id": "S49",
+          "title": "Pressure reading is passive",
+          "expectation": "A pressure reading should not alter sealed gas ownership or pressure.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 N2 0.001mol\nseal v1 100mL\nmeasure v1 pressure\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 N2 0.001mol\nseal v1 100mL\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "N2"
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 1,
+                "species": "N2"
+              },
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "pressure",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "near",
+              "rhs": {
+                "kind": "pressure",
+                "variant": "b",
+                "vessel": 1
+              },
+              "atol": 1e-06,
+              "rtol": 1e-07
+            }
+          ]
+        },
+        {
+          "id": "S50",
+          "title": "Sealed carbon dioxide inventory",
+          "expectation": "A finite gas charge in a sealed aqueous vessel remains owned across inspection.",
+          "variants": {
+            "a": "new\nnew\nnew\nadd v1 water 100mL\nseal v1 200mL\nadd v1 CO2 0.0001mol\ninspect\n",
+            "b": "new\nnew\nnew\nadd v1 water 100mL\nseal v1 200mL\ninspect\n"
+          },
+          "checks": [
+            {
+              "lhs": {
+                "kind": "difference",
+                "left": {
+                  "kind": "sum",
+                  "terms": [
+                    {
+                      "kind": "species",
+                      "variant": "a",
+                      "vessel": 1,
+                      "species": "CO2"
+                    },
+                    {
+                      "kind": "species",
+                      "variant": "a",
+                      "vessel": 1,
+                      "species": "CO2(aq)"
+                    },
+                    {
+                      "kind": "species",
+                      "variant": "a",
+                      "vessel": 1,
+                      "species": "HCO3-"
+                    },
+                    {
+                      "kind": "species",
+                      "variant": "a",
+                      "vessel": 1,
+                      "species": "CO3-2"
+                    }
+                  ]
+                },
+                "right": {
+                  "kind": "sum",
+                  "terms": [
+                    {
+                      "kind": "species",
+                      "variant": "b",
+                      "vessel": 1,
+                      "species": "CO2"
+                    },
+                    {
+                      "kind": "species",
+                      "variant": "b",
+                      "vessel": 1,
+                      "species": "CO2(aq)"
+                    },
+                    {
+                      "kind": "species",
+                      "variant": "b",
+                      "vessel": 1,
+                      "species": "HCO3-"
+                    },
+                    {
+                      "kind": "species",
+                      "variant": "b",
+                      "vessel": 1,
+                      "species": "CO3-2"
+                    }
+                  ]
+                }
+              },
+              "op": "near",
+              "rhs": 0.0001,
+              "atol": 1e-10,
+              "rtol": 1e-07
+            },
+            {
+              "lhs": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "op": "lt",
+              "rhs": 7
+            }
+          ],
+          "adaptation": "Post-result ownership oracle correction; original outcome remains immutable."
+        }
+      ]
+    }
+  ],
+  "strict_stage_control": {
+    "variants": {
+      "blank": "new\nnew\nnew\nadd v1 water 1mol\ninspect\n",
+      "invalid": "new\nnew\nnew\nadd v1 water 1mol\ndistil v1 v2 0.1 stages 129\ninspect\n",
+      "valid": "new\nnew\nnew\nadd v1 water 1mol\ndistil v1 v2 0.1 stages 1\ninspect\n"
+    },
+    "expectations": [
+      "All processes exit zero, parse cleanly, finish inspection.",
+      "Invalid parsed distil operator has stages 129 and exactly one not_yet_modeled event with reason key not-modeled.still-invalid-input, model_boundary cause and no distilled event.",
+      "Invalid operation preserves complete inspected vessels relative to blank.",
+      "Valid parsed distil operator has stages 1, no refusal and a distilled event; donor water is 0.9 and receiver water 0.1 within absolute 2e-7 and relative 2e-7."
+    ]
+  }
+}
