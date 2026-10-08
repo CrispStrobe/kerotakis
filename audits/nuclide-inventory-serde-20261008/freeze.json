@@ -1,0 +1,7 @@
+{
+  "historical_source": "8cdab1f6ecd0b1132c4008014a5a0c5476429d17",
+  "fixture": "crates/kerotakis-core/tests/nuclide_inventory_serde_contracts.rs",
+  "fixture_sha256": "fc66ed099b5baff819cc9f79caa9a41032ce948f461bf3ef67d15ed0ecb7afe8",
+  "expected_test_functions": 11,
+  "scope": "Unchanged historical public-API JSON inventory controls, ported before production edits and execution. This is not an independent new forecast."
+}
