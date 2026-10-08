@@ -31,6 +31,9 @@ class ProfileAcceptance(unittest.TestCase):
     def test_missing_inspection_is_rejected(self):
         self.assertEqual(self.check_sample(final_inspection=False), 'missing_final_inspection_protocol_failure')
 
+    def test_cli_error_does_not_masquerade_as_missing_inspection(self):
+        self.assertEqual(self.check_sample(exit_code=1, final_inspection=False), 'cli_error_requires_author_domain_or_engine_review')
+
     def test_timeout_is_rejected(self):
         self.assertEqual(self.check_sample(timeout=True), 'timeout')
 
@@ -100,6 +103,20 @@ class ArchivedAcceptance(unittest.TestCase):
             self.assertTrue(report['failed'])
             self.assertIsNone(report['results'][0]['median_seconds'])
             self.assertEqual(report['results'][0]['validations'][3]['outcome'], 'unmet_expectation')
+
+
+class SyntaxAdaptation(unittest.TestCase):
+    def test_only_declared_identifiers_may_change(self):
+        root = Path(__file__).resolve().parents[2] / 'audits/fifth-independent-50-20261008'
+        original = json.loads((root / 'forecast.json').read_text())
+        replay = json.loads((root / 'syntax-replay.json').read_text())
+        self.assertEqual(runner.digest(root / 'forecast.json'), runner.EXPECTED_FORECAST)
+        self.assertEqual(runner.digest(root / 'syntax-replay.json'), runner.EXPECTED_SYNTAX_REPLAY)
+        runner.validate_syntax_cases(original, replay)
+        changed = copy.deepcopy(replay)
+        changed['cases'][0]['checks'][0]['rhs'] = 123.
+        with self.assertRaisesRegex(ValueError, 'declared identifiers'):
+            runner.validate_syntax_cases(original, changed)
 
 
 if __name__ == '__main__':

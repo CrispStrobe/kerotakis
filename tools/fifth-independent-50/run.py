@@ -14,6 +14,8 @@ import sys
 import time
 
 EXPECTED_FORECAST = '4041d15bc70b108437bf6df909cbbf892f79d737b6ef6faae7f99bbde21a15f5'
+EXPECTED_SYNTAX_REPLAY = '6baa2c0e14347540e6bf329f5de64cde5636683f0efc0fb3b83866c6488c91da'
+EXPECTED_REPLAY_BINARY = 'fcf424a65384c5ef5949960f228fda4e1c3e893ec93c65d58fe5b12064352967'
 
 
 def digest(path):
@@ -137,12 +139,12 @@ def evaluate(check, runs):
 def outcome(case, runs, checks):
     if any(r['timeout'] for r in runs.values()):
         return 'timeout'
-    if case['id'] != 'F49' and any(not r['final_inspection'] for r in runs.values()):
-        return 'missing_final_inspection_protocol_failure'
     if any(r['json_parse_errors'] for r in runs.values()):
         return 'harness_or_json_protocol_failure'
     if any(r['exit_code'] != 0 for r in runs.values()) and case['id'] != 'F49':
         return 'cli_error_requires_author_domain_or_engine_review'
+    if case['id'] != 'F49' and any(not r['final_inspection'] for r in runs.values()):
+        return 'missing_final_inspection_protocol_failure'
     if not all(c['passed'] for c in checks):
         return 'unmet_expectation'
     if case['id'] in ('F48', 'F49', 'F50'):
@@ -175,6 +177,32 @@ def validate_samples(case, warm, name, samples):
         checks = [evaluate(c, runs) for c in case['checks']]
         validations.append(dict(outcome=outcome(case, runs, checks), checks=checks))
     return validations
+
+
+def validate_syntax_cases(forecast, replay):
+    expected = json.loads(json.dumps([c for c in forecast['cases'] if c['id'] in ('F25', 'F26', 'F27', 'F28')]))
+    for case in expected:
+        case['variants'] = {name: script.replace(' acetic acid ', ' CH3COOH ').replace(' sodium acetate ', ' NaOAc ')
+                            for name, script in case['variants'].items()}
+    if len(expected) != 4 or replay['cases'] != expected or replay['source_commit'] != forecast['source_commit']:
+        raise ValueError('Syntax replay changed more than the declared identifiers')
+
+
+def syntax_replay(args, forecast, out):
+    path = args.forecast.with_name('syntax-replay.json')
+    receipt = json.loads(args.forecast.with_name('syntax-adaptation.json').read_text())
+    if digest(path) != EXPECTED_SYNTAX_REPLAY or receipt['replay_sha256'] != EXPECTED_SYNTAX_REPLAY:
+        raise ValueError('Frozen syntax replay hash mismatch')
+    replay = json.loads(path.read_text())
+    if replay['parent_forecast_sha256'] != EXPECTED_FORECAST or receipt['parent_forecast_sha256'] != EXPECTED_FORECAST:
+        raise ValueError('Original forecast binding mismatch')
+    if digest(args.binary) != EXPECTED_REPLAY_BINARY or receipt['binary_sha256'] != EXPECTED_REPLAY_BINARY:
+        raise ValueError('Syntax replay must use the preserved original executable')
+    validate_syntax_cases(forecast, replay)
+    save(out / 'adaptation.json', receipt)
+    adapted_args = argparse.Namespace(**vars(args))
+    adapted_args.forecast = path
+    return experiments(adapted_args, replay, out)
 
 
 def profile_failed(results):
@@ -234,7 +262,7 @@ def main():
     parser.add_argument('--binary', type=Path, required=True)
     parser.add_argument('--forecast', type=Path, required=True)
     parser.add_argument('--out', type=Path, required=True)
-    parser.add_argument('--mode', choices=['experiments', 'profile'], required=True)
+    parser.add_argument('--mode', choices=['experiments', 'profile', 'syntax-replay'], required=True)
     args = parser.parse_args()
     if digest(args.forecast) != EXPECTED_FORECAST:
         raise SystemExit('Frozen forecast hash mismatch')
@@ -242,6 +270,8 @@ def main():
     assert len(forecast['cases']) == 50
     args.binary = args.binary.resolve()
     args.out.mkdir(parents=True, exist_ok=False)
+    if args.mode == 'syntax-replay':
+        return syntax_replay(args, forecast, args.out)
     return experiments(args, forecast, args.out) if args.mode == 'experiments' else profile(args, forecast, args.out)
 
 
