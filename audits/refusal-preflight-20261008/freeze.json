@@ -1,0 +1,16 @@
+{
+  "kind": "source-informed pre-production forecast freeze",
+  "base_revision": "f6ad9946fdf71ab3273dfb5d46350e569c7f5cb6",
+  "contracts": 28,
+  "execution": "not run; hosted baseline and acceptance pending",
+  "sha256": {
+    "crates/kerotakis-core/tests/refusal_preflight_atomicity.rs": "c6ba9618a82822b9e335e82adc58ac9bb9a63d73eb17fb8b6ea056968ad8ddc6",
+    "crates/kerotakis-core/src/bench.rs": "dc09b0ba4abb581e48f988330c6c3ced95c5d1c963518e9a3780d13082b16af0",
+    "crates/kerotakis-core/src/solve.rs": "80df68137323ca13235a047c3980e161953c7908d8b17ca963585379d71a47c8",
+    "crates/kerotakis-core/src/nuclide.rs": "b9ef603d0add47a32bf600477736f4d7791a3c9c17fd323b669af38efc61fe0b",
+    "crates/kerotakis-core/src/curated.rs": "20db49d2b0679fb77e1df7205f6a4ae8878f8becccf7c30cebb1c9796bcd27a5",
+    "crates/kerotakis-core/src/apparatus.rs": "d391b4d0f24db9a7303563df6d59c4d51a4f077662533627315c4c5586235a4f",
+    "crates/kerotakis-core/Cargo.toml": "46b65c88ee9e4855a8c0d3583b0a599df1df17581401e6fe81a44c88610a0f0a",
+    "Cargo.toml": "dffb548a7718f423a55e8de0eb767d82a29441c114cebe807245e734a98e9a5a"
+  }
+}
