@@ -1319,7 +1319,8 @@ impl StateDelta {
     /// Whether this delta has no changes at all.
     pub fn is_empty(&self) -> bool {
         if let Some(snapshot) = &self.snapshot {
-            return snapshot.base == Self::state_key(&snapshot.candidate);
+            return snapshot.terms == self.terms_key()
+                && snapshot.base == Self::state_key(&snapshot.candidate);
         }
         self.mole_changes.is_empty()
             && self.adsorbed_changes.is_empty()
