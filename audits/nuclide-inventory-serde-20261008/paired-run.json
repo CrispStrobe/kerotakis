@@ -1,0 +1,13 @@
+{
+  "baseline": "0028f3a75df0daa92420a28fa8a8bd6bd238de97",
+  "repair": "b42732c17f1c2afc78c7e45c9ae0bfbc7603444a",
+  "fixture_sha256": "fc66ed099b5baff819cc9f79caa9a41032ce948f461bf3ef67d15ed0ecb7afe8",
+  "expected_test_functions": 11,
+  "expected_baseline": "Both sources compile the same unchanged historical fixture. Preserve actual baseline behavioral outcomes.",
+  "expected_repair": "All 11 JSON contracts pass; full core library unit tests pass on both under one generated lock.",
+  "inherited_scope": "cargo test --locked -p kerotakis-core --lib",
+  "limitations": [
+    "Canonical key syntax does not certify physical isotope existence or nuclear data.",
+    "Serialization validity is separate from runtime nuclear accounting."
+  ]
+}
