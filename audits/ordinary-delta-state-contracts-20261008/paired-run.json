@@ -1,0 +1,9 @@
+{
+  "baseline": "836875c38ad4d1539b589f187287fc0353afc01c",
+  "repair": "26cd8fc7d3554ddadaeebeb2750b3a92c4eadf54",
+  "fixture_sha256": "f73b2e8a3acbbf8def04b65b1c73ce4ea1aa2095e3ebe053d054b60cc72cd132",
+  "expected_test_functions": 8,
+  "inherited": "All core library unit tests on both sources under one generated lock.",
+  "scope": "Ordinary complete-state acceptance and rollback; no required conservation policy added.",
+  "observed_prerequisite_failure": "PR771 preflight job113448821532: nuclide_state_validation_contracts compiles12,7pass5fail on6080dfa0. These8 supplementary functions are source-informed and frozen before the repair."
+}
