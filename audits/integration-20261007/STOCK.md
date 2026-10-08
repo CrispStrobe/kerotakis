@@ -38,3 +38,16 @@ control-flow review. Local execution remains deferred to hosted gates.
 
 [Follow-up source and contract hashes](stock-refusal-followup.json) bind this
 reviewed integration change separately from the immutable original port receipt.
+
+## Frozen pre-fix baseline dispatch
+
+The unchanged follow-up test bytes were separately placed on pre-fix stock
+source `cdcf183f` in baseline harness commit `8b6c9bda`. Production source is
+unchanged on that branch. Hosted
+[run 37729403884](https://github.com/CrispStrobe/kerotakis/actions/runs/37729403884)
+was dispatched once and remains queued without an executed result at this
+2026-10-08 checkpoint. [Dispatch provenance](stock-baseline-dispatch.json)
+binds source/test/workflow hashes separately from original receipts. A behavior
+failure is expected, but has not been observed; no acceptance or failing-baseline
+claim follows from dispatch alone. Record completed output in a new receipt
+when available. The standalone baseline branch is not intended to merge.
