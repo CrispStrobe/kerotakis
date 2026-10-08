@@ -1,0 +1,10 @@
+{
+  "pre_empty_donor_repair_commit": "e8de3a040ee4fc24b739d774b93aafa1ddf81017",
+  "test_path": "crates/kerotakis-core/tests/still_refusal_diagnostics.rs",
+  "sha256": "a86951492230657d16002e68aa5372069ba8cf97111218b1929f97dabd578958",
+  "original_contract_snapshot": "audits/binary-still-diagnostics-20261008/original-refusal-contracts.rs.txt",
+  "original_freeze_receipt": "audits/binary-still-diagnostics-20261008/freeze.json",
+  "adaptation": "Append one independent empty-donor contract; original six refusal fixtures and success contract unchanged. Original bytes preserved separately.",
+  "forecast": "An empty donor returns exactly the existing NotParameterised refusal key, records attempt, preserves complete bench state except log and calls zero downstream solvers.",
+  "validation": "Format/diff/source-byte checks only; baseline execution pending"
+}
