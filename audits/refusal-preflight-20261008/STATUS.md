@@ -9,3 +9,7 @@ No generic diagnostic policy, complete-Bench cloning, public schema/API, stock, 
 Next, preserve a hosted pre-repair baseline at the test-only commit `5312bc77`, execute the same suites at the repaired revision, then run required full CI. Command: `cargo test -p kerotakis-core --test refusal_preflight_atomicity --test refusal_missing_vessel --test safety_veto_atomicity -j1 -- --test-threads=1`. Expect 30 new and 20 inherited controls to compile; report actual observed counts, not this forecast. Preserve compile/harness failures separately, raw logs, revision/toolchain, production/test/manifest hashes and the generated lock hash after Cargo. A branch-only baseline workflow must never merge.
 
 Static formatting, diff and immutable fixture-hash checks passed. Hosted execution and integrated behavior remain pending. See `FORECASTS.md`, `freeze.json`, `missing-vessel-freeze.json` and `prepared-repair.json` in this directory for the exact scope and bindings.
+
+## Executed baseline
+
+[Run 37734189584](https://github.com/CrispStrobe/kerotakis/actions/runs/37734189584) at `9d3a20786d13a262df640bc8104480f556175236` compiled 50 tests: 38 passed, 12 failed. [baseline.json](baseline.json) binds raw evidence. 30 new tests:18pass12fail;20 inherited safety tests all pass. New missing-vessel controls both pass. Repaired-source checks remain pending; table-loop failures do not exercise subsequent rows.
