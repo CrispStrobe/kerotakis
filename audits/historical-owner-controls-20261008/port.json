@@ -1,0 +1,51 @@
+{
+  "historical_source": "8cdab1f6ecd0b1132c4008014a5a0c5476429d17",
+  "prerequisite_source": "ee7132fe6835eb7535b413aa61430f94c618f0be",
+  "kind": "Unchanged historical test and freeze restoration after implementation; not new independent forecasts or a newly prefrozen production repair.",
+  "test_functions": 38,
+  "production_changes": false,
+  "files": [
+    {
+      "path": "crates/kerotakis-core/tests/nuclide_state_validation_contracts.rs",
+      "sha256": "498d3456988fcb153445139f5c16dc2b96ffe9bd893041ee6145984431d5a5fc",
+      "functions": 12
+    },
+    {
+      "path": "crates/kerotakis-core/tests/required_solid_solution_contracts.rs",
+      "sha256": "243c3372909103c7b3e8d06c96ab9e7f3facafbc945d52609a580456aea298c8",
+      "functions": 16
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solid_solution_state_contracts.rs",
+      "sha256": "98d7cb2d029ad18b14e5d34db642e3cf20715bf41e41e1e2bdce36689ec5a170",
+      "functions": 8
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solid_solution_aggregate_validity.rs",
+      "sha256": "4441bb48845a6668f1b32e9e0a161c6264df619542edceb61a0123e545f3e050",
+      "functions": 2
+    },
+    {
+      "path": "audits/nuclide-state-validation-contracts-20261004/freeze.json",
+      "sha256": "d4e048f3356033618e4a6b9ef81250973665abfb2e85f6e41cf12cf3e22da71b"
+    },
+    {
+      "path": "audits/strict-solid-solution-owner-contracts-20261004/freeze.json",
+      "sha256": "dbc841ef5953c420cabad09cf14f927ac537b35f8fbd18ce7757a4fb190145ba"
+    },
+    {
+      "path": "audits/solid-solution-raw-guards-20261004/freeze.json",
+      "sha256": "174bd087239ba843438d5a836660da9282c21b468178679e571f5f2733e47f78"
+    }
+  ],
+  "existing_native_fixture": {
+    "path": "crates/kerotakis-phreeqc/tests/solid_solution_raw_readback/contracts.rs",
+    "sha256": "9ba77f88e8f4432cffd58b18d9d86614656274b3127c76d63e2a141cc12afd5b"
+  },
+  "acceptance": "Require all 38 restored functions, all inherited workspace controls and five matching-head required gates. Retarget/integrate actual main after PR770 merges and require fresh gates.",
+  "limitations": [
+    "Tracer domain validity is not nuclear conservation or isotope data.",
+    "Typed formula-unit ownership is not phase equilibrium, kinetics, reaction heat or arbitrary bulk-species support.",
+    "Restored binding presence does not establish historical full-audit acceptance."
+  ]
+}

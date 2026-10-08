@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "created_utc": "2026-10-04T22:24:11.057496+00:00",
+  "count": 24,
+  "counts": {
+    "required_solid_solution_contracts": 16,
+    "solid_solution_state_contracts": 8
+  },
+  "test_sha256": {
+    "crates/kerotakis-core/tests/required_solid_solution_contracts.rs": "243c3372909103c7b3e8d06c96ab9e7f3facafbc945d52609a580456aea298c8",
+    "crates/kerotakis-core/tests/solid_solution_state_contracts.rs": "98d7cb2d029ad18b14e5d34db642e3cf20715bf41e41e1e2bdce36689ec5a170"
+  },
+  "policy": "Source-informed strict typed-formula-unit ownership and shape controls frozen before implementation. All earlier contracts preserved. Closed enum supports explicitly neutral CaCO3/SrCO3 typed owners only, never unknown generic bulk SrCO3. Valid crystal shape requires unique nonblank phase labels, one entry for each closed component, finite nonnegative formula-unit moles. Conservation is separate from equilibrium, kinetics, nuclear and energy claims. Legacy native conservation behavior remains unchanged."
+}
