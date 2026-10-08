@@ -28,18 +28,6 @@ pub enum ElectrodeInventory {
     },
 }
 
-impl ElectrodeInventory {
-    fn same_reservoir(&self, other: &Self) -> bool {
-        match (self, other) {
-            (Self::Substrate, Self::Substrate) => true,
-            (Self::Deposit { species: left, .. }, Self::Deposit { species: right, .. }) => {
-                left == right
-            }
-            _ => false,
-        }
-    }
-}
-
 #[derive(Debug, Clone, PartialEq)]
 pub struct ElectrodeMoleDelta {
     pub electrode: String,
