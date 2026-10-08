@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37734167041",
+  "source_commit": "a7e63d97d247668a1b299bfe7e997e70449059e4",
+  "compile": "success",
+  "passed": 1,
+  "failed": 2,
+  "log_sha256": "c4ebb0e51400774a018c25692903f124d06a5adf5fa88d8a490d9c37e1da2558",
+  "generated_lock_sha256": "f82884ebf1ee635029a79c4ee913386f54e99adf40169c98a701cbb9fbfed194",
+  "toolchain": [
+    "rustc 1.99.0 (b940084d7 2026-09-28)",
+    "cargo 1.99.0 (5f94df478 2026-08-27)"
+  ],
+  "outcomes": [
+    {
+      "test": "binary_refusals_keep_independent_categories_and_skip_all_solver_mutation",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "empty_donor_refusal_keeps_full_state_and_skips_downstream_solvers",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "ordinary_binary_cut_still_transfers_and_runs_downstream_solvers",
+      "outcome": "ok"
+    }
+  ],
+  "interpretation": "Source-bound unchanged-production baseline. Table loops stop at their first assertion failure; later rows are not claimed executed. Repair requires independent exact-head validation.",
+  "scope": "Composition-precision refusal and empty donor both invoke2solvers; successful cut passes. Remaining refusal table rows not reached.",
+  "source_and_fixture_bindings": [
+    "71f9c17bf34309f32f3e3d784aa996c1984443694c665c657ad4cd9f451aedd1  crates/kerotakis-core/src/bench.rs",
+    "8f2b1c832911900dbb2c32860efe57c506ec5e4d3804042c3a82daa993d1302e  crates/kerotakis-core/tests/still_refusal_diagnostics.rs",
+    "dffb548a7718f423a55e8de0eb767d82a29441c114cebe807245e734a98e9a5a  Cargo.toml",
+    "dd279109b4441726105a54fd9d5ad6c21cad79735fd4faadbd0927880b2aab66  .github/workflows/chemistry-audit.yml"
+  ],
+  "command": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "still_refusal_diagnostics",
+    "-j1",
+    "--",
+    "--test-threads=1"
+  ]
+}
