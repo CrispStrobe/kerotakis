@@ -1,0 +1,67 @@
+{
+  "parent_forecast_sha256": "4041d15bc70b108437bf6df909cbbf892f79d737b6ef6faae7f99bbde21a15f5",
+  "replay_sha256": "6baa2c0e14347540e6bf329f5de64cde5636683f0efc0fb3b83866c6488c91da",
+  "binary_sha256": "fcf424a65384c5ef5949960f228fda4e1c3e893ec93c65d58fe5b12064352967",
+  "source_artifact_run": 37751230970,
+  "reason": "Four cases abort because unquoted multiword identifiers tokenize as acetic; no chemistry expectation was evaluated. Canonical identifiers verified in the frozen source registry.",
+  "changes": [
+    {
+      "case": "F25",
+      "variant": "a",
+      "changed": true,
+      "original_sha256": "cef3fe6a2425d54c8c94ee8920c9b2d21e575786f7a932949f8ec001df41a106",
+      "adapted_sha256": "c015913cfa51d919750097345925b053d70c2c7f6f559737ddb357e8563fd788"
+    },
+    {
+      "case": "F25",
+      "variant": "b",
+      "changed": false,
+      "original_sha256": "dd40a3404c7deafb1b028c7ad57c48cd65353bdda7a555abbb5ee73fd9384904",
+      "adapted_sha256": "dd40a3404c7deafb1b028c7ad57c48cd65353bdda7a555abbb5ee73fd9384904"
+    },
+    {
+      "case": "F26",
+      "variant": "a",
+      "changed": true,
+      "original_sha256": "4f437ce28ca90bde7969c19ffd6fc66ea3570b1f2b2d30e8bfa28821fbdbba2f",
+      "adapted_sha256": "6b5d68205408c208a62fc7c990e8172ab917c5449b822f6b70a1c5d4f1c3adc0"
+    },
+    {
+      "case": "F26",
+      "variant": "b",
+      "changed": true,
+      "original_sha256": "da105a75b2ed146ac7af3d987df37e7f9e9a210ec7d6340a56debefb87753edb",
+      "adapted_sha256": "5de7bd6817fd28189dbcfc3ed77e8539079664c7d928a440df7409e0bb39cadb"
+    },
+    {
+      "case": "F27",
+      "variant": "a",
+      "changed": true,
+      "original_sha256": "4f437ce28ca90bde7969c19ffd6fc66ea3570b1f2b2d30e8bfa28821fbdbba2f",
+      "adapted_sha256": "6b5d68205408c208a62fc7c990e8172ab917c5449b822f6b70a1c5d4f1c3adc0"
+    },
+    {
+      "case": "F27",
+      "variant": "b",
+      "changed": true,
+      "original_sha256": "599afe9151cf4df8dfe01e1f63da363051c8a9b0b34e5418e721a2f4ae5c312d",
+      "adapted_sha256": "d27d56cdbc2725f6757a9ece1347d63e9b9c4d993d4c640366ab8d0b4c35e1c1"
+    },
+    {
+      "case": "F28",
+      "variant": "a",
+      "changed": true,
+      "original_sha256": "4f437ce28ca90bde7969c19ffd6fc66ea3570b1f2b2d30e8bfa28821fbdbba2f",
+      "adapted_sha256": "6b5d68205408c208a62fc7c990e8172ab917c5449b822f6b70a1c5d4f1c3adc0"
+    },
+    {
+      "case": "F28",
+      "variant": "b",
+      "changed": true,
+      "original_sha256": "971796ff5fbd93257db2525a6c70b976ee55bf5550f2c898b8bbdab36841782f",
+      "adapted_sha256": "2f4935a9410fcf60d085a1c59f4204d0c192503e46e1217236d3808183dbd60b"
+    }
+  ],
+  "expectations": "All checks and bounds preserved byte-for-byte at the JSON value level. No original forecast/input/output overwritten.",
+  "execution": "Adapted inputs have not executed at freeze time."
+}

@@ -1,0 +1,121 @@
+{
+  "schema": 1,
+  "name": "Syntax-only replay of fifth F25-F28",
+  "source_commit": "7bc43e089753483710507133ccc8377591bb3490",
+  "parent_forecast_sha256": "4041d15bc70b108437bf6df909cbbf892f79d737b6ef6faae7f99bbde21a15f5",
+  "authoring": "Separate disclosed adaptation after original execution: use canonical CH3COOH and NaOAc identifiers. Original inputs/results stay preserved. Every original check, dose and numerical bound is unchanged.",
+  "cases": [
+    {
+      "id": "F25",
+      "title": "Weak versus strong acid",
+      "expectation": "An equal analytical dose of acetic acid has higher pH than HCl.",
+      "variants": {
+        "a": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 CH3COOH 0.001mol\ninspect\n",
+        "b": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 HCl 0.001mol\ninspect\n"
+      },
+      "checks": [
+        {
+          "lhs": {
+            "kind": "ph",
+            "variant": "a",
+            "vessel": 1
+          },
+          "op": "gt",
+          "rhs": {
+            "kind": "ph",
+            "variant": "b",
+            "vessel": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "F26",
+      "title": "Buffer resists acid",
+      "expectation": "A small HCl challenge lowers acetate-buffer pH by less than 0.2 units.",
+      "variants": {
+        "a": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 CH3COOH 0.01mol\nadd v1 NaOAc 0.01mol\ninspect\n",
+        "b": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 CH3COOH 0.01mol\nadd v1 NaOAc 0.01mol\nadd v1 HCl 0.0001mol\ninspect\n"
+      },
+      "checks": [
+        {
+          "lhs": {
+            "kind": "difference",
+            "left": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "right": {
+              "kind": "ph",
+              "variant": "b",
+              "vessel": 1
+            }
+          },
+          "op": "between",
+          "rhs": [
+            0,
+            0.2
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F27",
+      "title": "Buffer resists base",
+      "expectation": "A small NaOH challenge raises acetate-buffer pH by less than 0.2 units.",
+      "variants": {
+        "a": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 CH3COOH 0.01mol\nadd v1 NaOAc 0.01mol\ninspect\n",
+        "b": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 CH3COOH 0.01mol\nadd v1 NaOAc 0.01mol\nadd v1 NaOH 0.0001mol\ninspect\n"
+      },
+      "checks": [
+        {
+          "lhs": {
+            "kind": "difference",
+            "left": {
+              "kind": "ph",
+              "variant": "b",
+              "vessel": 1
+            },
+            "right": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            }
+          },
+          "op": "between",
+          "rhs": [
+            0,
+            0.2
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F28",
+      "title": "Dilute both buffer partners",
+      "expectation": "Tenfold dilution of both buffer components changes pH by less than 0.25 units.",
+      "variants": {
+        "a": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 CH3COOH 0.01mol\nadd v1 NaOAc 0.01mol\ninspect\n",
+        "b": "new\nnew\nnew\nadd v1 water 200mL\nadd v1 CH3COOH 0.01mol\nadd v1 NaOAc 0.01mol\ndilute v1 1800mL\ninspect\n"
+      },
+      "checks": [
+        {
+          "lhs": {
+            "kind": "ph",
+            "variant": "a",
+            "vessel": 1
+          },
+          "op": "near",
+          "rhs": {
+            "kind": "ph",
+            "variant": "b",
+            "vessel": 1
+          },
+          "atol": 0.25,
+          "rtol": 0
+        }
+      ]
+    }
+  ]
+}
