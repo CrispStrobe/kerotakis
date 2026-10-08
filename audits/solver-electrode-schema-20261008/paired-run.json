@@ -1,0 +1,14 @@
+{
+  "baseline": "9e1f3f88f450855e68d22b4801ed03d0102cef02",
+  "repair": "d530ddf33fa6a9606ad85fcd613d39debf64f523",
+  "fixture_sha256": "e9b7aacc9ca79ea0941bfdf722f7d718ef64d155c4cbd00f402a69cd206433fa",
+  "expected_test_functions": 8,
+  "expected_baseline": "Both sources compile identical existing-API controls. Preserve actual baseline successes/failures; missing fields/APIs or harness errors are not behavioral evidence.",
+  "expected_repair": "All eight controls pass, including malformed and duplicate-label refusals and positive electrode commits. All inherited core library unit tests pass on both under one generated lock.",
+  "inherited_scope": "cargo test --locked -p kerotakis-core --lib",
+  "limitations": [
+    "Canonical schema validity does not certify electrochemical kinetics, inventory completeness or reaction energy.",
+    "Strict-policy 34 functions and inherited 42 transaction functions still require final PR integration gates.",
+    "The baseline includes the unmerged required-conservation port; inherited failures must be resolved in that prerequisite, not relabeled as schema evidence."
+  ]
+}

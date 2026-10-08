@@ -19,7 +19,7 @@ def git(*args):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--artifact', type=pathlib.Path, required=True)
-    parser.add_argument('--lane', choices=['inventory', 'thermal', 'snapshot', 'stack', 'boundary', 'nuclide'], required=True)
+    parser.add_argument('--lane', choices=['inventory', 'thermal', 'snapshot', 'stack', 'boundary', 'nuclide', 'electrode'], required=True)
     parser.add_argument('--harness', required=True)
     parser.add_argument('--report', type=pathlib.Path, required=True)
     args = parser.parse_args()
@@ -31,6 +31,7 @@ def main():
         'stack': ('solver-stack-atomic-contracts', 'solver_stack_atomic_contracts'),
         'boundary': ('solver-boundary-contracts', 'solver_boundary_contracts'),
         'nuclide': ('nuclide-inventory-serde', 'nuclide_inventory_serde_contracts'),
+        'electrode': ('solver-electrode-schema', 'solver_electrode_schema_contracts'),
     }[args.lane]
     manifest_path = f'audits/{directory}-20261008/paired-run.json'
     fixture = f'crates/kerotakis-core/tests/{fixture}.rs'

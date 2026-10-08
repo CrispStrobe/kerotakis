@@ -19,6 +19,7 @@ on:
           - solver-stack
           - solver-boundary
           - nuclide-serde
+          - electrode-schema
 
 permissions:
   contents: read
@@ -886,5 +887,87 @@ jobs:
           path: |
             delta-evidence/
             audits/nuclide-inventory-serde-20261008/
+          retention-days: 30
+          if-no-files-found: error
+
+  electrode-schema:
+    name: Canonical solver electrode schema baseline and repair
+    if: inputs.campaign == 'electrode-schema'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            .github/workflows
+            audits/solver-electrode-schema-20261008
+      - uses: actions/checkout@v6
+        with:
+          ref: audit/required-conservation-port-20261008
+          path: source
+          fetch-depth: 0
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: source
+      - name: Fetch pinned native prerequisites
+        run: bash source/tools/fetch-sundials.sh
+      - name: Compile and execute both independently frozen control sets
+        shell: bash
+        run: |
+          mkdir -p delta-evidence/harness
+          git rev-parse HEAD > delta-evidence/harness/commit.txt
+          sha256sum .github/workflows/chemistry-audit.yml audits/solver-electrode-schema-20261008/paired-run.json > delta-evidence/harness/sha256.txt
+          rustc -Vv > delta-evidence/harness/rustc.txt
+          cargo -V > delta-evidence/harness/cargo.txt
+          for label in baseline repair; do
+            pin=$(python3 -c "import json; print(json.load(open('audits/solver-electrode-schema-20261008/paired-run.json'))['$label'])")
+            mkdir -p "delta-evidence/$label"
+            git -C source checkout --detach "$pin"
+            git -C source rev-parse HEAD > "delta-evidence/$label/source-commit.txt"
+            git -C source rev-parse HEAD^{tree} > "delta-evidence/$label/source-tree.txt"
+            git -C source status --short > "delta-evidence/$label/status-before.txt"
+            git -C source submodule status --recursive > "delta-evidence/$label/submodules.txt"
+            sha256sum source/crates/kerotakis-core/tests/solver_electrode_schema_contracts.rs > "delta-evidence/$label/fixture-sha256.txt"
+            if [[ "$label" = baseline ]]; then (cd source && cargo generate-lockfile); fi
+            cp source/Cargo.lock "delta-evidence/$label/Cargo.lock"
+            sha256sum source/Cargo.lock | cut -d' ' -f1 > "delta-evidence/$label/generated-lock-sha256.txt"
+            set +e
+            (cd source && cargo test --locked -p kerotakis-core --test solver_electrode_schema_contracts) > "delta-evidence/$label/controls.log" 2>&1
+            code=$?
+            printf '%s\n' "$code" > "delta-evidence/$label/controls-exit.txt"
+            (cd source && cargo test --locked -p kerotakis-core --lib) > "delta-evidence/$label/inherited.log" 2>&1
+            inherited_code=$?
+            printf '%s\n' "$inherited_code" > "delta-evidence/$label/inherited-exit.txt"
+            set -e
+          done
+          python3 - <<'PY'
+          import hashlib,json,pathlib,re
+          root=pathlib.Path('delta-evidence')
+          forecast=json.loads(pathlib.Path('audits/solver-electrode-schema-20261008/paired-run.json').read_text())
+          rows=[]
+          for label in ['baseline','repair']:
+            p=root/label
+            assert (p/'fixture-sha256.txt').read_text().split()[0]==forecast['fixture_sha256']
+            assert (p/'generated-lock-sha256.txt').read_text()==(root/'baseline/generated-lock-sha256.txt').read_text()
+            text=(p/'controls.log').read_text()
+            passed=re.findall(r'^test (\S+) \.\.\. ok$',text,re.M)
+            failed=re.findall(r'^test (\S+) \.\.\. FAILED$',text,re.M)
+            code=int((p/'controls-exit.txt').read_text())
+            assert len(passed)+len(failed)==8, 'Compile/harness failure is not an observed baseline rejection'
+            rows.append(dict(label=label,source=(p/'source-commit.txt').read_text().strip(),exit_code=code,passed=passed,failed=failed,controls_sha256=hashlib.sha256((p/'controls.log').read_bytes()).hexdigest(),inherited_exit=int((p/'inherited-exit.txt').read_text())))
+          (root/'results.json').write_text(json.dumps(rows,indent=2)+'\n')
+          assert rows[0]['exit_code']!=0 and rows[0]['failed']
+          assert rows[1]['exit_code']==0 and len(rows[1]['passed'])==8
+          assert all(row['inherited_exit']==0 for row in rows)
+          PY
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: electrode-schema-${{ github.run_id }}
+          path: |
+            delta-evidence/
+            audits/solver-electrode-schema-20261008/
           retention-days: 30
           if-no-files-found: error
