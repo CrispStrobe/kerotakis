@@ -253,3 +253,43 @@ fn ambiguous_touched_electrode_deposits_refuse_without_mutation() {
     assert!(delta(Owner::Deposit, &[-1.5]).commit(&mut v).is_err());
     assert_eq!(format!("{v:?}"), before);
 }
+
+#[test]
+fn one_ulp_exhaustion_roundoff_is_bounded_and_nonnegative() {
+    for owner in [
+        Owner::Bulk,
+        Owner::Adsorbed,
+        Owner::Substrate,
+        Owner::Deposit,
+    ] {
+        let mut v = vessel(owner, 1.0);
+        delta(owner, &[-(1.0 + f64::EPSILON)])
+            .commit(&mut v)
+            .unwrap();
+        assert_eq!(amount(&v, owner), 0.0);
+    }
+}
+#[test]
+fn sixty_four_ulp_overdraw_is_outside_the_arithmetic_budget() {
+    for owner in [
+        Owner::Bulk,
+        Owner::Adsorbed,
+        Owner::Substrate,
+        Owner::Deposit,
+    ] {
+        unchanged_refusal(owner, 1.0, &[-(1.0 + 64.0 * f64::EPSILON)]);
+    }
+}
+#[test]
+fn nonfinite_requests_refuse_for_every_owner() {
+    for owner in [
+        Owner::Bulk,
+        Owner::Adsorbed,
+        Owner::Substrate,
+        Owner::Deposit,
+    ] {
+        for n in [f64::NAN, f64::INFINITY, f64::NEG_INFINITY] {
+            unchanged_refusal(owner, 1.0, &[n]);
+        }
+    }
+}
