@@ -1,6 +1,6 @@
 # Chemistry audit: actionable next lanes
 
-Read [the current checkpoint](chemistry-audit-status-20261005.md) first. These are proposed, uncompleted tasks, scoped for a fresh agent. They cover audit followup, not every pre-existing product roadmap item. Keep existing task numbers unchanged; the IDs here form a separate namespace.
+Read [the current checkpoint](chemistry-audit-status-20261008.md) first. These are proposed, uncompleted tasks, scoped for a fresh agent. They cover audit followup, not every pre-existing product roadmap item. Keep existing task numbers unchanged; the IDs here form a separate namespace.
 
 ## Shared execution contract
 
@@ -53,7 +53,7 @@ AUD-01/AUD-02/VAL-01 must not edit native reconstruction concurrently. NUM-02/NU
 
 **Do:** define one nonduplicated available Ca/Sr/C budget from initial aqueous, primary solid, typed crystal and closed gas owners. Check final solid/gas allocations before computing an aqueous remainder. Audit what `problem.totals` already contains. Reject missing, negative/nonfinite gas readback and nonfinite sums; do not let `filter_map` remove owned gas. External carbon exchange remains an explicitly open boundary; Ca/Sr still close.
 
-**Freeze:** initial Ca 0.005, Sr 0.004, C 0.009 mol; final typed CaCO3 0.002 and SrCO3 0.003 mol leaves aqueous 0.003/0.001/0.004 mol. Accept that supported fixture. Refuse CaCO3 0.006, SrCO3 0.005 or excessive closed CO2. Include primary-solid co-owners, exact exhaustion, tiny scaled inventories and malformed gas columns. Declare rounding/arithmetic allowances independently before testing.
+**Freeze:** explicitly establish closed versus external headspace boundaries; do not infer closure from default vessel construction or from clearing owned gases alone. Preserve original fixtures when correcting setup ambiguities. Initial Ca 0.005, Sr 0.004, C 0.009 mol; final typed CaCO3 0.002 and SrCO3 0.003 mol leaves aqueous 0.003/0.001/0.004 mol. Accept that supported fixture. Refuse CaCO3 0.006, SrCO3 0.005 or excessive closed CO2. Include primary-solid co-owners, exact exhaustion, tiny scaled inventories and malformed gas columns. Declare rounding/arithmetic allowances independently before testing.
 
 **Done:** direct budget controls and existing live precipitation/dissolution/repeat tests pass, overdraw refuses before projection, and native/stack callers preserve complete state on refusal. This establishes bounded element allocation, not speciation or heat accuracy.
 

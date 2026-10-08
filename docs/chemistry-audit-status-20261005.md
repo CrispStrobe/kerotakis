@@ -1,5 +1,7 @@
 # Chemistry audit: current state, 2026-10-05
 
+For subsequent integration and repair work, read [the 2026-10-08 checkpoint](chemistry-audit-status-20261008.md). The accepted-source evidence below remains preserved.
+
 Start here, then choose a task from [the next-step lanes](chemistry-audit-next-lanes.md). This checkpoint covers the independent chemistry audits and their general repairs. Existing product tasks retain their IDs in [PLAN.md](../PLAN.md), [OPTIMIZATION.md](../OPTIMIZATION.md), [ROADMAP-GUI.md](../ROADMAP-GUI.md) and [ROADMAP-Webapp.md](../ROADMAP-Webapp.md).
 
 ## Which revision this describes
