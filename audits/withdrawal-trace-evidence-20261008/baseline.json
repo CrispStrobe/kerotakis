@@ -1,0 +1,82 @@
+{
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37756438042",
+  "artifact": "withdrawal-trace-baseline-37756438042",
+  "source_commit": "28ca045541c797745b088a9686ce3f37baf828ce",
+  "source_tree": "95e3aec31867bef7287455b1bea355bfa2da14ba",
+  "fixture_sha256": "e5085dfdf8efab27f5c5af0576e47cb2b31e5f4cd9c1f9f6801ce2afb218ebb4",
+  "original_fixture_sha256": "d38347675bb83cc6a9defabc052ad91c786cf05beb74147775d989a7ec481583",
+  "generated_lock_sha256": "f82884ebf1ee635029a79c4ee913386f54e99adf40169c98a701cbb9fbfed194",
+  "production_manifest_bindings_checked": 215,
+  "compiled": true,
+  "passed": 1,
+  "failed": 9,
+  "test_functions": [
+    {
+      "name": "absent_phase_withdrawal_preserves_all_owned_portions",
+      "outcome": "FAILED"
+    },
+    {
+      "name": "bulk_withdrawal_preserves_unrelated_trace",
+      "outcome": "FAILED"
+    },
+    {
+      "name": "absent_species_withdrawal_preserves_all_owned_portions",
+      "outcome": "FAILED"
+    },
+    {
+      "name": "exact_exhaustion_removes_only_exhausted_owner",
+      "outcome": "FAILED"
+    },
+    {
+      "name": "phase_withdrawal_preserves_same_species_in_excluded_phase",
+      "outcome": "FAILED"
+    },
+    {
+      "name": "partial_withdrawal_keeps_positive_trace_remainder",
+      "outcome": "FAILED"
+    },
+    {
+      "name": "tiny_owned_dose_can_be_withdrawn_completely",
+      "outcome": "ok"
+    },
+    {
+      "name": "repeated_bulk_withdrawals_keep_unrelated_trace_unchanged",
+      "outcome": "FAILED"
+    },
+    {
+      "name": "zero_phase_withdrawal_preserves_all_owned_portions",
+      "outcome": "FAILED"
+    },
+    {
+      "name": "zero_withdrawal_preserves_all_owned_portions",
+      "outcome": "FAILED"
+    }
+  ],
+  "execution": {
+    "exit_code": 101,
+    "elapsed_seconds": 110.764259833,
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "child_maxrss": 1315110912,
+    "scope": "Cargo compilation and all ten test functions; not an app performance measurement."
+  },
+  "evidence_sha256": {
+    "Cargo.lock": "f82884ebf1ee635029a79c4ee913386f54e99adf40169c98a701cbb9fbfed194",
+    "cargo-test.log": "5cf70e5adcc9e6c3b7e3f49d2847a4121aa429a53c6ff25dab206f4bd615d0ea",
+    "cargo.txt": "1f88eaf7fe1aaec83184752cf4c944cd22f00184136ff36a3e4c318cc60ef566",
+    "execution.json": "62f8179b51d70453161369ec77c1c0e65ca06971d7ab318d254c2119b1c92ccd",
+    "generated-lock-sha256.txt": "f541fb9090c3bd666b437b0046d15c9d9d51c71e5d2844263e1c44b2a391e703",
+    "production-manifest-sha256.json": "b9e26e0d98d89048dd862e83d505c350e5df4dccf4050456548fff1b87e323b2",
+    "rustc.txt": "352d6857968e80a6357a926ac685b9b07f77c479aaafde33e73a53945e802909",
+    "source-commit.txt": "210ec9dda58288e66df06b7f477129279f5120597a9773c700399c99bc915b63",
+    "source-tree.txt": "05c35e38878dc4ff8f83750e03b3ae745f7a9e2870e618d323ceb28473840fd9",
+    "status-before.txt": "99bb801854c46aa71735e2f27636b6d17bd2e570ada2c0faee9999ca33d953c1",
+    "submodules.txt": "bfdd1930cec157acbba4c8da9aec06670162f5a9a25c1a05d4f17476e6c4468e",
+    "test-sha256.txt": "20c5a9306926b218b652445d3707bf386c2acb199e5aa563f3ce2553026f20b4"
+  },
+  "limitations": [
+    "Source-informed mechanical helper controls, not the independent CLI fifty.",
+    "Failure in a loop does not prove later trace sizes or modes executed.",
+    "Repair acceptance and fresh final-head PR gates remain separate.",
+    "Compilation duration includes Cargo; not app latency."
+  ]
+}
