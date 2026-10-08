@@ -8,6 +8,12 @@ The first dispatch, [37750775718](https://github.com/CrispStrobe/kerotakis/actio
 
 Checker controls passed locally without invoking the app: missing observations and zero denominators fail; a timeout cannot count as an expected CLI refusal; a model notice cannot count as an ordinary scientific pass; supported scripts require their final inspection. Python syntax, workflow YAML, sparse path and original forecast hash checks passed.
 
+## Profiling checker correction after dispatch
+
+Source review found that the dispatched profiler checks the full frozen contract at warmup, but only exit status, timeout and JSON syntax for repeated samples. Its job can also succeed despite an individual failed sample or failed instruction profile. **Do not accept its timing summaries from job success alone.** Preserve this original harness and all raw outputs. Before accepting a workload, replay every native sample's original checks, including final inspection, against the other warmup variants; retain model notices as qualifications. Inspect each Callgrind exit and annotation status separately. Failed samples invalidate that workload's accepted timing summary.
+
+The updated runner performs those native sample checks, writes `validation.json` per sample, suppresses accepted timing statistics on failure, and fails the profiling job if any measured workload or attempted instruction profile fails. Seven synthetic checker controls pass without running the app. The original forecast, scripts, source pin and numerical bounds are unchanged. Run 37751230970 still uses the original dispatched harness `2289ac9f`; this correction does not retroactively change that run or provide new behavior evidence. No replacement run was dispatched.
+
 ## What the next agent should do
 
 1. Inspect the hosted build, then download all three artifacts: `fifth-main-build-37751230970`, `fifth-fifty-37751230970` and `fifth-profile-37751230970`. Retain failed logs and original forecasts. A harness/build failure is not chemistry evidence.

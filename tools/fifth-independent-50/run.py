@@ -159,6 +159,22 @@ def experiments(args, forecast, out):
     return int(any(r['outcome'] not in ('passed', 'expected_refusal') for r in results))
 
 
+def validate_samples(case, warm, name, samples):
+    """Replay the original contract for each sample against other warm variants."""
+    validations = []
+    for sample in samples:
+        runs = dict(warm, **{name: sample})
+        checks = [evaluate(c, runs) for c in case['checks']]
+        validations.append(dict(outcome=outcome(case, runs, checks), checks=checks))
+    return validations
+
+
+def profile_failed(results):
+    return (not any(r.get('status') == 'measured' for r in results)
+            or any(r.get('status') == 'failed_sample' or r.get('callgrind_status') == 'failed'
+                   for r in results))
+
+
 def profile(args, forecast, out):
     results = []
     for case in forecast['cases']:
@@ -171,15 +187,20 @@ def profile(args, forecast, out):
             continue
         for name, script in case['variants'].items():
             samples = [execute(args.binary, script, out / case['id'] / name / f'native-{i}') for i in range(7)]
-            good = all(r['exit_code'] == 0 and not r['timeout'] and not r['json_parse_errors'] for r in samples)
+            validations = validate_samples(case, warm, name, samples)
+            for i, validation in enumerate(validations):
+                save(out / case['id'] / name / f'native-{i}' / 'validation.json', validation)
+            good = all(v['outcome'] in ('passed', 'qualified_agreement_with_model_notice') for v in validations)
             times = [r['seconds'] for r in samples]
             row = dict(id=case['id'], variant=name, status='measured' if good else 'failed_sample', samples_seconds=times,
-                       median_seconds=statistics.median(times), min_seconds=min(times), max_seconds=max(times),
+                       sample_outcomes=[v['outcome'] for v in validations],
+                       median_seconds=statistics.median(times) if good else None,
+                       min_seconds=min(times) if good else None, max_seconds=max(times) if good else None,
                        child_user_cpu_seconds=[r['child_user_cpu_seconds'] for r in samples],
                        child_system_cpu_seconds=[r['child_system_cpu_seconds'] for r in samples],
-                       p95_nearest_rank_seconds=sorted(times)[math.ceil(.95 * len(times)) - 1],
+                       p95_nearest_rank_seconds=sorted(times)[math.ceil(.95 * len(times)) - 1] if good else None,
                        scope='Whole CLI process: startup, native engine setup, commands, JSON serialization and pipe collection; warm filesystem cache.')
-            if case['id'] in ('F19', 'F39', 'F45') and name == 'a':
+            if good and case['id'] in ('F19', 'F39', 'F45') and name == 'a':
                 directory = out / case['id'] / name
                 command = ['valgrind', '--tool=callgrind', '--callgrind-out-file=' + str(directory / 'callgrind.out'), str(args.binary), 'run', str(directory / 'warm/input.lab'), '--json']
                 try:
@@ -189,13 +210,15 @@ def profile(args, forecast, out):
                     annotated = subprocess.run(['callgrind_annotate', '--inclusive=yes', '--threshold=95', str(directory / 'callgrind.out')], capture_output=True, timeout=30)
                     (directory / 'callgrind-summary.txt').write_bytes(annotated.stdout + annotated.stderr)
                     row['callgrind_annotation_exit_code'] = annotated.returncode
+                    row['callgrind_status'] = 'passed' if result.returncode == 0 and annotated.returncode == 0 else 'failed'
                 except (OSError, subprocess.TimeoutExpired) as error:
                     row['callgrind_error'] = str(error)
+                    row['callgrind_status'] = 'failed'
             results.append(row)
     save(out / 'performance.json', dict(source_commit=forecast['source_commit'], forecast_sha256=digest(args.forecast), binary_sha256=digest(args.binary),
          machine=dict(platform=platform.platform(), cpu_count=os.cpu_count()),
-         limitations=['Provisional single-runner baseline; no speedup claim.', 'Callgrind counts/instrumented timings are not native wall time.', 'Seven samples do not establish a stable tail-latency estimate.', 'No solver-only timing claim; process startup is included.'], results=results))
-    return int(not any(r.get('status') == 'measured' for r in results))
+         limitations=['Provisional single-runner baseline; no speedup claim.', 'Callgrind counts/instrumented timings are not native wall time.', 'Seven samples do not establish a stable tail-latency estimate.', 'No solver-only timing claim; process startup is included.', 'Each native sample replays the frozen checks against the other variants from warmup; model notices remain qualified.'], results=results))
+    return int(profile_failed(results))
 
 
 def main():
