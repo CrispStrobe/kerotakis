@@ -70,7 +70,7 @@ pub fn additional_solvent_cut(
     take: kerotakis_thermo::vle::StillTake,
     stages: u32,
 ) -> Result<Option<(Vec<SpeciesId>, kerotakis_thermo::batch::BatchCut)>, Phrase> {
-    use kerotakis_thermo::batch::{ideal_still, ConstantLatent};
+    use kerotakis_thermo::batch::{ideal_still_checked, ConstantLatent};
     let mut inventory = std::collections::BTreeMap::<String, f64>::new();
     for p in &vessel.contents {
         if p.moles.0 <= 0.0 || !matches!(p.phase, Phase::Liquid | Phase::Aqueous) {
@@ -135,12 +135,57 @@ pub fn additional_solvent_cut(
             valid_k: (properties.0 - 40.0, properties.0 + 40.0),
         });
     }
-    let cut = ideal_still(&amounts, &models, take, stages, vessel.pressure.0 / 1000.0)
-        .ok_or_else(|| Phrase::bare(
-            "not-modeled.outside-constant-latent-domain",
-            "multicomponent distillation is outside the bounded constant-latent Clausius-Clapeyron domain (within 40 K of each normal boiling point, 1-128 ideal stages); no component was transferred",
-        ))?;
+    let cut = ideal_still_checked(&amounts, &models, take, stages, vessel.pressure.0 / 1000.0)
+        .map_err(ideal_still_refusal_phrase)?;
     Ok(Some((ids, cut)))
+}
+
+/// Keep numerical refusal categories distinct from unsupported phase domains.
+/// Literal keys keep every shipped catalogue covered by the composed-key gate.
+fn ideal_still_refusal_phrase(error: kerotakis_thermo::vle::StillError) -> Phrase {
+    use kerotakis_thermo::vle::StillError;
+    match error {
+        StillError::InvalidInput => Phrase::bare(
+            "not-modeled.ideal-still-invalid-input",
+            "the ideal-liquid still needs finite nonnegative stocks, valid properties, a valid cut, a supported stage count and positive pressure; no material was transferred",
+        ),
+        StillError::UnrepresentableRequest => Phrase::bare(
+            "not-modeled.ideal-still-request-precision",
+            "the requested ideal-liquid still cut or a required integration step is too small to retain at this inventory scale; no material was transferred",
+        ),
+        StillError::PhaseEvaluation => Phrase::bare(
+            "not-modeled.ideal-still-phase-evaluation",
+            "a pot or column-stage boiling calculation could not return a supported phase state; no material was transferred",
+        ),
+        StillError::UnrepresentableComposition => Phrase::bare(
+            "not-modeled.ideal-still-composition-precision",
+            "the ideal-liquid still cannot represent the phase composition without losing a positive component or overflowing its aggregate; no material was transferred",
+        ),
+        StillError::UnrepresentableCondensate => Phrase::bare(
+            "not-modeled.ideal-still-condensate-precision",
+            "a positive component cannot be retained in the accumulated condensate; no material was transferred",
+        ),
+        StillError::UnrepresentableResidue => Phrase::bare(
+            "not-modeled.ideal-still-residue-precision",
+            "a positive remaining component cannot be retained separately from the condensate; no material was transferred",
+        ),
+        StillError::UnrepresentableEnergy => Phrase::bare(
+            "not-modeled.ideal-still-energy-precision",
+            "the ideal-liquid still latent heat cannot be retained within numerical precision or range; no material was transferred",
+        ),
+        StillError::IntegrationLimit => Phrase::bare(
+            "not-modeled.ideal-still-integration-limit",
+            "the ideal-liquid still cut did not finish within the supported integration limit; no material was transferred",
+        ),
+        StillError::IncompleteCut => Phrase::bare(
+            "not-modeled.ideal-still-incomplete-cut",
+            "the retained ideal-liquid condensate does not match the requested cut; no material was transferred",
+        ),
+        _ => Phrase::bare(
+            "not-modeled.ideal-still-unsupported-boundary",
+            "the ideal-liquid still encountered an unsupported model or numerical boundary; no material was transferred",
+        ),
+    }
 }
 
 /// Below this the ledger is not moved at all; between this and

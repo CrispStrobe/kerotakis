@@ -2,7 +2,7 @@
 //! teaching approximation, not an activity-coefficient or azeotrope model.
 //! No substance identifiers or experiment recipes enter the numerical kernel.
 
-use crate::vle::StillTake;
+use crate::vle::{StillError, StillTake};
 
 /// Constant-latent-heat Clausius–Clapeyron approximation anchored at 1 atm.
 /// `valid_k` is an explicit approximation domain, not a fitted-data claim.
@@ -43,10 +43,14 @@ pub struct BatchCut {
     pub energy_kj: f64,
 }
 
-fn bubble(n: &[f64], models: &[ConstantLatent], pressure: f64) -> Option<(f64, Vec<f64>)> {
+fn bubble_checked(
+    n: &[f64],
+    models: &[ConstantLatent],
+    pressure: f64,
+) -> Result<(f64, Vec<f64>), StillError> {
     let total: f64 = n.iter().sum();
     if !total.is_finite() || total <= 0.0 {
-        return None;
+        return Err(StillError::UnrepresentableComposition);
     }
     let mut lo: f64 = 0.0;
     let mut hi = f64::INFINITY;
@@ -57,27 +61,30 @@ fn bubble(n: &[f64], models: &[ConstantLatent], pressure: f64) -> Option<(f64, V
         }
     }
     if !hi.is_finite() || lo > hi {
-        return None;
+        return Err(StillError::PhaseEvaluation);
     }
-    let partials = |t| -> Option<Vec<f64>> {
+    let partials = |t| -> Result<Vec<f64>, StillError> {
         n.iter()
             .zip(models)
             .map(|(amount, model)| {
                 if *amount == 0.0 {
-                    Some(0.0)
+                    Ok(0.0)
                 } else {
                     let fraction = amount / total;
-                    let partial = fraction * model.pressure_kpa(t)?;
+                    let partial =
+                        fraction * model.pressure_kpa(t).ok_or(StillError::PhaseEvaluation)?;
                     // Normalization must not silently remove a positive
                     // volatile before the integration sees its budget.
-                    (fraction > 0.0 && partial > 0.0 && partial.is_finite()).then_some(partial)
+                    (fraction > 0.0 && partial > 0.0 && partial.is_finite())
+                        .then_some(partial)
+                        .ok_or(StillError::UnrepresentableComposition)
                 }
             })
             .collect()
     };
     if partials(lo)?.iter().sum::<f64>() > pressure || partials(hi)?.iter().sum::<f64>() < pressure
     {
-        return None;
+        return Err(StillError::PhaseEvaluation);
     }
     for _ in 0..64 {
         let mid = 0.5 * (lo + hi);
@@ -91,15 +98,20 @@ fn bubble(n: &[f64], models: &[ConstantLatent], pressure: f64) -> Option<(f64, V
     let mut y = partials(t)?;
     let sum: f64 = y.iter().sum();
     if !sum.is_finite() || sum <= 0.0 {
-        return None;
+        return Err(StillError::UnrepresentableComposition);
     }
     for (amount, v) in n.iter().zip(&mut y) {
         *v /= sum;
         if !v.is_finite() || (*amount > 0.0 && *v <= 0.0) {
-            return None;
+            return Err(StillError::UnrepresentableComposition);
         }
     }
-    Some((t, y))
+    Ok((t, y))
+}
+
+#[cfg(test)]
+fn bubble(n: &[f64], models: &[ConstantLatent], pressure: f64) -> Option<(f64, Vec<f64>)> {
+    bubble_checked(n, models, pressure).ok()
 }
 
 /// Integrate a molar or latent-energy cut through ideal stages at total reflux.
@@ -113,11 +125,31 @@ pub fn ideal_still(
     stages: u32,
     pressure_kpa: f64,
 ) -> Option<BatchCut> {
-    ideal_still_with_bubble(inventory, models, take, stages, pressure_kpa, bubble)
+    ideal_still_checked(inventory, models, take, stages, pressure_kpa).ok()
 }
 
-// Passing the evaluator explicitly gives unit tests a local cost counter;
-// production uses the same bubble solver without shared instrumentation.
+/// Complete ideal-liquid cut with model and representation refusal categories.
+/// The legacy Option API has exactly the same acceptance domain via `.ok()`.
+pub fn ideal_still_checked(
+    inventory: &[f64],
+    models: &[ConstantLatent],
+    take: StillTake,
+    stages: u32,
+    pressure_kpa: f64,
+) -> Result<BatchCut, StillError> {
+    ideal_still_checked_with_limit(
+        inventory,
+        models,
+        take,
+        stages,
+        pressure_kpa,
+        bubble_checked,
+        100_000,
+    )
+}
+
+// Preserve the original unit-test cost observer without shared instrumentation.
+#[cfg(test)]
 fn ideal_still_with_bubble(
     inventory: &[f64],
     models: &[ConstantLatent],
@@ -126,6 +158,35 @@ fn ideal_still_with_bubble(
     pressure_kpa: f64,
     mut evaluate_bubble: impl FnMut(&[f64], &[ConstantLatent], f64) -> Option<(f64, Vec<f64>)>,
 ) -> Option<BatchCut> {
+    ideal_still_checked_with_limit(
+        inventory,
+        models,
+        take,
+        stages,
+        pressure_kpa,
+        |n, models, pressure| {
+            evaluate_bubble(n, models, pressure).ok_or(StillError::PhaseEvaluation)
+        },
+        100_000,
+    )
+    .ok()
+}
+
+// Passing the evaluator explicitly gives unit tests a local cost counter;
+// production uses the same bubble solver without shared instrumentation.
+fn ideal_still_checked_with_limit(
+    inventory: &[f64],
+    models: &[ConstantLatent],
+    take: StillTake,
+    stages: u32,
+    pressure_kpa: f64,
+    mut evaluate_bubble: impl FnMut(
+        &[f64],
+        &[ConstantLatent],
+        f64,
+    ) -> Result<(f64, Vec<f64>), StillError>,
+    step_limit: usize,
+) -> Result<BatchCut, StillError> {
     if inventory.is_empty()
         || inventory.len() != models.len()
         || inventory.iter().any(|n| !n.is_finite() || *n < 0.0)
@@ -137,22 +198,26 @@ fn ideal_still_with_bubble(
         || stages == 0
         || stages > crate::vle::MAX_STILL_STAGES
     {
-        return None;
+        return Err(StillError::InvalidInput);
     }
     let total: f64 = inventory.iter().sum();
     if !total.is_finite() || total <= 0.0 {
-        return None;
+        return Err(if total.is_finite() {
+            StillError::InvalidInput
+        } else {
+            StillError::UnrepresentableComposition
+        });
     }
     let budget = match take {
         StillTake::Fraction(f) if f.is_finite() && (0.0..=1.0).contains(&f) => {
             let amount = total * f;
             if f > 0.0 && amount == 0.0 {
-                return None; // a positive requested cut underflowed
+                return Err(StillError::UnrepresentableRequest); // a positive requested cut underflowed
             }
             amount
         }
         StillTake::EnergyKj(e) if e.is_finite() && e >= 0.0 => total,
-        _ => return None,
+        _ => return Err(StillError::InvalidInput),
     };
     let (start, _) = evaluate_bubble(inventory, models, pressure_kpa)?;
     let mut cut = BatchCut {
@@ -162,19 +227,22 @@ fn ideal_still_with_bubble(
         energy_kj: 0.0,
     };
     let mut active = inventory.iter().enumerate().filter(|(_, n)| **n > 0.0);
-    let (active_index, amount) = active.next()?;
+    let (active_index, amount) = active.next().ok_or(StillError::InvalidInput)?;
     if active.next().is_none() {
         // A pure liquid keeps its initial boiling point throughout the cut.
         // Still validate every model and solve that point before taking this
         // shortcut; inactive properties and pressure domains remain binding.
-        let (overhead, energy) =
-            crate::vle::pure_still_amount(*amount, models[active_index].latent_kj_mol, take)?;
+        let (overhead, energy) = crate::vle::pure_still_amount_checked(
+            *amount,
+            models[active_index].latent_kj_mol,
+            take,
+        )?;
         cut.overhead[active_index] = overhead;
         cut.energy_kj = energy;
-        return Some(cut);
+        return Ok(cut);
     }
     if budget == 0.0 || matches!(take, StillTake::EnergyKj(0.0)) {
-        return Some(cut);
+        return Ok(cut);
     }
     let inventory_heat: f64 = inventory
         .iter()
@@ -191,7 +259,7 @@ fn ideal_still_with_bubble(
     // Completion is relative to the request, never to the starting inventory
     // or an absolute one-kilojoule floor. Compare ratios to avoid an underflowed
     // tolerance for otherwise representable microscopic requests.
-    for _ in 0..100_000 {
+    for _ in 0..step_limit {
         let removed_total = cut.overhead.iter().sum::<f64>();
         let remaining = budget - removed_total;
         let complete = match take {
@@ -211,24 +279,32 @@ fn ideal_still_with_bubble(
                     .zip(models)
                     .map(|(n, model)| n * model.latent_kj_mol)
                     .sum();
-                return cut.energy_kj.is_finite().then_some(cut);
+                return if cut.energy_kj.is_finite() {
+                    Ok(cut)
+                } else {
+                    Err(StillError::UnrepresentableEnergy)
+                };
             }
             // Partial cuts cannot silently round a positive residual to zero.
             // A microscopic positive overhead may leave bulk stock unchanged
             // at its floating-point resolution; the overhead remains explicit.
             for (residual, removed) in pot.iter().zip(&cut.overhead) {
                 if *removed > 0.0 && *residual <= 0.0 {
-                    return None;
+                    return Err(StillError::UnrepresentableResidue);
                 }
             }
             if removed_total <= 0.0 || cut.energy_kj <= 0.0 {
-                return None;
+                return Err(if removed_total <= 0.0 {
+                    StillError::UnrepresentableCondensate
+                } else {
+                    StillError::UnrepresentableEnergy
+                });
             }
             cut.t_end_k = evaluate_bubble(&pot, models, pressure_kpa)?.0;
-            return Some(cut);
+            return Ok(cut);
         }
         if remaining <= 0.0 || !remaining.is_finite() {
-            return None;
+            return Err(StillError::IncompleteCut);
         }
         let (temperature, mut y) = evaluate_bubble(&pot, models, pressure_kpa)?;
         cut.t_end_k = temperature;
@@ -247,22 +323,22 @@ fn ideal_still_with_bubble(
         }
         let latent: f64 = y.iter().zip(models).map(|(v, m)| v * m.latent_kj_mol).sum();
         if !latent.is_finite() || latent <= 0.0 {
-            return None;
+            return Err(StillError::UnrepresentableEnergy);
         }
         if let StillTake::EnergyKj(energy) = take {
             let available = energy.min(energy_target) - cut.energy_kj;
             if available <= 0.0 || !available.is_finite() {
-                return None;
+                return Err(StillError::UnrepresentableEnergy);
             }
             dn = dn.min(available / latent);
         }
         if !dn.is_finite() || dn <= 0.0 {
-            return None;
+            return Err(StillError::UnrepresentableRequest);
         }
         for i in 0..pot.len() {
             let mut removed = dn * y[i];
             if y[i] > 0.0 && removed == 0.0 {
-                return None;
+                return Err(StillError::UnrepresentableCondensate);
             }
             let mut overhead = cut.overhead[i] + removed;
             if removed > 0.0 && overhead == cut.overhead[i] && full_take {
@@ -278,7 +354,11 @@ fn ideal_still_with_bubble(
                 || (removed > 0.0 && (overhead == cut.overhead[i] || heat == 0.0))
                 || !heat.is_finite()
             {
-                return None;
+                return Err(if (removed > 0.0 && heat == 0.0) || !heat.is_finite() {
+                    StillError::UnrepresentableEnergy
+                } else {
+                    StillError::UnrepresentableCondensate
+                });
             }
             cut.overhead[i] = overhead;
             // Accumulate the cut, then subtract once from the original pot.
@@ -288,10 +368,10 @@ fn ideal_still_with_bubble(
             cut.energy_kj += heat;
         }
         if !cut.energy_kj.is_finite() {
-            return None;
+            return Err(StillError::UnrepresentableEnergy);
         }
     }
-    None // no partial success disguised as the requested cut
+    Err(StillError::IntegrationLimit) // no partial success disguised as the requested cut
 }
 
 #[cfg(test)]

@@ -1458,6 +1458,18 @@ PVA = "PVA"
 
 [not-modeled]
 
+# Ideal-liquid still checked refusal categories.
+ideal-still-invalid-input = "La distillation idéale exige des stocks finis et non négatifs, des propriétés valides, une coupe valide, un nombre d’étages pris en charge et une pression positive ; aucune matière n’a été transférée"
+ideal-still-request-precision = "La coupe idéale demandée ou une étape d’intégration nécessaire est trop petite pour être conservée numériquement à cette échelle de stock ; aucune matière n’a été transférée"
+ideal-still-phase-evaluation = "Le calcul d’ébullition du ballon ou d’un étage de la colonne n’a pas fourni d’état de phase pris en charge ; aucune matière n’a été transférée"
+ideal-still-composition-precision = "La distillation idéale ne peut pas représenter la composition de phase sans perdre un constituant positif ou dépasser la plage numérique du total ; aucune matière n’a été transférée"
+ideal-still-condensate-precision = "Un constituant positif ne peut pas être conservé numériquement dans le condensat accumulé ; aucune matière n’a été transférée"
+ideal-still-residue-precision = "Un constituant restant positif ne peut pas être conservé numériquement séparément du condensat ; aucune matière n’a été transférée"
+ideal-still-energy-precision = "La chaleur latente de la coupe idéale dépasse la précision ou la plage numérique ; aucune matière n’a été transférée"
+ideal-still-integration-limit = "La coupe idéale n’a pas été achevée dans la limite d’intégration prise en charge ; aucune matière n’a été transférée"
+ideal-still-incomplete-cut = "Le condensat idéal conservé numériquement ne correspond pas à la coupe demandée ; aucune matière n’a été transférée"
+ideal-still-unsupported-boundary = "La distillation idéale a rencontré une limite de modèle ou de calcul non prise en charge ; aucune matière n’a été transférée"
+
 # Binary still diagnostic categories; no refused proposal transfers inventory.
 still-invalid-input = "La distillation binaire exige des stocks finis et non négatifs, une coupe valide, un nombre d’étages pris en charge et une pression positive ; aucune matière n’a été transférée"
 still-request-precision = "La coupe binaire demandée ou une étape d’intégration nécessaire est trop petite pour être conservée numériquement à cette échelle de stock ; aucune matière n’a été transférée"

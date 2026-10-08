@@ -1766,7 +1766,7 @@ pub enum StillTake {
     EnergyKj(f64),
 }
 
-/// Why a complete binary still cut could not be published.
+/// Why a complete still cut could not be published.
 ///
 /// These failures describe model and representation boundaries, not a partial
 /// transfer. The legacy Option API remains available via `.ok()`.
@@ -1823,11 +1823,12 @@ impl std::error::Error for StillError {}
 /// Callers still validate the phase/pressure model; this helper only books
 /// representable amounts. Pure cuts do not change composition, so neither
 /// a Rayleigh mesh nor an ideal-stage cascade can change their answer.
+#[cfg(test)]
 pub(crate) fn pure_still_amount(amount: f64, latent: f64, take: StillTake) -> Option<(f64, f64)> {
     pure_still_amount_checked(amount, latent, take).ok()
 }
 
-fn pure_still_amount_checked(
+pub(crate) fn pure_still_amount_checked(
     amount: f64,
     latent: f64,
     take: StillTake,

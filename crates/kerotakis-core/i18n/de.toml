@@ -1666,6 +1666,18 @@ PVA = "PVA"
 # of each there are, with the denominator read out of the Rust.
 [not-modeled]
 
+# Ideal-liquid still checked refusal categories.
+ideal-still-invalid-input = "Die ideale Destille benötigt endliche nichtnegative Bestände, gültige Stoffdaten, einen gültigen Schnitt, eine unterstützte Stufenzahl und positiven Druck; es wurde kein Material übertragen"
+ideal-still-request-precision = "Der angeforderte ideale Destillationsschnitt oder ein erforderlicher Integrationsschritt ist bei dieser Bestandsgröße zu klein, um numerisch erhalten zu bleiben; es wurde kein Material übertragen"
+ideal-still-phase-evaluation = "Die Siedeberechnung im Kolben oder in einer Kolonnenstufe konnte keinen unterstützten Phasenzustand liefern; es wurde kein Material übertragen"
+ideal-still-composition-precision = "Die ideale Destille kann die Phasenzusammensetzung nicht ohne Verlust eines positiven Bestandteils oder Überlauf der Gesamtmenge darstellen; es wurde kein Material übertragen"
+ideal-still-condensate-precision = "Ein positiver Bestandteil kann im gesammelten Kondensat nicht numerisch erhalten bleiben; es wurde kein Material übertragen"
+ideal-still-residue-precision = "Ein positiver verbleibender Bestandteil kann nicht getrennt vom Kondensat numerisch erhalten bleiben; es wurde kein Material übertragen"
+ideal-still-energy-precision = "Die Verdampfungswärme des idealen Destillationsschnitts liegt außerhalb der numerischen Genauigkeit oder des Zahlenbereichs; es wurde kein Material übertragen"
+ideal-still-integration-limit = "Der ideale Destillationsschnitt wurde innerhalb der unterstützten Integrationsgrenze nicht abgeschlossen; es wurde kein Material übertragen"
+ideal-still-incomplete-cut = "Das numerisch erhaltene ideale Kondensat entspricht nicht dem angeforderten Schnitt; es wurde kein Material übertragen"
+ideal-still-unsupported-boundary = "Die ideale Destille hat eine nicht unterstützte Modell- oder Zahlengrenze erreicht; es wurde kein Material übertragen"
+
 # Binary still diagnostic categories; no refused proposal transfers inventory.
 still-invalid-input = "Die binäre Destille benötigt endliche nichtnegative Bestände, einen gültigen Schnitt, eine unterstützte Stufenzahl und positiven Druck; es wurde kein Material übertragen"
 still-request-precision = "Der angeforderte binäre Destillationsschnitt oder ein erforderlicher Integrationsschritt ist bei dieser Bestandsgröße zu klein, um numerisch erhalten zu bleiben; es wurde kein Material übertragen"
