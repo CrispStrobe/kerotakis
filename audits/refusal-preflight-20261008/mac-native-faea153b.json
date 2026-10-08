@@ -1,0 +1,248 @@
+{
+  "kind": "hosted Mac native runtime evidence before legacy fixture adaptation",
+  "source_revision": "faea153bc77a1e0093e480c367ebdd341915796b",
+  "run": 37737767183,
+  "job": 113181501188,
+  "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37737767183/job/113181501188",
+  "raw_job_log_sha256": "77d4f686675a60737f8cb27575269319c3d28103091e06c74f0a90663f5a5b81",
+  "overall_job_result": "failure: two legacy assertion conflicts with intentional refused-Drain no-creation behavior",
+  "contract_suites": {
+    "refusal_preflight_atomicity": {
+      "passed": 28,
+      "failed": 0,
+      "outcomes": [
+        {
+          "test": "bad_low_decant_preserves_state",
+          "outcome": "ok"
+        },
+        {
+          "test": "bad_high_decant_preserves_state",
+          "outcome": "ok"
+        },
+        {
+          "test": "bad_nan_decant_preserves_state",
+          "outcome": "ok"
+        },
+        {
+          "test": "missing_self_decant_preserves_state",
+          "outcome": "ok"
+        },
+        {
+          "test": "missing_source_drain_remains_safe",
+          "outcome": "ok"
+        },
+        {
+          "test": "missing_source_decant_preserves_state",
+          "outcome": "ok"
+        },
+        {
+          "test": "missing_source_extract_remains_safe",
+          "outcome": "ok"
+        },
+        {
+          "test": "missing_source_filter_preserves_state",
+          "outcome": "ok"
+        },
+        {
+          "test": "nan_extract_remains_safe",
+          "outcome": "ok"
+        },
+        {
+          "test": "partial_evaporation_with_coevaporation_notice_still_settles",
+          "outcome": "ok"
+        },
+        {
+          "test": "complete_evaporation_with_stranded_solute_notice_still_settles",
+          "outcome": "ok"
+        },
+        {
+          "test": "self_drain_remains_safe",
+          "outcome": "ok"
+        },
+        {
+          "test": "self_filter_preserves_state",
+          "outcome": "ok"
+        },
+        {
+          "test": "self_extract_remains_safe",
+          "outcome": "ok"
+        },
+        {
+          "test": "single_phase_drain_existing_receiver_is_unchanged",
+          "outcome": "ok"
+        },
+        {
+          "test": "single_phase_drain_fresh_receiver_is_unchanged",
+          "outcome": "ok"
+        },
+        {
+          "test": "supported_nuclide_spike_still_settles",
+          "outcome": "ok"
+        },
+        {
+          "test": "supported_reaction_with_model_boundary_still_settles",
+          "outcome": "ok"
+        },
+        {
+          "test": "unknown_direct_reaction_is_unchanged",
+          "outcome": "ok"
+        },
+        {
+          "test": "unknown_solvent_extract_remains_safe",
+          "outcome": "ok"
+        },
+        {
+          "test": "reviewed_iodine_drain_creates_receiver_and_settles",
+          "outcome": "ok"
+        },
+        {
+          "test": "supported_layered_drain_creates_receiver_and_settles",
+          "outcome": "ok"
+        },
+        {
+          "test": "unsupported_nuclide_is_unchanged",
+          "outcome": "ok"
+        },
+        {
+          "test": "water_free_evaporation_is_unchanged",
+          "outcome": "ok"
+        },
+        {
+          "test": "zero_extract_remains_safe",
+          "outcome": "ok"
+        },
+        {
+          "test": "zero_stage_extract_remains_safe",
+          "outcome": "ok"
+        },
+        {
+          "test": "unreviewed_drain_existing_receiver_is_unchanged",
+          "outcome": "ok"
+        },
+        {
+          "test": "unreviewed_drain_fresh_receiver_is_unchanged",
+          "outcome": "ok"
+        }
+      ]
+    },
+    "refusal_missing_vessel": {
+      "passed": 2,
+      "failed": 0,
+      "outcomes": [
+        {
+          "test": "unsupported_nuclide_on_missing_vessel_retains_exception",
+          "outcome": "ok"
+        },
+        {
+          "test": "unknown_reaction_on_missing_vessel_retains_exception",
+          "outcome": "ok"
+        }
+      ]
+    },
+    "safety_veto_atomicity": {
+      "passed": 20,
+      "failed": 0,
+      "outcomes": [
+        {
+          "test": "accepted_discard_still_settles",
+          "outcome": "ok"
+        },
+        {
+          "test": "accepted_add_still_settles",
+          "outcome": "ok"
+        },
+        {
+          "test": "accepted_decant_still_settles",
+          "outcome": "ok"
+        },
+        {
+          "test": "accepted_filter_still_settles",
+          "outcome": "ok"
+        },
+        {
+          "test": "accepted_mix_still_settles",
+          "outcome": "ok"
+        },
+        {
+          "test": "accepted_recovery_still_settles",
+          "outcome": "ok"
+        },
+        {
+          "test": "accidental_spill_proceeds_with_hazard_despite_veto",
+          "outcome": "ok"
+        },
+        {
+          "test": "fresh_decant_veto_does_not_create_receiver",
+          "outcome": "ok"
+        },
+        {
+          "test": "fresh_decant_warning_preserves_creation_and_event_order",
+          "outcome": "ok"
+        },
+        {
+          "test": "fresh_filter_veto_does_not_create_receiver",
+          "outcome": "ok"
+        },
+        {
+          "test": "fresh_filter_warning_preserves_creation_and_event_order",
+          "outcome": "ok"
+        },
+        {
+          "test": "vetoed_add_preserves_full_state_without_solving",
+          "outcome": "ok"
+        },
+        {
+          "test": "missing_mix_receiver_keeps_existing_error_and_full_state",
+          "outcome": "ok"
+        },
+        {
+          "test": "vetoed_discard_preserves_full_state_without_solving",
+          "outcome": "ok"
+        },
+        {
+          "test": "vetoed_decant_preserves_full_state_without_solving",
+          "outcome": "ok"
+        },
+        {
+          "test": "vetoed_filter_preserves_full_state_without_solving",
+          "outcome": "ok"
+        },
+        {
+          "test": "vetoed_mix_preserves_full_state_without_solving",
+          "outcome": "ok"
+        },
+        {
+          "test": "vetoed_recovery_preserves_full_state_without_solving",
+          "outcome": "ok"
+        },
+        {
+          "test": "vetoed_material_preserves_full_state_without_solving",
+          "outcome": "ok"
+        },
+        {
+          "test": "accepted_material_still_settles",
+          "outcome": "ok"
+        }
+      ]
+    }
+  },
+  "failed_tests": [
+    {
+      "suite": "liquid_extraction",
+      "test": "draining_outside_an_empirical_partition_temperature_moves_no_material",
+      "observed": "vessel count1; legacy expected2 and empty receiver",
+      "classification": "legacy assertion conflict: reviewed-domain refusal now preserves complete graph"
+    },
+    {
+      "suite": "proportional_transfer",
+      "test": "a_transfer_creates_the_vessel_it_is_aimed_at",
+      "observed": "single-phase Drain has no VesselCreated",
+      "classification": "legacy accepted-transfer fixture invokes single-phase refusal"
+    }
+  ],
+  "original_file_sha256": {
+    "crates/kerotakis-core/tests/liquid_extraction.rs": "b9b5bee8a6ba342f49a0405332729eccb898ddf1ee7b022b9f43651215ccaad8",
+    "crates/kerotakis-core/tests/proportional_transfer.rs": "18528157fac382f3f114c4f2f034dccd7b23ddb0050d6e8a40385dd8593977fe"
+  },
+  "acceptance": "50 targeted controls passed at this source; full job failed. Adapted legacy controls and refreshed CI remain pending."
+}
