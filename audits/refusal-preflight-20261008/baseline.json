@@ -1,0 +1,383 @@
+{
+  "schema": 1,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37734189584",
+  "source_commit": "9d3a20786d13a262df640bc8104480f556175236",
+  "compile": "success",
+  "passed": 38,
+  "failed": 12,
+  "log_sha256": "51cbed5e24a057384341c88e2787139a34e77163056e37ba7397b9e3e6420684",
+  "generated_lock_sha256": "f82884ebf1ee635029a79c4ee913386f54e99adf40169c98a701cbb9fbfed194",
+  "toolchain": [
+    "rustc 1.99.0 (b940084d7 2026-09-28)",
+    "binary: rustc",
+    "commit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4",
+    "commit-date: 2026-09-28",
+    "host: x86_64-unknown-linux-gnu",
+    "release: 1.99.0",
+    "LLVM version: 23.1.1",
+    "cargo 1.99.0 (5f94df478 2026-08-27)"
+  ],
+  "outcomes": [
+    {
+      "test": "unknown_reaction_on_missing_vessel_retains_exception",
+      "outcome": "ok"
+    },
+    {
+      "test": "unsupported_nuclide_on_missing_vessel_retains_exception",
+      "outcome": "ok"
+    },
+    {
+      "test": "bad_high_decant_preserves_state",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "bad_low_decant_preserves_state",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "bad_nan_decant_preserves_state",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "complete_evaporation_with_stranded_solute_notice_still_settles",
+      "outcome": "ok"
+    },
+    {
+      "test": "missing_self_decant_preserves_state",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "missing_source_decant_preserves_state",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "missing_source_drain_remains_safe",
+      "outcome": "ok"
+    },
+    {
+      "test": "missing_source_extract_remains_safe",
+      "outcome": "ok"
+    },
+    {
+      "test": "missing_source_filter_preserves_state",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "nan_extract_remains_safe",
+      "outcome": "ok"
+    },
+    {
+      "test": "partial_evaporation_with_coevaporation_notice_still_settles",
+      "outcome": "ok"
+    },
+    {
+      "test": "reviewed_iodine_drain_creates_receiver_and_settles",
+      "outcome": "ok"
+    },
+    {
+      "test": "self_drain_remains_safe",
+      "outcome": "ok"
+    },
+    {
+      "test": "self_extract_remains_safe",
+      "outcome": "ok"
+    },
+    {
+      "test": "self_filter_preserves_state",
+      "outcome": "ok"
+    },
+    {
+      "test": "single_phase_drain_existing_receiver_is_unchanged",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "single_phase_drain_fresh_receiver_is_unchanged",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "supported_layered_drain_creates_receiver_and_settles",
+      "outcome": "ok"
+    },
+    {
+      "test": "supported_nuclide_spike_still_settles",
+      "outcome": "ok"
+    },
+    {
+      "test": "supported_reaction_with_model_boundary_still_settles",
+      "outcome": "ok"
+    },
+    {
+      "test": "unknown_direct_reaction_is_unchanged",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "unknown_solvent_extract_remains_safe",
+      "outcome": "ok"
+    },
+    {
+      "test": "unreviewed_drain_existing_receiver_is_unchanged",
+      "outcome": "ok"
+    },
+    {
+      "test": "unreviewed_drain_fresh_receiver_is_unchanged",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "unsupported_nuclide_is_unchanged",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "water_free_evaporation_is_unchanged",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "zero_extract_remains_safe",
+      "outcome": "ok"
+    },
+    {
+      "test": "zero_stage_extract_remains_safe",
+      "outcome": "ok"
+    },
+    {
+      "test": "accepted_add_still_settles",
+      "outcome": "ok"
+    },
+    {
+      "test": "accepted_decant_still_settles",
+      "outcome": "ok"
+    },
+    {
+      "test": "accepted_discard_still_settles",
+      "outcome": "ok"
+    },
+    {
+      "test": "accepted_filter_still_settles",
+      "outcome": "ok"
+    },
+    {
+      "test": "accepted_material_still_settles",
+      "outcome": "ok"
+    },
+    {
+      "test": "accepted_mix_still_settles",
+      "outcome": "ok"
+    },
+    {
+      "test": "accepted_recovery_still_settles",
+      "outcome": "ok"
+    },
+    {
+      "test": "accidental_spill_proceeds_with_hazard_despite_veto",
+      "outcome": "ok"
+    },
+    {
+      "test": "fresh_decant_veto_does_not_create_receiver",
+      "outcome": "ok"
+    },
+    {
+      "test": "fresh_decant_warning_preserves_creation_and_event_order",
+      "outcome": "ok"
+    },
+    {
+      "test": "fresh_filter_veto_does_not_create_receiver",
+      "outcome": "ok"
+    },
+    {
+      "test": "fresh_filter_warning_preserves_creation_and_event_order",
+      "outcome": "ok"
+    },
+    {
+      "test": "missing_mix_receiver_keeps_existing_error_and_full_state",
+      "outcome": "ok"
+    },
+    {
+      "test": "vetoed_add_preserves_full_state_without_solving",
+      "outcome": "ok"
+    },
+    {
+      "test": "vetoed_decant_preserves_full_state_without_solving",
+      "outcome": "ok"
+    },
+    {
+      "test": "vetoed_discard_preserves_full_state_without_solving",
+      "outcome": "ok"
+    },
+    {
+      "test": "vetoed_filter_preserves_full_state_without_solving",
+      "outcome": "ok"
+    },
+    {
+      "test": "vetoed_material_preserves_full_state_without_solving",
+      "outcome": "ok"
+    },
+    {
+      "test": "vetoed_mix_preserves_full_state_without_solving",
+      "outcome": "ok"
+    },
+    {
+      "test": "vetoed_recovery_preserves_full_state_without_solving",
+      "outcome": "ok"
+    }
+  ],
+  "scope": "30 new tests:18pass12fail;20 inherited safety tests all pass. New missing-vessel controls both pass.",
+  "interpretation": "Unchanged-production baseline. Failing table loops stop at their first mismatch; later rows not claimed exercised. Repaired-source validation remains pending.",
+  "source_and_fixture_bindings": {
+    "Cargo.toml": "dffb548a7718f423a55e8de0eb767d82a29441c114cebe807245e734a98e9a5a",
+    "crates/kerotakis-cea/Cargo.toml": "de322e3975c5195b04171ba5b99449b44d3d6088dff62ec5134ddb77bf6bbb05",
+    "crates/kerotakis-cli/Cargo.toml": "bf37c2974740c1d320e12a7f17b4172dcb37191a38b7c821827375c7667ae9d5",
+    "crates/kerotakis-codex/Cargo.toml": "8da2159fdabe43afe39f961b57f93ae48100c8a4aba6bca5bc896e780530093c",
+    "crates/kerotakis-core/Cargo.toml": "46b65c88ee9e4855a8c0d3583b0a599df1df17581401e6fe81a44c88610a0f0a",
+    "crates/kerotakis-data/Cargo.toml": "ef1fcd13c23807fa8d76bbc5bd375318b90d0d51fa70a1b37b707e9c5497c221",
+    "crates/kerotakis-org/Cargo.toml": "9e7dabf631bbc1cd9691c61b36febb4f72886ae3c5c2992b7eedff7a3895ebd8",
+    "crates/kerotakis-phreeqc/Cargo.toml": "dd3d8806bcdc5f4e20e3585f611b9fdaa7c2866f0186e92d4d1e072185cc2465",
+    "crates/kerotakis-registry-export/Cargo.toml": "5bc981ae66be291c1b5f1b526f642b1115b2abece0bde34ef3f719e573bd3f19",
+    "crates/kerotakis-safety/Cargo.toml": "3a9f7fe0b6d4bc06381f2b88fc6692e83595fc881830436902b9658a18b59235",
+    "crates/kerotakis-scene-physics/Cargo.toml": "cf45a66d27a6d61bc7e6a4eb68d48f3df5193e2cfe025ff1895cf63b5dc45f43",
+    "crates/kerotakis-stack/Cargo.toml": "c519978bee7f80bd42d8afae09a7d5ed96c243cb7aca3c72f336044cfc5e778e",
+    "crates/kerotakis-sundials/Cargo.toml": "97bc83e45e4e46b95b1bc8b5f5710a00d2243020b4f8a0fe35ff0fd9da311490",
+    "crates/kerotakis-thermo/Cargo.toml": "8725b0eda3b52e650964f9246e6ce6d0b15beb0435ab1132c63eb26ce7155269",
+    "crates/kerotakis-wasm/Cargo.toml": "7f70d594546b89aadd8aa2bcaa64f4be4387af282aabef677706a05d0585ad75",
+    "fuzz/Cargo.toml": "6c467473667b7078490aa1c4b330e6353b3cb5636920a25510edca3488d74068",
+    "spikes/brd-030-feos/Cargo.toml": "75e2cdbc545cd11146d38d9a462cac283f3504b44a80791e68564d98eb97b43a",
+    "spikes/brd-030-feos/wasm-probe-base/Cargo.toml": "33f6b35f766714d4b0411b0edd5d7307ee9c36e4e0cfe95a892394eb33b50242",
+    "spikes/brd-030-feos/wasm-probe-feos/Cargo.toml": "991340e996e9c0b208f288ee18726561c44a3cbec1579e89dd2d62c1929c9361",
+    "vendor/chematic-0.18/chematic-0.18.0/Cargo.toml": "c1311bb755688917e34b098844e0d1e1eb94e05ad41e1ea77dc0455b4b5a9a01",
+    "vendor/chematic-0.18/chematic-chem-0.18.0/Cargo.toml": "6bf4f51f9fda32e00bb9e5b40e456907761684eaf220f8fe130df85579b39432",
+    "vendor/chematic-0.18/chematic-cip-0.18.0/Cargo.toml": "61908259cde269c5e1e812b4912a686e3157c78b9456c07ed3189d1282160836",
+    "vendor/chematic-0.18/chematic-core-0.18.0/Cargo.toml": "7fd9115c8a7d584a7c8ddf3cd7a164a9b8908efb045b937cc9488b9d54c12fdc",
+    "vendor/chematic-0.18/chematic-fp-0.18.0/Cargo.toml": "0441ea1a61f192bcca78bec5d7b85a9219b65f386f8b554c75fff8d985a4e825",
+    "vendor/chematic-0.18/chematic-inchi-0.18.0/Cargo.toml": "af7ed703c07aed1e32c1dc58bbb24bc93af2d6d101142fc61717300b703ebbc8",
+    "vendor/chematic-0.18/chematic-iupac-0.18.0/Cargo.toml": "c4422e8fe94682d92bb2a108be27fc3a17a93fe6275bc93aa2fc59428c35b10b",
+    "vendor/chematic-0.18/chematic-mol-0.18.0/Cargo.toml": "60a5af50e83a869872480fdd1054a0d9ad42940776703adba49048783c1e571b",
+    "vendor/chematic-0.18/chematic-perception-0.18.0/Cargo.toml": "00ff5d5ee9501d3f7b29eed4573ab43b7efe9d5d0056d7a288a8a3ba927bb696",
+    "vendor/chematic-0.18/chematic-rxn-0.18.0/Cargo.toml": "7f2aba3deb9705fd940c84bfbff8025ed08ff9aa669584128897fbc38c5ad3b9",
+    "vendor/chematic-0.18/chematic-smarts-0.18.0/Cargo.toml": "a082d922e7dfe073f67f8e669f8dc30295bebddf6a197ac2ad42c5be601d1b42",
+    "vendor/chematic-0.18/chematic-smiles-0.18.0/Cargo.toml": "2bc229fb60f8aeece0843de232f7cc95a1900d3f1c079a1febf0462a02530285",
+    "web/app/src-tauri/Cargo.toml": "9a1a6d5e2a106afea5cc85390c4e2cb86dd786a52720791e3e281bd63bbbd6b8",
+    "crates/kerotakis-core/src/adsorption.rs": "02f0a40564074153ee0da84ae6d1cba7fbe50d2c4995b6ad6e3c3d73755d6b0a",
+    "crates/kerotakis-core/src/amount.rs": "92ef58a3f5562f364f6e590b28aa1ef675d4d9366b86f1ddc3ab59813b40eb09",
+    "crates/kerotakis-core/src/apparatus.rs": "d391b4d0f24db9a7303563df6d59c4d51a4f077662533627315c4c5586235a4f",
+    "crates/kerotakis-core/src/appearance.rs": "df80a7e2ed557f7c9a6ee3ae84a73c66def8624912605bc5358e30ec1ba9ae91",
+    "crates/kerotakis-core/src/authority.rs": "9e4a88c86f2dd93255016e4f7103c8d69c5639a436aca2626db159bc2c6ac6b0",
+    "crates/kerotakis-core/src/bench.rs": "dc09b0ba4abb581e48f988330c6c3ced95c5d1c963518e9a3780d13082b16af0",
+    "crates/kerotakis-core/src/buoyancy.rs": "26b51b997995f6bce42e8938790c061d245d9e4649cdbf14e9dd95f6df258ecd",
+    "crates/kerotakis-core/src/butler_volmer.rs": "55464fec41fb886b2a0230768f548f2aaea0344a8ae3d2f4d12ff5df0f3dac3f",
+    "crates/kerotakis-core/src/cabinet.rs": "d76cdec316ce53da06391d9c4747538ebc661bcf54c10ce8565d8a711a5082a1",
+    "crates/kerotakis-core/src/cache_key.rs": "7fb8c55edca8356dfe25eb5a27960916e5374d21b23ca55b0e1128fc2a43809d",
+    "crates/kerotakis-core/src/catalog.rs": "d616479d8d14b80754c5dd26db7383c59161015c5a7a6ac4b70324dd10ba0ecd",
+    "crates/kerotakis-core/src/centrifuge.rs": "9a13eb5e7d2a9f7366adbb0a2eab6f06115a0ef9f2d54f424d5e79321dd5c5f9",
+    "crates/kerotakis-core/src/chart.rs": "d66f33d66ac08b76ff912f3575ba04b036ac74b626f086975a152ecb1d21a883",
+    "crates/kerotakis-core/src/chemiluminescence.rs": "53aa2c82283148c1cdb43b1e1480cbb4d5eecc26716d6f7996f2c1e910d60ad3",
+    "crates/kerotakis-core/src/clock.rs": "0fde6928ea191902519d51ea8904255c3c87a21c49c3a242628ca009264c388d",
+    "crates/kerotakis-core/src/combustion.rs": "b2847e0df97cfa11559737c25fed9bc23c90c95dbf022146903c7e32bb471406",
+    "crates/kerotakis-core/src/compartment.rs": "2bc2d399bd53495bc06f3607e019103074017c76bda34985f2191de3f8be9f37",
+    "crates/kerotakis-core/src/conductivity.rs": "fa46bc6b7aa8712f541f264b75c210bfd46c4b0bf3ee3e1d7b7d69db81ee621e",
+    "crates/kerotakis-core/src/constants.rs": "397846a438ad49a748c07735657826b1df586b64b8d1029da499022a9df83be4",
+    "crates/kerotakis-core/src/corrosion.rs": "10e1db01ae45e4c7893f13febf9fbc829ba4e06923c8a2c74948e8bfb88baef2",
+    "crates/kerotakis-core/src/coverage.rs": "e7d73a9de24a32b612ae2808b91ddd02c327914e701f212b38636892b3fc65a6",
+    "crates/kerotakis-core/src/curated.rs": "20db49d2b0679fb77e1df7205f6a4ae8878f8becccf7c30cebb1c9796bcd27a5",
+    "crates/kerotakis-core/src/curdling.rs": "223b2f1810c37aeb99a8cec923421b40f5b9c3873c8398df90c4afacf113dc9d",
+    "crates/kerotakis-core/src/delta.rs": "0aae5755352ed2b3a5f119374d4ca24639d3c0327d8b7829dc83e8e56e66822f",
+    "crates/kerotakis-core/src/displacement.rs": "151a93015e59fb019397baa0ce5c25e729cfb5d93e9332ad8bcdec7c37467bae",
+    "crates/kerotakis-core/src/electrochemistry.rs": "80d92ac20f2c896bb17f9f63d4244a2fd19cbd2b9189ed0dea7ef8e8fd533e9e",
+    "crates/kerotakis-core/src/electrodiffusion.rs": "079079a7856a19529a4fc3dd055d319978722523ae23b41ff77e617c48ea9580",
+    "crates/kerotakis-core/src/element_coverage.rs": "d1bcc327d1731fbc41aca09aca1bf811da1586db2b3e97ce7f005e3852e3bf07",
+    "crates/kerotakis-core/src/emulsion.rs": "8a68e6a1f406e293e2c170dc10d756a6ca201cf74876bfe186f5f477a1b70506",
+    "crates/kerotakis-core/src/enzyme.rs": "95661ba277e06e2e0e980cd843d38a580b56291a00cf98c7e5464fdfa5b2f2d5",
+    "crates/kerotakis-core/src/enzyme_activity.rs": "6a37b9880b7877a0676352e4271b71d995a6e10a852ffa9921d287985df151af",
+    "crates/kerotakis-core/src/exact_stoich.rs": "f80ecb059ed013cf5d4a554314d6d7811a111ff1bcbc214ac5b937224537d8ac",
+    "crates/kerotakis-core/src/family.rs": "a834c820896aea806e66ef0a2989f42f0cbcedc53eaa7135cd50b6c68ccc3fae",
+    "crates/kerotakis-core/src/fermentation.rs": "46215be605895b08c4000c51607a1de0ee4a5ea920714945cdf2df127328e6d6",
+    "crates/kerotakis-core/src/foam.rs": "c6248c057a2e87eb5f18dc7ca44f2293a8387222734feb24093367e6e505cccc",
+    "crates/kerotakis-core/src/gas_tests.rs": "8b22acfbd12e3f1c8040a0baef5c55c93f8b798c9502d871dd58fb9124c9654b",
+    "crates/kerotakis-core/src/gel.rs": "30492539b109dbf76ea62882d29764b158e033f67746ad7fbadb351ff795e9cb",
+    "crates/kerotakis-core/src/heat_capacity.rs": "1f340abbdb7de6495b2313d187bdba70f54f8def26cf1f4e5d49e2f7af5f8b47",
+    "crates/kerotakis-core/src/heterogeneous.rs": "5df8efcc79afa87f8e152930cca611169ee155f10b24c0034e65a7ecea38d81a",
+    "crates/kerotakis-core/src/hmix.rs": "81090d5dc55c32fb9b698dccf80eabe76d351b7c3e3868a8327773491a452742",
+    "crates/kerotakis-core/src/i18n.rs": "4e09b66498553f923884f30bfff9b01c099927dac23a93537ea1ed00a1da6a08",
+    "crates/kerotakis-core/src/indicator.rs": "b9da6ad8e7fbfe193220ce819b62ab488a46788578e0d1b50bff59065449625d",
+    "crates/kerotakis-core/src/inference.rs": "b3444e1744c6d3740d90a2a38aec44e4dc1e022c3b7032da98411ebe8f1925ab",
+    "crates/kerotakis-core/src/instrument.rs": "ac74514b8dab1a8db0908ad6e5e5bf20556d46d9f0e876bc6abe4d312adcd861",
+    "crates/kerotakis-core/src/intern.rs": "906de6d42b8b20c8a9e6e3d01f1dd16aaad1eb250bdd12ba8f4609b79c1faf64",
+    "crates/kerotakis-core/src/ionic.rs": "9ca81ccc791ab9a85b0f23fb4e262b57f2dd34ec9b0becb855f9605af6aed4a4",
+    "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+    "crates/kerotakis-core/src/kinetics/mechanism.rs": "b074b5f1c16508765cdff6e2db280537e37c586ea7f424a08760c905edac9640",
+    "crates/kerotakis-core/src/kinetics/packs.rs": "e97293e49b5dde517e86eff409d4d9236b1eedded885fdecc89236725a58171d",
+    "crates/kerotakis-core/src/kinetics_integrator.rs": "d913bd054f3910d7a1396632fe1d3f28b156af85d3519f753bb6cdb58cc06fe4",
+    "crates/kerotakis-core/src/kitchen_biology.rs": "0d8361202eec6177ccbabc7af3407ea551172b9620acb2ee87b9166c5efae87a",
+    "crates/kerotakis-core/src/ledger.rs": "425c3cef974fdba083eb3ec0aa97941f5fab8b41f17dc386d81ff2127419c6d3",
+    "crates/kerotakis-core/src/lib.rs": "676bccde85aa6dc19ad6862100396c596ad98ea048fb183989c90d301f6caad8",
+    "crates/kerotakis-core/src/local_equilibrium.rs": "a00725d163b28c875beda4253668e09cac79ad702585778e72c1ebab65eb903d",
+    "crates/kerotakis-core/src/material.rs": "7ae21ee0e4c4323aca5ce0fe559a23001ddd48cae262916d020be42675b0ae7f",
+    "crates/kerotakis-core/src/measurement.rs": "603c2b3b4f30e61804dcf026684dae1c21a72d939e4a7a435dad3c468dcdaa08",
+    "crates/kerotakis-core/src/molecule.rs": "8f3ee3ca4610da197e0dc5ab7f4cfbde58b774e79fd96d0a1751624903bc51b8",
+    "crates/kerotakis-core/src/nonaqueous.rs": "df2dc81f729cafd5312df546e868f9b0ff950818bcb2f84e332c8a9b022b4d3d",
+    "crates/kerotakis-core/src/nuclide.rs": "b9ef603d0add47a32bf600477736f4d7791a3c9c17fd323b669af38efc61fe0b",
+    "crates/kerotakis-core/src/ops.rs": "405d59244f7569b210a037dc1f6ee4c7617ee4f980f1fec897c5d54198315f4c",
+    "crates/kerotakis-core/src/orchestrator.rs": "951925e6494b00260530599b4078d3b448b0e1f26b4ec58445551cf4ce16f742",
+    "crates/kerotakis-core/src/packs.rs": "6bde6277db61a254a7fd6593cfffafe120533709637455b6ecd0d244061a181d",
+    "crates/kerotakis-core/src/packs_manifest.rs": "4b10747b522ff7891588966f36bf8925f8152c3d76b19a29400acccda74765ac",
+    "crates/kerotakis-core/src/parallel.rs": "ef867f2476369d418d8f967f869282238804edeaf42201cd4652f9d61023cb24",
+    "crates/kerotakis-core/src/particles.rs": "0ea21c35ff036922124e44cfd55299ddb2f11319ae8b171e695f582d1a62edba",
+    "crates/kerotakis-core/src/phase_route.rs": "4389a723f7b77c3b395069c77b89a2f4f9c8d749dcc221a69dac90a35cbbbe52",
+    "crates/kerotakis-core/src/photochem.rs": "98c2d29ff5ec46477bd519fa05633b948213956aaa2939dfd8c8f06260e7545e",
+    "crates/kerotakis-core/src/phrase.rs": "2face872fc4646c6c479e45d316afc23e125c3a4b329c20b7b1d3a1453d3ef1b",
+    "crates/kerotakis-core/src/pigment.rs": "9eb8499f22d91c434b0cedf4ecb46033ee83991ecacd25783d402c29b266b2a1",
+    "crates/kerotakis-core/src/plastics.rs": "3f7f4e3d7d2ff59c6eb7e53267f1db6bb15fd8774bd45cbfa73a912017d828c3",
+    "crates/kerotakis-core/src/polarization.rs": "fd0ec1c4a15dde534e2d2054a084173c2789b370508edaadb7b98e827af54aa1",
+    "crates/kerotakis-core/src/polymer.rs": "086ca036fffdcf49429e68246a67cfbc62150ed8511e1ed0730c0b2570c90f3a",
+    "crates/kerotakis-core/src/properties.rs": "e701992ce76ff1b7d4f24fb11aeb365e3369965fc28ac99155e1d042e95570a3",
+    "crates/kerotakis-core/src/protein.rs": "d33b63a2415ba22a10e0c976f0609c6d5afe55ca9a6b706ebbe6e9c01bbd5523",
+    "crates/kerotakis-core/src/refusal.rs": "ccb0eb7e62b7a221554ac21aeb881e37396f1fcf3e7afc7d932d920bd7d0707c",
+    "crates/kerotakis-core/src/relations.rs": "b2bd6fc8fb616f79eca30bfea1c74b3e2ec9975d84c76b7f072af8dc0d447c4f",
+    "crates/kerotakis-core/src/render.rs": "a13c47e34175bb2abae674901e4f46e0787f7fc73a638930c592fba333ac460a",
+    "crates/kerotakis-core/src/rheology.rs": "ec2e9271caca705f100c323d84500ce0f9612fb245de9f8491bbf3c03b7dcf48",
+    "crates/kerotakis-core/src/scene.rs": "f626393a74d5911b4f9acb247b610adc701466021b2eda1c712bc2a5ca217cf2",
+    "crates/kerotakis-core/src/script.rs": "9ce9b2a30a24b62673b7a426dfebefd1ae1d43d7fd85e116b0098abca7e4da7c",
+    "crates/kerotakis-core/src/selectivity.rs": "7c181ff4915e8e9febc39c2f6ecc972269d70c72aa6ce428277c2c075fa03a37",
+    "crates/kerotakis-core/src/senses.rs": "e0058d1464ea830c0b2ffb3e6b5d15f0dc04207b9dd081e820a180239d0798bf",
+    "crates/kerotakis-core/src/solution_optics.rs": "b37b8bd710378e28cfe81ec984e1f4dc7e6ef70c5b5089358fa65490b779d763",
+    "crates/kerotakis-core/src/solve.rs": "80df68137323ca13235a047c3980e161953c7908d8b17ca963585379d71a47c8",
+    "crates/kerotakis-core/src/species.rs": "d2fccf882eaa6a117e0a9c41fb1eeaca3314320cf02f184d24797a33f584e004",
+    "crates/kerotakis-core/src/species_loader.rs": "838278645201d54e4808aed1f7b88f819146fbbfefca2372e3e1cd6d30795121",
+    "crates/kerotakis-core/src/spectrum.rs": "4e178c621f0561f95fb8da0cbf90d9b53a7c51c4105194faa7cee432d124d0f7",
+    "crates/kerotakis-core/src/spill.rs": "7bd9d64bd2451c64bce25d2dfe0d1523da1cf6b81a19d349009ce75e1400f64c",
+    "crates/kerotakis-core/src/starch_iodine.rs": "ba12f7eadfd9d4b0257680c2d6698890183aeb0f693c2a5ff6c32839c0cd6b7a",
+    "crates/kerotakis-core/src/states.rs": "1edc336e89c9378c55b7836c4e19b5a441cfe18867b15c28ac4916b18c172ef3",
+    "crates/kerotakis-core/src/statistics.rs": "c486723c88d9b9fac2fc46770b510536aab429dc667f7fb6e1ea8a2b8599c959",
+    "crates/kerotakis-core/src/stock.rs": "28f36d6f2f2277715d4c8286d21a89fe75c8d8b6df8fb0cc5d482786af88863c",
+    "crates/kerotakis-core/src/stoich.rs": "6480bd75e290d422dcd604436e6d56447aff9bb33ad4d4340bf13945f24b90e0",
+    "crates/kerotakis-core/src/surface_colour.rs": "22eb299f5d338621895d1be93634f98b1222abcfe674a632927df9652677031f",
+    "crates/kerotakis-core/src/surface_spread.rs": "cc4cb364cee28665d48cb23faf47ce4bc125049a18d4395c0fb8fbf192485be6",
+    "crates/kerotakis-core/src/swelling.rs": "455a8d03ce1316b90a47acd8359f9f852d38dfde16921941c176639429a1cfcf",
+    "crates/kerotakis-core/src/transport.rs": "bfbc29a381a014e72caf4bab641204a59fc1bbcaad9792694f0a9bb7aa0318ae",
+    "crates/kerotakis-core/src/units.rs": "74ac2157220f3fdc7af367bd9df1b8bbf6241eed5fb2e58f25481c6b03bd20c5",
+    "crates/kerotakis-core/src/uv.rs": "b80c3dffaad12f6f21ead073f8ad8c4dcd8a78507769b441c78bc490f83702dd",
+    "crates/kerotakis-core/src/vessel.rs": "9da316049164da12ae1fbce93378a730fc35b17a7ea5de10cf8443cd87147818",
+    "crates/kerotakis-core/src/volatility.rs": "f128175dcbb1669ba9838852303cb656c21a42369f0e97fee77acaf75d0c8983",
+    "crates/kerotakis-core/tests/refusal_preflight_atomicity.rs": "c6ba9618a82822b9e335e82adc58ac9bb9a63d73eb17fb8b6ea056968ad8ddc6",
+    "crates/kerotakis-core/tests/refusal_missing_vessel.rs": "5cdf9b688c4d35a51f6519b2e8a34dd81d6fe4f9e1ab970d6be53691cad27e24",
+    "crates/kerotakis-core/tests/safety_veto_atomicity.rs": "9a73c728b8f6634d0c21568971ccbd3b975caf348bf1047c1fb605ed21e81d20",
+    "audits/refusal-preflight-20261008/freeze.json": "cee4127ea5cf1ac91b99448272c48f779e542f8bbbed6ba77c7cb5451bfc7f8e",
+    "audits/refusal-preflight-20261008/missing-vessel-freeze.json": "10069c38cf40acffdeca80146451c6455b09968deb750fbb4966fb756b5e1df3",
+    "audits/refusal-preflight-20261008/FORECASTS.md": "59d39ed9032875655251e67228fdf2f2b0a93ce788a2d57a545b4eb577294237",
+    "audits/safety-veto-20261008/freeze.json": "f69a3005c322692a27eecd92953115c15a0c750428fc26a7947d22487309bf15",
+    "audits/safety-veto-20261008/FORECASTS.md": "cf23ce7567e754fbb219ec812d56b70da13a3f012b7cf5e33e5e6f07e7814a62"
+  },
+  "command": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "refusal_preflight_atomicity",
+    "--test",
+    "refusal_missing_vessel",
+    "--test",
+    "safety_veto_atomicity",
+    "--no-fail-fast",
+    "-j1",
+    "--",
+    "--test-threads=1"
+  ]
+}

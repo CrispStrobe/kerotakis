@@ -1,0 +1,11 @@
+{
+  "kind": "supplemental source-informed compatibility forecast before production commit",
+  "base_revision": "f6ad9946fdf71ab3273dfb5d46350e569c7f5cb6",
+  "contracts": 2,
+  "execution": "not run; pending hosted evidence",
+  "expectation": "Unknown reaction/nuclide on absent vessel retains NoSuchVessel, zero solver calls and complete state including log. Settlement previously performed this lookup; refusal short-circuit must preserve it explicitly.",
+  "sha256": {
+    "crates/kerotakis-core/src/bench.rs": "dc09b0ba4abb581e48f988330c6c3ced95c5d1c963518e9a3780d13082b16af0",
+    "crates/kerotakis-core/tests/refusal_missing_vessel.rs": "5cdf9b688c4d35a51f6519b2e8a34dd81d6fe4f9e1ab970d6be53691cad27e24"
+  }
+}
