@@ -1,0 +1,13 @@
+{
+  "baseline": "5b305000c994f64089c5e883b78c17dfeb3cc665",
+  "repair": "c3415e70298cbb97e1804ed127c19f98331de271",
+  "production_baseline": "558bf6fd69a48dfd4582a7ffd08e17cd2858d06b",
+  "fixture_sha256": "7f25386cac24419a0ae14694c2fee8a88bfef51d0188d5b9b15c303bfc0c4c4c",
+  "expected_test_functions": 6,
+  "expected_baseline": "Compiles six controls; invalid thermal proposals fail their refusal contracts.",
+  "expected_repair": "All six controls pass under the baseline-generated lock, as do inherited delta unit controls.",
+  "limitations": [
+    "Source-informed input/schema guard, not validation of thermodynamic data or temperature domains.",
+    "This does not implement complete snapshot/state certification."
+  ]
+}
