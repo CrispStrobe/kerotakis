@@ -30,7 +30,7 @@ jobs:
           mkdir -p baseline-evidence
           git rev-parse HEAD > baseline-evidence/revision.txt
           git diff --exit-code a1685e9d777d6745b62868bb21b2edeecec78c01 HEAD -- crates/kerotakis-core/src crates/kerotakis-thermo/src
-          sha256sum crates/kerotakis-core/src/volatility.rs crates/kerotakis-core/src/bench.rs crates/kerotakis-core/tests/ideal_still_portion_validation.rs crates/kerotakis-thermo/src/batch.rs audits/ideal-still-portions-20261008/original-batch.rs.txt Cargo.toml crates/kerotakis-core/Cargo.toml crates/kerotakis-thermo/Cargo.toml .github/workflows/chemistry-audit.yml > baseline-evidence/sha256.txt
+          sha256sum crates/kerotakis-core/src/volatility.rs crates/kerotakis-core/src/bench.rs crates/kerotakis-core/tests/ideal_still_portion_validation.rs crates/kerotakis-thermo/src/batch.rs audits/ideal-still-diagnostics-20261008/original-batch.rs.txt Cargo.toml crates/kerotakis-core/Cargo.toml crates/kerotakis-thermo/Cargo.toml .github/workflows/chemistry-audit.yml > baseline-evidence/sha256.txt
           cp crates/kerotakis-core/tests/ideal_still_portion_validation.rs baseline-evidence/
           rustc --version > baseline-evidence/toolchain.txt
           cargo --version >> baseline-evidence/toolchain.txt

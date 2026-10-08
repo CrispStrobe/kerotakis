@@ -32,7 +32,7 @@ fn bench(portions: &[(&str, f64, Phase)]) -> Bench {
             .unwrap()
             .contents
             .push(Portion {
-                species: SpeciesId::new(*species),
+                species: SpeciesId::new(species),
                 moles: Moles(*amount),
                 phase: *phase,
             });
