@@ -1457,6 +1457,18 @@ PVA = "PVA"
 "muscle protein" = "protéine musculaire"
 
 [not-modeled]
+
+# Binary still diagnostic categories; no refused proposal transfers inventory.
+still-invalid-input = "La distillation binaire exige des stocks finis et non négatifs, une coupe valide, un nombre d’étages pris en charge et une pression positive ; aucune matière n’a été transférée"
+still-request-precision = "La coupe binaire demandée ou une étape d’intégration nécessaire est trop petite pour être conservée numériquement à cette échelle de stock ; aucune matière n’a été transférée"
+still-phase-evaluation = "Le calcul d’ébullition du ballon ou d’un étage de la colonne n’a pas fourni d’état de phase pris en charge ; aucune matière n’a été transférée"
+still-composition-precision = "Un constituant positif est trop petit pour être conservé numériquement dans la composition de phase binaire ; aucune matière n’a été transférée"
+still-condensate-precision = "Un constituant positif ne peut pas être conservé numériquement dans le condensat accumulé ; aucune matière n’a été transférée"
+still-residue-precision = "Un constituant restant positif ne peut pas être conservé numériquement séparément du condensat ; aucune matière n’a été transférée"
+still-energy-precision = "La chaleur latente de la coupe binaire dépasse la précision ou la plage numérique ; aucune matière n’a été transférée"
+still-integration-limit = "La coupe binaire n’a pas été achevée dans la limite d’intégration prise en charge ; aucune matière n’a été transférée"
+still-incomplete-cut = "Le condensat binaire conservé numériquement ne correspond pas à la coupe demandée ; aucune matière n’a été transférée"
+still-unsupported-boundary = "La distillation binaire a rencontré une limite de modèle ou de calcul non prise en charge ; aucune matière n’a été transférée"
 # Tranche two: the gaps with a HOLE in them, which is why `[refusal]`
 # could never reach any of these. New German, authored.
 cooling-below-absolute-zero = "ce récipient n'avait que {available} kJ à céder avant le zéro absolu, et on lui en a demandé {asked} kJ. Aucun fluide frigorigène n'est modélisé ici — rien ne fixe la température de l'environnement — le reste ne pouvait donc simplement pas être retiré. La chaleur que contient une substance est intégrée sur sa propre capacité thermique là où le registre en porte une, mais en dessous d'environ 200 K même une courbe tabulée est à court de table et est maintenue constante : ce plancher est donc une limite de modèle et non une mesure"

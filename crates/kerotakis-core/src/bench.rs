@@ -3167,27 +3167,23 @@ impl Bench {
                     ));
                 } else {
                     let pressure_kpa = src.pressure.0 / 1000.0;
-                    match kerotakis_thermo::vle::ethanol_water_still(
+                    match kerotakis_thermo::vle::ethanol_water_still_checked(
                         w,
                         e,
                         take,
                         *stages,
                         pressure_kpa,
                     ) {
-                        None => events.push(Event::not_modeled(
-                            *from,
-                            crate::ops::NotModelledCause::ModelBoundary,
-                            Phrase::new(
-                                "not-modeled.no-bubble-point",
-                                "a bubble point for this mixture at {pressure} kPa — \
-             outside the fitted Antoine ranges",
-                                vec![(
-                                    "pressure".to_string(),
-                                    Slot::number(format!("{:.1}", pressure_kpa)),
-                                )],
-                            ),
-                        )),
-                        Some(cut) => {
+                        Err(error) => {
+                            *disposition = ApplyDisposition::Unchanged;
+                            events.push(Event::not_modeled(
+                                *from,
+                                crate::ops::NotModelledCause::ModelBoundary,
+                                binary_still_refusal_phrase(error),
+                            ));
+                            return Ok(events);
+                        }
+                        Ok(cut) => {
                             // The Rayleigh cut: vapour composition follows
                             // the pot as it drifts, through `stages` ideal
                             // stages at total reflux — the honest upper
@@ -5962,6 +5958,54 @@ fn gas_made_this_step(events: &[Event], vessel: VesselId) -> (f64, Option<usize>
         }
     }
     (produced.max(reported), last)
+}
+
+/// Keep numerical refusal categories distinct from unsupported phase domains.
+/// Literal keys keep every shipped catalogue covered by the composed-key gate.
+fn binary_still_refusal_phrase(error: kerotakis_thermo::vle::StillError) -> Phrase {
+    use kerotakis_thermo::vle::StillError;
+    match error {
+        StillError::InvalidInput => Phrase::bare(
+            "not-modeled.still-invalid-input",
+            "the binary still needs finite nonnegative stocks, a valid cut, a supported stage count and positive pressure; no material was transferred",
+        ),
+        StillError::UnrepresentableRequest => Phrase::bare(
+            "not-modeled.still-request-precision",
+            "the requested binary still cut or a required integration step is too small to retain at this inventory scale; no material was transferred",
+        ),
+        StillError::PhaseEvaluation => Phrase::bare(
+            "not-modeled.still-phase-evaluation",
+            "a pot or column-stage boiling calculation could not return a supported phase state; no material was transferred",
+        ),
+        StillError::UnrepresentableComposition => Phrase::bare(
+            "not-modeled.still-composition-precision",
+            "a positive component is too small to retain in the binary still phase composition; no material was transferred",
+        ),
+        StillError::UnrepresentableCondensate => Phrase::bare(
+            "not-modeled.still-condensate-precision",
+            "a positive component cannot be retained in the accumulated condensate; no material was transferred",
+        ),
+        StillError::UnrepresentableResidue => Phrase::bare(
+            "not-modeled.still-residue-precision",
+            "a positive remaining component cannot be retained separately from the condensate; no material was transferred",
+        ),
+        StillError::UnrepresentableEnergy => Phrase::bare(
+            "not-modeled.still-energy-precision",
+            "the binary still latent heat cannot be retained within numerical precision or range; no material was transferred",
+        ),
+        StillError::IntegrationLimit => Phrase::bare(
+            "not-modeled.still-integration-limit",
+            "the binary still cut did not finish within the supported integration limit; no material was transferred",
+        ),
+        StillError::IncompleteCut => Phrase::bare(
+            "not-modeled.still-incomplete-cut",
+            "the retained binary condensate does not match the requested cut; no material was transferred",
+        ),
+        _ => Phrase::bare(
+            "not-modeled.still-unsupported-boundary",
+            "the binary still encountered an unsupported model or numerical boundary; no material was transferred",
+        ),
+    }
 }
 
 /// BRD-002: carry a typed shelf refusal into the event stream so it reaches
