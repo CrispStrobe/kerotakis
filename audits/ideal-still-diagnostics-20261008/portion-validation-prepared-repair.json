@@ -1,0 +1,12 @@
+{
+  "supplementary_forecast_commit": "450dc1076ebd610db1ad246051a310e2796cd610",
+  "pre_guard_source_commit": "a1685e9d777d6745b62868bb21b2edeecec78c01",
+  "baseline_harness_commit": "1989584b8c3fdac16121da1ed92bbc44e678409c",
+  "baseline_status": "Prepared locally; not pushed or dispatched",
+  "sha256": {
+    "crates/kerotakis-core/src/volatility.rs": "08bd2c3d5642060eb647182c737c2290fb5cab7e8b3848f50beb791d5878bd5d",
+    "crates/kerotakis-core/tests/ideal_still_portion_validation.rs": "323e2444cb26aff8735cb5b54a56a64fe673bd9ddc73613d1a17e4bf6f0ad1f8"
+  },
+  "scope": "Per-portion invalid condensed owner refusal before coalescing on confirmed additional-solvent route only. Binary-only selection, zero inactive entries, general Vessel/Henry behavior and numerical kernel unchanged.",
+  "validation": "Rustfmt/diff/frozen supplementary and original test hashes only; no local execution or repaired acceptance"
+}

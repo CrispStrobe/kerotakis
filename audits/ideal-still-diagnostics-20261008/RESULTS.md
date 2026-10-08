@@ -59,9 +59,35 @@ pending; source inspection does not replace execution.
 ## Remaining scope
 
 Successful-cut scalar withdrawal, residual cutoffs, ownership and transaction
-certificates remain separate work. The planner retains its existing portion
-selection policy; negative condensed portions can still be skipped before the
-kernel receives its finite/nonnegative inventory. Malformed owner validation
-needs an explicit adapter-level contract rather than a claim that kernel guards
-certify the original vessel. This diagnostic slice does not alter that selection
-policy or introduce broader inventory reconstruction.
+certificates remain separate work. Binary-only route selection and general Vessel/Henry-partition validation are
+outside this additional-solvent guard. No broader inventory reconstruction is
+introduced.
+
+## Supplementary individual-owner guard
+
+Forecast commit `450dc107` independently freezes malformed individual condensed
+owners before adapter changes, in a separate test file and
+[portion-validation receipt](portion-validation-freeze.json). Original forecast
+files and receipts remain unchanged. Negative, NaN and both infinities are
+covered in liquid and aqueous entries: malformed additional solvent beside
+water, malformed water beside positive methanol, and duplicate positive/negative
+methanol whose aggregate would be positive. Invalid owners must not disappear
+through filtering or cancel during coalescing. Full-state comparisons also
+preserve exact amount bits, because JSON alone maps nonfinite numbers to null.
+
+The adapter now checks malformed condensed amounts before coalescing only when
+an additional-solvent route is confirmed. A malformed nonzero additional-solvent
+entry can itself confirm that route; zero inactive entries cannot. Such inputs
+retain the typed `ideal-still-invalid-input` refusal and skip downstream solvers.
+Water/ethanol-only inputs retain the existing binary selection and keys; zero
+inactive coordinates and ordinary positive methanol cuts remain supported.
+These expectations are prepared controls, not executed acceptance.
+
+Separate unchanged-production baseline branch
+`audit/ideal-still-portions-baseline-20261008`, harness `1989584b`, is prepared
+locally from forecast source before the guard. Its production source equals
+`a1685e9d`; its targeted hosted-only workflow would run the supplementary core
+contracts, preserving logs, source/test hashes, exit status and generated lock.
+No push or dispatch has occurred for that baseline at this checkpoint.
+[Supplementary source bindings](portion-validation-prepared-repair.json) identify
+the guard and exact tests separately from the original receipts.

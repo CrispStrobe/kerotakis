@@ -71,6 +71,31 @@ pub fn additional_solvent_cut(
     stages: u32,
 ) -> Result<Option<(Vec<SpeciesId>, kerotakis_thermo::batch::BatchCut)>, Phrase> {
     use kerotakis_thermo::batch::{ideal_still_checked, ConstantLatent};
+    // Validate individual condensed owners before selecting/coalescing this
+    // route. A malformed additional solvent must not disappear into binary
+    // fallback, while zero inactive coordinates do not select an ideal cut.
+    let invalid_condensed_amount = vessel.contents.iter().any(|portion| {
+        matches!(portion.phase, Phase::Liquid | Phase::Aqueous)
+            && (!portion.moles.0.is_finite() || portion.moles.0 < 0.0)
+    });
+    if invalid_condensed_amount {
+        let additional_route = vessel.contents.iter().any(|portion| {
+            matches!(portion.phase, Phase::Liquid | Phase::Aqueous)
+                && portion.moles.0 != 0.0
+                && portion.species.0 != "water"
+                && portion.species.0 != "ethanol"
+                && (portion.phase == Phase::Liquid
+                    || species::lookup(&portion.species).is_some_and(|data| {
+                        matches!(data.standard_phase, Phase::Liquid | Phase::Gas)
+                    })
+                    || coefficient_for(&portion.species.0).is_some())
+        });
+        if additional_route {
+            return Err(ideal_still_refusal_phrase(
+                kerotakis_thermo::vle::StillError::InvalidInput,
+            ));
+        }
+    }
     let mut inventory = std::collections::BTreeMap::<String, f64>::new();
     for p in &vessel.contents {
         if p.moles.0 <= 0.0 || !matches!(p.phase, Phase::Liquid | Phase::Aqueous) {
