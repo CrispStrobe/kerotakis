@@ -1,0 +1,28 @@
+{
+  "source": "0c64efc38579401b1a32b17c834d72aef147eeb1",
+  "fixture": "crates/kerotakis-core/tests/required_solver_policy_controls.rs",
+  "fixture_sha256": "09fa37980e602d340bc44951c164b596b26f39ce1059ae18ac613261e13669fd",
+  "expected_test_functions": 4,
+  "historical_functions": 30,
+  "combined_expected_functions": 34,
+  "timing": "Source-informed supplementary controls added after the initial implementation, before hosted acceptance. Not an independent forecast or compiling baseline comparison.",
+  "tolerance_boundary_cases": {
+    "hydrogen_moles": [
+      2.0001,
+      2.01
+    ],
+    "oxygen_moles": 1.0,
+    "water_product_moles": 2.0,
+    "stack_tolerance": 0.001,
+    "route_tolerances": [
+      null,
+      1e-06,
+      0.01
+    ],
+    "entry_points": [
+      "equilibrate",
+      "mix"
+    ],
+    "expectation": "The 2.0001 mol case accepts under stack-only or looser route policy, refuses under tighter route policy. The 2.01 mol case always refuses, including a looser advertised route tolerance. Every refusal preserves the complete checkpoint."
+  }
+}
