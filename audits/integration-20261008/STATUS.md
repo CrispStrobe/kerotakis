@@ -1,4 +1,4 @@
-# Integration checkpoint — 2026-10-08 17:33 UTC
+# Integration checkpoint — 2026-10-08 17:43 UTC
 
 Main is `824b1b89f1aff5d08b4730c2044c1d67cb4621dd`. [PR #768](https://github.com/CrispStrobe/kerotakis/pull/768) merged as `bb000c80` after all five required gates passed on exact head `6ff42221`; [PR #769](https://github.com/CrispStrobe/kerotakis/pull/769) merged as `824b1b89` after the same gates passed on `50088c4e`. Every reported check had completed without failure. The [merge receipt](merged-port-gates.json) records exact heads, merge commits and check URLs. Earlier implementation PRs #756–760 and #762–767 are also merged; #761 carries documentation.
 
@@ -37,3 +37,7 @@ The [older 164-process replay](../main-cli-replay-20261008/README.md) passed all
 [PR #771](https://github.com/CrispStrobe/kerotakis/pull/771), head `6080dfa0`, restores 38 unchanged tracer/crystal controls and three original freezes with no production changes relative to #770. [The task receipt](../historical-owner-controls-20261008/README.md) records the exact scope and acceptance steps. Compilation and function results remain pending. After #770 merges, integrate actual main ancestry and require fresh final-head gates. Do not weaken positive or refusal controls to obtain a pass.
 
 [The follow-on inventory](full-audit-port-inventory-pr771.json) records 52 missing named tests and 131 missing bound paths on this stacked candidate, down from 56/138 on #770. Main remains at 59/145 until pending PRs merge. These are tracked-file presence counts, not demonstrated runtime defects or full-audit acceptance.
+
+## Reusable native acceptance review
+
+[The offline reviewer and bound plans](native-controls/README.md) now specify all 105 expected native functions for #770 and 143 for #771. They verify actual checkout/tree identity, fixture hashes, complete outcomes and native lint/test steps. Existing 42-function and 11-function native archives revalidate successfully; six parser controls pass, including incomplete/filtered/failed/ignored/repeated-result rejection and interleaved Cargo output. These plans do not imply that pending #770/#771 tests passed. Required gates remain pending; no new merge or production behavior is claimed.
