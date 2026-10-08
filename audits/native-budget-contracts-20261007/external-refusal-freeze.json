@@ -1,0 +1,11 @@
+{
+  "source_before_external_phase_guard": "e7eaf03b",
+  "tests_commit": "59969597",
+  "test_count": 8,
+  "sha256": {
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/external_raw.rs": "d99d0386b38f1d15ce493feb6f39633d8943a09f298dc92739496c245fefc94d",
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/refusal_atomicity.rs": "4f5c3356e7d2ccc833f4225e8e1be3e9373e194eab5044a0f66661d49f878ca9"
+  },
+  "expectations": "External equilibrium-phase initial/final amounts must be finite nonnegative, complete zero values accept. Native and SolverStack Ca-overdraw refusals preserve the complete serialized Vessel and expose the allocation diagnostic.",
+  "execution": "Hosted baseline pending; no executed result claimed."
+}

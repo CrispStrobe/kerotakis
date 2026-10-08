@@ -8371,3 +8371,11 @@ mod solid_solution_raw_readback_contracts_raw_carbon;
 #[cfg(test)]
 #[path = "../tests/solid_solution_phase_budget/external_boundaries.rs"]
 mod solid_solution_raw_readback_contracts_external_boundaries;
+
+#[cfg(test)]
+#[path = "../tests/solid_solution_phase_budget/external_raw.rs"]
+mod solid_solution_raw_readback_contracts_external_raw;
+
+#[cfg(test)]
+#[path = "../tests/solid_solution_phase_budget/refusal_atomicity.rs"]
+mod solid_solution_raw_readback_contracts_refusal_atomicity;
