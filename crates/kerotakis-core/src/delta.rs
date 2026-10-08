@@ -117,6 +117,10 @@ pub struct InventoryLimitedDelta {
 /// Reasons a delta cannot be committed.
 #[derive(Debug, Clone, PartialEq)]
 pub enum DeltaError {
+    /// A proposed state field is outside its finite physical schema.
+    InvalidState {
+        field: String,
+    },
     /// Withdrawing more than available.
     Negativity {
         species: String,
@@ -149,6 +153,7 @@ pub enum DeltaError {
 impl std::fmt::Display for DeltaError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
+            DeltaError::InvalidState { field } => write!(f, "invalid transactional {field}"),
             DeltaError::Negativity {
                 species,
                 phase,
@@ -273,6 +278,15 @@ impl StateDelta {
     /// Returns a list of errors (empty = valid).
     pub fn validate(&self, vessel: &crate::vessel::Vessel) -> Vec<DeltaError> {
         let mut errors = Vec::new();
+
+        if self.thermal.is_some_and(|thermal| match thermal {
+            ThermalDelta::SetTemperature(t) => !t.0.is_finite() || t.0 <= 0.0,
+            ThermalDelta::AddEnergy(j) => !j.0.is_finite(),
+        }) {
+            errors.push(DeltaError::InvalidState {
+                field: "thermal delta".into(),
+            });
+        }
 
         // Validate the same ordered portions that apply will change. A later
         // deposit cannot finance an earlier withdrawal, and a first-portion
