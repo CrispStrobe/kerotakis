@@ -15,6 +15,7 @@ on:
           - delta-inventory
           - delta-thermal
           - main-cli-replay
+          - combined-cli-replay
           - solver-snapshot
           - solver-stack
           - solver-boundary
@@ -559,6 +560,85 @@ jobs:
             audits/main-cli-replay-20261008/
             tools/main-cli-replay.py
             tools/fifth-independent-50/
+          retention-days: 30
+          if-no-files-found: error
+
+
+  combined-cli-replay:
+    name: Build integrated candidate and replay unchanged hundred cases
+    if: inputs.campaign == 'combined-cli-replay'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      CARGO_BUILD_JOBS: '2'
+      KERO_WORKERS: '1'
+      RUSTC_WRAPPER: ''
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          path: harness
+          fetch-depth: 0
+      - uses: actions/checkout@v6
+        with:
+          ref: ee7132fe6835eb7535b413aa61430f94c618f0be
+          path: source
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: source
+      - name: Fetch native prerequisites
+        working-directory: source
+        run: bash tools/fetch-sundials.sh
+      - name: Build pinned candidate once and bind resolution
+        working-directory: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir ../combined-build
+          git rev-parse HEAD > ../combined-build/source-commit.txt
+          test "$(git rev-parse HEAD)" = ee7132fe6835eb7535b413aa61430f94c618f0be
+          git rev-parse HEAD^{tree} > ../combined-build/source-tree.txt
+          git status --short > ../combined-build/status-before.txt
+          test ! -s ../combined-build/status-before.txt
+          git submodule status --recursive > ../combined-build/submodules.txt
+          rustc -Vv > ../combined-build/rustc.txt
+          cargo -V > ../combined-build/cargo.txt
+          git -C ../harness rev-parse HEAD > ../combined-build/harness-commit.txt
+          sha256sum ../harness/audits/combined-cli-replay-20261008/source.json ../harness/audits/main-cli-replay-20261008/forecast.json ../harness/tools/combined-cli-replay.py ../harness/tools/fifth-independent-50/{run,review_profile}.py ../harness/.github/workflows/chemistry-audit.yml > ../combined-build/harness-sha256.txt
+          printf '%s\n' "$RUSTFLAGS" > ../combined-build/rustflags.txt
+          printf '%s\n' "$CARGO_PROFILE_RELEASE_STRIP" > ../combined-build/release-strip.txt
+          set +e
+          /usr/bin/time -v -o ../combined-build/build-time.txt cargo build --release -p kerotakis-cli > ../combined-build/build.log 2>&1
+          build_status=$?
+          set -e
+          printf '%s\n' "$build_status" > ../combined-build/build-exit-code.txt
+          if [[ -f Cargo.lock ]]; then cp Cargo.lock ../combined-build/Cargo.lock; fi
+          test "$build_status" = 0
+          cp target/release/kero ../combined-build/kero
+          python3 - <<'BIND'
+          import hashlib,json,pathlib
+          out=pathlib.Path('../combined-build')
+          manifest=json.loads(pathlib.Path('../harness/audits/combined-cli-replay-20261008/source.json').read_text())
+          assert (out/'source-tree.txt').read_text().strip()==manifest['source_tree']
+          row={key:manifest[key] for key in ['compiled_source','source_tree','source_kind']}
+          row['binary_sha256']=hashlib.file_digest((out/'kero').open('rb'),'sha256').hexdigest()
+          row['generated_lock_sha256']=hashlib.file_digest((out/'Cargo.lock').open('rb'),'sha256').hexdigest()
+          (out/'binding.json').write_text(json.dumps(row,indent=2)+'\n')
+          BIND
+      - name: Execute unchanged disclosed checks and strict stage controls
+        run: python3 harness/tools/combined-cli-replay.py --binary combined-build/kero --build-binding combined-build/binding.json --out combined-cli-replay
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: combined-cli-replay-${{ github.run_id }}
+          path: |
+            combined-build/
+            combined-cli-replay/
+            harness/audits/combined-cli-replay-20261008/
+            harness/audits/main-cli-replay-20261008/
+            harness/tools/combined-cli-replay.py
+            harness/tools/fifth-independent-50/
           retention-days: 30
           if-no-files-found: error
 
