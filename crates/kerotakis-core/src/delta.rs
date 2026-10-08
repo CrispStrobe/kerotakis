@@ -417,9 +417,7 @@ impl StateDelta {
                     )
                 }
                 ElectrodeInventory::Deposit {
-                    species,
-                    growth,
-                    effect,
+                    species, effect, ..
                 } => {
                     if electrode
                         .deposits
@@ -446,20 +444,6 @@ impl StateDelta {
                         errors.push(DeltaError::InvalidElectrodeDelta {
                             electrode: change.electrode.clone(),
                             reason: format!("deposit {} changes kinetic effect", species.0),
-                        });
-                    }
-                    if growth.is_some_and(|model| {
-                        model
-                            .geometry(
-                                (existing.map_or(0.0, |deposit| deposit.moles) + change.moles)
-                                    .max(0.0),
-                                electrode.area_m2,
-                            )
-                            .is_err()
-                    }) {
-                        errors.push(DeltaError::InvalidElectrodeDelta {
-                            electrode: change.electrode.clone(),
-                            reason: format!("deposit {} has invalid growth geometry", species.0),
                         });
                     }
                     (
