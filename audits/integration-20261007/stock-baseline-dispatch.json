@@ -1,0 +1,19 @@
+{
+  "status_as_of": "2026-10-08",
+  "status": "dispatched; queued without executed result",
+  "baseline_source_commit": "cdcf183f11394b8365a39ddf375b6a455dfa3ea9",
+  "baseline_harness_commit": "8b6c9bda9c3b26ebdd000c68263e2d3f2e42cd41",
+  "fixed_source_commit": "f0adcee0bd710d0d75909f77570d56c976680ff2",
+  "run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37729403884",
+  "workflow": ".github/workflows/chemistry-audit.yml",
+  "production_source_changed": false,
+  "test_bytes_identical_to_fixed_revision": true,
+  "sha256": {
+    "baseline_bench_source": "3d6caaadbb09661b214a1f29277dcde6fd3d4d9e9747975f258876250e1b3822",
+    "frozen_test": "0ad0fd422b9549c337c8a8403c1fc7ce64fe61c3b8b592a4d483db9b90d87020",
+    "baseline_workflow": "c5d5fb7be8beab745e72dbd51756c48d65340ed8ad5880e128b68be5147ae472"
+  },
+  "expected_outcome": "Behavioral failure on stock refusals; successful-draw positive control passes. Not an observed result.",
+  "evidence": "No execution log/artifact available at dispatch checkpoint. The workflow will preserve logs, source/test hashes and exit status regardless of result.",
+  "scope": "Standalone expected-failure baseline branch; never intended for main integration."
+}

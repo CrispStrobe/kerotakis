@@ -69,6 +69,10 @@ impl Antoine {
 pub enum VapourPressure {
     Antoine(Antoine),
     Piecewise(&'static [Antoine]),
+    /// Smoothstep interpolation of log pressure within adjacent fitted overlaps.
+    /// This numerical join is not a new empirical fit. Both source fits apply
+    /// inside an overlap; outside it their original values are unchanged.
+    Blended(&'static [Antoine]),
 }
 
 impl VapourPressure {
@@ -76,21 +80,51 @@ impl VapourPressure {
     pub const fn segments(&self) -> &[Antoine] {
         match self {
             Self::Antoine(segment) => std::slice::from_ref(segment),
-            Self::Piecewise(segments) => segments,
+            Self::Piecewise(segments) | Self::Blended(segments) => segments,
         }
     }
 
     /// The correlation selected at this temperature, if the temperature is
     /// inside a reviewed segment. Overlaps deliberately select the earlier
-    /// segment until its upper bound.
+    /// segment until its upper bound. For Blended this returns the leading
+    /// constituent, not the effective pressure; use `segments_at` for both
+    /// contributors and `pressure_kpa` for the joined value.
     pub fn segment_at(&self, t_celsius: f64) -> Option<&Antoine> {
-        self.segments()
+        self.segments_at(t_celsius).first()
+    }
+
+    /// Original fitted constituents that contribute at this temperature.
+    pub fn segments_at(&self, t_celsius: f64) -> &[Antoine] {
+        self.contributing_indices(t_celsius)
+            .map(|range| &self.segments()[range])
+            .unwrap_or(&[])
+    }
+
+    pub(crate) fn contributing_indices(&self, t: f64) -> Option<std::ops::Range<usize>> {
+        let segments = self.segments();
+        if matches!(self, Self::Blended(_)) {
+            for (i, pair) in segments.windows(2).enumerate() {
+                let lo = pair[1].valid_c.0;
+                let hi = pair[0].valid_c.1;
+                if t > lo && t < hi {
+                    return Some(i..i + 2);
+                }
+                if t == hi {
+                    return Some(i + 1..i + 2);
+                }
+            }
+        }
+        segments
             .iter()
-            .find(|segment| t_celsius >= segment.valid_c.0 && t_celsius <= segment.valid_c.1)
+            .position(|s| t >= s.valid_c.0 && t <= s.valid_c.1)
+            .map(|i| i..i + 1)
     }
 
     pub fn valid_range(&self) -> Option<(f64, f64)> {
         let segments = self.segments();
+        if matches!(self, Self::Blended(_)) {
+            return blended_valid_range(segments);
+        }
         let first = segments.first()?;
         let lo = first.valid_c.0;
         let mut hi = first.valid_c.1;
@@ -136,12 +170,38 @@ impl VapourPressure {
     }
 
     pub fn pressure_kpa(&self, t_celsius: f64) -> Option<f64> {
+        if matches!(self, Self::Blended(_)) {
+            let (lo, hi) = self.valid_range()?;
+            if !t_celsius.is_finite() || t_celsius < lo || t_celsius > hi {
+                return None;
+            }
+            let p = self.pressure_kpa_unchecked(t_celsius);
+            return (p.is_finite() && p > 0.0).then_some(p);
+        }
         self.segment_at(t_celsius)
             .and_then(|segment| segment.pressure_kpa(t_celsius))
     }
 
     fn pressure_kpa_unchecked(&self, t_celsius: f64) -> f64 {
         let segments = self.segments();
+        if matches!(self, Self::Blended(_)) {
+            for pair in segments.windows(2) {
+                let (lo, hi) = (pair[1].valid_c.0, pair[0].valid_c.1);
+                if t_celsius >= lo && t_celsius <= hi {
+                    if t_celsius == lo {
+                        return pair[0].pressure_kpa_unchecked(t_celsius);
+                    }
+                    if t_celsius == hi {
+                        return pair[1].pressure_kpa_unchecked(t_celsius);
+                    }
+                    let s = (t_celsius - lo) / (hi - lo);
+                    let w = s * s * (3.0 - 2.0 * s);
+                    let low = pair[0].a - pair[0].b / (t_celsius + pair[0].c);
+                    let high = pair[1].a - pair[1].b / (t_celsius + pair[1].c);
+                    return 10f64.powf(low + w * (high - low));
+                }
+            }
+        }
         let segment = self
             .segments()
             .iter()
@@ -155,6 +215,66 @@ impl VapourPressure {
             });
         10f64.powf(segment.a - segment.b / (t_celsius + segment.c))
     }
+}
+
+// Analytic checks rather than a temperature grid: extrema of the log-pressure
+// disagreement occur at endpoints or equal Antoine slopes. A conservative
+// derivative bound proves the joined pure pressure remains increasing.
+fn blended_valid_range(segments: &[Antoine]) -> Option<(f64, f64)> {
+    let first = segments.first()?;
+    for s in segments {
+        let (lo, hi) = s.valid_c;
+        if !lo.is_finite()
+            || !hi.is_finite()
+            || lo >= hi
+            || !s.a.is_finite()
+            || !s.b.is_finite()
+            || s.b <= 0.0
+            || !s.c.is_finite()
+            || lo + s.c <= 0.0
+        {
+            return None;
+        }
+        s.pressure_kpa(lo)?;
+        s.pressure_kpa(hi)?;
+    }
+    for (i, pair) in segments.windows(2).enumerate() {
+        let (low, high) = (&pair[0], &pair[1]);
+        let (lo, hi) = (high.valid_c.0, low.valid_c.1);
+        let width = hi - lo;
+        if !width.is_finite()
+            || width <= 0.0
+            || lo < low.valid_c.0
+            || high.valid_c.1 <= hi
+            || (i > 0 && lo < segments[i - 1].valid_c.1)
+        {
+            return None;
+        }
+        let delta = |t: f64| {
+            std::f64::consts::LN_10
+                * ((high.a - high.b / (t + high.c)) - (low.a - low.b / (t + low.c)))
+        };
+        let mut d_min = delta(lo).min(delta(hi));
+        let mut d_max = delta(lo).max(delta(hi));
+        let (bl, bh) = (low.b.sqrt(), high.b.sqrt());
+        if bl != bh {
+            let critical = (bl * high.c - bh * low.c) / (bh - bl);
+            if critical > lo && critical < hi {
+                d_min = d_min.min(delta(critical));
+                d_max = d_max.max(delta(critical));
+            }
+        }
+        let disagreement = d_min.abs().max(d_max.abs());
+        if !disagreement.is_finite() || disagreement > -0.99_f64.ln() {
+            return None;
+        }
+        let slope = |fit: &Antoine| std::f64::consts::LN_10 * fit.b / (hi + fit.c).powi(2);
+        let bound = slope(low).min(slope(high)) + 1.5 * d_min.min(0.0) / width;
+        if !bound.is_finite() || bound <= 0.0 {
+            return None;
+        }
+    }
+    Some((first.valid_c.0, segments.last()?.valid_c.1))
 }
 
 impl From<Antoine> for VapourPressure {
@@ -190,6 +310,57 @@ fn valid_fractions(values: &[f64]) -> bool {
     values
         .iter()
         .all(|value| value.is_finite() && *value >= 0.0)
+}
+
+// Positive modeled volatiles must survive normalization; exact zeros remain
+// legitimate inactive coordinates. Refuse loss instead of inventing purity.
+fn preserves_components(input: &[f64], output: &[f64]) -> bool {
+    input.len() == output.len()
+        && input.iter().zip(output).all(|(before, after)| {
+            after.is_finite()
+                && if *before > 0.0 {
+                    *after > 0.0
+                } else {
+                    *after == 0.0
+                }
+        })
+}
+
+fn relative_change_bounded(before: f64, after: f64, tolerance: f64) -> bool {
+    before.is_finite()
+        && after.is_finite()
+        && (before == after
+            || (before > 0.0
+                && after > 0.0
+                && (before - after).abs() / before.max(after) <= tolerance))
+}
+
+fn composition_settled(before: &[f64], after: &[f64], tolerance: f64) -> bool {
+    before.len() == after.len()
+        && before
+            .iter()
+            .zip(after)
+            .all(|(a, b)| (a - b).abs() <= tolerance && relative_change_bounded(*a, *b, tolerance))
+}
+
+// Activity coefficients must belong to the composition we publish, even if a
+// small composition update crosses a sharp activity-law boundary.
+fn candidate_activity_matches(
+    gammas: &mut dyn FnMut(&[f64], f64) -> Vec<f64>,
+    candidate: &[f64],
+    temperature_k: f64,
+    previous: &[f64],
+) -> Option<bool> {
+    let actual = gammas(candidate, temperature_k);
+    if actual.len() != previous.len() || actual.iter().any(|g| !g.is_finite() || *g <= 0.0) {
+        return None;
+    }
+    Some(
+        previous
+            .iter()
+            .zip(&actual)
+            .all(|(a, b)| relative_change_bounded(*a, *b, 1e-8)),
+    )
 }
 
 /// Standard atmospheric pressure, kPa.
@@ -244,7 +415,10 @@ pub const ETHANOL_HIGH: Antoine = Antoine {
 };
 
 const ETHANOL_SEGMENTS: &[Antoine] = &[ETHANOL_LOW, ETHANOL_HIGH];
-pub const ETHANOL: VapourPressure = VapourPressure::Piecewise(ETHANOL_SEGMENTS);
+/// Both original ethanol fits, joined in their shared 79.65–80 °C interval.
+/// Smoothstep log-pressure interpolation is a numerical approximation; the
+/// original fitted correlations and their source attribution remain available.
+pub const ETHANOL: VapourPressure = VapourPressure::Blended(ETHANOL_SEGMENTS);
 
 /// Isopropanol over the NIST fit range that spans its normal boiling point.
 /// NIST publishes pressure in bar and temperature in kelvin; `a` includes
@@ -332,10 +506,14 @@ pub struct BubblePoint {
     pub azeotropic: bool,
 }
 
-/// How close two compositions must be before distillation has nothing left
-/// to separate. A tenth of a mole per cent is well below what a column
-/// could act on.
+/// Resolution of the approximate liquid/vapour composition comparison.
+/// The activity model and rounded experimental azeotrope composition do
+/// not identify a root to machine precision: retain the tenth-of-a-mole-
+/// percent absolute composition band, while requiring each present
+/// component to change by at most one percent of its own fraction. The
+/// relative bound prevents dilute endpoints inheriting the absolute band.
 const AZEOTROPE_TOLERANCE: f64 = 1e-3;
+const AZEOTROPE_RELATIVE_TOLERANCE: f64 = 1e-2;
 
 /// Absolute zero, °C — the one conversion this module admits.
 pub const KELVIN_OFFSET: f64 = 273.15;
@@ -375,7 +553,7 @@ where
     }
     let (mut lo, mut hi) = common_valid_range(antoines, x)?;
     let total_x: f64 = x.iter().sum();
-    if total_x <= 0.0 {
+    if !total_x.is_finite() || total_x <= 0.0 {
         return None;
     }
     let partials = |t_c: f64, gammas: &mut F| -> Vec<f64> {
@@ -388,7 +566,24 @@ where
             .zip(x)
             .enumerate()
             .map(|(i, (a, xi))| {
-                xi / total_x * g.get(i).copied().unwrap_or(1.0) * a.pressure_kpa_unchecked(t_c)
+                if *xi == 0.0 {
+                    return 0.0;
+                }
+                let fraction = xi / total_x;
+                let corrected = fraction * g[i];
+                let partial = corrected * a.pressure_kpa_unchecked(t_c);
+                // Every positive volatile must remain represented at each
+                // arithmetic seam. A vanished trace is not a pure mixture.
+                if *xi > 0.0
+                    && (fraction <= 0.0
+                        || corrected <= 0.0
+                        || partial <= 0.0
+                        || !partial.is_finite())
+                {
+                    f64::NAN
+                } else {
+                    partial
+                }
             })
             .collect()
     };
@@ -428,12 +623,22 @@ where
         return None;
     }
     let y: Vec<f64> = p.iter().map(|pi| pi / p_total).collect();
-    // An azeotrope is not a special case in the arithmetic — it is what the
-    // arithmetic says when the vapour comes out the same as the liquid.
-    let azeotropic = x
-        .iter()
+    if x.iter()
         .zip(&y)
-        .all(|(xi, yi)| (xi / total_x - yi).abs() < AZEOTROPE_TOLERANCE);
+        .any(|(xi, yi)| !yi.is_finite() || (*xi > 0.0 && *yi <= 0.0))
+    {
+        return None;
+    }
+    // Pure-component equality is not an azeotrope. Relative equality also
+    // prevents a dilute component being called azeotropic merely because
+    // both its liquid and vapour fractions fall below an absolute tolerance.
+    let azeotropic = x.iter().filter(|xi| **xi > 0.0).count() >= 2
+        && x.iter().zip(&y).all(|(xi, yi)| {
+            let fraction = xi / total_x;
+            let difference = (fraction - yi).abs();
+            difference <= AZEOTROPE_TOLERANCE
+                && difference <= AZEOTROPE_RELATIVE_TOLERANCE * fraction.max(*yi)
+        });
     Some(BubblePoint {
         t_celsius: t,
         y,
@@ -565,10 +770,14 @@ pub fn dew_point_with(
     }
     let (range_lo, range_hi) = common_valid_range(antoines, y)?;
     let total_y: f64 = y.iter().sum();
-    if total_y <= 0.0 {
+    if !total_y.is_finite() || total_y <= 0.0 {
         return None;
     }
-    let y: Vec<f64> = y.iter().map(|v| v / total_y).collect();
+    let normalized: Vec<f64> = y.iter().map(|v| v / total_y).collect();
+    if !preserves_components(y, &normalized) {
+        return None;
+    }
+    let y = normalized;
     let mut x = y.clone();
     for _ in 0..80 {
         let mut residual = |t: f64, x: &[f64]| -> f64 {
@@ -576,14 +785,18 @@ pub fn dew_point_with(
             if g.len() != antoines.len() || g.iter().any(|v| !v.is_finite() || *v <= 0.0) {
                 return f64::NAN;
             }
-            let sum: f64 = antoines
+            let terms: Vec<f64> = antoines
                 .iter()
                 .zip(&y)
                 .enumerate()
                 .map(|(i, (a, yi))| {
                     yi / (g.get(i).copied().unwrap_or(1.0) * a.pressure_kpa_unchecked(t))
                 })
-                .sum();
+                .collect();
+            if !preserves_components(&y, &terms) {
+                return f64::NAN;
+            }
+            let sum: f64 = terms.iter().sum();
             sum - 1.0 / pressure_kpa
         };
         let (mut lo, mut hi) = (range_lo, range_hi);
@@ -629,19 +842,22 @@ pub fn dew_point_with(
             return None;
         }
         let x_new: Vec<f64> = x_raw.iter().map(|xi| xi / x_sum).collect();
-        let moved = x
-            .iter()
-            .zip(&x_new)
-            .map(|(a, b)| (a - b).abs())
-            .fold(0.0f64, f64::max);
+        if !preserves_components(&y, &x_raw) || !preserves_components(&y, &x_new) {
+            return None;
+        }
         // Plain substitution: measured on the worst mid-range
         // ethanol–water case this contracts monotonically at a ratio near
         // 0.6 per pass, so eighty passes clear 1e-9 with a wide margin —
         // damping was tried and only slowed the walk down.
-        x = x_new;
-        if moved < 1e-9 {
-            return Some(DewPoint { t_celsius: t, x });
+        if composition_settled(&x, &x_new, 1e-9)
+            && candidate_activity_matches(gammas, &x_new, t + KELVIN_OFFSET, &g)?
+        {
+            return Some(DewPoint {
+                t_celsius: t,
+                x: x_new,
+            });
         }
+        x = x_new;
     }
     // Eighty passes without settling: refuse rather than return a drifting
     // composition dressed as an answer.
@@ -701,10 +917,14 @@ pub fn tp_flash_with(
         return None;
     }
     let z_total: f64 = z.iter().sum();
-    if z_total <= 0.0 {
+    if !z_total.is_finite() || z_total <= 0.0 {
         return None;
     }
-    let z: Vec<f64> = z.iter().map(|v| v / z_total).collect();
+    let normalized: Vec<f64> = z.iter().map(|v| v / z_total).collect();
+    if !preserves_components(z, &normalized) {
+        return None;
+    }
+    let z = normalized;
     let mut x_guess = z.clone();
     for _ in 0..60 {
         let g = gammas(&x_guess, t_celsius + KELVIN_OFFSET);
@@ -720,33 +940,54 @@ pub fn tp_flash_with(
             })
             .collect();
 
+        if k.iter().any(|ki| !ki.is_finite() || *ki <= 0.0) {
+            return None;
+        }
+
         // Subcooled liquid: Σ zᵢ·Kᵢ ≤ 1. The liquid is the feed itself, so
         // γ(z) is already self-consistent and the answer stands.
         let sum_zk: f64 = z.iter().zip(&k).map(|(zi, ki)| zi * ki).sum();
+        if !sum_zk.is_finite() || sum_zk <= 0.0 {
+            return None;
+        }
         if sum_zk <= 1.0 {
+            // A later liquid classification can use gamma from a previous
+            // split's liquid guess. Re-evaluate the actual feed before
+            // publishing a wholly liquid result and its K-values.
+            if x_guess != z {
+                x_guess = z.clone();
+                continue;
+            }
+            let y: Vec<f64> = z.iter().zip(&k).map(|(zi, ki)| zi * ki / sum_zk).collect();
+            if !preserves_components(&z, &y) {
+                return None;
+            }
             return Some(FlashResult {
                 vapour_fraction: 0.0,
                 x: z.clone(),
-                y: z.iter().zip(&k).map(|(zi, ki)| zi * ki / sum_zk).collect(),
+                y,
                 k,
             });
         }
         // Superheated vapour: Σ zᵢ/Kᵢ ≤ 1. The trace liquid is dew-implied;
         // iterate its composition like the two-phase branch.
         let sum_z_over_k: f64 = z.iter().zip(&k).map(|(zi, ki)| zi / ki).sum();
+        if !sum_z_over_k.is_finite() || sum_z_over_k <= 0.0 {
+            return None;
+        }
         if sum_z_over_k <= 1.0 {
             let x_new: Vec<f64> = z
                 .iter()
                 .zip(&k)
                 .map(|(zi, ki)| zi / ki / sum_z_over_k)
                 .collect();
-            let moved = x_guess
-                .iter()
-                .zip(&x_new)
-                .map(|(a, b)| (a - b).abs())
-                .fold(0.0f64, f64::max);
+            if !preserves_components(&z, &x_new) {
+                return None;
+            }
+            let settled = composition_settled(&x_guess, &x_new, 1e-10);
             x_guess = x_new.clone();
-            if moved < 1e-10 {
+            if settled && candidate_activity_matches(gammas, &x_new, t_celsius + KELVIN_OFFSET, &g)?
+            {
                 return Some(FlashResult {
                     vapour_fraction: 1.0,
                     x: x_new,
@@ -786,14 +1027,13 @@ pub fn tp_flash_with(
             .map(|(zi, ki)| zi / (1.0 + v * (ki - 1.0)))
             .collect();
         let y: Vec<f64> = x.iter().zip(&k).map(|(xi, ki)| xi * ki).collect();
+        if !preserves_components(&z, &x) || !preserves_components(&z, &y) {
+            return None;
+        }
 
-        let moved = x_guess
-            .iter()
-            .zip(&x)
-            .map(|(a, b)| (a - b).abs())
-            .fold(0.0f64, f64::max);
+        let settled = composition_settled(&x_guess, &x, 1e-10);
         x_guess = x.clone();
-        if moved < 1e-10 {
+        if settled && candidate_activity_matches(gammas, &x, t_celsius + KELVIN_OFFSET, &g)? {
             return Some(FlashResult {
                 vapour_fraction: v,
                 x,
@@ -934,6 +1174,10 @@ pub fn mass_fraction(x1: f64, m1: f64, m2: f64) -> f64 {
 /// liquid composition and temperature — the one seam every ethanol–water
 /// helper shares, so the formulas cannot fork (the CAP-5 rule).
 pub fn ethanol_water_activity(x_ethanol: f64, t_kelvin: f64) -> (f64, f64) {
+    ethanol_water_activity_pair([x_ethanol, 1.0 - x_ethanol], t_kelvin)
+}
+
+fn ethanol_water_activity_pair(x: [f64; 2], t_kelvin: f64) -> (f64, f64) {
     let table = crate::unifac::approved_table();
     let mut ethanol_groups = crate::unifac::GroupDecomposition::new();
     ethanol_groups.insert(1, 1); // CH3
@@ -943,7 +1187,7 @@ pub fn ethanol_water_activity(x_ethanol: f64, t_kelvin: f64) -> (f64, f64) {
     water_groups.insert(16, 1); // H2O
     let g = crate::unifac::activity_coefficients(
         &table,
-        &[(ethanol_groups, x_ethanol), (water_groups, 1.0 - x_ethanol)],
+        &[(ethanol_groups, x[0]), (water_groups, x[1])],
         t_kelvin,
     );
     (g[0], g[1])
@@ -955,15 +1199,32 @@ pub fn ethanol_water_activity(x_ethanol: f64, t_kelvin: f64) -> (f64, f64) {
 /// decompositions. `x_ethanol` is the ethanol mole fraction of the
 /// volatile liquid.
 pub fn ethanol_water_bubble_point(x_ethanol: f64, pressure_kpa: f64) -> Option<BubblePoint> {
-    bubble_point_with(
-        &[ETHANOL, WATER],
-        &[x_ethanol, 1.0 - x_ethanol],
-        pressure_kpa,
-        |t_k| {
-            let (ge, gw) = ethanol_water_activity(x_ethanol, t_k);
-            vec![ge, gw]
-        },
-    )
+    ethanol_water_bubble_point_from_moles(x_ethanol, 1.0 - x_ethanol, pressure_kpa)
+}
+
+fn normalized_binary(amounts: [f64; 2]) -> Option<[f64; 2]> {
+    let total = amounts[0] + amounts[1];
+    if !valid_fractions(&amounts) || !total.is_finite() || total <= 0.0 {
+        return None;
+    }
+    let x = [amounts[0] / total, amounts[1] / total];
+    preserves_components(&amounts, &x).then_some(x)
+}
+
+/// Bubble point with both component inventories retained independently.
+/// Unlike a scalar ethanol fraction, this represents a positive water trace
+/// even when the normalized ethanol fraction rounds to one. Normalization or
+/// partial-pressure underflow still refuses rather than losing a component.
+pub fn ethanol_water_bubble_point_from_moles(
+    ethanol_moles: f64,
+    water_moles: f64,
+    pressure_kpa: f64,
+) -> Option<BubblePoint> {
+    let x = normalized_binary([ethanol_moles, water_moles])?;
+    bubble_point_with(&[ETHANOL, WATER], &x, pressure_kpa, |t_k| {
+        let (ge, gw) = ethanol_water_activity_pair(x, t_k);
+        vec![ge, gw]
+    })
 }
 
 /// Dew point of ethanol–water vapour with full UNIFAC γ(x, T): the γ of
@@ -975,7 +1236,7 @@ pub fn ethanol_water_dew_point(y_ethanol: f64, pressure_kpa: f64) -> Option<DewP
         &[y_ethanol, 1.0 - y_ethanol],
         pressure_kpa,
         &mut |x, t_k| {
-            let (ge, gw) = ethanol_water_activity(x[0], t_k);
+            let (ge, gw) = ethanol_water_activity_pair([x[0], x[1]], t_k);
             vec![ge, gw]
         },
     )
@@ -993,7 +1254,7 @@ pub fn ethanol_water_tp_flash(
         pressure_kpa,
         t_celsius,
         &mut |x, t_k| {
-            let (ge, gw) = ethanol_water_activity(x[0], t_k);
+            let (ge, gw) = ethanol_water_activity_pair([x[0], x[1]], t_k);
             vec![ge, gw]
         },
     )
@@ -1493,6 +1754,9 @@ mod tests {
 pub const WATER_HVAP_KJ_PER_MOL: f64 = 40.657;
 pub const ETHANOL_HVAP_KJ_PER_MOL: f64 = 38.58;
 
+/// Maximum ideal stage count supported by the bounded still kernels.
+pub const MAX_STILL_STAGES: u32 = 128;
+
 /// How much a still is asked to take overhead.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum StillTake {
@@ -1500,6 +1764,122 @@ pub enum StillTake {
     Fraction(f64),
     /// As much as this much latent heat can lift, kJ.
     EnergyKj(f64),
+}
+
+/// Why a complete binary still cut could not be published.
+///
+/// These failures describe model and representation boundaries, not a partial
+/// transfer. The legacy Option API remains available via `.ok()`.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[non_exhaustive]
+pub enum StillError {
+    InvalidInput,
+    UnrepresentableRequest,
+    PhaseEvaluation,
+    UnrepresentableComposition,
+    UnrepresentableCondensate,
+    UnrepresentableResidue,
+    UnrepresentableEnergy,
+    IntegrationLimit,
+    IncompleteCut,
+}
+
+impl StillError {
+    /// Stable diagnostic identifier; callers need not parse the explanation.
+    pub fn code(self) -> &'static str {
+        match self {
+            Self::InvalidInput => "invalid-input",
+            Self::UnrepresentableRequest => "request-precision",
+            Self::PhaseEvaluation => "phase-evaluation",
+            Self::UnrepresentableComposition => "composition-precision",
+            Self::UnrepresentableCondensate => "condensate-precision",
+            Self::UnrepresentableResidue => "residue-precision",
+            Self::UnrepresentableEnergy => "energy-precision",
+            Self::IntegrationLimit => "integration-limit",
+            Self::IncompleteCut => "incomplete-cut",
+        }
+    }
+}
+
+impl std::fmt::Display for StillError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(match self {
+            Self::InvalidInput => "the still needs finite nonnegative stocks, a valid cut, a supported stage count and positive pressure",
+            Self::UnrepresentableRequest => "the requested cut or a required integration step is too small to retain at this inventory scale",
+            Self::PhaseEvaluation => "a pot or column-stage boiling calculation could not return a supported phase state",
+            Self::UnrepresentableComposition => "a positive component is too small to retain in a phase composition",
+            Self::UnrepresentableCondensate => "a positive component cannot be retained in the accumulated condensate; try a smaller cut or fewer stages",
+            Self::UnrepresentableResidue => "a positive remaining component cannot be retained separately from the condensate; try a smaller cut or fewer stages",
+            Self::UnrepresentableEnergy => "the cut's latent heat cannot be retained within numerical precision or range",
+            Self::IntegrationLimit => "the requested cut did not finish within the supported integration limit",
+            Self::IncompleteCut => "the retained condensate does not match the requested cut",
+        })
+    }
+}
+
+impl std::error::Error for StillError {}
+
+/// Closed-form amount and latent heat for one positive pure component.
+/// Callers still validate the phase/pressure model; this helper only books
+/// representable amounts. Pure cuts do not change composition, so neither
+/// a Rayleigh mesh nor an ideal-stage cascade can change their answer.
+pub(crate) fn pure_still_amount(amount: f64, latent: f64, take: StillTake) -> Option<(f64, f64)> {
+    pure_still_amount_checked(amount, latent, take).ok()
+}
+
+fn pure_still_amount_checked(
+    amount: f64,
+    latent: f64,
+    take: StillTake,
+) -> Result<(f64, f64), StillError> {
+    if !amount.is_finite() || amount <= 0.0 || !latent.is_finite() || latent <= 0.0 {
+        return Err(StillError::InvalidInput);
+    }
+    let (mut overhead, full, energy_budget) = match take {
+        StillTake::Fraction(f) if (0.0..=1.0).contains(&f) => {
+            if f == 0.0 {
+                return Ok((0.0, 0.0));
+            }
+            (amount * f, f == 1.0, None)
+        }
+        StillTake::EnergyKj(energy) if energy.is_finite() && energy >= 0.0 => {
+            if energy == 0.0 {
+                return Ok((0.0, 0.0));
+            }
+            // Overflow of unrequested full-inventory heat does not prevent
+            // a finite affordable partial cut. A full cut must publish finite
+            // positive latent heat, which is checked below.
+            let full = energy >= amount * latent;
+            ((energy / latent).min(amount), full, Some(energy))
+        }
+        _ => return Err(StillError::InvalidInput),
+    };
+    if !overhead.is_finite() || overhead <= 0.0 || overhead > amount {
+        return Err(StillError::UnrepresentableRequest);
+    }
+    let mut heat = overhead * latent;
+    if let Some(budget) = energy_budget {
+        if !full && heat > budget {
+            // Division followed by multiplication can round above the
+            // budget. Choose the adjacent lower amount, then check whether
+            // the requested heat is still representable at ordinary precision.
+            overhead = f64::from_bits(overhead.to_bits() - 1);
+            heat = overhead * latent;
+        }
+        if heat > budget || (!full && (heat / budget - 1.0).abs() > 8.0 * f64::EPSILON) {
+            return Err(StillError::UnrepresentableEnergy);
+        }
+    }
+    if overhead <= 0.0 {
+        return Err(StillError::UnrepresentableRequest);
+    }
+    if !heat.is_finite() || heat <= 0.0 {
+        return Err(StillError::UnrepresentableEnergy);
+    }
+    if !full && amount - overhead <= 0.0 {
+        return Err(StillError::UnrepresentableResidue);
+    }
+    Ok((overhead, heat))
 }
 
 /// What one batch cut produced.
@@ -1526,28 +1906,58 @@ pub struct StillCut {
 /// idealisation is stated, not hidden: a real column at finite reflux
 /// separates less, never more, so this is the honest *upper bound* a
 /// learner's column cannot beat.
-fn cascade(x_pot: f64, stages: u32, pressure_kpa: f64) -> Option<(f64, BubblePoint, bool)> {
-    let pot_bp = ethanol_water_bubble_point(x_pot, pressure_kpa)?;
-    let mut y = pot_bp.y[0];
+fn cascade(
+    pot: [f64; 2],
+    stages: u32,
+    pressure_kpa: f64,
+    phase: &mut impl FnMut([f64; 2], f64) -> Option<BubblePoint>,
+) -> Result<([f64; 2], BubblePoint, bool), StillError> {
+    let x = normalized_binary(pot).ok_or(StillError::UnrepresentableComposition)?;
+    let pot_bp = phase(x, pressure_kpa).ok_or(StillError::PhaseEvaluation)?;
+    let mut y = normalized_binary(
+        pot_bp
+            .y
+            .as_slice()
+            .try_into()
+            .map_err(|_| StillError::UnrepresentableComposition)?,
+    )
+    .ok_or(StillError::UnrepresentableComposition)?;
+    if !preserves_components(&x, &y) {
+        return Err(StillError::UnrepresentableComposition);
+    }
     let mut hit = pot_bp.azeotropic;
     for _ in 1..stages {
-        let bp = ethanol_water_bubble_point(y, pressure_kpa)?;
+        let bp = phase(y, pressure_kpa).ok_or(StillError::PhaseEvaluation)?;
+        let next = normalized_binary(
+            bp.y.as_slice()
+                .try_into()
+                .map_err(|_| StillError::UnrepresentableComposition)?,
+        )
+        .ok_or(StillError::UnrepresentableComposition)?;
+        if !preserves_components(&y, &next) {
+            return Err(StillError::UnrepresentableComposition);
+        }
         if bp.azeotropic {
             hit = true;
             break;
         }
-        y = bp.y[0];
+        y = next;
     }
-    Some((y, pot_bp, hit))
+    Ok((y, pot_bp, hit))
 }
 
 /// A batch distillation cut of the ethanol–water binary with full UNIFAC
 /// γ(T): Rayleigh integration — the vapour composition follows the pot as
 /// it drifts — through an `stages`-stage column at total reflux.
 ///
-/// Integration is 256 fixed steps of the overhead amount; halving the
-/// step count moves the answers in the fourth decimal, which is far
-/// inside the model's own honesty budget.
+/// Exactly pure stocks use one phase solve and a closed-form latent account.
+/// Mixture integration refines its overhead mesh near component depletion. Every
+/// step removes at most a quarter of each present component, so finite
+/// steps cannot manufacture a pure residue by clipping an overshoot.
+/// Stage zero retains its historical one-stage meaning; counts above
+/// [`MAX_STILL_STAGES`] refuse before phase evaluation.
+/// Returns `None` if any required intermediate phase calculation is outside
+/// the model domain; an unlabelled partial cut is never a successful result.
 pub fn ethanol_water_still(
     water_moles: f64,
     ethanol_moles: f64,
@@ -1555,12 +1965,69 @@ pub fn ethanol_water_still(
     stages: u32,
     pressure_kpa: f64,
 ) -> Option<StillCut> {
-    if water_moles < 0.0 || ethanol_moles < 0.0 {
-        return None;
+    ethanol_water_still_checked(water_moles, ethanol_moles, take, stages, pressure_kpa).ok()
+}
+
+/// A complete binary cut, with the model or precision failure reported explicitly.
+/// No material is transferred by this numerical calculation.
+pub fn ethanol_water_still_checked(
+    water_moles: f64,
+    ethanol_moles: f64,
+    take: StillTake,
+    stages: u32,
+    pressure_kpa: f64,
+) -> Result<StillCut, StillError> {
+    ethanol_water_still_with_phase(
+        water_moles,
+        ethanol_moles,
+        take,
+        stages,
+        pressure_kpa,
+        |x, pressure| ethanol_water_bubble_point_from_moles(x[0], x[1], pressure),
+    )
+}
+
+fn ethanol_water_still_with_phase(
+    water_moles: f64,
+    ethanol_moles: f64,
+    take: StillTake,
+    stages: u32,
+    pressure_kpa: f64,
+    phase: impl FnMut([f64; 2], f64) -> Option<BubblePoint>,
+) -> Result<StillCut, StillError> {
+    ethanol_water_still_with_limit(
+        water_moles,
+        ethanol_moles,
+        take,
+        stages,
+        pressure_kpa,
+        phase,
+        100_000,
+    )
+}
+
+fn ethanol_water_still_with_limit(
+    water_moles: f64,
+    ethanol_moles: f64,
+    take: StillTake,
+    stages: u32,
+    pressure_kpa: f64,
+    mut phase: impl FnMut([f64; 2], f64) -> Option<BubblePoint>,
+    max_steps: usize,
+) -> Result<StillCut, StillError> {
+    if !water_moles.is_finite()
+        || !ethanol_moles.is_finite()
+        || water_moles < 0.0
+        || ethanol_moles < 0.0
+        || !pressure_kpa.is_finite()
+        || pressure_kpa <= 0.0
+        || stages > MAX_STILL_STAGES
+    {
+        return Err(StillError::InvalidInput);
     }
     let total0 = water_moles + ethanol_moles;
-    if total0 <= 0.0 {
-        return None;
+    if !total0.is_finite() || total0 <= 0.0 {
+        return Err(StillError::InvalidInput);
     }
     let stages = stages.max(1);
     let (mut w, mut e) = (water_moles, ethanol_moles);
@@ -1571,29 +2038,61 @@ pub fn ethanol_water_still(
     let budget = match take {
         StillTake::Fraction(f) => {
             if !(0.0..=1.0).contains(&f) {
-                return None;
+                return Err(StillError::InvalidInput);
             }
             f * total0
         }
         // Provisional mole budget for step sizing; the loop stops on the
         // real energy meter below.
         StillTake::EnergyKj(kj) => {
-            if kj < 0.0 {
-                return None;
+            if !kj.is_finite() || kj < 0.0 {
+                return Err(StillError::InvalidInput);
             }
             (kj / WATER_HVAP_KJ_PER_MOL.min(ETHANOL_HVAP_KJ_PER_MOL)).min(total0)
         }
     };
 
-    let (y0, bp0, _) = cascade(e / (w + e), stages, pressure_kpa)?;
-    let _ = y0;
+    if water_moles == 0.0 || ethanol_moles == 0.0 {
+        // Exactly pure only: a positive trace second component still needs
+        // the activity model and the complete drifting integration.
+        let is_ethanol = water_moles == 0.0;
+        let bp = phase(
+            if is_ethanol { [1.0, 0.0] } else { [0.0, 1.0] },
+            pressure_kpa,
+        )
+        .ok_or(StillError::PhaseEvaluation)?;
+        let latent = if is_ethanol {
+            ETHANOL_HVAP_KJ_PER_MOL
+        } else {
+            WATER_HVAP_KJ_PER_MOL
+        };
+        let (overhead, energy_kj) = pure_still_amount_checked(total0, latent, take)?;
+        return Ok(StillCut {
+            water_over: if is_ethanol { 0.0 } else { overhead },
+            ethanol_over: if is_ethanol { overhead } else { 0.0 },
+            t_start_c: bp.t_celsius,
+            t_end_c: bp.t_celsius,
+            energy_kj,
+            azeotrope_limited: false,
+        });
+    }
+    let (_, bp0, _) = cascade([e, w], stages, pressure_kpa, &mut phase)?;
     let t_start_c = bp0.t_celsius;
     let mut t_end_c = t_start_c;
 
-    const STEPS: usize = 256;
+    const STEPS: usize = 1024;
     let dn = budget / STEPS as f64;
     if dn <= 0.0 {
-        return Some(StillCut {
+        let requested_positive = match take {
+            StillTake::Fraction(f) => f > 0.0,
+            StillTake::EnergyKj(kj) => kj > 0.0,
+        };
+        if requested_positive {
+            // A positive request that underflows in budget/substep sizing
+            // is unsupported, not a successful zero transfer.
+            return Err(StillError::UnrepresentableRequest);
+        }
+        return Ok(StillCut {
             water_over: 0.0,
             ethanol_over: 0.0,
             t_start_c,
@@ -1602,39 +2101,126 @@ pub fn ethanol_water_still(
             azeotrope_limited: false,
         });
     }
-    for _ in 0..STEPS {
-        let pot = w + e;
-        if pot <= 1e-12 {
+    let tolerance = budget * 16.0 * f64::EPSILON;
+    let mut completed = false;
+    for _ in 0..max_steps {
+        if matches!(take, StillTake::EnergyKj(kj) if energy_kj == kj) {
+            // Exact completion owns no further transfer. In particular it
+            // must not enter the affordable-share branch with a zero share.
+            completed = true;
             break;
         }
-        let x = e / pot;
-        let Some((y_top, pot_bp, hit)) = cascade(x, stages, pressure_kpa) else {
+        let remaining = budget - (w_over + e_over);
+        if remaining <= tolerance {
+            completed = true;
             break;
-        };
+        }
+        let pot = w + e;
+        if pot <= 0.0 {
+            return Err(StillError::UnrepresentableResidue);
+        }
+        // A requested cut is one operation. A missing intermediate phase
+        // answer cannot be reported as a successful smaller cut: callers
+        // have no partial-result/domain metadata in this Option contract.
+        let (y_top, pot_bp, hit) = cascade([e, w], stages, pressure_kpa, &mut phase)?;
         t_end_c = pot_bp.t_celsius;
         azeo |= hit;
-        let dn = dn.min(pot);
-        let de = (dn * y_top).min(e);
-        let dw = (dn - de).min(w);
+        let mut step = dn.min(remaining).min(pot);
+        if y_top[0] > 0.0 && e > 0.0 {
+            step = step.min(0.25 * e / y_top[0]);
+        }
+        if y_top[1] > 0.0 && w > 0.0 {
+            step = step.min(0.25 * w / y_top[1]);
+        }
+        if !step.is_finite() || step <= 0.0 {
+            return Err(StillError::UnrepresentableRequest);
+        }
+        let de = step * y_top[0];
+        let dw = step * y_top[1];
+        if de <= 0.0 || dw <= 0.0 || e_over + de == e_over || w_over + dw == w_over {
+            return Err(StillError::UnrepresentableCondensate);
+        }
         let step_kj = de * ETHANOL_HVAP_KJ_PER_MOL + dw * WATER_HVAP_KJ_PER_MOL;
+        if !step_kj.is_finite() || !(energy_kj + step_kj).is_finite() {
+            return Err(StillError::UnrepresentableEnergy);
+        }
         if let StillTake::EnergyKj(kj) = take {
             if energy_kj + step_kj > kj {
                 // The burner's budget ends mid-step: take the affordable
                 // share of this step and stop.
                 let share = ((kj - energy_kj) / step_kj).clamp(0.0, 1.0);
-                e_over += de * share;
-                w_over += dw * share;
+                let removed_e = de * share;
+                let removed_w = dw * share;
+                if removed_e <= 0.0
+                    || removed_w <= 0.0
+                    || e_over + removed_e == e_over
+                    || w_over + removed_w == w_over
+                {
+                    return Err(StillError::UnrepresentableCondensate);
+                }
+                e_over += removed_e;
+                w_over += removed_w;
                 energy_kj = kj;
+                completed = true;
                 break;
             }
         }
-        e -= de;
-        w -= dw;
         e_over += de;
         w_over += dw;
+        // The phase state must match the residue represented by the public
+        // cut, without repeated subtraction losing small mesh increments.
+        e = ethanol_moles - e_over;
+        w = water_moles - w_over;
         energy_kj += step_kj;
+        // StillCut exposes only overhead amounts. If subtraction from the
+        // original inventory would round a positive partial-cut residue to
+        // zero, its state is not representable by that public contract.
+        if budget < total0
+            && ((ethanol_moles > 0.0 && ethanol_moles - e_over <= 0.0)
+                || (water_moles > 0.0 && water_moles - w_over <= 0.0))
+        {
+            return Err(StillError::UnrepresentableResidue);
+        }
     }
-    Some(StillCut {
+    let overhead = w_over + e_over;
+    if !completed {
+        return Err(StillError::IntegrationLimit);
+    }
+    if !overhead.is_finite() || overhead <= 0.0 {
+        return Err(StillError::IncompleteCut);
+    }
+    if !energy_kj.is_finite() {
+        return Err(StillError::UnrepresentableEnergy);
+    }
+    if overhead < total0
+        && ((ethanol_moles > 0.0 && ethanol_moles - e_over <= 0.0)
+            || (water_moles > 0.0 && water_moles - w_over <= 0.0))
+    {
+        return Err(StillError::UnrepresentableResidue);
+    }
+    if matches!(take, StillTake::Fraction(_))
+        && (overhead - budget).abs() > 8.0 * STEPS as f64 * f64::EPSILON * budget
+    {
+        // Subnormal step rounding or depletion must not turn a requested
+        // fraction into an unlabelled smaller/larger successful transfer.
+        return Err(StillError::IncompleteCut);
+    }
+    // Report the endpoint represented by the public overhead result, not
+    // the composition before the last integration step. In particular an
+    // energy-limited last step may be only a fraction of the mesh interval.
+    // A fully emptied pot has no bubble point; retain its last boiling
+    // temperature. Every positive residue must still have a fitted answer.
+    let residual_w = water_moles - w_over;
+    let residual_e = ethanol_moles - e_over;
+    let residual_total = residual_w + residual_e;
+    if residual_total > 0.0 {
+        let x = normalized_binary([residual_e, residual_w])
+            .ok_or(StillError::UnrepresentableComposition)?;
+        t_end_c = phase(x, pressure_kpa)
+            .ok_or(StillError::PhaseEvaluation)?
+            .t_celsius;
+    }
+    Ok(StillCut {
         water_over: w_over,
         ethanol_over: e_over,
         t_start_c,
@@ -1643,3 +2229,123 @@ pub fn ethanol_water_still(
         azeotrope_limited: azeo,
     })
 }
+
+#[cfg(test)]
+mod pure_still_cost {
+    use super::*;
+
+    #[test]
+    fn paired_cascade_refuses_lost_components_at_every_stage() {
+        for stages in [1, 4] {
+            for vanish_at in 0..stages {
+                for coordinate in 0..2 {
+                    let mut calls = 0;
+                    assert!(cascade([0.25, 0.75], stages, ATMOSPHERE_KPA, &mut |x, _| {
+                        let mut y = x;
+                        if calls == vanish_at {
+                            y[coordinate] = 0.0;
+                            y[1 - coordinate] = 1.0;
+                        }
+                        calls += 1;
+                        Some(BubblePoint {
+                            t_celsius: 90.0,
+                            y: y.to_vec(),
+                            azeotropic: false,
+                        })
+                    })
+                    .is_err());
+                    assert_eq!(calls, vanish_at + 1);
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn paired_cascade_retains_water_when_ethanol_rounds_to_one() {
+        let mut calls = 0;
+        let (y, _, _) = cascade([1.0, 1e-100], 4, ATMOSPHERE_KPA, &mut |x, _| {
+            calls += 1;
+            assert_eq!(x, [1.0, 1e-100]);
+            Some(BubblePoint {
+                t_celsius: 78.0,
+                y: x.to_vec(),
+                azeotropic: false,
+            })
+        })
+        .unwrap();
+        assert_eq!(y, [1.0, 1e-100]);
+        assert_eq!(calls, 4);
+    }
+
+    #[test]
+    fn pure_binary_cuts_require_one_phase_answer_regardless_of_stage_count() {
+        for (water, ethanol) in [(1.0, 0.0), (0.0, 1.0)] {
+            for stages in [1, 4, 128] {
+                let mut calls = 0;
+                let cut = ethanol_water_still_with_phase(
+                    water,
+                    ethanol,
+                    StillTake::Fraction(0.2),
+                    stages,
+                    101.325,
+                    |x, pressure| {
+                        calls += 1;
+                        ethanol_water_bubble_point_from_moles(x[0], x[1], pressure)
+                    },
+                )
+                .unwrap();
+                assert_eq!(calls, 1);
+                assert_eq!(cut.t_start_c, cut.t_end_c);
+                assert!(!cut.azeotrope_limited);
+            }
+        }
+    }
+
+    #[test]
+    fn every_positive_second_component_keeps_the_integration_path() {
+        let mut calls = 0;
+        // A cheap injected phase law checks path selection without fitting a
+        // physical claim. Existing integration tests exercise real phase data.
+        ethanol_water_still_with_phase(
+            1.0,
+            1e-14,
+            StillTake::Fraction(0.01),
+            1,
+            101.325,
+            |x, _| {
+                calls += 1;
+                Some(BubblePoint {
+                    t_celsius: 90.0,
+                    y: x.to_vec(),
+                    azeotropic: false,
+                })
+            },
+        )
+        .unwrap();
+        assert!(
+            calls > 2,
+            "a positive trace was rounded into a pure shortcut"
+        );
+    }
+
+    #[test]
+    fn rounded_partial_requests_never_become_complete_inventory_transfers() {
+        let tiny = f64::from_bits(2);
+        let nearly_one = f64::from_bits(1.0f64.to_bits() - 1);
+        assert!(pure_still_amount(tiny, 40.0, StillTake::Fraction(nearly_one)).is_none());
+        assert!(pure_still_amount(f64::from_bits(1), 0.01, StillTake::EnergyKj(1.0)).is_none());
+        assert!(pure_still_amount(1.0, 40.0, StillTake::EnergyKj(f64::from_bits(1))).is_none());
+        let energy = f64::from_bits(40.0f64.to_bits() - 1);
+        if let Some((amount, heat)) = pure_still_amount(1.0, 40.0, StillTake::EnergyKj(energy)) {
+            assert!(amount < 1.0 && heat <= energy);
+        }
+    }
+}
+
+#[cfg(test)]
+#[path = "still_failure_tests.rs"]
+mod still_failure_tests;
+
+#[cfg(test)]
+#[path = "overlap_tests.rs"]
+mod overlap_tests;

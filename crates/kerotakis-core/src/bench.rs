@@ -268,7 +268,10 @@ pub struct Bench {
     /// bottle is bottomless, which is what a sandbox wants and what every
     /// snapshot written before this field carried — hence `default`, so an
     /// older token still restores.
-    #[serde(default, skip_serializing_if = "crate::stock::StockLedger::is_empty")]
+    #[serde(
+        default,
+        skip_serializing_if = "crate::stock::StockLedger::is_serialization_empty"
+    )]
     pub stock: crate::stock::StockLedger,
 }
 
@@ -1656,7 +1659,8 @@ impl Bench {
                 // has let the operation through — a vetoed dispense must
                 // not cost the shelf anything, because it never happened.
                 if let Err(refusal) = self.stock.draw(&sid.0, moles.0) {
-                    events.push(stock_refusal_event(&sid.0, refusal));
+                    events.push(stock_refusal_event(*vessel, &sid.0, refusal));
+                    *disposition = ApplyDisposition::Unchanged;
                     return Ok(events);
                 }
 
@@ -1785,7 +1789,8 @@ impl Bench {
                 // poured — not in moles of acetic acid, which is a number
                 // nobody reads off a label.
                 if let Err(refusal) = self.stock.draw(&recipe.canonical_key, *total_amount) {
-                    events.push(stock_refusal_event(&recipe.canonical_key, refusal));
+                    events.push(stock_refusal_event(*vessel, &recipe.canonical_key, refusal));
+                    *disposition = ApplyDisposition::Unchanged;
                     return Ok(events);
                 }
 
@@ -3750,7 +3755,7 @@ impl Bench {
                     return Err(BenchError::NoSuchVessel(*to));
                 }
                 if let Err(refusal) = self.stock.draw(&solvent.0, total_solvent.0) {
-                    events.push(stock_refusal_event(&solvent.0, refusal));
+                    events.push(stock_refusal_event(*from, &solvent.0, refusal));
                     *disposition = ApplyDisposition::Unchanged;
                     return Ok(events);
                 }
@@ -5999,17 +6004,21 @@ fn gas_made_this_step(events: &[Event], vessel: VesselId) -> (f64, Option<usize>
 /// form still exists ([`crate::stock::StockRefusal`], and
 /// [`BenchError::StockExhausted`] for callers who reach the ledger
 /// directly); this is how it speaks.
-fn stock_refusal_event(key: &str, refusal: crate::stock::StockRefusal) -> Event {
-    let crate::stock::StockRefusal::Exhausted {
-        requested,
-        remaining,
-        unit,
-    } = refusal;
-    Event::StockExhausted {
-        key: key.to_string(),
-        requested,
-        remaining,
-        unit,
+fn stock_refusal_event(vessel: VesselId, key: &str, refusal: crate::stock::StockRefusal) -> Event {
+    match refusal {
+        crate::stock::StockRefusal::Exhausted { requested, remaining, unit } =>
+            Event::StockExhausted { key: key.into(), requested, remaining, unit },
+        crate::stock::StockRefusal::InvalidRequest { requested } => Event::not_modeled(
+            vessel, crate::ops::NotModelledCause::ModelBoundary,
+            Phrase::new("not-modeled.stock-invalid-draw", "stock withdrawal must be finite and nonnegative, got {requested}",
+                vec![("requested".into(), Slot::text(requested.to_string()))])),
+        crate::stock::StockRefusal::Precision { requested, remaining, unit } => Event::not_modeled(
+            vessel, crate::ops::NotModelledCause::ModelBoundary,
+            Phrase::new("not-modeled.stock-draw-precision",
+                "cannot represent a {requested} {unit} withdrawal from {remaining} {unit} of {key}; no stock was withdrawn",
+                vec![("requested".into(), Slot::number(requested.to_string())),
+                    ("remaining".into(), Slot::number(remaining.to_string())),
+                    ("unit".into(), Slot::text(unit.label())), ("key".into(), Slot::text(key))])),
     }
 }
 

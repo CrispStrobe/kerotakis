@@ -1,0 +1,13 @@
+{
+  "source_before_refinement": "c6451497",
+  "tests_commit": "1c912a93",
+  "sha256": {
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/cancellation.rs": "e347363e3a5a77ddede3ee5af71bb28c4161ffbf9cfd78f1d88ada3ba2602dfc",
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/raw_carbon.rs": "fd87b023f1020e5a64a6f5245233d97d4c9e939d634bec0d94ef9d26da6f548b",
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/external_boundaries.rs": "513f9fc24782e85babe4ad190d1c01cec43867049ec4f302b81d778ec8eb0b02"
+  },
+  "test_count": 9,
+  "expectations": "Retain exact binary raw trace on owner-sum cancellation; validate requested raw carbon columns before clamps/zero skips; account reviewed external gas phases and open carbon only for carbon-bearing boundaries.",
+  "arithmetic_refinement": "Cancellation must have owner-scale arithmetic allowance separate from aqueous relative residual cap. Do not amplify a tiny aqueous quantity by rescaling to an inaccurate subtraction.",
+  "validation": "Hosted refinement baseline pending; initial14failbaseline preserved separately."
+}
