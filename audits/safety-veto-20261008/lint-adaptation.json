@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "classification": "CI lint failure before test execution",
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37733189609",
+  "adaptation": "Equivalent matches! predicate replaces boolean match; no test inputs, expected events, assertions or production changes.",
+  "original_sha256": "9a73c728b8f6634d0c21568971ccbd3b975caf348bf1047c1fb605ed21e81d20",
+  "adapted_sha256": "b503ad7e27704ac05d08d64ee353d1df720ced6483bcd39f958217ad722fe0e3"
+}

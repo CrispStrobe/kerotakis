@@ -1,0 +1,16 @@
+{
+  "base_commit": "b31455cc9b5946cfdf8c3e43f29707f76b7ac688",
+  "test_path": "crates/kerotakis-core/tests/safety_veto_atomicity.rs",
+  "test_sha256": "9a73c728b8f6634d0c21568971ccbd3b975caf348bf1047c1fb605ed21e81d20",
+  "tests": 20,
+  "groups": {
+    "existing_receiver_veto": 7,
+    "accepted_operations": 7,
+    "fresh_receiver_veto": 2,
+    "fresh_receiver_warning": 2,
+    "missing_mix_error": 1,
+    "accidental_spill_exception": 1
+  },
+  "expectation_basis": "Explicit operator refusal owns neither accepted physical state nor solver settlement; accidental spill evidence remains physical. Source-informed forecasts declared before code changes.",
+  "execution": "not run locally; hosted baseline and repair pending"
+}

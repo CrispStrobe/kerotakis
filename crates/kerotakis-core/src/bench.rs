@@ -1650,6 +1650,7 @@ impl Bench {
                     }),
                     SafetyVerdict::Veto { reason } => {
                         events.push(Event::SafetyVeto { reason });
+                        *disposition = ApplyDisposition::Unchanged;
                         return Ok(events);
                     }
                 }
@@ -1778,6 +1779,7 @@ impl Bench {
                     }),
                     SafetyVerdict::Veto { reason } => {
                         events.push(Event::SafetyVeto { reason });
+                        *disposition = ApplyDisposition::Unchanged;
                         return Ok(events);
                     }
                 }
@@ -2357,6 +2359,9 @@ impl Bench {
                         species: discarded,
                         materials,
                     });
+                } else {
+                    *disposition = ApplyDisposition::Unchanged;
+                    return Ok(events);
                 }
             }
             Operator::Spill {
@@ -2453,9 +2458,13 @@ impl Bench {
                         to: *to,
                         fraction: *fraction,
                     });
+                } else {
+                    *disposition = ApplyDisposition::Unchanged;
+                    return Ok(events);
                 }
             }
             Operator::Decant { from, to, fraction } => {
+                let created_destination = !self.vessels.iter().any(|vessel| vessel.id == *to);
                 self.ensure_destination(*to, &mut events);
                 if !(0.0..=1.0).contains(fraction) {
                     return Err(BenchError::BadFraction);
@@ -2509,7 +2518,14 @@ impl Bench {
                         real_world,
                     }),
                     SafetyVerdict::Veto { reason } => {
+                        if created_destination {
+                            self.vessels.retain(|vessel| vessel.id != *to);
+                            events.retain(|event| {
+                                !matches!(event, Event::VesselCreated { vessel } if *vessel == *to)
+                            });
+                        }
                         events.push(Event::SafetyVeto { reason });
+                        *disposition = ApplyDisposition::Unchanged;
                         return Ok(events);
                     }
                 }
@@ -2663,6 +2679,7 @@ impl Bench {
                     }),
                     SafetyVerdict::Veto { reason } => {
                         events.push(Event::SafetyVeto { reason });
+                        *disposition = ApplyDisposition::Unchanged;
                         return Ok(events);
                     }
                 }
@@ -2775,6 +2792,7 @@ impl Bench {
                 if from == to {
                     return Err(BenchError::SelfTransfer);
                 }
+                let created_destination = !self.vessels.iter().any(|vessel| vessel.id == *to);
                 self.ensure_destination(*to, &mut events);
                 // Everything liquid + dissolved would move; probe the target.
                 let (would_move, t_from) = {
@@ -2805,7 +2823,14 @@ impl Bench {
                         real_world,
                     }),
                     SafetyVerdict::Veto { reason } => {
+                        if created_destination {
+                            self.vessels.retain(|vessel| vessel.id != *to);
+                            events.retain(|event| {
+                                !matches!(event, Event::VesselCreated { vessel } if *vessel == *to)
+                            });
+                        }
                         events.push(Event::SafetyVeto { reason });
+                        *disposition = ApplyDisposition::Unchanged;
                         return Ok(events);
                     }
                 }
