@@ -1,0 +1,75 @@
+{
+  "base_commit": "b31455cc9b5946cfdf8c3e43f29707f76b7ac688",
+  "donor_snapshot": "c1d919907ca679ef4c1cb203ba33db1a9309c5fe",
+  "donor_production_module_sha256": "3238241afaf9cbc43e1682d2d7be3f4c39149db5c08feca2c64047267e7a0dc7",
+  "stage": "Frozen contract copy before narrow production port; hosted execution pending",
+  "test_files": [
+    {
+      "path": "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/cancellation.rs",
+      "sha256": "e347363e3a5a77ddede3ee5af71bb28c4161ffbf9cfd78f1d88ada3ba2602dfc",
+      "copy": "byte-identical"
+    },
+    {
+      "path": "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/contracts.rs",
+      "sha256": "853d981f3072ff1b695ca02258dd53443787375da5e2a2205798b5fd82f34062",
+      "copy": "byte-identical"
+    },
+    {
+      "path": "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/contracts_closed_boundary.rs",
+      "sha256": "f9da2826deb0e571615c9eb288f6598e6728263d8aef3d7fca0eed324ff46d05",
+      "copy": "byte-identical"
+    },
+    {
+      "path": "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/external_boundaries.rs",
+      "sha256": "513f9fc24782e85babe4ad190d1c01cec43867049ec4f302b81d778ec8eb0b02",
+      "copy": "byte-identical"
+    },
+    {
+      "path": "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/external_raw.rs",
+      "sha256": "d99d0386b38f1d15ce493feb6f39633d8943a09f298dc92739496c245fefc94d",
+      "copy": "byte-identical"
+    },
+    {
+      "path": "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/raw_carbon.rs",
+      "sha256": "fd87b023f1020e5a64a6f5245233d97d4c9e939d634bec0d94ef9d26da6f548b",
+      "copy": "byte-identical"
+    },
+    {
+      "path": "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/refusal_atomicity.rs",
+      "sha256": "4f5c3356e7d2ccc833f4225e8e1be3e9373e194eab5044a0f66661d49f878ca9",
+      "copy": "byte-identical"
+    },
+    {
+      "path": "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/supplement.rs",
+      "sha256": "b69e34366d157d2e18650431ba8545699d853345a21b814c0c49ed11c844d894",
+      "copy": "byte-identical"
+    },
+    {
+      "path": "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/supplement_closed_boundary.rs",
+      "sha256": "22c68142e4f88ae9b9c7c6a0893217063551c2d4899fee836f0ad10287e69ae8",
+      "copy": "byte-identical"
+    },
+    {
+      "path": "crates/kerotakis-phreeqc/tests/solid_solution_raw_readback/contracts.rs",
+      "sha256": "9ba77f88e8f4432cffd58b18d9d86614656274b3127c76d63e2a141cc12afd5b",
+      "copy": "byte-identical"
+    },
+    {
+      "path": "crates/kerotakis-phreeqc/tests/solid_solution_raw_readback/contracts_complete_columns.rs",
+      "sha256": "1726eed571ecf8efb620322ce59be6d9a91287833a76ccbb8b41fc5faa87e908",
+      "copy": "byte-identical"
+    }
+  ],
+  "compiled_contracts": 50,
+  "compiled_harnesses": [
+    "contracts_complete_columns.rs",
+    "contracts_closed_boundary.rs",
+    "supplement_closed_boundary.rs",
+    "cancellation.rs",
+    "raw_carbon.rs",
+    "external_boundaries.rs",
+    "external_raw.rs",
+    "refusal_atomicity.rs"
+  ],
+  "provenance": "Original raw and boundary fixtures remain present and unchanged. Explicit adaptation receipts preserve the mandatory carbon-column and closed-boundary setup corrections. Assertions are unchanged."
+}

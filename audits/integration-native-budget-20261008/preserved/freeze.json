@@ -1,0 +1,10 @@
+{
+  "parent_commit": "df7e33f910489cf5d0fcba65535d263f2d005ce6",
+  "accepted_engine_commit": "8cdab1f6ecd0b1132c4008014a5a0c5476429d17",
+  "contracts": "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/contracts.rs",
+  "sha256": "853d981f3072ff1b695ca02258dd53443787375da5e2a2205798b5fd82f34062",
+  "rust_tests": 18,
+  "production_change": "None. cfg(test) inclusion only.",
+  "expectations": "Exact supported remainder, phase exhaustion, primary co-owner and closed gas allocations accept. Overdraw, malformed gas/raw totals, 10 percent discrepancy and unwitnessed inclusive totals refuse.",
+  "execution": "Hosted baseline pending. No pass/fail outcomes claimed."
+}

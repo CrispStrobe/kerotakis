@@ -12,6 +12,24 @@ At implementation checkpoint `9331f9e9`, that branch was 168 commits ahead of `m
 
 Documentation delivery [PR #755](https://github.com/CrispStrobe/kerotakis/pull/755) merged on 2026-10-07. [The integration manifest](chemistry-audit-integration-20261007.md) tracks implementation ports separately; AUD-00 remains open.
 
+## Integration update, 2026-10-08
+
+Amount foundation [PR #756](https://github.com/CrispStrobe/kerotakis/pull/756)
+merged to main as `b31455cc`. Main-based stock ownership
+[PR #757](https://github.com/CrispStrobe/kerotakis/pull/757) remains pending.
+Thermodynamic kernel [PR #758](https://github.com/CrispStrobe/kerotakis/pull/758) at `45c44a4a` is also pending, with six accepted source files and 58 preserved integration controls. This is partial AUD-00 delivery, not integration of the entire accepted engine.
+
+The native 33-control pre-repair
+[baseline 37728961663](https://github.com/CrispStrobe/kerotakis/actions/runs/37728961663)
+executed with **13 passing and 20 failing** controls. A nine-control refinement
+[baseline 37729480945](https://github.com/CrispStrobe/kerotakis/actions/runs/37729480945)
+and repair validation
+[37729728076](https://github.com/CrispStrobe/kerotakis/actions/runs/37729728076)
+at `e7eaf03b` remain pending. AUD-01/02 are open; new full engine acceptance is
+held until the focused results arrive. The
+[integration manifest](chemistry-audit-integration-20261007.md) identifies the
+repair branch and explicit original raw-harness protocol adaptation.
+
 ## Accepted evidence
 
 | Evidence | Exact result | Public record |

@@ -1,0 +1,93 @@
+{
+  "accepted_source_commit": "8cdab1f6ecd0b1132c4008014a5a0c5476429d17",
+  "main_base_commit": "b31455cc9b5946cfdf8c3e43f29707f76b7ac688",
+  "scope": "Six thermo source files and nine existing audit integration contracts; no core ownership/diagnostic or registry-data changes",
+  "adaptation": "Existing public imports unchanged; rustfmt only. Original nine test bytes preserved as adjacent .rs.txt snapshots. Source original hashes identify immutable accepted-source bytes.",
+  "files": [
+    {
+      "path": "crates/kerotakis-thermo/src/batch.rs",
+      "original_sha256": "00c4ec30f39a37183fa559ab5068d18225cb3850bc678490da002511737a8e99",
+      "ported_sha256": "00c4ec30f39a37183fa559ab5068d18225cb3850bc678490da002511737a8e99"
+    },
+    {
+      "path": "crates/kerotakis-thermo/src/pack.rs",
+      "original_sha256": "3b367ca41ad7a6b53b25855ae7b299d3db786f5136299db4213e6d840e0eb5d3",
+      "ported_sha256": "3b367ca41ad7a6b53b25855ae7b299d3db786f5136299db4213e6d840e0eb5d3"
+    },
+    {
+      "path": "crates/kerotakis-thermo/src/unifac.rs",
+      "original_sha256": "9da609531b96c5e5cbe370f0945605d10ab272da56a7bb25bb9b1a775ae139ae",
+      "ported_sha256": "9da609531b96c5e5cbe370f0945605d10ab272da56a7bb25bb9b1a775ae139ae"
+    },
+    {
+      "path": "crates/kerotakis-thermo/src/vle.rs",
+      "original_sha256": "38ef7ab42ed5ec63cb555112fe185432ce8ae5c555a74883fa0943621daaa072",
+      "ported_sha256": "38ef7ab42ed5ec63cb555112fe185432ce8ae5c555a74883fa0943621daaa072"
+    },
+    {
+      "path": "crates/kerotakis-thermo/src/overlap_tests.rs",
+      "original_sha256": "7ba08d312ad08594c04357c81f690499e44e0c8376de771ca136b5dd0041039b",
+      "ported_sha256": "7ba08d312ad08594c04357c81f690499e44e0c8376de771ca136b5dd0041039b"
+    },
+    {
+      "path": "crates/kerotakis-thermo/src/still_failure_tests.rs",
+      "original_sha256": "d0876a12dfc5d10621f7066b82eb54055f822614a02c9cc73bff4ea439770c36",
+      "ported_sha256": "d0876a12dfc5d10621f7066b82eb54055f822614a02c9cc73bff4ea439770c36"
+    },
+    {
+      "path": "crates/kerotakis-thermo/tests/distillation_completion.rs",
+      "original_sha256": "a569bc994d52ef35cd09eedf04153878c125758562b4ddbe38e2136e57d46e30",
+      "original_snapshot": "audits/integration-thermo-20261008/distillation_completion.rs.txt",
+      "ported_sha256": "a569bc994d52ef35cd09eedf04153878c125758562b4ddbe38e2136e57d46e30"
+    },
+    {
+      "path": "crates/kerotakis-thermo/tests/ideal_still_precision.rs",
+      "original_sha256": "146c86729fb927bc44083a5c49ff7a7e19cae455d4d517be59cc32f0ca7b8a59",
+      "original_snapshot": "audits/integration-thermo-20261008/ideal_still_precision.rs.txt",
+      "ported_sha256": "146c86729fb927bc44083a5c49ff7a7e19cae455d4d517be59cc32f0ca7b8a59"
+    },
+    {
+      "path": "crates/kerotakis-thermo/tests/overlap_continuity.rs",
+      "original_sha256": "d7f6588e53393064deae671c5f779cf9e4b780ba928ba17a1da9facf9d30e3df",
+      "original_snapshot": "audits/integration-thermo-20261008/overlap_continuity.rs.txt",
+      "ported_sha256": "d7f6588e53393064deae671c5f779cf9e4b780ba928ba17a1da9facf9d30e3df"
+    },
+    {
+      "path": "crates/kerotakis-thermo/tests/paired_binary_still.rs",
+      "original_sha256": "d986dfa05b42f1405cf132e59533a13e4d549666951dfd3afee1f102e61747a4",
+      "original_snapshot": "audits/integration-thermo-20261008/paired_binary_still.rs.txt",
+      "ported_sha256": "d986dfa05b42f1405cf132e59533a13e4d549666951dfd3afee1f102e61747a4"
+    },
+    {
+      "path": "crates/kerotakis-thermo/tests/pure_binary_still.rs",
+      "original_sha256": "f6963f60c3238d5655dcff60a5f15ef7d1ed046d2212d10bec5122863be82706",
+      "original_snapshot": "audits/integration-thermo-20261008/pure_binary_still.rs.txt",
+      "ported_sha256": "f6963f60c3238d5655dcff60a5f15ef7d1ed046d2212d10bec5122863be82706"
+    },
+    {
+      "path": "crates/kerotakis-thermo/tests/pure_ideal_still.rs",
+      "original_sha256": "0987fb64d3122d3ab5345f379984d622bcdaa83b7efae972a12c17c52af0ed80",
+      "original_snapshot": "audits/integration-thermo-20261008/pure_ideal_still.rs.txt",
+      "ported_sha256": "0987fb64d3122d3ab5345f379984d622bcdaa83b7efae972a12c17c52af0ed80"
+    },
+    {
+      "path": "crates/kerotakis-thermo/tests/still_diagnostics.rs",
+      "original_sha256": "41ac94e52e813a3d61d2b1530647fb9f98603f18412cc664f800b7aad81c9255",
+      "original_snapshot": "audits/integration-thermo-20261008/still_diagnostics.rs.txt",
+      "ported_sha256": "41ac94e52e813a3d61d2b1530647fb9f98603f18412cc664f800b7aad81c9255"
+    },
+    {
+      "path": "crates/kerotakis-thermo/tests/trace_phase_convergence.rs",
+      "original_sha256": "85deb14050c466aa94ebab0e191db175ae99af765412efa91ebb0faf54301492",
+      "original_snapshot": "audits/integration-thermo-20261008/trace_phase_convergence.rs.txt",
+      "ported_sha256": "85deb14050c466aa94ebab0e191db175ae99af765412efa91ebb0faf54301492"
+    },
+    {
+      "path": "crates/kerotakis-thermo/tests/trace_phase_representation.rs",
+      "original_sha256": "f86d5c3a1b70ffa6cc249e8eff256eeb162b9114336607f51977b857b4ac8e9d",
+      "original_snapshot": "audits/integration-thermo-20261008/trace_phase_representation.rs.txt",
+      "ported_sha256": "f86d5c3a1b70ffa6cc249e8eff256eeb162b9114336607f51977b857b4ac8e9d"
+    }
+  ],
+  "validation": "Source preparation, rustfmt and diff checks only; hosted main-based PR gates pending"
+}
