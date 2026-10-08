@@ -5,7 +5,7 @@ arithmetic primitive through `kerotakis_core::amount`. It does not migrate any
 vessel, stock, still, solver or persistence owner on main.
 
 Source: [accepted implementation](https://github.com/CrispStrobe/kerotakis/blob/8cdab1f6ecd0b1132c4008014a5a0c5476429d17/crates/kerotakis-core/src/amount.rs).
-The production module is byte-identical to that source. The 15 original contracts
+At foundation commit `578f5ad1`, the production module is byte-identical to that source. The foundation receipt binds that stage; the subsequent stock port updates the ownership documentation and records its current source hashes separately in [stock-port.json](stock-port.json). The 15 original contracts
 are preserved byte-for-byte in [the original snapshot](amount-original-contracts.rs.txt).
 The compiled [integration test](../../crates/kerotakis-core/tests/amount_foundation.rs)
 imports the public production API and is formatted for repository gates; this

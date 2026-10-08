@@ -1457,6 +1457,8 @@ PVA = "PVA"
 "muscle protein" = "protéine musculaire"
 
 [not-modeled]
+"stock-invalid-draw" = "Le prélèvement dans le stock doit être fini et positif ou nul ; quantité demandée : {requested}."
+"stock-draw-precision" = "Un prélèvement de {requested} {unit} sur les {remaining} {unit} de {key} ne peut pas être représenté avec une précision suffisante ; rien n’a été prélevé."
 # Tranche two: the gaps with a HOLE in them, which is why `[refusal]`
 # could never reach any of these. New German, authored.
 cooling-below-absolute-zero = "ce récipient n'avait que {available} kJ à céder avant le zéro absolu, et on lui en a demandé {asked} kJ. Aucun fluide frigorigène n'est modélisé ici — rien ne fixe la température de l'environnement — le reste ne pouvait donc simplement pas être retiré. La chaleur que contient une substance est intégrée sur sa propre capacité thermique là où le registre en porte une, mais en dessous d'environ 200 K même une courbe tabulée est à court de table et est maintenue constante : ce plancher est donc une limite de modèle et non une mesure"
