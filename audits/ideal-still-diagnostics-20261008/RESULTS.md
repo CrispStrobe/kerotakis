@@ -91,3 +91,15 @@ contracts, preserving logs, source/test hashes, exit status and generated lock.
 No push or dispatch has occurred for that baseline at this checkpoint.
 [Supplementary source bindings](portion-validation-prepared-repair.json) identify
 the guard and exact tests separately from the original receipts.
+
+## Refreshed prerequisite
+
+Refreshed #759 at `ada512df` includes thermo prerequisite `1f662be8` and
+its separately disclosed spirit-still golden adaptation. The inherited delta
+contains the eight observed cut amounts, their preserved original snapshot,
+source-bound adaptation receipt and independent cut/component/enrichment checks;
+no kernel or original forecast changes were merged. See
+[the prerequisite disclosure](../integration-20261007/THERMO-GOLDEN.md).
+This dependency refresh does not supply executed acceptance of the ideal
+diagnostic or individual-owner changes. Original and supplementary forecast
+hashes remain unchanged.
