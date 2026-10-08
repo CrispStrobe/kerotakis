@@ -1277,7 +1277,13 @@ impl StateDelta {
         if !errors.is_empty() {
             return Err(errors);
         }
-        self.apply(vessel);
+        let mut candidate = vessel.clone();
+        self.apply(&mut candidate);
+        let errors = Self::validate_state(&candidate);
+        if !errors.is_empty() {
+            return Err(errors);
+        }
+        *vessel = candidate;
         Ok(())
     }
 

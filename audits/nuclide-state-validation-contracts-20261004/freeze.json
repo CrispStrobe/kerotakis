@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "created_utc": "2026-10-04T16:38:03.107649+00:00",
+  "count": 12,
+  "test_file": "crates/kerotakis-core/tests/nuclide_state_validation_contracts.rs",
+  "test_sha256": "498d3456988fcb153445139f5c16dc2b96ffe9bd893041ee6145984431d5a5fc",
+  "policy": "Source-informed controls frozen before isolated StateDelta nuclide validation repair. Negative/NaN/infinity/unknown-element/zero-mass state refuses thermal delta commit and legacy solver trial with rollback; positive/subnormal/zero valid tracer controls preserve legacy solver acceptance. Valid identity means a real element and positive u32 mass, not a curated isotope or nuclear conservation claim."
+}
