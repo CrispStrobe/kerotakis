@@ -87,6 +87,7 @@ pub mod protein;
 pub mod refusal;
 pub mod relations;
 pub mod render;
+mod required_conservation;
 pub mod rheology;
 pub mod scene;
 pub mod script;
