@@ -14,6 +14,7 @@ on:
           - solid-index-comparison
           - delta-inventory
           - delta-thermal
+          - main-cli-replay
 
 permissions:
   contents: read
@@ -505,5 +506,53 @@ jobs:
             build-evidence/source-commit.txt
             build-evidence/binary-sha256.txt
             build-evidence/generated-lock-sha256.txt
+          retention-days: 30
+          if-no-files-found: error
+
+  main-cli-replay:
+    name: Replay corrected hundred cases and strict distillation cause
+    if: inputs.campaign == 'main-cli-replay'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          sparse-checkout: |
+            .github/workflows
+            audits/main-cli-replay-20261008
+            tools/main-cli-replay.py
+            tools/fifth-independent-50
+      - uses: actions/download-artifact@v7
+        with:
+          name: solid-index-comparison-37775230032
+          run-id: 37775230032
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: paired-artifact
+      - name: Bind preserved executable and identical main tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir replay-bindings
+          git rev-parse HEAD > replay-bindings/harness-commit.txt
+          sha256sum audits/main-cli-replay-20261008/forecast.json tools/main-cli-replay.py tools/fifth-independent-50/run.py tools/fifth-independent-50/review_profile.py .github/workflows/chemistry-audit.yml > replay-bindings/harness-sha256.txt
+          test "$(git rev-parse 80ed1c36450359d01c1db3c48db471ccb59ae393^{tree})" = "$(git rev-parse b4455b7871889d0f1e1423390a3bc33a3ec9cdbd^{tree})"
+          test "$(cat paired-artifact/paired-build/repair/source-commit.txt)" = 80ed1c36450359d01c1db3c48db471ccb59ae393
+          test "$(cat paired-artifact/paired-build/repair/source-tree.txt)" = cf3766ba38223c674de733f1615570b1c9498d86
+          test "$(sha256sum paired-artifact/paired-build/repair/Cargo.lock | cut -d ' ' -f 1)" = 613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac
+          cp paired-artifact/paired-build/repair/{source-commit.txt,source-tree.txt,binary-sha256.txt,generated-lock-sha256.txt,submodules.txt} replay-bindings/
+          chmod +x paired-artifact/paired-build/repair/kero
+      - name: Execute unchanged disclosed controls and strict stage neighbor
+        run: python3 tools/main-cli-replay.py --binary paired-artifact/paired-build/repair/kero --out main-cli-replay
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: main-cli-replay-${{ github.run_id }}
+          path: |
+            main-cli-replay/
+            replay-bindings/
+            audits/main-cli-replay-20261008/
+            tools/main-cli-replay.py
+            tools/fifth-independent-50/
           retention-days: 30
           if-no-files-found: error
