@@ -9,6 +9,7 @@ on:
         options:
           - fifty
           - syntax-replay
+          - sixth-fifty
 
 permissions:
   contents: read
@@ -26,7 +27,7 @@ env:
 
 jobs:
   build:
-    if: inputs.campaign != 'syntax-replay'
+    if: inputs.campaign == 'fifty'
     name: Build pinned main CLI once
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -81,6 +82,56 @@ jobs:
         with:
           name: fifth-main-build-${{ github.run_id }}
           path: build-evidence/
+          retention-days: 30
+          if-no-files-found: error
+
+  sixth-fifty:
+    name: Execute another fifty independently frozen experiments
+    if: inputs.campaign == 'sixth-fifty'
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          sparse-checkout: |
+            .github/workflows
+            audits/sixth-independent-50-20261008
+            tools/sixth-independent-50
+            tools/fifth-independent-50
+      - uses: actions/download-artifact@v7
+        with:
+          name: fifth-main-build-37751230970
+          run-id: 37751230970
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: build-evidence
+      - name: Bind new forecast to its preserved executable
+        run: |
+          git merge-base --is-ancestor f88cbdcd HEAD
+          mkdir -p sixth-harness-evidence
+          git rev-parse HEAD > sixth-harness-evidence/harness-commit.txt
+          sha256sum audits/sixth-independent-50-20261008/forecast.json tools/sixth-independent-50/run.py tools/fifth-independent-50/run.py .github/workflows/chemistry-audit.yml > sixth-harness-evidence/sha256.txt
+          test "$(cat build-evidence/source-commit.txt)" = 7bc43e089753483710507133ccc8377591bb3490
+          chmod +x build-evidence/kero
+      - name: Execute all fifty without adapting expectations
+        run: >-
+          python3 tools/sixth-independent-50/run.py
+          --binary build-evidence/kero
+          --forecast audits/sixth-independent-50-20261008/forecast.json
+          --out sixth-experiments
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: sixth-fifty-${{ github.run_id }}
+          path: |
+            sixth-experiments/
+            sixth-harness-evidence/
+            audits/sixth-independent-50-20261008/
+            tools/sixth-independent-50/
+            tools/fifth-independent-50/
+            build-evidence/source-commit.txt
+            build-evidence/binary-sha256.txt
+            build-evidence/generated-lock-sha256.txt
           retention-days: 30
           if-no-files-found: error
 
