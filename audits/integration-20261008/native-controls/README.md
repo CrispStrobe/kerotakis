@@ -30,3 +30,5 @@ A successful native review does not replace the remaining exact-head required ga
 The initial #771 preflight exposed five tracer validity failures. [The repaired #771 plan](pr771-26cd8fc7-plan.json) binds head `26cd8fc7` and all 151 functions, including eight separately frozen ordinary-commit controls. Preserve the initial 143-function plan as its historical source snapshot. Neither plan is an execution receipt.
 
 [The integrated #771 plan](pr771-dec6b593-plan.json) binds final head `dec6b593` after actual main ancestry was merged. All fifteen fixture hashes and 151 functions are unchanged from `26cd8fc7`, but fresh exact-head native logs and required gates remain necessary. The existing `pr771-mac.json` receipt remains pinned to its original source.
+
+[Fresh #771 Mac review](pr771-dec6-mac.json) now verifies all 151 functions on `dec6b593`. Mac native and WebAssembly gates pass; remaining gates are pending. [The separate native-host failure](pr771-dec6-native-host-first-failure.json) occurred during SUNDIALS download before compilation. Preserve it and retry that job on the same head after the containing workflow finishes.

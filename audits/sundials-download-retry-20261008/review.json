@@ -1,0 +1,63 @@
+{
+  "scope": "Local lightweight real-curl HTTP fixture controls; no upstream download, Cargo build or scientific/performance acceptance. Fixture script copies replace only URL and pinned digest with local deterministic archive values.",
+  "baseline_commit": "fdcfede0316aaa6432e0dc336e86b2b5169dddd3",
+  "baseline_script_sha256": "92d7afde8e1ae28fa0bdc9529bd8deb2af66b4dc03b2445364be655cec049f2a",
+  "candidate_script_sha256": "a4fec07f59d428fc55148a181ba1a5717ea8abab2792b446acaabd7e45f1bd38",
+  "verification_harness_sha256": "8053468376d89522eeecd915e8bcd0ba191fa0d0b8cf62818b2e187d061632a4",
+  "fixture_archive_sha256": "934e68b5c06a54abff351ca78611003ae739fc248ad60c82f3710b169b43a120",
+  "controls": [
+    {
+      "name": "baseline-transient-503",
+      "exit_code": 22,
+      "requests": 1,
+      "destination_present": false,
+      "elapsed_seconds": 0.125,
+      "stdout_sha256": "e208fada48550f6ea36747446f7361917badfa1afca342b73d0220b40cc3ed37",
+      "stderr_sha256": "1ca9dca7641da38da6a6c93f55e607ac0b93b5eb599d6251ef1c9900424144b1"
+    },
+    {
+      "name": "candidate-transient-503",
+      "exit_code": 0,
+      "requests": 2,
+      "destination_present": true,
+      "elapsed_seconds": 2.519,
+      "stdout_sha256": "da60022041340c2723b99097204142caf6250a8de7c79598fc08e257bc68670a",
+      "stderr_sha256": "1ca9dca7641da38da6a6c93f55e607ac0b93b5eb599d6251ef1c9900424144b1"
+    },
+    {
+      "name": "candidate-bad-checksum",
+      "exit_code": 1,
+      "requests": 1,
+      "destination_present": false,
+      "elapsed_seconds": 0.296,
+      "stdout_sha256": "e208fada48550f6ea36747446f7361917badfa1afca342b73d0220b40cc3ed37",
+      "stderr_sha256": "c21162752e0e9447063c54afadaabcd769aa943d1dc1e9641847e990d83020b9"
+    },
+    {
+      "name": "candidate-exhausted-503",
+      "exit_code": 22,
+      "requests": 4,
+      "destination_present": false,
+      "elapsed_seconds": 6.278,
+      "stdout_sha256": "e208fada48550f6ea36747446f7361917badfa1afca342b73d0220b40cc3ed37",
+      "stderr_sha256": "5906e4fed2951d5cde323fa0eefa40f5ea3ff1ae94465a752676e6d9138ed921"
+    },
+    {
+      "name": "candidate-existing-source",
+      "exit_code": 0,
+      "requests": 0,
+      "destination_present": true,
+      "elapsed_seconds": 0.102,
+      "stdout_sha256": "93ea77df926f8937f7c50debc4efe7adef6e846f6b7af691a36615fb49462fd7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "all_controls_passed": true,
+  "limitations": [
+    "Successful real GitHub SUNDIALS download and final PR gates remain required.",
+    "Retry-max-time governs whether another retry begins; the last transfer can extend beyond that window, bounded by max-time."
+  ],
+  "candidate_commit": "ed30ae5276340d30ccbfd92f31cb85d61988205b",
+  "candidate_url": "https://github.com/CrispStrobe/kerotakis/commit/ed30ae5276340d30ccbfd92f31cb85d61988205b",
+  "integration_status": "Prepared and pushed; no PR opened. Final main ancestry, actual hosted download/build and required gates pending."
+}

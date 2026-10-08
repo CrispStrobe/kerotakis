@@ -1,0 +1,17 @@
+{
+  "pr": 771,
+  "head": "dec6b593d50fabdab2b45db855840e4cdd646673",
+  "run": 37824749685,
+  "job": 113474595357,
+  "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37824749685/job/113474595357",
+  "tested_checkout": "1092f69f58ddf06c2e5fe0dbacde9dabade3be4b",
+  "tested_tree": "3a18dfefb521905d4fc2d4f46bf4cb4ea4ae52c2",
+  "head_tree_equals_tested_checkout": true,
+  "classification": "infrastructure_dependency_download_failure_before_compilation",
+  "cause": "Pinned SUNDIALS download could not connect to github.com:443; curl exit 28 after approximately 75 seconds.",
+  "failed_step": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+  "log_sha256": "60011e797a76a04a388291e5361a2b9f4f1a60e746484149214e0f822c737956",
+  "job_metadata_sha256": "8eb21942ed53b673b337ab6b7b7103e36868f996eb6b66ca4837acca1c0368be",
+  "retry_status": "Job-specific rerun requested; GitHub returned HTTP 403 because the containing workflow is still running. Retry after workflow completion, keeping the same head.",
+  "scope": "Native-host cargo check was skipped. Separate native151 Mac gate passes. Keep original failed attempt after retry."
+}
