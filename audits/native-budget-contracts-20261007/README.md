@@ -40,3 +40,5 @@ Only a CO2 external boundary opens carbon. Interface co-ownership and
 unwitnessed inclusive reporting refuse. Hosted validation and complete-state
 refusal controls remain pending; do not claim H/O/charge, speciation, heat
 accuracy or general solid-solution chemistry.
+
+The narrow main-based port is [PR #760](https://github.com/CrispStrobe/kerotakis/pull/760). Its separate [pre-port baseline](https://github.com/CrispStrobe/kerotakis/actions/runs/37731431537) and required PR gates remain pending. The port deliberately excludes unrelated inventory-threshold and reaction-heat changes. Donor-branch evidence does not establish main-based acceptance.
