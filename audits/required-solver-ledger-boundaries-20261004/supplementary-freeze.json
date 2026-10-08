@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "tests": 10,
+  "files": {
+    "crates/kerotakis-core/tests/required_solver_ledger_supplement.rs": "e0da8aa6f0f0cda7c50f2dd7dd8c8025fc3c24550832e23765162a99ba5f021c"
+  },
+  "scope": "Supplementary source-informed strict ledger owner/boundary controls frozen before implementation. No separate old-source behavioral baseline promised.",
+  "contracts": "Untyped surfaceoxide/exchangersupport/soapscum/nuclidematter explicitly refuses strict completeness. Correct tinygas in/out flux closes; mismatched/unbackedflux fails against reaction throughput rather than solvent background. Gasboundary formalcharge is not skipped. Lost third Amount correction is refused, without claiming arbitrary exact summation."
+}

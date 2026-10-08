@@ -1,0 +1,28 @@
+{
+  "historical_source": "8cdab1f6ecd0b1132c4008014a5a0c5476429d17",
+  "parent": "6ff42221604c2face169a59eb3032592c4181c9e",
+  "files": [
+    {
+      "path": "crates/kerotakis-core/tests/required_solver_conservation_contracts.rs",
+      "sha256": "af70bfbffe39e70fcaade81cccf6ef98be6a88126ef17b4c53b7c0c9c295a7d7",
+      "test_functions": 5
+    },
+    {
+      "path": "crates/kerotakis-core/tests/required_solver_ledger_boundaries.rs",
+      "sha256": "3f7925ada6932cbf741e486e9232a8d1a78f112e21e86dd28fb15f3a0e746238",
+      "test_functions": 25
+    },
+    {
+      "path": "audits/post-equilibrium-contracts-20261004/conservation-freeze.json",
+      "sha256": "05d53ed0de92877ecb8e75bfb51a1016c691d2e1780e66f94c0ecc60c7ed401b",
+      "test_functions": null
+    },
+    {
+      "path": "audits/required-solver-ledger-boundaries-20261004/freeze.json",
+      "sha256": "612595474f5226796ec7068e669bba2a874b5079d7b0b75b90587c111d92d68f",
+      "test_functions": null
+    }
+  ],
+  "expected_test_functions": 30,
+  "evidence_policy": "Historical public API contracts ported unchanged before production edits. Baseline lacks with_required_conservation and route policy APIs; missing-API compilation is not behavioral baseline evidence. Require repair compilation, all ported controls and inherited integration gates. Supplementary owner controls and their dependencies remain separately pending."
+}

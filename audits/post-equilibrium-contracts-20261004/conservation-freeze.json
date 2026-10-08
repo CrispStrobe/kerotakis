@@ -1,0 +1,8 @@
+{
+  "contracts": 5,
+  "files": {
+    "crates/kerotakis-core/tests/required_solver_conservation_contracts.rs": "af70bfbffe39e70fcaade81cccf6ef98be6a88126ef17b4c53b7c0c9c295a7d7"
+  },
+  "scope": "Explicit stack policy requires elemental conservation even when a custom route opts out. Legacy per-route policy is retained; production native solver coverage remains a separate audit.",
+  "baseline": "New constructor absent; missing-API compilation, not behavioral failure count."
+}

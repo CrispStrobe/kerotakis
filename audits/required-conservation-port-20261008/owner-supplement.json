@@ -1,0 +1,16 @@
+{
+  "source": "8cdab1f6ecd0b1132c4008014a5a0c5476429d17",
+  "scope": "Unchanged historical owner and gas-boundary supplement. Ported after implementation; not a new preimplementation freeze or independent forecast. Requires nuclide JSON persistence now integrated from PR769.",
+  "fixtures": [
+    {
+      "path": "crates/kerotakis-core/tests/required_solver_ledger_supplement.rs",
+      "sha256": "e0da8aa6f0f0cda7c50f2dd7dd8c8025fc3c24550832e23765162a99ba5f021c"
+    },
+    {
+      "path": "audits/required-solver-ledger-boundaries-20261004/supplementary-freeze.json",
+      "sha256": "bc4a1e8d9e32517f907b7a44b50116752818864edf6a092158789522b299f401"
+    }
+  ],
+  "expected_functions": 10,
+  "acceptance": "Compile and pass all ten controls, all existing strict-policy/schema/transaction fixtures, inherited workspace tests and five required final-head gates."
+}

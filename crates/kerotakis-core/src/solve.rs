@@ -78,6 +78,12 @@ pub enum SolverRouteKind {
 /// Re-equilibrates one vessel after an operator touched it.
 pub trait Equilibrator {
     fn name(&self) -> &'static str;
+    /// Opt into element-balance enforcement for routes with complete inventories
+    /// and explicit gas inlet/outlet events. Unsupported ledgers must not claim
+    /// this contract merely because their individual amounts are finite.
+    fn element_conservation_tolerance(&self) -> Option<f64> {
+        None
+    }
     fn route_kind(&self) -> SolverRouteKind {
         SolverRouteKind::Computed
     }
@@ -238,6 +244,7 @@ pub fn decline_reason(solver: &dyn Equilibrator, vessel: &Vessel) -> Option<Stri
 pub struct SolverStack {
     pub solvers: Vec<Box<dyn Equilibrator>>,
     pub last_routes: Vec<SolverRoute>,
+    required_conservation_tolerance: Option<f64>,
 }
 
 impl SolverStack {
@@ -245,17 +252,72 @@ impl SolverStack {
         SolverStack {
             solvers,
             last_routes: Vec::new(),
+            required_conservation_tolerance: None,
         }
     }
+    /// Require represented molecular-inventory and formal-charge closure from
+    /// every accepted route, including custom routes without their own policy.
+    /// Unsupported owned matter explicitly refuses this bounded certificate.
+    /// Differences precede elemental sums; tolerance is relative to changed
+    /// reaction throughput, with no absolute trace floor. Gas inlet/outlet events
+    /// extend that inventory boundary. This does not certify reaction energy or
+    /// the correctness of a derived aqueous-species distribution. A tighter
+    /// individual route tolerance is preserved. Legacy `new` enforces only individually opted-in
+    /// element policies; existing routes keep their current disposition.
+    pub fn with_required_conservation(
+        solvers: Vec<Box<dyn Equilibrator>>,
+        tolerance: f64,
+    ) -> Result<Self, SolveError> {
+        if !tolerance.is_finite() || tolerance <= 0.0 || tolerance >= 1.0 {
+            return Err(SolveError::NotConverged {
+                solver: "solver-stack".into(),
+                detail: "required conservation tolerance must be finite and between zero and one"
+                    .into(),
+            });
+        }
+        Ok(Self {
+            solvers,
+            last_routes: Vec::new(),
+            required_conservation_tolerance: Some(tolerance),
+        })
+    }
+
     // Numeric acceptance is shared with complete cloned proposals. Element
-    // balance/model coverage remain separate route-policy contracts.
+    // balance and strict owner coverage are explicit route-policy contracts.
     fn validate_result(
         before: &Vessel,
         after: &Vessel,
         events: &[Event],
+        required: Option<f64>,
+        route: Option<f64>,
     ) -> Vec<crate::delta::DeltaError> {
         let mut errors = crate::delta::StateDelta::validate_state(after);
         errors.extend(crate::delta::StateDelta::validate_gas_events(after, events));
+        if let Some(tolerance) = route {
+            if !tolerance.is_finite() || !(0.0..1.0).contains(&tolerance) {
+                errors.push(crate::delta::DeltaError::InvalidState {
+                    field: "route conservation tolerance".into(),
+                });
+                return errors;
+            }
+        }
+        let tolerance = match (required, route) {
+            (Some(a), Some(b)) => Some(a.min(b)),
+            (a, None) | (None, a) => a,
+        };
+        if let Some(tolerance) = tolerance {
+            if required.is_some() {
+                errors.extend(
+                    crate::required_conservation::validate_required_conservation(
+                        before, after, events, tolerance,
+                    ),
+                );
+            } else {
+                errors.extend(crate::delta::StateDelta::validate_conservation(
+                    before, after, events, tolerance,
+                ));
+            }
+        }
         if before.id != after.id || before.label != after.label {
             errors.push(crate::delta::DeltaError::InvalidState {
                 field: "solver target identity".into(),
@@ -306,7 +368,13 @@ impl Equilibrator for SolverStack {
             let checkpoint = vessel.clone();
             let result =
                 solver.equilibrate(vessel).and_then(|more| {
-                    let mut errors = Self::validate_result(&checkpoint, vessel, &more);
+                    let mut errors = Self::validate_result(
+                        &checkpoint,
+                        vessel,
+                        &more,
+                        self.required_conservation_tolerance,
+                        solver.element_conservation_tolerance(),
+                    );
                     if errors.is_empty() {
                         // Gas this solver sent out of the vessel, booked on the
                         // step's snapshot before the next solver runs: the
@@ -399,7 +467,13 @@ impl Equilibrator for SolverStack {
             let checkpoint = vessel.clone();
             match solver.mix(vessel, soln_a, frac_a, soln_b, frac_b) {
                 Some(Ok(events)) => {
-                    let errors = Self::validate_result(&checkpoint, vessel, &events);
+                    let errors = Self::validate_result(
+                        &checkpoint,
+                        vessel,
+                        &events,
+                        self.required_conservation_tolerance,
+                        solver.element_conservation_tolerance(),
+                    );
                     if errors.is_empty() {
                         return Some(Ok(events));
                     }
