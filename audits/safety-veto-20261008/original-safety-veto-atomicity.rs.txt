@@ -186,17 +186,15 @@ fn accepted(case: Case) {
     assert!(!events
         .iter()
         .any(|event| matches!(event, Event::SafetyVeto { .. })));
-    let has_success = events.iter().any(|event| {
-        matches!(
-            (case, event),
-            (Case::Add, Event::Added { .. })
-                | (Case::Material, Event::MaterialAdded { .. })
-                | (Case::Decant, Event::Transferred { .. })
-                | (Case::Mix, Event::Mixed { .. })
-                | (Case::Filter, Event::Filtered { .. })
-                | (Case::Discard, Event::Discarded { .. })
-                | (Case::Recover, Event::SpillRecovered { .. })
-        )
+    let has_success = events.iter().any(|event| match (case, event) {
+        (Case::Add, Event::Added { .. })
+        | (Case::Material, Event::MaterialAdded { .. })
+        | (Case::Decant, Event::Transferred { .. })
+        | (Case::Mix, Event::Mixed { .. })
+        | (Case::Filter, Event::Filtered { .. })
+        | (Case::Discard, Event::Discarded { .. })
+        | (Case::Recover, Event::SpillRecovered { .. }) => true,
+        _ => false,
     });
     assert!(has_success, "{case:?} retains its accepted operator event");
 }
