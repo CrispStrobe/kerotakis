@@ -65,3 +65,7 @@ gates. The expected-failure baseline branch must not merge.
 ## Fixture-access correction
 
 [Baseline 37731589674](https://github.com/CrispStrobe/kerotakis/actions/runs/37731589674) failed to compile because the integration fixture called private `Bench::vessel_mut`. No behavior was executed. The [adaptation receipt](fixture-access-adaptation.json) preserves original test bytes and hashes. The adapted fixture accesses the same vessel through the public collection; all expectations and assertions remain unchanged. Both baseline and repaired-source tests require fresh execution. Production visibility is unchanged.
+
+## Executed unchanged-production baseline
+
+[Run 37734167041](https://github.com/CrispStrobe/kerotakis/actions/runs/37734167041), source `a7e63d97d247668a1b299bfe7e997e70449059e4`, compiled 3 tests: 1 passed and 2 failed. [baseline.json](baseline.json) preserves the source, log hash, lock and individual outcomes. Composition-precision refusal and empty donor both invoke2solvers; successful cut passes. Remaining refusal table rows not reached. Failing table loops do not exercise subsequent rows. Repaired-source validation remains pending.
