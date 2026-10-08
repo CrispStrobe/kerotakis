@@ -1,0 +1,8 @@
+{
+  "left_commit": "26cd8fc7d3554ddadaeebeb2750b3a92c4eadf54",
+  "right_commit": "dec6b593d50fabdab2b45db855840e4cdd646673",
+  "left_tree": "3a18dfefb521905d4fc2d4f46bf4cb4ea4ae52c2",
+  "right_tree": "3a18dfefb521905d4fc2d4f46bf4cb4ea4ae52c2",
+  "complete_tree_equal": true,
+  "scope": "Accepted ordinary CLI candidate tree equals PR771 final head; fresh exact-head gates still required."
+}

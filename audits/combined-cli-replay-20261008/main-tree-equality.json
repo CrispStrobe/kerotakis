@@ -1,0 +1,8 @@
+{
+  "left_commit": "ee7132fe6835eb7535b413aa61430f94c618f0be",
+  "right_commit": "fdcfede0316aaa6432e0dc336e86b2b5169dddd3",
+  "left_tree": "6b9e494e5f7289592e61f9731ba4839fa9802568",
+  "right_tree": "6b9e494e5f7289592e61f9731ba4839fa9802568",
+  "complete_tree_equal": true,
+  "scope": "Accepted PR770 CLI tree equals merged main; no extension to later main trees."
+}

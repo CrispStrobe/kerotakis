@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "main_after_ports": "158a29f5a723f3d972a5507be6c5824437c32ecb",
+  "main_after_ports": "fdcfede0316aaa6432e0dc336e86b2b5169dddd3",
   "ports": [
     {
       "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/757",
@@ -529,6 +529,50 @@
         }
       ],
       "scope": "Canonical owned-nuclide JSON keys, identity/amount validation and duplicate rejection; all 11 persistence controls separately reviewed in native CI. No nuclear-model certification."
+    },
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/770",
+      "tested_head": "ee7132fe6835eb7535b413aa61430f94c618f0be",
+      "merge_commit": "fdcfede0316aaa6432e0dc336e86b2b5169dddd3",
+      "merged_at": "2026-10-08T18:29:26Z",
+      "required_checks": [
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37815261417/job/113442273401",
+          "started_at": "2026-10-08T17:49:49Z",
+          "completed_at": "2026-10-08T18:07:48Z"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37815261417/job/113442273878",
+          "started_at": "2026-10-08T18:04:38Z",
+          "completed_at": "2026-10-08T18:19:13Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37815261417/job/113442273782",
+          "started_at": "2026-10-08T17:24:51Z",
+          "completed_at": "2026-10-08T17:48:28Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37815261417/job/113442273934",
+          "started_at": "2026-10-08T18:00:32Z",
+          "completed_at": "2026-10-08T18:06:51Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37815261417/job/113442273662",
+          "started_at": "2026-10-08T18:03:39Z",
+          "completed_at": "2026-10-08T18:12:59Z"
+        }
+      ],
+      "scope": "105 focused native functions and five exact-head gates accepted. Complete merged tree matches independently reviewed 164-process CLI candidate. Strict policy remains opt-in; incomplete owners and energy remain open."
     }
   ],
   "scope": "Independent matching-head required PR gates. Not a full integrated-source audit/replay or performance acceptance.",

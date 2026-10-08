@@ -28,3 +28,5 @@ python3 -m unittest discover -s tools/tests -p test_native_controls_review.py
 A successful native review does not replace the remaining exact-head required gates, candidate/main source comparison, historical full-audit acceptance or scientific model validation.
 
 The initial #771 preflight exposed five tracer validity failures. [The repaired #771 plan](pr771-26cd8fc7-plan.json) binds head `26cd8fc7` and all 151 functions, including eight separately frozen ordinary-commit controls. Preserve the initial 143-function plan as its historical source snapshot. Neither plan is an execution receipt.
+
+[The integrated #771 plan](pr771-dec6b593-plan.json) binds final head `dec6b593` after actual main ancestry was merged. All fifteen fixture hashes and 151 functions are unchanged from `26cd8fc7`, but fresh exact-head native logs and required gates remain necessary. The existing `pr771-mac.json` receipt remains pinned to its original source.

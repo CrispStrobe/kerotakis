@@ -1,0 +1,72 @@
+{
+  "run": 37821260351,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37821260351",
+  "harness": "9fb301a6aacd25bd744367d6adf2bae6b01778c3",
+  "source_binding": {
+    "compiled_source": "26cd8fc7d3554ddadaeebeb2750b3a92c4eadf54",
+    "source_tree": "3a18dfefb521905d4fc2d4f46bf4cb4ea4ae52c2",
+    "source_kind": "PR771 ordinary-commit candidate; not merged main",
+    "binary_sha256": "d4c38b84407bd50a4e95563047d13776dcd3fb63c3d8f365d496cfd2f7bd377d",
+    "generated_lock_sha256": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac"
+  },
+  "submodules": {
+    "sundials-kinetics-rs": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+    "vendor/iphreeqc": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+  },
+  "harness_sha256": {
+    "audits/ordinary-delta-state-contracts-20261008/cli-source.json": "b42a44d3b287d9d218e2fc311cfe063a3968ff14669b6d12e34dc9ad4e03dea0",
+    "audits/main-cli-replay-20261008/forecast.json": "5c9eb5de22c2d4bcf9f11b3f62550083693af90e124779e8f1d000fc397fc2d5",
+    "tools/combined-cli-replay.py": "763cf2abe3f39845e691de18f6f1fab2d3548cb4a39eeb2adc262e6de38fd99f",
+    "tools/fifth-independent-50/run.py": "68938926231c1958ac9a17eca65b2407afd13ee9122f74b4f4921721caf637e8",
+    "tools/fifth-independent-50/review_profile.py": "6db04685d6cd5a723b5d68c7dbe3bfb92832e410b5d985070d0ffb86c8473647",
+    ".github/workflows/chemistry-audit.yml": "6d22ba501c9e51a8f72a137aae3b2fd67d92b60be3bd25461777eeced233ac63"
+  },
+  "build_evidence_sha256": {
+    "harness-commit.txt": "e9ab7a5c768701c5a542096d0ddf848efdd86ae5429639e99524a5eaa3f01c16",
+    "harness-sha256.txt": "3a726223a95a148c8988418bc3ee84743d2da114701b5f319e538edb736c284d",
+    "kero": "d4c38b84407bd50a4e95563047d13776dcd3fb63c3d8f365d496cfd2f7bd377d",
+    "source-tree.txt": "7c39e8ff717726f5457a018b8d266e09ae4aeae2570da1c02cc82dd0e9314977",
+    "source-commit.txt": "1cf34b7ab46cdd04533a883dd85ed5fb876afc6d5c153ecec1bc064cce236e9d",
+    "status-before.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "build-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "rustc.txt": "b569b0c98ea3133c7252b4b8ea6b39b7b353813df0dd5f5c412c355691424112",
+    "build-time.txt": "26fbeb21977e7b9cc3e18aee3156507151a36dce592c5c12074cea4d9a4f523f",
+    "submodules.txt": "dae123bd185b0dff0f0d7176cb509940c4f7f68da6087ad6e6ab003543dbdd47",
+    "release-strip.txt": "fcf33dfbe13c2354bf0e1b063f9fb422747a46cee00b7420bceff2b81457b345",
+    "Cargo.lock": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+    "cargo.txt": "1f88eaf7fe1aaec83184752cf4c944cd22f00184136ff36a3e4c318cc60ef566",
+    "rustflags.txt": "995723b1840a697d971477f4b7774090379eadaf7d3177bb793390d9a3a4bb23",
+    "build.log": "4293642836f0727b0b0c043eefe924f6f623baefd420cff224fd204fdd78cd13",
+    "binding.json": "8758e597931a7a1b0eba9fbb0b623ffb8aeb8eaa4a0b2f166d3601133a351a02"
+  },
+  "run_metadata_sha256": "ff2c6206b963e5e71389d13575593167e59b76c241dce1b8ab4043565d81731b",
+  "results_review_sha256": "91aa174700786fc789d92676b4eb20261cce5e2f0ca81dfe708aaef08465e62e",
+  "processes": 164,
+  "counts": {
+    "fifth": {
+      "expected_refusal": 3,
+      "passed": 46,
+      "qualified_agreement_with_model_notice": 1
+    },
+    "sixth": {
+      "passed": 49,
+      "qualified_agreement_with_model_notice": 1
+    }
+  },
+  "strict_stage_checks": {
+    "protocol": true,
+    "invalid_operator": true,
+    "invalid_cause": true,
+    "valid_operator": true,
+    "valid_accepted": true,
+    "invalid_full_vessel_state_preserved": true,
+    "valid_water_v1": true,
+    "valid_water_v2": true
+  },
+  "accepted_bounded_candidate_replay": true,
+  "limitations": [
+    "Disclosed corrected replay retains original outcomes and qualifications; no new independent forecasts.",
+    "No performance conclusion or complete physical-model acceptance.",
+    "Merged-main attribution requires separately recorded complete tree equality."
+  ]
+}
