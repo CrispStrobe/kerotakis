@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "repair_source_commit": "f539d2683f34be1a3be097186e608ba8b25d17ab",
+  "production_behavior_commit": "9140ee58",
+  "corrected_baseline_commit": "9ac78f3ceed24e68bce3802e3ae6bb047b511f7b",
+  "corrected_baseline_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37731003330",
+  "status": "Corrected baseline dispatched; repair with explicit closed-boundary fixtures not dispatched yet. Neither outcome is inferred.",
+  "files": [
+    {
+      "path": "crates/kerotakis-phreeqc/src/aqueous.rs",
+      "sha256": "3238241afaf9cbc43e1682d2d7be3f4c39149db5c08feca2c64047267e7a0dc7"
+    },
+    {
+      "path": "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/contracts_closed_boundary.rs",
+      "sha256": "f9da2826deb0e571615c9eb288f6598e6728263d8aef3d7fca0eed324ff46d05"
+    },
+    {
+      "path": "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/supplement_closed_boundary.rs",
+      "sha256": "22c68142e4f88ae9b9c7c6a0893217063551c2d4899fee836f0ad10287e69ae8"
+    }
+  ]
+}

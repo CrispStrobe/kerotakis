@@ -25,7 +25,7 @@ controls, eight numerical controls, nine cancellation/carbon/boundary controls,
 eight external-phase/refusal controls and seven original raw guards through
 the explicitly corrected complete-column harness. The original seven-test
 source is preserved unchanged; see [the adaptation](raw-harness-adaptation.json).
-These are source-informed boundary contracts, not fifty blind CLI experiments.
+The initial allocation and numerical fixture copies now explicitly clear inherited external gas boundaries; [the separate adaptation](closed-boundary-harness-adaptation.json) preserves originals and unchanged assertion bodies. Explicit open-carbon controls still install their own boundary. These are source-informed boundary contracts, not fifty blind CLI experiments.
 
 Hosted `pure-still-contracts` with `focused_scope=crystal-readback` runs the
 boundary contracts without a native engine. `focused_scope=native-budget`
