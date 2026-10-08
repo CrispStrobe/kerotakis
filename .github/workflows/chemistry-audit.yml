@@ -14,6 +14,7 @@ env:
   CARGO_TERM_COLOR: never
   CARGO_INCREMENTAL: '0'
   RUSTFLAGS: '-C debuginfo=1 -C force-frame-pointers=yes'
+  CARGO_PROFILE_RELEASE_STRIP: none
 
 jobs:
   build:
@@ -46,6 +47,7 @@ jobs:
           rustc -Vv > ../build-evidence/rustc.txt
           cargo -V > ../build-evidence/cargo.txt
           printf '%s\n' "$RUSTFLAGS" > ../build-evidence/rustflags.txt
+          printf '%s\n' "$CARGO_PROFILE_RELEASE_STRIP" > ../build-evidence/release-strip.txt
           python3 - <<'PY'
           import hashlib,json,pathlib,subprocess
           files=subprocess.check_output(['git','ls-files','-z','--','Cargo.toml','**/Cargo.toml']).decode().split('\0')
@@ -83,6 +85,7 @@ jobs:
         with:
           fetch-depth: 0
           sparse-checkout: |
+            .github/workflows
             audits/fifth-independent-50-20261008
             tools/fifth-independent-50
       - uses: actions/download-artifact@v7
@@ -124,6 +127,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           sparse-checkout: |
+            .github/workflows
             audits/fifth-independent-50-20261008
             tools/fifth-independent-50
       - uses: actions/download-artifact@v7

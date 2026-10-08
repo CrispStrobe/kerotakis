@@ -129,6 +129,8 @@ def evaluate(check, runs):
 def outcome(case, runs, checks):
     if any(r['timeout'] for r in runs.values()):
         return 'timeout'
+    if case['id'] != 'F49' and any(not r['final_inspection'] for r in runs.values()):
+        return 'missing_final_inspection_protocol_failure'
     if any(r['json_parse_errors'] for r in runs.values()):
         return 'harness_or_json_protocol_failure'
     if any(r['exit_code'] != 0 for r in runs.values()) and case['id'] != 'F49':
