@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37731328644",
+  "source_commit": "f61be163db36b4aca6399a5b68cf569ba3f66682",
+  "compile": "success",
+  "passed": 1,
+  "failed": 3,
+  "log_sha256": "b1b0a7fd9702016f960688912bd15f3c0a19c7902976c43df4177de0434a49d4",
+  "test_sha256": "0ad0fd422b9549c337c8a8403c1fc7ce64fe61c3b8b592a4d483db9b90d87020",
+  "generated_lock_sha256": "f82884ebf1ee635029a79c4ee913386f54e99adf40169c98a701cbb9fbfed194",
+  "toolchain": [
+    "rustc 1.99.0 (b940084d7 2026-09-28)",
+    "cargo 1.99.0 (5f94df478 2026-08-27)"
+  ],
+  "production": "Unchanged pre-short-circuit stock source; the baseline workflow binds source and tracked manifests before testing. Generated lock is preserved afterward.",
+  "interpretation": [
+    "Species/material stock refusal and invalid-species-request tests actually invoked a solver (observed calls1, expected0).",
+    "The accepted draw success control passed.",
+    "Failing table loops stop at their first assertion mismatch; later modes/inputs are not claimed exercised.",
+    "Earlier run37729403884 failed before tests due premature lockfile hashing and supplies no behavioral evidence.",
+    "Repair PR757 still requires its own exact-head gates."
+  ],
+  "outcomes": [
+    {
+      "test": "invalid_species_draw_skips_solver_and_preserves_state",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "refused_material_draw_skips_solver_in_both_stock_modes",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "refused_species_draw_skips_solver_in_both_stock_modes",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "successful_draw_still_runs_solver",
+      "outcome": "ok"
+    }
+  ]
+}
