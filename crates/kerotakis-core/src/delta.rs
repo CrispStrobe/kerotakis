@@ -668,6 +668,63 @@ impl StateDelta {
             .collect()
     }
 
+    /// Shared element ledger for native and delta solver commits. GasContained
+    /// reports owned matter; only transfers extend the conserved boundary.
+    pub(crate) fn validate_conservation(
+        before: &crate::vessel::Vessel,
+        after: &crate::vessel::Vessel,
+        events: &[crate::ops::Event],
+        tolerance: f64,
+    ) -> Vec<DeltaError> {
+        let mut errors = Self::validate_gas_events(after, events);
+        if !tolerance.is_finite() || tolerance < 0.0 {
+            errors.push(DeltaError::InvalidState {
+                field: "conservation tolerance".into(),
+            });
+        }
+        if !errors.is_empty() {
+            return errors;
+        }
+        let mut ledger_before = crate::ledger::ConservedLedger::from_vessel(before);
+        let mut ledger_after = crate::ledger::ConservedLedger::from_vessel(after);
+        for event in events {
+            let (species, moles) = match event {
+                crate::ops::Event::GasEvolved { species, moles, .. } => (species, moles.0),
+                crate::ops::Event::GasAbsorbed { species, moles, .. } => (species, -moles.0),
+                _ => continue,
+            };
+            let formula = crate::species::lookup(species)
+                .and_then(|data| crate::stoich::parse_formula(data.formula).ok())
+                .expect("gas event validated");
+            for (element, count) in formula.counts {
+                if moles >= 0.0 {
+                    *ledger_after.elements.entry(element).or_default() += moles * count;
+                } else {
+                    *ledger_before.elements.entry(element).or_default() -= moles * count;
+                }
+            }
+        }
+        if ledger_before
+            .elements
+            .values()
+            .chain(ledger_after.elements.values())
+            .any(|v| !v.is_finite())
+        {
+            return vec![DeltaError::InvalidState {
+                field: "aggregate element ledger".into(),
+            }];
+        }
+        ledger_before
+            .check_against(&ledger_after, tolerance, 1e-15)
+            .into_iter()
+            .filter(|v| v.quantity.starts_with("element:"))
+            .map(|v| DeltaError::ElementImbalance {
+                element: v.quantity.strip_prefix("element:").unwrap().into(),
+                net: v.delta,
+            })
+            .collect()
+    }
+
     pub fn with_electrode_moles(
         mut self,
         electrode: impl Into<String>,
@@ -1311,47 +1368,40 @@ impl StateDelta {
         vessel: &mut crate::vessel::Vessel,
         tolerance: f64,
     ) -> Result<(), Vec<DeltaError>> {
-        // Step 1: positivity
-        let errors = self.validate(vessel);
+        self.commit_conserved_with_events(vessel, tolerance, &[])
+    }
+
+    /// Audit represented element inventory including explicit gas inlet/outlet
+    /// events. Contained gas remains owned and is not an external transfer.
+    /// State and trial events are accepted together by the caller.
+    pub fn commit_conserved_with_events(
+        &self,
+        vessel: &mut crate::vessel::Vessel,
+        tolerance: f64,
+        events: &[crate::ops::Event],
+    ) -> Result<(), Vec<DeltaError>> {
+        let mut errors = self.validate(vessel);
+        if !tolerance.is_finite() || tolerance < 0.0 {
+            errors.push(DeltaError::InvalidState {
+                field: "conservation tolerance".into(),
+            });
+        }
+        errors.extend(Self::validate_gas_events(vessel, events));
         if !errors.is_empty() {
             return Err(errors);
         }
-
-        // Step 2: snapshot before
         let snapshot = vessel.clone();
-        let ledger_before = crate::ledger::ConservedLedger::from_vessel(vessel);
-
-        // Step 3: apply
         self.apply(vessel);
-
-        // Step 4: check conservation
-        let ledger_after = crate::ledger::ConservedLedger::from_vessel(vessel);
-        let violations = ledger_before.check_against(&ledger_after, tolerance, 1e-15);
-
-        // Only element violations are conservation errors; mass drift from
-        // molar-mass table precision is expected and not a rollback reason.
-        let element_violations: Vec<_> = violations
-            .iter()
-            .filter(|v| v.quantity.starts_with("element:"))
-            .collect();
-
-        if !element_violations.is_empty() {
-            // Step 5: rollback
+        let mut errors = Self::validate_state(vessel);
+        errors.extend(Self::validate_conservation(
+            &snapshot, vessel, events, tolerance,
+        ));
+        if errors.is_empty() {
+            Ok(())
+        } else {
             *vessel = snapshot;
-            return Err(element_violations
-                .into_iter()
-                .map(|v| DeltaError::ElementImbalance {
-                    element: v
-                        .quantity
-                        .strip_prefix("element:")
-                        .unwrap_or(&v.quantity)
-                        .to_string(),
-                    net: v.delta,
-                })
-                .collect());
+            Err(errors)
         }
-
-        Ok(())
     }
 
     /// Total moles of a given species across all changes in this delta.
