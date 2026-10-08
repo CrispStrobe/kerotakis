@@ -8299,3 +8299,15 @@ mod solid_solution_raw_readback_contracts_budget;
 #[cfg(test)]
 #[path = "../tests/solid_solution_phase_budget/supplement.rs"]
 mod solid_solution_raw_readback_contracts_budget_supplement;
+
+#[cfg(test)]
+#[path = "../tests/solid_solution_phase_budget/cancellation.rs"]
+mod solid_solution_raw_readback_contracts_cancellation;
+
+#[cfg(test)]
+#[path = "../tests/solid_solution_phase_budget/raw_carbon.rs"]
+mod solid_solution_raw_readback_contracts_raw_carbon;
+
+#[cfg(test)]
+#[path = "../tests/solid_solution_phase_budget/external_boundaries.rs"]
+mod solid_solution_raw_readback_contracts_external_boundaries;
