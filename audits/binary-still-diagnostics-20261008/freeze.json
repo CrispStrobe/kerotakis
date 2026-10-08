@@ -1,0 +1,8 @@
+{
+  "base_commit": "45c44a4a84a521b909d49840f86d183f4d78fe06",
+  "test_path": "crates/kerotakis-core/tests/still_refusal_diagnostics.rs",
+  "sha256": "6e0faaa3f4a05704845748e7853bb784715950cd49a1cca05f69de2fa74789b0",
+  "expected_before_repair": "Refused binary cuts retain generic no-bubble-point diagnosis and run downstream solvers; controls should fail behaviorally. Not an executed baseline.",
+  "forecast": "Six independently declared refusal cases preserve full bench state except attempted-operation log, with exact diagnostic categories and zero solver calls. A pure-water positive control transfers0.1mol and invokes both solvers.",
+  "validation": "Source/format/diff checks only. No local or hosted execution yet."
+}

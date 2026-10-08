@@ -1,0 +1,13 @@
+{
+  "thermo_prerequisite": 758,
+  "base_commit": "45c44a4a84a521b909d49840f86d183f4d78fe06",
+  "forecast_commit": "8aa5ae09",
+  "sha256": {
+    "crates/kerotakis-core/src/bench.rs": "5a300d41a4967d00648a541a683f09448bf63610c7583bf1ad17d4d749268f70",
+    "crates/kerotakis-core/i18n/de.toml": "d76d68c6d34e9f8035e38f52e3f5b719185a26d822512a82d32e6d9023fc1fb4",
+    "crates/kerotakis-core/i18n/fr.toml": "887f7fd94a1d5c7a239f2391494e37cbac9fd4c6e2012006a65501beb99c80ad",
+    "crates/kerotakis-core/tests/still_refusal_diagnostics.rs": "6e0faaa3f4a05704845748e7853bb784715950cd49a1cca05f69de2fa74789b0"
+  },
+  "validation": "rustfmt, diff, TOML parsing/key completeness and frozen test hash only; no local or hosted execution",
+  "status": "Prepared locally; not pushed or accepted"
+}

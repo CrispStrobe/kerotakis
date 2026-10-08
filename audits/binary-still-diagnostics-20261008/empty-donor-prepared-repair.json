@@ -1,0 +1,16 @@
+{
+  "supplementary_forecast_commit": "c5efb4166041578244cac3c6022c33f6ea59cecf",
+  "original_forecast_commit": "8aa5ae0926ea48af2adec4495e267e706bfdecf2",
+  "baseline_harness_commit": "09643a7199b7d5a0fa65eb38e2de374ae86af891",
+  "baseline_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37731589674",
+  "baseline_status": "dispatched; execution pending",
+  "superseded_runs": {
+    "37731242434": "cancelled before execution; premature source lock hash",
+    "37731334165": "cancelled while queued; superseded to include empty-donor expectation"
+  },
+  "sha256": {
+    "crates/kerotakis-core/src/bench.rs": "81f85c28f6d40af92f9abd651afb9b9b9f698f55c784f9984e02fb4d48f5fff7",
+    "crates/kerotakis-core/tests/still_refusal_diagnostics.rs": "a86951492230657d16002e68aa5372069ba8cf97111218b1929f97dabd578958"
+  },
+  "validation": "rustfmt/diff/source-byte checks only; not executed acceptance"
+}

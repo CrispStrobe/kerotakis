@@ -1,6 +1,6 @@
 # Chemistry audit: actionable next lanes
 
-Read [the current checkpoint](chemistry-audit-status-20261005.md) first. These are proposed, uncompleted tasks, scoped for a fresh agent. They cover audit followup, not every pre-existing product roadmap item. Keep existing task numbers unchanged; the IDs here form a separate namespace.
+Read [the current checkpoint](chemistry-audit-status-20261008.md) first. These lanes describe delivered prerequisites and remaining tasks for a fresh agent; check each status note before implementing its original proposal. They cover audit followup, not every pre-existing product roadmap item. Keep existing task numbers unchanged; the IDs here form a separate namespace.
 
 ## Shared execution contract
 
@@ -39,7 +39,7 @@ AUD-01/AUD-02/VAL-01 must not edit native reconstruction concurrently. NUM-02/NU
 
 ## AUD-00 — Integrate the accepted audit branch without losing evidence
 
-**Problem:** accepted branch behavior is not yet main behavior. Start from the checkpoint's main/branch comparison, then refresh it.
+**Status:** Amount #756, stock #757, thermo #758 and the bounded native allocation/readback port #760 are merged. Binary diagnostics #759, safety #762, preflight #763 and ideal diagnostics #764 remain under validation. Start from the current checkpoint and main/branch comparison; do not recreate delivered ports. The full combined-source audit and preserved replays remain required.
 
 **Do:** inventory `git log main..audit/systematic-chemistry-20261002`, patch dependencies and touched files. Group portable PRs by behavior: transfer/spill/extraction; final safety/titration; strict conservation/Amount/stock; numeric/nuclide/observable/narration changes; crystal ownership/readback; evidence/harness updates. Preserve prerequisite tests and freezes with each group. Re-author or cherry-pick coherent changes only after comparing current main; a single late repair commit cannot stand alone when its foundation is absent.
 
@@ -49,15 +49,19 @@ AUD-01/AUD-02/VAL-01 must not edit native reconstruction concurrently. NUM-02/NU
 
 ## AUD-01 — Reject native phase overdraw before remainder clamping
 
+**Status:** the bounded Ca/Sr/C allocation and refusal slice is merged in #760 with independent baseline and required PR gates. Preserve its contracts and disclosed fixtures. Remaining work is combined-source audit verification and any separately requested owner-domain expansion; do not replace the checked budget with a fresh clamp.
+
 **Start:** `crates/kerotakis-phreeqc/src/aqueous.rs`, `crates/kerotakis-phreeqc/tests/solid_solution.rs`, [raw-guard plan](https://github.com/CrispStrobe/kerotakis/blob/9331f9e974ff460a91a1617883ae22e1d319e4d1/audits/solid-solution-raw-guards-20261004/NEXT.md).
 
 **Do:** define one nonduplicated available Ca/Sr/C budget from initial aqueous, primary solid, typed crystal and closed gas owners. Check final solid/gas allocations before computing an aqueous remainder. Audit what `problem.totals` already contains. Reject missing, negative/nonfinite gas readback and nonfinite sums; do not let `filter_map` remove owned gas. External carbon exchange remains an explicitly open boundary; Ca/Sr still close.
 
-**Freeze:** initial Ca 0.005, Sr 0.004, C 0.009 mol; final typed CaCO3 0.002 and SrCO3 0.003 mol leaves aqueous 0.003/0.001/0.004 mol. Accept that supported fixture. Refuse CaCO3 0.006, SrCO3 0.005 or excessive closed CO2. Include primary-solid co-owners, exact exhaustion, tiny scaled inventories and malformed gas columns. Declare rounding/arithmetic allowances independently before testing.
+**Freeze:** explicitly establish closed versus external headspace boundaries; do not infer closure from default vessel construction or from clearing owned gases alone. Preserve original fixtures when correcting setup ambiguities. Initial Ca 0.005, Sr 0.004, C 0.009 mol; final typed CaCO3 0.002 and SrCO3 0.003 mol leaves aqueous 0.003/0.001/0.004 mol. Accept that supported fixture. Refuse CaCO3 0.006, SrCO3 0.005 or excessive closed CO2. Include primary-solid co-owners, exact exhaustion, tiny scaled inventories and malformed gas columns. Declare rounding/arithmetic allowances independently before testing.
 
 **Done:** direct budget controls and existing live precipitation/dissolution/repeat tests pass, overdraw refuses before projection, and native/stack callers preserve complete state on refusal. This establishes bounded element allocation, not speciation or heat accuracy.
 
 ## AUD-02 — Bound raw aqueous correction and prove reporting normalization
+
+**Status:** bounded exclusive readback and refusal of unwitnessed inclusive/surface/exchange cases are merged in #760. Remaining work is combined-source audit verification. Any promotion of a refused reporting route needs a new same-solve witness contract and frozen baseline before implementation; preserving explicit refusal is valid bounded behavior.
 
 **Start:** native selected totals/readback in `aqueous.rs`; `vendor/iphreeqc/src/phreeqcpp/print.cpp` (`punch_totals`) and `model.cpp` (master-total accumulation).
 
@@ -69,13 +73,15 @@ AUD-01/AUD-02/VAL-01 must not edit native reconstruction concurrently. NUM-02/NU
 
 ## NUM-01 — Decide authoritative amount ownership, APIs and save compatibility
 
+**Status:** the Amount primitive, authoritative stock owner and versioned stock saves are merged in #756/#757. The stock owner is the completed narrow foundation; authoritative vessel migration remains open. Read [the existing ownership decision](chemistry-amount-ownership-decision-20261007.md) before changing APIs.
+
 **Start:** `crates/kerotakis-core/src/amount.rs`, `stock.rs`, `vessel.rs`; [migration contract](https://github.com/CrispStrobe/kerotakis/blob/9331f9e974ff460a91a1617883ae22e1d319e4d1/audits/compensated-amount-contracts-20261004/MIGRATION.md).
 
-**Do:** document the choice between changing public `Moles(f64)` and changing public inventory entry APIs, including struct literals, `.0` consumers, WASM DTOs and lots. Choose one narrow nonreacting owner and keep its compensated amount authoritative. Do not attach a residual sidecar to mutable/replaced portion vectors. Treat scalar model/display values as projections with explicit error contracts.
+**Do:** complete a workspace-wide inventory of vessel writers/readers, struct literals, `.0` consumers, WASM DTOs, lots and save/load paths. Publish a repository-relative table with each symbol, authority/projection role, proposed replacement and owning migration lane. Refine the existing decision to keep `Moles(f64)` as a projection and make vessel inventory private; explicitly review the Rust API break and persistence schema. Implement one bounded nonreacting vessel-owner path after freezing its expectations; do not rebuild the completed stock owner. Do not attach a residual sidecar to mutable/replaced portion vectors. Treat scalar model/display values as projections with explicit error contracts.
 
 **Freeze:** old scalar saves load with zero low component; new saves retain normalized finite pairs; old readers reject nonzero residual-bearing schemas; malformed/negative/overflow states refuse. Test tiny changes against bulk background, duplicate portions, cancellation, exact exhaustion and rollback. Existing opt-in stock behavior and default conservative policy remain unchanged.
 
-**Done:** a reviewed API/schema decision, complete writer/reader inventory and one fully migrated bounded owner. Primitive tests alone do not complete vessel migration.
+**Done:** a reviewed vessel API/schema decision, complete writer/reader inventory and one fully migrated bounded vessel-owner path, with its remaining writers explicitly assigned to NUM-02/03. Existing stock/primitive acceptance alone does not complete this lane.
 
 ## NUM-02 — Migrate mechanical inventory mutations completely
 
