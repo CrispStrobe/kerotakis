@@ -1475,7 +1475,6 @@ still-unsupported-boundary = "La distillation binaire a rencontré une limite de
 # could never reach any of these. New German, authored.
 cooling-below-absolute-zero = "ce récipient n'avait que {available} kJ à céder avant le zéro absolu, et on lui en a demandé {asked} kJ. Aucun fluide frigorigène n'est modélisé ici — rien ne fixe la température de l'environnement — le reste ne pouvait donc simplement pas être retiré. La chaleur que contient une substance est intégrée sur sa propre capacité thermique là où le registre en porte une, mais en dessous d'environ 200 K même une courbe tabulée est à court de table et est maintenue constante : ce plancher est donc une limite de modèle et non une mesure"
 co-evaporation = "la co-évaporation de {liquids} demande un équilibre liquide-vapeur — c'est le travail de `distil` ; seule l'eau a été retirée"
-no-bubble-point = "un point de bulle pour ce mélange à {pressure} kPa — hors des domaines d'Antoine ajustés"
 distribution-coefficient-temperature = "le coefficient de partage {upper}/{lower} de {species} n'est vérifié qu'à {reviewed} K (tolérance +/- {tolerance} K) ; ce récipient est à {actual} K"
 not-an-extracting-solvent = "{solvent} n'est pas un solvant d'extraction liquide dans les conditions ambiantes"
 water-distribution-coefficient-temperature = "le coefficient de partage {solvent}/eau de {solute} n'est vérifié qu'à {reviewed} K (tolérance +/- {tolerance} K) ; ce récipient est à {actual} K"

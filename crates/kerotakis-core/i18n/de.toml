@@ -1683,7 +1683,6 @@ still-unsupported-boundary = "Die binäre Destille hat eine nicht unterstützte 
 # could never reach any of these. New German, authored.
 cooling-below-absolute-zero = "dieses Gefäß konnte bis zum absoluten Nullpunkt nur {available} kJ abgeben, verlangt wurden {asked} kJ. Hier ist kein Kühlmittel modelliert — nichts legt fest, wie kalt die Umgebung ist — der Rest konnte also schlicht nicht entzogen werden. Die Wärme, die ein Stoff hält, wird über seine eigene Wärmekapazität integriert, wo das Verzeichnis eine führt; unterhalb von etwa 200 K ist aber selbst eine tabellierte Kurve am Ende der Tabelle und wird flach gehalten, diese Untergrenze ist also eine Modellgrenze und keine Messung"
 co-evaporation = "die gemeinsame Verdampfung von {liquids} braucht ein Dampf-Flüssigkeits-Gleichgewicht — das ist die Aufgabe von `distil`; entfernt wurde nur das Wasser"
-no-bubble-point = "einen Siedebeginn für dieses Gemisch bei {pressure} kPa — außerhalb der angepassten Antoine-Bereiche"
 distribution-coefficient-temperature = "der Verteilungskoeffizient von {species} für {upper}/{lower} ist nur bei {reviewed} K geprüft (Toleranz +/- {tolerance} K); dieses Gefäß ist bei {actual} K"
 not-an-extracting-solvent = "{solvent} ist bei Raumbedingungen kein flüssiges Extraktionsmittel"
 water-distribution-coefficient-temperature = "der Verteilungskoeffizient von {solute} für {solvent}/Wasser ist nur bei {reviewed} K geprüft (Toleranz +/- {tolerance} K); dieses Gefäß ist bei {actual} K"

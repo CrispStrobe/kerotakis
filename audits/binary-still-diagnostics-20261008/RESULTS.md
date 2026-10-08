@@ -69,3 +69,7 @@ gates. The expected-failure baseline branch must not merge.
 ## Executed unchanged-production baseline
 
 [Run 37734167041](https://github.com/CrispStrobe/kerotakis/actions/runs/37734167041), source `a7e63d97d247668a1b299bfe7e997e70449059e4`, compiled 3 tests: 1 passed and 2 failed. [baseline.json](baseline.json) preserves the source, log hash, lock and individual outcomes. Composition-precision refusal and empty donor both invoke2solvers; successful cut passes. Remaining refusal table rows not reached. Failing table loops do not exercise subsequent rows. Repaired-source validation remains pending.
+
+## Translation cleanup after checked binary diagnostics
+
+The checked binary API replaced the final `no-bubble-point` caller. A workspace-wide tracked Rust search confirms no remaining use; remove only its DE/FR entries and preserve their exact lines/hashes in [the receipt](locale-orphan-removal.json). The still-active additional-solvent domain key remains. No Rust code or expectations change; fresh required CI is pending.
