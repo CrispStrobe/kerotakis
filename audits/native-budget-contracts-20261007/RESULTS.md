@@ -41,6 +41,16 @@ Production refinements and the complete-column harness await hosted native and l
 
 ## Latest source and pending gates
 
-The current production repair is [9140ee58](https://github.com/CrispStrobe/kerotakis/commit/9140ee58). The [50 boundary contracts](README.md) include external-phase validation and complete native/stack refusal preservation. [Native/live validation 37730149327](https://github.com/CrispStrobe/kerotakis/actions/runs/37730149327) is queued. Refinement baseline [37729480945](https://github.com/CrispStrobe/kerotakis/actions/runs/37729480945) and external-phase baseline [37730066599](https://github.com/CrispStrobe/kerotakis/actions/runs/37730066599) are queued separately. No results are inferred from queue state.
+The current production repair is [9140ee58](https://github.com/CrispStrobe/kerotakis/commit/9140ee58). The [50 boundary contracts](README.md) include external-phase validation and complete native/stack refusal preservation. [Native/live validation 37730149327](https://github.com/CrispStrobe/kerotakis/actions/runs/37730149327) is queued. Refinement baseline [37729480945](https://github.com/CrispStrobe/kerotakis/actions/runs/37729480945) completed as described below; external-phase baseline [37730066599](https://github.com/CrispStrobe/kerotakis/actions/runs/37730066599) remains a separate gate. No results are inferred from queue state.
 
 The earlier unstarted repair dispatches 37729120125 and 37729728076 were cancelled and superseded by the complete native/live scope. They are not acceptance evidence. [The source inventory](repair-source-9140.json) binds the production module and frozen/adapted contracts; original receipt files remain unchanged. This repair branch is not yet integrated into main or released.
+
+## First-repair refinement baseline
+
+[Run 37729480945](https://github.com/CrispStrobe/kerotakis/actions/runs/37729480945) compiled and executed 42 cache-only contracts at `5767d34ffcea3bfc8ad764499072300226b96821`: **29 passed, 13 failed**. [The immutable receipt](refinement-baseline.json) binds the artifact log and every outcome. The original seven raw component controls passed; the original allocation/reconciliation group passed 14 of 18; the supplement passed seven of eight; the nine new refinement controls passed one and failed eight.
+
+The newly frozen failures demonstrate cancellation refusal, two external gas-phase identity refusals, a noncarbon boundary incorrectly opening carbon, and four missing/malformed raw carbon bypasses. Complete zero-carbon readback passed. These are actual executed assertions, not compilation or workflow failures.
+
+Five older failures have a distinct fixture boundary ambiguity: the allocation and supplemental helpers start from an open vessel, clear `problem.phases` and `problem.gases`, but retain atmospheric CO2 in `problem.external_gases`. The affected assertions are closed-carbon gas overdraw, ten-percent raw carbon deficit/excess, missing aqueous carbon with a positive remainder, and malformed initial closed gas. Those results cannot independently establish a failure under a genuinely closed carbon boundary. Original bytes and outcomes remain preserved; a corrected closed-boundary harness must disclose its adaptation and obtain fresh hosted evidence.
+
+This baseline precedes the production refinements and is not acceptance evidence. It contains no live precipitation/dissolution/repeated-equilibrium execution.
