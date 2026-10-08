@@ -171,3 +171,37 @@ fn invalid_conservation_tolerance_refuses_unchanged_or_unbalanced_proposals() {
         assert_eq!(key(&v), before);
     }
 }
+
+struct Physical(Flow);
+impl Equilibrator for Physical {
+    fn name(&self) -> &'static str {
+        "physical-boundary"
+    }
+    fn chemistry_applies(&self, _: &Vessel) -> bool {
+        false
+    }
+    fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+        self.0.equilibrate(vessel)
+    }
+}
+#[test]
+fn physical_boundary_events_obey_numeric_identity_validation() {
+    let mut v = water();
+    let before = key(&v);
+    let mut f = flow(Boundary::Out, 0.0, 1.0);
+    f.event_vessel = VesselId(99);
+    let events = Orchestrator::new(vec![Box::new(Physical(f))])
+        .equilibrate(&mut v)
+        .unwrap();
+    assert!(matches!(&events[..], [Event::SolverFailed { .. }]));
+    assert_eq!(key(&v), before);
+}
+#[test]
+fn supported_physical_boundary_retains_existing_disposition() {
+    let mut v = water();
+    let events = Orchestrator::new(vec![Box::new(Physical(flow(Boundary::Out, 1.0, 1.0)))])
+        .equilibrate(&mut v)
+        .unwrap();
+    assert!(matches!(&events[..], [Event::GasEvolved { .. }]));
+    assert_eq!(v.moles_of(&SpeciesId::new("water")), Moles(4.0));
+}

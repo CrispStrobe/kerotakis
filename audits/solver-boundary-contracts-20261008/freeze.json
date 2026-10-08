@@ -1,7 +1,7 @@
 {
   "scope": "Source-informed orchestration gas-boundary conservation, frozen before production changes or execution.",
   "baseline_production": "61ee9cd1a728e4e9bc8471029750372ed870d376",
-  "fixture_sha256": "90b94c98e38e654fc62ba11868e7e4ba93e71903994dc7e3d79723a72ff21b04",
+  "fixture_sha256": "dfb28abdd607c8d62506783a06f12c92b516659bb309824fb01ba8b9fdc97740",
   "test_functions": [
     "balanced_outlet_commits_owned_state_and_event_together",
     "balanced_inlet_commits_owned_state_and_event_together",
@@ -12,11 +12,16 @@
     "contained_gas_remains_owned_without_double_counting_boundary",
     "unaccompanied_finite_boundary_flux_cannot_hide_as_metadata",
     "overflowing_element_boundary_refuses_even_with_finite_event_amount",
-    "invalid_conservation_tolerance_refuses_unchanged_or_unbalanced_proposals"
+    "invalid_conservation_tolerance_refuses_unchanged_or_unbalanced_proposals",
+    "physical_boundary_events_obey_numeric_identity_validation",
+    "supported_physical_boundary_retains_existing_disposition"
   ],
   "expected_repair": "Every control passes, with balanced inlet/outlet/contained cases supported and malformed or unbalanced cases atomically refused.",
   "limitations": [
     "Element accounting is separate from reaction energy and quantitative gas-model correctness.",
     "Legacy absolute conservation floor and incomplete owner coverage remain separate tasks; this suite uses unit-scale explicit inventories."
-  ]
+  ],
+  "original_10_fixture_sha256": "90b94c98e38e654fc62ba11868e7e4ba93e71903994dc7e3d79723a72ff21b04",
+  "original_freeze_commit": "1c4ab3a32a48a5da5299d3fb21a212ea6737ea1f",
+  "extension": "Two physical-route event validity/positive controls added before production edits or execution."
 }
