@@ -1,0 +1,7 @@
+{
+  "source_commit": "605c37366416d23c804ae831ae684833aa390897",
+  "test_path": "crates/kerotakis-core/tests/withdrawal_trace.rs",
+  "test_sha256": "d38347675bb83cc6a9defabc052ad91c786cf05beb74147775d989a7ec481583",
+  "test_functions": 10,
+  "execution": "Not executed; source-informed controls frozen before production changes."
+}
