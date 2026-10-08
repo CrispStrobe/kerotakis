@@ -10,6 +10,7 @@ on:
           - fifty
           - syntax-replay
           - sixth-fifty
+          - semantic-replay
           - solid-index-comparison
 
 permissions:
@@ -157,8 +158,8 @@ jobs:
           if-no-files-found: error
 
   sixth-fifty:
-    name: Execute another fifty independently frozen experiments
-    if: inputs.campaign == 'sixth-fifty'
+    name: Frozen CLI evidence (${{ inputs.campaign }})
+    if: inputs.campaign == 'sixth-fifty' || inputs.campaign == 'semantic-replay'
     runs-on: ubuntu-latest
     timeout-minutes: 75
     steps:
@@ -188,12 +189,13 @@ jobs:
         run: >-
           python3 tools/sixth-independent-50/run.py
           --binary build-evidence/kero
-          --forecast audits/sixth-independent-50-20261008/forecast.json
+          --forecast audits/sixth-independent-50-20261008/${{ inputs.campaign == 'semantic-replay' && 'semantic-replay.json' || 'forecast.json' }}
+          --mode ${{ inputs.campaign }}
           --out sixth-experiments
       - uses: actions/upload-artifact@v6
         if: always()
         with:
-          name: sixth-fifty-${{ github.run_id }}
+          name: ${{ inputs.campaign == 'semantic-replay' && 'sixth-semantic-replay' || 'sixth-fifty' }}-${{ github.run_id }}
           path: |
             sixth-experiments/
             sixth-harness-evidence/

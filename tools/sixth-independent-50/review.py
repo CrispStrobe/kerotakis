@@ -32,7 +32,7 @@ def archived(directory,script):
     return dict(envelope,**parsed)
 def review(forecast,directory):
     original=json.loads((directory/'results.json').read_text())
-    expected=dict(source_commit=forecast['source_commit'],forecast_sha256=binding.FORECAST_SHA,binary_sha256=binding.BINARY_SHA)
+    expected=dict(source_commit=forecast['source_commit'],forecast_sha256=(binding.SEMANTIC_SHA if forecast.get('campaign')=='sixth-semantic-replay-20261008' else binding.FORECAST_SHA),binary_sha256=binding.BINARY_SHA)
     for k,v in expected.items():
         if original.get(k)!=v: raise ValueError(f'{k} binding mismatch')
     if [r['id'] for r in original['results']] != [c['id'] for c in forecast['cases']]: raise ValueError('Missing, reordered or duplicate cases')
@@ -51,7 +51,7 @@ def review(forecast,directory):
     counts={name:sum(r['outcome']==name for r in rows) for name in sorted({r['outcome'] for r in rows})}
     if counts!=original['counts']: raise ValueError('Outcome counts mismatch')
     return dict(**expected,integrity_verified=True,cases=len(rows),cli_processes=sum(len(c['variants']) for c in forecast['cases']),
-                counts=counts,ordinary_50_of_50=counts=={'passed':50},results_sha256=binding.digest(directory/'results.json'),
+                counts=counts,ordinary_50_of_50=len(rows)==50 and counts=={'passed':50},all_ordinary_passes=counts=={'passed':len(rows)},results_sha256=binding.digest(directory/'results.json'),
                 limitations=['Offline re-evaluation, no new application execution.',
                              'Execution envelopes supply exit codes and timings; input/stdout/stderr are individually hash checked.',
                              'Model qualifications remain distinct from ordinary passes.',
@@ -60,10 +60,10 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--forecast',type=Path,required=True);p.add_argument('--out-dir',type=Path,required=True);p.add_argument('--report',type=Path,required=True)
     a=p.parse_args()
-    if binding.digest(a.forecast)!=binding.FORECAST_SHA: raise SystemExit('Frozen forecast hash mismatch')
+    if binding.digest(a.forecast) not in (binding.FORECAST_SHA,binding.SEMANTIC_SHA): raise SystemExit('Frozen forecast hash mismatch')
     if a.out_dir.resolve() in a.report.resolve().parents: raise SystemExit('Report must be outside the preserved artifact')
     report=review(json.loads(a.forecast.read_text()),a.out_dir)
     with a.report.open('x') as f: json.dump(report,f,indent=2,allow_nan=False);f.write('\n')
     print(json.dumps({k:report[k] for k in ['integrity_verified','cases','cli_processes','counts','ordinary_50_of_50']}))
-    return int(not report['ordinary_50_of_50'])
+    return int(not report['all_ordinary_passes'])
 if __name__=='__main__':sys.exit(main())
