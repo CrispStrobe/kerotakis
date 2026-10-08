@@ -10,7 +10,7 @@ Each lane must produce independently declared expectations, a preserved failing 
 
 Use existing hosted validation in `.github/workflows/chemistry-audit.yml`; bind replay to a successful `validated_run` and its exact `validated_commit`. Run only the checks needed for the change, then required integration gates. Do not substitute the selected 17-stage audit for the repository's full required PR gates. One workflow concurrency group cancels older runs on the same ref: wait for completion before dispatching a dependent replay. Private machine policy controls local execution and agent count.
 
-## Current priority order — 2026-10-08 17:20 UTC
+## Current priority order — 2026-10-08 17:33 UTC
 
 Use [the integration checkpoint](../audits/integration-20261008/STATUS.md) for actual delivered heads and reviewed receipts; the earlier dated checkpoint is historical. The measured startup cache is merged with bounded single-host gains. Additional optimization is lower priority than the remaining ownership and transaction seams.
 
@@ -278,6 +278,7 @@ First finish [PR #770](https://github.com/CrispStrobe/kerotakis/pull/770), head 
 
 The [electrode comparison](../audits/solver-electrode-schema-20261008/README.md) is reviewed: baseline 4/8, repair 8/8, all 604 inherited library tests passing on both. The [matched policy manifest](../audits/required-conservation-port-20261008/policy-controls.json) preserves twelve direct/MIX cases that distinguish tighter-route policy from the stack budget. Historical tests remain unchanged; supplements are source-informed.
 
-Next consume [combined-source replay 37815446251](https://github.com/CrispStrobe/kerotakis/actions/runs/37815446251), pinned to candidate `ee7132fe` with unchanged corrected fifth/sixth and strict-stage expectations. Verify all 164 archived process outputs and every source/binary/lock/toolchain/harness binding before acceptance. Compare candidate and eventual main trees explicitly. Retain qualifications and original forecast scores; this is not 100 new independent experiments.
+The [combined-source replay is reviewed](../audits/combined-cli-replay-20261008/README.md): all 164 archived processes satisfy the unchanged corrected fifth/sixth and strict-stage checks on `ee7132fe`. Source/tree, actual binary, generated lock, submodules and all six dispatched harness bindings match. Compare candidate and eventual main trees explicitly. Qualifications and original forecast scores remain; this is not 100 new independent experiments.
 
+[PR #771](https://github.com/CrispStrobe/kerotakis/pull/771) restores 38 unchanged historical tracer/crystal functions and three original freezes on top of #770, with no production changes. [The handoff](../audits/historical-owner-controls-20261008/README.md) specifies pending acceptance. Consume hosted failures without weakening expectations; after #770 merges, integrate actual main and require fresh gates. Its [tracked-file inventory](../audits/integration-20261008/full-audit-port-inventory-pr771.json) leaves 52 missing named tests and 131 missing bound paths, versus 56/138 on #770 and 59/145 on main.
 Then use the refreshed AUD-00 inventory to port compatible historical tests with their original freezes and close narrowly scoped missing dependencies. NUM-01/NUM-02 authoritative owner storage and NUM-03 reconstruction remain the next major implementation lanes; neither schema validity nor the opt-in strict certificate closes them.

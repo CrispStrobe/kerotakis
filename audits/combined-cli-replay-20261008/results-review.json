@@ -1,0 +1,4261 @@
+{
+  "forecast_sha256": "5c9eb5de22c2d4bcf9f11b3f62550083693af90e124779e8f1d000fc397fc2d5",
+  "compiled_source": "ee7132fe6835eb7535b413aa61430f94c618f0be",
+  "source_tree": "6b9e494e5f7289592e61f9731ba4839fa9802568",
+  "source_kind": "PR770 integrated candidate; not merged main",
+  "binary_sha256": "c7f73f8ef4d1772f193e71acc2c12824d3d7fe796eacebdc69762bc2f2c64ea1",
+  "build_binding_sha256": "2a07a464463652e250e41bc198d3c33d9721f41c7566e7a52f8166e3433b42a3",
+  "generated_lock_sha256": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+  "processes": 164,
+  "counts": {
+    "fifth": {
+      "expected_refusal": 3,
+      "passed": 46,
+      "qualified_agreement_with_model_notice": 1
+    },
+    "sixth": {
+      "passed": 49,
+      "qualified_agreement_with_model_notice": 1
+    }
+  },
+  "strict_stage_checks": {
+    "protocol": true,
+    "invalid_operator": true,
+    "invalid_cause": true,
+    "valid_operator": true,
+    "valid_accepted": true,
+    "invalid_full_vessel_state_preserved": true,
+    "valid_water_v1": true,
+    "valid_water_v2": true
+  },
+  "results": [
+    {
+      "batch": "fifth",
+      "id": "F01",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 1.0,
+          "observed_right": 1.0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "species",
+              "variant": "b",
+              "vessel": 1,
+              "species": "water"
+            },
+            "atol": 2e-07,
+            "rtol": 2e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F02",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.5625,
+          "observed_right": 0.5625,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "species",
+              "variant": "b",
+              "vessel": 1,
+              "species": "water"
+            },
+            "atol": 2e-07,
+            "rtol": 2e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.4375,
+          "observed_right": 0.4375,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 2,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "species",
+              "variant": "b",
+              "vessel": 2,
+              "species": "water"
+            },
+            "atol": 2e-07,
+            "rtol": 2e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F03",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 1.0,
+          "observed_right": 1.0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "species",
+              "variant": "b",
+              "vessel": 1,
+              "species": "water"
+            },
+            "atol": 2e-07,
+            "rtol": 2e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F04",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 7.5819594782126005,
+          "observed_right": 7.5819594782126005,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "species",
+              "variant": "b",
+              "vessel": 1,
+              "species": "water"
+            },
+            "atol": 2e-07,
+            "rtol": 2e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F05",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.5,
+          "observed_right": 0.5,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "species",
+              "variant": "b",
+              "vessel": 1,
+              "species": "water"
+            },
+            "atol": 2e-07,
+            "rtol": 2e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F06",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 1.0,
+          "observed_right": 1.0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "species",
+              "variant": "b",
+              "vessel": 1,
+              "species": "water"
+            },
+            "atol": 2e-07,
+            "rtol": 2e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.0,
+          "observed_right": 0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "b",
+              "vessel": 2,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": 0,
+            "atol": 2e-07,
+            "rtol": 2e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F07",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.0,
+          "observed_right": 0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": 0,
+            "atol": 2e-07,
+            "rtol": 2e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 1.0,
+          "observed_right": 1,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 2,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": 1,
+            "atol": 2e-07,
+            "rtol": 2e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F08",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.0,
+          "observed_right": 0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": 0,
+            "atol": 2e-07,
+            "rtol": 2e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 1.0,
+          "observed_right": 1,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 2,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": 1,
+            "atol": 2e-07,
+            "rtol": 2e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F09",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 1.0,
+          "observed_right": 1.0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "species",
+              "variant": "b",
+              "vessel": 1,
+              "species": "water"
+            },
+            "atol": 2e-07,
+            "rtol": 2e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F10",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 1.0,
+          "observed_right": 1.0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "species",
+              "variant": "b",
+              "vessel": 1,
+              "species": "water"
+            },
+            "atol": 2e-07,
+            "rtol": 2e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F11",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 302.9457669490612,
+          "observed_right": 299.34898664258355,
+          "contract": {
+            "lhs": {
+              "kind": "temperature",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": {
+              "kind": "temperature",
+              "variant": "b",
+              "vessel": 1
+            }
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 299.34898664258355,
+          "observed_right": 298.15,
+          "contract": {
+            "lhs": {
+              "kind": "temperature",
+              "variant": "b",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": 298.15
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F12",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 311.42100003978373,
+          "observed_right": 311.4210000398301,
+          "contract": {
+            "lhs": {
+              "kind": "temperature",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "temperature",
+              "variant": "b",
+              "vessel": 1
+            },
+            "atol": 0.02,
+            "rtol": 0
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F13",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 298.15,
+          "observed_right": 298.15000000000146,
+          "contract": {
+            "lhs": {
+              "kind": "temperature",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "temperature",
+              "variant": "b",
+              "vessel": 1
+            },
+            "atol": 0.1,
+            "rtol": 0
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 1.0,
+          "observed_right": 1.0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "species",
+              "variant": "b",
+              "vessel": 1,
+              "species": "water"
+            },
+            "atol": 2e-07,
+            "rtol": 2e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F14",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 299.3489866425796,
+          "observed_right": 298.15,
+          "contract": {
+            "lhs": {
+              "kind": "temperature",
+              "variant": "a",
+              "vessel": 3
+            },
+            "op": "gt",
+            "rhs": {
+              "kind": "temperature",
+              "variant": "a",
+              "vessel": 2
+            }
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 299.3489866425796,
+          "observed_right": 300.5479349905746,
+          "contract": {
+            "lhs": {
+              "kind": "temperature",
+              "variant": "a",
+              "vessel": 3
+            },
+            "op": "lt",
+            "rhs": {
+              "kind": "temperature",
+              "variant": "a",
+              "vessel": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F15",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 300.8041593910938,
+          "observed_right": 299.93094390026715,
+          "contract": {
+            "lhs": {
+              "kind": "temperature",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": {
+              "kind": "temperature",
+              "variant": "b",
+              "vessel": 1
+            }
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 299.93094390026715,
+          "observed_right": 298.15,
+          "contract": {
+            "lhs": {
+              "kind": "temperature",
+              "variant": "b",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": 298.15
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F16",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 298.15,
+          "observed_right": 298.15,
+          "contract": {
+            "lhs": {
+              "kind": "temperature",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "temperature",
+              "variant": "b",
+              "vessel": 1
+            },
+            "atol": 1e-08,
+            "rtol": 0
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 1.0,
+          "observed_right": 1.0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "species",
+              "variant": "b",
+              "vessel": 1,
+              "species": "water"
+            },
+            "atol": 2e-07,
+            "rtol": 2e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F17",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 309.95993004831064,
+          "observed_right": 298.1500702335943,
+          "contract": {
+            "lhs": {
+              "kind": "temperature",
+              "variant": "b",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": {
+              "kind": "temperature",
+              "variant": "a",
+              "vessel": 1
+            }
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 156880.90730969072,
+          "observed_right": 150903.39533016074,
+          "contract": {
+            "lhs": {
+              "kind": "pressure",
+              "variant": "b",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": {
+              "kind": "pressure",
+              "variant": "a",
+              "vessel": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F18",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 349217.1362268938,
+          "observed_right": 163297.99242751897,
+          "contract": {
+            "lhs": {
+              "kind": "pressure",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": {
+              "kind": "pressure",
+              "variant": "b",
+              "vessel": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F19",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.975359429818,
+          "observed_right": [
+            0.8,
+            1.2
+          ],
+          "contract": {
+            "lhs": {
+              "kind": "difference",
+              "left": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              },
+              "right": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              }
+            },
+            "op": "between",
+            "rhs": [
+              0.8,
+              1.2
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F20",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.9667539985300007,
+          "observed_right": [
+            0.8,
+            1.2
+          ],
+          "contract": {
+            "lhs": {
+              "kind": "difference",
+              "left": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "right": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              }
+            },
+            "op": "between",
+            "rhs": [
+              0.8,
+              1.2
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F21",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 6.996059992096,
+          "observed_right": [
+            6,
+            8
+          ],
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "between",
+            "rhs": [
+              6,
+              8
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F22",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 2.339180947242,
+          "observed_right": 4,
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "lt",
+            "rhs": 4
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F23",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 11.648399217,
+          "observed_right": 10,
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": 10
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F24",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 6.996059992096,
+          "observed_right": 6.996059992096,
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "ph",
+              "variant": "b",
+              "vessel": 1
+            },
+            "atol": 0.05,
+            "rtol": 0
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F25",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 3.541442073389,
+          "observed_right": 2.329590772274,
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": {
+              "kind": "ph",
+              "variant": "b",
+              "vessel": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F26",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.008685475699000023,
+          "observed_right": [
+            0,
+            0.2
+          ],
+          "contract": {
+            "lhs": {
+              "kind": "difference",
+              "left": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "right": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              }
+            },
+            "op": "between",
+            "rhs": [
+              0,
+              0.2
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F27",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.008302486028999745,
+          "observed_right": [
+            0,
+            0.2
+          ],
+          "contract": {
+            "lhs": {
+              "kind": "difference",
+              "left": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              },
+              "right": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              }
+            },
+            "op": "between",
+            "rhs": [
+              0,
+              0.2
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F28",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 4.663030525352,
+          "observed_right": 4.726301282628,
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "ph",
+              "variant": "b",
+              "vessel": 1
+            },
+            "atol": 0.25,
+            "rtol": 0
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F29",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 6.998113830838,
+          "observed_right": [
+            5,
+            9
+          ],
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "between",
+            "rhs": [
+              5,
+              9
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F30",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.975359429818,
+          "observed_right": [
+            0.8,
+            1.2
+          ],
+          "contract": {
+            "lhs": {
+              "kind": "difference",
+              "left": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "right": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              }
+            },
+            "op": "between",
+            "rhs": [
+              0.8,
+              1.2
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F31",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.9667539985300007,
+          "observed_right": [
+            0.8,
+            1.2
+          ],
+          "contract": {
+            "lhs": {
+              "kind": "difference",
+              "left": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              },
+              "right": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              }
+            },
+            "op": "between",
+            "rhs": [
+              0.8,
+              1.2
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F32",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 2.329590772274,
+          "observed_right": 2.329590772274,
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 2
+            },
+            "atol": 0.05,
+            "rtol": 0
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F33",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 143845.25585551295,
+          "observed_right": 101318.29445694631,
+          "contract": {
+            "lhs": {
+              "kind": "pressure",
+              "variant": "b",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": {
+              "kind": "pressure",
+              "variant": "a",
+              "vessel": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F34",
+      "outcome": "qualified_agreement_with_model_notice",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 5.613647436042,
+          "observed_right": 6.997375771104036,
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "b",
+              "vessel": 1
+            },
+            "op": "lt",
+            "rhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F35",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 122501.68474110421,
+          "observed_right": 101319.35904188984,
+          "contract": {
+            "lhs": {
+              "kind": "pressure",
+              "variant": "b",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": {
+              "kind": "pressure",
+              "variant": "a",
+              "vessel": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F36",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 101325.0,
+          "observed_right": 101325,
+          "contract": {
+            "lhs": {
+              "kind": "pressure",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "near",
+            "rhs": 101325,
+            "atol": 1,
+            "rtol": 0
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 122501.68474110421,
+          "observed_right": 101325.0,
+          "contract": {
+            "lhs": {
+              "kind": "pressure",
+              "variant": "b",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": {
+              "kind": "pressure",
+              "variant": "a",
+              "vessel": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F37",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 349217.1362268938,
+          "observed_right": 101325.0,
+          "contract": {
+            "lhs": {
+              "kind": "pressure",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": {
+              "kind": "pressure",
+              "variant": "b",
+              "vessel": 1
+            }
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 101325.0,
+          "observed_right": 101325,
+          "contract": {
+            "lhs": {
+              "kind": "pressure",
+              "variant": "b",
+              "vessel": 1
+            },
+            "op": "near",
+            "rhs": 101325,
+            "atol": 1,
+            "rtol": 0
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F38",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 225271.0022564502,
+          "observed_right": 163297.0623491604,
+          "contract": {
+            "lhs": {
+              "kind": "pressure",
+              "variant": "b",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": {
+              "kind": "pressure",
+              "variant": "a",
+              "vessel": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F39",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.5192723255829098,
+          "observed_right": 0.2,
+          "contract": {
+            "lhs": {
+              "kind": "ratio",
+              "left": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "ethanol"
+              },
+              "right": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 2,
+                    "species": "water"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 2,
+                    "species": "ethanol"
+                  }
+                ]
+              }
+            },
+            "op": "gt",
+            "rhs": 0.2
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F40",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 4.0,
+          "observed_right": 4,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 0,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": 4,
+            "atol": 1e-06,
+            "rtol": 1e-06
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 1.0,
+          "observed_right": 1,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 0,
+              "species": "ethanol"
+            },
+            "op": "near",
+            "rhs": 1,
+            "atol": 1e-06,
+            "rtol": 1e-06
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F41",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.8,
+          "observed_right": 0.8,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": 0.8,
+            "atol": 2e-07,
+            "rtol": 2e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.2,
+          "observed_right": 0.2,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 2,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": 0.2,
+            "atol": 2e-07,
+            "rtol": 2e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F42",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.19676808421674005,
+          "observed_right": 0.09838404210837003,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "b",
+              "vessel": 2,
+              "species": "water"
+            },
+            "op": "gt",
+            "rhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 2,
+              "species": "water"
+            }
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.09838404210837003,
+          "observed_right": 0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 2,
+              "species": "water"
+            },
+            "op": "gt",
+            "rhs": 0
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F43",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.19,
+          "observed_right": 0.19,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 2,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "species",
+              "variant": "b",
+              "vessel": 2,
+              "species": "water"
+            },
+            "atol": 1e-06,
+            "rtol": 1e-06
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F44",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.09998776618437,
+          "observed_right": 2.002657896553e-11,
+          "contract": {
+            "lhs": {
+              "kind": "solid",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": {
+              "kind": "solid",
+              "variant": "a",
+              "vessel": 2
+            }
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 5.53426829727679,
+          "observed_right": 0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 2,
+              "species": "water"
+            },
+            "op": "gt",
+            "rhs": 0
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F45",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 1.0,
+          "observed_right": 0.0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 2,
+              "species": "water"
+            },
+            "op": "gt",
+            "rhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 2,
+              "species": "hexane"
+            }
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 1.0,
+          "observed_right": 0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "hexane"
+            },
+            "op": "gt",
+            "rhs": 0
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F46",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.0,
+          "observed_right": 0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 2,
+              "species": "sucrose"
+            },
+            "op": "near",
+            "rhs": 0,
+            "atol": 2e-07,
+            "rtol": 2e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.001,
+          "observed_right": 0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "sucrose"
+            },
+            "op": "gt",
+            "rhs": 0
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.1,
+          "observed_right": 0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 2,
+              "species": "water"
+            },
+            "op": "gt",
+            "rhs": 0
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F47",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.5,
+          "observed_right": 0.5,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": 0.5,
+            "atol": 1e-06,
+            "rtol": 1e-06
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F48",
+      "outcome": "expected_refusal",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.01,
+                "phase": "solid",
+                "species": "NaCl"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "NaCl",
+                "suspended_fraction": 0.0
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          },
+          "observed_right": {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 0.01,
+                "phase": "solid",
+                "species": "NaCl"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "NaCl",
+                "suspended_fraction": 0.0
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          },
+          "contract": {
+            "lhs": {
+              "kind": "state",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "equal",
+            "rhs": {
+              "kind": "state",
+              "variant": "b",
+              "vessel": 1
+            }
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": true,
+          "observed_right": true,
+          "contract": {
+            "lhs": {
+              "kind": "refusal",
+              "variant": "b",
+              "vessel": 1
+            },
+            "op": "eq",
+            "rhs": true
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F49",
+      "outcome": "expected_refusal",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 1,
+          "observed_right": 0,
+          "contract": {
+            "lhs": {
+              "kind": "exit_code",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "ne",
+            "rhs": 0
+          }
+        }
+      ]
+    },
+    {
+      "batch": "fifth",
+      "id": "F50",
+      "outcome": "expected_refusal",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 1.0,
+          "observed_right": 1.0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "species",
+              "variant": "b",
+              "vessel": 1,
+              "species": "water"
+            },
+            "atol": 2e-07,
+            "rtol": 2e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.0,
+          "observed_right": 0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "b",
+              "vessel": 2,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": 0,
+            "atol": 2e-07,
+            "rtol": 2e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": true,
+          "observed_right": true,
+          "contract": {
+            "lhs": {
+              "kind": "refusal",
+              "variant": "b",
+              "vessel": 1
+            },
+            "op": "eq",
+            "rhs": true
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S01",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.25,
+          "observed_right": 0.25,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": 0.25,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.5,
+          "observed_right": 0.5,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 2,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": 0.5,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.25,
+          "observed_right": 0.25,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 3,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": 0.25,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 1.0,
+          "observed_right": 1,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 0,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": 1,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S02",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 2.0,
+          "observed_right": 2,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": 2,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.0,
+          "observed_right": 0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 2,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": 0,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S03",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 1.0,
+          "observed_right": 1,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 0,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": 1,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.0,
+          "observed_right": 0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 3,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": 0,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S04",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 2.0,
+          "observed_right": 2,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": 2,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.01,
+          "observed_right": 0.01,
+          "contract": {
+            "lhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "NaCl"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "Na+"
+                }
+              ]
+            },
+            "op": "near",
+            "rhs": 0.01,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.01,
+          "observed_right": 0.01,
+          "contract": {
+            "lhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "NaCl"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "Cl-"
+                }
+              ]
+            },
+            "op": "near",
+            "rhs": 0.01,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.01,
+          "observed_right": 0.01,
+          "contract": {
+            "lhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "NaCl"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "Na+"
+                }
+              ]
+            },
+            "op": "near",
+            "rhs": 0.01,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S05",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 1e-07,
+          "observed_right": 1e-07,
+          "contract": {
+            "lhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "KCl"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "K+"
+                }
+              ]
+            },
+            "op": "near",
+            "rhs": 1e-07,
+            "atol": 1e-15,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 3.9999999999999994e-08,
+          "observed_right": 0,
+          "contract": {
+            "lhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 2,
+                  "species": "KCl"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 2,
+                  "species": "K+"
+                }
+              ]
+            },
+            "op": "gt",
+            "rhs": 0
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 1e-07,
+          "observed_right": 1e-07,
+          "contract": {
+            "lhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "KCl"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "Cl-"
+                }
+              ]
+            },
+            "op": "near",
+            "rhs": 1e-07,
+            "atol": 1e-15,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 1e-07,
+          "observed_right": 1e-07,
+          "contract": {
+            "lhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "KCl"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "K+"
+                }
+              ]
+            },
+            "op": "near",
+            "rhs": 1e-07,
+            "atol": 1e-15,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S06",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 1.000015542603386,
+          "observed_right": 1.0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "species",
+              "variant": "b",
+              "vessel": 1,
+              "species": "water"
+            },
+            "atol": 1e-05,
+            "rtol": 0.0001
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S07",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.010000000000000002,
+          "observed_right": 0.010000000000000002,
+          "contract": {
+            "lhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "NaCl"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "Na+"
+                }
+              ]
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "b",
+                  "vessel": 1,
+                  "species": "NaCl"
+                },
+                {
+                  "kind": "species",
+                  "variant": "b",
+                  "vessel": 1,
+                  "species": "Na+"
+                }
+              ]
+            },
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 6.984543893054,
+          "observed_right": 6.984543893054,
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "ph",
+              "variant": "b",
+              "vessel": 1
+            },
+            "atol": 0.02,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.010000000000000002,
+          "observed_right": 0.01,
+          "contract": {
+            "lhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "NaCl"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "Cl-"
+                }
+              ]
+            },
+            "op": "near",
+            "rhs": 0.01,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.010000000000000002,
+          "observed_right": 0.01,
+          "contract": {
+            "lhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "NaCl"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "Na+"
+                }
+              ]
+            },
+            "op": "near",
+            "rhs": 0.01,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S08",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.001,
+          "observed_right": 0.001,
+          "contract": {
+            "lhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "NaCl"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "Na+"
+                }
+              ]
+            },
+            "op": "near",
+            "rhs": 0.001,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.001,
+          "observed_right": 0.0009,
+          "contract": {
+            "lhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 3,
+                  "species": "NaCl"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 3,
+                  "species": "Na+"
+                }
+              ]
+            },
+            "op": "gt",
+            "rhs": 0.0009
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.001,
+          "observed_right": 0.001,
+          "contract": {
+            "lhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "NaCl"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "Cl-"
+                }
+              ]
+            },
+            "op": "near",
+            "rhs": 0.001,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.001,
+          "observed_right": 0.001,
+          "contract": {
+            "lhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "NaCl"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "Na+"
+                }
+              ]
+            },
+            "op": "near",
+            "rhs": 0.001,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S09",
+      "outcome": "qualified_agreement_with_model_notice",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.0,
+          "observed_right": 0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 2,
+              "species": "Cu"
+            },
+            "op": "near",
+            "rhs": 0,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.0,
+          "observed_right": 0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 2,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": 0,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.001,
+          "observed_right": 0.001,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 0,
+              "species": "Cu"
+            },
+            "op": "near",
+            "rhs": 0.001,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S10",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.001,
+          "observed_right": 0.0009,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 2,
+              "species": "Fe"
+            },
+            "op": "gt",
+            "rhs": 0.0009
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.0,
+          "observed_right": 0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 2,
+              "species": "Cu"
+            },
+            "op": "near",
+            "rhs": 0,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.001,
+          "observed_right": 0.001,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 0,
+              "species": "Fe"
+            },
+            "op": "near",
+            "rhs": 0.001,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S11",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.002,
+          "observed_right": 0.002,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "Fe"
+            },
+            "op": "near",
+            "rhs": 0.002,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S12",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.001,
+          "observed_right": 0.001,
+          "contract": {
+            "lhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "KCl"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "K+"
+                }
+              ]
+            },
+            "op": "near",
+            "rhs": 0.001,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 5.534276991396059,
+          "observed_right": 5,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "water"
+            },
+            "op": "gt",
+            "rhs": 5
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.001,
+          "observed_right": 0.001,
+          "contract": {
+            "lhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "KCl"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "Cl-"
+                }
+              ]
+            },
+            "op": "near",
+            "rhs": 0.001,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.001,
+          "observed_right": 0.001,
+          "contract": {
+            "lhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "KCl"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "K+"
+                }
+              ]
+            },
+            "op": "near",
+            "rhs": 0.001,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S13",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.004999999999953667,
+          "observed_right": 0.005,
+          "contract": {
+            "lhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "CaCO3"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "Ca+2"
+                }
+              ]
+            },
+            "op": "near",
+            "rhs": 0.005,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.004987766184372,
+          "observed_right": 0.004,
+          "contract": {
+            "lhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "CaCO3"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "Ca+2"
+                }
+              ]
+            },
+            "op": "gt",
+            "rhs": 0.004
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 5.534268297276796,
+          "observed_right": 4,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 3,
+              "species": "water"
+            },
+            "op": "gt",
+            "rhs": 4
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S14",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 298.15,
+          "observed_right": 298.15,
+          "contract": {
+            "lhs": {
+              "kind": "temperature",
+              "variant": "a",
+              "vessel": 2
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "temperature",
+              "variant": "b",
+              "vessel": 2
+            },
+            "atol": 1e-09,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S15",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.0,
+          "observed_right": 0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 3,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": 0,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.0,
+          "observed_right": 0,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 3,
+              "species": "NaCl"
+            },
+            "op": "near",
+            "rhs": 0,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S16",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 298.1500000000035,
+          "observed_right": 298.15,
+          "contract": {
+            "lhs": {
+              "kind": "temperature",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "temperature",
+              "variant": "b",
+              "vessel": 1
+            },
+            "atol": 0.1,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S17",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 300.5479349905763,
+          "observed_right": 300.5479349905746,
+          "contract": {
+            "lhs": {
+              "kind": "temperature",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "temperature",
+              "variant": "b",
+              "vessel": 1
+            },
+            "atol": 0.1,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S18",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 295.7518711917169,
+          "observed_right": 296.9509642934938,
+          "contract": {
+            "lhs": {
+              "kind": "temperature",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "lt",
+            "rhs": {
+              "kind": "temperature",
+              "variant": "b",
+              "vessel": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S19",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 2.3979349905746403,
+          "observed_right": 2.3979732851671542,
+          "contract": {
+            "lhs": {
+              "kind": "difference",
+              "left": {
+                "kind": "temperature",
+                "variant": "a",
+                "vessel": 1
+              },
+              "right": {
+                "kind": "temperature",
+                "variant": "c",
+                "vessel": 1
+              }
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "difference",
+                  "left": {
+                    "kind": "temperature",
+                    "variant": "b",
+                    "vessel": 1
+                  },
+                  "right": {
+                    "kind": "temperature",
+                    "variant": "c",
+                    "vessel": 1
+                  }
+                },
+                {
+                  "kind": "difference",
+                  "left": {
+                    "kind": "temperature",
+                    "variant": "b",
+                    "vessel": 1
+                  },
+                  "right": {
+                    "kind": "temperature",
+                    "variant": "c",
+                    "vessel": 1
+                  }
+                }
+              ]
+            },
+            "atol": 0.2,
+            "rtol": 0.05
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S20",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 301.02750633559015,
+          "observed_right": 301.02750633559015,
+          "contract": {
+            "lhs": {
+              "kind": "temperature",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "temperature",
+              "variant": "b",
+              "vessel": 1
+            },
+            "atol": 1e-08,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S21",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 313.15,
+          "observed_right": 313.15,
+          "contract": {
+            "lhs": {
+              "kind": "temperature",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "temperature",
+              "variant": "a",
+              "vessel": 2
+            },
+            "atol": 0.2,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S22",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 303.14996086822293,
+          "observed_right": [
+            302.15,
+            304.15
+          ],
+          "contract": {
+            "lhs": {
+              "kind": "temperature",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "between",
+            "rhs": [
+              302.15,
+              304.15
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S23",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 298.1500000000076,
+          "observed_right": 298.15,
+          "contract": {
+            "lhs": {
+              "kind": "temperature",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "temperature",
+              "variant": "b",
+              "vessel": 1
+            },
+            "atol": 0.1,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S24",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 298.15,
+          "observed_right": 298.15,
+          "contract": {
+            "lhs": {
+              "kind": "temperature",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "temperature",
+              "variant": "b",
+              "vessel": 1
+            },
+            "atol": 1e-09,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 5.534276991396059,
+          "observed_right": 5.534276991396059,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "water"
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "species",
+              "variant": "b",
+              "vessel": 1,
+              "species": "water"
+            },
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S25",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 300.5479349905746,
+          "observed_right": 300.5479349905746,
+          "contract": {
+            "lhs": {
+              "kind": "temperature",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "temperature",
+              "variant": "b",
+              "vessel": 1
+            },
+            "atol": 0.2,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S26",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 10.61076191988,
+          "observed_right": [
+            9,
+            12.5
+          ],
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "between",
+            "rhs": [
+              9,
+              12.5
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S27",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 5.663741228352,
+          "observed_right": [
+            4,
+            6.8
+          ],
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "between",
+            "rhs": [
+              4,
+              6.8
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S28",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 10.61076191988,
+          "observed_right": 10.45717884435,
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": {
+              "kind": "ph",
+              "variant": "b",
+              "vessel": 1
+            }
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 10.45717884435,
+          "observed_right": 7,
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "b",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": 7
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S29",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 5.663741228352,
+          "observed_right": 5.802851294792,
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "lt",
+            "rhs": {
+              "kind": "ph",
+              "variant": "b",
+              "vessel": 1
+            }
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 5.802851294792,
+          "observed_right": 7,
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "b",
+              "vessel": 1
+            },
+            "op": "lt",
+            "rhs": 7
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S30",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 8.331059712513,
+          "observed_right": [
+            7.5,
+            10.5
+          ],
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "between",
+            "rhs": [
+              7.5,
+              10.5
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S31",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 9.288251309891,
+          "observed_right": [
+            8.7,
+            9.8
+          ],
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "between",
+            "rhs": [
+              8.7,
+              9.8
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S32",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 9.197198179636,
+          "observed_right": 8,
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": 8
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 9.197198179636,
+          "observed_right": 9.288251309891,
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "lt",
+            "rhs": {
+              "kind": "ph",
+              "variant": "b",
+              "vessel": 1
+            }
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.09105313025500017,
+          "observed_right": 0.5,
+          "contract": {
+            "lhs": {
+              "kind": "difference",
+              "left": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              },
+              "right": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              }
+            },
+            "op": "lt",
+            "rhs": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S33",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 9.380343060222,
+          "observed_right": 9.288251309891,
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": {
+              "kind": "ph",
+              "variant": "b",
+              "vessel": 1
+            }
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.09209175033099903,
+          "observed_right": 0.5,
+          "contract": {
+            "lhs": {
+              "kind": "difference",
+              "left": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "right": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              }
+            },
+            "op": "lt",
+            "rhs": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S34",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 4.711715754087,
+          "observed_right": 4.726301282628,
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "ph",
+              "variant": "b",
+              "vessel": 1
+            },
+            "atol": 0.15,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S35",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 4.994513025189,
+          "observed_right": 4.711715754087,
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": {
+              "kind": "ph",
+              "variant": "b",
+              "vessel": 1
+            }
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.2827972711019999,
+          "observed_right": [
+            0.15,
+            0.5
+          ],
+          "contract": {
+            "lhs": {
+              "kind": "difference",
+              "left": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "right": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              }
+            },
+            "op": "between",
+            "rhs": [
+              0.15,
+              0.5
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S36",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 4.711745616978,
+          "observed_right": [
+            4.3,
+            5.2
+          ],
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "between",
+            "rhs": [
+              4.3,
+              5.2
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S37",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 11.92751212664,
+          "observed_right": [
+            11,
+            13
+          ],
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "between",
+            "rhs": [
+              11,
+              13
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S38",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 2.04970626498,
+          "observed_right": [
+            1,
+            3
+          ],
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "between",
+            "rhs": [
+              1,
+              3
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S39",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 2.339180947242,
+          "observed_right": 2.339180947242,
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "ph",
+              "variant": "b",
+              "vessel": 1
+            },
+            "atol": 0.05,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S40",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 4.711715754087,
+          "observed_right": 4.711715754087,
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 2
+            },
+            "atol": 0.1,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S41",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.0009984818047084,
+          "observed_right": 0.0005,
+          "contract": {
+            "lhs": {
+              "kind": "solid",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": 0.0005
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S42",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.0009984818047084,
+          "observed_right": 0.0005,
+          "contract": {
+            "lhs": {
+              "kind": "solid",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": 0.0005
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.0,
+          "observed_right": 0.0001,
+          "contract": {
+            "lhs": {
+              "kind": "solid",
+              "variant": "a",
+              "vessel": 2
+            },
+            "op": "lt",
+            "rhs": 0.0001
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S43",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.0009826363956095,
+          "observed_right": 0.0005,
+          "contract": {
+            "lhs": {
+              "kind": "solid",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": 0.0005
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S44",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.0009981707863885,
+          "observed_right": 0.0005,
+          "contract": {
+            "lhs": {
+              "kind": "solid",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": 0.0005
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S45",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.0,
+          "observed_right": 1e-08,
+          "contract": {
+            "lhs": {
+              "kind": "solid",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "lt",
+            "rhs": 1e-08
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.001,
+          "observed_right": 0.001,
+          "contract": {
+            "lhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "KCl"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "K+"
+                }
+              ]
+            },
+            "op": "near",
+            "rhs": 0.001,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.001,
+          "observed_right": 0.001,
+          "contract": {
+            "lhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "KCl"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "Cl-"
+                }
+              ]
+            },
+            "op": "near",
+            "rhs": 0.001,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.001,
+          "observed_right": 0.001,
+          "contract": {
+            "lhs": {
+              "kind": "sum",
+              "terms": [
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "KCl"
+                },
+                {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 0,
+                  "species": "K+"
+                }
+              ]
+            },
+            "op": "near",
+            "rhs": 0.001,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S46",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.0009999999999999996,
+          "observed_right": 0.001,
+          "contract": {
+            "lhs": {
+              "kind": "difference",
+              "left": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "N2"
+              },
+              "right": {
+                "kind": "species",
+                "variant": "b",
+                "vessel": 1,
+                "species": "N2"
+              }
+            },
+            "op": "near",
+            "rhs": 0.001,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S47",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 126114.57029556697,
+          "observed_right": 113719.7851477835,
+          "contract": {
+            "lhs": {
+              "kind": "pressure",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": {
+              "kind": "pressure",
+              "variant": "b",
+              "vessel": 1
+            }
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 1.9999999999999964,
+          "observed_right": [
+            1.5,
+            2.5
+          ],
+          "contract": {
+            "lhs": {
+              "kind": "ratio",
+              "left": {
+                "kind": "difference",
+                "left": {
+                  "kind": "pressure",
+                  "variant": "a",
+                  "vessel": 1
+                },
+                "right": {
+                  "kind": "pressure",
+                  "variant": "c",
+                  "vessel": 1
+                }
+              },
+              "right": {
+                "kind": "difference",
+                "left": {
+                  "kind": "pressure",
+                  "variant": "b",
+                  "vessel": 1
+                },
+                "right": {
+                  "kind": "pressure",
+                  "variant": "d",
+                  "vessel": 1
+                }
+              }
+            },
+            "op": "between",
+            "rhs": [
+              1.5,
+              2.5
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S48",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 130100.21904700957,
+          "observed_right": 126114.57029556701,
+          "contract": {
+            "lhs": {
+              "kind": "pressure",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": {
+              "kind": "pressure",
+              "variant": "b",
+              "vessel": 1
+            }
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.0422945825786727,
+          "observed_right": 0.0422945825786727,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "N2"
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "species",
+              "variant": "b",
+              "vessel": 1,
+              "species": "N2"
+            },
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 0.010000000000000002,
+          "observed_right": 0.01,
+          "contract": {
+            "lhs": {
+              "kind": "difference",
+              "left": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "N2"
+              },
+              "right": {
+                "kind": "species",
+                "variant": "c",
+                "vessel": 1,
+                "species": "N2"
+              }
+            },
+            "op": "near",
+            "rhs": 0.01,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S49",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.004229458257867269,
+          "observed_right": 0.004229458257867269,
+          "contract": {
+            "lhs": {
+              "kind": "species",
+              "variant": "a",
+              "vessel": 1,
+              "species": "N2"
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "species",
+              "variant": "b",
+              "vessel": 1,
+              "species": "N2"
+            },
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 126114.57029556697,
+          "observed_right": 126114.57029556697,
+          "contract": {
+            "lhs": {
+              "kind": "pressure",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "pressure",
+              "variant": "b",
+              "vessel": 1
+            },
+            "atol": 1e-06,
+            "rtol": 1e-07
+          }
+        }
+      ]
+    },
+    {
+      "batch": "sixth",
+      "id": "S50",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 9.999998853565576e-05,
+          "observed_right": 0.0001,
+          "contract": {
+            "lhs": {
+              "kind": "difference",
+              "left": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 1,
+                    "species": "CO2"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 1,
+                    "species": "CO2(aq)"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 1,
+                    "species": "HCO3-"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 1,
+                    "species": "CO3-2"
+                  }
+                ]
+              },
+              "right": {
+                "kind": "sum",
+                "terms": [
+                  {
+                    "kind": "species",
+                    "variant": "b",
+                    "vessel": 1,
+                    "species": "CO2"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "b",
+                    "vessel": 1,
+                    "species": "CO2(aq)"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "b",
+                    "vessel": 1,
+                    "species": "HCO3-"
+                  },
+                  {
+                    "kind": "species",
+                    "variant": "b",
+                    "vessel": 1,
+                    "species": "CO3-2"
+                  }
+                ]
+              }
+            },
+            "op": "near",
+            "rhs": 0.0001,
+            "atol": 1e-10,
+            "rtol": 1e-07
+          }
+        },
+        {
+          "passed": true,
+          "observed_left": 4.936989322128,
+          "observed_right": 7,
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "lt",
+            "rhs": 7
+          }
+        }
+      ]
+    }
+  ]
+}
