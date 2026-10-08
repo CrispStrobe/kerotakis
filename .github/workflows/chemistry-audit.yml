@@ -134,12 +134,10 @@ jobs:
             set +e
             (cd source && cargo test --locked -p kerotakis-core --test delta_inventory_contracts) > "delta-evidence/$label/controls.log" 2>&1
             code=$?
-            printf '%s
-' "$code" > "delta-evidence/$label/controls-exit.txt"
+            printf '%s\n' "$code" > "delta-evidence/$label/controls-exit.txt"
             (cd source && cargo test --locked -p kerotakis-core --lib delta::tests) > "delta-evidence/$label/inherited.log" 2>&1
             inherited_code=$?
-            printf '%s
-' "$inherited_code" > "delta-evidence/$label/inherited-exit.txt"
+            printf '%s\n' "$inherited_code" > "delta-evidence/$label/inherited-exit.txt"
             set -e
           done
           python3 - <<'PY'
