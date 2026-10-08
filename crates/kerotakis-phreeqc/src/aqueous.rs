@@ -6831,3 +6831,38 @@ mod routing_molality_tests {
         );
     }
 }
+
+// Frozen source-informed raw mixed-crystal readback contracts.
+#[cfg(test)]
+use kerotakis_core::VesselId;
+#[cfg(test)]
+#[path = "../tests/solid_solution_raw_readback/contracts_complete_columns.rs"]
+mod solid_solution_raw_readback_contracts;
+
+#[cfg(test)]
+#[path = "../tests/solid_solution_phase_budget/contracts_closed_boundary.rs"]
+mod solid_solution_raw_readback_contracts_budget;
+
+#[cfg(test)]
+#[path = "../tests/solid_solution_phase_budget/supplement_closed_boundary.rs"]
+mod solid_solution_raw_readback_contracts_budget_supplement;
+
+#[cfg(test)]
+#[path = "../tests/solid_solution_phase_budget/cancellation.rs"]
+mod solid_solution_raw_readback_contracts_cancellation;
+
+#[cfg(test)]
+#[path = "../tests/solid_solution_phase_budget/raw_carbon.rs"]
+mod solid_solution_raw_readback_contracts_raw_carbon;
+
+#[cfg(test)]
+#[path = "../tests/solid_solution_phase_budget/external_boundaries.rs"]
+mod solid_solution_raw_readback_contracts_external_boundaries;
+
+#[cfg(test)]
+#[path = "../tests/solid_solution_phase_budget/external_raw.rs"]
+mod solid_solution_raw_readback_contracts_external_raw;
+
+#[cfg(test)]
+#[path = "../tests/solid_solution_phase_budget/refusal_atomicity.rs"]
+mod solid_solution_raw_readback_contracts_refusal_atomicity;

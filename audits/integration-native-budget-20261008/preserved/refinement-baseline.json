@@ -1,0 +1,226 @@
+{
+  "run": 37729480945,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37729480945",
+  "source_commit": "5767d34ffcea3bfc8ad764499072300226b96821",
+  "artifact": "pure-still-5767d34ffcea3bfc8ad764499072300226b96821",
+  "log": "crystal-readback.log",
+  "log_sha256": "abcd74b38713603b05acadadf613c74799fca5dea248666b634f32af4674da31",
+  "diagnostic_sha256": "f21ffe7f1ffd5b274819de5fd9afaf906b0a9786e35411d526206878708a7f19",
+  "compile": "success",
+  "passed": 29,
+  "failed": 13,
+  "ignored": 0,
+  "filtered_out": 64,
+  "scope": "42 cache-only unit contracts against first production repair, before refinement production changes",
+  "groups": [
+    {
+      "group": "original raw component guards",
+      "passed": 7,
+      "failed": 0
+    },
+    {
+      "group": "original allocation/reconciliation",
+      "passed": 14,
+      "failed": 4
+    },
+    {
+      "group": "supplement",
+      "passed": 7,
+      "failed": 1
+    },
+    {
+      "group": "new refinement",
+      "passed": 1,
+      "failed": 8
+    }
+  ],
+  "interpretation": [
+    "The new nine controls demonstrated one cancellation refusal, two external-phase identity refusals, one noncarbon-boundary carbon-budget bypass, and four malformed/missing raw carbon bypasses; complete zero-carbon readback passed.",
+    "Five older assertions failed with a boundary setup ambiguity: their helpers start with an open vessel and clear problem.phases/problem.gases but retain atmospheric CO2 in problem.external_gases. These outcomes do not independently demonstrate failures under a genuinely closed carbon boundary.",
+    "The original fixture bytes and all outcomes remain preserved. Any corrected closed-boundary harness requires explicit adaptation provenance and a fresh hosted execution.",
+    "This run is a diagnostic baseline, not repair acceptance or live native chemistry evidence."
+  ],
+  "outcomes": [
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::missing_component_refuses_before_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::nan_component_refuses_before_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::negative_component_refuses_before_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::negative_infinity_component_refuses_before_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::positive_components_survive_raw_readback_without_projection",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::positive_infinity_component_refuses_before_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::zero_components_remain_valid_empty_seed_ownership",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::apparently_inclusive_raw_total_without_witness_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::calcium_phase_overdraw_refuses_at_every_scale",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::closed_carbon_gas_overdraw_refuses",
+      "outcome": "FAILED",
+      "classification": "closed-boundary fixture ambiguity: atmospheric external_gases retained after phases/gases cleared"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::exact_closed_gas_budget_accepts",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::exact_exclusive_remainders_accept_without_material_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::exact_phase_exhaustion_accepts_zero_aqueous",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::missing_owned_gas_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::negative_owned_gas_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::negative_raw_aqueous_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::nonfinite_owned_gas_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::nonfinite_raw_aqueous_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::primary_and_typed_overdraw_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::primary_solid_dissolution_is_counted_once",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::primary_solid_precipitation_is_debited_once",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::strontium_phase_overdraw_refuses_at_every_scale",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::ten_percent_raw_deficit_refuses_at_every_scale",
+      "outcome": "FAILED",
+      "classification": "closed-boundary fixture ambiguity: atmospheric external_gases retained after phases/gases cleared"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::ten_percent_raw_excess_refuses_at_every_scale",
+      "outcome": "FAILED",
+      "classification": "closed-boundary fixture ambiguity: atmospheric external_gases retained after phases/gases cleared"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::zero_aqueous_with_positive_remainder_refuses",
+      "outcome": "FAILED",
+      "classification": "closed-boundary fixture ambiguity: atmospheric external_gases retained after phases/gases cleared"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::aggregate_available_overflow_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::external_carbon_cannot_hide_calcium_overdraw",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::external_carbon_is_open_with_closed_cations",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::inside_declared_raw_budget_accepts",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::malformed_available_aqueous_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::malformed_initial_closed_gas_refuses",
+      "outcome": "FAILED",
+      "classification": "closed-boundary fixture ambiguity: atmospheric external_gases retained after phases/gases cleared"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::malformed_primary_phase_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::outside_declared_raw_budget_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_cancellation::owner_sum_cancellation_accepts_raw_without_rescaling_trace_remainder",
+      "outcome": "FAILED",
+      "classification": "observed behavioral failure in newly frozen refinement contract"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_external_boundaries::actual_external_carbon_phase_does_not_require_a_solid_registry_identity",
+      "outcome": "FAILED",
+      "classification": "observed behavioral failure in newly frozen refinement contract"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_external_boundaries::noncarbon_external_boundary_does_not_open_the_carbon_budget",
+      "outcome": "FAILED",
+      "classification": "observed behavioral failure in newly frozen refinement contract"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_external_boundaries::noncarbon_external_phase_preserves_supported_closed_carbon",
+      "outcome": "FAILED",
+      "classification": "observed behavioral failure in newly frozen refinement contract"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_raw_carbon::complete_zero_carbon_readback_accepts_exact_exhaustion",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_raw_carbon::malformed_raw_carbon_base_refuses_before_zero_skip",
+      "outcome": "FAILED",
+      "classification": "observed behavioral failure in newly frozen refinement contract"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_raw_carbon::malformed_raw_carbon_state_refuses_before_clamping",
+      "outcome": "FAILED",
+      "classification": "observed behavioral failure in newly frozen refinement contract"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_raw_carbon::missing_raw_carbon_base_refuses_even_at_exact_exhaustion",
+      "outcome": "FAILED",
+      "classification": "observed behavioral failure in newly frozen refinement contract"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_raw_carbon::missing_requested_carbon_state_refuses_at_exact_exhaustion",
+      "outcome": "FAILED",
+      "classification": "observed behavioral failure in newly frozen refinement contract"
+    }
+  ]
+}

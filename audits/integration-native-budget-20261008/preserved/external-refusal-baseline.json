@@ -1,0 +1,266 @@
+{
+  "run": 37730066599,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37730066599",
+  "source_commit": "142f2e68b50106a964e1779f5c1d58e73de3c4c5",
+  "artifact": "pure-still-142f2e68b50106a964e1779f5c1d58e73de3c4c5",
+  "log": "crystal-readback.log",
+  "log_sha256": "4c9ef223789a8f430cdf935dbcd8129746049afcbb9fe1a5129b13df6c4b4543",
+  "diagnostic_sha256": "ac75f5b149897b429809461860d5800fe3dcb765a7e10870fd1af3bc922748f6",
+  "compile": "success",
+  "passed": 41,
+  "failed": 9,
+  "ignored": 0,
+  "filtered_out": 64,
+  "scope": "50 cache-only contracts before external-phase numeric validation; original allocation/supplement boundary fixtures still active",
+  "groups": [
+    {
+      "group": "complete-column raw component guards",
+      "passed": 7,
+      "failed": 0
+    },
+    {
+      "group": "original allocation/reconciliation",
+      "passed": 14,
+      "failed": 4
+    },
+    {
+      "group": "original supplement",
+      "passed": 7,
+      "failed": 1
+    },
+    {
+      "group": "refinement",
+      "passed": 9,
+      "failed": 0
+    },
+    {
+      "group": "external raw phase",
+      "passed": 2,
+      "failed": 4
+    },
+    {
+      "group": "native and stack full-state refusal",
+      "passed": 2,
+      "failed": 0
+    }
+  ],
+  "interpretation": [
+    "All nine refinement contracts passed; the seven raw component assertions used the separately hashed complete-column harness.",
+    "Negative external phase initial and final values were accepted; both nonfinite controls failed on their first loop value NaN. The later infinity loop entries were not reached in this failing baseline.",
+    "Zero external phase values accepted and missing external final values refused.",
+    "Native cache-injected Ca overdraw refusal and single-native SolverStack refusal preserved the complete serialized vessel and produced the expected failure diagnostics. These are fabricated complete-cache readback tests, not live native solves or a broad stack transaction matrix.",
+    "The same five older assertions retained their documented atmospheric-carbon boundary fixture ambiguity. Corrected closed-boundary harnesses were committed subsequently; their outcomes are not inferred from this run.",
+    "This diagnostic run is not final repair acceptance and contains no live native chemistry execution."
+  ],
+  "outcomes": [
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::missing_component_refuses_before_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::nan_component_refuses_before_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::negative_component_refuses_before_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::negative_infinity_component_refuses_before_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::positive_components_survive_raw_readback_without_projection",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::positive_infinity_component_refuses_before_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::zero_components_remain_valid_empty_seed_ownership",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::apparently_inclusive_raw_total_without_witness_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::calcium_phase_overdraw_refuses_at_every_scale",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::closed_carbon_gas_overdraw_refuses",
+      "outcome": "FAILED",
+      "classification": "previously documented closed-boundary fixture ambiguity"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::exact_closed_gas_budget_accepts",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::exact_exclusive_remainders_accept_without_material_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::exact_phase_exhaustion_accepts_zero_aqueous",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::missing_owned_gas_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::negative_owned_gas_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::negative_raw_aqueous_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::nonfinite_owned_gas_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::nonfinite_raw_aqueous_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::primary_and_typed_overdraw_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::primary_solid_dissolution_is_counted_once",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::primary_solid_precipitation_is_debited_once",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::strontium_phase_overdraw_refuses_at_every_scale",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::ten_percent_raw_deficit_refuses_at_every_scale",
+      "outcome": "FAILED",
+      "classification": "previously documented closed-boundary fixture ambiguity"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::ten_percent_raw_excess_refuses_at_every_scale",
+      "outcome": "FAILED",
+      "classification": "previously documented closed-boundary fixture ambiguity"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::zero_aqueous_with_positive_remainder_refuses",
+      "outcome": "FAILED",
+      "classification": "previously documented closed-boundary fixture ambiguity"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::aggregate_available_overflow_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::external_carbon_cannot_hide_calcium_overdraw",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::external_carbon_is_open_with_closed_cations",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::inside_declared_raw_budget_accepts",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::malformed_available_aqueous_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::malformed_initial_closed_gas_refuses",
+      "outcome": "FAILED",
+      "classification": "previously documented closed-boundary fixture ambiguity"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::malformed_primary_phase_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::outside_declared_raw_budget_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_cancellation::owner_sum_cancellation_accepts_raw_without_rescaling_trace_remainder",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_external_boundaries::actual_external_carbon_phase_does_not_require_a_solid_registry_identity",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_external_boundaries::noncarbon_external_boundary_does_not_open_the_carbon_budget",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_external_boundaries::noncarbon_external_phase_preserves_supported_closed_carbon",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_external_raw::missing_external_phase_final_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_external_raw::negative_external_phase_final_refuses",
+      "outcome": "FAILED",
+      "classification": "malformed external phase accepted (negative or first nonfinite loop value NaN)"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_external_raw::negative_external_phase_initial_refuses",
+      "outcome": "FAILED",
+      "classification": "malformed external phase accepted (negative or first nonfinite loop value NaN)"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_external_raw::nonfinite_external_phase_final_refuses",
+      "outcome": "FAILED",
+      "classification": "malformed external phase accepted (negative or first nonfinite loop value NaN)"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_external_raw::nonfinite_external_phase_initial_refuses",
+      "outcome": "FAILED",
+      "classification": "malformed external phase accepted (negative or first nonfinite loop value NaN)"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_external_raw::zero_external_phase_initial_and_final_remain_valid",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_raw_carbon::complete_zero_carbon_readback_accepts_exact_exhaustion",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_raw_carbon::malformed_raw_carbon_base_refuses_before_zero_skip",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_raw_carbon::malformed_raw_carbon_state_refuses_before_clamping",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_raw_carbon::missing_raw_carbon_base_refuses_even_at_exact_exhaustion",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_raw_carbon::missing_requested_carbon_state_refuses_at_exact_exhaustion",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_refusal_atomicity::native_overdraw_refusal_preserves_complete_serialized_vessel",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_refusal_atomicity::stack_records_failed_native_route_and_preserves_complete_vessel",
+      "outcome": "ok"
+    }
+  ]
+}
