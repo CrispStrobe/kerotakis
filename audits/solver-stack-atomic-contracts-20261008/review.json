@@ -1,0 +1,76 @@
+{
+  "lane": "stack",
+  "harness": "96de408224197e040fb078b5522fe8e4fab86a5d",
+  "manifest_sha256": "c9f8936e88f71c4534ec388db8ae99663fb571463bc9863ecee1f27f3e666b37",
+  "sources": [
+    {
+      "label": "baseline",
+      "source": "75511717bacb61fd235058d00471f97019051690",
+      "passed": [
+        "supported_direct_route_preserves_all_accepted_metadata",
+        "supported_mix_route_preserves_all_accepted_metadata"
+      ],
+      "failed": [
+        "accumulated_step_gas_overflow_refuses_the_entire_attempt",
+        "all_declined_mix_routes_leave_no_trial_state",
+        "declined_mix_restores_state_before_the_next_route",
+        "earlier_success_survives_later_direct_failure",
+        "failed_direct_route_restores_complete_vessel_and_reports_failure",
+        "failed_mix_restores_complete_vessel",
+        "invalid_successful_direct_result_discards_state_and_trial_events",
+        "invalid_successful_mix_result_discards_state_and_trial_events",
+        "next_direct_route_observes_the_accepted_checkpoint",
+        "rejected_gas_event_cannot_enter_the_step_boundary_ledger",
+        "solver_cannot_replace_the_target_vessel_identity"
+      ],
+      "evidence_sha256": {
+        "Cargo.lock": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+        "controls-exit.txt": "39b8dc3fc8b44765c8e6f1adee04c5b465e555ab791cc42d0d9e810d5b64297c",
+        "controls.log": "cb6de921a03b2fffce511b0eb84c751f837df54ceeb68b5f698ad825a621da49",
+        "fixture-sha256.txt": "cc0a74be42e99e08709515da04f4483247f7d2774fadc55ba33f9ec01f1674d8",
+        "generated-lock-sha256.txt": "38423fbf7885574f98ac58f1767fc7a186db189e1d2fce61eca28f5f0d14b2e4",
+        "inherited-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "inherited.log": "d73159488882d0ac2a8ab4d344f822f57af46434f57652e5c5441dacbb0f557a",
+        "source-commit.txt": "fcd0343e166107dd5766a577a597a327cf6d0efa0a2b96e3d63b9d952f67bef8",
+        "source-tree.txt": "7c961ecf9644f6b3610dadb0a060c6d32e1814ada2597804575fe1adb1930247",
+        "status-before.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "submodules.txt": "bfdd1930cec157acbba4c8da9aec06670162f5a9a25c1a05d4f17476e6c4468e"
+      }
+    },
+    {
+      "label": "repair",
+      "source": "61ee9cd1a728e4e9bc8471029750372ed870d376",
+      "passed": [
+        "accumulated_step_gas_overflow_refuses_the_entire_attempt",
+        "all_declined_mix_routes_leave_no_trial_state",
+        "declined_mix_restores_state_before_the_next_route",
+        "earlier_success_survives_later_direct_failure",
+        "failed_direct_route_restores_complete_vessel_and_reports_failure",
+        "failed_mix_restores_complete_vessel",
+        "invalid_successful_direct_result_discards_state_and_trial_events",
+        "invalid_successful_mix_result_discards_state_and_trial_events",
+        "next_direct_route_observes_the_accepted_checkpoint",
+        "rejected_gas_event_cannot_enter_the_step_boundary_ledger",
+        "solver_cannot_replace_the_target_vessel_identity",
+        "supported_direct_route_preserves_all_accepted_metadata",
+        "supported_mix_route_preserves_all_accepted_metadata"
+      ],
+      "failed": [],
+      "evidence_sha256": {
+        "Cargo.lock": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+        "controls-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "controls.log": "c59290fb7ae16094342c672ab1df6dfee55d3ea2387ab373695734027a773109",
+        "fixture-sha256.txt": "cc0a74be42e99e08709515da04f4483247f7d2774fadc55ba33f9ec01f1674d8",
+        "generated-lock-sha256.txt": "38423fbf7885574f98ac58f1767fc7a186db189e1d2fce61eca28f5f0d14b2e4",
+        "inherited-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "inherited.log": "24c662539410223304623d64ecd45e64a7d756d16c8e10e297d000e348587e36",
+        "source-commit.txt": "5711bb5cb806d775b71dcc895383d1d2cdc1710af5f8517e44ed6820cd3c4f5c",
+        "source-tree.txt": "b12063ead8cbcde57293f1efa97e9f4c07a1b97b447b741c8c91f93a771433ef",
+        "status-before.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "submodules.txt": "bfdd1930cec157acbba4c8da9aec06670162f5a9a25c1a05d4f17476e6c4468e"
+      }
+    }
+  ],
+  "generated_lock_sha256": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+  "accepted_bounded_diagnostic": true
+}

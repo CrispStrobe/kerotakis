@@ -1,0 +1,74 @@
+{
+  "lane": "boundary",
+  "harness": "09da9aa17a6c74f1439552f8b4ecaca86ea3b98f",
+  "manifest_sha256": "ac03201deeb6b6c144018f1bc8de35c366d4c8b0ebfd23c80c0289368eaccf7b",
+  "sources": [
+    {
+      "label": "baseline",
+      "source": "4f86c45e64bb0aedf2cb09053dd66aa033b7a8b6",
+      "passed": [
+        "contained_gas_remains_owned_without_double_counting_boundary",
+        "mismatched_inlet_or_outlet_refuses_completely",
+        "supported_physical_boundary_retains_existing_disposition"
+      ],
+      "failed": [
+        "balanced_inlet_commits_owned_state_and_event_together",
+        "balanced_outlet_commits_owned_state_and_event_together",
+        "boundary_event_must_name_its_actual_vessel",
+        "invalid_boundary_amounts_refuse_without_trial_events",
+        "invalid_conservation_tolerance_refuses_unchanged_or_unbalanced_proposals",
+        "overflowing_element_boundary_refuses_even_with_finite_event_amount",
+        "physical_boundary_events_obey_numeric_identity_validation",
+        "unaccompanied_finite_boundary_flux_cannot_hide_as_metadata",
+        "unsupported_boundary_event_species_refuses"
+      ],
+      "evidence_sha256": {
+        "Cargo.lock": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+        "controls-exit.txt": "39b8dc3fc8b44765c8e6f1adee04c5b465e555ab791cc42d0d9e810d5b64297c",
+        "controls.log": "336f3f2a32eae2f84ed24179177ca15e2242378f9eada0883fe4b69f56152b9d",
+        "fixture-sha256.txt": "dfa5a0520ad9a76a9838a223b7297f061a6d827750102d74451d90b0d7951799",
+        "generated-lock-sha256.txt": "38423fbf7885574f98ac58f1767fc7a186db189e1d2fce61eca28f5f0d14b2e4",
+        "inherited-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "inherited.log": "5b48d88928eabd403e5323a1bc8b18e8bf35a465eca093886bdd8cf4564f1269",
+        "source-commit.txt": "149ff716d12c166f015089d7fb6a703e32ad280b1e46227bd88fe197c34e3f14",
+        "source-tree.txt": "328ae32d85c487fbea3effcebbb1d22a66e4049588170c2d08b004b38c755ca4",
+        "status-before.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "submodules.txt": "bfdd1930cec157acbba4c8da9aec06670162f5a9a25c1a05d4f17476e6c4468e"
+      }
+    },
+    {
+      "label": "repair",
+      "source": "c47aff340eab37b3c38f1103e3906bf5fa1d5566",
+      "passed": [
+        "balanced_inlet_commits_owned_state_and_event_together",
+        "balanced_outlet_commits_owned_state_and_event_together",
+        "boundary_event_must_name_its_actual_vessel",
+        "contained_gas_remains_owned_without_double_counting_boundary",
+        "invalid_boundary_amounts_refuse_without_trial_events",
+        "invalid_conservation_tolerance_refuses_unchanged_or_unbalanced_proposals",
+        "mismatched_inlet_or_outlet_refuses_completely",
+        "overflowing_element_boundary_refuses_even_with_finite_event_amount",
+        "physical_boundary_events_obey_numeric_identity_validation",
+        "supported_physical_boundary_retains_existing_disposition",
+        "unaccompanied_finite_boundary_flux_cannot_hide_as_metadata",
+        "unsupported_boundary_event_species_refuses"
+      ],
+      "failed": [],
+      "evidence_sha256": {
+        "Cargo.lock": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+        "controls-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "controls.log": "de24ee72e1ea6bde7460cd2d01f011570878002bb58bbc8a143096c8f1df6c0e",
+        "fixture-sha256.txt": "dfa5a0520ad9a76a9838a223b7297f061a6d827750102d74451d90b0d7951799",
+        "generated-lock-sha256.txt": "38423fbf7885574f98ac58f1767fc7a186db189e1d2fce61eca28f5f0d14b2e4",
+        "inherited-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "inherited.log": "15aad624392586dd9df4bc71aa6ff48bc2eb8526bd70a0f4290232cfe7974bc4",
+        "source-commit.txt": "722974966ca68f315a82f741ecda7ea256808082783090d8e38326c73924543b",
+        "source-tree.txt": "882ed566177dc22ebbd7e31531448460deb68769689e0773f7903e9c3076c9a1",
+        "status-before.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "submodules.txt": "bfdd1930cec157acbba4c8da9aec06670162f5a9a25c1a05d4f17476e6c4468e"
+      }
+    }
+  ],
+  "generated_lock_sha256": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+  "accepted_bounded_diagnostic": true
+}

@@ -269,3 +269,9 @@ AUD-01/AUD-02/VAL-01 must not edit native reconstruction concurrently. NUM-02/NU
 ## How to report a completed lane
 
 Record lane ID, exact source and prerequisite revision, frozen contracts, baseline failures, implemented behavior, acceptance commands/run links, executable identity, scientific qualifications, unsupported scope and follow-on lane IDs. Update the checkpoint and the existing roadmap/history entry without renumbering older tasks. Public reports use repository-relative paths and public evidence links only; research mappings, host configuration and artifact-storage details stay private.
+
+## Latest bounded transaction and persistence evidence
+
+Direct-stack and gas-boundary paired diagnostics are reviewed: [13/13 stack controls](../audits/solver-stack-atomic-contracts-20261008/README.md) and [12/12 boundary controls](../audits/solver-boundary-contracts-20261008/README.md), with 604 inherited core library tests passing on both sources in each comparison. PR #768 still needs final main-based integration acceptance for all 42 integration functions. Stacked PRs also trigger CI; any earlier contrary note is superseded.
+
+The next independent port is [PR #769](https://github.com/CrispStrobe/kerotakis/pull/769): canonical JSON keys for owned nuclide inventories, preserving individual isotope objects and rejecting invalid or duplicate inventory entries. Eleven unchanged historical controls were ported before production edits. Consume paired run 37797436300, verify source/fixture/generated-lock bindings and inherited controls, then require exact-head PR gates. Do not count this narrow persistence port as runtime nuclide accounting or full-audit acceptance.
