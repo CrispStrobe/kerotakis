@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "main_after_ports": "b4455b7871889d0f1e1423390a3bc33a3ec9cdbd",
+  "main_after_ports": "158a29f5a723f3d972a5507be6c5824437c32ecb",
   "ports": [
     {
       "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/757",
@@ -397,6 +397,50 @@
         }
       ],
       "scope": "Registry solid index. Separate reviewed comparison proves bounded output equivalence and single-host performance."
+    },
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/767",
+      "tested_head": "bce5eb224beb801921b77db0d648f7872df0f99b",
+      "merge_commit": "158a29f5a723f3d972a5507be6c5824437c32ecb",
+      "merged_at": "2026-10-08T15:03:53Z",
+      "required_checks": [
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37787107587/job/113345024183",
+          "started_at": "2026-10-08T14:38:33Z",
+          "completed_at": "2026-10-08T14:59:28Z"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37787107587/job/113345023475",
+          "started_at": "2026-10-08T13:56:53Z",
+          "completed_at": "2026-10-08T14:14:38Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37787107587/job/113345023906",
+          "started_at": "2026-10-08T13:52:00Z",
+          "completed_at": "2026-10-08T14:08:20Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37787107587/job/113345023832",
+          "started_at": "2026-10-08T14:46:18Z",
+          "completed_at": "2026-10-08T14:51:51Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37787107587/job/113345023912",
+          "started_at": "2026-10-08T14:51:31Z",
+          "completed_at": "2026-10-08T15:02:45Z"
+        }
+      ],
+      "scope": "Ordered bulk/adsorbed/electrode inventory prefixes, positive trace preservation and invalid thermal-input rejection. Inventory and thermal paired diagnostics separately reviewed."
     }
   ],
   "scope": "Independent matching-head required PR gates. Not a full integrated-source audit/replay or performance acceptance.",
