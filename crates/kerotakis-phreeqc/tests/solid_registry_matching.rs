@@ -13,20 +13,27 @@ fn mineral_identity_preserves_composition_hydration_and_absence() {
     assert_eq!(registry_solid_for(&chloride, 0.0), Some("NaCl"));
     assert_eq!(registry_solid_for(&chloride, f64::NAN), None);
     assert_eq!(registry_solid_for(&chloride, f64::INFINITY), None);
-    assert_eq!(registry_solid_for(&parse_formula("XeF6").unwrap(), 0.0), None);
+    assert_eq!(
+        registry_solid_for(&parse_formula("XeF6").unwrap(), 0.0),
+        None
+    );
 }
 
 #[test]
-fn parallel_first_lookups_preserve_mineral_identity() {
-    // An integration test process has its own initially cold static cache.
+fn parallel_lookups_preserve_mineral_identity() {
+    // Parallel readers must share identities without changing matching rules.
     let threads: Vec<_> = (0..8)
-        .map(|_| std::thread::spawn(|| {
-            let formula = parse_formula("CaSO4").unwrap();
-            for _ in 0..32 {
-                assert_eq!(registry_solid_for(&formula, 2.0), Some("gypsum"));
-                assert_eq!(registry_solid_for(&formula, 3.0), None);
-            }
-        }))
+        .map(|_| {
+            std::thread::spawn(|| {
+                let formula = parse_formula("CaSO4").unwrap();
+                for _ in 0..32 {
+                    assert_eq!(registry_solid_for(&formula, 2.0), Some("gypsum"));
+                    assert_eq!(registry_solid_for(&formula, 3.0), None);
+                }
+            })
+        })
         .collect();
-    for thread in threads { thread.join().unwrap(); }
+    for thread in threads {
+        thread.join().unwrap();
+    }
 }
