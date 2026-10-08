@@ -2174,15 +2174,227 @@ fn solid_solution_component_elements(component: SolidSolutionComponent) -> &'sta
     }
 }
 
-fn solid_solution_element_inventory(solid_solutions: &[SolidSolution], element: &str) -> f64 {
-    solid_solutions
+// These are adapter acceptance ceilings, not validated chemical accuracy.
+const CRYSTAL_NATIVE_RELATIVE_CAP: f64 = 1e-7;
+const CRYSTAL_OUTPUT_RELATIVE_CAP: f64 = 5e-12;
+
+fn crystal_balance_error(detail: impl Into<String>) -> SolveError {
+    SolveError::NotConverged {
+        solver: "phreeqc-aqueous".into(),
+        detail: format!("mixed-crystal ownership: {}", detail.into()),
+    }
+}
+
+fn checked_crystal_sum(
+    values: &[f64],
+    owner: &str,
+) -> Result<kerotakis_core::amount::Amount, SolveError> {
+    use kerotakis_core::amount::Amount;
+    values
         .iter()
-        .flat_map(|solid_solution| &solid_solution.components)
-        .filter(|amount| solid_solution_component_elements(amount.component).contains(&element))
-        // Both reviewed carbonate end members contain one mole of their
-        // cation and one mole of carbon per formula unit.
-        .map(|amount| amount.moles.0)
-        .sum()
+        .try_fold(Amount::new(0.0).unwrap(), |sum, value| {
+            let amount = Amount::new(*value)
+                .map_err(|_| crystal_balance_error(format!("{owner}: invalid amount {value}")))?;
+            sum.checked_add(amount)
+                .map_err(|_| crystal_balance_error(format!("{owner}: amount sum overflow")))
+        })
+}
+
+fn crystal_roundoff_cap(terms: usize) -> Result<f64, SolveError> {
+    let roundoff = (terms as f64 + 4.0) * f64::EPSILON;
+    if !roundoff.is_finite() || roundoff >= 1.0 {
+        return Err(crystal_balance_error(
+            "unsupported arithmetic reduction size",
+        ));
+    }
+    Ok(roundoff / (1.0 - roundoff))
+}
+
+fn crystal_relative_cap(terms: usize) -> Result<f64, SolveError> {
+    Ok(CRYSTAL_NATIVE_RELATIVE_CAP + CRYSTAL_OUTPUT_RELATIVE_CAP + crystal_roundoff_cap(terms)?)
+}
+
+/// Reconcile only witnessed exclusive aqueous totals and explicit Ca/Sr/C
+/// owners. Inclusive selected totals and interface co-owners require a separate
+/// same-solve witness; pre-solve budgets cannot establish that representation.
+fn checked_crystal_reconciliation(
+    vessel: &Vessel,
+    problem: &Problem,
+    ions: &[(String, f64)],
+    crystals: &[SolidSolution],
+    value: &dyn Fn(&str) -> Option<f64>,
+) -> Result<Vec<(String, f64)>, SolveError> {
+    if !problem.surfaces.is_empty() || !problem.exchanges.is_empty() {
+        return Err(crystal_balance_error(
+            "surface/exchange co-ownership lacks an aqueous witness",
+        ));
+    }
+    if problem
+        .solid_solutions
+        .iter()
+        .chain(crystals)
+        .any(|phase| !phase.has_valid_state())
+    {
+        return Err(crystal_balance_error("invalid typed crystal inventory"));
+    }
+    for (element, amount) in ions {
+        checked_crystal_sum(&[*amount], &format!("raw aqueous {element}"))?;
+    }
+    // Validate every owned gas column before using carbon or clamping anything.
+    let gases: Vec<(&str, f64)> = problem
+        .gases
+        .iter()
+        .map(|(phase, species, _)| {
+            let column = format!("g_{phase}");
+            let amount = value(&column).ok_or_else(|| missing(&column))?;
+            checked_crystal_sum(&[amount], &column)?;
+            Ok((species.as_str(), amount))
+        })
+        .collect::<Result<_, SolveError>>()?;
+    let mut corrected = ions.to_vec();
+    for element in ["Ca", "Sr", "C"] {
+        if element == "C"
+            && problem
+                .external_gases
+                .iter()
+                .any(|gas| gas.species == "CO2")
+        {
+            continue; // Explicitly open carbon; Ca/Sr remain closed.
+        }
+        let mut available: Vec<f64> = problem
+            .totals
+            .iter()
+            .filter(|(key, _)| key.split('(').next().unwrap_or(key) == element)
+            .map(|(_, amount)| *amount)
+            .collect();
+        let mut owned: Vec<f64> = Vec::new();
+        for (phases, amounts) in [
+            (problem.solid_solutions.as_slice(), &mut available),
+            (crystals, &mut owned),
+        ] {
+            amounts.extend(
+                phases
+                    .iter()
+                    .flat_map(|phase| &phase.components)
+                    .filter(|amount| {
+                        solid_solution_component_elements(amount.component).contains(&element)
+                    })
+                    .map(|amount| amount.moles.0),
+            );
+        }
+        // Pure phases are independent owners, absent from SOLUTION totals.
+        for (phase, initial, _) in &problem.phases {
+            if let Some(external) = problem
+                .external_gases
+                .iter()
+                .find(|gas| gas.phase == *phase)
+            {
+                let final_amount = value(phase).ok_or_else(|| missing(phase))?;
+                checked_crystal_sum(&[*initial], phase)?;
+                checked_crystal_sum(&[external.initial_moles], phase)?;
+                checked_crystal_sum(&[final_amount], phase)?;
+
+                // Reviewed gas boundaries have no Ca/Sr owner. Only CO2 opens
+                // carbon; HBr and atmospheric O2/N2 leave its budget closed.
+                let formula = crate::dbindex::parse_formula(phase.trim_end_matches("(g)"))
+                    .ok_or_else(|| {
+                        crystal_balance_error(format!("unreviewed external phase {phase}"))
+                    })?;
+                if formula.contains_key(element) {
+                    return Err(crystal_balance_error(format!(
+                        "external {phase} lacks a reviewed {element} boundary"
+                    )));
+                }
+                continue;
+            }
+
+            let definition = derived::phase_by_name(phase).ok_or_else(|| {
+                crystal_balance_error(format!("unreviewed primary phase {phase}"))
+            })?;
+            let final_amount = value(phase).ok_or_else(|| missing(phase))?;
+            checked_crystal_sum(&[*initial], phase)?;
+            checked_crystal_sum(&[final_amount], phase)?;
+            let coefficients: Vec<f64> = definition
+                .elements
+                .iter()
+                .filter(|(key, _)| key.split('(').next().unwrap_or(key) == element)
+                .map(|(_, coefficient)| *coefficient)
+                .collect();
+            let coefficient = checked_crystal_sum(&coefficients, phase)?.to_f64();
+            available.push(initial * coefficient);
+            owned.push(final_amount * coefficient);
+        }
+        if element == "C" {
+            available.extend(
+                vessel
+                    .contents
+                    .iter()
+                    .filter(|portion| portion.phase == Phase::Gas && portion.species.0 == "CO2")
+                    .map(|portion| portion.moles.0),
+            );
+            owned.extend(
+                gases
+                    .iter()
+                    .filter(|(species, _)| *species == "CO2")
+                    .map(|(_, amount)| *amount),
+            );
+        }
+        let available_amount = checked_crystal_sum(&available, &format!("available {element}"))?;
+        let total_available = available_amount.to_f64();
+        let owned_amount = checked_crystal_sum(&owned, &format!("final owned {element}"))?;
+        let total_owned = owned_amount.to_f64();
+        let cap = crystal_relative_cap(available.len() + owned.len())?;
+        let scale = total_available.max(total_owned);
+        if total_owned > total_available && (total_owned - total_available) / scale > cap {
+            return Err(crystal_balance_error(format!(
+                "{element} phase overdraw: available={total_available:e}, owned={total_owned:e}"
+            )));
+        }
+        // Only a checked within-cap residual may reach this nonnegative bound.
+        let target = match available_amount.checked_sub(owned_amount) {
+            Ok(remainder) => remainder.to_f64(),
+            Err(kerotakis_core::amount::AmountError::Negative) => 0.0,
+            Err(error) => {
+                return Err(crystal_balance_error(format!(
+                    "{element} remainder: {error}"
+                )))
+            }
+        };
+        let raw_parts: Vec<f64> = ions
+            .iter()
+            .filter(|(key, _)| key.split('(').next().unwrap_or(key) == element)
+            .map(|(_, amount)| *amount)
+            .collect();
+        let raw = checked_crystal_sum(&raw_parts, &format!("raw aqueous {element}"))?.to_f64();
+        let raw_cap = crystal_relative_cap(raw_parts.len() + available.len() + owned.len())?;
+        let discrepancy = (raw - target).abs();
+        if raw == 0.0 && target > 0.0 {
+            return Err(crystal_balance_error(format!(
+                "{element} missing aqueous inventory: remainder={target:e}"
+            )));
+        }
+        if raw != target && discrepancy / raw.max(target) > raw_cap {
+            // Scalar owner products and residual projection have a separate
+            // arithmetic budget at owner scale. Preserve the aqueous witness,
+            // never amplify a trace to match an ill-conditioned subtraction.
+            let roundoff = crystal_roundoff_cap(raw_parts.len() + available.len() + owned.len())?;
+            if scale > 0.0 && discrepancy / scale <= roundoff {
+                continue;
+            }
+            return Err(crystal_balance_error(format!(
+                "{element} unexplained aqueous residual: raw={raw:e}, remainder={target:e}"
+            )));
+        }
+        if raw > 0.0 {
+            let factor = target / raw;
+            for (key, amount) in &mut corrected {
+                if key.split('(').next().unwrap_or(key) == element {
+                    *amount *= factor;
+                }
+            }
+        }
+    }
+    Ok(corrected)
 }
 
 impl Equilibrator for PhreeqcEquilibrator {
@@ -4123,6 +4335,23 @@ impl PhreeqcEquilibrator {
         // Molalities are per kg of *equilibrated* water (mass_H2O), which
         // differs slightly from the input water mass through speciation.
         let kgw_out = value("mass_H2O").ok_or_else(|| missing("mass_H2O"))?;
+        if !problem.solid_solutions.is_empty() {
+            if !kgw_out.is_finite() || kgw_out <= 0.0 {
+                return Err(crystal_balance_error("invalid aqueous solvent mass"));
+            }
+            let states = valence_totals(problem, db_tag);
+            for column in problem.elements.iter().chain(&states) {
+                let base = column.split('(').next().unwrap_or(column);
+                if !["Ca", "Sr", "C"].contains(&base) {
+                    continue;
+                }
+                for name in [column.as_str(), base] {
+                    let raw = value(name).ok_or_else(|| missing(name))?;
+                    checked_crystal_sum(&[raw], &format!("raw selected {name}"))?;
+                    checked_crystal_sum(&[raw * kgw_out], &format!("aqueous {name}"))?;
+                }
+            }
+        }
         let mut solvent_kgw_out = kgw_out;
         let mut new_surfaces = problem.surfaces.clone();
         if !new_surfaces.is_empty() {
@@ -4230,7 +4459,16 @@ impl PhreeqcEquilibrator {
             for amount in &mut solid_solution.components {
                 let phase = phreeqc_solid_solution_component(amount.component);
                 let column = format!("s_{phase}");
-                amount.moles = Moles(value(&column).ok_or_else(|| missing(&column))?.max(0.0));
+                let raw = value(&column).ok_or_else(|| missing(&column))?;
+                if !raw.is_finite() || raw < 0.0 {
+                    return Err(SolveError::NotConverged {
+                        solver: self.name().to_string(),
+                        detail: format!(
+                            "PHREEQC returned an invalid finite nonnegative component amount for '{column}': {raw}"
+                        ),
+                    });
+                }
+                amount.moles = Moles(raw);
             }
             if !solid_solution.has_valid_state() {
                 return Err(SolveError::NotConverged {
@@ -4589,69 +4827,14 @@ impl PhreeqcEquilibrator {
                 }
             }
         }
-        // The typed mixed crystal owns its end-member formula units. Keep
-        // aqueous selected totals equal the analytical inventory remaining
-        // after that ownership is removed, regardless of whether a database
-        // reports SOLID_SOLUTIONS inside or outside its selected total. In a
-        // closed headspace carbon also moves into CO2(g), so that owned gas
-        // is part of both sides of the ledger. An external gas boundary is
-        // deliberately open and therefore cannot be closed this way.
         if !problem.solid_solutions.is_empty() {
-            for element in ["Ca", "Sr", "C"] {
-                if element == "C" && !problem.external_gases.is_empty() {
-                    continue;
-                }
-                let solution_inventory: f64 = problem
-                    .totals
-                    .iter()
-                    .filter(|(candidate, _)| {
-                        candidate.split('(').next().unwrap_or(candidate) == element
-                    })
-                    .map(|(_, moles)| moles)
-                    .sum();
-                let initial_solid_solution =
-                    solid_solution_element_inventory(&problem.solid_solutions, element);
-                let final_solid_solution =
-                    solid_solution_element_inventory(new_solid_solutions, element);
-                let (initial_gas, final_gas) = if element == "C" {
-                    let initial = vessel
-                        .contents
-                        .iter()
-                        .filter(|portion| portion.phase == Phase::Gas && portion.species.0 == "CO2")
-                        .map(|portion| portion.moles.0)
-                        .sum::<f64>();
-                    let final_amount = problem
-                        .gases
-                        .iter()
-                        .filter(|(_, species, _)| species == "CO2")
-                        .filter_map(|(phase, _, _)| value(&format!("g_{phase}")))
-                        .sum::<f64>();
-                    (initial, final_amount)
-                } else {
-                    (0.0, 0.0)
-                };
-                let target = (solution_inventory + initial_solid_solution + initial_gas
-                    - final_solid_solution
-                    - final_gas)
-                    .max(0.0);
-                let aqueous: f64 = new_ions
-                    .iter()
-                    .filter(|(candidate, _)| {
-                        candidate.split('(').next().unwrap_or(candidate) == element
-                    })
-                    .map(|(_, moles)| moles)
-                    .sum();
-                if aqueous > 0.0 {
-                    let scale = target / aqueous;
-                    for (candidate, moles) in new_ions.iter_mut() {
-                        if candidate.split('(').next().unwrap_or(candidate) == element {
-                            *moles *= scale;
-                        }
-                    }
-                } else if target > TRACE {
-                    new_ions.push((element.to_string(), target));
-                }
-            }
+            *new_ions = checked_crystal_reconciliation(
+                vessel,
+                problem,
+                new_ions,
+                new_solid_solutions,
+                value,
+            )?;
         }
         let mut new_phases: Vec<(String, f64)> = Vec::new();
         for (phase, ..) in &problem.phases {
@@ -6831,3 +7014,38 @@ mod routing_molality_tests {
         );
     }
 }
+
+// Frozen source-informed raw mixed-crystal readback contracts.
+#[cfg(test)]
+use kerotakis_core::VesselId;
+#[cfg(test)]
+#[path = "../tests/solid_solution_raw_readback/contracts_complete_columns.rs"]
+mod solid_solution_raw_readback_contracts;
+
+#[cfg(test)]
+#[path = "../tests/solid_solution_phase_budget/contracts_closed_boundary.rs"]
+mod solid_solution_raw_readback_contracts_budget;
+
+#[cfg(test)]
+#[path = "../tests/solid_solution_phase_budget/supplement_closed_boundary.rs"]
+mod solid_solution_raw_readback_contracts_budget_supplement;
+
+#[cfg(test)]
+#[path = "../tests/solid_solution_phase_budget/cancellation.rs"]
+mod solid_solution_raw_readback_contracts_cancellation;
+
+#[cfg(test)]
+#[path = "../tests/solid_solution_phase_budget/raw_carbon.rs"]
+mod solid_solution_raw_readback_contracts_raw_carbon;
+
+#[cfg(test)]
+#[path = "../tests/solid_solution_phase_budget/external_boundaries.rs"]
+mod solid_solution_raw_readback_contracts_external_boundaries;
+
+#[cfg(test)]
+#[path = "../tests/solid_solution_phase_budget/external_raw.rs"]
+mod solid_solution_raw_readback_contracts_external_raw;
+
+#[cfg(test)]
+#[path = "../tests/solid_solution_phase_budget/refusal_atomicity.rs"]
+mod solid_solution_raw_readback_contracts_refusal_atomicity;

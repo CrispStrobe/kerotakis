@@ -1,0 +1,10 @@
+{
+  "original_source_commit": "8cdab1f6ecd0b1132c4008014a5a0c5476429d17",
+  "original_path": "crates/kerotakis-phreeqc/tests/solid_solution_raw_readback/contracts.rs",
+  "original_sha256": "9ba77f88e8f4432cffd58b18d9d86614656274b3127c76d63e2a141cc12afd5b",
+  "adapted_path": "crates/kerotakis-phreeqc/tests/solid_solution_raw_readback/contracts_complete_columns.rs",
+  "adapted_sha256": "1726eed571ecf8efb620322ce59be6d9a91287833a76ccbb8b41fc5faa87e908",
+  "change": "Add exactly two fixture lines: headers.push(\"C(-4)\".into()); values.push(\"0\".into()); All seven assertion bodies remain unchanged. Original file preserved unchanged.",
+  "reason": "Direct and MIX selected-output builders request C(-4) for WATEQ4F carbon; original positive fixtures omitted this required zero column. Strict raw validation must not recognize incomplete fixtures as supported native output.",
+  "outcomes": "Adapted harness pending hosted execution; original pre-strict baseline retained."
+}

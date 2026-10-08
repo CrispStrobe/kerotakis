@@ -1,0 +1,9 @@
+{
+  "reviewed_base": "cdcf183f11394b8365a39ddf375b6a455dfa3ea9",
+  "scope": "Add/AddMaterial stock refusal short-circuit; counting/mutating solver controls",
+  "sha256": {
+    "crates/kerotakis-core/src/bench.rs": "b04d2846f6ad869fceb33e271e6f79c3f442a2e008e3c24e97467172aaafa62c",
+    "crates/kerotakis-core/tests/stock_refusal_short_circuit.rs": "0ad0fd422b9549c337c8a8403c1fc7ce64fe61c3b8b592a4d483db9b90d87020"
+  },
+  "validation": "rustfmt and git diff --check only; hosted execution pending; no executed failing baseline"
+}

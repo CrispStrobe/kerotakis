@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "reason": "Vessel::new defaults to open headspace. partition adds atmospheric CO2 to external_gases; fixtures claiming a closed carbon budget must explicitly remove inherited external boundaries. The explicit open-carbon controls still add their own boundary after this reset. Original files and observed baseline outcomes are preserved.",
+  "files": [
+    {
+      "original": "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/contracts.rs",
+      "original_sha256": "853d981f3072ff1b695ca02258dd53443787375da5e2a2205798b5fd82f34062",
+      "adapted": "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/contracts_closed_boundary.rs",
+      "adapted_sha256": "f9da2826deb0e571615c9eb288f6598e6728263d8aef3d7fca0eed324ff46d05",
+      "change": "Add problem.external_gases.clear() immediately after problem.gases.clear(); assertion bodies unchanged."
+    },
+    {
+      "original": "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/supplement.rs",
+      "original_sha256": "b69e34366d157d2e18650431ba8545699d853345a21b814c0c49ed11c844d894",
+      "adapted": "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/supplement_closed_boundary.rs",
+      "adapted_sha256": "22c68142e4f88ae9b9c7c6a0893217063551c2d4899fee836f0ad10287e69ae8",
+      "change": "Add problem.external_gases.clear() immediately after problem.gases.clear(); assertion bodies unchanged."
+    }
+  ],
+  "status": "Prepared correction; hosted validation pending. This receipt does not convert original baseline failures into demonstrated closed-system production failures."
+}

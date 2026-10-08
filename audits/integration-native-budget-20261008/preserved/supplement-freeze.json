@@ -1,0 +1,14 @@
+{
+  "source_before_production_fix": "3746d2770fd5721647ede5c730e5e881a3d3c5c6",
+  "test_path": "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/supplement.rs",
+  "sha256": "b69e34366d157d2e18650431ba8545699d853345a21b814c0c49ed11c844d894",
+  "tests": 8,
+  "policy": {
+    "native_relative_cap": 1e-07,
+    "output_relative_cap": 5e-12,
+    "arithmetic": "gamma(n)=n*epsilon/(1-n*epsilon), relative to the compared positive aggregate; reject nonfinite sums",
+    "raw_comparison": "relative to max(raw aqueous, independently computed remainder); zero raw with positive remainder refuses",
+    "phase_comparison": "relative to max(available, final owned); within-cap overdraw may produce zero remainder without creating negative inventory"
+  },
+  "status": "frozen before production changes; supplemental baseline pending"
+}
