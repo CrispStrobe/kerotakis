@@ -97,7 +97,7 @@ pub fn diff_vessels(before: &Vessel, after: &Vessel, source: &'static str) -> St
         delta = delta.with_thermal(ThermalDelta::SetTemperature(after.temperature));
     }
 
-    delta
+    delta.with_snapshot(before, after)
 }
 
 pub(crate) fn species_amounts(vessel: &Vessel) -> std::collections::HashMap<(String, Phase), f64> {
@@ -153,15 +153,24 @@ impl Orchestrator {
                 }
             };
 
-            if delta.is_empty() {
-                // Solver ran but made no changes — still report events
-                all_events.extend(events);
+            // Even physical routes must not publish invalid boundary events.
+            let event_errors = StateDelta::validate_gas_events(vessel, &events);
+            if !event_errors.is_empty() {
+                all_events.push(Event::SolverFailed {
+                    vessel: vessel.id,
+                    solver: solver.name().to_string(),
+                    detail: format!("invalid solver events: {event_errors:?}"),
+                });
                 continue;
             }
 
             // Phase 3+4: Audit + Commit
             if cap.is_chemistry {
-                match delta.commit_conserved(vessel, self.conservation_tolerance) {
+                match delta.commit_conserved_with_events(
+                    vessel,
+                    self.conservation_tolerance,
+                    &events,
+                ) {
                     Ok(()) => all_events.extend(events),
                     Err(errors) => {
                         all_events.push(Event::SolverFailed {

@@ -1,0 +1,28 @@
+{
+  "scope": "Source-informed direct solver/MIX atomicity, frozen before production changes or execution.",
+  "baseline_production": "987b0edd8eaedfcec0174cc90855ac54729b08a2",
+  "fixture_sha256": "71179df336cd244a4b6538dcbdfeac1c12cdb47a097cb775d1c779e0982059e9",
+  "test_functions": [
+    "failed_direct_route_restores_complete_vessel_and_reports_failure",
+    "next_direct_route_observes_the_accepted_checkpoint",
+    "earlier_success_survives_later_direct_failure",
+    "failed_mix_restores_complete_vessel",
+    "declined_mix_restores_state_before_the_next_route",
+    "all_declined_mix_routes_leave_no_trial_state",
+    "supported_direct_route_preserves_all_accepted_metadata",
+    "supported_mix_route_preserves_all_accepted_metadata",
+    "invalid_successful_direct_result_discards_state_and_trial_events",
+    "invalid_successful_mix_result_discards_state_and_trial_events",
+    "solver_cannot_replace_the_target_vessel_identity",
+    "rejected_gas_event_cannot_enter_the_step_boundary_ledger",
+    "accumulated_step_gas_overflow_refuses_the_entire_attempt"
+  ],
+  "expected_repair": "All controls pass; failed or declined attempts restore complete accepted checkpoint and discard trial events, preserving earlier accepted routes.",
+  "limitations": [
+    "State numeric validation is not physical model support or strict element conservation.",
+    "Gas event numeric/identity validity is separate from quantitative boundary balance."
+  ],
+  "original_12_fixture_sha256": "1d9ebd3674533d89a722d4dbefb6ae33b177ec9b66cae0b776de46fdb3ccb379",
+  "original_freeze_commit": "8766d6fc79832321f3f0a05cbf21e5f729882a27",
+  "extension": "Before any production change or execution, add an accumulated gas boundary overflow control."
+}

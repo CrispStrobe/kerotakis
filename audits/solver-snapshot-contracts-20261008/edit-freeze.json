@@ -1,0 +1,7 @@
+{
+  "scope": "Supplementary public emptiness contract found during snapshot source review; frozen before the is_empty repair, after original 16 controls and snapshot implementation.",
+  "baseline_production": "a51982b4144424585de36e90df2be277216525ed",
+  "fixture_sha256": "56d39f21fc9cadfb14752ffbc7950b723989ae1ce0d20aeeb784a3e29a2e1d14",
+  "expected_repair": "Edited terms cannot be hidden by unchanged complete candidate state; commit refuses atomically.",
+  "original_diagnostic": "37790212117 remains pinned to the unchanged original 16-function fixture; this supplementary control is required in final PR CI."
+}

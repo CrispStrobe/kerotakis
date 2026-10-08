@@ -80,6 +80,15 @@ pub struct StateDelta {
     pub thermal: Option<ThermalDelta>,
     /// Which model produced this delta.
     pub source: &'static str,
+    snapshot: Option<SolverSnapshot>,
+}
+
+/// Private immutable replacement prepared by a solver working on a clone.
+#[derive(Debug, Clone)]
+struct SolverSnapshot {
+    base: String,
+    terms: String,
+    candidate: Box<crate::vessel::Vessel>,
 }
 
 /// Signed transfer to a (sorbent, sorbate) inventory; bulk changes are separate.
@@ -105,6 +114,10 @@ pub struct InventoryLimitedDelta {
 /// Reasons a delta cannot be committed.
 #[derive(Debug, Clone, PartialEq)]
 pub enum DeltaError {
+    /// The target changed after a cloned proposal was prepared.
+    StaleProposal,
+    /// Complete solver state has no uniform inventory scaling rule.
+    UnscalableSnapshot,
     /// A proposed state field is outside its finite physical schema.
     InvalidState {
         field: String,
@@ -141,6 +154,8 @@ pub enum DeltaError {
 impl std::fmt::Display for DeltaError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
+            DeltaError::StaleProposal => write!(f, "vessel changed after this proposal was prepared"),
+            DeltaError::UnscalableSnapshot => write!(f, "complete solver state cannot be inventory-scaled"),
             DeltaError::InvalidState { field } => write!(f, "invalid transactional {field}"),
             DeltaError::Negativity {
                 species,
@@ -189,7 +204,525 @@ impl StateDelta {
             electrode_interfacial_species_changes: Vec::new(),
             thermal: None,
             source,
+            snapshot: None,
         }
+    }
+
+    /// Bind all solver state, including transient fields omitted by persistence.
+    pub(crate) fn with_snapshot(
+        mut self,
+        before: &crate::vessel::Vessel,
+        after: &crate::vessel::Vessel,
+    ) -> Self {
+        self.snapshot = Some(SolverSnapshot {
+            base: Self::state_key(before),
+            terms: self.terms_key(),
+            candidate: Box::new(after.clone()),
+        });
+        self
+    }
+
+    // In-process identity guard only: Debug includes skipped transient state.
+    // This representation is neither a persistence format nor a public hash.
+    fn state_key(vessel: &crate::vessel::Vessel) -> String {
+        format!("{vessel:?}")
+    }
+
+    fn terms_key(&self) -> String {
+        format!(
+            "{:?}",
+            (
+                &self.mole_changes,
+                &self.adsorbed_changes,
+                &self.electrode_changes,
+                &self.electrode_potential_changes,
+                &self.electrode_interfacial_species_changes,
+                &self.thermal
+            )
+        )
+    }
+
+    /// Numeric schema guard for complete cloned candidates. Model validity and
+    /// boundary-flow conservation remain separate acceptance contracts.
+    pub(crate) fn validate_state(candidate: &crate::vessel::Vessel) -> Vec<DeltaError> {
+        let mut errors = Vec::new();
+        let ledger = crate::ledger::ConservedLedger::from_vessel(candidate);
+        if !candidate.liquid_volume().0.is_finite()
+            || !candidate.heat_capacity().is_finite()
+            || !ledger.mass.is_finite()
+            || !ledger.energy.is_finite()
+            || !ledger.charge.is_finite()
+            || ledger.elements.values().any(|n| !n.is_finite())
+        {
+            errors.push(DeltaError::InvalidState {
+                field: "aggregate inventory/energy".into(),
+            });
+        }
+        if !candidate.temperature.0.is_finite()
+            // COOL exposes zero only as a disclosed mathematical floor.
+            // Native thermochemistry and ignition retain positive domains.
+            || candidate.temperature.0 < 0.0
+            || !candidate.pressure.0.is_finite()
+            || candidate.pressure.0 < 0.0
+        {
+            errors.push(DeltaError::InvalidState {
+                field: "temperature/pressure".into(),
+            });
+        }
+        let invalid_boundary = match candidate.headspace {
+            crate::vessel::Headspace::Open => false,
+            crate::vessel::Headspace::Sealed { volume } => !volume.0.is_finite() || volume.0 <= 0.0,
+            crate::vessel::Headspace::PressureControlled { pressure, volume } => {
+                !pressure.0.is_finite()
+                    || pressure.0 <= 0.0
+                    || !volume.0.is_finite()
+                    || volume.0 < 0.0
+            }
+            crate::vessel::Headspace::Swept { pressure } => {
+                !pressure.0.is_finite() || pressure.0 <= 0.0
+            }
+        };
+        if invalid_boundary
+            || matches!(candidate.thermal_mode, crate::vessel::ThermalMode::Thermostatted(t) if !t.0.is_finite() || t.0 <= 0.0)
+        {
+            errors.push(DeltaError::InvalidState {
+                field: "boundary conditions".into(),
+            });
+        }
+        for (field, value) in [
+            ("solute charge", candidate.solute_charge),
+            ("excess enthalpy", candidate.excess_enthalpy_j),
+            ("pending CO2 transfer", candidate.pending_co2_transfer_mol),
+        ] {
+            if !value.is_finite() {
+                errors.push(DeltaError::InvalidState {
+                    field: field.into(),
+                });
+            }
+        }
+        if candidate
+            .co2_partial_pressure_atm
+            .is_some_and(|p| !p.is_finite() || p < 0.0)
+        {
+            errors.push(DeltaError::InvalidState {
+                field: "CO2 driving pressure".into(),
+            });
+        }
+        for portion in &candidate.contents {
+            if !portion.moles.0.is_finite() || portion.moles.0 < 0.0 {
+                errors.push(DeltaError::InvalidState {
+                    field: format!("inventory {}", portion.species.0),
+                });
+            }
+        }
+        // Tracer ownership is a separate nuclear ledger, but every accepted
+        // state must still have valid identities and serializable amounts. Do
+        // not require curated decay support or chemical conservation here.
+        for (nuclide, moles) in &candidate.nuclides.inventory {
+            if !crate::stoich::is_element(&nuclide.element) || nuclide.mass_number == 0 {
+                errors.push(DeltaError::InvalidState {
+                    field: format!("nuclide identity {}", nuclide.notation()),
+                });
+            }
+            if !moles.is_finite() || *moles < 0.0 {
+                errors.push(DeltaError::InvalidState {
+                    field: format!("nuclide inventory {}", nuclide.notation()),
+                });
+            }
+        }
+        let mut crystal_labels = std::collections::BTreeSet::new();
+        for crystal in &candidate.solid_solutions {
+            if !crystal.has_valid_state() || !crystal_labels.insert(&crystal.label) {
+                errors.push(DeltaError::InvalidState {
+                    field: "invalid or ambiguous solid-solution ownership".into(),
+                });
+            }
+        }
+        let amounts = candidate
+            .adsorbed
+            .iter()
+            .map(|p| p.moles.0)
+            .chain(
+                candidate
+                    .surfaces
+                    .iter()
+                    .flat_map(|s| s.occupancy.iter().map(|p| p.moles.0)),
+            )
+            .chain(
+                candidate
+                    .exchanges
+                    .iter()
+                    .flat_map(|s| s.occupancy.iter().map(|p| p.moles.0)),
+            )
+            .chain(
+                candidate
+                    .solid_solutions
+                    .iter()
+                    .flat_map(|s| s.components.iter().map(|p| p.moles.0)),
+            )
+            .chain(candidate.electrodes.iter().flat_map(|s| {
+                s.substrate_moles
+                    .into_iter()
+                    .chain(s.deposits.iter().map(|p| p.moles))
+            }))
+            .chain(candidate.unresolved_materials.iter().map(|p| p.amount))
+            .chain(candidate.material_objects.iter().map(|p| p.mass_g))
+            .chain(
+                candidate
+                    .material_objects
+                    .iter()
+                    .flat_map(|p| p.components.iter().map(|c| c.moles.0)),
+            )
+            .chain(candidate.surfaces.iter().flat_map(|p| {
+                [
+                    p.mass.0,
+                    p.specific_area_m2_per_g,
+                    p.strong_capacity.0,
+                    p.weak_capacity.0,
+                ]
+            }))
+            .chain(
+                candidate
+                    .exchanges
+                    .iter()
+                    .flat_map(|p| [p.dry_mass.0, p.capacity.0]),
+            );
+        if amounts.into_iter().any(|n| !n.is_finite() || n < 0.0) {
+            errors.push(DeltaError::InvalidState {
+                field: "interface/material inventory".into(),
+            });
+        }
+        for (field, value) in [
+            ("free proton", candidate.free_proton),
+            ("free hydroxide", candidate.free_hydroxide),
+            ("elapsed time", candidate.elapsed_seconds),
+        ] {
+            if !value.is_finite() || value < 0.0 {
+                errors.push(DeltaError::InvalidState {
+                    field: field.into(),
+                });
+            }
+        }
+        for electrode in &candidate.electrodes {
+            if !electrode.area_m2.is_finite()
+                || electrode.area_m2 < 0.0
+                || !electrode.roughness.is_finite()
+                || electrode.roughness < 0.0
+                || !(electrode.area_m2 * electrode.roughness).is_finite()
+                || electrode.double_layer_capacitance_f_per_m2.is_some()
+                    != electrode.interfacial_potential_v.is_some()
+                || electrode
+                    .double_layer_capacitance_f_per_m2
+                    .is_some_and(|c| {
+                        !c.is_finite() || c <= 0.0 || !(c * electrode.area_m2).is_finite()
+                    })
+                || electrode
+                    .interfacial_potential_v
+                    .is_some_and(|p| !p.is_finite())
+                || electrode.interfacial_species.iter().any(|p| {
+                    !p.surface_concentration_mol_per_m3.is_finite()
+                        || p.surface_concentration_mol_per_m3 < 0.0
+                })
+                || electrode.deposits.iter().any(|p| {
+                    p.thickness_m.is_some_and(|x| !x.is_finite() || x < 0.0)
+                        || p.coverage_fraction
+                            .is_some_and(|x| !x.is_finite() || !(0.0..=1.0).contains(&x))
+                        || p.electrical_resistivity_ohm_m
+                            .is_some_and(|x| !x.is_finite() || x < 0.0)
+                })
+                || !electrode
+                    .deposits
+                    .iter()
+                    .filter_map(|p| Some(p.thickness_m? * p.electrical_resistivity_ohm_m?))
+                    .sum::<f64>()
+                    .is_finite()
+                || electrode.diagnostics.as_ref().is_some_and(|d| {
+                    !d.seconds.is_finite()
+                        || d.seconds < 0.0
+                        || [
+                            d.balance.electrode_potential_v,
+                            d.balance.terminal_potential_v,
+                        ]
+                        .into_iter()
+                        .any(|x| !x.is_finite())
+                        || [
+                            d.balance.net_current_density_a_per_m2,
+                            d.balance.capacitive_current_density_a_per_m2,
+                            d.balance.total_current_density_a_per_m2,
+                        ]
+                        .into_iter()
+                        .any(|x| !x.is_finite() || !(x * electrode.area_m2).is_finite())
+                        || d.balance.partial_currents.iter().any(|p| {
+                            !p.current_density_a_per_m2.is_finite()
+                                || !(p.current_density_a_per_m2 * electrode.area_m2).is_finite()
+                        })
+                        || !d
+                            .balance
+                            .partial_currents
+                            .iter()
+                            .map(|p| p.current_density_a_per_m2)
+                            .sum::<f64>()
+                            .is_finite()
+                        || d.interfacial_conditions.iter().any(|p| {
+                            [
+                                p.bulk_concentration_mol_per_m3,
+                                p.surface_concentration_mol_per_m3,
+                                p.bulk_activity,
+                                p.surface_activity,
+                            ]
+                            .into_iter()
+                            .any(|x| !x.is_finite() || x < 0.0)
+                                || [
+                                    p.bulk_equilibrium_potential_v,
+                                    p.surface_equilibrium_potential_v,
+                                ]
+                                .into_iter()
+                                .any(|x| !x.is_finite())
+                                || p.surface_ph.is_some_and(|x| !x.is_finite())
+                                || p.migration_potential_v.is_some_and(|x| !x.is_finite())
+                        })
+                        || d.applied_parameters.iter().any(|p| {
+                            p.nominal.validate().is_err()
+                                || p.reference.validate().is_err()
+                                || p.relative_uncertainty
+                                    .is_some_and(|x| !x.is_finite() || x < 0.0)
+                        })
+                })
+            {
+                errors.push(DeltaError::InvalidState {
+                    field: "electrode interface".into(),
+                });
+            }
+        }
+        // These persisted fractions and geometries are not extra matter,
+        // but they still feed optical/transport models and public scenes.
+        // A complete solver snapshot must not bypass their numeric domains.
+        let nonnegative = |x: f64| x.is_finite() && x >= 0.0;
+        let fraction = |x: f64| x.is_finite() && (0.0..=1.0).contains(&x);
+        if candidate.unresolved_materials.iter().any(|p| {
+            !fraction(p.protein_denatured_fraction)
+                || p.enzyme_hydrolysis
+                    .as_ref()
+                    .is_some_and(|e| !fraction(e.converted_fraction))
+        }) || candidate.material_objects.iter().any(|p| {
+            !nonnegative(p.state.elapsed_seconds)
+                // Water exchange is signed (inward/outward), unlike time.
+                || !p.state.exchanged_water_moles.is_finite()
+                || !fraction(p.state.browned_fraction)
+        }) || [
+            candidate.foam.trapped_gas_liters,
+            candidate.foam.volume_liters,
+            candidate.foam.peak_volume_liters,
+        ]
+        .into_iter()
+        .any(|x| !nonnegative(x))
+            || candidate
+                .surface_particles
+                .as_ref()
+                .is_some_and(|p| !fraction(p.coverage_fraction) || !fraction(p.cleared_fraction))
+            || candidate
+                .surface_colours
+                .iter()
+                .any(|p| !nonnegative(p.moles.0) || !fraction(p.spread_fraction))
+            || candidate.emulsion.as_ref().is_some_and(|p| {
+                !nonnegative(p.dispersed_volume_l)
+                    || !p.half_life_seconds.is_finite()
+                    || p.half_life_seconds <= 0.0
+            })
+            || candidate.soap_scum.as_ref().is_some_and(|p| {
+                [
+                    p.aggregate_mass_g,
+                    p.divalent_ion_moles,
+                    p.soap_equivalent_moles,
+                ]
+                .into_iter()
+                .any(|x| !nonnegative(x))
+            })
+            || candidate.lemon_paper_mark.as_ref().is_some_and(|p| {
+                !nonnegative(p.lemon_amount_g)
+                    || !nonnegative(p.paper_amount_g)
+                    || !fraction(p.browned_fraction)
+            })
+        {
+            errors.push(DeltaError::InvalidState {
+                field: "material progress/geometry".into(),
+            });
+        }
+        for solution in candidate
+            .solution
+            .iter()
+            .chain(candidate.resolved.solution.iter())
+        {
+            if !solution.ph.is_finite()
+                || solution.pe.is_some_and(|pe| !pe.is_finite())
+                || solution
+                    .redox
+                    .iter()
+                    .any(|s| !s.molality.is_finite() || s.molality < 0.0)
+                || solution.solvent_activity.as_ref().is_some_and(|s| {
+                    [s.water_activity, s.particle_molality, s.ionic_strength]
+                        .iter()
+                        .any(|v| !v.is_finite() || *v < 0.0)
+                })
+                || !solution.ionic_strength.is_finite()
+                || solution.ionic_strength < 0.0
+                || solution
+                    .solvent_kg
+                    .is_some_and(|mass| !mass.is_finite() || mass <= 0.0)
+                || solution.species.iter().any(|s| {
+                    !s.molality.is_finite()
+                        || s.molality < 0.0
+                        || !s.activity.is_finite()
+                        || s.activity < 0.0
+                })
+            {
+                errors.push(DeltaError::InvalidState {
+                    field: "solution characterisation".into(),
+                });
+            }
+        }
+        for lot in &candidate.lots {
+            if !lot.moles.0.is_finite()
+                || lot.moles.0 < 0.0
+                || !lot.added_at.is_finite()
+                || lot.added_at < 0.0
+                || lot.hydrated_at.is_some_and(|x| !x.is_finite() || x < 0.0)
+                || lot
+                    .particle_size_um
+                    .is_some_and(|x| !x.is_finite() || x <= 0.0)
+                || lot
+                    .suspended_fraction
+                    .is_some_and(|x| !x.is_finite() || !(0.0..=1.0).contains(&x))
+            {
+                errors.push(DeltaError::InvalidState {
+                    field: "material provenance lot".into(),
+                });
+            }
+        }
+        if let Some(start) = &candidate.step_start {
+            if !start.temperature.0.is_finite()
+                || start.temperature.0 < 0.0
+                || !start.solute_charge.is_finite()
+                || !start.free_hydroxide.is_finite()
+                || start.free_hydroxide < 0.0
+                || !start.free_proton.is_finite()
+                || start.free_proton < 0.0
+                || start
+                    .contents
+                    .iter()
+                    .any(|p| !p.moles.0.is_finite() || p.moles.0 < 0.0)
+                || start.gas_out.iter().any(|(_, n)| !n.0.is_finite())
+            {
+                errors.push(DeltaError::InvalidState {
+                    field: "speculative step state".into(),
+                });
+            }
+        }
+        errors
+    }
+
+    /// Gas narration is also the numeric boundary ledger used by later stages.
+    pub(crate) fn validate_gas_events(
+        vessel: &crate::vessel::Vessel,
+        events: &[crate::ops::Event],
+    ) -> Vec<DeltaError> {
+        events
+            .iter()
+            .filter_map(|event| {
+                let (id, species, moles) = match event {
+                    crate::ops::Event::GasEvolved {
+                        vessel,
+                        species,
+                        moles,
+                        ..
+                    }
+                    | crate::ops::Event::GasAbsorbed {
+                        vessel,
+                        species,
+                        moles,
+                        ..
+                    }
+                    | crate::ops::Event::GasContained {
+                        vessel,
+                        species,
+                        moles,
+                        ..
+                    } => (*vessel, species, moles.0),
+                    _ => return None,
+                };
+                if id != vessel.id || !moles.is_finite() || moles < 0.0 {
+                    return Some(DeltaError::InvalidState {
+                        field: "gas event identity/amount".into(),
+                    });
+                }
+                if crate::species::lookup(species)
+                    .and_then(|data| crate::stoich::parse_formula(data.formula).ok())
+                    .is_none()
+                {
+                    return Some(DeltaError::InvalidState {
+                        field: format!("unaccounted gas {}", species.0),
+                    });
+                }
+                None
+            })
+            .collect()
+    }
+
+    /// Shared element ledger for native and delta solver commits. GasContained
+    /// reports owned matter; only transfers extend the conserved boundary.
+    pub(crate) fn validate_conservation(
+        before: &crate::vessel::Vessel,
+        after: &crate::vessel::Vessel,
+        events: &[crate::ops::Event],
+        tolerance: f64,
+    ) -> Vec<DeltaError> {
+        let mut errors = Self::validate_gas_events(after, events);
+        if !tolerance.is_finite() || tolerance < 0.0 {
+            errors.push(DeltaError::InvalidState {
+                field: "conservation tolerance".into(),
+            });
+        }
+        if !errors.is_empty() {
+            return errors;
+        }
+        let mut ledger_before = crate::ledger::ConservedLedger::from_vessel(before);
+        let mut ledger_after = crate::ledger::ConservedLedger::from_vessel(after);
+        for event in events {
+            let (species, moles) = match event {
+                crate::ops::Event::GasEvolved { species, moles, .. } => (species, moles.0),
+                crate::ops::Event::GasAbsorbed { species, moles, .. } => (species, -moles.0),
+                _ => continue,
+            };
+            let formula = crate::species::lookup(species)
+                .and_then(|data| crate::stoich::parse_formula(data.formula).ok())
+                .expect("gas event validated");
+            for (element, count) in formula.counts {
+                if moles >= 0.0 {
+                    *ledger_after.elements.entry(element).or_default() += moles * count;
+                } else {
+                    *ledger_before.elements.entry(element).or_default() -= moles * count;
+                }
+            }
+        }
+        if ledger_before
+            .elements
+            .values()
+            .chain(ledger_after.elements.values())
+            .any(|v| !v.is_finite())
+        {
+            return vec![DeltaError::InvalidState {
+                field: "aggregate element ledger".into(),
+            }];
+        }
+        ledger_before
+            .check_against(&ledger_after, tolerance, 1e-15)
+            .into_iter()
+            .filter(|v| v.quantity.starts_with("element:"))
+            .map(|v| DeltaError::ElementImbalance {
+                element: v.quantity.strip_prefix("element:").unwrap().into(),
+                net: v.delta,
+            })
+            .collect()
     }
 
     pub fn with_electrode_moles(
@@ -266,6 +799,23 @@ impl StateDelta {
     /// Returns a list of errors (empty = valid).
     pub fn validate(&self, vessel: &crate::vessel::Vessel) -> Vec<DeltaError> {
         let mut errors = Vec::new();
+        if let Some(snapshot) = &self.snapshot {
+            if snapshot.base != Self::state_key(vessel) {
+                errors.push(DeltaError::StaleProposal);
+            }
+            if snapshot.terms != self.terms_key() {
+                errors.push(DeltaError::InvalidState {
+                    field: "complete solver proposal was edited".into(),
+                });
+            }
+            if snapshot.candidate.id != vessel.id {
+                errors.push(DeltaError::InvalidState {
+                    field: "solver candidate vessel identity".into(),
+                });
+            }
+            errors.extend(Self::validate_state(&snapshot.candidate));
+            return errors;
+        }
 
         if self.thermal.is_some_and(|thermal| match thermal {
             ThermalDelta::SetTemperature(t) => !t.0.is_finite() || t.0 <= 0.0,
@@ -562,6 +1112,11 @@ impl StateDelta {
     /// Apply this delta to a vessel. Call `validate()` first to check
     /// for errors; this method applies unconditionally.
     pub fn apply(&self, vessel: &mut crate::vessel::Vessel) {
+        if let Some(snapshot) = &self.snapshot {
+            *vessel = (*snapshot.candidate).clone();
+            return;
+        }
+
         for change in &self.mole_changes {
             if change.moles > 0.0 {
                 vessel.deposit(change.species.clone(), Moles(change.moles), change.phase);
@@ -738,6 +1293,9 @@ impl StateDelta {
         &self,
         vessel: &crate::vessel::Vessel,
     ) -> Result<InventoryLimitedDelta, Vec<DeltaError>> {
+        if self.snapshot.is_some() {
+            return Err(vec![DeltaError::UnscalableSnapshot]);
+        }
         let errors = self.validate(vessel);
         let mut scale = 1.0_f64;
         let mut fatal = Vec::new();
@@ -810,47 +1368,40 @@ impl StateDelta {
         vessel: &mut crate::vessel::Vessel,
         tolerance: f64,
     ) -> Result<(), Vec<DeltaError>> {
-        // Step 1: positivity
-        let errors = self.validate(vessel);
+        self.commit_conserved_with_events(vessel, tolerance, &[])
+    }
+
+    /// Audit represented element inventory including explicit gas inlet/outlet
+    /// events. Contained gas remains owned and is not an external transfer.
+    /// State and trial events are accepted together by the caller.
+    pub fn commit_conserved_with_events(
+        &self,
+        vessel: &mut crate::vessel::Vessel,
+        tolerance: f64,
+        events: &[crate::ops::Event],
+    ) -> Result<(), Vec<DeltaError>> {
+        let mut errors = self.validate(vessel);
+        if !tolerance.is_finite() || tolerance < 0.0 {
+            errors.push(DeltaError::InvalidState {
+                field: "conservation tolerance".into(),
+            });
+        }
+        errors.extend(Self::validate_gas_events(vessel, events));
         if !errors.is_empty() {
             return Err(errors);
         }
-
-        // Step 2: snapshot before
         let snapshot = vessel.clone();
-        let ledger_before = crate::ledger::ConservedLedger::from_vessel(vessel);
-
-        // Step 3: apply
         self.apply(vessel);
-
-        // Step 4: check conservation
-        let ledger_after = crate::ledger::ConservedLedger::from_vessel(vessel);
-        let violations = ledger_before.check_against(&ledger_after, tolerance, 1e-15);
-
-        // Only element violations are conservation errors; mass drift from
-        // molar-mass table precision is expected and not a rollback reason.
-        let element_violations: Vec<_> = violations
-            .iter()
-            .filter(|v| v.quantity.starts_with("element:"))
-            .collect();
-
-        if !element_violations.is_empty() {
-            // Step 5: rollback
+        let mut errors = Self::validate_state(vessel);
+        errors.extend(Self::validate_conservation(
+            &snapshot, vessel, events, tolerance,
+        ));
+        if errors.is_empty() {
+            Ok(())
+        } else {
             *vessel = snapshot;
-            return Err(element_violations
-                .into_iter()
-                .map(|v| DeltaError::ElementImbalance {
-                    element: v
-                        .quantity
-                        .strip_prefix("element:")
-                        .unwrap_or(&v.quantity)
-                        .to_string(),
-                    net: v.delta,
-                })
-                .collect());
+            Err(errors)
         }
-
-        Ok(())
     }
 
     /// Total moles of a given species across all changes in this delta.
@@ -864,6 +1415,10 @@ impl StateDelta {
 
     /// Whether this delta has no changes at all.
     pub fn is_empty(&self) -> bool {
+        if let Some(snapshot) = &self.snapshot {
+            return snapshot.terms == self.terms_key()
+                && snapshot.base == Self::state_key(&snapshot.candidate);
+        }
         self.mole_changes.is_empty()
             && self.adsorbed_changes.is_empty()
             && self.electrode_changes.is_empty()

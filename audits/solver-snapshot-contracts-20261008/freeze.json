@@ -1,0 +1,29 @@
+{
+  "scope": "Source-informed complete solver proposals. Frozen before production changes or execution. Existing public APIs ensure both baseline and repair compile.",
+  "baseline_production": "bce5eb224beb801921b77db0d648f7872df0f99b",
+  "fixture_sha256": "d5e8a598e8ac9dae4ba12a09b4d380ab1cd661ab65f2429389afe9dcc4dcd690",
+  "test_functions": [
+    "derived_only_proposal_commits_complete_state",
+    "complete_snapshot_preserves_solver_boundary_state",
+    "tiny_addition_and_removal_survive_snapshot_application",
+    "stale_material_change_refuses_without_overwriting",
+    "stale_transient_narration_refuses_without_overwriting",
+    "edited_public_terms_refuse_instead_of_disagreeing_with_snapshot",
+    "complete_snapshot_has_no_uniform_inventory_scaling",
+    "unbalanced_snapshot_restores_all_fields",
+    "unchanged_snapshot_is_empty_and_preserves_state",
+    "invalid_candidate_bulk_never_commits",
+    "invalid_candidate_pressure_and_boundary_never_commit",
+    "invalid_candidate_derived_solution_never_commits",
+    "invalid_candidate_transient_amounts_never_commit",
+    "invalid_candidate_provenance_lots_never_commit",
+    "candidate_identity_cannot_replace_another_vessel",
+    "invalid_candidate_temperature_never_commits"
+  ],
+  "expected_repair": "All controls pass without editing bounds or candidate states. Preserve actual baseline passes/failures; no missing-API compile error accepted as a behavioral failure.",
+  "limitations": [
+    "Numeric validity is separate from physical model coverage.",
+    "Conservation remains required for closed chemistry; externally supplied boundary flows remain a separate port.",
+    "No claim of full historical audit integration."
+  ]
+}
