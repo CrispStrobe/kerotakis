@@ -1,0 +1,41 @@
+{
+  "pr": 769,
+  "run": 37797710051,
+  "job": 113381415716,
+  "head": "50088c4e3746288510d41765677a2829a3d641f6",
+  "tested_checkout": "260c228f58bffbe9f8487ec21cc263bb89d7c1b5",
+  "tested_tree": "b28de318b840f15510b813802bf9610c8c6ffc02",
+  "head_tree_equals_tested_checkout": true,
+  "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37797710051/job/113381415716",
+  "conclusion": "success",
+  "log_sha256": "946edad75208d6e0e9e7e2974d55f66edb8d2bea2cb3b274de0f09891bf6676c",
+  "targets": [
+    {
+      "path": "crates/kerotakis-core/tests/nuclide_inventory_serde_contracts.rs",
+      "fixture_sha256": "fc66ed099b5baff819cc9f79caa9a41032ce948f461bf3ef67d15ed0ecb7afe8",
+      "passed": [
+        "empty_inventory_preserves_existing_json_object",
+        "ground_state_inventory_uses_canonical_key_and_roundtrips",
+        "metastable_and_ground_state_remain_distinct",
+        "vessel_with_owned_nuclides_has_json_roundtrip",
+        "ordinary_nuclide_object_representation_is_unchanged",
+        "malformed_or_noncanonical_inventory_keys_are_rejected",
+        "malformed_owned_keys_cannot_be_serialized_as_valid_inventory",
+        "nonfinite_and_negative_inventory_values_refuse_serialization",
+        "null_nonfinite_overflow_and_negative_json_values_are_rejected",
+        "duplicate_and_alias_collisions_cannot_silently_overwrite",
+        "zero_and_smallest_positive_amounts_roundtrip_without_pruning"
+      ],
+      "failed": []
+    }
+  ],
+  "total_focused_passed": 11,
+  "successful_steps": [
+    "Format",
+    "Clippy",
+    "Test",
+    "Codex \u2014 every claim must still compute",
+    "Curiosity coverage \u2014 the recorded route is still the route"
+  ],
+  "scope": "Mac native integration only; remaining required gates pending. Full workspace test, claim lint and curiosity coverage succeeded. Not historical full-audit acceptance."
+}

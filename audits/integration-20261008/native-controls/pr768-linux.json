@@ -1,0 +1,93 @@
+{
+  "pr": 768,
+  "run": 37797666610,
+  "job": 113381257307,
+  "head": "6ff42221604c2face169a59eb3032592c4181c9e",
+  "tested_checkout": "5fb72e64ab61d45e8b818c68916f3e4df59f19a8",
+  "tested_tree": "bac8a092f77c1f36162ee7064582553b5445ea7f",
+  "head_tree_equals_tested_checkout": true,
+  "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37797666610/job/113381257307",
+  "conclusion": "success",
+  "log_sha256": "e87c3cbf65eb678ce6f2fec8f7f96f424c6bcbcd51727b766ac77267daef84d7",
+  "targets": [
+    {
+      "path": "crates/kerotakis-core/tests/solver_snapshot_contracts.rs",
+      "fixture_sha256": "d5e8a598e8ac9dae4ba12a09b4d380ab1cd661ab65f2429389afe9dcc4dcd690",
+      "passed": [
+        "derived_only_proposal_commits_complete_state",
+        "complete_snapshot_preserves_solver_boundary_state",
+        "tiny_addition_and_removal_survive_snapshot_application",
+        "stale_material_change_refuses_without_overwriting",
+        "stale_transient_narration_refuses_without_overwriting",
+        "edited_public_terms_refuse_instead_of_disagreeing_with_snapshot",
+        "complete_snapshot_has_no_uniform_inventory_scaling",
+        "unbalanced_snapshot_restores_all_fields",
+        "unchanged_snapshot_is_empty_and_preserves_state",
+        "invalid_candidate_bulk_never_commits",
+        "invalid_candidate_pressure_and_boundary_never_commit",
+        "invalid_candidate_derived_solution_never_commits",
+        "invalid_candidate_transient_amounts_never_commit",
+        "invalid_candidate_provenance_lots_never_commit",
+        "candidate_identity_cannot_replace_another_vessel",
+        "invalid_candidate_temperature_never_commits"
+      ],
+      "failed": []
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solver_snapshot_edit_contracts.rs",
+      "fixture_sha256": "56d39f21fc9cadfb14752ffbc7950b723989ae1ce0d20aeeb784a3e29a2e1d14",
+      "passed": [
+        "editing_an_unchanged_snapshot_cannot_hide_nonempty_terms"
+      ],
+      "failed": []
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solver_stack_atomic_contracts.rs",
+      "fixture_sha256": "71179df336cd244a4b6538dcbdfeac1c12cdb47a097cb775d1c779e0982059e9",
+      "passed": [
+        "failed_direct_route_restores_complete_vessel_and_reports_failure",
+        "next_direct_route_observes_the_accepted_checkpoint",
+        "earlier_success_survives_later_direct_failure",
+        "failed_mix_restores_complete_vessel",
+        "declined_mix_restores_state_before_the_next_route",
+        "all_declined_mix_routes_leave_no_trial_state",
+        "supported_direct_route_preserves_all_accepted_metadata",
+        "supported_mix_route_preserves_all_accepted_metadata",
+        "invalid_successful_direct_result_discards_state_and_trial_events",
+        "invalid_successful_mix_result_discards_state_and_trial_events",
+        "solver_cannot_replace_the_target_vessel_identity",
+        "rejected_gas_event_cannot_enter_the_step_boundary_ledger",
+        "accumulated_step_gas_overflow_refuses_the_entire_attempt"
+      ],
+      "failed": []
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solver_boundary_contracts.rs",
+      "fixture_sha256": "dfb28abdd607c8d62506783a06f12c92b516659bb309824fb01ba8b9fdc97740",
+      "passed": [
+        "balanced_outlet_commits_owned_state_and_event_together",
+        "balanced_inlet_commits_owned_state_and_event_together",
+        "mismatched_inlet_or_outlet_refuses_completely",
+        "unsupported_boundary_event_species_refuses",
+        "boundary_event_must_name_its_actual_vessel",
+        "invalid_boundary_amounts_refuse_without_trial_events",
+        "contained_gas_remains_owned_without_double_counting_boundary",
+        "unaccompanied_finite_boundary_flux_cannot_hide_as_metadata",
+        "overflowing_element_boundary_refuses_even_with_finite_event_amount",
+        "invalid_conservation_tolerance_refuses_unchanged_or_unbalanced_proposals",
+        "physical_boundary_events_obey_numeric_identity_validation",
+        "supported_physical_boundary_retains_existing_disposition"
+      ],
+      "failed": []
+    }
+  ],
+  "total_focused_passed": 42,
+  "scope": "Linux native integration only; remaining required gates pending. Full workspace test, claim lint and curiosity coverage steps succeeded. Not historical full-audit acceptance.",
+  "successful_steps": [
+    "Format",
+    "Clippy",
+    "Test",
+    "Codex \u2014 every claim must still compute",
+    "Curiosity coverage \u2014 the recorded route is still the route"
+  ]
+}
