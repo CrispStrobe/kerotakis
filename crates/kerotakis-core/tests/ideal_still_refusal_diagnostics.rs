@@ -25,7 +25,11 @@ impl Equilibrator for MutatingSolver {
 fn bench(water: f64, ethanol: f64, pressure_pa: f64) -> Bench {
     let mut bench = Bench::new();
     bench.vessels.push(Vessel::new(VesselId(1), "beaker"));
-    let donor = bench.vessel_mut(VesselId(0)).unwrap();
+    let donor = bench
+        .vessels
+        .iter_mut()
+        .find(|vessel| vessel.id == VesselId(0))
+        .unwrap();
     donor.deposit(SpeciesId::new("water"), Moles(water), Phase::Liquid);
     donor.deposit(SpeciesId::new("ethanol"), Moles(ethanol), Phase::Liquid);
     donor.pressure = Pascal(pressure_pa);
@@ -48,11 +52,12 @@ fn additional_solvent_refusals_keep_categories_and_unchanged_state() {
         (0.0, 1.0, 0.1, 0, 101325.0, "invalid-input"),
     ] {
         let mut bench = bench(water, 0.0, pressure);
-        bench.vessel_mut(VesselId(0)).unwrap().deposit(
-            SpeciesId::new("methanol"),
-            Moles(methanol),
-            Phase::Liquid,
-        );
+        bench
+            .vessels
+            .iter_mut()
+            .find(|vessel| vessel.id == VesselId(0))
+            .unwrap()
+            .deposit(SpeciesId::new("methanol"), Moles(methanol), Phase::Liquid);
         let before = state_without_log(&bench);
         let mut solver = MutatingSolver::default();
         let events = bench
@@ -82,11 +87,12 @@ fn additional_solvent_refusals_keep_categories_and_unchanged_state() {
 #[test]
 fn supported_pure_methanol_cut_retains_transfer_and_downstream_processing() {
     let mut bench = bench(0.0, 0.0, 101325.0);
-    bench.vessel_mut(VesselId(0)).unwrap().deposit(
-        SpeciesId::new("methanol"),
-        Moles(1.0),
-        Phase::Liquid,
-    );
+    bench
+        .vessels
+        .iter_mut()
+        .find(|vessel| vessel.id == VesselId(0))
+        .unwrap()
+        .deposit(SpeciesId::new("methanol"), Moles(1.0), Phase::Liquid);
     let mut solver = MutatingSolver::default();
     let events = bench
         .step_with(
