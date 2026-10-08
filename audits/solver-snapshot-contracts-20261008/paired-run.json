@@ -1,0 +1,14 @@
+{
+  "baseline": "5aa4757e74120ded09ee2c826c158e2df6ce9b39",
+  "repair": "a51982b4144424585de36e90df2be277216525ed",
+  "fixture_path": "crates/kerotakis-core/tests/solver_snapshot_contracts.rs",
+  "fixture_sha256": "d5e8a598e8ac9dae4ba12a09b4d380ab1cd661ab65f2429389afe9dcc4dcd690",
+  "expected_test_functions": 16,
+  "expected_baseline": "Both sources compile the identical public-API fixture. Preserve actual baseline failures; require at least one behavioral failure.",
+  "expected_repair": "All frozen controls and inherited delta unit controls pass under the same generated lock.",
+  "limitations": [
+    "Source-informed snapshot contracts, separate from independent CLI experiments.",
+    "Complete candidate numeric schema guard is not complete physical model coverage or authoritative compensated ownership.",
+    "Boundary-flow event conservation is a separate integration lane."
+  ]
+}
