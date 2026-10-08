@@ -23,7 +23,7 @@ The raw cap scales to the aqueous/remainder comparison; the phase cap scales
 to available/final owned totals. Zero raw aqueous with a positive remainder
 refuses even when the remainder is small.
 
-The initial and expanded pre-repair baselines are recorded below; repair validation remains pending. Live native
+The initial and expanded pre-repair baselines and subsequent executions are recorded below; final corrected-harness repair acceptance remains pending. Live native
 precipitation/dissolution/repeated equilibrium and native/stack rollback must
 also pass before claiming this bounded repair accepted.
 
@@ -39,7 +39,7 @@ Strict carbon validation exposed a source-informed fixture omission: the origina
 
 Production refinements and the complete-column harness await hosted native and live precipitation/dissolution/repeat validation. No accepted repair claim is made yet.
 
-## Latest source and pending gates
+## Earlier dispatch checkpoint (superseded by execution results below)
 
 The current production repair is [9140ee58](https://github.com/CrispStrobe/kerotakis/commit/9140ee58). The [50 boundary contracts](README.md) include external-phase validation and complete native/stack refusal preservation. [Native/live validation 37730149327](https://github.com/CrispStrobe/kerotakis/actions/runs/37730149327) is queued. Refinement baseline [37729480945](https://github.com/CrispStrobe/kerotakis/actions/runs/37729480945) completed as described below; external-phase baseline [37730066599](https://github.com/CrispStrobe/kerotakis/actions/runs/37730066599) completed as described below. No results are inferred from queue state.
 
