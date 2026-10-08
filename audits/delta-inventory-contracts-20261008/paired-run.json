@@ -1,0 +1,13 @@
+{
+  "baseline": "7263080102a3f992a5e2e2f36985085cc8fe1731",
+  "repair": "558bf6fd69a48dfd4582a7ffd08e17cd2858d06b",
+  "production_baseline": "b4455b7871889d0f1e1423390a3bc33a3ec9cdbd",
+  "fixture_sha256": "4340a75c46e0ad89034f3d046ca92166c0590c7d8e2e76cbe97af67c399c1a29",
+  "expected_test_functions": 37,
+  "expected_baseline": "Compiles, and fails at least one independently frozen amount contract; preserve all actual outcomes.",
+  "expected_repair": "All 37 controls pass under the baseline-generated dependency lock; inherited delta unit controls also pass.",
+  "limitations": [
+    "Same fixture and dependency lock for both sources.",
+    "Source-informed regression diagnostic, separate from the independent CLI batches."
+  ]
+}
