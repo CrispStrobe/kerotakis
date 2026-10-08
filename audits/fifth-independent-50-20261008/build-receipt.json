@@ -1,0 +1,46 @@
+{
+  "source_commit": "7bc43e089753483710507133ccc8377591bb3490",
+  "source_tree": "f4fc1b616ec8ae7a7e944962179e773d8f6606b2",
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37751230970",
+  "artifact": "fifth-main-build-37751230970",
+  "harness_commit": "2289ac9f6fbc978c8764c92a5a3086a99f85ca26",
+  "binary_sha256": "fcf424a65384c5ef5949960f228fda4e1c3e893ec93c65d58fe5b12064352967",
+  "generated_lock_sha256": "f82884ebf1ee635029a79c4ee913386f54e99adf40169c98a701cbb9fbfed194",
+  "build_exit_code": 0,
+  "manifest_bindings_checked": 32,
+  "submodules": [
+    {
+      "path": "sundials-kinetics-rs",
+      "commit": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa"
+    },
+    {
+      "path": "vendor/iphreeqc",
+      "commit": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+    }
+  ],
+  "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+  "rustflags": "-C debuginfo=1 -C force-frame-pointers=yes",
+  "release_strip": "none",
+  "evidence_sha256": {
+    "Cargo.lock": "f82884ebf1ee635029a79c4ee913386f54e99adf40169c98a701cbb9fbfed194",
+    "binary-sha256.txt": "1f1af54b3a777d8a9639853952adcf20b78dcf7bfd6d3aae0aca2585ac248018",
+    "build-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "build-time.txt": "a2aceb431cfff59aa3c301541b9e8bb140a8613c12bc53e7f4c318da8bb06acf",
+    "build.log": "09e414395dc743c24747d6cc08e9b773fe066b4d8e8f546f926c4427e95f1a82",
+    "cargo.txt": "1f88eaf7fe1aaec83184752cf4c944cd22f00184136ff36a3e4c318cc60ef566",
+    "generated-lock-sha256.txt": "19d288054ffe1bea8272389071177398d38632faae8f34c1d6162364c275bf33",
+    "manifest-sha256.json": "65391aab47bfb6a3bcbad1fef855a4d2c515377a3b13cd1451fa6ea1d8010a87",
+    "release-strip.txt": "fcf33dfbe13c2354bf0e1b063f9fb422747a46cee00b7420bceff2b81457b345",
+    "rustc.txt": "b569b0c98ea3133c7252b4b8ea6b39b7b353813df0dd5f5c412c355691424112",
+    "rustflags.txt": "995723b1840a697d971477f4b7774090379eadaf7d3177bb793390d9a3a4bb23",
+    "source-commit.txt": "8cf23ecfabe46b8c5646eb10d67976e59613da2d6f2506979578ce41d1efc6ac",
+    "source-tree.txt": "ccfdf1d6e6f93d5b2afe4311fc22028d99eebabd773ef3fee519a17776f256e4",
+    "status-before.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "submodules.txt": "dae123bd185b0dff0f0d7176cb509940c4f7f68da6087ad6e6ab003543dbdd47"
+  },
+  "limitations": [
+    "Build acceptance only; behavior and profiling jobs still queued at review.",
+    "Frozen source predates safety merge 605c3736; not a validation of later main.",
+    "Generated dependency resolution is preserved; no cross-run identical-resolution claim."
+  ]
+}
