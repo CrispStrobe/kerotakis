@@ -1,0 +1,66 @@
+{
+  "lane": "ordinary",
+  "harness": "bf5505a5f4374bd2506ae89be3e81f7631cdda26",
+  "manifest_sha256": "b7ad7dfaa761c8933a42850ae81b44522ea01b8865ba79c586567ae5db8a6411",
+  "sources": [
+    {
+      "label": "baseline",
+      "source": "836875c38ad4d1539b589f187287fc0353afc01c",
+      "passed": [
+        "valid_ordinary_commit_preserves_trace_owners_and_narration",
+        "valid_ordinary_matter_addition_and_withdrawal_remain_supported"
+      ],
+      "failed": [
+        "empty_ordinary_commit_cannot_certify_invalid_existing_state",
+        "ordinary_commit_rejects_invalid_headspace_domain",
+        "ordinary_commit_rejects_invalid_unrelated_derived_state",
+        "ordinary_commit_rejects_malformed_canonical_electrodes",
+        "ordinary_commit_rejects_malformed_typed_crystal_ownership",
+        "ordinary_commit_rejects_pressure_overflow_created_during_apply"
+      ],
+      "evidence_sha256": {
+        "Cargo.lock": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+        "controls-exit.txt": "39b8dc3fc8b44765c8e6f1adee04c5b465e555ab791cc42d0d9e810d5b64297c",
+        "controls.log": "7e44b676186342c0b1ae672c6cb0ba2081089c20c57d2dd343e28750bae206cb",
+        "fixture-sha256.txt": "768d7b29930fb569b177b4a43c2b2fa58fc0ef180f083cad4adf46f435bc3f4e",
+        "generated-lock-sha256.txt": "38423fbf7885574f98ac58f1767fc7a186db189e1d2fce61eca28f5f0d14b2e4",
+        "inherited-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "inherited.log": "5c45794892c9719d1f7d258c8959172d64a22568162ad5e12ed74cb32ae26b88",
+        "source-commit.txt": "88f2266a74fd4bdf7ee6dfa06feb97bdb0890865bc5efd282684147367b1007e",
+        "source-tree.txt": "5baa4051ee0f788cb82c38236e4a2944d582f81a7631d250f9db5e8b417401cd",
+        "status-before.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "submodules.txt": "bfdd1930cec157acbba4c8da9aec06670162f5a9a25c1a05d4f17476e6c4468e"
+      }
+    },
+    {
+      "label": "repair",
+      "source": "26cd8fc7d3554ddadaeebeb2750b3a92c4eadf54",
+      "passed": [
+        "empty_ordinary_commit_cannot_certify_invalid_existing_state",
+        "ordinary_commit_rejects_invalid_headspace_domain",
+        "ordinary_commit_rejects_invalid_unrelated_derived_state",
+        "ordinary_commit_rejects_malformed_canonical_electrodes",
+        "ordinary_commit_rejects_malformed_typed_crystal_ownership",
+        "ordinary_commit_rejects_pressure_overflow_created_during_apply",
+        "valid_ordinary_commit_preserves_trace_owners_and_narration",
+        "valid_ordinary_matter_addition_and_withdrawal_remain_supported"
+      ],
+      "failed": [],
+      "evidence_sha256": {
+        "Cargo.lock": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+        "controls-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "controls.log": "f630f22d91d5123d9ce6998431bd061dcd0e505405dc7c90502f0a6f22589a2c",
+        "fixture-sha256.txt": "768d7b29930fb569b177b4a43c2b2fa58fc0ef180f083cad4adf46f435bc3f4e",
+        "generated-lock-sha256.txt": "38423fbf7885574f98ac58f1767fc7a186db189e1d2fce61eca28f5f0d14b2e4",
+        "inherited-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "inherited.log": "8b606e749b46d291e70e6bfe0f3466244507cc49ff7c6765020ecf277519163a",
+        "source-commit.txt": "1cf34b7ab46cdd04533a883dd85ed5fb876afc6d5c153ecec1bc064cce236e9d",
+        "source-tree.txt": "7c39e8ff717726f5457a018b8d266e09ae4aeae2570da1c02cc82dd0e9314977",
+        "status-before.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "submodules.txt": "bfdd1930cec157acbba4c8da9aec06670162f5a9a25c1a05d4f17476e6c4468e"
+      }
+    }
+  ],
+  "generated_lock_sha256": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+  "accepted_bounded_diagnostic": true
+}

@@ -1,0 +1,199 @@
+{
+  "pr": 770,
+  "run": 37815261417,
+  "job": 113442273782,
+  "head": "ee7132fe6835eb7535b413aa61430f94c618f0be",
+  "tested_checkout": "69adf2534cc22df23c2259c17ee62a776e1469db",
+  "tested_tree": "6b9e494e5f7289592e61f9731ba4839fa9802568",
+  "head_tree_equals_tested_checkout": true,
+  "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37815261417/job/113442273782",
+  "conclusion": "success",
+  "log_sha256": "fc309d531e753cd6c086ad3eed8c5680487e321471a7d621f343fe12d8cd29d2",
+  "targets": [
+    {
+      "path": "crates/kerotakis-core/tests/solver_snapshot_contracts.rs",
+      "fixture_sha256": "d5e8a598e8ac9dae4ba12a09b4d380ab1cd661ab65f2429389afe9dcc4dcd690",
+      "passed": [
+        "derived_only_proposal_commits_complete_state",
+        "complete_snapshot_preserves_solver_boundary_state",
+        "tiny_addition_and_removal_survive_snapshot_application",
+        "stale_material_change_refuses_without_overwriting",
+        "stale_transient_narration_refuses_without_overwriting",
+        "edited_public_terms_refuse_instead_of_disagreeing_with_snapshot",
+        "complete_snapshot_has_no_uniform_inventory_scaling",
+        "unbalanced_snapshot_restores_all_fields",
+        "unchanged_snapshot_is_empty_and_preserves_state",
+        "invalid_candidate_bulk_never_commits",
+        "invalid_candidate_pressure_and_boundary_never_commit",
+        "invalid_candidate_derived_solution_never_commits",
+        "invalid_candidate_transient_amounts_never_commit",
+        "invalid_candidate_provenance_lots_never_commit",
+        "candidate_identity_cannot_replace_another_vessel",
+        "invalid_candidate_temperature_never_commits"
+      ],
+      "failed": []
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solver_snapshot_edit_contracts.rs",
+      "fixture_sha256": "56d39f21fc9cadfb14752ffbc7950b723989ae1ce0d20aeeb784a3e29a2e1d14",
+      "passed": [
+        "editing_an_unchanged_snapshot_cannot_hide_nonempty_terms"
+      ],
+      "failed": []
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solver_stack_atomic_contracts.rs",
+      "fixture_sha256": "71179df336cd244a4b6538dcbdfeac1c12cdb47a097cb775d1c779e0982059e9",
+      "passed": [
+        "failed_direct_route_restores_complete_vessel_and_reports_failure",
+        "next_direct_route_observes_the_accepted_checkpoint",
+        "earlier_success_survives_later_direct_failure",
+        "failed_mix_restores_complete_vessel",
+        "declined_mix_restores_state_before_the_next_route",
+        "all_declined_mix_routes_leave_no_trial_state",
+        "supported_direct_route_preserves_all_accepted_metadata",
+        "supported_mix_route_preserves_all_accepted_metadata",
+        "invalid_successful_direct_result_discards_state_and_trial_events",
+        "invalid_successful_mix_result_discards_state_and_trial_events",
+        "solver_cannot_replace_the_target_vessel_identity",
+        "rejected_gas_event_cannot_enter_the_step_boundary_ledger",
+        "accumulated_step_gas_overflow_refuses_the_entire_attempt"
+      ],
+      "failed": []
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solver_boundary_contracts.rs",
+      "fixture_sha256": "dfb28abdd607c8d62506783a06f12c92b516659bb309824fb01ba8b9fdc97740",
+      "passed": [
+        "balanced_outlet_commits_owned_state_and_event_together",
+        "balanced_inlet_commits_owned_state_and_event_together",
+        "mismatched_inlet_or_outlet_refuses_completely",
+        "unsupported_boundary_event_species_refuses",
+        "boundary_event_must_name_its_actual_vessel",
+        "invalid_boundary_amounts_refuse_without_trial_events",
+        "contained_gas_remains_owned_without_double_counting_boundary",
+        "unaccompanied_finite_boundary_flux_cannot_hide_as_metadata",
+        "overflowing_element_boundary_refuses_even_with_finite_event_amount",
+        "invalid_conservation_tolerance_refuses_unchanged_or_unbalanced_proposals",
+        "physical_boundary_events_obey_numeric_identity_validation",
+        "supported_physical_boundary_retains_existing_disposition"
+      ],
+      "failed": []
+    },
+    {
+      "path": "crates/kerotakis-core/tests/nuclide_inventory_serde_contracts.rs",
+      "fixture_sha256": "fc66ed099b5baff819cc9f79caa9a41032ce948f461bf3ef67d15ed0ecb7afe8",
+      "passed": [
+        "empty_inventory_preserves_existing_json_object",
+        "ground_state_inventory_uses_canonical_key_and_roundtrips",
+        "metastable_and_ground_state_remain_distinct",
+        "vessel_with_owned_nuclides_has_json_roundtrip",
+        "ordinary_nuclide_object_representation_is_unchanged",
+        "malformed_or_noncanonical_inventory_keys_are_rejected",
+        "malformed_owned_keys_cannot_be_serialized_as_valid_inventory",
+        "nonfinite_and_negative_inventory_values_refuse_serialization",
+        "null_nonfinite_overflow_and_negative_json_values_are_rejected",
+        "duplicate_and_alias_collisions_cannot_silently_overwrite",
+        "zero_and_smallest_positive_amounts_roundtrip_without_pruning"
+      ],
+      "failed": []
+    },
+    {
+      "path": "crates/kerotakis-core/tests/required_solver_conservation_contracts.rs",
+      "fixture_sha256": "af70bfbffe39e70fcaade81cccf6ef98be6a88126ef17b4c53b7c0c9c295a7d7",
+      "passed": [
+        "opting_out_route_cannot_bypass_required_stack_policy",
+        "failed_custom_stage_does_not_block_conserving_later_stage",
+        "custom_mix_cannot_bypass_required_conservation",
+        "invalid_required_tolerances_refuse_construction",
+        "required_policy_keeps_the_more_stringent_route_tolerance"
+      ],
+      "failed": []
+    },
+    {
+      "path": "crates/kerotakis-core/tests/required_solver_ledger_boundaries.rs",
+      "fixture_sha256": "3f7925ada6932cbf741e486e9232a8d1a78f112e21e86dd28fb15f3a0e746238",
+      "passed": [
+        "positive_unknown_bulk_inventory_cannot_receive_a_complete_certificate",
+        "custom_route_cannot_create_an_omitted_unknown_species",
+        "zero_unknown_bulk_portion_does_not_make_a_known_ledger_incomplete",
+        "positive_unknown_bound_sorbate_cannot_receive_a_complete_certificate",
+        "unknown_prepared_object_component_is_not_silently_skipped",
+        "unknown_finite_electrode_substrate_is_owned_unaccounted_matter",
+        "external_electrode_with_no_owned_inventory_does_not_block_element_closure",
+        "positive_unresolved_named_material_requires_an_explicit_incomplete_ledger_refusal",
+        "deleting_unresolved_mass_cannot_hide_behind_unchanged_known_elements",
+        "prepared_object_without_resolved_components_has_no_complete_element_ledger",
+        "known_object_components_do_not_certify_an_unexplained_mass_remainder",
+        "fully_resolved_mass_matched_object_can_receive_a_certificate",
+        "unique_trace_element_loss_is_not_dismissed_by_an_absolute_floor",
+        "creating_a_new_trace_element_from_zero_is_not_dismissed_by_an_absolute_floor",
+        "oxidation_state_change_without_electron_boundary_cannot_change_total_charge",
+        "custom_mix_checks_charge_closure_as_well_as_elements",
+        "legitimate_phase_change_does_not_violate_element_and_charge_closure",
+        "addition_lots_are_provenance_not_a_second_owned_inventory",
+        "trace_reaction_loss_is_not_hidden_by_unchanged_water_element_background",
+        "trace_reaction_creation_is_not_hidden_by_unchanged_water_element_background",
+        "trace_charge_change_is_not_hidden_by_inert_charged_background",
+        "truly_balanced_trace_redox_can_close_atoms_and_charge",
+        "trace_loss_across_phase_ownership_cannot_disappear_in_species_aggregation",
+        "trace_creation_across_phase_ownership_cannot_disappear_in_species_aggregation",
+        "ordinary_mixed_phase_ownership_can_be_combined_without_double_counting"
+      ],
+      "failed": []
+    },
+    {
+      "path": "crates/kerotakis-core/tests/required_solver_policy_controls.rs",
+      "fixture_sha256": "09fa37980e602d340bc44951c164b596b26f39ce1059ae18ac613261e13669fd",
+      "passed": [
+        "invalid_route_policy_refuses_direct_and_mix_even_inside_required_stack",
+        "exact_route_policy_accepts_conserving_warmth_and_rejects_created_matter",
+        "legacy_constructor_keeps_explicit_opt_out_and_enforces_opt_in",
+        "tighter_route_tolerance_changes_acceptance_of_the_same_reaction_in_direct_and_mix"
+      ],
+      "failed": []
+    },
+    {
+      "path": "crates/kerotakis-core/tests/required_solver_ledger_supplement.rs",
+      "fixture_sha256": "e0da8aa6f0f0cda7c50f2dd7dd8c8025fc3c24550832e23765162a99ba5f021c",
+      "passed": [
+        "unrepresented_surface_oxide_mass_cannot_receive_a_complete_certificate",
+        "unrepresented_exchanger_support_mass_cannot_receive_a_complete_certificate",
+        "soap_scum_aggregate_mass_has_no_complete_molecular_inventory",
+        "separate_positive_nuclide_inventory_requires_a_separate_certificate",
+        "matched_trace_gas_export_closes_without_an_absolute_floor",
+        "mismatched_trace_gas_export_cannot_hide_in_large_water_background",
+        "matched_trace_gas_import_closes_without_an_absolute_floor",
+        "unbacked_trace_gas_narration_is_not_a_conserving_boundary",
+        "gas_boundary_must_balance_formal_charge_as_well_as_atoms",
+        "a_lost_third_amount_correction_cannot_receive_an_exact_inventory_certificate"
+      ],
+      "failed": []
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solver_electrode_schema_contracts.rs",
+      "fixture_sha256": "e9b7aacc9ca79ea0941bfdf722f7d718ef64d155c4cbd00f402a69cd206433fa",
+      "passed": [
+        "malformed_canonical_electrodes_refuse_complete_snapshot_commits",
+        "malformed_canonical_electrodes_refuse_successful_direct_routes",
+        "malformed_canonical_electrodes_refuse_successful_mix_routes",
+        "duplicate_electrode_labels_refuse_all_commit_paths",
+        "valid_transient_electrode_snapshot_preserves_complete_state",
+        "valid_direct_and_mix_routes_keep_electrodes_and_narration",
+        "same_species_in_distinct_interface_reactions_remains_supported",
+        "distinct_electrode_labels_remain_supported"
+      ],
+      "failed": []
+    }
+  ],
+  "total_focused_passed": 105,
+  "successful_steps": [
+    "Format",
+    "Clippy",
+    "Test",
+    "Codex \u2014 every claim must still compute",
+    "Curiosity coverage \u2014 the recorded route is still the route"
+  ],
+  "scope": "One native integration gate only. Other required gates and historical full-audit acceptance are separate.",
+  "plan_sha256": "bc1a92d34461484581fb9bbc5baee9dad20f3bb502466db484e19654d181f24e"
+}
