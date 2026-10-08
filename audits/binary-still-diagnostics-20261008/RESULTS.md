@@ -61,3 +61,7 @@ including failed tests. No local Cargo or application execution occurred.
 the new source/test hashes separately; original receipts remain immutable.
 Merge the thermo prerequisite first, retarget #759 and require fresh main-based
 gates. The expected-failure baseline branch must not merge.
+
+## Fixture-access correction
+
+[Baseline 37731589674](https://github.com/CrispStrobe/kerotakis/actions/runs/37731589674) failed to compile because the integration fixture called private `Bench::vessel_mut`. No behavior was executed. The [adaptation receipt](fixture-access-adaptation.json) preserves original test bytes and hashes. The adapted fixture accesses the same vessel through the public collection; all expectations and assertions remain unchanged. Both baseline and repaired-source tests require fresh execution. Production visibility is unchanged.

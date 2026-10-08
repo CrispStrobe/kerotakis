@@ -25,11 +25,7 @@ impl Equilibrator for MutatingSolver {
 fn bench(water: f64, ethanol: f64, pressure_pa: f64) -> Bench {
     let mut bench = Bench::new();
     bench.vessels.push(Vessel::new(VesselId(1), "beaker"));
-    let donor = bench
-        .vessels
-        .iter_mut()
-        .find(|v| v.id == VesselId(0))
-        .unwrap();
+    let donor = bench.vessel_mut(VesselId(0)).unwrap();
     donor.deposit(SpeciesId::new("water"), Moles(water), Phase::Liquid);
     donor.deposit(SpeciesId::new("ethanol"), Moles(ethanol), Phase::Liquid);
     donor.pressure = Pascal(pressure_pa);

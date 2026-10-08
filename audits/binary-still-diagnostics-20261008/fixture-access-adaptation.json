@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37731589674",
+  "source_commit": "09643a7199b7d5a0fa65eb38e2de374ae86af891",
+  "classification": "compile failure E0624; no behavior executed",
+  "adaptation": "Replace private Bench::vessel_mut fixture access with public vessels iteration and identical VesselId lookup. Assertions and inputs unchanged; no production API change.",
+  "original_sha256": "a86951492230657d16002e68aa5372069ba8cf97111218b1929f97dabd578958",
+  "adapted_sha256": "8f2b1c832911900dbb2c32860efe57c506ec5e4d3804042c3a82daa993d1302e",
+  "original_path": "audits/binary-still-diagnostics-20261008/original-still-refusal-diagnostics.rs.txt"
+}
