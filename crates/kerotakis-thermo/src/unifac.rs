@@ -417,9 +417,6 @@ pub fn try_activity_coefficients(
 
     let mut ln_gamma_c = vec![0.0; n];
     for i in 0..n {
-        if x[i] < 1e-30 {
-            continue;
-        }
         // These are φ_i/x_i and θ_i/x_i, not φ_i and θ_i: the numerators
         // omit x_i while the denominators carry every x_j. Staverman-
         // Guggenheim only ever needs the ratios-over-x — term one is
@@ -428,6 +425,10 @@ pub fn try_activity_coefficients(
         // here is the bug that sent γ to 10²² at dilution: ln(φ/x²) grows
         // by −ln x on top of the real term, invisible at x = 1 where every
         // test looked.
+        // The cancelled ratios also have a finite infinite-dilution limit:
+        // an absent or trace component still has this combinatorial term.
+        // Skipping it below an absolute mole-fraction cutoff would introduce
+        // a discontinuity in γ precisely where a still approaches depletion.
         let phi_i = r_i[i] / r_sum;
         let theta_i = q_i[i] / q_sum;
         let l_i = z / 2.0 * (r_i[i] - q_i[i]) - (r_i[i] - 1.0);
@@ -614,6 +615,43 @@ mod tests {
             dilute[0],
             conc[0]
         );
+    }
+
+    #[test]
+    fn infinite_dilution_is_continuous_through_trace_and_absent_components() {
+        let table = approved_table();
+        let ethanol = GroupDecomposition::from([(1, 1), (2, 1), (14, 1)]);
+        let water = GroupDecomposition::from([(16, 1)]);
+        // Both orientations matter: neither dissolved ethanol nor trace water
+        // may lose its combinatorial contribution. These are continuity
+        // controls within the existing model, not fitted physical constants.
+        for (solute, solvent) in [(&ethanol, &water), (&water, &ethanol)] {
+            for temperature in [298.15, 373.15] {
+                let reference = activity_coefficients(
+                    &table,
+                    &[(solute.clone(), 1e-12), (solvent.clone(), 1.0 - 1e-12)],
+                    temperature,
+                );
+                for fraction in [1e-29, 1e-31, 1e-100, 1e-300, 0.0] {
+                    let actual = activity_coefficients(
+                        &table,
+                        &[
+                            (solute.clone(), fraction),
+                            (solvent.clone(), 1.0 - fraction),
+                        ],
+                        temperature,
+                    );
+                    for (gamma, expected) in actual.iter().zip(&reference) {
+                        assert!(gamma.is_finite() && *gamma > 0.0);
+                        assert!(
+                            (gamma / expected - 1.0).abs() < 1e-9,
+                            "discontinuous gamma at x={fraction}, T={temperature}: {actual:?} versus {reference:?}"
+                        );
+                    }
+                    assert!((actual[1] - 1.0).abs() < 1e-12);
+                }
+            }
+        }
     }
 
     #[test]
