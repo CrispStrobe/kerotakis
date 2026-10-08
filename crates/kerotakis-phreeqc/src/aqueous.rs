@@ -2254,31 +2254,33 @@ fn crystal_balance_error(detail: impl Into<String>) -> SolveError {
     }
 }
 
-fn checked_crystal_sum(values: &[f64], owner: &str) -> Result<f64, SolveError> {
-    values.iter().try_fold(0.0, |sum, value| {
-        if !value.is_finite() || *value < 0.0 {
-            return Err(crystal_balance_error(format!(
-                "{owner}: invalid amount {value}"
-            )));
-        }
-        let sum = sum + value;
-        if !sum.is_finite() {
-            return Err(crystal_balance_error(format!(
-                "{owner}: amount sum overflow"
-            )));
-        }
-        Ok(sum)
-    })
+fn checked_crystal_sum(
+    values: &[f64],
+    owner: &str,
+) -> Result<kerotakis_core::amount::Amount, SolveError> {
+    use kerotakis_core::amount::Amount;
+    values
+        .iter()
+        .try_fold(Amount::new(0.0).unwrap(), |sum, value| {
+            let amount = Amount::new(*value)
+                .map_err(|_| crystal_balance_error(format!("{owner}: invalid amount {value}")))?;
+            sum.checked_add(amount)
+                .map_err(|_| crystal_balance_error(format!("{owner}: amount sum overflow")))
+        })
 }
 
-fn crystal_relative_cap(terms: usize) -> Result<f64, SolveError> {
+fn crystal_roundoff_cap(terms: usize) -> Result<f64, SolveError> {
     let roundoff = (terms as f64 + 4.0) * f64::EPSILON;
     if !roundoff.is_finite() || roundoff >= 1.0 {
         return Err(crystal_balance_error(
             "unsupported arithmetic reduction size",
         ));
     }
-    Ok(CRYSTAL_NATIVE_RELATIVE_CAP + CRYSTAL_OUTPUT_RELATIVE_CAP + roundoff / (1.0 - roundoff))
+    Ok(roundoff / (1.0 - roundoff))
+}
+
+fn crystal_relative_cap(terms: usize) -> Result<f64, SolveError> {
+    Ok(CRYSTAL_NATIVE_RELATIVE_CAP + CRYSTAL_OUTPUT_RELATIVE_CAP + crystal_roundoff_cap(terms)?)
 }
 
 /// Reconcile only witnessed exclusive aqueous totals and explicit Ca/Sr/C
@@ -2320,7 +2322,12 @@ fn checked_crystal_reconciliation(
         .collect::<Result<_, SolveError>>()?;
     let mut corrected = ions.to_vec();
     for element in ["Ca", "Sr", "C"] {
-        if element == "C" && !problem.external_gases.is_empty() {
+        if element == "C"
+            && problem
+                .external_gases
+                .iter()
+                .any(|gas| gas.species == "CO2")
+        {
             continue; // Explicitly open carbon; Ca/Sr remain closed.
         }
         let mut available: Vec<f64> = problem
@@ -2346,6 +2353,21 @@ fn checked_crystal_reconciliation(
         }
         // Pure phases are independent owners, absent from SOLUTION totals.
         for (phase, initial, _) in &problem.phases {
+            if problem.external_gases.iter().any(|gas| gas.phase == *phase) {
+                // Reviewed gas boundaries have no Ca/Sr owner. Only CO2 opens
+                // carbon; HBr and atmospheric O2/N2 leave its budget closed.
+                let formula = crate::dbindex::parse_formula(phase.trim_end_matches("(g)"))
+                    .ok_or_else(|| {
+                        crystal_balance_error(format!("unreviewed external phase {phase}"))
+                    })?;
+                if formula.contains_key(element) {
+                    return Err(crystal_balance_error(format!(
+                        "external {phase} lacks a reviewed {element} boundary"
+                    )));
+                }
+                continue;
+            }
+
             let definition = derived::phase_by_name(phase).ok_or_else(|| {
                 crystal_balance_error(format!("unreviewed primary phase {phase}"))
             })?;
@@ -2358,7 +2380,7 @@ fn checked_crystal_reconciliation(
                 .filter(|(key, _)| key.split('(').next().unwrap_or(key) == element)
                 .map(|(_, coefficient)| *coefficient)
                 .collect();
-            let coefficient = checked_crystal_sum(&coefficients, phase)?;
+            let coefficient = checked_crystal_sum(&coefficients, phase)?.to_f64();
             available.push(initial * coefficient);
             owned.push(final_amount * coefficient);
         }
@@ -2377,8 +2399,10 @@ fn checked_crystal_reconciliation(
                     .map(|(_, amount)| *amount),
             );
         }
-        let total_available = checked_crystal_sum(&available, &format!("available {element}"))?;
-        let total_owned = checked_crystal_sum(&owned, &format!("final owned {element}"))?;
+        let available_amount = checked_crystal_sum(&available, &format!("available {element}"))?;
+        let total_available = available_amount.to_f64();
+        let owned_amount = checked_crystal_sum(&owned, &format!("final owned {element}"))?;
+        let total_owned = owned_amount.to_f64();
         let cap = crystal_relative_cap(available.len() + owned.len())?;
         let scale = total_available.max(total_owned);
         if total_owned > total_available && (total_owned - total_available) / scale > cap {
@@ -2387,17 +2411,36 @@ fn checked_crystal_reconciliation(
             )));
         }
         // Only a checked within-cap residual may reach this nonnegative bound.
-        let target = (total_available - total_owned).max(0.0);
+        let target = match available_amount.checked_sub(owned_amount) {
+            Ok(remainder) => remainder.to_f64(),
+            Err(kerotakis_core::amount::AmountError::Negative) => 0.0,
+            Err(error) => {
+                return Err(crystal_balance_error(format!(
+                    "{element} remainder: {error}"
+                )))
+            }
+        };
         let raw_parts: Vec<f64> = ions
             .iter()
             .filter(|(key, _)| key.split('(').next().unwrap_or(key) == element)
             .map(|(_, amount)| *amount)
             .collect();
-        let raw = checked_crystal_sum(&raw_parts, &format!("raw aqueous {element}"))?;
+        let raw = checked_crystal_sum(&raw_parts, &format!("raw aqueous {element}"))?.to_f64();
         let raw_cap = crystal_relative_cap(raw_parts.len() + available.len() + owned.len())?;
-        if (raw == 0.0 && target > 0.0)
-            || (raw != target && (raw - target).abs() / raw.max(target) > raw_cap)
-        {
+        let discrepancy = (raw - target).abs();
+        if raw == 0.0 && target > 0.0 {
+            return Err(crystal_balance_error(format!(
+                "{element} missing aqueous inventory: remainder={target:e}"
+            )));
+        }
+        if raw != target && discrepancy / raw.max(target) > raw_cap {
+            // Scalar owner products and residual projection have a separate
+            // arithmetic budget at owner scale. Preserve the aqueous witness,
+            // never amplify a trace to match an ill-conditioned subtraction.
+            let roundoff = crystal_roundoff_cap(raw_parts.len() + available.len() + owned.len())?;
+            if scale > 0.0 && discrepancy / scale <= roundoff {
+                continue;
+            }
             return Err(crystal_balance_error(format!(
                 "{element} unexplained aqueous residual: raw={raw:e}, remainder={target:e}"
             )));
@@ -4562,6 +4605,23 @@ impl PhreeqcEquilibrator {
         // Molalities are per kg of *equilibrated* water (mass_H2O), which
         // differs slightly from the input water mass through speciation.
         let kgw_out = value("mass_H2O").ok_or_else(|| missing("mass_H2O"))?;
+        if !problem.solid_solutions.is_empty() {
+            if !kgw_out.is_finite() || kgw_out <= 0.0 {
+                return Err(crystal_balance_error("invalid aqueous solvent mass"));
+            }
+            let states = valence_totals(problem, db_tag);
+            for column in problem.elements.iter().chain(&states) {
+                let base = column.split('(').next().unwrap_or(column);
+                if !["Ca", "Sr", "C"].contains(&base) {
+                    continue;
+                }
+                for name in [column.as_str(), base] {
+                    let raw = value(name).ok_or_else(|| missing(name))?;
+                    checked_crystal_sum(&[raw], &format!("raw selected {name}"))?;
+                    checked_crystal_sum(&[raw * kgw_out], &format!("aqueous {name}"))?;
+                }
+            }
+        }
         let mut solvent_kgw_out = kgw_out;
         let mut new_surfaces = problem.surfaces.clone();
         if !new_surfaces.is_empty() {
@@ -8289,7 +8349,7 @@ mod trace_interface_tests {
 #[cfg(test)]
 use kerotakis_core::VesselId;
 #[cfg(test)]
-#[path = "../tests/solid_solution_raw_readback/contracts.rs"]
+#[path = "../tests/solid_solution_raw_readback/contracts_complete_columns.rs"]
 mod solid_solution_raw_readback_contracts;
 
 #[cfg(test)]
