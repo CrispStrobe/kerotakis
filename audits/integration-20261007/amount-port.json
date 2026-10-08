@@ -1,0 +1,12 @@
+{
+  "base_commit": "e9b2c842e8c8c41275c88baa5f3063bf6b499da9",
+  "accepted_source_commit": "8cdab1f6ecd0b1132c4008014a5a0c5476429d17",
+  "original_test_path": "crates/kerotakis-core/tests/compensated_amount_contracts.rs",
+  "sha256": {
+    "crates/kerotakis-core/src/amount.rs": "92ef58a3f5562f364f6e590b28aa1ef675d4d9366b86f1ddc3ab59813b40eb09",
+    "audits/integration-20261007/amount-original-contracts.rs.txt": "a8eedfad311928ee275da464b220464ca9a3e92b586e55de9cedfa1e4193db48",
+    "crates/kerotakis-core/tests/amount_foundation.rs": "45b776763a17b6c987db7d2b6a7262f0ff185dc38dfffac088ef88a95226d39c"
+  },
+  "adaptation": "Original frozen bytes retained as .rs.txt. Executed copy imports the public production module instead of a path module; rustfmt changes whitespace only. Assertions retained.",
+  "validation": "Hosted PR gates pending; no local build or CLI execution."
+}

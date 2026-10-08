@@ -8,6 +8,8 @@ The accepted engine source is [`8cdab1f6ecd0b1132c4008014a5a0c5476429d17`](https
 
 At implementation checkpoint `9331f9e9`, that branch was 168 commits ahead of `main` at [`f7d45f6f`](https://github.com/CrispStrobe/kerotakis/commit/f7d45f6fefacc0a53312356f8b801f7e371b8042), with no commits behind it. Subsequent documentation commits do not change that accepted engine source. **Branch-verified does not mean merged into main, released, or deployed.** A documentation-only cherry-pick also does not port the implementation. Recheck ancestry before starting integration lane AUD-00.
 
+Documentation delivery [PR #755](https://github.com/CrispStrobe/kerotakis/pull/755) merged on 2026-10-07. [The integration manifest](chemistry-audit-integration-20261007.md) tracks implementation ports separately; AUD-00 remains open.
+
 ## Accepted evidence
 
 | Evidence | Exact result | Public record |
