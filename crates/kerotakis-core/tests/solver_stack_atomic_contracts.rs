@@ -247,3 +247,32 @@ fn rejected_gas_event_cannot_enter_the_step_boundary_ledger() {
     ));
     assert_eq!(key(&v), before);
 }
+
+struct OverflowEvent;
+impl Equilibrator for OverflowEvent {
+    fn name(&self) -> &'static str {
+        "boundary-overflow"
+    }
+    fn equilibrate(&mut self, v: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+        Ok(vec![Event::GasEvolved {
+            vessel: v.id,
+            species: SpeciesId::new("water"),
+            moles: Moles(f64::MAX),
+        }])
+    }
+}
+#[test]
+fn accumulated_step_gas_overflow_refuses_the_entire_attempt() {
+    let mut v = water();
+    v.step_start
+        .as_mut()
+        .unwrap()
+        .note_gas_out(&SpeciesId::new("water"), f64::MAX);
+    let before = key(&v);
+    let mut stack = SolverStack::new(vec![Box::new(OverflowEvent)]);
+    assert!(matches!(
+        &stack.equilibrate(&mut v).unwrap()[..],
+        [Event::SolverFailed { .. }]
+    ));
+    assert_eq!(key(&v), before);
+}
