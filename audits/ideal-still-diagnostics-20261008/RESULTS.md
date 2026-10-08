@@ -103,3 +103,16 @@ no kernel or original forecast changes were merged. See
 This dependency refresh does not supply executed acceptance of the ideal
 diagnostic or individual-owner changes. Original and supplementary forecast
 hashes remain unchanged.
+
+## Public fixture access adaptation
+
+Binary baseline `37731589674` exposed that an external integration fixture
+cannot call private `Bench::vessel_mut`. Both ideal operator files had inherited
+that fixture pattern. [The adaptation](fixture-access-adaptation.json) preserves
+their exact original forecast bytes and replaces only donor setup access with
+the existing public vessel vector, followed by rustfmt. No production API or
+assertion changes are introduced. Original freezes continue to bind the preserved
+original snapshots; adapted execution bytes have their own hashes.
+Queued ideal baselines `37732719083` and `37734101871` were cancelled before
+execution. Neither supplies behavior evidence. Corrected baseline delivery and
+acceptance remain pending.

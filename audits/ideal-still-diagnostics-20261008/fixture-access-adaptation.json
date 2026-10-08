@@ -1,0 +1,26 @@
+{
+  "pre_adaptation_commit": "ced27e29ec4de752480b2df8f8e3e84854a930e6",
+  "adaptation": "External integration fixtures cannot call private Bench::vessel_mut. Replace fixture-only donor access with existing public Bench::vessels.iter_mut().find(id), then rustfmt. No production API, forecast assertions, invalid inputs or success expectations change.",
+  "trigger": "Binary baseline37731589674 exposed private-method E0624 in the shared fixture pattern. Ideal forecasts used the same inaccessible method; queued ideal runs were cancelled before execution.",
+  "superseded_runs": {
+    "37732719083": "Cancellation requested while queued; no behavioral result claimed",
+    "37734101871": "Cancellation requested while queued; no behavioral result claimed"
+  },
+  "files": [
+    {
+      "test": "crates/kerotakis-core/tests/ideal_still_refusal_diagnostics.rs",
+      "original_snapshot": "audits/ideal-still-diagnostics-20261008/original-ideal_still_refusal_diagnostics.rs.txt",
+      "original_sha256": "04f8ea7795f7a50404386f8627969b2c98a69d23cc3fca2399fbc889257eb42e",
+      "private_call_replacements": 3,
+      "adapted_sha256": "83a675ecebf50f33b4ced2e49c82695ff71bfd398c53d60d838a43fef87c20da"
+    },
+    {
+      "test": "crates/kerotakis-core/tests/ideal_still_portion_validation.rs",
+      "original_snapshot": "audits/ideal-still-diagnostics-20261008/original-ideal_still_portion_validation.rs.txt",
+      "original_sha256": "323e2444cb26aff8735cb5b54a56a64fe673bd9ddc73613d1a17e4bf6f0ad1f8",
+      "private_call_replacements": 1,
+      "adapted_sha256": "158ec5f2b6fb5914d8e3d89815283ebf7d9eb8a4cde8b59072f2fe4dd8634bed"
+    }
+  ],
+  "validation": "Original snapshots and frozen hashes preserved; static rustfmt/diff checks only. Corrected execution pending."
+}

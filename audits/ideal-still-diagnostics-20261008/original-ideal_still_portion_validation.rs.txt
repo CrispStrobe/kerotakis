@@ -26,9 +26,7 @@ fn bench(portions: &[(&str, f64, Phase)]) -> Bench {
     // Public persisted-owner shape: push individual entries without coalescing.
     for (species, amount, phase) in portions {
         bench
-            .vessels
-            .iter_mut()
-            .find(|vessel| vessel.id == VesselId(0))
+            .vessel_mut(VesselId(0))
             .unwrap()
             .contents
             .push(Portion {
