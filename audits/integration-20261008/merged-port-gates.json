@@ -1,0 +1,139 @@
+{
+  "schema": 1,
+  "main_after_ports": "7bc43e089753483710507133ccc8377591bb3490",
+  "ports": [
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/757",
+      "tested_head": "a490f37c1851314732a9dfceb52751b387837ddd",
+      "merge_commit": "7d01660eea01a9a6291ee93607d47c25cb20904a",
+      "merged_at": "2026-10-08T07:26:34Z",
+      "required_checks": [
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37730459174/job/113158172910",
+          "started_at": "2026-10-08T05:09:40Z",
+          "completed_at": "2026-10-08T05:28:14Z"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37730459174/job/113158173089",
+          "started_at": "2026-10-08T05:42:19Z",
+          "completed_at": "2026-10-08T05:52:27Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37730459174/job/113158173200",
+          "started_at": "2026-10-08T05:16:48Z",
+          "completed_at": "2026-10-08T05:34:47Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37730459174/job/113158173100",
+          "started_at": "2026-10-08T05:32:35Z",
+          "completed_at": "2026-10-08T05:37:09Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37730459174/job/113158173220",
+          "started_at": "2026-10-08T06:08:58Z",
+          "completed_at": "2026-10-08T06:20:35Z"
+        }
+      ],
+      "remaining_checks": "Some nonrequired fleet jobs remain queued; no observed failure at merge. Required repository protection is non-strict; combined main needs its own validation."
+    },
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/758",
+      "tested_head": "1f662be8b5071feb00fffdd68e2d2ca54ab9a286",
+      "merge_commit": "7ee8c1568e21c3066a869a0985626af2275a43c0",
+      "merged_at": "2026-10-08T07:26:54Z",
+      "required_checks": [
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37733098594/job/113166488146",
+          "started_at": "2026-10-08T06:24:11Z",
+          "completed_at": "2026-10-08T06:46:45Z"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37733098594/job/113166488022",
+          "started_at": "2026-10-08T05:49:06Z",
+          "completed_at": "2026-10-08T06:08:57Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37733098594/job/113166488133",
+          "started_at": "2026-10-08T06:04:49Z",
+          "completed_at": "2026-10-08T06:26:31Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37733098594/job/113166488253",
+          "started_at": "2026-10-08T06:42:17Z",
+          "completed_at": "2026-10-08T06:46:26Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37733098594/job/113166488307",
+          "started_at": "2026-10-08T06:46:03Z",
+          "completed_at": "2026-10-08T06:56:10Z"
+        }
+      ],
+      "remaining_checks": "Some nonrequired fleet jobs remain queued; no observed failure at merge. Required repository protection is non-strict; combined main needs its own validation."
+    },
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/760",
+      "tested_head": "016df1dcd985af924a53e09930c8b8102626ce8d",
+      "merge_commit": "7bc43e089753483710507133ccc8377591bb3490",
+      "merged_at": "2026-10-08T07:26:59Z",
+      "required_checks": [
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37731501137/job/113161417227",
+          "started_at": "2026-10-08T05:54:36Z",
+          "completed_at": "2026-10-08T06:08:20Z"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37731501137/job/113161417366",
+          "started_at": "2026-10-08T06:17:42Z",
+          "completed_at": "2026-10-08T06:35:18Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37731501137/job/113161417444",
+          "started_at": "2026-10-08T05:45:34Z",
+          "completed_at": "2026-10-08T06:07:06Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37731501137/job/113161417328",
+          "started_at": "2026-10-08T05:51:53Z",
+          "completed_at": "2026-10-08T05:55:56Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37731501137/job/113161417413",
+          "started_at": "2026-10-08T05:57:03Z",
+          "completed_at": "2026-10-08T06:08:56Z"
+        }
+      ],
+      "remaining_checks": "Some nonrequired fleet jobs remain queued; no observed failure at merge. Required repository protection is non-strict; combined main needs its own validation."
+    }
+  ],
+  "scope": "Independent matching-head required PR gates. Not a full integrated-source audit/replay or performance acceptance."
+}
