@@ -8362,11 +8362,11 @@ use kerotakis_core::VesselId;
 mod solid_solution_raw_readback_contracts;
 
 #[cfg(test)]
-#[path = "../tests/solid_solution_phase_budget/contracts.rs"]
+#[path = "../tests/solid_solution_phase_budget/contracts_closed_boundary.rs"]
 mod solid_solution_raw_readback_contracts_budget;
 
 #[cfg(test)]
-#[path = "../tests/solid_solution_phase_budget/supplement.rs"]
+#[path = "../tests/solid_solution_phase_budget/supplement_closed_boundary.rs"]
 mod solid_solution_raw_readback_contracts_budget_supplement;
 
 #[cfg(test)]
