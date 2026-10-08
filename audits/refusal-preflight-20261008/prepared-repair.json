@@ -1,0 +1,23 @@
+{
+  "kind": "prepared bounded repair; acceptance pending",
+  "parent_revision": "f6ad9946fdf71ab3273dfb5d46350e569c7f5cb6",
+  "forecast_commits": [
+    "ec29b07e",
+    "817d230b",
+    "5312bc77"
+  ],
+  "new_contracts": 30,
+  "inherited_safety_contracts": 20,
+  "production_files": [
+    "crates/kerotakis-core/src/bench.rs"
+  ],
+  "before_sha256": "dc09b0ba4abb581e48f988330c6c3ced95c5d1c963518e9a3780d13082b16af0",
+  "after_sha256": "727773071238342eaa644268edf8d4a38d71163888fcb921358ce6f6b3621778",
+  "static_checks": [
+    "rustfmt parsed/formatted changed Rust files",
+    "git diff --check",
+    "frozen test/source receipt hashes compared"
+  ],
+  "runtime_execution": "None locally; hosted baseline, repair and full CI required",
+  "compatibility": "Unknown reaction/nuclide missing-vessel lookup moved into refusal branch to retain NoSuchVessel. Two supplementary controls frozen after static draft review and before production commit."
+}

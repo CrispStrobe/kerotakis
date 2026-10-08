@@ -2459,8 +2459,6 @@ impl Bench {
                 }
             }
             Operator::Decant { from, to, fraction } => {
-                let created_destination = !self.vessels.iter().any(|vessel| vessel.id == *to);
-                self.ensure_destination(*to, &mut events);
                 if !(0.0..=1.0).contains(fraction) {
                     return Err(BenchError::BadFraction);
                 }
@@ -2492,6 +2490,9 @@ impl Bench {
                         .collect();
                     (moved, unresolved, src.temperature)
                 };
+
+                let created_destination = !self.vessels.iter().any(|vessel| vessel.id == *to);
+                self.ensure_destination(*to, &mut events);
 
                 // L0 on the prospective target state, before mutation —
                 // pouring one vessel into another can create the hazard.
@@ -2787,8 +2788,6 @@ impl Bench {
                 if from == to {
                     return Err(BenchError::SelfTransfer);
                 }
-                let created_destination = !self.vessels.iter().any(|vessel| vessel.id == *to);
-                self.ensure_destination(*to, &mut events);
                 // Everything liquid + dissolved would move; probe the target.
                 let (would_move, t_from) = {
                     let src = self.vessel(*from)?;
@@ -2800,6 +2799,8 @@ impl Bench {
                         .collect();
                     (moved, src.temperature)
                 };
+                let created_destination = !self.vessels.iter().any(|vessel| vessel.id == *to);
+                self.ensure_destination(*to, &mut events);
                 let mut probe = self.vessel(*to)?.clone();
                 for (s, n, phase) in &would_move {
                     probe.deposit(s.clone(), *n, *phase);
@@ -2961,6 +2962,7 @@ impl Bench {
                 let water = SpeciesId::new("water");
                 let present = v.moles_of(&water);
                 if present.0 <= 0.0 {
+                    *disposition = ApplyDisposition::Unchanged;
                     events.push(Event::not_modeled(
                         *vessel,
                         crate::ops::NotModelledCause::NothingToActOn,
@@ -3290,9 +3292,8 @@ impl Bench {
                     return Err(BenchError::SelfTransfer);
                 }
                 let source = self.vessel(*from)?.clone();
-                self.ensure_destination(*to, &mut events);
-                self.vessel(*to)?;
                 let Some((_upper, lower)) = crate::solve::layered_pair(&source) else {
+                    *disposition = ApplyDisposition::Unchanged;
                     events.push(Event::not_modeled(
                         *from,
                         crate::ops::NotModelledCause::NothingToActOn,
@@ -3383,6 +3384,8 @@ impl Bench {
                         }
                     }
                 }
+                self.ensure_destination(*to, &mut events);
+                self.vessel(*to)?;
                 let solvent_moles = moved
                     .iter()
                     .filter(|(s, ..)| *s == lower_id)
@@ -5042,6 +5045,8 @@ impl Bench {
                     return Err(BenchError::NonPositiveAmount);
                 }
                 let Some(data) = crate::nuclide::lookup_notation(nuclide) else {
+                    self.vessel(*vessel)?;
+                    *disposition = ApplyDisposition::Unchanged;
                     let known: Vec<&str> = crate::nuclide::TEACHING_NUCLIDES
                         .iter()
                         .map(|n| n.nuclide)
@@ -5098,6 +5103,8 @@ impl Bench {
                         .find(|r| r.name == reaction)
                     {
                         None => {
+                            self.vessel(*vessel)?;
+                            *disposition = ApplyDisposition::Unchanged;
                             // The parser vets names, but an operator can arrive
                             // by JSON; refuse out loud rather than panic.
                             events.push(Event::not_modeled(
