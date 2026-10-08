@@ -1,0 +1,488 @@
+{
+  "schema": 1,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37730149327",
+  "source_commit": "9140ee58d52cf75a4c7a6a5762a916f995d0d34d",
+  "compile": "success",
+  "library": {
+    "passed": 108,
+    "failed": 5
+  },
+  "live_solid_solution": {
+    "passed": 3,
+    "failed": 0
+  },
+  "log_sha256": "5db7b474583f9ac32925c59df4ccf49de056ad335074ed6858e40bc75443f811",
+  "diagnostic_sha256": "1d4ff301ae4dbea7f424608f34d606a96ae2dfa7ef4b23c56fc94db2c877eef7",
+  "interpretation": [
+    "All eight external raw/refusal controls and nine refinement controls passed on this repair.",
+    "Five allocation/supplement assertions failed with the original inherited atmospheric boundary. Explicit closed-boundary fixtures were committed separately; this run does not establish their result.",
+    "Live precipitation, dissolution and repeated equilibrium controls passed. This does not certify general solid-solution accuracy, H/O/charge or heat.",
+    "The overall run failed; corrected native/live validation remains pending."
+  ],
+  "outcomes": [
+    {
+      "test": "aqueous::dataset_claim_tests::german_translates_the_clauses_and_not_the_file",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::dataset_claim_tests::the_file_name_survives_the_sentence_around_it",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::dataset_claim_tests::the_recipe_renders_the_english_it_replaced",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::numerical_speciation_tests::malformed_or_missing_columns_preserve_the_report_and_no_second_solve",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::numerical_speciation_tests::native_columns_replace_rounding_and_log_activities_without_creating_species",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::numerical_speciation_tests::pure_water_surface_tolerance_is_scoped_and_does_not_reduce_output_precision",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::oxidation_sum_tests::chemistry_input_resolves_the_temperature_balance_tolerance",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::oxidation_sum_tests::equilibrium_input_is_independent_of_feed_order",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::oxidation_sum_tests::invalid_or_partial_native_ledgers_are_not_balances",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::oxidation_sum_tests::valid_negative_oxidation_sum_and_zero_population_are_preserved",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::routing_molality_tests::a_beaker_boiled_dry_over_chalk_is_not_a_concentrated_solution",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::routing_molality_tests::a_real_brine_still_reads_as_concentrated",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::routing_molality_tests::the_documented_millilitre_probe_is_unchanged",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::routing_molality_tests::the_solvent_floor_binds_only_below_a_millilitre",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::missing_component_refuses_before_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::nan_component_refuses_before_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::negative_component_refuses_before_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::negative_infinity_component_refuses_before_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::positive_components_survive_raw_readback_without_projection",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::positive_infinity_component_refuses_before_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::zero_components_remain_valid_empty_seed_ownership",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::apparently_inclusive_raw_total_without_witness_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::calcium_phase_overdraw_refuses_at_every_scale",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::closed_carbon_gas_overdraw_refuses",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::exact_closed_gas_budget_accepts",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::exact_exclusive_remainders_accept_without_material_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::exact_phase_exhaustion_accepts_zero_aqueous",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::missing_owned_gas_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::negative_owned_gas_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::negative_raw_aqueous_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::nonfinite_owned_gas_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::nonfinite_raw_aqueous_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::primary_and_typed_overdraw_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::primary_solid_dissolution_is_counted_once",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::primary_solid_precipitation_is_debited_once",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::strontium_phase_overdraw_refuses_at_every_scale",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::ten_percent_raw_deficit_refuses_at_every_scale",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::ten_percent_raw_excess_refuses_at_every_scale",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::zero_aqueous_with_positive_remainder_refuses",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::aggregate_available_overflow_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::external_carbon_cannot_hide_calcium_overdraw",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::external_carbon_is_open_with_closed_cations",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::inside_declared_raw_budget_accepts",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::malformed_available_aqueous_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::malformed_initial_closed_gas_refuses",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::malformed_primary_phase_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::outside_declared_raw_budget_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_cancellation::owner_sum_cancellation_accepts_raw_without_rescaling_trace_remainder",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_external_boundaries::actual_external_carbon_phase_does_not_require_a_solid_registry_identity",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_external_boundaries::noncarbon_external_boundary_does_not_open_the_carbon_budget",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_external_boundaries::noncarbon_external_phase_preserves_supported_closed_carbon",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_external_raw::missing_external_phase_final_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_external_raw::negative_external_phase_final_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_external_raw::negative_external_phase_initial_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_external_raw::nonfinite_external_phase_final_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_external_raw::nonfinite_external_phase_initial_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_external_raw::zero_external_phase_initial_and_final_remain_valid",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_raw_carbon::complete_zero_carbon_readback_accepts_exact_exhaustion",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_raw_carbon::malformed_raw_carbon_base_refuses_before_zero_skip",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_raw_carbon::malformed_raw_carbon_state_refuses_before_clamping",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_raw_carbon::missing_raw_carbon_base_refuses_even_at_exact_exhaustion",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_raw_carbon::missing_requested_carbon_state_refuses_at_exact_exhaustion",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_refusal_atomicity::native_overdraw_refusal_preserves_complete_serialized_vessel",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_refusal_atomicity::stack_records_failed_native_route_and_preserves_complete_vessel",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::thermal_root_tests::shrinking_a_discontinuous_bracket_does_not_claim_equilibrium",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::thermal_root_tests::unstable_thermal_feedback_is_solved_without_relaxing_the_residual",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::trace_distribution_tests::species_report_keeps_positive_trace_concentrations",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::trace_interface_tests::direct_and_mix_solvent_inputs_preserve_small_and_large_positive_masses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::trace_interface_tests::exchange_input_keeps_a_subpicomole_bound_element_budget",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::trace_interface_tests::malformed_normalized_output_refuses_instead_of_relabeling_native_amounts",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::trace_interface_tests::microscopic_mix_uses_one_scale_preserving_fractions_and_solution_ratios",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::trace_interface_tests::microscopic_problem_scales_all_extensive_inputs_and_restores_only_amount_columns",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::trace_interface_tests::positive_trace_phase_excludes_homogeneous_total_projection",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::trace_interface_tests::trace_surface_amount_and_water_return_are_conserved_across_interfaces",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous_gases::tests::gas_slice_converts_dissociative_not_molecular_henry_constant",
+      "outcome": "ok"
+    },
+    {
+      "test": "complexation::tests::extension_precedes_end_and_does_not_claim_temperature_derivatives",
+      "outcome": "ok"
+    },
+    {
+      "test": "complexation::tests::physical_aliases_are_exact_and_preserve_reference_coverage",
+      "outcome": "ok"
+    },
+    {
+      "test": "dbindex::delta_h_tests::carbonate_rows_are_the_shape_the_algebra_assumes",
+      "outcome": "ok"
+    },
+    {
+      "test": "dbindex::delta_h_tests::delta_h_is_normalised_to_kilojoules",
+      "outcome": "ok"
+    },
+    {
+      "test": "dbindex::delta_h_tests::german_keeps_the_name_and_moves_the_decimal_point",
+      "outcome": "ok"
+    },
+    {
+      "test": "dbindex::delta_h_tests::only_the_ion_interaction_model_carries_the_prefix_core_matches_on",
+      "outcome": "ok"
+    },
+    {
+      "test": "dbindex::delta_h_tests::phase_and_species_enthalpies_come_off_the_shipped_files",
+      "outcome": "ok"
+    },
+    {
+      "test": "dbindex::delta_h_tests::redefining_species_drops_earlier_temperature_attributes",
+      "outcome": "ok"
+    },
+    {
+      "test": "dbindex::delta_h_tests::the_recipe_renders_the_english_description_exactly",
+      "outcome": "ok"
+    },
+    {
+      "test": "dbindex::tests::formula_parser_handles_the_registry",
+      "outcome": "ok"
+    },
+    {
+      "test": "dbindex::tests::parses_the_three_databases",
+      "outcome": "ok"
+    },
+    {
+      "test": "derived::tests::a_condensed_gas_is_never_a_database_mineral",
+      "outcome": "ok"
+    },
+    {
+      "test": "derived::tests::bookings_cover_every_derivable_element",
+      "outcome": "ok"
+    },
+    {
+      "test": "derived::tests::citric_acid_is_one_citrate_and_not_two_acetates",
+      "outcome": "ok"
+    },
+    {
+      "test": "derived::tests::lactate_is_defined_in_exactly_one_loaded_database",
+      "outcome": "ok"
+    },
+    {
+      "test": "derived::tests::malate_is_in_none_of_the_shipped_databases",
+      "outcome": "ok"
+    },
+    {
+      "test": "derived::tests::phase_coverage_reports_how_little_the_datasets_share",
+      "outcome": "ok"
+    },
+    {
+      "test": "derived::tests::phase_table_is_derived",
+      "outcome": "ok"
+    },
+    {
+      "test": "derived::tests::roles_are_derived_correctly",
+      "outcome": "ok"
+    },
+    {
+      "test": "derived::tests::sugars_and_malic_acid_are_not_decomposed_into_acetate",
+      "outcome": "ok"
+    },
+    {
+      "test": "derived::tests::the_atmospheric_co2_pressure_agrees_with_the_clock",
+      "outcome": "ok"
+    },
+    {
+      "test": "enthalpy::tests::a_solid_prices_as_its_ions_less_its_dissolution",
+      "outcome": "ok"
+    },
+    {
+      "test": "enthalpy::tests::a_solids_enthalpy_is_its_ions_less_the_cost_of_getting_there",
+      "outcome": "ok"
+    },
+    {
+      "test": "enthalpy::tests::an_unpriceable_spectator_that_does_not_move_is_harmless",
+      "outcome": "ok"
+    },
+    {
+      "test": "enthalpy::tests::aqueous_thiocyanate_relabelling_preserves_known_heat_not_unknown_properties",
+      "outcome": "ok"
+    },
+    {
+      "test": "enthalpy::tests::neutralisation_falls_out_of_the_basis",
+      "outcome": "ok"
+    },
+    {
+      "test": "enthalpy::tests::something_unpriceable_that_moves_declines_by_name",
+      "outcome": "ok"
+    },
+    {
+      "test": "enthalpy::tests::the_basis_is_populated_and_not_silently_zero",
+      "outcome": "ok"
+    },
+    {
+      "test": "enthalpy::tests::the_volcano_is_endothermic_and_the_right_size",
+      "outcome": "ok"
+    },
+    {
+      "test": "inventory::trace_basis_tests::acid_base_basis_retains_positive_subpicomole_coordinates",
+      "outcome": "ok"
+    },
+    {
+      "test": "native_namespace::tests::a_partial_state_selection_does_not_invent_an_element_total",
+      "outcome": "ok"
+    },
+    {
+      "test": "native_namespace::tests::a_phase_name_is_not_an_aqueous_species_formula",
+      "outcome": "ok"
+    },
+    {
+      "test": "native_namespace::tests::totals_species_and_similar_names_keep_distinct_meanings",
+      "outcome": "ok"
+    },
+    {
+      "test": "phase_diagnostics::tests::gases_and_registered_solids_are_never_reported_as_missing_precipitates",
+      "outcome": "ok"
+    },
+    {
+      "test": "phase_diagnostics::tests::offered_small_and_invalid_indices_do_not_generate_boundaries",
+      "outcome": "ok"
+    },
+    {
+      "test": "phase_diagnostics::tests::registry_coverage_is_not_candidate_coverage",
+      "outcome": "ok"
+    },
+    {
+      "test": "phase_diagnostics::tests::temperature_boundary_is_checked_not_merely_present",
+      "outcome": "ok"
+    },
+    {
+      "test": "redox_isolation::tests::isolated_phase_keeps_inline_thermodynamic_parameters_exactly",
+      "outcome": "ok"
+    },
+    {
+      "test": "acid_dissolves_both_end_members_without_losing_components",
+      "outcome": "ok"
+    },
+    {
+      "test": "calcium_and_strontium_co_precipitate_into_a_typed_mixed_crystal",
+      "outcome": "ok"
+    },
+    {
+      "test": "repeated_equilibration_preserves_the_mixed_phase_and_bulk_inventory",
+      "outcome": "ok"
+    }
+  ]
+}
