@@ -1665,13 +1665,24 @@ PVA = "PVA"
 # falls back to `[refusal]`; `tools/engine-locale-lint.py` counts how many
 # of each there are, with the denominator read out of the Rust.
 [not-modeled]
+
+# Binary still diagnostic categories; no refused proposal transfers inventory.
+still-invalid-input = "Die binäre Destille benötigt endliche nichtnegative Bestände, einen gültigen Schnitt, eine unterstützte Stufenzahl und positiven Druck; es wurde kein Material übertragen"
+still-request-precision = "Der angeforderte binäre Destillationsschnitt oder ein erforderlicher Integrationsschritt ist bei dieser Bestandsgröße zu klein, um numerisch erhalten zu bleiben; es wurde kein Material übertragen"
+still-phase-evaluation = "Die Siedeberechnung im Kolben oder in einer Kolonnenstufe konnte keinen unterstützten Phasenzustand liefern; es wurde kein Material übertragen"
+still-composition-precision = "Ein positiver Bestandteil ist zu klein, um in der Phasenzusammensetzung der binären Destille numerisch erhalten zu bleiben; es wurde kein Material übertragen"
+still-condensate-precision = "Ein positiver Bestandteil kann im gesammelten Kondensat nicht numerisch erhalten bleiben; es wurde kein Material übertragen"
+still-residue-precision = "Ein positiver verbleibender Bestandteil kann nicht getrennt vom Kondensat numerisch erhalten bleiben; es wurde kein Material übertragen"
+still-energy-precision = "Die Verdampfungswärme des binären Destillationsschnitts liegt außerhalb der numerischen Genauigkeit oder des Zahlenbereichs; es wurde kein Material übertragen"
+still-integration-limit = "Der binäre Destillationsschnitt wurde innerhalb der unterstützten Integrationsgrenze nicht abgeschlossen; es wurde kein Material übertragen"
+still-incomplete-cut = "Das numerisch erhaltene binäre Kondensat entspricht nicht dem angeforderten Schnitt; es wurde kein Material übertragen"
+still-unsupported-boundary = "Die binäre Destille hat eine nicht unterstützte Modell- oder Zahlengrenze erreicht; es wurde kein Material übertragen"
 "stock-invalid-draw" = "Die Entnahme aus dem Vorrat muss endlich und nichtnegativ sein; angefordert wurde {requested}."
 "stock-draw-precision" = "Eine Entnahme von {requested} {unit} aus {remaining} {unit} von {key} lässt sich nicht genau genug darstellen; dem Vorrat wurde nichts entnommen."
 # Tranche two: the gaps with a HOLE in them, which is why `[refusal]`
 # could never reach any of these. New German, authored.
 cooling-below-absolute-zero = "dieses Gefäß konnte bis zum absoluten Nullpunkt nur {available} kJ abgeben, verlangt wurden {asked} kJ. Hier ist kein Kühlmittel modelliert — nichts legt fest, wie kalt die Umgebung ist — der Rest konnte also schlicht nicht entzogen werden. Die Wärme, die ein Stoff hält, wird über seine eigene Wärmekapazität integriert, wo das Verzeichnis eine führt; unterhalb von etwa 200 K ist aber selbst eine tabellierte Kurve am Ende der Tabelle und wird flach gehalten, diese Untergrenze ist also eine Modellgrenze und keine Messung"
 co-evaporation = "die gemeinsame Verdampfung von {liquids} braucht ein Dampf-Flüssigkeits-Gleichgewicht — das ist die Aufgabe von `distil`; entfernt wurde nur das Wasser"
-no-bubble-point = "einen Siedebeginn für dieses Gemisch bei {pressure} kPa — außerhalb der angepassten Antoine-Bereiche"
 distribution-coefficient-temperature = "der Verteilungskoeffizient von {species} für {upper}/{lower} ist nur bei {reviewed} K geprüft (Toleranz +/- {tolerance} K); dieses Gefäß ist bei {actual} K"
 not-an-extracting-solvent = "{solvent} ist bei Raumbedingungen kein flüssiges Extraktionsmittel"
 water-distribution-coefficient-temperature = "der Verteilungskoeffizient von {solute} für {solvent}/Wasser ist nur bei {reviewed} K geprüft (Toleranz +/- {tolerance} K); dieses Gefäß ist bei {actual} K"

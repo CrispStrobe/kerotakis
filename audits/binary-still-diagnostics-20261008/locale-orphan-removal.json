@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "source_before": "9180e95adef589c5de7b9d5282ab1d392a377ded",
+  "reason": "Checked binary diagnostics replaced the final no-bubble-point caller. Static git grep across all tracked Rust files finds none. Additional-solvent outside-constant-latent-domain remains active and is preserved.",
+  "removed": {
+    "de": {
+      "original_line": "no-bubble-point = \"einen Siedebeginn f\u00fcr dieses Gemisch bei {pressure} kPa \u2014 au\u00dferhalb der angepassten Antoine-Bereiche\"",
+      "before_sha256": "0cbc24c403045d98a2be571ae0431d72b0771de9ed8efb2e824c8861bec57fb9",
+      "after_sha256": "fde88bb4f7b32ecc4d9827cf53ecd65c0519f6ded4fdc87d9d59ed9078f2bb2d"
+    },
+    "fr": {
+      "original_line": "no-bubble-point = \"un point de bulle pour ce m\u00e9lange \u00e0 {pressure} kPa \u2014 hors des domaines d'Antoine ajust\u00e9s\"",
+      "before_sha256": "131ea8d379dbf64b04116e6c036e8e42c0911fc2126a56ce6e6fcff78c7907ac",
+      "after_sha256": "7348687f4744cb9094e89f7660095bd46fdaf133531252dc62b67c7e10576623"
+    }
+  },
+  "scope": "Exactly two unused locale entries; no Rust/test/numerical change. Fresh required CI pending."
+}
