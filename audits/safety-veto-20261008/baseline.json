@@ -1,0 +1,149 @@
+{
+  "schema": 1,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37733252264",
+  "source_commit": "530cf03e000bafa627c6d969053970136fbb586d",
+  "compile": "success",
+  "passed": 11,
+  "failed": 9,
+  "log_sha256": "565eff20a1d335275a173d5979dbdb3271477d214b73181ccda17c0b0a46605d",
+  "generated_lock_sha256": "f82884ebf1ee635029a79c4ee913386f54e99adf40169c98a701cbb9fbfed194",
+  "toolchain": [],
+  "outcomes": [
+    {
+      "test": "accepted_add_still_settles",
+      "outcome": "ok"
+    },
+    {
+      "test": "accepted_decant_still_settles",
+      "outcome": "ok"
+    },
+    {
+      "test": "accepted_discard_still_settles",
+      "outcome": "ok"
+    },
+    {
+      "test": "accepted_filter_still_settles",
+      "outcome": "ok"
+    },
+    {
+      "test": "accepted_material_still_settles",
+      "outcome": "ok"
+    },
+    {
+      "test": "accepted_mix_still_settles",
+      "outcome": "ok"
+    },
+    {
+      "test": "accepted_recovery_still_settles",
+      "outcome": "ok"
+    },
+    {
+      "test": "accidental_spill_proceeds_with_hazard_despite_veto",
+      "outcome": "ok"
+    },
+    {
+      "test": "fresh_decant_veto_does_not_create_receiver",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "fresh_decant_warning_preserves_creation_and_event_order",
+      "outcome": "ok"
+    },
+    {
+      "test": "fresh_filter_veto_does_not_create_receiver",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "fresh_filter_warning_preserves_creation_and_event_order",
+      "outcome": "ok"
+    },
+    {
+      "test": "missing_mix_receiver_keeps_existing_error_and_full_state",
+      "outcome": "ok"
+    },
+    {
+      "test": "vetoed_add_preserves_full_state_without_solving",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "vetoed_decant_preserves_full_state_without_solving",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "vetoed_discard_preserves_full_state_without_solving",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "vetoed_filter_preserves_full_state_without_solving",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "vetoed_material_preserves_full_state_without_solving",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "vetoed_mix_preserves_full_state_without_solving",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "vetoed_recovery_preserves_full_state_without_solving",
+      "outcome": "FAILED"
+    }
+  ],
+  "interpretation": "Source-bound unchanged-production baseline. Table loops stop at their first assertion failure; later rows are not claimed executed. Repair requires independent exact-head validation.",
+  "scope": "20 frozen controls:11pass9fail; observed downstream solver calls on explicit safety vetoes. Fresh receiver refusals stop at solver-call assertion before later graph assertions.",
+  "source_and_fixture_bindings": {
+    "Cargo.toml": "dffb548a7718f423a55e8de0eb767d82a29441c114cebe807245e734a98e9a5a",
+    "crates/kerotakis-cea/Cargo.toml": "de322e3975c5195b04171ba5b99449b44d3d6088dff62ec5134ddb77bf6bbb05",
+    "crates/kerotakis-cli/Cargo.toml": "bf37c2974740c1d320e12a7f17b4172dcb37191a38b7c821827375c7667ae9d5",
+    "crates/kerotakis-codex/Cargo.toml": "8da2159fdabe43afe39f961b57f93ae48100c8a4aba6bca5bc896e780530093c",
+    "crates/kerotakis-core/Cargo.toml": "46b65c88ee9e4855a8c0d3583b0a599df1df17581401e6fe81a44c88610a0f0a",
+    "crates/kerotakis-data/Cargo.toml": "ef1fcd13c23807fa8d76bbc5bd375318b90d0d51fa70a1b37b707e9c5497c221",
+    "crates/kerotakis-org/Cargo.toml": "9e7dabf631bbc1cd9691c61b36febb4f72886ae3c5c2992b7eedff7a3895ebd8",
+    "crates/kerotakis-phreeqc/Cargo.toml": "dd3d8806bcdc5f4e20e3585f611b9fdaa7c2866f0186e92d4d1e072185cc2465",
+    "crates/kerotakis-registry-export/Cargo.toml": "5bc981ae66be291c1b5f1b526f642b1115b2abece0bde34ef3f719e573bd3f19",
+    "crates/kerotakis-safety/Cargo.toml": "3a9f7fe0b6d4bc06381f2b88fc6692e83595fc881830436902b9658a18b59235",
+    "crates/kerotakis-scene-physics/Cargo.toml": "cf45a66d27a6d61bc7e6a4eb68d48f3df5193e2cfe025ff1895cf63b5dc45f43",
+    "crates/kerotakis-stack/Cargo.toml": "c519978bee7f80bd42d8afae09a7d5ed96c243cb7aca3c72f336044cfc5e778e",
+    "crates/kerotakis-sundials/Cargo.toml": "97bc83e45e4e46b95b1bc8b5f5710a00d2243020b4f8a0fe35ff0fd9da311490",
+    "crates/kerotakis-thermo/Cargo.toml": "8725b0eda3b52e650964f9246e6ce6d0b15beb0435ab1132c63eb26ce7155269",
+    "crates/kerotakis-wasm/Cargo.toml": "7f70d594546b89aadd8aa2bcaa64f4be4387af282aabef677706a05d0585ad75",
+    "fuzz/Cargo.toml": "6c467473667b7078490aa1c4b330e6353b3cb5636920a25510edca3488d74068",
+    "spikes/brd-030-feos/Cargo.toml": "75e2cdbc545cd11146d38d9a462cac283f3504b44a80791e68564d98eb97b43a",
+    "spikes/brd-030-feos/wasm-probe-base/Cargo.toml": "33f6b35f766714d4b0411b0edd5d7307ee9c36e4e0cfe95a892394eb33b50242",
+    "spikes/brd-030-feos/wasm-probe-feos/Cargo.toml": "991340e996e9c0b208f288ee18726561c44a3cbec1579e89dd2d62c1929c9361",
+    "vendor/chematic-0.18/chematic-0.18.0/Cargo.toml": "c1311bb755688917e34b098844e0d1e1eb94e05ad41e1ea77dc0455b4b5a9a01",
+    "vendor/chematic-0.18/chematic-chem-0.18.0/Cargo.toml": "6bf4f51f9fda32e00bb9e5b40e456907761684eaf220f8fe130df85579b39432",
+    "vendor/chematic-0.18/chematic-cip-0.18.0/Cargo.toml": "61908259cde269c5e1e812b4912a686e3157c78b9456c07ed3189d1282160836",
+    "vendor/chematic-0.18/chematic-core-0.18.0/Cargo.toml": "7fd9115c8a7d584a7c8ddf3cd7a164a9b8908efb045b937cc9488b9d54c12fdc",
+    "vendor/chematic-0.18/chematic-fp-0.18.0/Cargo.toml": "0441ea1a61f192bcca78bec5d7b85a9219b65f386f8b554c75fff8d985a4e825",
+    "vendor/chematic-0.18/chematic-inchi-0.18.0/Cargo.toml": "af7ed703c07aed1e32c1dc58bbb24bc93af2d6d101142fc61717300b703ebbc8",
+    "vendor/chematic-0.18/chematic-iupac-0.18.0/Cargo.toml": "c4422e8fe94682d92bb2a108be27fc3a17a93fe6275bc93aa2fc59428c35b10b",
+    "vendor/chematic-0.18/chematic-mol-0.18.0/Cargo.toml": "60a5af50e83a869872480fdd1054a0d9ad42940776703adba49048783c1e571b",
+    "vendor/chematic-0.18/chematic-perception-0.18.0/Cargo.toml": "00ff5d5ee9501d3f7b29eed4573ab43b7efe9d5d0056d7a288a8a3ba927bb696",
+    "vendor/chematic-0.18/chematic-rxn-0.18.0/Cargo.toml": "7f2aba3deb9705fd940c84bfbff8025ed08ff9aa669584128897fbc38c5ad3b9",
+    "vendor/chematic-0.18/chematic-smarts-0.18.0/Cargo.toml": "a082d922e7dfe073f67f8e669f8dc30295bebddf6a197ac2ad42c5be601d1b42",
+    "vendor/chematic-0.18/chematic-smiles-0.18.0/Cargo.toml": "2bc229fb60f8aeece0843de232f7cc95a1900d3f1c079a1febf0462a02530285",
+    "web/app/src-tauri/Cargo.toml": "9a1a6d5e2a106afea5cc85390c4e2cb86dd786a52720791e3e281bd63bbbd6b8",
+    "crates/kerotakis-core/src/bench.rs": "71f9c17bf34309f32f3e3d784aa996c1984443694c665c657ad4cd9f451aedd1",
+    "crates/kerotakis-core/src/vessel.rs": "9da316049164da12ae1fbce93378a730fc35b17a7ea5de10cf8443cd87147818",
+    "crates/kerotakis-core/src/solve.rs": "80df68137323ca13235a047c3980e161953c7908d8b17ca963585379d71a47c8",
+    "crates/kerotakis-core/src/ops.rs": "405d59244f7569b210a037dc1f6ee4c7617ee4f980f1fec897c5d54198315f4c",
+    "crates/kerotakis-core/src/stock.rs": "28f36d6f2f2277715d4c8286d21a89fe75c8d8b6df8fb0cc5d482786af88863c",
+    "crates/kerotakis-core/src/lib.rs": "676bccde85aa6dc19ad6862100396c596ad98ea048fb183989c90d301f6caad8",
+    "crates/kerotakis-core/tests/safety_veto_atomicity.rs": "9a73c728b8f6634d0c21568971ccbd3b975caf348bf1047c1fb605ed21e81d20",
+    "audits/safety-veto-20261008/freeze.json": "f69a3005c322692a27eecd92953115c15a0c750428fc26a7947d22487309bf15",
+    "audits/safety-veto-20261008/FORECASTS.md": "cf23ce7567e754fbb219ec812d56b70da13a3f012b7cf5e33e5e6f07e7814a62"
+  },
+  "command": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "safety_veto_atomicity",
+    "-j1",
+    "--",
+    "--test-threads=1"
+  ]
+}
