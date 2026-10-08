@@ -24,6 +24,27 @@ def save(path, value):
     Path(path).write_text(json.dumps(value, indent=2, ensure_ascii=False, allow_nan=False) + '\n')
 
 
+def decode_output(stdout):
+    """Decode live or archived output with the same observation rules."""
+    records, parse_errors = [], []
+    for number, line in enumerate(stdout.decode(errors='replace').splitlines(), 1):
+        if not line.strip():
+            continue
+        try:
+            item = json.loads(line)
+            if not isinstance(item, dict):
+                raise ValueError('JSON record is not an object')
+            records.append(item)
+        except (ValueError, json.JSONDecodeError) as error:
+            parse_errors.append({'line': number, 'error': str(error)})
+    snapshots = [r['bench']['vessels'] for r in records if isinstance(r.get('bench'), dict) and isinstance(r['bench'].get('vessels'), list)]
+    notices = [e for r in records for e in r.get('events', []) if isinstance(e, dict) and e.get('event') in ('not_yet_modeled', 'safety_veto')]
+    final_operator = records[-1].get("operator") if records else None
+    return dict(json_parse_errors=parse_errors, records=len(records),
+                final_inspection=bool(isinstance(final_operator, dict) and final_operator.get('op') == 'inspect'),
+                vessels=snapshots[-1] if snapshots else [], notices=notices)
+
+
 def execute(binary, script, directory, timeout=45):
     directory.mkdir(parents=True, exist_ok=False)
     path = directory / 'input.lab'
@@ -41,27 +62,14 @@ def execute(binary, script, directory, timeout=45):
     child_after = resource.getrusage(resource.RUSAGE_CHILDREN)
     (directory / 'stdout.ndjson').write_bytes(stdout)
     (directory / 'stderr.txt').write_bytes(stderr)
-    records, parse_errors = [], []
-    for number, line in enumerate(stdout.decode(errors='replace').splitlines(), 1):
-        if not line.strip():
-            continue
-        try:
-            item = json.loads(line)
-            if not isinstance(item, dict):
-                raise ValueError('JSON record is not an object')
-            records.append(item)
-        except (ValueError, json.JSONDecodeError) as error:
-            parse_errors.append({'line': number, 'error': str(error)})
-    snapshots = [r['bench']['vessels'] for r in records if isinstance(r.get('bench'), dict) and isinstance(r['bench'].get('vessels'), list)]
-    notices = [e for r in records for e in r.get('events', []) if isinstance(e, dict) and e.get('event') in ('not_yet_modeled', 'safety_veto')]
-    final_operator = records[-1].get("operator") if records else None
-    envelope = dict(exit_code=code, seconds=seconds, timeout=timed_out, json_parse_errors=parse_errors,
+    observed = decode_output(stdout)
+    envelope = dict(exit_code=code, seconds=seconds, timeout=timed_out,
                     child_user_cpu_seconds=child_after.ru_utime - child_before.ru_utime,
                     child_system_cpu_seconds=child_after.ru_stime - child_before.ru_stime,
                     stdout_sha256=hashlib.sha256(stdout).hexdigest(), stderr_sha256=hashlib.sha256(stderr).hexdigest(),
-                    input_sha256=digest(path), records=len(records), final_inspection=bool(isinstance(final_operator, dict) and final_operator.get('op') == 'inspect'))
+                    input_sha256=digest(path), **{k: v for k, v in observed.items() if k not in ('vessels', 'notices')})
     save(directory / 'execution.json', envelope)
-    return dict(**envelope, vessels=snapshots[-1] if snapshots else [], notices=notices)
+    return dict(**envelope, vessels=observed['vessels'], notices=observed['notices'])
 
 
 def value(spec, runs):
