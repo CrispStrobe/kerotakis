@@ -1,0 +1,62 @@
+{
+  "lane": "thermal",
+  "harness": "39ed1aab2ea469878446c605f36fe72be4631dcf",
+  "manifest_sha256": "e646d985eb242bd7e5aaab27c52371166e16955c2a4b36ecabcc2b036e78667a",
+  "sources": [
+    {
+      "label": "baseline",
+      "source": "5b305000c994f64089c5e883b78c17dfeb3cc665",
+      "passed": [
+        "finite_heat_and_cooling_keep_their_direction",
+        "finite_positive_absolute_temperature_remains_supported",
+        "zero_energy_preserves_complete_state"
+      ],
+      "failed": [
+        "invalid_absolute_temperature_refuses_the_complete_proposal",
+        "nonfinite_energy_is_invalid_even_without_heat_capacity",
+        "nonfinite_energy_refuses_before_material_or_thermal_mutation"
+      ],
+      "evidence_sha256": {
+        "Cargo.lock": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+        "controls-exit.txt": "39b8dc3fc8b44765c8e6f1adee04c5b465e555ab791cc42d0d9e810d5b64297c",
+        "controls.log": "3cfc18047e080d2e5435a482bc941d3342977276d7e83f6f02d1ad5a785dea6a",
+        "fixture-sha256.txt": "636a3712cc0ca8360596209c78cccb62522316425632825a3615f315428e1fb3",
+        "generated-lock-sha256.txt": "38423fbf7885574f98ac58f1767fc7a186db189e1d2fce61eca28f5f0d14b2e4",
+        "inherited-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "inherited.log": "dba6dbb22dd610407bc70c0c4112e1fa51535cdb26561df1269f8246a61d8d59",
+        "source-commit.txt": "c82ad43e0f7e5f7e7671be236cc376ce0b2768520d4f3a943b16ad815a291bb0",
+        "source-tree.txt": "328d1a7c04284840d2ae7ad98829b83b425b7294fefeafdb7919c1f1da5f8faf",
+        "status-before.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "submodules.txt": "bfdd1930cec157acbba4c8da9aec06670162f5a9a25c1a05d4f17476e6c4468e"
+      }
+    },
+    {
+      "label": "repair",
+      "source": "c3415e70298cbb97e1804ed127c19f98331de271",
+      "passed": [
+        "finite_heat_and_cooling_keep_their_direction",
+        "finite_positive_absolute_temperature_remains_supported",
+        "invalid_absolute_temperature_refuses_the_complete_proposal",
+        "nonfinite_energy_is_invalid_even_without_heat_capacity",
+        "nonfinite_energy_refuses_before_material_or_thermal_mutation",
+        "zero_energy_preserves_complete_state"
+      ],
+      "failed": [],
+      "evidence_sha256": {
+        "Cargo.lock": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+        "controls-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "controls.log": "96a3565280900bd43844cd7cf06bb3407af45d2e3ea537e78b4e922ce9ee6d38",
+        "fixture-sha256.txt": "636a3712cc0ca8360596209c78cccb62522316425632825a3615f315428e1fb3",
+        "generated-lock-sha256.txt": "38423fbf7885574f98ac58f1767fc7a186db189e1d2fce61eca28f5f0d14b2e4",
+        "inherited-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "inherited.log": "c98af664a7d8d3341dae077575eec0b7dafe1a66891be4a26fac9778ac3848f8",
+        "source-commit.txt": "ee8bd914b757c602c652f9c07267a0077ecbb7d7fa85101690eec8cdc57f6f59",
+        "source-tree.txt": "8ee5e3949b30790c4f6c41f91da99181f4c64f1c97a89440c9e9700b8230beaa",
+        "status-before.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "submodules.txt": "bfdd1930cec157acbba4c8da9aec06670162f5a9a25c1a05d4f17476e6c4468e"
+      }
+    }
+  ],
+  "generated_lock_sha256": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+  "accepted_bounded_diagnostic": true
+}
