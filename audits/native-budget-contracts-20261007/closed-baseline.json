@@ -1,0 +1,146 @@
+{
+  "schema": 1,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37731003330",
+  "source_commit": "9ac78f3ceed24e68bce3802e3ae6bb047b511f7b",
+  "compile": "success",
+  "passed": 13,
+  "failed": 20,
+  "log_sha256": "a5559cf53ed5a08e048d83ef1fd1f0232a08331ae39a3b76f9b5ca8fb7447c64",
+  "diagnostic_sha256": "eaf0d701238c3e4ebc4cd34fab28e2e266147c9d50e6d830cc6425ee755556e0",
+  "outcomes": [
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::missing_component_refuses_before_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::nan_component_refuses_before_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::negative_component_refuses_before_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::negative_infinity_component_refuses_before_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::positive_components_survive_raw_readback_without_projection",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::positive_infinity_component_refuses_before_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts::zero_components_remain_valid_empty_seed_ownership",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::apparently_inclusive_raw_total_without_witness_refuses",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::calcium_phase_overdraw_refuses_at_every_scale",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::closed_carbon_gas_overdraw_refuses",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::exact_closed_gas_budget_accepts",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::exact_exclusive_remainders_accept_without_material_correction",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::exact_phase_exhaustion_accepts_zero_aqueous",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::missing_owned_gas_refuses",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::negative_owned_gas_refuses",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::negative_raw_aqueous_refuses",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::nonfinite_owned_gas_refuses",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::nonfinite_raw_aqueous_refuses",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::primary_and_typed_overdraw_refuses",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::primary_solid_dissolution_is_counted_once",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::primary_solid_precipitation_is_debited_once",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::strontium_phase_overdraw_refuses_at_every_scale",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::ten_percent_raw_deficit_refuses_at_every_scale",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::ten_percent_raw_excess_refuses_at_every_scale",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget::zero_aqueous_with_positive_remainder_refuses",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::aggregate_available_overflow_refuses",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::external_carbon_cannot_hide_calcium_overdraw",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::external_carbon_is_open_with_closed_cations",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::inside_declared_raw_budget_accepts",
+      "outcome": "ok"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::malformed_available_aqueous_refuses",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::malformed_initial_closed_gas_refuses",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::malformed_primary_phase_refuses",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "aqueous::solid_solution_raw_readback_contracts_budget_supplement::outside_declared_raw_budget_refuses",
+      "outcome": "FAILED"
+    }
+  ],
+  "scope": "33 pre-repair controls, explicit closed-boundary allocation/supplement fixture copies; original raw guards still use preserved pre-strict protocol fixtures.",
+  "interpretation": "Twenty independently declared allocation/readback controls fail on unchanged pre-repair engine with closed carbon now explicit. Original ambiguous baseline receipts are preserved separately; no old outcome is reclassified as if corrected fixtures ran then."
+}

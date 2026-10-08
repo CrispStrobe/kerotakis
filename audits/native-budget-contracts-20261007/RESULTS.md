@@ -23,7 +23,7 @@ The raw cap scales to the aqueous/remainder comparison; the phase cap scales
 to available/final owned totals. Zero raw aqueous with a positive remainder
 refuses even when the remainder is small.
 
-The initial and expanded pre-repair baselines and subsequent executions are recorded below; final corrected-harness repair acceptance remains pending. Live native
+The initial and expanded pre-repair baselines and subsequent executions are recorded below; corrected-harness donor validation has now passed; main integration remains pending. Live native
 precipitation/dissolution/repeated equilibrium and native/stack rollback must
 also pass before claiming this bounded repair accepted.
 
@@ -68,3 +68,11 @@ Both cache-injected refusal controls passed: native Ca overdraw refused with its
 [Run 37730149327](https://github.com/CrispStrobe/kerotakis/actions/runs/37730149327) compiled the native engine: **108 library tests passed, five failed**, and **all three live crystal controls passed**. [Its receipt](native-live-9140.json) preserves every outcome and hashes. The five failures retain the inherited atmospheric-boundary fixture ambiguity; all nine refinement and eight external/refusal controls passed. This is a failed overall run, not acceptance.
 
 The [separate closed-boundary adaptation](closed-boundary-harness-adaptation.json) adds only an external-boundary reset to preserved copies, leaving original assertions and files unchanged. Corrected pre-repair baseline [37731003330](https://github.com/CrispStrobe/kerotakis/actions/runs/37731003330) and corrected native/live repair [37731158308](https://github.com/CrispStrobe/kerotakis/actions/runs/37731158308) are dispatched separately; outcomes remain pending.
+
+## Corrected donor acceptance and separate main integration
+
+[Corrected pre-repair baseline 37731003330](https://github.com/CrispStrobe/kerotakis/actions/runs/37731003330) compiled 33 controls: **13 passed, 20 failed**. The carbon boundary is explicit in the corrected fixture copies. [Its receipt](closed-baseline.json) retains every outcome and raw hash; the earlier ambiguous fixture results remain preserved separately.
+
+[Corrected native/live run 37731158308](https://github.com/CrispStrobe/kerotakis/actions/runs/37731158308) at `c1d91990` passed **all 113 library tests**, including **all 50 boundary controls**, and **all three live crystal controls**. [The acceptance receipt](corrected-native-live.json) binds source, log and every outcome. Both documented fixture adaptations remain disclosed; no original assertion bodies or numerical bounds were weakened.
+
+This accepts the bounded donor repair for nonduplicated Ca/Sr/C allocation and reviewed raw readback. [Main-based PR #760](https://github.com/CrispStrobe/kerotakis/pull/760) still requires its independent baseline and required gates. Full integrated-source audit/replays and release profiling remain pending. No H/O/charge, speciation, heat accuracy or general solid-solution claim follows from this result.
