@@ -1,0 +1,34 @@
+{
+  "baseline": "c7f405bb96e1890a7eafd6db763330957ec2a116",
+  "repair": "80ed1c36450359d01c1db3c48db471ccb59ae393",
+  "production_baseline": "7f5159a3832b70908fa8216c2f5fe92c4daf9796",
+  "parent_forecast_sha256": "4041d15bc70b108437bf6df909cbbf892f79d737b6ef6faae7f99bbde21a15f5",
+  "samples": 7,
+  "contract": "Every process exits zero, ends in inspect, has valid JSON and produces records exactly equal to the baseline warm run. Notices/provenance retained. Interleaved timings accepted only when all comparisons pass.",
+  "cases": [
+    {
+      "id": "F19-a",
+      "script": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 HCl 0.001mol\ninspect\n"
+    },
+    {
+      "id": "F19-b",
+      "script": "new\nnew\nnew\nadd v1 water 100mL\nadd v1 HCl 0.001mol\ndilute v1 900mL\ninspect\n"
+    },
+    {
+      "id": "F39-a",
+      "script": "new\nnew\nnew\nadd v1 water 4mol\nadd v1 ethanol 1mol\ndistil v1 v2 0.1\ninspect\n"
+    },
+    {
+      "id": "F45-a",
+      "script": "new\nnew\nnew\nadd v1 water 1mol\nadd v1 hexane 1mol\ndrain v1 v2\ninspect\n"
+    },
+    {
+      "id": "water-setup",
+      "script": "new\nadd v1 water 100mL\ninspect\n"
+    },
+    {
+      "id": "neutral-salt",
+      "script": "new\nadd v1 water 100mL\nadd v1 NaCl 0.001mol\ninspect\n"
+    }
+  ]
+}
