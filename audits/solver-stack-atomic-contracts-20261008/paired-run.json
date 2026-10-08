@@ -1,0 +1,13 @@
+{
+  "baseline": "75511717bacb61fd235058d00471f97019051690",
+  "repair": "61ee9cd1a728e4e9bc8471029750372ed870d376",
+  "fixture_sha256": "71179df336cd244a4b6538dcbdfeac1c12cdb47a097cb775d1c779e0982059e9",
+  "expected_test_functions": 13,
+  "expected_baseline": "Identical fixture compiles and exposes at least one behavioral atomicity failure; preserve actual outcomes.",
+  "expected_repair": "All 13 controls pass under the same generated lock; all inherited core library unit tests pass on both sources.",
+  "inherited_scope": "cargo test --locked -p kerotakis-core --lib",
+  "limitations": [
+    "State numeric validation is not physical model support or strict element conservation.",
+    "Gas event numeric/identity validity is separate from quantitative boundary balance."
+  ]
+}

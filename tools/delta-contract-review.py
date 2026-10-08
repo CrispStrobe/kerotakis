@@ -19,13 +19,19 @@ def git(*args):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--artifact', type=pathlib.Path, required=True)
-    parser.add_argument('--lane', choices=['inventory', 'thermal', 'snapshot'], required=True)
+    parser.add_argument('--lane', choices=['inventory', 'thermal', 'snapshot', 'stack'], required=True)
     parser.add_argument('--harness', required=True)
     parser.add_argument('--report', type=pathlib.Path, required=True)
     args = parser.parse_args()
     root = args.artifact / 'delta-evidence'
-    manifest_path = ('audits/solver-snapshot-contracts-20261008/paired-run.json' if args.lane == 'snapshot' else f'audits/delta-{args.lane}-contracts-20261008/paired-run.json')
-    fixture = ('crates/kerotakis-core/tests/solver_snapshot_contracts.rs' if args.lane == 'snapshot' else f'crates/kerotakis-core/tests/delta_{args.lane}_contracts.rs')
+    directory, fixture = {
+        'inventory': ('delta-inventory-contracts', 'delta_inventory_contracts'),
+        'thermal': ('delta-thermal-contracts', 'delta_thermal_contracts'),
+        'snapshot': ('solver-snapshot-contracts', 'solver_snapshot_contracts'),
+        'stack': ('solver-stack-atomic-contracts', 'solver_stack_atomic_contracts'),
+    }[args.lane]
+    manifest_path = f'audits/{directory}-20261008/paired-run.json'
+    fixture = f'crates/kerotakis-core/tests/{fixture}.rs'
     manifest_bytes = (args.artifact / manifest_path).read_bytes()
     assert manifest_bytes == git('show', f'{args.harness}:{manifest_path}')
     manifest = json.loads(manifest_bytes)
