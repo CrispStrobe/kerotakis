@@ -16,7 +16,7 @@ Eight additional contracts are frozen before production edits:
 [receipt](supplement-freeze.json). They cover an independently chosen numerical
 cap boundary, aggregate overflow, malformed initial owners and open carbon.
 The cap separates native residual (1e-7 relative), selected-output rounding
-(5e-12 relative for twelve significant decimal places) and positive-sum
+(5e-12 relative for twelve fractional digits in scientific notation) and positive-sum
 arithmetic gamma(n). It is an adapter acceptance ceiling, not empirical
 validation of PHREEQC accuracy. Comparisons have no absolute inventory floor.
 The raw cap scales to the aqueous/remainder comparison; the phase cap scales
