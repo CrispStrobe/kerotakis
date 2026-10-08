@@ -1,0 +1,13 @@
+{
+  "base_commit": "73d231b3210b8c512c24268cad961d3b4a5be19e",
+  "sha256": {
+    "crates/kerotakis-thermo/tests/ideal_still_diagnostics.rs": "b8b6967ea2d1711497dccfb60fea9273e0691d444c739b45d50c8728c99439c0",
+    "crates/kerotakis-thermo/src/batch_diagnostic_contracts.rs": "1da97199ee530892cdd4bdbb66fcdfb12b50bf2e21e93156f484b77d3effe135",
+    "crates/kerotakis-core/tests/ideal_still_refusal_diagnostics.rs": "04f8ea7795f7a50404386f8627969b2c98a69d23cc3fca2399fbc889257eb42e"
+  },
+  "forecast": "Finite/nonnegative input validation is distinct from request/composition/energy/phase/integration refusal. Legacy Option maps checked refusal to None and preserves supported analytic pure/equal-volatility mixture cuts. Five independent operator refusals preserve full state except log and call no solver; ordinary methanol cut still transfers and processes both vessels.",
+  "integration_limit": "Test-only injected limit zero; production iteration bound remains100000.",
+  "baseline_kind": "New checked API symbols absent before repair: tests would not compile until implementation. No executed behavioral baseline claimed.",
+  "production_hook": "Only cfg(test) module hook added before repair; inherited contracts/source body preserved in original-batch.rs.txt",
+  "validation": "Formatting/diff/hash only; no execution"
+}

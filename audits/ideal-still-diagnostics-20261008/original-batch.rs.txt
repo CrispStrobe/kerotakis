@@ -484,7 +484,3 @@ mod tests {
         .is_none());
     }
 }
-
-#[cfg(test)]
-#[path = "batch_diagnostic_contracts.rs"]
-mod batch_diagnostic_contracts;
