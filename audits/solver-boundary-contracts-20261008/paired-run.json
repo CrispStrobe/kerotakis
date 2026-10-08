@@ -1,0 +1,13 @@
+{
+  "baseline": "4f86c45e64bb0aedf2cb09053dd66aa033b7a8b6",
+  "repair": "c47aff340eab37b3c38f1103e3906bf5fa1d5566",
+  "fixture_sha256": "dfb28abdd607c8d62506783a06f12c92b516659bb309824fb01ba8b9fdc97740",
+  "expected_test_functions": 12,
+  "expected_baseline": "Same public-API fixture compiles and exhibits at least one behavioral boundary-accounting failure; preserve all actual results.",
+  "expected_repair": "All 12 controls and inherited core library unit tests pass on both sources under one generated lock.",
+  "inherited_scope": "cargo test --locked -p kerotakis-core --lib",
+  "limitations": [
+    "Element accounting is separate from reaction energy and quantitative gas-model correctness.",
+    "Legacy absolute conservation floor and incomplete owner coverage remain separate tasks; this suite uses unit-scale explicit inventories."
+  ]
+}
