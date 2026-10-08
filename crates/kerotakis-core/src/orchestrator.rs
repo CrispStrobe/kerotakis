@@ -97,7 +97,7 @@ pub fn diff_vessels(before: &Vessel, after: &Vessel, source: &'static str) -> St
         delta = delta.with_thermal(ThermalDelta::SetTemperature(after.temperature));
     }
 
-    delta
+    delta.with_snapshot(before, after)
 }
 
 pub(crate) fn species_amounts(vessel: &Vessel) -> std::collections::HashMap<(String, Phase), f64> {
@@ -152,12 +152,6 @@ impl Orchestrator {
                     continue;
                 }
             };
-
-            if delta.is_empty() {
-                // Solver ran but made no changes — still report events
-                all_events.extend(events);
-                continue;
-            }
 
             // Phase 3+4: Audit + Commit
             if cap.is_chemistry {
