@@ -1,0 +1,370 @@
+{
+  "run": 37775230032,
+  "forecast_sha256": "cbeb462995332fa55168887575301017807aff713780f97478aba95b4711c4ee",
+  "source_bindings": {
+    "baseline": {
+      "commit": "c7f405bb96e1890a7eafd6db763330957ec2a116",
+      "tree": "0e108c4368c305ea875c4ede570e5dc4a2ac277c",
+      "evidence_sha256": {
+        "Cargo.lock": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+        "submodules.txt": "bfdd1930cec157acbba4c8da9aec06670162f5a9a25c1a05d4f17476e6c4468e",
+        "identity-tests.log": "d0388897d7e7550f3cb12ecf3b3e7767408f02378434a10fec7ef2c3e8db4916",
+        "derivation-tests.log": "d3102d25a54fae1b4a4e7b9d01ac1a9d48df49af970074a2b703140aadb1aedc",
+        "build.log": "f292c7eb1f8c1fef299fea91da2fd944362f99a2cfc71b964161194920634e5f"
+      }
+    },
+    "repair": {
+      "commit": "80ed1c36450359d01c1db3c48db471ccb59ae393",
+      "tree": "cf3766ba38223c674de733f1615570b1c9498d86",
+      "evidence_sha256": {
+        "Cargo.lock": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+        "submodules.txt": "bfdd1930cec157acbba4c8da9aec06670162f5a9a25c1a05d4f17476e6c4468e",
+        "identity-tests.log": "abe0ef8ece11477c72966697f1d4d438a26a30ac946c225aff536ac08f099df9",
+        "derivation-tests.log": "4416a50589ea12ac372b83c6c3edd8349132ddb64bb70d697d3707a039b21211",
+        "build.log": "d045d373700bc97e709d960d8ea63d5b504e7431e9b74e8739f103095ab13edb"
+      }
+    }
+  },
+  "binary_sha256": {
+    "baseline": "7992c32f68766731cfee556576ad71a6bd4b3e00805aac94252bda4e111bd71e",
+    "repair": "1e6d6373373909ee67e20a4aeaa6fefda2e85a43b5560d2515f917cce2b51c37"
+  },
+  "generated_lock_sha256": "613e8d513397f414b90ad75b9e334b8cf5add8195e65af29986d14c07eacf8ac",
+  "original_results_sha256": "855f45ef696f3d274e3763431f201f74bf8fe4f50f8d830117a5719059dce568",
+  "all_outputs_equivalent": true,
+  "workloads": 6,
+  "native_processes": 96,
+  "results": [
+    {
+      "id": "F19-a",
+      "complete_output_equivalent": true,
+      "execution_sha256": {
+        "baseline": [
+          "e86e52aeaebce67cf112cccae69c94b9215fe5f21ab7956e46c480677a367b78",
+          "2b8e202aec9c62aa3e90c5ef6fcb66a1632c2e3136cf1b546a7b867a66a91a50",
+          "bde66407403073d2e7fb45fa91eb302b2b65efa4a71d4e4e135b05c058266835",
+          "abc04ddf24fbae7e6311f2c388b12dc8512b756970f9d505e9c199f354f0ac82",
+          "9cadfe65a30ca21e6ad774e658b44dc937a2952fe66ff6d3dce359c92b9c11d8",
+          "634ef6275e7538e9b59ca3749dbbd5b9edf0eaf423b383da51ee268a6af82f71",
+          "45afec89664b5a054346a7cc6a5ba8a8d07dae1bf07e4a879db1f95c45b3ea6b",
+          "b84e8b0b03770accd9b2fff2603debd758e8ec139048eb892872c84ce9d6a8b2"
+        ],
+        "repair": [
+          "c9ad68edf466fd68dc289cfb974e0ecd1976837e8f268f23670860551278462e",
+          "d43870cc3d09875f6f63be596c755122b1aa1a2e92bb78ff4c1e42a3c880112f",
+          "0937943291fabc91df6647ba4687e05e72d850a3d21a454320a28cd78e6756af",
+          "fbc48fd6a2046088db3d977a8e735651fbab274ee327c8bc4a819a9370d37799",
+          "da0015944bcd8425c7a3d36fd17dda6c53552c406255536c5a7489dca8b7b088",
+          "8f704fdd462d48c0b275b3fe43392d4de351529aba38dd2cee0e90dc739c4627",
+          "ca4a3af4f4fef1a654c5d26a35e4d5f2fd165adf46bbbf2e327e5a62668d5d4c",
+          "1a7bb6390f2ddd2760a2e075401d7030816e44bddb520b00423f70a9d0e8254b"
+        ]
+      },
+      "samples_seconds": {
+        "baseline": [
+          0.1699007319999737,
+          0.17605489899995064,
+          0.16782875100000183,
+          0.1659030040000289,
+          0.16614410199997565,
+          0.16379480200009766,
+          0.16311599200003002
+        ],
+        "repair": [
+          0.14090822499997557,
+          0.1281945230000474,
+          0.1204173419999961,
+          0.12087459099996067,
+          0.11988544600001205,
+          0.11963512099998752,
+          0.11954838999997719
+        ]
+      },
+      "median_seconds": {
+        "baseline": 0.16614410199997565,
+        "repair": 0.1204173419999961
+      },
+      "observed_median_reduction_percent": 27.52234924354176,
+      "callgrind": {
+        "baseline": {
+          "instructions": 1380526585,
+          "files_sha256": {
+            "callgrind.out": "f99a149aa02e86c0f144f76afd273c1ac306e49abd6edcb19b80099df759b817",
+            "callgrind.stdout.ndjson": "0848a2d71bc363865c1c42838a5c6051d4ac0caaaf59754cc60c53130a99a425",
+            "callgrind.stderr.txt": "41097701d6688e159c9a28f433b65a0cc3e5275e7a9a9b11d7cc97d0d444449a"
+          }
+        },
+        "repair": {
+          "instructions": 850152111,
+          "files_sha256": {
+            "callgrind.out": "28e0c131c99a75dddb52792fc8faf309cf9fea677f6ab252995ed91771598f3f",
+            "callgrind.stdout.ndjson": "0848a2d71bc363865c1c42838a5c6051d4ac0caaaf59754cc60c53130a99a425",
+            "callgrind.stderr.txt": "65643d4bbf69f4c9e0d141af8c61b3a20267bda275ba9249a2fb74751a60d604"
+          }
+        }
+      },
+      "observed_instruction_reduction_percent": 38.41827312583046
+    },
+    {
+      "id": "F19-b",
+      "complete_output_equivalent": true,
+      "execution_sha256": {
+        "baseline": [
+          "f310b301aebc38a0c9713d69a64da5da25484d2d06b5296a67173f6852d8d278",
+          "f0993521e9e58104a08bf1f5a71b4f42ebfc7d69fbf3514afef373ea87da05ca",
+          "5d594d80438bb892b387e43f97c2a05121fcde51cdf28767422d2ff3e27a541a",
+          "00f2f5b812435eba4570b95513088a86dd80f3621a8ba410f4f5b5b83961d7f8",
+          "ef48429674efcc2d0ec77d407d7e62607300303773f5951c58a88ae9ffc3c7f2",
+          "297bc8c93fe222346285b290b0e9eaa278d29c6181aa9b0b8591e76e8a7a5da5",
+          "e76875c61bf18c933b289b4c3792b7152560b5a932ebd948294773ce340a0db7",
+          "c8106dd96f57b20abe784387bbb5fc539ee87f325adad55f83561e7c46f7185c"
+        ],
+        "repair": [
+          "aad22e11e8285726d3d363cf4c1e4e214f0463b4712981c60b616362ae550fbf",
+          "8462f0a260b7ba4f06ee3643ea33326c57bdc74f9a3c70a252f16acf62b4f7f2",
+          "7412db36b0f5e58ccf71376f40c60c207af3ac92daa8642e19d898accba9e74c",
+          "9ea16bcf2f36326dbf4c4f1efd0c501dbf8debc5ab16f9a1dd96b5a1edaa5c2b",
+          "8748cc262c539ef75d7cc5c55770ad33a770c4178aa13bc51521ae22c09ba884",
+          "729a7e1cc5770a8bcbf80355b38f822ee9859290536e1361012b91cdcbe10cee",
+          "c349a78b5677d0049187b46b9c4712d1b799e9838b7b92b43a75ce57d36afcde",
+          "ffcdd626ab877459a1ba2c9aef60cb2d2f94dba5416270b38da6d70dad3922a0"
+        ]
+      },
+      "samples_seconds": {
+        "baseline": [
+          0.1675352299999986,
+          0.1673387849999699,
+          0.16880283200009671,
+          0.16579213599993636,
+          0.16657817400005115,
+          0.1654993930000046,
+          0.16648974999998245
+        ],
+        "repair": [
+          0.12413869399995292,
+          0.12419554999996762,
+          0.1242509420000033,
+          0.12456127200005085,
+          0.12387043100000028,
+          0.12117412800000693,
+          0.12184048400001757
+        ]
+      },
+      "median_seconds": {
+        "baseline": 0.16657817400005115,
+        "repair": 0.12413869399995292
+      },
+      "observed_median_reduction_percent": 25.47721528036752
+    },
+    {
+      "id": "F39-a",
+      "complete_output_equivalent": true,
+      "execution_sha256": {
+        "baseline": [
+          "18643375cbd5691a031bf0f56fdd058218fe95e64313c11ee67b1f733527a5c8",
+          "783aa5e61a39a598e0019cd54f0a24485a8ed342c63bab9d7ad0b5e40f5bafef",
+          "cd417c5656a84b71cba0124f0960f582031f94fc7943d0f2b4911c8b7931badc",
+          "56b32c10d2329b6feaf7209c148366b358c565f806656c4cd537ff30fcd3a92c",
+          "459d7bea7f022e319e0631efec390dd748ea9510dcaceb6cd2d6aca21e6d6240",
+          "308dc0fe106fabe2d5c20afada8c00055a0d89bb232ac2e140ceea251603b8fd",
+          "8ec0a17760360438c09a7d9c8ab330faf3db12b4bbe92571913b7d88ffe117d1",
+          "fb7c215d0eb059aea4a02969bc7bed57b58d293dd260bfbcb7a1cd9687eee3af"
+        ],
+        "repair": [
+          "def91e93c461ef89b26fd0bff0e2bd83ea063b156a1e0dcb797472523dfcc2b4",
+          "18bd3491d75f53ebc84dad7e41361fcb8599c420f3aec07188b556cd5ad18ac8",
+          "b6d2dd312eb1a77dd0174af6c2be70b5122b0fe38be89d14065ac3d5397a35bf",
+          "8ac37aa3d2892422103a93db48e04903eccfe476d0835f3b6b9edd4130b18100",
+          "f36363f8d895c1915e30745f75a5ede6ca35d09383a07e311ea8cb1271762782",
+          "afeeb41f9366e2e39db169b5ae27d70835ed1383d1355f3ca6da6aba9a22d3f4",
+          "f4f01c1f90d79e84a9d6b2250c7fcb2f05cdfd730cf65f85589793b889c12dfa",
+          "a5b61e8d3e6637085bda56daeca8e42b85094a96c73ec2ba87f90c86d2c840b4"
+        ]
+      },
+      "samples_seconds": {
+        "baseline": [
+          0.25789951900003416,
+          0.257010859999923,
+          0.2579044880000083,
+          0.2603227140000399,
+          0.261821384999962,
+          0.2574456879999616,
+          0.25959817000000385
+        ],
+        "repair": [
+          0.2166990910000095,
+          0.21499171400000705,
+          0.21903744999997343,
+          0.21617253399995207,
+          0.21535449700002118,
+          0.21624807499995313,
+          0.2161932930000603
+        ]
+      },
+      "median_seconds": {
+        "baseline": 0.2579044880000083,
+        "repair": 0.2161932930000603
+      },
+      "observed_median_reduction_percent": 16.173117157987058
+    },
+    {
+      "id": "F45-a",
+      "complete_output_equivalent": true,
+      "execution_sha256": {
+        "baseline": [
+          "ec56d14896175e2b006e69dfc9871e4b358d784577010773423970065796503e",
+          "86934383ddfa9a1c4250b1701734fd72c0748a5a38ce95e5e8491eea8c34e481",
+          "7978b1a1a9c3dcf5acd8a32a139677c3daed9b39867c3dc1f06b770278bbe811",
+          "1b31a2af3bb80d11992ded3b7544de158768a03b1fa609d8cb2657cf106584ff",
+          "2f0bb42990a0c82e65f796f3094dc72c9b1dacc8f9b732c0ca9cf943e0f6e3d4",
+          "b694f0aaaf1c162606cd6ffd6da7dfebb0dde8ae179c077b4d6ca0c65def282c",
+          "8ccc4ba5f4ef8f614c1e849a2574658b16d811ce61277d0a481c7b6e279b57f2",
+          "f0a2b5d77f96c17b432384378f7de3037c36ea641178748b98716851464de03a"
+        ],
+        "repair": [
+          "1ea4bbffbd8ff60b968a54fa7c46e8c028d6acb8fb6f3bd9a2d9d109aa13bb75",
+          "5794dec373aa104a790daa45608508e128b606d03073cff4c5c8eb3166f791f9",
+          "493fe178324f417f85fb363bac0da06094413a23f4221c481b39602d1c7082f0",
+          "bc263058ea80aa61ed05d15514aad45a05c2f6fd22020d2e3b0a7b51937911dc",
+          "84a57275c28176ac2e7a62509ed6493a8db93c4bee08ddafcf853d7244029283",
+          "ca867af6891135db2c3e2abb81850122e1ecaa58841f98121ebb2f2147154de4",
+          "e887b18ff2edbe4ea04ec21df5aa2ac40d08ab166ee60a4721e6b3599b999ba9",
+          "9400a0bc428aca3fd8dff30e8d0437e3547b8cd1790a36e7e450f669040a2c55"
+        ]
+      },
+      "samples_seconds": {
+        "baseline": [
+          0.23198869700001978,
+          0.23194256099998256,
+          0.23401934499997878,
+          0.23120018400004483,
+          0.2344672660000242,
+          0.23271039600001586,
+          0.23312695699996766
+        ],
+        "repair": [
+          0.18855939599995963,
+          0.18851582399997824,
+          0.19095549100006792,
+          0.18892932200003543,
+          0.18877227999996649,
+          0.18887261600002603,
+          0.18928437699992173
+        ]
+      },
+      "median_seconds": {
+        "baseline": 0.23271039600001586,
+        "repair": 0.18887261600002603
+      },
+      "observed_median_reduction_percent": 18.83791216615301
+    },
+    {
+      "id": "water-setup",
+      "complete_output_equivalent": true,
+      "execution_sha256": {
+        "baseline": [
+          "3ddc3436c13ea55047a89555c98ca0b257e0fb3e96d5fed72c865461a30bec71",
+          "6f97aa83c581f4e02131d2e206e733a6b3bd35576a2ba3eb8b5ce8b9f81d7e2c",
+          "68305d705af59ec0b558622d0cf35b48de3968c110d4ff5da1f4d5e9fb1e303b",
+          "c8161de104f42a6dec2a2de8dbe157ef312fa94eb5e3dc9c82156f3476388e0a",
+          "4a0c393e4e7fb922ba37dfcebd86bf35d2ca27ca1192d3a87d7b0d36da186675",
+          "f4862784071b3967258ddc50c89c02762e44a5567a935971eea1fba581967c56",
+          "3225e6dda1eb69e2fdd5caec7fb627c10de613c1fb790f9b4fab571546b0113c",
+          "6b55769f18bac0e2742fb6d9651d2036cba024d84c92484681d08452d63c6132"
+        ],
+        "repair": [
+          "d58d2d43075f70da8bdd516d3f0f0f002930fcf8fde2e5263a1cb0e57a28edd7",
+          "794560eb2d40f0659de7ac30c7f07d340905d66737cfc0777cf7ac8ff7d0ff11",
+          "02531f93e24be59f5fa39cfdf250ef70826d9cca5b5dc28d7e716d2a27f54d12",
+          "04ab7adf8b029a5cadbf981a346c06be0c263f69d4dc59223121a33b56398fa9",
+          "09c7a8f308c61ad4c574b9bc06a55ed2c17607b8a49d42294992f0d6e104653e",
+          "709c8a1819798cdd8dc5f73d9986f26fa558787e04209e04cbb741acd693714e",
+          "c52b7c81bf9c1d3bd037b0ea06cfeff095b3d000f7fc3d2a3877bf1a8b2926f6",
+          "e64fd122200a28901e1c34c7018bf7f3ccfed6fd90664f8e9a37625204a046bc"
+        ]
+      },
+      "samples_seconds": {
+        "baseline": [
+          0.1617320010000185,
+          0.16256132099999832,
+          0.16295210500004487,
+          0.1641644640000095,
+          0.16432728600000246,
+          0.16472736799994436,
+          0.16183383999998568
+        ],
+        "repair": [
+          0.11702086099990083,
+          0.11742898900001819,
+          0.11852964100000918,
+          0.1181404689999681,
+          0.1178987099999631,
+          0.11847443799990742,
+          0.11609039600000415
+        ]
+      },
+      "median_seconds": {
+        "baseline": 0.16295210500004487,
+        "repair": 0.1178987099999631
+      },
+      "observed_median_reduction_percent": 27.6482436358029
+    },
+    {
+      "id": "neutral-salt",
+      "complete_output_equivalent": true,
+      "execution_sha256": {
+        "baseline": [
+          "85f00cb21ddda5b037a59ba5f127df6cda841a142cbbd6e99665e63190b0fdb0",
+          "bdc6e0329d33e90fef4b221cdf3baaa7e5a217dab024c8a719beff58b5839305",
+          "83a901c391424a4376bd7697570d5a01b2f29d2481cb119e8c4c5f9a79ee0696",
+          "e0435fb9589139339c284d87f8712258536206dc2cfa93aabbb2514b39ace556",
+          "84a994db50380b6c04398806468cddeb696778619e99b422560cdb511dcc14cb",
+          "4549985b190fd4e003971b13c457f8f346f32106ee167db3e68aefeb2a3bd225",
+          "dc4d3a9e059f5869956ba7f23e9551f55232b57b8b243d096a7460a04646cba1",
+          "a0a3ac80f4c7f31b6b5f04407a38aa851d4470ed1a4b759d34a77021023de366"
+        ],
+        "repair": [
+          "5a2d82bc56cc624f320337bb2d82103565a430386e0c589968e149c1cd93eb10",
+          "a2831e5394b9929b616e2af25ef87bb9dce8dd9fb235f999bd092d272b093330",
+          "e8eb689cc9da081f6d9d9e69ee19cda76e55ef5d44dcb9f3bc00f5d1c363a2af",
+          "2d2740ef9d4a4524d3a31f1500115fb6e6001816f19f31ab0ca6109dbcea3c63",
+          "d3df0eaa4918a0a331afcdede540daf72d9ea334809930ed932d950a26e9cc77",
+          "832d3fa4e1bc3cbb02d1225841140be42de4ef09b8541bb8a6f08afc36232434",
+          "d481238bc14572e1ee5e958672706d77c065d9a1adfadf08039437ff17ba214c",
+          "18962b90cdb2e54a91fbaffcb0aab9024e95aba6fc036883fdb9b4fad740ddab"
+        ]
+      },
+      "samples_seconds": {
+        "baseline": [
+          0.16390185599993856,
+          0.16538177300003554,
+          0.1640141149999863,
+          0.16530082299993865,
+          0.1674931600000491,
+          0.16674501099998906,
+          0.1673419290000311
+        ],
+        "repair": [
+          0.11936229599996295,
+          0.11962047400004394,
+          0.12040058100001261,
+          0.12121938099994622,
+          0.12133336199997302,
+          0.12143163400003232,
+          0.12279463300001225
+        ]
+      },
+      "median_seconds": {
+        "baseline": 0.16538177300003554,
+        "repair": 0.12121938099994622
+      },
+      "observed_median_reduction_percent": 26.703300611053326
+    }
+  ],
+  "limitations": [
+    "Single hosted runner; seven interleaved samples per binary do not establish stable tails or cross-machine gains.",
+    "Native wall time includes CLI startup, engine initialization and serialization.",
+    "Callgrind instruction counts are separate from native timings.",
+    "Source/tree and clean-status bindings cover manifests; explicit manifest hash files were not collected by the dispatched builder."
+  ]
+}

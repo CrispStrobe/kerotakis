@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "main_after_ports": "7f5159a3832b70908fa8216c2f5fe92c4daf9796",
+  "main_after_ports": "b4455b7871889d0f1e1423390a3bc33a3ec9cdbd",
   "ports": [
     {
       "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/757",
@@ -353,6 +353,50 @@
         }
       ],
       "all_reported_checks_success_or_skipped": true
+    },
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/766",
+      "tested_head": "80ed1c36450359d01c1db3c48db471ccb59ae393",
+      "merge_commit": "b4455b7871889d0f1e1423390a3bc33a3ec9cdbd",
+      "merged_at": "2026-10-08T13:28:00Z",
+      "required_checks": [
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37775081321/job/113303781778",
+          "started_at": "2026-10-08T12:11:11Z",
+          "completed_at": "2026-10-08T12:32:59Z"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37775081321/job/113303782134",
+          "started_at": "2026-10-08T12:15:55Z",
+          "completed_at": "2026-10-08T12:33:59Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37775081321/job/113303782216",
+          "started_at": "2026-10-08T12:39:55Z",
+          "completed_at": "2026-10-08T13:04:08Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37775081321/job/113303782192",
+          "started_at": "2026-10-08T12:24:08Z",
+          "completed_at": "2026-10-08T12:27:44Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37775081321/job/113303782173",
+          "started_at": "2026-10-08T12:25:38Z",
+          "completed_at": "2026-10-08T12:38:34Z"
+        }
+      ],
+      "scope": "Registry solid index. Separate reviewed comparison proves bounded output equivalence and single-host performance."
     }
   ],
   "scope": "Independent matching-head required PR gates. Not a full integrated-source audit/replay or performance acceptance.",
