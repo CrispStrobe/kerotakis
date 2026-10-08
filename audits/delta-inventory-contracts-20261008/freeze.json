@@ -1,0 +1,23 @@
+{
+  "source_commit": "b4455b7871889d0f1e1423390a3bc33a3ec9cdbd",
+  "fixture": "crates/kerotakis-core/tests/delta_inventory_contracts.rs",
+  "fixture_sha256": "4340a75c46e0ad89034f3d046ca92166c0590c7d8e2e76cbe97af67c399c1a29",
+  "test_functions": 37,
+  "expectations": [
+    "A later deposit cannot finance an earlier withdrawal.",
+    "Deposits may finance later withdrawals, with exact exhaustion/recreation accepted.",
+    "Reject nonfinite/negative touched owners, nonfinite proposals and arithmetic overflow before any state mutation.",
+    "Reject a twofold overdraw at 1e-18 without an absolute-mole allowance.",
+    "Preserve all positive unrelated inventory and partial remainders, including the smallest positive subnormal.",
+    "Preserve separate tiny bulk portions across exhaustion of a larger portion.",
+    "Refuse ambiguous touched electrode deposits.",
+    "Uniform inventory limiting respects the first depleted prefix."
+  ],
+  "arithmetic_policy": "Prefix arithmetic allowance at most eight binary64 epsilons times the larger local amount/request; no fixed absolute-mole allowance. This is not compensated ownership or a bulk-plus-tiny guarantee.",
+  "limitations": [
+    "Source-informed controls, not new independently forecast CLI cases.",
+    "Scope: ordered amount changes and positive trace preservation; not whole-state/snapshot/thermal certification."
+  ],
+  "original_fixture_sha256": "3e9cad5cde80925b25a501a65c27de1468c122d11f7116da1313e524edb73736",
+  "pre_execution_extension": "Before production changes and either hosted execution, added nonfinite-request and explicit inside/outside roundoff controls: one ULP exhaustion may clamp to zero, 64 ULP overdraw must refuse. Original controls unchanged."
+}
