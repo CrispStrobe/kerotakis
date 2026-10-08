@@ -1469,6 +1469,8 @@ still-energy-precision = "La chaleur latente de la coupe binaire dépasse la pr�
 still-integration-limit = "La coupe binaire n’a pas été achevée dans la limite d’intégration prise en charge ; aucune matière n’a été transférée"
 still-incomplete-cut = "Le condensat binaire conservé numériquement ne correspond pas à la coupe demandée ; aucune matière n’a été transférée"
 still-unsupported-boundary = "La distillation binaire a rencontré une limite de modèle ou de calcul non prise en charge ; aucune matière n’a été transférée"
+"stock-invalid-draw" = "Le prélèvement dans le stock doit être fini et positif ou nul ; quantité demandée : {requested}."
+"stock-draw-precision" = "Un prélèvement de {requested} {unit} sur les {remaining} {unit} de {key} ne peut pas être représenté avec une précision suffisante ; rien n’a été prélevé."
 # Tranche two: the gaps with a HOLE in them, which is why `[refusal]`
 # could never reach any of these. New German, authored.
 cooling-below-absolute-zero = "ce récipient n'avait que {available} kJ à céder avant le zéro absolu, et on lui en a demandé {asked} kJ. Aucun fluide frigorigène n'est modélisé ici — rien ne fixe la température de l'environnement — le reste ne pouvait donc simplement pas être retiré. La chaleur que contient une substance est intégrée sur sa propre capacité thermique là où le registre en porte une, mais en dessous d'environ 200 K même une courbe tabulée est à court de table et est maintenue constante : ce plancher est donc une limite de modèle et non une mesure"

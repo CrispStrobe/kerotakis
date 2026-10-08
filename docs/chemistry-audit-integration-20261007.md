@@ -15,8 +15,9 @@ repairs without their foundations.
 
 | Order | Scope and original source | Prerequisites and acceptance |
 | --- | --- | --- |
-| 1 | Amount foundation: `core/src/amount.rs`; original introduction `fe574d02`, frozen contracts `9b32b696` | Main-based primitive and public-module export only. Preserve original test bytes and execute adapted imports. [Port receipt](../audits/integration-20261007/amount-port.json); hosted validation pending. |
-| 2 | Thermodynamic kernels: `kerotakis-thermo/src/{batch,pack,unifac,vle}.rs` and continuity/still/trace controls | Inspect changed diagnostics/error APIs against existing core callers. Carry all prerequisite positive and refusal controls; no core still rewrite until these APIs pass. |
+| 1 | Amount foundation: `core/src/amount.rs`; original introduction `fe574d02`, frozen contracts `9b32b696` | Main-based primitive and public-module export only. Preserve original test bytes and execute adapted imports. [Port receipt](../audits/integration-20261007/amount-port.json); merged to main by [PR #756](https://github.com/CrispStrobe/kerotakis/pull/756) as `b31455cc` after its hosted gates. |
+| 1b | Compensated stock: `core/src/stock.rs` and minimal Bench adapters | Prerequisite PR #756 is merged. Main-based [PR #757](https://github.com/CrispStrobe/kerotakis/pull/757) carries 25 frozen stock contracts plus four refusal integration controls; [port mapping](../audits/integration-20261007/stock-port.json) and [ownership decision](chemistry-amount-ownership-decision-20261007.md). Hosted validation pending. |
+| 2 | Thermodynamic kernels: `kerotakis-thermo/src/{batch,pack,unifac,vle}.rs` and continuity/still/trace controls | Main-based [PR #758](https://github.com/CrispStrobe/kerotakis/pull/758), `45c44a4a`, ports six source files and nine preserved test files (58 integration controls), byte-identical to accepted source. [Mapping and boundaries](https://github.com/CrispStrobe/kerotakis/tree/45c44a4a/audits/integration-thermo-20261008); hosted gates pending. Existing Option caller diagnostics and scalar vessel ownership/cutoffs remain open. |
 | 3 | Equilibrium/thermal kernels: `kerotakis-cea/src/{gibbs,thermal,carbonate,closed}.rs` | Inspect callers of thermal and closed-gas APIs. Carry heat ceiling, vented products, finite boundaries and closed-gas controls together. |
 | 4 | Core ownership and transactions: `core/src/{delta,required_conservation,stock,bench,solve,vessel}.rs` | Depends on Amount and the kernel APIs actually used. Transfer, spill, extraction, receiver/donor acceptance, safety and titration share ownership seams; split only at a compiling conservative boundary. |
 | 5 | Native reconstruction: `kerotakis-phreeqc/src/{aqueous,inventory,enthalpy}.rs` and crystal controls | Coordinate core conservation APIs and typed phase ownership. Port accepted behavior before applying AUD-01/02; preserve all raw and live controls. |
@@ -43,3 +44,27 @@ AUD-02 must bound raw aqueous reconciliation using same-solve witnesses.
 NUM-01 needs a public API/save decision and one authoritative migrated owner;
 exporting Amount is only its prerequisite. See [the executable lane
 descriptions](chemistry-audit-next-lanes.md) for fixtures and completion criteria.
+
+## Delivery and native baseline
+
+[PR #756](https://github.com/CrispStrobe/kerotakis/pull/756) merged the Amount
+foundation as `b31455cc`. [PR #757](https://github.com/CrispStrobe/kerotakis/pull/757)
+is now based on main and remains pending; its current source includes the
+bounded stock refusal short-circuit follow-up at `f0adcee0`. Hosted acceptance
+of the original audit branch does not substitute for these integration gates.
+
+Native budget/reconciliation expectations began in
+[3746d277](https://github.com/CrispStrobe/kerotakis/tree/3746d277/audits/native-budget-contracts-20261007).
+The expanded 33-control pre-repair baseline
+[37728961663](https://github.com/CrispStrobe/kerotakis/actions/runs/37728961663)
+executed with **13 passing and 20 failing** controls. The separate nine-control
+refinement baseline
+[37729480945](https://github.com/CrispStrobe/kerotakis/actions/runs/37729480945)
+is pending. The repair branch
+[`audit/native-budget-repair-20261008`](https://github.com/CrispStrobe/kerotakis/tree/audit/native-budget-repair-20261008)
+at `e7eaf03b` has pending validation
+[37729728076](https://github.com/CrispStrobe/kerotakis/actions/runs/37729728076).
+The original raw-harness protocol correction is disclosed separately in that
+branch's `audits/native-budget-contracts-20261007/raw-harness-adaptation.json`;
+original frozen receipts remain unchanged. These pending runs do not close
+AUD-01/02 or replace the accepted-source checkpoint.

@@ -1677,6 +1677,8 @@ still-energy-precision = "Die Verdampfungswärme des binären Destillationsschni
 still-integration-limit = "Der binäre Destillationsschnitt wurde innerhalb der unterstützten Integrationsgrenze nicht abgeschlossen; es wurde kein Material übertragen"
 still-incomplete-cut = "Das numerisch erhaltene binäre Kondensat entspricht nicht dem angeforderten Schnitt; es wurde kein Material übertragen"
 still-unsupported-boundary = "Die binäre Destille hat eine nicht unterstützte Modell- oder Zahlengrenze erreicht; es wurde kein Material übertragen"
+"stock-invalid-draw" = "Die Entnahme aus dem Vorrat muss endlich und nichtnegativ sein; angefordert wurde {requested}."
+"stock-draw-precision" = "Eine Entnahme von {requested} {unit} aus {remaining} {unit} von {key} lässt sich nicht genau genug darstellen; dem Vorrat wurde nichts entnommen."
 # Tranche two: the gaps with a HOLE in them, which is why `[refusal]`
 # could never reach any of these. New German, authored.
 cooling-below-absolute-zero = "dieses Gefäß konnte bis zum absoluten Nullpunkt nur {available} kJ abgeben, verlangt wurden {asked} kJ. Hier ist kein Kühlmittel modelliert — nichts legt fest, wie kalt die Umgebung ist — der Rest konnte also schlicht nicht entzogen werden. Die Wärme, die ein Stoff hält, wird über seine eigene Wärmekapazität integriert, wo das Verzeichnis eine führt; unterhalb von etwa 200 K ist aber selbst eine tabellierte Kurve am Ende der Tabelle und wird flach gehalten, diese Untergrenze ist also eine Modellgrenze und keine Messung"
