@@ -27,3 +27,11 @@ No numerical chemistry failure is demonstrated by the completed valid scripts un
 2. Consume the queued profiling job. Recheck every archived native sample with `tools/fifth-independent-50/review_profile.py`; the dispatched profiler's job status alone cannot validate sample behavior. No performance result or speedup is claimed yet.
 3. Strengthen future refusal controls with independently declared categories and positive neighboring requests. Replay the excessive-stage case on a source containing #759. Do not retrofit the original forecast or change bounds to obtain a pass.
 4. After remaining implementation gates and merges, validate one exact integrated source with the full audit and preserved replays. This campaign predates later main safety/binary repairs and cannot certify them.
+
+## Completed syntax-only replay — 2026-10-08
+
+[Run 37760938060](https://github.com/CrispStrobe/kerotakis/actions/runs/37760938060) completed the separately frozen four-case replay: **four passes, eight verified CLI processes**, using the original executable. Every original chemical check and tolerance is unchanged; only the declared species identifiers differ. The [replay receipt](syntax-replay-receipt.json) binds the original and adapted forecasts and every raw execution envelope.
+
+Combining the original valid cases with this disclosed syntax-only replay gives **50/50 declared expectations met: 46 ordinary passes, three expected refusals and one retained model qualification**. The four original author errors remain preserved above. This is not 50 unrestricted chemical-model validations, and the original F50 diagnostic-category limitation still requires its stronger CLI follow-up.
+
+The original profiling job also completed. [Its reviewed profile](PROFILE.md) excludes the invalid F26 input and retains the gas-model qualification; it supplies a measured optimization candidate, not a speedup claim.

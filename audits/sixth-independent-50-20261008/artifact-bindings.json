@@ -1,0 +1,35 @@
+{
+  "artifacts": [
+    {
+      "id": 11544521760,
+      "name": "sixth-fifty-37762502850",
+      "size_in_bytes": 326013,
+      "digest": "sha256:b58b5cad3b14a3612ff9280031f562cc55780add186b2d2a88285df33d9f7abb",
+      "created_at": "2026-10-08T10:45:36Z",
+      "expires_at": "2026-11-07T10:45:36Z",
+      "expired": false
+    },
+    {
+      "id": 11544595411,
+      "name": "fifth-syntax-replay-37760938060",
+      "size_in_bytes": 62533,
+      "digest": "sha256:d095a6f62251b2349bba03856889ba6fa3c70f9520438e0f9f06bd29a031247f",
+      "created_at": "2026-10-08T10:40:48Z",
+      "expires_at": "2026-11-07T10:40:47Z",
+      "expired": false
+    },
+    {
+      "id": 11542718845,
+      "name": "fifth-profile-37751230970",
+      "size_in_bytes": 1023693,
+      "digest": "sha256:fc128afcfacdf19df8cca6cc5bd73ad6efe8642fd8dc938314de63c5eb67b7e2",
+      "created_at": "2026-10-08T10:24:35Z",
+      "expires_at": "2026-11-07T10:24:34Z",
+      "expired": false
+    }
+  ],
+  "limitations": [
+    "Artifact metadata binds hosted archives; extracted files were individually verified.",
+    "Source, executable and generated lock remain bound to the preserved original build receipt."
+  ]
+}

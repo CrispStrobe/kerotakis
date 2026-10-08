@@ -1,0 +1,1696 @@
+{
+  "source_commit": "7bc43e089753483710507133ccc8377591bb3490",
+  "forecast_sha256": "4041d15bc70b108437bf6df909cbbf892f79d737b6ef6faae7f99bbde21a15f5",
+  "binary_sha256": "fcf424a65384c5ef5949960f228fda4e1c3e893ec93c65d58fe5b12064352967",
+  "original_performance_sha256": "92834cd7cf971ce0f4a7ef1c09facd0ff12e49582d59dada548250deb8f39385",
+  "limitations": [
+    "Offline validation of archived evidence; no app execution or new measurements.",
+    "Original execution envelopes provide exit codes and timings, bound here by hashes.",
+    "Checks compare each sample to the other warm variants; model notices remain qualified.",
+    "Original whole-process and seven-sample limitations still apply; no speedup claim."
+  ],
+  "failed": false,
+  "results": [
+    {
+      "id": "F19",
+      "variant": "a",
+      "status": "measured",
+      "original_status": "measured",
+      "warm_outcome": "passed",
+      "validations": [
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 0.975359429818,
+              "observed_right": [
+                0.8,
+                1.2
+              ],
+              "contract": {
+                "lhs": {
+                  "kind": "difference",
+                  "left": {
+                    "kind": "ph",
+                    "variant": "b",
+                    "vessel": 1
+                  },
+                  "right": {
+                    "kind": "ph",
+                    "variant": "a",
+                    "vessel": 1
+                  }
+                },
+                "op": "between",
+                "rhs": [
+                  0.8,
+                  1.2
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 0.975359429818,
+              "observed_right": [
+                0.8,
+                1.2
+              ],
+              "contract": {
+                "lhs": {
+                  "kind": "difference",
+                  "left": {
+                    "kind": "ph",
+                    "variant": "b",
+                    "vessel": 1
+                  },
+                  "right": {
+                    "kind": "ph",
+                    "variant": "a",
+                    "vessel": 1
+                  }
+                },
+                "op": "between",
+                "rhs": [
+                  0.8,
+                  1.2
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 0.975359429818,
+              "observed_right": [
+                0.8,
+                1.2
+              ],
+              "contract": {
+                "lhs": {
+                  "kind": "difference",
+                  "left": {
+                    "kind": "ph",
+                    "variant": "b",
+                    "vessel": 1
+                  },
+                  "right": {
+                    "kind": "ph",
+                    "variant": "a",
+                    "vessel": 1
+                  }
+                },
+                "op": "between",
+                "rhs": [
+                  0.8,
+                  1.2
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 0.975359429818,
+              "observed_right": [
+                0.8,
+                1.2
+              ],
+              "contract": {
+                "lhs": {
+                  "kind": "difference",
+                  "left": {
+                    "kind": "ph",
+                    "variant": "b",
+                    "vessel": 1
+                  },
+                  "right": {
+                    "kind": "ph",
+                    "variant": "a",
+                    "vessel": 1
+                  }
+                },
+                "op": "between",
+                "rhs": [
+                  0.8,
+                  1.2
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 0.975359429818,
+              "observed_right": [
+                0.8,
+                1.2
+              ],
+              "contract": {
+                "lhs": {
+                  "kind": "difference",
+                  "left": {
+                    "kind": "ph",
+                    "variant": "b",
+                    "vessel": 1
+                  },
+                  "right": {
+                    "kind": "ph",
+                    "variant": "a",
+                    "vessel": 1
+                  }
+                },
+                "op": "between",
+                "rhs": [
+                  0.8,
+                  1.2
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 0.975359429818,
+              "observed_right": [
+                0.8,
+                1.2
+              ],
+              "contract": {
+                "lhs": {
+                  "kind": "difference",
+                  "left": {
+                    "kind": "ph",
+                    "variant": "b",
+                    "vessel": 1
+                  },
+                  "right": {
+                    "kind": "ph",
+                    "variant": "a",
+                    "vessel": 1
+                  }
+                },
+                "op": "between",
+                "rhs": [
+                  0.8,
+                  1.2
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 0.975359429818,
+              "observed_right": [
+                0.8,
+                1.2
+              ],
+              "contract": {
+                "lhs": {
+                  "kind": "difference",
+                  "left": {
+                    "kind": "ph",
+                    "variant": "b",
+                    "vessel": 1
+                  },
+                  "right": {
+                    "kind": "ph",
+                    "variant": "a",
+                    "vessel": 1
+                  }
+                },
+                "op": "between",
+                "rhs": [
+                  0.8,
+                  1.2
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "samples_seconds": [
+        0.16307554100000488,
+        0.16373738200000076,
+        0.15887133900000094,
+        0.16147551199999555,
+        0.15988728499999638,
+        0.15977903299999952,
+        0.160844529000002
+      ],
+      "median_seconds": 0.160844529000002,
+      "execution_sha256": [
+        "902a803bc2593b7c8890503c1fb7a7a009ea51d58b5711b585e5a1597bb88cde",
+        "c46569b80c86f39cf37ba9dafb371ee62d1e5cd674e3071bef0d24e5b7c08d9b",
+        "e34a09790a9f2fe4cf055719642ada61e2c63dcaa98744f486194057573bfb64",
+        "7989046e16e438435408244e2e2c525b1efb069bde74c6f32d6c5f05dbfef711",
+        "94835a9903fd7650adca36a251377d590f2acca70717883d938c996cca593cc7",
+        "4bdc3eb52258bdc48b69d40d74fd6651e68aea8ac8d49d26b61dc7087965fc06",
+        "d29e0350f6d5c06e22f19104cdcdd88f712ea1f4bd9e78b26c67ddcc15fdfaa4"
+      ],
+      "callgrind_status": "passed",
+      "callgrind_validation": {
+        "outcome": "passed",
+        "checks": [
+          {
+            "passed": true,
+            "observed_left": 0.975359429818,
+            "observed_right": [
+              0.8,
+              1.2
+            ],
+            "contract": {
+              "lhs": {
+                "kind": "difference",
+                "left": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                },
+                "right": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                }
+              },
+              "op": "between",
+              "rhs": [
+                0.8,
+                1.2
+              ]
+            }
+          }
+        ]
+      },
+      "callgrind_sha256": {
+        "callgrind.out": "6371052e20b49c76a8a682af296a0b56da8778dcd2a6497ec793f7e332da78bb",
+        "callgrind-summary.txt": "cb31a331acb582c1760ee5b71d4606361e8818d93fdef7880d714e4eba43b3f3",
+        "callgrind.stdout.ndjson": "0848a2d71bc363865c1c42838a5c6051d4ac0caaaf59754cc60c53130a99a425",
+        "callgrind.stderr.txt": "a4be5ad4176674b68a7aaf4644b8245644151bd35c977c984ba24f4146e0908d"
+      }
+    },
+    {
+      "id": "F19",
+      "variant": "b",
+      "status": "measured",
+      "original_status": "measured",
+      "warm_outcome": "passed",
+      "validations": [
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 0.975359429818,
+              "observed_right": [
+                0.8,
+                1.2
+              ],
+              "contract": {
+                "lhs": {
+                  "kind": "difference",
+                  "left": {
+                    "kind": "ph",
+                    "variant": "b",
+                    "vessel": 1
+                  },
+                  "right": {
+                    "kind": "ph",
+                    "variant": "a",
+                    "vessel": 1
+                  }
+                },
+                "op": "between",
+                "rhs": [
+                  0.8,
+                  1.2
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 0.975359429818,
+              "observed_right": [
+                0.8,
+                1.2
+              ],
+              "contract": {
+                "lhs": {
+                  "kind": "difference",
+                  "left": {
+                    "kind": "ph",
+                    "variant": "b",
+                    "vessel": 1
+                  },
+                  "right": {
+                    "kind": "ph",
+                    "variant": "a",
+                    "vessel": 1
+                  }
+                },
+                "op": "between",
+                "rhs": [
+                  0.8,
+                  1.2
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 0.975359429818,
+              "observed_right": [
+                0.8,
+                1.2
+              ],
+              "contract": {
+                "lhs": {
+                  "kind": "difference",
+                  "left": {
+                    "kind": "ph",
+                    "variant": "b",
+                    "vessel": 1
+                  },
+                  "right": {
+                    "kind": "ph",
+                    "variant": "a",
+                    "vessel": 1
+                  }
+                },
+                "op": "between",
+                "rhs": [
+                  0.8,
+                  1.2
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 0.975359429818,
+              "observed_right": [
+                0.8,
+                1.2
+              ],
+              "contract": {
+                "lhs": {
+                  "kind": "difference",
+                  "left": {
+                    "kind": "ph",
+                    "variant": "b",
+                    "vessel": 1
+                  },
+                  "right": {
+                    "kind": "ph",
+                    "variant": "a",
+                    "vessel": 1
+                  }
+                },
+                "op": "between",
+                "rhs": [
+                  0.8,
+                  1.2
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 0.975359429818,
+              "observed_right": [
+                0.8,
+                1.2
+              ],
+              "contract": {
+                "lhs": {
+                  "kind": "difference",
+                  "left": {
+                    "kind": "ph",
+                    "variant": "b",
+                    "vessel": 1
+                  },
+                  "right": {
+                    "kind": "ph",
+                    "variant": "a",
+                    "vessel": 1
+                  }
+                },
+                "op": "between",
+                "rhs": [
+                  0.8,
+                  1.2
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 0.975359429818,
+              "observed_right": [
+                0.8,
+                1.2
+              ],
+              "contract": {
+                "lhs": {
+                  "kind": "difference",
+                  "left": {
+                    "kind": "ph",
+                    "variant": "b",
+                    "vessel": 1
+                  },
+                  "right": {
+                    "kind": "ph",
+                    "variant": "a",
+                    "vessel": 1
+                  }
+                },
+                "op": "between",
+                "rhs": [
+                  0.8,
+                  1.2
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 0.975359429818,
+              "observed_right": [
+                0.8,
+                1.2
+              ],
+              "contract": {
+                "lhs": {
+                  "kind": "difference",
+                  "left": {
+                    "kind": "ph",
+                    "variant": "b",
+                    "vessel": 1
+                  },
+                  "right": {
+                    "kind": "ph",
+                    "variant": "a",
+                    "vessel": 1
+                  }
+                },
+                "op": "between",
+                "rhs": [
+                  0.8,
+                  1.2
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "samples_seconds": [
+        0.16078245900000354,
+        0.1613137249999994,
+        0.16248654199999635,
+        0.16340174699999466,
+        0.16073894800000232,
+        0.16291635800000392,
+        0.1638014649999988
+      ],
+      "median_seconds": 0.16248654199999635,
+      "execution_sha256": [
+        "1eb5feee2007352b1f073a8a2e90d8551263ddafc030194a50805d3b7ff63234",
+        "1fea7f591f2f142cc867a678bc86eabba43258ffd86b28730aacce04aded7088",
+        "9bc3d3dfd0fc1c5f1877cda5709ae21e0632cea694657947bcd68de2a503b3a8",
+        "de73d5e355cb76760961ec3e0a4952474fd1861c79c93fe710e063d8fe24119a",
+        "f3e44c426cc71e93758848768f25daa9d9b052e082b0d4cfba674aeb11d828d6",
+        "5eea9ce2bbff63a66dd1f32a3605aaec8890a6a48c0f500bb485c981c824396c",
+        "9f163944a8e13c94dc3c455fd21662040b0f73219594c3bc009a96d312e8e6e4"
+      ]
+    },
+    {
+      "id": "F26",
+      "status": "excluded_after_observed_behavior_failure",
+      "warm_outcome": "cli_error_requires_author_domain_or_engine_review",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.0,
+          "observed_right": [
+            0,
+            0.2
+          ],
+          "contract": {
+            "lhs": {
+              "kind": "difference",
+              "left": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "right": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              }
+            },
+            "op": "between",
+            "rhs": [
+              0,
+              0.2
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "F34",
+      "variant": "a",
+      "status": "measured",
+      "original_status": "measured",
+      "warm_outcome": "qualified_agreement_with_model_notice",
+      "validations": [
+        {
+          "outcome": "qualified_agreement_with_model_notice",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 5.613647436042,
+              "observed_right": 6.997375771104036,
+              "contract": {
+                "lhs": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                },
+                "op": "lt",
+                "rhs": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "qualified_agreement_with_model_notice",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 5.613647436042,
+              "observed_right": 6.997375771104036,
+              "contract": {
+                "lhs": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                },
+                "op": "lt",
+                "rhs": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "qualified_agreement_with_model_notice",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 5.613647436042,
+              "observed_right": 6.997375771104036,
+              "contract": {
+                "lhs": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                },
+                "op": "lt",
+                "rhs": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "qualified_agreement_with_model_notice",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 5.613647436042,
+              "observed_right": 6.997375771104036,
+              "contract": {
+                "lhs": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                },
+                "op": "lt",
+                "rhs": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "qualified_agreement_with_model_notice",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 5.613647436042,
+              "observed_right": 6.997375771104036,
+              "contract": {
+                "lhs": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                },
+                "op": "lt",
+                "rhs": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "qualified_agreement_with_model_notice",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 5.613647436042,
+              "observed_right": 6.997375771104036,
+              "contract": {
+                "lhs": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                },
+                "op": "lt",
+                "rhs": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "qualified_agreement_with_model_notice",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 5.613647436042,
+              "observed_right": 6.997375771104036,
+              "contract": {
+                "lhs": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                },
+                "op": "lt",
+                "rhs": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "samples_seconds": [
+        0.1597867139999991,
+        0.1705469930000021,
+        0.1580264269999958,
+        0.16128127300000017,
+        0.15807423599999737,
+        0.15825705799999668,
+        0.15988846499999454
+      ],
+      "median_seconds": 0.1597867139999991,
+      "execution_sha256": [
+        "ef155b84d00eb1d35bc2b1a6252ca10fd5ca4bab6f79c3df20638cbb01320210",
+        "87367d8de88c0e6484f978002aa517fe99af85d3a97bf8ceaf184d98bdd547ca",
+        "5fe489ef2179c4aae1055e9f58a6c06b0cd9bce7c31c00d3cefca826a71a3ea7",
+        "2225a20c03762ce317f35f542c537791b4d354304ccb66931420ea8796bea96c",
+        "bdcb8c4c808ff5cd8943a65c9d1e88eb3b600b9844e30ef897797b77223880c8",
+        "beb66f36e906b7471f41343a744d8a6879cdd6fa0c7af24aa503c597a07478d5",
+        "4675082d51b4cd0ede726c4fe6940ba2a34dee7ab0f41b68630d060fa4ac7452"
+      ]
+    },
+    {
+      "id": "F34",
+      "variant": "b",
+      "status": "measured",
+      "original_status": "measured",
+      "warm_outcome": "qualified_agreement_with_model_notice",
+      "validations": [
+        {
+          "outcome": "qualified_agreement_with_model_notice",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 5.613647436042,
+              "observed_right": 6.997375771104036,
+              "contract": {
+                "lhs": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                },
+                "op": "lt",
+                "rhs": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "qualified_agreement_with_model_notice",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 5.613647436042,
+              "observed_right": 6.997375771104036,
+              "contract": {
+                "lhs": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                },
+                "op": "lt",
+                "rhs": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "qualified_agreement_with_model_notice",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 5.613647436042,
+              "observed_right": 6.997375771104036,
+              "contract": {
+                "lhs": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                },
+                "op": "lt",
+                "rhs": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "qualified_agreement_with_model_notice",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 5.613647436042,
+              "observed_right": 6.997375771104036,
+              "contract": {
+                "lhs": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                },
+                "op": "lt",
+                "rhs": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "qualified_agreement_with_model_notice",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 5.613647436042,
+              "observed_right": 6.997375771104036,
+              "contract": {
+                "lhs": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                },
+                "op": "lt",
+                "rhs": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "qualified_agreement_with_model_notice",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 5.613647436042,
+              "observed_right": 6.997375771104036,
+              "contract": {
+                "lhs": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                },
+                "op": "lt",
+                "rhs": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "qualified_agreement_with_model_notice",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 5.613647436042,
+              "observed_right": 6.997375771104036,
+              "contract": {
+                "lhs": {
+                  "kind": "ph",
+                  "variant": "b",
+                  "vessel": 1
+                },
+                "op": "lt",
+                "rhs": {
+                  "kind": "ph",
+                  "variant": "a",
+                  "vessel": 1
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "samples_seconds": [
+        0.1621305949999936,
+        0.16199096300000093,
+        0.16358108200000032,
+        0.16258794200000182,
+        0.1632458139999997,
+        0.16262368099999946,
+        0.16297648900000183
+      ],
+      "median_seconds": 0.16262368099999946,
+      "execution_sha256": [
+        "9bc1868079166aa3d40319e964318c116577cd3b2b92f212da50cd50e6fe21d5",
+        "10b8d510f93d959f70b284c9a8989a3a22438e7e678f7d4fec043945849e9601",
+        "c42e6292d253b149fc669057e40832b1326c3b7ea489b24f59217c7f79b2e6b5",
+        "6ffd77dd7718458c75682016e606f53969275b38c001c44dcdb053b630575975",
+        "fa48b5c5987b90bf9c29e71099e6e1f170654b70083d49a06c99ec8ff34e36bd",
+        "66038f59cc588caba8d962fe3d253018585e5139679370a6d7f0d27f5da6cb01",
+        "4bc14280d0c8245ca903358891f0336c30c3675c0882ef9877378d7a168f6452"
+      ]
+    },
+    {
+      "id": "F39",
+      "variant": "a",
+      "status": "measured",
+      "original_status": "measured",
+      "warm_outcome": "passed",
+      "validations": [
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 0.5192723255829098,
+              "observed_right": 0.2,
+              "contract": {
+                "lhs": {
+                  "kind": "ratio",
+                  "left": {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 2,
+                    "species": "ethanol"
+                  },
+                  "right": {
+                    "kind": "sum",
+                    "terms": [
+                      {
+                        "kind": "species",
+                        "variant": "a",
+                        "vessel": 2,
+                        "species": "water"
+                      },
+                      {
+                        "kind": "species",
+                        "variant": "a",
+                        "vessel": 2,
+                        "species": "ethanol"
+                      }
+                    ]
+                  }
+                },
+                "op": "gt",
+                "rhs": 0.2
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 0.5192723255829098,
+              "observed_right": 0.2,
+              "contract": {
+                "lhs": {
+                  "kind": "ratio",
+                  "left": {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 2,
+                    "species": "ethanol"
+                  },
+                  "right": {
+                    "kind": "sum",
+                    "terms": [
+                      {
+                        "kind": "species",
+                        "variant": "a",
+                        "vessel": 2,
+                        "species": "water"
+                      },
+                      {
+                        "kind": "species",
+                        "variant": "a",
+                        "vessel": 2,
+                        "species": "ethanol"
+                      }
+                    ]
+                  }
+                },
+                "op": "gt",
+                "rhs": 0.2
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 0.5192723255829098,
+              "observed_right": 0.2,
+              "contract": {
+                "lhs": {
+                  "kind": "ratio",
+                  "left": {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 2,
+                    "species": "ethanol"
+                  },
+                  "right": {
+                    "kind": "sum",
+                    "terms": [
+                      {
+                        "kind": "species",
+                        "variant": "a",
+                        "vessel": 2,
+                        "species": "water"
+                      },
+                      {
+                        "kind": "species",
+                        "variant": "a",
+                        "vessel": 2,
+                        "species": "ethanol"
+                      }
+                    ]
+                  }
+                },
+                "op": "gt",
+                "rhs": 0.2
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 0.5192723255829098,
+              "observed_right": 0.2,
+              "contract": {
+                "lhs": {
+                  "kind": "ratio",
+                  "left": {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 2,
+                    "species": "ethanol"
+                  },
+                  "right": {
+                    "kind": "sum",
+                    "terms": [
+                      {
+                        "kind": "species",
+                        "variant": "a",
+                        "vessel": 2,
+                        "species": "water"
+                      },
+                      {
+                        "kind": "species",
+                        "variant": "a",
+                        "vessel": 2,
+                        "species": "ethanol"
+                      }
+                    ]
+                  }
+                },
+                "op": "gt",
+                "rhs": 0.2
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 0.5192723255829098,
+              "observed_right": 0.2,
+              "contract": {
+                "lhs": {
+                  "kind": "ratio",
+                  "left": {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 2,
+                    "species": "ethanol"
+                  },
+                  "right": {
+                    "kind": "sum",
+                    "terms": [
+                      {
+                        "kind": "species",
+                        "variant": "a",
+                        "vessel": 2,
+                        "species": "water"
+                      },
+                      {
+                        "kind": "species",
+                        "variant": "a",
+                        "vessel": 2,
+                        "species": "ethanol"
+                      }
+                    ]
+                  }
+                },
+                "op": "gt",
+                "rhs": 0.2
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 0.5192723255829098,
+              "observed_right": 0.2,
+              "contract": {
+                "lhs": {
+                  "kind": "ratio",
+                  "left": {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 2,
+                    "species": "ethanol"
+                  },
+                  "right": {
+                    "kind": "sum",
+                    "terms": [
+                      {
+                        "kind": "species",
+                        "variant": "a",
+                        "vessel": 2,
+                        "species": "water"
+                      },
+                      {
+                        "kind": "species",
+                        "variant": "a",
+                        "vessel": 2,
+                        "species": "ethanol"
+                      }
+                    ]
+                  }
+                },
+                "op": "gt",
+                "rhs": 0.2
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 0.5192723255829098,
+              "observed_right": 0.2,
+              "contract": {
+                "lhs": {
+                  "kind": "ratio",
+                  "left": {
+                    "kind": "species",
+                    "variant": "a",
+                    "vessel": 2,
+                    "species": "ethanol"
+                  },
+                  "right": {
+                    "kind": "sum",
+                    "terms": [
+                      {
+                        "kind": "species",
+                        "variant": "a",
+                        "vessel": 2,
+                        "species": "water"
+                      },
+                      {
+                        "kind": "species",
+                        "variant": "a",
+                        "vessel": 2,
+                        "species": "ethanol"
+                      }
+                    ]
+                  }
+                },
+                "op": "gt",
+                "rhs": 0.2
+              }
+            }
+          ]
+        }
+      ],
+      "samples_seconds": [
+        0.2518165099999976,
+        0.2515222090000009,
+        0.2529926710000012,
+        0.2519728480000012,
+        0.25419934300000335,
+        0.2521380989999997,
+        0.2527553520000012
+      ],
+      "median_seconds": 0.2521380989999997,
+      "execution_sha256": [
+        "7e961c42a5092e7b473e403b3bd69b6d8cfc23abcc1b5b414135836ea8123116",
+        "feebc1f1ecc525ec37389049680b999a6ce66ebb91d8b346f973ba1896baec5c",
+        "69a185384d09f6893cb51bce8534c41b59be92c44224927ff7573f2bfcef66bf",
+        "06cf2e630fcc69eb0012124c4cc0705ce4082d12fafa17f9fef1dc34de2a9819",
+        "f6372c0b56eedc22c13cf571174a7131e68e8595acb29035972d81a6029d127e",
+        "c8d6e42dfae8bbb1dbaf41aea8c7cab1f5d3e6b17e78a61a9db5c05162580320",
+        "6db89a8f7a126364be115c9503a3a94b6db9e38b1d484da93acfebd806d282a8"
+      ],
+      "callgrind_status": "passed",
+      "callgrind_validation": {
+        "outcome": "passed",
+        "checks": [
+          {
+            "passed": true,
+            "observed_left": 0.5192723255829098,
+            "observed_right": 0.2,
+            "contract": {
+              "lhs": {
+                "kind": "ratio",
+                "left": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 2,
+                  "species": "ethanol"
+                },
+                "right": {
+                  "kind": "sum",
+                  "terms": [
+                    {
+                      "kind": "species",
+                      "variant": "a",
+                      "vessel": 2,
+                      "species": "water"
+                    },
+                    {
+                      "kind": "species",
+                      "variant": "a",
+                      "vessel": 2,
+                      "species": "ethanol"
+                    }
+                  ]
+                }
+              },
+              "op": "gt",
+              "rhs": 0.2
+            }
+          }
+        ]
+      },
+      "callgrind_sha256": {
+        "callgrind.out": "cc16cf49926ae04aff0ec8fab545026333bcba4e45a724bb57aa843923edcadb",
+        "callgrind-summary.txt": "2dc4a26af163b974a248991a96d585c6fcb28f8d03af6f2150b6e5b769ac4cb1",
+        "callgrind.stdout.ndjson": "dba2b8ee217fcf90032f67782c7c580b41fa5fa29b0d0125fae00bb16099bc44",
+        "callgrind.stderr.txt": "b09753abbfed72d6a05ab32e2d8eded1bea573dcd0f653c5886df5dc1e24f36a"
+      }
+    },
+    {
+      "id": "F45",
+      "variant": "a",
+      "status": "measured",
+      "original_status": "measured",
+      "warm_outcome": "passed",
+      "validations": [
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 1.0,
+              "observed_right": 0.0,
+              "contract": {
+                "lhs": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 2,
+                  "species": "water"
+                },
+                "op": "gt",
+                "rhs": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 2,
+                  "species": "hexane"
+                }
+              }
+            },
+            {
+              "passed": true,
+              "observed_left": 1.0,
+              "observed_right": 0,
+              "contract": {
+                "lhs": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "hexane"
+                },
+                "op": "gt",
+                "rhs": 0
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 1.0,
+              "observed_right": 0.0,
+              "contract": {
+                "lhs": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 2,
+                  "species": "water"
+                },
+                "op": "gt",
+                "rhs": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 2,
+                  "species": "hexane"
+                }
+              }
+            },
+            {
+              "passed": true,
+              "observed_left": 1.0,
+              "observed_right": 0,
+              "contract": {
+                "lhs": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "hexane"
+                },
+                "op": "gt",
+                "rhs": 0
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 1.0,
+              "observed_right": 0.0,
+              "contract": {
+                "lhs": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 2,
+                  "species": "water"
+                },
+                "op": "gt",
+                "rhs": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 2,
+                  "species": "hexane"
+                }
+              }
+            },
+            {
+              "passed": true,
+              "observed_left": 1.0,
+              "observed_right": 0,
+              "contract": {
+                "lhs": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "hexane"
+                },
+                "op": "gt",
+                "rhs": 0
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 1.0,
+              "observed_right": 0.0,
+              "contract": {
+                "lhs": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 2,
+                  "species": "water"
+                },
+                "op": "gt",
+                "rhs": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 2,
+                  "species": "hexane"
+                }
+              }
+            },
+            {
+              "passed": true,
+              "observed_left": 1.0,
+              "observed_right": 0,
+              "contract": {
+                "lhs": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "hexane"
+                },
+                "op": "gt",
+                "rhs": 0
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 1.0,
+              "observed_right": 0.0,
+              "contract": {
+                "lhs": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 2,
+                  "species": "water"
+                },
+                "op": "gt",
+                "rhs": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 2,
+                  "species": "hexane"
+                }
+              }
+            },
+            {
+              "passed": true,
+              "observed_left": 1.0,
+              "observed_right": 0,
+              "contract": {
+                "lhs": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "hexane"
+                },
+                "op": "gt",
+                "rhs": 0
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 1.0,
+              "observed_right": 0.0,
+              "contract": {
+                "lhs": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 2,
+                  "species": "water"
+                },
+                "op": "gt",
+                "rhs": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 2,
+                  "species": "hexane"
+                }
+              }
+            },
+            {
+              "passed": true,
+              "observed_left": 1.0,
+              "observed_right": 0,
+              "contract": {
+                "lhs": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "hexane"
+                },
+                "op": "gt",
+                "rhs": 0
+              }
+            }
+          ]
+        },
+        {
+          "outcome": "passed",
+          "checks": [
+            {
+              "passed": true,
+              "observed_left": 1.0,
+              "observed_right": 0.0,
+              "contract": {
+                "lhs": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 2,
+                  "species": "water"
+                },
+                "op": "gt",
+                "rhs": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 2,
+                  "species": "hexane"
+                }
+              }
+            },
+            {
+              "passed": true,
+              "observed_left": 1.0,
+              "observed_right": 0,
+              "contract": {
+                "lhs": {
+                  "kind": "species",
+                  "variant": "a",
+                  "vessel": 1,
+                  "species": "hexane"
+                },
+                "op": "gt",
+                "rhs": 0
+              }
+            }
+          ]
+        }
+      ],
+      "samples_seconds": [
+        0.22837493199999415,
+        0.2273996290000042,
+        0.2273221340000049,
+        0.22792681399999992,
+        0.22737162599999294,
+        0.22874808900000687,
+        0.22901969800000188
+      ],
+      "median_seconds": 0.22792681399999992,
+      "execution_sha256": [
+        "3f768f65be306f9860390961bdf36bde7ab136d70e2d54ad1fddde43d989dcd0",
+        "4ae39adf1c36ba08ab75843f1ced11433b3482f43611ef9fbd8521f3bdee17cf",
+        "568efde73d68ce9f72ac8d3536d67646b862e67b4709d0085b5572ca12176813",
+        "6be1e903887aad485f5cc14c23187cb40a23b33ae1ae5708186360927d6bf0e7",
+        "97934533c91103c916721298a3d2dedf940638f33c9d9cac12e10c79023a457c",
+        "d43d3f2d7c64f3df770c358440e299980c231ff9015d45e071427e46c8f832b7",
+        "20d63621f5940a2119103ddfab6773c2667eecce1234222c0a52e4a1283a1ee9"
+      ],
+      "callgrind_status": "passed",
+      "callgrind_validation": {
+        "outcome": "passed",
+        "checks": [
+          {
+            "passed": true,
+            "observed_left": 1.0,
+            "observed_right": 0.0,
+            "contract": {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "water"
+              },
+              "op": "gt",
+              "rhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 2,
+                "species": "hexane"
+              }
+            }
+          },
+          {
+            "passed": true,
+            "observed_left": 1.0,
+            "observed_right": 0,
+            "contract": {
+              "lhs": {
+                "kind": "species",
+                "variant": "a",
+                "vessel": 1,
+                "species": "hexane"
+              },
+              "op": "gt",
+              "rhs": 0
+            }
+          }
+        ]
+      },
+      "callgrind_sha256": {
+        "callgrind.out": "c03e60acce588528335ce5ce3699e2d8ad8ad1fbf1f5af537543ad7cfdc37853",
+        "callgrind-summary.txt": "08057cab283413ffd93d90383a6c2900517321cb098f70268ee90b9570931163",
+        "callgrind.stdout.ndjson": "fb9f7c82f75b22affb3dde4b045b5ce372fc346cd3db0cbef0032635f43b650d",
+        "callgrind.stderr.txt": "697f7a8f21bfe3b2280a111a99c26b32a23fba3e6a18ae2e7c50ddd67e6e531e"
+      }
+    }
+  ]
+}

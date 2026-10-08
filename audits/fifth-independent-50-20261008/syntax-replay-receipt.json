@@ -1,0 +1,151 @@
+{
+  "run": 37760938060,
+  "source_commit": "7bc43e089753483710507133ccc8377591bb3490",
+  "binary_sha256": "fcf424a65384c5ef5949960f228fda4e1c3e893ec93c65d58fe5b12064352967",
+  "parent_forecast_sha256": "4041d15bc70b108437bf6df909cbbf892f79d737b6ef6faae7f99bbde21a15f5",
+  "adapted_forecast_sha256": "6baa2c0e14347540e6bf329f5de64cde5636683f0efc0fb3b83866c6488c91da",
+  "counts": {
+    "passed": 4
+  },
+  "cli_processes": 8,
+  "results": [
+    {
+      "id": "F25",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 3.541442073389,
+          "observed_right": 2.329590772274,
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "gt",
+            "rhs": {
+              "kind": "ph",
+              "variant": "b",
+              "vessel": 1
+            }
+          }
+        }
+      ],
+      "execution_sha256": {
+        "a": "1c1cc2ca25ea827cb40f5ac3acd9323a8fec64e7e774c34312f673c07b23e52d",
+        "b": "c407fb94d22a883a793ee67090ed8851290483774ae1e7176de6e7dd90952153"
+      }
+    },
+    {
+      "id": "F26",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.008685475699000023,
+          "observed_right": [
+            0,
+            0.2
+          ],
+          "contract": {
+            "lhs": {
+              "kind": "difference",
+              "left": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              },
+              "right": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              }
+            },
+            "op": "between",
+            "rhs": [
+              0,
+              0.2
+            ]
+          }
+        }
+      ],
+      "execution_sha256": {
+        "a": "9715ff662892367d8ba6a720412dddcf772a9aefc507f7b36aefcbe4774a502c",
+        "b": "e92682e044f5e2401a5360eed87911b14db2810e40a7c722c2d2e85b3f53a42c"
+      }
+    },
+    {
+      "id": "F27",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 0.008302486028999745,
+          "observed_right": [
+            0,
+            0.2
+          ],
+          "contract": {
+            "lhs": {
+              "kind": "difference",
+              "left": {
+                "kind": "ph",
+                "variant": "b",
+                "vessel": 1
+              },
+              "right": {
+                "kind": "ph",
+                "variant": "a",
+                "vessel": 1
+              }
+            },
+            "op": "between",
+            "rhs": [
+              0,
+              0.2
+            ]
+          }
+        }
+      ],
+      "execution_sha256": {
+        "a": "7a8f652677282f9feee49dfda651dd75de98b7dd6c09f5fc7a7c4ad194558831",
+        "b": "3be5cd9f946b264d605d058b8d6bdf127ed0b1cf6bbf7fc664a5ac65c6f7dde1"
+      }
+    },
+    {
+      "id": "F28",
+      "outcome": "passed",
+      "checks": [
+        {
+          "passed": true,
+          "observed_left": 4.663030525352,
+          "observed_right": 4.726301282628,
+          "contract": {
+            "lhs": {
+              "kind": "ph",
+              "variant": "a",
+              "vessel": 1
+            },
+            "op": "near",
+            "rhs": {
+              "kind": "ph",
+              "variant": "b",
+              "vessel": 1
+            },
+            "atol": 0.25,
+            "rtol": 0
+          }
+        }
+      ],
+      "execution_sha256": {
+        "a": "5c98a624f5f8bc0dc3e148521d54ae2c472dbda9d9e84bc8a43f65f982898081",
+        "b": "bbc4b3c05427829624e42af1110608a2e97288af1194a04d337030b027f7ca65"
+      }
+    }
+  ],
+  "limitations": [
+    "Post-result syntax-only adaptation; original failures remain preserved.",
+    "Every original check and bound unchanged; not four new independent experiments."
+  ]
+}
