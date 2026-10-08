@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37734288808",
+  "source_commit": "980f971c20bb01346732616644f5c04c6412c509",
+  "compile": "success",
+  "passed": 1,
+  "failed": 1,
+  "log_sha256": "b463c4e6d4f14d7761bb860ee0bf25c1fb6d02fdb5e7896d99264fd6be8df179",
+  "generated_lock_sha256": "f82884ebf1ee635029a79c4ee913386f54e99adf40169c98a701cbb9fbfed194",
+  "toolchain": [
+    "rustc 1.99.0 (b940084d7 2026-09-28)",
+    "cargo 1.99.0 (5f94df478 2026-08-27)"
+  ],
+  "outcomes": [
+    {
+      "test": "additional_solvent_refusals_keep_categories_and_unchanged_state",
+      "outcome": "FAILED"
+    },
+    {
+      "test": "supported_pure_methanol_cut_retains_transfer_and_downstream_processing",
+      "outcome": "ok"
+    }
+  ],
+  "scope": "Refusal reports generic outside-constant-latent-domain instead of composition precision; supported methanol control passes.",
+  "interpretation": "Unchanged-production baseline. Failing table loops stop at their first mismatch; later rows not claimed exercised. Repaired-source validation remains pending.",
+  "source_and_fixture_bindings": [
+    "81f85c28f6d40af92f9abd651afb9b9b9f698f55c784f9984e02fb4d48f5fff7  crates/kerotakis-core/src/bench.rs",
+    "83a675ecebf50f33b4ced2e49c82695ff71bfd398c53d60d838a43fef87c20da  crates/kerotakis-core/tests/ideal_still_refusal_diagnostics.rs",
+    "b876864c40e9818a3769c8e1f4a5ccdeb844ff847e1efc6a42f2d1519c567587  crates/kerotakis-thermo/src/batch.rs",
+    "00c4ec30f39a37183fa559ab5068d18225cb3850bc678490da002511737a8e99  audits/ideal-still-diagnostics-20261008/original-batch.rs.txt",
+    "dffb548a7718f423a55e8de0eb767d82a29441c114cebe807245e734a98e9a5a  Cargo.toml",
+    "46b65c88ee9e4855a8c0d3583b0a599df1df17581401e6fe81a44c88610a0f0a  crates/kerotakis-core/Cargo.toml",
+    "8725b0eda3b52e650964f9246e6ce6d0b15beb0435ab1132c63eb26ce7155269  crates/kerotakis-thermo/Cargo.toml",
+    "492577234c72b6cbe5845e2974c95e8ab26dcb4249e6daeea8667cbddc1956bf  .github/workflows/chemistry-audit.yml"
+  ],
+  "command": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "ideal_still_refusal_diagnostics",
+    "-j1",
+    "--",
+    "--test-threads=1"
+  ]
+}

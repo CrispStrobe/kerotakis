@@ -1,0 +1,23 @@
+{
+  "base_commit": "73d231b3210b8c512c24268cad961d3b4a5be19e",
+  "forecast_commit": "a537713642c61198b88ca4394eb878ad0c424399",
+  "sha256": {
+    "crates/kerotakis-thermo/src/batch.rs": "13d7265929d2f734281c868ca2d3b386947dd2cba3ea7dd7d2d6ad03041d31a9",
+    "crates/kerotakis-thermo/src/vle.rs": "139bba0076c34e0efdc643b4ce5c8847d5e8cda5ab726b7f6c69578ed944842e",
+    "crates/kerotakis-core/src/volatility.rs": "761a34aa6266bd55994b7787bf14d2e8f11e58fce117725b87e7d1a5523d54bd",
+    "crates/kerotakis-core/i18n/de.toml": "82df76925bb3ec847fb343198056e124004de82ab50eca89b6a9816790a538c8",
+    "crates/kerotakis-core/i18n/fr.toml": "708a14ef0a3f783e000de96d369e7c6f96409415fa9822b7b6b132fbb52a994e"
+  },
+  "scope": "Add checked ideal_still Result API and localized operator diagnostic categories without changing arithmetic, acceptance guards, root iterations, mesh, completion tolerances or production step limit",
+  "production_limits": {
+    "phase_bisections": 64,
+    "amount_mesh": 1024,
+    "component_step_fraction": 0.25,
+    "relative_completion": 1e-12,
+    "integration_steps": 100000
+  },
+  "validation": "Rustfmt/diff/TOML/key checks, frozen forecast hashes and original batch unit-test byte comparison only. No local build or executed repaired acceptance.",
+  "operator_baseline": "https://github.com/CrispStrobe/kerotakis/actions/runs/37732719083",
+  "operator_baseline_status": "Root dispatched; outcome pending. Targeted operator test excludes future kernel API test compilation.",
+  "delivery": "Prepared locally; implementation not pushed or submitted for review yet"
+}

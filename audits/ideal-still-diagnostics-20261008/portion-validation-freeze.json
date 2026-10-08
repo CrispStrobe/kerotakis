@@ -1,0 +1,9 @@
+{
+  "before_adapter_guard": "a1685e9d777d6745b62868bb21b2edeecec78c01",
+  "test_path": "crates/kerotakis-core/tests/ideal_still_portion_validation.rs",
+  "sha256": "323e2444cb26aff8735cb5b54a56a64fe673bd9ddc73613d1a17e4bf6f0ad1f8",
+  "scope": "Validate each malformed condensed portion only on a confirmed additional-solvent route, including malformed additional identity; never coalesce or skip invalid owners first. Binary-only selection and zero inactive coordinates retain existing route.",
+  "forecast": "Negative/NaN/+Inf/-Inf in liquid and aqueous owners, malformed water beside methanol and duplicate positive+negative methanol refuse with ideal-still-invalid-input, exact owner bits/full state except log unchanged and no downstream solver. Ordinary methanol with zero inactive components remains accepted.",
+  "remaining_scope": "No general Vessel or Henry partition validation; binary owner policy unchanged; successful transfers still need separate certificates.",
+  "validation": "Frozen before adapter changes; static format/hash only. No executed result."
+}
