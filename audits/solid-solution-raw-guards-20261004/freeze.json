@@ -1,0 +1,24 @@
+{
+  "kind": "source-informed independent boundary contracts",
+  "freeze_before_production": true,
+  "contracts": [
+    {
+      "path": "crates/kerotakis-phreeqc/tests/solid_solution_raw_readback/contracts.rs",
+      "sha256": "9ba77f88e8f4432cffd58b18d9d86614656274b3127c76d63e2a141cc12afd5b"
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solid_solution_aggregate_validity.rs",
+      "sha256": "4441bb48845a6668f1b32e9e0a161c6264df619542edceb61a0123e545f3e050"
+    }
+  ],
+  "unit_hook": "#[cfg(test)] #[path = \"../tests/solid_solution_raw_readback/contracts.rs\"] mod solid_solution_raw_readback_contracts;",
+  "native_test_count": 7,
+  "aggregate_test_count": 2,
+  "native_cases": [
+    "positive components exact raw readback",
+    "zero components supported",
+    "negative / NaN / -infinity / +infinity / missing: each selected component independently, explicit named refusal before balance correction"
+  ],
+  "baseline_forecast": "positive, zero and missing controls expected to pass; negative, NaN and negative infinity incorrectly clamp to zero; positive infinity refuses but does not name its selected column; both aggregate overflow controls expected to fail",
+  "validation": "No local build, engine invocation or application run. Root will validate hosted."
+}
