@@ -156,31 +156,3 @@ fn ordinary_binary_cut_still_transfers_and_runs_downstream_solvers() {
         Kelvin(400.0)
     );
 }
-
-#[test]
-fn empty_donor_refusal_keeps_full_state_and_skips_downstream_solvers() {
-    let mut bench = bench(0.0, 0.0, 101325.0);
-    let before = state_without_log(&bench);
-    let mut solver = MutatingSolver::default();
-    let events = bench
-        .step_with(
-            Operator::Distil {
-                from: VesselId(0),
-                to: VesselId(1),
-                fraction: Some(0.1),
-                energy: None,
-                stages: 1,
-            },
-            &mut solver,
-            &PermissiveScreen,
-        )
-        .unwrap();
-    assert_eq!(solver.calls, 0);
-    assert_eq!(state_without_log(&bench), before);
-    assert_eq!(bench.log.len(), 1);
-    assert_eq!(events.len(), 1);
-    assert!(matches!(&events[0], Event::NotYetModeled {
-        cause: kerotakis_core::ops::NotModelledCause::NotParameterised,
-        reason: Some(reason), ..
-    } if reason.key == "not-modeled.distil-without-water-or-ethanol"));
-}
