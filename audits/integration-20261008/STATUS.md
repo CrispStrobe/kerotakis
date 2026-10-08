@@ -1,4 +1,4 @@
-# Integration checkpoint — 2026-10-08 18:04 UTC
+# Integration checkpoint — 2026-10-08 18:13 UTC
 
 Main is `824b1b89f1aff5d08b4730c2044c1d67cb4621dd`. [PR #768](https://github.com/CrispStrobe/kerotakis/pull/768) merged as `bb000c80` after all five required gates passed on exact head `6ff42221`; [PR #769](https://github.com/CrispStrobe/kerotakis/pull/769) merged as `824b1b89` after the same gates passed on `50088c4e`. Every reported check had completed without failure. The [merge receipt](merged-port-gates.json) records exact heads, merge commits and check URLs. Earlier implementation PRs #756–760 and #762–767 are also merged; #761 carries documentation.
 
@@ -45,3 +45,9 @@ The new head `26cd8fc7d3554ddadaeebeb2750b3a92c4eadf54` applies ordinary deltas 
 ## Reusable native acceptance review
 
 [The offline reviewer and bound plans](native-controls/README.md) now specify all 105 expected native functions for #770, 143 for initial #771 and 151 for repaired #771. They verify actual checkout/tree identity, fixture hashes, complete outcomes and native lint/test steps. Existing 42-function and 11-function native archives revalidate successfully; six parser controls pass, including incomplete/filtered/failed/ignored/repeated-result rejection and interleaved Cargo output. These plans do not imply that pending #770/#771 tests passed. Required gates remain pending; the later ordinary-commit production repair is documented above.
+
+## Repaired native acceptance and next prepared port
+
+The [#771 Mac native receipt](native-controls/pr771-mac.json) verifies all 151 expected functions on `26cd8fc7`, including all twelve historical tracer functions and eight ordinary-commit supplementary functions. The actual checkout tree equals the head tree; full workspace tests, format, Clippy and claim/curiosity steps pass. Other required gates and new-source CLI replay remain pending. #770 has passed preflight, Mac native and WebAssembly; Linux native and browser gates are still running. No merge is accepted on partial gates.
+
+[The next prepared test-only port](../historical-transaction-amount-controls-20261008/README.md) carries 53 historical transaction/Amount functions. No PR or additional CI jobs were opened. After #771 is accepted, integrate actual main ancestry, compile every restored function and require final-head gates. [Its tracked-file inventory](full-audit-port-inventory-prepared-transactions.json) leaves 50 missing named tests and 129 bound paths; these are preparation/presence counts, not runtime acceptance.
