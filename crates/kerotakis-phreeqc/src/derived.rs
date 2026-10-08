@@ -1006,19 +1006,35 @@ pub(crate) fn registry_solid_matching(
     composition: &BTreeMap<String, f64>,
     waters: f64,
 ) -> Option<&'static str> {
-    for s in species::REGISTRY {
-        if s.standard_phase != Phase::Solid {
-            continue;
-        }
-        let (base, w) = split_hydrate(s.formula);
-        if w != waters {
-            continue;
-        }
-        if parse_formula(&base).as_ref() == Some(composition) {
-            return Some(s.key);
-        }
+    struct SolidIdentity {
+        key: &'static str,
+        waters: f64,
+        composition: BTreeMap<String, f64>,
     }
-    None
+    // Registry formulas are immutable. Matching hundreds of database phases
+    // must not reparse every solid on each lookup. Keep registry order so
+    // equal compositions retain the same first identity as the uncached scan.
+    // This initializer uses only the registry and formula parser, never the
+    // derived database index: it cannot recurse into Derived::build.
+    static SOLIDS: OnceLock<Vec<SolidIdentity>> = OnceLock::new();
+    SOLIDS
+        .get_or_init(|| {
+            species::REGISTRY
+                .iter()
+                .filter(|s| s.standard_phase == Phase::Solid)
+                .filter_map(|s| {
+                    let (base, waters) = split_hydrate(s.formula);
+                    Some(SolidIdentity {
+                        key: s.key,
+                        waters,
+                        composition: parse_formula(&base)?,
+                    })
+                })
+                .collect()
+        })
+        .iter()
+        .find(|s| s.waters == waters && &s.composition == composition)
+        .map(|s| s.key)
 }
 
 /// Decompose a formula into element contributions: greedy oxyanion-group
