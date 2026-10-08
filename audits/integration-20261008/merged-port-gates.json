@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "main_after_ports": "605c37366416d23c804ae831ae684833aa390897",
+  "main_after_ports": "cb741925827ae293cf0976a08ff4b35cb7de074c",
   "ports": [
     {
       "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/757",
@@ -177,7 +177,98 @@
         }
       ],
       "remaining_checks": "Some nonrequired fleet jobs remain queued; no observed failure at merge. Required repository protection is non-strict; combined main needs its own validation."
+    },
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/759",
+      "tested_head": "d66a4575f09e4a4adccac1ccd103e1593799ac19",
+      "merge_commit": "cb741925827ae293cf0976a08ff4b35cb7de074c",
+      "merged_at": "2026-10-08T09:47:11Z",
+      "required_checks": [
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37744099523/job/113201396342",
+          "started_at": "2026-10-08T08:05:30Z",
+          "completed_at": "2026-10-08T08:28:17Z"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37744099523/job/113201396675",
+          "started_at": "2026-10-08T09:23:46Z",
+          "completed_at": "2026-10-08T09:35:53Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37744099523/job/113201396492",
+          "started_at": "2026-10-08T08:03:14Z",
+          "completed_at": "2026-10-08T08:27:11Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37744099523/job/113201396381",
+          "started_at": "2026-10-08T08:03:07Z",
+          "completed_at": "2026-10-08T08:06:31Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37744099523/job/113201396398",
+          "started_at": "2026-10-08T08:02:45Z",
+          "completed_at": "2026-10-08T08:14:46Z"
+        }
+      ],
+      "remaining_checks": "Some nonrequired fleet jobs remain queued; no observed failure at merge. Required repository protection is non-strict; combined main needs its own validation."
     }
   ],
-  "scope": "Independent matching-head required PR gates. Not a full integrated-source audit/replay or performance acceptance."
+  "scope": "Independent matching-head required PR gates. Not a full integrated-source audit/replay or performance acceptance.",
+  "documentation": [
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/761",
+      "tested_head": "9a7b3c759b3db28b9f20a99d39ba67681d339f26",
+      "merge_commit": "0fafbf5e3c71841f83832dd61a0c7f4561204e63",
+      "merged_at": "2026-10-08T09:48:25Z",
+      "required_checks": [
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37744180726/job/113201757896",
+          "started_at": "2026-10-08T08:05:50Z",
+          "completed_at": "2026-10-08T08:28:32Z"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37744180726/job/113201757899",
+          "started_at": "2026-10-08T08:41:23Z",
+          "completed_at": "2026-10-08T09:01:03Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37744180726/job/113201758049",
+          "started_at": "2026-10-08T08:13:29Z",
+          "completed_at": "2026-10-08T08:39:51Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37744180726/job/113201758035",
+          "started_at": "2026-10-08T09:31:37Z",
+          "completed_at": "2026-10-08T09:34:38Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37744180726/job/113201757904",
+          "started_at": "2026-10-08T08:38:19Z",
+          "completed_at": "2026-10-08T08:50:12Z"
+        }
+      ],
+      "scope": "Three Markdown files. Dated checkpoint and task lanes; not new runtime evidence. Pending-state rows reflect the earlier checkpoint."
+    }
+  ],
+  "main_after_documentation": "0fafbf5e3c71841f83832dd61a0c7f4561204e63"
 }
