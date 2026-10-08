@@ -3155,6 +3155,7 @@ impl Bench {
                     .sum();
                 let volatile = w + e;
                 if volatile <= 0.0 {
+                    *disposition = ApplyDisposition::Unchanged;
                     events.push(Event::not_modeled(
                         *from,
                         crate::ops::NotModelledCause::NotParameterised,
