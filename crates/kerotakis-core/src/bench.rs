@@ -1659,6 +1659,7 @@ impl Bench {
                 // not cost the shelf anything, because it never happened.
                 if let Err(refusal) = self.stock.draw(&sid.0, moles.0) {
                     events.push(stock_refusal_event(*vessel, &sid.0, refusal));
+                    *disposition = ApplyDisposition::Unchanged;
                     return Ok(events);
                 }
 
@@ -1787,6 +1788,7 @@ impl Bench {
                 // nobody reads off a label.
                 if let Err(refusal) = self.stock.draw(&recipe.canonical_key, *total_amount) {
                     events.push(stock_refusal_event(*vessel, &recipe.canonical_key, refusal));
+                    *disposition = ApplyDisposition::Unchanged;
                     return Ok(events);
                 }
 
