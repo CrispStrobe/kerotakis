@@ -10,7 +10,7 @@ Each lane must produce independently declared expectations, a preserved failing 
 
 Use existing hosted validation in `.github/workflows/chemistry-audit.yml`; bind replay to a successful `validated_run` and its exact `validated_commit`. Run only the checks needed for the change, then required integration gates. Do not substitute the selected 17-stage audit for the repository's full required PR gates. One workflow concurrency group cancels older runs on the same ref: wait for completion before dispatching a dependent replay. Private machine policy controls local execution and agent count.
 
-## Current priority order — 2026-10-08 17:23 UTC
+## Current priority order — 2026-10-08 17:20 UTC
 
 Use [the integration checkpoint](../audits/integration-20261008/STATUS.md) for actual delivered heads and reviewed receipts; the earlier dated checkpoint is historical. The measured startup cache is merged with bounded single-host gains. Additional optimization is lower priority than the remaining ownership and transaction seams.
 
@@ -272,7 +272,7 @@ Record lane ID, exact source and prerequisite revision, frozen contracts, baseli
 
 ## Immediate handoff after transaction and persistence merges
 
-PRs #768 and #769 are merged after all five exact-head required gates. Main is `824b1b89`; use [the integration checkpoint](../audits/integration-20261008/STATUS.md) and merge receipt for exact evidence. [The refreshed inventory](../audits/integration-20261008/full-audit-port-inventory-1725.json) records 59 missing named tests/145 bound paths on main, and 56/138 on the integrated candidate. These are file-presence counts, not runtime failures.
+PRs #768 and #769 are merged after all five exact-head required gates. Main is `824b1b89`; use [the integration checkpoint](../audits/integration-20261008/STATUS.md) and merge receipt for exact evidence. [The refreshed inventory](../audits/integration-20261008/full-audit-port-inventory-1720.json) records 59 missing named tests/145 bound paths on main, and 56/138 on the integrated candidate. These are file-presence counts, not runtime failures.
 
 First finish [PR #770](https://github.com/CrispStrobe/kerotakis/pull/770), head `ee7132fe`, now integrated with both prerequisites. Its ten restored historical owner/gas controls supplement 34 strict-policy and eight canonical electrode-schema functions. Require all 94 policy/owner/schema/transaction functions, 11 inherited persistence functions, full workspace checks and five required gates. Preserve unsupported-owner refusals. The API introduction has no compiling old-API behavioral baseline; do not classify missing APIs as scientific failures.
 
