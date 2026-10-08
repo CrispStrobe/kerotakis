@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "main_after_ports": "7bc43e089753483710507133ccc8377591bb3490",
+  "main_after_ports": "605c37366416d23c804ae831ae684833aa390897",
   "ports": [
     {
       "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/757",
@@ -130,6 +130,50 @@
           "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37731501137/job/113161417413",
           "started_at": "2026-10-08T05:57:03Z",
           "completed_at": "2026-10-08T06:08:56Z"
+        }
+      ],
+      "remaining_checks": "Some nonrequired fleet jobs remain queued; no observed failure at merge. Required repository protection is non-strict; combined main needs its own validation."
+    },
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/762",
+      "tested_head": "9f4a0ae8111c59d9e9a0e116251fa1a04597b741",
+      "merge_commit": "605c37366416d23c804ae831ae684833aa390897",
+      "merged_at": "2026-10-08T09:06:16Z",
+      "required_checks": [
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37743587922/job/113200134059",
+          "started_at": "2026-10-08T08:41:06Z",
+          "completed_at": "2026-10-08T09:04:26Z"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37743587922/job/113200134015",
+          "started_at": "2026-10-08T08:22:11Z",
+          "completed_at": "2026-10-08T08:37:53Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37743587922/job/113200134133",
+          "started_at": "2026-10-08T07:49:19Z",
+          "completed_at": "2026-10-08T08:13:02Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37743587922/job/113200133915",
+          "started_at": "2026-10-08T08:13:50Z",
+          "completed_at": "2026-10-08T08:18:12Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37743587922/job/113200134185",
+          "started_at": "2026-10-08T08:32:38Z",
+          "completed_at": "2026-10-08T08:42:57Z"
         }
       ],
       "remaining_checks": "Some nonrequired fleet jobs remain queued; no observed failure at merge. Required repository protection is non-strict; combined main needs its own validation."
