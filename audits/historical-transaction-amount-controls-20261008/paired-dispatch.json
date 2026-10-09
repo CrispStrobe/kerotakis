@@ -1,0 +1,11 @@
+{
+  "run": 37890564172,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37890564172",
+  "harness": "be538c6b57cdb1302227eb727d3a6092f7140a3d",
+  "event": "workflow_dispatch",
+  "status_at_checkpoint": "queued",
+  "baseline": "85c79f5141ec35eefa2fb537f07583c5c9cba38b",
+  "repair": "9d0b32ed186002c852a09e7ded731fbbd0bd5bd4",
+  "manifest_sha256": "8e91e9b35441af5b021d72d3504c1594f62889b71f7a4015678c4132aaecc874",
+  "scope": "Dispatch identity only. No paired runtime acceptance yet. CLI mode for repaired source is prepared but undispatched."
+}

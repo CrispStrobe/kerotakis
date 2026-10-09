@@ -1,0 +1,82 @@
+{
+  "head": "85c79f5141ec35eefa2fb537f07583c5c9cba38b",
+  "pr": 773,
+  "run": 37888429982,
+  "job": 113683617788,
+  "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37888429982/job/113683617788",
+  "actual_checkout": "62f35b1812c744a9067727b3ce5b0e08738f0e11",
+  "tested_tree": "7220a51a07b4c46a3a187818ec2e96ab0406eee2",
+  "head_tree_equals_checkout": true,
+  "log_sha256": "b7ac998afdbd6d24f4e4f70311945bd37af862bc65ef5df6661519a89a744626",
+  "targets": {
+    "solver_transactions": {
+      "fixture_sha256": "b7f47052a1cf1605dd682819faa16cea6d864f5bc95e73057540dff4c8639262",
+      "passed": [
+        "absorbed_gas_is_accounted_and_unbacked_outlet_event_is_rejected",
+        "boundary_event_must_name_correct_vessel_and_finite_amount",
+        "bounded_equilibrium_sequences_preserve_complete_results_and_reload",
+        "cloned_proposal_commits_all_solver_state_even_without_bulk_changes",
+        "complete_snapshot_cannot_be_edited_into_a_different_native_delta",
+        "disclosed_cooling_floor_can_be_reheated_without_invalid_native_context",
+        "electrode_deposit_first_then_withdraw_is_valid_and_conservative",
+        "electrode_inventory_prefixes_cannot_borrow_from_later_deposits",
+        "finite_species_amounts_with_overflowing_aggregate_mass_are_rejected",
+        "finite_surface_inventory_and_speciation_commit_as_one_result",
+        "heat_input_prices_only_the_current_delivery_pass_and_is_not_persisted",
+        "individually_finite_initial_inventory_and_delta_cannot_overflow_on_commit",
+        "invalid_boundary_and_dependent_numerical_state_never_commits",
+        "invalid_thermal_and_snapshot_inventories_never_commit",
+        "native_bulk_prefix_and_overflow_are_rejected_before_clamping",
+        "native_withdrawal_preserves_unrelated_bulk_and_electrode_traces",
+        "numerically_invalid_success_discards_trial_events_and_metadata",
+        "orchestration_commits_boundary_events_and_complete_state_together",
+        "ordered_reservoirs_do_not_grant_absolute_credit_to_empty_or_trace_stock",
+        "ordered_reservoirs_use_current_stock_at_large_dynamic_ranges",
+        "production_mix_failure_and_decline_restore_all_trial_state",
+        "production_native_mix_enforces_balances_before_committing",
+        "production_stack_enforces_opted_in_balances_and_event_domains_atomically",
+        "production_stack_failure_restores_state_before_next_solver",
+        "rejected_snapshot_restores_derived_state_and_narration_too",
+        "separate_small_portions_remain_available_after_a_large_portion_is_exhausted",
+        "snapshot_deposit_geometry_and_aggregate_electrical_overflow_are_atomic",
+        "snapshot_material_progress_and_visual_geometry_are_atomic",
+        "snapshot_scaling_is_explicitly_unsupported",
+        "stale_snapshot_cannot_erase_an_intervening_operation_or_narration",
+        "valid_signed_electrical_state_and_fraction_boundaries_still_commit"
+      ],
+      "failed": [
+        "a_fully_removed_deposit_does_not_constrain_new_layer_metadata",
+        "accumulated_waste_overflow_rolls_back_transfer_and_journal",
+        "electrode_updates_refuse_ambiguous_layers_and_overflowing_prefixes",
+        "finite_mass_with_overflowed_heat_capacity_is_refused_atomically",
+        "nonfinite_energy_and_heat_input_proposals_never_commit",
+        "operator_numeric_refusal_preserves_all_bench_state_and_history",
+        "ordered_deposit_effects_enrich_once_and_refuse_conflicting_declarations"
+      ]
+    },
+    "compensated_amount_contracts": {
+      "fixture_sha256": "58861ba0a4f866d57e2c7282902f49d07dd760857cae7db574e010730fa0d065",
+      "passed": [
+        "exact_exhaustion_succeeds_but_real_overdraw_is_rejected",
+        "invalid_scalar_and_pair_inputs_are_rejected",
+        "invalid_scale_overflow_and_total_underflow_are_rejected",
+        "json_round_trip_preserves_both_components_and_legacy_scalars_load",
+        "negative_high_input_can_normalize_to_a_nonnegative_total",
+        "pair_construction_normalizes_without_discarding_a_small_addend",
+        "persisted_pairs_are_validated_instead_of_silently_renormalized",
+        "quantized_subnormal_scale_refuses_but_exact_subnormal_scale_succeeds",
+        "repeated_sub_ulp_additions_cross_the_scalar_resolution_boundary",
+        "repeated_sub_ulp_debits_and_inverse_credits_cancel",
+        "scale_preserves_low_component_for_exact_power_of_two",
+        "scale_retains_normal_product_rounding_error",
+        "sub_ulp_addition_and_subtraction_retain_the_signed_low_component",
+        "subtracting_the_large_component_exposes_preserved_small_inventory",
+        "zero_and_scalar_inputs_are_canonical"
+      ],
+      "failed": []
+    }
+  },
+  "core_library_passed": 604,
+  "classification": "runtime_transaction_acceptance_gaps_after_api_restoration",
+  "scope": "31 transaction functions pass, seven fail; all15 standaloneAmount and604 core library tests pass. Not final-head or full historical acceptance. Preserve this first behavioral baseline after repair."
+}
