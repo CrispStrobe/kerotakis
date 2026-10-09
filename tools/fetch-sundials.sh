@@ -25,7 +25,11 @@ WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
 
 echo "== fetching SUNDIALS ${VERSION}"
-curl -sSfL -o "$WORK/sundials.tar.gz" "$URL"
+# Retry transient network/server failures, with bounded connection and transfer
+# times. Every successful download still has to match the pinned digest below.
+curl -sSfL --connect-timeout 15 --max-time 120 \
+    --retry 3 --retry-delay 2 --retry-max-time 180 --retry-connrefused \
+    -o "$WORK/sundials.tar.gz" "$URL"
 echo "${SHA256}  $WORK/sundials.tar.gz" | sha256sum -c - >/dev/null
 tar xzf "$WORK/sundials.tar.gz" -C "$WORK"
 mkdir -p "$(dirname "$DEST")"
