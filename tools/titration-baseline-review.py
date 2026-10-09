@@ -44,6 +44,17 @@ def review(artifact, run_path, harness, freeze_path=FREEZE,
     freeze_bytes = git('show', f'{harness}:{freeze_path}')
     assert (archived / freeze_path).read_bytes() == freeze_bytes
     freeze = json.loads(freeze_bytes)
+    frozen_path = freeze.get('frozen_manifest_path')
+    if frozen_path:
+        frozen_relative = PurePosixPath(frozen_path)
+        assert not frozen_relative.is_absolute() and '..' not in frozen_relative.parts
+        original = git('show', f'{harness}:{frozen_path}')
+        assert (archived / frozen_path).read_bytes() == original
+        assert sha(original) == freeze['frozen_manifest_sha256']
+        original_freeze = json.loads(original)
+        for key in ['fixture_path', 'fixture_sha256', 'intended_test_target',
+                    'expected_test_functions', 'functions']:
+            assert freeze[key] == original_freeze[key], 'Changed frozen expectation'
     fixture_path = freeze['fixture_path']
     fixture = git('show', f'{harness}:{fixture_path}')
     assert sha(fixture) == freeze['fixture_sha256']
@@ -62,6 +73,8 @@ def review(artifact, run_path, harness, freeze_path=FREEZE,
     assert not git('ls-tree', source, '--', target).strip(), 'Target already tracked'
     hashes = {}
     expected_paths = {WORKFLOW, freeze_path, fixture_path}
+    if frozen_path:
+        expected_paths.add(frozen_path)
     for line in (evidence / 'harness-sha256.txt').read_text().splitlines():
         recorded, path = line.split(maxsplit=1)
         assert path.startswith('harness/')

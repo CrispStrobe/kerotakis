@@ -1,0 +1,16 @@
+{
+  "run": 37940787580,
+  "harness": "7ee350027e89843f42aa799ddeddf2e5b0f087f7",
+  "source": "0346701f4c47a4d2eb607c6e998de3f0d5631067",
+  "classification": "compiler/API prerequisite failure, not behavioral failure count",
+  "compiler_error": "E0407: assess_equilibrated is not a member of SafetyScreen",
+  "observed_control_functions": 0,
+  "inherited_passed": 604,
+  "fixture_sha256": "6ed72521affae763d52ea5581453cc875e13ef338c69d95d14f64546422a3030",
+  "archive_sha256": {
+    "titration-publication-baseline-37940787580-final-run.json": "c026c82f794b559537ec46d13a38821a3b9cb20787fcf510f520d86e4524606d",
+    "titration-publication-baseline-37940787580-job.log": "89080dd5935cdd58b445e26e7cb98430e49c79409648bab4612a9e6105dd5594"
+  },
+  "controls_log_sha256": "6d9e2390b456aff8c1bb791a04a3c99242c499730d58921a322b0a7680068a46",
+  "scope": "Preserved first compile failure. No seven-function behavior outcome acceptance; original freeze unchanged. Initial static API inspection used the audit branch rather than the bound source."
+}

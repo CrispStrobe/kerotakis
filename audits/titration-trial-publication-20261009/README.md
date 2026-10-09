@@ -28,3 +28,11 @@ python3 tools/titration-baseline-review.py \
 Preserve first baseline failures before any production edits. Any changed repair head needs newly bound source/run/plan manifests. Never overwrite the production fleet workflow with this branch-only harness.
 
 Actual dispatch — 14:00 UTC: [run37940787580](dispatch.json) is dispatched after #774 accepted integration and exact main-tree verification. Actual harness is7ee35002. The prepared manifest and earlier undispatched statements are immutable historical checkpoints; no publication outcome is claimed yet. Download/review this existing run when complete, without duplicate dispatch.
+
+## Preserved API prerequisite failure
+
+[Original collection37940787580](first-api-failure.json) failed compilation with E0407: current034 lacks SafetyScreen::assess_equilibrated. All604 inherited library tests passed, but zero publication functions executed. Initial static inspection checked the audit branch rather than the bound source; rustfmt had established syntax only. This is an API prerequisite failure, not a seven-function behavioral count. Original fixture and freeze remain unchanged.
+
+[API-only baseline37941589330](api-dispatch.json) is dispatched on sourcee626961d, which adds only a default Allow callback and no call site. [The separately named baseline API binding](baseline-api-binding.json) retains every original fixture/function expectation and links the exact original freeze hash; it changes only baseline source identity. The reviewer verifies both Git-bound manifests and unchanged expectations. [Synthetic API-binding controls](api-binding-reviewer-controls.json) pass; they are not model execution. No API-only baseline outcome is claimed yet.
+
+Download the existing `titration-publication-api-baseline-37941589330` artifact and fresh run metadata after completion. Review with harness39352c3b65b03b5e0a1944d1458f22c4072faaad, `--freeze audits/titration-trial-publication-20261009/baseline-api-binding.json`, and `--job-name 'Frozen titration publication baseline with default callback API only'`. Preserve the first complete runtime baseline before adding any final-safety call site. A further compiler failure remains a prerequisite failure. The six-line prerequisite source is pushed but not merged; final repair acceptance must include it explicitly.

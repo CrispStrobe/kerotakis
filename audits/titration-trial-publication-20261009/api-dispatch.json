@@ -1,0 +1,12 @@
+{
+  "databaseId": 37941589330,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37941589330",
+  "headSha": "39352c3b65b03b5e0a1944d1458f22c4072faaad",
+  "event": "workflow_dispatch",
+  "status": "queued",
+  "conclusion": "",
+  "campaign": "titration-publication-api-baseline",
+  "source": "e626961ddcbf2516b36150abb5873c06d1a6784f",
+  "source_tree": "0424b956a95f05f0df56591a19d1de2b542b4bee",
+  "scope": "Actual dispatch on default no-op API restoration only. Frozen fixture/expectations unchanged; no behavioral repair or result claim."
+}
