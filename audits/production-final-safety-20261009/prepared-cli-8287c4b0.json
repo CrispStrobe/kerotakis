@@ -1,0 +1,23 @@
+{
+  "harness": "8287c4b0f8329b57489c9d22dcf5bd62cd5998a6",
+  "campaign": "production-final-safety-cli-replay",
+  "source": "03f426c7e96c9b17c0d206975a6b2eb1ffc127ea",
+  "source_tree": "f457b067cc174944b13c7b601b1c2dd346686f5c",
+  "source_manifest": "audits/production-final-safety-20261009/cli-source-03f426c7.json",
+  "cases": 100,
+  "processes": 164,
+  "prior_jobs_unchanged": true,
+  "dispatched": false,
+  "prerequisite": "Source03 native267/workspace acceptance on at least one platform; all gates/fleet and both native platforms still required before merge.",
+  "scope": "New undispatched harness checkpoint after adding a separate baseline-probe mode. All earlier jobs, including source03 hundred-case replay, remain structurally identical; original source manifest and forecast remain byte-identical. This does not dispatch or accept the repaired replay.",
+  "previous_preparation": "audits/production-final-safety-20261009/prepared-cli-03f426c7.json",
+  "old_preparation_preserved": true,
+  "harness_sha256": {
+    ".github/workflows/chemistry-audit.yml": "67630b713efbfc8c3261d80f373d98665aadb6547e8d46b6394264417446ebdc",
+    "tools/combined-cli-replay.py": "763cf2abe3f39845e691de18f6f1fab2d3548cb4a39eeb2adc262e6de38fd99f",
+    "tools/fifth-independent-50/run.py": "68938926231c1958ac9a17eca65b2407afd13ee9122f74b4f4921721caf637e8",
+    "tools/fifth-independent-50/review_profile.py": "6db04685d6cd5a723b5d68c7dbe3bfb92832e410b5d985070d0ffb86c8473647",
+    "audits/production-final-safety-20261009/cli-source-03f426c7.json": "e264eb62acfe195a34996ac589c814d457f37b3301f15190b7c24cb6d2c55471",
+    "audits/main-cli-replay-20261008/forecast.json": "5c9eb5de22c2d4bcf9f11b3f62550083693af90e124779e8f1d000fc397fc2d5"
+  }
+}
