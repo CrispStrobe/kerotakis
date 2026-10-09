@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "compiled_source": "622d37ec59714ef4a5fed512b174c09e605e1a7e",
+  "source_tree": "5c381c99080200e29411b5a806fc33c709db1ffd",
+  "source_kind": "PR776 production final safety repair with lint-compatible original identity controls; not merged main",
+  "main_at_freeze": "7e96f120c271d6130473f4eb298c82963543392e",
+  "forecast_path": "audits/main-cli-replay-20261008/forecast.json",
+  "forecast_sha256": "5c9eb5de22c2d4bcf9f11b3f62550083693af90e124779e8f1d000fc397fc2d5",
+  "expected_cases": 100,
+  "expected_processes": 164,
+  "disclosure": "Unchanged disclosed corrected fifth/sixth expectations and strict distillation controls. Source-informed replay, not new independent forecasts. Original scores, qualifications and old executable receipts remain immutable."
+}

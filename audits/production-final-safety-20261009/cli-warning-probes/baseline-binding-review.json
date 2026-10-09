@@ -1,0 +1,379 @@
+{
+  "run": 37980304505,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37980304505",
+  "harness": "8287c4b0f8329b57489c9d22dcf5bd62cd5998a6",
+  "source_binding": {
+    "compiled_source": "b9f998e2d3ed0603235645b7ebdf7eb6281f0bf8",
+    "source_tree": "e98f3bd97f11f77f0215b19d4560f47dea91f710",
+    "source_kind": "PR775 validated solved-trial final safety and publication repair; not merged main",
+    "binary_sha256": "ee5f2fe68ff76389f37f9f94e88b815f90f4a446d4f8b8e80b7b4368e9c6f605",
+    "generated_lock_sha256": "d003dc207ebfe27f07500dddba65ffa365982abbae63cc5e89d7cbdacba650aa"
+  },
+  "harness_sha256": {
+    "tools/final-safety-cli-probes.py": "17aac4793167b8e105497e430da0fb02c5a4bb38802839a3cc4d6dea4d306419",
+    "audits/production-final-safety-20261009/cli-warning-probes/freeze.json": "ac255eda718efff5b4ecb9720d893a5fdbc69cbb7de979fe6feb8ee49d9e2419",
+    "audits/production-final-safety-20261009/cli-warning-probes/introduced-chloramine.lab": "a111860b9f42b0db9a629652ae9511e44d72f4e60d93e5d2a2a5f7afd5e848bf",
+    "audits/production-final-safety-20261009/cli-warning-probes/benign-counterpart.lab": "ba6f39c42fde4a1d91e6f3e40102f52f34f42183a0f4ff37efc6fcc42ff07566",
+    "audits/titration-trial-publication-20261009/cli-bindings-review-b9f998e2.json": "79cf368ae16d4edf774f64dfeb468b9d00ec5c4a6989ae9e8b0fd429d098a1c3",
+    ".github/workflows/chemistry-audit.yml": "67630b713efbfc8c3261d80f373d98665aadb6547e8d46b6394264417446ebdc"
+  },
+  "run_metadata_sha256": "891d0fe4f9a06e4be1e46ced138ee04e5567772330f2053181c02bef908cfc6f",
+  "corrected_observations_sha256": "097ca16e8a03aaa285428ac10a6d987b2cd3037e66984ac5a583c8212802a512",
+  "original_collector_observations_sha256": "63499413dbf97a205624fe56b4f73249d084375ead9a7f2babccc16ebf670ea6",
+  "current_observation_reviewer_sha256": "3ad226125c0952774d229315da3c293fd259a2562fd57d81f471d17cb1e2820d",
+  "accepted_evidence_bindings": true,
+  "accepted_repair_proof": false,
+  "observations": {
+    "benign-counterpart": {
+      "classification": "qualifying_inventory_and_warning_observation",
+      "checks": {
+        "process_completed": true,
+        "four_frozen_operators": true,
+        "no_refusal_or_solver_failure": true,
+        "setup_nh3_below_or_at_cutoff": true,
+        "final_nh3_above_cutoff": true,
+        "hypochlorite_witness": true,
+        "one_accepted_full_dose": true,
+        "finite_endpoint": true
+      },
+      "warning_checks": {
+        "no_setup_chloramine_warning": true,
+        "no_final_chloramine_warning": true
+      },
+      "setup_inventory": {
+        "Cl-": 1.9999999999999998e-10,
+        "Na+": 9.999999999999999e-11,
+        "NH4+": 9.943388313494982e-11,
+        "water": 5.534276991396059,
+        "H+": 2.2644674602007195e-12
+      },
+      "final_inventory": {
+        "Cl-": 1.9999999999999998e-10,
+        "Na+": 1.0001e-06,
+        "NH3": 3.574347748147392e-11,
+        "NH4+": 6.36904056534759e-11,
+        "water": 5.589619761348027,
+        "base_equivalents": 9.999619920550583e-07
+      },
+      "setup_backend": {
+        "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+        "dataset_phrase": {
+          "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+          "key": "provenance.dataset.with-gas-uptake-slice",
+          "slots": [
+            [
+              "file",
+              {
+                "phrase": {
+                  "phrase": {
+                    "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                    "key": "provenance.dataset.plus-reference-complexes",
+                    "slots": [
+                      [
+                        "file",
+                        {
+                          "text": {
+                            "text": "wateq4f.dat"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            ]
+          ]
+        },
+        "dataset_sources": [
+          "WATEQ4F, Alpers and others, 1989",
+          "log K from llnl.dat  Aug 23, 2005",
+          "Dzombak and Morel, 1990",
+          "usbm-ic9429-complexes-25c",
+          "sander-2023-hbr-reference"
+        ],
+        "engine": "PHREEQC (IPhreeqc, USGS)",
+        "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+        "model_phrase": {
+          "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+          "key": "provenance.model.wateq-debye-huckel",
+          "slots": [
+            [
+              "name",
+              {
+                "text": {
+                  "text": "WATEQ Debye-H\u00fcckel"
+                }
+              }
+            ],
+            [
+              "ionic_strength",
+              {
+                "number": {
+                  "text": "1"
+                }
+              }
+            ]
+          ]
+        },
+        "routing": "the default inorganic aqueous dataset",
+        "routing_phrase": {
+          "en": "the default inorganic aqueous dataset",
+          "key": "routing.default-inorganic"
+        }
+      },
+      "final_backend": {
+        "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+        "dataset_phrase": {
+          "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+          "key": "provenance.dataset.with-gas-uptake-slice",
+          "slots": [
+            [
+              "file",
+              {
+                "phrase": {
+                  "phrase": {
+                    "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                    "key": "provenance.dataset.plus-reference-complexes",
+                    "slots": [
+                      [
+                        "file",
+                        {
+                          "text": {
+                            "text": "wateq4f.dat"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            ]
+          ]
+        },
+        "dataset_sources": [
+          "WATEQ4F, Alpers and others, 1989",
+          "log K from llnl.dat  Aug 23, 2005",
+          "Dzombak and Morel, 1990",
+          "usbm-ic9429-complexes-25c",
+          "sander-2023-hbr-reference"
+        ],
+        "engine": "PHREEQC (IPhreeqc, USGS)",
+        "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+        "model_phrase": {
+          "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+          "key": "provenance.model.wateq-debye-huckel",
+          "slots": [
+            [
+              "name",
+              {
+                "text": {
+                  "text": "WATEQ Debye-H\u00fcckel"
+                }
+              }
+            ],
+            [
+              "ionic_strength",
+              {
+                "number": {
+                  "text": "1"
+                }
+              }
+            ]
+          ]
+        },
+        "routing": "the default inorganic aqueous dataset",
+        "routing_phrase": {
+          "en": "the default inorganic aqueous dataset",
+          "key": "routing.default-inorganic"
+        }
+      },
+      "stream_sha256": {
+        "json": {
+          "stdout_sha256": "c94fa3e7f5dcb1a949bbbaa71a29834bd926ae19a3a7f9c810d569f735fddb8d",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "text": {
+          "stdout_sha256": "cf0ee6516e32c9ad6ff893cc17423ea246a047dd85193c329874802e3effa43f",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "ordinary_text_full_dose_observed": true,
+      "ordinary_text_chloramine_warning_observed": false
+    },
+    "introduced-chloramine": {
+      "classification": "qualifying_inventory_and_warning_observation",
+      "checks": {
+        "process_completed": true,
+        "four_frozen_operators": true,
+        "no_refusal_or_solver_failure": true,
+        "setup_nh3_below_or_at_cutoff": true,
+        "final_nh3_above_cutoff": true,
+        "hypochlorite_witness": true,
+        "one_accepted_full_dose": true,
+        "finite_endpoint": true
+      },
+      "warning_checks": {
+        "no_setup_chloramine_warning": true,
+        "no_final_chloramine_warning": true
+      },
+      "setup_inventory": {
+        "Cl-": 1e-10,
+        "HClO": 7.874800824027897e-11,
+        "ClO-": 2.125199175972103e-11,
+        "Na+": 9.999999999999999e-11,
+        "NH4+": 9.94330235233218e-11,
+        "water": 5.534276991319579,
+        "base_equivalents": 7.648010233356614e-11
+      },
+      "final_inventory": {
+        "Cl-": 1e-10,
+        "HClO": 3.6237402937710956e-12,
+        "ClO-": 9.637625970622889e-11,
+        "Na+": 1.0001e-06,
+        "NH3": 3.562138256378996e-11,
+        "NH4+": 6.381164095953182e-11,
+        "water": 5.589619761344285,
+        "base_equivalents": 9.999657344518232e-07
+      },
+      "setup_backend": {
+        "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+        "dataset_phrase": {
+          "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+          "key": "provenance.dataset.with-gas-uptake-slice",
+          "slots": [
+            [
+              "file",
+              {
+                "phrase": {
+                  "phrase": {
+                    "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                    "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                    "slots": [
+                      [
+                        "file",
+                        {
+                          "text": {
+                            "text": "minteq.v4.dat"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            ]
+          ]
+        },
+        "dataset_sources": [
+          "usbm-ic9429-complexes-25c",
+          "sander-2023-hbr-reference"
+        ],
+        "engine": "PHREEQC (IPhreeqc, USGS)",
+        "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+        "model_phrase": {
+          "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+          "key": "provenance.model.wateq-debye-huckel",
+          "slots": [
+            [
+              "name",
+              {
+                "text": {
+                  "text": "WATEQ Debye-H\u00fcckel"
+                }
+              }
+            ],
+            [
+              "ionic_strength",
+              {
+                "number": {
+                  "text": "1"
+                }
+              }
+            ]
+          ]
+        },
+        "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+        "routing_phrase": {
+          "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+          "key": "routing.extended-chemistry"
+        }
+      },
+      "final_backend": {
+        "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+        "dataset_phrase": {
+          "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+          "key": "provenance.dataset.with-gas-uptake-slice",
+          "slots": [
+            [
+              "file",
+              {
+                "phrase": {
+                  "phrase": {
+                    "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                    "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                    "slots": [
+                      [
+                        "file",
+                        {
+                          "text": {
+                            "text": "minteq.v4.dat"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            ]
+          ]
+        },
+        "dataset_sources": [
+          "usbm-ic9429-complexes-25c",
+          "sander-2023-hbr-reference"
+        ],
+        "engine": "PHREEQC (IPhreeqc, USGS)",
+        "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+        "model_phrase": {
+          "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+          "key": "provenance.model.wateq-debye-huckel",
+          "slots": [
+            [
+              "name",
+              {
+                "text": {
+                  "text": "WATEQ Debye-H\u00fcckel"
+                }
+              }
+            ],
+            [
+              "ionic_strength",
+              {
+                "number": {
+                  "text": "1"
+                }
+              }
+            ]
+          ]
+        },
+        "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+        "routing_phrase": {
+          "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+          "key": "routing.extended-chemistry"
+        }
+      },
+      "stream_sha256": {
+        "json": {
+          "stdout_sha256": "819349fc2b3784af9b8d93e5ba48821c852faae3d38a13127625f2ab35f41421",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "text": {
+          "stdout_sha256": "b4d2a622370a2f0cf38d0a45be0d923af6fb1b5ba5759bc377c19361d2993e8e",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "ordinary_text_full_dose_observed": true,
+      "ordinary_text_chloramine_warning_observed": false
+    }
+  },
+  "scope": "Bound four-process pre-repair observations, re-evaluated with corrected zero-based CLI indexing. Original collector report is preserved. Positive final exposure is present without warning; negative has no warning. No repaired runtime or empirical chemical accuracy claim. Explicit capability-matrix coverage and intermediate hazardous products remain separate."
+}

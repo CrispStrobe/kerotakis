@@ -16,14 +16,14 @@ def rows(positive=True, repaired=True):
         if positive:
             contents.append({'species': 'ClO-', 'moles': 1e-10, 'phase': 'aqueous'})
         return {'id': 0, 'contents': contents, 'solution': {'provenance': {'engine': 'synthetic'}}}
-    result = [{'step': i + 1, 'operator': {'op': 'add'}, 'events': [],
+    result = [{'step': i, 'operator': {'op': 'add'}, 'events': [],
                'bench': {'vessels': [vessel(1e-13)]}} for i in range(3)]
     events = [{'event': 'titrated', 'vessel': 0, 'titrant': 'NaOH',
                'concentration': 0.001, 'total_volume': 0.001, 'steps': 1, 'final_ph': 9}]
     if positive and repaired:
         events.append({'event': 'hazard_warning', 'severity': 'danger', 'rule': probes.RULE,
                        'hazard': probes.HAZARD, 'real_world': probes.REAL_WORLD})
-    result.append({'step': 4, 'operator': {'op': 'titrate'}, 'events': events,
+    result.append({'step': 3, 'operator': {'op': 'titrate'}, 'events': events,
                    'bench': {'vessels': [vessel(2e-12)]}})
     return result
 
@@ -36,6 +36,13 @@ class ProbeTests(unittest.TestCase):
         for positive, repaired in ((True, True), (True, False), (False, True)):
             self.assertEqual(self.analyse(rows(positive, repaired), positive, repaired)['classification'],
                              'qualifying_inventory_and_warning_observation')
+
+    def test_zero_based_steps_match_cli_contract_and_reject_one_based(self):
+        value = rows()
+        self.assertTrue(self.analyse(value)['checks']['four_frozen_operators'])
+        for row in value:
+            row['step'] += 1
+        self.assertEqual(self.analyse(value)['classification'], 'not_exercising_intended_route')
 
     def test_missing_inventory_witness_is_never_warning_pass(self):
         value = rows()

@@ -1,0 +1,28 @@
+{
+  "harness": "552866f3208201add90d1c2cf0bdc3cabd81a320",
+  "campaign": "production-final-safety-cli-replay-v2",
+  "source": "622d37ec59714ef4a5fed512b174c09e605e1a7e",
+  "source_tree": "5c381c99080200e29411b5a806fc33c709db1ffd",
+  "source_manifest": "audits/production-final-safety-20261009/cli-source-622d37ec.json",
+  "cases": 100,
+  "processes": 164,
+  "separate_frozen_probe_processes": 4,
+  "previous_jobs_structurally_unchanged": true,
+  "dispatched": false,
+  "prerequisite": "Independently accepted source622 native267/workspace gate on at least one platform; both platforms, all five gates and fleet required before merge.",
+  "harness_sha256": {
+    "audits/production-final-safety-20261009/cli-source-622d37ec.json": "3af9360ba5af0d72b38032fe834645cf2b4393b5be963b0448fc35ed472b7446",
+    "audits/main-cli-replay-20261008/forecast.json": "5c9eb5de22c2d4bcf9f11b3f62550083693af90e124779e8f1d000fc397fc2d5",
+    "tools/combined-cli-replay.py": "763cf2abe3f39845e691de18f6f1fab2d3548cb4a39eeb2adc262e6de38fd99f",
+    "tools/fifth-independent-50/run.py": "68938926231c1958ac9a17eca65b2407afd13ee9122f74b4f4921721caf637e8",
+    "tools/fifth-independent-50/review_profile.py": "6db04685d6cd5a723b5d68c7dbe3bfb92832e410b5d985070d0ffb86c8473647",
+    ".github/workflows/chemistry-audit.yml": "4d307f3ae18a990c41586bb607e6a289a8695e571ed2e2ea4b2b99e986ccc112"
+  },
+  "probe_inputs_sha256": {
+    "tools/final-safety-cli-probes-v2.py": "83c8ac5e73e3cd0a3651df4cf50319b51aed1e03a1f5958ede2d51ce950f163e",
+    "audits/production-final-safety-20261009/cli-warning-probes/freeze.json": "ac255eda718efff5b4ecb9720d893a5fdbc69cbb7de979fe6feb8ee49d9e2419",
+    "audits/production-final-safety-20261009/cli-warning-probes/introduced-chloramine.lab": "a111860b9f42b0db9a629652ae9511e44d72f4e60d93e5d2a2a5f7afd5e848bf",
+    "audits/production-final-safety-20261009/cli-warning-probes/benign-counterpart.lab": "ba6f39c42fde4a1d91e6f3e40102f52f34f42183a0f4ff37efc6fcc42ff07566"
+  },
+  "scope": "New undispatched job for corrected fixture-port source622; original source03 jobs/receipts remain unchanged. Uses one hosted source-bound build for unchanged hundred-case replay plus separately frozen JSON/text warning probes. Missing probe witnesses and collector completion never establish repaired safety acceptance. Require executable/workflow/backend/narration bindings and independently reviewed paired baseline/repair."
+}

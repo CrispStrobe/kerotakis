@@ -1,0 +1,24 @@
+{
+  "original_run": 37980304505,
+  "original_harness": "8287c4b0f8329b57489c9d22dcf5bd62cd5998a6",
+  "original_report_sha256": "63499413dbf97a205624fe56b4f73249d084375ead9a7f2babccc16ebf670ea6",
+  "original_collector_sha256": "17aac4793167b8e105497e430da0fb02c5a4bb38802839a3cc4d6dea4d306419",
+  "corrected_reviewer_sha256": "3ad226125c0952774d229315da3c293fd259a2562fd57d81f471d17cb1e2820d",
+  "observed_cli_steps": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "original_reviewer_steps": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "correction": "Use zero-based public CLI step contract; no script, cutoff, dose or warning expectation changed. Original raw outputs and collector classification remain preserved.",
+  "corrected_observations_sha256": "097ca16e8a03aaa285428ac10a6d987b2cd3037e66984ac5a583c8212802a512",
+  "report": "audits/production-final-safety-20261009/cli-warning-probes/baseline-binding-review.json",
+  "synthetic_reviewer_tests": 6,
+  "accepted_repair_proof": false
+}

@@ -1,0 +1,30 @@
+{
+  "pr": 776,
+  "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/776",
+  "head": "622d37ec59714ef4a5fed512b174c09e605e1a7e",
+  "tree": "5c381c99080200e29411b5a806fc33c709db1ffd",
+  "base_main": "7e96f120c271d6130473f4eb298c82963543392e",
+  "parent_candidate": "b9f998e2d3ed0603235645b7ebdf7eb6281f0bf8",
+  "routing_baseline": "audits/production-final-safety-20261009/baseline-review.json",
+  "identity_baseline": "audits/production-safety-identity-20261009/baseline-review.json",
+  "native_plan": "audits/integration-20261008/native-controls/pr776-622d37ec-plan.json",
+  "fixtures_byte_identical": false,
+  "rustfmt_check": "passed",
+  "runtime_acceptance": "pending",
+  "rules": [
+    "water-reactive-slaking",
+    "bleach-ammonia-chloramine",
+    "oxidizer-flammable-liquid"
+  ],
+  "scope": "Followup port correction after preserved Clippy failure before runtime tests. Only redundant explicit dereference removed; original frozen fixture and failing source remain retained. Production comparator, routing fixture, all test names/assertions and forecasts unchanged. New exact-head native267/workspace/gates/fleet/source-bound CLI required.",
+  "fixture_derivation": {
+    "path": "crates/kerotakis-safety/tests/production_safety_identity_contracts.rs",
+    "original_fixture_sha256": "d8ba30701945830bf73f03869167d39c63195cff995f566a997715996d9830dc",
+    "ported_fixture_sha256": "fa9d1490ed07ff06e7cb0f0b9218fbbae40219a5f144e8ec64655f4aa82e0606",
+    "change": "SpeciesId::new(*key) -> SpeciesId::new(key), Rust auto-dereference only",
+    "test_names_and_assertions_unchanged": true,
+    "original_freeze_preserved": true,
+    "first_failure": "audits/production-safety-identity-20261009/pr776-first-clippy-failure.json"
+  },
+  "production_code_identical_to": "03f426c7e96c9b17c0d206975a6b2eb1ffc127ea"
+}

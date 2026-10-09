@@ -55,7 +55,7 @@ def analyse(rows, process, positive, repaired):
     checks['four_frozen_operators'] = (
         len(rows) == 4 and [r.get('operator', {}).get('op') for r in rows] ==
         ['add', 'add', 'add', 'titrate'] and
-        all(r.get('step') == i + 1 for i, r in enumerate(rows)))
+        all(r.get('step') == i for i, r in enumerate(rows)))
     events = [e for row in rows for e in row.get('events', [])]
     checks['no_refusal_or_solver_failure'] = not any(
         e.get('event') in ('solver_failed', 'not_yet_modeled', 'safety_veto') for e in events)
@@ -124,6 +124,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--binary', type=Path)
     parser.add_argument('--build-binding', type=Path, required=True)
+    parser.add_argument('--repair-source-manifest', type=Path)
     parser.add_argument('--out', type=Path, required=True)
     parser.add_argument('--review', action='store_true')
     parser.add_argument('--report', type=Path, required=True)
@@ -131,15 +132,23 @@ def main():
     freeze = json.loads(FREEZE.read_text())
     binding = json.loads(args.build_binding.read_text())
     source = binding['compiled_source']
-    assert source in (freeze['source_observed'], freeze['prerepair_source'])
+    collection_binding = {
+        'build_binding_sha256': digest(args.build_binding),
+        'freeze_sha256': digest(FREEZE), 'scripts': freeze['scripts']}
+    if args.repair_source_manifest:
+        manifest = json.loads(args.repair_source_manifest.read_text())
+        assert source != freeze['prerepair_source']
+        for key in ('compiled_source', 'source_tree', 'source_kind'):
+            assert binding[key] == manifest[key]
+        collection_binding['repair_source_manifest_sha256'] = digest(args.repair_source_manifest)
+    else:
+        assert source in (freeze['source_observed'], freeze['prerepair_source'])
     for name, sha in freeze['scripts'].items():
         assert digest(ROOT / name) == sha
     if not args.review:
         assert args.binary and digest(args.binary) == binding['binary_sha256']
         args.out.mkdir(parents=True, exist_ok=False)
-        save(args.out / 'collection-binding.json', {
-            'build_binding_sha256': digest(args.build_binding),
-            'freeze_sha256': digest(FREEZE), 'scripts': freeze['scripts']})
+        save(args.out / 'collection-binding.json', collection_binding)
         for name in freeze['scripts']:
             script = ROOT / name
             directory = args.out / script.stem
@@ -148,9 +157,7 @@ def main():
             for mode in ('json', 'text'):
                 collect(args.binary.resolve(), directory / 'input.lab', directory / mode, mode == 'json')
     else:
-        assert json.loads((args.out / 'collection-binding.json').read_text()) == {
-            'build_binding_sha256': digest(args.build_binding),
-            'freeze_sha256': digest(FREEZE), 'scripts': freeze['scripts']}
+        assert json.loads((args.out / 'collection-binding.json').read_text()) == collection_binding
     observations = {}
     for name, sha in freeze['scripts'].items():
         directory = args.out / Path(name).stem
@@ -165,7 +172,7 @@ def main():
         try:
             rows = [json.loads(line) for line in (directory / 'json/stdout.txt').read_text().splitlines()]
             result = analyse(rows, processes['json'], 'introduced' in name,
-                             source == freeze['source_observed'])
+                             source != freeze['prerepair_source'])
         except (ValueError, KeyError, TypeError, OverflowError) as error:
             result = {'classification': 'invalid_or_incomplete_cli_evidence', 'error': str(error)}
         result['text_process'] = processes['text']
@@ -175,6 +182,7 @@ def main():
                        'binary_sha256': binding['binary_sha256'],
                        'build_binding_sha256': digest(args.build_binding),
                        'freeze_sha256': digest(FREEZE), 'observations': observations,
+                       'repair_source_manifest_sha256': collection_binding.get('repair_source_manifest_sha256'),
                        'accepted_repair_proof': False,
                        'remaining_acceptance': [
                            'Independent actual-workflow/executable/lock/clean-source/toolchain/gitlink binding review.',

@@ -1,0 +1,20 @@
+{
+  "pr": 776,
+  "head": "03f426c7e96c9b17c0d206975a6b2eb1ffc127ea",
+  "run": 37978010342,
+  "job": 113981083625,
+  "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37978010342/job/113981083625",
+  "classification": "clippy_fixture_lint_before_runtime_tests",
+  "lint": "clippy::explicit_auto_deref",
+  "file": "crates/kerotakis-safety/tests/production_safety_identity_contracts.rs",
+  "line": 10,
+  "observed_expression": "SpeciesId::new(*key)",
+  "suggested_expression": "SpeciesId::new(key)",
+  "workspace_runtime_tests_executed": false,
+  "raw_log_sha256": "5a5f6787bc9794f3c63a2b4cb388d7335e8f7e88144db884daa5a571dfe4a7c7",
+  "scope": "First Mac native job failure preserved before any fix. Format passed; Clippy rejected a redundant fixture dereference; no runtime result or safety behavior inferred.",
+  "actual_checkout": "9d0e9863a6d7a21d1cda01cc0b87733eb61ab8f2",
+  "actual_checkout_tree": "f457b067cc174944b13c7b601b1c2dd346686f5c",
+  "checkout_tree_matches_candidate": true,
+  "checkout_metadata_sha256": "a4e4c100fcc33e09818763c3e341624be3a59109a27a4cac511ce528bedb920e"
+}
