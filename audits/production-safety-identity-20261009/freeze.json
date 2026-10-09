@@ -1,0 +1,75 @@
+{
+  "source_observed": "b9f998e2d3ed0603235645b7ebdf7eb6281f0bf8",
+  "source_tree": "e98f3bd97f11f77f0215b19d4560f47dea91f710",
+  "test_package": "kerotakis-safety",
+  "fixture_path": "audits/production-safety-identity-20261009/production_safety_identity_contracts.rs",
+  "fixture_sha256": "d8ba30701945830bf73f03869167d39c63195cff995f566a997715996d9830dc",
+  "intended_test_target": "crates/kerotakis-safety/tests/production_safety_identity_contracts.rs",
+  "expected_test_functions": 9,
+  "functions": [
+    "hypochlorite_ion_projection_does_not_repeat_existing_chloramine_warning",
+    "hypochlorous_projection_does_not_repeat_existing_chloramine_warning",
+    "permanganate_ion_projection_does_not_repeat_existing_fire_warning",
+    "a_distinct_oxidizer_pair_is_not_hidden_by_an_existing_rule_id",
+    "a_distinct_fuel_pair_is_not_hidden_by_an_existing_rule_id",
+    "reordering_existing_species_does_not_create_a_new_finding",
+    "at_or_below_existing_screen_cutoff_does_not_create_a_final_finding",
+    "above_existing_screen_cutoff_reaches_the_final_warning",
+    "introduced_warning_preserves_the_exact_reviewed_metadata"
+  ],
+  "additional_libraries": [
+    {
+      "package": "kerotakis-safety",
+      "source_path": "crates/kerotakis-safety/src/lib.rs",
+      "source_sha256": "bb2c059ca4986b644bdd2a07707322b2ffa0d9a5d97e8a220c8b6ba27afef579",
+      "expected_test_functions": 28,
+      "functions": [
+        "tests::two_rules_wording_a_hazard_the_same_way_both_survive",
+        "tests::the_same_rule_twice_is_still_one_finding_however_it_is_worded",
+        "tests::every_incompatibility_rule_id_is_unique_so_it_can_be_the_key",
+        "tests::no_two_rules_share_hazard_wording_today",
+        "tests::every_incompatibility_warns_in_german",
+        "tests::every_hazard_sentence_in_this_file_has_german",
+        "tests::bleach_and_ammonia_warns_and_proceeds",
+        "tests::bleach_and_acid_warns",
+        "tests::exposed_material_is_assessed_across_locations_with_precise_sources",
+        "tests::exposure_findings_round_trip_for_save_and_notebook_evidence",
+        "tests::acid_and_base_is_allowed",
+        "tests::benign_mixtures_pass",
+        "tests::permanganate_and_ethanol_warns",
+        "tests::peroxide_and_isopropanol_warns",
+        "tests::peroxide_and_hexane_warns",
+        "tests::chlorine_and_hydrogen_warns",
+        "tests::oxidizer_and_reducing_agent_warns",
+        "tests::acid_and_metal_warns",
+        "tests::acid_and_carbonate_warns",
+        "tests::quicklime_and_water_warns",
+        "tests::all_inert_species_allow",
+        "tests::liquid_nitrogen_has_separate_handling_hazards_and_warns",
+        "tests::liquid_nitrogen_warning_precedes_bench_mutation_events",
+        "tests::soluble_barium_is_labelled_toxic_and_barite_is_not",
+        "tests::barium_hydroxide_is_a_strong_base_as_well",
+        "tests::rule_ids_are_stable_contract_surface",
+        "tests::iron_iii_chloride_is_not_silently_harmless",
+        "tests::totality_of_covered_keys"
+      ],
+      "evidence_prefix": "safety-library"
+    }
+  ],
+  "execution_status": "prepared_only_rustfmt_checked_not_compiled_or_run",
+  "scope": "Source-informed actual-screen identity controls. No chemical transformation, phase-domain, runtime failure count or integration claim. Existing seven-test fixture and forecasts remain unchanged.",
+  "identity_policy": "For these reviewed aliases only, a reporting-key projection of an already present pair is not a new exposure. A different actual oxidizer/fuel pair remains new even when its rule ID matches. No general reactive-group equivalence or unreviewed alias mapping is justified.",
+  "aliases": [
+    [
+      "NaOCl",
+      "ClO-",
+      "HClO"
+    ],
+    [
+      "KMnO4",
+      "MnO4-"
+    ]
+  ],
+  "cutoff": "Existing source threshold 1e-12 mol; these controls preserve it without claiming physical safety at trace amounts.",
+  "parameter_subcases": "The at/below cutoff function declares two subcases; a failure may stop the loop early."
+}

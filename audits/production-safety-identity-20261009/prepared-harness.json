@@ -1,0 +1,14 @@
+{
+  "harness": "21c8455cb7e7a339dfc382823086c5e0ff2417a3",
+  "campaign": "production-safety-identity-baseline",
+  "job_name": "Frozen production safety identity baseline",
+  "source": "b9f998e2d3ed0603235645b7ebdf7eb6281f0bf8",
+  "source_tree": "e98f3bd97f11f77f0215b19d4560f47dea91f710",
+  "freeze": "audits/production-safety-identity-20261009/freeze.json",
+  "controls": 9,
+  "core_library": 604,
+  "safety_library": 28,
+  "prior_jobs_unchanged": true,
+  "dispatched": false,
+  "scope": "Prepared collection only, rustfmt/YAML/embedded-Python parse checks; no compiler/model outcomes. Consume original seven-test baseline first; preserve identity baseline before broad comparator implementation."
+}
