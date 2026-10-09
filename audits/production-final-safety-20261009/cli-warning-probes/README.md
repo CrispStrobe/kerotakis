@@ -37,3 +37,23 @@ python3 tools/final-safety-cli-baseline-review.py --artifact BASELINE_ARTIFACT -
 ```
 
 Next consume source622 native267/workspace acceptance, then dispatch the prepared new replay/probe stage once. Independently review the unchanged100 cases and the four separate probe processes. Pair the new actual-source executable/lock/backend/inventory/narration evidence with this baseline; require exactly one reviewed Danger chloramine warning for the qualifying positive and none for the negative/setup. Preserve any first discrepancy before broader rule or chemistry changes.
+
+## Mac prerequisite accepted; paired replay dispatched
+
+[Mac native267](../../integration-20261008/native-controls/pr776-622d37ec-mac.json) and [unfiltered core604/safety28 library blocks](../../integration-20261008/native-controls/pr776-622d37ec-mac-libraries.json) are independently accepted on source622. The actual tested checkout tree equals the source tree; formatting, Clippy, workspace tests, Codex and route checks all pass. [Replay37989072945](../cli-dispatch-622d37ec.json) is dispatched on exact harness552866f3. The preceding preparation snapshots remain historical; do not dispatch again. Linux, complete CI/gates/fleet and actual CLI outcomes remain pending.
+
+[`tools/final-safety-cli-pair-review.py`](../../../tools/final-safety-cli-pair-review.py) is prepared for the completed artifact. It rechecks the actual baseline archive rather than trusting a supplied acceptance flag, verifies the new executable/build/harness and probe inputs, and independently recomputes the unchanged100-case raw replay outcomes using the Git-bound archived evaluator. It checks parsed reagent/dose/budget inputs, all original inventory witnesses, positive-only exact JSON warning metadata, unchanged setup/final backend routes, and ordinary text warning/dose narration. It creates a separate fresh replay-check receipt beside the requested report; preserve both, including when a later warning check fails.
+
+```sh
+python3 tools/final-safety-cli-pair-review.py \
+  --artifact REPAIRED_ARTIFACT --run-metadata REPAIRED_FINAL_RUN_JSON \
+  --harness 552866f3208201add90d1c2cf0bdc3cabd81a320 \
+  --source-manifest audits/production-final-safety-20261009/cli-source-622d37ec.json \
+  --results-review INDEPENDENT_REPLAY_JSON \
+  --baseline-artifact BASELINE_ARTIFACT --baseline-run-metadata BASELINE_FINAL_RUN_JSON \
+  --baseline-harness 8287c4b0f8329b57489c9d22dcf5bd62cd5998a6 \
+  --baseline-observations CORRECTED_BASELINE_OBSERVATIONS_JSON --report NEW_PAIR_REVIEW_JSON
+python3 -m unittest discover -s tools/tests -p 'test_final_safety_cli*.py'
+```
+
+Fourteen synthetic rejection/classification tests pass, including eight new controls for unrepaired positives, benign warnings, missing route witnesses, changed backend provenance, nonqualifying baselines, missing/duplicated/wrong text warnings and contradictory parsed inputs. These are reviewer tests, not repaired CLI execution. The paired reviewer has not yet consumed a repaired artifact. A future `accepted_paired_cli_warning_slice` is limited to these two virtual protocols and the unchanged disclosed replay; integration gates, broader rule/phase/capability matrices, intermediate products and empirical accuracy remain separate.

@@ -1,0 +1,18 @@
+{
+  "databaseId": 37989072945,
+  "headSha": "552866f3208201add90d1c2cf0bdc3cabd81a320",
+  "event": "workflow_dispatch",
+  "status": "queued",
+  "conclusion": "",
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37989072945",
+  "campaign": "production-final-safety-cli-replay-v2",
+  "source": "622d37ec59714ef4a5fed512b174c09e605e1a7e",
+  "source_tree": "5c381c99080200e29411b5a806fc33c709db1ffd",
+  "native_prerequisite": "audits/integration-20261008/native-controls/pr776-622d37ec-mac.json",
+  "library_review": "audits/integration-20261008/native-controls/pr776-622d37ec-mac-libraries.json",
+  "cases": 100,
+  "processes": 164,
+  "separate_probe_processes": 4,
+  "accepted_paired_cli_warning_slice": false,
+  "scope": "Actual hosted dispatch after independently accepted Macnative267/workspace/core604/safety28 prerequisite. Linux, full CI/gates/fleet and paired CLI outcomes remain pending. All original forecasts and byte-identical probe scripts preserved."
+}
