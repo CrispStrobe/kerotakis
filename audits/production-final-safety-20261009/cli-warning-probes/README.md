@@ -1,0 +1,25 @@
+# Frozen actual-CLI warning route probes
+
+[The two-script freeze](freeze.json) binds a source-informed virtual positive and chloride counterpart before either is parsed or executed. These are targeted engineering probes, separate from the unchanged100-case replay and independent fifty-case forecasts. No chemical accuracy, supported route or runtime agreement is claimed yet.
+
+The hypothesis uses the actual standard stack ordering: curated reactions precede the aqueous tail, which can change the NH4+/NH3 representation before the final screen. Tiny initial reagent quantities aim to keep setup NH3 at/below the existing1e-12mol screen cutoff, then one independently declared1e-6mol base dose aims to introduce a detectable NH3/hypochlorite pair. This is a falsifiable setup assumption, not a prediction of numerical pH or a fit to outputs. The target pH12 is a stopping bound; the step budget is one. The negative replaces hypochlorite with chloride.
+
+First run both scripts on the independently bound pre-repair b9 executable and retain stdout, stderr, exit, actual source/build/lock/runner/backend identity and all JSON steps. Use raw `bench.vessels[].contents` amounts, summed by species over the screened contents, rather than a rounded scene or narration. Record state after the third setup operator and after titration. Require every frozen setup/final witness, one accepted full dose and no parser/numeric/solver refusal or silent backend fallback. The positive must lack the final warning on pre-repair source when those witnesses hold. Do not classify a missing witness as successful repair proof or tune the cutoff to output.
+
+Then repeat byte-identical scripts on the newly bound03 repaired executable after native acceptance. Require exactly one Danger bleach-ammonia-chloramine HazardWarning in the positive titration JSON step with existing reviewed hazard/real_world metadata; require none in setup or the negative titration. Record the same accepted-dose and actual inventory witnesses. Capture a separate ordinary text replay to verify warning narration. No source-specific executable or lock receipt may be borrowed from another source.
+
+The current100-case replay job does not yet execute these probes. Prepare a separately bound runner/reviewer or add a separately named probe stage without modifying the original forecasts or earlier jobs. Preserve actual first outcomes. If the intended route is not exercised, distinguish author assumptions, backend coverage, trace reconstruction, conservation/numeric refusal and transient reactant consumption. A final-inventory callback does not prove detection of every intermediate reaction or hazardous product. Record the gap and define new independent controls before extending the rule slice.
+
+## Prepared collector and offline reviewer
+
+[`tools/final-safety-cli-probes.py`](../../../tools/final-safety-cli-probes.py) now collects separate JSON and ordinary text processes for both byte-identical frozen scripts. It creates new output paths, records process exits/timeouts and raw stream hashes, binds the script/freeze/build-receipt hashes, and checks the actual binary hash before execution. Use an independently reviewed source-specific `binding.json` from the CLI build artifact; a caller-supplied binding alone does not establish provenance.
+
+```sh
+python3 tools/final-safety-cli-probes.py --binary build/kero --build-binding build/binding.json --out probe-results --report probe-observations.json
+python3 tools/final-safety-cli-probes.py --review --build-binding build/binding.json --out probe-results --report probe-independent-review.json
+python3 -m unittest discover -s tools/tests -p test_final_safety_cli_probes.py
+```
+
+Collection performs four CLI processes on an authorized hosted runner. Offline review runs no executable. Archive the collector, original freeze and scripts with each collection, and independently bind their Git versions to the actual workflow dispatch. The collector records full raw `solution` provenance for setup/final state, raw inventories and titration events. It rechecks four ordered operators, exits, refusal events, initial/final cutoff witnesses, accepted full dose and exact reviewed warning metadata. Missing witnesses produce `not_exercising_intended_route`; malformed output produces `invalid_or_incomplete_cli_evidence`. An exit of zero means evidence collection/review finished; it does not mean the warning contract passed.
+
+The tool deliberately leaves `accepted_repair_proof` false: independently verify actual workflow/build provenance, solver identity/capability and no silent fallback, ordinary text narration, and the paired qualifying pre-repair/repaired observations. These requirements are not established by stream hashes or synthetic reviewer tests. The five reviewer tests check classification errors, missing/duplicate/wrong warnings, partial doses, refusal and invalid inventories; no actual CLI execution has occurred yet. Do not dispatch these probes locally while the resource gate is closed.

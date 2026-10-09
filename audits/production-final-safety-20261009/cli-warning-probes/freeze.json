@@ -1,0 +1,32 @@
+{
+  "source_observed": "03f426c7e96c9b17c0d206975a6b2eb1ffc127ea",
+  "prerepair_source": "b9f998e2d3ed0603235645b7ebdf7eb6281f0bf8",
+  "execution_status": "frozen_not_parsed_by_cli_or_run",
+  "scripts": {
+    "audits/production-final-safety-20261009/cli-warning-probes/benign-counterpart.lab": "ba6f39c42fde4a1d91e6f3e40102f52f34f42183a0f4ff37efc6fcc42ff07566",
+    "audits/production-final-safety-20261009/cli-warning-probes/introduced-chloramine.lab": "a111860b9f42b0db9a629652ae9511e44d72f4e60d93e5d2a2a5f7afd5e848bf"
+  },
+  "classification": "Source-informed virtual engineering probes; not independent fifty-case forecasts or empirical chemical accuracy.",
+  "independently_declared_screen_cutoff_mol": 1e-12,
+  "primary_rule": "bleach-ammonia-chloramine",
+  "severity": "Danger",
+  "setup_witnesses": [
+    "Setup and one-dose titration complete without parser/numeric/solver refusal or silent fallback; archive actual capabilities and solver identity.",
+    "At end of setup, total NH3 across the screened vessel contents is at or below 1e-12 mol.",
+    "For the positive probe, a reviewed hypochlorite key NaOCl/ClO-/HClO remains above 1e-12 mol before and after the accepted dose."
+  ],
+  "final_witnesses": [
+    "After the accepted dose, NH3 in the screened vessel exceeds 1e-12 mol.",
+    "Exactly one Titrated event records one accepted full dose: 0.000001 mol NaOH for 0.001 L at 0.001 mol/L; target pH12 is a stopping bound, not an expected chemistry value."
+  ],
+  "positive_expected": [
+    "On pre-repair source, qualifying newly introduced exposure lacks the final chloramine warning. Preserve that baseline before judging the repair.",
+    "On repaired source, exactly one Danger bleach-ammonia-chloramine HazardWarning appears in the titration step with existing reviewed hazard/real_world metadata.",
+    "No chloramine warning is attributed to setup when the independently declared setup witnesses hold."
+  ],
+  "negative_expected": [
+    "Benign counterpart has no hypochlorite key and no chloramine HazardWarning in the titration step; still record the accepted dose and actual final NH3 witness."
+  ],
+  "non_exercising_disposition": "If any declared setup/final witness is absent, classify this protocol as not exercising the intended final-novelty route. Preserve raw outputs; do not count it as repair proof, adjust thresholds to outputs, or replace expectations silently. Diagnose author assumptions, backend coverage, trace reconstruction or solver failure separately.",
+  "scope": "Two unrun targeted CLI probes, separate from unchanged100-case replay. Synthetic native16-function controls establish routing only; these probes seek an actual standard-stack exposure. No supported-real-chemistry/phase/concentration coverage claim yet."
+}
