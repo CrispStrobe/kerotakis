@@ -1,0 +1,14 @@
+{
+  "run": 37900400346,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37900400346",
+  "harness": "2e3ab99a407c6401ea9ba64fd1899b5d01352051",
+  "event": "workflow_dispatch",
+  "compiled_source": "b83be1e96e430232e76a85eb0e5eb28293c30903",
+  "manifest_path": "audits/historical-transaction-amount-controls-20261008/cli-source-b83be1e9.json",
+  "manifest_sha256": "3d47e24bb6f454098b9d5fcbdd8accd85051320ed1ae1e73eae0b7eb2ba43cb9",
+  "dispatch_prerequisites": {
+    "native234_review": "audits/integration-20261008/native-controls/pr773-b83-mac.json",
+    "paired_review": "audits/historical-transaction-amount-controls-20261008/paired-review-b83be1e9.json"
+  },
+  "scope": "Verified current-source CLI dispatch after native/paired acceptance. Executable build and164-process replay outcomes remain pending."
+}

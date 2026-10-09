@@ -1,0 +1,31 @@
+{
+  "run": 37897838141,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37897838141",
+  "job": 113713183414,
+  "harness": "2e3ab99a407c6401ea9ba64fd1899b5d01352051",
+  "run_conclusion": "success",
+  "review_sha256": "702d03c94177c85e6a5f32d9237a69fc33b90f6cd62a0a0ddf579c75f22a3b1d",
+  "run_metadata_sha256": "669373d87bf8d33727978d683e9586ae179a50c8af8ae1bb040948576106f420",
+  "submodules": {
+    "baseline": {
+      "sundials-kinetics-rs": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+      "vendor/iphreeqc": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+    },
+    "repair": {
+      "sundials-kinetics-rs": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+      "vendor/iphreeqc": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+    }
+  },
+  "baseline_matches_preserved_seven_failures": true,
+  "baseline": {
+    "passed": 31,
+    "failed": 7,
+    "inherited_passed": 604
+  },
+  "repair": {
+    "passed": 38,
+    "failed": 0,
+    "inherited_passed": 604
+  },
+  "scope": "Accepted bounded transaction diagnostic on exactly pinned source heads under one generated lock. Not full workspace/five-gate/CLI or historical full-audit acceptance."
+}

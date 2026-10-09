@@ -1,0 +1,10 @@
+{
+  "positive": "Accepted prior164-process source26 replay bindings reproduced without application execution.",
+  "negative_controls": {
+    "dirty_checkout": "rejected",
+    "altered_binary": "rejected",
+    "uninitialized_submodule": "rejected",
+    "missing_harness_input": "rejected"
+  },
+  "scope": "Offline binding reviewer verification only; no new scientific or performance evidence."
+}
