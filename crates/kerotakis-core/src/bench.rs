@@ -71,6 +71,7 @@ pub enum BenchError {
     UnknownMaterial(String),
     MaterialRecipeMismatch,
     NonPositiveAmount,
+    InvalidState(String),
     UnstockableKey(String),
     StockExhausted {
         key: String,
@@ -134,6 +135,11 @@ impl Refuses for BenchError {
                 "error.material-recipe-mismatch",
                 "material recipe identity does not match the pinned operator",
             ),
+            BenchError::InvalidState(detail) => Refusal::new(
+                "error.invalid-state",
+                "operation exceeds the model's numeric domain: {detail}",
+            )
+            .with("detail", detail),
             BenchError::NonPositiveAmount => {
                 Refusal::new("error.non-positive-amount", "amount must be positive")
             }
@@ -652,6 +658,79 @@ impl Bench {
         solver: &mut dyn Equilibrator,
         screen: &dyn SafetyScreen,
     ) -> Result<Vec<Event>, BenchError> {
+        // Protect physical state and stock while keeping the append-only
+        // journal cheap to restore. Solver-private state is outside this scope.
+        let checkpoint = (
+            self.vessels.clone(),
+            self.spills.clone(),
+            self.broken_vessels.clone(),
+            self.stock.clone(),
+            self.log.len(),
+        );
+        let result = self
+            .step_with_inner(op.clone(), solver, screen)
+            .and_then(|events| {
+                if events
+                    .iter()
+                    .any(|event| matches!(event, Event::SafetyVeto { .. }))
+                {
+                    self.vessels = checkpoint.0.clone();
+                    self.spills = checkpoint.1.clone();
+                    self.broken_vessels = checkpoint.2.clone();
+                    self.stock = checkpoint.3.clone();
+                    self.log.truncate(checkpoint.4);
+                    let events: Vec<_> = events
+                        .into_iter()
+                        .filter(|event| matches!(event, Event::SafetyVeto { .. }))
+                        .collect();
+                    self.log.push(LogEntry {
+                        step: self.log.len(),
+                        operator: op,
+                        events: events.clone(),
+                    });
+                    return Ok(events);
+                }
+                self.validate_numeric_state()?;
+                Ok(events)
+            });
+        if result.is_err() {
+            self.vessels = checkpoint.0;
+            self.spills = checkpoint.1;
+            self.broken_vessels = checkpoint.2;
+            self.stock = checkpoint.3;
+            self.log.truncate(checkpoint.4);
+        }
+        result
+    }
+
+    fn validate_numeric_state(&self) -> Result<(), BenchError> {
+        let errors: Vec<_> = self
+            .vessels
+            .iter()
+            .flat_map(crate::delta::StateDelta::validate_state)
+            .chain(self.spills.iter().flat_map(|spill| {
+                crate::delta::StateDelta::validate_state(&spill.as_vessel_probe())
+            }))
+            .collect();
+        if errors.is_empty() {
+            Ok(())
+        } else {
+            Err(BenchError::InvalidState(
+                errors
+                    .iter()
+                    .map(ToString::to_string)
+                    .collect::<Vec<_>>()
+                    .join("; "),
+            ))
+        }
+    }
+
+    fn step_with_inner(
+        &mut self,
+        op: Operator,
+        solver: &mut dyn Equilibrator,
+        screen: &dyn SafetyScreen,
+    ) -> Result<Vec<Event>, BenchError> {
         if let Operator::Titrate { .. } = &op {
             return self.titrate_loop(op, solver, screen);
         }
@@ -777,6 +856,12 @@ impl Bench {
         };
         let mut disposition = ApplyDisposition::Reequilibrate;
         let mut events = self.apply(&op, screen, &mut disposition)?;
+        if !events
+            .iter()
+            .any(|event| matches!(event, Event::SafetyVeto { .. }))
+        {
+            self.validate_numeric_state()?;
+        }
         if disposition == ApplyDisposition::Unchanged {
             self.log.push(LogEntry {
                 step: self.log.len(),
@@ -1634,7 +1719,7 @@ impl Bench {
                 moles,
                 at,
             } => {
-                if moles.0 <= 0.0 {
+                if !moles.0.is_finite() || moles.0 <= 0.0 {
                     return Err(BenchError::NonPositiveAmount);
                 }
                 let data =
@@ -1918,7 +2003,7 @@ impl Bench {
                 energy,
                 source,
             } => {
-                if energy.0 < 0.0 {
+                if !energy.0.is_finite() || energy.0 < 0.0 {
                     return Err(BenchError::NonPositiveAmount);
                 }
                 // A script that names no apparatus is standing at a school
@@ -1979,7 +2064,7 @@ impl Bench {
                 }
             }
             Operator::Cool { vessel, energy } => {
-                if energy.0 < 0.0 {
+                if !energy.0.is_finite() || energy.0 < 0.0 {
                     return Err(BenchError::NonPositiveAmount);
                 }
                 let signed = -energy.0;
