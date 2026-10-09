@@ -1,0 +1,11 @@
+{
+  "databaseId": 37953313299,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37953313299",
+  "headSha": "7d46c2fd2649118db70f6357e566ac44e9ff7fd8",
+  "event": "workflow_dispatch",
+  "status": "queued",
+  "conclusion": "",
+  "campaign": "titration-publication-cli-replay",
+  "source": "b9f998e2d3ed0603235645b7ebdf7eb6281f0bf8",
+  "scope": "Actual dispatch after reviewed Macnative251/workspace acceptance; no process result or merge claim yet."
+}

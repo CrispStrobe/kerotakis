@@ -1,0 +1,36 @@
+{
+  "source_observed": "b9f998e2d3ed0603235645b7ebdf7eb6281f0bf8",
+  "source_tree": "e98f3bd97f11f77f0215b19d4560f47dea91f710",
+  "fixture_path": "audits/production-final-safety-20261009/production_final_safety_contracts.rs",
+  "fixture_sha256": "72ac49148d966ba4b5a437aa0ded1f979db57d1e1093d402e40d071578d78165",
+  "test_package": "kerotakis-safety",
+  "intended_test_target": "crates/kerotakis-safety/tests/production_final_safety_contracts.rs",
+  "expected_test_functions": 7,
+  "functions": [
+    "newly_introduced_supported_water_reactivity_reaches_final_safety",
+    "unchanged_preexisting_water_reactivity_is_not_announced_as_new",
+    "benign_supported_inventory_change_does_not_invent_a_final_rule",
+    "a_new_reviewed_finding_is_not_hidden_by_an_older_priority_finding",
+    "actual_production_final_warning_is_returned_and_journaled_once",
+    "discarded_full_dose_production_warning_does_not_leak_into_refinement",
+    "preexisting_production_exposure_keeps_only_its_prospective_warning"
+  ],
+  "execution_status": "prepared_only_not_compiled_or_run",
+  "reviewed_rule_slice": {
+    "primary_rule": "water-reactive-slaking",
+    "primary_species": [
+      "CaO",
+      "water"
+    ],
+    "severity": "Caution",
+    "priority_contrast_rule": "bleach-ammonia-chloramine",
+    "contrast_species": [
+      "NaOCl",
+      "NH3"
+    ],
+    "contrast_severity": "Danger"
+  },
+  "classification": "source-informed production-screen routing controls; synthetic solver injection is not a chemical prediction",
+  "finding_identity_policy": "Reviewed rule plus unordered relevant species at the same virtual vessel; do not reannounce a preexisting finding or hide a different introduced finding behind it. No broader phase/domain coverage claim.",
+  "scope": "Four direct actual-screen before/after controls plus three Bench+actual-screen warning/journal/refinement controls. Original corpora/forecasts unchanged; no runtime failure count yet."
+}
