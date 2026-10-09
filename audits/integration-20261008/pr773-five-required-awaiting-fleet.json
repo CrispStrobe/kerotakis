@@ -1,0 +1,46 @@
+{
+  "pr": 773,
+  "head": "b83be1e96e430232e76a85eb0e5eb28293c30903",
+  "required_checks": [
+    {
+      "name": "Full preflight gate",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37897703863/job/113712749991",
+      "started_at": "2026-10-09T07:21:34Z",
+      "completed_at": "2026-10-09T07:44:16Z"
+    },
+    {
+      "name": "Test (native) (ubuntu-latest)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37897703863/job/113712750132",
+      "started_at": "2026-10-09T07:49:09Z",
+      "completed_at": "2026-10-09T08:01:07Z"
+    },
+    {
+      "name": "Test (native) (macos-latest)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37897703863/job/113712750265",
+      "started_at": "2026-10-09T07:16:13Z",
+      "completed_at": "2026-10-09T07:39:53Z"
+    },
+    {
+      "name": "The bench in WebAssembly",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37897703863/job/113712750423",
+      "started_at": "2026-10-09T07:44:18Z",
+      "completed_at": "2026-10-09T07:49:56Z"
+    },
+    {
+      "name": "The demo page, in a real browser",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37897703863/job/113712750084",
+      "started_at": "2026-10-09T07:19:44Z",
+      "completed_at": "2026-10-09T07:30:48Z"
+    }
+  ],
+  "required_five_pass": true,
+  "merged": false,
+  "fleet_run": 37897703884,
+  "fleet_acceptance_pending": true,
+  "scope": "All five exact-head required gates pass. CI source identity/native234/paired/CLI accepted separately; remaining fleet completion still required before merge."
+}
