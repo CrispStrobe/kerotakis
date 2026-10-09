@@ -1,0 +1,24 @@
+{
+  "source_observed": "e626961ddcbf2516b36150abb5873c06d1a6784f",
+  "source_tree": "0424b956a95f05f0df56591a19d1de2b542b4bee",
+  "fixture_path": "audits/titration-trial-publication-20261009/titration_trial_publication_contracts.rs",
+  "fixture_sha256": "6ed72521affae763d52ea5581453cc875e13ef338c69d95d14f64546422a3030",
+  "intended_test_target": "crates/kerotakis-core/tests/titration_trial_publication_contracts.rs",
+  "expected_test_functions": 7,
+  "functions": [
+    "settled_first_trial_veto_rolls_back_the_whole_operation",
+    "invalid_second_solve_discards_prior_increment_and_journal",
+    "later_prospective_veto_discards_prior_increment_with_only_veto_journal",
+    "failed_second_solve_keeps_only_the_prior_supported_increment",
+    "discarded_full_trial_final_warning_does_not_leak_into_refined_commit",
+    "settled_refinement_veto_discards_both_full_and_fractional_trials",
+    "allowed_refinement_commits_only_the_independently_declared_half_dose"
+  ],
+  "execution_status": "prepared_only_not_compiled_or_run",
+  "classification": "source-informed synthetic orchestration/failure-injection contracts, not independent chemistry forecasts",
+  "rollback_policy": "Invalid state and any safety veto roll back the whole operation and its physical/stock state, retaining only a veto attempt journal where applicable. A returned solver failure is a narrated partial outcome retaining earlier accepted increments and excluding the failed private trial. Solver-private state is outside rollback.",
+  "scope": "Final-safety callbacks, late failure, refinement and accepted journal. No titrant stock-debit coverage, quantitative pH chemistry or independent forecast claim.",
+  "frozen_manifest_path": "audits/titration-trial-publication-20261009/freeze.json",
+  "frozen_manifest_sha256": "31439672b82daee9022fa340978ebd24eb26dd501fff9f652b4c0c6d340e5a8b",
+  "source_kind": "API prerequisite: six-line default Allow callback restoration only, with no new call site. Original observed source and frozen expectations remain in freeze.json."
+}
