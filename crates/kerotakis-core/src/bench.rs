@@ -5442,7 +5442,7 @@ impl Bench {
         &mut self,
         op: Operator,
         solver: &mut dyn Equilibrator,
-        _screen: &dyn SafetyScreen,
+        screen: &dyn SafetyScreen,
     ) -> Result<Vec<Event>, BenchError> {
         let (vessel, titrant, concentration, step, target_ph, max_steps, endpoint) = match &op {
             Operator::Titrate {
@@ -5465,6 +5465,19 @@ impl Bench {
             _ => unreachable!(),
         };
 
+        // Validate the individual inputs before multiplication: two negative
+        // factors must not manufacture a positive dose, and NaN must not pass
+        // through an ordered comparison. No endpoint range is invented here.
+        if !concentration.is_finite() || !step.0.is_finite() || !target_ph.is_finite() {
+            return Err(BenchError::InvalidState(
+                "titration concentration, volume and pH target must be finite".into(),
+            ));
+        }
+        if concentration <= 0.0 || step.0 <= 0.0 {
+            return Err(BenchError::NonPositiveAmount);
+        }
+        self.validate_numeric_state()?;
+
         let data =
             species::lookup(&titrant).ok_or_else(|| BenchError::UnknownSpecies(titrant.clone()))?;
         // The burette holds a standard solution: each step delivers
@@ -5477,7 +5490,12 @@ impl Bench {
         let water_data =
             species::lookup(&water).ok_or_else(|| BenchError::UnknownSpecies(water.clone()))?;
         let water_per_step = water_data.moles_from_liters(step);
-        if moles_per_step.0 <= 0.0 {
+        if !moles_per_step.0.is_finite() || !water_per_step.0.is_finite() {
+            return Err(BenchError::InvalidState(
+                "titration dose and carrier amount must be finite".into(),
+            ));
+        }
+        if moles_per_step.0 <= 0.0 || water_per_step.0 <= 0.0 {
             return Err(BenchError::NonPositiveAmount);
         }
 
@@ -5512,6 +5530,25 @@ impl Bench {
 
         // Every trial starts from the SAME pre-increment inventory. This avoids
         // accumulating matter, heat or gas-exchange events during root finding.
+        enum TrialFailure {
+            Invalid(BenchError),
+            Veto(String),
+            Solver(crate::solve::SolveError),
+        }
+        let validate_trial = |v: &Vessel| {
+            let errors = crate::delta::StateDelta::validate_state(v);
+            if errors.is_empty() {
+                Ok(())
+            } else {
+                Err(TrialFailure::Invalid(BenchError::InvalidState(
+                    errors
+                        .iter()
+                        .map(ToString::to_string)
+                        .collect::<Vec<_>>()
+                        .join("; "),
+                )))
+            }
+        };
         let dose = |start: &Vessel, fraction: f64, solver: &mut dyn Equilibrator| {
             let mut v = start.clone();
             if matches!(v.thermal_mode, ThermalMode::Adiabatic) {
@@ -5545,6 +5582,27 @@ impl Bench {
             );
             v.solution = None;
             v.step_start = Some(crate::vessel::StepStart::capture(&v));
+            // Both the full dose and every refinement candidate are checked
+            // before safety, applicability or equilibrium hooks see them.
+            validate_trial(&v)?;
+            let mut trial_events = Vec::new();
+            match screen.assess(&v) {
+                SafetyVerdict::Allow => {}
+                SafetyVerdict::Warn {
+                    severity,
+                    rule,
+                    hazard,
+                    real_world,
+                } => {
+                    trial_events.push(Event::HazardWarning {
+                        severity,
+                        rule,
+                        hazard,
+                        real_world,
+                    });
+                }
+                SafetyVerdict::Veto { reason } => return Err(TrialFailure::Veto(reason)),
+            }
             let result = if solver.applies(&v) {
                 solver.equilibrate(&mut v)
             } else {
@@ -5553,7 +5611,10 @@ impl Bench {
             v.step_start = None;
             v.heat_input = None;
             v.refresh_pressure();
-            result.map(|events| (v, events))
+            let mut solved_events = result.map_err(TrialFailure::Solver)?;
+            validate_trial(&v)?;
+            trial_events.append(&mut solved_events);
+            Ok((v, trial_events))
         };
 
         for _ in 0..max_steps {
@@ -5569,7 +5630,9 @@ impl Bench {
             }
             let (mut accepted, mut accepted_events) = match dose(&start, 1.0, solver) {
                 Ok(result) => result,
-                Err(e) => {
+                Err(TrialFailure::Invalid(error)) => return Err(error),
+                Err(TrialFailure::Veto(reason)) => return Ok(vec![Event::SafetyVeto { reason }]),
+                Err(TrialFailure::Solver(e)) => {
                     events.push(Event::SolverFailed {
                         vessel,
                         solver: solver.name().to_string(),
@@ -5592,8 +5655,13 @@ impl Bench {
                             break;
                         }
                         let mid = 0.5 * (lo + hi);
-                        let Ok((trial, trial_events)) = dose(&start, mid, solver) else {
-                            break;
+                        let (trial, trial_events) = match dose(&start, mid, solver) {
+                            Ok(result) => result,
+                            Err(TrialFailure::Invalid(error)) => return Err(error),
+                            Err(TrialFailure::Veto(reason)) => {
+                                return Ok(vec![Event::SafetyVeto { reason }]);
+                            }
+                            Err(TrialFailure::Solver(_)) => break,
                         };
                         let Some(info) = &trial.solution else {
                             break;
