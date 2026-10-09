@@ -1,0 +1,11 @@
+{
+  "databaseId": 37938775232,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37938775232",
+  "headSha": "88dfa166f405908edeaac9e381e66da81648238d",
+  "event": "workflow_dispatch",
+  "status": "queued",
+  "conclusion": "",
+  "campaign": "titration-admission-cli-replay",
+  "compiled_source": "0346701f4c47a4d2eb607c6e998de3f0d5631067",
+  "scope": "Actual dispatch after native244/workspace acceptance; no CLI outcome claim yet."
+}

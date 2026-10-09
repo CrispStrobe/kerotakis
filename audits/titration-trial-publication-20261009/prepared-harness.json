@@ -1,0 +1,15 @@
+{
+  "harness": "7ee350027e89843f42aa799ddeddf2e5b0f087f7",
+  "campaign": "titration-publication-baseline",
+  "source": "0346701f4c47a4d2eb607c6e998de3f0d5631067",
+  "source_tree": "127d0fabd3e31c1d289a7721a4aa9c274e8489b2",
+  "freeze_path": "audits/titration-trial-publication-20261009/freeze.json",
+  "freeze_sha256": "31439672b82daee9022fa340978ebd24eb26dd501fff9f652b4c0c6d340e5a8b",
+  "fixture_sha256": "6ed72521affae763d52ea5581453cc875e13ef338c69d95d14f64546422a3030",
+  "expected_test_functions": 7,
+  "expected_inherited_core_functions": 604,
+  "job_name": "Frozen titration publication baseline without production edits",
+  "dispatched": false,
+  "fixture_injection": "Separately bound untracked frozen test; clean tracked model before injection and unchanged tracked source afterward.",
+  "scope": "Prepared only; dispatch after PR774 complete acceptance/integration and actual main-tree equality. No new model results."
+}

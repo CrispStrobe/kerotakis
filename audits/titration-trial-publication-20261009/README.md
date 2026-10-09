@@ -10,4 +10,19 @@ After #774 acceptance/integration, collect a hosted baseline on its exact integr
 
 Repair demonstrated causes without changing frozen bytes. Assess valid solver output through the existing final-safety callback before accepting full or fractional candidates, pass its exact unsolved/solved states, and retain only warnings belonging to the accepted trial. Keep admission validation before hooks and reject invalid solved state before final safety. Preserve the deliberately distinct solver-error and veto/numeric-error dispositions. Require seven controls, prior244 functions/workspace, exact-head gates/fleet and a source-bound CLI replay before merge; source changes require new plans/manifests and receipts. Further stock/accounting, raw pressure/cache and route matrices remain separate lanes.
 
-[The offline reviewer](../../tools/titration-baseline-review.py) now accepts a repository-relative `--freeze` and exact `--job-name`, deriving the required function count from that Git-bound freeze. For this tranche select `audits/titration-trial-publication-20261009/freeze.json` and the exact name of the future collection job. A hosted publication baseline is not yet prepared or dispatched. [Ten reviewer controls](reviewer-controls.json) verify a synthetic seven-function archive and reject evidence tampering and unsafe manifest paths. The real admission archive is also rechecked successfully without running the model. Earlier reviewer-control hashes and baseline receipts remain immutable historical evidence.
+[The offline reviewer](../../tools/titration-baseline-review.py) now accepts a repository-relative `--freeze` and exact `--job-name`, deriving the required function count from that Git-bound freeze. For this tranche select `audits/titration-trial-publication-20261009/freeze.json` and the exact name of the future collection job. [The publication baseline harness](prepared-harness.json) is prepared at `7ee35002`, with every earlier job unchanged; it remains undispatched. [Ten reviewer controls](reviewer-controls.json) verify a synthetic seven-function archive and reject evidence tampering and unsafe manifest paths. The real admission archive is also rechecked successfully without running the model. Earlier reviewer-control hashes and baseline receipts remain immutable historical evidence.
+
+After #774 complete acceptance/integration and actual main-tree equality, verify the selected audit harness ref against `7ee350027e89843f42aa799ddeddf2e5b0f087f7`. Dispatch mode `titration-publication-baseline` from `audit/fifth-independent-50-20261008`. The job injects the unchanged frozen fixture into an absent untracked target on exact source034, records its clean tracked source and separately bound test, and collects seven named outcomes plus604 inherited library functions under one generated lock. Job success permits failed baseline model functions; compilation or missing outcomes cannot establish behavioral counts.
+
+Download `titration-publication-baseline-RUN_ID` and fresh actual run metadata, then review:
+
+```sh
+python3 tools/titration-baseline-review.py \
+  --artifact ARTIFACT_DIRECTORY --run-metadata RUN_METADATA_JSON \
+  --harness 7ee350027e89843f42aa799ddeddf2e5b0f087f7 \
+  --freeze audits/titration-trial-publication-20261009/freeze.json \
+  --job-name 'Frozen titration publication baseline without production edits' \
+  --report NEW_REPORT_JSON
+```
+
+Preserve first baseline failures before any production edits. Any changed repair head needs newly bound source/run/plan manifests. Never overwrite the production fleet workflow with this branch-only harness.
