@@ -1,0 +1,20 @@
+{
+  "pr": 776,
+  "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/776",
+  "head": "03f426c7e96c9b17c0d206975a6b2eb1ffc127ea",
+  "tree": "f457b067cc174944b13c7b601b1c2dd346686f5c",
+  "base_main": "7e96f120c271d6130473f4eb298c82963543392e",
+  "parent_candidate": "b9f998e2d3ed0603235645b7ebdf7eb6281f0bf8",
+  "routing_baseline": "audits/production-final-safety-20261009/baseline-review.json",
+  "identity_baseline": "audits/production-safety-identity-20261009/baseline-review.json",
+  "native_plan": "audits/integration-20261008/native-controls/pr776-03f426c7-plan.json",
+  "fixtures_byte_identical": true,
+  "rustfmt_check": "passed",
+  "runtime_acceptance": "pending",
+  "rules": [
+    "water-reactive-slaking",
+    "bleach-ammonia-chloramine",
+    "oxidizer-flammable-liquid"
+  ],
+  "scope": "Committed production candidate plus preserved fixtures after both independently accepted baselines. Prepared on validated parent before its final merge; integration PR opened after PR775 merged-tree equality. Native267/workspace/gates/fleet/source-bound CLI required; no repaired runtime or performance claim yet."
+}

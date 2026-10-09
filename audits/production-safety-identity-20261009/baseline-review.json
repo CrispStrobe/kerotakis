@@ -1,0 +1,101 @@
+{
+  "run": 37968657948,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37968657948",
+  "harness": "05b84bf2761a10712f2e8c13d35481722a47d7fe",
+  "source": "b9f998e2d3ed0603235645b7ebdf7eb6281f0bf8",
+  "source_tree": "e98f3bd97f11f77f0215b19d4560f47dea91f710",
+  "fixture_sha256": "d8ba30701945830bf73f03869167d39c63195cff995f566a997715996d9830dc",
+  "test_package": "kerotakis-safety",
+  "additional_libraries": [
+    {
+      "package": "kerotakis-safety",
+      "source_path": "crates/kerotakis-safety/src/lib.rs",
+      "source_sha256": "bb2c059ca4986b644bdd2a07707322b2ffa0d9a5d97e8a220c8b6ba27afef579",
+      "passed": [
+        "tests::acid_and_metal_warns",
+        "tests::acid_and_carbonate_warns",
+        "tests::acid_and_base_is_allowed",
+        "tests::all_inert_species_allow",
+        "tests::bleach_and_acid_warns",
+        "tests::barium_hydroxide_is_a_strong_base_as_well",
+        "tests::benign_mixtures_pass",
+        "tests::bleach_and_ammonia_warns_and_proceeds",
+        "tests::chlorine_and_hydrogen_warns",
+        "tests::every_incompatibility_rule_id_is_unique_so_it_can_be_the_key",
+        "tests::exposed_material_is_assessed_across_locations_with_precise_sources",
+        "tests::iron_iii_chloride_is_not_silently_harmless",
+        "tests::exposure_findings_round_trip_for_save_and_notebook_evidence",
+        "tests::liquid_nitrogen_has_separate_handling_hazards_and_warns",
+        "tests::no_two_rules_share_hazard_wording_today",
+        "tests::oxidizer_and_reducing_agent_warns",
+        "tests::permanganate_and_ethanol_warns",
+        "tests::peroxide_and_hexane_warns",
+        "tests::peroxide_and_isopropanol_warns",
+        "tests::quicklime_and_water_warns",
+        "tests::rule_ids_are_stable_contract_surface",
+        "tests::liquid_nitrogen_warning_precedes_bench_mutation_events",
+        "tests::soluble_barium_is_labelled_toxic_and_barite_is_not",
+        "tests::the_same_rule_twice_is_still_one_finding_however_it_is_worded",
+        "tests::two_rules_wording_a_hazard_the_same_way_both_survive",
+        "tests::totality_of_covered_keys",
+        "tests::every_incompatibility_warns_in_german",
+        "tests::every_hazard_sentence_in_this_file_has_german"
+      ],
+      "failed": [],
+      "evidence_prefix": "safety-library"
+    }
+  ],
+  "freeze_path": "audits/production-safety-identity-20261009/freeze.json",
+  "freeze_sha256": "f4605b1bbffa086618834f0e1d0c14a8834c1144ad42f48c5108bddb066458cc",
+  "generated_lock_sha256": "d003dc207ebfe27f07500dddba65ffa365982abbae63cc5e89d7cbdacba650aa",
+  "submodules": {
+    "sundials-kinetics-rs": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+    "vendor/iphreeqc": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+  },
+  "harness_sha256": {
+    ".github/workflows/chemistry-audit.yml": "6fdf18eedee40a78a0a5c1a0cd18fb018926ec3fd2838ced7b4394b2e408c383",
+    "audits/production-safety-identity-20261009/freeze.json": "f4605b1bbffa086618834f0e1d0c14a8834c1144ad42f48c5108bddb066458cc",
+    "audits/production-safety-identity-20261009/production_safety_identity_contracts.rs": "d8ba30701945830bf73f03869167d39c63195cff995f566a997715996d9830dc"
+  },
+  "passed": [
+    "at_or_below_existing_screen_cutoff_does_not_create_a_final_finding",
+    "hypochlorite_ion_projection_does_not_repeat_existing_chloramine_warning",
+    "hypochlorous_projection_does_not_repeat_existing_chloramine_warning",
+    "permanganate_ion_projection_does_not_repeat_existing_fire_warning",
+    "reordering_existing_species_does_not_create_a_new_finding"
+  ],
+  "failed": [
+    "a_distinct_fuel_pair_is_not_hidden_by_an_existing_rule_id",
+    "a_distinct_oxidizer_pair_is_not_hidden_by_an_existing_rule_id",
+    "above_existing_screen_cutoff_reaches_the_final_warning",
+    "introduced_warning_preserves_the_exact_reviewed_metadata"
+  ],
+  "inherited_passed": 604,
+  "evidence_sha256": {
+    "Cargo.lock": "d003dc207ebfe27f07500dddba65ffa365982abbae63cc5e89d7cbdacba650aa",
+    "cargo.txt": "1f88eaf7fe1aaec83184752cf4c944cd22f00184136ff36a3e4c318cc60ef566",
+    "controls-exit.txt": "39b8dc3fc8b44765c8e6f1adee04c5b465e555ab791cc42d0d9e810d5b64297c",
+    "controls.log": "54d7679bdb5289d427d53ea371c564a2fd0450e3ecb6aca15d9b4a8435f6a781",
+    "fixture.rs": "d8ba30701945830bf73f03869167d39c63195cff995f566a997715996d9830dc",
+    "harness-commit.txt": "930c21f9914b75fce5922f890549412f38d3049f661893724d0b5f7355c901fd",
+    "harness-sha256.txt": "7bb01f3849bf88554bb67a09d3977e2a1bc990c1f2587630ec46c14a1c127425",
+    "inherited-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "inherited.log": "f3886700266e1d147a923223511afee92628c191980afadd2e671af480026273",
+    "lock-sha256.txt": "0187197f3d7190e9e0aff2f59c5a295554158ccbbb76415a3b55676ee457c298",
+    "results.json": "4c737d3a83abed62684bae6767bb685589700d078e80983ae51ecda7a081a3c1",
+    "rustc.txt": "b569b0c98ea3133c7252b4b8ea6b39b7b353813df0dd5f5c412c355691424112",
+    "safety-library-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "safety-library.log": "070ec8d3a7efca042d6a921ac5abf5209a0843f7bcb4d0785d3eb1e537304038",
+    "source-commit.txt": "41440156488a43d6d14730177fdca490b4efc535dd463907435b48bed50943d6",
+    "source-tree.txt": "cbd53e94522d35e64f688e47d7c097791bae1331d6e71fcb9be8c75a5863f6a9",
+    "status-before.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "status-with-fixture.txt": "3a8e32723fff951c88ee664e4a48e958e0b1de46cffcae90dbd4a6916b02ca38",
+    "submodules.txt": "dae123bd185b0dff0f0d7176cb509940c4f7f68da6087ad6e6ab003543dbdd47",
+    "tracked-diff.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "run_metadata_sha256": "f2a118440d289e393d5bbb613ca6496a885073a5ba35ea16b3ba0173ffbb3143",
+  "accepted_baseline_collection": true,
+  "classification": "complete baseline collection",
+  "compiler_errors": [],
+  "scope": "Frozen orchestration baseline on unchanged tracked model plus a separately bound injected test. Collection acceptance permits failed model functions; not chemistry, repaired-source or integration acceptance. Declared parameter subcases may stop early on function failure. Compiler prerequisite failure verifies archive bindings only: zero executed control outcomes, no collection acceptance."
+}

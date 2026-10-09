@@ -52,3 +52,7 @@ Existing production ReactiveGroupScreen inherits the default Allow final callbac
 ## Verified current-source replay
 
 [CLI37953313299 result review](cli-results-review-b9f998e2.json) and [independent binding review](cli-bindings-review-b9f998e2.json) accept100 cases/164 processes and all eight strict controls on exactb9f998e2. Fifth46 ordinary passes/three expected refusals/one model qualification and sixth49 ordinary passes/one model qualification remain unchanged. Actual executable, generated lock, source/tree, submodules, forecast, harness and completed dispatch are bound. This replaces the queued status for that run; earlier manifests remain historical snapshots. Linux/full gates/fleet remain pending, so #775 is not yet merged.
+
+## Accepted integration
+
+[#775 merged as7e96f120](main-tree-equality.json) after independently accepted native251 on both platforms, complete CI/five gates/fleet and current-source CLI164. The actual merged tree equalse98f3bd9, exactly matching testedb9. Original forecast qualifications remain unchanged. This closes the hook/publication mechanism; actual production rule coverage proceeds separately in PR776. Earlier pending/undispatched statements above are preserved historical checkpoints.

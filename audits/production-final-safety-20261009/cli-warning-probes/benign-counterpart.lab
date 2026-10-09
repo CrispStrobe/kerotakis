@@ -1,0 +1,5 @@
+# Same virtual ammonium/base probe with chloride in place of hypochlorite.
+add v1 water 100mL
+add v1 NaCl 0.0000000001mol
+add v1 NH4Cl 0.0000000001mol
+titrate v1 NaOH 0.001M 1mL until ph 12 max 1

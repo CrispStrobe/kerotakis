@@ -749,6 +749,50 @@
         }
       ],
       "scope": "Titration trial admission numeric validation/prospective safety: native244 both platforms, workspace, complete fleet and source-bound CLI164 accepted. Whole-operation numeric/veto rollback; final-safety publication tranche still open."
+    },
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/775",
+      "tested_head": "b9f998e2d3ed0603235645b7ebdf7eb6281f0bf8",
+      "merge_commit": "7e96f120c271d6130473f4eb298c82963543392e",
+      "merged_at": "2026-10-09T19:06:16Z",
+      "required_checks": [
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37946944206/job/113875554847",
+          "started_at": "2026-10-09T16:03:25Z",
+          "completed_at": "2026-10-09T16:21:58Z"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37946944206/job/113875554402",
+          "started_at": "2026-10-09T15:41:43Z",
+          "completed_at": "2026-10-09T15:56:49Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37946944206/job/113875554570",
+          "started_at": "2026-10-09T15:07:40Z",
+          "completed_at": "2026-10-09T15:32:40Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37946944206/job/113875554264",
+          "started_at": "2026-10-09T15:40:33Z",
+          "completed_at": "2026-10-09T15:44:06Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37946944206/job/113875554826",
+          "started_at": "2026-10-09T16:00:51Z",
+          "completed_at": "2026-10-09T16:13:27Z"
+        }
+      ],
+      "scope": "Solved titration trial final-safety/publication mechanism: native251 both, complete CI/fleet and source-bound CLI164 accepted. Actual production rule integration remains open."
     }
   ],
   "scope": "Independent matching-head required PR gates. Not a full integrated-source audit/replay or performance acceptance.",
@@ -798,5 +842,6 @@
       "scope": "Three Markdown files. Dated checkpoint and task lanes; not new runtime evidence. Pending-state rows reflect the earlier checkpoint."
     }
   ],
-  "main_after_documentation": "0fafbf5e3c71841f83832dd61a0c7f4561204e63"
+  "main_after_documentation": "0fafbf5e3c71841f83832dd61a0c7f4561204e63",
+  "main_after_pr775": "7e96f120c271d6130473f4eb298c82963543392e"
 }

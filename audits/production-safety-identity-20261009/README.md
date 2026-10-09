@@ -1,6 +1,6 @@
 # Frozen production safety finding identity
 
-[The nine-function freeze](freeze.json) binds [the fixture](production_safety_identity_contracts.rs) against candidateb9f998e2/treee98f3bd9 before production final-rule implementation. Rustfmt parses/formats it; compilation and execution remain unverified. The separately frozen original seven controls and their dispatched baseline37965069461 are unchanged.
+[The nine-function freeze](freeze.json) binds [the fixture](production_safety_identity_contracts.rs) against candidateb9f998e2/treee98f3bd9 before production final-rule implementation. The corrected source-bound baseline below now compiled/executed it; repaired-source outcomes remain pending. The separately frozen original seven controls and their dispatched baseline37965069461 are unchanged.
 
 The actual reviewed screen recognizes NaOCl/ClO-/HClO as hypochlorite keys and KMnO4/MnO4- as strong oxidizer keys. A solve can replace a reporting key without creating a new exposure. Raw-species comparison could repeat an existing warning; rule-only comparison could suppress a genuinely different pair. These are source-informed routing risks, not observed runtime defect counts or forecasts of chemical transformation. Synthetic portions do not establish physical phase or concentration domains.
 
@@ -30,3 +30,9 @@ Production edits remain dependent on #775 fleet acceptance and verified integrat
 [Run37968657948](explicit-inventory-dispatch.json) is dispatched on exact harness05b84bf2/sourceb9f998e2. This undispatched job was updated before its first execution to enumerate every untracked file explicitly, following the original seven-test collection's directory-collapse rejection. Fixture/expectations remain unchanged, and every previously dispatched job remains structurally unchanged. Original prepared21c8455c metadata is historical. No identity runtime outcomes are claimed yet.
 
 Download `production-safety-identity-baseline-37968657948`, review with the updated command above, and preserve its first failures before a broad identity-comparator implementation. Production edits still require #775 complete fleet acceptance and verified integration.
+
+## Independently accepted baseline and byte-identical repair port
+
+[Corrected37968657948](baseline-review.json) is independently accepted: five passes/four failed functions, with604 core and28 safety library passes. Exact explicit file inventory, clean tracked source, original fixture, sourceb9/treee98f, lock, submodules, toolchains, harness05b and actual run bind correctly. Distinct newly introduced oxidizer/fuel pairs sharing a rule, the above-cutoff positive and exact warning metadata fail under inherited Allow. Alias/reordering/at-or-below negatives pass on that default and must pass again on the repair. These negative baseline passes alone do not establish a working identity comparator.
+
+Both original seven and nine fixtures are now ported byte-identically to [PR776/source03](../production-final-safety-20261009/repair-03f426c7.json), which normalizes only these frozen alias families while retaining distinct new pairs. #775's verified merge is complete. The267-function/26-fixture plan is prepared; repaired native/workspace/safety/gates/fleet/CLI evidence remains pending. Do not repeat baseline dispatch or borrow baseline/older-source results as repair acceptance. Earlier prepared/queued statements above are historical checkpoints.
