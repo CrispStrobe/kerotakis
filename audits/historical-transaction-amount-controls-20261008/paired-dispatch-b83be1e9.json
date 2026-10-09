@@ -1,0 +1,12 @@
+{
+  "run": 37897838141,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37897838141",
+  "harness": "2e3ab99a407c6401ea9ba64fd1899b5d01352051",
+  "event": "workflow_dispatch",
+  "status_at_checkpoint": "queued",
+  "baseline": "85c79f5141ec35eefa2fb537f07583c5c9cba38b",
+  "repair": "b83be1e96e430232e76a85eb0e5eb28293c30903",
+  "manifest_path": "audits/historical-transaction-amount-controls-20261008/paired-run-b83be1e9.json",
+  "manifest_sha256": "bc99d8c5bc03f93324f3930b7c367e8132614bc850afb49c9f14babbe941b196",
+  "scope": "Corrected dispatch identity only. No paired runtime acceptance. Prior failed dispatch and original manifests unchanged."
+}

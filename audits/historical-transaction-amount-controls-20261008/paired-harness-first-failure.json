@@ -1,0 +1,11 @@
+{
+  "run": 37890564172,
+  "job": 113690316518,
+  "harness": "be538c6b57cdb1302227eb727d3a6092f7140a3d",
+  "log_sha256": "150640a1f919d717a2ea17e7a0d30098045352988c229b86310a9e5a2022f8bb",
+  "classification": "harness_manifest_path_failure_before_execution",
+  "missing_manifest": "audits/transaction-state-contracts-20261008/paired-run.json",
+  "correct_manifest": "audits/historical-transaction-amount-controls-20261008/paired-run.json",
+  "application_execution_observed": false,
+  "scope": "No source comparison outcome. Preserve raw log and partial artifact; repair harness path before another dispatch."
+}
