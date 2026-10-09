@@ -29,3 +29,16 @@ The job checks out exact source `b83be1e9` and records its clean tracked tree be
 Verify actual dispatch `headSha`, every frozen named outcome, unique/unfiltered summary counts, fixture and lock hashes, the exact two source gitlinks, empty tracked diff and only the expected untracked test target. Inspect function failures as model outcomes; job success means the baseline was collected completely, not that its functions passed. A compile/harness failure does not establish a behavioral count. Preserve first failure evidence before production edits. Port the frozen fixture into the repair branch without changing its bytes; bind each later repaired source and run the inherited234/workspace/gates separately.
 
 The audit harness groups concurrency by ref and campaign with cancellation disabled. The production fleet groups by PR/ref and cancels superseded runs. Waiting for #773 here is an acceptance dependency, not a claim that this new campaign would cancel its jobs.
+
+## Offline baseline review
+
+[The reviewer](../../tools/titration-baseline-review.py) checks the complete unique/unfiltered ten-function results, all604 inherited names and summaries, exit codes and archived result agreement. It also verifies the frozen fixture, clean tracked source before injection, only the declared untracked target afterward, source/tree, two gitlinks, generated lock, toolchain records, three harness hashes and actual successful dispatch. It accepts collection of failed model functions. Compilation failure or missing outcomes cannot pass this review.
+
+```sh
+python3 tools/titration-baseline-review.py \
+  --artifact ARTIFACT_DIRECTORY --run-metadata RUN_METADATA_JSON \
+  --harness d08ba3185355d19dd084d5a2a7eb79401ce5d5d6 \
+  --report NEW_REPORT_JSON
+```
+
+[Eight synthetic controls](reviewer-controls.json) verify collection acceptance with a model failure and rejection of dirty source, altered fixture, filtered results, duplicate inherited names, exit mismatch, uninitialized submodules and altered lock. These are reviewer checks, not execution of the titration fixture.
