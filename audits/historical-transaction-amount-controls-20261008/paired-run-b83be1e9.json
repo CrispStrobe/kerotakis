@@ -1,0 +1,10 @@
+{
+  "baseline": "85c79f5141ec35eefa2fb537f07583c5c9cba38b",
+  "repair": "b83be1e96e430232e76a85eb0e5eb28293c30903",
+  "fixture_sha256": "b7f47052a1cf1605dd682819faa16cea6d864f5bc95e73057540dff4c8639262",
+  "expected_test_functions": 38,
+  "expected_inherited_test_functions": 604,
+  "inherited": "All core library unit tests on both sources under one generated lock.",
+  "scope": "Historical transaction acceptance, numeric refusal and complete bench rollback; ordered deposit metadata. Not new independent chemistry forecasts or full historical acceptance. Explicit unchanged-refusal compatibility is separately required in final native234/workspace gates.",
+  "observed_prerequisite_failure": "PR773 preflight job113683617788 on85c79f51: transaction31pass7fail,Amount15pass,core604pass; complete raw baseline preserved."
+}

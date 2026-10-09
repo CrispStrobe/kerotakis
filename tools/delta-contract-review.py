@@ -21,6 +21,7 @@ def main():
     parser.add_argument('--artifact', type=pathlib.Path, required=True)
     parser.add_argument('--lane', choices=['inventory', 'thermal', 'snapshot', 'stack', 'boundary', 'nuclide', 'electrode', 'ordinary', 'transactions'], required=True)
     parser.add_argument('--harness', required=True)
+    parser.add_argument('--manifest', help='Separately frozen repository-relative paired manifest')
     parser.add_argument('--report', type=pathlib.Path, required=True)
     args = parser.parse_args()
     root = args.artifact / 'delta-evidence'
@@ -35,7 +36,9 @@ def main():
         'ordinary': ('ordinary-delta-state-contracts', 'ordinary_delta_state_contracts'),
         'transactions': ('historical-transaction-amount-controls', 'solver_transactions'),
     }[args.lane]
-    manifest_path = f'audits/{directory}-20261008/paired-run.json'
+    manifest_path = args.manifest or f'audits/{directory}-20261008/paired-run.json'
+    assert not pathlib.PurePosixPath(manifest_path).is_absolute()
+    assert '..' not in pathlib.PurePosixPath(manifest_path).parts
     fixture = f'crates/kerotakis-core/tests/{fixture}.rs'
     manifest_bytes = (args.artifact / manifest_path).read_bytes()
     assert manifest_bytes == git('show', f'{args.harness}:{manifest_path}')
