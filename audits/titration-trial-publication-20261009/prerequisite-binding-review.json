@@ -1,0 +1,53 @@
+{
+  "run": 37940787580,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37940787580",
+  "harness": "7ee350027e89843f42aa799ddeddf2e5b0f087f7",
+  "source": "0346701f4c47a4d2eb607c6e998de3f0d5631067",
+  "source_tree": "127d0fabd3e31c1d289a7721a4aa9c274e8489b2",
+  "fixture_sha256": "6ed72521affae763d52ea5581453cc875e13ef338c69d95d14f64546422a3030",
+  "freeze_path": "audits/titration-trial-publication-20261009/freeze.json",
+  "freeze_sha256": "31439672b82daee9022fa340978ebd24eb26dd501fff9f652b4c0c6d340e5a8b",
+  "generated_lock_sha256": "d003dc207ebfe27f07500dddba65ffa365982abbae63cc5e89d7cbdacba650aa",
+  "submodules": {
+    "sundials-kinetics-rs": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+    "vendor/iphreeqc": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+  },
+  "harness_sha256": {
+    ".github/workflows/chemistry-audit.yml": "df5c1d32f321a9ffa3fc1dd042d11fdf93ebecd847e70157d6fae115877471f2",
+    "audits/titration-trial-publication-20261009/freeze.json": "31439672b82daee9022fa340978ebd24eb26dd501fff9f652b4c0c6d340e5a8b",
+    "audits/titration-trial-publication-20261009/titration_trial_publication_contracts.rs": "6ed72521affae763d52ea5581453cc875e13ef338c69d95d14f64546422a3030"
+  },
+  "passed": [],
+  "failed": [],
+  "inherited_passed": 604,
+  "evidence_sha256": {
+    "Cargo.lock": "d003dc207ebfe27f07500dddba65ffa365982abbae63cc5e89d7cbdacba650aa",
+    "cargo.txt": "1f88eaf7fe1aaec83184752cf4c944cd22f00184136ff36a3e4c318cc60ef566",
+    "controls-exit.txt": "39b8dc3fc8b44765c8e6f1adee04c5b465e555ab791cc42d0d9e810d5b64297c",
+    "controls.log": "6d9e2390b456aff8c1bb791a04a3c99242c499730d58921a322b0a7680068a46",
+    "fixture.rs": "6ed72521affae763d52ea5581453cc875e13ef338c69d95d14f64546422a3030",
+    "harness-commit.txt": "70d175a62ee3eb36f1c0ce6a20a1181c5e3348663261686ff366875c0ce3cd03",
+    "harness-sha256.txt": "cc4db0d1659888b90f842c539868afb43550be1c3ce144b4074aaff1cd7cfbbf",
+    "inherited-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "inherited.log": "a89839580f6a5af0f1d57c3973843d8ab205bc675db284d8a69cb2fd24dae20b",
+    "lock-sha256.txt": "0187197f3d7190e9e0aff2f59c5a295554158ccbbb76415a3b55676ee457c298",
+    "results.json": "9429d6d0eae30a0e8b23739b04ae117e4585cde233f3eb51609f509ca22cb08c",
+    "rustc.txt": "b569b0c98ea3133c7252b4b8ea6b39b7b353813df0dd5f5c412c355691424112",
+    "source-commit.txt": "93c2ccfde3b540c15a7a1d7d7a47f0b1fd6fcf12427889b64677a3123077bfee",
+    "source-tree.txt": "d5fb1e4704b154afdd9ae4be0f13496ae532a0818a0819451a49f42c1a3fad99",
+    "status-before.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "status-with-fixture.txt": "d68cb5fd3437dccd17dcf1612e01a942e96396650236f789603d9abc365f1021",
+    "submodules.txt": "dae123bd185b0dff0f0d7176cb509940c4f7f68da6087ad6e6ab003543dbdd47",
+    "tracked-diff.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "run_metadata_sha256": "c026c82f794b559537ec46d13a38821a3b9cb20787fcf510f520d86e4524606d",
+  "accepted_baseline_collection": false,
+  "classification": "compiler prerequisite failure",
+  "compiler_errors": [
+    {
+      "code": "E0407",
+      "message": "method `assess_equilibrated` is not a member of trait `SafetyScreen`"
+    }
+  ],
+  "scope": "Frozen orchestration baseline on unchanged tracked model plus a separately bound injected test. Collection acceptance permits failed model functions; not chemistry, repaired-source or integration acceptance. Declared parameter subcases may stop early on function failure. Compiler prerequisite failure verifies archive bindings only: zero executed control outcomes, no collection acceptance."
+}

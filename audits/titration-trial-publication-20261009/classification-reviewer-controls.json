@@ -1,0 +1,31 @@
+{
+  "reviewer_sha256": "c3c549a08792a6774bd673bb0b147c3b980767770e90556bdbb7613c3e03bf47",
+  "positive_controls": [
+    {
+      "archive_run": 37940787580,
+      "classification": "compiler prerequisite failure",
+      "accepted_baseline_collection": false,
+      "executed_control_functions": 0,
+      "inherited_passed": 604
+    },
+    {
+      "archive_run": 37913920525,
+      "classification": "complete baseline collection",
+      "accepted_baseline_collection": true,
+      "passed": 1,
+      "failed": 9,
+      "inherited_passed": 604
+    }
+  ],
+  "negative_controls": [
+    {
+      "control": "compiler archive cannot be accepted as a runtime collection",
+      "result": "rejected"
+    },
+    {
+      "control": "executed model failures cannot be classified as compiler failure",
+      "result": "rejected"
+    }
+  ],
+  "scope": "Offline classification checks of preserved archives. No model re-execution; original receipts remain unchanged."
+}

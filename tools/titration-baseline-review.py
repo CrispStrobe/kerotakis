@@ -36,7 +36,8 @@ def outcomes(text, expected):
 
 
 def review(artifact, run_path, harness, freeze_path=FREEZE,
-           job_name='Frozen titration admission baseline without production edits'):
+           job_name='Frozen titration admission baseline without production edits',
+           prerequisite_failure=False):
     relative = PurePosixPath(freeze_path)
     assert not relative.is_absolute() and '..' not in relative.parts
     evidence = artifact / 'titration-baseline'
@@ -101,10 +102,21 @@ def review(artifact, run_path, harness, freeze_path=FREEZE,
     assert (evidence / 'lock-sha256.txt').read_text() == (
         f'{lock}  titration-baseline/Cargo.lock\n')
     controls_bytes = (evidence / 'controls.log').read_bytes()
-    passed, failed = outcomes(controls_bytes.decode(), freeze['functions'])
+    controls_text = controls_bytes.decode()
+    compiler_errors = []
+    if prerequisite_failure:
+        assert not re.search(r'^test (\S+) \.\.\. ', controls_text, re.M)
+        assert not re.search(r'^test result:', controls_text, re.M)
+        compiler_errors = re.findall(r'^error\[(E\d+)\]: (.+)$', controls_text, re.M)
+        assert compiler_errors, 'No Rust compiler diagnostic'
+        target_name = Path(target).stem
+        assert f'could not compile `kerotakis-core` (test "{target_name}")' in controls_text
+        passed, failed = [], []
+    else:
+        passed, failed = outcomes(controls_text, freeze['functions'])
     assert len(freeze['functions']) == freeze['expected_test_functions'] > 0
     exit_code = int((evidence / 'controls-exit.txt').read_text())
-    assert exit_code == (101 if failed else 0), 'Outcome/exit disagreement'
+    assert exit_code == (101 if failed or prerequisite_failure else 0), 'Outcome/exit disagreement'
     inherited_bytes = (evidence / 'inherited.log').read_bytes()
     inherited_rows = re.findall(r'^test (\S+) \.\.\. (ok|FAILED)$',
                                 inherited_bytes.decode(), re.M)
@@ -122,9 +134,10 @@ def review(artifact, run_path, harness, freeze_path=FREEZE,
     assert json.loads((evidence / 'results.json').read_text()) == result
     run = json.loads(run_path.read_text())
     assert run['headSha'] == harness and run['event'] == 'workflow_dispatch'
-    assert run['status'] == 'completed' and run['conclusion'] == 'success'
+    conclusion = 'failure' if prerequisite_failure else 'success'
+    assert run['status'] == 'completed' and run['conclusion'] == conclusion
     jobs = [job for job in run['jobs'] if job['conclusion'] != 'skipped']
-    assert len(jobs) == 1 and jobs[0]['conclusion'] == 'success'
+    assert len(jobs) == 1 and jobs[0]['conclusion'] == conclusion
     assert jobs[0]['name'] == job_name
     return {
         'run': run['databaseId'], 'run_url': run['url'], 'harness': harness,
@@ -136,11 +149,14 @@ def review(artifact, run_path, harness, freeze_path=FREEZE,
         'evidence_sha256': {p.name: sha(p.read_bytes())
                             for p in sorted(evidence.iterdir()) if p.is_file()},
         'run_metadata_sha256': sha(run_path.read_bytes()),
-        'accepted_baseline_collection': True,
+        'accepted_baseline_collection': not prerequisite_failure,
+        'classification': 'compiler prerequisite failure' if prerequisite_failure else 'complete baseline collection',
+        'compiler_errors': [{'code': code, 'message': message} for code, message in compiler_errors],
         'scope': 'Frozen orchestration baseline on unchanged tracked model plus a separately '
                  'bound injected test. Collection acceptance permits failed model functions; '
                  'not chemistry, repaired-source or integration acceptance. Declared parameter '
-                 'subcases may stop early on function failure.',
+                 'subcases may stop early on function failure. Compiler prerequisite failure '
+                 'verifies archive bindings only: zero executed control outcomes, no collection acceptance.',
     }
 
 
@@ -153,14 +169,17 @@ def main():
                         help='Repository-relative frozen manifest at the dispatched harness')
     parser.add_argument('--job-name',
                         default='Frozen titration admission baseline without production edits')
+    parser.add_argument('--prerequisite-failure', action='store_true',
+                        help='Verify a failed compiler/prerequisite archive without accepting behavioral outcomes')
     parser.add_argument('--report', type=Path, required=True)
     args = parser.parse_args()
     result = review(args.artifact, args.run_metadata, args.harness,
-                    args.freeze, args.job_name)
+                    args.freeze, args.job_name, args.prerequisite_failure)
     with args.report.open('x') as stream:
         json.dump(result, stream, indent=2)
         stream.write('\n')
-    print(json.dumps({'collection': 'accepted', 'passed': len(result['passed']),
+    print(json.dumps({'collection': 'accepted' if result['accepted_baseline_collection'] else 'not_executed',
+                      'classification': result['classification'], 'passed': len(result['passed']),
                       'failed': len(result['failed']), 'inherited_passed': 604}))
 
 
