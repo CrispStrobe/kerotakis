@@ -7,7 +7,7 @@ fn probe(keys: &[&str]) -> Vessel {
     let mut vessel = Vessel::new(VesselId(0), "safety-identity-probe");
     vessel.deposit(SpeciesId::new("water"), Moles(1.0), Phase::Liquid);
     for key in keys {
-        vessel.deposit(SpeciesId::new(*key), Moles(0.0001), Phase::Liquid);
+        vessel.deposit(SpeciesId::new(key), Moles(0.0001), Phase::Liquid);
     }
     vessel
 }
