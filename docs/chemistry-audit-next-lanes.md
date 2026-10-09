@@ -285,3 +285,5 @@ Record lane ID, exact source and prerequisite revision, frozen contracts, baseli
 The integration checkpoint supersedes older pending-state notes. Original historical inventories, source manifests, first failures and forecasts remain immutable. The repaired-source replay covers exact merged main `18dc3987`; later combined sources need their own acceptance. This supplies neither new independent experiments nor complete physical-model acceptance.
 
 Finish the active #773 repair before adding production lanes or more hosted job streams. After each merge, refresh the inventory, record source equality where applicable, and bind native coverage to the next actual head. Public reports use repository-relative paths; host policy and artifact locations remain private.
+
+The #773 CLI preparation now has [a pinned source manifest](../audits/historical-transaction-amount-controls-20261008/cli-source-85c79f51.json) and harness commit `5d307de7`. It remains undispatched until repaired-source controls pass. Use the port handoff's run/source/binary/lock/harness review requirements; a later source repair requires a separately named manifest/job and fresh native plan.

@@ -25,3 +25,5 @@ All 53 historical functions and 151 inherited functions remain unchanged. [The n
 5. Continue NUM-01/NUM-02 authoritative ownership and NUM-03 chemical reconstruction before broad still donor/receiver/energy closure. [Task lane specifications](../../docs/chemistry-audit-next-lanes.md) describe files, prerequisites, frozen controls and completion criteria.
 
 Available memory still fails the private local execution gate. No local builds, extra agents, new worktrees or source deletions were used. Improved disk space is external host variation; no reclamation by this work is claimed.
+
+A repaired-source CLI replay is now prepared at harness `5d307de7`, with [a separately named exact-source manifest](../historical-transaction-amount-controls-20261008/cli-source-85c79f51.json). It remains undispatched until candidate controls pass. Native tests are still running; no new outcome is inferred. Preserve this source snapshot if further repairs change the head.

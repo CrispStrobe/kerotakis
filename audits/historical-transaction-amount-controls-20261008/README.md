@@ -15,3 +15,11 @@ The transaction target extends complete snapshot, atomic route, boundary, derive
 All 204 planned fixture functions and their hashes remain unchanged. [The new exact-head plan](../integration-20261008/native-controls/pr773-85c79f51-plan.json) supersedes the previous plan for current execution. Focused formatting/diff checks pass; fresh compilation/runtime, workspace/gates and a repaired-source CLI replay remain pending. Preserve additional failures before editing and fix causes without weakening the original expectations.
 
 `Vessel::new` initializes the new context to `None`. External complete `Vessel` struct literals require the new field; the serialized vessel schema omits it.
+
+## Prepared repaired-source CLI replay
+
+[The separately named source manifest](cli-source-85c79f51.json) pins repair `85c79f51` and its complete tree. Prepared harness commit [`5d307de7`](https://github.com/CrispStrobe/kerotakis/commit/5d307de7d183ae7453a1bc925b991b19ca9a6906) adds the `transaction-cli-replay` selection on the audit harness branch, preserving all earlier jobs, manifests and forecast bytes. This preparation has not been dispatched and establishes no executable or process outcome. It is a corrected replay, not new independent forecasts.
+
+After the candidate controls pass, verify the harness branch still points to that prepared commit, then dispatch its workflow with `campaign=transaction-cli-replay`. Require the run's actual `headSha` to equal the selected harness commit; archive `transaction-cli-replay-RUN_ID`, independently reparse every process and explicitly verify the binary, lock, source/tree, two gitlinks, toolchain/build records and six dispatched harness hashes. Expected classifications remain fifth 46 passes/three expected refusals/one qualification, sixth 49 passes/one qualification, plus all eight strict-stage checks; no qualification is removed.
+
+If candidate tests expose another repair and the source head changes, retain this manifest and prepared job unchanged. Create a separately named manifest and job for that next exact head, update its bound native plan, and require fresh controls before dispatch. Never overwrite the old ordinary or combined replay source/results. The branch-only audit harness workflow must not replace the production fleet workflow.
