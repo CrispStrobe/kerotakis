@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "compiled_source": "85c79f5141ec35eefa2fb537f07583c5c9cba38b",
+  "source_tree": "7220a51a07b4c46a3a187818ec2e96ab0406eee2",
+  "source_kind": "PR773 heat-input candidate; not merged main",
+  "main_at_freeze": "0af91885876f8acc8d237165fc52a01daada2412",
+  "forecast_path": "audits/main-cli-replay-20261008/forecast.json",
+  "forecast_sha256": "5c9eb5de22c2d4bcf9f11b3f62550083693af90e124779e8f1d000fc397fc2d5",
+  "expected_cases": 100,
+  "expected_processes": 164,
+  "disclosure": "Unchanged disclosed corrected fifth/sixth expectations and strict distillation controls. Source-informed replay, not new independent forecasts. Original scores, qualifications and old executable receipts remain immutable."
+}
