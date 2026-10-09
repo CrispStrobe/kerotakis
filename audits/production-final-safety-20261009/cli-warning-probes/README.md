@@ -9,3 +9,17 @@ First run both scripts on the independently bound pre-repair b9 executable and r
 Then repeat byte-identical scripts on the newly bound03 repaired executable after native acceptance. Require exactly one Danger bleach-ammonia-chloramine HazardWarning in the positive titration JSON step with existing reviewed hazard/real_world metadata; require none in setup or the negative titration. Record the same accepted-dose and actual inventory witnesses. Capture a separate ordinary text replay to verify warning narration. No source-specific executable or lock receipt may be borrowed from another source.
 
 The current100-case replay job does not yet execute these probes. Prepare a separately bound runner/reviewer or add a separately named probe stage without modifying the original forecasts or earlier jobs. Preserve actual first outcomes. If the intended route is not exercised, distinguish author assumptions, backend coverage, trace reconstruction, conservation/numeric refusal and transient reactant consumption. A final-inventory callback does not prove detection of every intermediate reaction or hazardous product. Record the gap and define new independent controls before extending the rule slice.
+
+## Prepared collector and offline reviewer
+
+[`tools/final-safety-cli-probes.py`](../../../tools/final-safety-cli-probes.py) now collects separate JSON and ordinary text processes for both byte-identical frozen scripts. It creates new output paths, records process exits/timeouts and raw stream hashes, binds the script/freeze/build-receipt hashes, and checks the actual binary hash before execution. Use an independently reviewed source-specific `binding.json` from the CLI build artifact; a caller-supplied binding alone does not establish provenance.
+
+```sh
+python3 tools/final-safety-cli-probes.py --binary build/kero --build-binding build/binding.json --out probe-results --report probe-observations.json
+python3 tools/final-safety-cli-probes.py --review --build-binding build/binding.json --out probe-results --report probe-independent-review.json
+python3 -m unittest discover -s tools/tests -p test_final_safety_cli_probes.py
+```
+
+Collection performs four CLI processes on an authorized hosted runner. Offline review runs no executable. Archive the collector, original freeze and scripts with each collection, and independently bind their Git versions to the actual workflow dispatch. The collector records full raw `solution` provenance for setup/final state, raw inventories and titration events. It rechecks four ordered operators, exits, refusal events, initial/final cutoff witnesses, accepted full dose and exact reviewed warning metadata. Missing witnesses produce `not_exercising_intended_route`; malformed output produces `invalid_or_incomplete_cli_evidence`. An exit of zero means evidence collection/review finished; it does not mean the warning contract passed.
+
+The tool deliberately leaves `accepted_repair_proof` false: independently verify actual workflow/build provenance, solver identity/capability and no silent fallback, ordinary text narration, and the paired qualifying pre-repair/repaired observations. These requirements are not established by stream hashes or synthetic reviewer tests. The five reviewer tests check classification errors, missing/duplicate/wrong warnings, partial doses, refusal and invalid inventories; no actual CLI execution has occurred yet. Do not dispatch these probes locally while the resource gate is closed.

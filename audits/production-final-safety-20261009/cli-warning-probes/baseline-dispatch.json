@@ -1,0 +1,17 @@
+{
+  "databaseId": 37980304505,
+  "headSha": "8287c4b0f8329b57489c9d22dcf5bd62cd5998a6",
+  "event": "workflow_dispatch",
+  "status": "queued",
+  "conclusion": "",
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37980304505",
+  "campaign": "production-final-safety-cli-probe-baseline",
+  "compiled_source": "b9f998e2d3ed0603235645b7ebdf7eb6281f0bf8",
+  "source_tree": "e98f3bd97f11f77f0215b19d4560f47dea91f710",
+  "parent_run": 37953313299,
+  "parent_artifact": 11627946038,
+  "binary_sha256": "ee5f2fe68ff76389f37f9f94e88b815f90f4a446d4f8b8e80b7b4368e9c6f605",
+  "expected_processes": 4,
+  "accepted_repair_proof": false,
+  "scope": "Actual hosted dispatch; queued collection, no CLI outcome. Reuses exact independently reviewed baseline executable and all build bytes; no local execution or new build. Stream classification is separate from provenance/backend/narration/paired-repair acceptance."
+}
