@@ -3,7 +3,7 @@
 import argparse
 import hashlib
 import json
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import re
 import subprocess
 
@@ -35,11 +35,14 @@ def outcomes(text, expected):
     return passed, failed
 
 
-def review(artifact, run_path, harness):
+def review(artifact, run_path, harness, freeze_path=FREEZE,
+           job_name='Frozen titration admission baseline without production edits'):
+    relative = PurePosixPath(freeze_path)
+    assert not relative.is_absolute() and '..' not in relative.parts
     evidence = artifact / 'titration-baseline'
     archived = artifact / 'harness'
-    freeze_bytes = git('show', f'{harness}:{FREEZE}')
-    assert (archived / FREEZE).read_bytes() == freeze_bytes
+    freeze_bytes = git('show', f'{harness}:{freeze_path}')
+    assert (archived / freeze_path).read_bytes() == freeze_bytes
     freeze = json.loads(freeze_bytes)
     fixture_path = freeze['fixture_path']
     fixture = git('show', f'{harness}:{fixture_path}')
@@ -58,7 +61,7 @@ def review(artifact, run_path, harness):
     assert (evidence / 'status-with-fixture.txt').read_text() == f'?? {target}\n'
     assert not git('ls-tree', source, '--', target).strip(), 'Target already tracked'
     hashes = {}
-    expected_paths = {WORKFLOW, FREEZE, fixture_path}
+    expected_paths = {WORKFLOW, freeze_path, fixture_path}
     for line in (evidence / 'harness-sha256.txt').read_text().splitlines():
         recorded, path = line.split(maxsplit=1)
         assert path.startswith('harness/')
@@ -86,7 +89,7 @@ def review(artifact, run_path, harness):
         f'{lock}  titration-baseline/Cargo.lock\n')
     controls_bytes = (evidence / 'controls.log').read_bytes()
     passed, failed = outcomes(controls_bytes.decode(), freeze['functions'])
-    assert len(freeze['functions']) == freeze['expected_test_functions'] == 10
+    assert len(freeze['functions']) == freeze['expected_test_functions'] > 0
     exit_code = int((evidence / 'controls-exit.txt').read_text())
     assert exit_code == (101 if failed else 0), 'Outcome/exit disagreement'
     inherited_bytes = (evidence / 'inherited.log').read_bytes()
@@ -109,10 +112,11 @@ def review(artifact, run_path, harness):
     assert run['status'] == 'completed' and run['conclusion'] == 'success'
     jobs = [job for job in run['jobs'] if job['conclusion'] != 'skipped']
     assert len(jobs) == 1 and jobs[0]['conclusion'] == 'success'
-    assert jobs[0]['name'] == 'Frozen titration admission baseline without production edits'
+    assert jobs[0]['name'] == job_name
     return {
         'run': run['databaseId'], 'run_url': run['url'], 'harness': harness,
         'source': source, 'source_tree': tree, 'fixture_sha256': sha(fixture),
+        'freeze_path': freeze_path,
         'freeze_sha256': sha(freeze_bytes), 'generated_lock_sha256': lock,
         'submodules': links, 'harness_sha256': hashes,
         'passed': passed, 'failed': failed, 'inherited_passed': 604,
@@ -120,7 +124,7 @@ def review(artifact, run_path, harness):
                             for p in sorted(evidence.iterdir()) if p.is_file()},
         'run_metadata_sha256': sha(run_path.read_bytes()),
         'accepted_baseline_collection': True,
-        'scope': 'Frozen admission baseline on unchanged tracked model plus a separately '
+        'scope': 'Frozen orchestration baseline on unchanged tracked model plus a separately '
                  'bound injected test. Collection acceptance permits failed model functions; '
                  'not chemistry, repaired-source or integration acceptance. Declared parameter '
                  'subcases may stop early on function failure.',
@@ -132,9 +136,14 @@ def main():
     parser.add_argument('--artifact', type=Path, required=True)
     parser.add_argument('--run-metadata', type=Path, required=True)
     parser.add_argument('--harness', required=True)
+    parser.add_argument('--freeze', default=FREEZE,
+                        help='Repository-relative frozen manifest at the dispatched harness')
+    parser.add_argument('--job-name',
+                        default='Frozen titration admission baseline without production edits')
     parser.add_argument('--report', type=Path, required=True)
     args = parser.parse_args()
-    result = review(args.artifact, args.run_metadata, args.harness)
+    result = review(args.artifact, args.run_metadata, args.harness,
+                    args.freeze, args.job_name)
     with args.report.open('x') as stream:
         json.dump(result, stream, indent=2)
         stream.write('\n')
