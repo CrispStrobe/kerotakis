@@ -1,0 +1,12 @@
+{
+  "pr": 772,
+  "head": "8037f0696e76af29be25590bde7a9fcb129db51a",
+  "job": 113563660098,
+  "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37851023056/job/113563660098",
+  "conclusion": "success",
+  "fetch_and_cargo_check_passed": true,
+  "actual_checkout": "8bf01918722f214995749be7e46d0f89f4edd921",
+  "log_sha256": "cd72e9cd1ce6e6e5d7e68098d4a8d168160c8eeea64c217ece8a621d8321dfdb",
+  "job_metadata_sha256": "c8628bd6c251d5ce4f2900f3282f06f7f6348cfb0240e74addefed56277d22d6",
+  "scope": "Actual checksum-pinned upstream download and native-host build passed with the bounded retry script. No induced upstream outage or application speedup claim."
+}

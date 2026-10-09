@@ -1,0 +1,93 @@
+{
+  "pr": 773,
+  "head": "85c79f5141ec35eefa2fb537f07583c5c9cba38b",
+  "targets": [
+    {
+      "path": "crates/kerotakis-core/tests/solver_snapshot_contracts.rs",
+      "fixture_sha256": "d5e8a598e8ac9dae4ba12a09b4d380ab1cd661ab65f2429389afe9dcc4dcd690",
+      "functions": 16
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solver_snapshot_edit_contracts.rs",
+      "fixture_sha256": "56d39f21fc9cadfb14752ffbc7950b723989ae1ce0d20aeeb784a3e29a2e1d14",
+      "functions": 1
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solver_stack_atomic_contracts.rs",
+      "fixture_sha256": "71179df336cd244a4b6538dcbdfeac1c12cdb47a097cb775d1c779e0982059e9",
+      "functions": 13
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solver_boundary_contracts.rs",
+      "fixture_sha256": "dfb28abdd607c8d62506783a06f12c92b516659bb309824fb01ba8b9fdc97740",
+      "functions": 12
+    },
+    {
+      "path": "crates/kerotakis-core/tests/nuclide_inventory_serde_contracts.rs",
+      "fixture_sha256": "fc66ed099b5baff819cc9f79caa9a41032ce948f461bf3ef67d15ed0ecb7afe8",
+      "functions": 11
+    },
+    {
+      "path": "crates/kerotakis-core/tests/required_solver_conservation_contracts.rs",
+      "fixture_sha256": "af70bfbffe39e70fcaade81cccf6ef98be6a88126ef17b4c53b7c0c9c295a7d7",
+      "functions": 5
+    },
+    {
+      "path": "crates/kerotakis-core/tests/required_solver_ledger_boundaries.rs",
+      "fixture_sha256": "3f7925ada6932cbf741e486e9232a8d1a78f112e21e86dd28fb15f3a0e746238",
+      "functions": 25
+    },
+    {
+      "path": "crates/kerotakis-core/tests/required_solver_policy_controls.rs",
+      "fixture_sha256": "09fa37980e602d340bc44951c164b596b26f39ce1059ae18ac613261e13669fd",
+      "functions": 4
+    },
+    {
+      "path": "crates/kerotakis-core/tests/required_solver_ledger_supplement.rs",
+      "fixture_sha256": "e0da8aa6f0f0cda7c50f2dd7dd8c8025fc3c24550832e23765162a99ba5f021c",
+      "functions": 10
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solver_electrode_schema_contracts.rs",
+      "fixture_sha256": "e9b7aacc9ca79ea0941bfdf722f7d718ef64d155c4cbd00f402a69cd206433fa",
+      "functions": 8
+    },
+    {
+      "path": "crates/kerotakis-core/tests/nuclide_state_validation_contracts.rs",
+      "fixture_sha256": "498d3456988fcb153445139f5c16dc2b96ffe9bd893041ee6145984431d5a5fc",
+      "functions": 12
+    },
+    {
+      "path": "crates/kerotakis-core/tests/required_solid_solution_contracts.rs",
+      "fixture_sha256": "243c3372909103c7b3e8d06c96ab9e7f3facafbc945d52609a580456aea298c8",
+      "functions": 16
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solid_solution_state_contracts.rs",
+      "fixture_sha256": "98d7cb2d029ad18b14e5d34db642e3cf20715bf41e41e1e2bdce36689ec5a170",
+      "functions": 8
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solid_solution_aggregate_validity.rs",
+      "fixture_sha256": "4441bb48845a6668f1b32e9e0a161c6264df619542edceb61a0123e545f3e050",
+      "functions": 2
+    },
+    {
+      "path": "crates/kerotakis-core/tests/ordinary_delta_state_contracts.rs",
+      "fixture_sha256": "f73b2e8a3acbbf8def04b65b1c73ce4ea1aa2095e3ebe053d054b60cc72cd132",
+      "functions": 8
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solver_transactions.rs",
+      "fixture_sha256": "b7f47052a1cf1605dd682819faa16cea6d864f5bc95e73057540dff4c8639262",
+      "functions": 38
+    },
+    {
+      "path": "crates/kerotakis-core/tests/compensated_amount_contracts.rs",
+      "fixture_sha256": "58861ba0a4f866d57e2c7282902f49d07dd760857cae7db574e010730fa0d065",
+      "functions": 15
+    }
+  ],
+  "expected_functions": 204,
+  "scope": "Final-head native integration review plan. No execution result or acceptance implied; all five required gates and other acceptance remain separate."
+}

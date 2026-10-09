@@ -1,0 +1,28 @@
+{
+  "pr": 773,
+  "head": "fb50bebc7e0c27a111ea2af5bab50ac436f43990",
+  "run": 37851043470,
+  "job": 113563731667,
+  "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37851043470/job/113563731667",
+  "actual_checkout": "8b702504b006eafbf3780801bc2266fa6e87f619",
+  "checkout_tree": "c011a15505a97a52fce83b9325dc53e733bd3c50",
+  "head_tree_equals_checkout": true,
+  "classification": "missing_prerequisite_api_compile_failure",
+  "errors": [
+    "E0425",
+    "E0422",
+    "E0609",
+    "E0609",
+    "E0609",
+    "E0609",
+    "E0609",
+    "E0609",
+    "E0609"
+  ],
+  "missing_type": "kerotakis_core::vessel::HeatInput",
+  "missing_field": "Vessel::heat_input",
+  "target": "solver_transactions",
+  "log_sha256": "a2bc7a9c7cbf097e591a682b4f91641593442dcd30b9138ed1b30bc32fbf31f9",
+  "job_metadata_sha256": "337932ec9643421122fc6a0343b9370dacb5f163a25304727a87d15b9b81e601",
+  "scope": "Restored transaction target did not compile. No assertion pass/fail outcomes inferred from API absence; no Amount runtime result claimed. Preserve first attempt after repair."
+}

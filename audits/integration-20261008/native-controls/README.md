@@ -34,3 +34,5 @@ The initial #771 preflight exposed five tracer validity failures. [The repaired 
 [Fresh #771 Mac review](pr771-dec6-mac.json) now verifies all 151 functions on `dec6b593`. All five required gates now pass. [The separate native-host failure](pr771-dec6-native-host-first-failure.json) occurred during SUNDIALS download before compilation; [its same-head retry passed](pr771-dec6-native-host-retry.json), and #771 is merged. The original failure remains unchanged.
 
 Next plans: [#772 native151](pr772-plan.json) at `8037f069` and [#773 native204](pr773-plan.json) at `fb50bebc`. Both include actual merged main ancestry; their new gates remain pending. Create separately named plans after any later source-head change.
+
+#772 is now merged after [native151](pr772-mac.json), [upstream fetch/native-host build](pr772-native-host.json) and all five required gates passed. #773 initial `fb50bebc` failed compilation due to a missing prerequisite API; [the new plan](pr773-85c79f51-plan.json) binds the repaired head and all unchanged 204 functions. The original plans remain source snapshots; fresh repair results are pending.

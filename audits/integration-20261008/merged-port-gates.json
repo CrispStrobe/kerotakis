@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "main_after_ports": "18dc39873277971a6270089ac1173c40cbe51e3b",
+  "main_after_ports": "0af91885876f8acc8d237165fc52a01daada2412",
   "ports": [
     {
       "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/757",
@@ -617,6 +617,50 @@
         }
       ],
       "scope": "151 native functions, five required gates, successful same-head native-host retry and successful fleet workflow. Original pre-compilation download failure retained; exact merged tree equals accepted ordinary-repair CLI replay. Historical full audit and full owner/energy coverage remain open."
+    },
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/772",
+      "tested_head": "8037f0696e76af29be25590bde7a9fcb129db51a",
+      "merge_commit": "0af91885876f8acc8d237165fc52a01daada2412",
+      "merged_at": "2026-10-09T05:23:13Z",
+      "required_checks": [
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37851023056/job/113563659606",
+          "started_at": "2026-10-08T23:34:22Z",
+          "completed_at": "2026-10-08T23:48:09Z"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37851023056/job/113563659843",
+          "started_at": "2026-10-08T23:20:58Z",
+          "completed_at": "2026-10-08T23:39:07Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37851023056/job/113563660010",
+          "started_at": "2026-10-08T22:25:01Z",
+          "completed_at": "2026-10-08T22:48:44Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37851023056/job/113563659700",
+          "started_at": "2026-10-08T22:25:59Z",
+          "completed_at": "2026-10-08T22:29:31Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37851023056/job/113563660173",
+          "started_at": "2026-10-09T00:12:53Z",
+          "completed_at": "2026-10-09T00:23:45Z"
+        }
+      ],
+      "scope": "Bounded checksum-preserving download retries: five required gates, native151 independent review and actual native-host fetch/build pass. No application performance or scientific-model acceptance."
     }
   ],
   "scope": "Independent matching-head required PR gates. Not a full integrated-source audit/replay or performance acceptance.",
