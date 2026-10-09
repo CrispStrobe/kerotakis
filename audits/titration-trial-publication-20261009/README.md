@@ -26,3 +26,5 @@ python3 tools/titration-baseline-review.py \
 ```
 
 Preserve first baseline failures before any production edits. Any changed repair head needs newly bound source/run/plan manifests. Never overwrite the production fleet workflow with this branch-only harness.
+
+Actual dispatch — 14:00 UTC: [run37940787580](dispatch.json) is dispatched after #774 accepted integration and exact main-tree verification. Actual harness is7ee35002. The prepared manifest and earlier undispatched statements are immutable historical checkpoints; no publication outcome is claimed yet. Download/review this existing run when complete, without duplicate dispatch.

@@ -1,0 +1,12 @@
+{
+  "databaseId": 37940787580,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37940787580",
+  "headSha": "7ee350027e89843f42aa799ddeddf2e5b0f087f7",
+  "event": "workflow_dispatch",
+  "status": "in_progress",
+  "conclusion": "",
+  "campaign": "titration-publication-baseline",
+  "source": "0346701f4c47a4d2eb607c6e998de3f0d5631067",
+  "integrated_main": "659cd45d0f6061b95c4fa22ea811aab7aaa1a58a",
+  "scope": "Actual dispatch after PR774 merge-tree equality; no new baseline outcomes."
+}

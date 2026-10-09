@@ -1,0 +1,13 @@
+{
+  "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/774",
+  "tested_head": "0346701f4c47a4d2eb607c6e998de3f0d5631067",
+  "merge_commit": "659cd45d0f6061b95c4fa22ea811aab7aaa1a58a",
+  "merged_at": "2026-10-09T13:58:33Z",
+  "source_tree": "127d0fabd3e31c1d289a7721a4aa9c274e8489b2",
+  "main_tree": "127d0fabd3e31c1d289a7721a4aa9c274e8489b2",
+  "trees_equal": true,
+  "native_functions_per_platform": 244,
+  "cli_run": 37938775232,
+  "cli_processes": 164,
+  "scope": "Merged tracked tree equals exact reviewed native/CLI candidate. Original forecast qualifications retained; not historical full-audit acceptance."
+}
