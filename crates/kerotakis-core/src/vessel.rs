@@ -1241,6 +1241,16 @@ impl StepStart {
     }
 }
 
+/// Exact operator input for one heat-delivery pass. The provisional bulk
+/// thermometer is not a formation/latent-heat budget. Native thermochemistry
+/// may price this pre-pass inventory plus the joules actually delivered.
+#[derive(Debug, Clone, PartialEq)]
+pub struct HeatInput {
+    pub contents: Vec<Portion>,
+    pub temperature: Kelvin,
+    pub delivered_j: f64,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Vessel {
     /// Seconds of bench time this vessel has experienced.
@@ -1345,6 +1355,10 @@ pub struct Vessel {
     /// this and falls back to its call-start where a host never sets it.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub step_start: Option<StepStart>,
+    /// Step-local operator energy, cleared after each solver pass and omitted
+    /// from persistence so a later operation cannot spend the same joules.
+    #[serde(skip)]
+    pub heat_input: Option<HeatInput>,
     /// Free hydroxide the aqueous solver last MEASURED, in moles.
     ///
     /// Kept beside `solute_charge` and for the same reason — the heat
@@ -1545,6 +1559,7 @@ impl Vessel {
             solid_solutions: Vec::new(),
             solute_charge: 0.0,
             step_start: None,
+            heat_input: None,
             free_hydroxide: 0.0,
             free_proton: 0.0,
             co2_partial_pressure_atm: None,

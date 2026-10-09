@@ -246,6 +246,21 @@ impl StateDelta {
     /// boundary-flow conservation remain separate acceptance contracts.
     pub(crate) fn validate_state(candidate: &crate::vessel::Vessel) -> Vec<DeltaError> {
         let mut errors = Vec::new();
+        if let Some(input) = &candidate.heat_input {
+            if !input.temperature.0.is_finite()
+                || input.temperature.0 <= 0.0
+                || !input.delivered_j.is_finite()
+                || input.delivered_j < 0.0
+                || input
+                    .contents
+                    .iter()
+                    .any(|p| !p.moles.0.is_finite() || p.moles.0 < 0.0)
+            {
+                errors.push(DeltaError::InvalidState {
+                    field: "heat input proposal".into(),
+                });
+            }
+        }
         let ledger = crate::ledger::ConservedLedger::from_vessel(candidate);
         if !candidate.liquid_volume().0.is_finite()
             || !candidate.heat_capacity().is_finite()
@@ -925,6 +940,7 @@ impl StateDelta {
         }
 
         let mut electrode_prefix = std::collections::BTreeMap::new();
+        let mut electrode_effects = std::collections::BTreeMap::new();
         for change in &self.electrode_changes {
             let matching_count = vessel
                 .electrodes
@@ -991,8 +1007,10 @@ impl StateDelta {
                         .deposits
                         .iter()
                         .find(|deposit| deposit.species == species.0);
-                    if existing
-                        .and_then(|deposit| deposit.effect)
+                    let effective = electrode_effects
+                        .entry((change.electrode.clone(), species.0.clone()))
+                        .or_insert(existing.and_then(|deposit| deposit.effect));
+                    if effective
                         .zip(*effect)
                         .is_some_and(|(existing, proposed)| existing != proposed)
                     {
@@ -1000,6 +1018,9 @@ impl StateDelta {
                             electrode: change.electrode.clone(),
                             reason: format!("deposit {} changes kinetic effect", species.0),
                         });
+                    }
+                    if effective.is_none() {
+                        *effective = *effect;
                     }
                     (
                         species.0.clone(),
@@ -1022,7 +1043,7 @@ impl StateDelta {
             if !current.is_finite() || *current < 0.0 || !net.is_finite() || !proposed.is_finite() {
                 errors.push(DeltaError::InvalidElectrodeDelta {
                     electrode: change.electrode.clone(),
-                    reason: "inventory and every applied prefix must be finite and nonnegative"
+                    reason: "aggregate inventory and every applied prefix must be finite and nonnegative"
                         .into(),
                 });
                 continue;
@@ -1053,6 +1074,11 @@ impl StateDelta {
                             species.0
                         ),
                     });
+                }
+            }
+            if let ElectrodeInventory::Deposit { species, .. } = &change.inventory {
+                if proposed <= 0.0 {
+                    electrode_effects.insert((change.electrode.clone(), species.0.clone()), None);
                 }
             }
             *current = proposed.max(0.0);
