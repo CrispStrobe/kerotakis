@@ -1,0 +1,9 @@
+{
+  "pr": 773,
+  "head": "b83be1e96e430232e76a85eb0e5eb28293c30903",
+  "tree": "f1b3a20cbdb9a5f6bd0512f346dd6f8a8e807384",
+  "reviewed_compiled_source": "b83be1e96e430232e76a85eb0e5eb28293c30903",
+  "whole_tree_equals_reviewed_source": true,
+  "run": 37900400346,
+  "scope": "CLI review covers this exact candidate tree. Actual merged main must be compared separately after integration."
+}
