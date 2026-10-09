@@ -1,6 +1,6 @@
 # Frozen production final-safety rule slice
 
-[The seven-function freeze](freeze.json) binds [the fixture](production_final_safety_contracts.rs) against exact candidateb9f998e2 before any production final-rule implementation. It is rustfmt-parsed/formatted but uncompiled and unrun, outside production targets. Current #775's source and original251-function plan remain unchanged. The original plan waited for #775 integration; the current candidate collection below runs independently, preserving the same source/fixture and keeping production edits dependent on integration.
+[The seven-function freeze](freeze.json) binds [the fixture](production_final_safety_contracts.rs) against exact candidateb9f998e2 before any production final-rule implementation. It was frozen outside production targets. The first hosted run has now compiled/executed it; raw outcomes and a binding rejection are preserved below. Current #775's source and original251-function plan remain unchanged. The original plan waited for #775 integration; the current candidate collection below runs independently, preserving the same source/fixture and keeping production edits dependent on integration.
 
 The fixture uses actual ReactiveGroupScreen in kerotakis-safety. The primary reviewed rule is water-reactive-slaking for CaO/water, Caution; bleach-ammonia-chloramine, Danger, is the contrast proving a new finding is not hidden by an older priority finding. Rule identities/severities come from that exact source's existing reviewed matrix, not a new chemical model. Finding identity is rule plus unordered relevant species at this virtual vessel. This slice makes no broader phase/domain claim.
 
@@ -23,9 +23,9 @@ The current candidate run below has already been dispatched from `audit/fifth-in
 ```sh
 python3 tools/titration-baseline-review.py \
   --artifact ARTIFACT_DIRECTORY --run-metadata RUN_METADATA_JSON \
-  --harness 7ad21c4dcc45d740900ed0109c81ca8648a6a700 \
+  --harness 05b84bf2761a10712f2e8c13d35481722a47d7fe \
   --freeze audits/production-final-safety-20261009/baseline-binding.json \
-  --job-name 'Frozen actual production final safety baseline' \
+  --job-name 'Frozen actual production final safety baseline with explicit file inventory' \
   --report NEW_REPORT_JSON
 ```
 
@@ -38,3 +38,9 @@ If compilation fails, add `--prerequisite-failure`; this requires an exact safet
 [Run37965069461](candidate-baseline-dispatch.json) is dispatched on exact harness7ad21c4d/sourceb9f998e2. The earlier prepared snapshot remains unchanged. Both native251/workspace platforms, complete CI/five gates and CLI164 already independently accept this candidate; the remaining fleet is slowly progressing. Collecting an unchanged-source baseline does not require the merge itself, so collection now proceeds independently. Production-rule edits remain blocked until #775 full fleet acceptance and verified integration. No merged-main or production-screen runtime outcome is claimed.
 
 Consume this existing run instead of dispatching again. Download `production-final-safety-baseline-37965069461` and fresh actual run metadata, then use the review command above with the same harness and baseline binding. Preserve first failure evidence before implementation. Verify actual merge-tree equality separately; a changed integrated tree requires a new source binding and baseline.
+
+## Preserved inventory rejection and corrected recollection
+
+[First run37965069461](first-inventory-rejection.json) compiled and executed all seven named controls: raw four passes/three failures, with604 core and28 safety library passes. Newly introduced water reactivity, a new rule behind an older finding, and actual Bench final warning/journal delivery fail. However, the independent binding reviewer rejects full collection acceptance because default Git status reports only the new untracked `tests/` directory. It cannot verify the exact injected-file inventory. These raw outcomes are preserved, not promoted to fully accepted source-bound baseline evidence.
+
+[Recollection37968632619](explicit-inventory-dispatch.json) is dispatched on exact harness05b84bf2 and the same original source/fixture/binding. The separately named mode/job uses `git status --short --untracked-files=all` both before and after injection. Every earlier dispatched job is unchanged. The reviewer remains strict; a new regression test rejects collapsed directory status. All eight reusable reviewer tests pass. Download `production-final-safety-explicit-status-baseline-37968632619` and fresh final metadata, then use the updated review command above. Preserve new failures; do not modify the original seven-function freeze or reuse the rejected inventory as accepted evidence.

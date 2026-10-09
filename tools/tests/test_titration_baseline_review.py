@@ -140,6 +140,11 @@ class ProductionSafetyEvidence(unittest.TestCase):
         with self.assertRaises(AssertionError):
             self.review()
 
+    def test_collapsed_untracked_directory_does_not_bind_the_injected_file(self):
+        self.put('status-with-fixture.txt', '?? crates/kerotakis-safety/tests/\n')
+        with self.assertRaises(AssertionError):
+            self.review()
+
     def test_source_library_hash_is_bound(self):
         self.blobs[self.source, self.library_path] += b'changed source\n'
         with self.assertRaises(AssertionError):

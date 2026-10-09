@@ -1,0 +1,14 @@
+{
+  "databaseId": 37968632619,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37968632619",
+  "headSha": "05b84bf2761a10712f2e8c13d35481722a47d7fe",
+  "event": "workflow_dispatch",
+  "status": "queued",
+  "conclusion": "",
+  "campaign": "production-final-safety-explicit-status-baseline",
+  "job_name": "Frozen actual production final safety baseline with explicit file inventory",
+  "source": "b9f998e2d3ed0603235645b7ebdf7eb6281f0bf8",
+  "source_tree": "e98f3bd97f11f77f0215b19d4560f47dea91f710",
+  "explicit_untracked_file_inventory": true,
+  "scope": "Actual dispatch only. Unchanged candidate source and frozen fixture; full baseline outcomes and acceptance pending. Production edits still require PR775 fleet acceptance and verified integration."
+}
