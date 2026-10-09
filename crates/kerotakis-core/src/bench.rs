@@ -637,6 +637,11 @@ impl Bench {
     /// (physics + honesty, no chemistry engines) and a permissive screen.
     /// The returned events are also appended to the log.
     pub fn step(&mut self, op: Operator) -> Result<Vec<Event>, BenchError> {
+        // The default numeric API refuses malformed typed input as an error.
+        // Explicit solver callers retain the stock diagnostic event contract.
+        if matches!(&op, Operator::Add { moles, .. } if !moles.0.is_finite()) {
+            return Err(BenchError::NonPositiveAmount);
+        }
         let mut default_stack = SolverStack::new(vec![
             Box::new(MixingEquilibrator),
             // EXP-25: the physics the gas tests read. A dissolved volatile
@@ -667,32 +672,36 @@ impl Bench {
             self.stock.clone(),
             self.log.len(),
         );
-        let result = self
-            .step_with_inner(op.clone(), solver, screen)
-            .and_then(|events| {
-                if events
-                    .iter()
-                    .any(|event| matches!(event, Event::SafetyVeto { .. }))
-                {
-                    self.vessels = checkpoint.0.clone();
-                    self.spills = checkpoint.1.clone();
-                    self.broken_vessels = checkpoint.2.clone();
-                    self.stock = checkpoint.3.clone();
-                    self.log.truncate(checkpoint.4);
-                    let events: Vec<_> = events
-                        .into_iter()
-                        .filter(|event| matches!(event, Event::SafetyVeto { .. }))
-                        .collect();
-                    self.log.push(LogEntry {
-                        step: self.log.len(),
-                        operator: op,
-                        events: events.clone(),
-                    });
-                    return Ok(events);
-                }
-                self.validate_numeric_state()?;
-                Ok(events)
-            });
+        let result =
+            self.step_with_inner(op.clone(), solver, screen)
+                .and_then(|(events, disposition)| {
+                    if disposition == ApplyDisposition::Unchanged
+                        || events
+                            .iter()
+                            .any(|event| matches!(event, Event::SafetyVeto { .. }))
+                    {
+                        self.vessels = checkpoint.0.clone();
+                        self.spills = checkpoint.1.clone();
+                        self.broken_vessels = checkpoint.2.clone();
+                        self.stock = checkpoint.3.clone();
+                        self.log.truncate(checkpoint.4);
+                        let vetoed = events
+                            .iter()
+                            .any(|event| matches!(event, Event::SafetyVeto { .. }));
+                        let events: Vec<_> = events
+                            .into_iter()
+                            .filter(|event| !vetoed || matches!(event, Event::SafetyVeto { .. }))
+                            .collect();
+                        self.log.push(LogEntry {
+                            step: self.log.len(),
+                            operator: op,
+                            events: events.clone(),
+                        });
+                        return Ok(events);
+                    }
+                    self.validate_numeric_state()?;
+                    Ok(events)
+                });
         if result.is_err() {
             self.vessels = checkpoint.0;
             self.spills = checkpoint.1;
@@ -730,9 +739,11 @@ impl Bench {
         op: Operator,
         solver: &mut dyn Equilibrator,
         screen: &dyn SafetyScreen,
-    ) -> Result<Vec<Event>, BenchError> {
+    ) -> Result<(Vec<Event>, ApplyDisposition), BenchError> {
         if let Operator::Titrate { .. } = &op {
-            return self.titrate_loop(op, solver, screen);
+            return self
+                .titrate_loop(op, solver, screen)
+                .map(|events| (events, ApplyDisposition::Reequilibrate));
         }
         let temperature_before = match &op {
             Operator::Ignite { vessel } => self.vessel(*vessel)?.temperature,
@@ -856,20 +867,15 @@ impl Bench {
         };
         let mut disposition = ApplyDisposition::Reequilibrate;
         let mut events = self.apply(&op, screen, &mut disposition)?;
-        if !events
-            .iter()
-            .any(|event| matches!(event, Event::SafetyVeto { .. }))
-        {
-            self.validate_numeric_state()?;
-        }
         if disposition == ApplyDisposition::Unchanged {
             self.log.push(LogEntry {
                 step: self.log.len(),
                 operator: op,
                 events: events.clone(),
             });
-            return Ok(events);
+            return Ok((events, disposition));
         }
+        self.validate_numeric_state()?;
         if matches!(&op, Operator::Wait { seconds } if *seconds > 0.0) {
             for vessel in &self.vessels {
                 events.extend(solver.time_boundaries(vessel));
@@ -1346,7 +1352,7 @@ impl Bench {
             operator: op,
             events: events.clone(),
         });
-        Ok(events)
+        Ok((events, disposition))
     }
 
     /// Direct bench operations can be model evaluations even though they do
@@ -1719,7 +1725,16 @@ impl Bench {
                 moles,
                 at,
             } => {
-                if !moles.0.is_finite() || moles.0 <= 0.0 {
+                if !moles.0.is_finite() {
+                    events.push(stock_refusal_event(
+                        *vessel,
+                        &sid.0,
+                        crate::stock::StockRefusal::InvalidRequest { requested: moles.0 },
+                    ));
+                    *disposition = ApplyDisposition::Unchanged;
+                    return Ok(events);
+                }
+                if moles.0 <= 0.0 {
                     return Err(BenchError::NonPositiveAmount);
                 }
                 let data =
