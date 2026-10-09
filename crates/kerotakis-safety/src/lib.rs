@@ -1122,6 +1122,28 @@ const INCOMPATIBLE: &[Incompatibility] = &[
     },
 ];
 
+// Final-safety identity is deliberately limited to the reporting aliases
+// covered by the frozen production identity controls. Do not equate every
+// member of a reactive group: a newly introduced second oxidizer or fuel
+// must still warn even when the rule ID was already present.
+fn final_species_identity(key: &str) -> &str {
+    match key {
+        "ClO-" | "HClO" => "NaOCl",
+        "MnO4-" => "KMnO4",
+        _ => key,
+    }
+}
+
+fn same_final_finding(before: &ExposureFinding, after: &ExposureFinding) -> bool {
+    let matches = |before_index: usize, after_index: usize| {
+        final_species_identity(&before.species[before_index])
+            == final_species_identity(&after.species[after_index])
+            && before.locations[before_index] == after.locations[after_index]
+    };
+    before.rule == after.rule
+        && ((matches(0, 0) && matches(1, 1)) || (matches(0, 1) && matches(1, 0)))
+}
+
 /// The L0 screen: warns (strongly, precisely) on states whose species carry
 /// incompatible reactive groups; the simulation then shows what happens.
 ///
@@ -1130,6 +1152,32 @@ const INCOMPATIBLE: &[Incompatibility] = &[
 pub struct ReactiveGroupScreen;
 
 impl SafetyScreen for ReactiveGroupScreen {
+    fn assess_equilibrated(&self, before: &Vessel, after: &Vessel) -> SafetyVerdict {
+        let prior = assess_exposures([("vessel", before)]);
+        for finding in assess_exposures([("vessel", after)]) {
+            // This first final-safety slice covers the three reviewed rules
+            // bound by the frozen routing/identity controls. Other rules keep
+            // their existing prospective screening and need their own final
+            // domain/identity controls before this coverage is expanded.
+            if !matches!(
+                finding.rule.as_str(),
+                "water-reactive-slaking"
+                    | "bleach-ammonia-chloramine"
+                    | "oxidizer-flammable-liquid"
+            ) || prior.iter().any(|old| same_final_finding(old, &finding))
+            {
+                continue;
+            }
+            return SafetyVerdict::Warn {
+                severity: finding.severity,
+                rule: finding.rule,
+                hazard: finding.hazard,
+                real_world: finding.real_world,
+            };
+        }
+        SafetyVerdict::Allow
+    }
+
     fn assess(&self, vessel: &Vessel) -> SafetyVerdict {
         if vessel
             .contents
