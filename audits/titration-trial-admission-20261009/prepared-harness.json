@@ -1,0 +1,14 @@
+{
+  "harness": "d08ba3185355d19dd084d5a2a7eb79401ce5d5d6",
+  "campaign": "titration-admission-baseline",
+  "source": "b83be1e96e430232e76a85eb0e5eb28293c30903",
+  "source_tree": "f1b3a20cbdb9a5f6bd0512f346dd6f8a8e807384",
+  "freeze_path": "audits/titration-trial-admission-20261009/freeze.json",
+  "freeze_sha256": "bdc3f4ee1ffba611f5fff71249b79e077d53d60d585d218b0273564c3375f8b1",
+  "fixture_sha256": "cae86f3903d59bc6be10425ec134c5517b612506dd4740c9345ae8b99b815af9",
+  "expected_test_functions": 10,
+  "expected_inherited_core_functions": 604,
+  "dispatched": false,
+  "fixture_injection": "The runner copies the separately frozen fixture into an absent untracked test target. Tracked model source must remain clean and unchanged; source-tree identity refers to tracked model code, with the added test bound separately.",
+  "scope": "Prepared baseline only. No compilation or execution claim; dispatch only after current PR773 acceptance/integration."
+}

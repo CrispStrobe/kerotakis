@@ -11,3 +11,21 @@ After #773's complete acceptance/integration, copy the frozen file byte-identica
 Repair only demonstrated causes. Validate each raw input separately before products, shared complete candidate state before hooks, and safety disposition before solver invocation. Keep accepted #773 diagnostics and every original test unchanged. Use independently supported positive dose/no-op controls; do not impose an invented pH range or arbitrary dose floor. Require all ten frozen functions and inherited234/workspace/gates on the repaired exact source.
 
 These controls cover admission and the first trial. They do not settle rollback of previously accepted increments, solver failure or bisection/final-safety behavior. Freeze that next failure-injection tranche before extending the implementation; decide the operation-versus-increment rollback boundary explicitly. [TXN-01](../../docs/chemistry-audit-next-lanes.md) retains the broader route matrix.
+
+## Prepared hosted baseline
+
+[The prepared harness manifest](prepared-harness.json) binds harness `d08ba3185355d19dd084d5a2a7eb79401ce5d5d6`, mode `titration-admission-baseline`. All earlier jobs remain unchanged. YAML, Bash and both embedded Python programs parse; frozen fixture/source-tree bindings are checked. The mode is not dispatched.
+
+After #773 completes acceptance/integration, verify main's tree against the reviewed candidate and the selected harness ref against its expected commit. Then dispatch from the audit harness branch:
+
+```sh
+gh workflow run chemistry-audit.yml --repo CrispStrobe/kerotakis \
+  --ref audit/fifth-independent-50-20261008 \
+  -f campaign=titration-admission-baseline
+```
+
+The job checks out exact source `b83be1e9` and records its clean tracked tree before injecting the byte-identical frozen fixture into an absent untracked test target. This baseline measures the tracked model plus a separately bound added test; it does not claim that the fixture belonged to the original source tree. The job verifies no tracked code changed, records status after injection, generates one lock and runs all ten fixture functions plus all604 inherited library functions with that lock. It archives `titration-admission-baseline-RUN_ID`, including raw logs, exit codes, fixture, lock, source/tree, submodules, toolchain and harness hashes even on failure.
+
+Verify actual dispatch `headSha`, every frozen named outcome, unique/unfiltered summary counts, fixture and lock hashes, the exact two source gitlinks, empty tracked diff and only the expected untracked test target. Inspect function failures as model outcomes; job success means the baseline was collected completely, not that its functions passed. A compile/harness failure does not establish a behavioral count. Preserve first failure evidence before production edits. Port the frozen fixture into the repair branch without changing its bytes; bind each later repaired source and run the inherited234/workspace/gates separately.
+
+The audit harness groups concurrency by ref and campaign with cancellation disabled. The production fleet groups by PR/ref and cancels superseded runs. Waiting for #773 here is an acceptance dependency, not a claim that this new campaign would cancel its jobs.
