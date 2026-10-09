@@ -817,6 +817,7 @@ impl Bench {
                                 events.append(&mut more);
                                 vessel.refresh_pressure();
                                 vessel.step_start = None;
+                                vessel.heat_input = None;
                                 continue;
                             }
                             Err(_) => {
@@ -837,6 +838,7 @@ impl Bench {
                 }
             }
             vessel.step_start = None;
+            vessel.heat_input = None;
             vessel.refresh_pressure();
             // A dose of heat is offered in passes, and the solver above has
             // just had the first of them. What happens next depends on
@@ -1503,6 +1505,11 @@ impl Bench {
                 if room <= 1e-9 {
                     break;
                 }
+                vessel.heat_input = Some(crate::vessel::HeatInput {
+                    contents: vessel.contents.clone(),
+                    temperature: now,
+                    delivered_j: room,
+                });
                 let landed = vessel.temperature_after(room);
                 vessel.temperature = Kelvin(landed);
                 vessel.solution = None;
@@ -1528,6 +1535,7 @@ impl Bench {
             }
             if let Ok(vessel) = self.vessel_mut(id) {
                 vessel.step_start = None;
+                vessel.heat_input = None;
                 vessel.refresh_pressure();
             }
         }
@@ -1928,6 +1936,12 @@ impl Bench {
                     // more, which is what `deliver_remaining_heat` finds
                     // out — it has the solver, and `apply` does not.
                     let head = source.headroom_for(v).min(energy.0);
+                    // The disclosed COOL floor has no valid native feed record.
+                    v.heat_input = (from.0 > 0.0).then(|| crate::vessel::HeatInput {
+                        contents: v.contents.clone(),
+                        temperature: from,
+                        delivered_j: head,
+                    });
                     let to = Kelvin(v.temperature_after(head));
                     v.temperature = to;
                     events.push(Event::TemperatureChanged {
@@ -5437,6 +5451,7 @@ impl Bench {
                 Ok(Vec::new())
             };
             v.step_start = None;
+            v.heat_input = None;
             v.refresh_pressure();
             result.map(|events| (v, events))
         };

@@ -246,6 +246,21 @@ impl StateDelta {
     /// boundary-flow conservation remain separate acceptance contracts.
     pub(crate) fn validate_state(candidate: &crate::vessel::Vessel) -> Vec<DeltaError> {
         let mut errors = Vec::new();
+        if let Some(input) = &candidate.heat_input {
+            if !input.temperature.0.is_finite()
+                || input.temperature.0 <= 0.0
+                || !input.delivered_j.is_finite()
+                || input.delivered_j < 0.0
+                || input
+                    .contents
+                    .iter()
+                    .any(|p| !p.moles.0.is_finite() || p.moles.0 < 0.0)
+            {
+                errors.push(DeltaError::InvalidState {
+                    field: "heat input proposal".into(),
+                });
+            }
+        }
         let ledger = crate::ledger::ConservedLedger::from_vessel(candidate);
         if !candidate.liquid_volume().0.is_finite()
             || !candidate.heat_capacity().is_finite()
