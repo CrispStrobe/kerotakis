@@ -2540,6 +2540,14 @@ jobs:
           BIND
       - name: Execute unchanged disclosed checks and strict stage controls
         run: python3 harness/tools/combined-cli-replay.py --binary combined-build/kero --build-binding combined-build/binding.json --source-manifest harness/audits/production-final-safety-20261009/cli-source-622d37ec.json --out combined-cli-replay
+      - name: Bind and collect separately frozen actual-CLI warning probes
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir probe-binding
+          git -C harness rev-parse HEAD > probe-binding/harness-commit.txt
+          sha256sum harness/tools/final-safety-cli-probes-v2.py harness/audits/production-final-safety-20261009/cli-warning-probes/{freeze.json,introduced-chloramine.lab,benign-counterpart.lab} harness/audits/production-final-safety-20261009/cli-source-622d37ec.json harness/.github/workflows/chemistry-audit.yml > probe-binding/harness-sha256.txt
+          python3 harness/tools/final-safety-cli-probes-v2.py --binary combined-build/kero --build-binding combined-build/binding.json --repair-source-manifest harness/audits/production-final-safety-20261009/cli-source-622d37ec.json --out cli-warning-probes --report probe-binding/observations.json
       - uses: actions/upload-artifact@v6
         if: always()
         with:
@@ -2547,6 +2555,9 @@ jobs:
           path: |
             combined-build/
             combined-cli-replay/
+            cli-warning-probes/
+            probe-binding/
+            harness/tools/final-safety-cli-probes-v2.py
             harness/audits/production-final-safety-20261009/
             harness/audits/main-cli-replay-20261008/
             harness/tools/combined-cli-replay.py
