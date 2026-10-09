@@ -536,6 +536,12 @@ pub enum SafetyVerdict {
 pub trait SafetyScreen {
     fn assess(&self, vessel: &Vessel) -> SafetyVerdict;
 
+    /// Assess hazards introduced by a solve, separately from a user pour.
+    /// The default preserves existing screens and does not enable a call site.
+    fn assess_equilibrated(&self, _before: &Vessel, _after: &Vessel) -> SafetyVerdict {
+        SafetyVerdict::Allow
+    }
+
     /// KID-3: assess a *pour* rather than a state.
     ///
     /// The reactivity screen warns about mixing, and mixing is something a

@@ -5603,6 +5603,7 @@ impl Bench {
                 }
                 SafetyVerdict::Veto { reason } => return Err(TrialFailure::Veto(reason)),
             }
+            let before_solve = v.clone();
             let result = if solver.applies(&v) {
                 solver.equilibrate(&mut v)
             } else {
@@ -5613,6 +5614,25 @@ impl Bench {
             v.refresh_pressure();
             let mut solved_events = result.map_err(TrialFailure::Solver)?;
             validate_trial(&v)?;
+            // Keep settled-state hazards with this private trial. Refinement
+            // discards the full-dose events when it accepts a smaller dose.
+            match screen.assess_equilibrated(&before_solve, &v) {
+                SafetyVerdict::Allow => {}
+                SafetyVerdict::Warn {
+                    severity,
+                    rule,
+                    hazard,
+                    real_world,
+                } => {
+                    trial_events.push(Event::HazardWarning {
+                        severity,
+                        rule,
+                        hazard,
+                        real_world,
+                    });
+                }
+                SafetyVerdict::Veto { reason } => return Err(TrialFailure::Veto(reason)),
+            }
             trial_events.append(&mut solved_events);
             Ok((v, trial_events))
         };
