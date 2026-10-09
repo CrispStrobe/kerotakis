@@ -256,6 +256,8 @@ AUD-01/AUD-02/VAL-01 must not edit native reconstruction concurrently. NUM-02/NU
 
 **Validate:** collect and preserve the unchanged production-screen baseline with frozen expectations before implementation. Require direct core+actual-safety-crate integration controls, positive/negative cases and discarded-refinement warning checks, inherited workspace and exact-head gates/fleet/source-bound CLI. Keep original solver-private rollback and warning selection semantics. Report the remaining rule/domain matrix rather than claiming all safety coverage from one slice.
 
+[An unapplied three-rule implementation candidate](../audits/production-final-safety-20261009/implementation-proposal.json) is now source-bound and syntax/applicability checked. It has no compilation/runtime acceptance. After accepted corrected baselines and #775 integration, apply or revise it based on preserved failures, port both frozen fixtures byte-identically and create a new267-function/26-fixture native plan. Broader final rules, additional aliases, base/acidity projections and phase/domain coverage remain separate followups.
+
 **Done:** the selected real production screen emits its supported newly introduced exposure through final safety and accepted CLI narration, while unchanged/unsupported conditions and discarded trials retain their declared behavior. The original frozen fixtures, forecasts and earlier failure receipts remain unchanged. Broader reaction/exposure coverage is still a separate extension.
 
 ## UX-01 — Make chemical claims agree across phase, locale and register

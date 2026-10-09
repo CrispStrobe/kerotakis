@@ -1,0 +1,38 @@
+{
+  "source": "b9f998e2d3ed0603235645b7ebdf7eb6281f0bf8",
+  "source_tree": "e98f3bd97f11f77f0215b19d4560f47dea91f710",
+  "target": "crates/kerotakis-safety/src/lib.rs",
+  "target_source_sha256": "bb2c059ca4986b644bdd2a07707322b2ffa0d9a5d97e8a220c8b6ba27afef579",
+  "patch": "audits/production-final-safety-20261009/three-rule-candidate.patch",
+  "patch_sha256": "3a99bbb4b186be854cc594d4b6e4f62edb380b9d0c334e851cb8d90d975e186f",
+  "added_lines": 48,
+  "removed_lines": 0,
+  "rules": [
+    "water-reactive-slaking",
+    "bleach-ammonia-chloramine",
+    "oxidizer-flammable-liquid"
+  ],
+  "alias_families": [
+    [
+      "NaOCl",
+      "ClO-",
+      "HClO"
+    ],
+    [
+      "KMnO4",
+      "MnO4-"
+    ]
+  ],
+  "checks": [
+    "rustfmt parse and format check",
+    "git apply --check on unchanged candidate worktree"
+  ],
+  "applied": false,
+  "compiled": false,
+  "runtime_tested": false,
+  "prerequisites": [
+    "Accepted corrected seven-function and nine-function baseline bindings, preserving first failures",
+    "PR775 complete fleet acceptance, merge and actual main-tree equality"
+  ],
+  "scope": "Reviewable implementation proposal only. No repaired-source acceptance, performance measurement or broader final-rule/phase/alias coverage. Existing prospective screening is unchanged."
+}
