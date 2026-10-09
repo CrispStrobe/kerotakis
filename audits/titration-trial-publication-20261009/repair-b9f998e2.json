@@ -1,0 +1,19 @@
+{
+  "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/775",
+  "head": "b9f998e2d3ed0603235645b7ebdf7eb6281f0bf8",
+  "source_tree": "e98f3bd97f11f77f0215b19d4560f47dea91f710",
+  "base": "659cd45d0f6061b95c4fa22ea811aab7aaa1a58a",
+  "api_prerequisite": "e626961ddcbf2516b36150abb5873c06d1a6784f",
+  "frozen_fixture_sha256": "6ed72521affae763d52ea5581453cc875e13ef338c69d95d14f64546422a3030",
+  "baseline_run": 37941589330,
+  "baseline_passed": 3,
+  "baseline_failed": 4,
+  "inherited_passed": 604,
+  "ci_run": 37946944206,
+  "fleet_run": 37946944235,
+  "native_plan": "audits/integration-20261008/native-controls/pr775-b9f998e2-plan.json",
+  "cli_harness": "7d46c2fd2649118db70f6357e566ac44e9ff7fd8",
+  "cli_campaign": "titration-publication-cli-replay",
+  "cli_dispatched": false,
+  "scope": "Repair pushed; hosted acceptance pending. Includes default API plus exact unsolved/validated-solved final hook and private candidate warnings/veto. Production safety implementation still inherits Allow; its rule integration is a separate required lane."
+}
