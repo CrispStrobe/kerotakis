@@ -1,0 +1,16 @@
+{
+  "harness": "7ad21c4dcc45d740900ed0109c81ca8648a6a700",
+  "campaign": "production-final-safety-baseline",
+  "job_name": "Frozen actual production final safety baseline",
+  "source": "b9f998e2d3ed0603235645b7ebdf7eb6281f0bf8",
+  "source_tree": "e98f3bd97f11f77f0215b19d4560f47dea91f710",
+  "freeze": "audits/production-final-safety-20261009/freeze.json",
+  "baseline_binding": "audits/production-final-safety-20261009/baseline-binding.json",
+  "controls": 7,
+  "core_library": 604,
+  "safety_library": 28,
+  "prior_jobs_unchanged": true,
+  "dispatched": false,
+  "prerequisite": "PR775 complete exact-source acceptance, merge and actual main-tree equality; a source change requires a new binding.",
+  "scope": "Prepared collection only, zero production safety runtime outcomes."
+}

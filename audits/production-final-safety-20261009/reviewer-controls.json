@@ -1,0 +1,55 @@
+{
+  "controls": [
+    {
+      "control": "complete synthetic collection containing a model failure",
+      "result": "accepted"
+    },
+    {
+      "control": "dirty tracked source",
+      "result": "rejected"
+    },
+    {
+      "control": "altered fixture",
+      "result": "rejected"
+    },
+    {
+      "control": "filtered summary",
+      "result": "rejected"
+    },
+    {
+      "control": "duplicate inherited function",
+      "result": "rejected"
+    },
+    {
+      "control": "outcome exit mismatch",
+      "result": "rejected"
+    },
+    {
+      "control": "uninitialized submodule",
+      "result": "rejected"
+    },
+    {
+      "control": "altered lock",
+      "result": "rejected"
+    },
+    {
+      "control": "missing safety function",
+      "result": "rejected"
+    },
+    {
+      "control": "duplicate safety function",
+      "result": "rejected"
+    },
+    {
+      "control": "filtered safety summary",
+      "result": "rejected"
+    },
+    {
+      "control": "safety exit failure",
+      "result": "rejected"
+    }
+  ],
+  "reviewer_sha256": "f1dd74d713712be0c94fb7f326e55ba32cc6f40c39c6088519288f370f041e85",
+  "functions": 7,
+  "scope": "Synthetic actual-screen seven-function archive and complete28-function safety-library evidence only. No model compilation, execution or baseline outcomes."
+}

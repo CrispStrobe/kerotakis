@@ -1,0 +1,27 @@
+{
+  "reviewer_sha256": "f1dd74d713712be0c94fb7f326e55ba32cc6f40c39c6088519288f370f041e85",
+  "archives": [
+    {
+      "run": 37913920525,
+      "classification": "complete baseline collection",
+      "passed": 1,
+      "failed": 9,
+      "inherited": 604
+    },
+    {
+      "run": 37940787580,
+      "classification": "compiler prerequisite failure",
+      "passed": 0,
+      "failed": 0,
+      "inherited": 604
+    },
+    {
+      "run": 37941589330,
+      "classification": "complete baseline collection",
+      "passed": 3,
+      "failed": 4,
+      "inherited": 604
+    }
+  ],
+  "scope": "Offline re-review of preserved actual archives; no model execution and no production safety outcome."
+}

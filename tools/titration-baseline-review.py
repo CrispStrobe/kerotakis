@@ -56,11 +56,16 @@ def review(artifact, run_path, harness, freeze_path=FREEZE,
         for key in ['fixture_path', 'fixture_sha256', 'intended_test_target',
                     'expected_test_functions', 'functions']:
             assert freeze[key] == original_freeze[key], 'Changed frozen expectation'
+        assert freeze.get('test_package', 'kerotakis-core') == original_freeze.get(
+            'test_package', 'kerotakis-core'), 'Changed frozen test package'
     fixture_path = freeze['fixture_path']
     fixture = git('show', f'{harness}:{fixture_path}')
     assert sha(fixture) == freeze['fixture_sha256']
     assert (archived / fixture_path).read_bytes() == fixture
     assert (evidence / 'fixture.rs').read_bytes() == fixture
+    package = freeze.get('test_package', 'kerotakis-core')
+    assert re.fullmatch(r'kerotakis-[a-z0-9-]+', package), 'Unsafe test package'
+    assert freeze['intended_test_target'].startswith(f'crates/{package}/tests/')
     source = freeze['source_observed']
     tree = git('rev-parse', source + '^{tree}').decode().strip()
     assert tree == freeze['source_tree']
@@ -110,7 +115,7 @@ def review(artifact, run_path, harness, freeze_path=FREEZE,
         compiler_errors = re.findall(r'^error\[(E\d+)\]: (.+)$', controls_text, re.M)
         assert compiler_errors, 'No Rust compiler diagnostic'
         target_name = Path(target).stem
-        assert f'could not compile `kerotakis-core` (test "{target_name}")' in controls_text
+        assert f'could not compile `{package}` (test "{target_name}")' in controls_text
         passed, failed = [], []
     else:
         passed, failed = outcomes(controls_text, freeze['functions'])
@@ -125,6 +130,32 @@ def review(artifact, run_path, harness, freeze_path=FREEZE,
     assert all(result == 'ok' for _, result in inherited_rows)
     outcomes(inherited_bytes.decode(), inherited_names)
     assert int((evidence / 'inherited-exit.txt').read_text()) == 0
+    additional_libraries = []
+    prefixes = set()
+    for library in freeze.get('additional_libraries', []):
+        prefix = library['evidence_prefix']
+        assert re.fullmatch(r'[a-z][a-z0-9-]*', prefix) and prefix not in prefixes
+        assert prefix not in {'controls', 'inherited'}, 'Reserved evidence prefix'
+        prefixes.add(prefix)
+        library_package = library['package']
+        assert re.fullmatch(r'kerotakis-[a-z0-9-]+', library_package)
+        library_path = PurePosixPath(library['source_path'])
+        assert not library_path.is_absolute() and '..' not in library_path.parts
+        assert str(library_path) == f'crates/{library_package}/src/lib.rs'
+        library_source = git('show', f'{source}:{library_path}')
+        assert sha(library_source) == library['source_sha256']
+        expected = library['functions']
+        assert len(expected) == len(set(expected)) == library['expected_test_functions'] > 0
+        library_passed, library_failed = outcomes(
+            (evidence / f'{prefix}.log').read_text(), expected)
+        assert not library_failed, 'Inherited library regression'
+        assert int((evidence / f'{prefix}-exit.txt').read_text()) == 0
+        additional_libraries.append({
+            'package': library_package, 'source_path': str(library_path),
+            'source_sha256': library['source_sha256'],
+            'passed': library_passed, 'failed': library_failed,
+            'evidence_prefix': prefix,
+        })
     result = {
         'source': source, 'fixture_sha256': sha(fixture), 'exit_code': exit_code,
         'passed': passed, 'failed': failed, 'controls_sha256': sha(controls_bytes),
@@ -142,6 +173,7 @@ def review(artifact, run_path, harness, freeze_path=FREEZE,
     return {
         'run': run['databaseId'], 'run_url': run['url'], 'harness': harness,
         'source': source, 'source_tree': tree, 'fixture_sha256': sha(fixture),
+        'test_package': package, 'additional_libraries': additional_libraries,
         'freeze_path': freeze_path,
         'freeze_sha256': sha(freeze_bytes), 'generated_lock_sha256': lock,
         'submodules': links, 'harness_sha256': hashes,
