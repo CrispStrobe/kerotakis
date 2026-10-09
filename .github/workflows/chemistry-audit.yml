@@ -34,6 +34,7 @@ on:
           - titration-publication-api-baseline
           - production-final-safety-baseline
           - production-final-safety-cli-replay
+          - production-final-safety-cli-probe-baseline
           - production-final-safety-explicit-status-baseline
           - production-safety-identity-baseline
           - titration-publication-cli-replay
@@ -2407,5 +2408,69 @@ jobs:
             harness/audits/main-cli-replay-20261008/
             harness/tools/combined-cli-replay.py
             harness/tools/fifth-independent-50/
+          retention-days: 30
+          if-no-files-found: error
+
+  production-final-safety-cli-probe-baseline:
+    name: Collect frozen final-safety CLI route baseline using verified executable
+    if: inputs.campaign == 'production-final-safety-cli-probe-baseline'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          path: harness
+          fetch-depth: 0
+      - uses: actions/download-artifact@v5
+        with:
+          name: titration-publication-cli-replay-37953313299
+          run-id: 37953313299
+          github-token: ${{ github.token }}
+          path: prior-cli
+      - name: Verify all accepted build bytes and bind the probe harness
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir probe-binding
+          gh api repos/CrispStrobe/kerotakis/actions/runs/37953313299 > probe-binding/parent-run.json
+          gh api repos/CrispStrobe/kerotakis/actions/artifacts/11627946038 > probe-binding/parent-artifact.json
+          git -C harness rev-parse HEAD > probe-binding/harness-commit.txt
+          sha256sum harness/tools/final-safety-cli-probes.py harness/audits/production-final-safety-20261009/cli-warning-probes/{freeze.json,introduced-chloramine.lab,benign-counterpart.lab} harness/audits/titration-trial-publication-20261009/cli-bindings-review-b9f998e2.json harness/.github/workflows/chemistry-audit.yml > probe-binding/harness-sha256.txt
+          python3 - <<'VERIFY'
+          import hashlib,json,pathlib
+          root=pathlib.Path('prior-cli/combined-build')
+          receipt=json.loads(pathlib.Path('harness/audits/titration-trial-publication-20261009/cli-bindings-review-b9f998e2.json').read_text())
+          assert receipt['accepted_executable_bindings'] is True
+          run=json.loads(pathlib.Path('probe-binding/parent-run.json').read_text())
+          assert run['id']==37953313299 and run['status']=='completed' and run['conclusion']=='success'
+          assert run['head_sha']==receipt['harness'] and run['event']=='workflow_dispatch'
+          artifact=json.loads(pathlib.Path('probe-binding/parent-artifact.json').read_text())
+          assert artifact['id']==11627946038 and not artifact['expired']
+          assert artifact['workflow_run']['id']==37953313299
+          assert artifact['name']=='titration-publication-cli-replay-37953313299'
+          assert receipt['run']==37953313299
+          assert receipt['source_binding']['compiled_source']=='b9f998e2d3ed0603235645b7ebdf7eb6281f0bf8'
+          for name,sha in receipt['build_evidence_sha256'].items():
+              with (root/name).open('rb') as stream:
+                  assert hashlib.file_digest(stream,'sha256').hexdigest()==sha,name
+          assert json.loads((root/'binding.json').read_text())==receipt['source_binding']
+          VERIFY
+          chmod +x prior-cli/combined-build/kero
+      - name: Collect byte-identical positive and negative scripts in JSON and text
+        run: python3 harness/tools/final-safety-cli-probes.py --binary prior-cli/combined-build/kero --build-binding prior-cli/combined-build/binding.json --out cli-warning-probes --report probe-binding/observations.json
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: production-final-safety-cli-probe-baseline-${{ github.run_id }}
+          path: |
+            cli-warning-probes/
+            probe-binding/
+            prior-cli/combined-build/
+            harness/tools/final-safety-cli-probes.py
+            harness/tools/tests/test_final_safety_cli_probes.py
+            harness/audits/production-final-safety-20261009/cli-warning-probes/
+            harness/audits/titration-trial-publication-20261009/cli-bindings-review-b9f998e2.json
           retention-days: 30
           if-no-files-found: error
