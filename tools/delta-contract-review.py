@@ -19,7 +19,7 @@ def git(*args):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--artifact', type=pathlib.Path, required=True)
-    parser.add_argument('--lane', choices=['inventory', 'thermal', 'snapshot', 'stack', 'boundary', 'nuclide', 'electrode', 'ordinary'], required=True)
+    parser.add_argument('--lane', choices=['inventory', 'thermal', 'snapshot', 'stack', 'boundary', 'nuclide', 'electrode', 'ordinary', 'transactions'], required=True)
     parser.add_argument('--harness', required=True)
     parser.add_argument('--report', type=pathlib.Path, required=True)
     args = parser.parse_args()
@@ -33,6 +33,7 @@ def main():
         'nuclide': ('nuclide-inventory-serde', 'nuclide_inventory_serde_contracts'),
         'electrode': ('solver-electrode-schema', 'solver_electrode_schema_contracts'),
         'ordinary': ('ordinary-delta-state-contracts', 'ordinary_delta_state_contracts'),
+        'transactions': ('historical-transaction-amount-controls', 'solver_transactions'),
     }[args.lane]
     manifest_path = f'audits/{directory}-20261008/paired-run.json'
     fixture = f'crates/kerotakis-core/tests/{fixture}.rs'
@@ -62,6 +63,10 @@ def main():
         outcomes = re.findall(r'^test (\S+) \.\.\. (ok|FAILED)$', log, re.M)
         assert len(outcomes) == manifest['expected_test_functions']
         assert len({name for name, _ in outcomes}) == len(outcomes)
+        if args.lane == 'transactions':
+            expected_names = re.findall(rb'#\[test\]\s*fn\s+(\w+)\s*\(', git('show', f'{source}:{fixture}'))
+            assert {name for name, _ in outcomes} == {name.decode() for name in expected_names}
+            assert re.search(r'test result: .* 0 ignored; 0 measured; 0 filtered out;', log)
         passed = sorted(name for name, result in outcomes if result == 'ok')
         failed = sorted(name for name, result in outcomes if result == 'FAILED')
         code = int((folder / 'controls-exit.txt').read_text())
@@ -70,6 +75,9 @@ def main():
         inherited = (folder / 'inherited.log').read_text()
         assert int((folder / 'inherited-exit.txt').read_text()) == 0
         assert re.search(r'test result: ok\. [1-9]\d* passed; 0 failed;', inherited)
+        if args.lane == 'transactions':
+            count = manifest['expected_inherited_test_functions']
+            assert re.search(rf'test result: ok\. {count} passed; 0 failed; 0 ignored; 0 measured; 0 filtered out;', inherited)
         recorded = next(row for row in original if row['label'] == label)
         assert sorted(recorded['passed']) == passed and sorted(recorded['failed']) == failed
         assert recorded['source'] == source and recorded['exit_code'] == code
