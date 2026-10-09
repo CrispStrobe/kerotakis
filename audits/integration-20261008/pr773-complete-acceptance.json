@@ -1,0 +1,52 @@
+{
+  "source": "b83be1e96e430232e76a85eb0e5eb28293c30903",
+  "merge": "f2d0d2fe871d2d5080fbc1af7de6435bf3b814d1",
+  "required_checks": [
+    {
+      "name": "Full preflight gate",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37897703863/job/113712749991",
+      "started_at": "2026-10-09T07:21:34Z",
+      "completed_at": "2026-10-09T07:44:16Z"
+    },
+    {
+      "name": "Test (native) (ubuntu-latest)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37897703863/job/113712750132",
+      "started_at": "2026-10-09T07:49:09Z",
+      "completed_at": "2026-10-09T08:01:07Z"
+    },
+    {
+      "name": "Test (native) (macos-latest)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37897703863/job/113712750265",
+      "started_at": "2026-10-09T07:16:13Z",
+      "completed_at": "2026-10-09T07:39:53Z"
+    },
+    {
+      "name": "The bench in WebAssembly",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37897703863/job/113712750423",
+      "started_at": "2026-10-09T07:44:18Z",
+      "completed_at": "2026-10-09T07:49:56Z"
+    },
+    {
+      "name": "The demo page, in a real browser",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37897703863/job/113712750084",
+      "started_at": "2026-10-09T07:19:44Z",
+      "completed_at": "2026-10-09T07:30:48Z"
+    }
+  ],
+  "ci_run": 37897703863,
+  "fleet_run": 37897703884,
+  "ci_conclusion": "success",
+  "fleet_conclusion": "success",
+  "archive_sha256": {
+    "pr773-final-head-gates.json": "adfb990762883f8714054f95b9b2e55c5c80a631897d9126ecb88025d6cf604d",
+    "pr773-complete-ci-run.json": "d5235237dd74dd052383311c17224b2b59d68b8712a1e9ab54e62fbf500afb97",
+    "pr773-complete-fleet-run.json": "1c24ce0e1fd9acfced787509cc034051fe252a4102d463805d8b2b6705fd35de",
+    "pr773-merge.json": "5ffecc5827e01fe6b65280f78ea15b9eacd0f140e940d8e1a586c97dd6adb6a5"
+  },
+  "scope": "Exact-head complete integration acceptance. Native, paired and CLI receipts remain separately reviewed."
+}

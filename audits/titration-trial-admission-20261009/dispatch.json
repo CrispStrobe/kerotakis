@@ -1,0 +1,12 @@
+{
+  "databaseId": 37913920525,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37913920525",
+  "headSha": "d08ba3185355d19dd084d5a2a7eb79401ce5d5d6",
+  "event": "workflow_dispatch",
+  "status": "queued",
+  "conclusion": "",
+  "campaign": "titration-admission-baseline",
+  "source": "b83be1e96e430232e76a85eb0e5eb28293c30903",
+  "integrated_main": "f2d0d2fe871d2d5080fbc1af7de6435bf3b814d1",
+  "scope": "Actual baseline dispatch only; no compilation or model outcome claim."
+}

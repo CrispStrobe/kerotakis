@@ -1,5 +1,6 @@
 # Native gate review
 
+Current checkpoint: [#773 merged-tree acceptance](../../historical-transaction-amount-controls-20261008/main-tree-equality.json) records merge `f2d0d2fe` after complete native234/paired/CLI/gates/fleet acceptance. Earlier preparation and pending-state paragraphs below describe their dated historical stages.
 The reviewed #768 Linux and #769 Mac receipts identify the actual CI checkout, verify complete Git tree equality with the PR head and match every expected fixture function to an unfiltered passing result. They cover one native gate each; required-gate and merge acceptance remain in the separate merge receipt.
 
 [The reusable offline reviewer](../../../tools/native-controls-review.py) automates these checks. It requires archived job logs, `gh run view --json headSha,event,jobs` metadata and the Git commit response for the actual checkout from `gh api repos/CrispStrobe/kerotakis/git/commits/COMMIT`. The checkout SHA must come from the log's `git log -1 --format=%H` output. Preserve these inputs before changing a failed head. Download raw logs through the Actions job logs endpoint once the job has completed.

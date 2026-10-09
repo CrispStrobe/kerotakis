@@ -661,6 +661,50 @@
         }
       ],
       "scope": "Bounded checksum-preserving download retries: five required gates, native151 independent review and actual native-host fetch/build pass. No application performance or scientific-model acceptance."
+    },
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/773",
+      "tested_head": "b83be1e96e430232e76a85eb0e5eb28293c30903",
+      "merge_commit": "f2d0d2fe871d2d5080fbc1af7de6435bf3b814d1",
+      "merged_at": "2026-10-09T09:50:39Z",
+      "required_checks": [
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37897703863/job/113712749991",
+          "started_at": "2026-10-09T07:21:34Z",
+          "completed_at": "2026-10-09T07:44:16Z"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37897703863/job/113712750132",
+          "started_at": "2026-10-09T07:49:09Z",
+          "completed_at": "2026-10-09T08:01:07Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37897703863/job/113712750265",
+          "started_at": "2026-10-09T07:16:13Z",
+          "completed_at": "2026-10-09T07:39:53Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37897703863/job/113712750423",
+          "started_at": "2026-10-09T07:44:18Z",
+          "completed_at": "2026-10-09T07:49:56Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37897703863/job/113712750084",
+          "started_at": "2026-10-09T07:19:44Z",
+          "completed_at": "2026-10-09T07:30:48Z"
+        }
+      ],
+      "scope": "Atomic numeric refusals, unchanged diagnostic compatibility and ordered deposit metadata: native234 on both platforms, paired31/7 to38/0 with604 both, source-bound CLI164 and complete fleet. Clone cost unmeasured; historical full audit remains separate."
     }
   ],
   "scope": "Independent matching-head required PR gates. Not a full integrated-source audit/replay or performance acceptance.",

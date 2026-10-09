@@ -14,7 +14,7 @@ These controls cover admission and the first trial. They do not settle rollback 
 
 ## Prepared hosted baseline
 
-[The prepared harness manifest](prepared-harness.json) binds harness `d08ba3185355d19dd084d5a2a7eb79401ce5d5d6`, mode `titration-admission-baseline`. All earlier jobs remain unchanged. YAML, Bash and both embedded Python programs parse; frozen fixture/source-tree bindings are checked. The mode is not dispatched.
+[The prepared harness manifest](prepared-harness.json) binds harness `d08ba3185355d19dd084d5a2a7eb79401ce5d5d6`, mode `titration-admission-baseline`. All earlier jobs remain unchanged. YAML, Bash and both embedded Python programs parse; frozen fixture/source-tree bindings are checked. [Actual dispatch37913920525](dispatch.json) is now pending after #773 merged-tree equality was verified. The prepared manifest remains an immutable pre-dispatch snapshot; no baseline outcomes are claimed yet.
 
 After #773 completes acceptance/integration, verify main's tree against the reviewed candidate and the selected harness ref against its expected commit. Then dispatch from the audit harness branch:
 
