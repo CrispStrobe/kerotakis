@@ -30,3 +30,5 @@ python3 tools/titration-baseline-review.py \
 ```
 
 If compilation fails, add `--prerequisite-failure`; this requires an exact safety-target Rust compiler diagnostic, exit101 and zero control outcomes, while still verifying both inherited suites. Preserve first failures before any production edits. A changed source/tree needs a separately named binding and fresh dispatch; do not modify the original freeze or reuse another source's acceptance.
+
+[Reusable reviewer tests](../../tools/tests/test_titration_baseline_review.py) exercise source-library hash binding, missing/duplicate/filtered/failed inherited outcomes, exact compiler-package classification and separation of compiler prerequisites from runtime failures. Run `python3 -m unittest discover -s tools/tests -p test_titration_baseline_review.py -v` from the repository root. Seven tests pass on synthetic archives with mocked Git; they require no historical Git objects or model build. They establish evidence-review behavior only.
