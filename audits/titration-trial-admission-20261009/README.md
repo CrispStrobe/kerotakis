@@ -42,3 +42,11 @@ python3 tools/titration-baseline-review.py \
 ```
 
 [Eight synthetic controls](reviewer-controls.json) verify collection acceptance with a model failure and rejection of dirty source, altered fixture, filtered results, duplicate inherited names, exit mismatch, uninitialized submodules and altered lock. These are reviewer checks, not execution of the titration fixture.
+
+## Verified baseline and active repair
+
+[The reviewed baseline37913920525](baseline-review.json) records one pass (valid zero-increment no-op) and nine failed functions, with all604 inherited library functions passing. Source/tree, frozen bytes, clean tracked code plus the separately injected fixture, one lock, submodules, harness and actual run identity are verified. Failed parameter loops may stop early; the twenty declared subcases are not twenty observed baseline executions. Raw logs and hashes are preserved before repair.
+
+[PR #774](https://github.com/CrispStrobe/kerotakis/pull/774), [bound repair0346701f](repair-0346701f.json), validates individual finite inputs and positive concentration/volume before products, finite dose/carrier amounts and initial state. It validates and safety-screens prospective full and refinement trials before solver hooks, and validates solved candidates before acceptance. Only accepted trial warning events enter the stream. Invalid state or veto uses the existing whole-operation rollback; solver-error narration retains its existing behavior. This does not freeze or prove later increment/solver-error/final-safety semantics.
+
+The ten-function target is byte-identical to the freeze. [Native244 plan](../integration-20261008/native-controls/pr774-0346701f-plan.json) preserves all prior234 fixture hashes and adds ten functions. Workspace/native/five gates/fleet are queued; no repaired runtime success is claimed. [The source-specific CLI manifest](cli-source-0346701f.json) pins this new tree and unchanged100-case/164-process forecasts. Harness `88dfa166` adds mode `titration-admission-cli-replay` with every older job unchanged; it is prepared but undispatched. Dispatch after native acceptance, then independently review process outcomes and executable/lock/source/submodule/harness bindings. Any repair-head change needs a fresh plan, manifest and run.

@@ -1,0 +1,57 @@
+{
+  "run": 37913920525,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37913920525",
+  "harness": "d08ba3185355d19dd084d5a2a7eb79401ce5d5d6",
+  "source": "b83be1e96e430232e76a85eb0e5eb28293c30903",
+  "source_tree": "f1b3a20cbdb9a5f6bd0512f346dd6f8a8e807384",
+  "fixture_sha256": "cae86f3903d59bc6be10425ec134c5517b612506dd4740c9345ae8b99b815af9",
+  "freeze_sha256": "bdc3f4ee1ffba611f5fff71249b79e077d53d60d585d218b0273564c3375f8b1",
+  "generated_lock_sha256": "d003dc207ebfe27f07500dddba65ffa365982abbae63cc5e89d7cbdacba650aa",
+  "submodules": {
+    "sundials-kinetics-rs": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+    "vendor/iphreeqc": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+  },
+  "harness_sha256": {
+    ".github/workflows/chemistry-audit.yml": "505ed7a91fce930c6930a3215cfb4acd8d54249d0ec6d55c9279e0ce6aaecc43",
+    "audits/titration-trial-admission-20261009/freeze.json": "bdc3f4ee1ffba611f5fff71249b79e077d53d60d585d218b0273564c3375f8b1",
+    "audits/titration-trial-admission-20261009/titration_trial_admission_contracts.rs": "cae86f3903d59bc6be10425ec134c5517b612506dd4740c9345ae8b99b815af9"
+  },
+  "passed": [
+    "valid_zero_increment_limit_is_a_logged_noop_without_hooks"
+  ],
+  "failed": [
+    "nonfinite_ph_target_is_refused_before_trial_hooks",
+    "nonfinite_concentration_is_refused_before_trial_hooks",
+    "invalid_initial_inventory_is_refused_before_trial_hooks",
+    "finite_dose_inputs_cannot_admit_overflowing_carrier_inventory",
+    "nonfinite_step_volume_is_refused_before_trial_hooks",
+    "ordinary_single_increment_reaches_hooks_and_preserves_the_requested_dose",
+    "nonpositive_inputs_cannot_cancel_each_other_into_a_positive_dose",
+    "overflowing_dose_product_is_refused_before_trial_hooks",
+    "vetoed_trial_preserves_physical_state_and_records_only_the_veto"
+  ],
+  "inherited_passed": 604,
+  "evidence_sha256": {
+    "Cargo.lock": "d003dc207ebfe27f07500dddba65ffa365982abbae63cc5e89d7cbdacba650aa",
+    "cargo.txt": "1f88eaf7fe1aaec83184752cf4c944cd22f00184136ff36a3e4c318cc60ef566",
+    "controls-exit.txt": "39b8dc3fc8b44765c8e6f1adee04c5b465e555ab791cc42d0d9e810d5b64297c",
+    "controls.log": "e7cf6340d9f8df2391e634a8bbf1625d451ac70a6af4eba83dac0982c482c225",
+    "fixture.rs": "cae86f3903d59bc6be10425ec134c5517b612506dd4740c9345ae8b99b815af9",
+    "harness-commit.txt": "433ab4a9de45baccc6e8f374a56ee2e295fcbf66cf0abbaf3adc40eb8e63cdfb",
+    "harness-sha256.txt": "dd37eb1a01c19175f518be27d26ac11a6eeb051e04710dd7588776d113a38cf7",
+    "inherited-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "inherited.log": "dd6d0ca221d3da0c008e9ffd6bbd3f1da3696edfef7cf56672f0b34ec25def18",
+    "lock-sha256.txt": "0187197f3d7190e9e0aff2f59c5a295554158ccbbb76415a3b55676ee457c298",
+    "results.json": "8b7bd6801e8e66621200a4c4844edb078532680096c6c55fe558e83c96c23270",
+    "rustc.txt": "b569b0c98ea3133c7252b4b8ea6b39b7b353813df0dd5f5c412c355691424112",
+    "source-commit.txt": "6320513ea31f22069ba1d5214e0066f7e8b9273df3cb675b19c0db1753c80e49",
+    "source-tree.txt": "977ce50f9df0c6eef49ff2de75f973547ef3e52aee746c7bededc57471c64812",
+    "status-before.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "status-with-fixture.txt": "3b95a7849461e016e0501891d799f3a29e7b070812416793bd6ee9a73355d871",
+    "submodules.txt": "dae123bd185b0dff0f0d7176cb509940c4f7f68da6087ad6e6ab003543dbdd47",
+    "tracked-diff.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "run_metadata_sha256": "adf1b03abc32822cc92162aeecbd32fd291f6cc106e02fbe9c7b05a2cbd9ce34",
+  "accepted_baseline_collection": true,
+  "scope": "Frozen admission baseline on unchanged tracked model plus a separately bound injected test. Collection acceptance permits failed model functions; not chemistry, repaired-source or integration acceptance. Declared parameter subcases may stop early on function failure."
+}

@@ -1,0 +1,15 @@
+{
+  "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/774",
+  "head": "0346701f4c47a4d2eb607c6e998de3f0d5631067",
+  "source_tree": "127d0fabd3e31c1d289a7721a4aa9c274e8489b2",
+  "base": "f2d0d2fe871d2d5080fbc1af7de6435bf3b814d1",
+  "frozen_fixture_sha256": "cae86f3903d59bc6be10425ec134c5517b612506dd4740c9345ae8b99b815af9",
+  "ci_run": 37915989903,
+  "fleet_run": 37915989856,
+  "native_plan": "audits/integration-20261008/native-controls/pr774-0346701f-plan.json",
+  "cli_harness": "88dfa166f405908edeaac9e381e66da81648238d",
+  "cli_campaign": "titration-admission-cli-replay",
+  "cli_dispatched": false,
+  "rollback_policy": "Invalid numeric trial or safety veto retains existing whole-operation physical/stock/journal rollback. Solver-private state is outside checkpoint; existing solver-error narration remains.",
+  "scope": "Repair pushed; hosted acceptance pending. Ten frozen admission controls unchanged. Later increment/solver-error/bisection/final-safety controls are separate and not claimed covered."
+}
