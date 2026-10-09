@@ -1,0 +1,16 @@
+{
+  "databaseId": 37965069461,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37965069461",
+  "headSha": "7ad21c4dcc45d740900ed0109c81ca8648a6a700",
+  "event": "workflow_dispatch",
+  "status": "queued",
+  "conclusion": "",
+  "campaign": "production-final-safety-baseline",
+  "source": "b9f998e2d3ed0603235645b7ebdf7eb6281f0bf8",
+  "source_tree": "e98f3bd97f11f77f0215b19d4560f47dea91f710",
+  "source_kind": "unmerged PR775 candidate; native251 both, complete CI/five gates and CLI164 independently accepted",
+  "production_edits_blocked_until": "PR775 full fleet acceptance and verified merge-tree equality",
+  "prior_plan": "prepared-harness.json",
+  "plan_change": "Collect unchanged candidate baseline independently of remaining fleet/merge. Frozen source/fixture/expectations and harness are unchanged; no main acceptance is inferred.",
+  "scope": "Actual dispatch only, no production-screen outcome yet. Preserve first compiler or model failures before implementation."
+}
