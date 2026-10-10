@@ -39,6 +39,7 @@ on:
           - production-final-safety-explicit-status-baseline
           - production-safety-identity-baseline
           - production-acid-final-safety-baseline
+          - production-acid-final-safety-cli-replay
           - titration-publication-cli-replay
 
 permissions:
@@ -2657,5 +2658,95 @@ jobs:
           path: |
             titration-baseline/
             harness/audits/production-acid-final-safety-20261010/
+          retention-days: 30
+          if-no-files-found: error
+
+  production-acid-final-safety-cli-replay:
+    name: Replay unchanged hundred cases on reviewed acid final-safety repair
+    if: inputs.campaign == 'production-acid-final-safety-cli-replay'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      CARGO_BUILD_JOBS: '2'
+      KERO_WORKERS: '1'
+      RUSTC_WRAPPER: ''
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          path: harness
+          fetch-depth: 0
+      - uses: actions/checkout@v6
+        with:
+          ref: a0fe641cc27d82216c7270d9fd7d88e4aeefefda
+          path: source
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: source
+      - name: Fetch native prerequisites
+        working-directory: source
+        run: bash tools/fetch-sundials.sh
+      - name: Build pinned candidate once and bind resolution
+        working-directory: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir ../combined-build
+          git rev-parse HEAD > ../combined-build/source-commit.txt
+          test "$(git rev-parse HEAD)" = a0fe641cc27d82216c7270d9fd7d88e4aeefefda
+          git rev-parse HEAD^{tree} > ../combined-build/source-tree.txt
+          git status --short --untracked-files=all > ../combined-build/status-before.txt
+          test ! -s ../combined-build/status-before.txt
+          git submodule status --recursive > ../combined-build/submodules.txt
+          rustc -Vv > ../combined-build/rustc.txt
+          cargo -V > ../combined-build/cargo.txt
+          git -C ../harness rev-parse HEAD > ../combined-build/harness-commit.txt
+          sha256sum ../harness/audits/production-acid-final-safety-20261010/cli-source-a0fe641c.json ../harness/audits/main-cli-replay-20261008/forecast.json ../harness/tools/combined-cli-replay.py ../harness/tools/fifth-independent-50/{run,review_profile}.py ../harness/.github/workflows/chemistry-audit.yml > ../combined-build/harness-sha256.txt
+          printf '%s\n' "$RUSTFLAGS" > ../combined-build/rustflags.txt
+          printf '%s\n' "$CARGO_PROFILE_RELEASE_STRIP" > ../combined-build/release-strip.txt
+          set +e
+          /usr/bin/time -v -o ../combined-build/build-time.txt cargo build --release -p kerotakis-cli > ../combined-build/build.log 2>&1
+          build_status=$?
+          set -e
+          printf '%s\n' "$build_status" > ../combined-build/build-exit-code.txt
+          if [[ -f Cargo.lock ]]; then cp Cargo.lock ../combined-build/Cargo.lock; fi
+          test "$build_status" = 0
+          cp target/release/kero ../combined-build/kero
+          python3 - <<'BIND'
+          import hashlib,json,pathlib
+          out=pathlib.Path('../combined-build')
+          manifest=json.loads(pathlib.Path('../harness/audits/production-acid-final-safety-20261010/cli-source-a0fe641c.json').read_text())
+          assert (out/'source-tree.txt').read_text().strip()==manifest['source_tree']
+          row={key:manifest[key] for key in ['compiled_source','source_tree','source_kind']}
+          row['binary_sha256']=hashlib.file_digest((out/'kero').open('rb'),'sha256').hexdigest()
+          row['generated_lock_sha256']=hashlib.file_digest((out/'Cargo.lock').open('rb'),'sha256').hexdigest()
+          (out/'binding.json').write_text(json.dumps(row,indent=2)+'\n')
+          BIND
+      - name: Execute unchanged disclosed checks and strict stage controls
+        run: python3 harness/tools/combined-cli-replay.py --binary combined-build/kero --build-binding combined-build/binding.json --source-manifest harness/audits/production-acid-final-safety-20261010/cli-source-a0fe641c.json --out combined-cli-replay
+      - name: Bind and collect separately frozen actual-CLI warning probes
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir probe-binding
+          git -C harness rev-parse HEAD > probe-binding/harness-commit.txt
+          sha256sum harness/tools/final-safety-cli-probes-v2.py harness/audits/production-final-safety-20261009/cli-warning-probes/{freeze.json,introduced-chloramine.lab,benign-counterpart.lab} harness/audits/production-acid-final-safety-20261010/cli-source-a0fe641c.json harness/.github/workflows/chemistry-audit.yml > probe-binding/harness-sha256.txt
+          python3 harness/tools/final-safety-cli-probes-v2.py --binary combined-build/kero --build-binding combined-build/binding.json --repair-source-manifest harness/audits/production-acid-final-safety-20261010/cli-source-a0fe641c.json --out cli-warning-probes --report probe-binding/observations.json
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: production-acid-final-safety-cli-replay-${{ github.run_id }}
+          path: |
+            combined-build/
+            combined-cli-replay/
+            cli-warning-probes/
+            probe-binding/
+            harness/tools/final-safety-cli-probes-v2.py
+            harness/audits/production-final-safety-20261009/
+            harness/audits/production-acid-final-safety-20261010/cli-source-a0fe641c.json
+            harness/audits/main-cli-replay-20261008/
+            harness/tools/combined-cli-replay.py
+            harness/tools/fifth-independent-50/
           retention-days: 30
           if-no-files-found: error
