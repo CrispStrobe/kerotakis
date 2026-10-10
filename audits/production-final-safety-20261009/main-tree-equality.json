@@ -1,0 +1,15 @@
+{
+  "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/776",
+  "tested_head": "622d37ec59714ef4a5fed512b174c09e605e1a7e",
+  "merge_commit": "6ea6938f13f9faab5b76ea86d5da0686ad9996be",
+  "merged_at": "2026-10-10T04:26:20Z",
+  "source_tree": "5c381c99080200e29411b5a806fc33c709db1ffd",
+  "main_tree": "5c381c99080200e29411b5a806fc33c709db1ffd",
+  "trees_equal": true,
+  "native_functions_per_platform": 267,
+  "cli_run": 37989072945,
+  "cli_processes": 164,
+  "fleet_run": 37985212156,
+  "ci_run": 37985212191,
+  "scope": "Merged tracked tree equals the reviewed native/CLI candidate. Three reviewed final rules, explicit reporting aliases and paired actual CLI warning narration accepted. Original forecast qualifications remain; broader rule/phase/capability matrices, intermediate products and historical full audit remain separate."
+}

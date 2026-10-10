@@ -1,5 +1,15 @@
 # Frozen production final-safety rule slice
 
+## Accepted integration — 2026-10-10
+
+[PR #776](https://github.com/CrispStrobe/kerotakis/pull/776) is merged as `6ea6938f13f9faab5b76ea86d5da0686ad9996be`. [The merged-tree receipt](main-tree-equality.json) verifies exact equality to tested source622/tree5c381c99. Both native platforms independently pass267 functions across26 bound fixtures; complete CI, all five integration gates and the full fleet pass.
+
+[Raw CLI replay review](cli-results-review-622d37ec.json) and [executable bindings](cli-bindings-review-622d37ec.json) accept all164 processes on this source. Original classifications remain fifth46 ordinary passes/three expected refusals/one qualification and sixth49 ordinary passes/one qualification; all eight strict controls pass. This is not100 unqualified scientific agreements.
+
+[Independent paired warning review](cli-warning-probes/pair-review-622d37ec.json) also accepts the four separate JSON/text processes against the preserved actual baseline. The qualifying positive emits exactly one reviewed Danger chloramine warning; setup and the benign counterpart remain quiet. Original parsed inputs, full accepted dose, inventory cutoffs and backend routes all verify. These are two virtual engineering protocols, not empirical chemical accuracy or intermediate-product coverage.
+
+The accepted production callback covers water-reactive-slaking, bleach-ammonia-chloramine and oxidizer-flammable-liquid with two explicitly controlled reporting-alias families. Broader final rules, phase/acidity projection, capability matrices, intermediate products and scan/private-trial clone cost remain open. [SAF-01](../../docs/chemistry-audit-next-lanes.md#saf-01--integrate-one-production-final-safety-exposure-slice) gives the next bounded tranche. Earlier preparation, dispatch and pending notes below are historical; do not redispatch completed runs.
+
 [The seven-function freeze](freeze.json) binds [the fixture](production_final_safety_contracts.rs) against exact candidateb9f998e2 before any production final-rule implementation. It was frozen outside production targets. The first hosted run has now compiled/executed it; raw outcomes and a binding rejection are preserved below. Current #775's source and original251-function plan remain unchanged. The original plan waited for #775 integration; the current candidate collection below runs independently, preserving the same source/fixture and keeping production edits dependent on integration.
 
 The fixture uses actual ReactiveGroupScreen in kerotakis-safety. The primary reviewed rule is water-reactive-slaking for CaO/water, Caution; bleach-ammonia-chloramine, Danger, is the contrast proving a new finding is not hidden by an older priority finding. Rule identities/severities come from that exact source's existing reviewed matrix, not a new chemical model. Finding identity is rule plus unordered relevant species at this virtual vessel. This slice makes no broader phase/domain claim.

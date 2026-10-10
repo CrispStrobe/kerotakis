@@ -793,6 +793,50 @@
         }
       ],
       "scope": "Solved titration trial final-safety/publication mechanism: native251 both, complete CI/fleet and source-bound CLI164 accepted. Actual production rule integration remains open."
+    },
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/776",
+      "tested_head": "622d37ec59714ef4a5fed512b174c09e605e1a7e",
+      "merge_commit": "6ea6938f13f9faab5b76ea86d5da0686ad9996be",
+      "merged_at": "2026-10-10T04:26:20Z",
+      "required_checks": [
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37985212191/job/114005397010",
+          "started_at": "2026-10-09T21:13:30Z",
+          "completed_at": "2026-10-09T21:31:28Z"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37985212191/job/114005397012",
+          "started_at": "2026-10-09T20:58:44Z",
+          "completed_at": "2026-10-09T21:10:19Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37985212191/job/114005397235",
+          "started_at": "2026-10-09T20:21:19Z",
+          "completed_at": "2026-10-09T20:42:16Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37985212191/job/114005396887",
+          "started_at": "2026-10-09T20:44:35Z",
+          "completed_at": "2026-10-09T20:49:23Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37985212191/job/114005397025",
+          "started_at": "2026-10-09T21:20:57Z",
+          "completed_at": "2026-10-09T21:33:47Z"
+        }
+      ],
+      "scope": "Production final-exposure identity/publication: native267 both, complete CI/fleet, source-bound CLI164 and paired four-process warning probes accepted. Broader final-rule/phase/capability/intermediate-product coverage remains open."
     }
   ],
   "scope": "Independent matching-head required PR gates. Not a full integrated-source audit/replay or performance acceptance.",
@@ -843,5 +887,6 @@
     }
   ],
   "main_after_documentation": "0fafbf5e3c71841f83832dd61a0c7f4561204e63",
-  "main_after_pr775": "7e96f120c271d6130473f4eb298c82963543392e"
+  "main_after_pr775": "7e96f120c271d6130473f4eb298c82963543392e",
+  "main_after_pr776": "6ea6938f13f9faab5b76ea86d5da0686ad9996be"
 }

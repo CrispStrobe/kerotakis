@@ -1,5 +1,11 @@
 # Chemistry audit: current state, 2026-10-05
 
+## Current integration update — 2026-10-10
+
+[Current checkpoint](../audits/integration-20261008/STATUS.md): #776 is merged as6ea6938f with exact tested-tree equality, native267 on both platforms, complete CI/five gates/fleet, source-bound CLI164 and an accepted actual CLI warning pair. Three reviewed final rules now distinguish new from unchanged findings; the chloramine positive emits its reviewed warning in JSON/text while setup and the benign counterpart stay quiet. Original replay qualifications remain unchanged.
+
+[Next lanes](chemistry-audit-next-lanes.md) prioritize the remaining reviewed-rule tranche, historical audit binding restoration (50 missing named tests/129 bound paths), authoritative numeric ownership/reconstruction and measured release optimization. Historical full-audit acceptance remains only8cdab1f6. Older checkpoints below are retained history.
+
 Start here, then choose a task from [the next-step lanes](chemistry-audit-next-lanes.md). This checkpoint covers the independent chemistry audits and their general repairs. Existing product tasks retain their IDs in [PLAN.md](../PLAN.md), [OPTIMIZATION.md](../OPTIMIZATION.md), [ROADMAP-GUI.md](../ROADMAP-GUI.md) and [ROADMAP-Webapp.md](../ROADMAP-Webapp.md).
 
 ## Which revision this describes

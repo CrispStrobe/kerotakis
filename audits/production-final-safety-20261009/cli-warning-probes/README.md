@@ -1,5 +1,11 @@
 # Frozen actual-CLI warning route probes
 
+## Paired repair accepted — 2026-10-10
+
+[Actual paired review](pair-review-622d37ec.json) accepts run37989072945 on exact source622/tree5c381c99 and rebinds the original actual baseline. The positive emits exactly one reviewed Danger chloramine warning in JSON and ordinary text; setup and the benign counterpart emit none. All frozen parsed-input, full-dose, final-inventory and unchanged-backend witnesses pass. The reviewer independently recomputes the unchanged100-case/164-process replay from raw outputs as well.
+
+[PR776 merged-tree receipt](../main-tree-equality.json) verifies exact tested/merged tree equality with267 native controls on both platforms, complete CI/five gates/fleet and the source-bound replay accepted. Earlier pending/prepared notes below are preserved history. This acceptance covers two virtual protocols and three reviewed final rules; broader capability, phase, acidity projection and intermediate hazards still need separate contracts. Do not rerun these completed jobs or count these source-informed probes as new independent forecasts.
+
 [The two-script freeze](freeze.json) binds a source-informed virtual positive and chloride counterpart before either was parsed or executed. These are targeted engineering probes, separate from the unchanged100-case replay and independent fifty-case forecasts. The [completed baseline binding review](baseline-binding-review.json) below now establishes actual pre-repair observations; the original freeze's unrun status is its historical preparation snapshot. No empirical chemical accuracy or repaired acceptance is claimed.
 
 The hypothesis uses the actual standard stack ordering: curated reactions precede the aqueous tail, which can change the NH4+/NH3 representation before the final screen. Tiny initial reagent quantities aim to keep setup NH3 at/below the existing1e-12mol screen cutoff, then one independently declared1e-6mol base dose aims to introduce a detectable NH3/hypochlorite pair. This is a falsifiable setup assumption, not a prediction of numerical pH or a fit to outputs. The target pH12 is a stopping bound; the step budget is one. The negative replaces hypochlorite with chloride.
