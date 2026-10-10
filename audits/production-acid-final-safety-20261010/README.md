@@ -26,3 +26,7 @@ If compilation fails, use `--prerequisite-failure` only when the reviewer confir
 ## Repair acceptance after baseline
 
 Port the fixture unchanged and implement only demonstrated bounded gaps. Retain exact reviewed severity/metadata, distinct pair identity, prospective behavior and accepted-versus-discarded candidate publication. Require fresh native plans for all inherited267 plus these33 functions, complete safety/workspace validation on both native platforms, all required PR gates/fleet and source-bound CLI holdout replay. Supported actual CLI warning routes need their own frozen reagent/dose/inventory/backend witnesses and JSON/text pairing before narration counts as repair proof. Broader acidity projection/intermediate hazards need a new observation contract before implementation. [SAF-01](../../docs/chemistry-audit-next-lanes.md#saf-01--integrate-one-production-final-safety-exposure-slice) retains the remaining scope.
+
+## Actual hosted baseline dispatched
+
+[Run38024665394](baseline-dispatch.json) is dispatched once on exact harnessc67e533b/source6ea6938f. The only active job is `Frozen next production acid final-safety baseline`; all earlier workflow jobs remain structurally unchanged. Consume this run without redispatch. No runtime or repair acceptance is claimed. Download artifact `production-acid-final-safety-baseline-38024665394` plus fresh final run metadata, then use the review command above with harness `c67e533ba3fedb8da3143dce0b8ed14f8071321c`. Preserve first failures before implementation.

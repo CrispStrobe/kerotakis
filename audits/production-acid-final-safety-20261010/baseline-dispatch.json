@@ -1,0 +1,29 @@
+{
+  "run": 38024665394,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38024665394",
+  "event": "workflow_dispatch",
+  "harness": "c67e533ba3fedb8da3143dce0b8ed14f8071321c",
+  "campaign": "production-acid-final-safety-baseline",
+  "active_job": {
+    "name": "Frozen next production acid final-safety baseline",
+    "database_id": 114132837838,
+    "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38024665394/job/114132837838",
+    "status_at_receipt": "queued"
+  },
+  "source_observed": "6ea6938f13f9faab5b76ea86d5da0686ad9996be",
+  "source_tree": "5c381c99080200e29411b5a806fc33c709db1ffd",
+  "harness_inputs_sha256": {
+    ".github/workflows/chemistry-audit.yml": "fc2c3d9b2bb5c555b01386e46516e851b2db0122787f49b0bdd283fe7c6a061d",
+    "audits/production-acid-final-safety-20261010/freeze.json": "5f096de711afee1522bbc47f9ac0b75b7a8ec5dc7a99bf8784bd3b5ca802deab",
+    "audits/production-acid-final-safety-20261010/production_acid_final_contracts.rs": "de79ff7022a0904b9385cf4bca2f599986fa862cb965a61c641d5528e6387236"
+  },
+  "prior_harness": "552866f3208201add90d1c2cf0bdc3cabd81a320",
+  "all_prior_jobs_structurally_unchanged": true,
+  "controls": 33,
+  "inherited_core_library": 604,
+  "inherited_safety_library": 28,
+  "dispatched": true,
+  "runtime_acceptance": false,
+  "production_changes": false,
+  "scope": "Frozen unchanged-source collection; consume this run without redispatch. Independently review complete raw outcomes and source/fixture/library/run bindings before production edits."
+}
