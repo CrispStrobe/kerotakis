@@ -1,0 +1,19 @@
+{
+  "pr": 777,
+  "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/777",
+  "head": "a0fe641cc27d82216c7270d9fd7d88e4aeefefda",
+  "tree": "e53ffacf2e9fe17c70560b893b1a0a61369ab6fb",
+  "base_main": "6ea6938f13f9faab5b76ea86d5da0686ad9996be",
+  "baseline_review": "audits/production-acid-final-safety-20261010/baseline-review.json",
+  "native_plan": "audits/integration-20261008/native-controls/pr777-a0fe641c-plan.json",
+  "fixture_sha256": "de79ff7022a0904b9385cf4bca2f599986fa862cb965a61c641d5528e6387236",
+  "fixture_byte_identical": true,
+  "rules_added": [
+    "bleach-acid-chlorine",
+    "acid-metal-hydrogen",
+    "acid-carbonate-co2"
+  ],
+  "rustfmt_check": "passed",
+  "runtime_acceptance": "pending",
+  "scope": "Only reviewed final-rule allowlist and scope comment change; exact comparator/matrix metadata/prospective publication retained. Baseline18pass/15fail preserved. Acidity projection, weak acids and intermediate products remain separate."
+}

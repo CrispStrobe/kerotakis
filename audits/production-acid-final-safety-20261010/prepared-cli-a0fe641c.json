@@ -1,0 +1,15 @@
+{
+  "harness": "6858bd51866cb71f6db77ce55f8ef840953d6b54",
+  "campaign": "production-acid-final-safety-cli-replay",
+  "compiled_source": "a0fe641cc27d82216c7270d9fd7d88e4aeefefda",
+  "source_tree": "e53ffacf2e9fe17c70560b893b1a0a61369ab6fb",
+  "source_manifest_path": "audits/production-acid-final-safety-20261010/cli-source-a0fe641c.json",
+  "source_manifest_sha256": "d711928e0a6f7fc9d61935a9b00663e1cd453a92de076af033fad22eb74a173d",
+  "dispatched": false,
+  "prerequisite": "Independently accepted native300/workspace on at least one exact-head platform before dispatch. Both platforms and complete CI/fleet required for merge.",
+  "expected_cases": 100,
+  "expected_processes": 164,
+  "separate_probe_processes": 4,
+  "all_earlier_jobs_structurally_unchanged": true,
+  "scope": "Unchanged disclosed holdout replay and earlier chloramine positive/benign JSON/text controls; not new independent forecasts or proof of actual chemical acid routes."
+}

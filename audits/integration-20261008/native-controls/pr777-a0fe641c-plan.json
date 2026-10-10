@@ -1,0 +1,152 @@
+{
+  "pr": 777,
+  "head": "a0fe641cc27d82216c7270d9fd7d88e4aeefefda",
+  "targets": [
+    {
+      "path": "crates/kerotakis-core/tests/solver_snapshot_contracts.rs",
+      "fixture_sha256": "d5e8a598e8ac9dae4ba12a09b4d380ab1cd661ab65f2429389afe9dcc4dcd690",
+      "functions": 16
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solver_snapshot_edit_contracts.rs",
+      "fixture_sha256": "56d39f21fc9cadfb14752ffbc7950b723989ae1ce0d20aeeb784a3e29a2e1d14",
+      "functions": 1
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solver_stack_atomic_contracts.rs",
+      "fixture_sha256": "71179df336cd244a4b6538dcbdfeac1c12cdb47a097cb775d1c779e0982059e9",
+      "functions": 13
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solver_boundary_contracts.rs",
+      "fixture_sha256": "dfb28abdd607c8d62506783a06f12c92b516659bb309824fb01ba8b9fdc97740",
+      "functions": 12
+    },
+    {
+      "path": "crates/kerotakis-core/tests/nuclide_inventory_serde_contracts.rs",
+      "fixture_sha256": "fc66ed099b5baff819cc9f79caa9a41032ce948f461bf3ef67d15ed0ecb7afe8",
+      "functions": 11
+    },
+    {
+      "path": "crates/kerotakis-core/tests/required_solver_conservation_contracts.rs",
+      "fixture_sha256": "af70bfbffe39e70fcaade81cccf6ef98be6a88126ef17b4c53b7c0c9c295a7d7",
+      "functions": 5
+    },
+    {
+      "path": "crates/kerotakis-core/tests/required_solver_ledger_boundaries.rs",
+      "fixture_sha256": "3f7925ada6932cbf741e486e9232a8d1a78f112e21e86dd28fb15f3a0e746238",
+      "functions": 25
+    },
+    {
+      "path": "crates/kerotakis-core/tests/required_solver_policy_controls.rs",
+      "fixture_sha256": "09fa37980e602d340bc44951c164b596b26f39ce1059ae18ac613261e13669fd",
+      "functions": 4
+    },
+    {
+      "path": "crates/kerotakis-core/tests/required_solver_ledger_supplement.rs",
+      "fixture_sha256": "e0da8aa6f0f0cda7c50f2dd7dd8c8025fc3c24550832e23765162a99ba5f021c",
+      "functions": 10
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solver_electrode_schema_contracts.rs",
+      "fixture_sha256": "e9b7aacc9ca79ea0941bfdf722f7d718ef64d155c4cbd00f402a69cd206433fa",
+      "functions": 8
+    },
+    {
+      "path": "crates/kerotakis-core/tests/nuclide_state_validation_contracts.rs",
+      "fixture_sha256": "498d3456988fcb153445139f5c16dc2b96ffe9bd893041ee6145984431d5a5fc",
+      "functions": 12
+    },
+    {
+      "path": "crates/kerotakis-core/tests/required_solid_solution_contracts.rs",
+      "fixture_sha256": "243c3372909103c7b3e8d06c96ab9e7f3facafbc945d52609a580456aea298c8",
+      "functions": 16
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solid_solution_state_contracts.rs",
+      "fixture_sha256": "98d7cb2d029ad18b14e5d34db642e3cf20715bf41e41e1e2bdce36689ec5a170",
+      "functions": 8
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solid_solution_aggregate_validity.rs",
+      "fixture_sha256": "4441bb48845a6668f1b32e9e0a161c6264df619542edceb61a0123e545f3e050",
+      "functions": 2
+    },
+    {
+      "path": "crates/kerotakis-core/tests/ordinary_delta_state_contracts.rs",
+      "fixture_sha256": "f73b2e8a3acbbf8def04b65b1c73ce4ea1aa2095e3ebe053d054b60cc72cd132",
+      "functions": 8
+    },
+    {
+      "path": "crates/kerotakis-core/tests/solver_transactions.rs",
+      "fixture_sha256": "b7f47052a1cf1605dd682819faa16cea6d864f5bc95e73057540dff4c8639262",
+      "functions": 38
+    },
+    {
+      "path": "crates/kerotakis-core/tests/compensated_amount_contracts.rs",
+      "fixture_sha256": "58861ba0a4f866d57e2c7282902f49d07dd760857cae7db574e010730fa0d065",
+      "functions": 15
+    },
+    {
+      "path": "crates/kerotakis-core/tests/i18n_coverage.rs",
+      "fixture_sha256": "87efe09da02b448c6cfef99ce34f75f0143ba3efbe148045c75bd5a765913414",
+      "functions": 18
+    },
+    {
+      "path": "crates/kerotakis-core/tests/ideal_still_portion_validation.rs",
+      "fixture_sha256": "1c67c85d653caa0fd407a476f16f54344352272ccb6972d473eede1cddcd0a19",
+      "functions": 3
+    },
+    {
+      "path": "crates/kerotakis-core/tests/ideal_still_refusal_diagnostics.rs",
+      "fixture_sha256": "83a675ecebf50f33b4ced2e49c82695ff71bfd398c53d60d838a43fef87c20da",
+      "functions": 2
+    },
+    {
+      "path": "crates/kerotakis-core/tests/still_refusal_diagnostics.rs",
+      "fixture_sha256": "8f2b1c832911900dbb2c32860efe57c506ec5e4d3804042c3a82daa993d1302e",
+      "functions": 3
+    },
+    {
+      "path": "crates/kerotakis-core/tests/stock_refusal_short_circuit.rs",
+      "fixture_sha256": "0ad0fd422b9549c337c8a8403c1fc7ce64fe61c3b8b592a4d483db9b90d87020",
+      "functions": 4
+    },
+    {
+      "path": "crates/kerotakis-core/tests/titration_trial_admission_contracts.rs",
+      "fixture_sha256": "cae86f3903d59bc6be10425ec134c5517b612506dd4740c9345ae8b99b815af9",
+      "functions": 10
+    },
+    {
+      "path": "crates/kerotakis-core/tests/titration_trial_publication_contracts.rs",
+      "fixture_sha256": "6ed72521affae763d52ea5581453cc875e13ef338c69d95d14f64546422a3030",
+      "functions": 7
+    },
+    {
+      "path": "crates/kerotakis-safety/tests/production_final_safety_contracts.rs",
+      "fixture_sha256": "72ac49148d966ba4b5a437aa0ded1f979db57d1e1093d402e40d071578d78165",
+      "functions": 7
+    },
+    {
+      "path": "crates/kerotakis-safety/tests/production_safety_identity_contracts.rs",
+      "fixture_sha256": "fa9d1490ed07ff06e7cb0f0b9218fbbae40219a5f144e8ec64655f4aa82e0606",
+      "functions": 9
+    },
+    {
+      "path": "crates/kerotakis-safety/tests/production_acid_final_contracts.rs",
+      "fixture_sha256": "de79ff7022a0904b9385cf4bca2f599986fa862cb965a61c641d5528e6387236",
+      "functions": 33
+    }
+  ],
+  "expected_functions": 300,
+  "scope": "PR777: inherited267 plus33 frozen production acid final-safety controls; native/workspace acceptance pending. No empirical chemistry or intermediate-product claim.",
+  "fixture_derivation": {
+    "path": "crates/kerotakis-safety/tests/production_safety_identity_contracts.rs",
+    "original_fixture_sha256": "d8ba30701945830bf73f03869167d39c63195cff995f566a997715996d9830dc",
+    "ported_fixture_sha256": "fa9d1490ed07ff06e7cb0f0b9218fbbae40219a5f144e8ec64655f4aa82e0606",
+    "change": "SpeciesId::new(*key) -> SpeciesId::new(key), Rust auto-dereference only",
+    "test_names_and_assertions_unchanged": true,
+    "original_freeze_preserved": true,
+    "first_failure": "audits/production-safety-identity-20261009/pr776-first-clippy-failure.json"
+  }
+}
