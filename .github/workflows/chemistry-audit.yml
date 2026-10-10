@@ -38,6 +38,7 @@ on:
           - production-final-safety-cli-probe-baseline
           - production-final-safety-explicit-status-baseline
           - production-safety-identity-baseline
+          - production-acid-final-safety-baseline
           - titration-publication-cli-replay
 
 permissions:
@@ -2564,3 +2565,98 @@ jobs:
             harness/tools/fifth-independent-50/
           retention-days: 30
           if-no-files-found: error
+
+  production-acid-final-safety-baseline:
+    name: Frozen next production acid final-safety baseline
+    if: inputs.campaign == 'production-acid-final-safety-baseline'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      CARGO_BUILD_JOBS: '2'
+      KERO_WORKERS: '1'
+      RUSTC_WRAPPER: ''
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          path: harness
+      - uses: actions/checkout@v6
+        with:
+          ref: 6ea6938f13f9faab5b76ea86d5da0686ad9996be
+          path: source
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: source
+      - name: Fetch pinned native prerequisites
+        run: bash source/tools/fetch-sundials.sh
+      - name: Bind unchanged tracked model source and the separately frozen fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir titration-baseline
+          git -C harness rev-parse HEAD > titration-baseline/harness-commit.txt
+          git -C source rev-parse HEAD > titration-baseline/source-commit.txt
+          git -C source rev-parse HEAD^{tree} > titration-baseline/source-tree.txt
+          git -C source status --short --untracked-files=all > titration-baseline/status-before.txt
+          test ! -s titration-baseline/status-before.txt
+          git -C source submodule status --recursive > titration-baseline/submodules.txt
+          sha256sum harness/.github/workflows/chemistry-audit.yml harness/audits/production-acid-final-safety-20261010/{freeze.json,production_acid_final_contracts.rs} > titration-baseline/harness-sha256.txt
+          rustc -Vv > titration-baseline/rustc.txt
+          cargo -V > titration-baseline/cargo.txt
+          python3 - <<'BIND'
+          import hashlib,json,pathlib
+          p=pathlib.Path('titration-baseline')
+          freeze=json.loads(pathlib.Path('harness/audits/production-acid-final-safety-20261010/freeze.json').read_text())
+          assert (p/'source-commit.txt').read_text().strip()==freeze['source_observed']
+          assert (p/'source-tree.txt').read_text().strip()==freeze['source_tree']
+          fixture=pathlib.Path('harness')/freeze['fixture_path']
+          assert hashlib.sha256(fixture.read_bytes()).hexdigest()==freeze['fixture_sha256']
+          target=pathlib.Path('source')/freeze['intended_test_target']
+          assert not target.exists(), 'Do not overwrite an existing fixture'
+          target.parent.mkdir(parents=True,exist_ok=True)
+          target.write_bytes(fixture.read_bytes())
+          (p/'fixture.rs').write_bytes(fixture.read_bytes())
+          BIND
+          git -C source diff --exit-code > titration-baseline/tracked-diff.txt
+          git -C source status --short --untracked-files=all > titration-baseline/status-with-fixture.txt
+          (cd source && cargo generate-lockfile)
+          cp source/Cargo.lock titration-baseline/Cargo.lock
+          sha256sum titration-baseline/Cargo.lock > titration-baseline/lock-sha256.txt
+          set +e
+          (cd source && cargo test --locked -p kerotakis-safety --test production_acid_final_contracts) > titration-baseline/controls.log 2>&1
+          printf '%s\n' "$?" > titration-baseline/controls-exit.txt
+          (cd source && cargo test --locked -p kerotakis-core --lib) > titration-baseline/inherited.log 2>&1
+          printf '%s\n' "$?" > titration-baseline/inherited-exit.txt
+          (cd source && cargo test --locked -p kerotakis-safety --lib) > titration-baseline/safety-library.log 2>&1
+          printf '%s\n' "$?" > titration-baseline/safety-library-exit.txt
+          set -e
+          python3 - <<'RESULT'
+          import hashlib,json,pathlib,re
+          p=pathlib.Path('titration-baseline')
+          freeze=json.loads(pathlib.Path('harness/audits/production-acid-final-safety-20261010/freeze.json').read_text())
+          text=(p/'controls.log').read_text()
+          outcomes=re.findall(r'^test (\S+) \.\.\. (ok|FAILED)$',text,re.M)
+          result={'source':freeze['source_observed'],'fixture_sha256':freeze['fixture_sha256'],'exit_code':int((p/'controls-exit.txt').read_text()),'passed':[n for n,r in outcomes if r=='ok'],'failed':[n for n,r in outcomes if r=='FAILED'],'controls_sha256':hashlib.sha256((p/'controls.log').read_bytes()).hexdigest(),'scope':'Baseline named functions only; failed parameter loops may stop early. Not chemistry or complete integration acceptance.'}
+          (p/'results.json').write_text(json.dumps(result,indent=2)+'\n')
+          assert len(outcomes)==freeze['expected_test_functions']
+          assert {n for n,r in outcomes}==set(freeze['functions'])
+          assert int((p/'inherited-exit.txt').read_text())==0
+          library=freeze['additional_libraries'][0]
+          library_rows=re.findall(r'^test (\S+) \.\.\. (ok|FAILED)$',(p/'safety-library.log').read_text(),re.M)
+          assert len(library_rows)==len(set(n for n,r in library_rows))==library['expected_test_functions']
+          assert {n for n,r in library_rows}==set(library['functions']) and all(r=='ok' for n,r in library_rows)
+          assert int((p/'safety-library-exit.txt').read_text())==0
+          assert re.search(r'test result: ok\. 28 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out;', (p/'safety-library.log').read_text())
+          assert re.search(r'test result: ok\. 604 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out;', (p/'inherited.log').read_text())
+          RESULT
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: production-acid-final-safety-baseline-${{ github.run_id }}
+          path: |
+            titration-baseline/
+            harness/audits/production-acid-final-safety-20261010/
+          retention-days: 30
+          if-no-files-found: error
+
