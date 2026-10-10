@@ -1,0 +1,24 @@
+--- a/crates/kerotakis-safety/src/lib.rs
++++ b/crates/kerotakis-safety/src/lib.rs
+@@ -1155,15 +1155,17 @@
+     fn assess_equilibrated(&self, before: &Vessel, after: &Vessel) -> SafetyVerdict {
+         let prior = assess_exposures([("vessel", before)]);
+         for finding in assess_exposures([("vessel", after)]) {
+-            // This first final-safety slice covers the three reviewed rules
+-            // bound by the frozen routing/identity controls. Other rules keep
+-            // their existing prospective screening and need their own final
+-            // domain/identity controls before this coverage is expanded.
++            // Final coverage is limited to the reviewed rules bound by
++            // frozen routing/identity controls. Other rules retain prospective
++            // screening until their final domain/identity controls are covered.
+             if !matches!(
+                 finding.rule.as_str(),
+                 "water-reactive-slaking"
+                     | "bleach-ammonia-chloramine"
+                     | "oxidizer-flammable-liquid"
++                    | "bleach-acid-chlorine"
++                    | "acid-metal-hydrogen"
++                    | "acid-carbonate-co2"
+             ) || prior.iter().any(|old| same_final_finding(old, &finding))
+             {
+                 continue;

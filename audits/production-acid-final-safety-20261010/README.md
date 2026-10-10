@@ -30,3 +30,9 @@ Port the fixture unchanged and implement only demonstrated bounded gaps. Retain 
 ## Actual hosted baseline dispatched
 
 [Run38024665394](baseline-dispatch.json) is dispatched once on exact harnessc67e533b/source6ea6938f. The only active job is `Frozen next production acid final-safety baseline`; all earlier workflow jobs remain structurally unchanged. Consume this run without redispatch. No runtime or repair acceptance is claimed. Download artifact `production-acid-final-safety-baseline-38024665394` plus fresh final run metadata, then use the review command above with harness `c67e533ba3fedb8da3143dce0b8ed14f8071321c`. Preserve first failures before implementation.
+
+## Unapplied implementation candidate
+
+[A narrow candidate patch](six-rule-candidate.patch) and [source/hash receipt](implementation-proposal.json) are prepared on exact merged source6ea6938f. The patch adds only the three frozen rule IDs to the existing final-rule selection and updates its scope comment. Finding comparison, severity/metadata, prospective screening and trial publication are unchanged. Rustfmt parsing/format passes; this is not compilation or runtime proof. No production checkout has been edited.
+
+Apply only after baseline38024665394 is independently accepted and its raw outcomes demonstrate the intended gaps. If the baseline reveals a compiler prerequisite, author mistake or different behavior, preserve that evidence and revise a separately named candidate instead of changing the freeze. A repaired head still needs fresh native300/27-fixture source bindings, complete workspace/safety and exact-head gates/fleet plus supported CLI checks. Additional acidity projection and intermediate-product detection require their own contracts.

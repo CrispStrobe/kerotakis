@@ -1,0 +1,15 @@
+{
+  "source_observed": "6ea6938f13f9faab5b76ea86d5da0686ad9996be",
+  "source_tree": "5c381c99080200e29411b5a806fc33c709db1ffd",
+  "source_path": "crates/kerotakis-safety/src/lib.rs",
+  "source_sha256": "a45adbee11ca4a9f37d1aad973f4fad75a9543ec75186e089afc386239c3b1db",
+  "patch_path": "audits/production-acid-final-safety-20261010/six-rule-candidate.patch",
+  "patch_sha256": "c9f6673a034af131aa9a91ec16b81d2687dffafdfe098478be0a22fee5918e84",
+  "candidate_source_sha256": "50922d37fd9c458d36de3ac19782f9c46c440e09f897bf8b730d31d422bf0b69",
+  "production_applied": false,
+  "compiled": false,
+  "runtime_accepted": false,
+  "rustfmt_check": true,
+  "precondition": "Independently accepted unchanged-source baseline38024665394 must demonstrate the frozen gaps before applying. Further failures may require a different candidate; this proposal is not repair proof.",
+  "scope": "Reuse existing finding comparator, severity and exact matrix metadata; extend only explicit reviewed rule allowlist. No new acid alias, acidity projection or intermediate-product contract."
+}
