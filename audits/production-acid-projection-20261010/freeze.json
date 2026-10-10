@@ -1,0 +1,93 @@
+{
+  "source_observed": "a0fe641cc27d82216c7270d9fd7d88e4aeefefda",
+  "source_tree": "e53ffacf2e9fe17c70560b893b1a0a61369ab6fb",
+  "test_package": "kerotakis-safety",
+  "fixture_path": "audits/production-acid-projection-20261010/production_acid_projection_contracts.rs",
+  "fixture_sha256": "c9afaee2067c6547e8c19a34a8b964187e7f9489895766ab39bbd1e60bd56bcb",
+  "intended_test_target": "crates/kerotakis-safety/tests/production_acid_projection_contracts.rs",
+  "expected_test_functions": 22,
+  "functions": [
+    "bleach_acid_new_dissolved_strong_acidity_warns",
+    "bleach_acid_unchanged_dissolved_acidity_stays_quiet",
+    "bleach_acid_hydrochloric_reporting_projection_stays_quiet",
+    "bleach_acid_sulfuric_reporting_projection_stays_quiet",
+    "bleach_acid_at_or_below_acidity_gate_stays_quiet",
+    "acid_metal_new_dissolved_strong_acidity_warns",
+    "acid_metal_unchanged_dissolved_acidity_stays_quiet",
+    "acid_metal_hydrochloric_reporting_projection_stays_quiet",
+    "acid_metal_sulfuric_reporting_projection_stays_quiet",
+    "acid_metal_at_or_below_acidity_gate_stays_quiet",
+    "acid_carbonate_new_dissolved_strong_acidity_warns",
+    "acid_carbonate_unchanged_dissolved_acidity_stays_quiet",
+    "acid_carbonate_hydrochloric_reporting_projection_stays_quiet",
+    "acid_carbonate_sulfuric_reporting_projection_stays_quiet",
+    "acid_carbonate_at_or_below_acidity_gate_stays_quiet",
+    "acid_metal_above_strong_ph_gate_stays_quiet",
+    "acid_metal_at_strong_ph_gate_warns",
+    "acid_carbonate_above_strong_ph_gate_stays_quiet",
+    "acid_carbonate_at_strong_ph_gate_warns",
+    "bleach_acid_projection_keeps_only_prospective_warning",
+    "acid_metal_projection_keeps_only_prospective_warning",
+    "acid_carbonate_projection_keeps_only_prospective_warning"
+  ],
+  "additional_libraries": [
+    {
+      "package": "kerotakis-safety",
+      "source_path": "crates/kerotakis-safety/src/lib.rs",
+      "source_sha256": "50922d37fd9c458d36de3ac19782f9c46c440e09f897bf8b730d31d422bf0b69",
+      "expected_test_functions": 28,
+      "functions": [
+        "tests::two_rules_wording_a_hazard_the_same_way_both_survive",
+        "tests::the_same_rule_twice_is_still_one_finding_however_it_is_worded",
+        "tests::every_incompatibility_rule_id_is_unique_so_it_can_be_the_key",
+        "tests::no_two_rules_share_hazard_wording_today",
+        "tests::every_incompatibility_warns_in_german",
+        "tests::every_hazard_sentence_in_this_file_has_german",
+        "tests::bleach_and_ammonia_warns_and_proceeds",
+        "tests::bleach_and_acid_warns",
+        "tests::exposed_material_is_assessed_across_locations_with_precise_sources",
+        "tests::exposure_findings_round_trip_for_save_and_notebook_evidence",
+        "tests::acid_and_base_is_allowed",
+        "tests::benign_mixtures_pass",
+        "tests::permanganate_and_ethanol_warns",
+        "tests::peroxide_and_isopropanol_warns",
+        "tests::peroxide_and_hexane_warns",
+        "tests::chlorine_and_hydrogen_warns",
+        "tests::oxidizer_and_reducing_agent_warns",
+        "tests::acid_and_metal_warns",
+        "tests::acid_and_carbonate_warns",
+        "tests::quicklime_and_water_warns",
+        "tests::all_inert_species_allow",
+        "tests::liquid_nitrogen_has_separate_handling_hazards_and_warns",
+        "tests::liquid_nitrogen_warning_precedes_bench_mutation_events",
+        "tests::soluble_barium_is_labelled_toxic_and_barite_is_not",
+        "tests::barium_hydroxide_is_a_strong_base_as_well",
+        "tests::rule_ids_are_stable_contract_surface",
+        "tests::iron_iii_chloride_is_not_silently_harmless",
+        "tests::totality_of_covered_keys"
+      ],
+      "evidence_prefix": "safety-library"
+    }
+  ],
+  "reviewed_metadata": {
+    "bleach-acid-chlorine": {
+      "severity": "Danger",
+      "hazard": "mixing bleach with acid releases chlorine, a toxic gas",
+      "real_world": "Chlorine gas was used as a chemical weapon; even small amounts damage lungs."
+    },
+    "acid-metal-hydrogen": {
+      "severity": "Caution",
+      "hazard": "strong acid dissolves this metal, releasing hydrogen gas which is flammable",
+      "real_world": "Any metal above hydrogen in the activity series gives off hydrogen gas in acid; magnesium ribbon in hydrochloric acid is the school version, where the gas pops with a lit splint. The gas is genuinely flammable whichever metal and acid made it."
+    },
+    "acid-carbonate-co2": {
+      "severity": "Caution",
+      "hazard": "strong acid and carbonate fizz vigorously, releasing carbon dioxide \u2014 the mixture can spatter",
+      "real_world": "Adding acid to chalk or baking soda foams over if the vessel is too small. CO\u2082 displaces air in enclosed spaces."
+    }
+  },
+  "execution_status": "frozen_rustfmt_checked_not_compiled_or_run",
+  "scope": "Synthetic directional HCl/H2SO4-to-dissolved-acidity representation controls, supported strong-acidity/pH gate boundaries and actual Bench publication. No backend, speciation, atom/charge/energy conservation or empirical chemistry claim.",
+  "identity_policy": "A named-to-dissolved strong-acid reporting transition with the same existing partner/location is not a newly introduced exposure. Newly introduced dissolved acidity must still warn. Named acids remain distinct pairs as frozen in the earlier33 controls; do not equate all acid keys. Reverse transitions, additional acid families and intermediate products remain separate.",
+  "parameter_subcases": "Three at/below acidity functions each contain two cases and may stop early. Existing synthetic acidity gate1e-9mol/pH2 retained, not physical safety thresholds."
+}
