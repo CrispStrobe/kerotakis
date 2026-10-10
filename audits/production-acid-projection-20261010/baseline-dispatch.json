@@ -1,0 +1,28 @@
+{
+  "run": 38025534051,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38025534051",
+  "harness": "3a42cc60cfb1fb62cc5ad697bb10b15147df1b08",
+  "event": "workflow_dispatch",
+  "campaign": "production-acid-projection-baseline",
+  "source_observed": "a0fe641cc27d82216c7270d9fd7d88e4aeefefda",
+  "source_tree": "e53ffacf2e9fe17c70560b893b1a0a61369ab6fb",
+  "active_job": {
+    "name": "Frozen strong-acid reporting projection baseline",
+    "database_id": 114135477761,
+    "status_at_receipt": "queued",
+    "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38025534051/job/114135477761"
+  },
+  "controls": 22,
+  "inherited_core_library": 604,
+  "inherited_safety_library": 28,
+  "harness_inputs_sha256": {
+    ".github/workflows/chemistry-audit.yml": "8d30d85ecf18b5fbb6179eaca95d056abf6302a8f700b7b45f39a3a219fe62ce",
+    "audits/production-acid-projection-20261010/freeze.json": "54d2aa98e236589b91d8413aee297964b76d96d9234ca5cd1dede5085b0017b8",
+    "audits/production-acid-projection-20261010/production_acid_projection_contracts.rs": "c9afaee2067c6547e8c19a34a8b964187e7f9489895766ab39bbd1e60bd56bcb"
+  },
+  "all_prior_jobs_structurally_unchanged": true,
+  "dispatched": true,
+  "runtime_acceptance": false,
+  "production_changes": false,
+  "scope": "Separate unchanged-source projection baseline. No confirmed runtime gap yet; consume without redispatch and preserve raw outcomes before identity changes."
+}

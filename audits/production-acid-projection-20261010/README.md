@@ -17,3 +17,7 @@ python3 tools/titration-baseline-review.py --artifact ARTIFACT_DIRECTORY --run-m
 ```
 
 After accepted failures, freeze a narrow directional matching policy and port the fixture unchanged. Require fresh native322/28-fixture plans, workspace/safety, exact-head CI/fleet and source-bound CLI replay. Actual acid-route JSON/text probes need independently specified parsed inputs, dose and surviving-acidity/partner/backend witnesses; synthetic projection alone cannot establish chemical-route accuracy. Preserve first outcomes and original forecasts.
+
+## Actual baseline dispatched
+
+[Run38025534051](baseline-dispatch.json) is dispatched once on exact harness3a42cc60cfb1fb62cc5ad697bb10b15147df1b08 and unchanged sourcea0fe641c. Only the projection baseline job is active; all earlier jobs remain structurally unchanged. Consume artifact `production-acid-projection-baseline-38025534051` and fresh final run metadata without redispatch. Use the review command above with this exact harness. Runtime outcomes and repaired projection acceptance remain pending. PR777 native300/CI/fleet acceptance is separate; do not merge before the projection contract has been resolved.
