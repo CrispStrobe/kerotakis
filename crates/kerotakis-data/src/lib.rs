@@ -12,6 +12,7 @@ pub mod fluid_parameters;
 pub mod model_pack;
 mod pack;
 mod provenance;
+mod property_bounds;
 mod pubchem;
 mod resolve;
 mod schema;
@@ -25,6 +26,7 @@ pub use pack::{
     build_pack, load_pack, serialize_pack_payload, PackError, PACK_MAGIC, PACK_VERSION,
 };
 pub use provenance::*;
+pub use property_bounds::{validate_runtime_scalar, RuntimeScalarProperty};
 pub use pubchem::*;
 pub use resolve::{resolve_phase_property, Conditions, Resolution, ResolvedValue, Rung};
 pub use schema::*;

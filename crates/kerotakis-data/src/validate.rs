@@ -199,6 +199,15 @@ impl<'a> Validator<'a> {
                 &record.quantity,
                 record.property.expected_dimension(),
             );
+            if let Some(property) = record.property.runtime_scalar_property() {
+                if let Err(reason) = crate::validate_runtime_scalar(property, record.quantity.value)
+                {
+                    self.issue(
+                        format!("{path}.quantity.value"),
+                        format!("{}: {} {reason}", record.species_id, property.name()),
+                    );
+                }
+            }
         }
     }
 

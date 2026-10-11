@@ -15,10 +15,15 @@
 
 use std::fmt::Write as _;
 
+#[path = "../kerotakis-data/src/property_bounds.rs"]
+mod property_bounds;
+use property_bounds::{validate_runtime_scalar, RuntimeScalarProperty};
+
 fn main() {
     let manifest = std::env::var("CARGO_MANIFEST_DIR").unwrap();
     let src = std::path::Path::new(&manifest).join("../../data/registry/registry-source-v1.json");
     println!("cargo:rerun-if-changed={}", src.display());
+    println!("cargo:rerun-if-changed=../kerotakis-data/src/property_bounds.rs");
     let text = std::fs::read_to_string(&src)
         .unwrap_or_else(|e| panic!("cannot read {}: {e}", src.display()));
     let doc: serde_json::Value = serde_json::from_str(&text).expect("registry JSON parses");
@@ -115,6 +120,14 @@ fn main() {
         let density = thermo_for(key, "mass_density")
             .and_then(|t| t["quantity"]["value"].as_f64())
             .unwrap_or_else(|| panic!("no density for {key}"));
+        for (property, value) in [
+            (RuntimeScalarProperty::MolarMass, molar_mass),
+            (RuntimeScalarProperty::MassDensity, density),
+            (RuntimeScalarProperty::MolarHeatCapacity, heat_capacity),
+        ] {
+            validate_runtime_scalar(property, value)
+                .unwrap_or_else(|reason| panic!("{key}: {} {reason}", property.name()));
+        }
         let dissolution = thermo_for(key, "enthalpy_of_dissolution")
             .and_then(|t| t["quantity"]["value"].as_f64());
 
