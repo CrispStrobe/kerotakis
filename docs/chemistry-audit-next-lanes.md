@@ -177,6 +177,16 @@ AUD-01/AUD-02/VAL-01 must not edit native reconstruction concurrently. NUM-02/NU
 
 **Done:** one reviewed identity is reachable through the normal registry pipeline with correct coverage reporting. No undocumented family-wide constants or empirical calorimetry claim.
 
+## DATA-04 — Normalize mandatory runtime property units
+
+**Start:** `crates/kerotakis-data/src/units.rs`, `validate.rs`, `pack.rs`, `crates/kerotakis-core/src/species_loader.rs` and `build.rs`. [The separate unit baseline](../audits/registry-loader-units-20261011/README.md) on PR778 head records6pass/14fail across20controls, plus two passing alias numeric-equivalence controls. Canonicalvalues are unaffected; scaled mass/density/Cp and invalid metadata expose a general admission gap.
+
+**Implement:** reuse existing dimension-aware unit normalization for the three runtime scalar properties; check declared dimension as well as symbol. Direct/generated construction must use canonical numeric values. Typed validation and pack loading must validate semantics while preserving valid alternate-unit metadata. Keep scalarbounds/zeroCp/signedenergies and existing reviewedaliases. Share one implementation at all four paths, including buildtime, without duplicating conversion tables. Work separately from PR778's already queued source.
+
+**Verify:** preserve original20 and supplemental2, collect paired outcomes; all21 scalar controls, full core/data/safety libraries and registry fidelity/snapshot/roundtrip/parity must pass. Include conversion-overflow refusal, formatting/lint and fresh source/head/base/tree-bound hosted checks. Explain any PackError API change. No full-schema unit/polynomial/provenance or new measurements claim.
+
+**Done:** all supported runtime inputs either reach SpeciesData with correct canonical values or refuse explicitly for units; valid aliases and metadata-bearing pack round trips remain supported. Publish unchanged first failures and scoped accepted repair evidence.
+
 ## DATA-02 — Calibrate one dissolved-density/volume domain
 
 **Start:** density/volume instruments, species property defaults and the E129 qualification.

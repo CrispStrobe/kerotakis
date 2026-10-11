@@ -1,0 +1,12 @@
+{
+  "source": "f515781d1bf183a5602571e034fbbf2b5e18b7ff",
+  "status": "Twoadditionalnumeric-equivalence aliascontrols frozenbeforeexecution; original20unchanged",
+  "fixture_path": "audits/registry-loader-units-20261011/fixtures/registry_unit_alias_equivalence_contracts.rs",
+  "fixture_sha256": "f19dbe66914c3fee13cf350c806e05806c0a1cbbd55d7cb39336a776234b739e",
+  "port_path": "crates/kerotakis-core/tests/registry_unit_alias_equivalence_contracts.rs",
+  "expected_tests": [
+    "cp_equivalent_alias_preserves_runtime_values",
+    "density_equivalent_alias_preserves_runtime_values"
+  ],
+  "expected_cases": 2
+}

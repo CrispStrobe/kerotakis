@@ -1,0 +1,41 @@
+{
+  "source": "f515781d1bf183a5602571e034fbbf2b5e18b7ff",
+  "source_tree": "6dd1a691960353a752459b6cfe7d6d81a141db4f",
+  "status": "Frozen20 independent unitcontrols before compilation/execution; no behavioral failure or repair claimed",
+  "fixture_path": "audits/registry-loader-units-20261011/fixtures/registry_loader_unit_contracts.rs",
+  "fixture_sha256": "3c5d8035de2bfdd1e291729909ca39ee48336ea478f5aaf35eba14b4efc56bcd",
+  "port_path": "crates/kerotakis-core/tests/registry_loader_unit_contracts.rs",
+  "expected_tests": [
+    "canonical_registry_runtime_and_pack_supported",
+    "equivalent_cp_alias_runtime_supported",
+    "equivalent_density_alias_runtime_supported",
+    "scaled_mass_direct_normalizes_or_refuses",
+    "scaled_density_direct_normalizes_or_refuses",
+    "scaled_cp_direct_normalizes_or_refuses",
+    "wrong_mass_symbol_direct_refuses",
+    "wrong_density_dimension_direct_refuses",
+    "unknown_cp_symbol_direct_refuses",
+    "typed_equivalent_cp_alias_supported",
+    "typed_scaled_mass_supported",
+    "typed_mass_symbol_dimension_conflict_refuses",
+    "typed_unknown_cp_unit_refuses",
+    "typed_wrong_density_dimension_refuses",
+    "well_hashed_wrong_mass_unit_refuses",
+    "well_hashed_wrong_density_dimension_refuses",
+    "well_hashed_unknown_cp_unit_refuses",
+    "scaled_mass_pack_runtime_normalizes_or_refuses",
+    "scaled_density_pack_runtime_normalizes_or_refuses",
+    "scaled_cp_pack_runtime_normalizes_or_refuses"
+  ],
+  "expected_cases": 20,
+  "source_sha256": {
+    "crates/kerotakis-core/build.rs": "959d3431dd636bd61f071a04cfb2b1ab824dce90e26205d0523607a7c49eeb0c",
+    "crates/kerotakis-core/src/species_loader.rs": "1b895517a8cf4d28ddaab481e82143ea93ffb23c1acf0004e7e7cfedfd6dc258",
+    "crates/kerotakis-data/src/units.rs": "e2aba5e113fad99f04de2e7bfcadbca61628f0d51fbd3eb46b891bdecf5a20d4",
+    "crates/kerotakis-data/src/validate.rs": "07021af7d394cfbb1080668c6c2c1f8d695b28946819fad44781a1d7f276f994",
+    "crates/kerotakis-data/src/pack.rs": "144230a3e16ac1928bbd4024f30179e1d16cf38d051dfe29795da0ce2b6f1d5f",
+    "data/registry/registry-source-v1.json": "48487e1940c5e0122207d352c78e4377f8f7b47d421be2f78d62b61a096c3774"
+  },
+  "contract": "Currentcanonical registry and reviewedscale1aliases stay supported. Scaled runtime inputs must normalize into existing SpeciesDataunits or explicitlyrefuse forunits, never silentlyinterpret rawnumbers. Typed documents retaincompatibleunits; malformed symbols/dimensions andwellhashedinvalidpacks refuse. Pack-to-runtime coversmetadata-preservingpackadmission.",
+  "scope": "No externaldata/measurements; independentlydeclared metricprefix conversion expectations. Separate fromPR778scalarrepair; no changes toits source orold21controls."
+}

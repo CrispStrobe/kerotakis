@@ -1,0 +1,25 @@
+{
+  "source": "f515781d1bf183a5602571e034fbbf2b5e18b7ff",
+  "fixture_sha256": "f19dbe66914c3fee13cf350c806e05806c0a1cbbd55d7cb39336a776234b739e",
+  "expected_test_names": [
+    "cp_equivalent_alias_preserves_runtime_values",
+    "density_equivalent_alias_preserves_runtime_values"
+  ],
+  "passed": 2,
+  "failed": 0,
+  "exit_code": 0,
+  "raw_log_sha256": "2fa4344fc09ce6058d1135c991ad5ffde8ea4fdbd556e37b85a844c0d61b1e71",
+  "command": [
+    "cargo",
+    "test",
+    "--offline",
+    "--locked",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "registry_unit_alias_equivalence_contracts",
+    "--",
+    "--test-threads=1"
+  ],
+  "scope": "Supplementalaliasnumeric-equivalence only; original20baseline6pass14failunchanged."
+}
