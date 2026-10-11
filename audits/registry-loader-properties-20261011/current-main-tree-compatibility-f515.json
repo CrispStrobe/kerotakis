@@ -1,0 +1,33 @@
+{
+  "pr": 778,
+  "head": "f515781d1bf183a5602571e034fbbf2b5e18b7ff",
+  "current_base": "bf6f4157353a81867619d25d927475f6924f54bd",
+  "former_base": "dbe8652117ed870e9fc945c8f6f42bfa0137d49d",
+  "current_main_equals_base": true,
+  "current_base_tree": "d7400e89c76768fc52337b592d982b2a605a3013",
+  "former_base_tree": "d7400e89c76768fc52337b592d982b2a605a3013",
+  "base_tracked_trees_equal": true,
+  "tested_checkout": "9ad0c3ee8ada2cafe48a234b4461510b4d610cee",
+  "tested_checkout_parents": [
+    "dbe8652117ed870e9fc945c8f6f42bfa0137d49d",
+    "f515781d1bf183a5602571e034fbbf2b5e18b7ff"
+  ],
+  "tested_tree": "6dd1a691960353a752459b6cfe7d6d81a141db4f",
+  "computed_current_merge_tree": "6dd1a691960353a752459b6cfe7d6d81a141db4f",
+  "computed_merge_equals_tested_and_head_tree": true,
+  "merge_tree_command": [
+    "git",
+    "merge-tree",
+    "--write-tree",
+    "bf6f4157353a81867619d25d927475f6924f54bd",
+    "f515781d1bf183a5602571e034fbbf2b5e18b7ff"
+  ],
+  "merge_tree_exit_code": 0,
+  "new_base_context_test_execution": false,
+  "accepted_source_tree_compatibility": true,
+  "accepted_integration": false,
+  "scope": "Fresh current head/base/main and deterministic proposed merge tracked-tree compatibility only. Existing native execution is bound to its original checkout/parents, not presented as rerun after retarget. Own complete chemistry fleet, final fresh head/base/main guards and actual postmerge parent/tree verification remain required. No source change or workflow rerun was introduced.",
+  "current_pr_api_sha256": "dbd2eb767ddcc6c510d75ea4008c00c01d18b09501606578830c0f26e4f56d2f",
+  "current_main_api_sha256": "10c1e5821d0fa1ed42994d5b49342ddebf3991e62f73fe4c164904f6a0791b1e",
+  "merge_tree_stdout_sha256": "2df8d5929538da5bb988d7ec67dd54fc3b4cb84c90187abf03cefd91d18d56ce"
+}

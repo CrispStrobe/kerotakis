@@ -1,0 +1,40 @@
+{
+  "pr": 779,
+  "run": 38161218431,
+  "job": 114534357362,
+  "head": "2e03067196bd7d8da7516592b1df0202029fb2be",
+  "tested_checkout": "4a9b7d0eee68463b31da59448bf19f87a84f6b56",
+  "tested_tree": "c704867d7b3d773d4758dafa23c929f3958496d1",
+  "head_tree_equals_tested_checkout": true,
+  "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38161218431/job/114534357362",
+  "conclusion": "success",
+  "log_sha256": "0ac92f02815e32f81859652bb5051847c9ec9bf8675b5fa06b5261d44d9dfb0f",
+  "targets": [
+    {
+      "path": "crates/kerotakis-data/tests/registry_property_admission_contracts.rs",
+      "fixture_sha256": "638d4e46b4e2accd29c7124f359a809d3e29f854dedff46f3337033012fd0cef",
+      "passed": [
+        "supported_complete_registry_and_pack_remain_supported",
+        "typed_negative_molar_mass_refuses",
+        "typed_zero_molar_mass_refuses",
+        "typed_negative_density_refuses",
+        "typed_zero_density_refuses",
+        "typed_negative_heat_capacity_refuses",
+        "well_hashed_negative_density_pack_refuses",
+        "well_hashed_zero_molar_mass_pack_refuses",
+        "well_hashed_negative_heat_capacity_pack_refuses",
+        "signed_dissolution_enthalpy_remains_supported"
+      ],
+      "failed": []
+    }
+  ],
+  "total_focused_passed": 10,
+  "successful_steps": [
+    "Format",
+    "Clippy",
+    "Test",
+    "Codex \u2014 every claim must still compute",
+    "Curiosity coverage \u2014 the recorded route is still the route"
+  ],
+  "scope": "One native integration gate only. Other required gates and historical full-audit acceptance are separate."
+}
