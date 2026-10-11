@@ -1,0 +1,13 @@
+# Mandatory registry property boundary
+
+Source review on pinned PR777 head found a concrete data prerequisite: runtime species construction requires numeric molar mass, heat capacity and density. The registry identity gap cannot be closed by adding an identity and silently inventing missing solid properties. Existing aqueous-ion zero heat capacity is a separate supported convention and must remain supported.
+
+[The nine-control freeze](freeze.json) tests a narrower question before any data addition: does the direct runtime loader reject nonpositive mass/density and negative heat capacity? It includes a supported solid, an existing zero-Cp aqueous ion and two missing-property controls. Each invalid probe alters one field of the source-bound document and must refuse before constructing a species. These are independently declared input-domain controls, not new external measurements. The property values already in the repository are not newly promoted or licensed by these controls.
+
+[The frozen Rust fixture](fixtures/registry_loader_property_contracts.rs) is formatted but **not compiled or executed**. No baseline failure, runtime regression or repair acceptance is claimed. No production checkout, registry field or original acid probe was changed.
+
+Next: inject the fixture byte-identically at its declared port path into the exact pinned source in an isolated baseline collection. Bind the source/tree, all injected files, fixture, generated lock, submodules and toolchain; collect all nine unfiltered outcomes plus full core/safety library controls. Preserve compiler prerequisites separately from executed failures. Run under the established resource gate or through a source-bound hosted baseline; do not change an in-flight PR's source to borrow its CI results.
+
+If invalid-property controls demonstrably fail, repair the smallest shared validation boundary and preserve the two supported cases. Review both generated-registry construction and runtime pack loading; a direct-loader fix alone does not prove every data path closes. Require separate finite/unit/phase/provenance tests before broadening that scope. The direct parser is the subject of this freeze; whether typed pack admission already rejects a malformed record remains a separate boundary to inspect.
+
+The magnesium-chloride identity lane remains blocked on individually reviewed required property evidence and promotion compatibility. Do not copy another salt's density/heat capacity, conflate anhydrous and hydrated material, promote a candidate based on this fixture, or reinterpret the original unsupported MgCl2 outcome as a pass. See [DATA-01 and NUM lanes](../../docs/chemistry-audit-next-lanes.md).

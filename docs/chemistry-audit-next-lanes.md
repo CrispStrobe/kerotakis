@@ -169,6 +169,8 @@ AUD-01/AUD-02/VAL-01 must not edit native reconstruction concurrently. NUM-02/NU
 
 **Start:** `species.rs`, registry source/validation, MgCl2 refusal in the preserved third fifty and existing Mg/Cl ionic masters.
 
+**Prepared prerequisite:** [nine source-bound runtime-loader controls](../audits/registry-loader-properties-20261011/README.md) are frozen against PR777 sourcedbe. Numeric mass, heat capacity and density are mandatory construction fields, so identity-only registration cannot silently supply missing properties. Collect the unchanged fixture before repairing any suspected validation gap; it is formatted but uncompiled/unrun. The direct parser, generated registry and typed pack admission are separate boundaries. Invalid sign controls must retain supported solid values and the existing zero-Cp aqueous-ion convention. This preparation does not supply measured MgCl2 properties or complete DATA-01.
+
 **Do:** scope anhydrous MgCl2 first, or explicitly choose one hydrate. Review formula, identity/aliases, measured required solid properties and dissolution coverage; hydrate water and enthalpy cannot be copied from CaCl2. Publish only licensed, attributed scalar data with conditions and uncertainty. Unavailable mandatory properties remain a blocking coverage reason.
 
 **Freeze:** canonical/alias lookup, phase-aware addition, supported dissolution, stoichiometric Mg/Cl/water budgets, missing-property/refusal cases and hydrate distinction if included.
