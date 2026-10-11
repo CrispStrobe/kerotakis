@@ -1,0 +1,98 @@
+{
+  "status": "accepted LOCAL first failing baseline; no repair acceptance",
+  "source": "dbe8652117ed870e9fc945c8f6f42bfa0137d49d",
+  "source_tree": "d7400e89c76768fc52337b592d982b2a605a3013",
+  "tracked_files_compared": 2241,
+  "local_lock_sha256": "fef8a64257653da8bd3fcff50d89e69f5fb848952a6e8eaa827667427942ddfe",
+  "hosted_lock_not_used": true,
+  "hosted_lock_package_version_differences": 17,
+  "submodule_binding": "Expected Gitlink revisions recorded; full contents were not freshly compared in this collection.",
+  "fixtures": [
+    {
+      "fixture": "audits/registry-loader-properties-20261011/fixtures/registry_loader_property_contracts.rs",
+      "fixture_sha256": "c31800fbdac4310d53d106936edd39abcb692f1f08dbb0844574febef83ce472",
+      "port_path": "crates/kerotakis-core/tests/registry_loader_property_contracts.rs",
+      "outcomes": {
+        "aqueous_ion_zero_heat_capacity_remains_supported": "ok",
+        "missing_density_refuses": "ok",
+        "negative_density_refuses": "FAILED",
+        "missing_heat_capacity_refuses": "ok",
+        "negative_heat_capacity_refuses": "FAILED",
+        "negative_molar_mass_refuses": "FAILED",
+        "supported_solid_registry_properties_remain_supported": "ok",
+        "zero_density_refuses": "FAILED",
+        "zero_molar_mass_refuses": "FAILED"
+      },
+      "passed": 4,
+      "failed": 5,
+      "exit_code": 101,
+      "raw_log_sha256": "efc9da030cd9447efe950b5365349a3d12f5ba5af0d1e840356ad427b6aedbe2"
+    },
+    {
+      "fixture": "audits/registry-loader-properties-20261011/fixtures/registry_property_admission_contracts.rs",
+      "fixture_sha256": "638d4e46b4e2accd29c7124f359a809d3e29f854dedff46f3337033012fd0cef",
+      "port_path": "crates/kerotakis-data/tests/registry_property_admission_contracts.rs",
+      "outcomes": {
+        "signed_dissolution_enthalpy_remains_supported": "ok",
+        "supported_complete_registry_and_pack_remain_supported": "ok",
+        "typed_negative_density_refuses": "FAILED",
+        "typed_negative_heat_capacity_refuses": "FAILED",
+        "typed_negative_molar_mass_refuses": "FAILED",
+        "typed_zero_density_refuses": "FAILED",
+        "typed_zero_molar_mass_refuses": "FAILED",
+        "well_hashed_negative_density_pack_refuses": "FAILED",
+        "well_hashed_negative_heat_capacity_pack_refuses": "FAILED",
+        "well_hashed_zero_molar_mass_pack_refuses": "FAILED"
+      },
+      "passed": 2,
+      "failed": 8,
+      "exit_code": 101,
+      "raw_log_sha256": "19fa84bb0b0a015e840ec5d226f184b81a9dc3dcdeb116bdd7d55c8f46008aad"
+    },
+    {
+      "fixture": "audits/registry-loader-properties-20261011/fixtures/registry_neutral_zero_cp_contracts.rs",
+      "fixture_sha256": "17837eb9234b064f42fdece1c5511fef722771a40ff7a0b956c0d0f4b4cc5c0c",
+      "port_path": "crates/kerotakis-core/tests/registry_neutral_zero_cp_contracts.rs",
+      "outcomes": {
+        "neutral_dissolved_carbon_dioxide_zero_cp_remains_supported": "ok",
+        "neutral_hypochlorous_acid_zero_cp_remains_supported": "ok"
+      },
+      "passed": 2,
+      "failed": 0,
+      "exit_code": 0,
+      "raw_log_sha256": "f87a0ba1ed53575983e52327828a88649dd7902a775e6b78709d82e0db12c85f"
+    }
+  ],
+  "libraries": [
+    {
+      "suite": "core-library",
+      "passed": 604,
+      "raw_log_sha256": "c8e80f4ac9a9e3e860ef1cc7f16a9585494355640240282fa10756f2061a8b01",
+      "exit_code": 0
+    },
+    {
+      "suite": "safety-library",
+      "passed": 28,
+      "raw_log_sha256": "795db28068b336a02071f74e385e289c1e3c94821a91b0be88b7c37d1a324fb2",
+      "exit_code": 0
+    },
+    {
+      "suite": "data-library",
+      "passed": 13,
+      "raw_log_sha256": "152568ccdf79a7a9c1906b106fffd36ab0c2107d454131ac57b70063fa8a89d0",
+      "exit_code": 0
+    }
+  ],
+  "total_controls": 21,
+  "passed": 8,
+  "failed": 13,
+  "scope": "Direct loader, typed validation and well-hashed pack admission. No chemical data promotion or thermodynamic accuracy claim.",
+  "supplemental_source_binding_sha256": "8e115606606fcd755eeb1c660b7898141b3ce1e32b5006c52fa5429d4bb8fa1c",
+  "injected_file_inventory": [
+    "Cargo.lock",
+    "crates/kerotakis-core/tests/registry_loader_property_contracts.rs",
+    "crates/kerotakis-data/tests/registry_property_admission_contracts.rs",
+    "crates/kerotakis-core/tests/registry_neutral_zero_cp_contracts.rs"
+  ],
+  "independent_review": "A separate agent verified all21 exact test identities/fixture hashes, five raw-log hashes, exits and complete core604/safety28 counts. Supplemental source inventory independently rechecked before candidate application."
+}

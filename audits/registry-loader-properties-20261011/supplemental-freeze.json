@@ -1,0 +1,33 @@
+{
+  "source_observed": "dbe8652117ed870e9fc945c8f6f42bfa0137d49d",
+  "source_tree": "d7400e89c76768fc52337b592d982b2a605a3013",
+  "status": "Supplemental controls frozen before compilation/execution; original nine-control freeze unchanged.",
+  "fixtures": {
+    "audits/registry-loader-properties-20261011/fixtures/registry_property_admission_contracts.rs": {
+      "sha256": "638d4e46b4e2accd29c7124f359a809d3e29f854dedff46f3337033012fd0cef",
+      "port_path": "crates/kerotakis-data/tests/registry_property_admission_contracts.rs",
+      "expected_tests": [
+        "supported_complete_registry_and_pack_remain_supported",
+        "typed_negative_molar_mass_refuses",
+        "typed_zero_molar_mass_refuses",
+        "typed_negative_density_refuses",
+        "typed_zero_density_refuses",
+        "typed_negative_heat_capacity_refuses",
+        "well_hashed_negative_density_pack_refuses",
+        "well_hashed_zero_molar_mass_pack_refuses",
+        "well_hashed_negative_heat_capacity_pack_refuses",
+        "signed_dissolution_enthalpy_remains_supported"
+      ]
+    },
+    "audits/registry-loader-properties-20261011/fixtures/registry_neutral_zero_cp_contracts.rs": {
+      "sha256": "17837eb9234b064f42fdece1c5511fef722771a40ff7a0b956c0d0f4b4cc5c0c",
+      "port_path": "crates/kerotakis-core/tests/registry_neutral_zero_cp_contracts.rs",
+      "expected_tests": [
+        "neutral_hypochlorous_acid_zero_cp_remains_supported",
+        "neutral_dissolved_carbon_dioxide_zero_cp_remains_supported"
+      ]
+    }
+  },
+  "expected_cases": 12,
+  "scope": "Typed sign validation and well-hashed invalid pack admission, retaining complete valid registry, signed dissolution enthalpy and neutral aqueous zero-Cp compatibility. No full pack semantic validation or data promotion."
+}
