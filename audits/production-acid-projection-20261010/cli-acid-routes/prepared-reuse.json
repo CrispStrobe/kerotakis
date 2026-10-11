@@ -1,0 +1,18 @@
+{
+  "harness": "3904977de72827c0f2eabbc0b5398a24e3ed8fd8",
+  "campaign": "production-acid-route-cli-probes",
+  "job_name": "Collect frozen actual acid-route probes using pinned replay executable",
+  "parent_run": 38147457930,
+  "parent_harness": "6c67609c387db2b6c406d7b5cc45f708e636e18a",
+  "parent_artifact": "production-acid-projection-cli-replay-38147457930",
+  "source": "dbe8652117ed870e9fc945c8f6f42bfa0137d49d",
+  "freeze_sha256": "62bbac3cae32464b5b20b57b8ca325f57d51bb73bcfed68a1d9d9d8657635330",
+  "collector_sha256": "0c887888675552f9ca8c8f6fd7df26fdcada2ba61aa2a97ca47940ee72b27cf5",
+  "expected_cases": 6,
+  "expected_processes": 12,
+  "synthetic_tests_passed": 15,
+  "read_only_agent_review": "Six witness/identity/dose/source/cutoff gaps addressed; no remaining commit blocker. Review is not runtime or executable acceptance.",
+  "dispatched": false,
+  "precondition": "Independently accept parent replay/build bindings, then dispatch this exact reuse-only harness once. No rebuild or substituted executable.",
+  "scope": "Three prospective/projection positives and benign counterparts. Consumed partners never establish surviving final exposure detection. Raw runner command paths remain in archives; publish portable derived receipts only."
+}

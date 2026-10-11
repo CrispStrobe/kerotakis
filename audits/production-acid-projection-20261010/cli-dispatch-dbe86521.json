@@ -1,0 +1,11 @@
+{
+  "run": 38147457930,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38147457930",
+  "harness": "6c67609c387db2b6c406d7b5cc45f708e636e18a",
+  "source": "dbe8652117ed870e9fc945c8f6f42bfa0137d49d",
+  "campaign": "production-acid-projection-cli-replay",
+  "native_precondition_review": "audits/integration-20261008/native-controls/pr777-dbe86521-mac.json",
+  "native_precondition_passed": 322,
+  "dispatched_once": true,
+  "acceptance": "pending raw processes/build/warning paired review"
+}

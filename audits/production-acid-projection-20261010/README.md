@@ -37,3 +37,9 @@ After accepted failures, freeze a narrow directional matching policy and port th
 The paired CLI reviewer uses an explicit `--job-name "Replay unchanged hundred cases on directional acid reporting repair"` for this new campaign. It checks the exact run label against the Git-bound workflow; the historical default remains unchanged. Use `tools/cli-binding-review.py` and `tools/final-safety-cli-pair-review.py` with the new source manifest and actual dispatched harness, retaining the original baseline archive and freshly re-evaluated raw replay.
 
 [Reviewer compatibility verification](reviewer-compatibility-20261011.json) independently rechecks the historical accepted replay and warning pair with the revised reviewer, retaining default-job acceptance and all14 probe/rejection tests. This accepts historical archive compatibility only, not the new repair head.
+
+## Native acceptance and actual-route follow-up — 2026-10-11
+
+[Mac native322 review](../integration-20261008/native-controls/pr777-dbe86521-mac.json) independently confirms all28 fixtures and required native steps pass on a checkout tree equal to sourcedbe86521. [The exact6c replay is now dispatched](cli-dispatch-dbe86521.json); consume its first outputs without redispatching after the branch advances. [Linux native322 review](../integration-20261008/native-controls/pr777-dbe86521-linux.json) is also independently accepted. Complete CI/fleet and replay acceptance remain pending.
+
+[Six original actual acid-route probes](cli-acid-routes/README.md) are frozen and their reuse-only hosted collector is prepared. They distinguish surviving named-to-dissolved exposure from consumed-partner prospective narration, with declared dose/inventory/backend/JSON/text witnesses. Fifteen synthetic rejection/portable-archive tests pass; these are collector checks, not Kero route results. Reuse the accepted replay executable after its independent review instead of another release build.
