@@ -13,7 +13,8 @@ WORKFLOW = subprocess.check_output(['git', 'show', fleet.HEAD + ':' + fleet.WORK
 
 def complete():
     jobs = [dict(databaseId=i, name=name, status='completed', conclusion='success', url='job',
-                 steps=[dict(name=step, status='completed', conclusion='success') for step in steps])
+                 steps=[dict(number=step['number'], name=step['name'] or 'Run command',
+                             status='completed', conclusion='success') for step in steps])
             for i, (name, steps) in enumerate(fleet.inventory(WORKFLOW).items())]
     return dict(databaseId=fleet.RUN, headSha=fleet.HEAD, event='pull_request', status='completed',
                 conclusion='success', url=f'https://github.com/CrispStrobe/kerotakis/actions/runs/{fleet.RUN}', jobs=jobs)
@@ -61,6 +62,20 @@ class FleetReviewTests(unittest.TestCase):
             if mutation == 'failed': steps[0]['conclusion'] = 'failure'
             if mutation == 'unfinished': steps[0]['status'] = 'in_progress'
             with self.assertRaises(AssertionError): fleet.review(run, WORKFLOW)
+
+    def test_build_and_aggregate_commands_cannot_be_missing_or_skipped(self):
+        for name in ('Build audited CLI once', 'All 240 source-informed cases',
+                     'All 288 source-informed v2 cases', 'All 120 source-informed v3 cases'):
+            for mutation in ('empty', 'missing', 'duplicate', 'skipped', 'failed', 'wrong_ordinal'):
+                run = complete(); job = next(j for j in run['jobs'] if j['name'] == name)
+                if mutation == 'empty': job['steps'] = []
+                if mutation == 'missing': job['steps'].pop()
+                if mutation == 'duplicate': job['steps'].append(copy.deepcopy(job['steps'][0]))
+                if mutation == 'skipped': job['steps'][0]['conclusion'] = 'skipped'
+                if mutation == 'failed': job['steps'][0]['conclusion'] = 'failure'
+                if mutation == 'wrong_ordinal': job['steps'][0]['number'] = 999
+                with self.subTest(name=name, mutation=mutation), self.assertRaises(AssertionError):
+                    fleet.review(run, WORKFLOW)
 
     def test_unhandled_matrix_shape_rejected(self):
         with self.assertRaises(AssertionError):

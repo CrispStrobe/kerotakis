@@ -28,8 +28,10 @@ def inventory(workflow):
             assert all(isinstance(value, str) for value in matrix['family'])
             names = [job['name'].replace('${{ matrix.family }}', value)
                      for value in matrix['family']]
-        steps = [step['name'] for step in job['steps'] if 'name' in step]
-        assert len(set(steps)) == len(steps)
+        steps = [dict(number=i + 2, name=step.get('name'))
+                 for i, step in enumerate(job['steps'])]
+        names_of_steps = [step['name'] for step in steps if step['name'] is not None]
+        assert len(set(names_of_steps)) == len(names_of_steps)
         for name in names:
             assert '${{' not in name and name not in expected
             expected[name] = steps
@@ -52,8 +54,10 @@ def review(run, workflow):
         if job['status'] != 'completed' or job['conclusion'] != 'success':
             continue
         for required in expected[name]:
-            matching = [step for step in job['steps'] if step['name'] == required]
-            assert len(matching) == 1, 'missing/duplicate named workflow step'
+            matching = [step for step in job['steps'] if step['number'] == required['number']]
+            assert len(matching) == 1, 'missing/duplicate workflow step ordinal'
+            if required['name'] is not None:
+                assert matching[0]['name'] == required['name'], 'wrong named workflow step'
             assert matching[0]['status'] == 'completed' and matching[0]['conclusion'] == 'success'
         assert all(step['status'] == 'completed' and step['conclusion'] in {'success', 'skipped'}
                    for step in job['steps'])
@@ -70,7 +74,7 @@ def review(run, workflow):
                 observed_jobs=[{key: job[key] for key in ('databaseId', 'name', 'status', 'conclusion', 'url')}
                                for job in observed.values()],
                 accepted_complete_fleet_gate=accepted, accepted_integration=False,
-                scope='Exact-head hosted fleet job gates and named workflow steps only. '
+                scope='Exact-head hosted fleet job gates and every declared workflow step only. '
                       'Requires all 33 jobs, including three aggregates. '
                       'No independent raw-law recount or integration acceptance.')
 
