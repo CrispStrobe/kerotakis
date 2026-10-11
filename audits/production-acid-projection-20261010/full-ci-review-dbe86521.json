@@ -1,0 +1,204 @@
+{
+  "pr": 777,
+  "head": "dbe8652117ed870e9fc945c8f6f42bfa0137d49d",
+  "run": 38145873768,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768",
+  "event": "pull_request",
+  "run_metadata_sha256": "9e37cdc985cac7f76bbe6463d08730daae9e86e5814470b07f047df4472989ca",
+  "required_successful_jobs": [
+    "Full preflight gate",
+    "Test (native) (ubuntu-latest)",
+    "Test (native) (macos-latest)",
+    "The bench in WebAssembly",
+    "The demo page, in a real browser"
+  ],
+  "jobs": [
+    {
+      "databaseId": 114488978960,
+      "name": "Test (native) (ubuntu-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488978960"
+    },
+    {
+      "databaseId": 114488979091,
+      "name": "Test (native) (macos-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979091"
+    },
+    {
+      "databaseId": 114488979101,
+      "name": "BRD-080 viewer decision spike",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979101"
+    },
+    {
+      "databaseId": 114488979124,
+      "name": "Full preflight gate",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979124"
+    },
+    {
+      "databaseId": 114488979135,
+      "name": "Theme contrast tokens",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979135"
+    },
+    {
+      "databaseId": 114488979146,
+      "name": "The bench in WebAssembly",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979146"
+    },
+    {
+      "databaseId": 114488979158,
+      "name": "Presentation authority adapters",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979158"
+    },
+    {
+      "databaseId": 114488979178,
+      "name": "The native host still compiles",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979178"
+    },
+    {
+      "databaseId": 114488979182,
+      "name": "MY-BASIC preview (macos-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979182"
+    },
+    {
+      "databaseId": 114488979184,
+      "name": "GPU release tools (deterministic)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979184"
+    },
+    {
+      "databaseId": 114488979185,
+      "name": "IPhreeqc under MSVC",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979185"
+    },
+    {
+      "databaseId": 114488979214,
+      "name": "Core and data schemas compile to wasm32",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979214"
+    },
+    {
+      "databaseId": 114488979216,
+      "name": "Legacy BASIC oracle (development only)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979216"
+    },
+    {
+      "databaseId": 114488979257,
+      "name": "Shell payload (ubuntu-22.04)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979257"
+    },
+    {
+      "databaseId": 114488979261,
+      "name": "MY-BASIC preview (ubuntu-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979261"
+    },
+    {
+      "databaseId": 114488979263,
+      "name": "feos adapter (wasm32-unknown-unknown)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979263"
+    },
+    {
+      "databaseId": 114488979269,
+      "name": "feos adapter (x86_64-pc-windows-msvc)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979269"
+    },
+    {
+      "databaseId": 114488979277,
+      "name": "feos adapter (aarch64-apple-ios)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979277"
+    },
+    {
+      "databaseId": 114488979281,
+      "name": "The demo page, in a real browser",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979281"
+    },
+    {
+      "databaseId": 114488979287,
+      "name": "Shell payload (windows-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979287"
+    },
+    {
+      "databaseId": 114488979290,
+      "name": "Current registry source export",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979290"
+    },
+    {
+      "databaseId": 114488979297,
+      "name": "IPhreeqc wasm gate",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979297"
+    },
+    {
+      "databaseId": 114488979298,
+      "name": "feos adapter (aarch64-apple-darwin)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979298"
+    },
+    {
+      "databaseId": 114488979317,
+      "name": "feos adapter (aarch64-linux-android)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979317"
+    },
+    {
+      "databaseId": 114488979345,
+      "name": "The two wasm halves, together",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979345"
+    },
+    {
+      "databaseId": 114507531421,
+      "name": "Publish the demo",
+      "status": "completed",
+      "conclusion": "skipped",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114507531421"
+    }
+  ],
+  "successful_jobs": 25,
+  "skipped_jobs": 1,
+  "accepted_full_ci_gate": true,
+  "accepted_integration": false,
+  "scope": "Exact-head hosted CI gates only. Native runtime receipts remain separate. Fleet and integration acceptance are pending."
+}
