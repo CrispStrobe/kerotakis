@@ -1,0 +1,258 @@
+{
+  "source": "e644ab3f78388358c2226ae57fce718f0152d09e",
+  "source_tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+  "behavior_source": "81d6a5ad0e72c4dd59598fc23a96cbd8517ab9e5",
+  "source_binding": {
+    "head": "e644ab3f78388358c2226ae57fce718f0152d09e",
+    "tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+    "base": "2e03067196bd7d8da7516592b1df0202029fb2be",
+    "files": [
+      "crates/kerotakis-core/build.rs",
+      "crates/kerotakis-core/src/species_loader.rs",
+      "crates/kerotakis-data/src/lib.rs",
+      "crates/kerotakis-data/src/runtime_scalar_records.rs",
+      "crates/kerotakis-core/tests/registry_loader_phase_selection_contracts.rs",
+      "crates/kerotakis-core/tests/registry_consistent_phase_selection_contracts.rs"
+    ],
+    "compared_regular_files": 2251,
+    "method": "All regular Git archive members byte-compared with tested source; full Gitlink contents not independently rechecked",
+    "behavior_source": "81d6a5ad0e72c4dd59598fc23a96cbd8517ab9e5",
+    "followup_patch_sha256": "54df2f149374c2cd74f0f1e0c14f53f54be2e5639eb843260ca4eb57578e4259"
+  },
+  "followup_patch_sha256": "54df2f149374c2cd74f0f1e0c14f53f54be2e5639eb843260ca4eb57578e4259",
+  "source_sha256": {
+    "crates/kerotakis-core/build.rs": "9b8c83ba61aba9006b5eb6a51b0d7d558c9e37fc3ce5c64ece8ffcd49b30819e",
+    "crates/kerotakis-core/src/species_loader.rs": "b8a92e8a496d88dd64b500d0820dc0ddb135cd64f0c51af095e9a17320fe8d29"
+  },
+  "passed": 52,
+  "suites": [
+    {
+      "suite": "registry_loader_phase_selection_contracts",
+      "passed": 14,
+      "test_identities": [
+        "canonical_registry_supported",
+        "conflicting_cp_append_refuses",
+        "conflicting_cp_prepend_refuses",
+        "conflicting_density_append_refuses",
+        "conflicting_density_prepend_refuses",
+        "conflicting_mass_append_refuses",
+        "conflicting_mass_prepend_refuses",
+        "foreign_cp_append_preserves_or_refuses",
+        "foreign_cp_prepend_preserves_or_refuses",
+        "foreign_density_append_preserves_or_refuses",
+        "foreign_density_prepend_preserves_or_refuses",
+        "reversed_thermo_order_preserves_runtime_values",
+        "wrong_phase_cp_refuses",
+        "wrong_phase_density_refuses"
+      ],
+      "exit_code": 0,
+      "failed": 0,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0,
+      "command": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "-p",
+        "kerotakis-core",
+        "--test",
+        "registry_loader_phase_selection_contracts",
+        "--",
+        "--test-threads=1"
+      ],
+      "raw_log_sha256": "3262eac5e8e5a5dd60010ba3d42b7f8ae271f32073d720f04b0afd796859f95b"
+    },
+    {
+      "suite": "registry_consistent_phase_selection_contracts",
+      "passed": 6,
+      "test_identities": [
+        "consistent_foreign_cp_append",
+        "consistent_foreign_cp_prepend",
+        "consistent_foreign_density_append",
+        "consistent_foreign_density_prepend",
+        "consistent_wrong_phase_cp_refuses",
+        "consistent_wrong_phase_density_refuses"
+      ],
+      "exit_code": 0,
+      "failed": 0,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0,
+      "command": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "-p",
+        "kerotakis-core",
+        "--test",
+        "registry_consistent_phase_selection_contracts",
+        "--",
+        "--test-threads=1"
+      ],
+      "raw_log_sha256": "09d61e5ae518ca9ba9129c5cc1b877785972f45587217e0d158a48c625a8fe3e"
+    },
+    {
+      "suite": "registry_loader_unit_contracts",
+      "passed": 20,
+      "test_identities": [
+        "canonical_registry_runtime_and_pack_supported",
+        "equivalent_cp_alias_runtime_supported",
+        "equivalent_density_alias_runtime_supported",
+        "scaled_cp_direct_normalizes_or_refuses",
+        "scaled_cp_pack_runtime_normalizes_or_refuses",
+        "scaled_density_direct_normalizes_or_refuses",
+        "scaled_density_pack_runtime_normalizes_or_refuses",
+        "scaled_mass_direct_normalizes_or_refuses",
+        "scaled_mass_pack_runtime_normalizes_or_refuses",
+        "typed_equivalent_cp_alias_supported",
+        "typed_mass_symbol_dimension_conflict_refuses",
+        "typed_scaled_mass_supported",
+        "typed_unknown_cp_unit_refuses",
+        "typed_wrong_density_dimension_refuses",
+        "unknown_cp_symbol_direct_refuses",
+        "well_hashed_unknown_cp_unit_refuses",
+        "well_hashed_wrong_density_dimension_refuses",
+        "well_hashed_wrong_mass_unit_refuses",
+        "wrong_density_dimension_direct_refuses",
+        "wrong_mass_symbol_direct_refuses"
+      ],
+      "exit_code": 0,
+      "failed": 0,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0,
+      "command": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "-p",
+        "kerotakis-core",
+        "--test",
+        "registry_loader_unit_contracts",
+        "--",
+        "--test-threads=1"
+      ],
+      "raw_log_sha256": "a14a3a399628c783cdb0c012e52a05e135fb7f4f56049c42859d494a7f68ce7d"
+    },
+    {
+      "suite": "registry_loader_property_contracts",
+      "passed": 9,
+      "test_identities": [
+        "aqueous_ion_zero_heat_capacity_remains_supported",
+        "missing_density_refuses",
+        "missing_heat_capacity_refuses",
+        "negative_density_refuses",
+        "negative_heat_capacity_refuses",
+        "negative_molar_mass_refuses",
+        "supported_solid_registry_properties_remain_supported",
+        "zero_density_refuses",
+        "zero_molar_mass_refuses"
+      ],
+      "exit_code": 0,
+      "failed": 0,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0,
+      "command": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "-p",
+        "kerotakis-core",
+        "--test",
+        "registry_loader_property_contracts",
+        "--",
+        "--test-threads=1"
+      ],
+      "raw_log_sha256": "12687b8202d69b3311b14e722daf5112d7ef0a11fe4ba89ae691df8acb442ea1"
+    },
+    {
+      "suite": "loader_fidelity",
+      "passed": 2,
+      "test_identities": [
+        "registered_loaded_species_resolve_and_never_shadow_builtins",
+        "the_runtime_loader_reproduces_the_compiled_registry"
+      ],
+      "exit_code": 0,
+      "failed": 0,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0,
+      "command": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "-p",
+        "kerotakis-core",
+        "--test",
+        "loader_fidelity",
+        "--",
+        "--test-threads=1"
+      ],
+      "raw_log_sha256": "e799925b18325a59ade809c7c3bd96d7b3eb4f329ffc06ce035a0e7a541b958b"
+    },
+    {
+      "suite": "registry_snapshot",
+      "passed": 1,
+      "test_identities": [
+        "registry_matches_the_golden_snapshot"
+      ],
+      "exit_code": 0,
+      "failed": 0,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0,
+      "command": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "-p",
+        "kerotakis-core",
+        "--test",
+        "registry_snapshot",
+        "--",
+        "--test-threads=1"
+      ],
+      "raw_log_sha256": "05251c6435675adcd7d467989e0bf28273f1df52f85cdc2968e9757635f53b4d"
+    }
+  ],
+  "checks": {
+    "clippy": {
+      "exit_code": 0,
+      "command": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "-p",
+        "kerotakis-core",
+        "-p",
+        "kerotakis-data",
+        "-p",
+        "kerotakis-safety",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "raw_log_sha256": "fe2f8f5c298cd45ca3f3abe60669e0da3da3d407b54a6a5b3754d36a37961b52"
+    },
+    "format": {
+      "exit_code": 0,
+      "command": [
+        "cargo",
+        "fmt",
+        "--check"
+      ],
+      "raw_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "scope": "Two-file semantic-neutral cleanup removes guaranteed Some/expect wrappers. Original724 tests and original lint failure remain bound to prior source; these52 tests are repeated selected controls, not added unique coverage. Fresh final-head hosted checks pending."
+}

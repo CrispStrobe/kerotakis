@@ -1,0 +1,155 @@
+{
+  "passed": 14,
+  "cases": [
+    {
+      "case": "canonical",
+      "passed": true,
+      "exit_code": 0,
+      "input_sha256": "0095642644d7592a03a7e4f0865b31ff9844b9536ebc6d77b8aaa5959b61e23c",
+      "stdout_sha256": "2f921dd5062fdfddb952bbaa60f852e8117d32ba46c6cb0aaa70b74288ba0a40",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "reverse_thermo",
+      "passed": true,
+      "exit_code": 0,
+      "input_sha256": "68373b7b13a3c7d15cb209e6fb7d2e881daf7ec6250e614e4f7cf51d6f12f97f",
+      "stdout_sha256": "259c0cbb9698d2b7e5e83a41142e9bfa4e5047c02147fbabe5e67d185f420d65",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "molar_heat_capacity_foreign_prepend",
+      "passed": true,
+      "exit_code": 0,
+      "input_sha256": "5ebeb869307409c1e7ee8db28d553ab95e6bb2932b062abdc2d304b3302adae7",
+      "stdout_sha256": "bf931be1f85801a66c3dc68baeede8544c93fbe7211301abd3feae52fa568a0f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "molar_heat_capacity_foreign_append",
+      "passed": true,
+      "exit_code": 0,
+      "input_sha256": "b496e09a2a6b03d5df85a953c8c6292a217aa18f62edbc76654dc20162ba54cb",
+      "stdout_sha256": "cb39216d123dfd7770d7cbede9173a051b602ad1306c8e51ad19f3199919b36e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "molar_heat_capacity_wrong_phase",
+      "passed": true,
+      "exit_code": 101,
+      "input_sha256": "19d2ee1a6c84c6b2f8cec36355cf0e2f5b9c89f5e6d3429e1217af01114bec2f",
+      "stdout_sha256": "e6d5df99ac08966ea6bd425c31356c9b14fb223102e5c447e76013580054b7de",
+      "stderr_sha256": "2ac6100dfb7a2b7c3509aa5d4085f28ac1510eb0971ed582921814d6644b854c"
+    },
+    {
+      "case": "mass_density_foreign_prepend",
+      "passed": true,
+      "exit_code": 0,
+      "input_sha256": "d8dbc59bc378cf1ebc19a978babd8bd1c4ac83dc0f36d91df1ac98441a6a1805",
+      "stdout_sha256": "fdf0b359027e851f26a24d774aa1b96b8824cedacdd82c9f88aa151349ab74e7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "mass_density_foreign_append",
+      "passed": true,
+      "exit_code": 0,
+      "input_sha256": "9567894d2ce002e54319a5e18028c9bb7241fbfa353ce6518f63f50a59839af0",
+      "stdout_sha256": "e8a70fae78aa784560a5082700bf39f3d61f9d6e9b1d5db85900017b9cc62759",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "mass_density_wrong_phase",
+      "passed": true,
+      "exit_code": 101,
+      "input_sha256": "89858cf1e5c00fe2173f9f6f095d37393d11e5ddf63d46e4779027836c7990cb",
+      "stdout_sha256": "236ab4bf769b519fd64e13619a01f30035339651b8249c06b391e04de44a6cba",
+      "stderr_sha256": "07248a0e94fb4063e6278644456e5eb44567a11ba19a8fa689ef718bb004e7dc"
+    },
+    {
+      "case": "molar_mass_conflict_prepend",
+      "passed": true,
+      "exit_code": 101,
+      "input_sha256": "cab18f2a85f520dd208418dd63bb6ee450c7ec841299d4ed270e911bbd6691e3",
+      "stdout_sha256": "46e1899924310e59bc5e1751e203e3a9a5118d670a9d6749fb25ca277e1f2c43",
+      "stderr_sha256": "a69daa597691b5f0e33bc9f1f9a1dbe58b7ef7ace26e0b245f3427c6727bd6c2"
+    },
+    {
+      "case": "molar_mass_conflict_append",
+      "passed": true,
+      "exit_code": 101,
+      "input_sha256": "c014b882e4fb0aba1cfd71d71a7c4a92c2505ac0bf7b015f78d91ace73110b8c",
+      "stdout_sha256": "2a5a22a3329c5804ab4d86fdefe49161b685a2d6950806902cc01456d4ef864a",
+      "stderr_sha256": "405a1dcba601c6adf768cd834a964dac995c779a5ed9c76d41019e2901de970a"
+    },
+    {
+      "case": "molar_heat_capacity_conflict_prepend",
+      "passed": true,
+      "exit_code": 101,
+      "input_sha256": "424aef6c6360a7a8776dec902a2bcab716f60cc9294b82fa50326edb0b44ff69",
+      "stdout_sha256": "452701d62db23d3a854bdb38539d1f148937344671d45351746f673d53260ccf",
+      "stderr_sha256": "7afad982d7cd7357689271472f219db25cbb77f0f4f2021e93dfb281da6ec5e8"
+    },
+    {
+      "case": "molar_heat_capacity_conflict_append",
+      "passed": true,
+      "exit_code": 101,
+      "input_sha256": "2fe1f216b2fd949dc415f2531eca9cb602450c90ff0443f338d1d97342eda218",
+      "stdout_sha256": "e261a706904abff6113257323850b57bf2a68897833bf33168a79100a2aea747",
+      "stderr_sha256": "e615461a6e82f6266d23e1f11ca7332caac1ae8c2ca2d854430a4b4a059cebe1"
+    },
+    {
+      "case": "mass_density_conflict_prepend",
+      "passed": true,
+      "exit_code": 101,
+      "input_sha256": "6cfec5b0e4114ae0583798510f1afe4322e79e7dbeb4662c1f0aee0bbe7c8288",
+      "stdout_sha256": "e56962837358d609c8b496a1b30089d24c75bb8aaaec1a9d446523a3e618b741",
+      "stderr_sha256": "7a9c7c64fb2cb615a7ec3559204472410d7349af987446e78daa9597283a254b"
+    },
+    {
+      "case": "mass_density_conflict_append",
+      "passed": true,
+      "exit_code": 101,
+      "input_sha256": "23b7a27d675908c476b826c034ef915d9c432efd5a27aed8075d8dcfc753a7c1",
+      "stdout_sha256": "1fdb0c70cb587458748d5f879ff0c3c7cbfeb51d5e4074cb75e4baec6a752e11",
+      "stderr_sha256": "5f07ef5eda4ea23c96730eafe2a7ef66b68b8644fc45a3d257adcd3340613feb"
+    }
+  ],
+  "species_values_and_phases_preserved": 186,
+  "zero_cp_rows_preserved": 47,
+  "binary_sha256": "edbecdb0da8b5fde89176f09b0af2c11f034dc632b9f69942bac3642a0be76a3",
+  "registry_sha256": "48487e1940c5e0122207d352c78e4377f8f7b47d421be2f78d62b61a096c3774",
+  "base_source": "2e03067196bd7d8da7516592b1df0202029fb2be",
+  "candidate_patch_sha256": "45b47f8bb6d76d42b644cd0c1f12802742e5fded008897798e0e4e7d39874eb5",
+  "fixture_sha256": "c4a874de290261905ce8f1be926ac6b8686457ad1280783fdb27f644bbcee3dc",
+  "raw_results_sha256": "2b624e558949a6eeb283fd01b779ac254460704a42727c2a02909725921479d7",
+  "observed_artifact_origin": {
+    "artifact_relative_path": "target/debug/build/kerotakis-core-1f5dd48231f2b38e/build-script-build",
+    "binary_sha256": "edbecdb0da8b5fde89176f09b0af2c11f034dc632b9f69942bac3642a0be76a3",
+    "dependency_file_sha256": "e7ee3cd91447c634e61136f592e5e3b1acc5491d3bbc1c6baa83823aa714be0d",
+    "candidate_patch_sha256": "45b47f8bb6d76d42b644cd0c1f12802742e5fded008897798e0e4e7d39874eb5",
+    "actual_compile_command_sha256": "0b0f83c1ea75ce2b72bda4576ab2416ef0c9c088936238ffdd12cd27952583d1"
+  },
+  "changed_source_sha256": {
+    "crates/kerotakis-core/build.rs": "a4d7b69f3d66e6b9d08df42135b5ca678ad283a8c78fbe2f2a929a179f8d629e",
+    "crates/kerotakis-core/src/species_loader.rs": "c37a5e9c2217daf93773960ea2447cb7fd24718607ed340d5858e3c5028b478e",
+    "crates/kerotakis-data/src/lib.rs": "2511fe41ce356f9072bb3591e96b61f3d917477d46b9cee8297f5c6946e8d0bf",
+    "crates/kerotakis-data/src/runtime_scalar_records.rs": "4909a70257b2383b0d083149b397393128980df725ab117565e5cf6fc29af75d"
+  },
+  "actual_compile_command": [
+    "cargo",
+    "test",
+    "--offline",
+    "--locked",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "registry_loader_phase_selection_contracts",
+    "--",
+    "--test-threads=1"
+  ],
+  "actual_compile_log_sha256": "658afada8a29e263617d6140d2c7f8ac4f6863eb3c13c09f172b4d1b1703331c",
+  "scope": "Prospective LOCAL candidate-only generator checks; .d binds build.rs, shared helper linkage backed by observed Cargo compile and source hashes; no original paired build baseline or reproducible build claim",
+  "artifact_prerequisite": "Initial collection used wrong dependency filename and stopped before any generator case; preserved privately. Corrected collection preceded first14 case execution.",
+  "source": "81d6a5ad0e72c4dd59598fc23a96cbd8517ab9e5",
+  "source_tree": "ee7b2f5561b9f344e65e9048c4eefecda16abc0b"
+}

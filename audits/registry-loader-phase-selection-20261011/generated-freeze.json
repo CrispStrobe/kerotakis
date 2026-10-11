@@ -1,0 +1,23 @@
+{
+  "status": "Prospective candidate-only generator cases frozen before execution; not original paired generator baseline",
+  "base_source": "2e03067196bd7d8da7516592b1df0202029fb2be",
+  "fixture_sha256": "c4a874de290261905ce8f1be926ac6b8686457ad1280783fdb27f644bbcee3dc",
+  "expected_cases": [
+    "canonical",
+    "reverse_thermo",
+    "molar_heat_capacity_foreign_prepend",
+    "molar_heat_capacity_foreign_append",
+    "molar_heat_capacity_wrong_phase",
+    "mass_density_foreign_prepend",
+    "mass_density_foreign_append",
+    "mass_density_wrong_phase",
+    "molar_mass_conflict_prepend",
+    "molar_mass_conflict_append",
+    "molar_heat_capacity_conflict_prepend",
+    "molar_heat_capacity_conflict_append",
+    "mass_density_conflict_prepend",
+    "mass_density_conflict_append"
+  ],
+  "expected_count": 14,
+  "contract": "Six canonical/reordered/foreign-phase positive cases preserve all186 scalar triples and standard phases plus47zeroCp; eight missing-phase/conflicting-anchor cases refuse before emitting species output. Alternate phase metadata internally consistent, unique record IDs, all altered values synthetic."
+}

@@ -1,0 +1,25 @@
+{
+  "status": "Prospective own hosted checks plan frozen before PR creation; no hosted acceptance",
+  "source_branch": "fix/registry-runtime-phase-selection-20261011",
+  "head": "e644ab3f78388358c2226ae57fce718f0152d09e",
+  "tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+  "initial_base_branch": "fix/registry-runtime-unit-admission-20261011",
+  "initial_base_head": "2e03067196bd7d8da7516592b1df0202029fb2be",
+  "parent_pr": 779,
+  "expected_core_native_controls": 378,
+  "expected_core_native_fixture_files": 35,
+  "new_phase_controls": 20,
+  "data_admission_controls": 10,
+  "required_evidence": [
+    "Own head-bound full CI and affected libraries, native exact fixture identities/counts",
+    "Own complete chemistry fleet, all33 source-derived jobs and every declared workflow step",
+    "Actual source/base/head/tested tree, lock/toolchain/submodule bindings",
+    "Retarget main after parent integration and require fresh head/base/tested-tree checks; never borrow parents"
+  ],
+  "scope": "Unique global molar-mass anchor, phase-matched Cp/density only; typed multi-phase documents, optional thermodynamics and polynomials remain outside this runtime selector",
+  "original_probe_limitation": "Original14 foreign/wrong phase probes left contradictory quantity condition phase; corrected supplemental6 isolates internally consistent alternate-phase behavior.",
+  "behavior_source": "81d6a5ad0e72c4dd59598fc23a96cbd8517ab9e5",
+  "local_behavioral_matrix_passed": 724,
+  "final_followup_controls_passed": 52,
+  "final_generated_controls_passed": 14
+}

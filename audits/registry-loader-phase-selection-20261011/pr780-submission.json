@@ -1,0 +1,71 @@
+{
+  "pr": 780,
+  "url": "https://github.com/CrispStrobe/kerotakis/pull/780",
+  "state": "open",
+  "draft": true,
+  "head": "e644ab3f78388358c2226ae57fce718f0152d09e",
+  "tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+  "base": "2e03067196bd7d8da7516592b1df0202029fb2be",
+  "head_branch": "fix/registry-runtime-phase-selection-20261011",
+  "base_branch": "fix/registry-runtime-unit-admission-20261011",
+  "changed_files": 6,
+  "files": [
+    "crates/kerotakis-core/build.rs",
+    "crates/kerotakis-core/src/species_loader.rs",
+    "crates/kerotakis-data/src/lib.rs",
+    "crates/kerotakis-data/src/runtime_scalar_records.rs",
+    "crates/kerotakis-core/tests/registry_loader_phase_selection_contracts.rs",
+    "crates/kerotakis-core/tests/registry_consistent_phase_selection_contracts.rs"
+  ],
+  "source_binding": {
+    "head": "e644ab3f78388358c2226ae57fce718f0152d09e",
+    "tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+    "base": "2e03067196bd7d8da7516592b1df0202029fb2be",
+    "files": [
+      "crates/kerotakis-core/build.rs",
+      "crates/kerotakis-core/src/species_loader.rs",
+      "crates/kerotakis-data/src/lib.rs",
+      "crates/kerotakis-data/src/runtime_scalar_records.rs",
+      "crates/kerotakis-core/tests/registry_loader_phase_selection_contracts.rs",
+      "crates/kerotakis-core/tests/registry_consistent_phase_selection_contracts.rs"
+    ],
+    "compared_regular_files": 2251,
+    "method": "All regular Git archive members byte-compared with tested source; full Gitlink contents not independently rechecked",
+    "behavior_source": "81d6a5ad0e72c4dd59598fc23a96cbd8517ab9e5",
+    "followup_patch_sha256": "54df2f149374c2cd74f0f1e0c14f53f54be2e5639eb843260ca4eb57578e4259"
+  },
+  "local_behavioral_matrix": {
+    "source": "81d6a5ad0e72c4dd59598fc23a96cbd8517ab9e5",
+    "passed": 724
+  },
+  "final_followup_tests": 52,
+  "final_prospective_generator_cases": 14,
+  "final_clippy_and_format_passed": true,
+  "own_hosted_runs_observed": [
+    {
+      "id": 38162956832,
+      "head": "e644ab3f78388358c2226ae57fce718f0152d09e",
+      "event": "pull_request",
+      "name": "CI",
+      "status": "queued",
+      "conclusion": null,
+      "actual_pr_association": 780,
+      "actual_run_api_sha256": "8bef4d0c1baf68f4f6b0ebad603e9db9c6bc6e6c33715a024cfb9aec40d5c180"
+    },
+    {
+      "id": 38162956795,
+      "head": "e644ab3f78388358c2226ae57fce718f0152d09e",
+      "event": "pull_request",
+      "name": "Chemistry audit fleets",
+      "status": "queued",
+      "conclusion": null,
+      "actual_pr_association": 780,
+      "actual_run_api_sha256": "2c4d63a034ebe037840dbe62961622a02d8d6559bbbabc69c0f0ab335fd3a2cd"
+    }
+  ],
+  "hosted_acceptance": false,
+  "main_integration": false,
+  "actual_pr_api_sha256": "a2c9fb99801eb40554d934b2115bfcfb0a1615ca61383653ef2bbc4242303c74",
+  "actual_runs_api_sha256": "2f8312d24f85f0eeede506ac8c424f97de4c978c7a9ee268c8eec44b7de345bb",
+  "next": "Own fresh full CI/all33fleet+declaredstepordinals; after parent integration retarget main and require fresh head/base/tested-tree-bound checks"
+}

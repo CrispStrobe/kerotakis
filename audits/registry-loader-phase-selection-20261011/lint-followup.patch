@@ -1,0 +1,77 @@
+diff --git a/crates/kerotakis-core/build.rs b/crates/kerotakis-core/build.rs
+--- a/crates/kerotakis-core/build.rs
++++ b/crates/kerotakis-core/build.rs
+@@ -113,13 +113,13 @@ fn main() {
+         let mm = scalar_records.molar_mass;
+         let molar_mass = mm["quantity"]["value"].as_f64().unwrap();
+         let standard_phase = phase_variant(mm["phase"].as_str().unwrap());
+-        let heat_capacity_record = Some(scalar_records.heat_capacity);
+-        let heat_capacity = heat_capacity_record
+-            .and_then(|t| t["quantity"]["value"].as_f64())
++        let heat_capacity_record = scalar_records.heat_capacity;
++        let heat_capacity = heat_capacity_record["quantity"]["value"]
++            .as_f64()
+             .unwrap_or_else(|| panic!("no heat capacity for {key}"));
+-        let density_record = Some(scalar_records.density);
+-        let density = density_record
+-            .and_then(|t| t["quantity"]["value"].as_f64())
++        let density_record = scalar_records.density;
++        let density = density_record["quantity"]["value"]
++            .as_f64()
+             .unwrap_or_else(|| panic!("no density for {key}"));
+         for (property, value) in [
+             (RuntimeScalarProperty::MolarMass, molar_mass),
+@@ -140,13 +140,9 @@ fn main() {
+         let heat_capacity = normalize(
+             RuntimeScalarProperty::MolarHeatCapacity,
+             heat_capacity,
+-            heat_capacity_record.expect("heat-capacity value was read above"),
+-        );
+-        let density = normalize(
+-            RuntimeScalarProperty::MassDensity,
+-            density,
+-            density_record.expect("density value was read above"),
++            heat_capacity_record,
+         );
++        let density = normalize(RuntimeScalarProperty::MassDensity, density, density_record);
+         let dissolution = thermo_for(key, "enthalpy_of_dissolution")
+             .and_then(|t| t["quantity"]["value"].as_f64());
+ 
+diff --git a/crates/kerotakis-core/src/species_loader.rs b/crates/kerotakis-core/src/species_loader.rs
+--- a/crates/kerotakis-core/src/species_loader.rs
++++ b/crates/kerotakis-core/src/species_loader.rs
+@@ -218,13 +218,13 @@ pub fn parse_document(doc: &serde_json::Value) -> Result<Vec<SpeciesData>, Strin
+                 .ok_or_else(|| fail("molar mass has no phase"))?,
+         )
+         .map_err(|e| fail(&e))?;
+-        let heat_capacity_record = Some(scalar_records.heat_capacity);
+-        let heat_capacity = heat_capacity_record
+-            .and_then(|t| t["quantity"]["value"].as_f64())
++        let heat_capacity_record = scalar_records.heat_capacity;
++        let heat_capacity = heat_capacity_record["quantity"]["value"]
++            .as_f64()
+             .ok_or_else(|| fail("no heat capacity"))?;
+-        let density_record = Some(scalar_records.density);
+-        let density = density_record
+-            .and_then(|t| t["quantity"]["value"].as_f64())
++        let density_record = scalar_records.density;
++        let density = density_record["quantity"]["value"]
++            .as_f64()
+             .ok_or_else(|| fail("no density"))?;
+         for (property, value) in [
+             (kerotakis_data::RuntimeScalarProperty::MolarMass, molar_mass),
+@@ -255,12 +255,12 @@ pub fn parse_document(doc: &serde_json::Value) -> Result<Vec<SpeciesData>, Strin
+         let heat_capacity = normalize(
+             kerotakis_data::RuntimeScalarProperty::MolarHeatCapacity,
+             heat_capacity,
+-            heat_capacity_record.expect("heat-capacity value was read above"),
++            heat_capacity_record,
+         )?;
+         let density = normalize(
+             kerotakis_data::RuntimeScalarProperty::MassDensity,
+             density,
+-            density_record.expect("density value was read above"),
++            density_record,
+         )?;
+         let dissolution = thermo_for(key, "enthalpy_of_dissolution")
+             .and_then(|t| t["quantity"]["value"].as_f64());

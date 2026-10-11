@@ -1,0 +1,157 @@
+{
+  "passed": 14,
+  "cases": [
+    {
+      "case": "canonical",
+      "passed": true,
+      "exit_code": 0,
+      "input_sha256": "0095642644d7592a03a7e4f0865b31ff9844b9536ebc6d77b8aaa5959b61e23c",
+      "stdout_sha256": "1e0621b8d98996218d1525296cb17ac91d29df8c4efc4e5f080b888261d4bb0f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "reverse_thermo",
+      "passed": true,
+      "exit_code": 0,
+      "input_sha256": "68373b7b13a3c7d15cb209e6fb7d2e881daf7ec6250e614e4f7cf51d6f12f97f",
+      "stdout_sha256": "86c46b7f8cd36ffc798de5bc37fa7bc51b04d18ac6872dede75cdcdc69586bda",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "molar_heat_capacity_foreign_prepend",
+      "passed": true,
+      "exit_code": 0,
+      "input_sha256": "5ebeb869307409c1e7ee8db28d553ab95e6bb2932b062abdc2d304b3302adae7",
+      "stdout_sha256": "3ffce50aaab4454ce2f12ad15b556b2ae925faa95f47e52c10e8d8b311f5b557",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "molar_heat_capacity_foreign_append",
+      "passed": true,
+      "exit_code": 0,
+      "input_sha256": "b496e09a2a6b03d5df85a953c8c6292a217aa18f62edbc76654dc20162ba54cb",
+      "stdout_sha256": "38b7788372be731da83212694baf70c574b7ea72db1e534febc55490d8eadd2e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "molar_heat_capacity_wrong_phase",
+      "passed": true,
+      "exit_code": 101,
+      "input_sha256": "19d2ee1a6c84c6b2f8cec36355cf0e2f5b9c89f5e6d3429e1217af01114bec2f",
+      "stdout_sha256": "1535d0f24760a5ef20b37074bcd2f25b6f1de0746c654e29d5aae65ab6082030",
+      "stderr_sha256": "2ce01e49181ef32de16b25bd4e2d7b352b3fcc2515e45780692dc8b275707096"
+    },
+    {
+      "case": "mass_density_foreign_prepend",
+      "passed": true,
+      "exit_code": 0,
+      "input_sha256": "d8dbc59bc378cf1ebc19a978babd8bd1c4ac83dc0f36d91df1ac98441a6a1805",
+      "stdout_sha256": "adda95cc8adb44eeb177eae1a005cf839ab17ece234b770bd60c29fec6fc1979",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "mass_density_foreign_append",
+      "passed": true,
+      "exit_code": 0,
+      "input_sha256": "9567894d2ce002e54319a5e18028c9bb7241fbfa353ce6518f63f50a59839af0",
+      "stdout_sha256": "1658c32305f9735fd59335257135a0b75dde5f732b56676cc5b8ca590c827608",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "mass_density_wrong_phase",
+      "passed": true,
+      "exit_code": 101,
+      "input_sha256": "89858cf1e5c00fe2173f9f6f095d37393d11e5ddf63d46e4779027836c7990cb",
+      "stdout_sha256": "cc335220a1b18078f1145760a141748a962e4e3e5abc336c22f3dacff196e1c3",
+      "stderr_sha256": "f59fcd41be52d2a246dec914707a5e823aee2f4fdb4224fc69c793d53bf70335"
+    },
+    {
+      "case": "molar_mass_conflict_prepend",
+      "passed": true,
+      "exit_code": 101,
+      "input_sha256": "cab18f2a85f520dd208418dd63bb6ee450c7ec841299d4ed270e911bbd6691e3",
+      "stdout_sha256": "060f80c6568d1632689e61b8b9c2f2651920f44c383c637e71eb73c07c2e19e1",
+      "stderr_sha256": "e643837dca3b45b210e1cdcb0920401a2eaeb6fbe2c82557d12f95eff4a87478"
+    },
+    {
+      "case": "molar_mass_conflict_append",
+      "passed": true,
+      "exit_code": 101,
+      "input_sha256": "c014b882e4fb0aba1cfd71d71a7c4a92c2505ac0bf7b015f78d91ace73110b8c",
+      "stdout_sha256": "adce1c6adc2e315a2505b2c543a8460f123a8210a5528d080613d3bfe6a72923",
+      "stderr_sha256": "e44364b9b7f0e4b480cf8a97bac21866a58dcf40fe56ec44275c51f3c6921a17"
+    },
+    {
+      "case": "molar_heat_capacity_conflict_prepend",
+      "passed": true,
+      "exit_code": 101,
+      "input_sha256": "424aef6c6360a7a8776dec902a2bcab716f60cc9294b82fa50326edb0b44ff69",
+      "stdout_sha256": "2547e4b9757443a66b852e7e40ae345302250d86711a52b81ed2c79e69517ee5",
+      "stderr_sha256": "47a0ae52ac4bab37af11bb500183a5bdba9ec00cd06f8805023c4b76fbc56690"
+    },
+    {
+      "case": "molar_heat_capacity_conflict_append",
+      "passed": true,
+      "exit_code": 101,
+      "input_sha256": "2fe1f216b2fd949dc415f2531eca9cb602450c90ff0443f338d1d97342eda218",
+      "stdout_sha256": "320526ae0b5643b7c5f69565670862360e3b7d540ab402016855d4545a3208e7",
+      "stderr_sha256": "e6b494683782a8f1888ba4949480fba2803c4164ca88ec825ef5358a5f6346ce"
+    },
+    {
+      "case": "mass_density_conflict_prepend",
+      "passed": true,
+      "exit_code": 101,
+      "input_sha256": "6cfec5b0e4114ae0583798510f1afe4322e79e7dbeb4662c1f0aee0bbe7c8288",
+      "stdout_sha256": "d8ae0019f25046435680cd8662218de073f099833454237ddb375d4b54260360",
+      "stderr_sha256": "a3355269b853a5e209c08aa1cdd9d409b6cbb4fa39ac036e0ea6ec4b118844e4"
+    },
+    {
+      "case": "mass_density_conflict_append",
+      "passed": true,
+      "exit_code": 101,
+      "input_sha256": "23b7a27d675908c476b826c034ef915d9c432efd5a27aed8075d8dcfc753a7c1",
+      "stdout_sha256": "b1058935e87703a209cb6358ac61a0e0920740afc249980c1107ac00b3bc899b",
+      "stderr_sha256": "33231fbbcfe237d3f44aad8d7255149f71628b6e552960be28cd2435cea2b4b7"
+    }
+  ],
+  "species_values_and_phases_preserved": 186,
+  "zero_cp_rows_preserved": 47,
+  "binary_sha256": "e9ae23f79b1b31231cba7e70c44681c1e302987acc5453d9c245ca030724a32c",
+  "registry_sha256": "48487e1940c5e0122207d352c78e4377f8f7b47d421be2f78d62b61a096c3774",
+  "source": "e644ab3f78388358c2226ae57fce718f0152d09e",
+  "source_tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+  "fixture_sha256": "c4a874de290261905ce8f1be926ac6b8686457ad1280783fdb27f644bbcee3dc",
+  "raw_results_sha256": "bfcfdec89e401426d30e518623a467eb22f5c127355dab58ebd807ed351120c8",
+  "observed_artifact_origin": {
+    "artifact_relative_path": "target/debug/build/kerotakis-core-c887cd5668b1fa5c/build-script-build",
+    "binary_sha256": "e9ae23f79b1b31231cba7e70c44681c1e302987acc5453d9c245ca030724a32c",
+    "dependency_file_sha256": "bc31fc27c4db291aac862ec20bdf69c50822e804859713be32c94fc8e7fd6ef8",
+    "lint_followup_patch_sha256": "54df2f149374c2cd74f0f1e0c14f53f54be2e5639eb843260ca4eb57578e4259",
+    "actual_compile_command_sha256": "0b0f83c1ea75ce2b72bda4576ab2416ef0c9c088936238ffdd12cd27952583d1",
+    "actual_compile_log_sha256": "3262eac5e8e5a5dd60010ba3d42b7f8ae271f32073d720f04b0afd796859f95b"
+  },
+  "source_binding": {
+    "head": "e644ab3f78388358c2226ae57fce718f0152d09e",
+    "tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+    "base": "2e03067196bd7d8da7516592b1df0202029fb2be",
+    "files": [
+      "crates/kerotakis-core/build.rs",
+      "crates/kerotakis-core/src/species_loader.rs",
+      "crates/kerotakis-data/src/lib.rs",
+      "crates/kerotakis-data/src/runtime_scalar_records.rs",
+      "crates/kerotakis-core/tests/registry_loader_phase_selection_contracts.rs",
+      "crates/kerotakis-core/tests/registry_consistent_phase_selection_contracts.rs"
+    ],
+    "compared_regular_files": 2251,
+    "method": "All regular Git archive members byte-compared with tested source; full Gitlink contents not independently rechecked",
+    "behavior_source": "81d6a5ad0e72c4dd59598fc23a96cbd8517ab9e5",
+    "followup_patch_sha256": "54df2f149374c2cd74f0f1e0c14f53f54be2e5639eb843260ca4eb57578e4259"
+  },
+  "changed_source_sha256": {
+    "crates/kerotakis-core/build.rs": "9b8c83ba61aba9006b5eb6a51b0d7d558c9e37fc3ce5c64ece8ffcd49b30819e",
+    "crates/kerotakis-core/src/species_loader.rs": "b8a92e8a496d88dd64b500d0820dc0ddb135cd64f0c51af095e9a17320fe8d29",
+    "crates/kerotakis-data/src/lib.rs": "2511fe41ce356f9072bb3591e96b61f3d917477d46b9cee8297f5c6946e8d0bf",
+    "crates/kerotakis-data/src/runtime_scalar_records.rs": "4909a70257b2383b0d083149b397393128980df725ab117565e5cf6fc29af75d"
+  },
+  "scope": "Same fourteen previously frozen prospective cases rerun on final cleanup source; not fourteen additional unique experiments or independently reproduced build"
+}
