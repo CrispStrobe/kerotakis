@@ -108,14 +108,16 @@ fn main() {
     for identity in identities {
         let key = identity["id"].as_str().expect("identity id");
         let comp = composition_for(key);
-        let mm = thermo_for(key, "molar_mass").unwrap_or_else(|| panic!("no molar mass for {key}"));
+        let scalar_records = kerotakis_data::select_runtime_scalar_records(thermo, key)
+            .unwrap_or_else(|reason| panic!("{reason}"));
+        let mm = scalar_records.molar_mass;
         let molar_mass = mm["quantity"]["value"].as_f64().unwrap();
         let standard_phase = phase_variant(mm["phase"].as_str().unwrap());
-        let heat_capacity_record = thermo_for(key, "molar_heat_capacity");
+        let heat_capacity_record = Some(scalar_records.heat_capacity);
         let heat_capacity = heat_capacity_record
             .and_then(|t| t["quantity"]["value"].as_f64())
             .unwrap_or_else(|| panic!("no heat capacity for {key}"));
-        let density_record = thermo_for(key, "mass_density");
+        let density_record = Some(scalar_records.density);
         let density = density_record
             .and_then(|t| t["quantity"]["value"].as_f64())
             .unwrap_or_else(|| panic!("no density for {key}"));

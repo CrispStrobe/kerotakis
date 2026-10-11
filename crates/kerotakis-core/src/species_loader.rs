@@ -207,7 +207,8 @@ pub fn parse_document(doc: &serde_json::Value) -> Result<Vec<SpeciesData>, Strin
             .iter()
             .find(|c| c["species_id"] == key)
             .ok_or_else(|| fail("no composition"))?;
-        let mm = thermo_for(key, "molar_mass").ok_or_else(|| fail("no molar mass"))?;
+        let scalar_records = kerotakis_data::select_runtime_scalar_records(thermo, key)?;
+        let mm = scalar_records.molar_mass;
         let molar_mass = mm["quantity"]["value"]
             .as_f64()
             .ok_or_else(|| fail("molar mass has no value"))?;
@@ -217,11 +218,11 @@ pub fn parse_document(doc: &serde_json::Value) -> Result<Vec<SpeciesData>, Strin
                 .ok_or_else(|| fail("molar mass has no phase"))?,
         )
         .map_err(|e| fail(&e))?;
-        let heat_capacity_record = thermo_for(key, "molar_heat_capacity");
+        let heat_capacity_record = Some(scalar_records.heat_capacity);
         let heat_capacity = heat_capacity_record
             .and_then(|t| t["quantity"]["value"].as_f64())
             .ok_or_else(|| fail("no heat capacity"))?;
-        let density_record = thermo_for(key, "mass_density");
+        let density_record = Some(scalar_records.density);
         let density = density_record
             .and_then(|t| t["quantity"]["value"].as_f64())
             .ok_or_else(|| fail("no density"))?;
