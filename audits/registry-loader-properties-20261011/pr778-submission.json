@@ -1,0 +1,55 @@
+{
+  "pr": 778,
+  "url": "https://github.com/CrispStrobe/kerotakis/pull/778",
+  "head": "f515781d1bf183a5602571e034fbbf2b5e18b7ff",
+  "head_branch": "fix/registry-runtime-scalar-bounds-20261011",
+  "base": "dbe8652117ed870e9fc945c8f6f42bfa0137d49d",
+  "base_branch": "audit/production-acid-final-safety-20261010",
+  "source_tree": "6dd1a691960353a752459b6cfe7d6d81a141db4f",
+  "state": "open",
+  "draft": true,
+  "parent_pr": 777,
+  "submitted_at": "2026-10-11T17:14:35Z",
+  "status": "Draftsubmitted; ownfinalhead CI/fleet queued/inprogress, neitheraccepted",
+  "source_changes": [
+    "crates/kerotakis-core/build.rs",
+    "crates/kerotakis-core/src/species_loader.rs",
+    "crates/kerotakis-core/tests/registry_loader_property_contracts.rs",
+    "crates/kerotakis-core/tests/registry_neutral_zero_cp_contracts.rs",
+    "crates/kerotakis-data/src/lib.rs",
+    "crates/kerotakis-data/src/pack.rs",
+    "crates/kerotakis-data/src/property_bounds.rs",
+    "crates/kerotakis-data/src/schema.rs",
+    "crates/kerotakis-data/src/validate.rs",
+    "crates/kerotakis-data/tests/registry_property_admission_contracts.rs"
+  ],
+  "local_receipt_sha256": {
+    "audits/registry-loader-properties-20261011/local-first-baseline-review.json": "d89b4b8fd2bffc657af008f71093d624ee091633cfa11c346845ad546d1b8174",
+    "audits/registry-loader-properties-20261011/local-complete-controls-review.json": "1bc74a2650a57828ff49581dc92c98abb350a65aac821988f3ecb9550ddd95a5",
+    "audits/registry-loader-properties-20261011/formatting-followup-review.json": "949af74fdeeeff21a86cf6872daae069026f90a9ad0da84c1129c28cb93b246d",
+    "audits/registry-loader-properties-20261011/generated-artifact-binding.json": "1174970a10c8dc35a79c6aece0fe935b130c428dcac7a041b6dda5e5f7bae870"
+  },
+  "next": "CollectfreshownheadCI/completefleet. After777merge retargetmain andrequireruncheckswithnewhead/base/testedtree. No automaticmerge.",
+  "own_runs": {
+    "ci": {
+      "id": 38158962498,
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498",
+      "head": "f515781d1bf183a5602571e034fbbf2b5e18b7ff",
+      "event": "pull_request",
+      "status_at_collection": "queued",
+      "conclusion_at_collection": null,
+      "pr_association_verified": 778,
+      "raw_metadata_sha256": "30a13588287282689b2f14010a9e3a3bb52b3b61f6036b1a337be8d11ad94306"
+    },
+    "fleet": {
+      "id": 38158962488,
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962488",
+      "head": "f515781d1bf183a5602571e034fbbf2b5e18b7ff",
+      "event": "pull_request",
+      "status_at_collection": "queued",
+      "conclusion_at_collection": null,
+      "pr_association_verified": 778,
+      "raw_metadata_sha256": "1d08758b22b536119a101ad3b009803f1b60799960ff7e2e787058669482fa2d"
+    }
+  }
+}
