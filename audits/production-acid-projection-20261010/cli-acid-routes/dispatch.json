@@ -1,0 +1,16 @@
+{
+  "parent_run": 38147457930,
+  "parent_harness": "6c67609c387db2b6c406d7b5cc45f708e636e18a",
+  "compiled_source": "dbe8652117ed870e9fc945c8f6f42bfa0137d49d",
+  "run": 38149577918,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38149577918",
+  "harness": "3904977de72827c0f2eabbc0b5398a24e3ed8fd8",
+  "campaign": "production-acid-route-cli-probes",
+  "dispatched_once": true,
+  "parent_replay_review": "audits/production-acid-projection-20261010/cli-results-review-dbe86521.json",
+  "parent_build_review": "audits/production-acid-projection-20261010/cli-bindings-review-dbe86521.json",
+  "parent_warning_pair_review": "audits/production-acid-projection-20261010/cli-warning-pair-review-dbe86521.json",
+  "expected_cases": 6,
+  "expected_processes": 12,
+  "acceptance": "pending actual raw observations and independently verified reuse lineage"
+}

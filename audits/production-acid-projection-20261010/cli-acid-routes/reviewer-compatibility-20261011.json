@@ -1,0 +1,19 @@
+{
+  "scope": "Offline reviewer compatibility; no new Kero route execution or integration acceptance.",
+  "parent_run": 38147457930,
+  "parent_raw_processes": 164,
+  "fresh_source_replay_sha256": "a087cf9cf7d4d4af821fd8bc16a9f614190f70c12e07cd3eb6b0c4072f817a20",
+  "parent_results_review": "audits/production-acid-projection-20261010/cli-results-review-dbe86521.json",
+  "reviewer": {
+    "path": "tools/acid-route-cli-review.py",
+    "sha256": "5b3076a1a5f9c978dd74b321f6b6f8b7cd66bc54a16d5d342b0e845349cbcea8"
+  },
+  "synthetic_tests": {
+    "collector": 15,
+    "independent_reviewer": 6,
+    "total_passed": 21
+  },
+  "fresh_source_matches_accepted_parent_replay_and_pair_digest": true,
+  "acid_route_run": 38149577918,
+  "acid_route_runtime_acceptance": "pending"
+}

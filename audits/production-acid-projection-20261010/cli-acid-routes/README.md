@@ -27,3 +27,26 @@ Fifteen synthetic protocol tests currently cover projection/benign/consumed dist
 [Prepared hosted reuse job](prepared-reuse.json) pins the already dispatched replay run38147457930 and verifies the parent GitHub artifact digest before using the same executable and lock. Dispatch only after the parent replay/build bindings are independently accepted. The preparation is not a dispatch or runtime result.
 
 A different screened partner key or an unreviewed partner phase in the final inventory is a separate domain, not proof that the original reactant was consumed. The collector retains a failed domain witness rather than normalizing that transition. Benign counterparts also check the full source-bound reactive partner family, preventing another carbonate or metal from silently qualifying as benign.
+
+## Independent reuse review
+
+[The offline binding reviewer](../../../tools/acid-route-cli-review.py) is now implemented. It checks the actual completed reuse job/harness, the parent run/artifact API records and complete original ZIP digest, all non-cache parent archive bytes, and every inherited build file against a freshly recomputed parent CLI binding review. It verifies the accepted parent warning pair and recomputes the parent's hundred-case raw replay. It then rechecks the twelve route processes with the exact Git-bound archived collector and compares complete observations. Generated Python bytecode caches are excluded from the extracted-file comparison; the API digest still binds the complete original ZIP, and every source, lock, executable and raw stream remains covered.
+
+```sh
+python3 tools/acid-route-cli-review.py \
+  --artifact ROUTE_ARCHIVE --run-metadata ROUTE_FINAL_RUN_JSON \
+  --parent-artifact ACCEPTED_REPLAY_ARCHIVE \
+  --parent-run-metadata PARENT_FINAL_RUN_JSON \
+  --parent-results-review PARENT_REEVALUATED_RESULTS_JSON \
+  --parent-bindings-review PARENT_BINDING_REVIEW_JSON \
+  --parent-pair-review PARENT_WARNING_PAIR_REVIEW_JSON \
+  --report NEW_REPORT_JSON
+```
+
+Keep reports outside the immutable artifact directories and use new filenames. The reviewer writes separate parent-replay and route-observation proofs beside the requested report. `accepted_collection_bindings` establishes collection lineage; `accepted_declared_warning_slice` additionally requires all six declared cases to qualify. Missing witnesses, mismatched warnings and consumed-partner classifications remain explicit. Neither flag establishes empirical accuracy, a new final-only exposure or integration acceptance. The public receipt omits raw vessel and runner-command records.
+
+Six additional synthetic rejection tests cover failed/unfinished/wrong/duplicate/skipped jobs, parent run/head/artifact expiry/digest substitution, altered/missing/extra inherited files, traversal and changed archive payloads. These checks, and the fifteen collector tests, are not actual Kero route results. Apply the reviewer to the first actual reuse archive after the accepted parent replay; [Run38149577918](dispatch.json) is now dispatched once on exact390 harness after independently accepted parent replay/build/warning proofs. Runtime collection and independent reuse review remain pending.
+
+The independent reviewer also checks the rendered warning severity and the exact HCl concentration/accepted-volume narration. Those checks are separate from the archived collector’s wording counts; a mismatch remains visible without altering the dispatched collector or its first outcomes.
+
+Archived Python re-evaluation uses isolated Python with a fresh bytecode-cache namespace and bytecode writes disabled. A matching cached-bytecode header cannot substitute for the verified source; the reviewer tests this explicitly. This protects source provenance while retaining the complete original ZIP and raw observations.
