@@ -9,6 +9,11 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
 FREEZE = ROOT / 'audits/production-acid-projection-20261010/cli-acid-routes/freeze.json'
+PARTNER_FAMILIES = {
+    'bleach-acid-chlorine': ('NaOCl', 'ClO-', 'HClO'),
+    'acid-metal-hydrogen': ('Al', 'Mg', 'Zn', 'Fe', 'Pb', 'uranium'),
+    'acid-carbonate-co2': ('CO3-2', 'CaCO3', 'Na2CO3', 'NaHCO3'),
+}
 
 
 def digest(path):
@@ -141,9 +146,21 @@ def analyse(rows, processes, text, case, freeze):
     checks['named_acid_projected'] = not any(p['species'] in ('HCl', 'H2SO4')
                                             and p['moles'] > freeze['cutoff_mol']
                                             for p in after['contents'])
+    family = PARTNER_FAMILIES[case['expected_warning']['rule']]
+    # A different carbonate/metal key or phase is a separate exposure domain,
+    # not evidence that the original partner was simply consumed. Do not
+    # normalize unreviewed partner projections to obtain a passing observation.
+    checks['no_unreviewed_final_partner'] = not any(
+        p['species'] in family and p['moles'] > freeze['cutoff_mol']
+        and (p['species'] not in case['partner_keys']
+             or case['partner_phase'] is not None and p['phase'] != case['partner_phase'])
+        for p in after['contents'])
     if case['role'] == 'benign':
         checks['final_partner_absent'] = partner(after, case) == 0
         checks['setup_partner'] = partner(before, case) == 0
+        checks['no_other_screened_partner'] = not any(
+            p['species'] in family and p['moles'] > freeze['cutoff_mol']
+            for v in (before, after) for p in v['contents'])
     result.update(setup_vessel=before, final_vessel=after, titrated=dose,
                   setup_partner_mol=setup_partner, final_partner_mol=final_partner)
     if not all(checks.values()):
