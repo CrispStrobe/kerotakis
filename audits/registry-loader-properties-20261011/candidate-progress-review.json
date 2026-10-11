@@ -1,0 +1,54 @@
+{
+  "source": "dbe8652117ed870e9fc945c8f6f42bfa0137d49d",
+  "files": {
+    "crates/kerotakis-core/build.rs": "959d3431dd636bd61f071a04cfb2b1ab824dce90e26205d0523607a7c49eeb0c",
+    "crates/kerotakis-core/src/species_loader.rs": "1b895517a8cf4d28ddaab481e82143ea93ffb23c1acf0004e7e7cfedfd6dc258",
+    "crates/kerotakis-data/src/lib.rs": "b9d85e73cd6c97b323055f0fc7c8410afb3d43810518ee5ab1afa643f3ad4e21",
+    "crates/kerotakis-data/src/pack.rs": "144230a3e16ac1928bbd4024f30179e1d16cf38d051dfe29795da0ce2b6f1d5f",
+    "crates/kerotakis-data/src/property_bounds.rs": "b2cfd7a3e26ab62ddca99bcb807a17bab82f5a04c5ca5ceb27a50984a33780be",
+    "crates/kerotakis-data/src/schema.rs": "b00a546e7866824df27b3319a75821ba651749d138ba6cb076ffa1d3ce8170a0",
+    "crates/kerotakis-data/src/validate.rs": "07021af7d394cfbb1080668c6c2c1f8d695b28946819fad44781a1d7f276f994"
+  },
+  "candidate_patch_sha256": "e73033d2e4fae39b1901410bcb8fe97a23100f71ee0142a9ad0d8689282b1a74",
+  "candidate_source": "edf60b9acf8e11c51a06202629091f4eb366be75",
+  "candidate_tree": "ebc3cdc411859164a95d55552fc699edf64aa705",
+  "isolated_tracked_files_compared_to_candidate": 2245,
+  "status": "PARTIAL LOCAL candidate verification; not repair acceptance",
+  "local_lock_sha256": "fef8a64257653da8bd3fcff50d89e69f5fb848952a6e8eaa827667427942ddfe",
+  "verified_controls": {
+    "registry_loader_property_contracts": {
+      "passed": 9,
+      "failed": 0,
+      "exit_code": 0,
+      "exact_test_names": [
+        "supported_solid_registry_properties_remain_supported",
+        "aqueous_ion_zero_heat_capacity_remains_supported",
+        "missing_heat_capacity_refuses",
+        "missing_density_refuses",
+        "negative_heat_capacity_refuses",
+        "negative_density_refuses",
+        "zero_density_refuses",
+        "negative_molar_mass_refuses",
+        "zero_molar_mass_refuses"
+      ],
+      "raw_log_sha256": "156711bea995ba0051121c457731386174f9c1c8917a28e717945d4e15728f39"
+    }
+  },
+  "pending": [
+    "unchanged typed/pack10 and neutral zero-Cp2 controls",
+    "candidate data library including3 new finite/signed-zero tests",
+    "candidate full core and safety libraries",
+    "loader_fidelity, registry_snapshot, registry_round_trip and registry_parity",
+    "fresh source-bound CI and review; independent integration after PR777"
+  ],
+  "resource_stop": "The single-worker runner completed direct9, then refused next build when load5.268 exceeded3.5; available memory4598MiB.",
+  "compatibility_review": "All558 scalar records in63committed JSON documents match policy;47zero-Cp records preserved. Identity-only packs remain supported.",
+  "api_change": "PackError gains InvalidRuntimeScalar; external exhaustive matches may need updating.",
+  "not_claimed": [
+    "all21candidate controls pass",
+    "candidate full-library acceptance",
+    "actual malformed generated-registry build refusal",
+    "new property data promotion",
+    "PR777 acceptance or merge"
+  ]
+}

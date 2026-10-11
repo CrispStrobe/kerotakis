@@ -1,0 +1,267 @@
+diff --git a/crates/kerotakis-core/build.rs b/crates/kerotakis-core/build.rs
+--- a/crates/kerotakis-core/build.rs
++++ b/crates/kerotakis-core/build.rs
+@@ -15,10 +15,15 @@
+ 
+ use std::fmt::Write as _;
+ 
++#[path = "../kerotakis-data/src/property_bounds.rs"]
++mod property_bounds;
++use property_bounds::{validate_runtime_scalar, RuntimeScalarProperty};
++
+ fn main() {
+     let manifest = std::env::var("CARGO_MANIFEST_DIR").unwrap();
+     let src = std::path::Path::new(&manifest).join("../../data/registry/registry-source-v1.json");
+     println!("cargo:rerun-if-changed={}", src.display());
++    println!("cargo:rerun-if-changed=../kerotakis-data/src/property_bounds.rs");
+     let text = std::fs::read_to_string(&src)
+         .unwrap_or_else(|e| panic!("cannot read {}: {e}", src.display()));
+     let doc: serde_json::Value = serde_json::from_str(&text).expect("registry JSON parses");
+@@ -115,6 +120,14 @@
+         let density = thermo_for(key, "mass_density")
+             .and_then(|t| t["quantity"]["value"].as_f64())
+             .unwrap_or_else(|| panic!("no density for {key}"));
++        for (property, value) in [
++            (RuntimeScalarProperty::MolarMass, molar_mass),
++            (RuntimeScalarProperty::MassDensity, density),
++            (RuntimeScalarProperty::MolarHeatCapacity, heat_capacity),
++        ] {
++            validate_runtime_scalar(property, value)
++                .unwrap_or_else(|reason| panic!("{key}: {} {reason}", property.name()));
++        }
+         let dissolution = thermo_for(key, "enthalpy_of_dissolution")
+             .and_then(|t| t["quantity"]["value"].as_f64());
+ 
+diff --git a/crates/kerotakis-core/src/species_loader.rs b/crates/kerotakis-core/src/species_loader.rs
+--- a/crates/kerotakis-core/src/species_loader.rs
++++ b/crates/kerotakis-core/src/species_loader.rs
+@@ -223,6 +223,17 @@
+         let density = thermo_for(key, "mass_density")
+             .and_then(|t| t["quantity"]["value"].as_f64())
+             .ok_or_else(|| fail("no density"))?;
++        for (property, value) in [
++            (kerotakis_data::RuntimeScalarProperty::MolarMass, molar_mass),
++            (kerotakis_data::RuntimeScalarProperty::MassDensity, density),
++            (
++                kerotakis_data::RuntimeScalarProperty::MolarHeatCapacity,
++                heat_capacity,
++            ),
++        ] {
++            kerotakis_data::validate_runtime_scalar(property, value)
++                .map_err(|reason| fail(&format!("{} {reason}", property.name())))?;
++        }
+         let dissolution = thermo_for(key, "enthalpy_of_dissolution")
+             .and_then(|t| t["quantity"]["value"].as_f64());
+ 
+diff --git a/crates/kerotakis-data/src/lib.rs b/crates/kerotakis-data/src/lib.rs
+--- a/crates/kerotakis-data/src/lib.rs
++++ b/crates/kerotakis-data/src/lib.rs
+@@ -12,6 +12,7 @@
+ pub mod model_pack;
+ mod pack;
+ mod provenance;
++mod property_bounds;
+ mod pubchem;
+ mod resolve;
+ mod schema;
+@@ -25,6 +26,7 @@
+     build_pack, load_pack, serialize_pack_payload, PackError, PACK_MAGIC, PACK_VERSION,
+ };
+ pub use provenance::*;
++pub use property_bounds::{validate_runtime_scalar, RuntimeScalarProperty};
+ pub use pubchem::*;
+ pub use resolve::{resolve_phase_property, Conditions, Resolution, ResolvedValue, Rung};
+ pub use schema::*;
+diff --git a/crates/kerotakis-data/src/pack.rs b/crates/kerotakis-data/src/pack.rs
+--- a/crates/kerotakis-data/src/pack.rs
++++ b/crates/kerotakis-data/src/pack.rs
+@@ -21,6 +21,11 @@
+     UnsupportedVersion(u32),
+     HashMismatch,
+     DeserializeFailed(serde_json::Error),
++    InvalidRuntimeScalar {
++        species_id: String,
++        property: &'static str,
++        reason: &'static str,
++    },
+ }
+ 
+ impl std::fmt::Display for PackError {
+@@ -31,6 +36,11 @@
+             Self::UnsupportedVersion(v) => write!(f, "unsupported pack version {v}"),
+             Self::HashMismatch => write!(f, "pack content hash mismatch"),
+             Self::DeserializeFailed(e) => write!(f, "pack deserialization failed: {e}"),
++            Self::InvalidRuntimeScalar {
++                species_id,
++                property,
++                reason,
++            } => write!(f, "{species_id}: {property} {reason}"),
+         }
+     }
+ }
+@@ -57,7 +67,9 @@
+ 
+ /// Load a registry document from a compiled `.pack` byte slice.
+ ///
+-/// Verifies the magic, version, and content hash before deserializing.
++/// Verifies the magic, version, and content hash before deserializing, then
++/// checks the three runtime scalar bounds. This does not perform whole-document
++/// provenance or reference validation.
+ pub fn load_pack(data: &[u8]) -> Result<RegistryDocument, PackError> {
+     if data.len() < HEADER_LEN {
+         return Err(PackError::TooShort);
+@@ -78,7 +90,20 @@
+         return Err(PackError::HashMismatch);
+     }
+ 
+-    serde_json::from_slice(payload).map_err(PackError::DeserializeFailed)
++    let document: RegistryDocument =
++        serde_json::from_slice(payload).map_err(PackError::DeserializeFailed)?;
++    for record in &document.phase_thermodynamics {
++        if let Some(property) = record.property.runtime_scalar_property() {
++            crate::validate_runtime_scalar(property, record.quantity.value).map_err(|reason| {
++                PackError::InvalidRuntimeScalar {
++                    species_id: record.species_id.clone(),
++                    property: property.name(),
++                    reason,
++                }
++            })?;
++        }
++    }
++    Ok(document)
+ }
+ 
+ #[cfg(test)]
+diff --git a/crates/kerotakis-data/src/property_bounds.rs b/crates/kerotakis-data/src/property_bounds.rs
+new file mode 100644
+--- /dev/null
++++ b/crates/kerotakis-data/src/property_bounds.rs
+@@ -0,0 +1,87 @@
++//! Bounds for the three scalar properties consumed by the runtime registry.
++//!
++//! This module deliberately has no crate dependencies: the core build script
++//! includes the same source used by document validation and runtime loading.
++//! These bounds describe the runtime fallback representation, not every
++//! thermodynamic quantity. In particular, zero fallback Cp remains supported
++//! for aqueous species whose heat capacity is carried by the solvent.
++
++#[derive(Debug, Clone, Copy, PartialEq, Eq)]
++pub enum RuntimeScalarProperty {
++    MolarMass,
++    MassDensity,
++    MolarHeatCapacity,
++}
++
++impl RuntimeScalarProperty {
++    pub fn name(self) -> &'static str {
++        match self {
++            Self::MolarMass => "molar_mass",
++            Self::MassDensity => "mass_density",
++            Self::MolarHeatCapacity => "molar_heat_capacity",
++        }
++    }
++}
++
++/// Validate only the scalar bounds required by the runtime representation.
++/// Signed energies and independently curated polynomial coefficients are
++/// outside this policy.
++pub fn validate_runtime_scalar(
++    property: RuntimeScalarProperty,
++    value: f64,
++) -> Result<(), &'static str> {
++    match property {
++        RuntimeScalarProperty::MolarMass | RuntimeScalarProperty::MassDensity => {
++            if !value.is_finite() || value <= 0.0 {
++                return Err("must be finite and positive");
++            }
++        }
++        RuntimeScalarProperty::MolarHeatCapacity => {
++            if !value.is_finite() || value < 0.0 {
++                return Err("must be finite and non-negative");
++            }
++        }
++    }
++    Ok(())
++}
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++
++    #[test]
++    fn nonfinite_runtime_scalars_refuse() {
++        for property in [
++            RuntimeScalarProperty::MolarMass,
++            RuntimeScalarProperty::MassDensity,
++            RuntimeScalarProperty::MolarHeatCapacity,
++        ] {
++            for value in [f64::NAN, f64::INFINITY, f64::NEG_INFINITY] {
++                assert!(validate_runtime_scalar(property, value).is_err());
++            }
++        }
++    }
++
++    #[test]
++    fn positive_mass_and_density_are_required() {
++        for property in [
++            RuntimeScalarProperty::MolarMass,
++            RuntimeScalarProperty::MassDensity,
++        ] {
++            for value in [-1.0, -0.0, 0.0] {
++                assert!(validate_runtime_scalar(property, value).is_err());
++            }
++            assert!(validate_runtime_scalar(property, 1.0).is_ok());
++        }
++    }
++
++    #[test]
++    fn zero_fallback_heat_capacity_remains_supported() {
++        for value in [-0.0, 0.0, 1.0] {
++            assert!(
++                validate_runtime_scalar(RuntimeScalarProperty::MolarHeatCapacity, value).is_ok()
++            );
++        }
++        assert!(validate_runtime_scalar(RuntimeScalarProperty::MolarHeatCapacity, -1.0).is_err());
++    }
++}
+diff --git a/crates/kerotakis-data/src/schema.rs b/crates/kerotakis-data/src/schema.rs
+--- a/crates/kerotakis-data/src/schema.rs
++++ b/crates/kerotakis-data/src/schema.rs
+@@ -799,6 +799,18 @@
+ }
+ 
+ impl PhaseProperty {
++    /// The three constant fields consumed by runtime species construction.
++    /// Other thermodynamic records retain their own signed-value semantics.
++    pub fn runtime_scalar_property(&self) -> Option<crate::RuntimeScalarProperty> {
++        use crate::RuntimeScalarProperty;
++        match self {
++            Self::MolarMass => Some(RuntimeScalarProperty::MolarMass),
++            Self::MassDensity => Some(RuntimeScalarProperty::MassDensity),
++            Self::MolarHeatCapacity => Some(RuntimeScalarProperty::MolarHeatCapacity),
++            _ => None,
++        }
++    }
++
+     pub fn expected_dimension(&self) -> Option<Dimension> {
+         use Dimension::*;
+         match self {
+diff --git a/crates/kerotakis-data/src/validate.rs b/crates/kerotakis-data/src/validate.rs
+--- a/crates/kerotakis-data/src/validate.rs
++++ b/crates/kerotakis-data/src/validate.rs
+@@ -199,6 +199,15 @@
+                 &record.quantity,
+                 record.property.expected_dimension(),
+             );
++            if let Some(property) = record.property.runtime_scalar_property() {
++                if let Err(reason) = crate::validate_runtime_scalar(property, record.quantity.value)
++                {
++                    self.issue(
++                        format!("{path}.quantity.value"),
++                        format!("{}: {} {reason}", record.species_id, property.name()),
++                    );
++                }
++            }
+         }
+     }
+ 
