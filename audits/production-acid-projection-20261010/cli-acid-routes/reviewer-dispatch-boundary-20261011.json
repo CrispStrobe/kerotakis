@@ -1,0 +1,15 @@
+{
+  "scope": "Offline acceptance-boundary check; no actual acid-route runtime acceptance.",
+  "run": 38149577918,
+  "harness": "3904977de72827c0f2eabbc0b5398a24e3ed8fd8",
+  "actual_queued_run_rejected": true,
+  "required_collection_step_names_match_pinned_workflow": true,
+  "reviewer_sha256": "a454170f6b3295296d2c1d858e14f24313b8743f3debaf22320bc30df04ea385",
+  "dispatch_sha256": "cde24b9a4e76170ff5fdebcd323d163435a31d85d68cc56f75673938dd3b7c3d",
+  "synthetic_tests": {
+    "collector": 15,
+    "independent_reviewer": 7,
+    "total_passed": 22
+  },
+  "route_runtime_acceptance": "pending"
+}

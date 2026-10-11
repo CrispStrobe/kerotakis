@@ -21,6 +21,37 @@ def run():
 
 
 class AcidReuseReviewTests(unittest.TestCase):
+    def test_dispatch_and_required_collection_steps_cannot_be_substituted(self):
+        prepared = dict(harness='head', parent_run=123, parent_harness='parent',
+                        source='source', campaign='routes', expected_cases=6,
+                        expected_processes=12, job_name='intended')
+        dispatch = dict(prepared, dispatched_once=True, compiled_source='source',
+                        run=456, run_url='https://example.test/runs/456')
+        data = run()
+        data.update(databaseId=456, url=dispatch['run_url'])
+        data['jobs'][0]['steps'] = [dict(name=name, status='completed', conclusion='success')
+                                  for name in ('Download exact completed source-bound replay archive',
+                                               'Bind six original route scripts and collect twelve raw processes')]
+        review.dispatched_job(data, prepared, dispatch)
+        for mutation in ('run', 'url', 'source', 'parent', 'count', 'missing',
+                         'duplicate', 'skipped', 'failed', 'unfinished', 'other_failure'):
+            changed = copy.deepcopy(data); receipt = copy.deepcopy(dispatch)
+            steps = changed['jobs'][0]['steps']
+            if mutation == 'run': changed['databaseId'] = 999
+            if mutation == 'url': changed['url'] = 'https://example.test/runs/999'
+            if mutation == 'source': receipt['compiled_source'] = 'other'
+            if mutation == 'parent': receipt['parent_run'] = 999
+            if mutation == 'count': receipt['expected_processes'] = 10
+            if mutation == 'missing': steps.pop()
+            if mutation == 'duplicate': steps.append(copy.deepcopy(steps[0]))
+            if mutation == 'skipped': steps[0]['conclusion'] = 'skipped'
+            if mutation == 'failed': steps[0]['conclusion'] = 'failure'
+            if mutation == 'unfinished': steps[0]['status'] = 'in_progress'
+            if mutation == 'other_failure':
+                steps.append(dict(name='upload', status='completed', conclusion='failure'))
+            with self.subTest(mutation=mutation), self.assertRaises(AssertionError):
+                review.dispatched_job(changed, prepared, receipt)
+
     def test_recheck_uses_verified_source_even_when_old_bytecode_header_matches(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)

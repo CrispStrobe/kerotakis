@@ -54,6 +54,27 @@ def completed_job(run, head, name):
     return active[0]
 
 
+def dispatched_job(run, prepared, dispatch):
+    assert dispatch['dispatched_once'] is True
+    assert dispatch['harness'] == prepared['harness']
+    assert dispatch['parent_run'] == prepared['parent_run']
+    assert dispatch['parent_harness'] == prepared['parent_harness']
+    assert dispatch['compiled_source'] == prepared['source']
+    assert dispatch['campaign'] == prepared['campaign']
+    assert dispatch['expected_cases'] == prepared['expected_cases']
+    assert dispatch['expected_processes'] == prepared['expected_processes']
+    assert run['databaseId'] == dispatch['run'] and run['url'] == dispatch['run_url']
+    job = completed_job(run, prepared['harness'], prepared['job_name'])
+    required = {'Download exact completed source-bound replay archive',
+                'Bind six original route scripts and collect twelve raw processes'}
+    for name in required:
+        steps = [step for step in job['steps'] if step['name'] == name]
+        assert len(steps) == 1
+        assert steps[0]['status'] == 'completed' and steps[0]['conclusion'] == 'success'
+    assert all(step['conclusion'] in {'success', 'skipped'} for step in job['steps'])
+    return job
+
+
 def parent_metadata(directory, prepared):
     run = read(directory / 'run.json')
     assert run['id'] == prepared['parent_run'] and run['head_sha'] == prepared['parent_harness']
@@ -148,7 +169,8 @@ def narration(text, case):
 def review(args):
     prepared = read(ROOT / FOLDER / 'prepared-reuse.json')
     run = read(args.run_metadata)
-    job = completed_job(run, prepared['harness'], prepared['job_name'])
+    dispatch = read(ROOT / FOLDER / 'dispatch.json')
+    job = dispatched_job(run, prepared, dispatch)
     assert (args.artifact / 'route-binding/harness-commit.txt').read_text().strip() == prepared['harness']
     frozen_bytes = cli.git('show', prepared['harness'] + ':' + FOLDER + '/freeze.json')
     freeze = json.loads(frozen_bytes)
@@ -225,6 +247,7 @@ def review(args):
                 parent_bindings_review_sha256=digest(args.parent_bindings_review),
                 parent_pair_review_sha256=digest(args.parent_pair_review),
                 run_metadata_sha256=digest(args.run_metadata), observations_sha256=digest(proof),
+                dispatch_sha256=digest(ROOT / FOLDER / 'dispatch.json'),
                 reviewer_sha256=digest(Path(__file__)),
                 processes=processes, observations=summaries,
                 classification_counts=dict(Counter(o['classification'] for o in summaries.values())),
