@@ -1,0 +1,222 @@
+{
+  "run": 38149577918,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38149577918",
+  "job": 114500037429,
+  "harness": "3904977de72827c0f2eabbc0b5398a24e3ed8fd8",
+  "source_binding": {
+    "compiled_source": "dbe8652117ed870e9fc945c8f6f42bfa0137d49d",
+    "source_tree": "d7400e89c76768fc52337b592d982b2a605a3013",
+    "source_kind": "PR777 bounded acid final safety and directional reporting identity repair; not merged main",
+    "binary_sha256": "6b5ace04d823a2465a42ca8c1c42bb827fc748a81c29e97cf6b27a65fbe610a8",
+    "generated_lock_sha256": "b679f2fc098c655e05f9338bc7b82fe19a534263d7d6a2ebebc16e8c586aa407"
+  },
+  "parent_run": 38147457930,
+  "parent_artifact_id": 11706161792,
+  "parent_archive_digest": "sha256:f01235b1f0deaee9a5fbfe16e1ea730c7ca7b3a3b3afe137da4b513b6b430dc8",
+  "harness_sha256": {
+    ".github/workflows/chemistry-audit.yml": "77ec5634ca6910327168074cccee68570e93910d5f82329d845aa83ad35caa1f",
+    "tools/acid-route-cli-probes.py": "0c887888675552f9ca8c8f6fd7df26fdcada2ba61aa2a97ca47940ee72b27cf5",
+    "audits/production-acid-projection-20261010/cli-source-dbe86521.json": "3894c0af67ac0dc735e2af17c9648af29f16d1852a2c9ce241e5cc8a19f43fe8",
+    "audits/production-acid-projection-20261010/cli-acid-routes/freeze.json": "62bbac3cae32464b5b20b57b8ca325f57d51bb73bcfed68a1d9d9d8657635330",
+    "audits/production-acid-projection-20261010/cli-acid-routes/bleach-positive.lab": "84f50487bfcc6b708258b0a29a8bc4d5a234071f7663c7f3557f388fb5c84b4e",
+    "audits/production-acid-projection-20261010/cli-acid-routes/bleach-benign.lab": "08feda727bb4503e5201462f5c0a75e3a658e0e4e5bf33c5643018b3e618b356",
+    "audits/production-acid-projection-20261010/cli-acid-routes/metal-positive.lab": "e3353c2e43151020c61606b6344803af091bf5bc7b16864a3f8d15ddf70870c6",
+    "audits/production-acid-projection-20261010/cli-acid-routes/metal-benign.lab": "022f8b89d5103dceaee7c79ab78b01302d74909faa07f8b063b1846a6bba038a",
+    "audits/production-acid-projection-20261010/cli-acid-routes/carbonate-positive.lab": "3b2982a1601121827daa6493ab1bcf54ec50691f5d4d9f968a8282fb320ba3e0",
+    "audits/production-acid-projection-20261010/cli-acid-routes/carbonate-benign.lab": "c6e5f4d72de4efefa7df52922cab0c721634ea906334928925b53248c72c9e1f"
+  },
+  "parent_bindings_review_sha256": "76a491a67f6f498bfc9573c97967e3d7dd817e395db15aef7967725a070b6f6e",
+  "parent_pair_review_sha256": "fcd77886d593ca7d8d6fa52094406dd2cf009e9f5c64e7e2d056a3d5f19e89b3",
+  "run_metadata_sha256": "ca7ef08bf71c04fec164426f6ac85aabb056dd06a15ac916916cc57256fd0878",
+  "observations_sha256": "84191cab00d6ff2a41730e9088fe33dab66d0948f438e54c613f9e855f92313f",
+  "dispatch_sha256": "cde24b9a4e76170ff5fdebcd323d163435a31d85d68cc56f75673938dd3b7c3d",
+  "reviewer_sha256": "a454170f6b3295296d2c1d858e14f24313b8743f3debaf22320bc30df04ea385",
+  "processes": 12,
+  "observations": {
+    "bleach-positive": {
+      "classification": "qualifying_prospective_only_partner_consumed",
+      "checks": {
+        "processes_completed": true,
+        "parsed_inputs": true,
+        "water_amount": true,
+        "integer_step_bound": true,
+        "ph_endpoint": true,
+        "no_refusal": true,
+        "setup_partner": true,
+        "setup_not_strong_acid": true,
+        "backend": true,
+        "one_full_dose": true,
+        "integer_dose_fields": true,
+        "delivered_moles": true,
+        "full_dose_curve": true,
+        "finite_endpoint": true,
+        "endpoint_matches_solution": true,
+        "final_strong_acidity": true,
+        "named_acid_projected": true,
+        "no_unreviewed_final_partner": true
+      },
+      "warning_checks": {
+        "no_setup_primary_warning": true,
+        "exact_warning": true,
+        "text_pair": true
+      },
+      "setup_partner_mol": 9.999999999999999e-11,
+      "final_partner_mol": 0,
+      "final_surviving_exposure": false,
+      "independent_text_checks": {
+        "exact_warning_wording": true,
+        "exact_warning_severity": true,
+        "exact_dose_narration": true
+      }
+    },
+    "bleach-benign": {
+      "classification": "qualifying_benign_counterpart",
+      "checks": {
+        "processes_completed": true,
+        "parsed_inputs": true,
+        "water_amount": true,
+        "integer_step_bound": true,
+        "ph_endpoint": true,
+        "no_refusal": true,
+        "setup_partner": true,
+        "setup_not_strong_acid": true,
+        "backend": true,
+        "one_full_dose": true,
+        "integer_dose_fields": true,
+        "delivered_moles": true,
+        "full_dose_curve": true,
+        "finite_endpoint": true,
+        "endpoint_matches_solution": true,
+        "final_strong_acidity": true,
+        "named_acid_projected": true,
+        "no_unreviewed_final_partner": true,
+        "final_partner_absent": true,
+        "no_other_screened_partner": true
+      },
+      "warning_checks": {
+        "no_setup_primary_warning": true,
+        "exact_warning": true,
+        "text_pair": true
+      },
+      "setup_partner_mol": 0,
+      "final_partner_mol": 0,
+      "final_surviving_exposure": false,
+      "independent_text_checks": {
+        "exact_warning_wording": true,
+        "exact_warning_severity": true,
+        "exact_dose_narration": true
+      }
+    },
+    "metal-positive": {
+      "classification": "not_exercising_declared_route",
+      "checks": {
+        "processes_completed": true,
+        "parsed_inputs": true,
+        "water_amount": true,
+        "integer_step_bound": true,
+        "ph_endpoint": true,
+        "no_refusal": false
+      },
+      "independent_text_checks": {
+        "exact_warning_wording": true,
+        "exact_warning_severity": true,
+        "exact_dose_narration": true
+      }
+    },
+    "metal-benign": {
+      "classification": "not_exercising_declared_route",
+      "checks": {
+        "processes_completed": false,
+        "parsed_inputs": false,
+        "no_refusal": true
+      },
+      "independent_text_checks": {
+        "exact_warning_wording": true,
+        "exact_warning_severity": true,
+        "exact_dose_narration": false
+      }
+    },
+    "carbonate-positive": {
+      "classification": "qualifying_prospective_only_partner_consumed",
+      "checks": {
+        "processes_completed": true,
+        "parsed_inputs": true,
+        "water_amount": true,
+        "integer_step_bound": true,
+        "ph_endpoint": true,
+        "no_refusal": true,
+        "setup_partner": true,
+        "setup_not_strong_acid": true,
+        "backend": true,
+        "one_full_dose": true,
+        "integer_dose_fields": true,
+        "delivered_moles": true,
+        "full_dose_curve": true,
+        "finite_endpoint": true,
+        "endpoint_matches_solution": true,
+        "final_strong_acidity": true,
+        "named_acid_projected": true,
+        "no_unreviewed_final_partner": true
+      },
+      "warning_checks": {
+        "no_setup_primary_warning": true,
+        "exact_warning": true,
+        "text_pair": true
+      },
+      "setup_partner_mol": 0.0009877661843724,
+      "final_partner_mol": 0,
+      "final_surviving_exposure": false,
+      "independent_text_checks": {
+        "exact_warning_wording": true,
+        "exact_warning_severity": true,
+        "exact_dose_narration": true
+      }
+    },
+    "carbonate-benign": {
+      "classification": "qualifying_benign_counterpart",
+      "checks": {
+        "processes_completed": true,
+        "parsed_inputs": true,
+        "water_amount": true,
+        "integer_step_bound": true,
+        "ph_endpoint": true,
+        "no_refusal": true,
+        "setup_partner": true,
+        "setup_not_strong_acid": true,
+        "backend": true,
+        "one_full_dose": true,
+        "integer_dose_fields": true,
+        "delivered_moles": true,
+        "full_dose_curve": true,
+        "finite_endpoint": true,
+        "endpoint_matches_solution": true,
+        "final_strong_acidity": true,
+        "named_acid_projected": true,
+        "no_unreviewed_final_partner": true,
+        "final_partner_absent": true,
+        "no_other_screened_partner": true
+      },
+      "warning_checks": {
+        "no_setup_primary_warning": true,
+        "exact_warning": true,
+        "text_pair": true
+      },
+      "setup_partner_mol": 0,
+      "final_partner_mol": 0,
+      "final_surviving_exposure": false,
+      "independent_text_checks": {
+        "exact_warning_wording": true,
+        "exact_warning_severity": true,
+        "exact_dose_narration": true
+      }
+    }
+  },
+  "classification_counts": {
+    "qualifying_prospective_only_partner_consumed": 2,
+    "qualifying_benign_counterpart": 2,
+    "not_exercising_declared_route": 2
+  },
+  "accepted_collection_bindings": true,
+  "accepted_declared_warning_slice": false,
+  "scope": "Six source-informed virtual prospective/projection probes. Non-exercising cases and consumed partners retain their categories. No empirical chemistry, newly introduced final-only exposure, intermediate products or integration acceptance."
+}

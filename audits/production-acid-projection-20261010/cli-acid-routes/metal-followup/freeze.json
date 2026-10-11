@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "source_observed": "dbe8652117ed870e9fc945c8f6f42bfa0137d49d",
+  "source_tree": "d7400e89c76768fc52337b592d982b2a605a3013",
+  "status": "Separate follow-up frozen before corrected-pair CLI execution; informed by preserved first outcomes.",
+  "cases": [
+    {
+      "path": "audits/production-acid-projection-20261010/cli-acid-routes/metal-followup/metal-positive.lab",
+      "sha256": "e3353c2e43151020c61606b6344803af091bf5bc7b16864a3f8d15ddf70870c6",
+      "role": "positive",
+      "added_species": "Mg",
+      "added_moles": 1e-05,
+      "partner_keys": [
+        "Mg"
+      ],
+      "partner_phase": "solid",
+      "expected_warning": {
+        "rule": "acid-metal-hydrogen",
+        "severity": "caution",
+        "hazard": "strong acid dissolves this metal, releasing hydrogen gas which is flammable",
+        "real_world": "Any metal above hydrogen in the activity series gives off hydrogen gas in acid; magnesium ribbon in hydrochloric acid is the school version, where the gas pops with a lit splint. The gas is genuinely flammable whichever metal and acid made it."
+      },
+      "allowed_setup_notices": [
+        {
+          "event": "not_yet_modeled",
+          "cause": "rate-not-modelled",
+          "reason_key": "not-modeled.stays-as-the-metal"
+        },
+        {
+          "event": "not_yet_modeled",
+          "cause": "no-solver",
+          "reason_key": "not-modeled.no-dissolution-solver"
+        }
+      ],
+      "setup_backend": "analytic-solvent-only"
+    },
+    {
+      "path": "audits/production-acid-projection-20261010/cli-acid-routes/metal-followup/metal-benign-sulfate.lab",
+      "sha256": "875a3a3166deecc80ee58cc7a52a915417e6599e5229d0464448ccc124fe0ec1",
+      "role": "benign",
+      "added_species": "MgSO4",
+      "added_moles": 1e-05,
+      "partner_keys": [
+        "Mg"
+      ],
+      "partner_phase": "solid",
+      "expected_warning": {
+        "rule": "acid-metal-hydrogen",
+        "severity": "caution",
+        "hazard": "strong acid dissolves this metal, releasing hydrogen gas which is flammable",
+        "real_world": "Any metal above hydrogen in the activity series gives off hydrogen gas in acid; magnesium ribbon in hydrochloric acid is the school version, where the gas pops with a lit splint. The gas is genuinely flammable whichever metal and acid made it."
+      },
+      "allowed_setup_notices": [],
+      "setup_backend": "PHREEQC"
+    }
+  ],
+  "expected_processes": 4,
+  "cutoff_mol": 1e-12,
+  "acidity_gate_mol": 1e-09,
+  "strong_acid_ph_max": 2.0,
+  "dose": {
+    "vessel": 0,
+    "titrant": "HCl",
+    "concentration": 1.0,
+    "steps": 1,
+    "total_volume": 0.01,
+    "moles": 0.01
+  },
+  "expected_backend_engine": "PHREEQC (IPhreeqc, USGS)",
+  "expectations": [
+    "Three exact parsed operators, one accepted full dose, finite final state and endpoint; no refusals or solver fallback.",
+    "Positive requires actual setup partner above cutoff (solid for Mg/CaCO3), with no initial named/solved strong-acid exposure.",
+    "A qualifying positive publishes exactly one primary prospective warning with existing metadata in JSON and text; named-to-dissolved reporting must not duplicate it.",
+    "Benign counterpart has no reviewed primary partner or primary warning, and completes the same dose.",
+    "Record surviving partner and solved acidity. A consumed partner proves prospective narration only; it does not exercise final surviving-exposure detection.",
+    "If partner/backend/dose/acid projection is absent, retain non-exercising classification without changing thresholds or scripts."
+  ],
+  "scope": "Registered MgSO4 counterpart and exact declared Mg-water setup limitations only. Both acid steps require PHREEQC, no refusal, full dose, and exact paired warning metadata. Consumed Mg proves prospective narration only; original six-case contract remains unaccepted.",
+  "expected_cases": 2,
+  "original_run": 38149577918,
+  "original_review": "audits/production-acid-projection-20261010/cli-acid-routes/review-38149577918.json",
+  "collector_sha256": "0c887888675552f9ca8c8f6fd7df26fdcada2ba61aa2a97ca47940ee72b27cf5"
+}

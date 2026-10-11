@@ -1,0 +1,167 @@
+{
+  "source_binding": {
+    "compiled_source": "dbe8652117ed870e9fc945c8f6f42bfa0137d49d",
+    "source_tree": "d7400e89c76768fc52337b592d982b2a605a3013",
+    "source_kind": "PR777 bounded acid final safety and directional reporting identity repair; not merged main",
+    "binary_sha256": "6b5ace04d823a2465a42ca8c1c42bb827fc748a81c29e97cf6b27a65fbe610a8",
+    "generated_lock_sha256": "b679f2fc098c655e05f9338bc7b82fe19a534263d7d6a2ebebc16e8c586aa407"
+  },
+  "parent_run": 38147457930,
+  "parent_bindings_review_sha256": "76a491a67f6f498bfc9573c97967e3d7dd817e395db15aef7967725a070b6f6e",
+  "parent_run_metadata_sha256": "ed65c772ce8019f25a41cc58c1698f002b891a4b464863d9396765aaee36c29a",
+  "freeze_sha256": "1f86e700bbaca023d17e2abf1bcc3ffa6fb64d8abc36edc81412831025237910",
+  "collector_sha256": "0c887888675552f9ca8c8f6fd7df26fdcada2ba61aa2a97ca47940ee72b27cf5",
+  "reviewer_sha256": "a63613475b91acf0b41de7049d319770afd111907972da0cf569678b36662545",
+  "raw_evidence_sha256": {
+    "binding.json": "7df36c3bba951f99d05e67fab3bc0ee9977eafeac52a369cd6d4b7f951419ed0",
+    "metal-benign-sulfate/input.lab": "875a3a3166deecc80ee58cc7a52a915417e6599e5229d0464448ccc124fe0ec1",
+    "metal-benign-sulfate/json/process.json": "1aa8558ffb401a0a65722ff67b33c429c0e3a6cdc1bf2538f2720da5a44b4a24",
+    "metal-benign-sulfate/json/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "metal-benign-sulfate/json/stdout.txt": "48a2f0590f7d7084335443978dd4179469ee425860f22316641e8c4187efeecf",
+    "metal-benign-sulfate/text/process.json": "0e228a3bdb8a3079f4d3d49ad7b228c7278c2a3adeb26363385edf2e59465e4a",
+    "metal-benign-sulfate/text/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "metal-benign-sulfate/text/stdout.txt": "1e2554ea217b4797733c57a54f00c33c6c8c0a3e071da8074a2c12ee21f01fe5",
+    "metal-positive/input.lab": "e3353c2e43151020c61606b6344803af091bf5bc7b16864a3f8d15ddf70870c6",
+    "metal-positive/json/process.json": "c928f8c460c1a3d300535f94a1fd9d81f8751ae0cbc272cda74e00f4a9436e41",
+    "metal-positive/json/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "metal-positive/json/stdout.txt": "80f58efb4a8b741c00a906462a2c66a488cf89e0e99a3a5ca45a0c80e2cdcdf2",
+    "metal-positive/text/process.json": "230994fb3c37c89ddf31ac85a1953499edf52b5922e71e6687f0dd72330c95ec",
+    "metal-positive/text/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "metal-positive/text/stdout.txt": "36a6af3629368f197ecbcd786edf264d01cec86352dc5950e771fc90751cbe0b"
+  },
+  "processes": 4,
+  "observations": {
+    "metal-positive": {
+      "classification": "qualifying_prospective_only_partner_consumed",
+      "scoped_collector_checks": {
+        "processes_completed": true,
+        "parsed_inputs": true,
+        "water_amount": true,
+        "integer_step_bound": true,
+        "ph_endpoint": true,
+        "no_refusal": true,
+        "setup_partner": true,
+        "setup_not_strong_acid": true,
+        "backend": false,
+        "one_full_dose": true,
+        "integer_dose_fields": true,
+        "delivered_moles": true,
+        "full_dose_curve": true,
+        "finite_endpoint": true,
+        "endpoint_matches_solution": true,
+        "final_strong_acidity": true,
+        "named_acid_projected": true,
+        "no_unreviewed_final_partner": true
+      },
+      "scoped_collector_classification": "not_exercising_declared_route",
+      "original_collector_checks": {
+        "processes_completed": true,
+        "parsed_inputs": true,
+        "water_amount": true,
+        "integer_step_bound": true,
+        "ph_endpoint": true,
+        "no_refusal": false
+      },
+      "original_collector_classification": "not_exercising_declared_route",
+      "allowed_setup_notices_observed": [
+        {
+          "event": "not_yet_modeled",
+          "cause": "rate-not-modelled",
+          "reason_key": "not-modeled.stays-as-the-metal"
+        },
+        {
+          "event": "not_yet_modeled",
+          "cause": "no-solver",
+          "reason_key": "not-modeled.no-dissolution-solver"
+        }
+      ],
+      "scoped_backend_checks": {
+        "setup_backend": true,
+        "titration_backend": true
+      },
+      "warning_checks": {
+        "no_setup_primary_warning": true,
+        "exact_warning": true,
+        "exact_text_wording": true,
+        "exact_text_severity": true,
+        "exact_dose_narration": true,
+        "exact_text_setup_notices": true,
+        "no_text_solver_or_safety_refusal": true
+      },
+      "setup_partner_mol": 1e-05,
+      "final_partner_mol": 0,
+      "final_surviving_exposure": false
+    },
+    "metal-benign-sulfate": {
+      "classification": "qualifying_benign_counterpart",
+      "scoped_collector_checks": {
+        "processes_completed": true,
+        "parsed_inputs": true,
+        "water_amount": true,
+        "integer_step_bound": true,
+        "ph_endpoint": true,
+        "no_refusal": true,
+        "setup_partner": true,
+        "setup_not_strong_acid": true,
+        "backend": true,
+        "one_full_dose": true,
+        "integer_dose_fields": true,
+        "delivered_moles": true,
+        "full_dose_curve": true,
+        "finite_endpoint": true,
+        "endpoint_matches_solution": true,
+        "final_strong_acidity": true,
+        "named_acid_projected": true,
+        "no_unreviewed_final_partner": true,
+        "final_partner_absent": true,
+        "no_other_screened_partner": true
+      },
+      "scoped_collector_classification": "qualifying_benign_counterpart",
+      "original_collector_checks": {
+        "processes_completed": true,
+        "parsed_inputs": true,
+        "water_amount": true,
+        "integer_step_bound": true,
+        "ph_endpoint": true,
+        "no_refusal": true,
+        "setup_partner": true,
+        "setup_not_strong_acid": true,
+        "backend": true,
+        "one_full_dose": true,
+        "integer_dose_fields": true,
+        "delivered_moles": true,
+        "full_dose_curve": true,
+        "finite_endpoint": true,
+        "endpoint_matches_solution": true,
+        "final_strong_acidity": true,
+        "named_acid_projected": true,
+        "no_unreviewed_final_partner": true,
+        "final_partner_absent": true,
+        "no_other_screened_partner": true
+      },
+      "original_collector_classification": "qualifying_benign_counterpart",
+      "allowed_setup_notices_observed": [],
+      "scoped_backend_checks": {
+        "setup_backend": true,
+        "titration_backend": true
+      },
+      "warning_checks": {
+        "no_setup_primary_warning": true,
+        "exact_warning": true,
+        "exact_text_wording": true,
+        "exact_text_severity": true,
+        "exact_dose_narration": true,
+        "exact_text_setup_notices": true,
+        "no_text_solver_or_safety_refusal": true
+      },
+      "setup_partner_mol": 0,
+      "final_partner_mol": 0,
+      "final_surviving_exposure": false
+    }
+  },
+  "accepted_collection_bindings": true,
+  "accepted_supplemental_warning_slice": true,
+  "accepted_original_six_case_slice": false,
+  "accepted_repair_proof": false,
+  "scope": "Separate Mg/MgSO4 virtual pair with exact setup limitations and operator-scoped backends. Original six-case results remain unchanged. Consumed Mg proves prospective narration only; no empirical chemistry or integration acceptance."
+}

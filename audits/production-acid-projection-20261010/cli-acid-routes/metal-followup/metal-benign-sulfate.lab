@@ -1,0 +1,4 @@
+# Separately frozen registered-salt benign counterpart; original MgCl2 outcome retained.
+add v1 water 100mL
+add v1 MgSO4 0.00001mol
+titrate v1 HCl 1M 10mL until ph 0 max 1
