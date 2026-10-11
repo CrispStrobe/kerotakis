@@ -1,0 +1,15 @@
+{
+  "status": "Frozen prospective candidate-only controls before execution; no original baseline claim",
+  "candidate_source": "edf60b9acf8e11c51a06202629091f4eb366be75",
+  "fixture_path": "audits/registry-loader-properties-20261011/fixtures/generated_registry_contracts.py",
+  "fixture_sha256": "0e2687acc74ea61dfce571c87d14509c2306abf336f19bf70fafd80743c515c9",
+  "expected_cases": [
+    "existing_registry_and_zero_cp_supported",
+    "negative_molar_mass_refuses",
+    "zero_molar_mass_refuses",
+    "negative_density_refuses",
+    "zero_density_refuses",
+    "negative_heat_capacity_refuses"
+  ],
+  "scope": "Execute already compiled generator against isolated complete registry copies; invalidcases must refuse with matching MgSO4/property diagnostics before species output. Valid complete registry preserves existing zeroCp. No Cargo compilation or source edits."
+}

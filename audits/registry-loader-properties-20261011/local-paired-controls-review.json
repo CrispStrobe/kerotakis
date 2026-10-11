@@ -1,0 +1,164 @@
+{
+  "candidate_source": "edf60b9acf8e11c51a06202629091f4eb366be75",
+  "candidate_tree": "ebc3cdc411859164a95d55552fc699edf64aa705",
+  "source": "dbe8652117ed870e9fc945c8f6f42bfa0137d49d",
+  "status": "Accepted LOCAL paired21controls/data16/core604 and prospectivegenerator6; safety/registry acceptance pending",
+  "local_lock_sha256": "fef8a64257653da8bd3fcff50d89e69f5fb848952a6e8eaa827667427942ddfe",
+  "hosted_lock_not_used": true,
+  "first_baseline_review": "audits/registry-loader-properties-20261011/local-first-baseline-review.json",
+  "first_baseline_review_sha256": "d89b4b8fd2bffc657af008f71093d624ee091633cfa11c346845ad546d1b8174",
+  "candidate_patch_sha256": "e73033d2e4fae39b1901410bcb8fe97a23100f71ee0142a9ad0d8689282b1a74",
+  "candidate_source_sha256": {
+    "crates/kerotakis-core/build.rs": "959d3431dd636bd61f071a04cfb2b1ab824dce90e26205d0523607a7c49eeb0c",
+    "crates/kerotakis-core/src/species_loader.rs": "1b895517a8cf4d28ddaab481e82143ea93ffb23c1acf0004e7e7cfedfd6dc258",
+    "crates/kerotakis-data/src/lib.rs": "b9d85e73cd6c97b323055f0fc7c8410afb3d43810518ee5ab1afa643f3ad4e21",
+    "crates/kerotakis-data/src/pack.rs": "144230a3e16ac1928bbd4024f30179e1d16cf38d051dfe29795da0ce2b6f1d5f",
+    "crates/kerotakis-data/src/property_bounds.rs": "b2cfd7a3e26ab62ddca99bcb807a17bab82f5a04c5ca5ceb27a50984a33780be",
+    "crates/kerotakis-data/src/schema.rs": "b00a546e7866824df27b3319a75821ba651749d138ba6cb076ffa1d3ce8170a0",
+    "crates/kerotakis-data/src/validate.rs": "07021af7d394cfbb1080668c6c2c1f8d695b28946819fad44781a1d7f276f994"
+  },
+  "fixtures": [
+    {
+      "fixture": "audits/registry-loader-properties-20261011/fixtures/registry_loader_property_contracts.rs",
+      "fixture_sha256": "c31800fbdac4310d53d106936edd39abcb692f1f08dbb0844574febef83ce472",
+      "expected_test_names": [
+        "supported_solid_registry_properties_remain_supported",
+        "aqueous_ion_zero_heat_capacity_remains_supported",
+        "missing_heat_capacity_refuses",
+        "missing_density_refuses",
+        "negative_heat_capacity_refuses",
+        "negative_density_refuses",
+        "zero_density_refuses",
+        "negative_molar_mass_refuses",
+        "zero_molar_mass_refuses"
+      ],
+      "passed": 9,
+      "failed": 0,
+      "exit_code": 0,
+      "raw_log_sha256": "156711bea995ba0051121c457731386174f9c1c8917a28e717945d4e15728f39"
+    },
+    {
+      "fixture": "audits/registry-loader-properties-20261011/fixtures/registry_property_admission_contracts.rs",
+      "fixture_sha256": "638d4e46b4e2accd29c7124f359a809d3e29f854dedff46f3337033012fd0cef",
+      "expected_test_names": [
+        "supported_complete_registry_and_pack_remain_supported",
+        "typed_negative_molar_mass_refuses",
+        "typed_zero_molar_mass_refuses",
+        "typed_negative_density_refuses",
+        "typed_zero_density_refuses",
+        "typed_negative_heat_capacity_refuses",
+        "well_hashed_negative_density_pack_refuses",
+        "well_hashed_zero_molar_mass_pack_refuses",
+        "well_hashed_negative_heat_capacity_pack_refuses",
+        "signed_dissolution_enthalpy_remains_supported"
+      ],
+      "passed": 10,
+      "failed": 0,
+      "exit_code": 0,
+      "raw_log_sha256": "70cf122bc0838c418043b99055f22998467f1101a005d7d3fbd464a2cbe31c94"
+    },
+    {
+      "fixture": "audits/registry-loader-properties-20261011/fixtures/registry_neutral_zero_cp_contracts.rs",
+      "fixture_sha256": "17837eb9234b064f42fdece1c5511fef722771a40ff7a0b956c0d0f4b4cc5c0c",
+      "expected_test_names": [
+        "neutral_hypochlorous_acid_zero_cp_remains_supported",
+        "neutral_dissolved_carbon_dioxide_zero_cp_remains_supported"
+      ],
+      "passed": 2,
+      "failed": 0,
+      "exit_code": 0,
+      "raw_log_sha256": "b698b5b227b548ad139bea0d1f7207a4c47fd55c7aa0bee1cc43fc41fccfcb31"
+    }
+  ],
+  "controls": {
+    "baseline_passed": 8,
+    "baseline_failed": 13,
+    "candidate_passed": 21,
+    "candidate_failed": 0
+  },
+  "data_library": {
+    "passed": 16,
+    "failed": 0,
+    "exit_code": 0,
+    "raw_log_sha256": "7738afdcd3f169941d3498e06ab524963ee0739630d6d20cc817292c7b92ff17"
+  },
+  "prospective_generated_registry": {
+    "cases": [
+      {
+        "case": "existing_registry_and_zero_cp_supported",
+        "passed": true,
+        "exit_code": 0,
+        "expected_diagnostic": null,
+        "input_sha256": "0095642644d7592a03a7e4f0865b31ff9844b9536ebc6d77b8aaa5959b61e23c",
+        "stdout_sha256": "d3785b9f15dca15b820af5b5d5d4bcdbbd7b0b98c3a86f7d24bc30b68e8e482b",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "case": "negative_molar_mass_refuses",
+        "passed": true,
+        "exit_code": 101,
+        "expected_diagnostic": "MgSO4: molar_mass must be finite and positive",
+        "input_sha256": "d1d50218c7d8c506b261f1ae7e60cf79c197cb50036c88e1636a086b4a66ca0d",
+        "stdout_sha256": "fcdc32b713f45ec0e7959f872533628d30d1ab167dfa5a4b5a038ef8b31bbdc4",
+        "stderr_sha256": "2d25b42701c3e13a8a7bfabc9eb1e4c1f716f99108879b2d9c8fcb23c3523d21"
+      },
+      {
+        "case": "zero_molar_mass_refuses",
+        "passed": true,
+        "exit_code": 101,
+        "expected_diagnostic": "MgSO4: molar_mass must be finite and positive",
+        "input_sha256": "3c5ccdbc16f2ffe7fc265e6f4878751a54a200ca4d73d37c3f068a674c12184f",
+        "stdout_sha256": "8af327cabf4bffbdf19496e47e5dad9db7fcff7b24d3f5a0095f7c4af6b707cf",
+        "stderr_sha256": "88821954abf01d50371a3f36b06f94c412dacb8940e51744eb50db4d2a4c0007"
+      },
+      {
+        "case": "negative_density_refuses",
+        "passed": true,
+        "exit_code": 101,
+        "expected_diagnostic": "MgSO4: mass_density must be finite and positive",
+        "input_sha256": "42b2850a1472840828a0349fda3eac0ce8015fdae410aee34c64aee3f861afa5",
+        "stdout_sha256": "995fb498c8faa1a9704cfb328ecffeb95472099e5bf9560834440e19fe57afb3",
+        "stderr_sha256": "67384f0d00508ad0739794226d14c64f9dff590133d36ca9fe7e80be7269902b"
+      },
+      {
+        "case": "zero_density_refuses",
+        "passed": true,
+        "exit_code": 101,
+        "expected_diagnostic": "MgSO4: mass_density must be finite and positive",
+        "input_sha256": "522250a964cd0b3d71986e0b97d0f22bba9e2626a08fc27b7b0689881cf8214d",
+        "stdout_sha256": "4577d0b4b097f31ae4819445813f6545ba3738ed34f9fa5cbe298bbf3c3f5735",
+        "stderr_sha256": "84eb2431b78a84cf4b54767fd3a80b99cabad6dffe3745bfe32767d2853419dd"
+      },
+      {
+        "case": "negative_heat_capacity_refuses",
+        "passed": true,
+        "exit_code": 101,
+        "expected_diagnostic": "MgSO4: molar_heat_capacity must be finite and non-negative",
+        "input_sha256": "fc3a2d5e93c9733e2510cf310cf35988f83c99353e9a4e604959cba556385212",
+        "stdout_sha256": "66e4cf2a7b0c9efdbefb09ea379dcd73a6ddbda5811fd36fe0417e886bafc5d5",
+        "stderr_sha256": "726b12847d7efada1d4b4a1c73bedddf872369626cf9fee0ec2edb5c753dbc6d"
+      }
+    ],
+    "passed": 6,
+    "binary_sha256": "ff82108082d97bcb79380e40e9336ce3f2f5eaf2e29a924b7b8f9095f4c8f49e",
+    "registry_sha256": "48487e1940c5e0122207d352c78e4377f8f7b47d421be2f78d62b61a096c3774",
+    "fixture_sha256": "0e2687acc74ea61dfce571c87d14509c2306abf336f19bf70fafd80743c515c9",
+    "dependency_file_sha256": "79de52f7063346c0f35cffe10c40bbd9934f410a9dbe364507fa38dffa15b946",
+    "scope": "Six newly frozen candidate-only checks using already compiled generator; not a paired original generated-build baseline. Dependency file identifies shared build policy; no new Cargo invocation.",
+    "artifact_binding": "audits/registry-loader-properties-20261011/generated-artifact-binding.json",
+    "artifact_binding_sha256": "1174970a10c8dc35a79c6aece0fe935b130c428dcac7a041b6dda5e5f7bae870"
+  },
+  "pending": [
+    "complete candidate safety library",
+    "loader_fidelity, registry_snapshot, registry_round_trip, registry_parity",
+    "fresh source-bound CI and review",
+    "PR777 complete33-job fleet and separate integration"
+  ],
+  "independent_review": "Separate agent verified all21 exact identities/fixture hashes/exits and data16 tests including3new helper controls. Generated6 inputs independently match exactcandidate registry plus declared mutations; all47 original zero-Cp rows retain zero in generated output.",
+  "core_library": {
+    "passed": 604,
+    "failed": 0,
+    "exit_code": 0,
+    "raw_log_sha256": "814fc0b102f5e4519c9bbaa7ae098991cfe7c846b5cc0699f54be01473a123eb"
+  }
+}
