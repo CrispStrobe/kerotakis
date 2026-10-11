@@ -1,0 +1,51 @@
+{
+  "pr": 778,
+  "head": "f515781d1bf183a5602571e034fbbf2b5e18b7ff",
+  "base": "bf6f4157353a81867619d25d927475f6924f54bd",
+  "tree": "6dd1a691960353a752459b6cfe7d6d81a141db4f",
+  "ci_run": 38158962498,
+  "fleet_run": 38158962488,
+  "expected_final_fleet_jobs": 33,
+  "expected_native_functions": 333,
+  "expected_native_fixture_files": 30,
+  "receipt_sha256": {
+    "audits/registry-loader-properties-20261011/native-controls-plan-f515.json": "af610a8d46a4640c1662764663076b491db2f24922d58c056599245c1c33f46e",
+    "audits/registry-loader-properties-20261011/native-macos-review-f515.json": "6cb4a45332bbf2779e4deba1970d495989b4a3845cc120a00b2591a9ac39cc31",
+    "audits/registry-loader-properties-20261011/native-linux-review-f515.json": "d3b11b55de93330493dc80e7af3d53b3f41f24d97eec650bf86e3276d8c65b82",
+    "audits/registry-loader-properties-20261011/data-admission-macos-review-f515.json": "4c097666ca997b10dc0d188b7b29502f8e8d5af1be4ff0c472c1d74d4fbe3bf0",
+    "audits/registry-loader-properties-20261011/library-macos-review-f515.json": "44f861f2c0c45c4444013bdde9155c2f3292a51cdcef4089560bf34a5cfeda43",
+    "audits/registry-loader-properties-20261011/full-ci-review-f515.json": "62b7e311c2fd69e67735b346a331343de44a1f6de6a1b55b9758a48b62f9df6a",
+    "audits/registry-loader-properties-20261011/current-main-tree-compatibility-f515.json": "a88b5d69aa5869f3ec43b5f96069a80147e68cacbf3dc9cad99c60521c6dbb43",
+    "audits/registry-loader-properties-20261011/local-complete-controls-review.json": "1bc74a2650a57828ff49581dc92c98abb350a65aac821988f3ecb9550ddd95a5",
+    "audits/registry-loader-properties-20261011/generated-artifact-binding.json": "1174970a10c8dc35a79c6aece0fe935b130c428dcac7a041b6dda5e5f7bae870",
+    "audits/registry-loader-properties-20261011/formatting-followup-review.json": "949af74fdeeeff21a86cf6872daae069026f90a9ad0da84c1129c28cb93b246d"
+  },
+  "changed_source_sha256": {
+    "crates/kerotakis-core/build.rs": "959d3431dd636bd61f071a04cfb2b1ab824dce90e26205d0523607a7c49eeb0c",
+    "crates/kerotakis-core/src/species_loader.rs": "1b895517a8cf4d28ddaab481e82143ea93ffb23c1acf0004e7e7cfedfd6dc258",
+    "crates/kerotakis-core/tests/registry_loader_property_contracts.rs": "c31800fbdac4310d53d106936edd39abcb692f1f08dbb0844574febef83ce472",
+    "crates/kerotakis-core/tests/registry_neutral_zero_cp_contracts.rs": "17837eb9234b064f42fdece1c5511fef722771a40ff7a0b956c0d0f4b4cc5c0c",
+    "crates/kerotakis-data/src/lib.rs": "2121e1c5638b47f17ae1b556c83d23a82692b91613824fe44324cd580472b586",
+    "crates/kerotakis-data/src/pack.rs": "144230a3e16ac1928bbd4024f30179e1d16cf38d051dfe29795da0ce2b6f1d5f",
+    "crates/kerotakis-data/src/property_bounds.rs": "b2cfd7a3e26ab62ddca99bcb807a17bab82f5a04c5ca5ceb27a50984a33780be",
+    "crates/kerotakis-data/src/schema.rs": "b00a546e7866824df27b3319a75821ba651749d138ba6cb076ffa1d3ce8170a0",
+    "crates/kerotakis-data/src/validate.rs": "07021af7d394cfbb1080668c6c2c1f8d695b28946819fad44781a1d7f276f994",
+    "crates/kerotakis-data/tests/registry_property_admission_contracts.rs": "638d4e46b4e2accd29c7124f359a809d3e29f854dedff46f3337033012fd0cef"
+  },
+  "required_successful_jobs": [
+    "Full preflight gate",
+    "Test (native) (ubuntu-latest)",
+    "Test (native) (macos-latest)",
+    "The bench in WebAssembly",
+    "The demo page, in a real browser"
+  ],
+  "native_plan_path": "audits/registry-loader-properties-20261011/native-controls-plan-f515.json",
+  "native_receipt_paths": [
+    "audits/registry-loader-properties-20261011/native-linux-review-f515.json",
+    "audits/registry-loader-properties-20261011/native-macos-review-f515.json"
+  ],
+  "full_ci_receipt_path": "audits/registry-loader-properties-20261011/full-ci-review-f515.json",
+  "native_tested_base": "dbe8652117ed870e9fc945c8f6f42bfa0137d49d",
+  "scope": "Read-only PR778-specific premerge preparation. Existing native execution retains its actual old parents. Source-tree compatibility is separate from new-base execution. Require own complete fleet, fresh head/base/main/rollup and actual postmerge parents/tree before accepting integration. Does not authorize broad audit branch integration.",
+  "base_race_limit": "Head guard cannot atomically pin base. Recheck current main immediately before merge and verify actual merge parents/tree afterward; do not accept changed base without a new review."
+}

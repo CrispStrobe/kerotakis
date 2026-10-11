@@ -24,9 +24,11 @@ Main validates titration inputs and initial/trial state, screens prospective exp
 
 ## Stacked registry integration gates
 
-PR778, PR779 and PR780 each now have independently accepted own CI/native evidence. Chemistry fleet snapshots remain incomplete: PR778 has22/33 successful jobs, PR77919/33 and PR78011/33. These are progress counts, not accepted complete fleets or diagnoses of why jobs are pending.
+PR778, PR779 and PR780 each now have independently accepted own CI/native evidence. Chemistry fleet snapshots remain incomplete: PR778 has32/33 successful jobs, PR77919/33 and PR78011/33. These are progress counts, not accepted complete fleets or diagnoses of why jobs are pending.
 
 Use [the reusable fleet reviewer](../../tools/chemistry-fleet-review.py) with explicit full `--head`, `--run`, `--pr`, normalized `--run-metadata` and a new `--report` destination. Collect metadata with `gh run view RUN --repo CrispStrobe/kerotakis --json databaseId,headSha,event,status,conclusion,jobs,url`. It derives all33 job names and every named/unnamed workflow step ordinal from the exact head. Partial runs stay pending; completed runs require all jobs and successful declared steps. When the metadata lacks PR identity, the receipt explicitly leaves that binding unverified: independently compare the actual run API’s pull-request association to the intended PR/head/base before integration. The pinned PR777 checker and historical receipts remain unchanged.
+
+[PR778-specific preparation and first live pending preflight](../registry-loader-properties-20261011/README.md) are now published; the v2 aggregate remains queued. The read-only checker reports readiness without editing or merging a PR. Inspect the readiness flags, even when the command exits successfully.
 
 Finish in parent order: PR778 fleet38158962488/headF515, then PR779 fleet38161218341/head2e, then PR780 fleet38162956795/heade644. Before each normal guarded merge, freshly verify current PR head/base/main, tested and proposed merge trees, own complete CI/native/fleet receipts and rollup. Preserve old tested parents when proving tree compatibility after retargeting; do not describe it as another test execution. After merge, verify actual parents and tracked tree before updating the ledger. No source change or rerun is required simply because a fleet is pending.
 
