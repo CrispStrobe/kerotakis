@@ -1,0 +1,12 @@
+{
+  "reviewer_path": "tools/final-safety-cli-pair-review.py",
+  "reviewer_sha256": "8efd2c22fd8460ca14532c875eb3220344aefd842b0e1dcdf7a79908646286f5",
+  "historical_run": 37989072945,
+  "historical_harness": "552866f3208201add90d1c2cf0bdc3cabd81a320",
+  "historical_source": "622d37ec59714ef4a5fed512b174c09e605e1a7e",
+  "fresh_review_sha256": "b847f8656fc38e828dfc087279f603e98446a50db60d556fa74650dad4a6deee",
+  "historical_default_acceptance_preserved": true,
+  "existing_probe_rejection_tests_passed": 14,
+  "new_campaign_job_name": "Replay unchanged hundred cases on directional acid reporting repair",
+  "scope": "Reviewer compatibility verification only. Historical archived replay/warning pair independently re-reviewed; not new-source runtime acceptance."
+}
