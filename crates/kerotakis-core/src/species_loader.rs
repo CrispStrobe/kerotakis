@@ -223,6 +223,17 @@ pub fn parse_document(doc: &serde_json::Value) -> Result<Vec<SpeciesData>, Strin
         let density = thermo_for(key, "mass_density")
             .and_then(|t| t["quantity"]["value"].as_f64())
             .ok_or_else(|| fail("no density"))?;
+        for (property, value) in [
+            (kerotakis_data::RuntimeScalarProperty::MolarMass, molar_mass),
+            (kerotakis_data::RuntimeScalarProperty::MassDensity, density),
+            (
+                kerotakis_data::RuntimeScalarProperty::MolarHeatCapacity,
+                heat_capacity,
+            ),
+        ] {
+            kerotakis_data::validate_runtime_scalar(property, value)
+                .map_err(|reason| fail(&format!("{} {reason}", property.name())))?;
+        }
         let dissolution = thermo_for(key, "enthalpy_of_dissolution")
             .and_then(|t| t["quantity"]["value"].as_f64());
 

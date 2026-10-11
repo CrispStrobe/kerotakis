@@ -799,6 +799,18 @@ pub enum PhaseProperty {
 }
 
 impl PhaseProperty {
+    /// The three constant fields consumed by runtime species construction.
+    /// Other thermodynamic records retain their own signed-value semantics.
+    pub fn runtime_scalar_property(&self) -> Option<crate::RuntimeScalarProperty> {
+        use crate::RuntimeScalarProperty;
+        match self {
+            Self::MolarMass => Some(RuntimeScalarProperty::MolarMass),
+            Self::MassDensity => Some(RuntimeScalarProperty::MassDensity),
+            Self::MolarHeatCapacity => Some(RuntimeScalarProperty::MolarHeatCapacity),
+            _ => None,
+        }
+    }
+
     pub fn expected_dimension(&self) -> Option<Dimension> {
         use Dimension::*;
         match self {

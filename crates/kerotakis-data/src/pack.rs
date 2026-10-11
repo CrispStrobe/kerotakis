@@ -21,6 +21,11 @@ pub enum PackError {
     UnsupportedVersion(u32),
     HashMismatch,
     DeserializeFailed(serde_json::Error),
+    InvalidRuntimeScalar {
+        species_id: String,
+        property: &'static str,
+        reason: &'static str,
+    },
 }
 
 impl std::fmt::Display for PackError {
@@ -31,6 +36,11 @@ impl std::fmt::Display for PackError {
             Self::UnsupportedVersion(v) => write!(f, "unsupported pack version {v}"),
             Self::HashMismatch => write!(f, "pack content hash mismatch"),
             Self::DeserializeFailed(e) => write!(f, "pack deserialization failed: {e}"),
+            Self::InvalidRuntimeScalar {
+                species_id,
+                property,
+                reason,
+            } => write!(f, "{species_id}: {property} {reason}"),
         }
     }
 }
@@ -57,7 +67,9 @@ pub fn build_pack(doc: &RegistryDocument) -> Vec<u8> {
 
 /// Load a registry document from a compiled `.pack` byte slice.
 ///
-/// Verifies the magic, version, and content hash before deserializing.
+/// Verifies the magic, version, and content hash before deserializing, then
+/// checks the three runtime scalar bounds. This does not perform whole-document
+/// provenance or reference validation.
 pub fn load_pack(data: &[u8]) -> Result<RegistryDocument, PackError> {
     if data.len() < HEADER_LEN {
         return Err(PackError::TooShort);
@@ -78,7 +90,20 @@ pub fn load_pack(data: &[u8]) -> Result<RegistryDocument, PackError> {
         return Err(PackError::HashMismatch);
     }
 
-    serde_json::from_slice(payload).map_err(PackError::DeserializeFailed)
+    let document: RegistryDocument =
+        serde_json::from_slice(payload).map_err(PackError::DeserializeFailed)?;
+    for record in &document.phase_thermodynamics {
+        if let Some(property) = record.property.runtime_scalar_property() {
+            crate::validate_runtime_scalar(property, record.quantity.value).map_err(|reason| {
+                PackError::InvalidRuntimeScalar {
+                    species_id: record.species_id.clone(),
+                    property: property.name(),
+                    reason,
+                }
+            })?;
+        }
+    }
+    Ok(document)
 }
 
 #[cfg(test)]
