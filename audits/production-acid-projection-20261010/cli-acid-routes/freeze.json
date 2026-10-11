@@ -1,0 +1,136 @@
+{
+  "schema": 1,
+  "source_observed": "dbe8652117ed870e9fc945c8f6f42bfa0137d49d",
+  "source_tree": "d7400e89c76768fc52337b592d982b2a605a3013",
+  "status": "frozen before any CLI parse or execution",
+  "cases": [
+    {
+      "path": "audits/production-acid-projection-20261010/cli-acid-routes/bleach-positive.lab",
+      "sha256": "84f50487bfcc6b708258b0a29a8bc4d5a234071f7663c7f3557f388fb5c84b4e",
+      "role": "positive",
+      "added_species": "NaOCl",
+      "added_moles": 1e-10,
+      "partner_keys": [
+        "NaOCl",
+        "ClO-",
+        "HClO"
+      ],
+      "partner_phase": null,
+      "expected_warning": {
+        "rule": "bleach-acid-chlorine",
+        "severity": "danger",
+        "hazard": "mixing bleach with acid releases chlorine, a toxic gas",
+        "real_world": "Chlorine gas was used as a chemical weapon; even small amounts damage lungs."
+      }
+    },
+    {
+      "path": "audits/production-acid-projection-20261010/cli-acid-routes/bleach-benign.lab",
+      "sha256": "08feda727bb4503e5201462f5c0a75e3a658e0e4e5bf33c5643018b3e618b356",
+      "role": "benign",
+      "added_species": "NaCl",
+      "added_moles": 1e-10,
+      "partner_keys": [
+        "NaOCl",
+        "ClO-",
+        "HClO"
+      ],
+      "partner_phase": null,
+      "expected_warning": {
+        "rule": "bleach-acid-chlorine",
+        "severity": "danger",
+        "hazard": "mixing bleach with acid releases chlorine, a toxic gas",
+        "real_world": "Chlorine gas was used as a chemical weapon; even small amounts damage lungs."
+      }
+    },
+    {
+      "path": "audits/production-acid-projection-20261010/cli-acid-routes/metal-positive.lab",
+      "sha256": "e3353c2e43151020c61606b6344803af091bf5bc7b16864a3f8d15ddf70870c6",
+      "role": "positive",
+      "added_species": "Mg",
+      "added_moles": 1e-05,
+      "partner_keys": [
+        "Mg"
+      ],
+      "partner_phase": "solid",
+      "expected_warning": {
+        "rule": "acid-metal-hydrogen",
+        "severity": "caution",
+        "hazard": "strong acid dissolves this metal, releasing hydrogen gas which is flammable",
+        "real_world": "Any metal above hydrogen in the activity series gives off hydrogen gas in acid; magnesium ribbon in hydrochloric acid is the school version, where the gas pops with a lit splint. The gas is genuinely flammable whichever metal and acid made it."
+      }
+    },
+    {
+      "path": "audits/production-acid-projection-20261010/cli-acid-routes/metal-benign.lab",
+      "sha256": "022f8b89d5103dceaee7c79ab78b01302d74909faa07f8b063b1846a6bba038a",
+      "role": "benign",
+      "added_species": "MgCl2",
+      "added_moles": 1e-05,
+      "partner_keys": [
+        "Mg"
+      ],
+      "partner_phase": "solid",
+      "expected_warning": {
+        "rule": "acid-metal-hydrogen",
+        "severity": "caution",
+        "hazard": "strong acid dissolves this metal, releasing hydrogen gas which is flammable",
+        "real_world": "Any metal above hydrogen in the activity series gives off hydrogen gas in acid; magnesium ribbon in hydrochloric acid is the school version, where the gas pops with a lit splint. The gas is genuinely flammable whichever metal and acid made it."
+      }
+    },
+    {
+      "path": "audits/production-acid-projection-20261010/cli-acid-routes/carbonate-positive.lab",
+      "sha256": "3b2982a1601121827daa6493ab1bcf54ec50691f5d4d9f968a8282fb320ba3e0",
+      "role": "positive",
+      "added_species": "CaCO3",
+      "added_moles": 0.001,
+      "partner_keys": [
+        "CaCO3"
+      ],
+      "partner_phase": "solid",
+      "expected_warning": {
+        "rule": "acid-carbonate-co2",
+        "severity": "caution",
+        "hazard": "strong acid and carbonate fizz vigorously, releasing carbon dioxide — the mixture can spatter",
+        "real_world": "Adding acid to chalk or baking soda foams over if the vessel is too small. CO₂ displaces air in enclosed spaces."
+      }
+    },
+    {
+      "path": "audits/production-acid-projection-20261010/cli-acid-routes/carbonate-benign.lab",
+      "sha256": "c6e5f4d72de4efefa7df52922cab0c721634ea906334928925b53248c72c9e1f",
+      "role": "benign",
+      "added_species": "CaCl2",
+      "added_moles": 0.001,
+      "partner_keys": [
+        "CaCO3"
+      ],
+      "partner_phase": "solid",
+      "expected_warning": {
+        "rule": "acid-carbonate-co2",
+        "severity": "caution",
+        "hazard": "strong acid and carbonate fizz vigorously, releasing carbon dioxide — the mixture can spatter",
+        "real_world": "Adding acid to chalk or baking soda foams over if the vessel is too small. CO₂ displaces air in enclosed spaces."
+      }
+    }
+  ],
+  "expected_processes": 12,
+  "cutoff_mol": 1e-12,
+  "acidity_gate_mol": 1e-09,
+  "strong_acid_ph_max": 2.0,
+  "dose": {
+    "vessel": 0,
+    "titrant": "HCl",
+    "concentration": 1.0,
+    "steps": 1,
+    "total_volume": 0.01,
+    "moles": 0.01
+  },
+  "expected_backend_engine": "PHREEQC (IPhreeqc, USGS)",
+  "expectations": [
+    "Three exact parsed operators, one accepted full dose, finite final state and endpoint; no refusals or solver fallback.",
+    "Positive requires actual setup partner above cutoff (solid for Mg/CaCO3), with no initial named/solved strong-acid exposure.",
+    "A qualifying positive publishes exactly one primary prospective warning with existing metadata in JSON and text; named-to-dissolved reporting must not duplicate it.",
+    "Benign counterpart has no reviewed primary partner or primary warning, and completes the same dose.",
+    "Record surviving partner and solved acidity. A consumed partner proves prospective narration only; it does not exercise final surviving-exposure detection.",
+    "If partner/backend/dose/acid projection is absent, retain non-exercising classification without changing thresholds or scripts."
+  ],
+  "scope": "Six source-informed virtual engineering probes. No independent fifty-case forecasts, empirical accuracy, intermediate hazardous-product detection or unqualified final-novelty proof. Prospective named acid is deliberately present before solving; stronger chemical claims remain separate."
+}

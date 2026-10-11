@@ -42,6 +42,7 @@ on:
           - production-acid-final-safety-cli-replay
           - production-acid-projection-baseline
           - production-acid-projection-cli-replay
+          - production-acid-route-cli-probes
           - titration-publication-cli-replay
 
 permissions:
@@ -2934,5 +2935,90 @@ jobs:
             harness/audits/main-cli-replay-20261008/
             harness/tools/combined-cli-replay.py
             harness/tools/fifth-independent-50/
+          retention-days: 30
+          if-no-files-found: error
+
+  production-acid-route-cli-probes:
+    name: Collect frozen actual acid-route probes using pinned replay executable
+    if: inputs.campaign == 'production-acid-route-cli-probes'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      KERO_WORKERS: '1'
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          path: harness
+          fetch-depth: 0
+      - name: Download exact completed source-bound replay archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir parent-binding prior-cli route-binding
+          gh api repos/CrispStrobe/kerotakis/actions/runs/38147457930 > parent-binding/run.json
+          gh api 'repos/CrispStrobe/kerotakis/actions/runs/38147457930/jobs?per_page=100' > parent-binding/jobs.json
+          gh api repos/CrispStrobe/kerotakis/actions/runs/38147457930/artifacts > parent-binding/artifacts.json
+          python3 - <<'VERIFY'
+          import json,pathlib
+          p=pathlib.Path('parent-binding')
+          run=json.loads((p/'run.json').read_text())
+          assert run['id']==38147457930 and run['head_sha']=='6c67609c387db2b6c406d7b5cc45f708e636e18a'
+          assert run['event']=='workflow_dispatch' and run['status']=='completed' and run['conclusion']=='success'
+          jobs=json.loads((p/'jobs.json').read_text())
+          assert jobs['total_count']==len(jobs['jobs'])
+          active=[j for j in jobs['jobs'] if j['conclusion']!='skipped']
+          assert len(active)==1 and active[0]['conclusion']=='success'
+          assert active[0]['name']=='Replay unchanged hundred cases on directional acid reporting repair'
+          artifacts=json.loads((p/'artifacts.json').read_text())
+          assert artifacts['total_count']==len(artifacts['artifacts'])
+          matches=[a for a in artifacts['artifacts'] if a['name']=='production-acid-projection-cli-replay-38147457930']
+          assert len(matches)==1 and matches[0]['expired'] is False
+          assert matches[0]['workflow_run']['id']==38147457930
+          assert matches[0]['workflow_run']['head_sha']==run['head_sha']
+          (p/'artifact.json').write_text(json.dumps(matches[0],indent=2)+'\n')
+          (p/'artifact-id.txt').write_text(str(matches[0]['id'])+'\n')
+          VERIFY
+          gh api "repos/CrispStrobe/kerotakis/actions/artifacts/$(cat parent-binding/artifact-id.txt)/zip" > parent-binding/archive.zip
+          sha256sum parent-binding/archive.zip > parent-binding/archive-sha256.txt
+          python3 - <<'EXTRACT'
+          import hashlib,json,pathlib,zipfile
+          p=pathlib.Path('parent-binding')
+          artifact=json.loads((p/'artifact.json').read_text())
+          assert artifact['digest']=='sha256:'+hashlib.file_digest((p/'archive.zip').open('rb'),'sha256').hexdigest()
+          with zipfile.ZipFile(p/'archive.zip') as z:
+              for info in z.infolist():
+                  name=pathlib.PurePosixPath(info.filename)
+                  assert not name.is_absolute() and '..' not in name.parts
+              z.extractall('prior-cli')
+          manifest=json.loads(pathlib.Path('harness/audits/production-acid-projection-20261010/cli-source-dbe86521.json').read_text())
+          build=pathlib.Path('prior-cli/combined-build')
+          binding=json.loads((build/'binding.json').read_text())
+          assert binding['compiled_source']=='dbe8652117ed870e9fc945c8f6f42bfa0137d49d'
+          for key in ['compiled_source','source_tree','source_kind']:
+              assert binding[key]==manifest[key]
+          for filename,key in [('kero','binary_sha256'),('Cargo.lock','generated_lock_sha256')]:
+              assert hashlib.file_digest((build/filename).open('rb'),'sha256').hexdigest()==binding[key]
+          (build/'kero').chmod(0o755)
+          EXTRACT
+      - name: Bind six original route scripts and collect twelve raw processes
+        shell: bash
+        run: |
+          set -euo pipefail
+          git -C harness rev-parse HEAD > route-binding/harness-commit.txt
+          sha256sum harness/.github/workflows/chemistry-audit.yml harness/tools/acid-route-cli-probes.py harness/audits/production-acid-projection-20261010/cli-source-dbe86521.json harness/audits/production-acid-projection-20261010/cli-acid-routes/{freeze.json,bleach-positive.lab,bleach-benign.lab,metal-positive.lab,metal-benign.lab,carbonate-positive.lab,carbonate-benign.lab} > route-binding/harness-sha256.txt
+          python3 harness/tools/acid-route-cli-probes.py --binary prior-cli/combined-build/kero --build-binding prior-cli/combined-build/binding.json --source-manifest harness/audits/production-acid-projection-20261010/cli-source-dbe86521.json --out acid-route-observations --report route-binding/observations.json
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: production-acid-route-cli-probes-${{ github.run_id }}
+          path: |
+            prior-cli/combined-build/
+            parent-binding/
+            route-binding/
+            acid-route-observations/
+            harness/tools/acid-route-cli-probes.py
+            harness/audits/production-acid-projection-20261010/cli-source-dbe86521.json
+            harness/audits/production-acid-projection-20261010/cli-acid-routes/
           retention-days: 30
           if-no-files-found: error
