@@ -1136,8 +1136,18 @@ fn final_species_identity(key: &str) -> &str {
 
 fn same_final_finding(before: &ExposureFinding, after: &ExposureFinding) -> bool {
     let matches = |before_index: usize, after_index: usize| {
-        final_species_identity(&before.species[before_index])
-            == final_species_identity(&after.species[after_index])
+        let prior_species = before.species[before_index].as_str();
+        let final_species = after.species[after_index].as_str();
+        // Only the reviewed forward reporting projections are equivalent.
+        // Named acids remain distinct, and the partner/location must match.
+        let strong_acid_projection = final_species == "H+"
+            && matches!(prior_species, "HCl" | "H2SO4")
+            && matches!(
+                before.rule.as_str(),
+                "bleach-acid-chlorine" | "acid-metal-hydrogen" | "acid-carbonate-co2"
+            );
+        (final_species_identity(prior_species) == final_species_identity(final_species)
+            || strong_acid_projection)
             && before.locations[before_index] == after.locations[after_index]
     };
     before.rule == after.rule
