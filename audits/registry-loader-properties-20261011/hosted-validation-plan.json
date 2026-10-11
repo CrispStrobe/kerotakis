@@ -1,0 +1,27 @@
+{
+  "status": "Prospective hosted plan frozen before creating candidate PR",
+  "source_branch": "fix/registry-runtime-scalar-bounds-20261011",
+  "behaviorally_tested_local_head": "edf60b9acf8e11c51a06202629091f4eb366be75",
+  "initial_base_branch": "audit/production-acid-final-safety-20261010",
+  "initial_base_head": "dbe8652117ed870e9fc945c8f6f42bfa0137d49d",
+  "parent_pr": 777,
+  "local_followup": "Verifiedonlydata lib.rs declaration/importordering; cargo fmt --check passes on finalhead. Runtime/library results andClippy remain tiedtoEDF.",
+  "required_evidence": [
+    "Freshcandidate-head CI(nativeLinux/macOSworkspace,registryexport,WASM/browser,preflight andrequiredgates)",
+    "Freshcomplete chemistryfleet derivingall33jobs andeverydeclaredstep fromcandidate workflow",
+    "Recordcandidatehead/base/syntheticmerge tree and actualtestedsource/lock/toolchain/fixture inventories",
+    "Afterparent777merge retargetmain and requirefreshhead/base/tree-boundchecks; neverreuseold777acceptance"
+  ],
+  "expected_core_native_controls": 333,
+  "expected_core_native_fixture_files": 30,
+  "new_data_admission_controls": 10,
+  "scope": "Existing322corefixturecontrols plus11newcorecontrols. Data10admissioncontrols remainseparate. Counts/zeroignorefilter/exactnames mustbe independentlyaccepted from actuallogs.",
+  "not_claimed": [
+    "hostedexecutionoracceptance",
+    "mainintegration",
+    "newMgCl2data",
+    "empiricalchemicalaccuracy"
+  ],
+  "final_head": "f515781d1bf183a5602571e034fbbf2b5e18b7ff",
+  "final_tree": "6dd1a691960353a752459b6cfe7d6d81a141db4f"
+}

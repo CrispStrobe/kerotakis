@@ -1,0 +1,50 @@
+{
+  "final_head": "f515781d1bf183a5602571e034fbbf2b5e18b7ff",
+  "final_tree": "6dd1a691960353a752459b6cfe7d6d81a141db4f",
+  "behaviorally_tested_head": "edf60b9acf8e11c51a06202629091f4eb366be75",
+  "followup_changes": [
+    "crates/kerotakis-data/src/lib.rs"
+  ],
+  "followup_scope": "Onlymoduledeclaration and reexportordering; no symbols/types/values/API changedrelative to behaviorallytestedhead.",
+  "tracked_files_compared": 2245,
+  "formatting_patch": "audits/registry-loader-properties-20261011/formatting-followup.patch",
+  "formatting_patch_sha256": "711b43d242c9bd6334ae435bf115dbbb4b072cfe826f7f6094f8e84ad1a93daa",
+  "final_lib_sha256": "2121e1c5638b47f17ae1b556c83d23a82692b91613824fe44324cd580472b586",
+  "local_behavioral_receipt": "audits/registry-loader-properties-20261011/local-complete-controls-review.json",
+  "final_format": {
+    "command": [
+      "cargo",
+      "fmt",
+      "--check"
+    ],
+    "exit_code": 0,
+    "raw_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "original_head_clippy": {
+    "command": [
+      "cargo",
+      "clippy",
+      "--offline",
+      "--locked",
+      "-p",
+      "kerotakis-core",
+      "-p",
+      "kerotakis-data",
+      "-p",
+      "kerotakis-safety",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "exit_code": 0,
+    "raw_log_sha256": "13f0af89ae63c310678d4d493efa86632a9a541c61e1981d2392948f931ae63b"
+  },
+  "initial_format_failure_preserved": {
+    "workspace_exit_code": 1,
+    "workspace_raw_log_sha256": "d90a219e0dfa4ba2ed26d9c8d86f6243dfdde60b4e73f8e77c4d897917adeede",
+    "all_raw_log_sha256": "67172200ce78d65f77692e24d2f00d569b1f3d5ff25bc7d39d3dc56bc6e7ed79",
+    "scope": "Workspaceformatfailurewasnewmodule/importorder; --allalsoflaggedunchangedexternalSundials."
+  },
+  "hosted_status": "Notaccepted; ownfinalhead checksrequired."
+}
