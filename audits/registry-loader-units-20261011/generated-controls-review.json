@@ -1,0 +1,156 @@
+{
+  "passed": 10,
+  "cases": [
+    {
+      "case": "canonical_registry_supported",
+      "passed": true,
+      "exit_code": 0,
+      "runtime_values": {
+        "molar_mass": 120.366,
+        "density": 2.66,
+        "heat_capacity": 96.5
+      },
+      "input_sha256": "0095642644d7592a03a7e4f0865b31ff9844b9536ebc6d77b8aaa5959b61e23c",
+      "stdout_sha256": "7324552fe8802b58b5d7957b5a1d0860ce2e037cf49492b605746b74c518bc0d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "cp_alias_values_supported",
+      "passed": true,
+      "exit_code": 0,
+      "runtime_values": {
+        "molar_mass": 120.366,
+        "density": 2.66,
+        "heat_capacity": 96.5
+      },
+      "input_sha256": "71f93220bc37fc180c1338511b3bbcb16306f36efd1978cf7fb8de774fa76aeb",
+      "stdout_sha256": "58938f91439830d65d8a579d859fb8d3be47603d1e6f93e311601832466945bb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "density_alias_values_supported",
+      "passed": true,
+      "exit_code": 0,
+      "runtime_values": {
+        "molar_mass": 120.366,
+        "density": 2.66,
+        "heat_capacity": 96.5
+      },
+      "input_sha256": "541d133fdc4b556d54179b223eb7d153b982cfefb3c5eb5b28a959b7ac8c92a6",
+      "stdout_sha256": "1c450291b5d12d01abed027517cf09cc36c20207ba0ef7db0009adeb9e18ea76",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "scaled_mass_values_normalized",
+      "passed": true,
+      "exit_code": 0,
+      "runtime_values": {
+        "molar_mass": 120.366,
+        "density": 2.66,
+        "heat_capacity": 96.5
+      },
+      "input_sha256": "d6c95d6a2ee1f290069d7115e36dc83e643ea715619fd627f1fad7923536f909",
+      "stdout_sha256": "3588de1bdc4c3148573a54eb8a3efc078c3cad02e36ede16e371a6b01c4ba1ae",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "scaled_density_values_normalized",
+      "passed": true,
+      "exit_code": 0,
+      "runtime_values": {
+        "molar_mass": 120.366,
+        "density": 2.66,
+        "heat_capacity": 96.5
+      },
+      "input_sha256": "d0869bc7379521bb67337c0618b55c059367cf8935a8064c919c146c9651cbdd",
+      "stdout_sha256": "1385355734f771023b1e1a0098438105783c92f624897f975fcccd12f682ad84",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "scaled_cp_values_normalized",
+      "passed": true,
+      "exit_code": 0,
+      "runtime_values": {
+        "molar_mass": 120.366,
+        "density": 2.66,
+        "heat_capacity": 96.5
+      },
+      "input_sha256": "ee913b5c272fb086d100ab5c0ae38dc3df0247d7b9d805c7e372e506be9415f5",
+      "stdout_sha256": "b9bc147c9eb7fd2f9430ff05ebf406fddb92ebaf6d6c94f150837a7c2cd60a5f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "wrong_mass_symbol_refuses",
+      "passed": true,
+      "exit_code": 101,
+      "runtime_values": null,
+      "input_sha256": "271cd5072ed9b072de3da137c667064f97bcaccc478fdbee434708bff16acdf7",
+      "stdout_sha256": "a3ff35b895a8c4dbc398e2ff54c3557e6c88e92910af289e0daf546481ff94dd",
+      "stderr_sha256": "518aeeb55a8cce250a101dfcac28b9f86b74686c2d45beb43a117cb3e7b154ba"
+    },
+    {
+      "case": "wrong_density_dimension_refuses",
+      "passed": true,
+      "exit_code": 101,
+      "runtime_values": null,
+      "input_sha256": "b83cfe1252c27e4059a93879a2ee3fed6ca169192eb8dbedcff04296aa09268c",
+      "stdout_sha256": "e06da3a1232568381c5e4a8e9691b14f2aef6240be5eb6010f2e26aa4c0327c6",
+      "stderr_sha256": "762c18d0a06e248e2932a63d10aec9aff342e01b3ae22c0e2c4dd271b1fcb000"
+    },
+    {
+      "case": "unknown_cp_symbol_refuses",
+      "passed": true,
+      "exit_code": 101,
+      "runtime_values": null,
+      "input_sha256": "f3085748db1a03839a63e7936d48ab98b4277b8c15d381df2048434d8372c628",
+      "stdout_sha256": "194381e68cbfe92f30c3bd931de6c42ca41eb7e6c8a592109a8e0a2950b51ed6",
+      "stderr_sha256": "c2b47528ed7c0a43ba44a105a193aab151f2e8cf7c5d9d712c124104d428741e"
+    },
+    {
+      "case": "converted_mass_overflow_refuses",
+      "passed": true,
+      "exit_code": 101,
+      "runtime_values": null,
+      "input_sha256": "27494429b3d91252bf2ce5640087a0b4d2a038c1b047881cfd1ce96fe6d0f2e9",
+      "stdout_sha256": "6fadb0fc65f30d3a0078e360d131f7c671f085aa4637b9a19f52cf0eacf636ea",
+      "stderr_sha256": "ce5cf1a85e5c86082779263d7d4ca6abf6e8ff2003a3f88fcfddb70d86529327"
+    }
+  ],
+  "zero_cp_rows_preserved": 47,
+  "expected_canonical_values": {
+    "molar_mass": 120.366,
+    "density": 2.66,
+    "heat_capacity": 96.5
+  },
+  "binary_sha256": "9c212eb0ee0163a197f58403d8e105bc3a82e0c4da693708e2c930878c1f771e",
+  "registry_sha256": "48487e1940c5e0122207d352c78e4377f8f7b47d421be2f78d62b61a096c3774",
+  "source": "479fcfcee1e873c419bbfef4f677577231a6fc93",
+  "source_tree": "6be8aafcfa7ec1759116cabb7ebb5c763ad2ccd4",
+  "scope": "Prospective LOCAL candidate-only generated controls, not paired original build baseline or independently reproducible build proof",
+  "fixture_sha256": "2a60a820c039ed1a7623ea871482c8439adc2c85f4ba8f39340526a7ab3868b8",
+  "raw_results_sha256": "a9b802526ef8469d32e19a78f8f18fc8402bfebe8f74ab30950015e095b167aa",
+  "artifact_origin": {
+    "artifact_relative_path": "target/debug/build/kerotakis-core-7098f1ae538e9f47/build-script-build",
+    "binary_sha256": "9c212eb0ee0163a197f58403d8e105bc3a82e0c4da693708e2c930878c1f771e",
+    "dependency_file_sha256": "fe17857dd45f7350ca2879d37a3668f3b02edcd6c1814eabf13d1a0fcca73685"
+  },
+  "artifact_source_sha256": {
+    "crates/kerotakis-core/build.rs": "65cdb856c4bd14da79020f85e3891df64a46ea6dc7842f9ced1e2060cebe656c",
+    "crates/kerotakis-core/Cargo.toml": "5d2752a6b3805c281b125c8cb6f77265b1dbbd6097ad69fb26cca479069b24c7",
+    "crates/kerotakis-data/src/property_bounds.rs": "7259c89fa75f7bd56b476d1df53c5660cd1182947b7c025867fa01cfd03b2598",
+    "crates/kerotakis-data/src/units.rs": "e2aba5e113fad99f04de2e7bfcadbca61628f0d51fbd3eb46b891bdecf5a20d4"
+  },
+  "actual_compile_command": [
+    "cargo",
+    "test",
+    "--offline",
+    "--locked",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "registry_loader_unit_contracts",
+    "--",
+    "--test-threads=1"
+  ],
+  "actual_compile_log_sha256": "7408f3a8a7cad5432f156b2358f5367dc399d99103267f0a1ae2cabd0f7ce01b"
+}

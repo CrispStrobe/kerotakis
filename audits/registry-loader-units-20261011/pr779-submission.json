@@ -1,0 +1,60 @@
+{
+  "pr": 779,
+  "url": "https://github.com/CrispStrobe/kerotakis/pull/779",
+  "state": "open",
+  "draft": true,
+  "head": "2e03067196bd7d8da7516592b1df0202029fb2be",
+  "base": "f515781d1bf183a5602571e034fbbf2b5e18b7ff",
+  "base_branch": "fix/registry-runtime-scalar-bounds-20261011",
+  "head_branch": "fix/registry-runtime-unit-admission-20261011",
+  "tree": "c704867d7b3d773d4758dafa23c929f3958496d1",
+  "behaviorally_tested_source": "479fcfcee1e873c419bbfef4f677577231a6fc93",
+  "files": [
+    "crates/kerotakis-core/Cargo.toml",
+    "crates/kerotakis-core/build.rs",
+    "crates/kerotakis-core/src/species_loader.rs",
+    "crates/kerotakis-data/src/lib.rs",
+    "crates/kerotakis-data/src/pack.rs",
+    "crates/kerotakis-data/src/property_bounds.rs",
+    "crates/kerotakis-data/src/validate.rs",
+    "crates/kerotakis-core/tests/registry_loader_unit_contracts.rs",
+    "crates/kerotakis-core/tests/registry_unit_alias_equivalence_contracts.rs",
+    "crates/kerotakis-core/tests/registry_scaled_pack_metadata_contracts.rs"
+  ],
+  "changed_files": 10,
+  "source_binding": {
+    "head": "2e03067196bd7d8da7516592b1df0202029fb2be",
+    "tree": "c704867d7b3d773d4758dafa23c929f3958496d1",
+    "matched_regular_source_files": 2248,
+    "method": "All regular Git archive members byte-compared with tested source; Gitlink contents not freshly independently compared"
+  },
+  "local_tests": 704,
+  "generator_controls": 10,
+  "own_hosted_runs_observed": [
+    {
+      "id": 38161218431,
+      "head": "2e03067196bd7d8da7516592b1df0202029fb2be",
+      "event": "pull_request",
+      "name": "CI",
+      "status": "queued",
+      "conclusion": null,
+      "actual_pr_association": 779,
+      "actual_run_api_sha256": "da9e9f1e762be4c8f78c34931fff5ea968354e0a7ef603c5caa1f911a3b07f30"
+    },
+    {
+      "id": 38161218341,
+      "head": "2e03067196bd7d8da7516592b1df0202029fb2be",
+      "event": "pull_request",
+      "name": "Chemistry audit fleets",
+      "status": "queued",
+      "conclusion": null,
+      "actual_pr_association": 779,
+      "actual_run_api_sha256": "ffa97fcc2a8de2c5385b0704e3617112672181a86f1c697f4e1d658d7c24e9ee"
+    }
+  ],
+  "hosted_acceptance": false,
+  "main_integration": false,
+  "actual_pr_api_sha256": "cec03569ab8a3aa29f066f28985a14bf7efd5ece2851414b3291ab60b853b01a",
+  "actual_runs_api_sha256": "78586cdc08b38b683eda26c60be3935743a421443c2f37f7cd10423a50e7505f",
+  "scope": "Fresh own final-head CI and complete fleet pending; after parent integration retarget main and require fresh head/base/tested-tree checks"
+}

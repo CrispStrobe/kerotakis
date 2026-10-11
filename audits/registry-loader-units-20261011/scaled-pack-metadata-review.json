@@ -1,0 +1,47 @@
+{
+  "source": "2e03067196bd7d8da7516592b1df0202029fb2be",
+  "tree": "c704867d7b3d773d4758dafa23c929f3958496d1",
+  "behavior_source": "479fcfcee1e873c419bbfef4f677577231a6fc93",
+  "scope": "Prospective candidate-only metadata equality controls; code unchanged from 701-test candidate; additional source commit adds this test fixture only",
+  "passed": 3,
+  "failed": 0,
+  "ignored": 0,
+  "filtered": 0,
+  "exit_code": 0,
+  "test_identities": [
+    "scaled_cp_pack_preserves_document_and_normalizes_runtime",
+    "scaled_density_pack_preserves_document_and_normalizes_runtime",
+    "scaled_mass_pack_preserves_document_and_normalizes_runtime"
+  ],
+  "fixture_sha256": "12bb9af6b3104d45977b901c4f540ed59722fbe714e588c07f338b909c021bff",
+  "raw_log_sha256": "fa94c2478c91e0b58f9fcbf7f1eeb6018f21680443298be9c49a8f419546c154",
+  "command": [
+    "cargo",
+    "test",
+    "--offline",
+    "--locked",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "registry_scaled_pack_metadata_contracts",
+    "--",
+    "--test-threads=1"
+  ],
+  "fixture_clippy": {
+    "exit_code": 0,
+    "raw_log_sha256": "1d8c33bd4d93acd363eb1c1b23a2c10d3af215f6f885c39d748aa0f1f727570e",
+    "command": [
+      "cargo",
+      "clippy",
+      "--offline",
+      "--locked",
+      "-p",
+      "kerotakis-core",
+      "--test",
+      "registry_scaled_pack_metadata_contracts",
+      "--",
+      "-D",
+      "warnings"
+    ]
+  }
+}

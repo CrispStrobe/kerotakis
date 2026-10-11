@@ -1,0 +1,13 @@
+{
+  "status": "Prospective candidate-only complete DTO preservation checks; frozen before execution, not original failing baseline",
+  "source": "479fcfcee1e873c419bbfef4f677577231a6fc93",
+  "fixture_path": "audits/registry-loader-units-20261011/fixtures/registry_scaled_pack_metadata_contracts.rs",
+  "fixture_sha256": "12bb9af6b3104d45977b901c4f540ed59722fbe714e588c07f338b909c021bff",
+  "expected_tests": [
+    "scaled_mass_pack_preserves_document_and_normalizes_runtime",
+    "scaled_density_pack_preserves_document_and_normalizes_runtime",
+    "scaled_cp_pack_preserves_document_and_normalizes_runtime"
+  ],
+  "expected_count": 3,
+  "contract": "Each scaled mass/density/Cp document validates, loads from a well-hashed pack with full serialized DTO equality, and runtime construction normalizes its values to canonical units."
+}

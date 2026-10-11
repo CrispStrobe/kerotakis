@@ -1,0 +1,23 @@
+{
+  "status": "Prospective hosted plan before PR creation; no hosted acceptance",
+  "source_branch": "fix/registry-runtime-unit-admission-20261011",
+  "head": "2e03067196bd7d8da7516592b1df0202029fb2be",
+  "tree": "c704867d7b3d773d4758dafa23c929f3958496d1",
+  "initial_base_branch": "fix/registry-runtime-scalar-bounds-20261011",
+  "initial_base_head": "f515781d1bf183a5602571e034fbbf2b5e18b7ff",
+  "parent_pr": 778,
+  "expected_core_native_controls": 358,
+  "expected_core_native_fixture_files": 33,
+  "new_unit_core_controls": 25,
+  "data_admission_controls": 10,
+  "required_evidence": [
+    "Fresh head-bound full CI with actual native inventory and complete affected libraries",
+    "Fresh full chemistry fleet: all33 workflow jobs and all declared step ordinals",
+    "Actual source/fixture/lock/toolchain/submodule bindings and head/base/tested tree",
+    "After parent integration retarget main and require fresh head/base/tree-bound checks; no borrowed parent acceptance"
+  ],
+  "api_note": "New PackError::InvalidRuntimeUnit variant can require changes in external exhaustive matches",
+  "local_passed": 704,
+  "prospective_generated_passed": 10,
+  "behavior_source": "479fcfcee1e873c419bbfef4f677577231a6fc93"
+}

@@ -1,0 +1,21 @@
+{
+  "status": "Prospectiveunitcandidate generatorcontrols frozenbeforeexecution; not originalgeneratorbaseline",
+  "base_source": "f515781d1bf183a5602571e034fbbf2b5e18b7ff",
+  "candidate_patch_sha256": "19999014dbe07c0e3cf00dae4e54a59031bb831025db9621d6dc22b9487a56ef",
+  "fixture_path": "audits/registry-loader-units-20261011/fixtures/generated_unit_contracts.py",
+  "fixture_sha256": "2a60a820c039ed1a7623ea871482c8439adc2c85f4ba8f39340526a7ab3868b8",
+  "expected_cases": [
+    "canonical_registry_supported",
+    "cp_alias_values_supported",
+    "density_alias_values_supported",
+    "scaled_mass_values_normalized",
+    "scaled_density_values_normalized",
+    "scaled_cp_values_normalized",
+    "wrong_mass_symbol_refuses",
+    "wrong_density_dimension_refuses",
+    "unknown_cp_symbol_refuses",
+    "converted_mass_overflow_refuses"
+  ],
+  "expected_count": 10,
+  "contract": "Canonical/scale1/scaled inputs generateall186specieswithcorrectcanonicalMgSO4values and47zeroCp rows; invalidunitmetadata andconversionoverflow refusewithspecies/property/unit diagnostics before emitting species output."
+}

@@ -1,0 +1,49 @@
+{
+  "source": "479fcfcee1e873c419bbfef4f677577231a6fc93",
+  "format": {
+    "command": [
+      "cargo",
+      "fmt",
+      "--check"
+    ],
+    "exit_code": 0,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "clippy": {
+    "command": {
+      "command": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "-p",
+        "kerotakis-core",
+        "-p",
+        "kerotakis-data",
+        "-p",
+        "kerotakis-safety",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "jobs": 1,
+      "offline": true,
+      "locked": true
+    },
+    "exit_code": 0,
+    "log_sha256": "e532ff239b54fea10608ffe08b25e00f505885b159741e139ec51577c91d841e"
+  },
+  "scope": "LOCAL formatting and affected-crate all-targets Clippy; subsequent additional metadata fixture lint separately collected",
+  "final_source_format": {
+    "head": "2e03067196bd7d8da7516592b1df0202029fb2be",
+    "command": [
+      "cargo",
+      "fmt",
+      "--check"
+    ],
+    "exit_code": 0,
+    "raw_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "prerequisite_note": "An initial invocation from a different workspace failed to find targets; rerun in the tested source workspace succeeds. This is command context, not a formatting or behavioral failure."
+  }
+}

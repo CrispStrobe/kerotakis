@@ -1,0 +1,270 @@
+diff --git a/crates/kerotakis-core/Cargo.toml b/crates/kerotakis-core/Cargo.toml
+--- a/crates/kerotakis-core/Cargo.toml
++++ b/crates/kerotakis-core/Cargo.toml
+@@ -40,6 +40,7 @@
+ getrandom = { version = "0.3", features = ["wasm_js"] }
+ 
+ [build-dependencies]
++kerotakis-data = { path = "../kerotakis-data" }
+ serde_json = { workspace = true }
+ 
+ [dev-dependencies]
+diff --git a/crates/kerotakis-core/build.rs b/crates/kerotakis-core/build.rs
+--- a/crates/kerotakis-core/build.rs
++++ b/crates/kerotakis-core/build.rs
+@@ -15,15 +15,12 @@
+ 
+ use std::fmt::Write as _;
+ 
+-#[path = "../kerotakis-data/src/property_bounds.rs"]
+-mod property_bounds;
+-use property_bounds::{validate_runtime_scalar, RuntimeScalarProperty};
++use kerotakis_data::{normalize_runtime_scalar, validate_runtime_scalar, RuntimeScalarProperty};
+ 
+ fn main() {
+     let manifest = std::env::var("CARGO_MANIFEST_DIR").unwrap();
+     let src = std::path::Path::new(&manifest).join("../../data/registry/registry-source-v1.json");
+     println!("cargo:rerun-if-changed={}", src.display());
+-    println!("cargo:rerun-if-changed=../kerotakis-data/src/property_bounds.rs");
+     let text = std::fs::read_to_string(&src)
+         .unwrap_or_else(|e| panic!("cannot read {}: {e}", src.display()));
+     let doc: serde_json::Value = serde_json::from_str(&text).expect("registry JSON parses");
+@@ -114,10 +111,12 @@
+         let mm = thermo_for(key, "molar_mass").unwrap_or_else(|| panic!("no molar mass for {key}"));
+         let molar_mass = mm["quantity"]["value"].as_f64().unwrap();
+         let standard_phase = phase_variant(mm["phase"].as_str().unwrap());
+-        let heat_capacity = thermo_for(key, "molar_heat_capacity")
++        let heat_capacity_record = thermo_for(key, "molar_heat_capacity");
++        let heat_capacity = heat_capacity_record
+             .and_then(|t| t["quantity"]["value"].as_f64())
+             .unwrap_or_else(|| panic!("no heat capacity for {key}"));
+-        let density = thermo_for(key, "mass_density")
++        let density_record = thermo_for(key, "mass_density");
++        let density = density_record
+             .and_then(|t| t["quantity"]["value"].as_f64())
+             .unwrap_or_else(|| panic!("no density for {key}"));
+         for (property, value) in [
+@@ -128,6 +127,24 @@
+             validate_runtime_scalar(property, value)
+                 .unwrap_or_else(|reason| panic!("{key}: {} {reason}", property.name()));
+         }
++        let normalize = |property: RuntimeScalarProperty, value: f64, row: &serde_json::Value| {
++            let unit: kerotakis_data::Unit =
++                serde_json::from_value(row["quantity"]["unit"].clone())
++                    .unwrap_or_else(|error| panic!("{key}: {} unit: {error}", property.name()));
++            normalize_runtime_scalar(property, value, &unit)
++                .unwrap_or_else(|reason| panic!("{key}: {} {reason}", property.name()))
++        };
++        let molar_mass = normalize(RuntimeScalarProperty::MolarMass, molar_mass, mm);
++        let heat_capacity = normalize(
++            RuntimeScalarProperty::MolarHeatCapacity,
++            heat_capacity,
++            heat_capacity_record.expect("heat-capacity value was read above"),
++        );
++        let density = normalize(
++            RuntimeScalarProperty::MassDensity,
++            density,
++            density_record.expect("density value was read above"),
++        );
+         let dissolution = thermo_for(key, "enthalpy_of_dissolution")
+             .and_then(|t| t["quantity"]["value"].as_f64());
+ 
+diff --git a/crates/kerotakis-core/src/species_loader.rs b/crates/kerotakis-core/src/species_loader.rs
+--- a/crates/kerotakis-core/src/species_loader.rs
++++ b/crates/kerotakis-core/src/species_loader.rs
+@@ -217,10 +217,12 @@
+                 .ok_or_else(|| fail("molar mass has no phase"))?,
+         )
+         .map_err(|e| fail(&e))?;
+-        let heat_capacity = thermo_for(key, "molar_heat_capacity")
++        let heat_capacity_record = thermo_for(key, "molar_heat_capacity");
++        let heat_capacity = heat_capacity_record
+             .and_then(|t| t["quantity"]["value"].as_f64())
+             .ok_or_else(|| fail("no heat capacity"))?;
+-        let density = thermo_for(key, "mass_density")
++        let density_record = thermo_for(key, "mass_density");
++        let density = density_record
+             .and_then(|t| t["quantity"]["value"].as_f64())
+             .ok_or_else(|| fail("no density"))?;
+         for (property, value) in [
+@@ -234,6 +236,31 @@
+             kerotakis_data::validate_runtime_scalar(property, value)
+                 .map_err(|reason| fail(&format!("{} {reason}", property.name())))?;
+         }
++        let normalize = |property: kerotakis_data::RuntimeScalarProperty,
++                         value: f64,
++                         row: &serde_json::Value|
++         -> Result<f64, String> {
++            let unit: kerotakis_data::Unit =
++                serde_json::from_value(row["quantity"]["unit"].clone())
++                    .map_err(|error| fail(&format!("{} unit: {error}", property.name())))?;
++            kerotakis_data::normalize_runtime_scalar(property, value, &unit)
++                .map_err(|reason| fail(&format!("{} {reason}", property.name())))
++        };
++        let molar_mass = normalize(
++            kerotakis_data::RuntimeScalarProperty::MolarMass,
++            molar_mass,
++            mm,
++        )?;
++        let heat_capacity = normalize(
++            kerotakis_data::RuntimeScalarProperty::MolarHeatCapacity,
++            heat_capacity,
++            heat_capacity_record.expect("heat-capacity value was read above"),
++        )?;
++        let density = normalize(
++            kerotakis_data::RuntimeScalarProperty::MassDensity,
++            density,
++            density_record.expect("density value was read above"),
++        )?;
+         let dissolution = thermo_for(key, "enthalpy_of_dissolution")
+             .and_then(|t| t["quantity"]["value"].as_f64());
+ 
+diff --git a/crates/kerotakis-data/src/lib.rs b/crates/kerotakis-data/src/lib.rs
+--- a/crates/kerotakis-data/src/lib.rs
++++ b/crates/kerotakis-data/src/lib.rs
+@@ -25,7 +25,9 @@
+ pub use pack::{
+     build_pack, load_pack, serialize_pack_payload, PackError, PACK_MAGIC, PACK_VERSION,
+ };
+-pub use property_bounds::{validate_runtime_scalar, RuntimeScalarProperty};
++pub use property_bounds::{
++    normalize_runtime_scalar, validate_runtime_scalar, RuntimeScalarProperty,
++};
+ pub use provenance::*;
+ pub use pubchem::*;
+ pub use resolve::{resolve_phase_property, Conditions, Resolution, ResolvedValue, Rung};
+diff --git a/crates/kerotakis-data/src/pack.rs b/crates/kerotakis-data/src/pack.rs
+--- a/crates/kerotakis-data/src/pack.rs
++++ b/crates/kerotakis-data/src/pack.rs
+@@ -26,6 +26,11 @@
+         property: &'static str,
+         reason: &'static str,
+     },
++    InvalidRuntimeUnit {
++        species_id: String,
++        property: &'static str,
++        reason: String,
++    },
+ }
+ 
+ impl std::fmt::Display for PackError {
+@@ -37,6 +42,11 @@
+             Self::HashMismatch => write!(f, "pack content hash mismatch"),
+             Self::DeserializeFailed(e) => write!(f, "pack deserialization failed: {e}"),
+             Self::InvalidRuntimeScalar {
++                species_id,
++                property,
++                reason,
++            } => write!(f, "{species_id}: {property} {reason}"),
++            Self::InvalidRuntimeUnit {
+                 species_id,
+                 property,
+                 reason,
+@@ -68,7 +78,8 @@
+ /// Load a registry document from a compiled `.pack` byte slice.
+ ///
+ /// Verifies the magic, version, and content hash before deserializing, then
+-/// checks the three runtime scalar bounds. This does not perform whole-document
++/// checks the three runtime scalar bounds and units without altering their
++/// source metadata. This does not perform whole-document
+ /// provenance or reference validation.
+ pub fn load_pack(data: &[u8]) -> Result<RegistryDocument, PackError> {
+     if data.len() < HEADER_LEN {
+@@ -101,6 +112,12 @@
+                     reason,
+                 }
+             })?;
++            crate::normalize_runtime_scalar(property, record.quantity.value, &record.quantity.unit)
++                .map_err(|reason| PackError::InvalidRuntimeUnit {
++                    species_id: record.species_id.clone(),
++                    property: property.name(),
++                    reason,
++                })?;
+         }
+     }
+     Ok(document)
+diff --git a/crates/kerotakis-data/src/property_bounds.rs b/crates/kerotakis-data/src/property_bounds.rs
+--- a/crates/kerotakis-data/src/property_bounds.rs
++++ b/crates/kerotakis-data/src/property_bounds.rs
+@@ -1,7 +1,7 @@
+ //! Bounds for the three scalar properties consumed by the runtime registry.
+ //!
+-//! This module deliberately has no crate dependencies: the core build script
+-//! includes the same source used by document validation and runtime loading.
++//! The core build script depends on this crate so it uses the same unit
++//! normalizer as document validation and runtime loading.
+ //! These bounds describe the runtime fallback representation, not every
+ //! thermodynamic quantity. In particular, zero fallback Cp remains supported
+ //! for aqueous species whose heat capacity is carried by the solvent.
+@@ -45,9 +45,52 @@
+     Ok(())
+ }
+ 
++/// Interpret a runtime scalar in the canonical SpeciesData unit, retaining
++/// the source record's original value and unit outside runtime construction.
++/// A matching declared dimension is required before any symbol conversion.
++pub fn normalize_runtime_scalar(
++    property: RuntimeScalarProperty,
++    value: f64,
++    unit: &crate::Unit,
++) -> Result<f64, String> {
++    validate_runtime_scalar(property, value)
++        .map_err(|reason| format!("{} {reason}", property.name()))?;
++    let expected = match property {
++        RuntimeScalarProperty::MolarMass => crate::Dimension::MolarMass,
++        RuntimeScalarProperty::MassDensity => crate::Dimension::MassDensity,
++        RuntimeScalarProperty::MolarHeatCapacity => crate::Dimension::MolarHeatCapacity,
++    };
++    if unit.dimension != expected {
++        return Err(format!(
++            "unit dimension {:?}; expected {expected:?}",
++            unit.dimension
++        ));
++    }
++    let normalized = crate::normalize_quantity_for(value, &unit.symbol, &expected)
++        .map_err(|error| format!("unit: {error}"))?;
++    validate_runtime_scalar(property, normalized.value)
++        .map_err(|reason| format!("unit-normalized {} {reason}", property.name()))?;
++    Ok(normalized.value)
++}
++
+ #[cfg(test)]
+ mod tests {
+     use super::*;
++
++    #[test]
++    fn conversion_overflow_refuses_even_when_source_value_is_finite() {
++        let unit = crate::Unit {
++            symbol: "kg/mol".to_string(),
++            dimension: crate::Dimension::MolarMass,
++        };
++        assert!(validate_runtime_scalar(RuntimeScalarProperty::MolarMass, f64::MAX).is_ok());
++        let error = normalize_runtime_scalar(RuntimeScalarProperty::MolarMass, f64::MAX, &unit)
++            .expect_err("conversion to g/mol must not admit infinity");
++        assert!(
++            error.contains("unit") && error.contains("not finite"),
++            "{error}"
++        );
++    }
+ 
+     #[test]
+     fn nonfinite_runtime_scalars_refuse() {
+diff --git a/crates/kerotakis-data/src/validate.rs b/crates/kerotakis-data/src/validate.rs
+--- a/crates/kerotakis-data/src/validate.rs
++++ b/crates/kerotakis-data/src/validate.rs
+@@ -204,6 +204,15 @@
+                 {
+                     self.issue(
+                         format!("{path}.quantity.value"),
++                        format!("{}: {} {reason}", record.species_id, property.name()),
++                    );
++                } else if let Err(reason) = crate::normalize_runtime_scalar(
++                    property,
++                    record.quantity.value,
++                    &record.quantity.unit,
++                ) {
++                    self.issue(
++                        format!("{path}.quantity.unit"),
+                         format!("{}: {} {reason}", record.species_id, property.name()),
+                     );
+                 }
