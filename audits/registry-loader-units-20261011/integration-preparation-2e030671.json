@@ -1,0 +1,52 @@
+{
+  "pr": 779,
+  "head": "2e03067196bd7d8da7516592b1df0202029fb2be",
+  "base": "e391f64be2ef1951fbfea84ba3496958ca42cbff",
+  "tree": "c704867d7b3d773d4758dafa23c929f3958496d1",
+  "ci_run": 38161218431,
+  "fleet_run": 38161218341,
+  "expected_final_fleet_jobs": 33,
+  "expected_native_functions": 358,
+  "expected_native_fixture_files": 33,
+  "receipt_sha256": {
+    "audits/registry-loader-units-20261011/native-controls-plan-2e030671.json": "dd4e3c40699dba5ea4cd17e44c00b1207028fb2cc1a3fd77adf9a818945c1573",
+    "audits/registry-loader-units-20261011/native-linux-review-2e030671.json": "b1409e1266622063f17b40c07d8b0277bc950ffee8709ef22d16cf15bd76757c",
+    "audits/registry-loader-units-20261011/native-macos-review-2e030671.json": "63fe85095d3ec41febcb2c8f50bb260a6c75618ad5381ac5b93bfd8788a8c97f",
+    "audits/registry-loader-units-20261011/data-admission-macos-review-2e030671.json": "81d995064ed3ac654d364d8640f90d6b837f6ba549e7a4a014790f9997386c7d",
+    "audits/registry-loader-units-20261011/library-macos-review-2e030671.json": "66ba7f9e265c8ccccd3b04c10b10574b9d87f5c1c2a01826178f3a93ee7724c7",
+    "audits/registry-loader-units-20261011/full-ci-review-2e030671.json": "ecf0f14fc7c2208d73b379c0e77e2bed9cb573bae4096ed899048a54e1a42ce4",
+    "audits/registry-loader-units-20261011/current-main-tree-compatibility-2e030671.json": "e64b584038b485f4e15e6a953981de6aee2311b199e5bff536ed2fe93f5aee05",
+    "audits/registry-loader-units-20261011/local-complete-controls-review.json": "192fa58b84371284ccfcc45f53a32b8f7dcb9c4cfe498cebddea4a0816a40bec",
+    "audits/registry-loader-units-20261011/generated-controls-review.json": "dc5e1e1c4c3d7cd120311aacd45f5fe4e8460d15058197d9330a7405230a087f",
+    "audits/registry-loader-units-20261011/scaled-pack-metadata-review.json": "61baa7ab1260d64a372815f2855e758a646c8311925136d9bae189bc9cf3129d",
+    "audits/registry-loader-units-20261011/format-lint-review.json": "ab8a068ce137e07fffae1ba15ef4f97bc7db03e02d53e8a7ce4103f1c0e8898b"
+  },
+  "changed_source_sha256": {
+    "crates/kerotakis-core/Cargo.toml": "5d2752a6b3805c281b125c8cb6f77265b1dbbd6097ad69fb26cca479069b24c7",
+    "crates/kerotakis-core/build.rs": "65cdb856c4bd14da79020f85e3891df64a46ea6dc7842f9ced1e2060cebe656c",
+    "crates/kerotakis-core/src/species_loader.rs": "d671900d18be71f424f7dc698758a204886e8db12c17af432885d25bb62c1c24",
+    "crates/kerotakis-core/tests/registry_loader_unit_contracts.rs": "3c5d8035de2bfdd1e291729909ca39ee48336ea478f5aaf35eba14b4efc56bcd",
+    "crates/kerotakis-core/tests/registry_scaled_pack_metadata_contracts.rs": "12bb9af6b3104d45977b901c4f540ed59722fbe714e588c07f338b909c021bff",
+    "crates/kerotakis-core/tests/registry_unit_alias_equivalence_contracts.rs": "f19dbe66914c3fee13cf350c806e05806c0a1cbbd55d7cb39336a776234b739e",
+    "crates/kerotakis-data/src/lib.rs": "e4925004a54830a18290609e232dce4d99cf42197bb4676992a1fa5241d65e08",
+    "crates/kerotakis-data/src/pack.rs": "0c392403541f4111e33dd65496d84ace7e2673593cd85743adf5b021cad48745",
+    "crates/kerotakis-data/src/property_bounds.rs": "7259c89fa75f7bd56b476d1df53c5660cd1182947b7c025867fa01cfd03b2598",
+    "crates/kerotakis-data/src/validate.rs": "710775a3fbc171cf67e82583f1136a5153a5956a20496f5e56d895d87331ba48"
+  },
+  "required_successful_jobs": [
+    "Full preflight gate",
+    "Test (native) (ubuntu-latest)",
+    "Test (native) (macos-latest)",
+    "The bench in WebAssembly",
+    "The demo page, in a real browser"
+  ],
+  "native_plan_path": "audits/registry-loader-units-20261011/native-controls-plan-2e030671.json",
+  "native_receipt_paths": [
+    "audits/registry-loader-units-20261011/native-linux-review-2e030671.json",
+    "audits/registry-loader-units-20261011/native-macos-review-2e030671.json"
+  ],
+  "full_ci_receipt_path": "audits/registry-loader-units-20261011/full-ci-review-2e030671.json",
+  "native_tested_base": "f515781d1bf183a5602571e034fbbf2b5e18b7ff",
+  "scope": "Read-only PR779-specific premerge preparation after PR778 integration. Existing native execution retains F515/2e parents. Current-main source-tree compatibility is distinct from another test execution. Require own complete fleet and fresh final guards/actualpostmerge verification.",
+  "base_race_limit": "Head guard cannot atomically pin base; freshly recheck main immediately before merge and require actual parents/tree afterward."
+}

@@ -886,6 +886,54 @@
       "native_focused_functions_per_platform": 322,
       "source_tree": "d7400e89c76768fc52337b592d982b2a605a3013",
       "scope": "Merged tracked tree equals independently reviewed native/CLI candidate. Bounded directional safety reporting repair only; original forecast qualifications, acid4/6 and scoped local metal followup limits remain. Historical full audit, empirical accuracy, broader acid rules and intermediates are separate."
+    },
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/778",
+      "tested_head": "f515781d1bf183a5602571e034fbbf2b5e18b7ff",
+      "merge_commit": "e391f64be2ef1951fbfea84ba3496958ca42cbff",
+      "merged_at": "2026-10-11T21:07:10Z",
+      "required_checks": [
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673186",
+          "started_at": "2026-10-11T18:27:27Z",
+          "completed_at": "2026-10-11T18:45:50Z"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673405",
+          "started_at": "2026-10-11T19:22:09Z",
+          "completed_at": "2026-10-11T19:41:49Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673297",
+          "started_at": "2026-10-11T18:03:44Z",
+          "completed_at": "2026-10-11T18:24:23Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673452",
+          "started_at": "2026-10-11T19:22:33Z",
+          "completed_at": "2026-10-11T19:27:12Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673143",
+          "started_at": "2026-10-11T17:52:45Z",
+          "completed_at": "2026-10-11T18:05:02Z"
+        }
+      ],
+      "ci_run": 38158962498,
+      "fleet_run": 38158962488,
+      "native_focused_functions_per_platform": 333,
+      "source_tree": "6dd1a691960353a752459b6cfe7d6d81a141db4f",
+      "scope": "Bounded finite positive mass/density and finite nonnegative runtime fallback Cp policy across four admission paths. Zero-Cp conventions and signed energies preserved. Does not establish empirical properties, full schema validity or broader phase/units policy. Native tested parents remain Dbe/F515; exact current-main tracked-tree compatibility was independently accepted before merge."
     }
   ],
   "scope": "Independent matching-head required PR gates. Not a full integrated-source audit/replay or performance acceptance.",
@@ -938,5 +986,6 @@
   "main_after_documentation": "0fafbf5e3c71841f83832dd61a0c7f4561204e63",
   "main_after_pr775": "7e96f120c271d6130473f4eb298c82963543392e",
   "main_after_pr776": "6ea6938f13f9faab5b76ea86d5da0686ad9996be",
-  "main_after_pr777": "bf6f4157353a81867619d25d927475f6924f54bd"
+  "main_after_pr777": "bf6f4157353a81867619d25d927475f6924f54bd",
+  "main_after_pr778": "e391f64be2ef1951fbfea84ba3496958ca42cbff"
 }

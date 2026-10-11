@@ -1,5 +1,11 @@
 # Chemistry audit: current state, 2026-10-05
 
+## Current scalar integration update — 2026-10-11
+
+[PR778 is merged](../audits/registry-loader-properties-20261011/main-tree-equality.json) as main `e391f64b`, after independent complete CI/native333/full33-fleet acceptance and actual parent/tree verification. The shared scalar-bound admission repair now reaches main across runtime loading, typed validation, hashed packs and generation, preserving supported zero-Cp and signed-energy conventions.
+
+[PR779’s current-main preparation](../audits/registry-loader-units-20261011/README.md) verifies tracked-tree compatibility without claiming another test execution after retargeting. Its own CI/native358 are accepted; fleet26/33 and integration remain pending. PR780 own CI/native378 are accepted; its own fleet and parent integration remain pending. [The current checkpoint](../audits/integration-20261008/STATUS.md) and [next lanes](chemistry-audit-next-lanes.md) define remaining work. Historical full-audit bindings still need50 tests/129 paths on actual merged main; broad phase/schema/empirical-data acceptance remains separate. Older updates below are history.
+
 ## Current integration update — 2026-10-11
 
 [PR777 merged-tree acceptance](../audits/production-acid-projection-20261010/main-tree-equality.json) verifies main `bf6f4157`, actual merge parents and exact equality to the reviewed Dbe tree. Both native322 focused inventories, completeCI, all33 chemistry fleet jobs and declared steps, source-boundCLI164 and paired warning evidence are accepted. Original forecast and acid-route qualifications remain unchanged.

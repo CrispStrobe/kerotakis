@@ -1,5 +1,11 @@
 # Integration checkpoint — 2026-10-10
 
+## Current scalar integration update — 2026-10-11
+
+[PR778 merged-tree acceptance](../registry-loader-properties-20261011/main-tree-equality.json) verifies main `e391f64b`, actual parents bf6/F515 and tree6dd equal to the tested head. Own complete CI, both native333 inventories and all33 fleet jobs/every declared step are accepted. Invalid mandatory scalar values now refuse at all four admission paths; zero-Cp conventions and signed energies remain supported. This is scalar representation validity, not new measurement or full-schema acceptance.
+
+PR779 has moved to main. [Its fresh compatibility and pinned preparation](../registry-loader-units-20261011/README.md) preserve actual old test parents and verify current proposed merge content. Its own CI/native358 remain accepted; fleet26/33 and final integration remain pending. PR780 own CI/native378 are accepted, with its own fleet and parent integration pending. [Actual PR778-main historical binding inventory](full-audit-port-inventory-pr778-merged.json) still has50 missing named tests/129 paths; presence alone is not runtime acceptance. Older checkpoints below are history.
+
 ## Current update — 2026-10-11
 
 [PR777 merged](../production-acid-projection-20261010/main-tree-equality.json) as `bf6f4157`, with actual parents6ea6938f/Dbe and tracked treeD740 equal to the tested source. Both native322 focused inventories, completeCI, all33 fleet jobs/every declared step, source-boundCLI164 and paired warning evidence are accepted. The merge ledger is updated. Original acid4/6 and scoped local Mg followup limitations remain; this is a bounded directional reporting fix, not broad acidity or empirical accuracy.
@@ -24,18 +30,18 @@ Main validates titration inputs and initial/trial state, screens prospective exp
 
 ## Stacked registry integration gates
 
-PR778, PR779 and PR780 each now have independently accepted own CI/native evidence. Chemistry fleet snapshots remain incomplete: PR778 has32/33 successful jobs, PR77919/33 and PR78011/33. These are progress counts, not accepted complete fleets or diagnoses of why jobs are pending.
+PR778 has complete own CI/native/full33-fleet and actual main integration accepted. PR779 and PR780 each have independently accepted own CI/native evidence. PR779’s latest own fleet snapshot has26/33 successful jobs; PR780’s last snapshot has11/33. These are progress counts, not complete fleet acceptance or diagnoses of why jobs are pending.
 
 Use [the reusable fleet reviewer](../../tools/chemistry-fleet-review.py) with explicit full `--head`, `--run`, `--pr`, normalized `--run-metadata` and a new `--report` destination. Collect metadata with `gh run view RUN --repo CrispStrobe/kerotakis --json databaseId,headSha,event,status,conclusion,jobs,url`. It derives all33 job names and every named/unnamed workflow step ordinal from the exact head. Partial runs stay pending; completed runs require all jobs and successful declared steps. When the metadata lacks PR identity, the receipt explicitly leaves that binding unverified: independently compare the actual run API’s pull-request association to the intended PR/head/base before integration. The pinned PR777 checker and historical receipts remain unchanged.
 
-[PR778-specific preparation and first live pending preflight](../registry-loader-properties-20261011/README.md) are now published; the v2 aggregate remains queued. The read-only checker reports readiness without editing or merging a PR. Inspect the readiness flags, even when the command exits successfully.
+[PR778’s final ready preflight and actual merge](../registry-loader-properties-20261011/README.md) are accepted. [PR779-specific preparation and first live pending preflight](../registry-loader-units-20261011/README.md) are published against current main; its own fleet remains incomplete. The read-only checker reports readiness without editing or merging a PR. Inspect the readiness flags, even when the command exits successfully.
 
-Finish in parent order: PR778 fleet38158962488/headF515, then PR779 fleet38161218341/head2e, then PR780 fleet38162956795/heade644. Before each normal guarded merge, freshly verify current PR head/base/main, tested and proposed merge trees, own complete CI/native/fleet receipts and rollup. Preserve old tested parents when proving tree compatibility after retargeting; do not describe it as another test execution. After merge, verify actual parents and tracked tree before updating the ledger. No source change or rerun is required simply because a fleet is pending.
+PR778 is complete. Finish the remaining parent order: PR779 fleet38161218341/head2e, then PR780 fleet38162956795/heade644. Before each normal guarded merge, freshly verify current PR head/base/main, tested and proposed merge trees, own complete CI/native/fleet receipts and rollup. Preserve old tested parents when proving tree compatibility after retargeting; do not describe it as another test execution. After merge, verify actual parents and tracked tree before updating the ledger. No source change or rerun is required simply because a fleet is pending.
 
 ## Next executable lanes
 
 1. SAF-01: PR777 is merged with both native inventories, complete CI/fleet and source-bound CLI/warning evidence accepted. The bounded directional reporting slice is complete. Extend the remaining reviewed final rules and separately freeze actual surviving-final acid-route and intermediate-hazard witnesses. Preserve original freezes and the original acid-route 4/6 qualifications; use the [detailed safety lane](../../docs/chemistry-audit-next-lanes.md) for prerequisites and completion criteria.
-2. AUD-00: use the [PR777 merged-main inventory](full-audit-port-inventory-pr777-merged.json). Fifty of91 named tests and129 of198 bound paths remain absent. Restore all bindings and preserve the four historical exclusions before dispatching the full historical audit. Presence counts are not runtime failures.
+2. AUD-00: use the [PR778 merged-main inventory](full-audit-port-inventory-pr778-merged.json). Fifty of91 named tests and129 of198 bound paths remain absent. Restore all bindings and preserve the four historical exclusions before dispatching the full historical audit. Presence counts are not runtime failures.
 3. NUM-01/NUM-02: decide authoritative ownership, public API and save compatibility for one narrow nonreacting owner, then inventory and migrate every writer/reader. NUM-03 must certify supported solver reconstruction before NUM-04 extends still donor/receiver/energy closure. Strict policy stays opt-in.
 4. PERF-01: measure release scan/private-trial clone cost after stable correctness acceptance. Freeze workload and measurement policy before changing a hot path; preserve chemistry outputs and report variance.
 

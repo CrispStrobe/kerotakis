@@ -1,0 +1,26 @@
+{
+  "pr": 779,
+  "head": "2e03067196bd7d8da7516592b1df0202029fb2be",
+  "current_base": "e391f64be2ef1951fbfea84ba3496958ca42cbff",
+  "former_base": "f515781d1bf183a5602571e034fbbf2b5e18b7ff",
+  "current_main_equals_base": true,
+  "current_base_tree": "6dd1a691960353a752459b6cfe7d6d81a141db4f",
+  "former_base_tree": "6dd1a691960353a752459b6cfe7d6d81a141db4f",
+  "base_tracked_trees_equal": true,
+  "tested_checkout": "4a9b7d0eee68463b31da59448bf19f87a84f6b56",
+  "tested_checkout_parents": [
+    "f515781d1bf183a5602571e034fbbf2b5e18b7ff",
+    "2e03067196bd7d8da7516592b1df0202029fb2be"
+  ],
+  "tested_tree": "c704867d7b3d773d4758dafa23c929f3958496d1",
+  "computed_current_merge_tree": "c704867d7b3d773d4758dafa23c929f3958496d1",
+  "computed_merge_equals_tested_and_head_tree": true,
+  "merge_tree_exit_code": 0,
+  "new_base_context_test_execution": false,
+  "accepted_source_tree_compatibility": true,
+  "accepted_integration": false,
+  "scope": "Fresh head/base/main and proposed merge tracked-tree compatibility only; original native checkout parents retained. Own full fleet and final premerge guards/actualpostmerge remain required. No source or workflow rerun.",
+  "current_pr_api_sha256": "f5834e685e601f95ecb09c89999918a77dfb1f931a3ef2b9c022a24bc368fb97",
+  "current_main_api_sha256": "d8699dec29053dc3de06e38f57ab2dd0a40cb9014815a21e8d1ca423e8738971",
+  "merge_tree_stdout_sha256": "714ae0c9be2655afe821e79c0aae8e843cd74b6af5ffa5b8fc21e2a9278fdb3e"
+}

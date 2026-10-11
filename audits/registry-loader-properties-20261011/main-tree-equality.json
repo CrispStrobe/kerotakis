@@ -1,0 +1,27 @@
+{
+  "pr": 778,
+  "merged": true,
+  "merge_commit": "e391f64be2ef1951fbfea84ba3496958ca42cbff",
+  "head": "f515781d1bf183a5602571e034fbbf2b5e18b7ff",
+  "base": "bf6f4157353a81867619d25d927475f6924f54bd",
+  "parents": [
+    "bf6f4157353a81867619d25d927475f6924f54bd",
+    "f515781d1bf183a5602571e034fbbf2b5e18b7ff"
+  ],
+  "tree": "6dd1a691960353a752459b6cfe7d6d81a141db4f",
+  "source_tree": "6dd1a691960353a752459b6cfe7d6d81a141db4f",
+  "main_tree": "6dd1a691960353a752459b6cfe7d6d81a141db4f",
+  "trees_equal": true,
+  "origin_main_api_equals_merge": true,
+  "accepted_integration": true,
+  "merged_at": "2026-10-11T21:07:10Z",
+  "native_focused_functions_per_platform": 333,
+  "native_inventory_scope": "262 core plus71 safety focused functions across30 fixtures, separate data10 and libraries604/16/28",
+  "ci_run": 38158962498,
+  "fleet_run": 38158962488,
+  "scope": "Bounded finite positive mass/density and finite nonnegative runtime fallback Cp policy across four admission paths. Zero-Cp conventions and signed energies preserved. Does not establish empirical properties, full schema validity or broader phase/units policy. Native tested parents remain Dbe/F515; exact current-main tracked-tree compatibility was independently accepted before merge.",
+  "actual_postmerge_pr_api_sha256": "8b8b64ce33975e2aa6d01d93174e430a6d82b0a5a02cad6fc2f5b0f4e7a49118",
+  "actual_merge_api_sha256": "48c94739301be4951d9b4f48a9594a9899d60bd575ceeb8ac58da72f3e096bca",
+  "actual_main_api_sha256": "d8699dec29053dc3de06e38f57ab2dd0a40cb9014815a21e8d1ca423e8738971",
+  "premerge_result_sha256": "f47105d14987cd24b24f541d66428be6633351b896967871d46aaf7e9e996191"
+}
