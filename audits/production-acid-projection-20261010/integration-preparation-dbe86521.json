@@ -1,0 +1,37 @@
+{
+  "pr": 777,
+  "head": "dbe8652117ed870e9fc945c8f6f42bfa0137d49d",
+  "base": "6ea6938f13f9faab5b76ea86d5da0686ad9996be",
+  "tree": "d7400e89c76768fc52337b592d982b2a605a3013",
+  "ci_run": 38145873768,
+  "fleet_run": 38145873752,
+  "cli_run": 38147457930,
+  "route_run": 38149577918,
+  "expected_final_fleet_jobs": 33,
+  "receipt_sha256": {
+    "audits/integration-20261008/native-controls/pr777-dbe86521-mac.json": "55978e9b025f750361ab6b3fe44cf9bce6881f9981c738aa4d03860fd0ecdd23",
+    "audits/integration-20261008/native-controls/pr777-dbe86521-linux.json": "b1b43e23a6fa39c96ea3e92d2cc0bb2b887264b40f7c5ce81c8dd74690408840",
+    "audits/production-acid-projection-20261010/full-ci-review-dbe86521.json": "ad70087f522394179302f4ce4204655363a82bf7047a9c2fda11373a4f83db48",
+    "audits/production-acid-projection-20261010/cli-results-review-dbe86521.json": "a087cf9cf7d4d4af821fd8bc16a9f614190f70c12e07cd3eb6b0c4072f817a20",
+    "audits/production-acid-projection-20261010/cli-bindings-review-dbe86521.json": "76a491a67f6f498bfc9573c97967e3d7dd817e395db15aef7967725a070b6f6e",
+    "audits/production-acid-projection-20261010/cli-warning-pair-review-dbe86521.json": "fcd77886d593ca7d8d6fa52094406dd2cf009e9f5c64e7e2d056a3d5f19e89b3",
+    "audits/production-acid-projection-20261010/cli-acid-routes/review-38149577918.json": "780100fd1c47e849352958ba63697be2a6d984c8e8366f59f8f306b6507a95ce",
+    "audits/production-acid-projection-20261010/cli-acid-routes/metal-followup/review-local-20261011.json": "7a8f665f3952d2d8b38745622db223513e2996eb8afbeba5d74a6628c21df7ec"
+  },
+  "changed_source_sha256": {
+    "crates/kerotakis-safety/src/lib.rs": "3b373e512b6c2e3c436f78c5e3effa9384eaa2c4a84d42dfd7fe6a253cfa029b",
+    "crates/kerotakis-safety/tests/production_acid_final_contracts.rs": "de79ff7022a0904b9385cf4bca2f599986fa862cb965a61c641d5528e6387236",
+    "crates/kerotakis-safety/tests/production_acid_projection_contracts.rs": "c9afaee2067c6547e8c19a34a8b964187e7f9489895766ab39bbd1e60bd56bcb"
+  },
+  "preconditions": [
+    "Complete exact-head fleet review requires all33jobs, including all3aggregates and successful named collection steps.",
+    "All five required CI gates and25successful CI jobs; only demo publication skipped.",
+    "Native322 both platforms, source-bound CLI164 and8strict checks, chloramine holdout, original acid results and separately scoped Mg pair retain their original classifications.",
+    "Fresh non-draft open mergeable PR777/head/base; current main base6ea; synthetic merge tree matchesD740.",
+    "Use head-guarded ordinary merge without admin, force or branch deletion; inspect actual merge parents and tree before integration acceptance."
+  ],
+  "base_race_limit": "The merge API head guard does not atomically pin the base. Fresh premerge checks minimize the window; postmerge parent/tree checks detect unexpected integration and must stop acceptance on mismatch.",
+  "accepted_integration": false,
+  "status": "Awaiting complete exact-head fleet; this is a preparation, not merge authorization from partial results.",
+  "scope": "Bounded final-screen/reporting repair. Original acid slice remains4/6; corrected Mg pair is prospective-only. No empirical chemistry, actual surviving-final exposure or full historical audit acceptance."
+}
