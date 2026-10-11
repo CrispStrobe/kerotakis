@@ -1,0 +1,35 @@
+{
+  "status": "Actual LOCAL unchanged-source first baseline; no repair acceptance",
+  "source": "2e03067196bd7d8da7516592b1df0202029fb2be",
+  "fixture_sha256": "237ade7617cfc0b2463274093a9260a3e427db70648682ffa6eb5b698186bea1",
+  "outcomes": {
+    "consistent_foreign_cp_append": "ok",
+    "consistent_foreign_cp_prepend": "FAILED",
+    "consistent_foreign_density_append": "ok",
+    "consistent_foreign_density_prepend": "FAILED",
+    "consistent_wrong_phase_cp_refuses": "FAILED",
+    "consistent_wrong_phase_density_refuses": "FAILED"
+  },
+  "passed": 2,
+  "failed": 4,
+  "ignored": 0,
+  "measured": 0,
+  "filtered": 0,
+  "exit_code": 101,
+  "raw_log_sha256": "05c328230c5377d7b0a16eb0c3b15cd6f9156a4bd4134359bc414114b505fe1f",
+  "command": [
+    "cargo",
+    "test",
+    "--offline",
+    "--locked",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "registry_consistent_phase_selection_contracts",
+    "--",
+    "--test-threads=1"
+  ],
+  "scope_note": "Corrected consistent alternate-phase metadata controls frozen separately; establishes selection gap without original phase-condition mismatch.",
+  "offline_lock_sha256": "fef8a64257653da8bd3fcff50d89e69f5fb848952a6e8eaa827667427942ddfe",
+  "hosted_acceptance": false
+}

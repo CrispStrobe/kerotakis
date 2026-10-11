@@ -1,0 +1,15 @@
+{
+  "status": "Separately frozen consistent phase metadata controls before execution; original14 immutable",
+  "source": "2e03067196bd7d8da7516592b1df0202029fb2be",
+  "fixture_sha256": "237ade7617cfc0b2463274093a9260a3e427db70648682ffa6eb5b698186bea1",
+  "expected_tests": [
+    "consistent_foreign_cp_prepend",
+    "consistent_foreign_cp_append",
+    "consistent_foreign_density_prepend",
+    "consistent_foreign_density_append",
+    "consistent_wrong_phase_cp_refuses",
+    "consistent_wrong_phase_density_refuses"
+  ],
+  "expected_count": 6,
+  "contract": "Change both record.phase and quantity.conditions.phase together; alternate phase has unique record ID. Same runtime selection/refusal expectations; synthetic values are not chemical measurements."
+}

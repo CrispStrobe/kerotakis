@@ -191,6 +191,16 @@ AUD-01/AUD-02/VAL-01 must not edit native reconstruction concurrently. NUM-02/NU
 
 **Done:** all supported runtime inputs either reach SpeciesData with correct canonical values or refuse explicitly for units; valid aliases and metadata-bearing pack round trips remain supported. Publish unchanged first failures and scoped accepted repair evidence.
 
+## DATA-05 — Make mandatory runtime property selection phase-aware
+
+**Start:** `crates/kerotakis-core/src/species_loader.rs`, `build.rs` and data property-resolution contracts. [The phase-selection baseline](../audits/registry-loader-phase-selection-20261011/README.md) pins PR779 source. Original14 controls give4pass/10fail with an explicit phase-condition probe limitation; separately frozen consistent6 give2pass/4fail. Unique same-phase conflicts and consistent foreign-phase records expose order-dependent runtime selection.
+
+**Implement:** share a narrow selection helper between runtime and generator. Require a unique molar-mass standard-phase anchor; Cp/density must match that phase, with explicit missing-coverage or ambiguity refusal. Preserve valid multi-phase typed data and conditions-aware resolution. Keep optional properties and polynomial curves outside this change. Use a separate production branch stacked on PR779.
+
+**Verify:** preserve first failures and frozen identities. Require original14/consistent6, previous scalar/unit controls, full affected library and registry suites, generated alternate-phase/ambiguity checks, formatting/lint and own source/head/base/tree-bound hosted checks. Preserve all current canonical species/zero-Cp values and no array-order dependence. Any extension to molar-mass phase choice needs its own frozen policy.
+
+**Done:** runtime and generated mandatory scalar records select the intended phase or refuse before construction; ambiguity cannot silently choose the first record. Publish scoped acceptance and retain the original qualified probe outcomes.
+
 ## DATA-02 — Calibrate one dissolved-density/volume domain
 
 **Start:** density/volume instruments, species property defaults and the E129 qualification.

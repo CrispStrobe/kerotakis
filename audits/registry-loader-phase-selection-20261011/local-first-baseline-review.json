@@ -1,0 +1,43 @@
+{
+  "status": "Actual LOCAL unchanged-source first baseline; no repair acceptance",
+  "source": "2e03067196bd7d8da7516592b1df0202029fb2be",
+  "fixture_sha256": "6d91764ce4e8f41dc0e14139407281a247742849c1c64e07c1c9bd929972112d",
+  "outcomes": {
+    "canonical_registry_supported": "ok",
+    "conflicting_cp_append_refuses": "FAILED",
+    "conflicting_cp_prepend_refuses": "FAILED",
+    "conflicting_density_append_refuses": "FAILED",
+    "conflicting_density_prepend_refuses": "FAILED",
+    "conflicting_mass_append_refuses": "FAILED",
+    "conflicting_mass_prepend_refuses": "FAILED",
+    "foreign_cp_append_preserves_or_refuses": "ok",
+    "foreign_cp_prepend_preserves_or_refuses": "FAILED",
+    "foreign_density_append_preserves_or_refuses": "ok",
+    "foreign_density_prepend_preserves_or_refuses": "FAILED",
+    "reversed_thermo_order_preserves_runtime_values": "ok",
+    "wrong_phase_cp_refuses": "FAILED",
+    "wrong_phase_density_refuses": "FAILED"
+  },
+  "passed": 4,
+  "failed": 10,
+  "ignored": 0,
+  "measured": 0,
+  "filtered": 0,
+  "exit_code": 101,
+  "raw_log_sha256": "802be34c4e02201a16852ddaac50867872321bdf95255853b932f1347df2d00b",
+  "command": [
+    "cargo",
+    "test",
+    "--offline",
+    "--locked",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "registry_loader_phase_selection_contracts",
+    "--",
+    "--test-threads=1"
+  ],
+  "scope_note": "Original14 preserved: foreign/wrong phase probes changed row phase but retained condition phase; their failures alone cannot establish valid alternate-phase selection. Conflicting same-phase controls use unique IDs and consistent metadata.",
+  "offline_lock_sha256": "fef8a64257653da8bd3fcff50d89e69f5fb848952a6e8eaa827667427942ddfe",
+  "hosted_acceptance": false
+}

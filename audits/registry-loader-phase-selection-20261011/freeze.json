@@ -1,0 +1,30 @@
+{
+  "status": "Frozen before first phase-selection execution",
+  "source": "2e03067196bd7d8da7516592b1df0202029fb2be",
+  "tree": "c704867d7b3d773d4758dafa23c929f3958496d1",
+  "expected_tests": [
+    "canonical_registry_supported",
+    "reversed_thermo_order_preserves_runtime_values",
+    "foreign_cp_prepend_preserves_or_refuses",
+    "foreign_cp_append_preserves_or_refuses",
+    "foreign_density_prepend_preserves_or_refuses",
+    "foreign_density_append_preserves_or_refuses",
+    "wrong_phase_cp_refuses",
+    "wrong_phase_density_refuses",
+    "conflicting_cp_prepend_refuses",
+    "conflicting_cp_append_refuses",
+    "conflicting_density_prepend_refuses",
+    "conflicting_density_append_refuses",
+    "conflicting_mass_prepend_refuses",
+    "conflicting_mass_append_refuses"
+  ],
+  "expected_count": 14,
+  "fixture_sha256": "6d91764ce4e8f41dc0e14139407281a247742849c1c64e07c1c9bd929972112d",
+  "source_sha256": {
+    "crates/kerotakis-core/src/species_loader.rs": "d671900d18be71f424f7dc698758a204886e8db12c17af432885d25bb62c1c24",
+    "crates/kerotakis-core/build.rs": "65cdb856c4bd14da79020f85e3891df64a46ea6dc7842f9ced1e2060cebe656c",
+    "data/registry/registry-source-v1.json": "48487e1940c5e0122207d352c78e4377f8f7b47d421be2f78d62b61a096c3774"
+  },
+  "full_source_regular_files_compared": 2248,
+  "scope": "Mandatory runtime molar mass establishes one standard phase; Cp/density must match it or refuse explicitly. Ambiguous competing same-phase mandatory records refuse rather than depend on array order. No schema-wide multi-phase prohibition or new chemical measurement."
+}
