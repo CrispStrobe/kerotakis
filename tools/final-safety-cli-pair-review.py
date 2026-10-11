@@ -88,7 +88,11 @@ def review(args):
     assert baseline.read(replay_proof) == baseline.read(args.results_review)
     run = baseline.read(args.run_metadata)
     active = [j for j in run['jobs'] if j['conclusion'] != 'skipped']
-    assert len(active) == 1 and active[0]['name'] == JOB
+    assert len(active) == 1 and active[0]['name'] == args.job_name
+    # Bind the expected label to the exact dispatched workflow, retaining the
+    # historical default while allowing a separately pinned repair campaign.
+    workflow = baseline.git_bytes(args.harness, WORKFLOW).decode()
+    assert workflow.count('    name: ' + args.job_name + '\n') == 1
     build = args.artifact / 'combined-build'
     binding = baseline.read(build / 'binding.json')
     manifest_bytes = baseline.git_bytes(args.harness, args.source_manifest)
@@ -182,6 +186,7 @@ def main():
     parser.add_argument('--run-metadata', type=Path, required=True)
     parser.add_argument('--harness', required=True)
     parser.add_argument('--source-manifest', required=True)
+    parser.add_argument('--job-name', default=JOB)
     parser.add_argument('--results-review', type=Path, required=True)
     parser.add_argument('--baseline-artifact', type=Path, required=True)
     parser.add_argument('--baseline-run-metadata', type=Path, required=True)
