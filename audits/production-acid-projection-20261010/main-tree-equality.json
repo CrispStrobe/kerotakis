@@ -1,0 +1,30 @@
+{
+  "pr": 777,
+  "merged": true,
+  "merge_commit": "bf6f4157353a81867619d25d927475f6924f54bd",
+  "head": "dbe8652117ed870e9fc945c8f6f42bfa0137d49d",
+  "base": "6ea6938f13f9faab5b76ea86d5da0686ad9996be",
+  "parents": [
+    "6ea6938f13f9faab5b76ea86d5da0686ad9996be",
+    "dbe8652117ed870e9fc945c8f6f42bfa0137d49d"
+  ],
+  "tree": "d7400e89c76768fc52337b592d982b2a605a3013",
+  "origin_main_api_equals_merge": true,
+  "accepted_integration": true,
+  "merged_at": "2026-10-11T19:47:12Z",
+  "source_tree": "d7400e89c76768fc52337b592d982b2a605a3013",
+  "main_tree": "d7400e89c76768fc52337b592d982b2a605a3013",
+  "trees_equal": true,
+  "native_focused_functions_per_platform": 322,
+  "native_inventory_scope": "Focused core and safety fixtures, not all core tests",
+  "cli_run": 38147457930,
+  "cli_processes": 164,
+  "fleet_run": 38145873752,
+  "ci_run": 38145873768,
+  "scope": "Merged tracked tree equals independently reviewed native/CLI candidate. Bounded directional safety reporting repair only; original forecast qualifications, acid4/6 and scoped local metal followup limits remain. Historical full audit, empirical accuracy, broader acid rules and intermediates are separate.",
+  "actual_postmerge_pr_api_sha256": "c8897b06c595203a68ee649dcaeb8fa75ea6e24b20ca44608dd73090970b9384",
+  "actual_merge_api_sha256": "2d438ccfa80ba314d9d39e9f3a9c3726a9a82d0e604391de45666061af5d21eb",
+  "actual_main_api_sha256": "10c1e5821d0fa1ed42994d5b49342ddebf3991e62f73fe4c164904f6a0791b1e",
+  "premerge_result_sha256": "3d4e104d97f51927c93ca3cde55f44dfe465a17637f11d8bcc00db2373d3bf5a",
+  "full_fleet_review_sha256": "7198e6485865e091be4814ca4737d63a5b0f2e3f36d97e78563897272d3f1f43"
+}

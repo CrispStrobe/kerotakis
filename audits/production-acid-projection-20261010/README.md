@@ -1,5 +1,7 @@
 # Frozen strong-acid reporting projection controls
 
+Current integration: [PR777](https://github.com/CrispStrobe/kerotakis/pull/777) merged as `bf6f4157353a81867619d25d927475f6924f54bd`. [All33 fleet jobs and every declared step](full-fleet-review-dbe86521.json) pass; [actual merge parents and tested-tree equality](main-tree-equality.json) are verified. This accepts the bounded directional safety reporting repair with the earlier native/CI/CLI evidence; original forecast/acid-route qualifications remain unchanged. Older pending checkpoints below are history.
+
 [The22-function freeze](freeze.json) binds [the fixture](production_acid_projection_contracts.rs) to exact PR777 sourcea0fe641c/treee53ffacf. The original freeze preceded execution; results are recorded separately below. This is a separate observation contract, leaving the original33 controls and their baseline unchanged.
 
 The screen represents solved strong acidity as an attributed H+ finding derived from negative solute charge, with its existing titratable-acidity and solved-pH gates. A prior HCl or H2SO4 incompatibility with the same partner at the same location must not be reannounced merely because the named acid becomes this dissolved representation. Newly introduced dissolved strong acidity must still warn with the exact reviewed metadata; unchanged dissolved acidity stays quiet. Named acids remain distinct pairs under the earlier33 controls. These expectations do not justify equating all acid-group members.

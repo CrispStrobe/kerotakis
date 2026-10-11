@@ -1,5 +1,11 @@
 # Chemistry audit: current state, 2026-10-05
 
+## Current integration update — 2026-10-11
+
+[PR777 merged-tree acceptance](../audits/production-acid-projection-20261010/main-tree-equality.json) verifies main `bf6f4157`, actual merge parents and exact equality to the reviewed Dbe tree. Both native322 focused inventories, completeCI, all33 chemistry fleet jobs and declared steps, source-boundCLI164 and paired warning evidence are accepted. Original forecast and acid-route qualifications remain unchanged.
+
+DraftPR778 is based on main and has complete ownCI plus both native333 focused inventories accepted; its fleet and final new-base/source-tree checks remain pending. Unit/phase repairs PR779/780 are locally complete and remain stacked with their own hosted checks pending. [Current checkpoint](../audits/integration-20261008/STATUS.md) and [next lanes](chemistry-audit-next-lanes.md) define the remaining work. Historical full-audit coverage still needs50 missing tests/129 paths; newer narrow repairs do not replace its source-specific acceptance. Older dated updates below are history.
+
 ## Current integration update — 2026-10-10
 
 [Current checkpoint](../audits/integration-20261008/STATUS.md): #776 is merged as6ea6938f with exact tested-tree equality, native267 on both platforms, complete CI/five gates/fleet, source-bound CLI164 and an accepted actual CLI warning pair. Three reviewed final rules now distinguish new from unchanged findings; the chloramine positive emits its reviewed warning in JSON/text while setup and the benign counterpart stay quiet. Original replay qualifications remain unchanged.

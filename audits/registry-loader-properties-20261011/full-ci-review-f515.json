@@ -1,0 +1,2379 @@
+{
+  "pr": 778,
+  "head": "f515781d1bf183a5602571e034fbbf2b5e18b7ff",
+  "run": 38158962498,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498",
+  "event": "pull_request",
+  "required_successful_jobs": [
+    "Full preflight gate",
+    "Test (native) (ubuntu-latest)",
+    "Test (native) (macos-latest)",
+    "The bench in WebAssembly",
+    "The demo page, in a real browser"
+  ],
+  "successful_jobs": 25,
+  "skipped_jobs": 1,
+  "jobs": [
+    {
+      "completedAt": "2026-10-11T18:24:49Z",
+      "conclusion": "success",
+      "databaseId": 114527673037,
+      "name": "BRD-080 viewer decision spike",
+      "startedAt": "2026-10-11T18:23:36Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T18:23:37Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T18:23:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:23:39Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T18:23:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:23:41Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@v6",
+          "number": 3,
+          "startedAt": "2026-10-11T18:23:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:23:45Z",
+          "conclusion": "success",
+          "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+          "number": 4,
+          "startedAt": "2026-10-11T18:23:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:23:49Z",
+          "conclusion": "success",
+          "name": "Run npm test",
+          "number": 5,
+          "startedAt": "2026-10-11T18:23:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:24:00Z",
+          "conclusion": "success",
+          "name": "Run npm run build",
+          "number": 6,
+          "startedAt": "2026-10-11T18:23:49Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:24:47Z",
+          "conclusion": "success",
+          "name": "Exercise both viewers, every fixture, teardown and offline boundary",
+          "number": 7,
+          "startedAt": "2026-10-11T18:24:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:24:47Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@v6",
+          "number": 13,
+          "startedAt": "2026-10-11T18:24:47Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:24:48Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 14,
+          "startedAt": "2026-10-11T18:24:47Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:24:48Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 15,
+          "startedAt": "2026-10-11T18:24:48Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673037"
+    },
+    {
+      "completedAt": "2026-10-11T18:05:02Z",
+      "conclusion": "success",
+      "databaseId": 114527673143,
+      "name": "The demo page, in a real browser",
+      "startedAt": "2026-10-11T17:52:45Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T17:52:48Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T17:52:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:52:53Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T17:52:48Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:52:56Z",
+          "conclusion": "success",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 3,
+          "startedAt": "2026-10-11T17:52:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:53:04Z",
+          "conclusion": "success",
+          "name": "Run Swatinem/rust-cache@v2",
+          "number": 4,
+          "startedAt": "2026-10-11T17:52:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:53:32Z",
+          "conclusion": "success",
+          "name": "Run mymindstorm/setup-emsdk@v14",
+          "number": 5,
+          "startedAt": "2026-10-11T17:53:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:53:32Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@v6",
+          "number": 6,
+          "startedAt": "2026-10-11T17:53:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:53:33Z",
+          "conclusion": "success",
+          "name": "Install wasm-bindgen",
+          "number": 7,
+          "startedAt": "2026-10-11T17:53:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:59:54Z",
+          "conclusion": "success",
+          "name": "Build the site",
+          "number": 8,
+          "startedAt": "2026-10-11T17:53:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:00:08Z",
+          "conclusion": "success",
+          "name": "Run the page headlessly",
+          "number": 9,
+          "startedAt": "2026-10-11T17:59:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:03:09Z",
+          "conclusion": "success",
+          "name": "Five lesson scenes match their semantic DOM goldens",
+          "number": 10,
+          "startedAt": "2026-10-11T18:00:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:03:20Z",
+          "conclusion": "success",
+          "name": "Types hold (svelte-check)",
+          "number": 11,
+          "startedAt": "2026-10-11T18:03:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:03:23Z",
+          "conclusion": "success",
+          "name": "The bench is an installable, offline-first PWA",
+          "number": 12,
+          "startedAt": "2026-10-11T18:03:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:03:27Z",
+          "conclusion": "success",
+          "name": "The German build renders German",
+          "number": 13,
+          "startedAt": "2026-10-11T18:03:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:04:57Z",
+          "conclusion": "success",
+          "name": "The responsive bench meets UX invariants",
+          "number": 14,
+          "startedAt": "2026-10-11T18:03:27Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:04:59Z",
+          "conclusion": "success",
+          "name": "Package the site",
+          "number": 15,
+          "startedAt": "2026-10-11T18:04:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:04:59Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@v6",
+          "number": 28,
+          "startedAt": "2026-10-11T18:04:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:04:59Z",
+          "conclusion": "success",
+          "name": "Post Run Swatinem/rust-cache@v2",
+          "number": 29,
+          "startedAt": "2026-10-11T18:04:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:04:59Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 30,
+          "startedAt": "2026-10-11T18:04:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:04:59Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 31,
+          "startedAt": "2026-10-11T18:04:59Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673143"
+    },
+    {
+      "completedAt": "2026-10-11T18:45:50Z",
+      "conclusion": "success",
+      "databaseId": 114527673186,
+      "name": "Full preflight gate",
+      "startedAt": "2026-10-11T18:27:27Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T18:27:30Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T18:27:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:27:36Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T18:27:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:27:38Z",
+          "conclusion": "success",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 3,
+          "startedAt": "2026-10-11T18:27:36Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:27:58Z",
+          "conclusion": "success",
+          "name": "Run Swatinem/rust-cache@v2",
+          "number": 4,
+          "startedAt": "2026-10-11T18:27:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:28:00Z",
+          "conclusion": "success",
+          "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+          "number": 5,
+          "startedAt": "2026-10-11T18:27:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:28:00Z",
+          "conclusion": "success",
+          "name": "Install cargo-deny",
+          "number": 6,
+          "startedAt": "2026-10-11T18:28:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:28:15Z",
+          "conclusion": "success",
+          "name": "librsvg and Pillow, so the icon check actually runs",
+          "number": 7,
+          "startedAt": "2026-10-11T18:28:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:45:46Z",
+          "conclusion": "success",
+          "name": "Run tools/preflight.sh",
+          "number": 8,
+          "startedAt": "2026-10-11T18:28:15Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:45:47Z",
+          "conclusion": "success",
+          "name": "Post Run Swatinem/rust-cache@v2",
+          "number": 15,
+          "startedAt": "2026-10-11T18:45:46Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:45:47Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 16,
+          "startedAt": "2026-10-11T18:45:47Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:45:47Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 17,
+          "startedAt": "2026-10-11T18:45:47Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673186"
+    },
+    {
+      "completedAt": "2026-10-11T18:48:13Z",
+      "conclusion": "success",
+      "databaseId": 114527673187,
+      "name": "MY-BASIC preview (ubuntu-latest)",
+      "startedAt": "2026-10-11T18:47:57Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T18:47:59Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T18:47:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:48:04Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T18:47:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:48:04Z",
+          "conclusion": "success",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 3,
+          "startedAt": "2026-10-11T18:48:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:48:07Z",
+          "conclusion": "success",
+          "name": "Run Swatinem/rust-cache@v2",
+          "number": 4,
+          "startedAt": "2026-10-11T18:48:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:48:10Z",
+          "conclusion": "success",
+          "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+          "number": 5,
+          "startedAt": "2026-10-11T18:48:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:48:10Z",
+          "conclusion": "success",
+          "name": "Differential and live preview corpus",
+          "number": 6,
+          "startedAt": "2026-10-11T18:48:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:48:10Z",
+          "conclusion": "success",
+          "name": "Post Run Swatinem/rust-cache@v2",
+          "number": 11,
+          "startedAt": "2026-10-11T18:48:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:48:10Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 12,
+          "startedAt": "2026-10-11T18:48:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:48:10Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 13,
+          "startedAt": "2026-10-11T18:48:10Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673187"
+    },
+    {
+      "completedAt": "2026-10-11T18:48:43Z",
+      "conclusion": "success",
+      "databaseId": 114527673203,
+      "name": "Core and data schemas compile to wasm32",
+      "startedAt": "2026-10-11T18:47:50Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T18:47:52Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T18:47:50Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:47:58Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T18:47:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:48:00Z",
+          "conclusion": "success",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 3,
+          "startedAt": "2026-10-11T18:47:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:48:04Z",
+          "conclusion": "success",
+          "name": "Run Swatinem/rust-cache@v2",
+          "number": 4,
+          "startedAt": "2026-10-11T18:48:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:48:06Z",
+          "conclusion": "success",
+          "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+          "number": 5,
+          "startedAt": "2026-10-11T18:48:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:48:40Z",
+          "conclusion": "success",
+          "name": "Check core, data and scene physics on wasm",
+          "number": 6,
+          "startedAt": "2026-10-11T18:48:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:48:41Z",
+          "conclusion": "success",
+          "name": "Post Run Swatinem/rust-cache@v2",
+          "number": 11,
+          "startedAt": "2026-10-11T18:48:40Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:48:41Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 12,
+          "startedAt": "2026-10-11T18:48:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:48:41Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 13,
+          "startedAt": "2026-10-11T18:48:41Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673203"
+    },
+    {
+      "completedAt": "2026-10-11T17:52:43Z",
+      "conclusion": "success",
+      "databaseId": 114527673204,
+      "name": "feos adapter (aarch64-apple-darwin)",
+      "startedAt": "2026-10-11T17:52:18Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T17:52:20Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T17:52:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:52:23Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T17:52:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:52:34Z",
+          "conclusion": "success",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 3,
+          "startedAt": "2026-10-11T17:52:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:52:37Z",
+          "conclusion": "success",
+          "name": "Run Swatinem/rust-cache@v2",
+          "number": 4,
+          "startedAt": "2026-10-11T17:52:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:52:39Z",
+          "conclusion": "success",
+          "name": "Compile the locked disposable adapter",
+          "number": 5,
+          "startedAt": "2026-10-11T17:52:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:52:39Z",
+          "conclusion": "success",
+          "name": "Post Run Swatinem/rust-cache@v2",
+          "number": 9,
+          "startedAt": "2026-10-11T17:52:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:52:40Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 10,
+          "startedAt": "2026-10-11T17:52:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:52:40Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 11,
+          "startedAt": "2026-10-11T17:52:40Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673204"
+    },
+    {
+      "completedAt": "2026-10-11T19:05:01Z",
+      "conclusion": "success",
+      "databaseId": 114527673215,
+      "name": "Theme contrast tokens",
+      "startedAt": "2026-10-11T19:04:55Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T19:04:57Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T19:04:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:04:59Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T19:04:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:04:59Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@v6",
+          "number": 3,
+          "startedAt": "2026-10-11T19:04:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:04:59Z",
+          "conclusion": "success",
+          "name": "Enforce WCAG AA theme pairs",
+          "number": 4,
+          "startedAt": "2026-10-11T19:04:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:05:00Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@v6",
+          "number": 7,
+          "startedAt": "2026-10-11T19:04:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:05:00Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 8,
+          "startedAt": "2026-10-11T19:05:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:05:00Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 9,
+          "startedAt": "2026-10-11T19:05:00Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673215"
+    },
+    {
+      "completedAt": "2026-10-11T18:08:25Z",
+      "conclusion": "success",
+      "databaseId": 114527673248,
+      "name": "feos adapter (aarch64-apple-ios)",
+      "startedAt": "2026-10-11T18:07:44Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T18:07:47Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T18:07:44Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:07:50Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T18:07:47Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:08:02Z",
+          "conclusion": "success",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 3,
+          "startedAt": "2026-10-11T18:07:50Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:08:04Z",
+          "conclusion": "success",
+          "name": "Run Swatinem/rust-cache@v2",
+          "number": 4,
+          "startedAt": "2026-10-11T18:08:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:08:22Z",
+          "conclusion": "success",
+          "name": "Compile the locked disposable adapter",
+          "number": 5,
+          "startedAt": "2026-10-11T18:08:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:08:23Z",
+          "conclusion": "success",
+          "name": "Post Run Swatinem/rust-cache@v2",
+          "number": 9,
+          "startedAt": "2026-10-11T18:08:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:08:23Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 10,
+          "startedAt": "2026-10-11T18:08:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:08:23Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 11,
+          "startedAt": "2026-10-11T18:08:23Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673248"
+    },
+    {
+      "completedAt": "2026-10-11T18:08:37Z",
+      "conclusion": "success",
+      "databaseId": 114527673254,
+      "name": "Shell payload (ubuntu-22.04)",
+      "startedAt": "2026-10-11T18:08:27Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T18:08:29Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T18:08:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:08:31Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T18:08:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:08:31Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@v5",
+          "number": 3,
+          "startedAt": "2026-10-11T18:08:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:08:32Z",
+          "conclusion": "success",
+          "name": "Which interpreter is this, exactly",
+          "number": 4,
+          "startedAt": "2026-10-11T18:08:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:08:33Z",
+          "conclusion": "success",
+          "name": "The Python half of the shell payload",
+          "number": 5,
+          "startedAt": "2026-10-11T18:08:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:08:33Z",
+          "conclusion": "success",
+          "name": "The payload is not empty, and the accents survived",
+          "number": 6,
+          "startedAt": "2026-10-11T18:08:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:08:33Z",
+          "conclusion": "success",
+          "name": "Every workflow that reaches a tomllib tool names its Python",
+          "number": 7,
+          "startedAt": "2026-10-11T18:08:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:08:33Z",
+          "conclusion": "success",
+          "name": "npm cannot run a shell script on Windows",
+          "number": 8,
+          "startedAt": "2026-10-11T18:08:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:08:33Z",
+          "conclusion": "success",
+          "name": "Nothing that ships may pass --without-codex",
+          "number": 9,
+          "startedAt": "2026-10-11T18:08:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:08:33Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@v5",
+          "number": 17,
+          "startedAt": "2026-10-11T18:08:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:08:33Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 18,
+          "startedAt": "2026-10-11T18:08:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:08:33Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 19,
+          "startedAt": "2026-10-11T18:08:33Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673254"
+    },
+    {
+      "completedAt": "2026-10-11T18:34:53Z",
+      "conclusion": "success",
+      "databaseId": 114527673262,
+      "name": "feos adapter (aarch64-linux-android)",
+      "startedAt": "2026-10-11T18:34:20Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T18:34:23Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T18:34:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:34:26Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T18:34:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:34:29Z",
+          "conclusion": "success",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 3,
+          "startedAt": "2026-10-11T18:34:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:34:32Z",
+          "conclusion": "success",
+          "name": "Run Swatinem/rust-cache@v2",
+          "number": 4,
+          "startedAt": "2026-10-11T18:34:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:34:51Z",
+          "conclusion": "success",
+          "name": "Compile the locked disposable adapter",
+          "number": 5,
+          "startedAt": "2026-10-11T18:34:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:34:51Z",
+          "conclusion": "success",
+          "name": "Post Run Swatinem/rust-cache@v2",
+          "number": 9,
+          "startedAt": "2026-10-11T18:34:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:34:51Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 10,
+          "startedAt": "2026-10-11T18:34:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:34:51Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 11,
+          "startedAt": "2026-10-11T18:34:51Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673262"
+    },
+    {
+      "completedAt": "2026-10-11T17:59:05Z",
+      "conclusion": "success",
+      "databaseId": 114527673285,
+      "name": "IPhreeqc under MSVC",
+      "startedAt": "2026-10-11T17:53:57Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T17:53:59Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T17:53:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:54:13Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T17:53:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:54:34Z",
+          "conclusion": "success",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 3,
+          "startedAt": "2026-10-11T17:54:13Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:54:47Z",
+          "conclusion": "success",
+          "name": "Run Swatinem/rust-cache@v2",
+          "number": 4,
+          "startedAt": "2026-10-11T17:54:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:59:00Z",
+          "conclusion": "success",
+          "name": "cargo test --no-run -p kerotakis-phreeqc",
+          "number": 5,
+          "startedAt": "2026-10-11T17:54:47Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:59:00Z",
+          "conclusion": "success",
+          "name": "Post Run Swatinem/rust-cache@v2",
+          "number": 9,
+          "startedAt": "2026-10-11T17:59:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:59:03Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 10,
+          "startedAt": "2026-10-11T17:59:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:59:03Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 11,
+          "startedAt": "2026-10-11T17:59:03Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673285"
+    },
+    {
+      "completedAt": "2026-10-11T19:22:34Z",
+      "conclusion": "success",
+      "databaseId": 114527673290,
+      "name": "Presentation authority adapters",
+      "startedAt": "2026-10-11T19:21:55Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T19:21:56Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T19:21:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:22:01Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T19:21:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:22:04Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@v6",
+          "number": 3,
+          "startedAt": "2026-10-11T19:22:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:22:06Z",
+          "conclusion": "success",
+          "name": "Run npm ci",
+          "number": 4,
+          "startedAt": "2026-10-11T19:22:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:22:32Z",
+          "conclusion": "success",
+          "name": "Every vitest file in the app runs",
+          "number": 5,
+          "startedAt": "2026-10-11T19:22:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:22:32Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@v6",
+          "number": 9,
+          "startedAt": "2026-10-11T19:22:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:22:32Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 10,
+          "startedAt": "2026-10-11T19:22:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:22:32Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 11,
+          "startedAt": "2026-10-11T19:22:32Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673290"
+    },
+    {
+      "completedAt": "2026-10-11T18:40:16Z",
+      "conclusion": "success",
+      "databaseId": 114527673291,
+      "name": "feos adapter (wasm32-unknown-unknown)",
+      "startedAt": "2026-10-11T18:40:05Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T18:40:06Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T18:40:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:40:08Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T18:40:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:40:12Z",
+          "conclusion": "success",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 3,
+          "startedAt": "2026-10-11T18:40:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:40:13Z",
+          "conclusion": "success",
+          "name": "Run Swatinem/rust-cache@v2",
+          "number": 4,
+          "startedAt": "2026-10-11T18:40:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:40:14Z",
+          "conclusion": "success",
+          "name": "Compile the locked disposable adapter",
+          "number": 5,
+          "startedAt": "2026-10-11T18:40:13Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:40:15Z",
+          "conclusion": "success",
+          "name": "Post Run Swatinem/rust-cache@v2",
+          "number": 9,
+          "startedAt": "2026-10-11T18:40:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:40:15Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 10,
+          "startedAt": "2026-10-11T18:40:15Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:40:15Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 11,
+          "startedAt": "2026-10-11T18:40:15Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673291"
+    },
+    {
+      "completedAt": "2026-10-11T18:24:23Z",
+      "conclusion": "success",
+      "databaseId": 114527673297,
+      "name": "Test (native) (macos-latest)",
+      "startedAt": "2026-10-11T18:03:44Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T18:03:48Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T18:03:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:03:57Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T18:03:48Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:04:07Z",
+          "conclusion": "success",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 3,
+          "startedAt": "2026-10-11T18:03:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:04:22Z",
+          "conclusion": "success",
+          "name": "Run Swatinem/rust-cache@v2",
+          "number": 4,
+          "startedAt": "2026-10-11T18:04:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:04:25Z",
+          "conclusion": "success",
+          "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+          "number": 5,
+          "startedAt": "2026-10-11T18:04:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:04:28Z",
+          "conclusion": "success",
+          "name": "Format",
+          "number": 6,
+          "startedAt": "2026-10-11T18:04:25Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:07:11Z",
+          "conclusion": "success",
+          "name": "Clippy",
+          "number": 7,
+          "startedAt": "2026-10-11T18:04:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:22:38Z",
+          "conclusion": "success",
+          "name": "Test",
+          "number": 8,
+          "startedAt": "2026-10-11T18:07:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:23:30Z",
+          "conclusion": "success",
+          "name": "Codex \u2014 every claim must still compute",
+          "number": 9,
+          "startedAt": "2026-10-11T18:22:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:24:19Z",
+          "conclusion": "success",
+          "name": "Curiosity coverage \u2014 the recorded route is still the route",
+          "number": 10,
+          "startedAt": "2026-10-11T18:23:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:24:20Z",
+          "conclusion": "success",
+          "name": "Preserve regenerated snapshots for review",
+          "number": 11,
+          "startedAt": "2026-10-11T18:24:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:24:20Z",
+          "conclusion": "success",
+          "name": "Post Run Swatinem/rust-cache@v2",
+          "number": 21,
+          "startedAt": "2026-10-11T18:24:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:24:20Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 22,
+          "startedAt": "2026-10-11T18:24:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:24:21Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 23,
+          "startedAt": "2026-10-11T18:24:20Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673297"
+    },
+    {
+      "completedAt": "2026-10-11T17:52:10Z",
+      "conclusion": "success",
+      "databaseId": 114527673304,
+      "name": "feos adapter (x86_64-pc-windows-msvc)",
+      "startedAt": "2026-10-11T17:51:22Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T17:51:24Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T17:51:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:51:32Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T17:51:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:51:53Z",
+          "conclusion": "success",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 3,
+          "startedAt": "2026-10-11T17:51:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:51:56Z",
+          "conclusion": "success",
+          "name": "Run Swatinem/rust-cache@v2",
+          "number": 4,
+          "startedAt": "2026-10-11T17:51:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:52:07Z",
+          "conclusion": "success",
+          "name": "Compile the locked disposable adapter",
+          "number": 5,
+          "startedAt": "2026-10-11T17:51:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:52:07Z",
+          "conclusion": "success",
+          "name": "Post Run Swatinem/rust-cache@v2",
+          "number": 9,
+          "startedAt": "2026-10-11T17:52:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:52:09Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 10,
+          "startedAt": "2026-10-11T17:52:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:52:09Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 11,
+          "startedAt": "2026-10-11T17:52:09Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673304"
+    },
+    {
+      "completedAt": "2026-10-11T18:28:40Z",
+      "conclusion": "success",
+      "databaseId": 114527673327,
+      "name": "GPU release tools (deterministic)",
+      "startedAt": "2026-10-11T18:28:33Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T18:28:34Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T18:28:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:28:37Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T18:28:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:28:37Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@v6",
+          "number": 3,
+          "startedAt": "2026-10-11T18:28:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:28:38Z",
+          "conclusion": "success",
+          "name": "Test asset, probe, evaluator, and audit tooling",
+          "number": 4,
+          "startedAt": "2026-10-11T18:28:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:28:38Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@v6",
+          "number": 7,
+          "startedAt": "2026-10-11T18:28:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:28:38Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 8,
+          "startedAt": "2026-10-11T18:28:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:28:38Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 9,
+          "startedAt": "2026-10-11T18:28:38Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673327"
+    },
+    {
+      "completedAt": "2026-10-11T18:05:03Z",
+      "conclusion": "success",
+      "databaseId": 114527673384,
+      "name": "The native host still compiles",
+      "startedAt": "2026-10-11T17:59:44Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T17:59:47Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T17:59:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T17:59:55Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T17:59:47Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:00:04Z",
+          "conclusion": "success",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 3,
+          "startedAt": "2026-10-11T17:59:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:00:13Z",
+          "conclusion": "success",
+          "name": "Run Swatinem/rust-cache@v2",
+          "number": 4,
+          "startedAt": "2026-10-11T18:00:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:00:15Z",
+          "conclusion": "success",
+          "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+          "number": 5,
+          "startedAt": "2026-10-11T18:00:13Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:00:16Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@v6",
+          "number": 6,
+          "startedAt": "2026-10-11T18:00:15Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:03:50Z",
+          "conclusion": "success",
+          "name": "The shell payload tauri-build looks for",
+          "number": 7,
+          "startedAt": "2026-10-11T18:00:16Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:04:59Z",
+          "conclusion": "success",
+          "name": "cargo check",
+          "number": 8,
+          "startedAt": "2026-10-11T18:03:50Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:05:00Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@v6",
+          "number": 14,
+          "startedAt": "2026-10-11T18:04:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:05:00Z",
+          "conclusion": "success",
+          "name": "Post Run Swatinem/rust-cache@v2",
+          "number": 15,
+          "startedAt": "2026-10-11T18:05:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:05:00Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 16,
+          "startedAt": "2026-10-11T18:05:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:05:01Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 17,
+          "startedAt": "2026-10-11T18:05:01Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673384"
+    },
+    {
+      "completedAt": "2026-10-11T19:41:49Z",
+      "conclusion": "success",
+      "databaseId": 114527673405,
+      "name": "Test (native) (ubuntu-latest)",
+      "startedAt": "2026-10-11T19:22:09Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T19:22:12Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T19:22:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:22:17Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T19:22:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:22:18Z",
+          "conclusion": "success",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 3,
+          "startedAt": "2026-10-11T19:22:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:22:35Z",
+          "conclusion": "success",
+          "name": "Run Swatinem/rust-cache@v2",
+          "number": 4,
+          "startedAt": "2026-10-11T19:22:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:22:37Z",
+          "conclusion": "success",
+          "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+          "number": 5,
+          "startedAt": "2026-10-11T19:22:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:22:40Z",
+          "conclusion": "success",
+          "name": "Format",
+          "number": 6,
+          "startedAt": "2026-10-11T19:22:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:24:56Z",
+          "conclusion": "success",
+          "name": "Clippy",
+          "number": 7,
+          "startedAt": "2026-10-11T19:22:40Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:39:34Z",
+          "conclusion": "success",
+          "name": "Test",
+          "number": 8,
+          "startedAt": "2026-10-11T19:24:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:40:43Z",
+          "conclusion": "success",
+          "name": "Codex \u2014 every claim must still compute",
+          "number": 9,
+          "startedAt": "2026-10-11T19:39:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:41:46Z",
+          "conclusion": "success",
+          "name": "Curiosity coverage \u2014 the recorded route is still the route",
+          "number": 10,
+          "startedAt": "2026-10-11T19:40:43Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:41:46Z",
+          "conclusion": "success",
+          "name": "Preserve regenerated snapshots for review",
+          "number": 11,
+          "startedAt": "2026-10-11T19:41:46Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:41:46Z",
+          "conclusion": "success",
+          "name": "Post Run Swatinem/rust-cache@v2",
+          "number": 21,
+          "startedAt": "2026-10-11T19:41:46Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:41:47Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 22,
+          "startedAt": "2026-10-11T19:41:46Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:41:47Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 23,
+          "startedAt": "2026-10-11T19:41:47Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673405"
+    },
+    {
+      "completedAt": "2026-10-11T18:29:55Z",
+      "conclusion": "success",
+      "databaseId": 114527673433,
+      "name": "The two wasm halves, together",
+      "startedAt": "2026-10-11T18:24:37Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T18:24:40Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T18:24:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:24:47Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T18:24:40Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:24:50Z",
+          "conclusion": "success",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 3,
+          "startedAt": "2026-10-11T18:24:47Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:24:56Z",
+          "conclusion": "success",
+          "name": "Run Swatinem/rust-cache@v2",
+          "number": 4,
+          "startedAt": "2026-10-11T18:24:50Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:25:17Z",
+          "conclusion": "success",
+          "name": "Run mymindstorm/setup-emsdk@v14",
+          "number": 5,
+          "startedAt": "2026-10-11T18:24:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:25:18Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@v6",
+          "number": 6,
+          "startedAt": "2026-10-11T18:25:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:25:19Z",
+          "conclusion": "success",
+          "name": "Install wasm-bindgen",
+          "number": 7,
+          "startedAt": "2026-10-11T18:25:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:27:42Z",
+          "conclusion": "success",
+          "name": "Build the bench for the browser",
+          "number": 8,
+          "startedAt": "2026-10-11T18:25:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:28:34Z",
+          "conclusion": "success",
+          "name": "Build IPhreeqc for the browser",
+          "number": 9,
+          "startedAt": "2026-10-11T18:27:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:29:50Z",
+          "conclusion": "success",
+          "name": "Record the desktop answer",
+          "number": 10,
+          "startedAt": "2026-10-11T18:28:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:29:51Z",
+          "conclusion": "success",
+          "name": "Solve in the browser and compare",
+          "number": 11,
+          "startedAt": "2026-10-11T18:29:50Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:29:51Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@v6",
+          "number": 20,
+          "startedAt": "2026-10-11T18:29:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:29:51Z",
+          "conclusion": "success",
+          "name": "Post Run Swatinem/rust-cache@v2",
+          "number": 21,
+          "startedAt": "2026-10-11T18:29:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:29:51Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 22,
+          "startedAt": "2026-10-11T18:29:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:29:51Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 23,
+          "startedAt": "2026-10-11T18:29:51Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673433"
+    },
+    {
+      "completedAt": "2026-10-11T19:27:12Z",
+      "conclusion": "success",
+      "databaseId": 114527673452,
+      "name": "The bench in WebAssembly",
+      "startedAt": "2026-10-11T19:22:33Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T19:22:36Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T19:22:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:22:42Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T19:22:36Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:22:45Z",
+          "conclusion": "success",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 3,
+          "startedAt": "2026-10-11T19:22:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:22:52Z",
+          "conclusion": "success",
+          "name": "Run Swatinem/rust-cache@v2",
+          "number": 4,
+          "startedAt": "2026-10-11T19:22:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:22:52Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@v6",
+          "number": 5,
+          "startedAt": "2026-10-11T19:22:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:22:53Z",
+          "conclusion": "success",
+          "name": "Install wasm-bindgen",
+          "number": 6,
+          "startedAt": "2026-10-11T19:22:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:25:17Z",
+          "conclusion": "success",
+          "name": "Build the wasm lab",
+          "number": 7,
+          "startedAt": "2026-10-11T19:22:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:27:01Z",
+          "conclusion": "success",
+          "name": "Pre-warm the lessons",
+          "number": 8,
+          "startedAt": "2026-10-11T19:25:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:27:02Z",
+          "conclusion": "success",
+          "name": "Run the bench in a wasm runtime",
+          "number": 9,
+          "startedAt": "2026-10-11T19:27:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:27:09Z",
+          "conclusion": "success",
+          "name": "Protocol conformance against the wasm host",
+          "number": 10,
+          "startedAt": "2026-10-11T19:27:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:27:09Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@v6",
+          "number": 18,
+          "startedAt": "2026-10-11T19:27:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:27:09Z",
+          "conclusion": "success",
+          "name": "Post Run Swatinem/rust-cache@v2",
+          "number": 19,
+          "startedAt": "2026-10-11T19:27:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:27:09Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 20,
+          "startedAt": "2026-10-11T19:27:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:27:09Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 21,
+          "startedAt": "2026-10-11T19:27:09Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673452"
+    },
+    {
+      "completedAt": "2026-10-11T18:28:23Z",
+      "conclusion": "success",
+      "databaseId": 114527673529,
+      "name": "Legacy BASIC oracle (development only)",
+      "startedAt": "2026-10-11T18:28:06Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T18:28:08Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T18:28:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:28:14Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T18:28:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:28:15Z",
+          "conclusion": "success",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 3,
+          "startedAt": "2026-10-11T18:28:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:28:18Z",
+          "conclusion": "success",
+          "name": "Run Swatinem/rust-cache@v2",
+          "number": 4,
+          "startedAt": "2026-10-11T18:28:15Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:28:19Z",
+          "conclusion": "success",
+          "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+          "number": 5,
+          "startedAt": "2026-10-11T18:28:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:28:20Z",
+          "conclusion": "success",
+          "name": "Independently verify Stage 6 classifications",
+          "number": 6,
+          "startedAt": "2026-10-11T18:28:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:28:20Z",
+          "conclusion": "success",
+          "name": "Post Run Swatinem/rust-cache@v2",
+          "number": 11,
+          "startedAt": "2026-10-11T18:28:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:28:20Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 12,
+          "startedAt": "2026-10-11T18:28:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:28:20Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 13,
+          "startedAt": "2026-10-11T18:28:20Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673529"
+    },
+    {
+      "completedAt": "2026-10-11T19:25:01Z",
+      "conclusion": "success",
+      "databaseId": 114527673548,
+      "name": "Current registry source export",
+      "startedAt": "2026-10-11T19:24:13Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T19:24:15Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T19:24:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:24:20Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T19:24:15Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:24:20Z",
+          "conclusion": "success",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 3,
+          "startedAt": "2026-10-11T19:24:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:24:24Z",
+          "conclusion": "success",
+          "name": "Run Swatinem/rust-cache@v2",
+          "number": 4,
+          "startedAt": "2026-10-11T19:24:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:24:26Z",
+          "conclusion": "success",
+          "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+          "number": 5,
+          "startedAt": "2026-10-11T19:24:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:24:59Z",
+          "conclusion": "success",
+          "name": "Diff every legacy registry field",
+          "number": 6,
+          "startedAt": "2026-10-11T19:24:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:24:59Z",
+          "conclusion": "success",
+          "name": "Generate the reviewable source document",
+          "number": 7,
+          "startedAt": "2026-10-11T19:24:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:24:59Z",
+          "conclusion": "success",
+          "name": "Generated source document is checked in exactly",
+          "number": 8,
+          "startedAt": "2026-10-11T19:24:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:24:59Z",
+          "conclusion": "success",
+          "name": "Post Run Swatinem/rust-cache@v2",
+          "number": 15,
+          "startedAt": "2026-10-11T19:24:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:24:59Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 16,
+          "startedAt": "2026-10-11T19:24:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:24:59Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 17,
+          "startedAt": "2026-10-11T19:24:59Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673548"
+    },
+    {
+      "completedAt": "2026-10-11T18:03:34Z",
+      "conclusion": "success",
+      "databaseId": 114527673564,
+      "name": "Shell payload (windows-latest)",
+      "startedAt": "2026-10-11T18:03:17Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T18:03:18Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T18:03:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:03:26Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T18:03:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:03:26Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@v5",
+          "number": 3,
+          "startedAt": "2026-10-11T18:03:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:03:26Z",
+          "conclusion": "success",
+          "name": "Which interpreter is this, exactly",
+          "number": 4,
+          "startedAt": "2026-10-11T18:03:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:03:29Z",
+          "conclusion": "success",
+          "name": "The Python half of the shell payload",
+          "number": 5,
+          "startedAt": "2026-10-11T18:03:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:03:29Z",
+          "conclusion": "success",
+          "name": "The payload is not empty, and the accents survived",
+          "number": 6,
+          "startedAt": "2026-10-11T18:03:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:03:29Z",
+          "conclusion": "success",
+          "name": "Every workflow that reaches a tomllib tool names its Python",
+          "number": 7,
+          "startedAt": "2026-10-11T18:03:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:03:30Z",
+          "conclusion": "success",
+          "name": "npm cannot run a shell script on Windows",
+          "number": 8,
+          "startedAt": "2026-10-11T18:03:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:03:30Z",
+          "conclusion": "success",
+          "name": "Nothing that ships may pass --without-codex",
+          "number": 9,
+          "startedAt": "2026-10-11T18:03:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:03:30Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@v5",
+          "number": 17,
+          "startedAt": "2026-10-11T18:03:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:03:32Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 18,
+          "startedAt": "2026-10-11T18:03:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:03:32Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 19,
+          "startedAt": "2026-10-11T18:03:32Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673564"
+    },
+    {
+      "completedAt": "2026-10-11T18:07:06Z",
+      "conclusion": "success",
+      "databaseId": 114527673642,
+      "name": "MY-BASIC preview (macos-latest)",
+      "startedAt": "2026-10-11T18:06:33Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T18:06:35Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T18:06:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:06:43Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T18:06:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:06:52Z",
+          "conclusion": "success",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 3,
+          "startedAt": "2026-10-11T18:06:43Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:06:57Z",
+          "conclusion": "success",
+          "name": "Run Swatinem/rust-cache@v2",
+          "number": 4,
+          "startedAt": "2026-10-11T18:06:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:07:00Z",
+          "conclusion": "success",
+          "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+          "number": 5,
+          "startedAt": "2026-10-11T18:06:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:07:01Z",
+          "conclusion": "success",
+          "name": "Differential and live preview corpus",
+          "number": 6,
+          "startedAt": "2026-10-11T18:07:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:07:01Z",
+          "conclusion": "success",
+          "name": "Post Run Swatinem/rust-cache@v2",
+          "number": 11,
+          "startedAt": "2026-10-11T18:07:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:07:02Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 12,
+          "startedAt": "2026-10-11T18:07:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:07:03Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 13,
+          "startedAt": "2026-10-11T18:07:02Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673642"
+    },
+    {
+      "completedAt": "2026-10-11T19:00:25Z",
+      "conclusion": "success",
+      "databaseId": 114527673686,
+      "name": "IPhreeqc wasm gate",
+      "startedAt": "2026-10-11T18:58:27Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T18:58:30Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T18:58:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:58:36Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-11T18:58:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:59:05Z",
+          "conclusion": "success",
+          "name": "Run mymindstorm/setup-emsdk@v14",
+          "number": 3,
+          "startedAt": "2026-10-11T18:58:36Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T18:59:05Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@v6",
+          "number": 4,
+          "startedAt": "2026-10-11T18:59:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:00:21Z",
+          "conclusion": "success",
+          "name": "Build IPhreeqc to wasm",
+          "number": 5,
+          "startedAt": "2026-10-11T18:59:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:00:21Z",
+          "conclusion": "success",
+          "name": "AgCl end-to-end in wasm",
+          "number": 6,
+          "startedAt": "2026-10-11T19:00:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:00:21Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@v6",
+          "number": 11,
+          "startedAt": "2026-10-11T19:00:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:00:22Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 12,
+          "startedAt": "2026-10-11T19:00:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T19:00:22Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 13,
+          "startedAt": "2026-10-11T19:00:22Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114527673686"
+    },
+    {
+      "completedAt": "2026-10-11T18:05:02Z",
+      "conclusion": "skipped",
+      "databaseId": 114537621825,
+      "name": "Publish the demo",
+      "startedAt": "2026-10-11T18:05:03Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38158962498/job/114537621825"
+    }
+  ],
+  "accepted_full_ci_gate": true,
+  "accepted_integration": false,
+  "run_api_sha256": "864b0ac9d36e4ec393c66d4d839f62e73cf06d5144515ee21b85c79c47a626c7",
+  "scope": "Own final-head full CI gate accepted; source-bound native receipts separate. Chemistry fleet and post-parent main base/tested-tree verification remain pending. No empirical accuracy or main integration claim."
+}

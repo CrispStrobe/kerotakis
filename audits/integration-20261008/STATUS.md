@@ -1,5 +1,13 @@
 # Integration checkpoint — 2026-10-10
 
+## Current update — 2026-10-11
+
+[PR777 merged](../production-acid-projection-20261010/main-tree-equality.json) as `bf6f4157`, with actual parents6ea6938f/Dbe and tracked treeD740 equal to the tested source. Both native322 focused inventories, completeCI, all33 fleet jobs/every declared step, source-boundCLI164 and paired warning evidence are accepted. The merge ledger is updated. Original acid4/6 and scoped local Mg followup limitations remain; this is a bounded directional reporting fix, not broad acidity or empirical accuracy.
+
+DraftPR778 has automatically moved to main. Its own completeCI and both native333 focused inventories are accepted, with separate data10 and Mac core604/data16/safety28 receipts. Its own chemistry fleet and final new-base/source-tree checks remain pending. DraftPR779/780 remain stacked; local repairs are complete with their own hosted validation pending. [Corrected inventory breakdowns](native-controls/inventory-label-correction-20261011.json) distinguish core and safety fixtures without changing frozen counts.
+
+[Historical91/198 presence inventory](full-audit-port-inventory-pr777-merged.json) still records50 missing named tests and129 missing bound paths. It establishes file presence only; historical full-audit acceptance remains8cdab1f6. Older pending checkpoints below are retained history.
+
 ## Local follow-up — 2026-10-11
 
 [Paired projection evidence](../production-acid-projection-20261010/README.md) confirms a local duplicate-warning gap on exact archived PR777 parenta0fe641c:13 controls pass/9 fail, while all604 core and28 safety library functions pass. The isolated directional repair passes322 focused functions across28 fixtures and repaired safety28, under the same separately generated offline lock. It keeps named acids distinct and matches only reviewed forward HCl/H2SO4 reporting changes with the same partner/location.

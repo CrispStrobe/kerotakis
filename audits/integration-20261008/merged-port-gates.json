@@ -837,6 +837,55 @@
         }
       ],
       "scope": "Production final-exposure identity/publication: native267 both, complete CI/fleet, source-bound CLI164 and paired four-process warning probes accepted. Broader final-rule/phase/capability/intermediate-product coverage remains open."
+    },
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/777",
+      "tested_head": "dbe8652117ed870e9fc945c8f6f42bfa0137d49d",
+      "merge_commit": "bf6f4157353a81867619d25d927475f6924f54bd",
+      "merged_at": "2026-10-11T19:47:12Z",
+      "required_checks": [
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488978960",
+          "started_at": "2026-10-11T14:16:53Z",
+          "completed_at": "2026-10-11T14:35:28Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979091",
+          "started_at": "2026-10-11T14:08:45Z",
+          "completed_at": "2026-10-11T14:28:30Z"
+        },
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979124",
+          "started_at": "2026-10-11T14:45:20Z",
+          "completed_at": "2026-10-11T15:07:46Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979146",
+          "started_at": "2026-10-11T14:34:49Z",
+          "completed_at": "2026-10-11T14:40:14Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38145873768/job/114488979281",
+          "started_at": "2026-10-11T15:25:17Z",
+          "completed_at": "2026-10-11T15:38:26Z"
+        }
+      ],
+      "ci_run": 38145873768,
+      "fleet_run": 38145873752,
+      "cli_run": 38147457930,
+      "native_focused_functions_per_platform": 322,
+      "source_tree": "d7400e89c76768fc52337b592d982b2a605a3013",
+      "scope": "Merged tracked tree equals independently reviewed native/CLI candidate. Bounded directional safety reporting repair only; original forecast qualifications, acid4/6 and scoped local metal followup limits remain. Historical full audit, empirical accuracy, broader acid rules and intermediates are separate."
     }
   ],
   "scope": "Independent matching-head required PR gates. Not a full integrated-source audit/replay or performance acceptance.",
@@ -888,5 +937,6 @@
   ],
   "main_after_documentation": "0fafbf5e3c71841f83832dd61a0c7f4561204e63",
   "main_after_pr775": "7e96f120c271d6130473f4eb298c82963543392e",
-  "main_after_pr776": "6ea6938f13f9faab5b76ea86d5da0686ad9996be"
+  "main_after_pr776": "6ea6938f13f9faab5b76ea86d5da0686ad9996be",
+  "main_after_pr777": "bf6f4157353a81867619d25d927475f6924f54bd"
 }
