@@ -206,6 +206,15 @@ impl<'a> Validator<'a> {
                         format!("{path}.quantity.value"),
                         format!("{}: {} {reason}", record.species_id, property.name()),
                     );
+                } else if let Err(reason) = crate::normalize_runtime_scalar(
+                    property,
+                    record.quantity.value,
+                    &record.quantity.unit,
+                ) {
+                    self.issue(
+                        format!("{path}.quantity.unit"),
+                        format!("{}: {} {reason}", record.species_id, property.name()),
+                    );
                 }
             }
         }

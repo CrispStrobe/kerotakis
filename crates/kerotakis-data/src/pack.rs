@@ -26,6 +26,11 @@ pub enum PackError {
         property: &'static str,
         reason: &'static str,
     },
+    InvalidRuntimeUnit {
+        species_id: String,
+        property: &'static str,
+        reason: String,
+    },
 }
 
 impl std::fmt::Display for PackError {
@@ -37,6 +42,11 @@ impl std::fmt::Display for PackError {
             Self::HashMismatch => write!(f, "pack content hash mismatch"),
             Self::DeserializeFailed(e) => write!(f, "pack deserialization failed: {e}"),
             Self::InvalidRuntimeScalar {
+                species_id,
+                property,
+                reason,
+            } => write!(f, "{species_id}: {property} {reason}"),
+            Self::InvalidRuntimeUnit {
                 species_id,
                 property,
                 reason,
@@ -68,7 +78,8 @@ pub fn build_pack(doc: &RegistryDocument) -> Vec<u8> {
 /// Load a registry document from a compiled `.pack` byte slice.
 ///
 /// Verifies the magic, version, and content hash before deserializing, then
-/// checks the three runtime scalar bounds. This does not perform whole-document
+/// checks the three runtime scalar bounds and units without altering their
+/// source metadata. This does not perform whole-document
 /// provenance or reference validation.
 pub fn load_pack(data: &[u8]) -> Result<RegistryDocument, PackError> {
     if data.len() < HEADER_LEN {
@@ -101,6 +112,12 @@ pub fn load_pack(data: &[u8]) -> Result<RegistryDocument, PackError> {
                     reason,
                 }
             })?;
+            crate::normalize_runtime_scalar(property, record.quantity.value, &record.quantity.unit)
+                .map_err(|reason| PackError::InvalidRuntimeUnit {
+                    species_id: record.species_id.clone(),
+                    property: property.name(),
+                    reason,
+                })?;
         }
     }
     Ok(document)

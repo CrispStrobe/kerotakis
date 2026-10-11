@@ -25,7 +25,9 @@ pub use model_pack::{ModelPackManifest, PackContents, PackLane, PackRejectReason
 pub use pack::{
     build_pack, load_pack, serialize_pack_payload, PackError, PACK_MAGIC, PACK_VERSION,
 };
-pub use property_bounds::{validate_runtime_scalar, RuntimeScalarProperty};
+pub use property_bounds::{
+    normalize_runtime_scalar, validate_runtime_scalar, RuntimeScalarProperty,
+};
 pub use provenance::*;
 pub use pubchem::*;
 pub use resolve::{resolve_phase_property, Conditions, Resolution, ResolvedValue, Rung};

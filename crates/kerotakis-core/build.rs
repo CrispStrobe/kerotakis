@@ -15,15 +15,12 @@
 
 use std::fmt::Write as _;
 
-#[path = "../kerotakis-data/src/property_bounds.rs"]
-mod property_bounds;
-use property_bounds::{validate_runtime_scalar, RuntimeScalarProperty};
+use kerotakis_data::{normalize_runtime_scalar, validate_runtime_scalar, RuntimeScalarProperty};
 
 fn main() {
     let manifest = std::env::var("CARGO_MANIFEST_DIR").unwrap();
     let src = std::path::Path::new(&manifest).join("../../data/registry/registry-source-v1.json");
     println!("cargo:rerun-if-changed={}", src.display());
-    println!("cargo:rerun-if-changed=../kerotakis-data/src/property_bounds.rs");
     let text = std::fs::read_to_string(&src)
         .unwrap_or_else(|e| panic!("cannot read {}: {e}", src.display()));
     let doc: serde_json::Value = serde_json::from_str(&text).expect("registry JSON parses");
@@ -114,10 +111,12 @@ fn main() {
         let mm = thermo_for(key, "molar_mass").unwrap_or_else(|| panic!("no molar mass for {key}"));
         let molar_mass = mm["quantity"]["value"].as_f64().unwrap();
         let standard_phase = phase_variant(mm["phase"].as_str().unwrap());
-        let heat_capacity = thermo_for(key, "molar_heat_capacity")
+        let heat_capacity_record = thermo_for(key, "molar_heat_capacity");
+        let heat_capacity = heat_capacity_record
             .and_then(|t| t["quantity"]["value"].as_f64())
             .unwrap_or_else(|| panic!("no heat capacity for {key}"));
-        let density = thermo_for(key, "mass_density")
+        let density_record = thermo_for(key, "mass_density");
+        let density = density_record
             .and_then(|t| t["quantity"]["value"].as_f64())
             .unwrap_or_else(|| panic!("no density for {key}"));
         for (property, value) in [
@@ -128,6 +127,24 @@ fn main() {
             validate_runtime_scalar(property, value)
                 .unwrap_or_else(|reason| panic!("{key}: {} {reason}", property.name()));
         }
+        let normalize = |property: RuntimeScalarProperty, value: f64, row: &serde_json::Value| {
+            let unit: kerotakis_data::Unit =
+                serde_json::from_value(row["quantity"]["unit"].clone())
+                    .unwrap_or_else(|error| panic!("{key}: {} unit: {error}", property.name()));
+            normalize_runtime_scalar(property, value, &unit)
+                .unwrap_or_else(|reason| panic!("{key}: {} {reason}", property.name()))
+        };
+        let molar_mass = normalize(RuntimeScalarProperty::MolarMass, molar_mass, mm);
+        let heat_capacity = normalize(
+            RuntimeScalarProperty::MolarHeatCapacity,
+            heat_capacity,
+            heat_capacity_record.expect("heat-capacity value was read above"),
+        );
+        let density = normalize(
+            RuntimeScalarProperty::MassDensity,
+            density,
+            density_record.expect("density value was read above"),
+        );
         let dissolution = thermo_for(key, "enthalpy_of_dissolution")
             .and_then(|t| t["quantity"]["value"].as_f64());
 

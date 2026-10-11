@@ -1,7 +1,7 @@
 //! Bounds for the three scalar properties consumed by the runtime registry.
 //!
-//! This module deliberately has no crate dependencies: the core build script
-//! includes the same source used by document validation and runtime loading.
+//! The core build script depends on this crate so it uses the same unit
+//! normalizer as document validation and runtime loading.
 //! These bounds describe the runtime fallback representation, not every
 //! thermodynamic quantity. In particular, zero fallback Cp remains supported
 //! for aqueous species whose heat capacity is carried by the solvent.
@@ -45,9 +45,52 @@ pub fn validate_runtime_scalar(
     Ok(())
 }
 
+/// Interpret a runtime scalar in the canonical SpeciesData unit, retaining
+/// the source record's original value and unit outside runtime construction.
+/// A matching declared dimension is required before any symbol conversion.
+pub fn normalize_runtime_scalar(
+    property: RuntimeScalarProperty,
+    value: f64,
+    unit: &crate::Unit,
+) -> Result<f64, String> {
+    validate_runtime_scalar(property, value)
+        .map_err(|reason| format!("{} {reason}", property.name()))?;
+    let expected = match property {
+        RuntimeScalarProperty::MolarMass => crate::Dimension::MolarMass,
+        RuntimeScalarProperty::MassDensity => crate::Dimension::MassDensity,
+        RuntimeScalarProperty::MolarHeatCapacity => crate::Dimension::MolarHeatCapacity,
+    };
+    if unit.dimension != expected {
+        return Err(format!(
+            "unit dimension {:?}; expected {expected:?}",
+            unit.dimension
+        ));
+    }
+    let normalized = crate::normalize_quantity_for(value, &unit.symbol, &expected)
+        .map_err(|error| format!("unit: {error}"))?;
+    validate_runtime_scalar(property, normalized.value)
+        .map_err(|reason| format!("unit-normalized {} {reason}", property.name()))?;
+    Ok(normalized.value)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn conversion_overflow_refuses_even_when_source_value_is_finite() {
+        let unit = crate::Unit {
+            symbol: "kg/mol".to_string(),
+            dimension: crate::Dimension::MolarMass,
+        };
+        assert!(validate_runtime_scalar(RuntimeScalarProperty::MolarMass, f64::MAX).is_ok());
+        let error = normalize_runtime_scalar(RuntimeScalarProperty::MolarMass, f64::MAX, &unit)
+            .expect_err("conversion to g/mol must not admit infinity");
+        assert!(
+            error.contains("unit") && error.contains("not finite"),
+            "{error}"
+        );
+    }
 
     #[test]
     fn nonfinite_runtime_scalars_refuse() {
