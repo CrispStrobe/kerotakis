@@ -1,0 +1,345 @@
+{
+  "source_parent": "a0fe641cc27d82216c7270d9fd7d88e4aeefefda",
+  "candidate_source_sha256": "3b373e512b6c2e3c436f78c5e3effa9384eaa2c4a84d42dfd7fe6a253cfa029b",
+  "classification": "Frozen isolated production-function identity controls; not full crate/Bench or chemical model execution.",
+  "cases": [
+    {
+      "name": "hydrochloric_forward",
+      "before": {
+        "rule": "acid-metal-hydrogen",
+        "species": [
+          "HCl",
+          "Mg"
+        ],
+        "locations": [
+          "vessel",
+          "vessel"
+        ]
+      },
+      "after": {
+        "rule": "acid-metal-hydrogen",
+        "species": [
+          "H+",
+          "Mg"
+        ],
+        "locations": [
+          "vessel",
+          "vessel"
+        ]
+      },
+      "expected_same_finding": true
+    },
+    {
+      "name": "sulfuric_forward",
+      "before": {
+        "rule": "acid-metal-hydrogen",
+        "species": [
+          "H2SO4",
+          "Mg"
+        ],
+        "locations": [
+          "vessel",
+          "vessel"
+        ]
+      },
+      "after": {
+        "rule": "acid-metal-hydrogen",
+        "species": [
+          "H+",
+          "Mg"
+        ],
+        "locations": [
+          "vessel",
+          "vessel"
+        ]
+      },
+      "expected_same_finding": true
+    },
+    {
+      "name": "distinct_named_acid",
+      "before": {
+        "rule": "acid-metal-hydrogen",
+        "species": [
+          "HCl",
+          "Mg"
+        ],
+        "locations": [
+          "vessel",
+          "vessel"
+        ]
+      },
+      "after": {
+        "rule": "acid-metal-hydrogen",
+        "species": [
+          "H2SO4",
+          "Mg"
+        ],
+        "locations": [
+          "vessel",
+          "vessel"
+        ]
+      },
+      "expected_same_finding": false
+    },
+    {
+      "name": "distinct_metal",
+      "before": {
+        "rule": "acid-metal-hydrogen",
+        "species": [
+          "HCl",
+          "Mg"
+        ],
+        "locations": [
+          "vessel",
+          "vessel"
+        ]
+      },
+      "after": {
+        "rule": "acid-metal-hydrogen",
+        "species": [
+          "H+",
+          "Zn"
+        ],
+        "locations": [
+          "vessel",
+          "vessel"
+        ]
+      },
+      "expected_same_finding": false
+    },
+    {
+      "name": "reverse_unreviewed",
+      "before": {
+        "rule": "acid-metal-hydrogen",
+        "species": [
+          "H+",
+          "Mg"
+        ],
+        "locations": [
+          "vessel",
+          "vessel"
+        ]
+      },
+      "after": {
+        "rule": "acid-metal-hydrogen",
+        "species": [
+          "HCl",
+          "Mg"
+        ],
+        "locations": [
+          "vessel",
+          "vessel"
+        ]
+      },
+      "expected_same_finding": false
+    },
+    {
+      "name": "other_acid_unreviewed",
+      "before": {
+        "rule": "acid-metal-hydrogen",
+        "species": [
+          "HI",
+          "Mg"
+        ],
+        "locations": [
+          "vessel",
+          "vessel"
+        ]
+      },
+      "after": {
+        "rule": "acid-metal-hydrogen",
+        "species": [
+          "H+",
+          "Mg"
+        ],
+        "locations": [
+          "vessel",
+          "vessel"
+        ]
+      },
+      "expected_same_finding": false
+    },
+    {
+      "name": "acid_location_changes",
+      "before": {
+        "rule": "acid-metal-hydrogen",
+        "species": [
+          "HCl",
+          "Mg"
+        ],
+        "locations": [
+          "a",
+          "b"
+        ]
+      },
+      "after": {
+        "rule": "acid-metal-hydrogen",
+        "species": [
+          "H+",
+          "Mg"
+        ],
+        "locations": [
+          "c",
+          "b"
+        ]
+      },
+      "expected_same_finding": false
+    },
+    {
+      "name": "partner_location_changes",
+      "before": {
+        "rule": "acid-metal-hydrogen",
+        "species": [
+          "HCl",
+          "Mg"
+        ],
+        "locations": [
+          "a",
+          "b"
+        ]
+      },
+      "after": {
+        "rule": "acid-metal-hydrogen",
+        "species": [
+          "H+",
+          "Mg"
+        ],
+        "locations": [
+          "a",
+          "c"
+        ]
+      },
+      "expected_same_finding": false
+    },
+    {
+      "name": "reordered_locations_follow_species",
+      "before": {
+        "rule": "acid-metal-hydrogen",
+        "species": [
+          "HCl",
+          "Mg"
+        ],
+        "locations": [
+          "a",
+          "b"
+        ]
+      },
+      "after": {
+        "rule": "acid-metal-hydrogen",
+        "species": [
+          "Mg",
+          "H+"
+        ],
+        "locations": [
+          "b",
+          "a"
+        ]
+      },
+      "expected_same_finding": true
+    },
+    {
+      "name": "reordered_wrong_locations",
+      "before": {
+        "rule": "acid-metal-hydrogen",
+        "species": [
+          "HCl",
+          "Mg"
+        ],
+        "locations": [
+          "a",
+          "b"
+        ]
+      },
+      "after": {
+        "rule": "acid-metal-hydrogen",
+        "species": [
+          "Mg",
+          "H+"
+        ],
+        "locations": [
+          "a",
+          "b"
+        ]
+      },
+      "expected_same_finding": false
+    },
+    {
+      "name": "different_rule",
+      "before": {
+        "rule": "acid-metal-hydrogen",
+        "species": [
+          "HCl",
+          "Mg"
+        ],
+        "locations": [
+          "vessel",
+          "vessel"
+        ]
+      },
+      "after": {
+        "rule": "acid-carbonate-co2",
+        "species": [
+          "H+",
+          "Mg"
+        ],
+        "locations": [
+          "vessel",
+          "vessel"
+        ]
+      },
+      "expected_same_finding": false
+    },
+    {
+      "name": "weak_rule_not_normalized",
+      "before": {
+        "rule": "bleach-weak-acid-chlorine",
+        "species": [
+          "HCl",
+          "NaOCl"
+        ],
+        "locations": [
+          "vessel",
+          "vessel"
+        ]
+      },
+      "after": {
+        "rule": "bleach-weak-acid-chlorine",
+        "species": [
+          "H+",
+          "NaOCl"
+        ],
+        "locations": [
+          "vessel",
+          "vessel"
+        ]
+      },
+      "expected_same_finding": false
+    },
+    {
+      "name": "existing_hypochlorite_alias",
+      "before": {
+        "rule": "bleach-ammonia-chloramine",
+        "species": [
+          "NaOCl",
+          "NH3"
+        ],
+        "locations": [
+          "vessel",
+          "vessel"
+        ]
+      },
+      "after": {
+        "rule": "bleach-ammonia-chloramine",
+        "species": [
+          "ClO-",
+          "NH3"
+        ],
+        "locations": [
+          "vessel",
+          "vessel"
+        ]
+      },
+      "expected_same_finding": true
+    }
+  ]
+}

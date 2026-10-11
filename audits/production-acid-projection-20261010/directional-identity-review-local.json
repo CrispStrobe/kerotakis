@@ -1,0 +1,26 @@
+{
+  "frozen_controls_sha256": "5e1884556aec2cde5b12a1a26ced01b51b7af1b968b573cf8a0f6e34c933ad1b",
+  "candidate_source_sha256": "3b373e512b6c2e3c436f78c5e3effa9384eaa2c4a84d42dfd7fe6a253cfa029b",
+  "extracted_component_sha256": "8142490dc495945106e4215acaa0b6756aea7de8cdf98a0b59787ff79a72e769",
+  "compiler": "rustc 1.98.1 (48a229cea 2026-09-01)",
+  "cases": 13,
+  "passed": [
+    "hydrochloric_forward",
+    "sulfuric_forward",
+    "distinct_named_acid",
+    "distinct_metal",
+    "reverse_unreviewed",
+    "other_acid_unreviewed",
+    "acid_location_changes",
+    "partner_location_changes",
+    "reordered_locations_follow_species",
+    "reordered_wrong_locations",
+    "different_rule",
+    "weak_rule_not_normalized",
+    "existing_hypochlorite_alias"
+  ],
+  "failed": [],
+  "exit_code": 0,
+  "production_applied": false,
+  "acceptance_scope": "Actual candidate identity functions extracted byte-for-byte and compiled in isolation. No full crate, Bench, hosted run or chemistry acceptance."
+}

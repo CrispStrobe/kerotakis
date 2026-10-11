@@ -1,0 +1,13 @@
+{
+  "source_observed": "a0fe641cc27d82216c7270d9fd7d88e4aeefefda",
+  "source_tree": "e53ffacf2e9fe17c70560b893b1a0a61369ab6fb",
+  "source_path": "crates/kerotakis-safety/src/lib.rs",
+  "source_sha256": "50922d37fd9c458d36de3ac19782f9c46c440e09f897bf8b730d31d422bf0b69",
+  "patch_sha256": "1a4873c211da21d90aecadf3f696f7b1b43b9e1b0854f19a24e0ad83c73373af",
+  "candidate_source_sha256": "3b373e512b6c2e3c436f78c5e3effa9384eaa2c4a84d42dfd7fe6a253cfa029b",
+  "rustfmt_check": true,
+  "production_applied": false,
+  "runtime_acceptance": false,
+  "precondition": "Preserve and independently review unchanged-source projection baseline before applying. Hosted status currently inaccessible; isolated offline baseline is separate and still pending.",
+  "scope": "Directional HCl/H2SO4 to H+ matching only for the three frozen strong-acid rules with the same existing partner and location. Named acids remain distinct; no general acid-group equivalence or reverse projection."
+}

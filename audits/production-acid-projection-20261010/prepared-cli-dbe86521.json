@@ -1,0 +1,12 @@
+{
+  "harness": "6c67609c387db2b6c406d7b5cc45f708e636e18a",
+  "compiled_source": "dbe8652117ed870e9fc945c8f6f42bfa0137d49d",
+  "source_tree": "d7400e89c76768fc52337b592d982b2a605a3013",
+  "campaign": "production-acid-projection-cli-replay",
+  "workflow": ".github/workflows/chemistry-audit.yml",
+  "source_manifest": "audits/production-acid-projection-20261010/cli-source-dbe86521.json",
+  "source_manifest_sha256": "3894c0af67ac0dc735e2af17c9648af29f16d1852a2c9ce241e5cc8a19f43fe8",
+  "dispatched": false,
+  "precondition": "Independently accepted exact-head native322/workspace on at least one platform. Both native platforms/full CI/fleet and independently bound CLI required before merge.",
+  "scope": "Unchanged 100-case/164-process holdout and four original chloramine probes; new acid-route chemistry witnesses remain separate."
+}

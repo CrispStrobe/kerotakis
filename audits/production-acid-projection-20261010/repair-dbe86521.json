@@ -1,0 +1,13 @@
+{
+  "pr": 777,
+  "head": "dbe8652117ed870e9fc945c8f6f42bfa0137d49d",
+  "source_tree": "d7400e89c76768fc52337b592d982b2a605a3013",
+  "parent": "a0fe641cc27d82216c7270d9fd7d88e4aeefefda",
+  "baseline_review": "audits/production-acid-projection-20261010/baseline-review.json",
+  "candidate_source_sha256": "3b373e512b6c2e3c436f78c5e3effa9384eaa2c4a84d42dfd7fe6a253cfa029b",
+  "projection_fixture_sha256": "c9afaee2067c6547e8c19a34a8b964187e7f9489895766ab39bbd1e60bd56bcb",
+  "local_focused_passed": 322,
+  "local_fixture_count": 28,
+  "hosted_acceptance": "pending exact new head; local proof separate",
+  "scope": "Only three reviewed strong-acid rules and directional HCl/H2SO4-to-H+ reporting changes with unchanged partner and location. No empirical chemical accuracy claim."
+}

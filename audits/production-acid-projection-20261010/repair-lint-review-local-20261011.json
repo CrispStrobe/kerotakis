@@ -1,0 +1,23 @@
+{
+  "source_parent": "a0fe641cc27d82216c7270d9fd7d88e4aeefefda",
+  "candidate_source_sha256": "3b373e512b6c2e3c436f78c5e3effa9384eaa2c4a84d42dfd7fe6a253cfa029b",
+  "offline_lock_sha256": "fef8a64257653da8bd3fcff50d89e69f5fb848952a6e8eaa827667427942ddfe",
+  "clippy_command": [
+    "cargo",
+    "clippy",
+    "--offline",
+    "--locked",
+    "-p",
+    "kerotakis-safety",
+    "--tests",
+    "--no-deps",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "clippy_exit_code": 0,
+  "clippy_raw_log_sha256": "ea398d3af8e62eefa190599f8b2dbfa06ce8942c1f31d6340d1812371b2b105f",
+  "rustfmt_check": true,
+  "patch_applies_to_exact_parent": true,
+  "scope": "Local candidate safety crate and all its test targets; no complete workspace/hosted gates or CLI acceptance."
+}

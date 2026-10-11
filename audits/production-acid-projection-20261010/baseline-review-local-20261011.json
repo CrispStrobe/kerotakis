@@ -1,0 +1,196 @@
+{
+  "source_commit": "a0fe641cc27d82216c7270d9fd7d88e4aeefefda",
+  "source_tree": "e53ffacf2e9fe17c70560b893b1a0a61369ab6fb",
+  "source_archive_sha256": "3d7de48a4af205c5fc45ec5941841c88c437cac81f38b3132b60b67becb1d1f5",
+  "fixture_sha256": "c9afaee2067c6547e8c19a34a8b964187e7f9489895766ab39bbd1e60bd56bcb",
+  "freeze_sha256": "54d2aa98e236589b91d8413aee297964b76d96d9234ca5cd1dede5085b0017b8",
+  "submodules": {
+    "sundials-kinetics-rs": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+    "vendor/iphreeqc": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+  },
+  "archived_lock_sha256": "f6376dc9007d9fa8e3325c4dbc4103c7e24f7025d0d1c02c6ed9c7edf3cb75a9",
+  "offline_lock_sha256": "fef8a64257653da8bd3fcff50d89e69f5fb848952a6e8eaa827667427942ddfe",
+  "lock_version_changes": {
+    "cc": {
+      "archived_lock": [
+        "1.7.0"
+      ],
+      "offline_lock": [
+        "1.5.1"
+      ]
+    },
+    "either": {
+      "archived_lock": [
+        "1.19.0"
+      ],
+      "offline_lock": [
+        "1.18.0"
+      ]
+    },
+    "generator": {
+      "archived_lock": [
+        "0.8.10"
+      ],
+      "offline_lock": [
+        "0.8.9"
+      ]
+    },
+    "glam": {
+      "archived_lock": [
+        "0.30.10",
+        "0.31.1",
+        "0.32.1",
+        "0.33.12"
+      ],
+      "offline_lock": [
+        "0.30.10",
+        "0.31.1",
+        "0.32.1",
+        "0.33.8"
+      ]
+    },
+    "lazy_static": {
+      "archived_lock": [
+        "1.5.1"
+      ],
+      "offline_lock": [
+        "1.5.0"
+      ]
+    },
+    "libc": {
+      "archived_lock": [
+        "0.2.190"
+      ],
+      "offline_lock": [
+        "0.2.189"
+      ]
+    },
+    "pest": {
+      "archived_lock": [
+        "2.9.3"
+      ],
+      "offline_lock": [
+        "2.9.2"
+      ]
+    },
+    "pest_derive": {
+      "archived_lock": [
+        "2.9.3"
+      ],
+      "offline_lock": [
+        "2.9.2"
+      ]
+    },
+    "pest_generator": {
+      "archived_lock": [
+        "2.9.3"
+      ],
+      "offline_lock": [
+        "2.9.2"
+      ]
+    },
+    "pest_meta": {
+      "archived_lock": [
+        "2.9.3"
+      ],
+      "offline_lock": [
+        "2.9.2"
+      ]
+    },
+    "private-gemm-x86": {
+      "archived_lock": [
+        "0.1.22"
+      ],
+      "offline_lock": [
+        "0.1.20"
+      ]
+    },
+    "psm": {
+      "archived_lock": [
+        "0.1.24"
+      ],
+      "offline_lock": null
+    },
+    "smallvec": {
+      "archived_lock": [
+        "1.16.3"
+      ],
+      "offline_lock": [
+        "1.16.2"
+      ]
+    },
+    "stacker": {
+      "archived_lock": [
+        "0.1.25"
+      ],
+      "offline_lock": null
+    },
+    "syn": {
+      "archived_lock": [
+        "1.0.109",
+        "2.0.119",
+        "3.0.7"
+      ],
+      "offline_lock": [
+        "1.0.109",
+        "2.0.119",
+        "3.0.6"
+      ]
+    },
+    "zerocopy": {
+      "archived_lock": [
+        "0.8.62"
+      ],
+      "offline_lock": [
+        "0.8.57"
+      ]
+    },
+    "zerocopy-derive": {
+      "archived_lock": [
+        "0.8.62"
+      ],
+      "offline_lock": [
+        "0.8.57"
+      ]
+    }
+  },
+  "compiler": "rustc 1.98.1 (48a229cea 2026-09-01)",
+  "raw_log_sha256": "a1262c2985f1017b4ac26773cf336019c87e03bc964bc567d2ff56d6408bf341",
+  "exit_code": 101,
+  "passed": [
+    "acid_carbonate_above_strong_ph_gate_stays_quiet",
+    "acid_carbonate_at_or_below_acidity_gate_stays_quiet",
+    "acid_carbonate_new_dissolved_strong_acidity_warns",
+    "acid_carbonate_at_strong_ph_gate_warns",
+    "acid_metal_at_or_below_acidity_gate_stays_quiet",
+    "acid_carbonate_unchanged_dissolved_acidity_stays_quiet",
+    "acid_metal_above_strong_ph_gate_stays_quiet",
+    "acid_metal_at_strong_ph_gate_warns",
+    "acid_metal_new_dissolved_strong_acidity_warns",
+    "acid_metal_unchanged_dissolved_acidity_stays_quiet",
+    "bleach_acid_at_or_below_acidity_gate_stays_quiet",
+    "bleach_acid_unchanged_dissolved_acidity_stays_quiet",
+    "bleach_acid_new_dissolved_strong_acidity_warns"
+  ],
+  "failed": [
+    "acid_carbonate_hydrochloric_reporting_projection_stays_quiet",
+    "acid_carbonate_projection_keeps_only_prospective_warning",
+    "acid_carbonate_sulfuric_reporting_projection_stays_quiet",
+    "acid_metal_hydrochloric_reporting_projection_stays_quiet",
+    "acid_metal_projection_keeps_only_prospective_warning",
+    "acid_metal_sulfuric_reporting_projection_stays_quiet",
+    "bleach_acid_hydrochloric_reporting_projection_stays_quiet",
+    "bleach_acid_sulfuric_reporting_projection_stays_quiet",
+    "bleach_acid_projection_keeps_only_prospective_warning"
+  ],
+  "all_unique_unfiltered": true,
+  "bench_duplicate_rules": [
+    "bleach-acid-chlorine",
+    "acid-metal-hydrogen",
+    "acid-carbonate-co2"
+  ],
+  "accepted_local_control_slice": true,
+  "inherited_suites": "pending",
+  "hosted_run_acceptance": false,
+  "classification": "Frozen local projection controls executed against exact archived source using a separately generated offline lock. Original hosted-lock dependency prerequisite preserved; this does not establish the hosted run or a paired same-lock comparison with it."
+}
