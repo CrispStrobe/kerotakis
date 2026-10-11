@@ -1136,8 +1136,18 @@ fn final_species_identity(key: &str) -> &str {
 
 fn same_final_finding(before: &ExposureFinding, after: &ExposureFinding) -> bool {
     let matches = |before_index: usize, after_index: usize| {
-        final_species_identity(&before.species[before_index])
-            == final_species_identity(&after.species[after_index])
+        let prior_species = before.species[before_index].as_str();
+        let final_species = after.species[after_index].as_str();
+        // Only the reviewed forward reporting projections are equivalent.
+        // Named acids remain distinct, and the partner/location must match.
+        let strong_acid_projection = final_species == "H+"
+            && matches!(prior_species, "HCl" | "H2SO4")
+            && matches!(
+                before.rule.as_str(),
+                "bleach-acid-chlorine" | "acid-metal-hydrogen" | "acid-carbonate-co2"
+            );
+        (final_species_identity(prior_species) == final_species_identity(final_species)
+            || strong_acid_projection)
             && before.locations[before_index] == after.locations[after_index]
     };
     before.rule == after.rule
@@ -1155,15 +1165,17 @@ impl SafetyScreen for ReactiveGroupScreen {
     fn assess_equilibrated(&self, before: &Vessel, after: &Vessel) -> SafetyVerdict {
         let prior = assess_exposures([("vessel", before)]);
         for finding in assess_exposures([("vessel", after)]) {
-            // This first final-safety slice covers the three reviewed rules
-            // bound by the frozen routing/identity controls. Other rules keep
-            // their existing prospective screening and need their own final
-            // domain/identity controls before this coverage is expanded.
+            // Final coverage is limited to the reviewed rules bound by
+            // frozen routing/identity controls. Other rules retain prospective
+            // screening until their final domain/identity controls are covered.
             if !matches!(
                 finding.rule.as_str(),
                 "water-reactive-slaking"
                     | "bleach-ammonia-chloramine"
                     | "oxidizer-flammable-liquid"
+                    | "bleach-acid-chlorine"
+                    | "acid-metal-hydrogen"
+                    | "acid-carbonate-co2"
             ) || prior.iter().any(|old| same_final_finding(old, &finding))
             {
                 continue;
