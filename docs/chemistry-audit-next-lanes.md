@@ -310,6 +310,14 @@ Native inventory terminology: the historical “core native” label combined co
 
 ## SAF-01 — Integrate one production final-safety exposure slice
 
+**Immediate prerequisite:** own PR782 bothnative454/38+649libraries andlocalprior404/lint
+pass, but full preflight fails on unsafe-libyaml's advisory. Use the
+[separate frozen YAML migration lane](../audits/yaml-parser-migration-20261012/README.md),
+keep deny.toml unchanged, and verify compatibility before replacement. Rebind
+PR782's source and own gates after that prerequisite integrates. Fleet and actual
+supported CLI witnesses remain separate pending gates.
+
+
 **Current tranche:** [Fifty frozen controls](../audits/production-final-rule-matrix-20261012/README.md)
 on accepted main `a125c88d` cover all four reviewed rules outside the six-rule
 final callback whitelist. [Hosted baseline run38252519107](https://github.com/CrispStrobe/kerotakis/actions/runs/38252519107)

@@ -1,0 +1,12 @@
+{
+  "run": 38266836155,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38266836155",
+  "audit_revision": "df653d8192408fbba03ae03e806400feb08ebdef",
+  "source": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "input_audit": "yaml-parser-baseline",
+  "status_at_recording": "queued",
+  "outcomes_observed": false,
+  "migration_applied": false,
+  "freeze_sha256": "7618b5dcb4b5a1485ee67b3103408c6e9e0d5d77f3d0d44605a71602d74fbaee",
+  "scope": "Dedicated original parser baseline dispatch; neither captured results nor migration acceptance."
+}

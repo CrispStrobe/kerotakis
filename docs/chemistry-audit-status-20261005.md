@@ -1,5 +1,22 @@
 # Chemistry audit: current state, 2026-10-05
 
+## PR782 native and regressions pass; YAML dependency blocks preflight — 2026-10-12
+
+Both own nativeCI jobs verify454focusedtests/38fixtures plus649libraries at
+PR782head24dda. The previous404focusedcontrols andtargetedsafetyClippy also pass,
+in addition to frozen50/50 andlocal632libraries. The separate hosted original
+baseline independently confirms24pass/26fail and632libraries, with its own actual
+capturedlock. [All source-specific receipts](../audits/production-final-rule-matrix-20261012/README.md)
+preserve original failures and cache/lock qualifications.
+
+WholeCI failedpreflight on `RUSTSEC-2024-0449`, archivedunsafe-libyaml through
+serde_yaml_ng. [The separate migration lane](../audits/yaml-parser-migration-20261012/README.md)
+freezes fifty original YAML admission controls and an unapplied one-manifest-line
+candidate. [Hosted original parser baseline38266836155](https://github.com/CrispStrobe/kerotakis/actions/runs/38266836155)
+is dispatched; no migration or parser outcomes are claimed yet. Keepdeny.toml
+unchanged. PR782 remainsdraft; fleet/CLI andfreshsourceintegration remainpending.
+Main stilla125; earlier updates below are historical.
+
 ## PR782 closes the frozen fifty locally; remaining gates pending — 2026-10-12
 
 [Candidate head24dda97b](https://github.com/CrispStrobe/kerotakis/pull/782)

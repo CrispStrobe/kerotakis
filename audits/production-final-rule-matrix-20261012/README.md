@@ -51,10 +51,21 @@ a fresh gate later opened and the complete library run passed604core+28safety.
 [Independent fifty-only review](local-candidate-independent-review.json) and
 formatting pass. Root verified all632 actual library identities against the
 original baseline and rebound candidate source/fixture/lock after execution.
-Prior404 focused controls, lint, native/CLI/CI/fleet and integration acceptance
-remain pending. Further local starts were blocked by load10.85/MemAvailable2617MiB. Own CI run38253547880 and fleet38253547887
-were queued for this exact head. The [source-derived native plan](native-controls-plan-24dda97b.json)
-expects454 functions across38 fixtures; it is a plan, not a passing execution.
+The [prior404 focused controls and targeted lint](local-regressions-review-24dda97b.json)
+now pass. Both own [Linux](native-linux-review-24dda97b.json) and
+[macOS](native-macos-review-24dda97b.json) CI verify454focused/38fixtures plus
+649core/data/safety library tests. Ordinary CI's actual lock remains uncaptured;
+the [separate hosted original baseline](hosted-original-baseline-review.json)
+captures its own actual lock and confirms24pass/26fail+632librarypass.
+
+WholeCI38253547880 **failed preflight** on archived `unsafe-libyaml` through the
+existing YAML parser dependency. The
+[separate parser migration prerequisite](../yaml-parser-migration-20261012/README.md)
+keeps advisory policy unchanged and freezes original compatibility expectations
+before replacing the dependency. Fleet38253547887 and supported CLI witnesses
+remain pending. PR782 is a draft and main remainsa125; its source-specific native
+passes cannot automatically certify a future source including the parser change.
+
 
 Next executable lanes:
 

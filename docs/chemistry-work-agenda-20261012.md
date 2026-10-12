@@ -8,6 +8,17 @@ registry admission, full33 fleet and actual merge parents/tree. Original failure
 and freezes remain preserved. Optional/contextful/polynomial/multiple-anchor
 and scientific-data gaps are still separate.
 
+## 0. Remove the parser dependency blocking preflight
+
+Follow the [YAML parser migration lane](../audits/yaml-parser-migration-20261012/README.md).
+PR782's native/regression controls pass, but cargo-deny refuses archived
+unsafe-libyaml via serde_yaml_ng. Keep the advisory policy unchanged. Verify the
+fifty newly frozen compatibility controls on accepted main before applying the
+one-line registry-pinned safe parser facade proposal to a separate branch. Test
+all curated mechanism packs, affected libraries, CLI/WASM and the actual new
+dependency graph. Resolve complex-key/tag compatibility explicitly. Source-specific
+PR782 results need fresh binding after integrating a parser change.
+
 ## 1. Close the remaining reviewed final-safety rule tranche
 
 [Draft PR782](https://github.com/CrispStrobe/kerotakis/pull/782), exact head
