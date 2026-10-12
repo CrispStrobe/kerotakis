@@ -1,0 +1,291 @@
+{
+  "schema_version": 1,
+  "reviewer_sha256": "a7f7e89699c78693b330cb38625e8e2a386f3e96930ebaea1696158f763108ef",
+  "audit_collector_sha256": {
+    "hosted_candidate_validation.py": "159cf1aad61ad2e84bb24f170d098f9c3789e3e1f2c8e0a63a44ff7c1f1b39f4",
+    "hosted_original_baseline.py": "53b22c431429b091a2f2539039e970d822de7a965605e37677c7c5824bc557d4"
+  },
+  "raw_commands_independently_verified": [
+    "candidate-controls",
+    "fetch-locked",
+    "generate-lockfile",
+    "generator-build"
+  ],
+  "previous_head": "62c70f634213bbad68a2ef3d99971625f9f0a2db",
+  "assertion_spelling_ports": [
+    {
+      "path": "crates/kerotakis-core/tests/registry_loader_applicability_contracts.rs",
+      "original_sha256": "8041b163ca3b19ddc325eff1b589ab7351a7b60d475066f5295ee6a81cec1ada",
+      "ported_sha256": "d9e728b1271218607e87949cfdda13ca75e62e42d5a3313f4744f2cde09d85e1"
+    },
+    {
+      "path": "crates/kerotakis-core/tests/registry_applicability_runtime_route_contracts.rs",
+      "original_sha256": "e4aa286f68521c137b004a8398b6410457df124eb4e624c05838aeb4824fa2e7",
+      "ported_sha256": "46f7b2ab3a3d46654028df48b68203e1ba9cebe12377c88338e8e853d376dd14"
+    }
+  ],
+  "lint_port_preparation_sha256": "38874072b8b8cf940fac86f76bb6f0c563ad095f98804c2825ad22577fbb03a5",
+  "review": "Independent raw paired candidate review",
+  "source": "7cce5b8f861bbe3c5fabdffb5eb8c0ca4acae06f",
+  "source_tree": "cbe987d1fba5eaeaecbd7a23232fb2105eee8684",
+  "base": "093db6c9a9e64f1d704ded354685cee4ded6a9ec",
+  "audit_revision": "abcbdbd58e6d6198d240dba825db277125a7261c",
+  "run_id": 38220664859,
+  "job_id": 114715864513,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38220664859",
+  "collection_verified": true,
+  "paired_contracts_verified": true,
+  "accepted_integration": false,
+  "regular_source_files_independently_compared": 2253,
+  "changed_paths": [
+    "crates/kerotakis-core/tests/registry_applicability_runtime_route_contracts.rs",
+    "crates/kerotakis-core/tests/registry_loader_applicability_contracts.rs",
+    "crates/kerotakis-data/src/runtime_scalar_records.rs"
+  ],
+  "rust_targets": [
+    {
+      "target": "registry_loader_applicability_contracts",
+      "fixture_sha256": "d9e728b1271218607e87949cfdda13ca75e62e42d5a3313f4744f2cde09d85e1",
+      "tests": [
+        {
+          "name": "mass_temperature_requires_runtime_context",
+          "outcome": "ok"
+        },
+        {
+          "name": "mass_pressure_requires_runtime_context",
+          "outcome": "ok"
+        },
+        {
+          "name": "mass_ph_requires_runtime_context",
+          "outcome": "ok"
+        },
+        {
+          "name": "mass_ionic_strength_requires_runtime_context",
+          "outcome": "ok"
+        },
+        {
+          "name": "mass_medium_requires_runtime_context",
+          "outcome": "ok"
+        },
+        {
+          "name": "cp_temperature_requires_runtime_context",
+          "outcome": "ok"
+        },
+        {
+          "name": "cp_pressure_requires_runtime_context",
+          "outcome": "ok"
+        },
+        {
+          "name": "cp_ph_requires_runtime_context",
+          "outcome": "ok"
+        },
+        {
+          "name": "cp_ionic_strength_requires_runtime_context",
+          "outcome": "ok"
+        },
+        {
+          "name": "cp_medium_requires_runtime_context",
+          "outcome": "ok"
+        },
+        {
+          "name": "density_temperature_requires_runtime_context",
+          "outcome": "ok"
+        },
+        {
+          "name": "density_pressure_requires_runtime_context",
+          "outcome": "ok"
+        },
+        {
+          "name": "density_ph_requires_runtime_context",
+          "outcome": "ok"
+        },
+        {
+          "name": "density_ionic_strength_requires_runtime_context",
+          "outcome": "ok"
+        },
+        {
+          "name": "density_medium_requires_runtime_context",
+          "outcome": "ok"
+        },
+        {
+          "name": "mass_condition_phase_conflict_refuses",
+          "outcome": "ok"
+        },
+        {
+          "name": "cp_condition_phase_conflict_refuses",
+          "outcome": "ok"
+        },
+        {
+          "name": "density_condition_phase_conflict_refuses",
+          "outcome": "ok"
+        },
+        {
+          "name": "canonical_phase_consistent_unbounded_records_preserve_all_values",
+          "outcome": "ok"
+        },
+        {
+          "name": "explicit_null_constraints_and_notes_preserve_all_values",
+          "outcome": "ok"
+        },
+        {
+          "name": "omitted_conditions_use_unbounded_default_and_preserve_all_values",
+          "outcome": "ok"
+        },
+        {
+          "name": "null_condition_phase_preserves_all_values",
+          "outcome": "ok"
+        },
+        {
+          "name": "excluded_conditional_foreign_phase_records_preserve_all_values",
+          "outcome": "ok"
+        },
+        {
+          "name": "conditional_typed_and_pack_documents_preserve_complete_metadata",
+          "outcome": "ok"
+        }
+      ],
+      "passed": 24,
+      "failed": 0,
+      "ignored": 0,
+      "filtered_out": 0
+    },
+    {
+      "target": "registry_applicability_runtime_route_contracts",
+      "fixture_sha256": "46f7b2ab3a3d46654028df48b68203e1ba9cebe12377c88338e8e853d376dd14",
+      "tests": [
+        {
+          "name": "direct_runtime_temperature_constraint_refuses_without_selector_precheck",
+          "outcome": "ok"
+        },
+        {
+          "name": "decoded_pack_runtime_temperature_constraint_refuses_without_selector_precheck",
+          "outcome": "ok"
+        }
+      ],
+      "passed": 2,
+      "failed": 0,
+      "ignored": 0,
+      "filtered_out": 0
+    }
+  ],
+  "rust_passed": 26,
+  "rust_failed": 0,
+  "rust_ignored": 0,
+  "rust_filtered_out": 0,
+  "generator_passed": 24,
+  "generator_failed": 0,
+  "generator_expected_refusals_verified": 18,
+  "generator_compatibility_cases_verified": 6,
+  "canonical_species_per_compatibility_case": 186,
+  "zero_cp_rows_per_compatibility_case": 47,
+  "total_passed": 50,
+  "total_controls": 50,
+  "hosted_lock_sha256": "3671ca639b44c5ad64e4646bb4710c80f5965dae2efeafff9509ef9beb512dc3",
+  "lock_scope": "Fresh revised-candidate hosted lock captured and independently hash-verified; separate from the local offline lock and earlier run receipts.",
+  "generator_artifact": {
+    "binary_sha256": "5df635eccfe4f86c4b871836fc6013c07b82fa04061cc8e7c4ab7337208f6832",
+    "dependency_file_sha256": "907fcd80e37113da14281cdf30396df99461e59987b65ef51813034fd1cd7ee0",
+    "source_path": "crates/kerotakis-core/build.rs",
+    "observed_compiler_artifact_fresh": false,
+    "rustc_invocation_verified": true
+  },
+  "raw_result_sha256": "d0b0e1a9fe78fb6ba3b1257f414db768dee80d7d33b8d316123030d9a10bb2c0",
+  "raw_generator_results_sha256": "070a76986d4cb5dc9ada0b855e3b6c8a9eab04c6c6ee36c9b851707f46d29d88",
+  "artifact_sha256": {
+    "Cargo.lock": "3671ca639b44c5ad64e4646bb4710c80f5965dae2efeafff9509ef9beb512dc3",
+    "candidate-controls-command.json": "aa1a77d09e39bc248565343db461ee0d3c93a260dc640584ae1b77244d1ce36e",
+    "candidate-controls-exit.json": "81868a6e94ffc0178bf833deb1c9013d9fab4ee95ddb876a5e8ec4f1d26376d2",
+    "candidate-controls.log": "bb253207cc442796299af6e50a8903a7802b6dbf330f5996f23bc981e0ef16ad",
+    "cargo-version-command.json": "e59e3da05eee40cbc1224fbd14a0972082d9505d724d9019c72c46260a2d7d3a",
+    "cargo-version-exit.json": "81868a6e94ffc0178bf833deb1c9013d9fab4ee95ddb876a5e8ec4f1d26376d2",
+    "cargo-version.log": "2106ad2f6d2494210f01796652ddf5c620d7955ad5e1a4ef2b55500aee9ceab0",
+    "fetch-locked-command.json": "6ada477bc8e6a06c4bdd905d51167c1ee2fc6f3c3a8ad8897608607cec912270",
+    "fetch-locked-exit.json": "81868a6e94ffc0178bf833deb1c9013d9fab4ee95ddb876a5e8ec4f1d26376d2",
+    "fetch-locked.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "freeze.json": "53566e8135c88580e938d4abddd69f3515ea6b660fe9d773e4da140fb0fc6e64",
+    "generate-lockfile-command.json": "5aa24839ec2ca1306495461067c213835ac868225be839a7d7cae635d8427199",
+    "generate-lockfile-exit.json": "81868a6e94ffc0178bf833deb1c9013d9fab4ee95ddb876a5e8ec4f1d26376d2",
+    "generate-lockfile.log": "742035523837e307805ff1b96d0f02136969d6ef145691d0e2c84b5002278d7f",
+    "generator-build-command.json": "0a6b177a7448d0228f549f9e2de1ff0dd1366b383e3b013940112950edb8d069",
+    "generator-build-exit.json": "81868a6e94ffc0178bf833deb1c9013d9fab4ee95ddb876a5e8ec4f1d26376d2",
+    "generator-build-script": "5df635eccfe4f86c4b871836fc6013c07b82fa04061cc8e7c4ab7337208f6832",
+    "generator-build-script.d": "907fcd80e37113da14281cdf30396df99461e59987b65ef51813034fd1cd7ee0",
+    "generator-build.log": "62831a6baad18f805ce7c8114846054e8866753b17d44bb1fa961f42b540d061",
+    "generator-controls-command.json": "c8d0b5b2743c8add89348c642dbb706cb96c1c719ebcc9990b6aa9cebc549c87",
+    "generator-controls-exit.json": "81868a6e94ffc0178bf833deb1c9013d9fab4ee95ddb876a5e8ec4f1d26376d2",
+    "generator-controls.log": "ec929c2ae87d01cbfe7cda11c986b211649a1c67836876ed79165e782b2df805",
+    "runtime-route-freeze.json": "cd7f4a16f4d5b6d8c5f2899fc083ee01e5572cb5b395540474ee3908d9e0a924",
+    "rustc-version-command.json": "6cf639725eb780e63880aff344c705b4fb69771787d93bc102d6fd01ad5f7b0f",
+    "rustc-version-exit.json": "81868a6e94ffc0178bf833deb1c9013d9fab4ee95ddb876a5e8ec4f1d26376d2",
+    "rustc-version.log": "b569b0c98ea3133c7252b4b8ea6b39b7b353813df0dd5f5c412c355691424112",
+    "source-inventory.json": "4225d054fcd2718179ef289c2fcfa6061faf3d974006766c108df09356d0b644"
+  },
+  "verified_job_steps": [
+    {
+      "number": 1,
+      "name": "Set up job",
+      "conclusion": "success"
+    },
+    {
+      "number": 2,
+      "name": "Run actions/checkout@v6",
+      "conclusion": "success"
+    },
+    {
+      "number": 3,
+      "name": "Run actions/checkout@v6",
+      "conclusion": "success"
+    },
+    {
+      "number": 4,
+      "name": "Run dtolnay/rust-toolchain@stable",
+      "conclusion": "success"
+    },
+    {
+      "number": 5,
+      "name": "Run Swatinem/rust-cache@v2",
+      "conclusion": "success"
+    },
+    {
+      "number": 6,
+      "name": "Fetch pinned SUNDIALS",
+      "conclusion": "success"
+    },
+    {
+      "number": 7,
+      "name": "Capture paired Rust and newly compiled generator controls",
+      "conclusion": "success"
+    },
+    {
+      "number": 8,
+      "name": "Preserve candidate source, actual lock, generator and raw outcomes",
+      "conclusion": "success"
+    },
+    {
+      "number": 14,
+      "name": "Post Run Swatinem/rust-cache@v2",
+      "conclusion": "success"
+    },
+    {
+      "number": 15,
+      "name": "Post Run actions/checkout@v6",
+      "conclusion": "success"
+    },
+    {
+      "number": 16,
+      "name": "Post Run actions/checkout@v6",
+      "conclusion": "success"
+    },
+    {
+      "number": 17,
+      "name": "Complete job",
+      "conclusion": "success"
+    }
+  ],
+  "limits": [
+    "Source-informed engineering controls, not blind scientific forecasts.",
+    "Actual build-script compilation observed; other dependency artifacts may be cached.",
+    "Recursive Gitlinks initialized/HEAD/status checked by collector; submodule contents and ignored environment/cache files were not independently blob-compared.",
+    "Own PR CI, both full native inventories, full chemistry fleet and actual merge-tree acceptance remain separate integration gates."
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "pr": 781,
+  "run": 38220364638,
+  "job": 114714868948,
+  "head": "7cce5b8f861bbe3c5fabdffb5eb8c0ca4acae06f",
+  "tested_checkout": "97d0c6b66fd569ba5aa6e06c0cc7e244781a6457",
+  "tested_tree": "cbe987d1fba5eaeaecbd7a23232fb2105eee8684",
+  "head_tree_equals_tested_checkout": true,
+  "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38220364638/job/114714868948",
+  "conclusion": "success",
+  "log_sha256": "b0b029916edf18c766684750c509d2a02acdcac48a8dd5162ce27086e7094e44",
+  "targets": [
+    {
+      "path": "crates/kerotakis-data/tests/registry_property_admission_contracts.rs",
+      "fixture_sha256": "638d4e46b4e2accd29c7124f359a809d3e29f854dedff46f3337033012fd0cef",
+      "passed": [
+        "supported_complete_registry_and_pack_remain_supported",
+        "typed_negative_molar_mass_refuses",
+        "typed_zero_molar_mass_refuses",
+        "typed_negative_density_refuses",
+        "typed_zero_density_refuses",
+        "typed_negative_heat_capacity_refuses",
+        "well_hashed_negative_density_pack_refuses",
+        "well_hashed_zero_molar_mass_pack_refuses",
+        "well_hashed_negative_heat_capacity_pack_refuses",
+        "signed_dissolution_enthalpy_remains_supported"
+      ],
+      "failed": []
+    }
+  ],
+  "total_focused_passed": 10,
+  "successful_steps": [
+    "Format",
+    "Clippy",
+    "Test",
+    "Codex \u2014 every claim must still compute",
+    "Curiosity coverage \u2014 the recorded route is still the route"
+  ],
+  "scope": "One native integration gate only. Other required gates and historical full-audit acceptance are separate.",
+  "parent_shas": [
+    "093db6c9a9e64f1d704ded354685cee4ded6a9ec",
+    "7cce5b8f861bbe3c5fabdffb5eb8c0ca4acae06f"
+  ],
+  "run_pr_association": {
+    "pr": 781,
+    "head": "7cce5b8f861bbe3c5fabdffb5eb8c0ca4acae06f",
+    "base": "093db6c9a9e64f1d704ded354685cee4ded6a9ec",
+    "base_ref": "main"
+  },
+  "run_api_sha256": "b4096174e769922bb370fb0c234485b82036820470108e540e95e78514479010",
+  "normalized_run_metadata_sha256": "aba2dd133274f7c0ac3f78e3ef4abf450814c6a364c9ad40a8a02bb18058e06d",
+  "checkout_api_sha256": "ca3bb7fa885bd2fdf9bffca3e5ab2d999175a6915d23c86ffd2e61bdcbfffd6c",
+  "hosted_lock_sha256": null,
+  "lock_scope": "Ordinary native CI did not independently capture the actual hosted Cargo.lock. No other run lock hash substituted."
+}
