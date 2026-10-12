@@ -1,5 +1,11 @@
 # Chemistry audit: current state, 2026-10-05
 
+## Applicability candidate 50/50; revised-head validation pending — 2026-10-12
+
+[Independent paired review](../audits/registry-loader-applicability-20261012/paired-candidate-review.json) verifies all26 Rust and24 generator controls passing at PR781 head `62c70f63`, with actual source, lock, freshly compiled generator and raw outcomes. Original26 Rust controls remain6 pass/20 fail; original24 generator cases remain6 pass/18 fail. This closes the candidate's frozen engineering expectations, not empirical chemical accuracy or integration.
+
+Broader macOS CI failed before native tests on `clippy::err_expect`. [The correction](../audits/registry-loader-applicability-20261012/lint-port-preparation.json) changes only three runtime assertion extraction sites in production ports; frozen audit fixtures remain unchanged. PR781 now has head `7cce5b8f`. Next: validate that head's paired50, ownCI/native404 across37fixtures and full33 fleet, then fresh guarded integration. Prior-head results cannot certify the revised head. [Exact resume instructions](../audits/registry-loader-applicability-20261012/README.md) and [today's agenda](chemistry-work-agenda-20261012.md) are current; earlier pending/preparation statements below are history.
+
 ## Applicability repair prepared as PR781 — 2026-10-12
 
 [DraftPR781](https://github.com/CrispStrobe/kerotakis/pull/781) applies the narrow shared-selector applicability rule and ports two unchanged frozen fixtures. The original hosted26-control baseline is independently verified at6 pass/20 fail, with actual source/lock/raw-log bindings and standalone direct/decoded-pack failures; original24 generator cases remain6 pass/18 fail. OwnCI38216841844/native404/37fixtures/fullfleet38216841880 and paired validation38217196803 are pending. Actual candidate50/50, repair acceptance and main integration are not yet claimed. Earlier queued-baseline/unapplied-proposal updates below are history.

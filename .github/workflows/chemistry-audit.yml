@@ -711,8 +711,8 @@ jobs:
           path: audit-source
       - uses: actions/checkout@v6
         with:
-          ref: 62c70f634213bbad68a2ef3d99971625f9f0a2db
-          fetch-depth: 2
+          ref: 7cce5b8f861bbe3c5fabdffb5eb8c0ca4acae06f
+          fetch-depth: 3
           path: candidate-source
           submodules: recursive
       - uses: dtolnay/rust-toolchain@stable

@@ -1,46 +1,42 @@
 # Chemistry work agenda — 2026-10-12
 
-The primary completion target is the demonstrated mandatory fallback
-applicability gap. Accepted main is `093db6c9`; the preserved generator baseline
-has **6 passing and 18 failing cases**. The original hosted Rust baseline has6 passes/20 failures, and the narrow
-repair is pushed as draftPR781. Paired candidate and own integration gates
-remain pending. [Evidence and exact resume instructions](../audits/registry-loader-applicability-20261012/README.md)
-remain the source of truth.
+The priority is integrating the demonstrated mandatory fallback applicability repair.
+Accepted main remains `093db6c9`. Original Rust controls yield6 passes/20 failures;
+original generator cases yield6 passes/18 failures. The first repair at `62c70f63`
+is independently verified **50/50**, including a newly compiled generator.
+PR781 now has a production test assertion correction at `7cce5b8f` after macOS
+Clippy failed before native tests. Its own validation and integration remain open.
+[Evidence and exact resume instructions](../audits/registry-loader-applicability-20261012/README.md)
+are the source of truth.
 
-## 1. Capture the original Rust baseline without altering its source
+## 1. Validate the revised repair head
 
-Run the dedicated `registry-applicability-baseline` selection of
-`.github/workflows/chemistry-audit.yml`. It checks out exact main093 separately
-from the audit collector and injects the two byte-identical frozen fixtures.
-Keep the actual dependency lock, full tracked-source hashes, submodule identities,
-commands, both raw test blocks and exit status. Independently review the 24+2
-exact test identities; dependency or compilation failure is not a contract
-failure. Successful evidence collection is not repair acceptance.
+Collect paired26 Rust +24 unchanged generator expectations on `7cce5b8f`, retaining
+actual source, lock, compiler artifact, raw outputs and exits. The production
+ports change only three runtime `.err().expect()` calls to `expect_err()`;
+original frozen fixtures and first failures stay immutable. Verify the exact
+normalization, not byte identity with the original ports. Do not borrow the
+previous head's50/50 result for the revised head.
 
-Use hosted runners when the shared host lacks load, memory or disk headroom.
-Keep local build starts resource-gated and use one worker. The broad audit branch
-supplies fixtures and tooling; do not merge it as an implementation change.
+Use hosted runners while shared-host load, memory or disk headroom prohibit
+local builds. Keep large local work resource-gated and use one Cargo worker.
+The original baseline is already captured; no redundant baseline rerun is needed.
 
-## 2. Apply the narrow repair and close its complete frozen slice
+## 2. Complete own integration gates and merge the narrow repair
 
-After reviewing original Rust outcomes, start a main-based source branch and
-apply `candidate-applicability.patch`. Port the two unchanged fixtures. Preserve
-uniqueness and phase selection before checking only the three selected mandatory
-records. Keep conditional typed documents, complete pack metadata, supported
-null/default fields, notes and unused foreign-phase records valid.
+Verify the revised head's own complete CI, both native inventories with404 focused
+functions across37 fixtures, full affected libraries and registry admission,
+and all33 fleet jobs with every declared step. Derive actual inventories and
+fixture hashes from this head; preserve prior378 focused controls. Prepare a
+fresh read-only integration preflight, advance the draft only when all other
+gates are ready, then use an ordinary head-guarded merge and verify actual
+parents/tree. Refresh portable acceptance receipts, ledger and current-main
+presence inventory. Never merge the broad audit branch as implementation.
 
-Collect paired results for all 26 Rust functions and all 24 generator cases;
-the candidate generator must be newly compiled and source-bound. Preserve the
-original failures. Verify the prior 378 focused functions, making 404 functions
-across 37 fixtures with the new ports, plus complete affected libraries and the
-separate registry admission suite. Derive these inventories from the actual
-source again before acceptance. Require the repair's own CI, both native
-inventories, full chemistry fleet and actual guarded merge parents/tree.
-
-Done means the scoped gap is integrated with its evidence. Fifty engineering
-controls do not establish empirical chemical accuracy or broader applicability
-support. Optional curves, unknown/malformed conditions, contextful interval
-selection and multiple mass anchors remain separate policies.
+Done means this selected context-free mandatory fallback slice is integrated.
+Fifty source-informed engineering controls do not establish empirical chemical
+accuracy. Optional curves, unknown/malformed conditions, contextful intervals and
+multiple mass anchors remain separate policies.
 
 ## 3. Extend the next reviewed final-safety rule tranche
 

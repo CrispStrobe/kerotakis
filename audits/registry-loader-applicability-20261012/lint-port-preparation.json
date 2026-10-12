@@ -1,0 +1,27 @@
+{
+  "pr": 781,
+  "previous_head": "62c70f634213bbad68a2ef3d99971625f9f0a2db",
+  "head": "7cce5b8f861bbe3c5fabdffb5eb8c0ca4acae06f",
+  "tree": "cbe987d1fba5eaeaecbd7a23232fb2105eee8684",
+  "base": "093db6c9a9e64f1d704ded354685cee4ded6a9ec",
+  "scope": "Assertion spelling only: three runtime .err().expect calls become expect_err; original frozen fixtures are immutable and selector extraction remains unchanged.",
+  "ports": [
+    {
+      "path": "crates/kerotakis-core/tests/registry_loader_applicability_contracts.rs",
+      "original_sha256": "8041b163ca3b19ddc325eff1b589ab7351a7b60d475066f5295ee6a81cec1ada",
+      "ported_sha256": "d9e728b1271218607e87949cfdda13ca75e62e42d5a3313f4744f2cde09d85e1"
+    },
+    {
+      "path": "crates/kerotakis-core/tests/registry_applicability_runtime_route_contracts.rs",
+      "original_sha256": "e4aa286f68521c137b004a8398b6410457df124eb4e624c05838aeb4824fa2e7",
+      "ported_sha256": "46f7b2ab3a3d46654028df48b68203e1ba9cebe12377c88338e8e853d376dd14"
+    }
+  ],
+  "clippy_failure": {
+    "run_id": 38216841844,
+    "job_id": 114703456388,
+    "reason": "clippy::err_expect under -D warnings; before native tests",
+    "log_sha256": "a1bc334642a73a0f47529f835cb9bceaa65a178cfc04379f8525ba6a19f69c9e"
+  },
+  "new_head_validation_pending": true
+}

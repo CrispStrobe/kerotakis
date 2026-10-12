@@ -10,8 +10,9 @@ import subprocess
 import sys
 import hosted_original_baseline as baseline
 
-HEAD = '62c70f634213bbad68a2ef3d99971625f9f0a2db'
-TREE = '748d01a09cd8f589068a6d8f798e95c98498f5aa'
+HEAD = '7cce5b8f861bbe3c5fabdffb5eb8c0ca4acae06f'
+TREE = 'cbe987d1fba5eaeaecbd7a23232fb2105eee8684'
+PREVIOUS = '62c70f634213bbad68a2ef3d99971625f9f0a2db'
 BASE = baseline.SOURCE
 require = baseline.require
 digest = baseline.digest
@@ -44,8 +45,9 @@ def main():
             relative = str(filename.resolve().relative_to(baseline.AUDIT))
             require(baseline.git(baseline.AUDIT, 'show', audit_revision + ':' + relative)
                     == filename.read_bytes(), 'collector differs from audit revision')
-        require(baseline.git(source, 'show', '-s', '--format=%P', 'HEAD').decode().strip() == BASE,
-                'candidate must have exact original source parent')
+        require(baseline.git(source, 'show', '-s', '--format=%P', 'HEAD').decode().strip() == PREVIOUS
+                and baseline.git(source, 'show', '-s', '--format=%P', PREVIOUS).decode().strip() == BASE,
+                'candidate must have exact original repair and baseline ancestry')
         changed = baseline.git(source, 'diff', '--name-only', BASE, HEAD).decode().splitlines()
         expected = {'crates/kerotakis-data/src/runtime_scalar_records.rs'} | {i['destination'] for i in inputs}
         require(set(changed) == expected, 'unexpected candidate changes')
@@ -56,9 +58,27 @@ def main():
         hashes = {row['path']: row['sha256'] for row in inventory['regular_files']}
         require(hashes['crates/kerotakis-data/src/runtime_scalar_records.rs'] ==
                 'c1a6f6c67bfd2d469698f223eae71dddc07db3a2a3956dedd939752939c59cbb', 'wrong repair bytes')
+        ports = []
         for item in inputs:
-            require(hashes[item['destination']] == item['fixture_sha256'], 'frozen fixture differs')
+            original = item['fixture']
+            if Path(item['destination']).stem == 'registry_loader_applicability_contracts':
+                ported = original
+                for expression in ['parse_document(doc)', 'parse_document(&unpacked)']:
+                    old = (expression + '\n            .err()\n            .expect(').encode()
+                    require(ported.count(old) == 1, 'ambiguous runtime assertion normalization')
+                    ported = ported.replace(old, (expression + '\n            .expect_err(').encode())
+            else:
+                old = b'parse_document(doc)\n        .err()\n        .expect('
+                require(original.count(old) == 1, 'ambiguous standalone assertion normalization')
+                ported = original.replace(old, b'parse_document(doc)\n        .expect_err(')
+            require(baseline.git(source, 'show', HEAD + ':' + item['destination']) == ported,
+                    'production port differs beyond declared assertion spelling')
+            require(hashes[item['destination']] == digest(ported), 'production port SHA differs')
+            ports.append(dict(path=item['destination'], original_sha256=item['fixture_sha256'],
+                              ported_sha256=digest(ported)))
+            item['fixture_sha256'] = digest(ported)
             (out / item['freeze_name']).write_bytes((baseline.HERE / item['freeze_name']).read_bytes())
+        result['assertion_spelling_ports'] = ports
         result['source_inventory_sha256'] = digest((out / 'source-inventory.json').read_bytes())
         require(not (source / 'Cargo.lock').exists(), 'pre-existing lock is not fresh hosted evidence')
         env = dict(os.environ, CARGO_BUILD_JOBS='1', CARGO_TERM_COLOR='never', RUST_BACKTRACE='0')
