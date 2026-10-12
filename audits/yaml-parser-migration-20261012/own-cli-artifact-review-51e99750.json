@@ -1,0 +1,28 @@
+{
+  "pr": 784,
+  "head": "51e997509126f099b22fbe963750ac06f36dadfe",
+  "base": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "source_tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+  "synthetic_checkout": "c877d811be7877d5c6223101eb21f3815d975c96",
+  "merge_parents": [
+    "1acdda4696e565be5dee13f0598eb2aa8081304e",
+    "51e997509126f099b22fbe963750ac06f36dadfe"
+  ],
+  "own_run_id": 38283405221,
+  "job_id": 114925885046,
+  "artifact_id": 11764077382,
+  "artifact_url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/artifacts/11764077382",
+  "artifact_zip_sha256": "6c6ab045052c0709cdb47ed629d3ab8ad9d2ac4b2e81302b0f6ab154bf889e71",
+  "binary_sha256": "3a8975c29663fe73202340eafe79b476c76e430aa259481456ca76405bb906c7",
+  "binary_bytes": 17582888,
+  "actual_fleet_lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+  "raw_job_log_sha256": "d316cd32cbee281ac3338381e238bdc7ee5f11b41097c6ad15081de40b04eff7",
+  "max_required_glibc": "2.39",
+  "host_glibc": "glibc 2.39",
+  "artifact_binary_executed": false,
+  "local_binary_hash_borrowed": false,
+  "full_ci_accepted": false,
+  "full_fleet_accepted": false,
+  "integration_accepted": false,
+  "scope": "Own fleet build artifact only: exact head/base/PR/attempt, completed build steps and checkout merge/tree/parents, GitHub ZIP digest, exact four-file archive, embedded binary checksum, clean pinned submodule record and captured fleet Cargo.lock. ELF/host compatibility checked statically; binary not executed, native libraries still require runtime qualification. No parent local lock or binary borrowed and no full-fleet acceptance."
+}

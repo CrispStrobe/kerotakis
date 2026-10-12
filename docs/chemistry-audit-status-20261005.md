@@ -1,7 +1,24 @@
 # Chemistry audit: current state, 2026-10-05
 
 
-## Current checkpoint — 2026-10-12: repair leaf passes; dependency CI reports success
+## Current checkpoint — 2026-10-12: repaired CLI27/27 accepted
+
+PR784's [own release artifact](../audits/yaml-parser-migration-20261012/own-cli-artifact-review-51e99750.json)
+and [independent artifact review](../audits/yaml-parser-migration-20261012/own-cli-artifact-independent-review-51e99750.json)
+bind exact repair head `51e99750`, its merge tree/parents, archive, binary and
+actual fleet lock. [New runtime captures](../audits/yaml-parser-migration-20261012/repaired-cli-controls-review-51e99750.json)
+pass **15/15 general CLI controls and 12/12 nested-rate controls**, with original
+expectations and collector bytes unchanged. All eight formerly silent unknown
+keys now produce the expected refusals. [Independent runtime review](../audits/yaml-parser-migration-20261012/repaired-cli-independent-review-51e99750.json)
+verifies all 27 outcomes and source/binary/lock lineage. This supplements the
+accepted typed63 regressions; the annotation supplement's two historical failures
+remain preserved.
+
+Full repaired-source affected libraries, pack15, complete own CI/fleet and
+integration remain pending. Hosted native tests are running or queued; fleets
+are incomplete. Follow [the next-step lanes](chemistry-work-agenda-20261012.md).
+
+## Earlier checkpoint — 2026-10-12: repair leaf passes; dependency CI reports success
 
 PR784 head `51e99750` now passes **50 original parser controls and 13 repair
 regression functions**, unfiltered, with exact source and actual leaf lock

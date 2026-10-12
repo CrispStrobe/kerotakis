@@ -126,15 +126,30 @@ fresh full-workspace validation. The unchanged twenty-case supplement remains
 outcome matching both earlier sources;
 [its separate review](supplement-independent-review-51e99750.json) preserves
 those unmet forecasts. Its own hosted CI and fleet remain incomplete.
-[The reviewed rebinding helper](cli-rebinding-preparation.md) can prepare new
-CLI15 and nested12 bindings from a separately reviewed own artifact while
-keeping every original expectation and collector byte fixed. Its eight
-synthetic preparation tests pass; no repaired CLI run is claimed. A separately
-completed leaf test validates typed parsing; full affected libraries, packs,
-CLI15 and repaired CLI12 remain separate source-specific tasks. A first build
-setup failed before any test executed; the successful continuation is separately
-recorded. Rebase deliberately after the
-dependency change integrates, then validate and bind the resulting source anew. Preserve the first freeze and outcomes.
+[The reviewed rebinding helper](cli-rebinding-preparation.md) prepared new
+CLI15 and nested12 manifests with every original expectation and collector byte
+fixed. [The repair's own release artifact](own-cli-artifact-review-51e99750.json)
+and [independent artifact review](own-cli-artifact-independent-review-51e99750.json)
+verify its exact source, merge parents/tree, archive, binary and captured fleet
+lock. [Actual repaired CLI results](repaired-cli-controls-review-51e99750.json)
+now pass **15/15 general controls and 12/12 nested-rate controls**. All eight
+formerly silent unsupported-key witnesses now satisfy their original refusal
+forecasts. Original supported shapes and missing-required-`Ea` remain accepted
+in their intended positive/refusal categories. These runs use the own-source
+release binary, separate new manifests and evidence destinations, with source,
+actual binary and captured lock guarded before and after each matrix.
+[Independent runtime review](repaired-cli-independent-review-51e99750.json)
+verifies all 27 actual outcomes and unchanged expectation lineage. General CLI
+controls include an inert bounded simulation; they do not establish empirical
+kinetic integration accuracy. Inspect does not expose Troe `T2`; its retention
+is separately proved by the typed Rust fixture.
+
+Full affected libraries and all fifteen pack regressions at the repaired source
+remain pending, along with complete own CI/fleet and integration. The first leaf
+build setup failed before any test executed; its separately recorded continuation
+passes all 63 controls. Rebase deliberately after the dependency change
+integrates, then validate and bind any resulting new source. Preserve all first
+freezes and outcomes.
 
 The [manifest patch](maintained-fork-dependency.patch) is separate from the
 preserved earlier facade proposal and its observed regression below.

@@ -1,0 +1,339 @@
+{
+  "schema_version": 1,
+  "head": "51e997509126f099b22fbe963750ac06f36dadfe",
+  "source_tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+  "reviewed_artifact_receipt_sha256": "eff53008a599a2af2b90a91aa3a80845d97344a512c2901374f364a45723d03d",
+  "independent_artifact_receipt_sha256": "a9316ca332ca3461c8b4f7d41fec8568f7d97a91d34bb79fa3fdc9e5c8719b9d",
+  "root_controls_receipt_sha256": "b836650220834936d9da33f9a41e23b3344dfdc2e5b4d2b0f0ce8bb42f577fac",
+  "own_run_id": 38283405221,
+  "job_id": 114925885046,
+  "artifact_id": 11764077382,
+  "binary_sha256": "3a8975c29663fe73202340eafe79b476c76e430aa259481456ca76405bb906c7",
+  "actual_captured_fleet_lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+  "tracked_source_blobs_independently_reverified": 2255,
+  "permitted_rebinding_only": true,
+  "original_collectors_byte_identical": true,
+  "matrices": [
+    {
+      "matrix": "cli15",
+      "original_freeze_commit": "6ae7b5bb7d0c6fedb5faffa62e16249e6c6b9263",
+      "original_manifest_sha256": "61b7277115004eb0ffd27f55a94a63f7880940a07f7d692da9339d8151071389",
+      "rebound_manifest_sha256": "a1521cf133691c86e91c3da53015537224936c870f3daf93c4c823ba976d56a4",
+      "collector_sha256": "8c5aa8f733e78e1b3dd63be69f9a38e9198452696fe1dfe4944ccc228b885ebf",
+      "execution_binding_sha256": "62cd98921e51be7bc3246cf81cfd94b1b0c55dbb899daa65444f35cf29d640a4",
+      "results_sha256": "cde0a53a4d293c29d242832631fc67a50188689cc0eda7cbdd61101360ea0e31",
+      "passed": 15,
+      "failed": 0,
+      "collector_exit": 0,
+      "cases_rechecked": [
+        {
+          "id": "inspect-h2-o2-skeletal-v1-json",
+          "exit": 0,
+          "passed": true,
+          "stdout_sha256": "9c9c99c36f7043c0728920dc22e1d44744ec25d1e6f2274a9dc3281bd3982d98",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expected_stderr_contains": []
+        },
+        {
+          "id": "inspect-h2-o2-skeletal-v1-text",
+          "exit": 0,
+          "passed": true,
+          "stdout_sha256": "4696121b696b46e8ec1ddcee5a8a3547ad528a5b33167f142730eda4b582a2e8",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expected_stderr_contains": []
+        },
+        {
+          "id": "inspect-co-h2-wet-v1-json",
+          "exit": 0,
+          "passed": true,
+          "stdout_sha256": "a3f31c3c3f5145cdf87f7b3f45510d70364abbbf3b8593c3dee226526d8c19e3",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expected_stderr_contains": []
+        },
+        {
+          "id": "inspect-co-h2-wet-v1-text",
+          "exit": 0,
+          "passed": true,
+          "stdout_sha256": "ea0a08d117f2ba598387b61362bf423a94810c149e966e790d872b27e7648d03",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expected_stderr_contains": []
+        },
+        {
+          "id": "inspect-hydrocarbon-global-v1-json",
+          "exit": 0,
+          "passed": true,
+          "stdout_sha256": "f8f029833e00a1ac034629e4b82ef26841bd1142a777853b67e33be4846ea076",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expected_stderr_contains": []
+        },
+        {
+          "id": "inspect-hydrocarbon-global-v1-text",
+          "exit": 0,
+          "passed": true,
+          "stdout_sha256": "ddc051e0beeaf32b595e1da7e8f2903d0d1c6d41d599558f0baa39d2fbf1af9d",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expected_stderr_contains": []
+        },
+        {
+          "id": "rates-h2-o2-skeletal-v1",
+          "exit": 0,
+          "passed": true,
+          "stdout_sha256": "0a927b82a85963bae82bd1ae0332365a9597112e4c45df9d510c20929048d226",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expected_stderr_contains": []
+        },
+        {
+          "id": "rates-co-h2-wet-v1",
+          "exit": 0,
+          "passed": true,
+          "stdout_sha256": "75e59b683ac1b45a4635fdfc6059eba67d650b5104d4aa6d57d82dc161246a08",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expected_stderr_contains": []
+        },
+        {
+          "id": "rates-hydrocarbon-global-v1",
+          "exit": 0,
+          "passed": true,
+          "stdout_sha256": "adf373b63891c8be9097d0e7e01a255067ef211d48421a67ee3f322def7a6fd8",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expected_stderr_contains": []
+        },
+        {
+          "id": "simulate-inert-bounded",
+          "exit": 0,
+          "passed": true,
+          "stdout_sha256": "95e20e69fdcef8d5dad32b30b68d8e149405f5a0da4c5b8cfd80c95ff228d7a0",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expected_stderr_contains": []
+        },
+        {
+          "id": "inspect-complex-note-equivalence",
+          "exit": 0,
+          "passed": true,
+          "stdout_sha256": "9c9c99c36f7043c0728920dc22e1d44744ec25d1e6f2274a9dc3281bd3982d98",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expected_stderr_contains": []
+        },
+        {
+          "id": "refuse-custom-tag-composition-shape",
+          "exit": 1,
+          "passed": true,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "10df1348265fb6796ceeb9b976ee268814e9c321c5377903603b155a8a9892b7",
+          "expected_stderr_contains": [
+            "invalid mechanism YAML"
+          ]
+        },
+        {
+          "id": "refuse-undeclared-feed",
+          "exit": 2,
+          "passed": true,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "aabe81beb574a204cde39e287f165024868172f614e4509723e517bf386c517a",
+          "expected_stderr_contains": [
+            "feed species 'UNDECLARED' is not declared"
+          ]
+        },
+        {
+          "id": "refuse-negative-volume",
+          "exit": 2,
+          "passed": true,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "205c4acd0c09df372a13abecfc4a034e5d77bb32149e1c63c84ce18d5f752be2",
+          "expected_stderr_contains": [
+            "--volume-l must be finite and positive"
+          ]
+        },
+        {
+          "id": "refuse-zero-samples",
+          "exit": 2,
+          "passed": true,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "05de6f7cab8a74189639971b9b9522bf3cc653c7b10f28671dccbed271b7f5b5",
+          "expected_stderr_contains": [
+            "--samples must be positive"
+          ]
+        }
+      ],
+      "gitlinks_not_recursively_verified": [
+        {
+          "path": "sundials-kinetics-rs",
+          "revision": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa"
+        },
+        {
+          "path": "vendor/iphreeqc",
+          "revision": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+        }
+      ]
+    },
+    {
+      "matrix": "nested12",
+      "original_freeze_commit": "c1fe0ef8f29f57de3b71365714cc1297ba0afe09",
+      "original_manifest_sha256": "a7193ca986bdb7b1c895110fc4f3ac72f48310243d5a857b8250c6df823d7d09",
+      "rebound_manifest_sha256": "616f77a5483496d5608d12ca4c080f63098b4b07fb6969ed5d8a5ead46b5b7de",
+      "collector_sha256": "69b3c7c4ea1ae1f459e2bd83a9dc5953cc94943db0a622ad0508ceacb6bfb4ba",
+      "execution_binding_sha256": "3b5965c04dbd2fe7fb95dfeed991d5a9b5bf028d9ca42df8207c7472131c12a0",
+      "results_sha256": "f268b159afb12913ab8c2449c5cd2e0b125cd7349769ada9e4b34e06e3cb3569",
+      "passed": 12,
+      "failed": 0,
+      "collector_exit": 0,
+      "cases_rechecked": [
+        {
+          "id": "valid-elementary",
+          "exit": 0,
+          "passed": true,
+          "stdout_sha256": "050c5cd898c4e4298431d4378ee9a2c8fc3aadc70e4c0e238dafefda4f5b3ab2",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expected_stderr_contains": []
+        },
+        {
+          "id": "valid-falloff-troe",
+          "exit": 0,
+          "passed": true,
+          "stdout_sha256": "36a189736f9f2ad4145349b3c1a57f203d77fe9a405e2cb9b18d805ed6e2646c",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expected_stderr_contains": []
+        },
+        {
+          "id": "valid-plog",
+          "exit": 0,
+          "passed": true,
+          "stdout_sha256": "f8609af304f2c52cab5e14465ac0b4ae37e5cd1d7111b7e06411b49a6f3697cc",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expected_stderr_contains": []
+        },
+        {
+          "id": "refuse-elementary-uppercase-B",
+          "exit": 1,
+          "passed": true,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e98b8c6fc7891c8a06a766cab4146ca8abdbc70a191f2229695e65aea3272427",
+          "expected_stderr_contains": [
+            "kero mechanism:",
+            "unsupported",
+            "B"
+          ]
+        },
+        {
+          "id": "refuse-elementary-unknown-units",
+          "exit": 1,
+          "passed": true,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "c3bd41d41b7b04b4db2a845434cba3cdaa9b0b850bc5d57d7c73db6cb7b18888",
+          "expected_stderr_contains": [
+            "kero mechanism:",
+            "unsupported",
+            "units"
+          ]
+        },
+        {
+          "id": "refuse-elementary-lowercase-ea-missing-required",
+          "exit": 1,
+          "passed": true,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "37b7dc17eb032e60073dea41bb7c0f06ef85eb1c664a785841c27d0dd4a14a83",
+          "expected_stderr_contains": [
+            "kero mechanism:",
+            "missing field",
+            "Ea"
+          ]
+        },
+        {
+          "id": "refuse-elementary-misplaced-orders",
+          "exit": 1,
+          "passed": true,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "7fc9a4ef12b76511eeb2ebb74cb3c88f23448608ad4d4fbe69566bf9badfeee3",
+          "expected_stderr_contains": [
+            "kero mechanism:",
+            "unsupported",
+            "orders"
+          ]
+        },
+        {
+          "id": "refuse-falloff-high-unknown-negative-A",
+          "exit": 1,
+          "passed": true,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "d8a7be3d7fe809e55e460fd664617b46d1e1d8076bf7198ddfdff2c9b9ef4ee3",
+          "expected_stderr_contains": [
+            "kero mechanism:",
+            "unsupported",
+            "negative-A"
+          ]
+        },
+        {
+          "id": "refuse-falloff-low-unknown-units",
+          "exit": 1,
+          "passed": true,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "8fb311092c18b3d272fdd9d667174e4dfe1050a10bf72ef689609d74d5601913",
+          "expected_stderr_contains": [
+            "kero mechanism:",
+            "unsupported",
+            "units"
+          ]
+        },
+        {
+          "id": "refuse-troe-lowercase-t2",
+          "exit": 1,
+          "passed": true,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "4e93ac6d23b34dc3506704af5898ee9c1a478e65ba2804a8140599aed4994e53",
+          "expected_stderr_contains": [
+            "kero mechanism:",
+            "unsupported",
+            "t2"
+          ]
+        },
+        {
+          "id": "refuse-plog-entry-unknown-units",
+          "exit": 1,
+          "passed": true,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "275d88025b65b9c292f7ea54626562c1fcfd143dea39c21626b97698ba51686f",
+          "expected_stderr_contains": [
+            "kero mechanism:",
+            "unsupported",
+            "units"
+          ]
+        },
+        {
+          "id": "refuse-plog-entry-misplaced-orders",
+          "exit": 1,
+          "passed": true,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "3467f63ddb70be8776b6a3cb23ddcf161bba560a59a2b147a24550d7870c882b",
+          "expected_stderr_contains": [
+            "kero mechanism:",
+            "unsupported",
+            "orders"
+          ]
+        }
+      ],
+      "gitlinks_not_recursively_verified": [
+        {
+          "path": "sundials-kinetics-rs",
+          "revision": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa"
+        },
+        {
+          "path": "vendor/iphreeqc",
+          "revision": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+        }
+      ]
+    }
+  ],
+  "passed": 27,
+  "failed": 0,
+  "all_outputs_exits_diagnostics_and_case_hashes_independently_rechecked": true,
+  "limits": [
+    "Own repaired-source release artifact executed in bounded local controls, not whole hosted CI or fleet acceptance.",
+    "Original expected cases and collector bytes unchanged. Only source/tree/source-hash/candidate-binary fields and explicit provenance lineage rebound in new manifests.",
+    "Current2255 tracked source blobs independently verified; execution guards recorded before/after each matrix. Gitlink revisions checked but module contents not recursively reverified for these CLI runs.",
+    "All fifteen engineering controls and twelve nested-rate controls passed. This certifies tested admission/refusal and bounded inert behavior, not active integration accuracy or empirical chemistry.",
+    "Existing native/cache artifacts remain qualified. No merge, full CI/fleet, browser/WASM runtime or generic integration acceptance."
+  ],
+  "full_ci_accepted": false,
+  "full_fleet_accepted": false,
+  "integration_accepted": false
+}

@@ -71,23 +71,24 @@ unit normalization, default `b`, optional `T2` and existing annotations.
 The new fixture supplies typed regressions for all eight failures plus third-body ownership,
 unused nested fields, valid PLOG, duplicate known fields and required/default
 controls. Keep the dependency PR narrow and preserve first outcomes.
-Use the [reviewed rebinding preparation helper](../audits/yaml-parser-migration-20261012/cli-rebinding-preparation.md)
-once the repair's own CLI artifact is independently accepted. It preserves every
-original expectation and collector byte while recording new source/artifact
-lineage. Review that lineage before running the copied collector into a new
-evidence destination. Eight synthetic preparation tests pass; no repaired
-CLI result is claimed. The first leaf build setup failed before tests executed;
-the separately recorded successful continuation passes all 63 controls. The
-actual reused leaf lock and shared cache do not certify full-workspace resolution.
+The [reviewed rebinding helper](../audits/yaml-parser-migration-20261012/cli-rebinding-preparation.md)
+now has an actual repair-source application. Its own release artifact and exact
+source association are independently reviewed; original collectors and all
+expectations remain fixed. [Repaired CLI results](../audits/yaml-parser-migration-20261012/repaired-cli-controls-review-51e99750.json)
+pass **15 general controls and all 12 nested-rate controls**, including the eight
+formerly silent unsupported-key cases. Separate original and repaired outcomes
+are preserved. [Independent runtime review](../audits/yaml-parser-migration-20261012/repaired-cli-independent-review-51e99750.json)
+checks actual outputs, exits, diagnostics, source/binary/lock and unchanged
+expectation lineage.
 
-A repaired source needs separate versioned binding; do not rewrite this frozen
-candidate binary/source manifest. Original YAML50 and the new typed repair fixture now pass. Next validate
-complete affected libraries and all fifteen packs at the exact repaired head;
-accept its own CLI artifact and run unchanged CLI15 and nested12 using reviewed
-new bindings. Record actual command, source/tree, lock, binary hash, all case
-outcomes and independent review. Accept complete own CI/fleet before integration;
-rebase and repeat source-specific gates if the dependency integration changes its
-source association. Do not transfer parent-source library/pack/CLI acceptance.
+Next validate complete affected libraries and all fifteen pack tests at exact
+repair head `51e99750`. Prefer its own hosted results when local fast-storage
+headroom cannot reserve a full build. Record actual source/tree, command, lock
+association, every test identity/outcome and independent review; do not borrow
+parent-source acceptance. Review complete own CI and the required fleet inventory
+before integration. Rebase deliberately after the dependency prerequisite
+integrates, then repeat source-specific gates for any new source association.
+
 
 ## 0b. Adjudicate tagged ignored annotations as a separate admission lane
 
