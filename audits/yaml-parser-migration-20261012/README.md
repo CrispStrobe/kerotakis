@@ -144,8 +144,17 @@ controls include an inert bounded simulation; they do not establish empirical
 kinetic integration accuracy. Inspect does not expose Troe `T2`; its retention
 is separately proved by the typed Rust fixture.
 
-Full affected libraries and all fifteen pack regressions at the repaired source
-remain pending, along with complete own CI/fleet and integration. The first leaf
+[Own repaired-source macOS native results](native-macos-review-51e99750.json)
+now pass the full workspace: **3,358 tests, four ignored, zero failures**.
+[Independent native review](native-macos-independent-review-51e99750.json)
+verifies actual 467 focused passes across 39 fixtures, including the original
+50 and new repair13, all thirteen library binaries (935 passes), and all fifteen
+unchanged gas-pack controls. Formatting, all-target workspace Clippy with
+warnings denied, tests and the remaining job steps pass at the exact repair
+merge tree. The ordinary native lock remains uncaptured; the release-artifact
+fleet lock is separate and is not substituted. This closes repaired-source
+library and pack validation in the accepted macOS job scope. Linux, full
+preflight, complete CI/fleet and integration remain pending. The first leaf
 build setup failed before any test executed; its separately recorded continuation
 passes all 63 controls. Rebase deliberately after the dependency change
 integrates, then validate and bind any resulting new source. Preserve all first

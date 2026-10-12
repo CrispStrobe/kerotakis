@@ -81,12 +81,18 @@ are preserved. [Independent runtime review](../audits/yaml-parser-migration-2026
 checks actual outputs, exits, diagnostics, source/binary/lock and unchanged
 expectation lineage.
 
-Next validate complete affected libraries and all fifteen pack tests at exact
-repair head `51e99750`. Prefer its own hosted results when local fast-storage
-headroom cannot reserve a full build. Record actual source/tree, command, lock
-association, every test identity/outcome and independent review; do not borrow
-parent-source acceptance. Review complete own CI and the required fleet inventory
-before integration. Rebase deliberately after the dependency prerequisite
+[Own repaired-source macOS native review](../audits/yaml-parser-migration-20261012/native-macos-independent-review-51e99750.json)
+now accepts full workspace3,358 passes/four ignored, 467 focused passes across
+39 fixtures, all thirteen library binaries (935 passes) and all fifteen pack
+controls at exact head `51e99750`. Formatting and all-target workspace Clippy
+with warnings denied also pass. The ordinary native lock remains uncaptured;
+no release-fleet lock is borrowed for this scope.
+
+Next review the repair's own Linux native and full preflight jobs when complete.
+Bind exact head/base/merge/tree, actual logs, source fixture hashes, individual
+outcomes and policy checks; retain uncaptured-lock qualifications. Inspect the
+complete own CI inventory and required fleet inventory before integration.
+Do not substitute parent-source or macOS outcomes for pending Linux results. Rebase deliberately after the dependency prerequisite
 integrates, then repeat source-specific gates for any new source association.
 
 

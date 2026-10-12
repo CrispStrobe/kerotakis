@@ -1,7 +1,23 @@
 # Chemistry audit: current state, 2026-10-05
 
 
-## Current checkpoint — 2026-10-12: repaired CLI27/27 accepted
+## Current checkpoint — 2026-10-12: repaired native libraries and packs accepted
+
+PR784 head `51e99750` now has [own macOS native evidence](../audits/yaml-parser-migration-20261012/native-macos-review-51e99750.json)
+and [independent review](../audits/yaml-parser-migration-20261012/native-macos-independent-review-51e99750.json):
+**3,358 workspace passes, four ignored, zero failures**; 467 focused passes across
+39 fixtures; all thirteen library binaries (935 passes); and all fifteen
+unchanged gas-pack controls. The job also passes formatting and all-target
+workspace Clippy with warnings denied. Actual checkout, source tree and merge
+parents are verified against its own run. Ordinary native lock remains
+uncaptured; the separately captured fleet lock is not borrowed.
+
+Together with typed63 and own release CLI27/27, this closes repaired-source
+library and pack checks in the accepted macOS scope. Linux native, full preflight,
+complete CI/fleet and integration remain pending. No merge is claimed.
+Follow [the next-step lanes](chemistry-work-agenda-20261012.md).
+
+## Earlier checkpoint — 2026-10-12: repaired CLI27/27 accepted
 
 PR784's [own release artifact](../audits/yaml-parser-migration-20261012/own-cli-artifact-review-51e99750.json)
 and [independent artifact review](../audits/yaml-parser-migration-20261012/own-cli-artifact-independent-review-51e99750.json)
