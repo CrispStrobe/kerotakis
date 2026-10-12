@@ -95,6 +95,30 @@ controls, **not 50 executed outcomes or blind chemistry experiments**.
 
 ## Resume the baseline
 
+### Hosted baseline collection
+
+When local resource limits prevent a build, dispatch the existing chemistry
+workflow on the audit branch with `audit=registry-applicability-baseline`.
+Its dedicated job separately checks out exact main093 and invokes
+`hosted_original_baseline.py`, which verifies all 2,251 source bytes and the
+unchanged freezes before injecting the two fixtures. The job retains the actual
+hosted dependency lock, source inventory, tool versions, commands, raw outputs
+and exits. It captures both test binaries with `--no-fail-fast` and rejects
+missing/extra identities, ignored/filtered controls and incomplete compilation.
+
+A successful job means complete evidence collection, **not a passing contract
+or an accepted repair**. The resulting artifact must be independently reviewed
+before applying the candidate. Local offline and hosted dependency resolutions
+remain distinct and must each retain their own actual lock.
+
+```sh
+gh workflow run chemistry-audit.yml \
+  --ref audit/systematic-chemistry-20261002 \
+  -f audit=registry-applicability-baseline
+```
+
+
+
 Use an isolated checkout of the exact source above. Obtain these frozen files
 from the audit branch and verify their SHA-256 against their respective freezes
 before copying them into the recorded `injected_fixture_path` destinations.

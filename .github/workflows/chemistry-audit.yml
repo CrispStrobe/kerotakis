@@ -15,7 +15,7 @@ on:
         description: Audit selection
         type: choice
         default: fleets
-        options: [fleets, independent-50, independent-next-50, independent-fourth-50, thermal-contracts, independent-third-50, native-scale-contracts, pure-still-contracts, pure-still-performance, representative-performance]
+        options: [fleets, independent-50, independent-next-50, independent-fourth-50, thermal-contracts, independent-third-50, native-scale-contracts, pure-still-contracts, pure-still-performance, representative-performance, registry-applicability-baseline]
       validated_run:
         description: Successful independent-50 validation run supplying the executable
         type: string
@@ -48,7 +48,7 @@ env:
 jobs:
   build-cli:
     name: Build audited CLI once
-    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance')
+    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -72,7 +72,7 @@ jobs:
 
   sixth-fleet:
     name: Frozen fleet 195-218
-    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance')
+    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline')
     needs: build-cli
     runs-on: ubuntu-latest
     steps:
@@ -117,7 +117,7 @@ jobs:
 
   seventh-fleet:
     name: Frozen fleet 459-488
-    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance')
+    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline')
     needs: build-cli
     runs-on: ubuntu-latest
     steps:
@@ -162,7 +162,7 @@ jobs:
 
   source-fleets:
     name: Source fleet ${{ matrix.family }}
-    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance')
+    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline')
     needs: build-cli
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -215,7 +215,7 @@ jobs:
 
   source-fleet-aggregate:
     name: All 240 source-informed cases
-    if: ${{ always() && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance')) }}
+    if: ${{ always() && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline')) }}
     needs: source-fleets
     runs-on: ubuntu-latest
     steps:
@@ -228,7 +228,7 @@ jobs:
 
   source-fleets-v2:
     name: Source fleet v2 ${{ matrix.family }}
-    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance')
+    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline')
     needs: build-cli
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -294,7 +294,7 @@ jobs:
 
   source-fleet-v2-aggregate:
     name: All 288 source-informed v2 cases
-    if: ${{ always() && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance')) }}
+    if: ${{ always() && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline')) }}
     needs: source-fleets-v2
     runs-on: ubuntu-latest
     steps:
@@ -307,7 +307,7 @@ jobs:
 
   source-fleets-v3:
     name: Source fleet v3 ${{ matrix.family }}
-    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance')
+    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline')
     needs: build-cli
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -364,7 +364,7 @@ jobs:
 
   source-fleet-v3-aggregate:
     name: All 120 source-informed v3 cases
-    if: ${{ always() && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance')) }}
+    if: ${{ always() && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline')) }}
     needs: source-fleets-v3
     runs-on: ubuntu-latest
     steps:
@@ -653,4 +653,45 @@ jobs:
         with:
           name: representative-performance-${{ github.sha }}
           path: ${{ runner.temp }}/representative-performance
+          retention-days: 30
+
+
+  registry-applicability-baseline:
+    name: Capture exact-main registry applicability baseline
+    if: github.event_name == 'workflow_dispatch' && inputs.audit == 'registry-applicability-baseline'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      CARGO_BUILD_JOBS: "1"
+      CARGO_TERM_COLOR: never
+    steps:
+      - name: Check out audit collector and unchanged frozen fixtures
+        uses: actions/checkout@v6
+        with:
+          path: audit-source
+      - name: Check out the exact accepted baseline source
+        uses: actions/checkout@v6
+        with:
+          ref: 093db6c9a9e64f1d704ded354685cee4ded6a9ec
+          path: accepted-source
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: accepted-source -> target
+      - name: Fetch pinned SUNDIALS for the baseline checkout
+        working-directory: accepted-source
+        run: bash tools/fetch-sundials.sh
+      - name: Capture both original fixtures including contract failures
+        run: >-
+          python3 audit-source/audits/registry-loader-applicability-20261012/hosted_original_baseline.py
+          --source accepted-source
+          --out registry-applicability-evidence
+      - name: Preserve exact source, dependency lock and raw baseline outcomes
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: registry-applicability-baseline-${{ github.sha }}
+          path: registry-applicability-evidence
+          if-no-files-found: error
           retention-days: 30

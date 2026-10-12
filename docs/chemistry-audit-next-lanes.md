@@ -1,5 +1,7 @@
 # Chemistry audit: actionable next lanes
 
+[Today’s ordered agenda](chemistry-work-agenda-20261012.md) turns the current applicability failure, remaining safety coverage and historical binding gaps into concrete completion targets.
+
 Read [the current checkpoint](chemistry-audit-status-20261005.md) first. These are proposed, uncompleted tasks, scoped for a fresh agent. They cover audit followup, not every pre-existing product roadmap item. Keep existing task numbers unchanged; the IDs here form a separate namespace.
 
 ## Shared execution contract
