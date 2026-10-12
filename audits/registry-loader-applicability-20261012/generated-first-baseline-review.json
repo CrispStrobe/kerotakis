@@ -1,0 +1,490 @@
+{
+  "status": "First frozen prospective generated-artifact baseline independently reviewed; no new compilation or Rust test execution",
+  "reviewed_at_utc": "2026-10-12T05:20:53.167583+00:00",
+  "source": "093db6c9a9e64f1d704ded354685cee4ded6a9ec",
+  "source_tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+  "freeze_path": "audits/registry-loader-applicability-20261012/generated-freeze.json",
+  "freeze_sha256": "57403a874a12130fcf1ede96a6d5e095cade29679d3c72939d1d8761cdb7882c",
+  "collector_sha256": "ebbff858813269d11176043c02817fbdcb08da83100b0570fd27258dbcfc0e46",
+  "raw_results_sha256": "36c71011400efe3a5a3c5c31c8d8d875d4f078b07fe040c885528b2388a94afc",
+  "registry_sha256": "48487e1940c5e0122207d352c78e4377f8f7b47d421be2f78d62b61a096c3774",
+  "binary_sha256": "e9ae23f79b1b31231cba7e70c44681c1e302987acc5453d9c245ca030724a32c",
+  "prior_observed_artifact": {
+    "source": "e644ab3f78388358c2226ae57fce718f0152d09e",
+    "source_tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+    "binary_sha256": "e9ae23f79b1b31231cba7e70c44681c1e302987acc5453d9c245ca030724a32c",
+    "public_receipt_path": "audits/registry-loader-phase-selection-20261011/generated-followup-review.json",
+    "public_receipt_sha256": "082433b9e608fe3a4fb9502926dbb4e168a73c53e80e96d20bed8c0eedcbe23f",
+    "scope": "Prior observed Cargo artifact on E644, whose tracked source tree equals actual main093. Artifact availability must be verified at execution; no rebuild, reproducibility or new dependency-lock identity claim."
+  },
+  "actual_total": 24,
+  "actual_passed": 6,
+  "actual_failed": 18,
+  "cases": [
+    {
+      "case": "canonical",
+      "expected_refusal": false,
+      "passed": true,
+      "failed_reason": null,
+      "exit_code": 0,
+      "input_sha256": "786ccacb8413f2a0d729f23b1f797fba277051dbbba963250b46bd3b96d104b8",
+      "stdout_sha256": "6da7cb1217dcbd304a48313dcd640ad266b3ca3fcf98677e89256a0fec015e9c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 186,
+      "zero_cp_rows_compared": 47,
+      "independently_recomputed_contract_pass": true,
+      "species_output_present": true
+    },
+    {
+      "case": "reverse_thermo",
+      "expected_refusal": false,
+      "passed": true,
+      "failed_reason": null,
+      "exit_code": 0,
+      "input_sha256": "5f5054ab32b00c301ca26619e400a4c11fb2b53ffbd32b57f3eb41dd836f41b2",
+      "stdout_sha256": "19d1b8f0319307269f44492021b45185063a84af49688486a6dd3aaba8aa5c41",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 186,
+      "zero_cp_rows_compared": 47,
+      "independently_recomputed_contract_pass": true,
+      "species_output_present": true
+    },
+    {
+      "case": "null_constraints_and_notes",
+      "expected_refusal": false,
+      "passed": true,
+      "failed_reason": null,
+      "exit_code": 0,
+      "input_sha256": "9ce9a28c36b6c88472254167ff90602af5596666343dddddc6531009ae5c7673",
+      "stdout_sha256": "98f65668021906dca98d9f2ab61a2c567422f0336606ca4fbb92e6a732dfef34",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 186,
+      "zero_cp_rows_compared": 47,
+      "independently_recomputed_contract_pass": true,
+      "species_output_present": true
+    },
+    {
+      "case": "missing_conditions",
+      "expected_refusal": false,
+      "passed": true,
+      "failed_reason": null,
+      "exit_code": 0,
+      "input_sha256": "141594d8f32496328c412a9678dbb968550cf2324488c39d8026f3864fda96a5",
+      "stdout_sha256": "516adb9d254aba5f7a4df3a54b0bdf4717ba4f558fd7161f97158f679d2bad7a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 186,
+      "zero_cp_rows_compared": 47,
+      "independently_recomputed_contract_pass": true,
+      "species_output_present": true
+    },
+    {
+      "case": "null_condition_phase",
+      "expected_refusal": false,
+      "passed": true,
+      "failed_reason": null,
+      "exit_code": 0,
+      "input_sha256": "8f3b32210d3b2932d266a286f2dc6744dc62737bb3a0267ddeaccb29cb5e8cd4",
+      "stdout_sha256": "73630c9bb6cd0e707086a8644e53b27061a431cf56b70b30e6b05c0fbf7db53c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 186,
+      "zero_cp_rows_compared": 47,
+      "independently_recomputed_contract_pass": true,
+      "species_output_present": true
+    },
+    {
+      "case": "excluded_conditional_foreign_records",
+      "expected_refusal": false,
+      "passed": true,
+      "failed_reason": null,
+      "exit_code": 0,
+      "input_sha256": "3d5cf534d84473b336b50a01d3ff1dbccbf44091a31f8e4f5af130dba9966529",
+      "stdout_sha256": "cd1821a1bb7ab53dd6f103769103ead6c62d99736a6affa795c29fb655e40449",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 186,
+      "zero_cp_rows_compared": 47,
+      "independently_recomputed_contract_pass": true,
+      "species_output_present": true
+    },
+    {
+      "case": "molar_mass_temperature",
+      "expected_refusal": true,
+      "passed": false,
+      "failed_reason": "AssertionError: generator admitted constrained selected record",
+      "exit_code": 0,
+      "input_sha256": "61a1fb35817753d6890568321adf0971a750b85ab0d667446ae73d3c83a923bf",
+      "stdout_sha256": "dc40393b5a1198e8ae604ffac40e4d6d5a9ed8825a2370277f29e52d376d68de",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 0,
+      "zero_cp_rows_compared": 0,
+      "independently_recomputed_contract_pass": false,
+      "species_output_present": true
+    },
+    {
+      "case": "molar_mass_pressure",
+      "expected_refusal": true,
+      "passed": false,
+      "failed_reason": "AssertionError: generator admitted constrained selected record",
+      "exit_code": 0,
+      "input_sha256": "05a2e8c7262e54667374842bb18c8efad05451fde4d499b340994ead6f83745e",
+      "stdout_sha256": "33a47e1c96abb47b1f3298ad4cd15ec72157fe542db5269049e951be3261ea8e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 0,
+      "zero_cp_rows_compared": 0,
+      "independently_recomputed_contract_pass": false,
+      "species_output_present": true
+    },
+    {
+      "case": "molar_mass_ph",
+      "expected_refusal": true,
+      "passed": false,
+      "failed_reason": "AssertionError: generator admitted constrained selected record",
+      "exit_code": 0,
+      "input_sha256": "b1e5c9eae27500fd6af43525edd90d3d640807d31178a3039dee761439253e59",
+      "stdout_sha256": "d2632deec7c2e13db6e6a4dc5d3f17b327b8ec561d5febc3b5fda0fec18c0af4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 0,
+      "zero_cp_rows_compared": 0,
+      "independently_recomputed_contract_pass": false,
+      "species_output_present": true
+    },
+    {
+      "case": "molar_mass_ionic_strength",
+      "expected_refusal": true,
+      "passed": false,
+      "failed_reason": "AssertionError: generator admitted constrained selected record",
+      "exit_code": 0,
+      "input_sha256": "c776bd73f284f7a379def4897c205d91debefbc69ae507a080ff784fce739e5c",
+      "stdout_sha256": "07d69ea5ea94c20e1497b278c50abdad8953e53302c1c20a0d9b9db71e72a6db",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 0,
+      "zero_cp_rows_compared": 0,
+      "independently_recomputed_contract_pass": false,
+      "species_output_present": true
+    },
+    {
+      "case": "molar_mass_medium",
+      "expected_refusal": true,
+      "passed": false,
+      "failed_reason": "AssertionError: generator admitted constrained selected record",
+      "exit_code": 0,
+      "input_sha256": "6a5acd9252e05ff9a3b966c3d0a326804da1f0470a7703342e64c573de16ea83",
+      "stdout_sha256": "70014a6a7f938250d0b274f9ec0f5d918820aa45957fb0c0f5c6b5e660c397d7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 0,
+      "zero_cp_rows_compared": 0,
+      "independently_recomputed_contract_pass": false,
+      "species_output_present": true
+    },
+    {
+      "case": "molar_mass_condition_phase_conflict",
+      "expected_refusal": true,
+      "passed": false,
+      "failed_reason": "AssertionError: generator admitted constrained selected record",
+      "exit_code": 0,
+      "input_sha256": "cebb7d023e6efd6eabd3aab898891f3d2a0453649c23b231a865e2c00a1c6b8a",
+      "stdout_sha256": "496fa1d853d9976ab7010cbf923e781174a71807f3ccbf1e1fe03fccc8cd6654",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 0,
+      "zero_cp_rows_compared": 0,
+      "independently_recomputed_contract_pass": false,
+      "species_output_present": true
+    },
+    {
+      "case": "molar_heat_capacity_temperature",
+      "expected_refusal": true,
+      "passed": false,
+      "failed_reason": "AssertionError: generator admitted constrained selected record",
+      "exit_code": 0,
+      "input_sha256": "58d9234d2e1c8d5593eecb337df9f3fb8931e236b7bdfa86f8e5fdb5271a1d7c",
+      "stdout_sha256": "ec3fc6bc8e67a2603c7a575b24e65dea7c30f997d98dccc1a898fd03f6458317",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 0,
+      "zero_cp_rows_compared": 0,
+      "independently_recomputed_contract_pass": false,
+      "species_output_present": true
+    },
+    {
+      "case": "molar_heat_capacity_pressure",
+      "expected_refusal": true,
+      "passed": false,
+      "failed_reason": "AssertionError: generator admitted constrained selected record",
+      "exit_code": 0,
+      "input_sha256": "59799bac5321846bcbe3291cb1cee21cf512c2c84c24795b55416759b5af469d",
+      "stdout_sha256": "bbeb9520f2ee7a9d0dc24e11d7e2dfb2e9b523a798aa5d1b88adbf25ba132a36",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 0,
+      "zero_cp_rows_compared": 0,
+      "independently_recomputed_contract_pass": false,
+      "species_output_present": true
+    },
+    {
+      "case": "molar_heat_capacity_ph",
+      "expected_refusal": true,
+      "passed": false,
+      "failed_reason": "AssertionError: generator admitted constrained selected record",
+      "exit_code": 0,
+      "input_sha256": "c3cbc80e7cdbeedddc6df3d62b724a84454474a75f28182c376cb1053cadb14e",
+      "stdout_sha256": "5c44da5c6238f9b0e8c38663111c776a5de0052ed3b9750df81830720112b21f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 0,
+      "zero_cp_rows_compared": 0,
+      "independently_recomputed_contract_pass": false,
+      "species_output_present": true
+    },
+    {
+      "case": "molar_heat_capacity_ionic_strength",
+      "expected_refusal": true,
+      "passed": false,
+      "failed_reason": "AssertionError: generator admitted constrained selected record",
+      "exit_code": 0,
+      "input_sha256": "d02f3c524236ffbd32ef0da1b009ea763fa94e81c99cdae802e9517eb4928359",
+      "stdout_sha256": "e68c7753935e6ae71577f057c82049739b0acf76bcb6c9bae241a4ad5a45de51",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 0,
+      "zero_cp_rows_compared": 0,
+      "independently_recomputed_contract_pass": false,
+      "species_output_present": true
+    },
+    {
+      "case": "molar_heat_capacity_medium",
+      "expected_refusal": true,
+      "passed": false,
+      "failed_reason": "AssertionError: generator admitted constrained selected record",
+      "exit_code": 0,
+      "input_sha256": "563da1bd41488c260799c47db811a458ab2c75677a45fd3722b31dbb74d3faf7",
+      "stdout_sha256": "3d6331b6c9e5fbdb43312690615d2e0f6f1aad9e81a6c2ea0e33e409a9b733df",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 0,
+      "zero_cp_rows_compared": 0,
+      "independently_recomputed_contract_pass": false,
+      "species_output_present": true
+    },
+    {
+      "case": "molar_heat_capacity_condition_phase_conflict",
+      "expected_refusal": true,
+      "passed": false,
+      "failed_reason": "AssertionError: generator admitted constrained selected record",
+      "exit_code": 0,
+      "input_sha256": "dc98f01ceeaad7e6b1ea9d638a87ea70809f1dbb29ed3f9759ca57d584909eae",
+      "stdout_sha256": "897789672fcda7b41ff11ec783fe947f45db541fffd777770b13ad3a706465be",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 0,
+      "zero_cp_rows_compared": 0,
+      "independently_recomputed_contract_pass": false,
+      "species_output_present": true
+    },
+    {
+      "case": "mass_density_temperature",
+      "expected_refusal": true,
+      "passed": false,
+      "failed_reason": "AssertionError: generator admitted constrained selected record",
+      "exit_code": 0,
+      "input_sha256": "464fc70fa4556831b6a5a82d6d0eba9503efc3891b77e3f4a3f48306c74dd8c7",
+      "stdout_sha256": "ee12df95138a61f75b2f70d429cb6d05e53e9f1557886c6586753dcd62ee1ca8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 0,
+      "zero_cp_rows_compared": 0,
+      "independently_recomputed_contract_pass": false,
+      "species_output_present": true
+    },
+    {
+      "case": "mass_density_pressure",
+      "expected_refusal": true,
+      "passed": false,
+      "failed_reason": "AssertionError: generator admitted constrained selected record",
+      "exit_code": 0,
+      "input_sha256": "98c745a237ec7017fbedb161f4139f5112149d50f34305bd6e7a1e7dd4fc1bfb",
+      "stdout_sha256": "f7f638b7f6d5f6df5ba42f6b4aad75fdefd32dcbeddbe30f11d775f7097fb02f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 0,
+      "zero_cp_rows_compared": 0,
+      "independently_recomputed_contract_pass": false,
+      "species_output_present": true
+    },
+    {
+      "case": "mass_density_ph",
+      "expected_refusal": true,
+      "passed": false,
+      "failed_reason": "AssertionError: generator admitted constrained selected record",
+      "exit_code": 0,
+      "input_sha256": "e8d1bb000522129a9a37763f51f1acb349c95de0113e63ee3d69782073e14d57",
+      "stdout_sha256": "bcccdfbd8963cb638f85737cdda4e72af924065d39bb648a3facbeb86a27656c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 0,
+      "zero_cp_rows_compared": 0,
+      "independently_recomputed_contract_pass": false,
+      "species_output_present": true
+    },
+    {
+      "case": "mass_density_ionic_strength",
+      "expected_refusal": true,
+      "passed": false,
+      "failed_reason": "AssertionError: generator admitted constrained selected record",
+      "exit_code": 0,
+      "input_sha256": "c3ef6925e5c0f2aa30b1bca99fd978f2a8d257cfa8533a1ca663952c9302ac15",
+      "stdout_sha256": "2dfefc82c7296f9b5c9bb5432cfc9f66aeeefcad37a162f4152098446f2ba8e5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 0,
+      "zero_cp_rows_compared": 0,
+      "independently_recomputed_contract_pass": false,
+      "species_output_present": true
+    },
+    {
+      "case": "mass_density_medium",
+      "expected_refusal": true,
+      "passed": false,
+      "failed_reason": "AssertionError: generator admitted constrained selected record",
+      "exit_code": 0,
+      "input_sha256": "55ba896012a1c7cb91ac36e6df1f13c3940873d472af16fe5f6c2fef467ab431",
+      "stdout_sha256": "77d04a0794607084a49f509e76fd806b8189876bf360905187aded9dc8052f3e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 0,
+      "zero_cp_rows_compared": 0,
+      "independently_recomputed_contract_pass": false,
+      "species_output_present": true
+    },
+    {
+      "case": "mass_density_condition_phase_conflict",
+      "expected_refusal": true,
+      "passed": false,
+      "failed_reason": "AssertionError: generator admitted constrained selected record",
+      "exit_code": 0,
+      "input_sha256": "427ded224707271ab31dcb7ab189de2b074afea1a30622b7e1f006197750f40f",
+      "stdout_sha256": "1d14e3fe592d75fc70cac615df3fa56187e8ca94e060c484f7513d20b615bbd5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "generated_output_sha256": {
+        "materials_generated.rs": "7344bf9f311b305f3b002187e8a5e515e8bf9f105f85f59e14803603568d6e4a",
+        "solvent_generated.rs": "480c740e564d5deeb59a9eaa653bb9047de7fa840de05d2455b749dc45bca5b3",
+        "species_generated.rs": "86e90aaa2a6e75b7372ba663d5937edd6b6c9fc55d8e5c3f7e30452fa9c868fc"
+      },
+      "species_values_and_phases_compared": 0,
+      "zero_cp_rows_compared": 0,
+      "independently_recomputed_contract_pass": false,
+      "species_output_present": true
+    }
+  ],
+  "raw_command_sha256": "0fcd4acfbd0596a7052988ac64724d59985e7acf84e662bc0ec44337c4cb73c1",
+  "local_source_binding_sha256": "7a3998834457a4eb1afb131e249752912686a046d149bb38c67b5d5451a624e4",
+  "preexecution_binding_sha256": "a227ea37031b7ad338aca42cf95ab982fef11b71d548f3c39f7d767f8b233afa",
+  "collector_exit_code": "1",
+  "collector_exit_code_sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+  "finding": "All18 selected-record constraint/phase-conflict controls were admitted: each generator exited0 and emitted species output instead of expected field-specific refusal. All6 supported controls preserve186 scalar triples/phase and47zeroCp rows. This establishes the bounded ignored-applicability generator gap on the observed prior artifact.",
+  "independent_review": "Frozen24 input bytes/hashes, case names/order, exit records, stdout/stderr and every preserved generated output hash verified; contract evaluator rerun on saved outputs without binary invocation.",
+  "scope": "Observed already-built E644/e9 artifact whose tracked source tree equals main093, not a fresh093 build or independent build reproduction. Prior original offline dependency/githlink-content limitations retained. Cargo/direct-runtime/decoded-pack Rust tests remain unexecuted in this receipt. No empirical or whole-schema applicability acceptance.",
+  "accepted_repair": false
+}

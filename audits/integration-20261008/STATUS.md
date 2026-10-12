@@ -1,5 +1,10 @@
 # Integration checkpoint — 2026-10-10
 
+## Applicability generator baseline — 2026-10-12
+
+[The first generator baseline](../registry-loader-applicability-20261012/README.md) is independently reviewed:6 pass/18 fail across24 frozen cases. All selected context-constrained or condition-phase-conflicting negative inputs were silently admitted and emitted species output. The six compatibility cases preserve186 scalar triples/phases and47 zero-Cp rows. Execution used the previously observed E644 artifact with tracked tree equal to main093; no rebuild is claimed. The separate26 Rust controls remain unexecuted. A narrow candidate patch is prepared but unapplied/uncompiled; original Rust baseline, paired repair validation and own integration gates remain pending. Earlier preparation-only statements below are history.
+
+
 ## Applicability preparation — 2026-10-12
 
 [26 mandatory fallback controls](../registry-loader-applicability-20261012/README.md) are frozen on exact accepted main093 before execution. The inventory covers558 mandatory records/186 species, with matching phase metadata and no other non-null applicability constraints. The proposed narrow policy preserves valid conditional typed documents and pack metadata, while refusing selected context-dependent runtime fallbacks when construction supplies no usable context. Two separate route witnesses avoid the original negatives' selector-first limitation. Baseline tests, generator controls, any repair and its acceptance remain pending; no new demonstrated failure or closure is claimed.

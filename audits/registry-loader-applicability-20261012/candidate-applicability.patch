@@ -1,0 +1,54 @@
+--- a/crates/kerotakis-data/src/runtime_scalar_records.rs
++++ b/crates/kerotakis-data/src/runtime_scalar_records.rs
+@@ -40,9 +40,29 @@
+     Ok(first)
+ }
+ 
++fn require_context_free_record(row: &Value, key: &str, property: &str) -> Result<(), String> {
++    let conditions = &row["quantity"]["conditions"];
++    for field in ["temperature", "pressure", "ph", "ionic_strength", "medium"] {
++        if !conditions[field].is_null() {
++            return Err(format!(
++                "{key}: {property} requires {field} context for runtime fallback"
++            ));
++        }
++    }
++    let condition_phase = &conditions["phase"];
++    if !condition_phase.is_null() && condition_phase != &row["phase"] {
++        return Err(format!(
++            "{key}: {property} condition phase conflicts with runtime record phase"
++        ));
++    }
++    Ok(())
++}
++
+ /// Select runtime fallback constants without depending on document order.
+ /// This is not a schema-wide ban on multiple phases, and it does not select
+-/// optional thermodynamic properties or polynomial curves.
++/// optional thermodynamic properties or polynomial curves. Selected constants
++/// must also be applicable without a temperature, pressure, pH, ionic-strength
++/// or medium context; conditional typed source data remains valid separately.
+ pub fn select_runtime_scalar_records<'a>(
+     records: &'a [Value],
+     key: &str,
+@@ -51,9 +71,18 @@
+     let phase = molar_mass["phase"]
+         .as_str()
+         .ok_or_else(|| format!("{key}: molar mass has no phase"))?;
++    let heat_capacity = unique_record(records, key, "molar_heat_capacity", Some(phase))?;
++    let density = unique_record(records, key, "mass_density", Some(phase))?;
++    for (property, row) in [
++        ("molar_mass", molar_mass),
++        ("molar_heat_capacity", heat_capacity),
++        ("mass_density", density),
++    ] {
++        require_context_free_record(row, key, property)?;
++    }
+     Ok(RuntimeScalarRecords {
+         molar_mass,
+-        heat_capacity: unique_record(records, key, "molar_heat_capacity", Some(phase))?,
+-        density: unique_record(records, key, "mass_density", Some(phase))?,
++        heat_capacity,
++        density,
+     })
+ }

@@ -1,0 +1,37 @@
+{
+  "status": "Static preparation review only: private candidate unapplied and uncompiled; original baseline source remains unchanged",
+  "reviewed_at_utc": "2026-10-12T05:22:22.428214+00:00",
+  "source": "093db6c9a9e64f1d704ded354685cee4ded6a9ec",
+  "source_tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+  "changed_production_paths": [
+    "crates/kerotakis-data/src/runtime_scalar_records.rs"
+  ],
+  "candidate_patch_sha256": "8b9f8705e11c0a1d417a4ad917d3ac9a0444cba9d7bfc60bee288911164e9b5c",
+  "candidate_file_sha256": "c1a6f6c67bfd2d469698f223eae71dddc07db3a2a3956dedd939752939c59cbb",
+  "original_source_file_sha256": "4909a70257b2383b0d083149b397393128980df725ab117565e5cf6fc29af75d",
+  "patch_binding": "Exact unified diff from pinned Git original to private candidate, one production file only. Exact isolated baseline helper bytes still equal pinned original at review.",
+  "implementation_review": {
+    "uniqueness_before_applicability": "Unique mass anchor, phase anchor and unique phase-matching Cp/density selections all finish before applicability checks; ambiguous same-phase records never silently choose an unbounded alternative.",
+    "selected_only": "New context-free helper receives only three selected mandatory rows; excluded foreign-phase records remain supported.",
+    "context_constraints": "Any non-null temperature/pressure/ph/ionic_strength/medium field refuses with species/property/field context diagnostic. Missing fields and null values remain supported.",
+    "condition_phase": "Non-null JSON condition phase compared directly against selected row phase; incompatible non-null values are not silently converted to an absent phase.",
+    "metadata": "Notes ignored as descriptive metadata; no typed schema/validation/pack admission/serialization edits. Public selector signature and existing String error type unchanged.",
+    "call_path": "Existing direct runtime and generated build callers share this exported selector; static linkage only, no successful candidate execution proved."
+  },
+  "pending_validation": [
+    "Execute original26 frozen Rust baseline on unchanged source before candidate application; separately preserve all actual outcomes and standalone direct/decoded-pack witness results.",
+    "After authorized isolated application, execute unchanged26 controls and required prior scalar/unit/phase/library/fidelity checks with source/dependency limitations retained.",
+    "Bind actual candidate compiled generator artifact before executing unchanged24 prospective generator cases; do not borrow old artifact source identity.",
+    "Formatting and meaningful lint checks remain resource-gated; no Cargo or artifact invocation performed by this review."
+  ],
+  "limitations": [
+    "Known selected mandatory-record applicability only; no optional-property/polynomial or general schema context applicability enforcement.",
+    "Unknown condition fields and malformed condition containers remain outside frozen contracts; this is not a whole-JSON validation repair.",
+    "No context-aware resolver or runtime temperature/pressure/pH/ionic-strength/medium inference.",
+    "No new measured chemical properties, independent build reproduction, hosted dependency lock or full gitlink-content acceptance."
+  ],
+  "accepted_runtime_repair": false,
+  "candidate_applied": false,
+  "candidate_compiled": false,
+  "candidate_executed": false
+}

@@ -1,0 +1,233 @@
+{
+  "status": "Separate prospective generator contracts frozen before execution; original26 Rust fixtures unchanged",
+  "frozen_at_utc": "2026-10-12T05:18:08.305758+00:00",
+  "source": "093db6c9a9e64f1d704ded354685cee4ded6a9ec",
+  "source_tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+  "registry_sha256": "48487e1940c5e0122207d352c78e4377f8f7b47d421be2f78d62b61a096c3774",
+  "fixture_path": "audits/registry-loader-applicability-20261012/fixtures/generated_applicability_contracts.py",
+  "fixture_sha256": "ebbff858813269d11176043c02817fbdcb08da83100b0570fd27258dbcfc0e46",
+  "expected_count": 24,
+  "expected_cases": [
+    "canonical",
+    "reverse_thermo",
+    "null_constraints_and_notes",
+    "missing_conditions",
+    "null_condition_phase",
+    "excluded_conditional_foreign_records",
+    "molar_mass_temperature",
+    "molar_mass_pressure",
+    "molar_mass_ph",
+    "molar_mass_ionic_strength",
+    "molar_mass_medium",
+    "molar_mass_condition_phase_conflict",
+    "molar_heat_capacity_temperature",
+    "molar_heat_capacity_pressure",
+    "molar_heat_capacity_ph",
+    "molar_heat_capacity_ionic_strength",
+    "molar_heat_capacity_medium",
+    "molar_heat_capacity_condition_phase_conflict",
+    "mass_density_temperature",
+    "mass_density_pressure",
+    "mass_density_ph",
+    "mass_density_ionic_strength",
+    "mass_density_medium",
+    "mass_density_condition_phase_conflict"
+  ],
+  "cases": [
+    {
+      "name": "canonical",
+      "mutation": "canonical",
+      "refusal": false
+    },
+    {
+      "name": "reverse_thermo",
+      "mutation": "reverse",
+      "refusal": false
+    },
+    {
+      "name": "null_constraints_and_notes",
+      "mutation": "null_notes",
+      "refusal": false
+    },
+    {
+      "name": "missing_conditions",
+      "mutation": "missing",
+      "refusal": false
+    },
+    {
+      "name": "null_condition_phase",
+      "mutation": "null_phase",
+      "refusal": false
+    },
+    {
+      "name": "excluded_conditional_foreign_records",
+      "mutation": "foreign",
+      "refusal": false
+    },
+    {
+      "name": "molar_mass_temperature",
+      "mutation": "constraint",
+      "property": "molar_mass",
+      "field": "temperature",
+      "refusal": true
+    },
+    {
+      "name": "molar_mass_pressure",
+      "mutation": "constraint",
+      "property": "molar_mass",
+      "field": "pressure",
+      "refusal": true
+    },
+    {
+      "name": "molar_mass_ph",
+      "mutation": "constraint",
+      "property": "molar_mass",
+      "field": "ph",
+      "refusal": true
+    },
+    {
+      "name": "molar_mass_ionic_strength",
+      "mutation": "constraint",
+      "property": "molar_mass",
+      "field": "ionic_strength",
+      "refusal": true
+    },
+    {
+      "name": "molar_mass_medium",
+      "mutation": "constraint",
+      "property": "molar_mass",
+      "field": "medium",
+      "refusal": true
+    },
+    {
+      "name": "molar_mass_condition_phase_conflict",
+      "mutation": "phase_conflict",
+      "property": "molar_mass",
+      "field": "phase",
+      "refusal": true
+    },
+    {
+      "name": "molar_heat_capacity_temperature",
+      "mutation": "constraint",
+      "property": "molar_heat_capacity",
+      "field": "temperature",
+      "refusal": true
+    },
+    {
+      "name": "molar_heat_capacity_pressure",
+      "mutation": "constraint",
+      "property": "molar_heat_capacity",
+      "field": "pressure",
+      "refusal": true
+    },
+    {
+      "name": "molar_heat_capacity_ph",
+      "mutation": "constraint",
+      "property": "molar_heat_capacity",
+      "field": "ph",
+      "refusal": true
+    },
+    {
+      "name": "molar_heat_capacity_ionic_strength",
+      "mutation": "constraint",
+      "property": "molar_heat_capacity",
+      "field": "ionic_strength",
+      "refusal": true
+    },
+    {
+      "name": "molar_heat_capacity_medium",
+      "mutation": "constraint",
+      "property": "molar_heat_capacity",
+      "field": "medium",
+      "refusal": true
+    },
+    {
+      "name": "molar_heat_capacity_condition_phase_conflict",
+      "mutation": "phase_conflict",
+      "property": "molar_heat_capacity",
+      "field": "phase",
+      "refusal": true
+    },
+    {
+      "name": "mass_density_temperature",
+      "mutation": "constraint",
+      "property": "mass_density",
+      "field": "temperature",
+      "refusal": true
+    },
+    {
+      "name": "mass_density_pressure",
+      "mutation": "constraint",
+      "property": "mass_density",
+      "field": "pressure",
+      "refusal": true
+    },
+    {
+      "name": "mass_density_ph",
+      "mutation": "constraint",
+      "property": "mass_density",
+      "field": "ph",
+      "refusal": true
+    },
+    {
+      "name": "mass_density_ionic_strength",
+      "mutation": "constraint",
+      "property": "mass_density",
+      "field": "ionic_strength",
+      "refusal": true
+    },
+    {
+      "name": "mass_density_medium",
+      "mutation": "constraint",
+      "property": "mass_density",
+      "field": "medium",
+      "refusal": true
+    },
+    {
+      "name": "mass_density_condition_phase_conflict",
+      "mutation": "phase_conflict",
+      "property": "mass_density",
+      "field": "phase",
+      "refusal": true
+    }
+  ],
+  "case_input_sha256": [
+    "786ccacb8413f2a0d729f23b1f797fba277051dbbba963250b46bd3b96d104b8",
+    "5f5054ab32b00c301ca26619e400a4c11fb2b53ffbd32b57f3eb41dd836f41b2",
+    "9ce9a28c36b6c88472254167ff90602af5596666343dddddc6531009ae5c7673",
+    "141594d8f32496328c412a9678dbb968550cf2324488c39d8026f3864fda96a5",
+    "8f3b32210d3b2932d266a286f2dc6744dc62737bb3a0267ddeaccb29cb5e8cd4",
+    "3d5cf534d84473b336b50a01d3ff1dbccbf44091a31f8e4f5af130dba9966529",
+    "61a1fb35817753d6890568321adf0971a750b85ab0d667446ae73d3c83a923bf",
+    "05a2e8c7262e54667374842bb18c8efad05451fde4d499b340994ead6f83745e",
+    "b1e5c9eae27500fd6af43525edd90d3d640807d31178a3039dee761439253e59",
+    "c776bd73f284f7a379def4897c205d91debefbc69ae507a080ff784fce739e5c",
+    "6a5acd9252e05ff9a3b966c3d0a326804da1f0470a7703342e64c573de16ea83",
+    "cebb7d023e6efd6eabd3aab898891f3d2a0453649c23b231a865e2c00a1c6b8a",
+    "58d9234d2e1c8d5593eecb337df9f3fb8931e236b7bdfa86f8e5fdb5271a1d7c",
+    "59799bac5321846bcbe3291cb1cee21cf512c2c84c24795b55416759b5af469d",
+    "c3cbc80e7cdbeedddc6df3d62b724a84454474a75f28182c376cb1053cadb14e",
+    "d02f3c524236ffbd32ef0da1b009ea763fa94e81c99cdae802e9517eb4928359",
+    "563da1bd41488c260799c47db811a458ab2c75677a45fd3722b31dbb74d3faf7",
+    "dc98f01ceeaad7e6b1ea9d638a87ea70809f1dbb29ed3f9759ca57d584909eae",
+    "464fc70fa4556831b6a5a82d6d0eba9503efc3891b77e3f4a3f48306c74dd8c7",
+    "98c745a237ec7017fbedb161f4139f5112149d50f34305bd6e7a1e7dd4fc1bfb",
+    "e8d1bb000522129a9a37763f51f1acb349c95de0113e63ee3d69782073e14d57",
+    "c3ef6925e5c0f2aa30b1bca99fd978f2a8d257cfa8533a1ca663952c9302ac15",
+    "55ba896012a1c7cb91ac36e6df1f13c3940873d472af16fe5f6c2fef467ab431",
+    "427ded224707271ab31dcb7ab189de2b074afea1a30622b7e1f006197750f40f"
+  ],
+  "negative_cases": 18,
+  "positive_cases": 6,
+  "prior_observed_artifact": {
+    "source": "e644ab3f78388358c2226ae57fce718f0152d09e",
+    "source_tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+    "binary_sha256": "e9ae23f79b1b31231cba7e70c44681c1e302987acc5453d9c245ca030724a32c",
+    "public_receipt_path": "audits/registry-loader-phase-selection-20261011/generated-followup-review.json",
+    "public_receipt_sha256": "082433b9e608fe3a4fb9502926dbb4e168a73c53e80e96d20bed8c0eedcbe23f",
+    "scope": "Prior observed Cargo artifact on E644, whose tracked source tree equals actual main093. Artifact availability must be verified at execution; no rebuild, reproducibility or new dependency-lock identity claim."
+  },
+  "contract": "18 independent selected-record refusals (3mandatoryproperties x5knownnonnullcontextconstraints plus3conditions.phase conflicts) name MgSO4/property/field and emit no species output;6positivecanonical/reordered/nullnotes/missingconditions/nullphase/excludedforeignconditional cases preserve all186 scalar triples/phase,47zeroCp and nonempty solvent/material outputs. Every case preserves raw outcome even when expectations fail; summary exit nonzero if any failed.",
+  "execution_requirements": "CLI requires binary,registry,out paths and explicit expected binary SHA256 and canonical registry SHA256. Exact frozencollector/cases/inputhashes checked before invocation; output directory must not exist. Separate compiled-artifact/source provenance is required for any candidate-source claim.",
+  "limits": "Source-informed engineering applicability controls, not new blind chemistry forecasts or scientific measurements. Supplied artifact execution only, no builds. Typed conditional document/pack metadata retention and direct/pack-runtime witnesses are the separately frozen26 Rust controls."
+}

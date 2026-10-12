@@ -1,0 +1,13 @@
+{
+  "source": "093db6c9a9e64f1d704ded354685cee4ded6a9ec",
+  "status": "Unapplied and uncompiled candidate proposal; original baseline source unchanged",
+  "changed_file": "crates/kerotakis-data/src/runtime_scalar_records.rs",
+  "original_sha256": "4909a70257b2383b0d083149b397393128980df725ab117565e5cf6fc29af75d",
+  "candidate_sha256": "c1a6f6c67bfd2d469698f223eae71dddc07db3a2a3956dedd939752939c59cbb",
+  "patch_sha256": "8b9f8705e11c0a1d417a4ad917d3ac9a0444cba9d7bfc60bee288911164e9b5c",
+  "rust_baseline_pending": 26,
+  "generated_baseline": {
+    "passed": 6,
+    "failed": 18
+  }
+}
