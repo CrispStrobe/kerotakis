@@ -295,6 +295,15 @@ Native inventory terminology: the historical “core native” label combined co
 
 ## SAF-01 — Integrate one production final-safety exposure slice
 
+**Current tranche:** [Fifty frozen controls](../audits/production-final-rule-matrix-20261012/README.md)
+on accepted main `a125c88d` cover all four reviewed rules outside the six-rule
+final callback whitelist. [Hosted baseline run38252519107](https://github.com/CrispStrobe/kerotakis/actions/runs/38252519107)
+is dispatched at audit revision `2deeb4d2`; results and repair remain unobserved
+at dispatch. Review the source/lock/artifact manifest and exact outcome inventory
+before implementing the next narrow production change. Fixed-location and
+synthetic pH/headspace limits are explicit in the freeze.
+
+
 **Start:** `crates/kerotakis-safety/src/lib.rs` (`ReactiveGroupScreen`, `assess_exposures`), `crates/kerotakis-core/src/solve.rs` (`SafetyScreen::assess_equilibrated`) and `Bench::titrate_loop`. [PR776 integration](../audits/production-final-safety-20261009/main-tree-equality.json) at6ea6938f completes the first three-rule slice on tested source622/tree5c381c99.
 
 **Accepted:** native267/26 fixtures on both platforms, complete workspace/CI/five gates/fleet, source-bound100-case/164-process replay and [actual paired CLI warning review](../audits/production-final-safety-20261009/cli-warning-probes/pair-review-622d37ec.json). Routing4/3 and identity5/4 original baselines, compiler/inventory/indexing failures and forecast qualifications remain preserved. The qualifying CLI positive now receives its exact reviewed warning in JSON/text; setup and benign counterpart remain quiet. These are virtual engineering observations, not empirical accuracy forecasts. Completed runs need no redispatch.

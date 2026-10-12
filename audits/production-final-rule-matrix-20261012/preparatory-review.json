@@ -1,0 +1,25 @@
+{
+  "reviewer": "independent agent",
+  "audit_revision": "2deeb4d24abd853d7e58194356e659b88c8e5ee4",
+  "scope": "Static source/freeze/workflow and synthetic parser review only; no Rust, backend, chemistry or actual hosted outcomes observed.",
+  "accepted_for_baseline_dispatch": true,
+  "checks": [
+    "Exact fifty unique frozen test identities and fixture SHA verified.",
+    "Exact accepted-main Git source and tree pinned; regular blob comparison and recursive Gitlink HEAD/status qualify ignored contents.",
+    "Actual fresh lock captured and unchanged after each command.",
+    "Exact named contract/core/safety binaries bound; actual running markers and complete summaries handle stderr header interleaving.",
+    "Independent synthetic604/28 interleaved and mixed24/26 logs accepted; six malformed inventories rejected.",
+    "Postexecution exact fixture bytes and only untracked injected fixture source status required; Cargo.lock is ignored but separately byte-bound.",
+    "Dedicated dispatch and all nine regular fleet exclusions verified."
+  ],
+  "corrections_before_dispatch": [
+    "Next-header partition replaced with actual running-marker partition.",
+    "Explicit contract/core/safety binary names added.",
+    "Postexecution source status and fixture equality added."
+  ],
+  "hashes": {
+    "freeze.json": "95a43ff2cc5096466d016d805b132fc0cd9685ad09b65a09c22c4fec72067069",
+    "fixtures/production_remaining_final_rules.rs": "fa7c370805203489fbcdcb18a6c9e99906073f5e1a3285a09b99f53302f912b6",
+    "hosted_baseline.py": "e95eb12f5532f0a5a0dd8b423fa74e8e15aa1383aa4e28589aff95ffbc7423fb"
+  }
+}

@@ -1,5 +1,19 @@
 # Chemistry audit: current state, 2026-10-05
 
+## Remaining final-safety fifty frozen; hosted baseline dispatched — 2026-10-12
+
+[Fifty original source-informed controls](../audits/production-final-rule-matrix-20261012/README.md)
+are frozen against accepted main `a125c88d` for the four remaining reviewed
+final-state rules. They cover introduction/identity, cutoffs, priority, exact
+warning metadata, accepted journals and discarded refinement. Synthetic
+inventories and pH test routing; these are not physical chemistry predictions.
+[Hosted run38252519107](https://github.com/CrispStrobe/kerotakis/actions/runs/38252519107)
+was dispatched at audit revision `2deeb4d2` after the local resource gate rejected
+host load. The collector also runs complete core/safety library suites. No
+outcomes or production repair are claimed at dispatch. Read and preserve raw
+first failures before any narrow repair; native/CLI/CI/fleet acceptance remains
+separate. Earlier PR781 integration is complete.
+
 ## Mandatory fallback applicability integrated — 2026-10-12
 
 [PR781](https://github.com/CrispStrobe/kerotakis/pull/781) is merged as main `a125c88d`, with [actual parents/tree independently verified](../audits/registry-loader-applicability-20261012/main-tree-equality.json) equal to tested head `7cce5b8f`. Its own revised paired50/50, both native404-function/37-fixture inventories, registry admission10, complete604core/17data/28safety libraries, completeCI26 and full33 fleet/every declared step are accepted. Fresh preflight and immediate run/rollup/head/base/main guards preceded the ordinary merge. Original Rust6pass/20fail and generator6pass/18fail, frozen fixtures and exact assertion-port adaptation remain preserved. Ordinary native CI's lock stays uncaptured; paired execution captures its own actual lock and newly compiled generator.

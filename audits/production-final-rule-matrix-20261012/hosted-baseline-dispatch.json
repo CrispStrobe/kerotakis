@@ -1,0 +1,22 @@
+{
+  "run_id": 38252519107,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38252519107",
+  "audit_revision": "2deeb4d24abd853d7e58194356e659b88c8e5ee4",
+  "source": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "workflow": "chemistry-audit.yml",
+  "input_audit": "remaining-final-rules-baseline",
+  "status_at_recording": "queued",
+  "outcomes_observed": false,
+  "repair_applied": false,
+  "freeze_sha256": "95a43ff2cc5096466d016d805b132fc0cd9685ad09b65a09c22c4fec72067069",
+  "fixture_sha256": "fa7c370805203489fbcdcb18a6c9e99906073f5e1a3285a09b99f53302f912b6",
+  "local_gate_rejected": {
+    "load1": 7.06,
+    "mem_available_mib": 3552,
+    "fast_free_mib": 18756,
+    "required_load1_max": 3.5,
+    "required_mem_available_mib_min": 3200,
+    "required_fast_free_mib_min": 4096
+  },
+  "scope": "Dispatch receipt only, not completed execution or acceptance."
+}

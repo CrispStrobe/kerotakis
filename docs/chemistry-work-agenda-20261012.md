@@ -19,6 +19,14 @@ bounded matrix if their domains permit it; static absence is not an executed
 failure. Freeze positive/unchanged/benign/distinct-pair/location/priority/cutoff/
 alias/refinement expectations before testing, with original freezes untouched.
 
+The [original fifty controls](../audits/production-final-rule-matrix-20261012/README.md)
+are now frozen on main `a125c88d`; the dedicated
+[hosted baseline](https://github.com/CrispStrobe/kerotakis/actions/runs/38252519107)
+is dispatched at audit revision `2deeb4d2`. Next verify the artifact manifest,
+source/actual lock and exact fifty identities, then read preserved first failures.
+No result or repair is claimed at dispatch. The fixed callback location and
+synthetic gas/pH domains limit the identity and physical claims explicitly.
+
 Collect an unchanged-source baseline and complete affected libraries. Establish
 actual surviving species, phase and backend support before claiming CLI JSON/text
 coverage. Repair only demonstrated gaps and preserve all six accepted final
