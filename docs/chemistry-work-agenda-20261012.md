@@ -30,7 +30,10 @@ CLI controls now pass at the candidate source. The CLI includes an inert bounded
 simulation, not active chemical integration accuracy. Inspect complete own
 hosted results and remaining bench-WASM gates before integration.
 [Own source-bound core WASM and bridge jobs](../audits/yaml-parser-migration-20261012/own-wasm-core-bridge-review-1acdda46.json)
-also pass; the bridge includes native/browser solution agreement. The
+also pass; the bridge includes native/browser solution agreement.
+[Own full preflight](../audits/yaml-parser-migration-20261012/own-preflight-review-1acdda46.json)
+now passes, including unchanged dependency policy. Linux, bench-WASM and complete
+CI/fleet acceptance remain pending; the ordinary hosted lock is uncaptured. The
 separate twenty-case supplement gives identical 18 pass / 2 fail on both parsers:
 custom tags in ignored annotations remain an explicit follow-up, with first
 failures and forecasts preserved. Resolve that support contract separately. Source-specific
@@ -48,14 +51,18 @@ unsupported-key witnesses exit zero and produce the valid counterpart's full
 summary; `B: 1` is lost to default `b=0`. Troe `t2` loss is source-inferred
 because inspect does not expose that parameter. Missing `Ea` remains refused.
 
-Implement a separate narrow admission repair in
-`crates/kerotakis-core/src/kinetics/mechanism.rs`: capture unmatched keys on
-ordinary/high/low/PLOG rates and Troe, then use typed `UnsupportedField`
+The separate narrow admission repair is now
+[draft PR784](https://github.com/CrispStrobe/kerotakis/pull/784), head `51e99750`,
+stacked on PR783. [Preparation evidence](../audits/yaml-parser-migration-20261012/nested-rate-repair-preparation-51e99750.json)
+binds the two changed files, thirteen regression functions and its own queued
+CI/fleet. Formatting and static checks pass; behavioral execution is pending.
+Review and validate `crates/kerotakis-core/src/kinetics/mechanism.rs`: it captures unmatched keys on
+ordinary/high/low/PLOG rates and Troe, then uses typed `UnsupportedField`
 owner/key refusals. Validate every supplied nested owner, including fields
 unused by the selected reaction type. Explicitly preserve `P` on flattened
 PLOG entries, required fields, known duplicates, numeric classification,
 unit normalization, default `b`, optional `T2` and existing annotations.
-Add direct typed regressions for all eight failures plus third-body ownership,
+The new fixture supplies typed regressions for all eight failures plus third-body ownership,
 unused nested fields, valid PLOG, duplicate known fields and required/default
 controls. Keep the dependency PR narrow and preserve first outcomes.
 A repaired source needs separate versioned binding; do not rewrite this frozen

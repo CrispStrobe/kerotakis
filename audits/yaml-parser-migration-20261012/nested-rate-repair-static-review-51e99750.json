@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "review_kind": "independent static source review only",
+  "source": "51e997509126f099b22fbe963750ac06f36dadfe",
+  "source_tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+  "parent": "8361af2f47a44c80894db512f24870392bbeb9ed",
+  "repair_base": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "original_parser_sha256": "b074b5f1c16508765cdff6e2db280537e37c586ea7f424a08760c905edac9640",
+  "source_sha256": {
+    "crates/kerotakis-core/src/kinetics/mechanism.rs": "e4eaf8b341e8942df81babea48da790927c99066e81c59d170f26e19b82af9c7",
+    "crates/kerotakis-core/tests/nested_rate_admission_contracts.rs": "4afa3dfcd67c582bff633b8d038f43cd5060d7c0a1cdc7c4639702635f8320b5"
+  },
+  "changed_paths_since_repair_base": [
+    "crates/kerotakis-core/src/kinetics/mechanism.rs",
+    "crates/kerotakis-core/tests/nested_rate_admission_contracts.rs"
+  ],
+  "final_commit_changed_paths": [
+    "crates/kerotakis-core/tests/nested_rate_admission_contracts.rs"
+  ],
+  "static_review_completed": true,
+  "behavior_executed": false,
+  "behavior_verified": false,
+  "accepted_integration": false,
+  "test_function_count": 13,
+  "test_functions": [
+    "eight_observed_silent_acceptances_refuse_contextually",
+    "third_body_rate_unknown_field_refuses",
+    "unused_nested_owners_cannot_hide_unknown_fields",
+    "pressure_key_is_consumed_by_plog_owner",
+    "known_troe_t2_remains_supported_and_optional",
+    "exponent_default_preserves_normalized_mechanism",
+    "missing_or_misspelled_activation_energy_remains_yaml_error",
+    "duplicate_known_fields_remain_yaml_errors",
+    "known_field_type_errors_remain_yaml_errors",
+    "numeric_admission_is_not_weakened_by_unknown_capture",
+    "established_annotation_owners_remain_accepted",
+    "plog_pressure_ownership_is_independent_of_key_order",
+    "supplied_troe_t2_survives_lowering"
+  ],
+  "first_outcome_receipt": "audits/yaml-parser-migration-20261012/nested-rate-first-independent-review-1acdda46.json",
+  "first_outcome_receipt_sha256": "904b71c80d3d6631da2090cf140e88f5b32f180de05422fe7f82ae1fb69478da",
+  "findings": [
+    "No static blocker found to publishing a separate explicitly unverified draft repair.",
+    "The patch adds private flattened unmatched-key maps only to RawRate and RawTroe and checks declared nested owners before rate-law dispatch. Ordinary, high/low-pressure, every PLOG entry, Troe and otherwise unused nested owners receive contextual UnsupportedField checks.",
+    "RawPressureRate continues owning P and flattening RawRate. The extra map is structurally appropriate, but nested Serde flatten behavior requires runtime confirmation rather than static acceptance.",
+    "The tests include the eight source-bound first silent acceptances, third-body and unused-owner refusals, P ownership, genuine b/T2 omission, required Ea, known duplicates, type failures, numeric categories and established annotations.",
+    "The added P-last witness compares complete ParsedMechanism values for both pressure entries and catches key-order dependence.",
+    "The added Troe T2 witness compares full parsed mechanisms with supplied versus genuinely omitted T2 and catches omission during lowering rather than only checking parse success."
+  ],
+  "intentional_qualifications": [
+    "Nested unknown checks now precede reaction-type dispatch. A document combining an unsupported reaction type with a nested unknown key may report contextual UnsupportedField first; universal diagnostic precedence is not claimed.",
+    "Malformed or custom-tagged extra values may fail YAML deserialization before key validation. The patch does not guarantee a named UnsupportedField for every possible YAML value syntax.",
+    "Scalar parsing, numeric normalization, public annotation owners and public API are not intentionally altered; preservation remains an execution requirement."
+  ],
+  "required_next_checks": [
+    "Execute the thirteen multiwitness tests on this exact source with actual lock and raw logs bound.",
+    "Re-evaluate the immutable prospective nested-rate twelve against a separately bound repaired binary while preserving first 4/8 outcomes.",
+    "Run original fifty, immutable supplement twenty with its historical 18/2 expectations, prior fifteen CLI controls, affected core/pack libraries and complete source-associated policy/CI gates.",
+    "Verify PLOG valid admission, duplicate known P/A/b/Ea fields, required fields and contextual entry refusals under actual nested flatten deserialization before integration."
+  ],
+  "limits": [
+    "Static review only: no compilation, test or CLI execution performed by this reviewer, and no behavioral passes or integration acceptance claimed.",
+    "Engineering admission witnesses do not establish empirical chemical calibration, rates or simulation correctness, universal YAML conformance or universal duplicate/error precedence.",
+    "No old freeze, original failure, production source or test fixture was edited by this reviewer."
+  ]
+}

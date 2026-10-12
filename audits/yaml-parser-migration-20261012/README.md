@@ -71,6 +71,10 @@ now pass at that same source-bound merge tree. The bridge verifies absent-solver
 refusal, live solving, desktop/browser pH and ionic-strength agreement, species
 transport and five live R1 scenarios. Hosted lock and built binaries are
 uncaptured; bench-WASM and complete CI/fleet remain pending.
+[Own full preflight](own-preflight-review-1acdda46.json) now also passes at the
+verified candidate merge tree, including all four cargo-deny categories under
+unchanged policy. Ordinary hosted lock and advisory database revision are
+uncaptured. Reporting-only upstream counts do not close scientific-data gaps.
 
 [The annotation contract review](annotation-contract-review.md) records the
 observed custom-tag boundary and six annotation owners. It also identifies
@@ -85,8 +89,15 @@ Troe `t2` is accepted; its omission is inferred from source because inspect
 omits Troe parameters. Three valid shapes and the missing-required-`Ea`
 refusal pass. This confirms a nested admission defect against the documented
 supported subset, not a measured chemistry or parser-migration regression.
-A separate narrow repair is being prepared; repaired-source validation and
-integration are not yet accepted. Preserve the first freeze and outcomes.
+The separate narrow repair is now [draft PR784](https://github.com/CrispStrobe/kerotakis/pull/784),
+head `51e99750`, stacked on PR783. Its
+[source preparation](nested-rate-repair-preparation-51e99750.json) binds exactly
+two changed files and thirteen multiwitness regression functions. Typed owner/key
+refusals cover all supplied nested owners before reaction dispatch. PLOG key
+order and supplied Troe `T2` preservation have explicit controls. Formatting
+and [independent static review](nested-rate-repair-static-review-51e99750.json) pass; no repaired-source behavior, full CI/fleet or integration
+is accepted. Its own hosted CI/fleet are queued. Rebase deliberately after the
+dependency change integrates, then validate and bind the resulting source anew. Preserve the first freeze and outcomes.
 
 The [manifest patch](maintained-fork-dependency.patch) is separate from the
 preserved earlier facade proposal and its observed regression below.

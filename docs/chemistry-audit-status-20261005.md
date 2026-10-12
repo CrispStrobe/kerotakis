@@ -10,14 +10,19 @@ keys were accepted with unchanged successful summaries. `B: 1` is visibly lost
 to default `b=0`; Troe `t2` omission is source-inferred because inspect does not
 expose Troe parameters. Three valid shapes and missing-required-`Ea` pass.
 [The independent receipt](../audits/yaml-parser-migration-20261012/nested-rate-first-independent-review-1acdda46.json)
-preserves every first outcome. A separate typed admission repair is being
-prepared; repaired-source execution and integration are pending.
+preserves every first outcome. The separate typed admission repair is now
+[draft PR784](https://github.com/CrispStrobe/kerotakis/pull/784), head `51e99750`,
+stacked on PR783. Thirteen regression functions and two changed files are bound
+in [preparation evidence](../audits/yaml-parser-migration-20261012/nested-rate-repair-preparation-51e99750.json).
+Formatting/static checks pass; own CI/fleet are queued. Repaired-source behavior
+and integration are pending.
 
 [Own core WASM and browser-engine bridge jobs](../audits/yaml-parser-migration-20261012/own-wasm-core-bridge-review-1acdda46.json)
 now pass at PR783's verified merge tree. The bridge includes absent-solver
 refusal, live solving, desktop/browser pH and ionic-strength agreement, species
-transport and five live R1 scenarios. Full preflight/Linux/bench-WASM/fleet
-remain pending. Ordinary hosted locks and built binaries are uncaptured.
+transport and five live R1 scenarios. [Own full preflight](../audits/yaml-parser-migration-20261012/own-preflight-review-1acdda46.json)
+now passes, including all four unchanged dependency-policy categories.
+Linux/bench-WASM/full CI/fleet remain pending. Ordinary hosted locks and built binaries are uncaptured.
 Earlier dated checkpoints below retain their historical scopes.
 
 ## Current checkpoint — 2026-10-12: own macOS and browser jobs verified

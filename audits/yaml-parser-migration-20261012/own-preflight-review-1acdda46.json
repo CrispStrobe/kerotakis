@@ -1,0 +1,45 @@
+{
+  "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "base": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "source_tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "synthetic_checkout": "83438d9ba3015592bdf883ddf7e3f91eaa250544",
+  "merge_parents": [
+    "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+    "1acdda4696e565be5dee13f0598eb2aa8081304e"
+  ],
+  "run_id": 38271407738,
+  "job_id": 114886294239,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407738/job/114886294239",
+  "run_attempt": 1,
+  "conclusion": "success",
+  "successful_steps": [
+    "Set up job",
+    "Run actions/checkout@v6",
+    "Run dtolnay/rust-toolchain@stable",
+    "Run Swatinem/rust-cache@v2",
+    "Fetch SUNDIALS (not vendored; pinned by checksum)",
+    "Install cargo-deny",
+    "librsvg and Pillow, so the icon check actually runs",
+    "Run tools/preflight.sh",
+    "Post Run Swatinem/rust-cache@v2",
+    "Post Run actions/checkout@v6",
+    "Complete job"
+  ],
+  "verified_terminal_markers": [
+    "advisories ok, bans ok, licenses ok, sources ok",
+    "preflight clean"
+  ],
+  "source_file_sha256": {
+    ".github/workflows/ci.yml": "0151c09468292c9039538c072e3c33980c778511f8e9c03967e6c2149b71c9d2",
+    "tools/preflight.sh": "ed4928883b9808a5ecb0103e55b66244d8016c12482053b85745f9053507ec15",
+    "deny.toml": "1f83fae0b3a1f548103b11a006a98a1b93ba7d3163c111e27d6441921bf0b5c7"
+  },
+  "log_sha256": "ccdf5af5f8a87079d5228410a1d683a9aa62b9b0684c3552b280383360c588ce",
+  "dependency_policy_unchanged": true,
+  "ordinary_hosted_lock_captured": false,
+  "advisory_database_revision_captured": false,
+  "full_ci_accepted": false,
+  "full_fleet_accepted": false,
+  "integration_accepted": false,
+  "scope": "Completed own-source full preflight job only: exact head/base/PR and merge checkout/tree/parents, all API steps success, non-light terminal clean marker and all four cargo-deny categories pass under unchanged policy. Preflight includes workspace tests, WASM build and repository content/tooling gates; CI omits redundant preflight Clippy, which remains a separate native gate. Ordinary hosted lock/advisory DB revision uncaptured; no local/fleet lock borrowed. Reporting-only upstream provenance counts are not closed scientific-data gaps. Remaining full CI/fleet and integration separate."
+}

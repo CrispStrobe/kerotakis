@@ -1,0 +1,39 @@
+{
+  "pr_number": 784,
+  "url": "https://github.com/CrispStrobe/kerotakis/pull/784",
+  "draft": true,
+  "head": "51e997509126f099b22fbe963750ac06f36dadfe",
+  "tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+  "base": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "base_branch": "fix/yaml-safe-parser-20261012",
+  "source_file_sha256": {
+    "crates/kerotakis-core/src/kinetics/mechanism.rs": "e4eaf8b341e8942df81babea48da790927c99066e81c59d170f26e19b82af9c7",
+    "crates/kerotakis-core/tests/nested_rate_admission_contracts.rs": "4afa3dfcd67c582bff633b8d038f43cd5060d7c0a1cdc7c4639702635f8320b5"
+  },
+  "regression_test_functions": 13,
+  "regressions_use_multiple_witnesses": true,
+  "formatting_passed": true,
+  "diff_check_passed": true,
+  "own_runs": [
+    {
+      "id": 38283405239,
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405239",
+      "name": "CI",
+      "status_at_capture": "queued",
+      "conclusion_at_capture": null
+    },
+    {
+      "id": 38283405221,
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221",
+      "name": "Chemistry audit fleets",
+      "status_at_capture": "queued",
+      "conclusion_at_capture": null
+    }
+  ],
+  "repaired_behavior_executed_locally": false,
+  "repaired_behavior_accepted": false,
+  "full_ci_accepted": false,
+  "full_fleet_accepted": false,
+  "integration_accepted": false,
+  "scope": "Separate source-specific draft admission repair stacked on PR783. Two source files, typed contextual refusal for nested unknown fields, thirteen multiwitness regression functions. Own CI/fleet queued at capture. Static/formatting evidence only; first nested12 failures and all prior freezes preserved. Required controlled rebase and new source binding after dependency integration."
+}
