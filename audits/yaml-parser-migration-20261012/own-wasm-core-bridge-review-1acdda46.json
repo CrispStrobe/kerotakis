@@ -1,0 +1,82 @@
+{
+  "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "base": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "synthetic_checkout": "83438d9ba3015592bdf883ddf7e3f91eaa250544",
+  "merge_parents": [
+    "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+    "1acdda4696e565be5dee13f0598eb2aa8081304e"
+  ],
+  "run_id": 38271407738,
+  "run_attempt": 1,
+  "jobs": [
+    {
+      "job_id": 114886294263,
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407738/job/114886294263",
+      "name": "Core and data schemas compile to wasm32",
+      "successful_steps": [
+        "Set up job",
+        "Run actions/checkout@v6",
+        "Run dtolnay/rust-toolchain@stable",
+        "Run Swatinem/rust-cache@v2",
+        "Fetch SUNDIALS (not vendored; pinned by checksum)",
+        "Check core, data and scene physics on wasm",
+        "Post Run Swatinem/rust-cache@v2",
+        "Post Run actions/checkout@v6",
+        "Complete job"
+      ],
+      "verified_markers": [
+        "cargo check -p kerotakis-core -p kerotakis-data -p kerotakis-scene-physics --target wasm32-unknown-unknown",
+        "Finished `dev` profile [unoptimized + debuginfo] target(s) in 37.53s"
+      ],
+      "log_sha256": "947bf5917213f3c6ced8e280f54f3a6a08b68fa5d4ac211b63dc546280cc4b77"
+    },
+    {
+      "job_id": 114886294047,
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407738/job/114886294047",
+      "name": "The two wasm halves, together",
+      "successful_steps": [
+        "Set up job",
+        "Run actions/checkout@v6",
+        "Run dtolnay/rust-toolchain@stable",
+        "Run Swatinem/rust-cache@v2",
+        "Run mymindstorm/setup-emsdk@v14",
+        "Run actions/setup-node@v6",
+        "Install wasm-bindgen",
+        "Build the bench for the browser",
+        "Build IPhreeqc for the browser",
+        "Record the desktop answer",
+        "Solve in the browser and compare",
+        "Post Run actions/setup-node@v6",
+        "Post Run Swatinem/rust-cache@v2",
+        "Post Run actions/checkout@v6",
+        "Complete job"
+      ],
+      "verified_markers": [
+        "ok   a bare bench admits it cannot solve",
+        "ok   and reports a miss rather than inventing an answer",
+        "ok   with IPhreeqc attached, the bench can solve",
+        "ok   a state nobody pre-computed is now solved",
+        "ok   the pH is a real number",
+        "ok   browser and desktop agree on pH",
+        "ok   browser and desktop agree on ionic strength",
+        "ok   the species distribution came across",
+        "ok   the live R1 report uses schema 1",
+        "ok   all five R1 scenarios solve through live browser IPhreeqc"
+      ],
+      "log_sha256": "0429536cfdb0dbdb93f32d0cf2810d095f9a8544d0eea7bb3432f90061e829af"
+    }
+  ],
+  "source_file_sha256": {
+    ".github/workflows/ci.yml": "0151c09468292c9039538c072e3c33980c778511f8e9c03967e6c2149b71c9d2",
+    "tools/test-wasm-bridge.mjs": "e24d4398e24d2629d5473671ff4746d54fafb48ddd6d25240f6c955361556687",
+    "tools/extract-solution.py": "4e8b0d6eaed348e8e2ea45aa9916ec3a0e1f225fee6c025db204fdf4026f0cf2",
+    "tools/build-iphreeqc-wasm.sh": "91a0382f929f99a8871302e4ca478df2fecbdb700b03de2b290a359a6f63b7e3"
+  },
+  "ordinary_hosted_lock_captured": false,
+  "built_binary_captured": false,
+  "full_ci_accepted": false,
+  "full_fleet_accepted": false,
+  "integration_accepted": false,
+  "scope": "Own-source core/data/scene WASM compilation and completed browser-engine bridge only. Bridge checks absent-solver refusal, live solution, desktop/browser pH agreement below 1e-6 and ionic strength agreement below 1e-9, species transport, and five live R1 scenarios. Ordinary hosted lock and built binary are uncaptured; no local/fleet lock borrowed. Not general empirical chemical accuracy or full workflow acceptance."
+}

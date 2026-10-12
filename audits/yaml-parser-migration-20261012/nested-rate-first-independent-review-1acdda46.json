@@ -1,0 +1,208 @@
+{
+  "schema_version": 1,
+  "source": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "source_tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "freeze_commit": "c1fe0ef8f29f57de3b71365714cc1297ba0afe09",
+  "manifest_sha256": "a7193ca986bdb7b1c895110fc4f3ac72f48310243d5a857b8250c6df823d7d09",
+  "collector_sha256": "69b3c7c4ea1ae1f459e2bd83a9dc5953cc94943db0a622ad0508ceacb6bfb4ba",
+  "binary_sha256": "a75a87b2669cdeb6f9e0c8f6fad0829f103475992f7d7649cadab072d9fcbad5",
+  "actual_workspace_lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+  "execution_binding_sha256": "0efed2dee13c55d50e252cff2d5597dfb3c0d9fac4f527eb58715f9514978cc1",
+  "raw_results_sha256": "6d1a0e298eedcae089dc135e4f8c0c42563c15bc3fa538f47654089ecaca08cd",
+  "collection_verified": true,
+  "independent_outcomes_verified": true,
+  "regular_source_blobs_verified": 2254,
+  "gitlinks_not_recursively_verified": [
+    {
+      "path": "sundials-kinetics-rs",
+      "revision": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa"
+    },
+    {
+      "path": "vendor/iphreeqc",
+      "revision": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+    }
+  ],
+  "total": 12,
+  "passed": 4,
+  "failed": 8,
+  "accepted_integration": false,
+  "cases": [
+    {
+      "id": "valid-elementary",
+      "passed": true,
+      "expected_category": "successful full MechanismSummary",
+      "observed_exit": 0,
+      "observed_outcome": "positive full JSON retained",
+      "json_equal_to_positive": null,
+      "input_sha256": "13b168cd534c2d8d3720f6e402ceab2ecf38515884a0f9251c39e48451e0e722",
+      "stdout_sha256": "050c5cd898c4e4298431d4378ee9a2c8fc3aadc70e4c0e238dafefda4f5b3ab2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command_sha256": "a002e00e2855b75767b780e2ef7a90ad6316193278e67e5ebf911f94c570a627",
+      "exit_sha256": "b669c0ac8481fe40a6825eecbc9cae144e515c13188bdd691d1c05f867362cd0"
+    },
+    {
+      "id": "valid-falloff-troe",
+      "passed": true,
+      "expected_category": "successful full MechanismSummary",
+      "observed_exit": 0,
+      "observed_outcome": "positive full JSON retained",
+      "json_equal_to_positive": null,
+      "input_sha256": "061e42fa6afd1537aa76dd837884a952860de637773c3b5fa1a4d8395a385e0c",
+      "stdout_sha256": "36a189736f9f2ad4145349b3c1a57f203d77fe9a405e2cb9b18d805ed6e2646c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command_sha256": "04d9e9e1f9d529ee573f06137170baf287632cd3cb135bd1762d36c09e71e4ea",
+      "exit_sha256": "b669c0ac8481fe40a6825eecbc9cae144e515c13188bdd691d1c05f867362cd0"
+    },
+    {
+      "id": "valid-plog",
+      "passed": true,
+      "expected_category": "successful full MechanismSummary",
+      "observed_exit": 0,
+      "observed_outcome": "positive full JSON retained",
+      "json_equal_to_positive": null,
+      "input_sha256": "c5894a30bd319e285f863c9a7700bad6f834ce465c8c5ecbd8620473ad616c7b",
+      "stdout_sha256": "f8609af304f2c52cab5e14465ac0b4ae37e5cd1d7111b7e06411b49a6f3697cc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command_sha256": "b8fbe687783b6e4ce40da3f056b575c1c74e733a807801a5621da819178576f0",
+      "exit_sha256": "b669c0ac8481fe40a6825eecbc9cae144e515c13188bdd691d1c05f867362cd0"
+    },
+    {
+      "id": "refuse-elementary-uppercase-B",
+      "passed": false,
+      "expected_category": "UnsupportedField for modeled nested key",
+      "observed_exit": 0,
+      "observed_outcome": "unknown modeled key accepted with exit zero and successful inspect JSON",
+      "json_equal_to_positive": "valid-elementary",
+      "input_sha256": "c2ab2ee67040a6ab43d01c298743d1cb833d0082aaff612a4710042ada86ae43",
+      "stdout_sha256": "050c5cd898c4e4298431d4378ee9a2c8fc3aadc70e4c0e238dafefda4f5b3ab2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command_sha256": "7153f5567f59721766388645203e7e526772278d24b8501c76a1273b7cf7cf14",
+      "exit_sha256": "b669c0ac8481fe40a6825eecbc9cae144e515c13188bdd691d1c05f867362cd0"
+    },
+    {
+      "id": "refuse-elementary-unknown-units",
+      "passed": false,
+      "expected_category": "UnsupportedField for modeled nested key",
+      "observed_exit": 0,
+      "observed_outcome": "unknown modeled key accepted with exit zero and successful inspect JSON",
+      "json_equal_to_positive": "valid-elementary",
+      "input_sha256": "b16a003c0b2a6754b0c8c76899bbe49692e5c0703070d212709899a88d784fe8",
+      "stdout_sha256": "050c5cd898c4e4298431d4378ee9a2c8fc3aadc70e4c0e238dafefda4f5b3ab2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command_sha256": "4482e49213b25faa783f27fee60ba40448d53fc78305a74dc57089a3c62d11a4",
+      "exit_sha256": "b669c0ac8481fe40a6825eecbc9cae144e515c13188bdd691d1c05f867362cd0"
+    },
+    {
+      "id": "refuse-elementary-lowercase-ea-missing-required",
+      "passed": true,
+      "expected_category": "Yaml missing required field",
+      "observed_exit": 1,
+      "observed_outcome": "missing required Ea retained",
+      "json_equal_to_positive": null,
+      "input_sha256": "575db54e98e632e85ae1c1dd0c56ae61fe2f3f256d9f669477524a621f57290e",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "164bb05e5adf672ec78e1b64edb53aa7ed83028d21f6ac8d1d8adde422bf23c5",
+      "command_sha256": "4c90b560703515d6cbc8a0d494fa27e0177ffa5ddda173e2daa6f3873fc14d2a",
+      "exit_sha256": "47915adcd274560bdb5b395ae9759b17f491d89ba36851e602e5d73416b8a833"
+    },
+    {
+      "id": "refuse-elementary-misplaced-orders",
+      "passed": false,
+      "expected_category": "UnsupportedField for modeled nested key",
+      "observed_exit": 0,
+      "observed_outcome": "unknown modeled key accepted with exit zero and successful inspect JSON",
+      "json_equal_to_positive": "valid-elementary",
+      "input_sha256": "7e99ba7cd8384e1088dd14df5f74551015b9e89453c5e300d14cd8cf03e0473a",
+      "stdout_sha256": "050c5cd898c4e4298431d4378ee9a2c8fc3aadc70e4c0e238dafefda4f5b3ab2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command_sha256": "8b8daae8239f280bfe498b1e82eaa331380977ae508bf7c8faaf40368d159772",
+      "exit_sha256": "b669c0ac8481fe40a6825eecbc9cae144e515c13188bdd691d1c05f867362cd0"
+    },
+    {
+      "id": "refuse-falloff-high-unknown-negative-A",
+      "passed": false,
+      "expected_category": "UnsupportedField for modeled nested key",
+      "observed_exit": 0,
+      "observed_outcome": "unknown modeled key accepted with exit zero and successful inspect JSON",
+      "json_equal_to_positive": "valid-falloff-troe",
+      "input_sha256": "47efc343c01301e0f2f911783b977ebfc2257b6e2d6113f28aa7db4cc2e7662a",
+      "stdout_sha256": "36a189736f9f2ad4145349b3c1a57f203d77fe9a405e2cb9b18d805ed6e2646c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command_sha256": "64da37013f636d5adacd79796bc80d312abc12945114558cc97dcddd77e39df2",
+      "exit_sha256": "b669c0ac8481fe40a6825eecbc9cae144e515c13188bdd691d1c05f867362cd0"
+    },
+    {
+      "id": "refuse-falloff-low-unknown-units",
+      "passed": false,
+      "expected_category": "UnsupportedField for modeled nested key",
+      "observed_exit": 0,
+      "observed_outcome": "unknown modeled key accepted with exit zero and successful inspect JSON",
+      "json_equal_to_positive": "valid-falloff-troe",
+      "input_sha256": "ea90255dfd15498e3d7b687bc80d3460134d69352d4c2130be7cb210925b6c04",
+      "stdout_sha256": "36a189736f9f2ad4145349b3c1a57f203d77fe9a405e2cb9b18d805ed6e2646c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command_sha256": "c8bb7180edbdb9ecfcff5271930041a0e5687c6050105ddf8edc7789a9cc8383",
+      "exit_sha256": "b669c0ac8481fe40a6825eecbc9cae144e515c13188bdd691d1c05f867362cd0"
+    },
+    {
+      "id": "refuse-troe-lowercase-t2",
+      "passed": false,
+      "expected_category": "UnsupportedField for modeled nested key",
+      "observed_exit": 0,
+      "observed_outcome": "unknown modeled key accepted with exit zero and successful inspect JSON",
+      "json_equal_to_positive": "valid-falloff-troe",
+      "input_sha256": "145e129ab167594a0fa79e98b4876f870e4ded2d136f011b19b550f114711515",
+      "stdout_sha256": "36a189736f9f2ad4145349b3c1a57f203d77fe9a405e2cb9b18d805ed6e2646c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command_sha256": "cdfafe3512d917cdf2cd1c07693d338b557d718ba7518c75adb96b013fab7074",
+      "exit_sha256": "b669c0ac8481fe40a6825eecbc9cae144e515c13188bdd691d1c05f867362cd0"
+    },
+    {
+      "id": "refuse-plog-entry-unknown-units",
+      "passed": false,
+      "expected_category": "UnsupportedField for modeled nested key",
+      "observed_exit": 0,
+      "observed_outcome": "unknown modeled key accepted with exit zero and successful inspect JSON",
+      "json_equal_to_positive": "valid-plog",
+      "input_sha256": "ad833ceaed85d0392b604cc1b6e9f1acf85e96e814492b8b1897d72c0f03e619",
+      "stdout_sha256": "f8609af304f2c52cab5e14465ac0b4ae37e5cd1d7111b7e06411b49a6f3697cc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command_sha256": "ee225d849e5679a74749647cbdbf62e26e2f36508b00ca226a11d6da7f4ff1fa",
+      "exit_sha256": "b669c0ac8481fe40a6825eecbc9cae144e515c13188bdd691d1c05f867362cd0"
+    },
+    {
+      "id": "refuse-plog-entry-misplaced-orders",
+      "passed": false,
+      "expected_category": "UnsupportedField for modeled nested key",
+      "observed_exit": 0,
+      "observed_outcome": "unknown modeled key accepted with exit zero and successful inspect JSON",
+      "json_equal_to_positive": "valid-plog",
+      "input_sha256": "3930dce5577c6a389b67b5a7c25cac64b13415a4d748bf222eec86b3d72c3b99",
+      "stdout_sha256": "f8609af304f2c52cab5e14465ac0b4ae37e5cd1d7111b7e06411b49a6f3697cc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command_sha256": "ae11b3db642ac92e0c52e928905769d7693e1600601b2a180853e1e930857ced",
+      "exit_sha256": "b669c0ac8481fe40a6825eecbc9cae144e515c13188bdd691d1c05f867362cd0"
+    }
+  ],
+  "findings": [
+    "All three ordinary elementary/Troe/PLOG full summaries pass, and lowercase ea retains the required Ea YAML refusal.",
+    "Eight unsupported-model-key expectations fail: each process exits zero without stderr and emits a summary identical to its corresponding positive witness.",
+    "Uppercase B=1 is accepted while the observed temperature exponent remains zero, demonstrating the default b=0 rather than requested exponent.",
+    "Nested units, orders and negative-A assertions are admitted without the required unsupported-key refusal; summaries do not reflect these added keys.",
+    "Lowercase t2 is accepted. Inspect summaries do not expose Troe T2, so the value loss is inferred from exact RawTroe source (unknown key ignored, optional T2 absent), not directly measured rate behavior."
+  ],
+  "repair_implications": [
+    "Prioritize a narrow separate nested modeled-key admission lane: RawRate must capture and refuse unknowns across ordinary and high/low-pressure blocks; RawTroe must independently capture and refuse unknowns.",
+    "RawPressureRate flattens RawRate. A naive deny_unknown_fields or competing flattened maps risks rejecting modeled P or swallowing entry extras; require an explicit tested P/A/b/Ea key boundary or suitable private visitor while preserving existing typed paths and required-field behavior.",
+    "Preserve b=0 default when genuinely omitted, optional T2 when genuinely omitted, required A/Ea/P/Troe parameters, numeric/quoted/nonfinite semantics, duplicate-key refusals, units normalization, and the separate six annotation allowlists.",
+    "Freeze separately bound repaired-source evidence; preserve these first outcomes and run original fifty, supplement twenty with its historical failures, prior fifteen CLI controls, affected libraries and candidate-associated policy/CI gates before integration."
+  ],
+  "scope": "Source-informed CLI admission engineering evidence only; prospective expectations independently evaluated against immutable first raw outcomes.",
+  "limits": [
+    "No original-parser execution of these twelve; no claim this is a newly introduced migration regression. Exact shared parser source supports investigating pre-existing behavior.",
+    "No empirical chemistry, rate evaluation, yield/calibration, solver behavior, full WASM runtime or integration acceptance.",
+    "Troe T2 loss is source-inferred; inspect output has no T2 field.",
+    "Binary/cache/build qualifications remain those of execution binding and prior independent build review; this reviewer did not rebuild or execute any control.",
+    "Gitlinks are checked as pinned references, not recursively reviewed. Raw commands contain private host paths and remain private; this receipt contains portable public identifiers and hashes."
+  ]
+}

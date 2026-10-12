@@ -66,15 +66,27 @@ accepts the completed demo and PHREEQC WASM jobs at the verified candidate merge
 tree. Browser controls include five DOM lesson snapshots, PWA, German rendering
 and UX checks; Svelte reports zero errors and two warnings. Bridge/bench-WASM,
 Linux/preflight and full fleet acceptance remain separate pending gates.
+[Own core WASM compilation and browser-engine bridge](own-wasm-core-bridge-review-1acdda46.json)
+now pass at that same source-bound merge tree. The bridge verifies absent-solver
+refusal, live solving, desktop/browser pH and ionic-strength agreement, species
+transport and five live R1 scenarios. Hosted lock and built binaries are
+uncaptured; bench-WASM and complete CI/fleet remain pending.
 
 [The annotation contract review](annotation-contract-review.md) records the
 observed custom-tag boundary and six annotation owners. It also identifies
-nested rate-key admission as a distinct source-indicated inquiry requiring
-frozen execution evidence before a repair is claimed. The separately
-[frozen twelve nested-rate controls](nested-rate-controls/README.md) are now
-committed before execution; their first run remains resource-gated and pending.
-They distinguish three valid model shapes, eight unknown-key refusals and a
-missing required field. No result or production fix is claimed for that lane.
+nested rate-key admission as a separate inquiry. The separately
+[frozen twelve nested-rate controls](nested-rate-controls/README.md) completed
+**4 pass / 8 fail** on the unchanged candidate binary. The
+[independent first-outcome review](nested-rate-first-independent-review-1acdda46.json)
+verifies all captures, source, binary and actual lock: every unsupported key
+was accepted with exit zero, no diagnostic and the complete summary of its
+valid counterpart. `B: 1` is demonstrably discarded in favor of default `b=0`.
+Troe `t2` is accepted; its omission is inferred from source because inspect
+omits Troe parameters. Three valid shapes and the missing-required-`Ea`
+refusal pass. This confirms a nested admission defect against the documented
+supported subset, not a measured chemistry or parser-migration regression.
+A separate narrow repair is being prepared; repaired-source validation and
+integration are not yet accepted. Preserve the first freeze and outcomes.
 
 The [manifest patch](maintained-fork-dependency.patch) is separate from the
 preserved earlier facade proposal and its observed regression below.

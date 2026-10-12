@@ -28,30 +28,36 @@ and IPhreeqc WASM jobs are source-bound and accepted in those job scopes.
 Complete CI and fleet remain queued/pending. The local core/data/scene WASM compile check and all fifteen separately frozen
 CLI controls now pass at the candidate source. The CLI includes an inert bounded
 simulation, not active chemical integration accuracy. Inspect complete own
-hosted results and remaining bridge/bench-WASM gates before integration. The
+hosted results and remaining bench-WASM gates before integration.
+[Own source-bound core WASM and bridge jobs](../audits/yaml-parser-migration-20261012/own-wasm-core-bridge-review-1acdda46.json)
+also pass; the bridge includes native/browser solution agreement. The
 separate twenty-case supplement gives identical 18 pass / 2 fail on both parsers:
 custom tags in ignored annotations remain an explicit follow-up, with first
 failures and forecasts preserved. Resolve that support contract separately. Source-specific
 PR782 results need fresh binding after integrating a parser change.
 
-## 0a. Execute the frozen nested rate-key admission inquiry
+## 0a. Fix confirmed nested rate-key admission loss
 
 The [twelve prospective controls](../audits/yaml-parser-migration-20261012/nested-rate-controls/README.md)
-are committed before execution: three complete-JSON positives, eight unsupported
-model-key refusals and one unchanged missing-`Ea` refusal. They bind the existing
-candidate CLI, source hashes and exact input identities. Execution is still
-pending the resource gate; no failure or repair is claimed. This is useful
-parallel evidence while the dependency PR's hosted gates finish.
+were committed before execution: three complete-JSON positives, eight unsupported
+model-key refusals and one unchanged missing-`Ea` refusal. Their first execution
+on the unchanged candidate gives **4 pass / 8 fail**. The
+[independent review](../audits/yaml-parser-migration-20261012/nested-rate-first-independent-review-1acdda46.json)
+verifies all twelve raw captures and source/build/lock binding. All eight
+unsupported-key witnesses exit zero and produce the valid counterpart's full
+summary; `B: 1` is lost to default `b=0`. Troe `t2` loss is source-inferred
+because inspect does not expose that parameter. Missing `Ea` remains refused.
 
-Run the frozen collector in a new evidence destination using its pinned binary
-and manifest hashes, with source/build/lock provenance checked independently.
-Preserve all twelve first outcomes, including any failed positive forecast or
-unexpectedly accepted model key. Missing required `Ea` is distinct from the
-optional `b` or `T2` fields; do not infer an activation-energy default from a
-misspelled key. If unexpected model keys are admitted, assess ordinary rate,
-high/low pressure, Troe and pressure-entry owners systematically. Specify typed
-owner/key refusals and preserve valid pressure flattening, duplicates, numeric
-categories and all existing annotation policies before preparing a narrow fix.
+Implement a separate narrow admission repair in
+`crates/kerotakis-core/src/kinetics/mechanism.rs`: capture unmatched keys on
+ordinary/high/low/PLOG rates and Troe, then use typed `UnsupportedField`
+owner/key refusals. Validate every supplied nested owner, including fields
+unused by the selected reaction type. Explicitly preserve `P` on flattened
+PLOG entries, required fields, known duplicates, numeric classification,
+unit normalization, default `b`, optional `T2` and existing annotations.
+Add direct typed regressions for all eight failures plus third-body ownership,
+unused nested fields, valid PLOG, duplicate known fields and required/default
+controls. Keep the dependency PR narrow and preserve first outcomes.
 A repaired source needs separate versioned binding; do not rewrite this frozen
 candidate binary/source manifest. Require original YAML50, affected libraries,
 all fifteen packs/CLI controls and its own source-specific CI gates.

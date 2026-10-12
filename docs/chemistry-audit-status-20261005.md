@@ -1,6 +1,25 @@
 # Chemistry audit: current state, 2026-10-05
 
 
+## Current checkpoint — 2026-10-12: nested rate-key loss confirmed
+
+The [twelve frozen nested-rate CLI controls](../audits/yaml-parser-migration-20261012/nested-rate-controls/README.md)
+completed **4 pass / 8 fail**, independently verified against their unchanged
+freeze, candidate source, binary and actual lock. All eight unsupported nested
+keys were accepted with unchanged successful summaries. `B: 1` is visibly lost
+to default `b=0`; Troe `t2` omission is source-inferred because inspect does not
+expose Troe parameters. Three valid shapes and missing-required-`Ea` pass.
+[The independent receipt](../audits/yaml-parser-migration-20261012/nested-rate-first-independent-review-1acdda46.json)
+preserves every first outcome. A separate typed admission repair is being
+prepared; repaired-source execution and integration are pending.
+
+[Own core WASM and browser-engine bridge jobs](../audits/yaml-parser-migration-20261012/own-wasm-core-bridge-review-1acdda46.json)
+now pass at PR783's verified merge tree. The bridge includes absent-solver
+refusal, live solving, desktop/browser pH and ionic-strength agreement, species
+transport and five live R1 scenarios. Full preflight/Linux/bench-WASM/fleet
+remain pending. Ordinary hosted locks and built binaries are uncaptured.
+Earlier dated checkpoints below retain their historical scopes.
+
 ## Current checkpoint — 2026-10-12: own macOS and browser jobs verified
 
 [PR783's own macOS native evidence](../audits/yaml-parser-migration-20261012/native-macos-independent-review-1acdda46.json)
