@@ -1,0 +1,549 @@
+{
+  "records": [
+    {
+      "run_id": 38271407738,
+      "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "pull_request",
+      "job_count": 26,
+      "jobs": [
+        {
+          "id": 114886293722,
+          "name": "The demo page, in a real browser",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886293944,
+          "name": "BRD-080 viewer decision spike",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294047,
+          "name": "The two wasm halves, together",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294056,
+          "name": "GPU release tools (deterministic)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294073,
+          "name": "IPhreeqc wasm gate",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294139,
+          "name": "The bench in WebAssembly",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294174,
+          "name": "Test (native) (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294181,
+          "name": "Test (native) (macos-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294217,
+          "name": "MY-BASIC preview (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294239,
+          "name": "Full preflight gate",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294263,
+          "name": "Core and data schemas compile to wasm32",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294264,
+          "name": "feos adapter (aarch64-apple-darwin)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294276,
+          "name": "Shell payload (windows-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294290,
+          "name": "IPhreeqc under MSVC",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294294,
+          "name": "Shell payload (ubuntu-22.04)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294303,
+          "name": "MY-BASIC preview (macos-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294364,
+          "name": "feos adapter (wasm32-unknown-unknown)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294368,
+          "name": "Presentation authority adapters",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294394,
+          "name": "feos adapter (aarch64-apple-ios)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294397,
+          "name": "feos adapter (aarch64-linux-android)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294404,
+          "name": "Theme contrast tokens",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294445,
+          "name": "feos adapter (x86_64-pc-windows-msvc)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294482,
+          "name": "Legacy BASIC oracle (development only)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294489,
+          "name": "The native host still compiles",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294520,
+          "name": "Current registry source export",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114912041674,
+          "name": "Publish the demo",
+          "status": "completed",
+          "conclusion": "skipped"
+        }
+      ],
+      "run_api_sha256": "8a4de195e569b974e1bffa8baf26d097b2a06b511e57c3c126a8be9eb788b4b2",
+      "jobs_api_sha256": "1ac713477d329f9499b1ae2c945b05fb473e413175f08a0bf5cc8037e7c9b149"
+    },
+    {
+      "run_id": 38271407728,
+      "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+      "status": "queued",
+      "conclusion": null,
+      "run_attempt": 1,
+      "event": "pull_request",
+      "job_count": 30,
+      "jobs": [
+        {
+          "id": 114909875071,
+          "name": "Build audited CLI once",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114924707660,
+          "name": "Frozen fleet 459-488",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114924707680,
+          "name": "Source fleet v3 ionic-conductivity",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924707745,
+          "name": "Source fleet v3 organic-equilibrium",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924707752,
+          "name": "Frozen fleet 195-218",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924707779,
+          "name": "Source fleet v3 metal-ligand",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924707828,
+          "name": "Source fleet v3 water-energy",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924708010,
+          "name": "Source fleet electrochemistry",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924708029,
+          "name": "Source fleet v3 aqueous-selectivity",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924708038,
+          "name": "Source fleet mixing-transfer",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114924708042,
+          "name": "Source fleet filtration-evaporation",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924708049,
+          "name": "Source fleet v2 household-biochemistry",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924708102,
+          "name": "Source fleet v2 analytical-observables",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924708104,
+          "name": "Source fleet v2 gas-production-transfer",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924708127,
+          "name": "Source fleet organic-equilibria",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924708129,
+          "name": "Source fleet gas-boundaries",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924708140,
+          "name": "Source fleet v2 separation-trains",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924708148,
+          "name": "Source fleet observables-negative-controls",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924708149,
+          "name": "Source fleet distillation",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924708171,
+          "name": "Source fleet thermal-phase-paths",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924708180,
+          "name": "Source fleet solubility-precipitation",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924708182,
+          "name": "Source fleet v2 quantitative-solutions",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924708212,
+          "name": "Source fleet v2 kinetics-boundaries",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924708232,
+          "name": "Source fleet v2 polyprotic-carbonate",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924708239,
+          "name": "Source fleet v2 phase-colligative",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924708294,
+          "name": "Source fleet v2 thermochemical-paths",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924708312,
+          "name": "Source fleet acid-base-buffers",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924708341,
+          "name": "Source fleet v2 redox-cells",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924708380,
+          "name": "Source fleet v2 crystallisation-boundaries",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114924708382,
+          "name": "Source fleet v2 materials-transport",
+          "status": "queued",
+          "conclusion": null
+        }
+      ],
+      "run_api_sha256": "08828444eae8d7254f5a60951136c927bcf10cf2d318657c7b12a378d5a5528a",
+      "jobs_api_sha256": "6f5aeb1a9d44db222c22d30550a3d2bc6301e7d83cba372fc0d56783d4bae6b6"
+    },
+    {
+      "run_id": 38283405239,
+      "head": "51e997509126f099b22fbe963750ac06f36dadfe",
+      "status": "queued",
+      "conclusion": null,
+      "run_attempt": 1,
+      "event": "pull_request",
+      "job_count": 25,
+      "jobs": [
+        {
+          "id": 114925885502,
+          "name": "Test (native) (macos-latest)",
+          "status": "in_progress",
+          "conclusion": null
+        },
+        {
+          "id": 114925885681,
+          "name": "BRD-080 viewer decision spike",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114925885701,
+          "name": "Legacy BASIC oracle (development only)",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114925885726,
+          "name": "MY-BASIC preview (ubuntu-latest)",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114925885732,
+          "name": "MY-BASIC preview (macos-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114925885795,
+          "name": "Full preflight gate",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114925885810,
+          "name": "feos adapter (aarch64-apple-darwin)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114925885822,
+          "name": "Presentation authority adapters",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114925885853,
+          "name": "Theme contrast tokens",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114925885861,
+          "name": "IPhreeqc under MSVC",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114925885892,
+          "name": "Test (native) (ubuntu-latest)",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114925885939,
+          "name": "feos adapter (x86_64-pc-windows-msvc)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114925885974,
+          "name": "feos adapter (aarch64-apple-ios)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114925885978,
+          "name": "The bench in WebAssembly",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114925885989,
+          "name": "GPU release tools (deterministic)",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114925886015,
+          "name": "Core and data schemas compile to wasm32",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114925886139,
+          "name": "The two wasm halves, together",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114925886140,
+          "name": "Current registry source export",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114925886177,
+          "name": "Shell payload (windows-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114925886212,
+          "name": "The demo page, in a real browser",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114925886222,
+          "name": "IPhreeqc wasm gate",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114925886259,
+          "name": "The native host still compiles",
+          "status": "in_progress",
+          "conclusion": null
+        },
+        {
+          "id": 114925886272,
+          "name": "Shell payload (ubuntu-22.04)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114925886287,
+          "name": "feos adapter (aarch64-linux-android)",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114925886419,
+          "name": "feos adapter (wasm32-unknown-unknown)",
+          "status": "queued",
+          "conclusion": null
+        }
+      ],
+      "run_api_sha256": "d543bb9176a6afe8f64449c426570986697990d528b31c25e9df992f153fa14a",
+      "jobs_api_sha256": "92890e5b3738133737b49002026521084b3478232e1b9cc29d44aed94413e6fe"
+    },
+    {
+      "run_id": 38283405221,
+      "head": "51e997509126f099b22fbe963750ac06f36dadfe",
+      "status": "in_progress",
+      "conclusion": null,
+      "run_attempt": 1,
+      "event": "pull_request",
+      "job_count": 1,
+      "jobs": [
+        {
+          "id": 114925885046,
+          "name": "Build audited CLI once",
+          "status": "in_progress",
+          "conclusion": null
+        }
+      ],
+      "run_api_sha256": "9dccc73e5dd86d7df818bf9a6aa11ff06efaf0ba9c3fd305ccf4eb1aeff9df09",
+      "jobs_api_sha256": "f8c67c6b2444350056c68438505c002793b91e12484362c18926f10d9a1a3edc"
+    }
+  ],
+  "scope": "API status checkpoint only. PR783 CI reports completed success (25 successful jobs, one skipped); this does not add detailed log/outcome acceptance for previously unreviewed jobs. Fleets remain incomplete; required fleet inventory acceptance and integration are not claimed. PR784 source-specific CI and CLI build still pending."
+}

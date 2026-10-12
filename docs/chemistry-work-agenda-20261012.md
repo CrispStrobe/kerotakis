@@ -25,16 +25,17 @@ four dependency-policy checks now pass with the actual candidate workspace lock.
 Its own macOS native job now verifies all fifty YAML controls, 454 focused
 controls and the full workspace (3,345 pass, four ignored); its completed demo
 and IPhreeqc WASM jobs are source-bound and accepted in those job scopes.
-Complete CI and fleet remain queued/pending. The local core/data/scene WASM compile check and all fifteen separately frozen
+CI now reports completed success; the fleet remains incomplete. The local core/data/scene WASM compile check and all fifteen separately frozen
 CLI controls now pass at the candidate source. The CLI includes an inert bounded
 simulation, not active chemical integration accuracy. Inspect complete own
-hosted results and remaining bench-WASM gates before integration.
+hosted results and the complete required fleet before integration.
 [Own source-bound core WASM and bridge jobs](../audits/yaml-parser-migration-20261012/own-wasm-core-bridge-review-1acdda46.json)
 also pass; the bridge includes native/browser solution agreement.
 [Own full preflight](../audits/yaml-parser-migration-20261012/own-preflight-review-1acdda46.json)
 now passes, including unchanged dependency policy. [Own Linux native](../audits/yaml-parser-migration-20261012/native-linux-review-1acdda46.json)
 now also verifies 454 focused passes and 3,345 workspace passes, with four ignored.
-Bench-WASM and complete CI/fleet acceptance remain pending; the ordinary native
+The own WASM bench now passes 32 runtime controls and 8,105 protocol checks
+across 113 lessons. Complete fleet acceptance remains pending; the ordinary native
 lock is uncaptured. The independently reviewed own fleet CLI artifact has its
 own captured lock, binary and ZIP checksums; it has not been executed locally. The
 separate twenty-case supplement gives identical 18 pass / 2 fail on both parsers:
@@ -58,7 +59,9 @@ The separate narrow admission repair is now
 [draft PR784](https://github.com/CrispStrobe/kerotakis/pull/784), head `51e99750`,
 stacked on PR783. [Preparation evidence](../audits/yaml-parser-migration-20261012/nested-rate-repair-preparation-51e99750.json)
 binds the two changed files, thirteen regression functions and its own queued
-CI/fleet. Formatting and static checks pass; behavioral execution is pending.
+CI/fleet. Formatting and static checks pass. Repaired-source leaf execution now
+passes all 50 original controls and all 13 repair functions, independently
+reviewed. The unchanged supplement remains 18 pass / 2 historical failures.
 Review and validate `crates/kerotakis-core/src/kinetics/mechanism.rs`: it captures unmatched keys on
 ordinary/high/low/PLOG rates and Troe, then uses typed `UnsupportedField`
 owner/key refusals. Validate every supplied nested owner, including fields
@@ -73,12 +76,18 @@ once the repair's own CLI artifact is independently accepted. It preserves every
 original expectation and collector byte while recording new source/artifact
 lineage. Review that lineage before running the copied collector into a new
 evidence destination. Eight synthetic preparation tests pass; no repaired
-CLI result is claimed. The separate bulk-storage leaf compilation requires a
-fresh resource gate; a rejected start is not a failed behavior test.
+CLI result is claimed. The first leaf build setup failed before tests executed;
+the separately recorded successful continuation passes all 63 controls. The
+actual reused leaf lock and shared cache do not certify full-workspace resolution.
 
 A repaired source needs separate versioned binding; do not rewrite this frozen
-candidate binary/source manifest. Require original YAML50, affected libraries,
-all fifteen packs/CLI controls and its own source-specific CI gates.
+candidate binary/source manifest. Original YAML50 and the new typed repair fixture now pass. Next validate
+complete affected libraries and all fifteen packs at the exact repaired head;
+accept its own CLI artifact and run unchanged CLI15 and nested12 using reviewed
+new bindings. Record actual command, source/tree, lock, binary hash, all case
+outcomes and independent review. Accept complete own CI/fleet before integration;
+rebase and repeat source-specific gates if the dependency integration changes its
+source association. Do not transfer parent-source library/pack/CLI acceptance.
 
 ## 0b. Adjudicate tagged ignored annotations as a separate admission lane
 

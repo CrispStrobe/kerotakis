@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "source": "51e997509126f099b22fbe963750ac06f36dadfe",
+  "source_tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+  "review_kind": "independent completed leaf behavior and preserved setup-failure review",
+  "collection_verified": true,
+  "exact_test_identities_verified": true,
+  "source_blob_count_verified": 2255,
+  "gitlinks_not_recursively_verified": [
+    {
+      "path": "sundials-kinetics-rs",
+      "revision": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa"
+    },
+    {
+      "path": "vendor/iphreeqc",
+      "revision": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+    }
+  ],
+  "actual_leaf_lock_sha256": "2597946af98d843803922432ff4b4e859bc73622c58a3a9fc243769ef269817b",
+  "leaf_manifest_sha256": "18f4de6fd0715852c68d7f8dbfeca477560c3708c61703c2bf6c16cac00c38c5",
+  "fixture_sha256": {
+    "yaml_mechanism_parser_contracts.rs": "443569acc3a5ecd4a67fcf845f667976dea2a63c287304a932c2bb8556cb336d",
+    "nested_rate_admission_contracts.rs": "4afa3dfcd67c582bff633b8d038f43cd5060d7c0a1cdc7c4639702635f8320b5"
+  },
+  "raw_artifact_sha256": {
+    "completed_attempt": {
+      "result.json": "020933d1455c2a99b3369b2b5dbcd5a83a0dbc939591ba7e6944a5eaf332e719",
+      "command.json": "40eb9e24a59c7a24c5a1a218cccd3715189e34dcf8f7e56e18444c8356712d07",
+      "runner.py": "01b1307cb36d47333702072f7c1cf4ccdc8ad78a742a431c39d64de843cba40d",
+      "tests.log": "67ecc711094c831506134eec00d3c742520ba62dad8f404c4115cfe3f07087df",
+      "Cargo.lock": "2597946af98d843803922432ff4b4e859bc73622c58a3a9fc243769ef269817b",
+      "prior-result.json": "350f9361f2e03f67884abd16344a3065faa02a2515c5ac4173726c5b661ebbbc"
+    },
+    "preserved_setup_attempt": {
+      "result.json": "350f9361f2e03f67884abd16344a3065faa02a2515c5ac4173726c5b661ebbbc",
+      "command.json": "f8b26641e4920b361ec8bbc5d8e5477f36541d645e444f70de27f5b114c356af",
+      "runner.py": "da9b223c2e34a10735234e5d3fa26225487553051339d3fb4259ba4b898de8f0",
+      "tests.log": "8921c0d339f901ad10cfeaa2cf6a768e742d349c1c398b3dbca47e4a7e33461d",
+      "Cargo.toml": "18f4de6fd0715852c68d7f8dbfeca477560c3708c61703c2bf6c16cac00c38c5",
+      "source-inventory.json": "89ee8b75cad8dd49cd6dbd355d47be4b45de1cfd03f53e73b05ea170e761bd9c",
+      "Cargo.lock": "2597946af98d843803922432ff4b4e859bc73622c58a3a9fc243769ef269817b"
+    }
+  },
+  "total_passed": 63,
+  "total_failed": 0,
+  "total_ignored": 0,
+  "total_filtered": 0,
+  "groups": {
+    "original_frozen_yaml50": {
+      "passed": 50,
+      "identities": [
+        "base_admission",
+        "document_markers",
+        "crlf",
+        "comments",
+        "quoted_description",
+        "single_quoted_description",
+        "species_explicit",
+        "species_absent",
+        "species_null",
+        "reactions_absent",
+        "reactions_null",
+        "scientific_rate",
+        "integer_rate",
+        "integer_exponent",
+        "integer_activation",
+        "zero_activation_unit",
+        "flow_rate_block",
+        "zero_alias",
+        "note_scalar",
+        "note_yes",
+        "note_no",
+        "note_on",
+        "note_off",
+        "note_nested",
+        "note_nan",
+        "note_infinity",
+        "note_numeric_keys",
+        "note_complex_keys",
+        "species_transport",
+        "species_equation_of_state",
+        "species_mapping",
+        "species_mixed",
+        "species_boolean",
+        "reactions_none",
+        "reactions_sequence",
+        "reactions_yes",
+        "reactions_no",
+        "reactions_on",
+        "reactions_off",
+        "unknown_section",
+        "unknown_species_field",
+        "composition_nan",
+        "composition_negative",
+        "activation_nan",
+        "rate_infinity",
+        "rate_zero",
+        "unsupported_phase",
+        "multiple_documents",
+        "malformed_flow",
+        "duplicate_description"
+      ],
+      "fixture_freeze": "audits/yaml-parser-migration-20261012/freeze.json"
+    },
+    "nested_admission_regression_functions": {
+      "passed": 13,
+      "identities": [
+        "eight_observed_silent_acceptances_refuse_contextually",
+        "third_body_rate_unknown_field_refuses",
+        "unused_nested_owners_cannot_hide_unknown_fields",
+        "pressure_key_is_consumed_by_plog_owner",
+        "known_troe_t2_remains_supported_and_optional",
+        "exponent_default_preserves_normalized_mechanism",
+        "missing_or_misspelled_activation_energy_remains_yaml_error",
+        "duplicate_known_fields_remain_yaml_errors",
+        "known_field_type_errors_remain_yaml_errors",
+        "numeric_admission_is_not_weakened_by_unknown_capture",
+        "established_annotation_owners_remain_accepted",
+        "plog_pressure_ownership_is_independent_of_key_order",
+        "supplied_troe_t2_survives_lowering"
+      ],
+      "source_path": "crates/kerotakis-core/tests/nested_rate_admission_contracts.rs"
+    }
+  },
+  "multiwitness_semantics_verified": [
+    "The eight preserved silent acceptances now match exact UnsupportedField owners and keys across ordinary/high/low/Troe/each PLOG entry.",
+    "Third-body refusal and five otherwise-unused nested-owner witnesses prevent ignored dispatch branches from swallowing extra keys.",
+    "Valid P belongs to RawPressureRate; P in an ordinary rate block refuses. Both PLOG entries with P last compare full parsed mechanisms equal to P-first input.",
+    "Genuine b omission compares full parsed mechanisms equal on elementary, third-body, falloff and PLOG; required Ea omission/misspelling stays YAML refusal.",
+    "Known A/b/Ea duplicates across four models plus P and Troe T2 duplicates retain YAML refusals. Known b/T2 sequence types also refuse.",
+    "Troe with supplied or omitted T2 admits, and full parsed mechanisms differ when supplied T2 is removed, establishing retention through lowering.",
+    "Zero pre-exponential and NaN activation retain their typed numeric refusals; established ordinary document/reaction annotations preserve full parsed equality."
+  ],
+  "prior_setup_failure": {
+    "exit_code": 101,
+    "behavior_tests_executed": false,
+    "classification": "NAS proc-macro2 build-script execution failed with Invalid argument (os error 22) before any tests; preserved environment/setup failure, not a behavioral test failure"
+  },
+  "completed_attempt": {
+    "exit_code": 0,
+    "offline": true,
+    "locked": true,
+    "cargo_workers": 1,
+    "incremental": false,
+    "dev_debug": 2,
+    "test_debug": 2,
+    "target_qualification": "Fast shared target/dependency cache reused after the preserved NAS prerequisite failure; exact source-specific core/data/thermo/leaf compilation and completed tests are visible in raw log. Not a clean whole-workspace rebuild."
+  },
+  "prior_cli_binary_sha256": "a75a87b2669cdeb6f9e0c8f6fad0829f103475992f7d7649cadab072d9fcbad5",
+  "prior_cli_currently_unchanged_verified": true,
+  "accepted_full_libraries": false,
+  "accepted_cli": false,
+  "accepted_ci": false,
+  "accepted_fleet": false,
+  "accepted_integration": false,
+  "scope": "Source-informed parser/admission engineering behavior only: original fifty unchanged plus thirteen multiwitness regression functions at exact repaired source.",
+  "limits": [
+    "Leaf dependency lock reused exactly; not a fresh full-workspace resolution or full-workspace dependency-policy acceptance. Gitlinks pinned but not recursively reviewed.",
+    "No full library/pack suites, repaired-source CLI12/CLI15, own hosted CI/fleet, full WASM/native runtime or integration accepted by this receipt.",
+    "Prior CLI binary remains unchanged and was not executed by this reviewer. A newly repaired-source binary and separately bound immutable CLI outcomes remain pending.",
+    "Original first nested12 4/8 failures and supplemental20 tagged-note failures remain immutable; this receipt does not execute or relabel them.",
+    "Thirteen regression functions contain loops/multiple assertions; sixty-three is the total of individually logged Rust test identities (50+13), not a claimed independently logged count of every loop assertion.",
+    "No empirical chemistry, physical calibration, measured kinetics, yields or universal YAML conformance claim. Reviewer ran no Cargo/CLI commands or production edits."
+  ]
+}

@@ -30,7 +30,8 @@ unfiltered, with the actual separately captured workspace lock. The original
 632 core/safety test identities and outcomes match. These are local checks;
 existing ignored native caches were reused.
 [This head's own CI and fleet](maintained-fork-validation-dispatch.json)
-remain queued/pending. The [local core/data/scene WASM compile check](local-wasm-core-check-1acdda46.json)
+now report completed CI success; the fleet remains incomplete. See the
+[API progress checkpoint](hosted-progress-20261012-1755.json). The [local core/data/scene WASM compile check](local-wasm-core-check-1acdda46.json)
 passes, with [independent compile/static-control review](wasm-static-cli-independent-review-1acdda46.json).
 The separately [frozen fifteen CLI controls](cli-controls/README.md) now
 [all pass on the rebuilt candidate CLI](local-cli-first-controls-1acdda46.json).
@@ -41,10 +42,11 @@ complex metadata and explicit refusals. The first CLI build failed on generated
 upstream documentation absent from the archive; a separate candidate-owned
 module archive supplied those derived ignored files without changing tracked
 source or the protected original. The retry built successfully.
-Remaining bridge/bench-WASM jobs, complete own CI/fleet and integration remain
+Detailed own-source results appear below; complete fleet and integration remain
 pending.
 [Own-run source associations](own-checkpoint-independent-review-1acdda46.json)
-are independently verified; pending native/preflight jobs are not accepted.
+are independently verified; complete CI status alone does not supply missing
+detailed job reviews.
 
 The separately frozen [twenty-case supplement](supplement-20/README.md) has
 [18 pass / 2 fail on both original and replacement](supplement-20/paired-first-outcomes.json),
@@ -71,13 +73,13 @@ also verifies exact actual outcomes and all thirteen library inventories
 [The own-source browser and IPhreeqc WASM review](own-browser-runtime-review-1acdda46.json)
 accepts the completed demo and PHREEQC WASM jobs at the verified candidate merge
 tree. Browser controls include five DOM lesson snapshots, PWA, German rendering
-and UX checks; Svelte reports zero errors and two warnings. Bridge/bench-WASM,
-Linux/preflight and full fleet acceptance remain separate pending gates.
+and UX checks; Svelte reports zero errors and two warnings. Additional
+source-bound job reviews follow; full fleet acceptance remains pending.
 [Own core WASM compilation and browser-engine bridge](own-wasm-core-bridge-review-1acdda46.json)
 now pass at that same source-bound merge tree. The bridge verifies absent-solver
 refusal, live solving, desktop/browser pH and ionic-strength agreement, species
 transport and five live R1 scenarios. Hosted lock and built binaries are
-uncaptured; bench-WASM and complete CI/fleet remain pending.
+uncaptured; complete fleet and integration remain pending.
 [Own full preflight](own-preflight-review-1acdda46.json) now also passes at the
 verified candidate merge tree, including all four cargo-deny categories under
 unchanged policy. Ordinary hosted lock and advisory database revision are
@@ -88,6 +90,11 @@ the completed fleet build, exact four-file ZIP, actual release binary checksum
 and independently captured fleet lock. Its lock hash happens to equal the local
 workspace lock; it was hashed from the ZIP separately. Static ELF compatibility
 is checked, but this artifact has not been executed and the fleet is pending.
+
+[Own WASM bench runtime](own-wasm-bench-review-1acdda46.json) now verifies
+32 named controls and 8,105 protocol checks across 113 lessons at the candidate
+merge tree. Ordinary job lock and built binaries remain uncaptured. These are
+supported runtime contracts, not general empirical chemistry accuracy.
 
 [The annotation contract review](annotation-contract-review.md) records the
 observed custom-tag boundary and six annotation owners. It also identifies
@@ -108,13 +115,25 @@ head `51e99750`, stacked on PR783. Its
 two changed files and thirteen multiwitness regression functions. Typed owner/key
 refusals cover all supplied nested owners before reaction dispatch. PLOG key
 order and supplied Troe `T2` preservation have explicit controls. Formatting
-and [independent static review](nested-rate-repair-static-review-51e99750.json) pass; no repaired-source behavior, full CI/fleet or integration
-is accepted. Its own hosted CI/fleet are queued.
+and [independent static review](nested-rate-repair-static-review-51e99750.json) pass.
+[Actual repaired-source leaf regressions](local-nested-rate-repair-regressions-51e99750.json)
+now pass all original 50 controls and all 13 repair functions, unfiltered.
+[Independent review](nested-rate-repair-leaf-independent-review-51e99750.json)
+checks all 63 outcomes, the exact source and the actual leaf lock. This uses the
+previously captured leaf resolution and shared dependency cache; it is not a
+fresh full-workspace validation. The unchanged twenty-case supplement remains
+18 pass / 2 historical custom-tag failures at the repaired source, with every
+outcome matching both earlier sources;
+[its separate review](supplement-independent-review-51e99750.json) preserves
+those unmet forecasts. Its own hosted CI and fleet remain incomplete.
 [The reviewed rebinding helper](cli-rebinding-preparation.md) can prepare new
 CLI15 and nested12 bindings from a separately reviewed own artifact while
 keeping every original expectation and collector byte fixed. Its eight
 synthetic preparation tests pass; no repaired CLI run is claimed. A separately
-prepared bulk-storage leaf test remains resource-gated before compilation. Rebase deliberately after the
+completed leaf test validates typed parsing; full affected libraries, packs,
+CLI15 and repaired CLI12 remain separate source-specific tasks. A first build
+setup failed before any test executed; the successful continuation is separately
+recorded. Rebase deliberately after the
 dependency change integrates, then validate and bind the resulting source anew. Preserve the first freeze and outcomes.
 
 The [manifest patch](maintained-fork-dependency.patch) is separate from the

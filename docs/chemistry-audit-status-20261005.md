@@ -1,7 +1,28 @@
 # Chemistry audit: current state, 2026-10-05
 
 
-## Current checkpoint — 2026-10-12: both dependency-native jobs verified
+## Current checkpoint — 2026-10-12: repair leaf passes; dependency CI reports success
+
+PR784 head `51e99750` now passes **50 original parser controls and 13 repair
+regression functions**, unfiltered, with exact source and actual leaf lock
+checked before and after execution. [The root receipt](../audits/yaml-parser-migration-20261012/local-nested-rate-repair-regressions-51e99750.json)
+and [independent review](../audits/yaml-parser-migration-20261012/nested-rate-repair-leaf-independent-review-51e99750.json)
+accept this bounded leaf scope. The unchanged supplement is still **18 pass /
+2 historical custom-tag failures**, independently verified against both earlier
+sources; no forecast or first outcome was rewritten. Full affected libraries,
+packs and newly bound repaired CLI controls remain pending.
+
+PR783's [own WASM bench](../audits/yaml-parser-migration-20261012/own-wasm-bench-review-1acdda46.json)
+passes 32 runtime controls and 8,105 protocol checks across 113 lessons.
+[The hosted status checkpoint](../audits/yaml-parser-migration-20261012/hosted-progress-20261012-1755.json)
+reports complete CI success (25 successful jobs, one skipped); it does not
+replace detailed reviews of previously unreviewed jobs. Its fleet remains
+incomplete. PR784's own CI and release CLI build are still running or queued.
+Neither narrow PR nor the broad audit branch is integrated by these results.
+Follow [the executable next-step lanes](chemistry-work-agenda-20261012.md).
+Earlier dated checkpoints retain their historical scopes.
+
+## Earlier checkpoint — 2026-10-12: both dependency-native jobs verified
 
 [Own Linux native evidence](../audits/yaml-parser-migration-20261012/native-linux-review-1acdda46.json)
 now verifies 454 focused controls across 38 fixtures and all 3,345 workspace

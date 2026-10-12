@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "source": "51e997509126f099b22fbe963750ac06f36dadfe",
+  "source_tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+  "collection_verified": true,
+  "exact_twenty_identities_verified": true,
+  "source_blob_count_verified": 2255,
+  "gitlinks_not_recursively_verified": [
+    {
+      "path": "sundials-kinetics-rs",
+      "revision": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa"
+    },
+    {
+      "path": "vendor/iphreeqc",
+      "revision": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+    }
+  ],
+  "fixture_freeze_commit": "f6746598ed6c05bc3d3ea0f327e0ad6360e4538f",
+  "fixture_sha256": "e46796c3c49d8a8d24d08595da5e3d54d362ecb01aa24d5bb39c6e9120f009ef",
+  "freeze_sha256": "268b6182090f890cbe9e823bfbdf9ebc13a3811c33d428831cc0eb5a5bea7b21",
+  "actual_leaf_lock_sha256": "2597946af98d843803922432ff4b4e859bc73622c58a3a9fc243769ef269817b",
+  "raw_artifact_sha256": {
+    "result.json": "cebbc97bf4569a7c754d2b098ed98f94c95b0aaefe2825d6afcec8ac34e970cd",
+    "command.json": "091066ccc8c23a95e0a0f166c93a953955c51b30bb7dab289fc1317fc144f4c4",
+    "runner.py": "d5675e68ae8c2413f09e615f8ce70a415a8641f8f3fd6fdd1ff1c32aeb4a85b3",
+    "tests.log": "1f84a55675887ccd95a9d214646d198bd71ea667e317b58e0c6d7aa81cd2045c",
+    "Cargo.lock": "2597946af98d843803922432ff4b4e859bc73622c58a3a9fc243769ef269817b",
+    "fixture.rs": "e46796c3c49d8a8d24d08595da5e3d54d362ecb01aa24d5bb39c6e9120f009ef"
+  },
+  "previous_paired_first_outcomes_sha256": "38afc57080a6e671fa5a25e47eeaa2a1d645ebbe98269e0e5e1843b7c9366763",
+  "separate_original50_plus13_review": "audits/yaml-parser-migration-20261012/nested-rate-repair-leaf-independent-review-51e99750.json",
+  "separate_original50_plus13_review_sha256": "80d2ac4357c27f49be844dd941f0c5faf8803acdae173a4c87ad1efe37753b2b",
+  "total": 20,
+  "passed": 18,
+  "failed": 2,
+  "ignored": 0,
+  "filtered_out": 0,
+  "actual_exit_code": 101,
+  "cases": [
+    {
+      "name": "duplicate_document_annotation",
+      "outcome": "ok"
+    },
+    {
+      "name": "duplicate_composition_last_value",
+      "outcome": "ok"
+    },
+    {
+      "name": "duplicate_known_rate_field",
+      "outcome": "ok"
+    },
+    {
+      "name": "custom_tag_rate_scalar",
+      "outcome": "ok"
+    },
+    {
+      "name": "ignored_custom_scalar_tag",
+      "outcome": "FAILED"
+    },
+    {
+      "name": "ignored_custom_sequence_tag",
+      "outcome": "FAILED"
+    },
+    {
+      "name": "duplicate_nested_annotation_key",
+      "outcome": "ok"
+    },
+    {
+      "name": "ignored_nested_merge_alias",
+      "outcome": "ok"
+    },
+    {
+      "name": "quoted_activation_decimal",
+      "outcome": "ok"
+    },
+    {
+      "name": "ordinary_merge_document",
+      "outcome": "ok"
+    },
+    {
+      "name": "ordinary_merge_species",
+      "outcome": "ok"
+    },
+    {
+      "name": "quoted_activation_scientific",
+      "outcome": "ok"
+    },
+    {
+      "name": "ordinary_merge_phase",
+      "outcome": "ok"
+    },
+    {
+      "name": "quoted_activation_nan",
+      "outcome": "ok"
+    },
+    {
+      "name": "quoted_rate_infinity",
+      "outcome": "ok"
+    },
+    {
+      "name": "quoted_rate_decimal",
+      "outcome": "ok"
+    },
+    {
+      "name": "tagged_species_external_mapping",
+      "outcome": "ok"
+    },
+    {
+      "name": "quoted_rate_scientific",
+      "outcome": "ok"
+    },
+    {
+      "name": "unquoted_rate_negative_infinity",
+      "outcome": "ok"
+    },
+    {
+      "name": "unquoted_activation_negative_infinity",
+      "outcome": "ok"
+    }
+  ],
+  "failed_forecasts": [
+    {
+      "name": "ignored_custom_scalar_tag",
+      "expected": "successful ignored custom-tagged annotation",
+      "observed_category": "MechanismError::Yaml",
+      "diagnostic": "note: untagged and internally tagged enums do not support enum input",
+      "line": 15,
+      "column": 7
+    },
+    {
+      "name": "ignored_custom_sequence_tag",
+      "expected": "successful ignored custom-tagged annotation",
+      "observed_category": "MechanismError::Yaml",
+      "diagnostic": "note: untagged and internally tagged enums do not support enum input",
+      "line": 15,
+      "column": 7
+    }
+  ],
+  "all_twenty_outcomes_match_original_and_prior_candidate": true,
+  "new_regressions_in_this_matrix_observed": 0,
+  "accepted_integration": false,
+  "scope": "Independent review of unchanged prospective annotation supplement at repaired source: eighteen pass, two original positive forecasts remain unmet. Not twenty of twenty accepted compatibility controls.",
+  "qualifications": [
+    "Same exact failed names and MechanismError::Yaml flattened-tag category as the preserved original/replacement paired review; these failures are not a newly observed repaired-source regression.",
+    "Original positive forecasts, freeze and all first failures remain immutable; this receipt does not convert them into passing refusal controls.",
+    "Whole supplement test binary executed unfiltered using existing source-specific compiled core and exact reused leaf lock/default debug2/one-worker settings; not a fresh workspace resolution or clean whole-workspace build. Command JSON omits environment details; settings are established from the archived runner.",
+    "Source Git blob bytes and fixture/lock were independently reverified after execution; archived runner establishes recorded before/after guards. Gitlinks remain references rather than recursive module review.",
+    "Original50/new13 acceptance remains in its separate receipt; full libraries/packs, newly repaired-source CLI12/CLI15, own CI/fleet/full WASM runtime/integration remain unaccepted here.",
+    "No empirical chemical accuracy or universal metadata-tag support claim. Reviewer performed no Cargo/CLI execution or production edits."
+  ]
+}
