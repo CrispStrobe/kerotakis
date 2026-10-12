@@ -40,8 +40,7 @@ fn retained_pack_document(doc: &Value) -> Value {
 }
 fn assert_runtime_refusal(doc: &Value) {
     let error = parse_document(doc)
-        .err()
-        .expect("runtime silently admitted a temperature-constrained fallback Cp")
+        .expect_err("runtime silently admitted a temperature-constrained fallback Cp")
         .to_lowercase();
     assert!(error.contains("mgso4"), "species-free refusal: {error}");
     assert!(

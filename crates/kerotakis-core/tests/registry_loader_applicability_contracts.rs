@@ -54,8 +54,7 @@ fn assert_runtime_refuses(doc: &Value, property: &str, field: &str) {
     );
     assert_error(
         parse_document(doc)
-            .err()
-            .expect("direct runtime silently admitted conditional mandatory record"),
+            .expect_err("direct runtime silently admitted conditional mandatory record"),
         property,
         field,
     );
@@ -65,8 +64,7 @@ fn assert_runtime_refuses(doc: &Value, property: &str, field: &str) {
     let unpacked = serde_json::to_value(decoded).unwrap();
     assert_error(
         parse_document(&unpacked)
-            .err()
-            .expect("pack-to-runtime silently admitted conditional mandatory record"),
+            .expect_err("pack-to-runtime silently admitted conditional mandatory record"),
         property,
         field,
     );
