@@ -43,6 +43,14 @@ custom tags in ignored annotations remain an explicit follow-up, with first
 failures and forecasts preserved. Resolve that support contract separately. Source-specific
 PR782 results need fresh binding after integrating a parser change.
 
+[Remaining own-source CI controls](../audits/yaml-parser-migration-20261012/own-final-ci-controls-review-1acdda46.json)
+now verify presentation1,630 passes across123 files and the exact26-job workflow
+inventory. Legacy BASIC is explicitly skipped because its feature is absent:
+zero oracle tests execute, so no legacy comparison is accepted. Combine the
+required source-bound gate reviews, then inspect every required fleet result
+before guarded integration. API success or an intentional skip cannot supply
+missing experiment outcomes.
+
 ## 0a. Fix confirmed nested rate-key admission loss
 
 The [twelve prospective controls](../audits/yaml-parser-migration-20261012/nested-rate-controls/README.md)

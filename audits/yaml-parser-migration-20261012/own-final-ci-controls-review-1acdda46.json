@@ -1,0 +1,385 @@
+{
+  "schema_version": 1,
+  "pr": 783,
+  "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "base": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "source_tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "tested_checkout": "83438d9ba3015592bdf883ddf7e3f91eaa250544",
+  "merge_parents": [
+    "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+    "1acdda4696e565be5dee13f0598eb2aa8081304e"
+  ],
+  "run_id": 38271407738,
+  "event": "pull_request",
+  "attempt": 1,
+  "workflow_path": ".github/workflows/ci.yml",
+  "workflow_sha256": "0151c09468292c9039538c072e3c33980c778511f8e9c03967e6c2149b71c9d2",
+  "checkout_api_sha256": "f791763716e8459f2cce48e8260a42e3e8c5a4d373fa1fba64827e7d6837087c",
+  "run_api_sha256": "46f6317df83e23bf38e8502943a31466f15d6cb6841462622db99d37b4530558",
+  "jobs_api_sha256": "31b527b12a30ce53c90d7ebb6f66a45cd523297f42f18c9387550833b20bdf94",
+  "controls": [
+    {
+      "job_id": 114886294368,
+      "name": "Presentation authority adapters",
+      "actual_checkout": "83438d9ba3015592bdf883ddf7e3f91eaa250544",
+      "conclusion": "success",
+      "job_api_sha256": "90ee987211517478f0d17fbe9706b6f0d8e250b9ac04c83ebcd4c635584db24a",
+      "raw_log_sha256": "0325dd9b05072bbec26d3c28634c6cd6aa9f85c9719cf0e6b91fc1779a84d25a",
+      "actual_test_files": 123,
+      "actual_tests_passed": 1630,
+      "actual_tests_failed": 0,
+      "source_test_file_count": 123,
+      "command": "npx vitest run --reporter=dot",
+      "scope": "Own all-app Vitest run, aggregate summary and source file inventory bound. Dot reporter does not emit individual test-name outcomes; no individual identity-list claim.",
+      "warnings_present": true
+    },
+    {
+      "job_id": 114886294482,
+      "name": "Legacy BASIC oracle (development only)",
+      "actual_checkout": "83438d9ba3015592bdf883ddf7e3f91eaa250544",
+      "conclusion": "success",
+      "job_api_sha256": "bf68610e97f58fd36aa66487933ec3fb4d34ecd95e03f5ba6c8888e7a2cde03b",
+      "raw_log_sha256": "bacda3eb6ffe8b8b6e52ecdecf86a6a3dab14458c6af85967f947c5f1e7ac89b",
+      "actual_tests_executed": 0,
+      "feature_condition_false": true,
+      "source_manifest_sha256": "dd3d8806bcdc5f4e20e3585f611b9fdaa7c2866f0186e92d4d1e072185cc2465",
+      "scope": "Job succeeded by explicit source-defined absent-feature skip branch; none of three legacy oracle fixtures ran. No legacy test acceptance."
+    }
+  ],
+  "complete_own_api_inventory": {
+    "job_count": 26,
+    "successful_jobs": 25,
+    "skipped_jobs": 1,
+    "all_completed": true,
+    "exact_source_workflow_job_names_verified": true,
+    "declared_workflow_inventory": [
+      {
+        "workflow_job": "gpu-release-tools",
+        "matrix": {},
+        "name": "GPU release tools (deterministic)"
+      },
+      {
+        "workflow_job": "viewer-decision-spike",
+        "matrix": {},
+        "name": "BRD-080 viewer decision spike"
+      },
+      {
+        "workflow_job": "theme-contrast",
+        "matrix": {},
+        "name": "Theme contrast tokens"
+      },
+      {
+        "workflow_job": "presentation-authority",
+        "matrix": {},
+        "name": "Presentation authority adapters"
+      },
+      {
+        "workflow_job": "preflight-gate",
+        "matrix": {},
+        "name": "Full preflight gate"
+      },
+      {
+        "workflow_job": "test",
+        "matrix": {
+          "os": "ubuntu-latest"
+        },
+        "name": "Test (native) (ubuntu-latest)"
+      },
+      {
+        "workflow_job": "test",
+        "matrix": {
+          "os": "macos-latest"
+        },
+        "name": "Test (native) (macos-latest)"
+      },
+      {
+        "workflow_job": "my-basic-preview",
+        "matrix": {
+          "os": "ubuntu-latest"
+        },
+        "name": "MY-BASIC preview (ubuntu-latest)"
+      },
+      {
+        "workflow_job": "my-basic-preview",
+        "matrix": {
+          "os": "macos-latest"
+        },
+        "name": "MY-BASIC preview (macos-latest)"
+      },
+      {
+        "workflow_job": "legacy-basic-oracle",
+        "matrix": {},
+        "name": "Legacy BASIC oracle (development only)"
+      },
+      {
+        "workflow_job": "wasm-core",
+        "matrix": {},
+        "name": "Core and data schemas compile to wasm32"
+      },
+      {
+        "workflow_job": "feos-target-contract",
+        "matrix": {
+          "os": "ubuntu-latest",
+          "target": "wasm32-unknown-unknown"
+        },
+        "name": "feos adapter (wasm32-unknown-unknown)"
+      },
+      {
+        "workflow_job": "feos-target-contract",
+        "matrix": {
+          "os": "ubuntu-latest",
+          "target": "aarch64-linux-android"
+        },
+        "name": "feos adapter (aarch64-linux-android)"
+      },
+      {
+        "workflow_job": "feos-target-contract",
+        "matrix": {
+          "os": "windows-latest",
+          "target": "x86_64-pc-windows-msvc"
+        },
+        "name": "feos adapter (x86_64-pc-windows-msvc)"
+      },
+      {
+        "workflow_job": "feos-target-contract",
+        "matrix": {
+          "os": "macos-latest",
+          "target": "aarch64-apple-darwin"
+        },
+        "name": "feos adapter (aarch64-apple-darwin)"
+      },
+      {
+        "workflow_job": "feos-target-contract",
+        "matrix": {
+          "os": "macos-latest",
+          "target": "aarch64-apple-ios"
+        },
+        "name": "feos adapter (aarch64-apple-ios)"
+      },
+      {
+        "workflow_job": "registry-export",
+        "matrix": {},
+        "name": "Current registry source export"
+      },
+      {
+        "workflow_job": "native-host",
+        "matrix": {},
+        "name": "The native host still compiles"
+      },
+      {
+        "workflow_job": "engine-msvc",
+        "matrix": {},
+        "name": "IPhreeqc under MSVC"
+      },
+      {
+        "workflow_job": "payload",
+        "matrix": {
+          "os": "ubuntu-22.04"
+        },
+        "name": "Shell payload (ubuntu-22.04)"
+      },
+      {
+        "workflow_job": "payload",
+        "matrix": {
+          "os": "windows-latest"
+        },
+        "name": "Shell payload (windows-latest)"
+      },
+      {
+        "workflow_job": "wasm-lab",
+        "matrix": {},
+        "name": "The bench in WebAssembly"
+      },
+      {
+        "workflow_job": "wasm-engine",
+        "matrix": {},
+        "name": "IPhreeqc wasm gate"
+      },
+      {
+        "workflow_job": "wasm-bridge",
+        "matrix": {},
+        "name": "The two wasm halves, together"
+      },
+      {
+        "workflow_job": "demo",
+        "matrix": {},
+        "name": "The demo page, in a real browser"
+      },
+      {
+        "workflow_job": "publish",
+        "matrix": {},
+        "name": "Publish the demo"
+      }
+    ],
+    "jobs": [
+      {
+        "id": 114886293722,
+        "name": "The demo page, in a real browser",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886293944,
+        "name": "BRD-080 viewer decision spike",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294047,
+        "name": "The two wasm halves, together",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294056,
+        "name": "GPU release tools (deterministic)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294073,
+        "name": "IPhreeqc wasm gate",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294139,
+        "name": "The bench in WebAssembly",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294174,
+        "name": "Test (native) (ubuntu-latest)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294181,
+        "name": "Test (native) (macos-latest)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294217,
+        "name": "MY-BASIC preview (ubuntu-latest)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294239,
+        "name": "Full preflight gate",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294263,
+        "name": "Core and data schemas compile to wasm32",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294264,
+        "name": "feos adapter (aarch64-apple-darwin)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294276,
+        "name": "Shell payload (windows-latest)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294290,
+        "name": "IPhreeqc under MSVC",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294294,
+        "name": "Shell payload (ubuntu-22.04)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294303,
+        "name": "MY-BASIC preview (macos-latest)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294364,
+        "name": "feos adapter (wasm32-unknown-unknown)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294368,
+        "name": "Presentation authority adapters",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294394,
+        "name": "feos adapter (aarch64-apple-ios)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294397,
+        "name": "feos adapter (aarch64-linux-android)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294404,
+        "name": "Theme contrast tokens",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294445,
+        "name": "feos adapter (x86_64-pc-windows-msvc)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294482,
+        "name": "Legacy BASIC oracle (development only)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294489,
+        "name": "The native host still compiles",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114886294520,
+        "name": "Current registry source export",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 114912041674,
+        "name": "Publish the demo",
+        "status": "completed",
+        "conclusion": "skipped"
+      }
+    ]
+  },
+  "ordinary_native_lock_captured": false,
+  "accepted_full_ci_gate": false,
+  "accepted_full_fleet": false,
+  "accepted_integration": false,
+  "pending_review_lane": "Combine own source-pinned receipts for five required gates and any other requested executed controls before whole-CI acceptance. This review verifies all own API job names/conclusions but parses only these two newly requested logs.",
+  "limits": [
+    "Presentation1630 is actual aggregate successful test count; individual test identities unavailable in dot report.",
+    "Legacy oracle successful job is an explicit skip due absent feature at exact source; zero oracle tests executed.",
+    "API26job/25success/1publishskip is completion metadata, not evidence of every job test outcome or proof of full CI acceptance.",
+    "Ordinary native actual lock uncaptured; captured fleet/local locks not borrowed.",
+    "No empirically measured chemistry, full fleet or integration acceptance."
+  ]
+}

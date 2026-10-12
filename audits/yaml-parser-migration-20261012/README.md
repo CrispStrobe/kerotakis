@@ -96,6 +96,15 @@ is checked, but this artifact has not been executed and the fleet is pending.
 merge tree. Ordinary job lock and built binaries remain uncaptured. These are
 supported runtime contracts, not general empirical chemistry accuracy.
 
+[The final own-source CI controls review](own-final-ci-controls-review-1acdda46.json)
+accepts presentation's 1,630 tests across 123 files. The dot reporter provides
+aggregate outcomes, not individual test identities. The development-only Legacy
+BASIC job succeeds through the source-defined absent-feature skip: **zero oracle
+tests execute**, so this is not an accepted legacy comparison. Its exact own CI
+inventory has 26 completed jobs (25 successes and one publish skip), matching
+the source workflow. Combine required gate reviews before claiming whole-CI
+acceptance; the complete fleet and integration remain separate.
+
 [The annotation contract review](annotation-contract-review.md) records the
 observed custom-tag boundary and six annotation owners. It also identifies
 nested rate-key admission as a separate inquiry. The separately

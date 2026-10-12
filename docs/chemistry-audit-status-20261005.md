@@ -17,6 +17,12 @@ library and pack checks in the accepted macOS scope. Linux native, full prefligh
 complete CI/fleet and integration remain pending. No merge is claimed.
 Follow [the next-step lanes](chemistry-work-agenda-20261012.md).
 
+PR783's [remaining own CI control review](../audits/yaml-parser-migration-20261012/own-final-ci-controls-review-1acdda46.json)
+accepts presentation1,630 passes across123 files. Its Legacy BASIC job performs
+an explicit absent-feature skip and runs zero oracle tests. The exact workflow
+inventory is26 completed jobs (25 successes, one publish skip). Full required
+gate aggregation and complete fleet acceptance remain separate.
+
 ## Earlier checkpoint — 2026-10-12: repaired CLI27/27 accepted
 
 PR784's [own release artifact](../audits/yaml-parser-migration-20261012/own-cli-artifact-review-51e99750.json)
