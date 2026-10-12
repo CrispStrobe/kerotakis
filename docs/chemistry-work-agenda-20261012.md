@@ -4,7 +4,7 @@ The mandatory context-free fallback applicability repair is **integrated** as
 [PR781](https://github.com/CrispStrobe/kerotakis/pull/781), main `a125c88d`.
 [Acceptance evidence](../audits/registry-loader-applicability-20261012/README.md)
 binds revised-head50/50, both native404/37 inventories, complete CI/libraries,
-registry admission, full33 fleet and actual merge parents/tree. Original failures
+registry admission, full 33 fleet and actual merge parents/tree. Original failures
 and freezes remain preserved. Optional/contextful/polynomial/multiple-anchor
 and scientific-data gaps are still separate.
 
@@ -46,10 +46,18 @@ PR782 results need fresh binding after integrating a parser change.
 [Remaining own-source CI controls](../audits/yaml-parser-migration-20261012/own-final-ci-controls-review-1acdda46.json)
 now verify presentation1,630 passes across123 files and the exact26-job workflow
 inventory. Legacy BASIC is explicitly skipped because its feature is absent:
-zero oracle tests execute, so no legacy comparison is accepted. Combine the
-required source-bound gate reviews, then inspect every required fleet result
-before guarded integration. API success or an intentional skip cannot supply
-missing experiment outcomes.
+zero oracle tests execute, so no legacy comparison is accepted.
+[The own CI aggregate](../audits/yaml-parser-migration-20261012/own-ci-gate-aggregate-1acdda46.json)
+now accepts all five required gates and complete 26-job inventory. The
+[reviewed integration preparation](../audits/yaml-parser-migration-20261012/integration-preparation-1acdda46.json)
+binds both native platforms and CI to exact head `1acdda46` and base `a125c88d`.
+Its [actual read-only check](../audits/yaml-parser-migration-20261012/integration-awaiting-fleet-1acdda46.json)
+returns not ready because the fleet is incomplete. Next collect all 33 required
+fleet jobs and every declared step, including the three aggregates; rerun
+`tools/registry-integration-preflight.py` against this plan into a new evidence
+destination, then inspect readiness and fresh head/base/main/merge-tree guards.
+Only the narrow dependency branch is an integration candidate; never merge the
+audit branch. Preserve all original source-bound receipts and outcomes.
 
 ## 0a. Fix confirmed nested rate-key admission loss
 

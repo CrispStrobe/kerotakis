@@ -1,0 +1,42 @@
+{
+  "pr": 783,
+  "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "base": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "ci_run": 38271407738,
+  "fleet_run": 38271407728,
+  "expected_final_fleet_jobs": 33,
+  "expected_native_fixture_files": 38,
+  "expected_native_functions": 454,
+  "required_successful_jobs": [
+    "Full preflight gate",
+    "Test (native) (ubuntu-latest)",
+    "Test (native) (macos-latest)",
+    "The bench in WebAssembly",
+    "The demo page, in a real browser"
+  ],
+  "native_plan_path": "audits/yaml-parser-migration-20261012/integration-native-plan-1acdda46.json",
+  "native_receipt_paths": [
+    "audits/yaml-parser-migration-20261012/integration-native-macos-1acdda46.json",
+    "audits/yaml-parser-migration-20261012/integration-native-linux-1acdda46.json"
+  ],
+  "full_ci_receipt_path": "audits/yaml-parser-migration-20261012/own-ci-gate-aggregate-1acdda46.json",
+  "receipt_sha256": {
+    "audits/yaml-parser-migration-20261012/integration-native-plan-1acdda46.json": "46da4fd1737d7fe59649adcac685f1171b370aa629190e6c2f229ee773760d4c",
+    "audits/yaml-parser-migration-20261012/own-ci-gate-aggregate-1acdda46.json": "ab780fe01c93e9fa5c40dd4dc4e78ebef0b83e774cb60d7382b5c4b03b7be253",
+    "audits/yaml-parser-migration-20261012/integration-native-macos-1acdda46.json": "fc7b169dd1b853b45321255304d70ec07b274471c43f45a4a3e30d359797e258",
+    "audits/yaml-parser-migration-20261012/integration-native-linux-1acdda46.json": "e4c842d8a9ac7a3c1015f639672d48d70021d1aa7b7afdf31e40c9719a45a64c",
+    "audits/yaml-parser-migration-20261012/native-macos-independent-review-1acdda46.json": "bee062f6acb4ff62372deb845262e1abfa7007077b04ea622811f182c7074afd",
+    "audits/yaml-parser-migration-20261012/native-linux-independent-review-1acdda46.json": "9e7913a724a52731b0385805fecf6c681ffaf65e1f3ec9a20c1da29c5a2a3cca",
+    "audits/yaml-parser-migration-20261012/local-cli-first-controls-1acdda46.json": "0d74077931bb0ec71194a6e37b08cdf698d6fd8a358bbabd0444be15393bd325",
+    "audits/yaml-parser-migration-20261012/cli-independent-review-1acdda46.json": "59261e27d9ae8319922c79a0e4c68aeb96fd21717b7c600bd57f3d3361f7092f",
+    "audits/yaml-parser-migration-20261012/own-preflight-review-1acdda46.json": "51ecc995f357c632fc4c7f8a6932113cdae836a5c21ab58074dc8853c3be4279",
+    "audits/yaml-parser-migration-20261012/maintained-fork-independent-review-1acdda46.json": "26ddc33d21f04cef0aaa5d3543b815376f357e6e598a808982c2a01bab0b53e6"
+  },
+  "changed_source_sha256": {
+    "Cargo.toml": "80aeffe25abeb7ccf99ffa839d9c37279a19052c420732abe6c008cca129187c",
+    "crates/kerotakis-core/tests/yaml_mechanism_parser_contracts.rs": "443569acc3a5ecd4a67fcf845f667976dea2a63c287304a932c2bb8556cb336d"
+  },
+  "scope": "Read-only PR783 maintenance replacement integration preparation. Own complete required CI and independent native controls bound; unchanged policy and existing CLI controls retained. Full33 fleet remains unaccepted; no readiness or merge acceptance until fresh guard checks.",
+  "base_race_limit": "Head guard cannot atomically pin base; recheck main immediately before ordinary merge and verify actual parents/tree afterward."
+}

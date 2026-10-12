@@ -1,7 +1,21 @@
 # Chemistry audit: current state, 2026-10-05
 
 
-## Current checkpoint — 2026-10-12: repaired native libraries and packs accepted
+## Current checkpoint — 2026-10-12: dependency CI accepted; integration guard awaits fleet
+
+PR783's [own complete CI gate](../audits/yaml-parser-migration-20261012/own-ci-gate-aggregate-1acdda46.json)
+is now accepted at exact head `1acdda46`: all five required gates have reviewed
+source-bound outcomes, and all 26 jobs have the expected successful/skip states.
+Legacy oracle still ran zero tests through its explicit absent-feature skip.
+The [read-only integration preparation](../audits/yaml-parser-migration-20261012/integration-preparation-1acdda46.json)
+binds the accepted CI and both native 454/38 inventories without changing their
+original receipts. [Independent preparation review](../audits/yaml-parser-migration-20261012/integration-preparation-independent-review-1acdda46.json)
+checks that adaptation. [Actual readiness](../audits/yaml-parser-migration-20261012/integration-awaiting-fleet-1acdda46.json)
+is false because the full 33 fleet is incomplete. No integration is accepted.
+Next complete fleet review and rerun fresh guards; PR784 Linux and preflight
+remain running or queued. Earlier checkpoints retain their historical scope.
+
+## Earlier checkpoint — 2026-10-12: repaired native libraries and packs accepted
 
 PR784 head `51e99750` now has [own macOS native evidence](../audits/yaml-parser-migration-20261012/native-macos-review-51e99750.json)
 and [independent review](../audits/yaml-parser-migration-20261012/native-macos-independent-review-51e99750.json):
@@ -251,15 +265,15 @@ separate. Earlier PR781 integration is complete.
 
 ## Mandatory fallback applicability integrated — 2026-10-12
 
-[PR781](https://github.com/CrispStrobe/kerotakis/pull/781) is merged as main `a125c88d`, with [actual parents/tree independently verified](../audits/registry-loader-applicability-20261012/main-tree-equality.json) equal to tested head `7cce5b8f`. Its own revised paired50/50, both native404-function/37-fixture inventories, registry admission10, complete604core/17data/28safety libraries, completeCI26 and full33 fleet/every declared step are accepted. Fresh preflight and immediate run/rollup/head/base/main guards preceded the ordinary merge. Original Rust6pass/20fail and generator6pass/18fail, frozen fixtures and exact assertion-port adaptation remain preserved. Ordinary native CI's lock stays uncaptured; paired execution captures its own actual lock and newly compiled generator.
+[PR781](https://github.com/CrispStrobe/kerotakis/pull/781) is merged as main `a125c88d`, with [actual parents/tree independently verified](../audits/registry-loader-applicability-20261012/main-tree-equality.json) equal to tested head `7cce5b8f`. Its own revised paired50/50, both native404-function/37-fixture inventories, registry admission10, complete604core/17data/28safety libraries, completeCI26 and full 33 fleet/every declared step are accepted. Fresh preflight and immediate run/rollup/head/base/main guards preceded the ordinary merge. Original Rust6pass/20fail and generator6pass/18fail, frozen fixtures and exact assertion-port adaptation remain preserved. Ordinary native CI's lock stays uncaptured; paired execution captures its own actual lock and newly compiled generator.
 
 The selected context-free mandatory fallback slice is closed on main. Contextful intervals/alternatives, optional properties/polynomials, unknown conditions, multiple mass anchors and empirical datasets remain separate. [Current-main historical presence](../audits/integration-20261008/full-audit-port-inventory-pr781-merged.json) still has50 missing named tests/129 paths, not179 demonstrated defects. Next: remaining reviewed final-safety rule matrix, coherent historical regression ports, then measured release optimization when resources permit. Earlier pending/preparation updates below are history.
 
 ## Applicability candidate 50/50; revised-head validation pending — 2026-10-12
 
-[Independent paired review](../audits/registry-loader-applicability-20261012/paired-candidate-review.json) verifies all26 Rust and24 generator controls passing at PR781 head `62c70f63`, with actual source, lock, freshly compiled generator and raw outcomes. Original26 Rust controls remain6 pass/20 fail; original24 generator cases remain6 pass/18 fail. This closes the candidate's frozen engineering expectations, not empirical chemical accuracy or integration.
+[Independent paired review](../audits/registry-loader-applicability-20261012/paired-candidate-review.json) verifies all 26 Rust and24 generator controls passing at PR781 head `62c70f63`, with actual source, lock, freshly compiled generator and raw outcomes. Original26 Rust controls remain6 pass/20 fail; original24 generator cases remain6 pass/18 fail. This closes the candidate's frozen engineering expectations, not empirical chemical accuracy or integration.
 
-Broader macOS CI failed before native tests on `clippy::err_expect`. [The correction](../audits/registry-loader-applicability-20261012/lint-port-preparation.json) changes only three runtime assertion extraction sites in production ports; frozen audit fixtures remain unchanged. PR781 now has head `7cce5b8f`. Next: validate that head's paired50, ownCI/native404 across37fixtures and full33 fleet, then fresh guarded integration. Prior-head results cannot certify the revised head. [Exact resume instructions](../audits/registry-loader-applicability-20261012/README.md) and [today's agenda](chemistry-work-agenda-20261012.md) are current; earlier pending/preparation statements below are history.
+Broader macOS CI failed before native tests on `clippy::err_expect`. [The correction](../audits/registry-loader-applicability-20261012/lint-port-preparation.json) changes only three runtime assertion extraction sites in production ports; frozen audit fixtures remain unchanged. PR781 now has head `7cce5b8f`. Next: validate that head's paired50, ownCI/native404 across37fixtures and full 33 fleet, then fresh guarded integration. Prior-head results cannot certify the revised head. [Exact resume instructions](../audits/registry-loader-applicability-20261012/README.md) and [today's agenda](chemistry-work-agenda-20261012.md) are current; earlier pending/preparation statements below are history.
 
 ## Applicability repair prepared as PR781 — 2026-10-12
 
@@ -283,19 +297,19 @@ Broader macOS CI failed before native tests on `clippy::err_expect`. [The correc
 
 ## Current registry integration update — 2026-10-12
 
-Main `093db6c9` now contains the independently accepted mandatory scalar-bound, unit-normalization and phase-selection repairs. [PR779 acceptance](../audits/registry-loader-units-20261011/main-tree-equality.json) and [PR780 acceptance](../audits/registry-loader-phase-selection-20261011/main-tree-equality.json) bind each own complete CI/native/full33 fleet and verified actual merge parents/tree; [PR778 acceptance](../audits/registry-loader-properties-20261011/main-tree-equality.json) remains unchanged. No new-base rerun or independently captured hosted lock is claimed.
+Main `093db6c9` now contains the independently accepted mandatory scalar-bound, unit-normalization and phase-selection repairs. [PR779 acceptance](../audits/registry-loader-units-20261011/main-tree-equality.json) and [PR780 acceptance](../audits/registry-loader-phase-selection-20261011/main-tree-equality.json) bind each own complete CI/native/full 33 fleet and verified actual merge parents/tree; [PR778 acceptance](../audits/registry-loader-properties-20261011/main-tree-equality.json) remains unchanged. No new-base rerun or independently captured hosted lock is claimed.
 
 [The current checkpoint](../audits/integration-20261008/STATUS.md) and [doable lanes](chemistry-audit-next-lanes.md) now start with mandatory fallback applicability contracts, historical binding restoration and remaining safety coverage. Optional curves, multiple mass anchors and empirical data are separate. Current historical presence gaps remain50 named tests/129 paths; full historical audit acceptance remains source-specific. Earlier queued/draft updates below are history.
 
 ## Current scalar integration update — 2026-10-11
 
-[PR778 is merged](../audits/registry-loader-properties-20261011/main-tree-equality.json) as main `e391f64b`, after independent complete CI/native333/full33-fleet acceptance and actual parent/tree verification. The shared scalar-bound admission repair now reaches main across runtime loading, typed validation, hashed packs and generation, preserving supported zero-Cp and signed-energy conventions.
+[PR778 is merged](../audits/registry-loader-properties-20261011/main-tree-equality.json) as main `e391f64b`, after independent complete CI/native333/full 33-fleet acceptance and actual parent/tree verification. The shared scalar-bound admission repair now reaches main across runtime loading, typed validation, hashed packs and generation, preserving supported zero-Cp and signed-energy conventions.
 
 [PR779’s current-main preparation](../audits/registry-loader-units-20261011/README.md) verifies tracked-tree compatibility without claiming another test execution after retargeting. Its own CI/native358 are accepted; fleet26/33 and integration remain pending. PR780 own CI/native378 are accepted; its own fleet and parent integration remain pending. [The current checkpoint](../audits/integration-20261008/STATUS.md) and [next lanes](chemistry-audit-next-lanes.md) define remaining work. Historical full-audit bindings still need50 tests/129 paths on actual merged main; broad phase/schema/empirical-data acceptance remains separate. Older updates below are history.
 
 ## Current integration update — 2026-10-11
 
-[PR777 merged-tree acceptance](../audits/production-acid-projection-20261010/main-tree-equality.json) verifies main `bf6f4157`, actual merge parents and exact equality to the reviewed Dbe tree. Both native322 focused inventories, completeCI, all33 chemistry fleet jobs and declared steps, source-boundCLI164 and paired warning evidence are accepted. Original forecast and acid-route qualifications remain unchanged.
+[PR777 merged-tree acceptance](../audits/production-acid-projection-20261010/main-tree-equality.json) verifies main `bf6f4157`, actual merge parents and exact equality to the reviewed Dbe tree. Both native322 focused inventories, completeCI, all 33 chemistry fleet jobs and declared steps, source-boundCLI164 and paired warning evidence are accepted. Original forecast and acid-route qualifications remain unchanged.
 
 DraftPR778 is based on main and has complete ownCI plus both native333 focused inventories accepted; its own fleet remains pending. [Current-main source-tree compatibility](../audits/registry-loader-properties-20261011/current-main-tree-compatibility-f515.json) is verified, without claiming a new-base test rerun; final fresh premerge guards and actual merge verification remain required. Unit repair PR779 has complete own CI and both native358 focused inventories accepted; its fleet and parent integration remain pending. Phase repair PR780 also has complete own CI and both native378 focused inventories accepted; its fleet and parent integration remain pending. [Current checkpoint](../audits/integration-20261008/STATUS.md) and [next lanes](chemistry-audit-next-lanes.md) define the remaining work. Historical full-audit coverage still needs50 missing tests/129 paths; newer narrow repairs do not replace its source-specific acceptance. Older dated updates below are history.
 

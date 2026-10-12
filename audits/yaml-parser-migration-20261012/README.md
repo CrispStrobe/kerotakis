@@ -102,8 +102,30 @@ aggregate outcomes, not individual test identities. The development-only Legacy
 BASIC job succeeds through the source-defined absent-feature skip: **zero oracle
 tests execute**, so this is not an accepted legacy comparison. Its exact own CI
 inventory has 26 completed jobs (25 successes and one publish skip), matching
-the source workflow. Combine required gate reviews before claiming whole-CI
-acceptance; the complete fleet and integration remain separate.
+the source workflow. [The own CI gate aggregate](own-ci-gate-aggregate-1acdda46.json) now accepts
+all five required gates, with exact source-bound outcomes and the complete
+26-job inventory. Auxiliary job metadata and ordinary uncaptured locks remain
+qualified in that receipt; legacy oracle execution is not claimed.
+
+[The read-only integration plan](integration-preparation-1acdda46.json) binds the
+accepted CI and both native receipts through a 38-fixture/454-function exact-source
+inventory. Its native schema adapters preserve every reviewed identity/outcome
+and link the original receipts by SHA. The original receipts are unchanged.
+[Independent preparation review](integration-preparation-independent-review-1acdda46.json)
+checks these bindings. [The actual readiness check](integration-awaiting-fleet-1acdda46.json)
+returns **not ready** because the complete 33-job fleet is unaccepted; its three
+aggregate jobs are not yet created at this snapshot. A fresh agent should rerun
+`tools/registry-integration-preflight.py` with this plan and a new evidence
+destination after all required fleet jobs complete. Inspect readiness flags and
+fresh head/base/main/merge-tree checks before any integration; exit zero alone
+is not readiness. The concrete read-only invocation is:
+
+```text
+python3 tools/registry-integration-preflight.py --plan audits/yaml-parser-migration-20261012/integration-preparation-1acdda46.json --evidence-dir NEW_PRIVATE_EVIDENCE_DIRECTORY
+```
+
+Do not merge the audit branch. The plan must reject changes
+to its bound receipts or candidate source.
 
 [The annotation contract review](annotation-contract-review.md) records the
 observed custom-tag boundary and six annotation owners. It also identifies

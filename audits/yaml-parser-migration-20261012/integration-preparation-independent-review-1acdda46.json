@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "pr": 783,
+  "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "base": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "ci_run": 38271407738,
+  "fleet_run": 38271407728,
+  "integration_preparation_valid": true,
+  "bound_inputs_validated": true,
+  "validate_ci_passed": true,
+  "validate_native_passed": true,
+  "expected_native_functions": 454,
+  "expected_native_fixture_files": 38,
+  "native_tested_checkout": "83438d9ba3015592bdf883ddf7e3f91eaa250544",
+  "native_tested_parents": [
+    "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+    "1acdda4696e565be5dee13f0598eb2aa8081304e"
+  ],
+  "source_order_identities_and_fixture_hashes_verified": true,
+  "adapter_outcome_sets_identical_to_original_reviews": true,
+  "original_native_receipt_pins": [
+    {
+      "path": "audits/yaml-parser-migration-20261012/native-macos-independent-review-1acdda46.json",
+      "sha256": "bee062f6acb4ff62372deb845262e1abfa7007077b04ea622811f182c7074afd"
+    },
+    {
+      "path": "audits/yaml-parser-migration-20261012/native-linux-independent-review-1acdda46.json",
+      "sha256": "9e7913a724a52731b0385805fecf6c681ffaf65e1f3ec9a20c1da29c5a2a3cca"
+    }
+  ],
+  "public_preparation_and_bound_receipt_pins": [
+    {
+      "path": "audits/yaml-parser-migration-20261012/integration-preparation-1acdda46.json",
+      "sha256": "522874c09036370832b4f11faba5cfa27e78893052a15eb90d5fc8bda1020e39"
+    },
+    {
+      "path": "audits/yaml-parser-migration-20261012/integration-native-plan-1acdda46.json",
+      "sha256": "46da4fd1737d7fe59649adcac685f1171b370aa629190e6c2f229ee773760d4c"
+    },
+    {
+      "path": "audits/yaml-parser-migration-20261012/own-ci-gate-aggregate-1acdda46.json",
+      "sha256": "ab780fe01c93e9fa5c40dd4dc4e78ebef0b83e774cb60d7382b5c4b03b7be253"
+    },
+    {
+      "path": "audits/yaml-parser-migration-20261012/integration-native-macos-1acdda46.json",
+      "sha256": "fc7b169dd1b853b45321255304d70ec07b274471c43f45a4a3e30d359797e258"
+    },
+    {
+      "path": "audits/yaml-parser-migration-20261012/integration-native-linux-1acdda46.json",
+      "sha256": "e4c842d8a9ac7a3c1015f639672d48d70021d1aa7b7afdf31e40c9719a45a64c"
+    },
+    {
+      "path": "audits/yaml-parser-migration-20261012/native-macos-independent-review-1acdda46.json",
+      "sha256": "bee062f6acb4ff62372deb845262e1abfa7007077b04ea622811f182c7074afd"
+    },
+    {
+      "path": "audits/yaml-parser-migration-20261012/native-linux-independent-review-1acdda46.json",
+      "sha256": "9e7913a724a52731b0385805fecf6c681ffaf65e1f3ec9a20c1da29c5a2a3cca"
+    },
+    {
+      "path": "audits/yaml-parser-migration-20261012/local-cli-first-controls-1acdda46.json",
+      "sha256": "0d74077931bb0ec71194a6e37b08cdf698d6fd8a358bbabd0444be15393bd325"
+    },
+    {
+      "path": "audits/yaml-parser-migration-20261012/cli-independent-review-1acdda46.json",
+      "sha256": "59261e27d9ae8319922c79a0e4c68aeb96fd21717b7c600bd57f3d3361f7092f"
+    },
+    {
+      "path": "audits/yaml-parser-migration-20261012/own-preflight-review-1acdda46.json",
+      "sha256": "51ecc995f357c632fc4c7f8a6932113cdae836a5c21ab58074dc8853c3be4279"
+    },
+    {
+      "path": "audits/yaml-parser-migration-20261012/maintained-fork-independent-review-1acdda46.json",
+      "sha256": "26ddc33d21f04cef0aaa5d3543b815376f357e6e598a808982c2a01bab0b53e6"
+    }
+  ],
+  "changed_source_paths_complete": [
+    "Cargo.toml",
+    "crates/kerotakis-core/tests/yaml_mechanism_parser_contracts.rs"
+  ],
+  "first_preparation_partial_result_scope": "Retained source-identical plan/macOS adaptation; Linux integer count/list schema adaptation corrected in continuation without tests or outcomes changing.",
+  "readiness_accepted": false,
+  "integration_accepted": false,
+  "full_fleet_accepted": false,
+  "limits": [
+    "Schema and immutable receipt/source binding preparation acceptance only; no live integration preflight invoked by reviewer.",
+    "Own CI aggregate and both independently reviewed native outcomes valid under existing guard; full33 own fleet remains separately unaccepted.",
+    "Adapters reorder accepted test identity sets into exact source declaration order; no rerun or new expectation/outcome.",
+    "Original native receipts and uncaptured ordinary native locks preserved; no fleet5135/local lock borrowed.",
+    "Fresh live PR/main/rollup/fleet checks required before readiness or ordinary merge; source base race cannot be made atomic by this preparation."
+  ]
+}
