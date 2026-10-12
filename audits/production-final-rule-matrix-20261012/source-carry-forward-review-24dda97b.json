@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "pr": 782,
+  "existing_head": "24dda97b60443d5e00b1fb25015fe2942c535227",
+  "actual_accepted_main": "b246408b8156f12594ab18e71cc9c3edee3c7623",
+  "pr784_unintegrated_head": "51e997509126f099b22fbe963750ac06f36dadfe",
+  "source_only_assessments": [
+    {
+      "base": "b246408b8156f12594ab18e71cc9c3edee3c7623",
+      "base_tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+      "prospective_merge_tree": "c5ef46c254c862ee92927e95deaf4828ead2edd5",
+      "changed_paths": [
+        "crates/kerotakis-safety/src/lib.rs",
+        "crates/kerotakis-safety/tests/production_remaining_final_rules.rs"
+      ],
+      "safety_source_sha256": {
+        "crates/kerotakis-safety/src/lib.rs": "f78ca77b561821c1cf912cbccde63607734e48d9b831be8c75b4d9aa892eb447",
+        "crates/kerotakis-safety/tests/production_remaining_final_rules.rs": "fa7c370805203489fbcdcb18a6c9e99906073f5e1a3285a09b99f53302f912b6"
+      },
+      "original_safety_blobs_preserved": true,
+      "tracked_source_merge_conflicts": false
+    },
+    {
+      "base": "51e997509126f099b22fbe963750ac06f36dadfe",
+      "base_tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+      "prospective_merge_tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+      "changed_paths": [
+        "crates/kerotakis-safety/src/lib.rs",
+        "crates/kerotakis-safety/tests/production_remaining_final_rules.rs"
+      ],
+      "safety_source_sha256": {
+        "crates/kerotakis-safety/src/lib.rs": "f78ca77b561821c1cf912cbccde63607734e48d9b831be8c75b4d9aa892eb447",
+        "crates/kerotakis-safety/tests/production_remaining_final_rules.rs": "fa7c370805203489fbcdcb18a6c9e99906073f5e1a3285a09b99f53302f912b6"
+      },
+      "original_safety_blobs_preserved": true,
+      "tracked_source_merge_conflicts": false
+    }
+  ],
+  "future_source_created": false,
+  "tests_executed": false,
+  "ready_for_merge": false,
+  "accepted_integration": false,
+  "next_steps": [
+    "After PR784 actual guarded integration, capture fresh main and replay only the original safety whitelist change and unchanged fifty-test fixture on a narrow branch.",
+    "Preserve old-head failures and outcomes. Derive new focused inventories from actual new head and require that head\u2019s own native/CI/fleet and supported production CLI witnesses.",
+    "If actual main differs from these pinned prospective trees, repeat source conflict/blob checks before replay."
+  ],
+  "limits": [
+    "git merge-tree feasibility only; no branch or PR head rewritten, no new test result and no certification of future source.",
+    "The PR784 assessment uses an unintegrated prospective prerequisite head and cannot substitute for acceptance of actual main."
+  ]
+}

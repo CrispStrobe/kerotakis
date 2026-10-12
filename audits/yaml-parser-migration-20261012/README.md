@@ -19,8 +19,10 @@ Next complete PR784's own fleet and actual saved-output reviews. Its
 now bind the unchanged repair source and accepted receipts to main, with
 [independent review](integration-preparation-independent-review-51e99750.json).
 The [actual read-only preflight](integration-awaiting-fleet-51e99750.json)
-returns not ready: 25 successful jobs, seven queued and the v2 aggregate not yet
-created. No merge readiness or repair integration is accepted. The confirmed nested-key
+remains a historical pending result. The [21:27 UTC checkpoint](own-fleet-progress-20261012-2127.json)
+verifies 27 successful jobs and their declared steps: four v2 family jobs and
+the v3 aggregate are queued, and the v2 aggregate is not yet created.
+No merge readiness or repair integration is accepted. The confirmed nested-key
 repair and final-safety PR782 remain unintegrated. Preserve all original
 forecasts, first outcomes and receipts.
 GitHub automatically retargeted PR784 to main; its head is unchanged.
@@ -28,6 +30,15 @@ GitHub automatically retargeted PR784 to main; its head is unchanged.
 verifies identical tracked trees for its old tested base and accepted main, and
 the exact repair merge tree. This preserves the recorded test context rather
 than claiming execution after retargeting.
+
+[PR784's own frozen fleets](own-frozen-fleet-review-51e99750.json) now pass
+**54 saved cases and 135 checks**, with zero unmet expectations and
+[independent review](own-frozen-fleet-independent-review-51e99750.json).
+Both own artifacts, exact-source collectors/analyzers/registry, raw streams,
+summary fields, actual CLI download and binary/lock association were verified.
+The larger source-family output review is prepared and deferred by its resource
+gate before any artifact downloads. A successful job alone does not accept
+those saved outputs. No CLI experiment is rerun.
 
 ## Dependency investigation and validation history
 

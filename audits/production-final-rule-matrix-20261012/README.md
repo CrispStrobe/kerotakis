@@ -1,5 +1,21 @@
 # Remaining final-state safety rule matrix
 
+## Current next step after the parser prerequisite
+
+The parser prerequisite [PR783](https://github.com/CrispStrobe/kerotakis/pull/783)
+is integrated as `b246408b`. The nested-rate admission repair PR784 remains
+unintegrated and precedes this safety replay. PR782's existing head `24dda97b`
+and its old-head results remain unchanged.
+[Source carry-forward review](source-carry-forward-review-24dda97b.json)
+finds no merge conflicts against accepted main or the prospective PR784 source:
+only the original two safety files change, and both original safety blobs are
+preserved. This is source feasibility, not a new candidate or test execution.
+After PR784 integrates, bind the replay to actual fresh main and validate the
+resulting new head with its own CI, native controls, fleet and supported CLI
+witnesses. Preserve all original forecasts, freezes, failures and outcomes.
+
+## Original baseline and validation history
+
 Baseline source: `a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b`, tree
 `cbe987d1fba5eaeaecbd7a23232fb2105eee8684` (accepted main after PR781).
 
@@ -63,20 +79,20 @@ existing YAML parser dependency. The
 [separate parser migration prerequisite](../yaml-parser-migration-20261012/README.md)
 keeps advisory policy unchanged and freezes original compatibility expectations
 before replacing the dependency. Fleet38253547887 and supported CLI witnesses
-remain pending. PR782 is a draft and main remainsa125; its source-specific native
+remain pending. At that checkpoint PR782 was a draft and main was `a125c88d`; its source-specific native
 passes cannot automatically certify a future source including the parser change.
 
 
 Next executable lanes:
 
-1. Dispatch the collector on its committed audit revision. Preserve the uploaded
-   artifact, verify every manifest hash, the source inventory, actual lock and all
-   fifty exact identities. Read first-failure output before proposing a repair.
-2. If failures demonstrate missing final-state routing, create a narrow branch
-   from the pinned main. Extend only the reviewed rule whitelist, port the frozen
-   fixture, and rerun the identical fifty controls and complete affected libraries.
-   Preserve the original freeze and baseline outcomes unchanged.
-3. Derive the complete focused native fixture inventory from the candidate source;
+1. Finish PR784's own source-bound fleet and guarded integration. Capture actual
+   fresh main afterward; do not substitute its prospective head for accepted main.
+2. Carry forward PR782's four whitelist additions and unchanged fifty-test
+   fixture onto that main. Verify the exact two-file diff and original safety
+   blobs; resolve any new conflicts explicitly. Record the resulting new head,
+   tree and actual lock. Run the unchanged fifty controls and complete affected
+   libraries when the resource gate permits, or use its own hosted checks.
+3. Derive the complete focused native fixture inventory from that actual source;
    retain all prior six-rule contracts. Require the candidate's own CI on both
    native platforms and complete fleet before integration. Establish actual
    surviving inventories and supported solver domains before claiming CLI

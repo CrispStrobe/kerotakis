@@ -171,11 +171,18 @@ their original checkout and are not described as rerun after retargeting.
 
 Next accept PR784's own complete 33-job inventory, every declared step and
 aggregate, and source/artifact/lock/result associations. Its latest actual
-preflight has 25 successful jobs, seven queued and the v2 aggregate not yet
-created. Remaining family lanes are v2 kinetics-boundaries,
+checkpoint has 27 successful jobs, five queued and the v2 aggregate not yet
+created. Remaining family lanes are v2
 household-biochemistry, materials-transport, analytical-observables and
-thermochemical-paths; all three aggregates remain pending. Review actual own
-artifact outputs even for jobs that have already passed.
+thermochemical-paths; the v3 and v2 aggregates remain pending. Independently
+review all three actual aggregate outputs and actual own family artifacts even
+for jobs that have already passed. The
+[own frozen fleet review](../audits/yaml-parser-migration-20261012/own-frozen-fleet-independent-review-51e99750.json)
+already accepts 54 cases and 135 checks with zero unmet expectations; preserve
+that receipt and do not rerun its CLI controls. The larger family reviewer is
+prepared but has not started downloads because its resource gate rejected work.
+Resume only after a fresh passing gate, preserving the first rejection and
+source-bound own-run data.
 PR783's guarded integration and PR784's explicit base binding are complete.
 After independently accepting the repair's own outputs and complete fleet, run
 `python3 tools/registry-integration-preflight.py --plan audits/yaml-parser-migration-20261012/integration-preparation-51e99750.json --evidence-dir <new-private-evidence-directory>`.
@@ -212,7 +219,12 @@ formatting, prior404 focused controls and targeted safety Clippy pass. Both own
 native jobs verify454 focused controls across38 fixtures and649 libraries.
 Whole CI fails on the parser dependency advisory; full fleet remains pending.
 Preserve the original failure evidence. After accepting the dependency repair,
-rebase deliberately and validate the resulting safety source with its own gates.
+and completing PR784, carry the original two-file safety change onto actual
+fresh main and validate the resulting safety source with its own gates.
+[Source feasibility review](../audits/production-final-rule-matrix-20261012/source-carry-forward-review-24dda97b.json)
+verifies a conflict-free replay with both original safety blobs preserved on
+accepted main and the prospective PR784 tree. No new candidate or tests are
+claimed by that review; refresh against actual main before replay.
 Production CLI support and actual guarded integration remain separate gates.
 
 Follow [SAF-01](chemistry-audit-next-lanes.md#saf-01--integrate-one-production-final-safety-exposure-slice)

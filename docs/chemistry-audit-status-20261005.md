@@ -19,9 +19,12 @@ Next finish PR784's own fleet and actual saved-output reviews, then refresh
 integration guards. Its [prepared plan](../audits/yaml-parser-migration-20261012/integration-preparation-51e99750.json)
 now binds accepted main explicitly, with
 [independent review](../audits/yaml-parser-migration-20261012/integration-preparation-independent-review-51e99750.json).
-The [actual preflight](../audits/yaml-parser-migration-20261012/integration-awaiting-fleet-51e99750.json)
-remains not ready: 25 fleet jobs pass, seven are queued, and the v2 aggregate is
-not yet created. PR782's final-safety work follows the dependency and
+The [21:27 UTC checkpoint](../audits/yaml-parser-migration-20261012/own-fleet-progress-20261012-2127.json)
+has 27 passing fleet jobs; four v2 families and the v3 aggregate are queued,
+and the v2 aggregate is not yet created. [The repair's own frozen outputs](../audits/yaml-parser-migration-20261012/own-frozen-fleet-independent-review-51e99750.json)
+pass 54 cases and 135 checks, with zero unmet expectations. Larger family output
+review is prepared but deferred by its resource gate; those outputs remain
+unaccepted. PR782's final-safety work follows the dependency and
 repair integration. Neither remaining PR is accepted as integrated.
 Follow [the executable next-step lanes](chemistry-work-agenda-20261012.md).
 
