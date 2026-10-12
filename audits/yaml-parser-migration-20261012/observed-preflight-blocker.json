@@ -1,0 +1,17 @@
+{
+  "run": 38253547880,
+  "job": 114825671211,
+  "pr": 782,
+  "head": "24dda97b60443d5e00b1fb25015fe2942c535227",
+  "failed_step": "Run tools/preflight.sh",
+  "advisory": "RUSTSEC-2024-0449",
+  "dependency_chain": [
+    "kerotakis-core",
+    "serde_yaml_ng0.10.0",
+    "unsafe-libyaml0.2.11"
+  ],
+  "raw_log_sha256": "fa53cd6ac0e5552dc981366da55fb833e72e9cae41e52c4fd932bcdb3fc4e173",
+  "policy": "Keep deny.toml unchanged; replace archived parser dependency only after unchanged-source compatibility baseline and source-bound migration validation.",
+  "advisory_source": "https://raw.githubusercontent.com/RustSec/advisory-db/main/crates/unsafe-libyaml/RUSTSEC-2024-0449.md",
+  "scope": "Actual CI dependency failure; no YAML migration applied or accepted."
+}

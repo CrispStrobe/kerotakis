@@ -1,0 +1,9 @@
+{
+  "base": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "applied": false,
+  "compiled": false,
+  "tested": false,
+  "patch_sha256": "5c004d0929ecf0e96436d981e17538a7f81600a8e98d29bdfb3f31767aac3049",
+  "candidate_manifest_sha256": "1a549ae2a00c22d0e43ba34668edbd93aee5fbfcc4a2cea93343c14f37701d63",
+  "scope": "One workspace dependency alias replacement proposal only; preserve production API spelling, but underlying public error payload and YAML value behavior must be independently validated. No deny.toml exception."
+}

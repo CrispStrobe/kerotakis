@@ -1,0 +1,17 @@
+{
+  "published_candidate": "noyalib-serde-yaml0.0.57",
+  "underlying_parser": "noyalib0.0.57",
+  "rust_version": "1.86.0",
+  "license": "MIT OR Apache-2.0",
+  "published_sources": {
+    "https://static.crates.io/crates/noyalib-serde-yaml/noyalib-serde-yaml-0.0.57.crate": "da3c0f67a13749c254e5e1ad26ffbd1fb924ca4732546acb0c9aa638d3471a6a",
+    "https://static.crates.io/crates/noyalib/noyalib-0.0.57.crate": "70b8960f9f4668b69cae4ca71106c84d38ca1ea9f41a9acc20ce55473b967849",
+    "https://raw.githubusercontent.com/RustSec/advisory-db/main/crates/unsafe-libyaml/RUSTSEC-2024-0449.md": "99da8fa8d7ce73ca12b32cadedef33ff160d120dd63a338447a8fa70eac0d549"
+  },
+  "candidate_dependency_features": [
+    "std",
+    "compat-serde-yaml"
+  ],
+  "default_features": false,
+  "scope": "Published manifest/facade source inspection only; no compilation, graph admission or functional compatibility acceptance."
+}

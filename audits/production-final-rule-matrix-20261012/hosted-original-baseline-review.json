@@ -1,0 +1,2852 @@
+{
+  "schema_version": 1,
+  "review": "Independent review of downloaded complete first-failure capture; workflow success denotes capture, not contract acceptance.",
+  "source": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "source_tree": "cbe987d1fba5eaeaecbd7a23232fb2105eee8684",
+  "audit_revision": "2deeb4d24abd853d7e58194356e659b88c8e5ee4",
+  "run_id": 38252519107,
+  "job_id": 114822192643,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38252519107",
+  "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38252519107/job/114822192643",
+  "run_attempt": 1,
+  "event": "workflow_dispatch",
+  "collection_verified": true,
+  "contracts_passed": 24,
+  "contracts_failed": 26,
+  "contracts_ignored": 0,
+  "contracts_filtered_out": 0,
+  "actual_contract_exit": 101,
+  "contracts": [
+    {
+      "binary": "production_remaining_final_rules",
+      "tests": [
+        {
+          "name": "base_distinct_base",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "flammable_gas_above_portion_cutoff",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "flammable_gas_accepted_journal",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "flammable_gas_below_portion_cutoff",
+          "outcome": "ok"
+        },
+        {
+          "name": "flammable_gas_benign",
+          "outcome": "ok"
+        },
+        {
+          "name": "flammable_gas_discarded_refinement",
+          "outcome": "ok"
+        },
+        {
+          "name": "flammable_gas_introduced",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "flammable_gas_older_priority",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "flammable_gas_reordered",
+          "outcome": "ok"
+        },
+        {
+          "name": "flammable_gas_reverse_introduction",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "flammable_gas_unchanged",
+          "outcome": "ok"
+        },
+        {
+          "name": "gas_distinct_fuel",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "gas_distinct_oxidizer",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "gas_permanganate_alias",
+          "outcome": "ok"
+        },
+        {
+          "name": "reactive_base_above_portion_cutoff",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "reactive_base_accepted_journal",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "reactive_base_below_portion_cutoff",
+          "outcome": "ok"
+        },
+        {
+          "name": "reactive_base_benign",
+          "outcome": "ok"
+        },
+        {
+          "name": "reactive_base_discarded_refinement",
+          "outcome": "ok"
+        },
+        {
+          "name": "reactive_base_introduced",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "reactive_base_older_priority",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "reactive_base_reordered",
+          "outcome": "ok"
+        },
+        {
+          "name": "reactive_base_reverse_introduction",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "reactive_base_unchanged",
+          "outcome": "ok"
+        },
+        {
+          "name": "reducer_above_portion_cutoff",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "reducer_accepted_journal",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "reducer_below_portion_cutoff",
+          "outcome": "ok"
+        },
+        {
+          "name": "reducer_benign",
+          "outcome": "ok"
+        },
+        {
+          "name": "reducer_discarded_refinement",
+          "outcome": "ok"
+        },
+        {
+          "name": "reducer_distinct_oxidizer",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "reducer_distinct_reducer",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "reducer_introduced",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "reducer_older_priority",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "reducer_permanganate_alias",
+          "outcome": "ok"
+        },
+        {
+          "name": "reducer_reordered",
+          "outcome": "ok"
+        },
+        {
+          "name": "reducer_reverse_introduction",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "reducer_unchanged",
+          "outcome": "ok"
+        },
+        {
+          "name": "weak_acid_above_portion_cutoff",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "weak_acid_accepted_journal",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "weak_acid_below_portion_cutoff",
+          "outcome": "ok"
+        },
+        {
+          "name": "weak_acid_benign",
+          "outcome": "ok"
+        },
+        {
+          "name": "weak_acid_discarded_refinement",
+          "outcome": "ok"
+        },
+        {
+          "name": "weak_acid_introduced",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "weak_acid_older_priority",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "weak_acid_reordered",
+          "outcome": "ok"
+        },
+        {
+          "name": "weak_acid_reverse_introduction",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "weak_acid_unchanged",
+          "outcome": "ok"
+        },
+        {
+          "name": "weak_acidity_above_cutoff",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "weak_acidity_at_or_below_cutoff",
+          "outcome": "ok"
+        },
+        {
+          "name": "weak_hypochlorite_alias",
+          "outcome": "ok"
+        }
+      ],
+      "passed": 24,
+      "failed": 26,
+      "ignored": 0,
+      "filtered_out": 0
+    }
+  ],
+  "libraries": [
+    {
+      "binary": "kerotakis_core",
+      "tests": [
+        {
+          "name": "adsorption::tests::the_isotherm_is_monotone_and_capped",
+          "outcome": "ok"
+        },
+        {
+          "name": "adsorption::tests::the_split_is_a_mass_and_closes_the_balance",
+          "outcome": "ok"
+        },
+        {
+          "name": "adsorption::tests::with_no_sorbent_everything_stays_dissolved",
+          "outcome": "ok"
+        },
+        {
+          "name": "apparatus::tests::batch_reactor_conversion_increases_with_time",
+          "outcome": "ok"
+        },
+        {
+          "name": "apparatus::tests::condenser_transfers_matter",
+          "outcome": "ok"
+        },
+        {
+          "name": "apparatus::tests::crystalline_reservoir_replenishes_each_stage_with_a_bounded_capacity",
+          "outcome": "ok"
+        },
+        {
+          "name": "apparatus::tests::cstr_conversion_less_than_pfr",
+          "outcome": "ok"
+        },
+        {
+          "name": "apparatus::tests::extraction_conserves_mass",
+          "outcome": "ok"
+        },
+        {
+          "name": "apparatus::tests::extraction_handles_zero_and_many_stages_without_nan_or_iteration",
+          "outcome": "ok"
+        },
+        {
+          "name": "apparatus::tests::heat_source_raises_temperature",
+          "outcome": "ok"
+        },
+        {
+          "name": "apparatus::tests::heat_source_with_loss_reaches_equilibrium",
+          "outcome": "ok"
+        },
+        {
+          "name": "apparatus::tests::heat_source_zero_duration_no_change",
+          "outcome": "ok"
+        },
+        {
+          "name": "apparatus::tests::pfr_conversion_equals_batch_for_first_order",
+          "outcome": "ok"
+        },
+        {
+          "name": "apparatus::tests::recrystallization_nothing_if_undersaturated",
+          "outcome": "ok"
+        },
+        {
+          "name": "apparatus::tests::recrystallization_recovers_excess",
+          "outcome": "ok"
+        },
+        {
+          "name": "apparatus::tests::repeated_extraction_beats_single",
+          "outcome": "ok"
+        },
+        {
+          "name": "apparatus::tests::single_extraction",
+          "outcome": "ok"
+        },
+        {
+          "name": "appearance::tests::a_plated_metal_does_not_cloud_the_liquid",
+          "outcome": "ok"
+        },
+        {
+          "name": "appearance::tests::a_precipitate_makes_it_cloudy",
+          "outcome": "ok"
+        },
+        {
+          "name": "appearance::tests::an_empty_beaker_says_so",
+          "outcome": "ok"
+        },
+        {
+          "name": "appearance::tests::copper_sulfate_solution_is_blue",
+          "outcome": "ok"
+        },
+        {
+          "name": "appearance::tests::permanganate_goes_from_pink_to_purple_as_it_concentrates",
+          "outcome": "ok"
+        },
+        {
+          "name": "appearance::tests::permanganate_is_visible_at_a_tiny_concentration",
+          "outcome": "ok"
+        },
+        {
+          "name": "appearance::tests::water_is_colourless_and_clear",
+          "outcome": "ok"
+        },
+        {
+          "name": "bench::react_diagnostic_tests::react_diagnostic_refusal_and_nonfinite_are_single_model_boundaries",
+          "outcome": "ok"
+        },
+        {
+          "name": "bench::react_diagnostic_tests::react_diagnostic_zero_and_small_signed_extents_preserve_numerical_threshold",
+          "outcome": "ok"
+        },
+        {
+          "name": "buoyancy::tests::the_lift_fraction_is_the_density_gap_over_the_liquid",
+          "outcome": "ok"
+        },
+        {
+          "name": "butler_volmer::tests::invalid_parameters_do_not_enter_the_numerics",
+          "outcome": "ok"
+        },
+        {
+          "name": "butler_volmer::tests::negative_overpotential_gives_cathodic_current",
+          "outcome": "ok"
+        },
+        {
+          "name": "butler_volmer::tests::positive_overpotential_gives_anodic_current",
+          "outcome": "ok"
+        },
+        {
+          "name": "butler_volmer::tests::symmetry_when_alpha_a_equals_alpha_c",
+          "outcome": "ok"
+        },
+        {
+          "name": "butler_volmer::tests::tafel_slope_is_about_59mv_for_n1_alpha_half",
+          "outcome": "ok"
+        },
+        {
+          "name": "butler_volmer::tests::zero_overpotential_gives_zero_current",
+          "outcome": "ok"
+        },
+        {
+          "name": "cabinet::tests::a_substring_finds_what_an_exact_query_would_miss",
+          "outcome": "ok"
+        },
+        {
+          "name": "cabinet::tests::an_empty_query_finds_nothing_rather_than_everything",
+          "outcome": "ok"
+        },
+        {
+          "name": "cabinet::tests::an_exact_hit_drops_the_coincidences",
+          "outcome": "ok"
+        },
+        {
+          "name": "cabinet::tests::an_exact_key_comes_first",
+          "outcome": "ok"
+        },
+        {
+          "name": "cabinet::tests::materials_are_searched_beside_species",
+          "outcome": "ok"
+        },
+        {
+          "name": "cabinet::tests::the_reported_unit_is_the_one_the_ledger_uses",
+          "outcome": "ok"
+        },
+        {
+          "name": "cache_key::tests::cache_keys_are_deterministic",
+          "outcome": "ok"
+        },
+        {
+          "name": "cache_key::tests::different_inputs_produce_different_keys",
+          "outcome": "ok"
+        },
+        {
+          "name": "catalog::tests::an_award_outranks_a_loan_and_both_beat_a_lock",
+          "outcome": "ok"
+        },
+        {
+          "name": "catalog::tests::an_unknown_verb_is_last_rather_than_free",
+          "outcome": "ok"
+        },
+        {
+          "name": "catalog::tests::every_parsed_verb_is_either_tiered_or_deliberately_not_cabinet",
+          "outcome": "ok"
+        },
+        {
+          "name": "catalog::tests::hazard_sets_the_reagent_ladder_and_silence_is_not_a_clearance",
+          "outcome": "ok"
+        },
+        {
+          "name": "catalog::tests::liquid_nitrogen_is_loaned_by_a_mission_but_never_earned_or_awarded",
+          "outcome": "ok"
+        },
+        {
+          "name": "catalog::tests::sandbox_derives_everything_as_full",
+          "outcome": "ok"
+        },
+        {
+          "name": "catalog::tests::story_locks_what_progress_has_not_reached_and_says_what_would",
+          "outcome": "ok"
+        },
+        {
+          "name": "catalog::tests::the_response_carries_no_prose",
+          "outcome": "ok"
+        },
+        {
+          "name": "centrifuge::tests::buoyant_particles_cream_inward",
+          "outcome": "ok"
+        },
+        {
+          "name": "centrifuge::tests::particle_diameter_has_the_stokes_square_law",
+          "outcome": "ok"
+        },
+        {
+          "name": "centrifuge::tests::rcf_comes_from_rpm_and_radius",
+          "outcome": "ok"
+        },
+        {
+          "name": "chart::tests::a_pe_curve_becomes_its_own_chart",
+          "outcome": "ok"
+        },
+        {
+          "name": "chart::tests::a_titrated_event_becomes_the_titration_chart",
+          "outcome": "ok"
+        },
+        {
+          "name": "chart::tests::contract_round_trips",
+          "outcome": "ok"
+        },
+        {
+          "name": "chemiluminescence::tests::light_fades_with_elapsed_time",
+          "outcome": "ok"
+        },
+        {
+          "name": "chemiluminescence::tests::warmer_is_brighter_and_shorter_lived",
+          "outcome": "ok"
+        },
+        {
+          "name": "clock::tests::a_beakers_conductance_is_arithmetic_on_its_geometry",
+          "outcome": "ok"
+        },
+        {
+          "name": "clock::tests::a_negative_interval_is_no_time_at_all",
+          "outcome": "ok"
+        },
+        {
+          "name": "clock::tests::a_room_temperature_beaker_says_nothing_in_thirty_seconds",
+          "outcome": "ok"
+        },
+        {
+          "name": "clock::tests::a_sealed_vessel_exchanges_nothing_with_the_room",
+          "outcome": "ok"
+        },
+        {
+          "name": "clock::tests::a_supersaturated_vessel_is_left_to_the_aqueous_adapter",
+          "outcome": "ok"
+        },
+        {
+          "name": "clock::tests::a_thermostatted_vessel_does_not_drift",
+          "outcome": "ok"
+        },
+        {
+          "name": "clock::tests::a_thousand_short_waits_are_not_nothing",
+          "outcome": "ok"
+        },
+        {
+          "name": "clock::tests::an_alkaline_vessel_may_take_up_more_than_henry_allows",
+          "outcome": "ok"
+        },
+        {
+          "name": "clock::tests::an_empty_beaker_left_at_flame_temperature_cools_on_the_glass_alone",
+          "outcome": "ok"
+        },
+        {
+          "name": "clock::tests::an_open_beaker_of_plain_water_takes_up_room_carbon",
+          "outcome": "ok"
+        },
+        {
+          "name": "clock::tests::an_unsolved_vessel_exchanges_nothing",
+          "outcome": "ok"
+        },
+        {
+          "name": "clock::tests::the_gas_surface_is_the_mouth_and_not_the_wall",
+          "outcome": "ok"
+        },
+        {
+          "name": "clock::tests::the_standard_clocks_keep_their_order",
+          "outcome": "ok"
+        },
+        {
+          "name": "clock::tests::the_transfer_never_overshoots_equilibrium",
+          "outcome": "ok"
+        },
+        {
+          "name": "clock::tests::the_uptake_is_the_published_transfer_velocity",
+          "outcome": "ok"
+        },
+        {
+          "name": "combustion::tests::a_diluted_jar_burns_nothing_even_with_oxygen_in_it",
+          "outcome": "ok"
+        },
+        {
+          "name": "combustion::tests::a_sealed_jar_stops_with_oxygen_to_spare",
+          "outcome": "ok"
+        },
+        {
+          "name": "combustion::tests::every_curated_fuel_balances",
+          "outcome": "ok"
+        },
+        {
+          "name": "combustion::tests::every_curated_fuel_is_a_condensed_registry_species",
+          "outcome": "ok"
+        },
+        {
+          "name": "combustion::tests::the_diesel_surrogate_self_ignites_below_the_petrol_surrogate",
+          "outcome": "ok"
+        },
+        {
+          "name": "compartment::tests::characterised_deposits_compute_blocking_and_series_resistance",
+          "outcome": "ok"
+        },
+        {
+          "name": "compartment::tests::compartment_default_is_room_conditions",
+          "outcome": "ok"
+        },
+        {
+          "name": "compartment::tests::electrode_state_round_trips",
+          "outcome": "ok"
+        },
+        {
+          "name": "compartment::tests::environment_default_is_standard_air",
+          "outcome": "ok"
+        },
+        {
+          "name": "compartment::tests::interface_serializes_round_trip",
+          "outcome": "ok"
+        },
+        {
+          "name": "compartment::tests::island_growth_computes_coverage_then_thickness",
+          "outcome": "ok"
+        },
+        {
+          "name": "compartment::tests::volume_mode_variants_serialize",
+          "outcome": "ok"
+        },
+        {
+          "name": "conductivity::tests::concentrated_solutions_leave_the_validity_window",
+          "outcome": "ok"
+        },
+        {
+          "name": "conductivity::tests::kcl_calibration_standard_within_model_error",
+          "outcome": "ok"
+        },
+        {
+          "name": "conductivity::tests::kitchen_brine_matches_the_measured_conductivity",
+          "outcome": "ok"
+        },
+        {
+          "name": "conductivity::tests::mobility_ordering_is_visible",
+          "outcome": "ok"
+        },
+        {
+          "name": "conductivity::tests::neutral_complexes_carry_no_current",
+          "outcome": "ok"
+        },
+        {
+          "name": "conductivity::tests::no_speciation_falls_back_to_labelled_mean_mobility",
+          "outcome": "ok"
+        },
+        {
+          "name": "conductivity::tests::past_the_fitted_range_the_estimate_admits_it",
+          "outcome": "ok"
+        },
+        {
+          "name": "conductivity::tests::phreeqc_charge_suffixes_parse",
+          "outcome": "ok"
+        },
+        {
+          "name": "conductivity::tests::the_concentration_correction_is_monotone_over_the_bench_range",
+          "outcome": "ok"
+        },
+        {
+          "name": "conductivity::tests::untabulated_ions_are_confessed_not_ignored",
+          "outcome": "ok"
+        },
+        {
+          "name": "constants::tests::faraday_is_na_times_e",
+          "outcome": "ok"
+        },
+        {
+          "name": "constants::tests::gas_constant_is_na_times_kb",
+          "outcome": "ok"
+        },
+        {
+          "name": "corrosion::tests::an_ungated_reaction_is_never_blocked",
+          "outcome": "ok"
+        },
+        {
+          "name": "corrosion::tests::every_barrier_names_a_series_metal",
+          "outcome": "ok"
+        },
+        {
+          "name": "corrosion::tests::every_gated_reaction_exists_and_eats_the_metal_it_names",
+          "outcome": "ok"
+        },
+        {
+          "name": "coverage::tests::coverage_manifest_reports_solvers",
+          "outcome": "ok"
+        },
+        {
+          "name": "delta::tests::commit_conserved_accepts_balanced_reaction",
+          "outcome": "ok"
+        },
+        {
+          "name": "delta::tests::commit_conserved_rejects_negativity_without_applying",
+          "outcome": "ok"
+        },
+        {
+          "name": "delta::tests::commit_conserved_rejects_unbalanced_and_rolls_back",
+          "outcome": "ok"
+        },
+        {
+          "name": "delta::tests::commit_rejects_invalid_delta",
+          "outcome": "ok"
+        },
+        {
+          "name": "delta::tests::cumulative_bulk_overdraw_is_rejected",
+          "outcome": "ok"
+        },
+        {
+          "name": "delta::tests::cumulative_electrode_overdraw_is_atomic",
+          "outcome": "ok"
+        },
+        {
+          "name": "delta::tests::deposit_delta_validates_and_applies",
+          "outcome": "ok"
+        },
+        {
+          "name": "delta::tests::electrode_and_bulk_changes_commit_as_one_conserved_delta",
+          "outcome": "ok"
+        },
+        {
+          "name": "delta::tests::electrodeposition_updates_conserved_matter_and_computed_geometry",
+          "outcome": "ok"
+        },
+        {
+          "name": "delta::tests::empty_delta_is_valid",
+          "outcome": "ok"
+        },
+        {
+          "name": "delta::tests::one_inventory_scale_preserves_a_coupled_reaction",
+          "outcome": "ok"
+        },
+        {
+          "name": "delta::tests::reaction_delta_with_conservation",
+          "outcome": "ok"
+        },
+        {
+          "name": "delta::tests::rollback_preserves_temperature",
+          "outcome": "ok"
+        },
+        {
+          "name": "delta::tests::thermal_delta_changes_temperature",
+          "outcome": "ok"
+        },
+        {
+          "name": "delta::tests::withdrawal_beyond_limits_rejected",
+          "outcome": "ok"
+        },
+        {
+          "name": "delta::tests::withdrawal_within_limits_succeeds",
+          "outcome": "ok"
+        },
+        {
+          "name": "displacement::tests::a_metal_is_a_metal_and_charcoal_is_not",
+          "outcome": "ok"
+        },
+        {
+          "name": "displacement::tests::equations_balance_electrons",
+          "outcome": "ok"
+        },
+        {
+          "name": "displacement::tests::every_couple_names_a_registry_species_or_the_acid",
+          "outcome": "ok"
+        },
+        {
+          "name": "displacement::tests::the_series_is_ordered_most_noble_first",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::a_charged_interfacial_flux_solves_through_the_nernst_planck_boundary",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::a_fully_blocked_surface_has_no_invented_potential",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::active_passive_law_has_active_plateau_and_transpassive_regions",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::active_passive_transitions_use_their_declared_potential_frame",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::area_ratio_changes_the_mixed_potential",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::butler_volmer_anodic_positive",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::butler_volmer_cathodic_negative",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::butler_volmer_zero_at_equilibrium",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::candidate_joins_full_nernst_quotient_to_reviewed_kinetics",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::condition_scaling_composes_arrhenius_and_arbitrary_activity_orders",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::conductive_deposit_leaves_full_area",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::connected_cell_enforces_one_current_across_unequal_areas",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::connected_commit_is_atomic_when_second_compartment_refuses",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::directional_tafel_retains_the_measured_branch",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::double_layer_transient_separates_charging_from_faradaic_current",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::faraday_conversion_is_extensive_in_current_and_time",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::galvanostatic_control_keeps_current_and_books_ir_drop",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::galvanostatic_round_trips",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::generic_step_pipeline_resolves_selects_solves_and_limits",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::interfacial_transport_uses_signed_stoichiometric_fluxes",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::ir_drop_scales_linearly",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::kinetic_domains_require_every_declared_activity",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::legacy_active_passive_json_defaults_to_overpotential",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::limiting_current_positive",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::mixed_current_converts_each_half_reaction_to_extent",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::one_partial_reaction_couples_multiple_surface_activities",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::open_circuit_balances_nonzero_partial_currents",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::paired_half_reactions_commit_one_conserved_acid_metal_step",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::parameter_selection_enforces_preparation_flow_and_envelope",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::parameter_selection_refuses_gaps_and_overlap",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::passivating_surface_reduces_active_area",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::potentiostatic_control_solves_ir_drop_implicitly",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::printed_q345r_equations_do_not_reproduce_the_cited_model_current",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::q345r_candidate_scales_but_stays_outside_the_runtime_allowlist",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::resistive_film_is_solved_implicitly_and_reduces_current",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::shipped_her_record_matches_only_its_exact_measured_domain",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::shipped_orr_record_preserves_branch_scatter_and_requires_its_domain",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::tafel_agrees_with_bv_at_high_eta",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::transport_limit_caps_one_partial_current",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrochemistry::tests::vessel_exposes_only_resolved_aqueous_and_owned_gas_activities",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrodiffusion::tests::a_bracket_the_solver_cannot_close_refuses_with_did_not_converge",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrodiffusion::tests::bernoulli_branches_meet_at_the_taylor_seam",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrodiffusion::tests::bernoulli_flux_has_the_constant_field_identity",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrodiffusion::tests::binary_junction_grid_matches_the_constant_field_closed_form",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrodiffusion::tests::divalent_junction_matches_the_two_to_one_closed_form",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrodiffusion::tests::equal_mobilities_need_no_junction_potential",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrodiffusion::tests::impossible_flux_and_invalid_charge_domains_refuse",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrodiffusion::tests::migration_supplies_countercharge_at_an_electrode_surface",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrodiffusion::tests::multi_ion_junction_matches_the_goldman_hodgkin_katz_voltage",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrodiffusion::tests::negative_or_unfinite_concentrations_and_fluxes_refuse",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrodiffusion::tests::the_coupled_surface_carries_the_faradaic_charge_it_was_handed",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrodiffusion::tests::the_electrode_surface_range_covers_bench_electrolytes_and_thin_layers",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrodiffusion::tests::the_fastest_aqueous_ions_and_bench_strengths_are_inside_the_working_range",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrodiffusion::tests::two_reaction_polyprotic_network_solves_without_a_special_case",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrodiffusion::tests::unequal_mobilities_compute_a_zero_current_liquid_junction",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrodiffusion::tests::unnamed_duplicated_or_immobile_species_refuse",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrodiffusion::tests::unphysical_domains_refuse",
+          "outcome": "ok"
+        },
+        {
+          "name": "electrodiffusion::tests::weak_acid_surface_couples_mass_action_migration_and_component_fluxes",
+          "outcome": "ok"
+        },
+        {
+          "name": "exact_stoich::tests::gcd_of_simple_vector",
+          "outcome": "ok"
+        },
+        {
+          "name": "exact_stoich::tests::rationalize_integer",
+          "outcome": "ok"
+        },
+        {
+          "name": "exact_stoich::tests::rationalize_simple_fractions",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::router_tests::a_hydroxide_portion_and_the_charge_do_not_double_count",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::router_tests::a_neutral_salt_does_not_open_the_hydroxide_gate",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::router_tests::a_pack_loads_and_a_bad_record_refuses_the_pack",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::router_tests::a_product_the_registry_cannot_name_is_a_typed_refusal",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::router_tests::a_species_without_a_structure_is_never_asked",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::router_tests::added_water_pushes_the_equilibrium_back",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::router_tests::an_unnameable_product_behind_a_closed_gate_is_a_quiet_decline",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::router_tests::charge_without_measured_hydroxide_opens_nothing",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::router_tests::cold_it_declines_and_names_the_temperature_gate",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::router_tests::hot_and_catalysed_it_runs_to_k_and_conserves_mass",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::router_tests::hydroxide_the_tail_measured_is_a_substrate",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::router_tests::measured_free_protons_open_the_catalyst_gate_by_concentration",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::router_tests::measured_ions_and_reverse_products_keep_their_atoms",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::router_tests::past_its_equilibrium_the_record_runs_backward",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::router_tests::pouring_order_does_not_change_the_answer",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::router_tests::reactant_slots_counts_top_level_separators_only",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::router_tests::the_higher_priority_record_answers_first",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::router_tests::to_completion_consumes_the_limiting_reagent",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::router_tests::without_its_catalyst_it_declines_by_name",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::tests::conflict_order_is_total_and_deterministic",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::tests::records_round_trip_through_serde",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::tests::the_lint_refuses_a_boundaryless_rule",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::tests::the_lint_refuses_an_instance_without_substrates",
+          "outcome": "ok"
+        },
+        {
+          "name": "family::tests::windows_admit_and_refuse",
+          "outcome": "ok"
+        },
+        {
+          "name": "heat_capacity::tests::a_curve_rises_where_the_constant_stood_still",
+          "outcome": "ok"
+        },
+        {
+          "name": "heat_capacity::tests::a_narrow_span_of_water_is_resolved_and_not_quantised",
+          "outcome": "ok"
+        },
+        {
+          "name": "heat_capacity::tests::a_shomate_row_is_the_same_curve_written_differently",
+          "outcome": "ok"
+        },
+        {
+          "name": "heat_capacity::tests::heating_and_asking_where_we_landed_round_trips",
+          "outcome": "ok"
+        },
+        {
+          "name": "heat_capacity::tests::nothing_is_extrapolated_past_the_table",
+          "outcome": "ok"
+        },
+        {
+          "name": "heat_capacity::tests::the_integral_is_the_area_under_the_curve",
+          "outcome": "ok"
+        },
+        {
+          "name": "heat_capacity::tests::the_integral_reverses_cleanly",
+          "outcome": "ok"
+        },
+        {
+          "name": "heat_capacity::tests::the_whole_liquid_range_resolves_narrow_spans",
+          "outcome": "ok"
+        },
+        {
+          "name": "heterogeneous::tests::blocking_and_transport_are_monotone",
+          "outcome": "ok"
+        },
+        {
+          "name": "heterogeneous::tests::extent_is_extensive_in_area_roughness_and_time",
+          "outcome": "ok"
+        },
+        {
+          "name": "heterogeneous::tests::invalid_geometry_is_refused",
+          "outcome": "ok"
+        },
+        {
+          "name": "heterogeneous::tests::rotating_disk_limit_has_levich_square_root_scaling",
+          "outcome": "ok"
+        },
+        {
+          "name": "heterogeneous::tests::stagnant_film_limit_and_surface_depletion_share_one_flux",
+          "outcome": "ok"
+        },
+        {
+          "name": "heterogeneous::tests::transient_layer_is_invariant_to_time_partitioning",
+          "outcome": "ok"
+        },
+        {
+          "name": "heterogeneous::tests::transient_layer_relaxes_to_the_same_steady_concentration",
+          "outcome": "ok"
+        },
+        {
+          "name": "heterogeneous::tests::transient_layer_stops_exactly_at_depletion",
+          "outcome": "ok"
+        },
+        {
+          "name": "i18n::tests::a_missing_key_renders_the_english_at_the_call_site",
+          "outcome": "ok"
+        },
+        {
+          "name": "i18n::tests::a_regional_tag_finds_its_language",
+          "outcome": "ok"
+        },
+        {
+          "name": "i18n::tests::a_repeated_hole_is_filled_every_time",
+          "outcome": "ok"
+        },
+        {
+          "name": "i18n::tests::a_translation_may_reorder_the_holes",
+          "outcome": "ok"
+        },
+        {
+          "name": "i18n::tests::an_unknown_hole_stays_visible",
+          "outcome": "ok"
+        },
+        {
+          "name": "i18n::tests::an_unknown_tag_is_english",
+          "outcome": "ok"
+        },
+        {
+          "name": "i18n::tests::available_lists_english_first",
+          "outcome": "ok"
+        },
+        {
+          "name": "i18n::tests::every_shipped_catalogue_parses",
+          "outcome": "ok"
+        },
+        {
+          "name": "i18n::tests::fill_substitutes_named_holes",
+          "outcome": "ok"
+        },
+        {
+          "name": "i18n::tests::lookup_declines_rather_than_inventing",
+          "outcome": "ok"
+        },
+        {
+          "name": "indicator::ladder_tests::a_two_form_ladder_agrees_with_henderson_hasselbalch",
+          "outcome": "ok"
+        },
+        {
+          "name": "indicator::ladder_tests::every_form_on_a_ladder_dominates_somewhere",
+          "outcome": "ok"
+        },
+        {
+          "name": "indicator::ladder_tests::the_ladder_fractions_sum_to_one_across_the_whole_range",
+          "outcome": "ok"
+        },
+        {
+          "name": "inference::tests::ambiguous_data_report_alternatives_not_certainty",
+          "outcome": "ok"
+        },
+        {
+          "name": "inference::tests::recovers_parameters_from_clean_data",
+          "outcome": "ok"
+        },
+        {
+          "name": "inference::tests::refuses_unknown_observables_and_bad_config",
+          "outcome": "ok"
+        },
+        {
+          "name": "instrument::tests::balance_reads_zero_for_empty_vessel",
+          "outcome": "ok"
+        },
+        {
+          "name": "instrument::tests::chromatography_resolution_increases_with_plates",
+          "outcome": "ok"
+        },
+        {
+          "name": "instrument::tests::chromatography_retention_time_scales_with_k",
+          "outcome": "ok"
+        },
+        {
+          "name": "instrument::tests::ph_meter_requires_solution",
+          "outcome": "ok"
+        },
+        {
+          "name": "instrument::tests::spectrophotometer_reports_zero_for_empty_vessel",
+          "outcome": "ok"
+        },
+        {
+          "name": "instrument::tests::thermometer_reads_room_temperature",
+          "outcome": "ok"
+        },
+        {
+          "name": "intern::tests::different_strings_get_different_keys",
+          "outcome": "ok"
+        },
+        {
+          "name": "intern::tests::intern_round_trips",
+          "outcome": "ok"
+        },
+        {
+          "name": "intern::tests::interned_key_is_copy",
+          "outcome": "ok"
+        },
+        {
+          "name": "ionic::tests::a_trace_precipitate_is_not_announced",
+          "outcome": "ok"
+        },
+        {
+          "name": "ionic::tests::an_ambiguous_counter_ion_draws_no_complete_equation",
+          "outcome": "ok"
+        },
+        {
+          "name": "ionic::tests::barium_sulfate_needs_two_of_each_spectator",
+          "outcome": "ok"
+        },
+        {
+          "name": "ionic::tests::charges_are_typeset_the_way_they_are_read",
+          "outcome": "ok"
+        },
+        {
+          "name": "ionic::tests::magnesium_hydroxide_balances_its_hydroxide",
+          "outcome": "ok"
+        },
+        {
+          "name": "ionic::tests::neutralisation_is_water_forming",
+          "outcome": "ok"
+        },
+        {
+          "name": "ionic::tests::neutralisation_writes_out_the_salt_that_stays_dissolved",
+          "outcome": "ok"
+        },
+        {
+          "name": "ionic::tests::nothing_spectating_means_nothing_to_write_out",
+          "outcome": "ok"
+        },
+        {
+          "name": "ionic::tests::other_events_earn_no_equation",
+          "outcome": "ok"
+        },
+        {
+          "name": "ionic::tests::silver_chloride_drops_its_spectators",
+          "outcome": "ok"
+        },
+        {
+          "name": "ionic::tests::the_complete_equation_carries_its_spectators_on_both_sides",
+          "outcome": "ok"
+        },
+        {
+          "name": "ionic::tests::the_net_terms_serialise_exactly_as_they_did",
+          "outcome": "ok"
+        },
+        {
+          "name": "ionic::tests::without_speciation_there_is_nothing_to_say",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::fit_override_tests::pre_exponential_override_is_scoped_and_nestable",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::fit_override_tests::pre_exponential_override_restores_after_unwind",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::heterogeneous_tests::heterogeneous_rate_round_trips",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::heterogeneous_tests::shrinking_sphere_area_and_transport_use_shared_surface_math",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::heterogeneous_tests::surface_area_models_serialize",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::mechanism::tests::default_kmol_per_cubic_metre_matches_moles_per_litre",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::mechanism::tests::lindemann_and_troe_match_their_closed_form_rates",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::mechanism::tests::modified_arrhenius_temperature_exponent_is_executed",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::mechanism::tests::nasa7_reversible_rate_obeys_detailed_balance",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::mechanism::tests::nasa7_schema_errors_name_the_species",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::mechanism::tests::parsed_gas_network_advances_in_a_finite_headspace",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::mechanism::tests::parses_validates_and_lowers_elementary_mechanism",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::mechanism::tests::plog_rejects_missing_or_degenerate_pressure_grids",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::mechanism::tests::plog_sums_duplicate_pressures_interpolates_logs_and_executes_implicitly",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::mechanism::tests::pressure_dependent_schema_errors_are_explicit",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::mechanism::tests::rejects_unbalanced_unknown_and_uncharacterised_reversible_reactions",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::mechanism::tests::reversible_falloff_broadens_both_directions",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::mechanism::tests::reversible_plog_applies_detailed_balance_to_the_interpolated_constant",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::mechanism::tests::reversible_three_body_applies_the_collider_to_both_directions",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::mechanism::tests::three_body_efficiencies_change_the_effective_collider_concentration",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::mechanism::tests::unit_blocks_scale_a_by_reaction_order_and_ea_by_the_calorie",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::packs::tests::every_shipped_species_has_a_formation_enthalpy",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::packs::tests::methane_combustion_releases_its_textbook_heat",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::packs::tests::one_pack_speaks_for_a_vessel_and_the_larger_cover_wins",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::packs::tests::renaming_changes_nothing_but_the_names",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::packs::tests::the_shipped_packs_compile_and_speak_registry_keys",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::a_catalyst_lowers_the_barrier_and_its_activity_scales_the_rate",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::a_cross_threshold_requires_enough_acid_not_just_a_longer_wait",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::a_product_can_activate_the_next_reaction_during_one_wait",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::a_reverse_expression_drives_back_toward_balance",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::a_warmer_beaker_clouds_sooner",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::an_overlarge_coupled_step_is_scaled_before_any_product_is_deposited",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::arrhenius_is_the_arrhenius_equation",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::buffered_acid_is_not_mistaken_for_represented_free_acid",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::built_in_network_passes_structural_conservation_lint",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::catalase_rate_tracks_enzyme_loading_at_fixed_peroxide",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::catalase_warms_then_loses_activity_in_very_hot_water",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::competing_paths_share_a_reactant_without_overdrawing_it",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::concentration_sets_the_rate_through_the_order",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::coupled_integration_conserves_mass",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::dry_yeast_activity_ramps_with_liquid_contact_and_warmth",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::every_rate_law_conserves_its_atoms",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::exact_proton_depletion_clears_stale_acidity_without_inventing_neutral_ph",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::exclusive_owner_removes_reaction_before_network_integration",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::ideal_gas_equilibrium_converts_pressure_standard_states_to_moles_per_litre",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::integration_never_produces_a_negative_amount",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::iodide_rate_is_first_order_in_catalyst_concentration",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::lint_reports_elements_charge_sites_and_declared_electrons",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::manganese_dioxide_rate_uses_area_and_bounded_mixing",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::proton_consumption_is_bounded_conserved_and_not_an_infinite_ph_reservoir",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::proton_depletion_matches_integrated_second_order_law_and_time_partition",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::stiff_depletion_is_detected_after_rejected_steps",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::the_catalyst_is_not_consumed",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::the_declared_equation_balances_too",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::the_integrator_matches_the_analytic_solution",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::the_integrator_matches_the_analytic_solution_when_catalysed",
+          "outcome": "ok"
+        },
+        {
+          "name": "kinetics::tests::the_ten_degree_rule_falls_out_rather_than_being_applied",
+          "outcome": "ok"
+        },
+        {
+          "name": "ledger::tests::adding_matter_shows_violation",
+          "outcome": "ok"
+        },
+        {
+          "name": "ledger::tests::identical_vessels_have_no_violations",
+          "outcome": "ok"
+        },
+        {
+          "name": "ledger::tests::kinetics_conserves_elements",
+          "outcome": "ok"
+        },
+        {
+          "name": "ledger::tests::ledger_from_vessel_has_elements",
+          "outcome": "ok"
+        },
+        {
+          "name": "ledger::tests::moving_solid_onto_an_electrode_keeps_its_inventory",
+          "outcome": "ok"
+        },
+        {
+          "name": "local_equilibrium::tests::component_imbalance_and_invalid_validity_are_refused",
+          "outcome": "ok"
+        },
+        {
+          "name": "local_equilibrium::tests::invalid_charge_and_dependent_reactions_are_refused",
+          "outcome": "ok"
+        },
+        {
+          "name": "local_equilibrium::tests::supplied_activity_coefficients_change_speciation_not_totals",
+          "outcome": "ok"
+        },
+        {
+          "name": "local_equilibrium::tests::weak_acid_grid_converges_without_reaction_specific_branches",
+          "outcome": "ok"
+        },
+        {
+          "name": "local_equilibrium::tests::weak_acid_mass_action_and_totals_are_computed",
+          "outcome": "ok"
+        },
+        {
+          "name": "material::tests::builtins_resolve_localized_names_and_expand",
+          "outcome": "ok"
+        },
+        {
+          "name": "measurement::tests::sample_index_advances_only_on_success",
+          "outcome": "ok"
+        },
+        {
+          "name": "molecule::tests::molecule_graph_round_trips",
+          "outcome": "ok"
+        },
+        {
+          "name": "molecule::tests::nacl_net_charge",
+          "outcome": "ok"
+        },
+        {
+          "name": "molecule::tests::water_formula",
+          "outcome": "ok"
+        },
+        {
+          "name": "nuclide::tests::activity_scales_with_amount",
+          "outcome": "ok"
+        },
+        {
+          "name": "nuclide::tests::c14_notation",
+          "outcome": "ok"
+        },
+        {
+          "name": "orchestrator::tests::adsorption_changes_survive_the_orchestrator_pipeline",
+          "outcome": "ok"
+        },
+        {
+          "name": "orchestrator::tests::diff_of_identical_vessels_is_empty",
+          "outcome": "ok"
+        },
+        {
+          "name": "orchestrator::tests::diff_vessels_detects_species_change",
+          "outcome": "ok"
+        },
+        {
+          "name": "orchestrator::tests::diff_vessels_detects_temperature_change",
+          "outcome": "ok"
+        },
+        {
+          "name": "orchestrator::tests::honesty_produces_native_delta",
+          "outcome": "ok"
+        },
+        {
+          "name": "orchestrator::tests::mixing_produces_native_delta",
+          "outcome": "ok"
+        },
+        {
+          "name": "orchestrator::tests::orchestrator_preserves_mass_through_mixing",
+          "outcome": "ok"
+        },
+        {
+          "name": "orchestrator::tests::orchestrator_runs_mixing_on_water",
+          "outcome": "ok"
+        },
+        {
+          "name": "orchestrator::tests::orchestrator_uses_native_delta_path",
+          "outcome": "ok"
+        },
+        {
+          "name": "orchestrator::tests::solver_order_does_not_change_accepted_state",
+          "outcome": "ok"
+        },
+        {
+          "name": "orchestrator::tests::solver_order_with_curated_reactions",
+          "outcome": "ok"
+        },
+        {
+          "name": "packs::tests::environmental_pack_has_scenarios",
+          "outcome": "ok"
+        },
+        {
+          "name": "packs::tests::materials_pack_has_scenarios",
+          "outcome": "ok"
+        },
+        {
+          "name": "packs::tests::polymer_moments_mn_mw_pdi",
+          "outcome": "ok"
+        },
+        {
+          "name": "packs::tests::polymer_moments_pdi_unity_for_monodisperse",
+          "outcome": "ok"
+        },
+        {
+          "name": "packs::tests::polymer_pack_has_scenarios",
+          "outcome": "ok"
+        },
+        {
+          "name": "parallel::tests::parallel_lessons_produce_independent_results",
+          "outcome": "ok"
+        },
+        {
+          "name": "particles::charge_label_tests::a_trailing_digit_alone_is_not_a_charge",
+          "outcome": "ok"
+        },
+        {
+          "name": "particles::charge_label_tests::database_spellings_are_classified_by_their_written_sign",
+          "outcome": "ok"
+        },
+        {
+          "name": "particles::tests::a_species_too_rare_to_draw_is_named_not_dropped",
+          "outcome": "ok"
+        },
+        {
+          "name": "particles::tests::an_empty_vessel_draws_nothing_and_does_not_panic",
+          "outcome": "ok"
+        },
+        {
+          "name": "particles::tests::ions_are_drawn_in_computed_proportion",
+          "outcome": "ok"
+        },
+        {
+          "name": "particles::tests::solids_appear_beside_the_dissolved_species",
+          "outcome": "ok"
+        },
+        {
+          "name": "particles::tests::the_scale_is_stated",
+          "outcome": "ok"
+        },
+        {
+          "name": "particles::tests::without_speciation_the_picture_says_so",
+          "outcome": "ok"
+        },
+        {
+          "name": "phase_route::tests::a_substance_that_melts_does_not_also_sublime",
+          "outcome": "ok"
+        },
+        {
+          "name": "phase_route::tests::every_pair_conserves_mass_exactly",
+          "outcome": "ok"
+        },
+        {
+          "name": "phase_route::tests::hydrate_formulas_split_into_salt_and_water",
+          "outcome": "ok"
+        },
+        {
+          "name": "photochem::tests::inactive_lamp_gives_zero_flux",
+          "outcome": "ok"
+        },
+        {
+          "name": "photochem::tests::photolysis_rate_scales_with_concentration",
+          "outcome": "ok"
+        },
+        {
+          "name": "photochem::tests::uv_lamp_photon_energy",
+          "outcome": "ok"
+        },
+        {
+          "name": "pigment::tests::missing_optics_never_falls_back_to_rgb",
+          "outcome": "ok"
+        },
+        {
+          "name": "pigment::tests::mixing_is_order_independent",
+          "outcome": "ok"
+        },
+        {
+          "name": "pigment::tests::subtractive_blue_and_yellow_leave_green",
+          "outcome": "ok"
+        },
+        {
+          "name": "pigment::tests::white_and_black_bound_the_model",
+          "outcome": "ok"
+        },
+        {
+          "name": "polarization::tests::fit_selectors_reach_transport_and_passivation_parameters",
+          "outcome": "ok"
+        },
+        {
+          "name": "polarization::tests::fits_a_mixed_whole_curve_and_reports_holdout",
+          "outcome": "ok"
+        },
+        {
+          "name": "polarization::tests::reference_area_and_capacitance_are_explicit",
+          "outcome": "ok"
+        },
+        {
+          "name": "polarization::tests::refuses_missing_reference_metadata",
+          "outcome": "ok"
+        },
+        {
+          "name": "polarization::tests::refuses_unidentifiable_duplicate_scales",
+          "outcome": "ok"
+        },
+        {
+          "name": "polymer::tests::pdi_of_monodisperse_is_one",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::capillary_rise_falls_as_the_water_warms",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::capillary_rise_in_a_half_millimetre_tube",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::capillary_rise_is_inverse_in_the_radius",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::capillary_rise_is_negative_when_the_liquid_is_pushed_down",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::capillary_rise_refuses_beyond_the_density_correlation",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::capillary_rise_refuses_nonsense_geometry",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::capillary_rise_vanishes_at_ninety_degrees",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::ethanol_water_density_decreases_with_ethanol",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::ethanol_water_density_refuses_outside_range",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::ethanol_water_fifty_percent",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::ethanol_water_pure_ethanol",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::ethanol_water_pure_water",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::evaluate_dispatches_ethanol_water_density",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::evaluate_dispatches_henry",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::evaluate_dispatches_sucrose_water_density",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::evaluate_dispatches_the_new_interfacial_properties",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::evaluate_dispatches_water_density",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::evaluate_rejects_unknown",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::henry_co2_at_25c",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::henry_decreases_with_temperature_for_co2",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::henry_lookup_by_name",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::henry_lookup_case_insensitive",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::henry_nh3_at_25c",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::henry_o2_at_25c",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::sucrose_water_density_increases_with_sugar",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::sucrose_water_matches_an_independent_table",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::sucrose_water_pure_water_is_the_water_correlation",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::sucrose_water_refuses_beyond_the_published_table",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::sucrose_water_reports_the_specific_gravity_it_solved",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::water_density_at_0c",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::water_density_at_25c",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::water_density_at_40c",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::water_density_at_4c_is_maximum",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::water_density_refuses_outside_range",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::water_permittivity_at_0c",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::water_permittivity_at_25c",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::water_permittivity_refuses_outside_range",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::water_surface_tension_at_0c",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::water_surface_tension_at_100c",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::water_surface_tension_at_20c",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::water_surface_tension_at_25c",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::water_surface_tension_falls_with_temperature",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::water_surface_tension_refuses_outside_range",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::water_viscosity_at_0c",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::water_viscosity_at_20c",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::water_viscosity_at_25c",
+          "outcome": "ok"
+        },
+        {
+          "name": "properties::tests::water_viscosity_refuses_outside_range",
+          "outcome": "ok"
+        },
+        {
+          "name": "refusal::tests::a_key_without_german_still_reads",
+          "outcome": "ok"
+        },
+        {
+          "name": "refusal::tests::a_number_gets_the_readers_separator_and_an_identifier_does_not",
+          "outcome": "ok"
+        },
+        {
+          "name": "refusal::tests::english_is_the_call_site_text",
+          "outcome": "ok"
+        },
+        {
+          "name": "refusal::tests::params_are_ordered_so_the_wire_is_stable",
+          "outcome": "ok"
+        },
+        {
+          "name": "relations::tests::arrhenius_matches_hand_calculation",
+          "outcome": "ok"
+        },
+        {
+          "name": "relations::tests::arrhenius_ten_degree_rule",
+          "outcome": "ok"
+        },
+        {
+          "name": "relations::tests::debye_huckel_divalent",
+          "outcome": "ok"
+        },
+        {
+          "name": "relations::tests::debye_huckel_monovalent_dilute",
+          "outcome": "ok"
+        },
+        {
+          "name": "relations::tests::evaluate_dispatches_nernst",
+          "outcome": "ok"
+        },
+        {
+          "name": "relations::tests::evaluate_rejects_unknown",
+          "outcome": "ok"
+        },
+        {
+          "name": "relations::tests::every_relation_has_a_worked_example",
+          "outcome": "ok"
+        },
+        {
+          "name": "relations::tests::every_relation_says_what_it_is_for_in_both_languages",
+          "outcome": "ok"
+        },
+        {
+          "name": "relations::tests::eyring_at_room_temperature",
+          "outcome": "ok"
+        },
+        {
+          "name": "relations::tests::henderson_hasselbalch_at_pka",
+          "outcome": "ok"
+        },
+        {
+          "name": "relations::tests::henderson_hasselbalch_equal_concentrations",
+          "outcome": "ok"
+        },
+        {
+          "name": "relations::tests::henderson_hasselbalch_ph_from_ratio",
+          "outcome": "ok"
+        },
+        {
+          "name": "relations::tests::ionic_strength_cacl2_0_1m",
+          "outcome": "ok"
+        },
+        {
+          "name": "relations::tests::ionic_strength_nacl_0_1m",
+          "outcome": "ok"
+        },
+        {
+          "name": "relations::tests::nernst_copper_at_dilute",
+          "outcome": "ok"
+        },
+        {
+          "name": "relations::tests::nernst_slope_at_25c",
+          "outcome": "ok"
+        },
+        {
+          "name": "relations::tests::nernst_standard_hydrogen_electrode",
+          "outcome": "ok"
+        },
+        {
+          "name": "relations::tests::quotient_form_handles_both_sides_of_a_half_reaction",
+          "outcome": "ok"
+        },
+        {
+          "name": "relations::tests::sources_are_the_provenance_they_came_from",
+          "outcome": "ok"
+        },
+        {
+          "name": "relations::tests::van_t_hoff_endothermic_increases_k",
+          "outcome": "ok"
+        },
+        {
+          "name": "relations::tests::van_t_hoff_exothermic_decreases_k",
+          "outcome": "ok"
+        },
+        {
+          "name": "relations::tests::van_t_hoff_same_temperature_returns_k1",
+          "outcome": "ok"
+        },
+        {
+          "name": "render::consumed_tests::a_consumed_event_without_the_remainder_still_deserialises",
+          "outcome": "ok"
+        },
+        {
+          "name": "render::consumed_tests::lv1_says_only_what_the_event_knows",
+          "outcome": "ok"
+        },
+        {
+          "name": "render::dedupe_tests::identical_lv1_lines_collapse_and_lv2_lines_do_not",
+          "outcome": "ok"
+        },
+        {
+          "name": "render::narration_tests::full_narration_is_what_render_events_in_has_always_produced",
+          "outcome": "ok"
+        },
+        {
+          "name": "render::narration_tests::it_applies_at_every_register_a_routing_line_exists_at",
+          "outcome": "ok"
+        },
+        {
+          "name": "render::narration_tests::the_event_itself_is_untouched",
+          "outcome": "ok"
+        },
+        {
+          "name": "render::narration_tests::without_routing_drops_the_announcement_and_keeps_the_chemistry",
+          "outcome": "ok"
+        },
+        {
+          "name": "render::quantity_tests::a_real_trace_amount_never_renders_as_zero",
+          "outcome": "ok"
+        },
+        {
+          "name": "render::quantity_tests::small_amounts_read_in_the_unit_that_fits_them",
+          "outcome": "ok"
+        },
+        {
+          "name": "render::quantity_tests::the_unit_travels_with_the_number_in_every_locale",
+          "outcome": "ok"
+        },
+        {
+          "name": "render::vessel_tests::a_frozen_vessel_is_prose_not_the_state_contract",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::a_new_bench_is_one_empty_beaker",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::a_precipitate_is_textured_a_plated_metal_is_metallic",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::additive_observation_fields_default_when_old_scene_is_read",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::an_incomplete_colour_reaches_the_scene_naming_what_is_missing",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::an_ordinary_solution_is_one_layer_matching_the_liquid",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::chemiluminescence_scene_tracks_temperature_and_elapsed_time",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::coating_projection_fails_closed_for_bare_or_mixed_iron",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::copper_solution_paints_blue_with_the_word_attached",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::electrode_authority_projects_only_persistent_engine_state",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::enzyme_conversion_is_persistent_readout_not_a_fake_texture",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::foam_carries_the_computed_liquid_colour",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::gel_scene_is_derived_from_current_inventory_with_accessible_words",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::hexane_on_water_renders_two_layers_water_at_the_bottom",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::material_provenance_projects_protective_coatings",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::older_scene_json_without_adsorption_still_deserializes",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::older_scene_json_without_coatings_still_deserializes",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::older_scene_json_without_partition_still_deserializes",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::persistent_foam_is_part_of_the_scene_and_accessible_words",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::polymer_without_crosslinker_has_no_gel_scene",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::swelling_is_persistent_scene_state_with_accessible_words",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::the_gas_boundary_keeps_its_tag",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::the_scene_shape_is_pinned",
+          "outcome": "ok"
+        },
+        {
+          "name": "scene::tests::the_tube_has_a_shorter_light_path",
+          "outcome": "ok"
+        },
+        {
+          "name": "script::grammar_inventory::every_verb_example_parses",
+          "outcome": "ok"
+        },
+        {
+          "name": "script::grammar_inventory::the_inventory_is_well_formed",
+          "outcome": "ok"
+        },
+        {
+          "name": "script::grammar_inventory::typed_errors_distinguish_identity_reaction_and_grammar_gaps",
+          "outcome": "ok"
+        },
+        {
+          "name": "script::grammar_inventory::vessel_kinds_parse_and_unknowns_refuse",
+          "outcome": "ok"
+        },
+        {
+          "name": "script::localised_grammar::a_canonical_line_is_never_rewritten",
+          "outcome": "ok"
+        },
+        {
+          "name": "script::localised_grammar::a_grammar_refusal_carries_its_key",
+          "outcome": "ok"
+        },
+        {
+          "name": "script::localised_grammar::a_phrase_outranks_the_word_it_starts_with",
+          "outcome": "ok"
+        },
+        {
+          "name": "script::localised_grammar::a_species_name_of_several_words_resolves",
+          "outcome": "ok"
+        },
+        {
+          "name": "script::localised_grammar::a_usage_line_is_syntax_with_the_readers_words_in_it",
+          "outcome": "ok"
+        },
+        {
+          "name": "script::localised_grammar::a_usage_line_names_the_verb_the_learner_typed",
+          "outcome": "ok"
+        },
+        {
+          "name": "script::localised_grammar::amount_suffix_split_preserves_scientific_notation",
+          "outcome": "ok"
+        },
+        {
+          "name": "script::localised_grammar::an_english_usage_line_is_unchanged",
+          "outcome": "ok"
+        },
+        {
+          "name": "script::localised_grammar::english_still_works_in_a_german_session",
+          "outcome": "ok"
+        },
+        {
+          "name": "script::localised_grammar::english_wins_and_a_word_claimed_twice_is_dropped",
+          "outcome": "ok"
+        },
+        {
+          "name": "script::localised_grammar::every_german_verb_alias_means_its_canonical_verb",
+          "outcome": "ok"
+        },
+        {
+          "name": "script::localised_grammar::every_hint_is_a_line_the_parser_takes",
+          "outcome": "ok"
+        },
+        {
+          "name": "script::localised_grammar::german_names_resolve_to_the_canonical_key",
+          "outcome": "ok"
+        },
+        {
+          "name": "script::localised_grammar::german_reaches_past_the_verb",
+          "outcome": "ok"
+        },
+        {
+          "name": "script::localised_grammar::the_english_tables_are_what_the_parser_takes",
+          "outcome": "ok"
+        },
+        {
+          "name": "script::localised_grammar::the_grammar_has_no_unkeyed_refusal_left",
+          "outcome": "ok"
+        },
+        {
+          "name": "script::localised_grammar::the_unknown_verb_refusal_speaks_german",
+          "outcome": "ok"
+        },
+        {
+          "name": "solution_optics::tests::beer_lambert_uses_molarity_and_path_length_not_molality",
+          "outcome": "ok"
+        },
+        {
+          "name": "solution_optics::tests::complexes_do_not_inherit_the_free_ions_absorption",
+          "outcome": "ok"
+        },
+        {
+          "name": "solve::route_trace_tests::a_routing_announcement_is_not_counted_as_an_answer",
+          "outcome": "ok"
+        },
+        {
+          "name": "solve::route_trace_tests::answered_routes_carry_no_reason",
+          "outcome": "ok"
+        },
+        {
+          "name": "solve::route_trace_tests::declined_routes_name_the_vessel_and_the_reason",
+          "outcome": "ok"
+        },
+        {
+          "name": "solve::route_trace_tests::gas_kept_in_a_headspace_is_not_booked_as_gas_that_left",
+          "outcome": "ok"
+        },
+        {
+          "name": "solve::route_trace_tests::stack_records_typed_routes_without_changing_events",
+          "outcome": "ok"
+        },
+        {
+          "name": "solve::route_trace_tests::the_stack_books_each_solvers_gas_on_the_step_before_the_next_runs",
+          "outcome": "ok"
+        },
+        {
+          "name": "solve::solubility_printing_tests::a_reviewed_measurement_never_prints_as_zero",
+          "outcome": "ok"
+        },
+        {
+          "name": "solve::solubility_printing_tests::a_soluble_salt_does_not_carry_four_meaningless_decimals",
+          "outcome": "ok"
+        },
+        {
+          "name": "solve::solubility_printing_tests::nothing_and_nonsense_do_not_panic",
+          "outcome": "ok"
+        },
+        {
+          "name": "solve::solubility_printing_tests::two_different_solids_no_longer_read_the_same",
+          "outcome": "ok"
+        },
+        {
+          "name": "solve::solubility_printing_tests::values_that_already_printed_correctly_are_untouched",
+          "outcome": "ok"
+        },
+        {
+          "name": "spectrum::tests::absorbances_add_so_mixtures_compose",
+          "outcome": "ok"
+        },
+        {
+          "name": "spectrum::tests::absorbing_everything_is_black",
+          "outcome": "ok"
+        },
+        {
+          "name": "spectrum::tests::absorbing_green_gives_magenta",
+          "outcome": "ok"
+        },
+        {
+          "name": "spectrum::tests::concentration_changes_hue_not_just_depth",
+          "outcome": "ok"
+        },
+        {
+          "name": "spectrum::tests::nothing_absorbing_is_white",
+          "outcome": "ok"
+        },
+        {
+          "name": "spectrum::tests::path_length_matters",
+          "outcome": "ok"
+        },
+        {
+          "name": "starch_iodine::tests::all_three_components_and_water_are_required",
+          "outcome": "ok"
+        },
+        {
+          "name": "starch_iodine::tests::complex_is_bounded_by_each_inventory",
+          "outcome": "ok"
+        },
+        {
+          "name": "states::tests::a_number_that_is_not_an_activity_falls_back_to_ideal",
+          "outcome": "ok"
+        },
+        {
+          "name": "states::tests::a_saturated_brine_boils_where_a_cook_finds_it",
+          "outcome": "ok"
+        },
+        {
+          "name": "states::tests::boiling_rises_much_less_than_freezing_falls",
+          "outcome": "ok"
+        },
+        {
+          "name": "states::tests::brine_boundary_is_finite_and_matches_its_declared_temperature",
+          "outcome": "ok"
+        },
+        {
+          "name": "states::tests::each_route_states_where_it_stops",
+          "outcome": "ok"
+        },
+        {
+          "name": "states::tests::one_molal_brine_lands_where_a_thermometer_does",
+          "outcome": "ok"
+        },
+        {
+          "name": "states::tests::pure_water_freezes_at_zero",
+          "outcome": "ok"
+        },
+        {
+          "name": "states::tests::salt_water_freezes_below_zero",
+          "outcome": "ok"
+        },
+        {
+          "name": "states::tests::seawater_is_in_the_right_place",
+          "outcome": "ok"
+        },
+        {
+          "name": "states::tests::the_constants_come_out_of_the_enthalpies",
+          "outcome": "ok"
+        },
+        {
+          "name": "states::tests::the_dilute_law_is_the_limit_of_the_relation_that_replaced_it",
+          "outcome": "ok"
+        },
+        {
+          "name": "states::tests::the_osmotic_coefficient_survives_freeze_concentration",
+          "outcome": "ok"
+        },
+        {
+          "name": "states::tests::the_seam_between_freezing_and_boiling_is_one_activity",
+          "outcome": "ok"
+        },
+        {
+          "name": "statistics::tests::linear_regression_perfect_line",
+          "outcome": "ok"
+        },
+        {
+          "name": "statistics::tests::mean_std_of_known_data",
+          "outcome": "ok"
+        },
+        {
+          "name": "statistics::tests::seeded_rng_is_deterministic",
+          "outcome": "ok"
+        },
+        {
+          "name": "stock::tests::a_species_is_stocked_in_moles_and_an_unknown_key_has_no_unit",
+          "outcome": "ok"
+        },
+        {
+          "name": "stock::tests::an_untracked_key_is_an_unlimited_supply",
+          "outcome": "ok"
+        },
+        {
+          "name": "stock::tests::drawing_decrements_and_running_out_is_refused_with_the_numbers",
+          "outcome": "ok"
+        },
+        {
+          "name": "stock::tests::the_last_exact_dispense_is_not_lost_to_float_slack",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::exercise_tests::a_family_says_so_without_saying_which_member",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::exercise_tests::an_already_balanced_equation_asks_the_same_question",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::exercise_tests::prose_is_refused_by_every_entry_point",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::exercise_tests::stateless_marking_agrees_with_marking_in_hand",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::exercise_tests::the_exercise_carries_no_route_to_the_answer",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::exercise_tests::the_reveal_writes_the_answer_out",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::exercise_tests::trivial_marks_the_questions_with_nothing_to_work_out",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::a_balanced_equation_and_its_skeleton_set_the_same_exercise",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::a_degenerate_skeleton_is_refused_rather_than_overflowing",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::a_digit_before_a_trailing_sign_is_a_subscript",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::a_report_refuses_what_is_not_an_equation",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::an_impossible_skeleton_is_refused",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::an_underdetermined_skeleton_reports_its_basis",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::balanced_equations_are_recognised",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::balancing_finds_the_coefficients",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::balancing_respects_charge",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::charge_is_checked_not_just_atoms",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::charge_is_the_last_row_of_the_reported_matrix",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::hydrates",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::parenthesised_groups",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::permanganate_half_reaction_balances",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::plain_formulas",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::prose_is_not_a_formula",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::registry_style_charges_too",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::state_labels_are_not_elements",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::the_reported_matrix_annihilates_the_reported_answer",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::unbalanced_equations_are_caught",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::underdetermined_carbon_oxidation_returns_family",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::underdetermined_permanganate_peroxide",
+          "outcome": "ok"
+        },
+        {
+          "name": "stoich::tests::unicode_subscripts_and_charges",
+          "outcome": "ok"
+        },
+        {
+          "name": "swelling::tests::uptake_is_water_limited_and_conserves_the_ledger",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::a_solid_is_answered_where_a_measurement_exists_and_flagged_where_none_does",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::decant_conserves_mass_and_enthalpy",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::heating_raises_temperature_by_q_over_cp",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::measure_never_mutates",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::thermal_mixing_of_hot_and_cold_water",
+          "outcome": "ok"
+        },
+        {
+          "name": "units::tests::amperes_round_trip",
+          "outcome": "ok"
+        },
+        {
+          "name": "units::tests::grams_round_trip",
+          "outcome": "ok"
+        },
+        {
+          "name": "units::tests::joules_round_trip",
+          "outcome": "ok"
+        },
+        {
+          "name": "units::tests::kelvin_celsius_conversion",
+          "outcome": "ok"
+        },
+        {
+          "name": "units::tests::kelvin_round_trip",
+          "outcome": "ok"
+        },
+        {
+          "name": "units::tests::liters_round_trip",
+          "outcome": "ok"
+        },
+        {
+          "name": "units::tests::molar_flow_round_trip",
+          "outcome": "ok"
+        },
+        {
+          "name": "units::tests::molarity_from_moles_and_litres",
+          "outcome": "ok"
+        },
+        {
+          "name": "units::tests::molarity_round_trip",
+          "outcome": "ok"
+        },
+        {
+          "name": "units::tests::moles_round_trip",
+          "outcome": "ok"
+        },
+        {
+          "name": "units::tests::pascal_round_trip",
+          "outcome": "ok"
+        },
+        {
+          "name": "units::tests::photon_flux_round_trip",
+          "outcome": "ok"
+        },
+        {
+          "name": "units::tests::seconds_round_trip",
+          "outcome": "ok"
+        },
+        {
+          "name": "units::tests::square_meters_round_trip",
+          "outcome": "ok"
+        },
+        {
+          "name": "units::tests::unit_arithmetic",
+          "outcome": "ok"
+        },
+        {
+          "name": "units::tests::volts_round_trip",
+          "outcome": "ok"
+        },
+        {
+          "name": "units::tests::volume_flow_round_trip",
+          "outcome": "ok"
+        },
+        {
+          "name": "units::tests::watts_from_energy_and_time",
+          "outcome": "ok"
+        },
+        {
+          "name": "units::tests::watts_round_trip",
+          "outcome": "ok"
+        },
+        {
+          "name": "uv::tests::the_bands_are_the_labels_bands",
+          "outcome": "ok"
+        },
+        {
+          "name": "volatility::tests::a_cooled_jar_takes_its_ammonia_back",
+          "outcome": "ok"
+        },
+        {
+          "name": "volatility::tests::ammonia_in_a_sealed_jar_reaches_the_headspace",
+          "outcome": "ok"
+        },
+        {
+          "name": "volatility::tests::an_open_vessel_is_left_alone",
+          "outcome": "ok"
+        },
+        {
+          "name": "volatility::tests::only_species_the_registry_does_not_carry_as_gas_qualify",
+          "outcome": "ok"
+        },
+        {
+          "name": "volatility::tests::water_holds_ammonia_back",
+          "outcome": "ok"
+        }
+      ],
+      "passed": 604,
+      "failed": 0,
+      "ignored": 0,
+      "filtered_out": 0
+    },
+    {
+      "binary": "kerotakis_safety",
+      "tests": [
+        {
+          "name": "tests::acid_and_base_is_allowed",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::acid_and_carbonate_warns",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::acid_and_metal_warns",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::all_inert_species_allow",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::barium_hydroxide_is_a_strong_base_as_well",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::benign_mixtures_pass",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::bleach_and_acid_warns",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::bleach_and_ammonia_warns_and_proceeds",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::chlorine_and_hydrogen_warns",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::every_hazard_sentence_in_this_file_has_german",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::every_incompatibility_rule_id_is_unique_so_it_can_be_the_key",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::every_incompatibility_warns_in_german",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::exposed_material_is_assessed_across_locations_with_precise_sources",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::exposure_findings_round_trip_for_save_and_notebook_evidence",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::iron_iii_chloride_is_not_silently_harmless",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::liquid_nitrogen_has_separate_handling_hazards_and_warns",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::liquid_nitrogen_warning_precedes_bench_mutation_events",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::no_two_rules_share_hazard_wording_today",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::oxidizer_and_reducing_agent_warns",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::permanganate_and_ethanol_warns",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::peroxide_and_hexane_warns",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::peroxide_and_isopropanol_warns",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::quicklime_and_water_warns",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::rule_ids_are_stable_contract_surface",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::soluble_barium_is_labelled_toxic_and_barite_is_not",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::the_same_rule_twice_is_still_one_finding_however_it_is_worded",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::totality_of_covered_keys",
+          "outcome": "ok"
+        },
+        {
+          "name": "tests::two_rules_wording_a_hazard_the_same_way_both_survive",
+          "outcome": "ok"
+        }
+      ],
+      "passed": 28,
+      "failed": 0,
+      "ignored": 0,
+      "filtered_out": 0
+    }
+  ],
+  "actual_library_exit": 0,
+  "actual_hosted_lock_sha256": "3671ca639b44c5ad64e4646bb4710c80f5965dae2efeafff9509ef9beb512dc3",
+  "lock_scope": "Actual Cargo.lock captured from this exact hosted run after successful fresh generate-lockfile; hashed downloaded bytes. No local or prior-run lock substituted.",
+  "regular_source_files_independently_compared": 2253,
+  "source_inventory_sha256": "ded5191e6c2bb7e466deb18c94d401bdc25ea392b4d761c6348772193abd05d0",
+  "recursive_submodules": [
+    {
+      "path": "sundials-kinetics-rs",
+      "commit": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+      "tree": "40b89d80c00be1c7d9a3cd989fcf7c580a5732f7",
+      "status": "initialized_at_recorded_commit_and_git_clean"
+    },
+    {
+      "path": "vendor/iphreeqc",
+      "commit": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1",
+      "tree": "b3b090a32ebb6bcd1d6f743212087c585e31e8ae",
+      "status": "initialized_at_recorded_commit_and_git_clean"
+    }
+  ],
+  "postexecution_source_status": [
+    "?? crates/kerotakis-safety/tests/production_remaining_final_rules.rs"
+  ],
+  "fixture_sha256": "fa7c370805203489fbcdcb18a6c9e99906073f5e1a3285a09b99f53302f912b6",
+  "freeze_sha256": "95a43ff2cc5096466d016d805b132fc0cd9685ad09b65a09c22c4fec72067069",
+  "collector_sha256": "e95eb12f5532f0a5a0dd8b423fa74e8e15aa1383aa4e28589aff95ffbc7423fb",
+  "source_helper_sha256": "53b22c431429b091a2f2539039e970d822de7a965605e37677c7c5824bc557d4",
+  "verified_required_job_steps": [
+    "Check out audit collector and unchanged frozen fixtures",
+    "Check out the exact accepted baseline source",
+    "Fetch pinned SUNDIALS for the baseline checkout",
+    "Capture fifty original contracts and complete affected libraries",
+    "Preserve exact source, dependency lock and raw baseline outcomes"
+  ],
+  "raw_result_sha256": "f52301c97fc13fd081a15f641d5659e25295b3801b1eea1d3302876f911447b5",
+  "artifact_manifest_sha256": "3e41b73b405cb337bcff6d1057f4b54b0f47d7d3d3b387be6a43992c5d0ef535",
+  "verified_artifact_sha256": {
+    "Cargo.lock": "3671ca639b44c5ad64e4646bb4710c80f5965dae2efeafff9509ef9beb512dc3",
+    "cargo-version-command.json": "7e7ee26f770ff68d9b3aadf0c72446e8597503e1e8539c980dd5b795670e5f63",
+    "cargo-version-exit.json": "81868a6e94ffc0178bf833deb1c9013d9fab4ee95ddb876a5e8ec4f1d26376d2",
+    "cargo-version.log": "2106ad2f6d2494210f01796652ddf5c620d7955ad5e1a4ef2b55500aee9ceab0",
+    "contracts-command.json": "01b73a7a5ec1c508b54c06e07087a900f15223a21c1c3fec412ae149c4360abc",
+    "contracts-exit.json": "931a4bbf4bb82e790952c37ff8ce91e472e565ba705fad3619167cb1f73caa5e",
+    "contracts.log": "2a6ca28d8bcb78eb9b7fa9f1b67c785f49aca38fe46c7d3d2879eb267cbe8d8c",
+    "freeze.json": "95a43ff2cc5096466d016d805b132fc0cd9685ad09b65a09c22c4fec72067069",
+    "generate-lockfile-command.json": "4a8fb5ad1e3cfa766fda30f83bb4c988450f853860b53ceb77bbde2c0a9c7855",
+    "generate-lockfile-exit.json": "81868a6e94ffc0178bf833deb1c9013d9fab4ee95ddb876a5e8ec4f1d26376d2",
+    "generate-lockfile.log": "742035523837e307805ff1b96d0f02136969d6ef145691d0e2c84b5002278d7f",
+    "hosted_baseline.py": "e95eb12f5532f0a5a0dd8b423fa74e8e15aa1383aa4e28589aff95ffbc7423fb",
+    "hosted_original_baseline.py": "53b22c431429b091a2f2539039e970d822de7a965605e37677c7c5824bc557d4",
+    "libraries-command.json": "4f81e14b240aaa9b455f47b864943b08f2f5d0c823d101be9022f81e1903e522",
+    "libraries-exit.json": "81868a6e94ffc0178bf833deb1c9013d9fab4ee95ddb876a5e8ec4f1d26376d2",
+    "libraries.log": "1efd2d03c5e3a004b5cd913469dd6a3f3a520906148aab7e3c8ee2aa95c4f7e0",
+    "production_remaining_final_rules.rs": "fa7c370805203489fbcdcb18a6c9e99906073f5e1a3285a09b99f53302f912b6",
+    "result.json": "f52301c97fc13fd081a15f641d5659e25295b3801b1eea1d3302876f911447b5",
+    "rustc-version-command.json": "465a566a60c202406e0c90608b4778583ad734eaf35499470b157038098756aa",
+    "rustc-version-exit.json": "81868a6e94ffc0178bf833deb1c9013d9fab4ee95ddb876a5e8ec4f1d26376d2",
+    "rustc-version.log": "b569b0c98ea3133c7252b4b8ea6b39b7b353813df0dd5f5c412c355691424112",
+    "source-inventory.json": "ded5191e6c2bb7e466deb18c94d401bdc25ea392b4d761c6348772193abd05d0"
+  },
+  "run_api_sha256": "829fad40a388fa89930c09d37d9622341eaae274fb51542d6a0bed959cc3c244",
+  "run_metadata_sha256": "822ceb3d7ccb12dda0b881c39485a22c9c6c4df31b2b1c475a6a5b248620eedd",
+  "job_log_sha256": "98b03b6468a22ef04c53b144d7d1128db0eec38c7f30c2a6bc187dd54d6a18f0",
+  "accepted_integration": false,
+  "limits": [
+    "Fifty source-informed virtual engineering routing controls, not blind chemical experiments or empirical accuracy.",
+    "Recursive hosted submodule commits/status checked, not each module blob independently compared here. Ignored native sources/cache and dependency cache contents are not inventoried.",
+    "Twenty-six failed tests can stop before later assertions; candidate full pass is separately required.",
+    "Original source baseline only; no candidate, ordinary native CI, chemistry fleet or main integration acceptance."
+  ],
+  "independently_verified_failure_categories": {
+    "direct_allow_instead_of_warning": 22,
+    "accepted_journal_missing_final_warning": 4
+  },
+  "failure_causes_match_preserved_local_baseline": true
+}
