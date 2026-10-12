@@ -1,0 +1,19 @@
+{
+  "status": "Separate supplemental route witnesses frozen before compilation/execution; original24 unchanged",
+  "frozen_at_utc": "2026-10-12T04:49:05.948842+00:00",
+  "source": "093db6c9a9e64f1d704ded354685cee4ded6a9ec",
+  "source_tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+  "fixture_path": "audits/registry-loader-applicability-20261012/fixtures/registry_applicability_runtime_route_contracts.rs",
+  "injected_fixture_path": "crates/kerotakis-core/tests/registry_applicability_runtime_route_contracts.rs",
+  "fixture_sha256": "e4aa286f68521c137b004a8398b6410457df124eb4e624c05838aeb4824fa2e7",
+  "expected_tests": [
+    "direct_runtime_temperature_constraint_refuses_without_selector_precheck",
+    "decoded_pack_runtime_temperature_constraint_refuses_without_selector_precheck"
+  ],
+  "expected_count": 2,
+  "combined_original_plus_supplement_count": 26,
+  "original_freeze_sha256": "53566e8135c88580e938d4abddd69f3515ea6b660fe9d773e4da140fb0fc6e64",
+  "canonical_registry_sha256": "48487e1940c5e0122207d352c78e4377f8f7b47d421be2f78d62b61a096c3774",
+  "contract": "Synthetic MgSO4 fallback Cp temperature interval: typed validation and complete serialized pack metadata retention succeed first; direct parse_document and decoded-valid-pack runtime independently refuse naming species/property/temperature, without selector precheck. Two route witnesses supplement original24; no chemical measurement or generated-build execution claim.",
+  "original_baseline_qualification": "Original assert_runtime_refuses checks selector first. If it admits, the original18 negative tests fail before direct/pack-runtime checks; they do not independently prove those later-route outcomes."
+}

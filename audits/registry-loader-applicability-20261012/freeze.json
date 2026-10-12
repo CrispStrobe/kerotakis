@@ -1,0 +1,184 @@
+{
+  "status": "Frozen source-informed expectations before any compilation/execution; no measured outcomes",
+  "frozen_at_utc": "2026-10-12T04:47:14.218101+00:00",
+  "source": "093db6c9a9e64f1d704ded354685cee4ded6a9ec",
+  "source_tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+  "fixture_path": "audits/registry-loader-applicability-20261012/fixtures/registry_loader_applicability_contracts.rs",
+  "injected_fixture_path": "crates/kerotakis-core/tests/registry_loader_applicability_contracts.rs",
+  "fixture_sha256": "8041b163ca3b19ddc325eff1b589ab7351a7b60d475066f5295ee6a81cec1ada",
+  "expected_count": 24,
+  "expected_tests": [
+    "mass_temperature_requires_runtime_context",
+    "mass_pressure_requires_runtime_context",
+    "mass_ph_requires_runtime_context",
+    "mass_ionic_strength_requires_runtime_context",
+    "mass_medium_requires_runtime_context",
+    "cp_temperature_requires_runtime_context",
+    "cp_pressure_requires_runtime_context",
+    "cp_ph_requires_runtime_context",
+    "cp_ionic_strength_requires_runtime_context",
+    "cp_medium_requires_runtime_context",
+    "density_temperature_requires_runtime_context",
+    "density_pressure_requires_runtime_context",
+    "density_ph_requires_runtime_context",
+    "density_ionic_strength_requires_runtime_context",
+    "density_medium_requires_runtime_context",
+    "mass_condition_phase_conflict_refuses",
+    "cp_condition_phase_conflict_refuses",
+    "density_condition_phase_conflict_refuses",
+    "canonical_phase_consistent_unbounded_records_preserve_all_values",
+    "explicit_null_constraints_and_notes_preserve_all_values",
+    "omitted_conditions_use_unbounded_default_and_preserve_all_values",
+    "null_condition_phase_preserves_all_values",
+    "excluded_conditional_foreign_phase_records_preserve_all_values",
+    "conditional_typed_and_pack_documents_preserve_complete_metadata"
+  ],
+  "controls": [
+    {
+      "name": "mass_temperature_requires_runtime_context",
+      "expectation": "typed validation and complete pack DTO retention succeed; shared selector, direct runtime and decoded-pack runtime explicitly refuse species/property/constraint",
+      "property": "molar_mass",
+      "constraint": "temperature"
+    },
+    {
+      "name": "mass_pressure_requires_runtime_context",
+      "expectation": "typed validation and complete pack DTO retention succeed; shared selector, direct runtime and decoded-pack runtime explicitly refuse species/property/constraint",
+      "property": "molar_mass",
+      "constraint": "pressure"
+    },
+    {
+      "name": "mass_ph_requires_runtime_context",
+      "expectation": "typed validation and complete pack DTO retention succeed; shared selector, direct runtime and decoded-pack runtime explicitly refuse species/property/constraint",
+      "property": "molar_mass",
+      "constraint": "ph"
+    },
+    {
+      "name": "mass_ionic_strength_requires_runtime_context",
+      "expectation": "typed validation and complete pack DTO retention succeed; shared selector, direct runtime and decoded-pack runtime explicitly refuse species/property/constraint",
+      "property": "molar_mass",
+      "constraint": "ionic_strength"
+    },
+    {
+      "name": "mass_medium_requires_runtime_context",
+      "expectation": "typed validation and complete pack DTO retention succeed; shared selector, direct runtime and decoded-pack runtime explicitly refuse species/property/constraint",
+      "property": "molar_mass",
+      "constraint": "medium"
+    },
+    {
+      "name": "cp_temperature_requires_runtime_context",
+      "expectation": "typed validation and complete pack DTO retention succeed; shared selector, direct runtime and decoded-pack runtime explicitly refuse species/property/constraint",
+      "property": "molar_heat_capacity",
+      "constraint": "temperature"
+    },
+    {
+      "name": "cp_pressure_requires_runtime_context",
+      "expectation": "typed validation and complete pack DTO retention succeed; shared selector, direct runtime and decoded-pack runtime explicitly refuse species/property/constraint",
+      "property": "molar_heat_capacity",
+      "constraint": "pressure"
+    },
+    {
+      "name": "cp_ph_requires_runtime_context",
+      "expectation": "typed validation and complete pack DTO retention succeed; shared selector, direct runtime and decoded-pack runtime explicitly refuse species/property/constraint",
+      "property": "molar_heat_capacity",
+      "constraint": "ph"
+    },
+    {
+      "name": "cp_ionic_strength_requires_runtime_context",
+      "expectation": "typed validation and complete pack DTO retention succeed; shared selector, direct runtime and decoded-pack runtime explicitly refuse species/property/constraint",
+      "property": "molar_heat_capacity",
+      "constraint": "ionic_strength"
+    },
+    {
+      "name": "cp_medium_requires_runtime_context",
+      "expectation": "typed validation and complete pack DTO retention succeed; shared selector, direct runtime and decoded-pack runtime explicitly refuse species/property/constraint",
+      "property": "molar_heat_capacity",
+      "constraint": "medium"
+    },
+    {
+      "name": "density_temperature_requires_runtime_context",
+      "expectation": "typed validation and complete pack DTO retention succeed; shared selector, direct runtime and decoded-pack runtime explicitly refuse species/property/constraint",
+      "property": "mass_density",
+      "constraint": "temperature"
+    },
+    {
+      "name": "density_pressure_requires_runtime_context",
+      "expectation": "typed validation and complete pack DTO retention succeed; shared selector, direct runtime and decoded-pack runtime explicitly refuse species/property/constraint",
+      "property": "mass_density",
+      "constraint": "pressure"
+    },
+    {
+      "name": "density_ph_requires_runtime_context",
+      "expectation": "typed validation and complete pack DTO retention succeed; shared selector, direct runtime and decoded-pack runtime explicitly refuse species/property/constraint",
+      "property": "mass_density",
+      "constraint": "ph"
+    },
+    {
+      "name": "density_ionic_strength_requires_runtime_context",
+      "expectation": "typed validation and complete pack DTO retention succeed; shared selector, direct runtime and decoded-pack runtime explicitly refuse species/property/constraint",
+      "property": "mass_density",
+      "constraint": "ionic_strength"
+    },
+    {
+      "name": "density_medium_requires_runtime_context",
+      "expectation": "typed validation and complete pack DTO retention succeed; shared selector, direct runtime and decoded-pack runtime explicitly refuse species/property/constraint",
+      "property": "mass_density",
+      "constraint": "medium"
+    },
+    {
+      "name": "mass_condition_phase_conflict_refuses",
+      "expectation": "selected row solid with conditions gas refuses at selector/direct/decoded-pack runtime; generic typed phase consistency not asserted",
+      "property": "molar_mass"
+    },
+    {
+      "name": "cp_condition_phase_conflict_refuses",
+      "expectation": "selected row solid with conditions gas refuses at selector/direct/decoded-pack runtime; generic typed phase consistency not asserted",
+      "property": "molar_heat_capacity"
+    },
+    {
+      "name": "density_condition_phase_conflict_refuses",
+      "expectation": "selected row solid with conditions gas refuses at selector/direct/decoded-pack runtime; generic typed phase consistency not asserted",
+      "property": "mass_density"
+    },
+    {
+      "name": "canonical_phase_consistent_unbounded_records_preserve_all_values",
+      "expectation": "supported typed/pack metadata; positive runtime cases preserve all186 scalar triples/phase and47 zeroCp rows; final DTO-only control asserts complete serialized metadata equality"
+    },
+    {
+      "name": "explicit_null_constraints_and_notes_preserve_all_values",
+      "expectation": "supported typed/pack metadata; positive runtime cases preserve all186 scalar triples/phase and47 zeroCp rows; final DTO-only control asserts complete serialized metadata equality"
+    },
+    {
+      "name": "omitted_conditions_use_unbounded_default_and_preserve_all_values",
+      "expectation": "supported typed/pack metadata; positive runtime cases preserve all186 scalar triples/phase and47 zeroCp rows; final DTO-only control asserts complete serialized metadata equality"
+    },
+    {
+      "name": "null_condition_phase_preserves_all_values",
+      "expectation": "supported typed/pack metadata; positive runtime cases preserve all186 scalar triples/phase and47 zeroCp rows; final DTO-only control asserts complete serialized metadata equality"
+    },
+    {
+      "name": "excluded_conditional_foreign_phase_records_preserve_all_values",
+      "expectation": "supported typed/pack metadata; positive runtime cases preserve all186 scalar triples/phase and47 zeroCp rows; final DTO-only control asserts complete serialized metadata equality"
+    },
+    {
+      "name": "conditional_typed_and_pack_documents_preserve_complete_metadata",
+      "expectation": "supported typed/pack metadata; positive runtime cases preserve all186 scalar triples/phase and47 zeroCp rows; final DTO-only control asserts complete serialized metadata equality"
+    }
+  ],
+  "source_sha256": {
+    "data/registry/registry-source-v1.json": "48487e1940c5e0122207d352c78e4377f8f7b47d421be2f78d62b61a096c3774",
+    "crates/kerotakis-data/src/runtime_scalar_records.rs": "4909a70257b2383b0d083149b397393128980df725ab117565e5cf6fc29af75d",
+    "crates/kerotakis-data/src/schema.rs": "b00a546e7866824df27b3319a75821ba651749d138ba6cb076ffa1d3ce8170a0",
+    "crates/kerotakis-data/src/validate.rs": "710775a3fbc171cf67e82583f1136a5153a5956a20496f5e56d895d87331ba48",
+    "crates/kerotakis-core/src/species_loader.rs": "b8a92e8a496d88dd64b500d0820dc0ddb135cd64f0c51af095e9a17320fe8d29",
+    "crates/kerotakis-core/build.rs": "9b8c83ba61aba9006b5eb6a51b0d7d558c9e37fc3ce5c64ece8ffcd49b30819e"
+  },
+  "canonical_metadata_inventory": {
+    "species": 186,
+    "mandatory_records": 558,
+    "non_null_known_context_constraints": 0,
+    "condition_phase_conflicts": 0,
+    "zero_fallback_cp_rows": 47
+  },
+  "policy": "Only selected mandatory runtime fallback records: no temperature/pressure/ph/ionic_strength/medium context is supplied, so any non-null known constraint must explicitly refuse. Non-null condition phase must match selected record phase. Absent/default/null fields and notes remain supported. Conditional typed documents and pack DTO metadata remain valid; excluded foreign-phase records are not prohibited.",
+  "limits": "No generated build-path execution in this Rust fixture; generator controls require a separately frozen collector. No empirical or blind chemistry forecasts, whole-schema validation, optional-property, polynomial, unknown/malformed condition, medium vocabulary or general typed phase-consistency contract."
+}

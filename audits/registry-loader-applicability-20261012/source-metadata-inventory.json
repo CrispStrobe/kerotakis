@@ -1,0 +1,13 @@
+{
+  "source": "093db6c9a9e64f1d704ded354685cee4ded6a9ec",
+  "source_tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+  "registry_sha256": "48487e1940c5e0122207d352c78e4377f8f7b47d421be2f78d62b61a096c3774",
+  "mandatory_rows": 558,
+  "species": 186,
+  "nonnull_conditions_fields": {
+    "phase": 558
+  },
+  "phase_conflicts": [],
+  "contextual_constraints": [],
+  "scope": "Exact-source metadata inventory only; no baseline test execution or new scientific measurements."
+}

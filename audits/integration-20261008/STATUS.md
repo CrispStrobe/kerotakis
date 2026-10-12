@@ -1,5 +1,10 @@
 # Integration checkpoint — 2026-10-10
 
+## Applicability preparation — 2026-10-12
+
+[26 mandatory fallback controls](../registry-loader-applicability-20261012/README.md) are frozen on exact accepted main093 before execution. The inventory covers558 mandatory records/186 species, with matching phase metadata and no other non-null applicability constraints. The proposed narrow policy preserves valid conditional typed documents and pack metadata, while refusing selected context-dependent runtime fallbacks when construction supplies no usable context. Two separate route witnesses avoid the original negatives' selector-first limitation. Baseline tests, generator controls, any repair and its acceptance remain pending; no new demonstrated failure or closure is claimed.
+
+
 ## Current registry integration update — 2026-10-12
 
 All three mandatory runtime registry repairs are now on main `093db6c9`: [scalar bounds PR778](../registry-loader-properties-20261011/main-tree-equality.json), [unit normalization PR779](../registry-loader-units-20261011/main-tree-equality.json) and [phase selection PR780](../registry-loader-phase-selection-20261011/main-tree-equality.json). Each has its own complete CI, both exact native inventories, full33 chemistry jobs/every declared step, final fresh premerge guards and independently verified actual parents/tree. Original native contexts, uncaptured hosted-lock qualifications and scientific forecast limitations remain explicit.

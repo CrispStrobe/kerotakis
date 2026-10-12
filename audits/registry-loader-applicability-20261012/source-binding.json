@@ -1,0 +1,17 @@
+{
+  "source": "093db6c9a9e64f1d704ded354685cee4ded6a9ec",
+  "source_tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+  "compared_tracked_regular_files": 2251,
+  "gitlinks_recorded_not_fresh_contents_compared": [
+    {
+      "path": "sundials-kinetics-rs",
+      "commit": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa"
+    },
+    {
+      "path": "vendor/iphreeqc",
+      "commit": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+    }
+  ],
+  "offline_lock_sha256": "fef8a64257653da8bd3fcff50d89e69f5fb848952a6e8eaa827667427942ddfe",
+  "scope": "LOCAL baseline source comparison; independently generated offline lock and Gitlink-content limitation retained."
+}

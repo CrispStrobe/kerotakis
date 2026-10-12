@@ -1,0 +1,104 @@
+{
+  "status": "Preparatory source/fixture review only; compilation and all test execution remain pending",
+  "reviewed_at_utc": "2026-10-12T04:52:16.589556+00:00",
+  "source": "093db6c9a9e64f1d704ded354685cee4ded6a9ec",
+  "source_tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+  "fixtures": [
+    {
+      "freeze_path": "audits/registry-loader-applicability-20261012/freeze.json",
+      "freeze_sha256": "53566e8135c88580e938d4abddd69f3515ea6b660fe9d773e4da140fb0fc6e64",
+      "fixture_path": "audits/registry-loader-applicability-20261012/fixtures/registry_loader_applicability_contracts.rs",
+      "fixture_sha256": "8041b163ca3b19ddc325eff1b589ab7351a7b60d475066f5295ee6a81cec1ada",
+      "test_count": 24,
+      "test_identities": [
+        "mass_temperature_requires_runtime_context",
+        "mass_pressure_requires_runtime_context",
+        "mass_ph_requires_runtime_context",
+        "mass_ionic_strength_requires_runtime_context",
+        "mass_medium_requires_runtime_context",
+        "cp_temperature_requires_runtime_context",
+        "cp_pressure_requires_runtime_context",
+        "cp_ph_requires_runtime_context",
+        "cp_ionic_strength_requires_runtime_context",
+        "cp_medium_requires_runtime_context",
+        "density_temperature_requires_runtime_context",
+        "density_pressure_requires_runtime_context",
+        "density_ph_requires_runtime_context",
+        "density_ionic_strength_requires_runtime_context",
+        "density_medium_requires_runtime_context",
+        "mass_condition_phase_conflict_refuses",
+        "cp_condition_phase_conflict_refuses",
+        "density_condition_phase_conflict_refuses",
+        "canonical_phase_consistent_unbounded_records_preserve_all_values",
+        "explicit_null_constraints_and_notes_preserve_all_values",
+        "omitted_conditions_use_unbounded_default_and_preserve_all_values",
+        "null_condition_phase_preserves_all_values",
+        "excluded_conditional_foreign_phase_records_preserve_all_values",
+        "conditional_typed_and_pack_documents_preserve_complete_metadata"
+      ]
+    },
+    {
+      "freeze_path": "audits/registry-loader-applicability-20261012/runtime-route-freeze.json",
+      "freeze_sha256": "cd7f4a16f4d5b6d8c5f2899fc083ee01e5572cb5b395540474ee3908d9e0a924",
+      "fixture_path": "audits/registry-loader-applicability-20261012/fixtures/registry_applicability_runtime_route_contracts.rs",
+      "fixture_sha256": "e4aa286f68521c137b004a8398b6410457df124eb4e624c05838aeb4824fa2e7",
+      "test_count": 2,
+      "test_identities": [
+        "direct_runtime_temperature_constraint_refuses_without_selector_precheck",
+        "decoded_pack_runtime_temperature_constraint_refuses_without_selector_precheck"
+      ]
+    }
+  ],
+  "combined_frozen_test_count": 26,
+  "canonical_registry_sha256": "48487e1940c5e0122207d352c78e4377f8f7b47d421be2f78d62b61a096c3774",
+  "independently_git_derived_metadata": {
+    "species": 186,
+    "mandatory_rows": 558,
+    "mandatory_rows_per_property": {
+      "molar_mass": 186,
+      "molar_heat_capacity": 186,
+      "mass_density": 186
+    },
+    "nonnull_conditions_fields": {
+      "phase": 558
+    },
+    "phase_conflicts": [],
+    "contextual_constraints": [],
+    "zero_fallback_cp_rows": 47,
+    "zero_fallback_cp_phase": "aqueous"
+  },
+  "local_source_binding_sha256": "7a3998834457a4eb1afb131e249752912686a046d149bb38c67b5d5451a624e4",
+  "local_metadata_inventory_sha256": "797af7e340206dadbc9751e8715ebc6060df83e96f0c4f1d601c4ae9ec90151c",
+  "source_binding_review": {
+    "regular_git_source_file_count": 2251,
+    "gitlinks": [
+      {
+        "path": "sundials-kinetics-rs",
+        "commit": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa"
+      },
+      {
+        "path": "vendor/iphreeqc",
+        "commit": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+      }
+    ],
+    "offline_lock_sha256": "fef8a64257653da8bd3fcff50d89e69f5fb848952a6e8eaa827667427942ddfe",
+    "independently_checked": "Pinned Git source/tree, regular-file inventory count, gitlink identities, all six frozen source-file hashes and complete canonical JSON metadata inventory.",
+    "not_independently_repeated": "The preparatory local receipt reports byte comparison of all2251 working source files; this bounded review did not repeat that full local comparison or inspect gitlink working contents or regenerated dependency lock contents."
+  },
+  "route_ordering": {
+    "original24": "15 constraint controls establish typed validity and full serialized pack DTO retention before selector/direct/decoded-pack runtime sequence;3 phase-conflict controls enter selector first. If selector admits unexpectedly, assertion aborts before the later runtime routes, so original18 failures alone cannot independently demonstrate direct/pack-runtime outcomes.",
+    "supplement2": "Two distinct standalone Cp-temperature witnesses establish valid conditional typed/pack metadata first, then independently invoke either direct parse_document or decoded-pack parse_document without selector precheck.",
+    "positive_controls": "Five supported runtime controls compare all186 scalar triples/phases and47 zeroCp rows; sixth positive control requires full conditional typed/pack DTO preservation."
+  },
+  "policy": "Selected mandatory fallback constants must be unbounded in temperature/pressure/ph/ionic_strength/medium because no such runtime context is supplied; any non-null known constraint refuses explicitly by species/property/field. Non-null conditions.phase must match selected row phase. Absent/default/null fields and notes remain supported; excluded foreign-phase conditional records stay valid. Typed validation and pack DTO admission remain valid for well-formed conditional data.",
+  "limitations": [
+    "Source-informed engineering contracts, not blind chemistry experiments or new scientific measurements.",
+    "No baseline or candidate outcomes claimed; rustfmt and static inventory only.",
+    "Rust controls do not exercise compiled generated-registry build artifact; a separate prospective generator fixture is required.",
+    "No whole-schema validity, optional-property/polynomial applicability, unknown condition fields, malformed condition containers, medium vocabulary or general typed row/condition-phase consistency contract.",
+    "No context-aware temperature/pressure/pH/ionic-strength resolver is introduced or proved.",
+    "Local offline dependency lock and uninspected gitlink content are qualified; no equivalence to hosted dependency resolution claimed."
+  ],
+  "accepted_runtime_repair": false,
+  "execution_claim": false
+}

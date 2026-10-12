@@ -1,5 +1,10 @@
 # Chemistry audit: current state, 2026-10-05
 
+## Applicability preparation — 2026-10-12
+
+[26 mandatory fallback controls](../audits/registry-loader-applicability-20261012/README.md) are frozen on exact accepted main093 before execution. The inventory covers558 mandatory records/186 species, with matching phase metadata and no other non-null applicability constraints. The proposed narrow policy preserves valid conditional typed documents and pack metadata, while refusing selected context-dependent runtime fallbacks when construction supplies no usable context. Two separate route witnesses avoid the original negatives' selector-first limitation. Baseline tests, generator controls, any repair and its acceptance remain pending; no new demonstrated failure or closure is claimed.
+
+
 ## Current registry integration update — 2026-10-12
 
 Main `093db6c9` now contains the independently accepted mandatory scalar-bound, unit-normalization and phase-selection repairs. [PR779 acceptance](../audits/registry-loader-units-20261011/main-tree-equality.json) and [PR780 acceptance](../audits/registry-loader-phase-selection-20261011/main-tree-equality.json) bind each own complete CI/native/full33 fleet and verified actual merge parents/tree; [PR778 acceptance](../audits/registry-loader-properties-20261011/main-tree-equality.json) remains unchanged. No new-base rerun or independently captured hosted lock is claimed.
