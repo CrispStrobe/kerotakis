@@ -1,5 +1,10 @@
 # Integration checkpoint — 2026-10-10
 
+## Applicability repair prepared as PR781 — 2026-10-12
+
+[DraftPR781](https://github.com/CrispStrobe/kerotakis/pull/781) applies the narrow shared-selector applicability rule and ports two unchanged frozen fixtures. The original hosted26-control baseline is independently verified at6 pass/20 fail, with actual source/lock/raw-log bindings and standalone direct/decoded-pack failures; original24 generator cases remain6 pass/18 fail. OwnCI38216841844/native404/37fixtures/fullfleet38216841880 and paired validation38217196803 are pending. Actual candidate50/50, repair acceptance and main integration are not yet claimed. Earlier queued-baseline/unapplied-proposal updates below are history.
+
+
 ## Applicability generator baseline — 2026-10-12
 
 [The first generator baseline](../registry-loader-applicability-20261012/README.md) is independently reviewed:6 pass/18 fail across24 frozen cases. All selected context-constrained or condition-phase-conflicting negative inputs were silently admitted and emitted species output. The six compatibility cases preserve186 scalar triples/phases and47 zero-Cp rows. Execution used the previously observed E644 artifact with tracked tree equal to main093; no rebuild is claimed. The separate26 Rust controls remain unexecuted. A narrow candidate patch is prepared but unapplied/uncompiled; original Rust baseline, paired repair validation and own integration gates remain pending. Earlier preparation-only statements below are history.

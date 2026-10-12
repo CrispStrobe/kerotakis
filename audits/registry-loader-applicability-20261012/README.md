@@ -1,7 +1,8 @@
 # Mandatory runtime fallback applicability — frozen controls
 
-Status: **Generated baseline: 6 pass / 18 fail across 24 frozen cases; the
-separate 26 Rust controls remain unexecuted.** These are source-informed
+Status: **Original Rust baseline: 6 pass / 20 fail across 26 controls; generated
+baseline: 6 pass / 18 fail across 24 cases. The narrow repair is pushed as draft
+PR781; paired candidate and integration gates remain pending.** These are source-informed
 engineering controls. Source is accepted main
 `093db6c9a9e64f1d704ded354685cee4ded6a9ec`, tree
 `22ab9d3ad14b824274c6c4d7c00e780808fc857f`.
@@ -16,6 +17,34 @@ not a captured hosted lock or authoritative dependency reproduction.
 
 [Independent preparatory review](preparatory-review.json) verifies the frozen
 identities and exact-source metadata; it does not claim execution.
+
+## Current repair progress
+
+[Original hosted baseline review](hosted-original-baseline-review.json) verifies
+all26 exact unfiltered test identities,6 passes/20 failures, actual Cargo exit101,
+all2,251 source-file hashes and the captured hosted dependency lock. The two
+standalone direct and decoded-pack runtime witnesses both fail on original
+source. The six compatibility/metadata controls pass. The original failures and
+all frozen fixtures remain unchanged.
+
+[Draft PR781](https://github.com/CrispStrobe/kerotakis/pull/781) applies the reviewed
+patch on exact main093 and ports the two fixtures byte-for-byte. Its head is
+`62c70f634213bbad68a2ef3d99971625f9f0a2db`, tree
+`748d01a09cd8f589068a6d8f798e95c98498f5aa`;
+[the three-file source binding](repair-source-preparation.json) verifies scope.
+This leaves the broad audit branch and protected original baseline untouched.
+Earlier unapplied-proposal statements below describe the preparation stage.
+
+[Paired validation run38217196803](https://github.com/CrispStrobe/kerotakis/actions/runs/38217196803)
+is dispatched for all26 Rust controls plus24 unchanged generator cases. It must
+observe a new build-script compilation, preserve its artifact/dependency file,
+and bind its source and actual hosted lock. Prior observed baseline artifacts
+cannot certify the candidate. [The dispatch receipt](candidate-validation-dispatch.json)
+also identifies ownCI38216841844 and ownfleet38216841880. The source-derived
+[404-function/37-fixture native plan](native-controls-plan-62c70f63.json) includes
+all378 prior focused functions and the26 new ports. Full affected libraries and
+registry admission remain separate required verification. No passing candidate
+outcomes, merged-main behavior or repair acceptance is claimed yet.
 
 ## Frozen policy and limits
 

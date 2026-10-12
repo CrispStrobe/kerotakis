@@ -1,0 +1,21 @@
+{
+  "pr": 781,
+  "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/781",
+  "candidate_head": "62c70f634213bbad68a2ef3d99971625f9f0a2db",
+  "candidate_tree": "748d01a09cd8f589068a6d8f798e95c98498f5aa",
+  "paired_run": 38217196803,
+  "paired_run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38217196803",
+  "paired_workflow_head": "f51e8152cfd879e359eaae248afb796495acceb0",
+  "status": "queued",
+  "conclusion": null,
+  "collector_sha256": "ed40e29d2cf2f992b1cd93ac09e002e45d710e86acb0d419a11b8d8079536ac6",
+  "workflow_sha256": "0d4db2ca1a4dff05d6c342dfd91c9fc74742acde200e6206f6b6ec95a373bc37",
+  "own_ci_run": 38216841844,
+  "own_fleet_run": 38216841880,
+  "expected_paired_controls": 50,
+  "expected_native_functions": 404,
+  "expected_native_fixtures": 37,
+  "accepted_repair": false,
+  "accepted_integration": false,
+  "scope": "Three-file main-based repair pushed as draftPR781. Own CI/native/full fleet and separate paired26Rust+24newly compiled generator validation pending."
+}

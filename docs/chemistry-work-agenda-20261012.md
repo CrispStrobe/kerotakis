@@ -2,8 +2,9 @@
 
 The primary completion target is the demonstrated mandatory fallback
 applicability gap. Accepted main is `093db6c9`; the preserved generator baseline
-has **6 passing and 18 failing cases**. The proposed repair is reviewed but
-unapplied and uncompiled. [Evidence and exact resume instructions](../audits/registry-loader-applicability-20261012/README.md)
+has **6 passing and 18 failing cases**. The original hosted Rust baseline has6 passes/20 failures, and the narrow
+repair is pushed as draftPR781. Paired candidate and own integration gates
+remain pending. [Evidence and exact resume instructions](../audits/registry-loader-applicability-20261012/README.md)
 remain the source of truth.
 
 ## 1. Capture the original Rust baseline without altering its source

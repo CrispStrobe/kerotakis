@@ -1,5 +1,10 @@
 # Chemistry audit: current state, 2026-10-05
 
+## Applicability repair prepared as PR781 — 2026-10-12
+
+[DraftPR781](https://github.com/CrispStrobe/kerotakis/pull/781) applies the narrow shared-selector applicability rule and ports two unchanged frozen fixtures. The original hosted26-control baseline is independently verified at6 pass/20 fail, with actual source/lock/raw-log bindings and standalone direct/decoded-pack failures; original24 generator cases remain6 pass/18 fail. OwnCI38216841844/native404/37fixtures/fullfleet38216841880 and paired validation38217196803 are pending. Actual candidate50/50, repair acceptance and main integration are not yet claimed. Earlier queued-baseline/unapplied-proposal updates below are history.
+
+
 ## Hosted applicability collection and today’s agenda — 2026-10-12
 
 [Run38213787330](https://github.com/CrispStrobe/kerotakis/actions/runs/38213787330) is dispatched to collect the unchanged26 Rust baseline controls on exact main093, independently of the audit workflow source. It was queued at dispatch; no test outcomes or repair acceptance are claimed. The dedicated job preserves actual source and dependency evidence, and successful capture is distinct from passing contracts. [Today’s agenda](chemistry-work-agenda-20261012.md) prioritizes scoped applicability closure, remaining final-safety coverage, historical regression binding restoration and measured release optimization.
