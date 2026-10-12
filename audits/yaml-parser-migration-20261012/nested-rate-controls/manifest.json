@@ -1,0 +1,386 @@
+{
+  "schema_version": 1,
+  "source": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "source_tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "source_sha256": {
+    "crates/kerotakis-cli/src/main.rs": "01f522776015dc122e843985bde84406218ce4fa8f8487a6cd14766337dc739a",
+    "crates/kerotakis-core/src/kinetics/mechanism.rs": "b074b5f1c16508765cdff6e2db280537e37c586ea7f424a08760c905edac9640"
+  },
+  "candidate_binary_sha256": "a75a87b2669cdeb6f9e0c8f6fad0829f103475992f7d7649cadab072d9fcbad5",
+  "collector_sha256": "69b3c7c4ea1ae1f459e2bd83a9dc5953cc94943db0a622ad0508ceacb6bfb4ba",
+  "expected_count": 12,
+  "expected_ids": [
+    "valid-elementary",
+    "valid-falloff-troe",
+    "valid-plog",
+    "refuse-elementary-uppercase-B",
+    "refuse-elementary-unknown-units",
+    "refuse-elementary-lowercase-ea-missing-required",
+    "refuse-elementary-misplaced-orders",
+    "refuse-falloff-high-unknown-negative-A",
+    "refuse-falloff-low-unknown-units",
+    "refuse-troe-lowercase-t2",
+    "refuse-plog-entry-unknown-units",
+    "refuse-plog-entry-misplaced-orders"
+  ],
+  "inputs": {
+    "valid-elementary": {
+      "text": "description: synthetic nested rate witness\nunits: {length: cm, quantity: mol, activation-energy: J/mol, pressure: Pa}\nphases:\n- name: gas\n  thermo: ideal-gas\n  species: all\n  reactions: all\nspecies:\n- name: A\n  composition: {H: 2}\n- name: B\n  composition: {H: 2}\nreactions:\n- equation: A => B\n  rate-constant: {A: 1.0, b: 0.0, Ea: 0.0}\n",
+      "sha256": "13b168cd534c2d8d3720f6e402ceab2ecf38515884a0f9251c39e48451e0e722"
+    },
+    "valid-falloff-troe": {
+      "text": "description: synthetic nested rate witness\nunits: {length: cm, quantity: mol, activation-energy: J/mol, pressure: Pa}\nphases:\n- name: gas\n  thermo: ideal-gas\n  species: all\n  reactions: all\nspecies:\n- name: A\n  composition: {H: 2}\n- name: B\n  composition: {H: 2}\nreactions:\n- equation: A (+M) => B (+M)\n  type: falloff\n  high-P-rate-constant: {A: 1.0, b: 0.0, Ea: 0.0}\n  low-P-rate-constant: {A: 2.0, b: 0.0, Ea: 0.0}\n  Troe: {A: 0.5, T3: 1000.0, T1: 10000.0, T2: 5000.0}\n",
+      "sha256": "061e42fa6afd1537aa76dd837884a952860de637773c3b5fa1a4d8395a385e0c"
+    },
+    "valid-plog": {
+      "text": "description: synthetic nested rate witness\nunits: {length: cm, quantity: mol, activation-energy: J/mol, pressure: Pa}\nphases:\n- name: gas\n  thermo: ideal-gas\n  species: all\n  reactions: all\nspecies:\n- name: A\n  composition: {H: 2}\n- name: B\n  composition: {H: 2}\nreactions:\n- equation: A => B\n  type: pressure-dependent-Arrhenius\n  rate-constants:\n  - {P: 100000.0, A: 1.0, b: 0.0, Ea: 0.0}\n  - {P: 200000.0, A: 2.0, b: 0.0, Ea: 0.0}\n",
+      "sha256": "c5894a30bd319e285f863c9a7700bad6f834ce465c8c5ecbd8620473ad616c7b"
+    },
+    "refuse-elementary-uppercase-B": {
+      "text": "description: synthetic nested rate witness\nunits: {length: cm, quantity: mol, activation-energy: J/mol, pressure: Pa}\nphases:\n- name: gas\n  thermo: ideal-gas\n  species: all\n  reactions: all\nspecies:\n- name: A\n  composition: {H: 2}\n- name: B\n  composition: {H: 2}\nreactions:\n- equation: A => B\n  rate-constant: {A: 1.0, B: 1.0, Ea: 0.0}\n",
+      "sha256": "c2ab2ee67040a6ab43d01c298743d1cb833d0082aaff612a4710042ada86ae43"
+    },
+    "refuse-elementary-unknown-units": {
+      "text": "description: synthetic nested rate witness\nunits: {length: cm, quantity: mol, activation-energy: J/mol, pressure: Pa}\nphases:\n- name: gas\n  thermo: ideal-gas\n  species: all\n  reactions: all\nspecies:\n- name: A\n  composition: {H: 2}\n- name: B\n  composition: {H: 2}\nreactions:\n- equation: A => B\n  rate-constant: {A: 1.0, b: 0.0, Ea: 0.0, units: {time: min}}\n",
+      "sha256": "b16a003c0b2a6754b0c8c76899bbe49692e5c0703070d212709899a88d784fe8"
+    },
+    "refuse-elementary-lowercase-ea-missing-required": {
+      "text": "description: synthetic nested rate witness\nunits: {length: cm, quantity: mol, activation-energy: J/mol, pressure: Pa}\nphases:\n- name: gas\n  thermo: ideal-gas\n  species: all\n  reactions: all\nspecies:\n- name: A\n  composition: {H: 2}\n- name: B\n  composition: {H: 2}\nreactions:\n- equation: A => B\n  rate-constant: {A: 1.0, b: 0.0, ea: 0.0}\n",
+      "sha256": "575db54e98e632e85ae1c1dd0c56ae61fe2f3f256d9f669477524a621f57290e"
+    },
+    "refuse-elementary-misplaced-orders": {
+      "text": "description: synthetic nested rate witness\nunits: {length: cm, quantity: mol, activation-energy: J/mol, pressure: Pa}\nphases:\n- name: gas\n  thermo: ideal-gas\n  species: all\n  reactions: all\nspecies:\n- name: A\n  composition: {H: 2}\n- name: B\n  composition: {H: 2}\nreactions:\n- equation: A => B\n  rate-constant: {A: 1.0, b: 0.0, Ea: 0.0, orders: {A: 2.0}}\n",
+      "sha256": "7e99ba7cd8384e1088dd14df5f74551015b9e89453c5e300d14cd8cf03e0473a"
+    },
+    "refuse-falloff-high-unknown-negative-A": {
+      "text": "description: synthetic nested rate witness\nunits: {length: cm, quantity: mol, activation-energy: J/mol, pressure: Pa}\nphases:\n- name: gas\n  thermo: ideal-gas\n  species: all\n  reactions: all\nspecies:\n- name: A\n  composition: {H: 2}\n- name: B\n  composition: {H: 2}\nreactions:\n- equation: A (+M) => B (+M)\n  type: falloff\n  high-P-rate-constant: {A: 1.0, b: 0.0, Ea: 0.0, negative-A: true}\n  low-P-rate-constant: {A: 2.0, b: 0.0, Ea: 0.0}\n  Troe: {A: 0.5, T3: 1000.0, T1: 10000.0, T2: 5000.0}\n",
+      "sha256": "47efc343c01301e0f2f911783b977ebfc2257b6e2d6113f28aa7db4cc2e7662a"
+    },
+    "refuse-falloff-low-unknown-units": {
+      "text": "description: synthetic nested rate witness\nunits: {length: cm, quantity: mol, activation-energy: J/mol, pressure: Pa}\nphases:\n- name: gas\n  thermo: ideal-gas\n  species: all\n  reactions: all\nspecies:\n- name: A\n  composition: {H: 2}\n- name: B\n  composition: {H: 2}\nreactions:\n- equation: A (+M) => B (+M)\n  type: falloff\n  high-P-rate-constant: {A: 1.0, b: 0.0, Ea: 0.0}\n  low-P-rate-constant: {A: 2.0, b: 0.0, Ea: 0.0, units: {quantity: kmol}}\n  Troe: {A: 0.5, T3: 1000.0, T1: 10000.0, T2: 5000.0}\n",
+      "sha256": "ea90255dfd15498e3d7b687bc80d3460134d69352d4c2130be7cb210925b6c04"
+    },
+    "refuse-troe-lowercase-t2": {
+      "text": "description: synthetic nested rate witness\nunits: {length: cm, quantity: mol, activation-energy: J/mol, pressure: Pa}\nphases:\n- name: gas\n  thermo: ideal-gas\n  species: all\n  reactions: all\nspecies:\n- name: A\n  composition: {H: 2}\n- name: B\n  composition: {H: 2}\nreactions:\n- equation: A (+M) => B (+M)\n  type: falloff\n  high-P-rate-constant: {A: 1.0, b: 0.0, Ea: 0.0}\n  low-P-rate-constant: {A: 2.0, b: 0.0, Ea: 0.0}\n  Troe: {A: 0.5, T3: 1000.0, T1: 10000.0, t2: 5000.0}\n",
+      "sha256": "145e129ab167594a0fa79e98b4876f870e4ded2d136f011b19b550f114711515"
+    },
+    "refuse-plog-entry-unknown-units": {
+      "text": "description: synthetic nested rate witness\nunits: {length: cm, quantity: mol, activation-energy: J/mol, pressure: Pa}\nphases:\n- name: gas\n  thermo: ideal-gas\n  species: all\n  reactions: all\nspecies:\n- name: A\n  composition: {H: 2}\n- name: B\n  composition: {H: 2}\nreactions:\n- equation: A => B\n  type: pressure-dependent-Arrhenius\n  rate-constants:\n  - {P: 100000.0, A: 1.0, b: 0.0, Ea: 0.0, units: {pressure: atm}}\n  - {P: 200000.0, A: 2.0, b: 0.0, Ea: 0.0}\n",
+      "sha256": "ad833ceaed85d0392b604cc1b6e9f1acf85e96e814492b8b1897d72c0f03e619"
+    },
+    "refuse-plog-entry-misplaced-orders": {
+      "text": "description: synthetic nested rate witness\nunits: {length: cm, quantity: mol, activation-energy: J/mol, pressure: Pa}\nphases:\n- name: gas\n  thermo: ideal-gas\n  species: all\n  reactions: all\nspecies:\n- name: A\n  composition: {H: 2}\n- name: B\n  composition: {H: 2}\nreactions:\n- equation: A => B\n  type: pressure-dependent-Arrhenius\n  rate-constants:\n  - {P: 100000.0, A: 1.0, b: 0.0, Ea: 0.0}\n  - {P: 200000.0, A: 2.0, b: 0.0, Ea: 0.0, orders: {A: 2.0}}\n",
+      "sha256": "3930dce5577c6a389b67b5a7c25cac64b13415a4d748bf222eec86b3d72c3b99"
+    }
+  },
+  "cases": [
+    {
+      "id": "valid-elementary",
+      "input": "valid-elementary",
+      "args": [
+        "mechanism",
+        "inspect",
+        "@input",
+        "--json"
+      ],
+      "timeout_seconds": 20,
+      "expected_exit": 0,
+      "contract": "inspect_json",
+      "rationale": "Ordinary required A/Ea and optional b normalize without changing the one-reaction inventory.",
+      "expected_category": "successful full MechanismSummary",
+      "expected_json": {
+        "name": "synthetic nested rate witness",
+        "species": 2,
+        "reactions": 1,
+        "elements": [
+          "H"
+        ],
+        "reaction_details": [
+          {
+            "id": "reaction-1",
+            "equation": "A => B",
+            "total_order": 1.0,
+            "pre_exponential": 1.0,
+            "temperature_exponent": 0.0,
+            "activation_energy_j_per_mol": 0.0,
+            "rate_model": "elementary",
+            "low_pressure_pre_exponential": null,
+            "pressure_points_pa": [],
+            "reversible": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "valid-falloff-troe",
+      "input": "valid-falloff-troe",
+      "args": [
+        "mechanism",
+        "inspect",
+        "@input",
+        "--json"
+      ],
+      "timeout_seconds": 20,
+      "expected_exit": 0,
+      "contract": "inspect_json",
+      "rationale": "Valid high/low rates and all four Troe parameters retain modeled falloff admission.",
+      "expected_category": "successful full MechanismSummary",
+      "expected_json": {
+        "name": "synthetic nested rate witness",
+        "species": 2,
+        "reactions": 1,
+        "elements": [
+          "H"
+        ],
+        "reaction_details": [
+          {
+            "id": "reaction-1",
+            "equation": "A (+M) => B (+M)",
+            "total_order": 1.0,
+            "pre_exponential": 1.0,
+            "temperature_exponent": 0.0,
+            "activation_energy_j_per_mol": 0.0,
+            "rate_model": "troe",
+            "low_pressure_pre_exponential": 0.002,
+            "pressure_points_pa": [],
+            "reversible": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "valid-plog",
+      "input": "valid-plog",
+      "args": [
+        "mechanism",
+        "inspect",
+        "@input",
+        "--json"
+      ],
+      "timeout_seconds": 20,
+      "expected_exit": 0,
+      "contract": "inspect_json",
+      "rationale": "Two distinct pressures retain a valid flattened pressure-rate entry and sorted grid.",
+      "expected_category": "successful full MechanismSummary",
+      "expected_json": {
+        "name": "synthetic nested rate witness",
+        "species": 2,
+        "reactions": 1,
+        "elements": [
+          "H"
+        ],
+        "reaction_details": [
+          {
+            "id": "reaction-1",
+            "equation": "A => B",
+            "total_order": 1.0,
+            "pre_exponential": 1.0,
+            "temperature_exponent": 0.0,
+            "activation_energy_j_per_mol": 0.0,
+            "rate_model": "pressure_dependent_arrhenius",
+            "low_pressure_pre_exponential": null,
+            "pressure_points_pa": [
+              100000.0,
+              200000.0
+            ],
+            "reversible": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "refuse-elementary-uppercase-B",
+      "input": "refuse-elementary-uppercase-B",
+      "args": [
+        "mechanism",
+        "inspect",
+        "@input",
+        "--json"
+      ],
+      "timeout_seconds": 20,
+      "expected_exit": 1,
+      "contract": "refusal",
+      "rationale": "Unknown B must be refused rather than silently replacing the intended exponent with default b=0.",
+      "expected_category": "UnsupportedField for modeled nested key",
+      "stderr_contains": [
+        "kero mechanism:",
+        "unsupported",
+        "B"
+      ]
+    },
+    {
+      "id": "refuse-elementary-unknown-units",
+      "input": "refuse-elementary-unknown-units",
+      "args": [
+        "mechanism",
+        "inspect",
+        "@input",
+        "--json"
+      ],
+      "timeout_seconds": 20,
+      "expected_exit": 1,
+      "contract": "refusal",
+      "rationale": "Per-rate units are outside supported document units; do not silently ignore model-bearing scaling.",
+      "expected_category": "UnsupportedField for modeled nested key",
+      "stderr_contains": [
+        "kero mechanism:",
+        "unsupported",
+        "units"
+      ]
+    },
+    {
+      "id": "refuse-elementary-lowercase-ea-missing-required",
+      "input": "refuse-elementary-lowercase-ea-missing-required",
+      "args": [
+        "mechanism",
+        "inspect",
+        "@input",
+        "--json"
+      ],
+      "timeout_seconds": 20,
+      "expected_exit": 1,
+      "contract": "refusal",
+      "rationale": "UNCHANGED required-field control: Ea has no default, so lowercase ea leaves Ea missing. This does not forecast silently lost activation.",
+      "expected_category": "Yaml missing required field",
+      "stderr_contains": [
+        "kero mechanism:",
+        "missing field",
+        "Ea"
+      ]
+    },
+    {
+      "id": "refuse-elementary-misplaced-orders",
+      "input": "refuse-elementary-misplaced-orders",
+      "args": [
+        "mechanism",
+        "inspect",
+        "@input",
+        "--json"
+      ],
+      "timeout_seconds": 20,
+      "expected_exit": 1,
+      "contract": "refusal",
+      "rationale": "Orders belong to the reaction, not RawRate; refuse misplaced scientific meaning.",
+      "expected_category": "UnsupportedField for modeled nested key",
+      "stderr_contains": [
+        "kero mechanism:",
+        "unsupported",
+        "orders"
+      ]
+    },
+    {
+      "id": "refuse-falloff-high-unknown-negative-A",
+      "input": "refuse-falloff-high-unknown-negative-A",
+      "args": [
+        "mechanism",
+        "inspect",
+        "@input",
+        "--json"
+      ],
+      "timeout_seconds": 20,
+      "expected_exit": 1,
+      "contract": "refusal",
+      "rationale": "Unknown capability assertion in high-pressure RawRate must not disappear.",
+      "expected_category": "UnsupportedField for modeled nested key",
+      "stderr_contains": [
+        "kero mechanism:",
+        "unsupported",
+        "negative-A"
+      ]
+    },
+    {
+      "id": "refuse-falloff-low-unknown-units",
+      "input": "refuse-falloff-low-unknown-units",
+      "args": [
+        "mechanism",
+        "inspect",
+        "@input",
+        "--json"
+      ],
+      "timeout_seconds": 20,
+      "expected_exit": 1,
+      "contract": "refusal",
+      "rationale": "Low-pressure RawRate must independently refuse unsupported local units.",
+      "expected_category": "UnsupportedField for modeled nested key",
+      "stderr_contains": [
+        "kero mechanism:",
+        "unsupported",
+        "units"
+      ]
+    },
+    {
+      "id": "refuse-troe-lowercase-t2",
+      "input": "refuse-troe-lowercase-t2",
+      "args": [
+        "mechanism",
+        "inspect",
+        "@input",
+        "--json"
+      ],
+      "timeout_seconds": 20,
+      "expected_exit": 1,
+      "contract": "refusal",
+      "rationale": "Unknown t2 must be refused rather than dropping an intended optional T2 parameter.",
+      "expected_category": "UnsupportedField for modeled nested key",
+      "stderr_contains": [
+        "kero mechanism:",
+        "unsupported",
+        "t2"
+      ]
+    },
+    {
+      "id": "refuse-plog-entry-unknown-units",
+      "input": "refuse-plog-entry-unknown-units",
+      "args": [
+        "mechanism",
+        "inspect",
+        "@input",
+        "--json"
+      ],
+      "timeout_seconds": 20,
+      "expected_exit": 1,
+      "contract": "refusal",
+      "rationale": "RawPressureRate flattened RawRate must refuse unsupported local pressure units.",
+      "expected_category": "UnsupportedField for modeled nested key",
+      "stderr_contains": [
+        "kero mechanism:",
+        "unsupported",
+        "units"
+      ]
+    },
+    {
+      "id": "refuse-plog-entry-misplaced-orders",
+      "input": "refuse-plog-entry-misplaced-orders",
+      "args": [
+        "mechanism",
+        "inspect",
+        "@input",
+        "--json"
+      ],
+      "timeout_seconds": 20,
+      "expected_exit": 1,
+      "contract": "refusal",
+      "rationale": "A later flattened pressure entry must not silently swallow misplaced reaction orders.",
+      "expected_category": "UnsupportedField for modeled nested key",
+      "stderr_contains": [
+        "kero mechanism:",
+        "unsupported",
+        "orders"
+      ]
+    }
+  ],
+  "scope": "Prospective source-informed nested-rate CLI admission engineering controls; three positive witnesses, eight unknown-modeled-key refusals, one unchanged missing-Ea refusal. No execution performed when frozen.",
+  "limits": [
+    "Not blind chemistry evidence, physical calibration, rates/solver validation, or universal YAML conformance.",
+    "Unknown-field refusal expectations derive from the public supported-subset boundary; source inspection indicates missing capture on RawRate/RawTroe, but outcomes are not yet observed.",
+    "Original fifty, supplement twenty and existing fifteen CLI controls remain immutable and independent.",
+    "An unknown-field failure does not automatically prescribe a source change; adjudicate against contract and preserve first outcomes before repairs.",
+    "This collector requires the exact already-built candidate binary. A later repaired source needs a separate explicitly bound collector/manifest revision without rewriting first outcomes."
+  ],
+  "public_contract_references": [
+    "data/mechanisms/README.md",
+    "provenance/brd-040-cantera-audit.md",
+    "crates/kerotakis-core/src/kinetics/mechanism.rs",
+    "crates/kerotakis-cli/src/main.rs"
+  ]
+}
