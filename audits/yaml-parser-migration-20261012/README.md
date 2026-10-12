@@ -61,6 +61,13 @@ now accepts 454 focused controls across 38 fixtures, including all fifty YAML
 contracts, and the full workspace's 3,345 passing tests with four ignored.
 All thirteen library binaries pass (935 tests). The ordinary hosted lock is
 uncaptured; no local or fleet lock is borrowed for this result.
+[Own Linux native results](native-linux-review-1acdda46.json) now independently
+derive the same 454 focused passes across 38 fixtures and all 3,345 workspace
+passes with four ignored, at the verified candidate merge tree. All Linux job
+steps pass; the ordinary native lock remains uncaptured.
+[Independent Linux review](native-linux-independent-review-1acdda46.json)
+also verifies exact actual outcomes and all thirteen library inventories
+(935 passes); it does not borrow macOS results or the captured fleet lock.
 [The own-source browser and IPhreeqc WASM review](own-browser-runtime-review-1acdda46.json)
 accepts the completed demo and PHREEQC WASM jobs at the verified candidate merge
 tree. Browser controls include five DOM lesson snapshots, PWA, German rendering
@@ -75,6 +82,12 @@ uncaptured; bench-WASM and complete CI/fleet remain pending.
 verified candidate merge tree, including all four cargo-deny categories under
 unchanged policy. Ordinary hosted lock and advisory database revision are
 uncaptured. Reporting-only upstream counts do not close scientific-data gaps.
+[The own release CLI artifact](own-cli-artifact-review-1acdda46.json) and
+[its independent review](own-cli-artifact-independent-review-1acdda46.json) bind
+the completed fleet build, exact four-file ZIP, actual release binary checksum
+and independently captured fleet lock. Its lock hash happens to equal the local
+workspace lock; it was hashed from the ZIP separately. Static ELF compatibility
+is checked, but this artifact has not been executed and the fleet is pending.
 
 [The annotation contract review](annotation-contract-review.md) records the
 observed custom-tag boundary and six annotation owners. It also identifies
@@ -96,7 +109,12 @@ two changed files and thirteen multiwitness regression functions. Typed owner/ke
 refusals cover all supplied nested owners before reaction dispatch. PLOG key
 order and supplied Troe `T2` preservation have explicit controls. Formatting
 and [independent static review](nested-rate-repair-static-review-51e99750.json) pass; no repaired-source behavior, full CI/fleet or integration
-is accepted. Its own hosted CI/fleet are queued. Rebase deliberately after the
+is accepted. Its own hosted CI/fleet are queued.
+[The reviewed rebinding helper](cli-rebinding-preparation.md) can prepare new
+CLI15 and nested12 bindings from a separately reviewed own artifact while
+keeping every original expectation and collector byte fixed. Its eight
+synthetic preparation tests pass; no repaired CLI run is claimed. A separately
+prepared bulk-storage leaf test remains resource-gated before compilation. Rebase deliberately after the
 dependency change integrates, then validate and bind the resulting source anew. Preserve the first freeze and outcomes.
 
 The [manifest patch](maintained-fork-dependency.patch) is separate from the

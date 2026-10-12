@@ -1,6 +1,24 @@
 # Chemistry audit: current state, 2026-10-05
 
 
+## Current checkpoint — 2026-10-12: both dependency-native jobs verified
+
+[Own Linux native evidence](../audits/yaml-parser-migration-20261012/native-linux-review-1acdda46.json)
+now verifies 454 focused controls across 38 fixtures and all 3,345 workspace
+passes with four ignored, matching the separately accepted macOS inventory.
+Both jobs bind to PR783's actual candidate merge tree; ordinary native locks
+remain uncaptured. The [own fleet CLI artifact](../audits/yaml-parser-migration-20261012/own-cli-artifact-review-1acdda46.json)
+is independently reviewed with its actual captured fleet lock, binary checksum,
+ZIP digest and clean pinned submodule record. It has not been executed locally;
+bench-WASM, complete CI/fleet and integration remain pending.
+
+[Source-rebinding preparation](../audits/yaml-parser-migration-20261012/cli-rebinding-preparation.md)
+now preserves the frozen CLI15/nested12 expectations and collectors while
+recording a separately reviewed new artifact/source association. All eight
+synthetic helper tests pass. PR784's repaired behavior is still unverified;
+its own hosted jobs are queued and local leaf compilation is resource-gated.
+Earlier dated checkpoints below retain their historical scopes.
+
 ## Current checkpoint — 2026-10-12: nested rate-key loss confirmed
 
 The [twelve frozen nested-rate CLI controls](../audits/yaml-parser-migration-20261012/nested-rate-controls/README.md)

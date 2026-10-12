@@ -32,8 +32,11 @@ hosted results and remaining bench-WASM gates before integration.
 [Own source-bound core WASM and bridge jobs](../audits/yaml-parser-migration-20261012/own-wasm-core-bridge-review-1acdda46.json)
 also pass; the bridge includes native/browser solution agreement.
 [Own full preflight](../audits/yaml-parser-migration-20261012/own-preflight-review-1acdda46.json)
-now passes, including unchanged dependency policy. Linux, bench-WASM and complete
-CI/fleet acceptance remain pending; the ordinary hosted lock is uncaptured. The
+now passes, including unchanged dependency policy. [Own Linux native](../audits/yaml-parser-migration-20261012/native-linux-review-1acdda46.json)
+now also verifies 454 focused passes and 3,345 workspace passes, with four ignored.
+Bench-WASM and complete CI/fleet acceptance remain pending; the ordinary native
+lock is uncaptured. The independently reviewed own fleet CLI artifact has its
+own captured lock, binary and ZIP checksums; it has not been executed locally. The
 separate twenty-case supplement gives identical 18 pass / 2 fail on both parsers:
 custom tags in ignored annotations remain an explicit follow-up, with first
 failures and forecasts preserved. Resolve that support contract separately. Source-specific
@@ -65,6 +68,14 @@ unit normalization, default `b`, optional `T2` and existing annotations.
 The new fixture supplies typed regressions for all eight failures plus third-body ownership,
 unused nested fields, valid PLOG, duplicate known fields and required/default
 controls. Keep the dependency PR narrow and preserve first outcomes.
+Use the [reviewed rebinding preparation helper](../audits/yaml-parser-migration-20261012/cli-rebinding-preparation.md)
+once the repair's own CLI artifact is independently accepted. It preserves every
+original expectation and collector byte while recording new source/artifact
+lineage. Review that lineage before running the copied collector into a new
+evidence destination. Eight synthetic preparation tests pass; no repaired
+CLI result is claimed. The separate bulk-storage leaf compilation requires a
+fresh resource gate; a rejected start is not a failed behavior test.
+
 A repaired source needs separate versioned binding; do not rewrite this frozen
 candidate binary/source manifest. Require original YAML50, affected libraries,
 all fifteen packs/CLI controls and its own source-specific CI gates.

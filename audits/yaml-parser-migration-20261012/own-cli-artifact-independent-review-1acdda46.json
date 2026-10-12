@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "pr": 783,
+  "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "base": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "source_tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "synthetic_checkout": "83438d9ba3015592bdf883ddf7e3f91eaa250544",
+  "merge_parents": [
+    "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+    "1acdda4696e565be5dee13f0598eb2aa8081304e"
+  ],
+  "own_run_id": 38271407728,
+  "job_id": 114909875071,
+  "artifact_id": 11762246167,
+  "artifact_url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/artifacts/11762246167",
+  "run_attempt": 1,
+  "event": "pull_request",
+  "build_job_success_verified": true,
+  "artifact_zip_sha256": "226f8bb73fe51eec6d73971aa27d37f909cbed470d64ed543923b718bbbb1647",
+  "exact_four_archive_files_sha256": {
+    "target/release/kero": "f8b72e4ef84edf95d291c712697534bc69e7cd1e7db42bce51115ec1bb9a3ae5",
+    "binary-sha256.txt": "6b5ea6922d8c541e6ddd1b846c43f2baa4dd3f9e424586c87bc5c3cbbfd08247",
+    "Cargo.lock": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+    "submodules.txt": "dae123bd185b0dff0f0d7176cb509940c4f7f68da6087ad6e6ab003543dbdd47"
+  },
+  "binary_sha256": "f8b72e4ef84edf95d291c712697534bc69e7cd1e7db42bce51115ec1bb9a3ae5",
+  "binary_bytes": 17570896,
+  "actual_captured_fleet_lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+  "actual_lock_package_count": 341,
+  "actual_parser_packages": {
+    "yaml_serde": "0.10.7",
+    "libyaml-rs": "0.3.0"
+  },
+  "archived_unsafe_libyaml_absent_from_captured_lock": true,
+  "clean_gitlink_records": {
+    "sundials-kinetics-rs": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+    "vendor/iphreeqc": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+  },
+  "raw_job_log_sha256": "f0e6743f3d0db0d4cd9f8b02706d8be7efb94cdbb9ebc87a356492dbae907c07",
+  "workflow_sha256": "57252f0fb26ac203b5420e82a3e1355a20ec0ea6ac925d7078b95bcaf75e1304",
+  "run_api_sha256": "1b47ef681d1b857ac6ee8b95426c0b97f7a1e5c357e84101471157c78fb9ceef",
+  "job_api_sha256": "1f1461ccac85bdaba0d2765a44eac211c30d6c3470319f953429b607f5ef6017",
+  "artifact_api_sha256": "1298291f7c85d626e1b57b72bec3390f283b467c4bb3e4d2e82f2766b7e138de",
+  "checkout_api_sha256": "f791763716e8459f2cce48e8260a42e3e8c5a4d373fa1fba64827e7d6837087c",
+  "root_receipt_sha256": "aa1cf7ca0dfa0e34e0e6bb80059868b53ff2160787c2f4736e74d43db4dd9103",
+  "elf_static_review": {
+    "max_required_glibc": "2.39",
+    "host_glibc": "glibc 2.39",
+    "dynamic_needed_libraries": [
+      "libstdc++.so.6",
+      "libgcc_s.so.1",
+      "libm.so.6",
+      "libc.so.6"
+    ],
+    "runtime_dependencies_accepted": false
+  },
+  "artifact_binary_executed": false,
+  "local_lock_or_binary_borrowed": false,
+  "full_ci_accepted": false,
+  "full_fleet_accepted": false,
+  "integration_accepted": false,
+  "limits": [
+    "Own completed release CLI build artifact and actual ZIP content/provenance acceptance only; no CLI execution performed.",
+    "Actual captured fleet lock is independently hashed from artifact bytes; observed equality with local resolution does not substitute local evidence.",
+    "ELF version requirements checked statically; matching glibc does not establish availability/compatibility of all native shared libraries or runtime behavior.",
+    "Clean pinned submodule record does not independently checksum ignored native caches or compiled dependency artifacts.",
+    "One build job does not certify all fleet jobs, ordinary CI gates, hosted CLI experiments or integration."
+  ]
+}
