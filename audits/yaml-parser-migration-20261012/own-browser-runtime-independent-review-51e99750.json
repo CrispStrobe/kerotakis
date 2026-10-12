@@ -1,0 +1,194 @@
+{
+  "schema_version": 1,
+  "pr": 784,
+  "head": "51e997509126f099b22fbe963750ac06f36dadfe",
+  "base": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "source_tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+  "synthetic_checkout": "c877d811be7877d5c6223101eb21f3815d975c96",
+  "merge_parents": [
+    "1acdda4696e565be5dee13f0598eb2aa8081304e",
+    "51e997509126f099b22fbe963750ac06f36dadfe"
+  ],
+  "run_id": 38283405239,
+  "run_attempt": 1,
+  "event": "pull_request",
+  "own_source_job_association_verified": true,
+  "jobs": [
+    {
+      "job_id": 114925886212,
+      "name": "The demo page, in a real browser",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405239/job/114925886212",
+      "conclusion": "success",
+      "successful_steps": [
+        "Set up job",
+        "Run actions/checkout@v6",
+        "Run dtolnay/rust-toolchain@stable",
+        "Run Swatinem/rust-cache@v2",
+        "Run mymindstorm/setup-emsdk@v14",
+        "Run actions/setup-node@v6",
+        "Install wasm-bindgen",
+        "Build the site",
+        "Run the page headlessly",
+        "Five lesson scenes match their semantic DOM goldens",
+        "Types hold (svelte-check)",
+        "The bench is an installable, offline-first PWA",
+        "The German build renders German",
+        "The responsive bench meets UX invariants",
+        "Package the site",
+        "Post Run actions/setup-node@v6",
+        "Post Run Swatinem/rust-cache@v2",
+        "Post Run actions/checkout@v6",
+        "Complete job"
+      ],
+      "raw_log_sha256": "a8cb2013d89269e65cefc7a94808f7509aa7e0d6ec6041339a57a4ef13ff3e3e",
+      "job_api_sha256": "4cfec2844e46538c96a7ea6ea3e977db7c36e92a56b4e4562d46aac8951e27ea"
+    },
+    {
+      "job_id": 114925886222,
+      "name": "IPhreeqc wasm gate",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405239/job/114925886222",
+      "conclusion": "success",
+      "successful_steps": [
+        "Set up job",
+        "Run actions/checkout@v6",
+        "Run mymindstorm/setup-emsdk@v14",
+        "Run actions/setup-node@v6",
+        "Build IPhreeqc to wasm",
+        "AgCl end-to-end in wasm",
+        "Post Run actions/setup-node@v6",
+        "Post Run actions/checkout@v6",
+        "Complete job"
+      ],
+      "raw_log_sha256": "76260481af7d0fda6f6a2e744ce06a6bc04f0c7be88de73e3560c9e628c939e4",
+      "job_api_sha256": "013009dc0965954568d813ed4fa3119f6f787397aa61b4421581b1863ed97060"
+    }
+  ],
+  "source_script_sha256": {
+    ".github/workflows/ci.yml": "0151c09468292c9039538c072e3c33980c778511f8e9c03967e6c2149b71c9d2",
+    "tools/build-web.sh": "988691fb1306d8acf3f41b80b63ddb96bbd9959f7e9362ea3a97ac55da7762cc",
+    "tools/build-iphreeqc-wasm.sh": "91a0382f929f99a8871302e4ca478df2fecbdb700b03de2b290a359a6f63b7e3",
+    "tools/test-iphreeqc-wasm.mjs": "be5913810e6442aaee09032912d33145fc0630c2cba094118776f50a703b91db",
+    "tools/test-web-demo.mjs": "e44ca92adb0b630a3586bd2efbc5e6d8d9ec423352808b16cf876be7e6d7adb1",
+    "tools/test-gui003-dom.mjs": "d2aa66aab048566c4a3e375164fdd388651b2d5c9bc68aad96ca72857c70523b",
+    "tools/golden/gui003-dom-five.json": "5eb27ff0bea33f5d042b08272cc076586e1048979e26cf31af769db647e3034e",
+    "tools/test-pwa.mjs": "3613870ba4e9422525ea7df4246e4dce630f5d13caf013ae094cf12972bd5e49",
+    "tools/test-i18n-render.mjs": "c75589be7bc95e1e6d01437f4fb5f9a9880190e3c72e6d3e5e553a1f8dc75723",
+    "tools/test-ux-quality.mjs": "68b8b2a45c68faccd6dcb31211e45ea7305745dfa91dc39fd796101030ed74fc",
+    "tools/lib/headless.mjs": "ef97b663baa5ea0de1e7d3b4a9c5eecfc1d2c8845b609d37fed79b8809011d85"
+  },
+  "raw_api_sha256": {
+    "run.json": "0433ff131cf330ebd1a4a58ec0357fa81cb2626107b898d38a73b74cbfad7a90",
+    "pr.json": "6324c90f4fd2b2d56f93df50678c0daa8d3b5a12b94ff2a0e4216ee53fd5cd18",
+    "merge-commit.json": "fbdea9d4c02ea87009a8484f455a801c4be1837d043f3d6a50235d13c3b6e9b8"
+  },
+  "demo_runtime_phases": {
+    "test-web-demo": {
+      "successful_logged_checks": 35,
+      "raw_logged_inventory_sha256": "71e656e64ebf7999892f7963fb8294a589b27d10550581d4dd258ab0d416f1ca",
+      "terminal_marker": null
+    },
+    "test-pwa": {
+      "successful_logged_checks": 49,
+      "raw_logged_inventory_sha256": "09446652939ae4a79768081118bd2a9a54a0fa685ffa18107164c28659206fd1",
+      "terminal_marker": "PWA: every check passed"
+    },
+    "test-i18n-render": {
+      "successful_logged_checks": 38,
+      "raw_logged_inventory_sha256": "0bf711fff9982a8956fa107c05c76c593104e65bf62f0173df25a2a5590f0dec",
+      "terminal_marker": "the German build renders German"
+    },
+    "test-ux-quality": {
+      "successful_logged_checks": 285,
+      "raw_logged_inventory_sha256": "37f025be756ca6952f52360ff071c3196e25a60336d3f1a259ebaecad98ac479",
+      "terminal_marker": "UX quality gates passed"
+    }
+  },
+  "demo_exact35_controls": [
+    "the page reports a live engine",
+    "the app reached ready (scene arrived)",
+    "the app rendered a bench with a vessel",
+    "the app's aqueous engine attached (can_solve)",
+    "the browser computed foam in both dose vessels",
+    "the high-dose vessel visibly overflowed",
+    "the browser rendered both foam columns",
+    "the browser rendered the overflow outside the glass",
+    "the higher KI dose produced more foam",
+    "KI did not fall through to an unsupported-contact warning",
+    "the foam browser scenario completed",
+    "world save storage bootstrapped in a browser",
+    "Story survived a real page reload",
+    "Sandbox survived a mode switch and real page reload",
+    "Sandbox mutation after clone did not change Story",
+    "theme and locale remained shared across both modes",
+    "clone deleted an absent Story bench field from Sandbox",
+    "recovered LKG evidence stayed read-only",
+    "corrupt current evidence was preserved",
+    "browser quota failure returned the typed write cut",
+    "no engine-loading failure surfaced in the app",
+    "nothing threw across the bridge",
+    "no solver failed",
+    "the precipitate formed",
+    "the solution was characterised",
+    "particles came from the speciation",
+    "and the too-dilute complex is named rather than dropped",
+    "inspect shows the remaining liquid water",
+    "inspect shows the frozen solid water",
+    "inspect is human text, not the state JSON",
+    "all five R1 scenarios pass in the live page",
+    "offline: the page still boots from the worker's cache",
+    "offline: the engine still reports live",
+    "offline: the precipitate still forms",
+    "offline: all five R1 scenarios pass"
+  ],
+  "r1_live_and_offline_scenarios": [
+    "limewater",
+    "carbonated_bottle",
+    "surface_release",
+    "softener_breakthrough",
+    "partial_freezing"
+  ],
+  "semantic_dom_golden_lessons": [
+    "cabbage-rainbow",
+    "boiling-curve",
+    "water-filter",
+    "slime",
+    "rusting"
+  ],
+  "semantic_dom_snapshots": 5,
+  "svelte_errors": 0,
+  "svelte_warnings": 2,
+  "svelte_warning_files": 2,
+  "standalone_iphreeqc": {
+    "database_string_admission_verified": true,
+    "solution_run_verified": true,
+    "reported_cerargyrite_si": 0.0,
+    "reported_cerargyrite_moles": 0.0099848,
+    "si_tolerance": 0.01,
+    "precipitate_range_moles": [
+      0.0099,
+      0.01
+    ],
+    "native_oh_reaction_enthalpy_range_kj_per_mol": [
+      50,
+      65
+    ],
+    "my_basic_user_punch_12345_verified": true,
+    "wasm_without_engine_filesystem_api": true
+  },
+  "ordinary_hosted_lock_captured": false,
+  "built_browser_binary_captured": false,
+  "parent_outcomes_borrowed": false,
+  "local_or_fleet_lock_borrowed": false,
+  "full_ci_accepted": false,
+  "full_fleet_accepted": false,
+  "integration_accepted": false,
+  "scope": "Only two completed own-source PR784 browser demo and standalone IPhreeqc WASM jobs; exact API/run/attempt/head/base/checkout tree and parents, all successful steps, source scripts and actual terminal/control outputs independently verified.",
+  "limits": [
+    "Demo covers browser solver readiness/foam, Story/Sandbox reload and storage isolation, typed quota/recovery boundaries, rendering/speciation, five R1 scenarios online/offline, five semantic DOM goldens, PWA, German and responsive UX. Successful logged-check counts describe actual output, not independent physical experiments or universal UI coverage.",
+    "Standalone IPhreeqc script checks string database/solution admission, AgCl equilibrium range, native OH thermochemistry and MY-BASIC USER_PUNCH. It has no twenty-case cache/scenario matrix; cache/scenario acceptance belongs to separate demo/bench/bridge evidence.",
+    "Zero Svelte errors coexist with two warnings in two files; this receipt does not claim zero warnings.",
+    "Ordinary hosted lock and actual packaged browser/solver binary bytes are uncaptured; no local/fleet lock or artifact is substituted. Cached tools/dependencies remain qualified by raw logs.",
+    "Whole own CI completed success in captured API, but aggregate per-job/required-gate acceptance belongs to a separate review. Fleet and integration remain unaccepted.",
+    "No empirical chemistry, calibration, universal runtime accuracy, repaired-source standalone CLI12/CLI15 acceptance, deployment or merge claim. Reviewer executes no Cargo/browser/CLI/WASM code."
+  ]
+}

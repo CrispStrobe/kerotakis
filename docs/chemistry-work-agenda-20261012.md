@@ -44,7 +44,7 @@ failures and forecasts preserved. Resolve that support contract separately. Sour
 PR782 results need fresh binding after integrating a parser change.
 
 [Remaining own-source CI controls](../audits/yaml-parser-migration-20261012/own-final-ci-controls-review-1acdda46.json)
-now verify presentation1,630 passes across123 files and the exact26-job workflow
+now verify presentation1,630 passes across 123 files and the exact26-job workflow
 inventory. Legacy BASIC is explicitly skipped because its feature is absent:
 zero oracle tests execute, so no legacy comparison is accepted.
 [The own CI aggregate](../audits/yaml-parser-migration-20261012/own-ci-gate-aggregate-1acdda46.json)
@@ -121,13 +121,26 @@ from Linux logs and are not borrowed from macOS.
 now passes at the repair source. It verifies the three-package target check with
 cache reuse qualified; it does not establish a clean rebuild or runtime result.
 
-Next review demo browser, standalone IPhreeqc WASM and remaining adapter jobs
-when complete. Bind exact head/base/merge/tree, actual logs, source fixture hashes
-and actual controls; retain uncaptured artifact qualifications. Aggregate the
-complete own CI inventory and required 33-job fleet before integration. Then
-resolve the dependency prerequisite's integration and any new repaired-source
-association deliberately; never transfer results across an unchecked new head. Rebase deliberately after the dependency prerequisite
-integrates, then repeat source-specific gates for any new source association.
+[Own browser and standalone IPhreeqc checks](../audits/yaml-parser-migration-20261012/own-browser-runtime-independent-review-51e99750.json)
+now pass: 35 demo controls, five unchanged DOM snapshots, PWA 49, German 38 and
+UX 285, plus standalone solution/AgCl/OH/MY-BASIC checks. Svelte has zero errors
+and two warnings. [The own complete CI aggregate](../audits/yaml-parser-migration-20261012/own-ci-gate-aggregate-51e99750.json)
+accepts all five required gates: 25 successful jobs and publication skipped.
+Auxiliary adapter success is qualified as job/step metadata where raw output
+inventories were not parsed; legacy oracle ran zero tests.
+
+[Native guard inputs](../audits/yaml-parser-migration-20261012/native-guard-inputs-preparation-51e99750.json)
+and [independent review](../audits/yaml-parser-migration-20261012/native-guard-inputs-independent-review-51e99750.json)
+prepare both accepted native receipts with exact-source 39/467 inventory. They
+are not a full integration plan and do not establish readiness.
+
+Next accept each own fleet's complete 33-job inventory, every declared step and
+aggregate, and source/artifact/lock/result associations. First finish PR783's
+existing guarded integration lane. Then explicitly resolve PR784's stacked base
+against accepted main and create its full integration plan from the actual
+head/base/tested-tree associations. Any changed head needs new source-specific
+bindings and gates; unchanged-head/tree compatibility also requires explicit
+checks. Keep the two production changes narrow and all original outcomes intact.
 
 
 ## 0b. Adjudicate tagged ignored annotations as a separate admission lane

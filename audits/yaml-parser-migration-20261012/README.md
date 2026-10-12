@@ -208,8 +208,30 @@ denied. [Own core/data/scene WASM compilation](own-core-wasm-independent-review-
 now also passes the three-package `wasm32-unknown-unknown` check at this exact
 source. Cached compilation is qualified; this is command completion, not a
 clean rebuild or additional runtime proof. Ordinary hosted lock and binary
-remain uncaptured. Demo browser, standalone IPhreeqc WASM, remaining adapters,
-complete CI/fleet and integration remain pending. The first leaf
+remain uncaptured. [Own browser and standalone IPhreeqc review](own-browser-runtime-independent-review-51e99750.json)
+now passes: 35 demo controls, five unchanged DOM goldens, 49 PWA, 38 German
+rendering and 285 UX checks, plus standalone database/solution admission,
+AgCl equilibrium, OH thermochemistry and MY-BASIC controls. Svelte reports zero
+errors and two warnings. These logged checks are bounded engineering evidence.
+
+[The own CI aggregate](own-ci-gate-aggregate-51e99750.json) accepts all five
+required gates at exact head `51e99750` and stacked base `1acdda46`:
+26 completed jobs, 25 successful and publication correctly skipped. Supporting
+presentation checks pass 1,630 tests across 123 files; the absent-feature legacy
+oracle executes zero tests. The remaining sixteen auxiliary jobs, including all
+five feos targets, have successful source-bound job/step metadata; their raw
+output inventories are not all independently parsed.
+
+[Native guard preparation](native-guard-inputs-preparation-51e99750.json)
+binds both accepted native jobs to a retrospective exact-source inventory of
+39 fixtures and 467 functions. It adapts the existing receipts for
+`tools/registry-integration-preflight.py` without changing their original
+outcomes or hashes. [Independent preparation review](native-guard-inputs-independent-review-51e99750.json)
+checks this adaptation. A full repair integration plan remains pending: its base
+is still the dependency branch, and accepted main must be bound explicitly after
+that prerequisite integrates. Both full 33-job fleets remain unaccepted.
+Complete fleet review, then recheck actual main/head/base/tested-tree associations
+before any integration. The first leaf
 build setup failed before any test executed; its separately recorded continuation
 passes all 63 controls. Rebase deliberately after the dependency change
 integrates, then validate and bind any resulting new source. Preserve all first

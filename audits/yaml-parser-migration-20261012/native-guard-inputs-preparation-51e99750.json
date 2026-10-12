@@ -1,0 +1,49 @@
+{
+  "pr": 784,
+  "head": "51e997509126f099b22fbe963750ac06f36dadfe",
+  "base": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+  "ci_run": 38283405239,
+  "expected_native_fixture_files": 39,
+  "expected_native_functions": 467,
+  "native_plan_path": "audits/yaml-parser-migration-20261012/integration-native-plan-51e99750.json",
+  "native_receipt_paths": [
+    "audits/yaml-parser-migration-20261012/integration-native-macos-51e99750.json",
+    "audits/yaml-parser-migration-20261012/integration-native-linux-51e99750.json"
+  ],
+  "receipt_sha256": {
+    "audits/yaml-parser-migration-20261012/integration-native-plan-51e99750.json": "c1c0f08551f60d94d768e09327a27e7669ecd1215ffbbac6b1564b0568f1cb67",
+    "audits/yaml-parser-migration-20261012/integration-native-macos-51e99750.json": "d48903875372b5e417dde2e225d6b54c5c4ba6e5455a9e3b3c1befea24944b4f",
+    "audits/yaml-parser-migration-20261012/integration-native-linux-51e99750.json": "37b25612b2818a141551bc7b72c61e1a24c1b017ba025c026f72a2e9288b86f1",
+    "audits/yaml-parser-migration-20261012/native-macos-independent-review-51e99750.json": "2d356135afd0ff218ca4d5d12b7af97fb4242485d1fb0c5df26fddfbf2d16aad",
+    "audits/yaml-parser-migration-20261012/native-linux-independent-review-51e99750.json": "a24c3b9dc55e9ce49b72d33f6bf633b8508849a7caf32dbe435bc6a081fa4b79"
+  },
+  "validated_native_platforms": [
+    {
+      "job": "Test (native) (macos-latest)",
+      "tested_checkout": "c877d811be7877d5c6223101eb21f3815d975c96",
+      "tested_checkout_parents": [
+        "1acdda4696e565be5dee13f0598eb2aa8081304e",
+        "51e997509126f099b22fbe963750ac06f36dadfe"
+      ],
+      "tested_tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+      "current_base_tree_compatible": true,
+      "new_base_context_test_execution": true
+    },
+    {
+      "job": "Test (native) (ubuntu-latest)",
+      "tested_checkout": "c877d811be7877d5c6223101eb21f3815d975c96",
+      "tested_checkout_parents": [
+        "1acdda4696e565be5dee13f0598eb2aa8081304e",
+        "51e997509126f099b22fbe963750ac06f36dadfe"
+      ],
+      "tested_tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+      "current_base_tree_compatible": true,
+      "new_base_context_test_execution": true
+    }
+  ],
+  "full_integration_plan_prepared": false,
+  "ready_for_merge": false,
+  "accepted_integration": false,
+  "scope": "Only source-pinned native guard inputs are prepared and validate_native accepts both own native jobs. Current base is the stacked dependency head, not accepted main. After prerequisite integration, explicitly bind actual main/head/base/tested-tree associations and complete own CI/fleet in a separate integration plan. If head changes, regenerate source-specific bindings and gates; unchanged-head/tree compatibility requires explicit checks."
+}

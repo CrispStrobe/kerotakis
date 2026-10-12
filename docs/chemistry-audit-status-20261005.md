@@ -1,7 +1,27 @@
 # Chemistry audit: current state, 2026-10-05
 
 
-## Current checkpoint — 2026-10-12: both repair-native jobs accepted
+## Current checkpoint — 2026-10-12: repair CI accepted; fleets still pending
+
+PR784's [own CI aggregate](../audits/yaml-parser-migration-20261012/own-ci-gate-aggregate-51e99750.json)
+accepts all five required gates at exact head `51e99750`, stacked on `1acdda46`:
+26 completed jobs, 25 successful and publication correctly skipped.
+[Browser review](../audits/yaml-parser-migration-20261012/own-browser-runtime-independent-review-51e99750.json)
+verifies 35 demo controls, five unchanged DOM goldens, PWA 49/German 38/UX 285 and
+standalone IPhreeqc checks. Svelte retains two warnings with zero errors.
+Presentation tests pass 1,630/123; the absent-feature legacy oracle runs zero tests.
+Auxiliary adapter job success is qualified where raw inventories were not parsed.
+
+[Native guard preparation](../audits/yaml-parser-migration-20261012/native-guard-inputs-preparation-51e99750.json)
+and [independent review](../audits/yaml-parser-migration-20261012/native-guard-inputs-independent-review-51e99750.json)
+bind the accepted native outcomes to exact-source 467 functions across 39 fixtures.
+This prepares receipt validation, not a full repair integration plan or readiness.
+Both 33-job fleets remain unaccepted. First finish the dependency's fleet and
+fresh integration guards, then bind the repair to actual accepted main before
+integration. No new production change or merge is accepted in this checkpoint.
+Follow [the next-step lanes](chemistry-work-agenda-20261012.md).
+
+## Earlier checkpoint — 2026-10-12: both repair-native jobs accepted
 
 PR784's [own Linux results](../audits/yaml-parser-migration-20261012/native-linux-review-51e99750.json)
 and [independent review](../audits/yaml-parser-migration-20261012/native-linux-independent-review-51e99750.json)
@@ -65,7 +85,7 @@ complete CI/fleet and integration remain pending. No merge is claimed.
 Follow [the next-step lanes](chemistry-work-agenda-20261012.md).
 
 PR783's [remaining own CI control review](../audits/yaml-parser-migration-20261012/own-final-ci-controls-review-1acdda46.json)
-accepts presentation1,630 passes across123 files. Its Legacy BASIC job performs
+accepts presentation1,630 passes across 123 files. Its Legacy BASIC job performs
 an explicit absent-feature skip and runs zero oracle tests. The exact workflow
 inventory is26 completed jobs (25 successes, one publish skip). Full required
 gate aggregation and complete fleet acceptance remain separate.

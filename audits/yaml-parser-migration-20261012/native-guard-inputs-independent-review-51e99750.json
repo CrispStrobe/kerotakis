@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "pr": 784,
+  "head": "51e997509126f099b22fbe963750ac06f36dadfe",
+  "base": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "source_tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+  "run_id": 38283405239,
+  "run_attempt": 1,
+  "synthetic_checkout": "c877d811be7877d5c6223101eb21f3815d975c96",
+  "merge_parents": [
+    "1acdda4696e565be5dee13f0598eb2aa8081304e",
+    "51e997509126f099b22fbe963750ac06f36dadfe"
+  ],
+  "native_fixture_files": 39,
+  "native_test_functions": 467,
+  "source_fixtures_and_exact_ordered_identities_verified": true,
+  "original_independent_native_receipts_unchanged": true,
+  "schema_adapters_preserve_original_outcomes": true,
+  "guard_validate_native_accepted": true,
+  "guard_substituted_test_identity_refused": true,
+  "validated_native_platforms": [
+    {
+      "job": "Test (native) (macos-latest)",
+      "tested_checkout": "c877d811be7877d5c6223101eb21f3815d975c96",
+      "tested_checkout_parents": [
+        "1acdda4696e565be5dee13f0598eb2aa8081304e",
+        "51e997509126f099b22fbe963750ac06f36dadfe"
+      ],
+      "tested_tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+      "current_base_tree_compatible": true,
+      "new_base_context_test_execution": true
+    },
+    {
+      "job": "Test (native) (ubuntu-latest)",
+      "tested_checkout": "c877d811be7877d5c6223101eb21f3815d975c96",
+      "tested_checkout_parents": [
+        "1acdda4696e565be5dee13f0598eb2aa8081304e",
+        "51e997509126f099b22fbe963750ac06f36dadfe"
+      ],
+      "tested_tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+      "current_base_tree_compatible": true,
+      "new_base_context_test_execution": true
+    }
+  ],
+  "input_sha256": {
+    "audits/yaml-parser-migration-20261012/integration-native-plan-51e99750.json": "c1c0f08551f60d94d768e09327a27e7669ecd1215ffbbac6b1564b0568f1cb67",
+    "audits/yaml-parser-migration-20261012/integration-native-macos-51e99750.json": "d48903875372b5e417dde2e225d6b54c5c4ba6e5455a9e3b3c1befea24944b4f",
+    "audits/yaml-parser-migration-20261012/integration-native-linux-51e99750.json": "37b25612b2818a141551bc7b72c61e1a24c1b017ba025c026f72a2e9288b86f1",
+    "audits/yaml-parser-migration-20261012/native-macos-independent-review-51e99750.json": "2d356135afd0ff218ca4d5d12b7af97fb4242485d1fb0c5df26fddfbf2d16aad",
+    "audits/yaml-parser-migration-20261012/native-linux-independent-review-51e99750.json": "a24c3b9dc55e9ce49b72d33f6bf633b8508849a7caf32dbe435bc6a081fa4b79",
+    "audits/yaml-parser-migration-20261012/native-guard-inputs-preparation-51e99750.json": "ebcd7db59745963d51626c4f2cd2a524b92b8d9188afc5b2ef640020102de0a7"
+  },
+  "guard_tool_revision": "e812ddf715fef93cd080c4ed1a4feb73335d4fd7",
+  "guard_source_sha256": "89df34087ddc072e953760bb154af161443799d0914efd8d436e03c755929991",
+  "guard_fleet_dependency_sha256": "f56e20a4de90700d317738d5f260f9e0f163c6165393601ab98b847f7696cdb5",
+  "preparation_runner_sha256": "93c583853ebb6eca4bb357d1d36467942141ca511101058c92961ea5c6765062",
+  "fresh_own_api_job_inventory_count": 26,
+  "fresh_own_api_job_success_count": 25,
+  "fresh_own_api_job_skipped_count": 1,
+  "raw_sha256": {
+    "run.json": "0433ff131cf330ebd1a4a58ec0357fa81cb2626107b898d38a73b74cbfad7a90",
+    "jobs.json": "affad005771347dac944aac7d879dcd597347635b8969c48760dba23d9d78b3f",
+    "pr.json": "6324c90f4fd2b2d56f93df50678c0daa8d3b5a12b94ff2a0e4216ee53fd5cd18",
+    "merge-commit.json": "fbdea9d4c02ea87009a8484f455a801c4be1837d043f3d6a50235d13c3b6e9b8",
+    "guard-review-source.py": "89df34087ddc072e953760bb154af161443799d0914efd8d436e03c755929991",
+    "guard-native-validation.json": "4f38b6359180208474bdfbb7df9854ff81415a5fcb48038ac42707cd01384b75",
+    "review.py": "e5643a84ade3476515438411741d1d2f2a6848460ac444e65f440bef31990133"
+  },
+  "accepted_native_guard_inputs": true,
+  "full_integration_plan_prepared": false,
+  "ready_for_merge": false,
+  "accepted_integration": false,
+  "scope": "Independent read-only validation of four source-pinned native guard preparation files and schema adapters; exact 39 fixtures/467 identities, own native receipts and fresh CI API/checkout association.",
+  "limits": [
+    "Only validate_native was invoked on in-memory docs; full integration-plan/preflight evaluation and merge readiness were not invoked or claimed. The guard tool is separately pinned to its audit revision, not claimed present in tested source51e.",
+    "Base remains stacked dependency head 1ac, not accepted main. Matching synthetic parents establish current stacked-base compatibility, not a future main/base or newly rebased execution.",
+    "Wrappers adapt previously independently reviewed own native outcomes without new test execution; original receipt hashes remain unchanged. Fresh API inventory association is verified, but this receipt is not an independent full-CI behavioral/required-gate acceptance.",
+    "Ordinary native hosted locks are uncaptured; no local/fleet lock is substituted. Fleet, repaired-source standalone CLI controls and integration remain separate.",
+    "Reviewer ran no Cargo/build/CLI and made no production source, original receipt or freeze edits."
+  ]
+}
