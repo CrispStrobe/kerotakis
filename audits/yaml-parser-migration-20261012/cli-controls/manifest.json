@@ -1,0 +1,504 @@
+{
+  "schema_version": 1,
+  "source": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "source_tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "source_sha256": {
+    "crates/kerotakis-cli/src/main.rs": "01f522776015dc122e843985bde84406218ce4fa8f8487a6cd14766337dc739a",
+    "crates/kerotakis-core/src/kinetics/mechanism.rs": "b074b5f1c16508765cdff6e2db280537e37c586ea7f424a08760c905edac9640"
+  },
+  "expected_count": 15,
+  "expected_ids": [
+    "inspect-h2-o2-skeletal-v1-json",
+    "inspect-h2-o2-skeletal-v1-text",
+    "inspect-co-h2-wet-v1-json",
+    "inspect-co-h2-wet-v1-text",
+    "inspect-hydrocarbon-global-v1-json",
+    "inspect-hydrocarbon-global-v1-text",
+    "rates-h2-o2-skeletal-v1",
+    "rates-co-h2-wet-v1",
+    "rates-hydrocarbon-global-v1",
+    "simulate-inert-bounded",
+    "inspect-complex-note-equivalence",
+    "refuse-custom-tag-composition-shape",
+    "refuse-undeclared-feed",
+    "refuse-negative-volume",
+    "refuse-zero-samples"
+  ],
+  "inputs": {
+    "h2-o2-skeletal-v1": {
+      "repository_path": "data/mechanisms/h2-o2-skeletal-v1.yaml",
+      "sha256": "3de96bfc66e90041dcf705756a1dd314cdf4865c0d8d161b0df4a61bcc0f2092"
+    },
+    "co-h2-wet-v1": {
+      "repository_path": "data/mechanisms/co-h2-wet-v1.yaml",
+      "sha256": "c19c79c11c13bbf63c7f420361c7f30c246977e7468e55f3bbbe2d8e6c8846a4"
+    },
+    "hydrocarbon-global-v1": {
+      "repository_path": "data/mechanisms/hydrocarbon-global-v1.yaml",
+      "sha256": "16c5b309b618e9631e85fa99cc0e0cc737491844be3158b395f16ca6341682e1"
+    },
+    "complex-note": {
+      "text": "description: Kerotakis H2/O2 skeletal v1\n\nnote: {[author, date]: migration witness, nested: {count: .nan}}\n\nreferences:\n- >-\n  Baulch, D. L., Bowman, C. T., Cobos, C. J., Cox, R. A., Just, Th., Kerr,\n  J. A., Pilling, M. J., Stocker, D., Troe, J., Tsang, W., Walker, R. W.,\n  Warnatz, J. \"Evaluated Kinetic Data for Combustion Modeling. Supplement\n  II.\" J. Phys. Chem. Ref. Data 34(3), 757-1397 (2005). DOI\n  10.1063/1.1748524. Retrieved 2026-09-05.\n\nunits: {length: cm, quantity: mol, activation-energy: cal/mol}\n\nphases:\n- name: gas\n  thermo: ideal-gas\n  kinetics: gas\n  species: [H2, O2, H2O, H, O, OH, HO2, H2O2, N2, Ar]\n\nspecies:\n- name: H2\n  composition: {H: 2}\n- name: O2\n  composition: {O: 2}\n- name: H2O\n  composition: {H: 2, O: 1}\n- name: H\n  composition: {H: 1}\n- name: O\n  composition: {O: 1}\n- name: OH\n  composition: {O: 1, H: 1}\n- name: HO2\n  composition: {H: 1, O: 2}\n- name: H2O2\n  composition: {H: 2, O: 2}\n- name: N2\n  composition: {N: 2}\n- name: Ar\n  composition: {Ar: 1}\n\nreactions:\n\n# --- chain branching: the two steps that turn one radical into three ---\n- equation: H + O2 => O + OH\n  rate-constant: {A: 2.0656e+14, b: -0.097, Ea: 15023.26}\n  note: >-\n    id=h2o2-branching-h-o2; source=Baulch et al. 2005, data sheet p. 895,\n    summary Table 4.1 p. 780, preferred k = 3.43e-10 T^-0.097\n    exp(-7560/T) cm3 molecule-1 s-1, uncertainty delta log k +/- 0.1 at\n    800 K rising to +/- 0.2 at 3500 K; validity=800-3500 K;\n    retrieved=2026-09-05\n\n- equation: O + H2 => OH + H\n  rate-constant: {A: 3.8180e+12, b: 0.0, Ea: 7948.82}\n  note: >-\n    id=h2o2-branching-o-h2-low; source=Baulch et al. 2005, data sheet\n    p. 803, summary Table 4.1 p. 777, preferred k = [6.34e-12\n    exp(-4000/T) + 1.46e-9 exp(-9650/T)] cm3 molecule-1 s-1, uncertainty\n    delta log k +/- 0.2 over the whole range. The recommendation is a sum\n    of two Arrhenius terms and is written here as two entries whose rates\n    add, which is exactly what the sum means. This is the first term;\n    validity=298-3300 K; retrieved=2026-09-05\n\n- equation: O + H2 => OH + H\n  rate-constant: {A: 8.7923e+14, b: 0.0, Ea: 19176.52}\n  note: >-\n    id=h2o2-branching-o-h2-high; source=Baulch et al. 2005, data sheet\n    p. 803, second Arrhenius term of the preferred k = [6.34e-12\n    exp(-4000/T) + 1.46e-9 exp(-9650/T)] cm3 molecule-1 s-1, uncertainty\n    delta log k +/- 0.2; validity=298-3300 K; retrieved=2026-09-05\n\n# --- propagation: where the water actually comes from ---\n- equation: OH + H2 => H2O + H\n  rate-constant: {A: 2.1680e+8, b: 1.52, Ea: 3457.74}\n  note: >-\n    id=h2o2-propagation-oh-h2; source=Baulch et al. 2005, data sheet\n    p. 1029, summary Table 4.1 p. 782, preferred k = 3.6e-16 T^1.52\n    exp(-1740/T) cm3 molecule-1 s-1, uncertainty delta log k +/- 0.1 at\n    250 K rising to +/- 0.3 at 2500 K; validity=250-2500 K;\n    retrieved=2026-09-05\n\n- equation: H + H2O => OH + H2\n  rate-constant: {A: 4.5166e+8, b: 1.6, Ea: 17944.45}\n  note: >-\n    id=h2o2-reverse-h-h2o; source=Baulch et al. 2005, data sheet p. 922,\n    summary Table 4.1 p. 780, preferred k = 7.5e-16 T^1.6 exp(-9030/T)\n    cm3 molecule-1 s-1, uncertainty delta log k +/- 0.2. This is the\n    separately evaluated reverse of OH + H2 -> H2O + H. Both directions\n    are carried as independent irreversible steps rather than derived\n    from a thermochemical equilibrium constant, which is why the network\n    can reach a steady state instead of running to completion;\n    validity=800-2500 K; retrieved=2026-09-05\n\n- equation: OH + OH => H2O + O\n  rate-constant: {A: 3.3483e+4, b: 2.42, Ea: -1927.59}\n  note: >-\n    id=h2o2-oh-oh; source=Baulch et al. 2005, data sheet p. 1032, summary\n    Table 4.1 p. 782, preferred k = 5.56e-20 T^2.42 exp(970/T) cm3\n    molecule-1 s-1, uncertainty delta log k +/- 0.15. The exponential is\n    POSITIVE in the recommendation, so the activation energy written here\n    is negative - a fitted parameter, not a barrier height. The same data\n    sheet supplies the equilibrium constant for the reverse,\n    O + H2O -> OH + OH, which the 2005 evaluation does not give a\n    forward data sheet of its own and which this pack therefore omits;\n    validity=250-2400 K; retrieved=2026-09-05\n\n# --- the HO2 shunt: what stops a hydrogen flame below the crossover ---\n- equation: H + O2 + M => HO2 + M\n  type: three-body\n  rate-constant: {A: 2.6474e+19, b: -1.3, Ea: 0.0}\n  efficiencies: {Ar: 0.53, H2O: 11.5}\n  note: >-\n    id=h2o2-shunt-h-o2-m; source=Baulch et al. 2005, data sheet p. 898\n    with the preferred-values box on p. 900, summary Table 4.2 p. 797,\n    preferred low-pressure limit k0(N2) = 7.3e-29 T^-1.3 cm6 molecule-2\n    s-1, uncertainty delta log k +/- 0.1 at 298 K rising to +/- 0.2 at\n    2000 K. N2 is the reference collider. The Ar and H2O efficiencies are\n    the ratios of the same evaluation's k0(Ar) = 1.9e-29 T^-1.2 and\n    k0(H2O) = 1.0e-28 T^-1.0 to k0(N2), evaluated at 1200 K - the three\n    recommendations carry different temperature exponents, so a single\n    efficiency number is an approximation and the temperature it was\n    taken at is stated. The falloff to k_infinity is NOT modelled;\n    validity=298-2000 K; retrieved=2026-09-05\n\n- equation: H + HO2 => OH + OH\n  rate-constant: {A: 4.4564e+14, b: 0.0, Ea: 1391.04}\n  note: >-\n    id=h2o2-ho2-h-branch; source=Baulch et al. 2005, data sheet p. 919,\n    summary Table 4.1 p. 780, preferred k = 7.4e-10 exp(-700/T) cm3\n    molecule-1 s-1 for channel 2, uncertainty delta log k +/- 0.15;\n    validity=250-1000 K; retrieved=2026-09-05\n\n- equation: H + HO2 => H2 + O2\n  rate-constant: {A: 1.0539e+14, b: 0.0, Ea: 2046.82}\n  note: >-\n    id=h2o2-ho2-h-terminate; source=Baulch et al. 2005, data sheet\n    p. 919, summary Table 4.1 p. 780, preferred k = 1.75e-10\n    exp(-1030/T) cm3 molecule-1 s-1 for channel 1, uncertainty delta\n    log k +/- 0.3. The third channel, H + HO2 -> H2O + O, has a\n    recommendation at 298 K only and no temperature dependence at all, so\n    it is not carried here; validity=250-1000 K; retrieved=2026-09-05\n\n- equation: OH + HO2 => H2O + O2\n  rate-constant: {A: 9.2741e+15, b: 0.0, Ea: 17507.27}\n  note: >-\n    id=h2o2-ho2-oh-terminate; source=Baulch et al. 2005, data sheet\n    p. 1037, summary Table 4.1 p. 783, HIGH-TEMPERATURE preferred k =\n    1.54e-8 exp(-8810/T) cm3 molecule-1 s-1, uncertainty delta log k\n    +/- 0.5. The evaluation gives two disjoint expressions for this\n    reaction, this one over 1300-2000 K and k = 4.8e-11 exp(250/T) over\n    250-400 K, and NO RECOMMENDATION AT ALL between 400 and 1300 K.\n    Anyone running this pack in that gap is interpolating on their own\n    authority and should say so; validity=1300-2000 K;\n    retrieved=2026-09-05\n\n- equation: HO2 + HO2 => H2O2 + O2\n  rate-constant: {A: 4.2155e+14, b: 0.0, Ea: 11982.84}\n  note: >-\n    id=h2o2-ho2-ho2-high; source=Baulch et al. 2005, data sheet p. 1109,\n    summary Table 4.1 p. 784, first Arrhenius term of the preferred k =\n    [7.0e-10 exp(-6030/T) + 2.2e-13 exp(820/T)] cm3 molecule-1 s-1,\n    uncertainty delta log k +/- 0.15 over 550-800 K rising to +/- 0.4 at\n    1250 K; validity=550-1250 K; retrieved=2026-09-05\n\n- equation: HO2 + HO2 => H2O2 + O2\n  rate-constant: {A: 1.3249e+11, b: 0.0, Ea: -1629.51}\n  note: >-\n    id=h2o2-ho2-ho2-low; source=Baulch et al. 2005, data sheet p. 1109,\n    second Arrhenius term of the preferred k = [7.0e-10 exp(-6030/T) +\n    2.2e-13 exp(820/T)] cm3 molecule-1 s-1. The second term has a\n    positive exponential and therefore a negative activation energy;\n    validity=550-1250 K; retrieved=2026-09-05\n\n- equation: H2O2 + M => OH + OH + M\n  type: three-body\n  rate-constant: {A: 1.2044e+17, b: 0.0, Ea: 45506.98}\n  efficiencies: {Ar: 0.42}\n  note: >-\n    id=h2o2-peroxide-split; source=Baulch et al. 2005, data sheet p. 1036\n    with the preferred-values box on p. 1037, summary Table 4.3 p. 800,\n    preferred low-pressure limit k0(N2) = 2.0e-7 exp(-22900/T) cm3\n    molecule-1 s-1, uncertainty delta log k +/- 0.2. N2 is the reference\n    collider. The Ar efficiency is the ratio of the same evaluation's\n    k0(Ar) = 3.8e-8 exp(-21960/T) to k0(N2), evaluated at 1200 K, the two\n    barriers being different. The falloff to k_infinity = 3.0e14\n    exp(-24400/T) s-1 is NOT modelled; validity=700-1500 K;\n    retrieved=2026-09-05\n\n# --- termination: where the radicals go to die ---\n- equation: H + OH + M => H2O + M\n  type: three-body\n  rate-constant: {A: 2.2122e+22, b: -2.0, Ea: 0.0}\n  efficiencies: {Ar: 0.38, H2O: 6.39}\n  note: >-\n    id=h2o2-termination-h-oh-m; source=Baulch et al. 2005, data sheet\n    p. 913, summary Table 4.2 p. 797, preferred low-pressure limit\n    k0(N2) = 6.1e-26 T^-2.0 cm6 molecule-2 s-1, uncertainty delta log k\n    +/- 0.5. N2 is the reference collider. The Ar and H2O efficiencies\n    are the exact ratios of the same evaluation's k0(Ar) = 2.3e-26 T^-2.0\n    and k0(H2O) = 3.9e-25 T^-2.0 to k0(N2) - all three carry the same\n    temperature exponent, so these ratios are temperature independent;\n    validity=300-3000 K; retrieved=2026-09-05\n\n- equation: H + H + M => H2 + M\n  type: three-body\n  rate-constant: {A: 6.5279e+17, b: -1.0, Ea: 0.0}\n  efficiencies: {H2: 2.65}\n  note: >-\n    id=h2o2-termination-h-h-m; source=Baulch et al. 2005, data sheet\n    p. 905, summary Table 4.2 p. 797, preferred low-pressure limit\n    k0(Ar) = 1.8e-30 T^-1.0 cm6 molecule-2 s-1, uncertainty delta log k\n    +/- 0.5. Argon is the reference collider because the evaluation gives\n    no N2 value. The H2 efficiency is the ratio of the same evaluation's\n    k0(H2) = 2.8e-31 T^-0.6 to k0(Ar) evaluated at 1200 K, the exponents\n    being different; validity=200-2500 K; retrieved=2026-09-05\n\n# --- initiation, for completeness, and far outside a bench flame ---\n- equation: H2 + M => H + H + M\n  type: three-body\n  rate-constant: {A: 2.2282e+14, b: 0.0, Ea: 96081.33}\n  efficiencies: {H2: 4.05}\n  note: >-\n    id=h2o2-initiation-h2-split; source=Baulch et al. 2005, summary\n    Table 4.3 p. 800, preferred low-pressure limit k0(Ar) = 3.7e-10\n    exp(-48350/T) cm3 molecule-1 s-1, uncertainty delta log k +/- 0.3.\n    Argon is the reference collider. The H2 efficiency is the exact ratio\n    of the same evaluation's k0(H2) = 1.5e-9 exp(-48350/T) to k0(Ar),\n    both carrying the same barrier. This is the pack's only initiation\n    channel and its evaluation starts at 2500 K, so at ordinary flame\n    temperatures it contributes essentially nothing and the network must\n    be given a radical source; validity=2500-8000 K; retrieved=2026-09-05\n",
+      "sha256": "d66fca7b915522ea13d019f85c59d73ef85fb47cbfbaa292ed08e84e097e8a0d",
+      "derived_from": "h2-o2-skeletal-v1",
+      "mutation": "Replace the entire existing root note with an ignored complex-key/nonfinite annotation; preserve every other byte."
+    },
+    "custom-tag-invalid-composition": {
+      "text": "description: tagged shape refusal\nphases:\n- name: gas\n  thermo: ideal-gas\n  species: all\nspecies:\n- name: A\n  composition: !WrongComposition [1, 2]\n- name: B\n  composition: {H: 2}\nreactions:\n- equation: A => B\n  rate-constant: {A: 1.0, b: 0.0, Ea: 0.0}\n",
+      "sha256": "cd47a6f69ba328123d95aa81b08a8e3758e200a2bee0c716fc9aee9fd92249e6"
+    }
+  },
+  "pack_expectations": {
+    "h2-o2-skeletal-v1": {
+      "name": "Kerotakis H2/O2 skeletal v1",
+      "species": [
+        "H2",
+        "O2",
+        "H2O",
+        "H",
+        "O",
+        "OH",
+        "HO2",
+        "H2O2",
+        "N2",
+        "Ar"
+      ],
+      "equations": [
+        "H + O2 => O + OH",
+        "O + H2 => OH + H",
+        "O + H2 => OH + H",
+        "OH + H2 => H2O + H",
+        "H + H2O => OH + H2",
+        "OH + OH => H2O + O",
+        "H + O2 + M => HO2 + M",
+        "H + HO2 => OH + OH",
+        "H + HO2 => H2 + O2",
+        "OH + HO2 => H2O + O2",
+        "HO2 + HO2 => H2O2 + O2",
+        "HO2 + HO2 => H2O2 + O2",
+        "H2O2 + M => OH + OH + M",
+        "H + OH + M => H2O + M",
+        "H + H + M => H2 + M",
+        "H2 + M => H + H + M"
+      ],
+      "elements": [
+        "Ar",
+        "H",
+        "N",
+        "O"
+      ],
+      "reaction_ids": [
+        "reaction-1",
+        "reaction-2",
+        "reaction-3",
+        "reaction-4",
+        "reaction-5",
+        "reaction-6",
+        "reaction-7",
+        "reaction-8",
+        "reaction-9",
+        "reaction-10",
+        "reaction-11",
+        "reaction-12",
+        "reaction-13",
+        "reaction-14",
+        "reaction-15",
+        "reaction-16"
+      ]
+    },
+    "co-h2-wet-v1": {
+      "name": "Kerotakis CO/H2 wet oxidation v1",
+      "species": [
+        "CO",
+        "CO2",
+        "H2",
+        "O2",
+        "H2O",
+        "H",
+        "O",
+        "OH",
+        "HO2",
+        "H2O2",
+        "N2",
+        "Ar"
+      ],
+      "equations": [
+        "H + O2 => O + OH",
+        "O + H2 => OH + H",
+        "O + H2 => OH + H",
+        "OH + H2 => H2O + H",
+        "H + H2O => OH + H2",
+        "OH + OH => H2O + O",
+        "H + O2 + M => HO2 + M",
+        "H + HO2 => OH + OH",
+        "H + HO2 => H2 + O2",
+        "OH + HO2 => H2O + O2",
+        "HO2 + HO2 => H2O2 + O2",
+        "HO2 + HO2 => H2O2 + O2",
+        "H2O2 + M => OH + OH + M",
+        "H + OH + M => H2O + M",
+        "H + H + M => H2 + M",
+        "H2 + M => H + H + M",
+        "OH + CO => H + CO2",
+        "OH + CO => H + CO2",
+        "OH + CO => H + CO2",
+        "H2O + M => H + OH + M"
+      ],
+      "elements": [
+        "Ar",
+        "C",
+        "H",
+        "N",
+        "O"
+      ],
+      "reaction_ids": [
+        "reaction-1",
+        "reaction-2",
+        "reaction-3",
+        "reaction-4",
+        "reaction-5",
+        "reaction-6",
+        "reaction-7",
+        "reaction-8",
+        "reaction-9",
+        "reaction-10",
+        "reaction-11",
+        "reaction-12",
+        "reaction-13",
+        "reaction-14",
+        "reaction-15",
+        "reaction-16",
+        "reaction-17",
+        "reaction-18",
+        "reaction-19",
+        "reaction-20"
+      ]
+    },
+    "hydrocarbon-global-v1": {
+      "name": "Kerotakis light-hydrocarbon global steps v1",
+      "species": [
+        "CH4",
+        "C3H8",
+        "C4H10",
+        "O2",
+        "CO2",
+        "H2O",
+        "N2"
+      ],
+      "equations": [
+        "CH4 + 2 O2 => CO2 + 2 H2O",
+        "C3H8 + 5 O2 => 3 CO2 + 4 H2O",
+        "C4H10 + 6.5 O2 => 4 CO2 + 5 H2O"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O"
+      ],
+      "reaction_ids": [
+        "reaction-1",
+        "reaction-2",
+        "reaction-3"
+      ]
+    }
+  },
+  "cases": [
+    {
+      "id": "inspect-h2-o2-skeletal-v1-json",
+      "input": "h2-o2-skeletal-v1",
+      "args": [
+        "mechanism",
+        "inspect",
+        "@input",
+        "--json"
+      ],
+      "contract": "inspect_json",
+      "expected_exit": 0,
+      "timeout_seconds": 20,
+      "rationale": "Shipped-pack parser admission, declared species/reaction identity and structured versus human output."
+    },
+    {
+      "id": "inspect-h2-o2-skeletal-v1-text",
+      "input": "h2-o2-skeletal-v1",
+      "args": [
+        "mechanism",
+        "inspect",
+        "@input"
+      ],
+      "contract": "inspect_text",
+      "expected_exit": 0,
+      "timeout_seconds": 20,
+      "rationale": "Shipped-pack parser admission, declared species/reaction identity and structured versus human output."
+    },
+    {
+      "id": "inspect-co-h2-wet-v1-json",
+      "input": "co-h2-wet-v1",
+      "args": [
+        "mechanism",
+        "inspect",
+        "@input",
+        "--json"
+      ],
+      "contract": "inspect_json",
+      "expected_exit": 0,
+      "timeout_seconds": 20,
+      "rationale": "Shipped-pack parser admission, declared species/reaction identity and structured versus human output."
+    },
+    {
+      "id": "inspect-co-h2-wet-v1-text",
+      "input": "co-h2-wet-v1",
+      "args": [
+        "mechanism",
+        "inspect",
+        "@input"
+      ],
+      "contract": "inspect_text",
+      "expected_exit": 0,
+      "timeout_seconds": 20,
+      "rationale": "Shipped-pack parser admission, declared species/reaction identity and structured versus human output."
+    },
+    {
+      "id": "inspect-hydrocarbon-global-v1-json",
+      "input": "hydrocarbon-global-v1",
+      "args": [
+        "mechanism",
+        "inspect",
+        "@input",
+        "--json"
+      ],
+      "contract": "inspect_json",
+      "expected_exit": 0,
+      "timeout_seconds": 20,
+      "rationale": "Shipped-pack parser admission, declared species/reaction identity and structured versus human output."
+    },
+    {
+      "id": "inspect-hydrocarbon-global-v1-text",
+      "input": "hydrocarbon-global-v1",
+      "args": [
+        "mechanism",
+        "inspect",
+        "@input"
+      ],
+      "contract": "inspect_text",
+      "expected_exit": 0,
+      "timeout_seconds": 20,
+      "rationale": "Shipped-pack parser admission, declared species/reaction identity and structured versus human output."
+    },
+    {
+      "id": "rates-h2-o2-skeletal-v1",
+      "input": "h2-o2-skeletal-v1",
+      "args": [
+        "mechanism",
+        "rates",
+        "@input",
+        "--volume-l",
+        "1",
+        "--temperature-k",
+        "1500",
+        "--feed",
+        "H2=0.000001",
+        "--feed",
+        "O2=0.000001",
+        "--feed",
+        "N2=0.000001",
+        "--json"
+      ],
+      "contract": "rates",
+      "expected_exit": 0,
+      "timeout_seconds": 20,
+      "rationale": "Tiny active feeds exercise compilation and finite current-rate output; no empirical rate magnitude is forecast."
+    },
+    {
+      "id": "rates-co-h2-wet-v1",
+      "input": "co-h2-wet-v1",
+      "args": [
+        "mechanism",
+        "rates",
+        "@input",
+        "--volume-l",
+        "1",
+        "--temperature-k",
+        "1500",
+        "--feed",
+        "H2=0.000001",
+        "--feed",
+        "CO=0.000001",
+        "--feed",
+        "O2=0.000001",
+        "--feed",
+        "N2=0.000001",
+        "--json"
+      ],
+      "contract": "rates",
+      "expected_exit": 0,
+      "timeout_seconds": 20,
+      "rationale": "Tiny active feeds exercise compilation and finite current-rate output; no empirical rate magnitude is forecast."
+    },
+    {
+      "id": "rates-hydrocarbon-global-v1",
+      "input": "hydrocarbon-global-v1",
+      "args": [
+        "mechanism",
+        "rates",
+        "@input",
+        "--volume-l",
+        "1",
+        "--temperature-k",
+        "1500",
+        "--feed",
+        "CH4=0.000001",
+        "--feed",
+        "O2=0.000001",
+        "--feed",
+        "N2=0.000001",
+        "--json"
+      ],
+      "contract": "rates",
+      "expected_exit": 0,
+      "timeout_seconds": 20,
+      "rationale": "Tiny active feeds exercise compilation and finite current-rate output; no empirical rate magnitude is forecast."
+    },
+    {
+      "id": "simulate-inert-bounded",
+      "input": "h2-o2-skeletal-v1",
+      "args": [
+        "mechanism",
+        "simulate",
+        "@input",
+        "--seconds",
+        "0.0001",
+        "--samples",
+        "2",
+        "--volume-l",
+        "1",
+        "--temperature-k",
+        "1500",
+        "--feed",
+        "N2=0.000001",
+        "--json"
+      ],
+      "contract": "simulate_inert",
+      "expected_exit": 0,
+      "timeout_seconds": 20,
+      "rationale": "N2 is absent from all net reaction stoichiometry; a tiny bounded inert-only trajectory should preserve all inventories and have zero extents."
+    },
+    {
+      "id": "inspect-complex-note-equivalence",
+      "input": "complex-note",
+      "args": [
+        "mechanism",
+        "inspect",
+        "@input",
+        "--json"
+      ],
+      "contract": "complex_note",
+      "expected_exit": 0,
+      "timeout_seconds": 20,
+      "rationale": "An ignored complex-key/nonfinite root annotation must preserve the complete ordinary-pack inspect JSON."
+    },
+    {
+      "id": "refuse-custom-tag-composition-shape",
+      "input": "custom-tag-invalid-composition",
+      "args": [
+        "mechanism",
+        "inspect",
+        "@input",
+        "--json"
+      ],
+      "contract": "refusal",
+      "expected_exit": 1,
+      "timeout_seconds": 20,
+      "rationale": "A custom-tagged sequence cannot satisfy typed composition mapping admission.",
+      "stderr_contains": [
+        "invalid mechanism YAML"
+      ]
+    },
+    {
+      "id": "refuse-undeclared-feed",
+      "input": "h2-o2-skeletal-v1",
+      "args": [
+        "mechanism",
+        "rates",
+        "@input",
+        "--volume-l",
+        "1",
+        "--temperature-k",
+        "1500",
+        "--feed",
+        "UNDECLARED=0.000001",
+        "--json"
+      ],
+      "contract": "refusal",
+      "expected_exit": 2,
+      "timeout_seconds": 20,
+      "rationale": "Feed validation must refuse a species outside the admitted mechanism.",
+      "stderr_contains": [
+        "feed species 'UNDECLARED' is not declared"
+      ]
+    },
+    {
+      "id": "refuse-negative-volume",
+      "input": "h2-o2-skeletal-v1",
+      "args": [
+        "mechanism",
+        "rates",
+        "@input",
+        "--volume-l",
+        "-1",
+        "--temperature-k",
+        "1500",
+        "--feed",
+        "N2=0.000001",
+        "--json"
+      ],
+      "contract": "refusal",
+      "expected_exit": 2,
+      "timeout_seconds": 20,
+      "rationale": "Argument admission must reject a negative reactor volume before evaluation.",
+      "stderr_contains": [
+        "--volume-l must be finite and positive"
+      ]
+    },
+    {
+      "id": "refuse-zero-samples",
+      "input": "h2-o2-skeletal-v1",
+      "args": [
+        "mechanism",
+        "simulate",
+        "@input",
+        "--seconds",
+        "0.0001",
+        "--samples",
+        "0",
+        "--volume-l",
+        "1",
+        "--temperature-k",
+        "1500",
+        "--feed",
+        "N2=0.000001",
+        "--json"
+      ],
+      "contract": "refusal",
+      "expected_exit": 2,
+      "timeout_seconds": 20,
+      "rationale": "Trajectory sample interval count must be positive.",
+      "stderr_contains": [
+        "--samples must be positive"
+      ]
+    }
+  ],
+  "frozen_before_any_execution": true,
+  "execution_at_freeze": "Not executed",
+  "scope": "Source-informed parser/CLI engineering controls: exactly fifteen individual invocations, eleven expected successes and four expected refusals.",
+  "limits": [
+    "No empirical rate constants, reaction yields, ignition delay, flame properties or solver accuracy are forecast.",
+    "Pack files carry their own Kerotakis CC BY 4.0 provenance; the collector does not redistribute third-party mechanism files.",
+    "1500 K is a mechanical migration input, not a statement that all published per-reaction validity ranges overlap or apply there.",
+    "The inert-only short trajectory deliberately avoids stiff combustion and does not establish active integration fidelity.",
+    "Binary SHA is independently required; exact compilation/source/lock provenance must be supplied and reviewed separately.",
+    "Frozen expectations and all failures must be preserved; an observed baseline failure does not authorize rewriting forecasts."
+  ],
+  "collector_sha256": "8c5aa8f733e78e1b3dd63be69f9a38e9198452696fe1dfe4944ccc228b885ebf",
+  "pack_attribution": "Kerotakis gas-phase mechanism packs, CC BY 4.0; derived complex-note witness retains the same attribution."
+}
