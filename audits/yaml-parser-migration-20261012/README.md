@@ -1,6 +1,6 @@
 # YAML parser migration prerequisite
 
-## Integrated dependency; next integrate the admission repair
+## Dependency and nested-rate admission repair integrated
 
 [PR783](https://github.com/CrispStrobe/kerotakis/pull/783) is merged as
 `b246408b8156f12594ab18e71cc9c3edee3c7623`.
@@ -13,19 +13,24 @@ declared steps pass; independent saved-output review covers 702 cases and 991
 checks, with zero unmet expectations. The earlier partial checkpoints below
 remain historical. No postmerge test execution is inferred.
 
-Next complete PR784's own fleet and actual saved-output reviews. Its
-[integration plan](integration-preparation-51e99750.json) and
-[preparation validation](integration-preparation-validation-51e99750.json)
-now bind the unchanged repair source and accepted receipts to main, with
-[independent review](integration-preparation-independent-review-51e99750.json).
-The [latest read-only preflight](integration-after-available-output-review-51e99750.json)
-verifies 30 successful jobs and their declared steps. V2 thermochemical-paths
-and analytical-observables are queued; the 288-case aggregate is not yet created.
-The [first preflight](integration-awaiting-fleet-51e99750.json) and
-[21:27 UTC checkpoint](own-fleet-progress-20261012-2127.json) remain historical.
-No merge readiness or repair integration is accepted. The confirmed nested-key
-repair and final-safety PR782 remain unintegrated. Preserve all original
-forecasts, first outcomes and receipts.
+[PR784](https://github.com/CrispStrobe/kerotakis/pull/784) is merged as
+`668220add3c81adf9d86ca551f4a0278ba3969f5`.
+[Final premerge checks](integration-final-premerge-51e99750.json) and
+[actual integration evidence](integration-accepted-51e99750.json), with
+[independent postmerge review](integration-accepted-independent-review-51e99750.json), verify the
+exact head, immediate base, merge parents and reviewed tree. Its
+[independent readiness review](integration-readiness-independent-review-51e99750.json)
+and [full fleet gate review](own-fleet-gate-review-51e99750.json) accept all
+33 jobs and every declared step. The
+[hosted v2 aggregate](own-fleet-v2-aggregate-independent-review-51e99750.json)
+exactly matches the independently computed twelve-family result.
+The nested-key admission repair is closed on main; next validate the
+[source-replayed safety candidate](../production-final-rule-matrix-20261012/README.md).
+The [22:00 UTC checkpoint](own-fleet-progress-20261012-2200.json),
+[first preflight](integration-awaiting-fleet-51e99750.json),
+[earlier partial review](integration-after-available-output-review-51e99750.json)
+and [draft-only preflight](integration-after-final-output-review-51e99750.json)
+remain historical. Preserve all original forecasts, first outcomes and receipts.
 GitHub automatically retargeted PR784 to main; its head is unchanged.
 [Base compatibility review](pr784-base-compatibility-review-51e99750.json)
 verifies identical tracked trees for its old tested base and accepted main, and
@@ -42,10 +47,14 @@ were independently reviewed: **600 saved cases and 796 checks**, zero unmet.
 The [actual completed 240- and 120-case aggregates](own-fleet-completed-aggregate-output-review-51e99750.json)
 match those reviewed reports. Original scripts, raw streams, summary fields,
 exact-source analyzers/registry and each own CLI artifact download were checked.
-Together with the frozen fleets, accepted output review covers **654 cases and
-931 checks**. The first resource rejection is preserved. The remaining two
-family artifacts and 288-case aggregate still need actual own-source review;
-full fleet and integration are unaccepted. No CLI experiment is rerun.
+The [final two family outputs](own-fleet-final-48-output-review-51e99750.json)
+add **48 cases and 60 checks**, all passing. Together with the frozen fleets,
+accepted own repair output review covers **702 cases and 991 checks**, zero unmet.
+[Offline v2 aggregation](own-fleet-offline-v2-aggregate-review-51e99750.json)
+independently combines all twelve saved own reports: 288 cases, 80 relations and
+368 checks, zero unmet. The actual hosted aggregate was subsequently accepted separately above. The first resource rejection and earlier partial receipts
+are preserved. No accepted CLI experiment is rerun. These checks establish
+source-specific model contracts, rather than empirical chemistry accuracy.
 
 ## Dependency investigation and validation history
 

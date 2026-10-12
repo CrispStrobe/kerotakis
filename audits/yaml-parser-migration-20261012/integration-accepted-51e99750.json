@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "pr": 784,
+  "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/784",
+  "head": "51e997509126f099b22fbe963750ac06f36dadfe",
+  "base": "b246408b8156f12594ab18e71cc9c3edee3c7623",
+  "merge_commit": "668220add3c81adf9d86ca551f4a0278ba3969f5",
+  "merge_parents": [
+    "b246408b8156f12594ab18e71cc9c3edee3c7623",
+    "51e997509126f099b22fbe963750ac06f36dadfe"
+  ],
+  "tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+  "current_main": "668220add3c81adf9d86ca551f4a0278ba3969f5",
+  "merged_at": "2026-10-12T22:09:24Z",
+  "ordinary_merge": true,
+  "exact_head_guard": true,
+  "actual_parents_tree_verified": true,
+  "accepted_integration": true,
+  "premerge_receipt_path": "audits/yaml-parser-migration-20261012/integration-final-premerge-51e99750.json",
+  "premerge_receipt_sha256": "0a60f631dfec26b2cf4af38af9ac3a7a2b93fb1304736a129850ac11c952cb86",
+  "independent_readiness_path": "audits/yaml-parser-migration-20261012/integration-readiness-independent-review-51e99750.json",
+  "independent_readiness_sha256": "95a0c1657745a539038d85d560c094fc5e3433c4aff309f99f22acadd73e00c1",
+  "actual_postmerge_evidence_sha256": {
+    "immediate-pr-command.json": "f35b6e58345c50d5d6050ad77f59fa185d190b6a7a4a7b7d55aad603e1b915f6",
+    "postmerge-main-command.json": "6673b6d839adff9329200ffc194ec05107db7f3ad3c2ba7f1ca5190a3545907a",
+    "merge-command.json": "1df3bb6b2f548729bfb30ee5b467bad325466ebc11404c81e8efa566f5fbfbd0",
+    "immediate-main-command.json": "ab5ffc117f9a9a2a4402a7292c0b326adaada3ae8e6a3784fb4600c329c103f7",
+    "postmerge-main.json": "dc643eb43d3647e15c6bc32e4b5fa860a01da036c266a183e8a58035ee3f8145",
+    "actual-merge-commit-command.json": "45f9157e9c889c62970403b156eff4bc5b57d2e57371973c291ca05b77d34ec1",
+    "actual-merge-commit.json": "987cf78756c6920ba2772cd12158b9cae65663084de915dbe36272493e1b37a5",
+    "immediate-pr.json": "82e656d24d7c029a4e4b16247c6e0f3b6fc46b642e8153b3672e9e2036971e13",
+    "postmerge-pr-command.json": "63beff68f695eab6aaee1f14395377a2583f7d59aa0b785bfc0dcbe81121f5b3",
+    "postmerge-pr.json": "9c52855e6a163e83e1a2c83b74bb2b16e0a26894d9c492a7a72ee37cc9d1d5d2",
+    "immediate-main.json": "52628421a85d9349f402b7484bc276d75172e02b5e1aaa0d1b34d48a9937f4a2"
+  },
+  "limits": [
+    "Premerge outcomes retain actual tested checkout; no postmerge test execution inferred.",
+    "Atomic exact head guard plus immediate base check; actual parents/tree independently verified after merge.",
+    "Only narrow nested-rate admission repair and unchanged13 regressions merged; broad audit branch never merged."
+  ]
+}

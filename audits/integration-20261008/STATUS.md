@@ -1,5 +1,24 @@
 # Integration checkpoint — 2026-10-10
 
+## Parser and nested-rate admission repairs integrated — 2026-10-12
+
+[PR783](https://github.com/CrispStrobe/kerotakis/pull/783) and
+[PR784](https://github.com/CrispStrobe/kerotakis/pull/784) are integrated.
+Main at this checkpoint is `668220add3c81adf9d86ca551f4a0278ba3969f5`.
+[Actual repair acceptance](../yaml-parser-migration-20261012/integration-accepted-51e99750.json)
+verifies guarded merge, actual parents and reviewed tree. Each candidate's own
+33-job fleet and saved outputs were accepted independently; PR784 covers
+702 cases and 991 checks, zero unmet. Native results retain their actual tested
+checkout and the explicitly reviewed base-tree compatibility.
+
+Next validate the narrow [final-safety replay](../production-final-rule-matrix-20261012/README.md)
+on this accepted main. Require its new head's own native 40-fixture/517-function
+inventory, complete CI/fleet and supported production CLI witnesses. Old-head
+results and source-only inventory do not certify the replay. Annotation custom
+tags, historical regression coverage and measured optimization remain separate
+lanes in the [work agenda](../../docs/chemistry-work-agenda-20261012.md).
+
+
 ## Mandatory fallback applicability integrated — 2026-10-12
 
 [PR781](https://github.com/CrispStrobe/kerotakis/pull/781) is merged as main `a125c88d`, with [actual parents/tree independently verified](../registry-loader-applicability-20261012/main-tree-equality.json) equal to tested head `7cce5b8f`. Its own revised paired50/50, both native404-function/37-fixture inventories, registry admission10, complete604core/17data/28safety libraries, completeCI26 and full33 fleet/every declared step are accepted. Fresh preflight and immediate run/rollup/head/base/main guards preceded the ordinary merge. Original Rust6pass/20fail and generator6pass/18fail, frozen fixtures and exact assertion-port adaptation remain preserved. Ordinary native CI's lock stays uncaptured; paired execution captures its own actual lock and newly compiled generator.

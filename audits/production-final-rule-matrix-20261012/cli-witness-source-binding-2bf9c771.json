@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+  "tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+  "preparation_only": true,
+  "tests_executed": false,
+  "cli_executed": false,
+  "source_sha256": {
+    "README.md": "738ae5056a2706b975f4bc455148d1f5fbbf7da1eefb21bda837633f54adf796",
+    "PROTOCOL.md": "75b9bd26b52507681bec39a47ed4eab42ce3bc6cc634e14777a521110a912574",
+    "crates/kerotakis-cli/src/main.rs": "01f522776015dc122e843985bde84406218ce4fa8f8487a6cd14766337dc739a",
+    "crates/kerotakis-safety/src/lib.rs": "f78ca77b561821c1cf912cbccde63607734e48d9b831be8c75b4d9aa892eb447",
+    "crates/kerotakis-safety/tests/production_remaining_final_rules.rs": "fa7c370805203489fbcdcb18a6c9e99906073f5e1a3285a09b99f53302f912b6",
+    "crates/kerotakis-core/src/bench.rs": "2369dd47dfe5429678878b379a18cd7e2cb756b8bbe58508d8e0e10570a56df2",
+    "crates/kerotakis-core/src/required_conservation.rs": "4f9adc5d63ae0f9a815e74190ad42742e0823942a409df763f6f5825d9e736ce",
+    "crates/kerotakis-core/src/displacement.rs": "151a93015e59fb019397baa0ce5c25e729cfb5d93e9332ad8bcdec7c37467bae",
+    "crates/kerotakis-stack/src/lib.rs": "eecb8dc4356e3f3b18bcfc13b772fca988d71c9b9b1ba6fb45ce916d1e2a6a4b",
+    "crates/kerotakis-phreeqc/src/lib.rs": "f0c553cad7721ac90a8942855a927694e0eb3a66c674474e187faf1996a5c52d",
+    "crates/kerotakis-phreeqc/src/derived.rs": "d5d2436439578f6fbad78dc320582b32769c2ea5cdc4070fa74a97b5820122c5"
+  },
+  "plan_path": "audits/production-final-rule-matrix-20261012/cli-witness-plan-2bf9c771.md",
+  "plan_sha256": "25deee9aaec3124eee3132c52b63cb8ea2b137da8ac2938f8e4b88c4bcecaa87",
+  "limits": [
+    "Source-informed virtual CLI discovery proposals; solver admission and scientific outputs remain unobserved.",
+    "No frozen controls or forecasts were changed."
+  ]
+}

@@ -1,23 +1,47 @@
 # Remaining final-state safety rule matrix
 
-## Current next step after the parser prerequisite
+## Current safety replay after integrated prerequisites
 
 The parser prerequisite [PR783](https://github.com/CrispStrobe/kerotakis/pull/783)
-is integrated as `b246408b`. The nested-rate admission repair PR784 remains
-unintegrated and precedes this safety replay. PR782's existing head `24dda97b`
-and its old-head results remain unchanged.
-[Source carry-forward review](source-carry-forward-review-24dda97b.json)
-finds no merge conflicts against accepted main or the prospective PR784 source:
-only the original two safety files change, and both original safety blobs are
-preserved. This is source feasibility, not a new candidate or test execution.
-[Independent carry-forward review](source-carry-forward-independent-review-24dda97b.json)
-reproduces both trees and derives the prospective focused inventory from source:
-40 fixtures and 517 functions. The previous 39/467 identities are unchanged,
-with the original fifty safety controls added. Rebind the inventory to the
-actual new head after replay; these are prospective identities, not test results.
-After PR784 integrates, bind the replay to actual fresh main and validate the
-resulting new head with its own CI, native controls, fleet and supported CLI
-witnesses. Preserve all original forecasts, freezes, failures and outcomes.
+and nested-rate admission repair [PR784](https://github.com/CrispStrobe/kerotakis/pull/784)
+are integrated. Actual main for this replay is
+`668220add3c81adf9d86ca551f4a0278ba3969f5`.
+The [new source replay](source-replay-preparation.json) is head
+`2bf9c771975f24b9e5b933728ef440cbca9a8ec6`, tree
+`8613e46420a8f8d76f39732c5a50d3dcd8417811`, with that main as its sole parent.
+[Independent replay review](source-replay-independent-review-2bf9c771.json)
+verifies only the original two safety files change; both exact old-head blobs
+and all fifty frozen controls are preserved. Old head `24dda97b` and its original
+failures, passes and advisory failure remain historical.
+
+The [new source-derived native plan](native-plan-replay.json) binds actual
+40 fixtures and 517 functions to this head: all prior 39/467 identities and
+fixture hashes are unchanged, with the original fifty safety controls added.
+This is an inventory, not new test execution. Require this head's own complete
+CI, both native inventories, affected libraries, full fleet and supported
+production CLI witnesses before guarded integration. Do not substitute old-head
+results or alter the unchanged dependency policy.
+
+[Publication and own dispatch](replay-validation-dispatch-2bf9c771.json)
+verify PR782 now has this exact new head and remains draft. Its own
+[CI38315281854](https://github.com/CrispStrobe/kerotakis/actions/runs/38315281854)
+and [fleet38315281856](https://github.com/CrispStrobe/kerotakis/actions/runs/38315281856)
+were queued at publication; no new-head outcome is accepted here. The update
+used a lease on the exact old head and retained the original commit.
+
+The [eight proposed CLI witnesses](cli-witness-plan-2bf9c771.md) specify
+positive/benign discovery lanes, surviving inventories, source attribution and
+solver-domain limitations. [Exact source bindings](cli-witness-source-binding-2bf9c771.json)
+accompany the plan. This is preparation, not frozen controls or executed
+outcomes. First review the own built artifact and supported routes; then freeze
+bounded scripts and checks before executing once. Ordinary prospective warnings
+do not alone prove final-callback coverage. Preserve unsupported gas/solid,
+sulfite-redox and lime-consumption boundaries explicitly.
+
+The [earlier source feasibility review](source-carry-forward-review-24dda97b.json)
+and [independent review](source-carry-forward-independent-review-24dda97b.json)
+remain preserved as prospective history. No large local build is required to
+publish this narrow source replay; actual hosted validation remains separate.
 
 ## Original baseline and validation history
 
@@ -90,13 +114,12 @@ passes cannot automatically certify a future source including the parser change.
 
 Next executable lanes:
 
-1. Finish PR784's own source-bound fleet and guarded integration. Capture actual
-   fresh main afterward; do not substitute its prospective head for accepted main.
-2. Carry forward PR782's four whitelist additions and unchanged fifty-test
-   fixture onto that main. Verify the exact two-file diff and original safety
-   blobs; resolve any new conflicts explicitly. Record the resulting new head,
-   tree and actual lock. Run the unchanged fifty controls and complete affected
-   libraries when the resource gate permits, or use its own hosted checks.
+1. Source replay is prepared on actual accepted main; verify its independent
+   source review and exact new-head association before accepting any outcome.
+2. Capture the replay's own CI and full fleet, without duplicate dispatches.
+   Review all fifty unchanged controls and complete affected libraries from its
+   actual outputs. Preserve its actual lock associations and do not borrow
+   old-head results.
 3. Derive the complete focused native fixture inventory from that actual source;
    retain all prior six-rule contracts. Require the candidate's own CI on both
    native platforms and complete fleet before integration. Establish actual

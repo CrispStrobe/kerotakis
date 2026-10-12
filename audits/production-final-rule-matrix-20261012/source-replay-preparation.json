@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "pr": 782,
+  "old_head": "24dda97b60443d5e00b1fb25015fe2942c535227",
+  "base": "668220add3c81adf9d86ca551f4a0278ba3969f5",
+  "head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+  "tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+  "changed_paths": [
+    "crates/kerotakis-safety/src/lib.rs",
+    "crates/kerotakis-safety/tests/production_remaining_final_rules.rs"
+  ],
+  "source_file_sha256": {
+    "crates/kerotakis-safety/src/lib.rs": "f78ca77b561821c1cf912cbccde63607734e48d9b831be8c75b4d9aa892eb447",
+    "crates/kerotakis-safety/tests/production_remaining_final_rules.rs": "fa7c370805203489fbcdcb18a6c9e99906073f5e1a3285a09b99f53302f912b6"
+  },
+  "original_safety_blobs_preserved": true,
+  "original_fifty_fixture_unchanged": true,
+  "tests_executed": false,
+  "accepted_integration": false,
+  "scope": "Actual narrow safety source replay onto accepted main. Old-head outcomes remain historical; new head requires own native, CI, fleet and supported CLI evidence."
+}

@@ -169,32 +169,22 @@ confirms old tested base `1acdda46` and current main have identical tracked tree
 the plan pins `native_tested_base` explicitly. Tests remain associated with
 their original checkout and are not described as rerun after retargeting.
 
-Next accept PR784's own complete 33-job inventory, every declared step and
-aggregate, and source/artifact/lock/result associations. Its
-[latest actual preflight](../audits/yaml-parser-migration-20261012/integration-after-available-output-review-51e99750.json)
-has 30 successful jobs; v2 analytical-observables and thermochemical-paths are
-queued and their 288-case aggregate is not yet created. The
-[25 completed family reviews](../audits/yaml-parser-migration-20261012/own-fleet-available-output-review-51e99750.json)
-accept 600 cases/796 checks, with zero unmet expectations. The
-[actual 240- and 120-case aggregates](../audits/yaml-parser-migration-20261012/own-fleet-completed-aggregate-output-review-51e99750.json)
-match the independently reviewed family reports. The
-[own frozen fleet review](../audits/yaml-parser-migration-20261012/own-frozen-fleet-independent-review-51e99750.json)
-accepts another 54 cases/135 checks: total 654 cases/931 checks. Preserve these
-receipts and do not rerun accepted CLI controls. Review the final two families'
-own 48 saved cases and actual 288-case aggregate after they complete. Use the
-same exact-head manifests/analyzers/registry and verify every actual own
-artifact, raw stream, summary and CLI download/binary/lock association. Keep the
-first resource rejection and all per-family continuation checkpoints. A fresh
-passing resource gate is required before the remaining artifact work.
-PR783's guarded integration and PR784's explicit base binding are complete.
-After independently accepting the repair's own outputs and complete fleet, run
-`python3 tools/registry-integration-preflight.py --plan audits/yaml-parser-migration-20261012/integration-preparation-51e99750.json --evidence-dir <new-private-evidence-directory>`.
-Inspect actual readiness, draft state and fresh head/base/main/merge-tree/rollup
-guards. If only draft blocks readiness, independently review those guards,
-mark ready, run fresh guards, then ordinary merge with the exact head guard and
-immediate base check. Verify actual parents and tree afterward. Any changed
-head or incompatible base tree needs fresh source-specific bindings and gates.
-Keep production changes narrow and all original outcomes intact.
+[PR784 is integrated](https://github.com/CrispStrobe/kerotakis/pull/784) as
+`668220add3c81adf9d86ca551f4a0278ba3969f5`.
+[Final guards](../audits/yaml-parser-migration-20261012/integration-final-premerge-51e99750.json)
+and [actual acceptance](../audits/yaml-parser-migration-20261012/integration-accepted-51e99750.json)
+verify fresh readiness, exact head, immediate base, actual parents and reviewed tree.
+[Independent fleet review](../audits/yaml-parser-migration-20261012/own-fleet-gate-review-51e99750.json)
+accepts all 33 jobs and declared steps. The
+[25-family review](../audits/yaml-parser-migration-20261012/own-fleet-available-output-review-51e99750.json),
+[final two-family review](../audits/yaml-parser-migration-20261012/own-fleet-final-48-output-review-51e99750.json)
+and [frozen outputs](../audits/yaml-parser-migration-20261012/own-frozen-fleet-independent-review-51e99750.json)
+cover **702 saved cases and 991 checks**, zero unmet expectations.
+[Actual hosted v2 aggregation](../audits/yaml-parser-migration-20261012/own-fleet-v2-aggregate-independent-review-51e99750.json)
+exactly matches the separate offline aggregation. No accepted controls were rerun.
+Preserve partial checkpoints and original outcomes. No postmerge test execution
+or empirical chemistry accuracy is inferred. Continue with the safety replay,
+then the separate annotation contract lane below.
 
 
 ## 0b. Adjudicate tagged ignored annotations as a separate admission lane
@@ -215,25 +205,37 @@ repair on a newly inferred syntax expansion.
 
 ## 1. Close the remaining reviewed final-safety rule tranche
 
-[Draft PR782](https://github.com/CrispStrobe/kerotakis/pull/782), exact head
-`24dda97b`, now passes all50 frozen controls after the original24pass/26fail
-baseline; original and candidate core604/safety28 libraries pass. Candidate
-formatting, prior404 focused controls and targeted safety Clippy pass. Both own
-native jobs verify454 focused controls across38 fixtures and649 libraries.
-Whole CI fails on the parser dependency advisory; full fleet remains pending.
-Preserve the original failure evidence. After accepting the dependency repair,
-and completing PR784, carry the original two-file safety change onto actual
-fresh main and validate the resulting safety source with its own gates.
-[Source feasibility review](../audits/production-final-rule-matrix-20261012/source-carry-forward-review-24dda97b.json)
-verifies a conflict-free replay with both original safety blobs preserved on
-accepted main and the prospective PR784 tree. No new candidate or tests are
-claimed by that review; refresh against actual main before replay.
-[Independent source review](../audits/production-final-rule-matrix-20261012/source-carry-forward-independent-review-24dda97b.json)
-reproduces both trees and derives a prospective 40-fixture/517-function
-inventory, preserving all existing 39/467 identities plus the original fifty
-safety controls. Bind those identities to the actual new head after replay;
-the prospective inventory does not report test execution.
-Production CLI support and actual guarded integration remain separate gates.
+PR783 and PR784 are integrated. The [actual narrow replay](../audits/production-final-rule-matrix-20261012/source-replay-preparation.json)
+now carries the original safety change onto accepted main `668220ad`, at new
+head `2bf9c771975f24b9e5b933728ef440cbca9a8ec6` and tree `8613e464`.
+Only the two original safety files change; all fifty frozen controls and both
+old-head safety blobs are unchanged. The [actual source-derived native plan](../audits/production-final-rule-matrix-20261012/native-plan-replay.json)
+binds 40 fixtures/517 functions, preserving prior 39/467 identities and hashes.
+Inventory is separate from executed acceptance.
+
+Next capture this head's own CI, both native inventories, affected library
+outcomes and full 33-job fleet. Establish supported production CLI witnesses
+with actual surviving final inventories before freezing positive and benign
+controls. Preserve unsupported domains explicitly. Integrate only after these
+new-head results and fresh guards are independently accepted. Large local
+builds remain subject to the operating resource gate; hosted checks can proceed.
+
+The [published replay](../audits/production-final-rule-matrix-20261012/replay-validation-dispatch-2bf9c771.json)
+is PR782's draft head; own CI38315281854 and fleet38315281856 were queued at
+publication. [Independent source review](../audits/production-final-rule-matrix-20261012/source-replay-independent-review-2bf9c771.json)
+accepts the narrow replay structure. The [CLI witness plan](../audits/production-final-rule-matrix-20261012/cli-witness-plan-2bf9c771.md)
+prepares eight positive/benign discovery scripts and explains supported-domain
+and final-callback attribution checks. No new-head tests or CLI outcomes are
+accepted yet. Start with own artifact provenance, then freeze the admitted
+scripts and checks before one bounded execution.
+
+Old head `24dda97b` passed the original fifty controls after the original
+24-pass/26-fail baseline, with both native inventories and library results,
+but failed preflight on the archived parser dependency. Those results and the
+[source feasibility history](../audits/production-final-rule-matrix-20261012/source-carry-forward-independent-review-24dda97b.json)
+remain preserved; they do not certify the new replay. See the
+[detailed safety lane](../audits/production-final-rule-matrix-20261012/README.md)
+for source bindings and acceptance limits.
 
 Follow [SAF-01](chemistry-audit-next-lanes.md#saf-01--integrate-one-production-final-safety-exposure-slice)
 on exact accepted main. Snapshot `crates/kerotakis-safety/src/lib.rs` rule metadata
@@ -247,9 +249,9 @@ alias/refinement expectations before testing, with original freezes untouched.
 The [original fifty controls](../audits/production-final-rule-matrix-20261012/README.md)
 are now frozen on main `a125c88d`; the dedicated
 [hosted baseline](https://github.com/CrispStrobe/kerotakis/actions/runs/38252519107)
-is dispatched at audit revision `2deeb4d2`. Next verify the artifact manifest,
-source/actual lock and exact fifty identities, then read preserved first failures.
-No result or repair is claimed at dispatch. The fixed callback location and
+was dispatched at audit revision `2deeb4d2` and independently reviewed.
+Its original 24-pass/26-fail outcome and actual captured lock remain preserved;
+that baseline is complete and must not be redispatched. The fixed callback location and
 synthetic gas/pH domains limit the identity and physical claims explicitly.
 
 Collect an unchanged-source baseline and complete affected libraries. Establish

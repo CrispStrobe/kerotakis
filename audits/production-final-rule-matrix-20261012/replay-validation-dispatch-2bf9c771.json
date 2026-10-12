@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "pr": 782,
+  "head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+  "base": "668220add3c81adf9d86ca551f4a0278ba3969f5",
+  "draft": true,
+  "published": true,
+  "old_head": "24dda97b60443d5e00b1fb25015fe2942c535227",
+  "exact_old_head_push_lease_used": true,
+  "own_runs": [
+    {
+      "conclusion": "",
+      "databaseId": 38315281856,
+      "event": "pull_request",
+      "headSha": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+      "status": "queued",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38315281856",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "conclusion": "",
+      "databaseId": 38315281854,
+      "event": "pull_request",
+      "headSha": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+      "status": "queued",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38315281854",
+      "workflowName": "CI"
+    }
+  ],
+  "tests_accepted": false,
+  "accepted_integration": false,
+  "evidence_sha256": {
+    "published-runs.json": "4f9a63eb28598db5dbdc4e9d30c09c89a183a04aae803288742577402d830e2a",
+    "result.json": "944d10f48452480942ab33457fd54736d0a21d66f07905234b839ebb57784ee4",
+    "immediate-publication-pr.json": "81470737e3a19914464e1979dd04bb340dcfd9c22c5717e77d7efc6f511a2743",
+    "push-command.json": "176a07db28512441295b19ecc777e40f00c8803efcf4030d1691c667f5830395",
+    "published-pr.json": "c0416ac0d8a5b5aacacc454f43aec8be2db833729038333c924a44a043b96f57",
+    "immediate-publication-main.json": "bcfcc9fa67bb1f66274eb8759d170ba631246816e6e7fdd15abee95376f70769",
+    "publication-plan.json": "563b2302100c96a26a006f14cb0337fcba87c96d884bfd8a1f84c78cd7e5dedb"
+  },
+  "scope": "New source publication and own automatic CI/fleet dispatch association only. No new-head outcomes accepted; no duplicate dispatch."
+}
