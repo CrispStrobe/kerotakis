@@ -214,3 +214,28 @@ fn established_annotation_owners_remain_accepted() {
         parse_yaml(&input(ELEMENTARY)).unwrap()
     );
 }
+
+#[test]
+fn plog_pressure_ownership_is_independent_of_key_order() {
+    let reordered = PLOG
+        .replace(
+            "P: 100000.0, A: 1.0, b: 0.0, Ea: 0.0",
+            "A: 1.0, b: 0.0, Ea: 0.0, P: 100000.0",
+        )
+        .replace(
+            "P: 200000.0, A: 2.0, b: 0.0, Ea: 0.0",
+            "A: 2.0, b: 0.0, Ea: 0.0, P: 200000.0",
+        );
+    assert_eq!(
+        parse_yaml(&input(PLOG)).unwrap(),
+        parse_yaml(&input(&reordered)).unwrap()
+    );
+}
+
+#[test]
+fn supplied_troe_t2_survives_lowering() {
+    assert_ne!(
+        parse_yaml(&input(FALLOFF)).unwrap(),
+        parse_yaml(&input(&FALLOFF.replace(", T2: 5000.0", ""))).unwrap()
+    );
+}
