@@ -155,16 +155,36 @@ inventories were not parsed; legacy oracle ran zero tests.
 [Native guard inputs](../audits/yaml-parser-migration-20261012/native-guard-inputs-preparation-51e99750.json)
 and [independent review](../audits/yaml-parser-migration-20261012/native-guard-inputs-independent-review-51e99750.json)
 prepare both accepted native receipts with exact-source 39/467 inventory. They
-are not a full integration plan and do not establish readiness.
+remain unchanged. The new [full integration preparation](../audits/yaml-parser-migration-20261012/integration-preparation-51e99750.json)
+and [validation](../audits/yaml-parser-migration-20261012/integration-preparation-validation-51e99750.json)
+bind these receipts and own complete CI to actual main `b246408b`.
+[Independent preparation review](../audits/yaml-parser-migration-20261012/integration-preparation-independent-review-51e99750.json)
+accepts all seventeen receipt pins and both native validators. The
+[actual read-only preflight](../audits/yaml-parser-migration-20261012/integration-awaiting-fleet-51e99750.json)
+returns not ready because the own fleet remains incomplete. This is a pending
+checkpoint, not merge acceptance.
+GitHub automatically retargeted the unchanged head. The
+[base compatibility review](../audits/yaml-parser-migration-20261012/pr784-base-compatibility-review-51e99750.json)
+confirms old tested base `1acdda46` and current main have identical tracked trees;
+the plan pins `native_tested_base` explicitly. Tests remain associated with
+their original checkout and are not described as rerun after retargeting.
 
 Next accept PR784's own complete 33-job inventory, every declared step and
-aggregate, and source/artifact/lock/result associations. Its 21:09 UTC snapshot
-has 22 successful jobs, ten queued and the v2 aggregate not yet created.
-PR783's guarded integration is complete. Explicitly resolve PR784's stacked base
-against accepted main and create its full integration plan from the actual
-head/base/tested-tree associations. Any changed head needs new source-specific
-bindings and gates; unchanged-head/tree compatibility also requires explicit
-checks. Keep the two production changes narrow and all original outcomes intact.
+aggregate, and source/artifact/lock/result associations. Its latest actual
+preflight has 25 successful jobs, seven queued and the v2 aggregate not yet
+created. Remaining family lanes are v2 kinetics-boundaries,
+household-biochemistry, materials-transport, analytical-observables and
+thermochemical-paths; all three aggregates remain pending. Review actual own
+artifact outputs even for jobs that have already passed.
+PR783's guarded integration and PR784's explicit base binding are complete.
+After independently accepting the repair's own outputs and complete fleet, run
+`python3 tools/registry-integration-preflight.py --plan audits/yaml-parser-migration-20261012/integration-preparation-51e99750.json --evidence-dir <new-private-evidence-directory>`.
+Inspect actual readiness, draft state and fresh head/base/main/merge-tree/rollup
+guards. If only draft blocks readiness, independently review those guards,
+mark ready, run fresh guards, then ordinary merge with the exact head guard and
+immediate base check. Verify actual parents and tree afterward. Any changed
+head or incompatible base tree needs fresh source-specific bindings and gates.
+Keep production changes narrow and all original outcomes intact.
 
 
 ## 0b. Adjudicate tagged ignored annotations as a separate admission lane

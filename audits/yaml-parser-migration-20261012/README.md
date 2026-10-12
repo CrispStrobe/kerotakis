@@ -13,8 +13,14 @@ declared steps pass; independent saved-output review covers 702 cases and 991
 checks, with zero unmet expectations. The earlier partial checkpoints below
 remain historical. No postmerge test execution is inferred.
 
-Next complete PR784's own fleet, explicitly bind its unchanged repair source to
-accepted main, and prepare its full integration plan. The confirmed nested-key
+Next complete PR784's own fleet and actual saved-output reviews. Its
+[integration plan](integration-preparation-51e99750.json) and
+[preparation validation](integration-preparation-validation-51e99750.json)
+now bind the unchanged repair source and accepted receipts to main, with
+[independent review](integration-preparation-independent-review-51e99750.json).
+The [actual read-only preflight](integration-awaiting-fleet-51e99750.json)
+returns not ready: 25 successful jobs, seven queued and the v2 aggregate not yet
+created. No merge readiness or repair integration is accepted. The confirmed nested-key
 repair and final-safety PR782 remain unintegrated. Preserve all original
 forecasts, first outcomes and receipts.
 GitHub automatically retargeted PR784 to main; its head is unchanged.
@@ -273,14 +279,15 @@ binds both accepted native jobs to a retrospective exact-source inventory of
 39 fixtures and 467 functions. It adapts the existing receipts for
 `tools/registry-integration-preflight.py` without changing their original
 outcomes or hashes. [Independent preparation review](native-guard-inputs-independent-review-51e99750.json)
-checks this adaptation. A full repair integration plan remains pending: its base
-is still the dependency branch, and accepted main must be bound explicitly after
-that prerequisite integrates. Both full 33-job fleets remain unaccepted.
-Complete fleet review, then recheck actual main/head/base/tested-tree associations
-before any integration. The first leaf
+checks this adaptation. The separate
+[full repair integration plan](integration-preparation-51e99750.json) now pins
+actual accepted main and the original tested base explicitly. The dependency
+fleet and integration are accepted; the repair fleet remains unaccepted.
+Complete its own output and fleet reviews, then recheck actual
+main/head/base/tested-tree associations before integration. The first leaf
 build setup failed before any test executed; its separately recorded continuation
-passes all 63 controls. Rebase deliberately after the dependency change
-integrates, then validate and bind any resulting new source. Preserve all first
+passes all 63 controls. Automatic base retargeting preserved the repair head;
+any future source change requires new source-bound validation. Preserve all first
 freezes and outcomes.
 
 The [manifest patch](maintained-fork-dependency.patch) is separate from the

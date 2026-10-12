@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "pr": 784,
+  "head": "51e997509126f099b22fbe963750ac06f36dadfe",
+  "base": "b246408b8156f12594ab18e71cc9c3edee3c7623",
+  "native_tested_base": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "source_tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+  "ci_run": 38283405239,
+  "fleet_run": 38283405221,
+  "preparation_plan_path": "audits/yaml-parser-migration-20261012/integration-preparation-51e99750.json",
+  "preparation_plan_sha256": "5c6fcbd6ec85f55bf113e9915feae39aa07d0996c19666790be820ae285225c6",
+  "validated_bound_inputs": true,
+  "validated_own_complete_ci": true,
+  "validated_native_platforms": [
+    {
+      "job": "Test (native) (macos-latest)",
+      "tested_checkout": "c877d811be7877d5c6223101eb21f3815d975c96",
+      "tested_checkout_parents": [
+        "1acdda4696e565be5dee13f0598eb2aa8081304e",
+        "51e997509126f099b22fbe963750ac06f36dadfe"
+      ],
+      "tested_tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+      "current_base_tree_compatible": true,
+      "new_base_context_test_execution": false
+    },
+    {
+      "job": "Test (native) (ubuntu-latest)",
+      "tested_checkout": "c877d811be7877d5c6223101eb21f3815d975c96",
+      "tested_checkout_parents": [
+        "1acdda4696e565be5dee13f0598eb2aa8081304e",
+        "51e997509126f099b22fbe963750ac06f36dadfe"
+      ],
+      "tested_tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+      "current_base_tree_compatible": true,
+      "new_base_context_test_execution": false
+    }
+  ],
+  "native_fixture_files": 39,
+  "native_test_identities": 467,
+  "current_base_tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "native_tested_base_tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "current_base_tree_equals_original_tested_base_tree": true,
+  "new_base_context_test_execution": false,
+  "old_receipts_unchanged": true,
+  "exact_changed_source_paths": [
+    "crates/kerotakis-core/src/kinetics/mechanism.rs",
+    "crates/kerotakis-core/tests/nested_rate_admission_contracts.rs"
+  ],
+  "changed_source_sha256": {
+    "crates/kerotakis-core/src/kinetics/mechanism.rs": "e4eaf8b341e8942df81babea48da790927c99066e81c59d170f26e19b82af9c7",
+    "crates/kerotakis-core/tests/nested_rate_admission_contracts.rs": "4afa3dfcd67c582bff633b8d038f43cd5060d7c0a1cdc7c4639702635f8320b5"
+  },
+  "reviewer_path": "tools/registry-integration-preflight.py",
+  "reviewer_sha256": "89df34087ddc072e953760bb154af161443799d0914efd8d436e03c755929991",
+  "fleet_reviewer_path": "tools/chemistry-fleet-review.py",
+  "fleet_reviewer_sha256": "f56e20a4de90700d317738d5f260f9e0f163c6165393601ab98b847f7696cdb5",
+  "preparation_source_sha256": "7a0c052864162de3c2029beafa5beea3ee3d60206e58c0bff4803149b16b7e0b",
+  "raw_api_sha256": {
+    "first-preparation-setup-failure.json": "0e80084dd84d96745e48ed9368085a78ddf20e4a98988f06f8c5f4718387e2a3",
+    "commit-c877d811be7877d5c6223101eb21f3815d975c96.json": "fbdea9d4c02ea87009a8484f455a801c4be1837d043f3d6a50235d13c3b6e9b8",
+    "commit-51e997509126f099b22fbe963750ac06f36dadfe.json": "c62537a5cf903d922944db0c517a5118e56fe2dffa85dec43fa4a59a83b8e6ad",
+    "ci-jobs.json": "affad005771347dac944aac7d879dcd597347635b8969c48760dba23d9d78b3f",
+    "main.json": "52628421a85d9349f402b7484bc276d75172e02b5e1aaa0d1b34d48a9937f4a2",
+    "commit-1acdda4696e565be5dee13f0598eb2aa8081304e.json": "f0e781f5b440c76cc2edf12b87d8f55ba4580049f2552fd05e74986b6a6dd5a9",
+    "ci-run.json": "3c3e503c3dbe057ca874df582f639905e5ca7e1db0f8f464e7f48eddc423db02",
+    "pr.json": "6c2d0c68222194db465a77994e6ca7f8c67d6d4a8a04493e832c7bab06256f79",
+    "commit-b246408b8156f12594ab18e71cc9c3edee3c7623.json": "9aeec92bd30b76285b44a189b9ac4b9d699d4a7837c856f2181050d90b5c3aba"
+  },
+  "full_integration_plan_prepared": true,
+  "full_fleet_accepted": false,
+  "ready_for_merge": false,
+  "accepted_integration": false,
+  "scope": "Preparation validation only: source/receipt pins and original own complete CI/native validators accept unchanged source on byteidentical integrated prerequisite base. Actual nativecheckout c877 parents[1ac,51e]; no b246-base test rerun, fullfleet, readiness, merge or integration acceptance.",
+  "base_compatibility_receipt_path": "audits/yaml-parser-migration-20261012/pr784-base-compatibility-review-51e99750.json",
+  "base_compatibility_receipt_sha256": "0adf29f8a8c37a2d628bb87b00d1bb3fba18513ea0a5d5ab4ba1b70142faedac",
+  "base_review_binding_source_sha256": "23e3d9dc207c499ba39784fe985e793b5115f31d633f4a65eb7c8baeb32a837c",
+  "first_preparation_setup_failure_path": "first-preparation-setup-failure.json",
+  "first_preparation_setup_failure_sha256": "0e80084dd84d96745e48ed9368085a78ddf20e4a98988f06f8c5f4718387e2a3",
+  "first_preparation_setup_failure_scope": "Runner initially passed whole docs mapping instead of bound CI receipt; corrected before any public plan or validation result. No behavioral test executed or actual outcome changed."
+}

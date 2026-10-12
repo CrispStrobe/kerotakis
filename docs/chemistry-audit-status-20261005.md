@@ -15,8 +15,13 @@ dependency and fifty parser contract tests are on main. Both required native
 platforms, CI and all 33 fleet jobs were accepted before the ordinary merge.
 No postmerge test execution is inferred.
 
-Next finish PR784's own fleet, bind its repair to accepted main, and prepare
-fresh integration guards. PR782's final-safety work follows the dependency and
+Next finish PR784's own fleet and actual saved-output reviews, then refresh
+integration guards. Its [prepared plan](../audits/yaml-parser-migration-20261012/integration-preparation-51e99750.json)
+now binds accepted main explicitly, with
+[independent review](../audits/yaml-parser-migration-20261012/integration-preparation-independent-review-51e99750.json).
+The [actual preflight](../audits/yaml-parser-migration-20261012/integration-awaiting-fleet-51e99750.json)
+remains not ready: 25 fleet jobs pass, seven are queued, and the v2 aggregate is
+not yet created. PR782's final-safety work follows the dependency and
 repair integration. Neither remaining PR is accepted as integrated.
 Follow [the executable next-step lanes](chemistry-work-agenda-20261012.md).
 

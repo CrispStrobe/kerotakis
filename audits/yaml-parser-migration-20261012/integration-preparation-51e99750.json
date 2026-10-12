@@ -1,0 +1,61 @@
+{
+  "pr": 784,
+  "head": "51e997509126f099b22fbe963750ac06f36dadfe",
+  "base": "b246408b8156f12594ab18e71cc9c3edee3c7623",
+  "native_tested_base": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+  "ci_run": 38283405239,
+  "fleet_run": 38283405221,
+  "expected_final_fleet_jobs": 33,
+  "expected_native_fixture_files": 39,
+  "expected_native_functions": 467,
+  "required_successful_jobs": [
+    "Full preflight gate",
+    "Test (native) (ubuntu-latest)",
+    "Test (native) (macos-latest)",
+    "The bench in WebAssembly",
+    "The demo page, in a real browser"
+  ],
+  "native_plan_path": "audits/yaml-parser-migration-20261012/integration-native-plan-51e99750.json",
+  "native_receipt_paths": [
+    "audits/yaml-parser-migration-20261012/integration-native-macos-51e99750.json",
+    "audits/yaml-parser-migration-20261012/integration-native-linux-51e99750.json"
+  ],
+  "full_ci_receipt_path": "audits/yaml-parser-migration-20261012/own-ci-gate-aggregate-51e99750.json",
+  "receipt_sha256": {
+    "audits/yaml-parser-migration-20261012/integration-native-plan-51e99750.json": "c1c0f08551f60d94d768e09327a27e7669ecd1215ffbbac6b1564b0568f1cb67",
+    "audits/yaml-parser-migration-20261012/integration-native-macos-51e99750.json": "d48903875372b5e417dde2e225d6b54c5c4ba6e5455a9e3b3c1befea24944b4f",
+    "audits/yaml-parser-migration-20261012/integration-native-linux-51e99750.json": "37b25612b2818a141551bc7b72c61e1a24c1b017ba025c026f72a2e9288b86f1",
+    "audits/yaml-parser-migration-20261012/native-macos-independent-review-51e99750.json": "2d356135afd0ff218ca4d5d12b7af97fb4242485d1fb0c5df26fddfbf2d16aad",
+    "audits/yaml-parser-migration-20261012/native-linux-independent-review-51e99750.json": "a24c3b9dc55e9ce49b72d33f6bf633b8508849a7caf32dbe435bc6a081fa4b79",
+    "audits/yaml-parser-migration-20261012/native-guard-inputs-independent-review-51e99750.json": "2834f5c8b7181b756df3a88a375952a82cb7fa9ccf035448dc05cefb9a7a66ff",
+    "audits/yaml-parser-migration-20261012/own-ci-gate-aggregate-51e99750.json": "4ad6aa91bacc8f19f2550ad2c79b8650cb44b9437131e0fe28d2c33e789a85cc",
+    "audits/yaml-parser-migration-20261012/own-preflight-independent-review-51e99750.json": "d1034542dfc995d7e00fa24ddd92fab88a2c5a08095a9b392156bdf4f942867c",
+    "audits/yaml-parser-migration-20261012/own-wasm-runtime-independent-review-51e99750.json": "eb565225a3591e0cbb5d61e898ffe061ba6d42b200b63a11489c66d9723a34ae",
+    "audits/yaml-parser-migration-20261012/own-core-wasm-independent-review-51e99750.json": "dd25239f4e51687c6f92db06efaf085f88cf270f2f019b100d09222371aa1f31",
+    "audits/yaml-parser-migration-20261012/own-browser-runtime-independent-review-51e99750.json": "bd3747d96dbab981167eb1a5925a863d71539e95f942cc8dd36f901f2a411732",
+    "audits/yaml-parser-migration-20261012/own-cli-artifact-independent-review-51e99750.json": "a9316ca332ca3461c8b4f7d41fec8568f7d97a91d34bb79fa3fdc9e5c8719b9d",
+    "audits/yaml-parser-migration-20261012/repaired-cli-independent-review-51e99750.json": "9d278ce51bfe26641955d5daa395ad38e2de93b21e63d45f4336973b3a7964c1",
+    "audits/yaml-parser-migration-20261012/nested-rate-repair-leaf-independent-review-51e99750.json": "80d2ac4357c27f49be844dd941f0c5faf8803acdae173a4c87ad1efe37753b2b",
+    "audits/yaml-parser-migration-20261012/supplement-independent-review-51e99750.json": "2cfd35ac2cd1a3129b981e35ff436324d56d1ffb59ff79d15558db9575605d9d",
+    "audits/yaml-parser-migration-20261012/nested-rate-repair-static-review-51e99750.json": "c47807d7ffb1bfb7b3172b6d8de969475313ddaf47271b1cfbbf3e04e2c754e7",
+    "audits/yaml-parser-migration-20261012/pr784-base-compatibility-review-51e99750.json": "0adf29f8a8c37a2d628bb87b00d1bb3fba18513ea0a5d5ab4ba1b70142faedac"
+  },
+  "changed_source_sha256": {
+    "crates/kerotakis-core/src/kinetics/mechanism.rs": "e4eaf8b341e8942df81babea48da790927c99066e81c59d170f26e19b82af9c7",
+    "crates/kerotakis-core/tests/nested_rate_admission_contracts.rs": "4afa3dfcd67c582bff633b8d038f43cd5060d7c0a1cdc7c4639702635f8320b5"
+  },
+  "native_tested_checkout": "c877d811be7877d5c6223101eb21f3815d975c96",
+  "native_tested_checkout_parents": [
+    "1acdda4696e565be5dee13f0598eb2aa8081304e",
+    "51e997509126f099b22fbe963750ac06f36dadfe"
+  ],
+  "native_tested_base_tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "current_main_base_tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "native_tested_base_and_current_base_tracked_trees_equal": true,
+  "new_base_context_test_execution": false,
+  "scope": "Read-only PR784 nested-rate admission repair integration preparation after prerequisite PR783 integrated. Own complete CI and original39fixture/467identity native receipts bound. Actual native and hosted runs tested stackedbase1ac; integrated mainb246 has the exact same tracked tree. No tests rerun on b246 and no fullfleet/readiness/merge acceptance claimed by preparation.",
+  "base_race_limit": "Head guard cannot atomically pin base; recheck main immediately before ordinary merge and verify actual parents/tree afterward. If base tracked tree or source head changes, require fresh compatible evidence.",
+  "base_compatibility_receipt_path": "audits/yaml-parser-migration-20261012/pr784-base-compatibility-review-51e99750.json",
+  "base_compatibility_receipt_sha256": "0adf29f8a8c37a2d628bb87b00d1bb3fba18513ea0a5d5ab4ba1b70142faedac"
+}
