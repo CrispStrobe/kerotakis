@@ -1030,6 +1030,57 @@
       "native_focused_functions_per_platform": 378,
       "source_tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
       "scope": "Unique molar-mass phase anchor and unambiguous phase-matching fallback Cp/density selection only. Valid alternate-phase typed documents remain supported; applicability, optional properties, polynomial curves and multiple mass anchors are separate contracts. Original native parents retained; current-main tracked-tree compatibility separately verified, without another native execution or captured hosted dependency lock."
+    },
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/781",
+      "tested_head": "7cce5b8f861bbe3c5fabdffb5eb8c0ca4acae06f",
+      "merge_commit": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+      "merged_at": "2026-10-12T10:26:40Z",
+      "required_checks": [
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38220364638/job/114714869170",
+          "started_at": "2026-10-12T09:07:32Z",
+          "completed_at": "2026-10-12T09:31:21Z"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38220364638/job/114714868850",
+          "started_at": "2026-10-12T08:13:50Z",
+          "completed_at": "2026-10-12T08:33:15Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38220364638/job/114714868948",
+          "started_at": "2026-10-12T08:01:52Z",
+          "completed_at": "2026-10-12T08:19:00Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38220364638/job/114714868930",
+          "started_at": "2026-10-12T08:58:17Z",
+          "completed_at": "2026-10-12T09:05:05Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38220364638/job/114714869171",
+          "started_at": "2026-10-12T09:02:45Z",
+          "completed_at": "2026-10-12T09:14:27Z"
+        }
+      ],
+      "ci_run": 38220364638,
+      "fleet_run": 38220364626,
+      "paired_run": 38220664859,
+      "paired_frozen_controls": 50,
+      "native_focused_functions_per_platform": 404,
+      "native_fixture_files": 37,
+      "source_tree": "cbe987d1fba5eaeaecbd7a23232fb2105eee8684",
+      "scope": "Selected context-free mandatory fallback applicability only. Conditional typed/pack metadata and canonical values retained. Original failures and frozen fixtures remain immutable; three production assertion spellings explicitly adapted. Complete own CI, both native inventories and full33 fleet accepted. Paired execution captures an actual hosted dependency lock and newly compiled generator; ordinary native CI does not independently capture its dependency lock. No optional/polynomial/contextful/multiple-anchor or empirical-accuracy acceptance."
     }
   ],
   "scope": "Independent matching-head required PR gates. Not a full integrated-source audit/replay or performance acceptance.",
@@ -1085,5 +1136,6 @@
   "main_after_pr777": "bf6f4157353a81867619d25d927475f6924f54bd",
   "main_after_pr778": "e391f64be2ef1951fbfea84ba3496958ca42cbff",
   "main_after_pr779": "5c13cfa045b1f4036a1486778cf05b0a296f6842",
-  "main_after_pr780": "093db6c9a9e64f1d704ded354685cee4ded6a9ec"
+  "main_after_pr780": "093db6c9a9e64f1d704ded354685cee4ded6a9ec",
+  "main_after_pr781": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b"
 }

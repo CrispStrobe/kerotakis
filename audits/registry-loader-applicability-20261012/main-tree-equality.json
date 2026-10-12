@@ -1,0 +1,42 @@
+{
+  "pr": 781,
+  "merged": true,
+  "merge_commit": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "head": "7cce5b8f861bbe3c5fabdffb5eb8c0ca4acae06f",
+  "base": "093db6c9a9e64f1d704ded354685cee4ded6a9ec",
+  "parents": [
+    "093db6c9a9e64f1d704ded354685cee4ded6a9ec",
+    "7cce5b8f861bbe3c5fabdffb5eb8c0ca4acae06f"
+  ],
+  "tree": "cbe987d1fba5eaeaecbd7a23232fb2105eee8684",
+  "source_tree": "cbe987d1fba5eaeaecbd7a23232fb2105eee8684",
+  "main_tree": "cbe987d1fba5eaeaecbd7a23232fb2105eee8684",
+  "trees_equal": true,
+  "origin_main_api_equals_merge": true,
+  "accepted_integration": true,
+  "merged_at": "2026-10-12T10:26:40Z",
+  "native_focused_functions_per_platform": 404,
+  "native_fixture_files": 37,
+  "ci_run": 38220364638,
+  "fleet_run": 38220364626,
+  "paired_run": 38220664859,
+  "paired_frozen_controls": 50,
+  "scope": "Selected context-free mandatory fallback applicability only. Conditional typed/pack metadata and canonical values retained. Original failures and frozen fixtures remain immutable; three production assertion spellings explicitly adapted. Complete own CI, both native inventories and full33 fleet accepted. Paired execution captures an actual hosted dependency lock and newly compiled generator; ordinary native CI does not independently capture its dependency lock. No optional/polynomial/contextful/multiple-anchor or empirical-accuracy acceptance.",
+  "actual_postmerge_pr_api_sha256": "40d5d070047875a9d8c4435f456e9bf3e158c779b354b489065d431eb47b79e9",
+  "actual_merge_api_sha256": "236a6f208c99fe03ececc056d1e8abca4a77f47df556b3f69a22cd5212a600a1",
+  "actual_main_api_sha256": "8828c76b1280dc29e2932f25ed4a785e086407801eae552e0e46a6a4224b8cac",
+  "premerge_result_sha256": "e5e7622de5083ce2eccdb5c2bb1780a78279da49b50dcf8a47467737f94c816c",
+  "plan_sha256": "8c9707a2b1405b0ff33cc3662fb8bcac63ebb0acf760486a984eb3749323d650",
+  "paired_receipt_sha256": "18ad353dea89854691a197b6db8d0fcebb8f84e3cba9332b213b7307d0a9b134",
+  "guard_sha256": "31d8e227a8cdc1cdf2be8f9d211a89cd2b66fca79b99469c80c3aee3f25bcf9f",
+  "immediate_guard_evidence_sha256": {
+    "immediate-ci-run.json": "b4096174e769922bb370fb0c234485b82036820470108e540e95e78514479010",
+    "immediate-fleet-run.json": "f72ecda9f0059e6796f12a70aecfe862f9f0570e8a7eb370a2e8c70aefafa7e9",
+    "immediate-paired-run.json": "82a4fb2820c26706ad74a0f0702ca24449824dacf2d0cf14cc2b392b4488a18e",
+    "immediate-rollup.json": "3d5e51017800b3477f87b8f9bdb0ae5197cd2542cd66a24d4fda38b1edc5529c",
+    "last-premerge-pr.json": "eecdfdfb439255f7c2132d303894f118bf0ea891b015afdc2af67cf0d685d6d5",
+    "last-premerge-main.json": "6407a023c8a45f14b131fefb425265fb8f89e6498e793d7c918b51fe98d785ce"
+  },
+  "independent_postmerge_review_sha256": "7c56a488589ee5c2e53078cba597cacf54cd58b3176228e458e58e036056866c",
+  "independent_postmerge_verification": true
+}

@@ -1,5 +1,11 @@
 # Integration checkpoint — 2026-10-10
 
+## Mandatory fallback applicability integrated — 2026-10-12
+
+[PR781](https://github.com/CrispStrobe/kerotakis/pull/781) is merged as main `a125c88d`, with [actual parents/tree independently verified](../registry-loader-applicability-20261012/main-tree-equality.json) equal to tested head `7cce5b8f`. Its own revised paired50/50, both native404-function/37-fixture inventories, registry admission10, complete604core/17data/28safety libraries, completeCI26 and full33 fleet/every declared step are accepted. Fresh preflight and immediate run/rollup/head/base/main guards preceded the ordinary merge. Original Rust6pass/20fail and generator6pass/18fail, frozen fixtures and exact assertion-port adaptation remain preserved. Ordinary native CI's lock stays uncaptured; paired execution captures its own actual lock and newly compiled generator.
+
+The selected context-free mandatory fallback slice is closed on main. Contextful intervals/alternatives, optional properties/polynomials, unknown conditions, multiple mass anchors and empirical datasets remain separate. [Current-main historical presence](full-audit-port-inventory-pr781-merged.json) still has50 missing named tests/129 paths, not179 demonstrated defects. Next: remaining reviewed final-safety rule matrix, coherent historical regression ports, then measured release optimization when resources permit. Earlier pending/preparation updates below are history.
+
 ## Applicability repair prepared as PR781 — 2026-10-12
 
 [DraftPR781](https://github.com/CrispStrobe/kerotakis/pull/781) applies the narrow shared-selector applicability rule and ports two unchanged frozen fixtures. The original hosted26-control baseline is independently verified at6 pass/20 fail, with actual source/lock/raw-log bindings and standalone direct/decoded-pack failures; original24 generator cases remain6 pass/18 fail. OwnCI38216841844/native404/37fixtures/fullfleet38216841880 and paired validation38217196803 are pending. Actual candidate50/50, repair acceptance and main integration are not yet claimed. Earlier queued-baseline/unapplied-proposal updates below are history.

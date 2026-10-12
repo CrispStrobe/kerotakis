@@ -1,5 +1,11 @@
 # Chemistry audit: current state, 2026-10-05
 
+## Mandatory fallback applicability integrated — 2026-10-12
+
+[PR781](https://github.com/CrispStrobe/kerotakis/pull/781) is merged as main `a125c88d`, with [actual parents/tree independently verified](../audits/registry-loader-applicability-20261012/main-tree-equality.json) equal to tested head `7cce5b8f`. Its own revised paired50/50, both native404-function/37-fixture inventories, registry admission10, complete604core/17data/28safety libraries, completeCI26 and full33 fleet/every declared step are accepted. Fresh preflight and immediate run/rollup/head/base/main guards preceded the ordinary merge. Original Rust6pass/20fail and generator6pass/18fail, frozen fixtures and exact assertion-port adaptation remain preserved. Ordinary native CI's lock stays uncaptured; paired execution captures its own actual lock and newly compiled generator.
+
+The selected context-free mandatory fallback slice is closed on main. Contextful intervals/alternatives, optional properties/polynomials, unknown conditions, multiple mass anchors and empirical datasets remain separate. [Current-main historical presence](../audits/integration-20261008/full-audit-port-inventory-pr781-merged.json) still has50 missing named tests/129 paths, not179 demonstrated defects. Next: remaining reviewed final-safety rule matrix, coherent historical regression ports, then measured release optimization when resources permit. Earlier pending/preparation updates below are history.
+
 ## Applicability candidate 50/50; revised-head validation pending — 2026-10-12
 
 [Independent paired review](../audits/registry-loader-applicability-20261012/paired-candidate-review.json) verifies all26 Rust and24 generator controls passing at PR781 head `62c70f63`, with actual source, lock, freshly compiled generator and raw outcomes. Original26 Rust controls remain6 pass/20 fail; original24 generator cases remain6 pass/18 fail. This closes the candidate's frozen engineering expectations, not empirical chemical accuracy or integration.

@@ -1,11 +1,13 @@
 # Mandatory runtime fallback applicability — frozen controls
 
-The original baseline fails **38 of 50 source-informed engineering controls**:
-26 Rust controls yield 6 passes/20 failures; 24 generator cases yield
-6 passes/18 failures. The first repair at `62c70f63` passes **50/50**, independently
-verified from raw results. [Draft PR781](https://github.com/CrispStrobe/kerotakis/pull/781)
-now has a test assertion spelling correction at `7cce5b8f`; validation of that
-revised head and integration remain pending. These are engineering controls,
+**Integrated as [PR781](https://github.com/CrispStrobe/kerotakis/pull/781), main
+`a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b`.** [Actual merge proof](main-tree-equality.json)
+verifies parents `093db6c9`/`7cce5b8f` and tree
+`cbe987d1fba5eaeaecbd7a23232fb2105eee8684`, exactly equal to tested source.
+The revised repair passes **50/50** engineering controls, both native inventories,
+complete own CI and all 33 chemistry fleet jobs. The original baseline remains
+12 passes/38 failures: Rust6/20 and generator6/18. Original freezes and first
+failures remain unchanged. These are source-informed engineering expectations,
 not blind scientific forecasts or empirical chemical accuracy measurements.
 
 ## Verified evidence
@@ -40,7 +42,7 @@ bytes equal the original hosted lock. Neither is the separate local offline lock
 Recursive Gitlink HEAD/status checks do not independently compare all submodule
 or ignored environment contents.
 
-## Current repair and next actions
+## Accepted repair and integration
 
 The shared selector checks only the three mandatory records **after** all
 uniqueness and phase joins. Non-null temperature, pressure, pH, ionic-strength
@@ -61,32 +63,40 @@ extraction remains unchanged. Original frozen fixtures, inputs, expectations and
 first outcomes remain immutable; this is an explicit production-port adaptation.
 Do not borrow earlier-head CI or 50/50 acceptance for the revised head.
 
-[Revised-head dispatch](revised-candidate-validation-dispatch.json) binds paired
-run38220664859, own CI38220364638 and fleet38220364626. The superseded old-head
-fleet cancellation was requested after the source-changing lint correction.
-Next, collect and independently review the revised head's paired 26+24 controls.
-The dedicated `registry-applicability-candidate` workflow selection pins that
-head and checks exact assertion normalization against the original fixtures.
-Capture the actual lock and newly compiled generator, not an old binary.
-Use [the revised native plan](native-controls-plan-7cce5b8f.json) for all
-404 focused functions across 37 fixtures, including the prior 378 functions.
-Also require complete affected core/data/safety libraries, separate registry
-admission, the head's own complete CI, both native inventories and all 33 fleet
-jobs with every declared step. Prepare a fresh integration plan and read-only
-preflight; only after all gates pass advance the draft and perform an ordinary
-head-guarded merge. Verify actual parents/tree and refresh the integration ledger
-and current-main presence inventory. Never merge the broad audit branch or use
-another PR's old acceptance plan.
+[Revised paired review](paired-candidate-review-7cce5b8f.json) independently
+verifies all26 Rust controls and24 generator cases at actual revised head
+`7cce5b8f`, including the exact three assertion adaptations, all2,253 source hashes,
+actual hosted lock and newly compiled generator. Prior-head results remain
+historical, rather than certifying this head.
 
-```sh
-gh workflow run chemistry-audit.yml \
-  --ref audit/systematic-chemistry-20261002 \
-  -f audit=registry-applicability-candidate
-```
+Own source-bound [Linux](native-linux-review-7cce5b8f.json) and
+[macOS](native-macos-review-7cce5b8f.json) each pass **404 focused functions across
+37 fixtures**, including the prior378. Separate [registry admission](data-admission-macos-review-7cce5b8f.json)
+passes10/10; [affected libraries](library-macos-review-7cce5b8f.json) pass
+604core/17data/28safety, all unfiltered. [Complete own CI](full-ci-review-7cce5b8f.json)
+verifies26 source-declared jobs,25 successes and the expected publication skip,
+with all five required gates. [Complete own fleet](full-fleet-review-7cce5b8f.json)
+verifies all33 jobs and every declared named/ordinal step. Ordinary native CI's
+actual dependency lock remains uncaptured; the paired run's captured lock is
+not substituted for it.
 
-Use hosted runners while local load, available memory or disk headroom prevent
-builds. Do not start large local work or consolidate unreviewed worktrees under
-those conditions.
+[Source-specific preparation](integration-preparation-7cce5b8f.json) binds11
+receipts and all three changed source files. [Final preflight](preflight-ready-7cce5b8f.json)
+passes with draftfalse and exact current synthetic/native parents and tree.
+The ordinary head-guarded merge additionally checks snapshot freshness, all three
+own run identities/attempts/statuses, current PR rollup and immediate head/base/main,
+then verifies actual postmerge parents/tree/main. An independent postmerge review
+confirms those proofs. Head and base checks are not an atomic base lock; actual
+parents/tree are therefore mandatory. The broad audit branch was not merged.
+[Current-main historical presence](../integration-20261008/full-audit-port-inventory-pr781-merged.json)
+remains50 missing named tests/129 missing paths; presence is not runtime acceptance.
+
+This selected context-free mandatory fallback slice is complete. Next applicability
+work must independently specify contextful interval edges and alternative selection,
+optional records/polynomials, malformed/unknown conditions or multiple anchors
+before collecting a new unchanged-source baseline. Keep those policies separate
+from this accepted refusal rule. Completed baseline, paired and CI/fleet runs
+need no redispatch. Large future builds and profiling remain resource-gated.
 
 ## Frozen policy and scope
 
