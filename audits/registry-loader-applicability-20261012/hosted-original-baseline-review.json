@@ -1,0 +1,189 @@
+{
+  "status": "Original hosted baseline verified independently against raw logs, frozen identities and all Git source bytes; candidate not yet applied",
+  "source": "093db6c9a9e64f1d704ded354685cee4ded6a9ec",
+  "source_tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+  "workflow_head": "fc9b35ec92a100172bd00f7079b328b7cbf98777",
+  "run": 38213787330,
+  "job": 114693699875,
+  "actual_count": 26,
+  "passed": 6,
+  "failed": 20,
+  "ignored": 0,
+  "filtered_out": 0,
+  "cargo_test_exit_code": 101,
+  "hosted_lock_sha256": "3671ca639b44c5ad64e4646bb4710c80f5965dae2efeafff9509ef9beb512dc3",
+  "result_sha256": "011f2dc6d707134a1f8e75af1619db911faa2ecaa5aa93495571aa51c1d440d2",
+  "log_sha256": "77f8ac0d5850c90e7e5d9b2a0e7a7b68e75f3986938ee98194cad04e9d89af9d",
+  "source_inventory_sha256": "ee6a23cc51082068673a77c19f9bf6dab7231f00876d6c509f112757ab6e39be",
+  "compared_regular_files": 2251,
+  "targets": [
+    {
+      "target": "registry_loader_applicability_contracts",
+      "fixture_sha256": "8041b163ca3b19ddc325eff1b589ab7351a7b60d475066f5295ee6a81cec1ada",
+      "tests": [
+        {
+          "name": "mass_temperature_requires_runtime_context",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "mass_pressure_requires_runtime_context",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "mass_ph_requires_runtime_context",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "mass_ionic_strength_requires_runtime_context",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "mass_medium_requires_runtime_context",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "cp_temperature_requires_runtime_context",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "cp_pressure_requires_runtime_context",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "cp_ph_requires_runtime_context",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "cp_ionic_strength_requires_runtime_context",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "cp_medium_requires_runtime_context",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "density_temperature_requires_runtime_context",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "density_pressure_requires_runtime_context",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "density_ph_requires_runtime_context",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "density_ionic_strength_requires_runtime_context",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "density_medium_requires_runtime_context",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "mass_condition_phase_conflict_refuses",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "cp_condition_phase_conflict_refuses",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "density_condition_phase_conflict_refuses",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "canonical_phase_consistent_unbounded_records_preserve_all_values",
+          "outcome": "ok"
+        },
+        {
+          "name": "explicit_null_constraints_and_notes_preserve_all_values",
+          "outcome": "ok"
+        },
+        {
+          "name": "omitted_conditions_use_unbounded_default_and_preserve_all_values",
+          "outcome": "ok"
+        },
+        {
+          "name": "null_condition_phase_preserves_all_values",
+          "outcome": "ok"
+        },
+        {
+          "name": "excluded_conditional_foreign_phase_records_preserve_all_values",
+          "outcome": "ok"
+        },
+        {
+          "name": "conditional_typed_and_pack_documents_preserve_complete_metadata",
+          "outcome": "ok"
+        }
+      ],
+      "passed": 6,
+      "failed": 18,
+      "ignored": 0,
+      "filtered_out": 0
+    },
+    {
+      "target": "registry_applicability_runtime_route_contracts",
+      "fixture_sha256": "e4aa286f68521c137b004a8398b6410457df124eb4e624c05838aeb4824fa2e7",
+      "tests": [
+        {
+          "name": "direct_runtime_temperature_constraint_refuses_without_selector_precheck",
+          "outcome": "FAILED"
+        },
+        {
+          "name": "decoded_pack_runtime_temperature_constraint_refuses_without_selector_precheck",
+          "outcome": "FAILED"
+        }
+      ],
+      "passed": 0,
+      "failed": 2,
+      "ignored": 0,
+      "filtered_out": 0
+    }
+  ],
+  "gitlinks": {
+    "sundials-kinetics-rs": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+    "vendor/iphreeqc": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+  },
+  "recursive_submodules": [
+    {
+      "path": "sundials-kinetics-rs",
+      "commit": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+      "tree": "40b89d80c00be1c7d9a3cd989fcf7c580a5732f7",
+      "status": "initialized_at_recorded_commit_and_git_clean"
+    },
+    {
+      "path": "vendor/iphreeqc",
+      "commit": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1",
+      "tree": "b3b090a32ebb6bcd1d6f743212087c585e31e8ae",
+      "status": "initialized_at_recorded_commit_and_git_clean"
+    }
+  ],
+  "artifact_sha256": {
+    "Cargo.lock": "3671ca639b44c5ad64e4646bb4710c80f5965dae2efeafff9509ef9beb512dc3",
+    "cargo-version-command.json": "7e7ee26f770ff68d9b3aadf0c72446e8597503e1e8539c980dd5b795670e5f63",
+    "cargo-version-exit.json": "81868a6e94ffc0178bf833deb1c9013d9fab4ee95ddb876a5e8ec4f1d26376d2",
+    "cargo-version.log": "2106ad2f6d2494210f01796652ddf5c620d7955ad5e1a4ef2b55500aee9ceab0",
+    "fetch-locked-command.json": "035382506df492335f71178c81b1172c4095eeb03bb54cf54db4ea6540b356de",
+    "fetch-locked-exit.json": "81868a6e94ffc0178bf833deb1c9013d9fab4ee95ddb876a5e8ec4f1d26376d2",
+    "fetch-locked.log": "5d30dec4eab015551789f808ec00af7960f11245619a65ecfc723191871796fe",
+    "freeze.json": "53566e8135c88580e938d4abddd69f3515ea6b660fe9d773e4da140fb0fc6e64",
+    "generate-lockfile-command.json": "4a8fb5ad1e3cfa766fda30f83bb4c988450f853860b53ceb77bbde2c0a9c7855",
+    "generate-lockfile-exit.json": "81868a6e94ffc0178bf833deb1c9013d9fab4ee95ddb876a5e8ec4f1d26376d2",
+    "generate-lockfile.log": "742035523837e307805ff1b96d0f02136969d6ef145691d0e2c84b5002278d7f",
+    "original-baseline-command.json": "61d6c990e1a113a6338131530736c78c1af044bcfa9455bd25b350c2b436d225",
+    "original-baseline-exit.json": "931a4bbf4bb82e790952c37ff8ce91e472e565ba705fad3619167cb1f73caa5e",
+    "original-baseline.log": "77f8ac0d5850c90e7e5d9b2a0e7a7b68e75f3986938ee98194cad04e9d89af9d",
+    "post-source-status.json": "48f0e46dad647fb0812590e8d38d44480d5c22f6ed7b3f9b3532589987455ce8",
+    "registry_applicability_runtime_route_contracts.rs": "e4aa286f68521c137b004a8398b6410457df124eb4e624c05838aeb4824fa2e7",
+    "registry_loader_applicability_contracts.rs": "8041b163ca3b19ddc325eff1b589ab7351a7b60d475066f5295ee6a81cec1ada",
+    "runtime-route-freeze.json": "cd7f4a16f4d5b6d8c5f2899fc083ee01e5572cb5b395540474ee3908d9e0a924",
+    "rustc-version-command.json": "465a566a60c202406e0c90608b4778583ad734eaf35499470b157038098756aa",
+    "rustc-version-exit.json": "81868a6e94ffc0178bf833deb1c9013d9fab4ee95ddb876a5e8ec4f1d26376d2",
+    "rustc-version.log": "b569b0c98ea3133c7252b4b8ea6b39b7b353813df0dd5f5c412c355691424112",
+    "source-inventory.json": "ee6a23cc51082068673a77c19f9bf6dab7231f00876d6c509f112757ab6e39be"
+  },
+  "limits": "Fresh actual hosted dependency lock retained; not identical to local offline resolution or an independently reproduced build. Recursive Gitlinks checked by initialized HEAD/status; ignored contents not independently blob-compared. Source-informed engineering contracts, not chemical measurements. Successful collection retains test failures; no repaired-source acceptance.",
+  "accepted_repair": false
+}
