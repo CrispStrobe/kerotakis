@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "tracked_source_blobs_independently_reverified": 2254,
+  "actual_workspace_lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+  "wasm_compile": {
+    "accepted": true,
+    "argv": [
+      "cargo",
+      "check",
+      "--offline",
+      "--locked",
+      "-p",
+      "kerotakis-core",
+      "-p",
+      "kerotakis-data",
+      "-p",
+      "kerotakis-scene-physics",
+      "--target",
+      "wasm32-unknown-unknown"
+    ],
+    "exit": 0,
+    "log_sha256": "8b2902c577d29ea90d72999c14668cec2c02eefa7dd07196a796e2185367c50d",
+    "binding_sha256": "b5feceeb1a4da18f1c0101e5d2e96736c4f452a332ff6e482465c2ef9ddc7e8c",
+    "result_sha256": "9d06c86d4509413cfda3858eabd3fda36107cd69b496f0a52f7c0f721008ebcd",
+    "receipt_sha256": "ac8b7818d86957e34ce8d513d87ca759332cc5437df4d3cbca28ae7f679d47c1",
+    "scope": "Local offline/locked compile check only for core, data, scene physics at wasm32-unknown-unknown."
+  },
+  "cli_prospective_static_review": {
+    "freeze_commit": "6ae7b5bb7d0c6fedb5faffa62e16249e6c6b9263",
+    "manifest_sha256": "61b7277115004eb0ffd27f55a94a63f7880940a07f7d692da9339d8151071389",
+    "collector_sha256": "8c5aa8f733e78e1b3dd63be69f9a38e9198452696fe1dfe4944ccc228b885ebf",
+    "frozen_files_match_commit": true,
+    "source_hashes_and_input_hashes_verified": true,
+    "exact_case_count": 15,
+    "expected_successes": 11,
+    "expected_refusals": 4,
+    "python_ast_valid": true,
+    "expectations_source_consistent": true,
+    "collector_preserves_all_outcomes": true,
+    "actual_cli_execution_accepted": false,
+    "scope": "Static source-informed contract review only; actual binary/source/lock binding and fifteen individual command results require separate evidence."
+  },
+  "limits": [
+    "Compile check does not establish WASM runtime/browser behavior or CLI/WASM integration acceptance.",
+    "Existing ignored native caches/build artifacts remain qualified, not independently checksum verified.",
+    "CLI rates require finite accounting and activity; no empirical magnitudes or chemical accuracy forecast. 1500 K does not imply overlap of all published validity ranges.",
+    "Inert bounded trajectory avoids active stiff combustion and establishes no active integration accuracy.",
+    "Collector requires binary SHA and limited source hashes; reviewer must separately verify full source/lock/build provenance before execution acceptance.",
+    "Public parser dependency error payload changes and hosted CI/fleet/integration remain separately scoped."
+  ],
+  "integration_accepted": false
+}

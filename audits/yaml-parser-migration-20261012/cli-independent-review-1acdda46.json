@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "tracked_source_blobs_independently_reverified": 2254,
+  "tracked_modules_independently_reverified": {
+    "sundials-kinetics-rs": 552,
+    "vendor-iphreeqc": 716
+  },
+  "actual_workspace_lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+  "binary_sha256": "a75a87b2669cdeb6f9e0c8f6fad0829f103475992f7d7649cadab072d9fcbad5",
+  "binary_size": 105184248,
+  "actual_build_exit": 0,
+  "build_log_sha256": "9b505a24b38560ef0d185c6d4b62029e94da5056646db33fccd5c8671dc1d77c",
+  "build_binding_sha256": "70256ad6deee68bda8f36f968d5172a125566d3be1e6277c99cc9c494645d76b",
+  "execution_binding_sha256": "4d81d49fb2c07599cc809d70d8de5be8b35338c8f788859a7530d833103bf885",
+  "manifest_sha256": "61b7277115004eb0ffd27f55a94a63f7880940a07f7d692da9339d8151071389",
+  "collector_sha256": "8c5aa8f733e78e1b3dd63be69f9a38e9198452696fe1dfe4944ccc228b885ebf",
+  "freeze_commit": "6ae7b5bb7d0c6fedb5faffa62e16249e6c6b9263",
+  "results_sha256": "75162156a8807249a1cde94eedc52eedbaf85288da7f5271f2165e70ce11799f",
+  "exact_fifteen_cases_rechecked_from_raw_output": [
+    {
+      "id": "inspect-h2-o2-skeletal-v1-json",
+      "exit": 0,
+      "passed": true,
+      "stdout_sha256": "9c9c99c36f7043c0728920dc22e1d44744ec25d1e6f2274a9dc3281bd3982d98",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "inspect-h2-o2-skeletal-v1-text",
+      "exit": 0,
+      "passed": true,
+      "stdout_sha256": "4696121b696b46e8ec1ddcee5a8a3547ad528a5b33167f142730eda4b582a2e8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "inspect-co-h2-wet-v1-json",
+      "exit": 0,
+      "passed": true,
+      "stdout_sha256": "a3f31c3c3f5145cdf87f7b3f45510d70364abbbf3b8593c3dee226526d8c19e3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "inspect-co-h2-wet-v1-text",
+      "exit": 0,
+      "passed": true,
+      "stdout_sha256": "ea0a08d117f2ba598387b61362bf423a94810c149e966e790d872b27e7648d03",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "inspect-hydrocarbon-global-v1-json",
+      "exit": 0,
+      "passed": true,
+      "stdout_sha256": "f8f029833e00a1ac034629e4b82ef26841bd1142a777853b67e33be4846ea076",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "inspect-hydrocarbon-global-v1-text",
+      "exit": 0,
+      "passed": true,
+      "stdout_sha256": "ddc051e0beeaf32b595e1da7e8f2903d0d1c6d41d599558f0baa39d2fbf1af9d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "rates-h2-o2-skeletal-v1",
+      "exit": 0,
+      "passed": true,
+      "stdout_sha256": "0a927b82a85963bae82bd1ae0332365a9597112e4c45df9d510c20929048d226",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "rates-co-h2-wet-v1",
+      "exit": 0,
+      "passed": true,
+      "stdout_sha256": "75e59b683ac1b45a4635fdfc6059eba67d650b5104d4aa6d57d82dc161246a08",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "rates-hydrocarbon-global-v1",
+      "exit": 0,
+      "passed": true,
+      "stdout_sha256": "adf373b63891c8be9097d0e7e01a255067ef211d48421a67ee3f322def7a6fd8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "simulate-inert-bounded",
+      "exit": 0,
+      "passed": true,
+      "stdout_sha256": "95e20e69fdcef8d5dad32b30b68d8e149405f5a0da4c5b8cfd80c95ff228d7a0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "inspect-complex-note-equivalence",
+      "exit": 0,
+      "passed": true,
+      "stdout_sha256": "9c9c99c36f7043c0728920dc22e1d44744ec25d1e6f2274a9dc3281bd3982d98",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "refuse-custom-tag-composition-shape",
+      "exit": 1,
+      "passed": true,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "d2542da55ce16b78ec9a962650d768a6da400a9cbf11fad07996e109e03b9af4"
+    },
+    {
+      "id": "refuse-undeclared-feed",
+      "exit": 2,
+      "passed": true,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "aabe81beb574a204cde39e287f165024868172f614e4509723e517bf386c517a"
+    },
+    {
+      "id": "refuse-negative-volume",
+      "exit": 2,
+      "passed": true,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "205c4acd0c09df372a13abecfc4a034e5d77bb32149e1c63c84ce18d5f752be2"
+    },
+    {
+      "id": "refuse-zero-samples",
+      "exit": 2,
+      "passed": true,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "05de6f7cab8a74189639971b9b9522bf3cc653c7b10f28671dccbed271b7f5b5"
+    }
+  ],
+  "passed": 15,
+  "failed": 0,
+  "timeouts": 0,
+  "launch_errors": 0,
+  "first_build": {
+    "exit": 101,
+    "log_sha256": "9969d6d72606253801d56495d4e96cfd4bbcfa9cd0831fd2a8675fecc416bb25",
+    "reason": "Ignored generated upstream documentation absent from immutable module archive; preserved setup/install failure, not app regression or contract outcome."
+  },
+  "candidate_owned_module_overlay": {
+    "tracked_files_verified": 716,
+    "generated_docs_sha256": {
+      "doc/NOTICE": "f5c97c1c0fea8c27096d3e7b298a627264a71683dc2debb374d07baaea168b34",
+      "doc/README": "08a7e9c69ec1a200ecfee0bccb8539ad04bc9429f40367b50176acc73a9e0b93",
+      "doc/RELEASE": "0ac7242ec520781506a8bb7a72488088d21eed97278ff77f106255cf2bfdd0ec"
+    },
+    "generated_docs_match_tracked_sources": true,
+    "html_directory_present": true,
+    "original_tracked_module_reverified": true,
+    "original_missing_generated_notice_unchanged": true,
+    "production_source_changed": false
+  },
+  "limits": [
+    "Local debug/default-dev-profile CLI build and fifteen bounded source-informed invocations only; existing ignored native cache/build artifacts qualified, not independently checksum verified.",
+    "Rates finite/accounting/activity controls do not certify empirical chemistry or rate magnitude; 1500 K does not imply overlap of all reaction validity ranges.",
+    "Inert-only bounded simulation does not certify active stiff integration or chemical fidelity.",
+    "Module documentation overlay is local build preparation and preserves tracked source; not a production fix.",
+    "No hosted CI/fleet, whole CLI corpus, WASM runtime/browser or integration acceptance inferred."
+  ],
+  "integration_accepted": false
+}

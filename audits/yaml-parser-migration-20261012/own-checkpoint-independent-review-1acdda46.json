@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "observed_at_utc": "2026-10-12T16:21:48.336951+00:00",
+  "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "source_tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "base": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "own_run_source_and_pr_associations_verified": true,
+  "runs": [
+    {
+      "run_id": 38271407738,
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407738",
+      "event": "pull_request",
+      "attempt": 1,
+      "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+      "pr": 783,
+      "base": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+      "status": "queued",
+      "conclusion": null,
+      "observed_job_count": 25,
+      "jobs": [
+        {
+          "id": 114886293722,
+          "name": "The demo page, in a real browser",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114886293944,
+          "name": "BRD-080 viewer decision spike",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114886294047,
+          "name": "The two wasm halves, together",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114886294056,
+          "name": "GPU release tools (deterministic)",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114886294073,
+          "name": "IPhreeqc wasm gate",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114886294139,
+          "name": "The bench in WebAssembly",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114886294174,
+          "name": "Test (native) (ubuntu-latest)",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114886294181,
+          "name": "Test (native) (macos-latest)",
+          "status": "in_progress",
+          "conclusion": null
+        },
+        {
+          "id": 114886294217,
+          "name": "MY-BASIC preview (ubuntu-latest)",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114886294239,
+          "name": "Full preflight gate",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114886294263,
+          "name": "Core and data schemas compile to wasm32",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114886294264,
+          "name": "feos adapter (aarch64-apple-darwin)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294276,
+          "name": "Shell payload (windows-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294290,
+          "name": "IPhreeqc under MSVC",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294294,
+          "name": "Shell payload (ubuntu-22.04)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294303,
+          "name": "MY-BASIC preview (macos-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294364,
+          "name": "feos adapter (wasm32-unknown-unknown)",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114886294368,
+          "name": "Presentation authority adapters",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114886294394,
+          "name": "feos adapter (aarch64-apple-ios)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294397,
+          "name": "feos adapter (aarch64-linux-android)",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114886294404,
+          "name": "Theme contrast tokens",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114886294445,
+          "name": "feos adapter (x86_64-pc-windows-msvc)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 114886294482,
+          "name": "Legacy BASIC oracle (development only)",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114886294489,
+          "name": "The native host still compiles",
+          "status": "queued",
+          "conclusion": null
+        },
+        {
+          "id": 114886294520,
+          "name": "Current registry source export",
+          "status": "queued",
+          "conclusion": null
+        }
+      ],
+      "run_api_sha256": "6e00ce9fe35da81ed277391ce9e902ac360c3cef341be751d6e56268649608fa",
+      "jobs_api_sha256": "f3f09da37f055de8b6a8c33aeedb2b89c95d382dd86ab6e46f431bb8c601fc47"
+    },
+    {
+      "run_id": 38271407728,
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728",
+      "event": "pull_request",
+      "attempt": 1,
+      "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+      "pr": 783,
+      "base": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+      "status": "pending",
+      "conclusion": null,
+      "observed_job_count": 0,
+      "jobs": [],
+      "run_api_sha256": "2f8a18c19fbde9287bc85b7f58ccdca9388739336ada5b30bfe87e12480d1fee",
+      "jobs_api_sha256": "b3dab5870ff3a8209160335de7c1077b89e461d875d9041ac9d8b8ed7c1666f6"
+    }
+  ],
+  "relevant_completed_native_or_preflight_jobs": 0,
+  "hosted_test_outcomes_verified": false,
+  "tested_synthetic_merge_parents_and_tree_verified": false,
+  "hosted_actual_lock_verified": false,
+  "full_ci_accepted": false,
+  "fleet_accepted": false,
+  "integration_accepted": false,
+  "limits": [
+    "One fresh bounded API snapshot; no repeated polling or extrapolation.",
+    "Own CI had 25 created jobs, seven completed successes, Mac native in progress, Linux native and full preflight queued. This does not establish the eventual complete CI gate count or acceptance.",
+    "Own fleet pending with zero created jobs.",
+    "No completed relevant native/preflight job available for log review; fixture fifty, library identities/counts, checkout synthetic merge parents/tree and actual hosted lock remain unverified by this checkpoint.",
+    "Earlier local receipts remain independently scoped and are not borrowed as hosted execution acceptance."
+  ]
+}

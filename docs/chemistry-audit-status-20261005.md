@@ -1,6 +1,20 @@
 # Chemistry audit: current state, 2026-10-05
 
 
+## Current checkpoint — 2026-10-12: CLI15 and WASM compile verified
+
+The [candidate parser lane](../audits/yaml-parser-migration-20261012/README.md)
+now also passes all fifteen separately frozen CLI controls and the locked/offline
+core/data/scene WASM compile check. The CLI binary is bound to PR783 head
+`1acdda46`, its actual workspace lock and a completed build. Inspection, finite
+rates, inert bounded simulation, complex annotations and four refusals pass.
+The first native build failed on generated documentation missing from the
+archived module; its failure is preserved and a candidate-owned archive with
+verbatim derived documentation completed the retry. No tracked production
+change was needed. WASM runtime/browser, complete own CI/fleet and actual
+integration remain pending. The separate tagged-metadata forecasts remain18/2
+on both parsers. Earlier checkpoints below retain their historical scopes.
+
 ## Current checkpoint — 2026-10-12: dependency repair clears local policy
 
 [PR783](https://github.com/CrispStrobe/kerotakis/pull/783) head `1acdda46`

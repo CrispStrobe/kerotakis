@@ -30,7 +30,20 @@ unfiltered, with the actual separately captured workspace lock. The original
 632 core/safety test identities and outcomes match. These are local checks;
 existing ignored native caches were reused.
 [This head's own CI and fleet](maintained-fork-validation-dispatch.json)
-remain queued/pending. CLI/WASM and integration checks remain pending.
+remain queued/pending. The [local core/data/scene WASM compile check](local-wasm-core-check-1acdda46.json)
+passes, with [independent compile/static-control review](wasm-static-cli-independent-review-1acdda46.json).
+The separately [frozen fifteen CLI controls](cli-controls/README.md) now
+[all pass on the rebuilt candidate CLI](local-cli-first-controls-1acdda46.json).
+An [independent CLI review](cli-independent-review-1acdda46.json) accepts those
+actual outputs, build provenance and tracked module/source inventories.
+They cover shipped-pack inspection and rates, inert bounded simulation, ignored
+complex metadata and explicit refusals. The first CLI build failed on generated
+upstream documentation absent from the archive; a separate candidate-owned
+module archive supplied those derived ignored files without changing tracked
+source or the protected original. The retry built successfully.
+WASM runtime/browser, complete own CI/fleet and integration remain pending.
+[Own-run source associations](own-checkpoint-independent-review-1acdda46.json)
+are independently verified; pending native/preflight jobs are not accepted.
 
 The separately frozen [twenty-case supplement](supplement-20/README.md) has
 [18 pass / 2 fail on both original and replacement](supplement-20/paired-first-outcomes.json),
