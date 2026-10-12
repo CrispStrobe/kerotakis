@@ -67,7 +67,7 @@ serde = { version = "1", features = ["derive"] }
 # parse them exactly; the cost is roughly 2x on float parsing, which
 # happens once at build time.
 serde_json = { version = "1", features = ["float_roundtrip"] }
-serde_yaml_ng = { package = "noyalib-serde-yaml", version = "=0.0.57" }
+serde_yaml_ng = { package = "yaml_serde", version = "=0.10.7" }
 thiserror = "2"
 
 # Debug builds keep line tables and drop the rest of the DWARF.
