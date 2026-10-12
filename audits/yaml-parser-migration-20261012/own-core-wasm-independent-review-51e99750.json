@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "pr": 784,
+  "head": "51e997509126f099b22fbe963750ac06f36dadfe",
+  "base": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "source_tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+  "synthetic_checkout": "c877d811be7877d5c6223101eb21f3815d975c96",
+  "merge_parents": [
+    "1acdda4696e565be5dee13f0598eb2aa8081304e",
+    "51e997509126f099b22fbe963750ac06f36dadfe"
+  ],
+  "run_id": 38283405239,
+  "run_attempt": 1,
+  "event": "pull_request",
+  "job_id": 114925886015,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405239/job/114925886015",
+  "name": "Core and data schemas compile to wasm32",
+  "status": "completed",
+  "conclusion": "success",
+  "own_source_job_association_verified": true,
+  "all_steps_completed_successfully": true,
+  "successful_steps": [
+    "Set up job",
+    "Run actions/checkout@v6",
+    "Run dtolnay/rust-toolchain@stable",
+    "Run Swatinem/rust-cache@v2",
+    "Fetch SUNDIALS (not vendored; pinned by checksum)",
+    "Check core, data and scene physics on wasm",
+    "Post Run Swatinem/rust-cache@v2",
+    "Post Run actions/checkout@v6",
+    "Complete job"
+  ],
+  "verified_command": "cargo check -p kerotakis-core -p kerotakis-data -p kerotakis-scene-physics --target wasm32-unknown-unknown",
+  "finished_profile": "dev unoptimized + debuginfo",
+  "reported_completion_seconds": 46.99,
+  "source_file_sha256": {
+    ".github/workflows/ci.yml": "0151c09468292c9039538c072e3c33980c778511f8e9c03967e6c2149b71c9d2",
+    "tools/fetch-sundials.sh": "a4fec07f59d428fc55148a181ba1a5717ea8abab2792b446acaabd7e45f1bd38",
+    "crates/kerotakis-core/Cargo.toml": "5d2752a6b3805c281b125c8cb6f77265b1dbbd6097ad69fb26cca479069b24c7",
+    "crates/kerotakis-data/Cargo.toml": "ef1fcd13c23807fa8d76bbc5bd375318b90d0d51fa70a1b37b707e9c5497c221",
+    "crates/kerotakis-scene-physics/Cargo.toml": "cf45a66d27a6d61bc7e6a4eb68d48f3df5193e2cfe025ff1895cf63b5dc45f43"
+  },
+  "raw_sha256": {
+    "run.json": "e8f3bb74e08c8e062087856dc7602ec0d778e369b988ff05261f631130fd4830",
+    "pr.json": "14767dfa9b36493fb4cc3f88a0e7a3052ec46a5a554b0f892d433ab4abeccc7d",
+    "merge-commit.json": "fbdea9d4c02ea87009a8484f455a801c4be1837d043f3d6a50235d13c3b6e9b8",
+    "job.json": "7da0318029fc7cc6d81bc55b9c4fb1f7af5a4132860c9634cc9edbcb28a14864",
+    "job.log": "0f74c4610a3557df564b65fa865e9db6efbe1bdad1e66c4a147dd84abe5135cb"
+  },
+  "accepted_core_data_scene_wasm_compilation": true,
+  "accepted_runtime": false,
+  "ordinary_hosted_lock_captured": false,
+  "built_binary_captured": false,
+  "local_or_fleet_lock_borrowed": false,
+  "parent_outcomes_borrowed": false,
+  "full_ci_accepted": false,
+  "full_fleet_accepted": false,
+  "integration_accepted": false,
+  "unreviewed_job_ids": [
+    114925886212,
+    114925886222
+  ],
+  "scope": "Only completed own-source PR784 core/data/scene-physics wasm32 compilation job; exact run/attempt/PR/head/base, checkout merge/tree/parents, successful API steps and actual cargo check completion.",
+  "limits": [
+    "Compilation only; no runtime or behavioral controls executed by this job. Separate bench/bridge runtime evidence is not borrowed into this compilation receipt.",
+    "Rust cache reuse is explicit in job steps; the log does not show every package being rebuilt. Completed exact cargo check command and dev-profile completion establish the scoped check, not a clean rebuild.",
+    "Ordinary hosted Cargo.lock and actual compiled binary bytes are uncaptured. No local/fleet lock or artifact is substituted.",
+    "Demo-browser, standalone IPhreeqc and other unreviewed jobs (including feos target checks) remain unaccepted by this receipt; no whole CI/fleet/integration conclusion.",
+    "No empirical chemical accuracy, standalone repaired-source CLI controls or full native/WASM runtime acceptance claimed. Reviewer executed no Cargo/CLI/build commands."
+  ]
+}

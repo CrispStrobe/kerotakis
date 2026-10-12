@@ -204,8 +204,12 @@ fifteen pack outcomes. [Independent Linux review](native-linux-independent-revie
 verifies the combined 467-function/39-fixture inventory and actual outputs at
 this platform's own checkout and logs. No macOS outcome or fleet lock is borrowed.
 Both native jobs pass formatting and all-target workspace Clippy with warnings
-denied. Core WASM compilation, demo browser, standalone IPhreeqc WASM, complete
-CI/fleet and integration remain pending. The first leaf
+denied. [Own core/data/scene WASM compilation](own-core-wasm-independent-review-51e99750.json)
+now also passes the three-package `wasm32-unknown-unknown` check at this exact
+source. Cached compilation is qualified; this is command completion, not a
+clean rebuild or additional runtime proof. Ordinary hosted lock and binary
+remain uncaptured. Demo browser, standalone IPhreeqc WASM, remaining adapters,
+complete CI/fleet and integration remain pending. The first leaf
 build setup failed before any test executed; its separately recorded continuation
 passes all 63 controls. Rebase deliberately after the dependency change
 integrates, then validate and bind any resulting new source. Preserve all first

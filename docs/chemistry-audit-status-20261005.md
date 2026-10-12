@@ -13,8 +13,9 @@ and all-target workspace Clippy with warnings denied. Ordinary native locks rema
 uncaptured.
 
 Full preflight and the bench/bridge runtime checks are accepted separately.
-Core WASM compilation, demo browser, standalone IPhreeqc, complete CI/fleet and
-integration remain pending. Preserve the annotation supplement's two historical
+[Core/data/scene WASM compilation](../audits/yaml-parser-migration-20261012/own-core-wasm-independent-review-51e99750.json)
+is now accepted separately with cache reuse qualified. Demo browser, standalone
+IPhreeqc, remaining adapters, complete CI/fleet and integration remain pending. Preserve the annotation supplement's two historical
 failures and all original freezes. Follow [the next-step lanes](chemistry-work-agenda-20261012.md).
 
 ## Earlier checkpoint — 2026-10-12: repair preflight and two WASM runtime gates accepted

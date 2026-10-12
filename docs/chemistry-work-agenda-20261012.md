@@ -117,7 +117,11 @@ including formatting and workspace Clippy with warnings denied, pass; ordinary
 native lock remains uncaptured. These Linux outcomes are derived independently
 from Linux logs and are not borrowed from macOS.
 
-Next review core WASM compilation, demo browser and standalone IPhreeqc WASM
+[Own core/data/scene WASM compilation](../audits/yaml-parser-migration-20261012/own-core-wasm-independent-review-51e99750.json)
+now passes at the repair source. It verifies the three-package target check with
+cache reuse qualified; it does not establish a clean rebuild or runtime result.
+
+Next review demo browser, standalone IPhreeqc WASM and remaining adapter jobs
 when complete. Bind exact head/base/merge/tree, actual logs, source fixture hashes
 and actual controls; retain uncaptured artifact qualifications. Aggregate the
 complete own CI inventory and required 33-job fleet before integration. Then
