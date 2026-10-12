@@ -40,6 +40,7 @@ thiserror = { workspace = true }
 getrandom = { version = "0.3", features = ["wasm_js"] }
 
 [build-dependencies]
+kerotakis-data = { path = "../kerotakis-data" }
 serde_json = { workspace = true }
 
 [dev-dependencies]
