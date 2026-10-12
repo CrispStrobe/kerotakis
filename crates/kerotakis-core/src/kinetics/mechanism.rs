@@ -431,6 +431,8 @@ struct RawRate {
     b: f64,
     #[serde(rename = "Ea")]
     activation_energy: Scalar,
+    #[serde(flatten)]
+    extra: BTreeMap<String, serde_yaml_ng::Value>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -451,6 +453,8 @@ struct RawTroe {
     t1: f64,
     #[serde(default, rename = "T2")]
     t2: Option<f64>,
+    #[serde(flatten)]
+    extra: BTreeMap<String, serde_yaml_ng::Value>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -605,6 +609,32 @@ pub fn parse_yaml(text: &str) -> Result<ParsedMechanism, MechanismError> {
             &reaction.extra,
             IGNORABLE_REACTION_KEYS,
         )?;
+        // Validate every declared nested owner before dispatching the rate law.
+        // Otherwise unused high/low rates or Troe fields can silently swallow
+        // an unsupported modifier. P belongs to RawPressureRate and is consumed
+        // before its remaining fields are flattened into RawRate.
+        for (field, rate) in [
+            ("rate-constant", reaction.rate_constant.as_ref()),
+            (
+                "high-P-rate-constant",
+                reaction.high_p_rate_constant.as_ref(),
+            ),
+            ("low-P-rate-constant", reaction.low_p_rate_constant.as_ref()),
+        ] {
+            if let Some(rate) = rate {
+                reject_unknown_fields(&format!("reaction {number} {field}"), &rate.extra, &[])?;
+            }
+        }
+        for (index, entry) in reaction.rate_constants.iter().enumerate() {
+            reject_unknown_fields(
+                &format!("reaction {number} rate-constants entry {}", index + 1),
+                &entry.rate.extra,
+                &[],
+            )?;
+        }
+        if let Some(troe) = &reaction.troe {
+            reject_unknown_fields(&format!("reaction {number} Troe"), &troe.extra, &[])?;
+        }
         let kind = match reaction.r#type.as_str() {
             "elementary" => ReactionKind::Elementary,
             "three-body" => ReactionKind::ThirdBody,
