@@ -56,9 +56,11 @@ manifests, analyzers and registry. Each summary binds the own release binary and
 captured fleet lock. [The two own frozen fleets](own-frozen-fleet-review-1acdda46.json)
 add 54 saved cases and 135 passing law checks, with
 [independent review](own-frozen-fleet-independent-review-1acdda46.json).
-These are completed subsets, not full fleet acceptance. At the latest checkpoint,
-three v2 lanes and the required 288-case aggregate remain pending. Next review
-their exact-source outputs and all 33 declared jobs/steps before fresh integration
+These are completed subsets, not full fleet acceptance. At the [20:41 UTC checkpoint](own-fleet-progress-20261012-2041.json),
+30 jobs pass; analytical-observables, thermochemical-paths and the not-yet-created
+288-case aggregate remain pending. PR784 has 19 passing jobs and still awaits
+all three aggregates. Next review remaining exact-source outputs and all 33
+declared jobs/steps before fresh integration
 guards. No new CLI execution or empirical accuracy claim follows from re-analysis.
 
 The separately frozen [twenty-case supplement](supplement-20/README.md) has

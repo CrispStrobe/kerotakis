@@ -62,8 +62,10 @@ audit branch. Preserve all original source-bound receipts and outcomes.
 The [completed own fleet aggregates](../audits/yaml-parser-migration-20261012/own-fleet-completed-aggregates-review-1acdda46.json)
 now accept 360 saved cases/488 checks, and the [two frozen fleets](../audits/yaml-parser-migration-20261012/own-frozen-fleet-independent-review-1acdda46.json)
 accept 54 cases/135 checks, all against exact-source inputs and the own release
-artifact. Complete the remaining v2 analytical-observables, thermochemical-paths
-and materials-transport lanes, then the required 288-case aggregate. Review
+artifact. At the [20:41 UTC checkpoint](../audits/yaml-parser-migration-20261012/own-fleet-progress-20261012-2041.json),
+30 of 33 dependency jobs pass. Complete v2 analytical-observables and
+thermochemical-paths, review the completed materials-transport artifact, then
+the required 288-case aggregate. Review
 actual saved outputs and source/binary/lock associations; verify all 33 declared
 jobs and steps. Preserve partial receipts and original first outcomes. This
 remaining fleet acceptance is the dependency integration blocker; CI is done.

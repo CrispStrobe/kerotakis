@@ -1,0 +1,623 @@
+{
+  "observed_at_utc": "2026-10-12T20:41:28Z",
+  "fleets": [
+    {
+      "run": 38271407728,
+      "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728",
+      "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+      "pr": 783,
+      "pr_identity_verified_from_run_metadata": true,
+      "workflow_path": ".github/workflows/chemistry-audit.yml",
+      "workflow_sha256": "57252f0fb26ac203b5420e82a3e1355a20ec0ea6ac925d7078b95bcaf75e1304",
+      "expected_jobs": [
+        "All 120 source-informed v3 cases",
+        "All 240 source-informed cases",
+        "All 288 source-informed v2 cases",
+        "Build audited CLI once",
+        "Frozen fleet 195-218",
+        "Frozen fleet 459-488",
+        "Source fleet acid-base-buffers",
+        "Source fleet distillation",
+        "Source fleet electrochemistry",
+        "Source fleet filtration-evaporation",
+        "Source fleet gas-boundaries",
+        "Source fleet mixing-transfer",
+        "Source fleet observables-negative-controls",
+        "Source fleet organic-equilibria",
+        "Source fleet solubility-precipitation",
+        "Source fleet thermal-phase-paths",
+        "Source fleet v2 analytical-observables",
+        "Source fleet v2 crystallisation-boundaries",
+        "Source fleet v2 gas-production-transfer",
+        "Source fleet v2 household-biochemistry",
+        "Source fleet v2 kinetics-boundaries",
+        "Source fleet v2 materials-transport",
+        "Source fleet v2 phase-colligative",
+        "Source fleet v2 polyprotic-carbonate",
+        "Source fleet v2 quantitative-solutions",
+        "Source fleet v2 redox-cells",
+        "Source fleet v2 separation-trains",
+        "Source fleet v2 thermochemical-paths",
+        "Source fleet v3 aqueous-selectivity",
+        "Source fleet v3 ionic-conductivity",
+        "Source fleet v3 metal-ligand",
+        "Source fleet v3 organic-equilibrium",
+        "Source fleet v3 water-energy"
+      ],
+      "successful_jobs": [
+        "All 120 source-informed v3 cases",
+        "All 240 source-informed cases",
+        "Build audited CLI once",
+        "Frozen fleet 195-218",
+        "Frozen fleet 459-488",
+        "Source fleet acid-base-buffers",
+        "Source fleet distillation",
+        "Source fleet electrochemistry",
+        "Source fleet filtration-evaporation",
+        "Source fleet gas-boundaries",
+        "Source fleet mixing-transfer",
+        "Source fleet observables-negative-controls",
+        "Source fleet organic-equilibria",
+        "Source fleet solubility-precipitation",
+        "Source fleet thermal-phase-paths",
+        "Source fleet v2 crystallisation-boundaries",
+        "Source fleet v2 gas-production-transfer",
+        "Source fleet v2 household-biochemistry",
+        "Source fleet v2 kinetics-boundaries",
+        "Source fleet v2 materials-transport",
+        "Source fleet v2 phase-colligative",
+        "Source fleet v2 polyprotic-carbonate",
+        "Source fleet v2 quantitative-solutions",
+        "Source fleet v2 redox-cells",
+        "Source fleet v2 separation-trains",
+        "Source fleet v3 aqueous-selectivity",
+        "Source fleet v3 ionic-conductivity",
+        "Source fleet v3 metal-ligand",
+        "Source fleet v3 organic-equilibrium",
+        "Source fleet v3 water-energy"
+      ],
+      "not_yet_created_jobs": [
+        "All 288 source-informed v2 cases"
+      ],
+      "remaining_jobs": [
+        "All 288 source-informed v2 cases",
+        "Source fleet v2 analytical-observables",
+        "Source fleet v2 thermochemical-paths"
+      ],
+      "observed_jobs": [
+        {
+          "databaseId": 114909875071,
+          "name": "Build audited CLI once",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114909875071"
+        },
+        {
+          "databaseId": 114924707660,
+          "name": "Frozen fleet 459-488",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924707660"
+        },
+        {
+          "databaseId": 114924707680,
+          "name": "Source fleet v3 ionic-conductivity",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924707680"
+        },
+        {
+          "databaseId": 114924707745,
+          "name": "Source fleet v3 organic-equilibrium",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924707745"
+        },
+        {
+          "databaseId": 114924707752,
+          "name": "Frozen fleet 195-218",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924707752"
+        },
+        {
+          "databaseId": 114924707779,
+          "name": "Source fleet v3 metal-ligand",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924707779"
+        },
+        {
+          "databaseId": 114924707828,
+          "name": "Source fleet v3 water-energy",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924707828"
+        },
+        {
+          "databaseId": 114924708010,
+          "name": "Source fleet electrochemistry",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708010"
+        },
+        {
+          "databaseId": 114924708029,
+          "name": "Source fleet v3 aqueous-selectivity",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708029"
+        },
+        {
+          "databaseId": 114924708038,
+          "name": "Source fleet mixing-transfer",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708038"
+        },
+        {
+          "databaseId": 114924708042,
+          "name": "Source fleet filtration-evaporation",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708042"
+        },
+        {
+          "databaseId": 114924708049,
+          "name": "Source fleet v2 household-biochemistry",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708049"
+        },
+        {
+          "databaseId": 114924708102,
+          "name": "Source fleet v2 analytical-observables",
+          "status": "queued",
+          "conclusion": null,
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708102"
+        },
+        {
+          "databaseId": 114924708104,
+          "name": "Source fleet v2 gas-production-transfer",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708104"
+        },
+        {
+          "databaseId": 114924708127,
+          "name": "Source fleet organic-equilibria",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708127"
+        },
+        {
+          "databaseId": 114924708129,
+          "name": "Source fleet gas-boundaries",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708129"
+        },
+        {
+          "databaseId": 114924708140,
+          "name": "Source fleet v2 separation-trains",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708140"
+        },
+        {
+          "databaseId": 114924708148,
+          "name": "Source fleet observables-negative-controls",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708148"
+        },
+        {
+          "databaseId": 114924708149,
+          "name": "Source fleet distillation",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708149"
+        },
+        {
+          "databaseId": 114924708171,
+          "name": "Source fleet thermal-phase-paths",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708171"
+        },
+        {
+          "databaseId": 114924708180,
+          "name": "Source fleet solubility-precipitation",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708180"
+        },
+        {
+          "databaseId": 114924708182,
+          "name": "Source fleet v2 quantitative-solutions",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708182"
+        },
+        {
+          "databaseId": 114924708212,
+          "name": "Source fleet v2 kinetics-boundaries",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708212"
+        },
+        {
+          "databaseId": 114924708232,
+          "name": "Source fleet v2 polyprotic-carbonate",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708232"
+        },
+        {
+          "databaseId": 114924708239,
+          "name": "Source fleet v2 phase-colligative",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708239"
+        },
+        {
+          "databaseId": 114924708294,
+          "name": "Source fleet v2 thermochemical-paths",
+          "status": "queued",
+          "conclusion": null,
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708294"
+        },
+        {
+          "databaseId": 114924708312,
+          "name": "Source fleet acid-base-buffers",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708312"
+        },
+        {
+          "databaseId": 114924708341,
+          "name": "Source fleet v2 redox-cells",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708341"
+        },
+        {
+          "databaseId": 114924708380,
+          "name": "Source fleet v2 crystallisation-boundaries",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708380"
+        },
+        {
+          "databaseId": 114924708382,
+          "name": "Source fleet v2 materials-transport",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114924708382"
+        },
+        {
+          "databaseId": 114965707341,
+          "name": "All 240 source-informed cases",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114965707341"
+        },
+        {
+          "databaseId": 114972017560,
+          "name": "All 120 source-informed v3 cases",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407728/job/114972017560"
+        }
+      ],
+      "accepted_complete_fleet_gate": false,
+      "accepted_integration": false,
+      "scope": "Exact-head hosted fleet job gates and every declared workflow step only. Requires all 33 jobs, including three aggregates. No independent raw-law recount or integration acceptance. PR identity is verified only when present in run metadata.",
+      "run_metadata_sha256": "d9f53656ef241865f085478d83151b3b9417c1cf51071c528ae54c0fbd93a0e1"
+    },
+    {
+      "run": 38283405221,
+      "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221",
+      "head": "51e997509126f099b22fbe963750ac06f36dadfe",
+      "pr": 784,
+      "pr_identity_verified_from_run_metadata": true,
+      "workflow_path": ".github/workflows/chemistry-audit.yml",
+      "workflow_sha256": "57252f0fb26ac203b5420e82a3e1355a20ec0ea6ac925d7078b95bcaf75e1304",
+      "expected_jobs": [
+        "All 120 source-informed v3 cases",
+        "All 240 source-informed cases",
+        "All 288 source-informed v2 cases",
+        "Build audited CLI once",
+        "Frozen fleet 195-218",
+        "Frozen fleet 459-488",
+        "Source fleet acid-base-buffers",
+        "Source fleet distillation",
+        "Source fleet electrochemistry",
+        "Source fleet filtration-evaporation",
+        "Source fleet gas-boundaries",
+        "Source fleet mixing-transfer",
+        "Source fleet observables-negative-controls",
+        "Source fleet organic-equilibria",
+        "Source fleet solubility-precipitation",
+        "Source fleet thermal-phase-paths",
+        "Source fleet v2 analytical-observables",
+        "Source fleet v2 crystallisation-boundaries",
+        "Source fleet v2 gas-production-transfer",
+        "Source fleet v2 household-biochemistry",
+        "Source fleet v2 kinetics-boundaries",
+        "Source fleet v2 materials-transport",
+        "Source fleet v2 phase-colligative",
+        "Source fleet v2 polyprotic-carbonate",
+        "Source fleet v2 quantitative-solutions",
+        "Source fleet v2 redox-cells",
+        "Source fleet v2 separation-trains",
+        "Source fleet v2 thermochemical-paths",
+        "Source fleet v3 aqueous-selectivity",
+        "Source fleet v3 ionic-conductivity",
+        "Source fleet v3 metal-ligand",
+        "Source fleet v3 organic-equilibrium",
+        "Source fleet v3 water-energy"
+      ],
+      "successful_jobs": [
+        "Build audited CLI once",
+        "Frozen fleet 195-218",
+        "Frozen fleet 459-488",
+        "Source fleet distillation",
+        "Source fleet filtration-evaporation",
+        "Source fleet gas-boundaries",
+        "Source fleet mixing-transfer",
+        "Source fleet observables-negative-controls",
+        "Source fleet organic-equilibria",
+        "Source fleet solubility-precipitation",
+        "Source fleet thermal-phase-paths",
+        "Source fleet v2 gas-production-transfer",
+        "Source fleet v2 polyprotic-carbonate",
+        "Source fleet v2 quantitative-solutions",
+        "Source fleet v2 redox-cells",
+        "Source fleet v3 aqueous-selectivity",
+        "Source fleet v3 ionic-conductivity",
+        "Source fleet v3 metal-ligand",
+        "Source fleet v3 water-energy"
+      ],
+      "not_yet_created_jobs": [
+        "All 120 source-informed v3 cases",
+        "All 240 source-informed cases",
+        "All 288 source-informed v2 cases"
+      ],
+      "remaining_jobs": [
+        "All 120 source-informed v3 cases",
+        "All 240 source-informed cases",
+        "All 288 source-informed v2 cases",
+        "Source fleet acid-base-buffers",
+        "Source fleet electrochemistry",
+        "Source fleet v2 analytical-observables",
+        "Source fleet v2 crystallisation-boundaries",
+        "Source fleet v2 household-biochemistry",
+        "Source fleet v2 kinetics-boundaries",
+        "Source fleet v2 materials-transport",
+        "Source fleet v2 phase-colligative",
+        "Source fleet v2 separation-trains",
+        "Source fleet v2 thermochemical-paths",
+        "Source fleet v3 organic-equilibrium"
+      ],
+      "observed_jobs": [
+        {
+          "databaseId": 114925885046,
+          "name": "Build audited CLI once",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114925885046"
+        },
+        {
+          "databaseId": 114939869481,
+          "name": "Frozen fleet 195-218",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869481"
+        },
+        {
+          "databaseId": 114939869533,
+          "name": "Source fleet v3 aqueous-selectivity",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869533"
+        },
+        {
+          "databaseId": 114939869600,
+          "name": "Source fleet v3 water-energy",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869600"
+        },
+        {
+          "databaseId": 114939869623,
+          "name": "Source fleet v3 organic-equilibrium",
+          "status": "queued",
+          "conclusion": null,
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869623"
+        },
+        {
+          "databaseId": 114939869652,
+          "name": "Source fleet v3 ionic-conductivity",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869652"
+        },
+        {
+          "databaseId": 114939869721,
+          "name": "Source fleet v3 metal-ligand",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869721"
+        },
+        {
+          "databaseId": 114939869757,
+          "name": "Source fleet v2 quantitative-solutions",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869757"
+        },
+        {
+          "databaseId": 114939869767,
+          "name": "Source fleet organic-equilibria",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869767"
+        },
+        {
+          "databaseId": 114939869772,
+          "name": "Source fleet mixing-transfer",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869772"
+        },
+        {
+          "databaseId": 114939869774,
+          "name": "Source fleet distillation",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869774"
+        },
+        {
+          "databaseId": 114939869776,
+          "name": "Frozen fleet 459-488",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869776"
+        },
+        {
+          "databaseId": 114939869777,
+          "name": "Source fleet v2 polyprotic-carbonate",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869777"
+        },
+        {
+          "databaseId": 114939869806,
+          "name": "Source fleet filtration-evaporation",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869806"
+        },
+        {
+          "databaseId": 114939869815,
+          "name": "Source fleet v2 kinetics-boundaries",
+          "status": "queued",
+          "conclusion": null,
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869815"
+        },
+        {
+          "databaseId": 114939869816,
+          "name": "Source fleet gas-boundaries",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869816"
+        },
+        {
+          "databaseId": 114939869829,
+          "name": "Source fleet v2 separation-trains",
+          "status": "queued",
+          "conclusion": null,
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869829"
+        },
+        {
+          "databaseId": 114939869850,
+          "name": "Source fleet solubility-precipitation",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869850"
+        },
+        {
+          "databaseId": 114939869884,
+          "name": "Source fleet electrochemistry",
+          "status": "queued",
+          "conclusion": null,
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869884"
+        },
+        {
+          "databaseId": 114939869894,
+          "name": "Source fleet v2 household-biochemistry",
+          "status": "queued",
+          "conclusion": null,
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869894"
+        },
+        {
+          "databaseId": 114939869918,
+          "name": "Source fleet v2 redox-cells",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869918"
+        },
+        {
+          "databaseId": 114939869920,
+          "name": "Source fleet thermal-phase-paths",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869920"
+        },
+        {
+          "databaseId": 114939869933,
+          "name": "Source fleet v2 crystallisation-boundaries",
+          "status": "queued",
+          "conclusion": null,
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869933"
+        },
+        {
+          "databaseId": 114939869956,
+          "name": "Source fleet v2 gas-production-transfer",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869956"
+        },
+        {
+          "databaseId": 114939869970,
+          "name": "Source fleet v2 thermochemical-paths",
+          "status": "queued",
+          "conclusion": null,
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869970"
+        },
+        {
+          "databaseId": 114939869971,
+          "name": "Source fleet v2 phase-colligative",
+          "status": "queued",
+          "conclusion": null,
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869971"
+        },
+        {
+          "databaseId": 114939869980,
+          "name": "Source fleet v2 materials-transport",
+          "status": "queued",
+          "conclusion": null,
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939869980"
+        },
+        {
+          "databaseId": 114939870067,
+          "name": "Source fleet observables-negative-controls",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939870067"
+        },
+        {
+          "databaseId": 114939870103,
+          "name": "Source fleet acid-base-buffers",
+          "status": "queued",
+          "conclusion": null,
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939870103"
+        },
+        {
+          "databaseId": 114939870192,
+          "name": "Source fleet v2 analytical-observables",
+          "status": "queued",
+          "conclusion": null,
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/114939870192"
+        }
+      ],
+      "accepted_complete_fleet_gate": false,
+      "accepted_integration": false,
+      "scope": "Exact-head hosted fleet job gates and every declared workflow step only. Requires all 33 jobs, including three aggregates. No independent raw-law recount or integration acceptance. PR identity is verified only when present in run metadata.",
+      "run_metadata_sha256": "7ced88c067ad6856627663853a9a4ec557fa5bff82f7736f97984076a6266fe4"
+    }
+  ],
+  "reviewer_sha256": "f56e20a4de90700d317738d5f260f9e0f163c6165393601ab98b847f7696cdb5",
+  "scope": "Exact-source job/step metadata checkpoint only; completed raw-output subsets accepted separately. Both complete33-job gates remain false, no integration acceptance."
+}
