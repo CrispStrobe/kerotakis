@@ -34,7 +34,29 @@ custom tags in ignored annotations remain an explicit follow-up, with first
 failures and forecasts preserved. Resolve that support contract separately. Source-specific
 PR782 results need fresh binding after integrating a parser change.
 
-## 0a. Adjudicate tagged ignored annotations as a separate admission lane
+## 0a. Execute the frozen nested rate-key admission inquiry
+
+The [twelve prospective controls](../audits/yaml-parser-migration-20261012/nested-rate-controls/README.md)
+are committed before execution: three complete-JSON positives, eight unsupported
+model-key refusals and one unchanged missing-`Ea` refusal. They bind the existing
+candidate CLI, source hashes and exact input identities. Execution is still
+pending the resource gate; no failure or repair is claimed. This is useful
+parallel evidence while the dependency PR's hosted gates finish.
+
+Run the frozen collector in a new evidence destination using its pinned binary
+and manifest hashes, with source/build/lock provenance checked independently.
+Preserve all twelve first outcomes, including any failed positive forecast or
+unexpectedly accepted model key. Missing required `Ea` is distinct from the
+optional `b` or `T2` fields; do not infer an activation-energy default from a
+misspelled key. If unexpected model keys are admitted, assess ordinary rate,
+high/low pressure, Troe and pressure-entry owners systematically. Specify typed
+owner/key refusals and preserve valid pressure flattening, duplicates, numeric
+categories and all existing annotation policies before preparing a narrow fix.
+A repaired source needs separate versioned binding; do not rewrite this frozen
+candidate binary/source manifest. Require original YAML50, affected libraries,
+all fifteen packs/CLI controls and its own source-specific CI gates.
+
+## 0b. Adjudicate tagged ignored annotations as a separate admission lane
 
 Read the [preserved twenty-case forecasts and first paired outcomes](../audits/yaml-parser-migration-20261012/supplement-20/README.md).
 Both parsers refuse custom-tagged scalar and sequence annotations; the original

@@ -1,0 +1,14 @@
+{
+  "source": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "source_tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "freeze_commit": "c1fe0ef8",
+  "manifest_sha256": "a7193ca986bdb7b1c895110fc4f3ac72f48310243d5a857b8250c6df823d7d09",
+  "collector_sha256": "69b3c7c4ea1ae1f459e2bd83a9dc5953cc94943db0a622ad0508ceacb6bfb4ba",
+  "candidate_binary_sha256": "a75a87b2669cdeb6f9e0c8f6fad0829f103475992f7d7649cadab072d9fcbad5",
+  "expected_cases": 12,
+  "static_source_input_hash_checks_passed": true,
+  "execution_started": false,
+  "production_repair_started": false,
+  "reason": "Resource preflight did not permit the first CLI run. Frozen expectations and all earlier first outcomes remain unchanged.",
+  "scope": "Preparation only; no twelve-case acceptance, failure or repair outcome inferred from source analysis."
+}

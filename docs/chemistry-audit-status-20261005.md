@@ -15,7 +15,9 @@ Linux/preflight/bridge/bench-WASM/fleet gates and integration remain pending.
 documents the two observed custom-tagged note refusals without rewriting their
 positive forecasts. The six actual annotation owners do not establish a nested
 rate-key refusal guarantee; that separate source-indicated inquiry is being
-frozen before execution. No nested-rate production repair is claimed yet.
+[frozen as twelve prospective controls](../audits/yaml-parser-migration-20261012/nested-rate-controls/README.md)
+before execution. Their first run remains resource-gated and pending; no
+nested-rate production repair is claimed yet.
 Earlier dated checkpoints below retain their historical scopes.
 
 ## Current checkpoint — 2026-10-12: CLI15 and WASM compile verified

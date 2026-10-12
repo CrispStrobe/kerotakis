@@ -70,7 +70,11 @@ Linux/preflight and full fleet acceptance remain separate pending gates.
 [The annotation contract review](annotation-contract-review.md) records the
 observed custom-tag boundary and six annotation owners. It also identifies
 nested rate-key admission as a distinct source-indicated inquiry requiring
-frozen execution evidence before a repair is claimed.
+frozen execution evidence before a repair is claimed. The separately
+[frozen twelve nested-rate controls](nested-rate-controls/README.md) are now
+committed before execution; their first run remains resource-gated and pending.
+They distinguish three valid model shapes, eight unknown-key refusals and a
+missing required field. No result or production fix is claimed for that lane.
 
 The [manifest patch](maintained-fork-dependency.patch) is separate from the
 preserved earlier facade proposal and its observed regression below.
