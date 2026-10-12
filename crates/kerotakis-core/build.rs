@@ -108,16 +108,18 @@ fn main() {
     for identity in identities {
         let key = identity["id"].as_str().expect("identity id");
         let comp = composition_for(key);
-        let mm = thermo_for(key, "molar_mass").unwrap_or_else(|| panic!("no molar mass for {key}"));
+        let scalar_records = kerotakis_data::select_runtime_scalar_records(thermo, key)
+            .unwrap_or_else(|reason| panic!("{reason}"));
+        let mm = scalar_records.molar_mass;
         let molar_mass = mm["quantity"]["value"].as_f64().unwrap();
         let standard_phase = phase_variant(mm["phase"].as_str().unwrap());
-        let heat_capacity_record = thermo_for(key, "molar_heat_capacity");
-        let heat_capacity = heat_capacity_record
-            .and_then(|t| t["quantity"]["value"].as_f64())
+        let heat_capacity_record = scalar_records.heat_capacity;
+        let heat_capacity = heat_capacity_record["quantity"]["value"]
+            .as_f64()
             .unwrap_or_else(|| panic!("no heat capacity for {key}"));
-        let density_record = thermo_for(key, "mass_density");
-        let density = density_record
-            .and_then(|t| t["quantity"]["value"].as_f64())
+        let density_record = scalar_records.density;
+        let density = density_record["quantity"]["value"]
+            .as_f64()
             .unwrap_or_else(|| panic!("no density for {key}"));
         for (property, value) in [
             (RuntimeScalarProperty::MolarMass, molar_mass),
@@ -138,13 +140,9 @@ fn main() {
         let heat_capacity = normalize(
             RuntimeScalarProperty::MolarHeatCapacity,
             heat_capacity,
-            heat_capacity_record.expect("heat-capacity value was read above"),
+            heat_capacity_record,
         );
-        let density = normalize(
-            RuntimeScalarProperty::MassDensity,
-            density,
-            density_record.expect("density value was read above"),
-        );
+        let density = normalize(RuntimeScalarProperty::MassDensity, density, density_record);
         let dissolution = thermo_for(key, "enthalpy_of_dissolution")
             .and_then(|t| t["quantity"]["value"].as_f64());
 

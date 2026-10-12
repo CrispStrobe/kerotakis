@@ -207,7 +207,8 @@ pub fn parse_document(doc: &serde_json::Value) -> Result<Vec<SpeciesData>, Strin
             .iter()
             .find(|c| c["species_id"] == key)
             .ok_or_else(|| fail("no composition"))?;
-        let mm = thermo_for(key, "molar_mass").ok_or_else(|| fail("no molar mass"))?;
+        let scalar_records = kerotakis_data::select_runtime_scalar_records(thermo, key)?;
+        let mm = scalar_records.molar_mass;
         let molar_mass = mm["quantity"]["value"]
             .as_f64()
             .ok_or_else(|| fail("molar mass has no value"))?;
@@ -217,13 +218,13 @@ pub fn parse_document(doc: &serde_json::Value) -> Result<Vec<SpeciesData>, Strin
                 .ok_or_else(|| fail("molar mass has no phase"))?,
         )
         .map_err(|e| fail(&e))?;
-        let heat_capacity_record = thermo_for(key, "molar_heat_capacity");
-        let heat_capacity = heat_capacity_record
-            .and_then(|t| t["quantity"]["value"].as_f64())
+        let heat_capacity_record = scalar_records.heat_capacity;
+        let heat_capacity = heat_capacity_record["quantity"]["value"]
+            .as_f64()
             .ok_or_else(|| fail("no heat capacity"))?;
-        let density_record = thermo_for(key, "mass_density");
-        let density = density_record
-            .and_then(|t| t["quantity"]["value"].as_f64())
+        let density_record = scalar_records.density;
+        let density = density_record["quantity"]["value"]
+            .as_f64()
             .ok_or_else(|| fail("no density"))?;
         for (property, value) in [
             (kerotakis_data::RuntimeScalarProperty::MolarMass, molar_mass),
@@ -254,12 +255,12 @@ pub fn parse_document(doc: &serde_json::Value) -> Result<Vec<SpeciesData>, Strin
         let heat_capacity = normalize(
             kerotakis_data::RuntimeScalarProperty::MolarHeatCapacity,
             heat_capacity,
-            heat_capacity_record.expect("heat-capacity value was read above"),
+            heat_capacity_record,
         )?;
         let density = normalize(
             kerotakis_data::RuntimeScalarProperty::MassDensity,
             density,
-            density_record.expect("density value was read above"),
+            density_record,
         )?;
         let dissolution = thermo_for(key, "enthalpy_of_dissolution")
             .and_then(|t| t["quantity"]["value"].as_f64());

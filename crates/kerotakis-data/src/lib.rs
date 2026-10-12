@@ -15,6 +15,7 @@ mod property_bounds;
 mod provenance;
 mod pubchem;
 mod resolve;
+mod runtime_scalar_records;
 mod schema;
 mod units;
 pub mod usda;
@@ -31,6 +32,7 @@ pub use property_bounds::{
 pub use provenance::*;
 pub use pubchem::*;
 pub use resolve::{resolve_phase_property, Conditions, Resolution, ResolvedValue, Rung};
+pub use runtime_scalar_records::{select_runtime_scalar_records, RuntimeScalarRecords};
 pub use schema::*;
 pub use units::*;
 pub use validate::{ValidationError, ValidationIssue};
