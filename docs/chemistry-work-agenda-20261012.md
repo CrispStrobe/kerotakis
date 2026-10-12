@@ -98,17 +98,25 @@ checks actual outputs, exits, diagnostics, source/binary/lock and unchanged
 expectation lineage.
 
 [Own repaired-source macOS native review](../audits/yaml-parser-migration-20261012/native-macos-independent-review-51e99750.json)
-now accepts full workspace3,358 passes/four ignored, 467 focused passes across
+now accepts full workspace 3,358 passes/four ignored, 467 focused passes across
 39 fixtures, all thirteen library binaries (935 passes) and all fifteen pack
 controls at exact head `51e99750`. Formatting and all-target workspace Clippy
 with warnings denied also pass. The ordinary native lock remains uncaptured;
 no release-fleet lock is borrowed for this scope.
 
-Next review the repair's own Linux native and full preflight jobs when complete.
-Bind exact head/base/merge/tree, actual logs, source fixture hashes, individual
-outcomes and policy checks; retain uncaptured-lock qualifications. Inspect the
-complete own CI inventory and required fleet inventory before integration.
-Do not substitute parent-source or macOS outcomes for pending Linux results. Rebase deliberately after the dependency prerequisite
+[Own completed-gate reviews](../audits/yaml-parser-migration-20261012/own-completed-gates-review-51e99750.json)
+now also accept full preflight under unchanged four-category dependency policy,
+WASM bench 32 controls plus 8,105 protocol checks/113 lessons, and bridge 10
+controls. Ordinary hosted locks, WASM binaries and execution-time advisory
+revision remain uncaptured; no release-fleet lock is borrowed.
+
+Next review the repair's own Linux native, core WASM compile, demo browser and
+standalone IPhreeqc WASM jobs when complete. Bind exact head/base/merge/tree,
+actual logs, source fixture hashes and individual outcomes; retain uncaptured
+artifact qualifications. Linux must independently verify the repair 13,
+focused 467/39 inventory, workspace 3,358/four ignored, libraries 935 and pack 15.
+Aggregate the complete own CI inventory and required 33-job fleet before
+integration. Do not substitute parent-source or macOS outcomes for Linux. Rebase deliberately after the dependency prerequisite
 integrates, then repeat source-specific gates for any new source association.
 
 

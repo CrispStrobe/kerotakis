@@ -1,7 +1,23 @@
 # Chemistry audit: current state, 2026-10-05
 
 
-## Current checkpoint — 2026-10-12: dependency CI accepted; integration guard awaits fleet
+## Current checkpoint — 2026-10-12: repair preflight and two WASM runtime gates accepted
+
+PR784's [new completed-gate review](../audits/yaml-parser-migration-20261012/own-completed-gates-review-51e99750.json)
+accepts full preflight, WASM bench and browser-engine bridge at exact repair
+head `51e99750`. [Independent preflight review](../audits/yaml-parser-migration-20261012/own-preflight-independent-review-51e99750.json)
+verifies non-light completion, unchanged policy across all four dependency
+categories, 3,358 workspace passes/four ignored, and four additional identity
+controls. [Independent WASM runtime review](../audits/yaml-parser-migration-20261012/own-wasm-runtime-independent-review-51e99750.json)
+verifies bench 32 controls plus 8,105 protocol checks across 113 lessons and
+bridge 10 controls. Ordinary job locks, WASM binaries and execution-time advisory
+database revision remain uncaptured; the captured fleet lock stays separate.
+
+Linux native and the remaining core/browser/standalone IPhreeqc jobs are still
+pending. Both full fleets remain incomplete; neither PR is integrated.
+Follow [the exact next-step lanes](chemistry-work-agenda-20261012.md).
+
+## Earlier checkpoint — 2026-10-12: dependency CI accepted; integration guard awaits fleet
 
 PR783's [own complete CI gate](../audits/yaml-parser-migration-20261012/own-ci-gate-aggregate-1acdda46.json)
 is now accepted at exact head `1acdda46`: all five required gates have reviewed
@@ -50,7 +66,7 @@ verifies all 27 outcomes and source/binary/lock lineage. This supplements the
 accepted typed63 regressions; the annotation supplement's two historical failures
 remain preserved.
 
-Full repaired-source affected libraries, pack15, complete own CI/fleet and
+Full repaired-source affected libraries, pack 15, complete own CI/fleet and
 integration remain pending. Hosted native tests are running or queued; fleets
 are incomplete. Follow [the next-step lanes](chemistry-work-agenda-20261012.md).
 

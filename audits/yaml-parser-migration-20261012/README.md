@@ -179,13 +179,26 @@ is separately proved by the typed Rust fixture.
 now pass the full workspace: **3,358 tests, four ignored, zero failures**.
 [Independent native review](native-macos-independent-review-51e99750.json)
 verifies actual 467 focused passes across 39 fixtures, including the original
-50 and new repair13, all thirteen library binaries (935 passes), and all fifteen
+50 and new repair 13, all thirteen library binaries (935 passes), and all fifteen
 unchanged gas-pack controls. Formatting, all-target workspace Clippy with
 warnings denied, tests and the remaining job steps pass at the exact repair
 merge tree. The ordinary native lock remains uncaptured; the release-artifact
 fleet lock is separate and is not substituted. This closes repaired-source
-library and pack validation in the accepted macOS job scope. Linux, full
-preflight, complete CI/fleet and integration remain pending. The first leaf
+library and pack validation in the accepted macOS job scope.
+[Three more own-source gates](own-completed-gates-review-51e99750.json) are now
+accepted at repair head `51e99750`: full preflight, WASM bench and browser-engine
+bridge. [Independent preflight review](own-preflight-independent-review-51e99750.json)
+verifies non-light completion, all four dependency-policy categories under
+unchanged policy, 3,358 workspace passes/four ignored, and four additional
+native identity controls. CI intentionally omits preflight Clippy; the accepted
+macOS native job checks it separately. [Independent WASM runtime review](own-wasm-runtime-independent-review-51e99750.json)
+verifies 32 bench controls, 8,105 protocol checks across 113 lessons, and ten
+bridge controls including desktop/browser agreement and five live R1 scenarios.
+Ordinary hosted locks, WASM binaries and execution-time advisory database
+revision remain uncaptured; no captured fleet lock is substituted. These are
+bounded engineering/runtime controls, not general empirical chemistry accuracy.
+Linux native, core WASM compilation, demo browser, standalone IPhreeqc WASM,
+complete CI/fleet and integration remain pending. The first leaf
 build setup failed before any test executed; its separately recorded continuation
 passes all 63 controls. Rebase deliberately after the dependency change
 integrates, then validate and bind any resulting new source. Preserve all first
