@@ -61,6 +61,9 @@ extraction remains unchanged. Original frozen fixtures, inputs, expectations and
 first outcomes remain immutable; this is an explicit production-port adaptation.
 Do not borrow earlier-head CI or 50/50 acceptance for the revised head.
 
+[Revised-head dispatch](revised-candidate-validation-dispatch.json) binds paired
+run38220664859, own CI38220364638 and fleet38220364626. The superseded old-head
+fleet cancellation was requested after the source-changing lint correction.
 Next, collect and independently review the revised head's paired 26+24 controls.
 The dedicated `registry-applicability-candidate` workflow selection pins that
 head and checks exact assertion normalization against the original fixtures.
