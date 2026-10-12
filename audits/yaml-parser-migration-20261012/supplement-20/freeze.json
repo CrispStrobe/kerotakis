@@ -1,0 +1,163 @@
+{
+  "source": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "source_tree": "cbe987d1fba5eaeaecbd7a23232fb2105eee8684",
+  "fixture_path": "audits/yaml-parser-migration-20261012/supplement-20/fixtures/yaml_mechanism_edge_contracts.rs",
+  "fixture_sha256": "e46796c3c49d8a8d24d08595da5e3d54d362ecb01aa24d5bb39c6e9120f009ef",
+  "injected_fixture_path": "crates/kerotakis-core/tests/yaml_mechanism_edge_contracts.rs",
+  "expected_count": 20,
+  "expected_tests": [
+    "quoted_rate_decimal",
+    "quoted_rate_scientific",
+    "quoted_activation_decimal",
+    "quoted_activation_scientific",
+    "quoted_rate_infinity",
+    "quoted_activation_nan",
+    "unquoted_rate_negative_infinity",
+    "unquoted_activation_negative_infinity",
+    "ignored_custom_scalar_tag",
+    "ignored_custom_sequence_tag",
+    "tagged_species_external_mapping",
+    "custom_tag_rate_scalar",
+    "ordinary_merge_document",
+    "ordinary_merge_phase",
+    "ordinary_merge_species",
+    "ignored_nested_merge_alias",
+    "duplicate_document_annotation",
+    "duplicate_known_rate_field",
+    "duplicate_composition_last_value",
+    "duplicate_nested_annotation_key"
+  ],
+  "cases": [
+    {
+      "name": "quoted_rate_decimal",
+      "expected_category": "UnsupportedUnit",
+      "rationale": "Quoted scalar remains text, preserving field-specific string refusal instead of numeric coercion.",
+      "expected_field": "pre-exponential"
+    },
+    {
+      "name": "quoted_rate_scientific",
+      "expected_category": "UnsupportedUnit",
+      "rationale": "Quoted scalar remains text, preserving field-specific string refusal instead of numeric coercion.",
+      "expected_field": "pre-exponential"
+    },
+    {
+      "name": "quoted_activation_decimal",
+      "expected_category": "UnsupportedUnit",
+      "rationale": "Quoted scalar remains text, preserving field-specific string refusal instead of numeric coercion.",
+      "expected_field": "activation-energy"
+    },
+    {
+      "name": "quoted_activation_scientific",
+      "expected_category": "UnsupportedUnit",
+      "rationale": "Quoted scalar remains text, preserving field-specific string refusal instead of numeric coercion.",
+      "expected_field": "activation-energy"
+    },
+    {
+      "name": "quoted_rate_infinity",
+      "expected_category": "UnsupportedUnit",
+      "rationale": "Quoted scalar remains text, preserving field-specific string refusal instead of numeric coercion.",
+      "expected_field": "pre-exponential"
+    },
+    {
+      "name": "quoted_activation_nan",
+      "expected_category": "UnsupportedUnit",
+      "rationale": "Quoted scalar remains text, preserving field-specific string refusal instead of numeric coercion.",
+      "expected_field": "activation-energy"
+    },
+    {
+      "name": "unquoted_rate_negative_infinity",
+      "expected_category": "InvalidRate",
+      "rationale": "Unquoted negative infinity is numeric and reaches the finite-positive A validator.",
+      "expected_owner": "reaction 1",
+      "expected_field": "A"
+    },
+    {
+      "name": "unquoted_activation_negative_infinity",
+      "expected_category": "NonFiniteActivationEnergy",
+      "rationale": "Unquoted negative infinity is numeric and reaches activation finiteness validation.",
+      "expected_owner": "reaction 1",
+      "expected_field": "Ea"
+    },
+    {
+      "name": "ignored_custom_scalar_tag",
+      "expected_category": "equal ParsedMechanism",
+      "rationale": "A custom tag on an ignored annotation should not change kinetics; this expectation may expose a baseline flatten limitation."
+    },
+    {
+      "name": "ignored_custom_sequence_tag",
+      "expected_category": "equal ParsedMechanism",
+      "rationale": "An ignored tagged collection should leave every parsed mechanism field unchanged; baseline acceptance is not assumed observed."
+    },
+    {
+      "name": "tagged_species_external_mapping",
+      "expected_category": "UnsupportedFieldValue",
+      "rationale": "A tagged external selector remains outside the portable species subset and must identify owner and offending reference.",
+      "expected_owner": "phase 'gas'",
+      "expected_field": "species"
+    },
+    {
+      "name": "custom_tag_rate_scalar",
+      "expected_category": "Yaml",
+      "rationale": "An application-specific tag on the untagged numeric/text rate union is expected to refuse admission rather than silently strip type information."
+    },
+    {
+      "name": "ordinary_merge_document",
+      "expected_category": "UnsupportedSection",
+      "rationale": "Ordinary merge key is an unsupported document section; automatic merge expansion must not supply kinetics fields.",
+      "expected_field": "<<"
+    },
+    {
+      "name": "ordinary_merge_phase",
+      "expected_category": "UnsupportedField",
+      "rationale": "A merge key on a phase remains an unsupported field even if its payload consists of ignorable data.",
+      "expected_owner": "phase 'gas'",
+      "expected_field": "<<"
+    },
+    {
+      "name": "ordinary_merge_species",
+      "expected_category": "UnsupportedField",
+      "rationale": "A merge key on a species must retain its field refusal rather than silently materialize its payload.",
+      "expected_owner": "species 'A'",
+      "expected_field": "<<"
+    },
+    {
+      "name": "ignored_nested_merge_alias",
+      "expected_category": "equal ParsedMechanism",
+      "rationale": "Anchors and an ordinary merge key wholly within ignored notes have no kinetic meaning and should remain harmless."
+    },
+    {
+      "name": "duplicate_document_annotation",
+      "expected_category": "equal ParsedMechanism",
+      "rationale": "Repeated flattened annotation entries are expected to overwrite irrelevant metadata without altering the mechanism."
+    },
+    {
+      "name": "duplicate_known_rate_field",
+      "expected_category": "Yaml",
+      "rationale": "Repeated known rate fields are ambiguous typed input and must be refused before mechanism validation."
+    },
+    {
+      "name": "duplicate_composition_last_value",
+      "expected_category": "equal ParsedMechanism",
+      "rationale": "A typed composition map is expected to keep its last H entry, exactly reproducing the independently authored ordinary witness."
+    },
+    {
+      "name": "duplicate_nested_annotation_key",
+      "expected_category": "Yaml",
+      "rationale": "Duplicate keys inside a generic annotation value are expected to retain YAML Value duplicate-entry refusal, distinguishing this from flattened outer metadata."
+    }
+  ],
+  "frozen_before_any_execution": true,
+  "executed_at_freeze": false,
+  "scope": "Prospective source-informed synthetic YAML admission engineering controls; independently authored supplement, not blind chemistry forecasts or empirical kinetic accuracy.",
+  "limits": [
+    "Original 50 fixtures and all existing baseline/candidate outcomes remain immutable and separate.",
+    "Custom-tag, duplicate-annotation and duplicate-composition expectations are prospective and may fail on accepted main; such failures must be preserved and adjudicated explicitly.",
+    "Positive controls compare complete ParsedMechanism values, not only summaries.",
+    "Refusal controls bind public domain categories and owners/fields where applicable; YAML parser message wording is not pinned.",
+    "No parser fuzzing, full YAML language guarantee, performance, solver accuracy or complete integration acceptance."
+  ],
+  "reference_fifty_freeze_sha256": "7618b5dcb4b5a1485ee67b3103408c6e9e0d5d77f3d0d44605a71602d74fbaee",
+  "supported_expected": 5,
+  "refusal_expected": 15,
+  "execution": "Not executed on baseline or candidate; syntax/static checks only."
+}
