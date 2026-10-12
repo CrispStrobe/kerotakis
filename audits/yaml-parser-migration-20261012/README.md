@@ -18,10 +18,11 @@ Next complete PR784's own fleet and actual saved-output reviews. Its
 [preparation validation](integration-preparation-validation-51e99750.json)
 now bind the unchanged repair source and accepted receipts to main, with
 [independent review](integration-preparation-independent-review-51e99750.json).
-The [actual read-only preflight](integration-awaiting-fleet-51e99750.json)
-remains a historical pending result. The [21:27 UTC checkpoint](own-fleet-progress-20261012-2127.json)
-verifies 27 successful jobs and their declared steps: four v2 family jobs and
-the v3 aggregate are queued, and the v2 aggregate is not yet created.
+The [latest read-only preflight](integration-after-available-output-review-51e99750.json)
+verifies 30 successful jobs and their declared steps. V2 thermochemical-paths
+and analytical-observables are queued; the 288-case aggregate is not yet created.
+The [first preflight](integration-awaiting-fleet-51e99750.json) and
+[21:27 UTC checkpoint](own-fleet-progress-20261012-2127.json) remain historical.
 No merge readiness or repair integration is accepted. The confirmed nested-key
 repair and final-safety PR782 remain unintegrated. Preserve all original
 forecasts, first outcomes and receipts.
@@ -36,9 +37,15 @@ than claiming execution after retargeting.
 [independent review](own-frozen-fleet-independent-review-51e99750.json).
 Both own artifacts, exact-source collectors/analyzers/registry, raw streams,
 summary fields, actual CLI download and binary/lock association were verified.
-The larger source-family output review is prepared and deferred by its resource
-gate before any artifact downloads. A successful job alone does not accept
-those saved outputs. No CLI experiment is rerun.
+After a fresh passing resource gate, [all 25 completed family outputs](own-fleet-available-output-review-51e99750.json)
+were independently reviewed: **600 saved cases and 796 checks**, zero unmet.
+The [actual completed 240- and 120-case aggregates](own-fleet-completed-aggregate-output-review-51e99750.json)
+match those reviewed reports. Original scripts, raw streams, summary fields,
+exact-source analyzers/registry and each own CLI artifact download were checked.
+Together with the frozen fleets, accepted output review covers **654 cases and
+931 checks**. The first resource rejection is preserved. The remaining two
+family artifacts and 288-case aggregate still need actual own-source review;
+full fleet and integration are unaccepted. No CLI experiment is rerun.
 
 ## Dependency investigation and validation history
 

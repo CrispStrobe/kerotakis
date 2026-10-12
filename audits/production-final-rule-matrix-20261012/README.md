@@ -10,6 +10,11 @@ and its old-head results remain unchanged.
 finds no merge conflicts against accepted main or the prospective PR784 source:
 only the original two safety files change, and both original safety blobs are
 preserved. This is source feasibility, not a new candidate or test execution.
+[Independent carry-forward review](source-carry-forward-independent-review-24dda97b.json)
+reproduces both trees and derives the prospective focused inventory from source:
+40 fixtures and 517 functions. The previous 39/467 identities are unchanged,
+with the original fifty safety controls added. Rebind the inventory to the
+actual new head after replay; these are prospective identities, not test results.
 After PR784 integrates, bind the replay to actual fresh main and validate the
 resulting new head with its own CI, native controls, fleet and supported CLI
 witnesses. Preserve all original forecasts, freezes, failures and outcomes.

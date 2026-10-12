@@ -19,12 +19,15 @@ Next finish PR784's own fleet and actual saved-output reviews, then refresh
 integration guards. Its [prepared plan](../audits/yaml-parser-migration-20261012/integration-preparation-51e99750.json)
 now binds accepted main explicitly, with
 [independent review](../audits/yaml-parser-migration-20261012/integration-preparation-independent-review-51e99750.json).
-The [21:27 UTC checkpoint](../audits/yaml-parser-migration-20261012/own-fleet-progress-20261012-2127.json)
-has 27 passing fleet jobs; four v2 families and the v3 aggregate are queued,
-and the v2 aggregate is not yet created. [The repair's own frozen outputs](../audits/yaml-parser-migration-20261012/own-frozen-fleet-independent-review-51e99750.json)
-pass 54 cases and 135 checks, with zero unmet expectations. Larger family output
-review is prepared but deferred by its resource gate; those outputs remain
-unaccepted. PR782's final-safety work follows the dependency and
+The [latest preflight](../audits/yaml-parser-migration-20261012/integration-after-available-output-review-51e99750.json)
+has 30 passing fleet jobs; thermochemical-paths and analytical-observables remain
+queued, and the 288-case aggregate is not yet created.
+[Completed family outputs](../audits/yaml-parser-migration-20261012/own-fleet-available-output-review-51e99750.json)
+pass 600 cases/796 checks, and [own frozen outputs](../audits/yaml-parser-migration-20261012/own-frozen-fleet-independent-review-51e99750.json)
+pass 54 cases/135 checks: **654 cases/931 checks**, zero unmet.
+[The actual 240- and 120-case aggregates](../audits/yaml-parser-migration-20261012/own-fleet-completed-aggregate-output-review-51e99750.json)
+match the reviewed family reports. Only the remaining own outputs and complete
+fleet/fresh guards can establish readiness. PR782's final-safety work follows the dependency and
 repair integration. Neither remaining PR is accepted as integrated.
 Follow [the executable next-step lanes](chemistry-work-agenda-20261012.md).
 

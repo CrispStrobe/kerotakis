@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "pr": 784,
+  "head": "51e997509126f099b22fbe963750ac06f36dadfe",
+  "actual_tested_base": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "current_main_base": "b246408b8156f12594ab18e71cc9c3edee3c7623",
+  "source_tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+  "synthetic_checkout": "c877d811be7877d5c6223101eb21f3815d975c96",
+  "merge_parents": [
+    "1acdda4696e565be5dee13f0598eb2aa8081304e",
+    "51e997509126f099b22fbe963750ac06f36dadfe"
+  ],
+  "run_id": 38283405221,
+  "run_attempt": 1,
+  "event": "pull_request",
+  "completed_aggregate_outcomes": [
+    {
+      "version": 1,
+      "job_id": 115007313397,
+      "job_name": "All 240 source-informed cases",
+      "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/115007313397",
+      "all_source_defined_job_steps_completed_success": true,
+      "actual_outcome": {
+        "families": 10,
+        "cases": 240,
+        "checks": 338,
+        "unmet_families": []
+      },
+      "job_log_sha256": "015f0ee54b6ce9fd19dd1537b140b38b13bf1a275b5f5f1228ccf40c9d205e5b",
+      "accepted_family_artifact_ids": [
+        11772942478,
+        11770441994,
+        11770201683,
+        11773950726,
+        11768108474,
+        11768104821,
+        11768337820,
+        11769453204,
+        11767897062,
+        11772985345
+      ],
+      "actual_download_ids_and_digests_verified": true,
+      "source_aggregate_path": "tools/chemistry-audit/aggregate_source_fleets.py",
+      "source_aggregate_sha256": "9db772935ed0315bd86b4f53d12aea2e1320702605f33e31ad8f7537f5eb1968",
+      "independently_recomputed_exit": 0,
+      "independently_recomputed_stdout_sha256": "2f3fb8dc10e185f07f5db3363bba2e3c2f2265aa08004e0d3a8b9d0f8b00e342",
+      "independently_recomputed_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "version": 3,
+      "job_id": 115007684596,
+      "job_name": "All 120 source-informed v3 cases",
+      "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38283405221/job/115007684596",
+      "all_source_defined_job_steps_completed_success": true,
+      "actual_outcome": {
+        "schema": "kerotakis-source-aggregate-v3",
+        "families": 5,
+        "cases": 120,
+        "relations": 30,
+        "checks": 150,
+        "commit": "c877d811be7877d5c6223101eb21f3815d975c96",
+        "binary_sha256": "3a8975c29663fe73202340eafe79b476c76e430aa259481456ca76405bb906c7",
+        "unmet_families": []
+      },
+      "job_log_sha256": "dc16e1b443e116fb75e10d624e0acdd8d8398d0581e6a2bfb7f27eaacddabe4a",
+      "accepted_family_artifact_ids": [
+        11765537043,
+        11765012708,
+        11769691952,
+        11769716531,
+        11772584840
+      ],
+      "actual_download_ids_and_digests_verified": true,
+      "source_aggregate_path": "tools/chemistry-audit/aggregate_source_fleets_3.py",
+      "source_aggregate_sha256": "b08794184b85c6a6812bff5cff6a3fab97a64f01453aa279794ad218c3cebc54",
+      "independently_recomputed_exit": 0,
+      "independently_recomputed_stdout_sha256": "8fc5c8a2d7521e27af94d01c6a4b38da67e13ae5cd36728a04759ebaea028c47",
+      "independently_recomputed_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "pending_aggregate_outputs": [
+    {
+      "version": 2,
+      "name": "All 288 source-informed v2 cases",
+      "job_id": null,
+      "status": "not_yet_created"
+    }
+  ],
+  "actual_aggregate_cases": 360,
+  "actual_aggregate_checks": 488,
+  "actual_unmet": 0,
+  "family_outcomes_receipt_path": "audits/yaml-parser-migration-20261012/own-fleet-available-output-review-51e99750.json",
+  "family_outcomes_receipt_sha256": "2312a84396fca91cb8b3b88f0bfb5789ad3af94760ff1ff4948781b2f2c410c4",
+  "own_binary_sha256": "3a8975c29663fe73202340eafe79b476c76e430aa259481456ca76405bb906c7",
+  "actual_own_fleet_captured_lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+  "own_cli_download_artifact_id": 11764077382,
+  "review_source_sha256": "057d831a0b3680dd795663bf6cf460001454c7ce4579b731f4e83d7a3d75ffef",
+  "fresh_jobs_api_sha256": "f1aeacb145777986030c4a105b6914e2b9ad6d3e334708aaf70f633bdfaf3952",
+  "full_fleet_accepted": false,
+  "integration_accepted": false,
+  "limits": [
+    "Only snapshot-completed own784 aggregate actual logs and exactsource savedreport recomputations accepted. Pending aggregates remain explicitly unaccepted; full33/readiness separate. No API polling or chemistry output rerun.",
+    "Actual original240 aggregate does not bind source/binary by itself; all own family summaries and original manifests/rawoutputs independently bind checkoutc877/binary3a8975/commonownartifact11764077382/capturedlock5135. Other aggregates explicitly bind checkout/binary in loggedJSON.",
+    "Actual download artifact IDs/digests and all successful aggregate steps verified against captured own run snapshot. Python aggregate re-evaluates existing savedreports only; no CLI/Cargo/build, parent783 outcome borrowing, newbase-context testexecution, empiricalchemistryaccuracy or integration acceptance."
+  ]
+}

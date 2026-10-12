@@ -170,19 +170,22 @@ the plan pins `native_tested_base` explicitly. Tests remain associated with
 their original checkout and are not described as rerun after retargeting.
 
 Next accept PR784's own complete 33-job inventory, every declared step and
-aggregate, and source/artifact/lock/result associations. Its latest actual
-checkpoint has 27 successful jobs, five queued and the v2 aggregate not yet
-created. Remaining family lanes are v2
-household-biochemistry, materials-transport, analytical-observables and
-thermochemical-paths; the v3 and v2 aggregates remain pending. Independently
-review all three actual aggregate outputs and actual own family artifacts even
-for jobs that have already passed. The
+aggregate, and source/artifact/lock/result associations. Its
+[latest actual preflight](../audits/yaml-parser-migration-20261012/integration-after-available-output-review-51e99750.json)
+has 30 successful jobs; v2 analytical-observables and thermochemical-paths are
+queued and their 288-case aggregate is not yet created. The
+[25 completed family reviews](../audits/yaml-parser-migration-20261012/own-fleet-available-output-review-51e99750.json)
+accept 600 cases/796 checks, with zero unmet expectations. The
+[actual 240- and 120-case aggregates](../audits/yaml-parser-migration-20261012/own-fleet-completed-aggregate-output-review-51e99750.json)
+match the independently reviewed family reports. The
 [own frozen fleet review](../audits/yaml-parser-migration-20261012/own-frozen-fleet-independent-review-51e99750.json)
-already accepts 54 cases and 135 checks with zero unmet expectations; preserve
-that receipt and do not rerun its CLI controls. The larger family reviewer is
-prepared but has not started downloads because its resource gate rejected work.
-Resume only after a fresh passing gate, preserving the first rejection and
-source-bound own-run data.
+accepts another 54 cases/135 checks: total 654 cases/931 checks. Preserve these
+receipts and do not rerun accepted CLI controls. Review the final two families'
+own 48 saved cases and actual 288-case aggregate after they complete. Use the
+same exact-head manifests/analyzers/registry and verify every actual own
+artifact, raw stream, summary and CLI download/binary/lock association. Keep the
+first resource rejection and all per-family continuation checkpoints. A fresh
+passing resource gate is required before the remaining artifact work.
 PR783's guarded integration and PR784's explicit base binding are complete.
 After independently accepting the repair's own outputs and complete fleet, run
 `python3 tools/registry-integration-preflight.py --plan audits/yaml-parser-migration-20261012/integration-preparation-51e99750.json --evidence-dir <new-private-evidence-directory>`.
@@ -225,6 +228,11 @@ fresh main and validate the resulting safety source with its own gates.
 verifies a conflict-free replay with both original safety blobs preserved on
 accepted main and the prospective PR784 tree. No new candidate or tests are
 claimed by that review; refresh against actual main before replay.
+[Independent source review](../audits/production-final-rule-matrix-20261012/source-carry-forward-independent-review-24dda97b.json)
+reproduces both trees and derives a prospective 40-fixture/517-function
+inventory, preserving all existing 39/467 identities plus the original fifty
+safety controls. Bind those identities to the actual new head after replay;
+the prospective inventory does not report test execution.
 Production CLI support and actual guarded integration remain separate gates.
 
 Follow [SAF-01](chemistry-audit-next-lanes.md#saf-01--integrate-one-production-final-safety-exposure-slice)
