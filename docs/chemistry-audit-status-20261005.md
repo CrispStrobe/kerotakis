@@ -1,5 +1,18 @@
 # Chemistry audit: current state, 2026-10-05
 
+## PR782 closes the frozen fifty locally; remaining gates pending — 2026-10-12
+
+[Candidate head24dda97b](https://github.com/CrispStrobe/kerotakis/pull/782)
+passes [all fifty frozen controls](../audits/production-final-rule-matrix-20261012/local-candidate-fifty.json).
+Original24pass/26fail and complete baseline632librarypass remain preserved.
+The first candidate library invocation was rejected at load6.14; a fresh
+gate later opened and all604core+28safety library tests passed. Previous404
+focused controls, lint, own nativeCI/fullfleet and guarded integration remain
+pending. Further build starts are blocked by load10.85/MemAvailable2617MiB. The new expected native inventory is454functions
+across38fixtures, derived from exact source with all prior fixturebytes unchanged.
+Synthetic rule routing and actual production CLI chemistry are separate claims.
+Main remains `a125c88d`; PR782 is a draft, not an integrated repair.
+
 ## Final-rule first failures verified; narrow PR782 drafted — 2026-10-12
 
 The [original fifty-control baseline](../audits/production-final-rule-matrix-20261012/local-original-baseline.json)

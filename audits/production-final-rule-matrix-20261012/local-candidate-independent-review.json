@@ -1,0 +1,24 @@
+{
+  "reviewer": "independent agent",
+  "head": "24dda97b60443d5e00b1fb25015fe2942c535227",
+  "tree": "34676d838416c13b17bbfac720ccae93615ce44d",
+  "base": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "fifty_contracts_accepted": true,
+  "passed": 50,
+  "failed": 0,
+  "ignored": 0,
+  "filtered_out": 0,
+  "exit_code": 0,
+  "checks": [
+    "All2254candidateworkingblobs independently checked against exact Git membership and SHA1/SHA256.",
+    "Original fixturefa7c3708 andfreeze95a43 unchanged; actualofflinefef8 lock unchanged.",
+    "Allfifty outcomes verified fromrawlog andobservations; journal/dose/pair inventory assertions now execute.",
+    "Source-derived expectednative454/38 independently verified:333core+121safety; not nativeexecution."
+  ],
+  "raw_sha256": {
+    "contracts.log": "7f3e8eb0dc0fc41d7d4a7d21974dcbb894d651bfa8ce3358b5ff5b37d02f2175",
+    "source-binding.json": "53ddb72d1ad90860a0d8e8fe4da615b7beefd6539e95a4383af1c686ccd55556"
+  },
+  "scope": "Fifty-only candidate acceptance; synthetic routing not empirical/productionCLI accuracy; offline/nativecache qualifications retained. Candidate complete libraries, prior404focused controls, ownCI/fleet and guarded integration require separate acceptance.",
+  "accepted_integration": false
+}

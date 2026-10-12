@@ -10,6 +10,14 @@ and scientific-data gaps are still separate.
 
 ## 1. Close the remaining reviewed final-safety rule tranche
 
+[Draft PR782](https://github.com/CrispStrobe/kerotakis/pull/782), exact head
+`24dda97b`, now passes all50 frozen controls after the original24pass/26fail
+baseline; unchanged-source core604/safety28 libraries pass. Candidate libraries604core+28safety andformatting also pass. Resume
+prior404 focused controls only under a fresh resource gate, then lint and the
+candidate's own nativeCI/fullfleet. Expected native inventory454/38
+is source-derived, not accepted execution. Preserve the original failure evidence.
+Production CLI support and actual guarded integration remain separate gates.
+
 Follow [SAF-01](chemistry-audit-next-lanes.md#saf-01--integrate-one-production-final-safety-exposure-slice)
 on exact accepted main. Snapshot `crates/kerotakis-safety/src/lib.rs` rule metadata
 and groups, then specify controls for `bleach-weak-acid-chlorine`,

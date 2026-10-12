@@ -44,8 +44,17 @@ explicitly qualified and cannot certify the separate hosted run.
 
 [Draft PR782](https://github.com/CrispStrobe/kerotakis/pull/782), head `24dda97b`,
 adds only the four reviewed whitelist entries and the unchanged fifty controls.
-A separate source-bound candidate run has started; candidate outcomes and
-native/CI/fleet/integration acceptance are pending.
+The separate [source-bound candidate run](local-candidate-fifty.json) now passes
+**all fifty controls**, including the later accepted-journal inventory assertions.
+The first library invocation was rejected by the resource gate at load6.14;
+a fresh gate later opened and the complete library run passed604core+28safety.
+[Independent fifty-only review](local-candidate-independent-review.json) and
+formatting pass. Root verified all632 actual library identities against the
+original baseline and rebound candidate source/fixture/lock after execution.
+Prior404 focused controls, lint, native/CLI/CI/fleet and integration acceptance
+remain pending. Further local starts were blocked by load10.85/MemAvailable2617MiB. Own CI run38253547880 and fleet38253547887
+were queued for this exact head. The [source-derived native plan](native-controls-plan-24dda97b.json)
+expects454 functions across38 fixtures; it is a plan, not a passing execution.
 
 Next executable lanes:
 
