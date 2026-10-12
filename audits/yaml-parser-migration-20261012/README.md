@@ -19,6 +19,9 @@ The [local original baseline](local-original-baseline-review.json) passes all
 tracked main files and both tracked submodule inventories were rechecked after
 execution. This uses an isolated leaf package, its separately captured lock and
 default development profile; it does not certify hosted workspace resolution.
+An [independent review](local-original-baseline-independent-review.json) verifies
+the exact outcomes, tracked source, captured leaf lock and PR783's two-file
+preparation. It accepts the original baseline only.
 The first attempt stopped on a missing cached dependency before executing any
 tests. Its log is preserved separately from the completed attempt.
 

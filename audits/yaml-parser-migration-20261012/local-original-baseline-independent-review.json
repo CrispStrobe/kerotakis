@@ -1,0 +1,268 @@
+{
+  "schema_version": 1,
+  "source": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "source_tree": "cbe987d1fba5eaeaecbd7a23232fb2105eee8684",
+  "original_fifty_verified": true,
+  "passed": 50,
+  "failed": 0,
+  "ignored": 0,
+  "filtered_out": 0,
+  "actual_exit": 0,
+  "tests": [
+    {
+      "name": "activation_nan",
+      "outcome": "ok"
+    },
+    {
+      "name": "base_admission",
+      "outcome": "ok"
+    },
+    {
+      "name": "comments",
+      "outcome": "ok"
+    },
+    {
+      "name": "composition_nan",
+      "outcome": "ok"
+    },
+    {
+      "name": "composition_negative",
+      "outcome": "ok"
+    },
+    {
+      "name": "crlf",
+      "outcome": "ok"
+    },
+    {
+      "name": "document_markers",
+      "outcome": "ok"
+    },
+    {
+      "name": "duplicate_description",
+      "outcome": "ok"
+    },
+    {
+      "name": "flow_rate_block",
+      "outcome": "ok"
+    },
+    {
+      "name": "integer_activation",
+      "outcome": "ok"
+    },
+    {
+      "name": "integer_exponent",
+      "outcome": "ok"
+    },
+    {
+      "name": "integer_rate",
+      "outcome": "ok"
+    },
+    {
+      "name": "malformed_flow",
+      "outcome": "ok"
+    },
+    {
+      "name": "multiple_documents",
+      "outcome": "ok"
+    },
+    {
+      "name": "note_complex_keys",
+      "outcome": "ok"
+    },
+    {
+      "name": "note_infinity",
+      "outcome": "ok"
+    },
+    {
+      "name": "note_nan",
+      "outcome": "ok"
+    },
+    {
+      "name": "note_nested",
+      "outcome": "ok"
+    },
+    {
+      "name": "note_no",
+      "outcome": "ok"
+    },
+    {
+      "name": "note_numeric_keys",
+      "outcome": "ok"
+    },
+    {
+      "name": "note_off",
+      "outcome": "ok"
+    },
+    {
+      "name": "note_on",
+      "outcome": "ok"
+    },
+    {
+      "name": "note_scalar",
+      "outcome": "ok"
+    },
+    {
+      "name": "note_yes",
+      "outcome": "ok"
+    },
+    {
+      "name": "quoted_description",
+      "outcome": "ok"
+    },
+    {
+      "name": "rate_infinity",
+      "outcome": "ok"
+    },
+    {
+      "name": "rate_zero",
+      "outcome": "ok"
+    },
+    {
+      "name": "reactions_absent",
+      "outcome": "ok"
+    },
+    {
+      "name": "reactions_no",
+      "outcome": "ok"
+    },
+    {
+      "name": "reactions_none",
+      "outcome": "ok"
+    },
+    {
+      "name": "reactions_null",
+      "outcome": "ok"
+    },
+    {
+      "name": "reactions_off",
+      "outcome": "ok"
+    },
+    {
+      "name": "reactions_on",
+      "outcome": "ok"
+    },
+    {
+      "name": "reactions_sequence",
+      "outcome": "ok"
+    },
+    {
+      "name": "reactions_yes",
+      "outcome": "ok"
+    },
+    {
+      "name": "scientific_rate",
+      "outcome": "ok"
+    },
+    {
+      "name": "single_quoted_description",
+      "outcome": "ok"
+    },
+    {
+      "name": "species_absent",
+      "outcome": "ok"
+    },
+    {
+      "name": "species_boolean",
+      "outcome": "ok"
+    },
+    {
+      "name": "species_equation_of_state",
+      "outcome": "ok"
+    },
+    {
+      "name": "species_explicit",
+      "outcome": "ok"
+    },
+    {
+      "name": "species_mapping",
+      "outcome": "ok"
+    },
+    {
+      "name": "species_mixed",
+      "outcome": "ok"
+    },
+    {
+      "name": "species_null",
+      "outcome": "ok"
+    },
+    {
+      "name": "species_transport",
+      "outcome": "ok"
+    },
+    {
+      "name": "unknown_section",
+      "outcome": "ok"
+    },
+    {
+      "name": "unknown_species_field",
+      "outcome": "ok"
+    },
+    {
+      "name": "unsupported_phase",
+      "outcome": "ok"
+    },
+    {
+      "name": "zero_activation_unit",
+      "outcome": "ok"
+    },
+    {
+      "name": "zero_alias",
+      "outcome": "ok"
+    }
+  ],
+  "fixture_sha256": "443569acc3a5ecd4a67fcf845f667976dea2a63c287304a932c2bb8556cb336d",
+  "freeze_sha256": "7618b5dcb4b5a1485ee67b3103408c6e9e0d5d77f3d0d44605a71602d74fbaee",
+  "actual_leaf_lock_sha256": "b11c665ab4da296bdd12ec01300e339c681b8674f319e868eb3c13d2b9b1b40f",
+  "leaf_manifest_sha256": "67a992e0d29e283f5e5f5829853499ad3ee670be5d5859d1f9b56f903bfcc02a",
+  "core_dependency_path_verified_against_original_source": true,
+  "actual_original_parser_packages": [
+    {
+      "name": "serde_yaml_ng",
+      "version": "0.10.0"
+    },
+    {
+      "name": "unsafe-libyaml",
+      "version": "0.2.11"
+    }
+  ],
+  "postexecution_working_blob_counts_independently_verified": {
+    "source": 2253,
+    "sundials-kinetics-rs": 552,
+    "vendor-iphreeqc": 716
+  },
+  "original_source_binding_sha256": "a59ee204430d27bf0d79220c63b63a9075af3fad8c785a39fc8b05cae54b9194",
+  "original_workspace_lock_sha256": "fef8a64257653da8bd3fcff50d89e69f5fb848952a6e8eaa827667427942ddfe",
+  "execution_binding_sha256": "ea2d01cfd7ff70e30112c0d021996ba67deb7662ad318bebefd3d5987b4b32a3",
+  "post_source_review_sha256": "5a79cd293482eae7907949c01eb0e228eb4fd805465aa5d03c5e7a20c3149401",
+  "contracts_log_sha256": "175af57d796c970ed83a17235decebd810a8ad1387be1230011309b432a7ddb8",
+  "contracts_observations_sha256": "06ead97c5dc3c307c1338075e2ec0c35e3d4e161285c78fb246423cea091637c",
+  "contracts_command_sha256": "b4426ac73d7cfa269f116e73e7709bb91b6d998a2ed76da1b483354b2f4c4c53",
+  "first_attempt": {
+    "dependency_cache_miss": "zerocopy-derive0.8.62",
+    "actual_exit": 101,
+    "test_binary_executed": false,
+    "contract_outcomes_counted": 0,
+    "raw_log_sha256": "87e33a398e6923800d371e825f27920111f668619dbaa580d07b43a0ee977e73"
+  },
+  "candidate_source_preparation_verified": {
+    "pr": 783,
+    "head": "24f2ff12878582d480da78a9f721ae59bb2ce7b4",
+    "parent": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+    "tree": "e0e2b06f387ee7a690e30f9523dff780872a0282",
+    "exact_changed_paths": [
+      "Cargo.toml",
+      "crates/kerotakis-core/tests/yaml_mechanism_parser_contracts.rs"
+    ],
+    "manifest_sha256": "1a549ae2a00c22d0e43ba34668edbd93aee5fbfcc4a2cea93343c14f37701d63",
+    "fixture_unchanged": true,
+    "signed_off_by_present": true
+  },
+  "candidate_execution_accepted": false,
+  "accepted_integration": false,
+  "limits": [
+    "Original source executed through an isolated leaf package with separately captured leaf dependency resolution/default development profile; no whole-workspace or hosted acceptance.",
+    "Ignored native source/cache and existing build artifacts not independently checksum verified; tracked source and both module blobs reverified after execution.",
+    "Fifty source-informed synthetic YAML/mechanism admission controls, not complete YAML language conformance or empirical chemical accuracy.",
+    "Original advisory-bearing parser compatibility is established; candidate replacement behavior, public error payload compatibility, curated packs, cargo-deny, WASM/CLI, own CI/fleet and integration remain separate."
+  ]
+}
