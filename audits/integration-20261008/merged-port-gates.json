@@ -934,6 +934,102 @@
       "native_focused_functions_per_platform": 333,
       "source_tree": "6dd1a691960353a752459b6cfe7d6d81a141db4f",
       "scope": "Bounded finite positive mass/density and finite nonnegative runtime fallback Cp policy across four admission paths. Zero-Cp conventions and signed energies preserved. Does not establish empirical properties, full schema validity or broader phase/units policy. Native tested parents remain Dbe/F515; exact current-main tracked-tree compatibility was independently accepted before merge."
+    },
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/779",
+      "tested_head": "2e03067196bd7d8da7516592b1df0202029fb2be",
+      "merge_commit": "5c13cfa045b1f4036a1486778cf05b0a296f6842",
+      "merged_at": "2026-10-12T02:59:38Z",
+      "required_checks": [
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38161218431/job/114534357385",
+          "started_at": "2026-10-11T18:54:53Z",
+          "completed_at": "2026-10-11T19:18:19Z"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38161218431/job/114534357339",
+          "started_at": "2026-10-11T18:48:20Z",
+          "completed_at": "2026-10-11T19:07:35Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38161218431/job/114534357362",
+          "started_at": "2026-10-11T18:34:13Z",
+          "completed_at": "2026-10-11T18:55:26Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38161218431/job/114534357594",
+          "started_at": "2026-10-11T19:08:45Z",
+          "completed_at": "2026-10-11T19:14:21Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38161218431/job/114534357466",
+          "started_at": "2026-10-11T19:14:00Z",
+          "completed_at": "2026-10-11T19:24:12Z"
+        }
+      ],
+      "ci_run": 38161218431,
+      "fleet_run": 38161218341,
+      "native_focused_functions_per_platform": 358,
+      "source_tree": "c704867d7b3d773d4758dafa23c929f3958496d1",
+      "scope": "Mandatory runtime mass/density/fallback-Cp unit normalization and semantic admission only, preserving valid scaled typed metadata and canonical registry values. No full-schema/polynomial/provenance/empirical-data acceptance. Original native parents retained; current-main tracked-tree compatibility separately verified, without another native execution or captured hosted dependency lock."
+    },
+    {
+      "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/780",
+      "tested_head": "e644ab3f78388358c2226ae57fce718f0152d09e",
+      "merge_commit": "093db6c9a9e64f1d704ded354685cee4ded6a9ec",
+      "merged_at": "2026-10-12T03:02:02Z",
+      "required_checks": [
+        {
+          "name": "Full preflight gate",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38162956832/job/114539531629",
+          "started_at": "2026-10-11T19:15:20Z",
+          "completed_at": "2026-10-11T19:30:22Z"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38162956832/job/114539531797",
+          "started_at": "2026-10-11T19:28:47Z",
+          "completed_at": "2026-10-11T19:47:55Z"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38162956832/job/114539531827",
+          "started_at": "2026-10-11T19:14:30Z",
+          "completed_at": "2026-10-11T19:37:00Z"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38162956832/job/114539531919",
+          "started_at": "2026-10-11T19:41:44Z",
+          "completed_at": "2026-10-11T19:47:51Z"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38162956832/job/114539531950",
+          "started_at": "2026-10-11T19:46:36Z",
+          "completed_at": "2026-10-11T19:58:57Z"
+        }
+      ],
+      "ci_run": 38162956832,
+      "fleet_run": 38162956795,
+      "native_focused_functions_per_platform": 378,
+      "source_tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+      "scope": "Unique molar-mass phase anchor and unambiguous phase-matching fallback Cp/density selection only. Valid alternate-phase typed documents remain supported; applicability, optional properties, polynomial curves and multiple mass anchors are separate contracts. Original native parents retained; current-main tracked-tree compatibility separately verified, without another native execution or captured hosted dependency lock."
     }
   ],
   "scope": "Independent matching-head required PR gates. Not a full integrated-source audit/replay or performance acceptance.",
@@ -987,5 +1083,7 @@
   "main_after_pr775": "7e96f120c271d6130473f4eb298c82963543392e",
   "main_after_pr776": "6ea6938f13f9faab5b76ea86d5da0686ad9996be",
   "main_after_pr777": "bf6f4157353a81867619d25d927475f6924f54bd",
-  "main_after_pr778": "e391f64be2ef1951fbfea84ba3496958ca42cbff"
+  "main_after_pr778": "e391f64be2ef1951fbfea84ba3496958ca42cbff",
+  "main_after_pr779": "5c13cfa045b1f4036a1486778cf05b0a296f6842",
+  "main_after_pr780": "093db6c9a9e64f1d704ded354685cee4ded6a9ec"
 }

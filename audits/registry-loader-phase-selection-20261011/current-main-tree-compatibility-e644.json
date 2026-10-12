@@ -1,0 +1,26 @@
+{
+  "pr": 780,
+  "head": "e644ab3f78388358c2226ae57fce718f0152d09e",
+  "current_base": "5c13cfa045b1f4036a1486778cf05b0a296f6842",
+  "former_base": "2e03067196bd7d8da7516592b1df0202029fb2be",
+  "current_main_equals_base": true,
+  "current_base_tree": "c704867d7b3d773d4758dafa23c929f3958496d1",
+  "former_base_tree": "c704867d7b3d773d4758dafa23c929f3958496d1",
+  "base_tracked_trees_equal": true,
+  "tested_checkout": "754b4883455f7cc6496c5c81bcf93aa70170c147",
+  "tested_checkout_parents": [
+    "2e03067196bd7d8da7516592b1df0202029fb2be",
+    "e644ab3f78388358c2226ae57fce718f0152d09e"
+  ],
+  "tested_tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+  "computed_current_merge_tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+  "computed_merge_equals_tested_and_head_tree": true,
+  "merge_tree_exit_code": 0,
+  "new_base_context_test_execution": false,
+  "accepted_source_tree_compatibility": true,
+  "accepted_integration": false,
+  "scope": "Fresh head/base/main and proposed merge tracked-tree compatibility only. Original native checkout parents retained. Own full fleet and final guards/actualpostmerge remain separate. No source/workflow rerun.",
+  "current_pr_api_sha256": "be6b38edf25b76cdbaca210a579e49c81d24f6d5d4199e131e918d9c2c39edd9",
+  "current_main_api_sha256": "deaca4e45b185482d2ac9a284257b5b12f4638f44c373f77771a90846f2fe096",
+  "merge_tree_stdout_sha256": "2325c99c851c5959738dcd341f9f3c894d1f1471e59c4a3c92ac2d2446e9e65a"
+}

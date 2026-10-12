@@ -1,0 +1,48 @@
+{
+  "pr": 780,
+  "head": "e644ab3f78388358c2226ae57fce718f0152d09e",
+  "base": "5c13cfa045b1f4036a1486778cf05b0a296f6842",
+  "tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+  "ci_run": 38162956832,
+  "fleet_run": 38162956795,
+  "expected_final_fleet_jobs": 33,
+  "expected_native_functions": 378,
+  "expected_native_fixture_files": 35,
+  "receipt_sha256": {
+    "audits/registry-loader-phase-selection-20261011/native-controls-plan-e644.json": "d869d1f8ec8c858659e898b2ac974ade340d1447faae6d0eec314cb50cd27f5a",
+    "audits/registry-loader-phase-selection-20261011/native-linux-review-e644.json": "349ef29317c1063d736a42acf9a58fdf112e5fbcbbc14fb07d366e7bdfeae168",
+    "audits/registry-loader-phase-selection-20261011/native-macos-review-e644.json": "a4f1132db514147148963825ece004f977c0cc616c180a547e6b8b0ff37ee629",
+    "audits/registry-loader-phase-selection-20261011/data-admission-macos-review-e644.json": "f8b274af753b0da9e1cea143235dcc63cab7c6d961670ad70decf5e797c21721",
+    "audits/registry-loader-phase-selection-20261011/library-macos-review-e644.json": "ab2c6dfad13f58bacda81cb7de74cd5d4ae6e094d9be96c38af85931d5816ce5",
+    "audits/registry-loader-phase-selection-20261011/full-ci-review-e644.json": "f3370f5640e2ba8f9476606975ae7a033bc21ecad5e89d65d6078724961d9543",
+    "audits/registry-loader-phase-selection-20261011/current-main-tree-compatibility-e644.json": "6c0ccb736eefb48cc065d50282c8762834ee4c5e963630e46420d1c548576de9",
+    "audits/registry-loader-phase-selection-20261011/local-complete-controls-review.json": "0fa70002bed57dba07c24e4df8cf3fca293af046d415540573fe16686d0b3abf",
+    "audits/registry-loader-phase-selection-20261011/generated-controls-review.json": "1f0796f848f74fb299e70fe7edeaab3fba0cf87b25c730163abb61abd1e503b1",
+    "audits/registry-loader-phase-selection-20261011/generated-followup-review.json": "082433b9e608fe3a4fb9502926dbb4e168a73c53e80e96d20bed8c0eedcbe23f",
+    "audits/registry-loader-phase-selection-20261011/lint-followup-review.json": "f21bf22d615b870395598b48ff9c86cd2e6c11f1085573320e28bd1dcf213c0d"
+  },
+  "changed_source_sha256": {
+    "crates/kerotakis-core/build.rs": "9b8c83ba61aba9006b5eb6a51b0d7d558c9e37fc3ce5c64ece8ffcd49b30819e",
+    "crates/kerotakis-core/src/species_loader.rs": "b8a92e8a496d88dd64b500d0820dc0ddb135cd64f0c51af095e9a17320fe8d29",
+    "crates/kerotakis-core/tests/registry_consistent_phase_selection_contracts.rs": "237ade7617cfc0b2463274093a9260a3e427db70648682ffa6eb5b698186bea1",
+    "crates/kerotakis-core/tests/registry_loader_phase_selection_contracts.rs": "6d91764ce4e8f41dc0e14139407281a247742849c1c64e07c1c9bd929972112d",
+    "crates/kerotakis-data/src/lib.rs": "2511fe41ce356f9072bb3591e96b61f3d917477d46b9cee8297f5c6946e8d0bf",
+    "crates/kerotakis-data/src/runtime_scalar_records.rs": "4909a70257b2383b0d083149b397393128980df725ab117565e5cf6fc29af75d"
+  },
+  "required_successful_jobs": [
+    "Full preflight gate",
+    "Test (native) (ubuntu-latest)",
+    "Test (native) (macos-latest)",
+    "The bench in WebAssembly",
+    "The demo page, in a real browser"
+  ],
+  "native_plan_path": "audits/registry-loader-phase-selection-20261011/native-controls-plan-e644.json",
+  "native_receipt_paths": [
+    "audits/registry-loader-phase-selection-20261011/native-linux-review-e644.json",
+    "audits/registry-loader-phase-selection-20261011/native-macos-review-e644.json"
+  ],
+  "full_ci_receipt_path": "audits/registry-loader-phase-selection-20261011/full-ci-review-e644.json",
+  "native_tested_base": "2e03067196bd7d8da7516592b1df0202029fb2be",
+  "scope": "Read-only PR780-specific preparation after PR779 integration. Original native parents retained. Current tracked-tree compatibility is not another execution. Own full fleet/fresh final guards/actualpostmerge required.",
+  "base_race_limit": "Head guard cannot atomically pin base; freshly recheck main immediately before merge and require actual parents/tree afterward."
+}

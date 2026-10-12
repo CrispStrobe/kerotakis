@@ -1,0 +1,28 @@
+{
+  "pr": 780,
+  "merged": true,
+  "merge_commit": "093db6c9a9e64f1d704ded354685cee4ded6a9ec",
+  "head": "e644ab3f78388358c2226ae57fce718f0152d09e",
+  "base": "5c13cfa045b1f4036a1486778cf05b0a296f6842",
+  "parents": [
+    "5c13cfa045b1f4036a1486778cf05b0a296f6842",
+    "e644ab3f78388358c2226ae57fce718f0152d09e"
+  ],
+  "tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+  "source_tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+  "main_tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+  "trees_equal": true,
+  "origin_main_api_equals_merge": true,
+  "accepted_integration": true,
+  "merged_at": "2026-10-12T03:02:02Z",
+  "native_focused_functions_per_platform": 378,
+  "native_fixture_files": 35,
+  "native_inventory_scope": "Focused core and safety fixtures; data admission and affected libraries are separate receipts.",
+  "ci_run": 38162956832,
+  "fleet_run": 38162956795,
+  "scope": "Unique molar-mass phase anchor and unambiguous phase-matching fallback Cp/density selection only. Valid alternate-phase typed documents remain supported; applicability, optional properties, polynomial curves and multiple mass anchors are separate contracts. Original native parents retained; current-main tracked-tree compatibility separately verified, without another native execution or captured hosted dependency lock.",
+  "actual_postmerge_pr_api_sha256": "8303907e9cd4ca4fe1aee660cf806209a898a8cfc9ffff5b7ee228041bcc6950",
+  "actual_merge_api_sha256": "619ee548dbc8dee1b1d3a5a580c9e5bebd5bcc52b5972b8e4e78b8a1a5334a77",
+  "actual_main_api_sha256": "6407a023c8a45f14b131fefb425265fb8f89e6498e793d7c918b51fe98d785ce",
+  "premerge_result_sha256": "0f7ecb6c4c6aafe30e22242691128a824632c4f58824e77f3dda72bd1f795491"
+}

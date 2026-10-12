@@ -183,11 +183,11 @@ Native inventory terminology: the historical “core native” label combined co
 
 **Start:** `crates/kerotakis-data/src/units.rs`, `validate.rs`, `pack.rs`, `crates/kerotakis-core/src/species_loader.rs` and `build.rs`. [The separate unit baseline](../audits/registry-loader-units-20261011/README.md) on PR778 head records6pass/14fail across20controls, plus two passing alias numeric-equivalence controls. Canonicalvalues are unaffected; scaled mass/density/Cp and invalid metadata expose a general admission gap.
 
-**Local completion:** The shared policy is committed separately from PR778. All701 matrix tests, ten prospective generator cases and three additional complete scaled-pack DTO retention controls pass (704 local tests total); formatting and affected-crate lint pass. See the linked audit receipts for exact source, frozen identities, lock differences and first failures. Own complete CI and both native358 focused inventories are now accepted; its fleet and integration remain pending.
+**Local completion:** The shared policy is committed separately from PR778. All701 matrix tests, ten prospective generator cases and three additional complete scaled-pack DTO retention controls pass (704 local tests total); formatting and affected-crate lint pass. See the linked audit receipts for exact source, frozen identities, lock differences and first failures. PR779 is merged as `5c13cfa0`, with own complete CI, both native358 focused inventories, full33 fleet and actual parents/tree accepted.
 
 **Implemented:** reuse existing dimension-aware unit normalization for the three runtime scalar properties; check declared dimension as well as symbol. Direct/generated construction must use canonical numeric values. Typed validation and pack loading must validate semantics while preserving valid alternate-unit metadata. Keep scalarbounds/zeroCp/signedenergies and existing reviewedaliases. Share one implementation at all four paths, including buildtime, without duplicating conversion tables. Work separately from PR778's already queued source.
 
-**Next:** Consume the candidate’s remaining own full33-job chemistry fleet, requiring every declared step. Own complete CI and both native358/33-fixture inventories are accepted; preserve those exact-source receipts. Parent PR778 is merged and PR779 has moved to main. Fresh source-tree compatibility and the exact PR779 plan are published; require the remaining own fleet, final refreshed premerge checks and actual postmerge parents/tree before accepting integration.
+**Completion:** [PR779 integration](../audits/registry-loader-units-20261011/main-tree-equality.json) accepts own complete CI/native358/33 fixtures/full33 fleet and exact actual parents/tree on main. Preserve original failures and scoped receipts. Full-schema unit and polynomial policy remain separate.
 
 **Preserve:** preserve original20 and supplemental2, collect paired outcomes; all21 scalar controls, full core/data/safety libraries and registry fidelity/snapshot/roundtrip/parity must pass. Include conversion-overflow refusal, formatting/lint and fresh source/head/base/tree-bound hosted checks. Explain any PackError API change. No full-schema unit/polynomial/provenance or new measurements claim.
 
@@ -201,11 +201,23 @@ Native inventory terminology: the historical “core native” label combined co
 
 **Implemented:** share a narrow selection helper between runtime and generator. Require a unique molar-mass standard-phase anchor; Cp/density must match that phase, with explicit missing-coverage or ambiguity refusal. Preserve valid multi-phase typed data and conditions-aware resolution. Keep optional properties and polynomial curves outside this change. Use a separate production branch stacked on PR779.
 
-**Next:** Consume the candidate’s remaining own all33 fleet jobs and declared steps. Complete own CI, both native378 focused inventories across35 fixtures, separate data10 and affected library outcomes are accepted; preserve those exact-source receipts. After parent integration, retarget main and require fresh source/head/base/tested-tree-bound checks before merge.
+**Completion:** [PR780 integration](../audits/registry-loader-phase-selection-20261011/main-tree-equality.json) accepts own complete CI/native378 across35 fixtures/full33 fleet and actual parents/tree on main `093db6c9`. Applicability, optional curves and multiple mass anchors are separate policies.
 
 **Preserve:** preserve first failures and frozen identities. Require original14/consistent6, previous scalar/unit controls, full affected library and registry suites, generated alternate-phase/ambiguity checks, formatting/lint and own source/head/base/tree-bound hosted checks. Preserve all current canonical species/zero-Cp values and no array-order dependence. Any extension to molar-mass phase choice needs its own frozen policy.
 
 **Done:** runtime and generated mandatory scalar records select the intended phase or refuse before construction; ambiguity cannot silently choose the first record. Publish scoped acceptance and retain the original qualified probe outcomes.
+
+## DATA-06 — Specify mandatory fallback property applicability
+
+**Start:** accepted main `093db6c9`, `crates/kerotakis-data/src/runtime_scalar_records.rs`, `schema.rs` (`Applicability`), `resolve.rs` (`conditions_match`), and direct/generated runtime construction. The merged selector filters record phase and uniqueness; its acceptance does not cover quantity-condition applicability. This is a prospective lane, with no executed baseline or demonstrated new failure yet.
+
+**Do first:** inventory the existing mandatory records’ phase, quantity-condition phase, temperature/pressure intervals and construction context. State a narrow runtime fallback policy before tests: use an already documented reference context where it exists; otherwise specify explicit refusal for condition-dependent inputs that lack a usable context. Do not invent scientific constants or silently treat conditional values as universal. Keep legitimate multi-phase typed data and conditions-aware resolution supported.
+
+**Freeze:** unchanged canonical/zero-Cp controls; consistent and conflicting record/condition phase; valid interval interior and exact edges; out-of-domain/missing-context cases; overlapping/disjoint alternatives and both array orders. Independently declare expected canonicalization or refusal for direct loading, typed validation, correctly hashed pack admission and generation. Synthetic values test metadata semantics, not measurements. Collect and preserve the first outcomes on exact main before changing production code; qualify any source-informed controls separately from blind chemistry forecasts.
+
+**Repair and verify:** if the frozen policy fails, implement one shared narrow admission rule and port fixtures unchanged. Preserve all186 canonical scalar triples,47 zero-Cp rows, signed energies, prior scalar/unit/phase controls, complete affected libraries and valid metadata-bearing pack round trips. Keep optional thermodynamic properties, polynomial selection and multiple molar-mass anchors outside this tranche. Use a separate source branch and its own required CI/native/full33-fleet plus actual merge verification.
+
+**Done:** supported mandatory fallback records are used only under the declared context or explicitly refuse for applicability; no array-order choice or implicit extrapolation remains within the frozen slice. Publish first failures, exact bindings and limitations. A fully passing baseline closes only the frozen slice; it does not justify a broader schema or empirical-accuracy claim.
 
 ## DATA-02 — Calibrate one dissolved-density/volume domain
 

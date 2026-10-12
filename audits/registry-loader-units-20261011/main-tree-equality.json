@@ -1,0 +1,28 @@
+{
+  "pr": 779,
+  "merged": true,
+  "merge_commit": "5c13cfa045b1f4036a1486778cf05b0a296f6842",
+  "head": "2e03067196bd7d8da7516592b1df0202029fb2be",
+  "base": "e391f64be2ef1951fbfea84ba3496958ca42cbff",
+  "parents": [
+    "e391f64be2ef1951fbfea84ba3496958ca42cbff",
+    "2e03067196bd7d8da7516592b1df0202029fb2be"
+  ],
+  "tree": "c704867d7b3d773d4758dafa23c929f3958496d1",
+  "source_tree": "c704867d7b3d773d4758dafa23c929f3958496d1",
+  "main_tree": "c704867d7b3d773d4758dafa23c929f3958496d1",
+  "trees_equal": true,
+  "origin_main_api_equals_merge": true,
+  "accepted_integration": true,
+  "merged_at": "2026-10-12T02:59:38Z",
+  "native_focused_functions_per_platform": 358,
+  "native_fixture_files": 33,
+  "native_inventory_scope": "Focused core and safety fixtures; data admission and affected libraries are separate receipts.",
+  "ci_run": 38161218431,
+  "fleet_run": 38161218341,
+  "scope": "Mandatory runtime mass/density/fallback-Cp unit normalization and semantic admission only, preserving valid scaled typed metadata and canonical registry values. No full-schema/polynomial/provenance/empirical-data acceptance. Original native parents retained; current-main tracked-tree compatibility separately verified, without another native execution or captured hosted dependency lock.",
+  "actual_postmerge_pr_api_sha256": "8b415365f4ad52f716b2cd68f19c728d40f6f25d7f58d5bd1ed6143b340a08d2",
+  "actual_merge_api_sha256": "5e57b93a0c57a0d32e33114d1c2c1a19054295a1ac739e9e88d6fde77f132e9f",
+  "actual_main_api_sha256": "deaca4e45b185482d2ac9a284257b5b12f4638f44c373f77771a90846f2fe096",
+  "premerge_result_sha256": "6311ad217353d0f1b00d8ce4bb415f4f57ade15dc0753a2986215ee37ed3bb1b"
+}

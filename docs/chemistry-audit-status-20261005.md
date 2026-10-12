@@ -1,5 +1,11 @@
 # Chemistry audit: current state, 2026-10-05
 
+## Current registry integration update — 2026-10-12
+
+Main `093db6c9` now contains the independently accepted mandatory scalar-bound, unit-normalization and phase-selection repairs. [PR779 acceptance](../audits/registry-loader-units-20261011/main-tree-equality.json) and [PR780 acceptance](../audits/registry-loader-phase-selection-20261011/main-tree-equality.json) bind each own complete CI/native/full33 fleet and verified actual merge parents/tree; [PR778 acceptance](../audits/registry-loader-properties-20261011/main-tree-equality.json) remains unchanged. No new-base rerun or independently captured hosted lock is claimed.
+
+[The current checkpoint](../audits/integration-20261008/STATUS.md) and [doable lanes](chemistry-audit-next-lanes.md) now start with mandatory fallback applicability contracts, historical binding restoration and remaining safety coverage. Optional curves, multiple mass anchors and empirical data are separate. Current historical presence gaps remain50 named tests/129 paths; full historical audit acceptance remains source-specific. Earlier queued/draft updates below are history.
+
 ## Current scalar integration update — 2026-10-11
 
 [PR778 is merged](../audits/registry-loader-properties-20261011/main-tree-equality.json) as main `e391f64b`, after independent complete CI/native333/full33-fleet acceptance and actual parent/tree verification. The shared scalar-bound admission repair now reaches main across runtime loading, typed validation, hashed packs and generation, preserving supported zero-Cp and signed-energy conventions.
