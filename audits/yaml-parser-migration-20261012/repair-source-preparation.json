@@ -1,0 +1,17 @@
+{
+  "base": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "head": "24f2ff12878582d480da78a9f721ae59bb2ce7b4",
+  "tree": "e0e2b06f387ee7a690e30f9523dff780872a0282",
+  "branch": "fix/yaml-safe-parser-20261012",
+  "production_changed_paths": [
+    "Cargo.toml",
+    "crates/kerotakis-core/tests/yaml_mechanism_parser_contracts.rs"
+  ],
+  "fixture_sha256": "443569acc3a5ecd4a67fcf845f667976dea2a63c287304a932c2bb8556cb336d",
+  "manifest_sha256": "1a549ae2a00c22d0e43ba34668edbd93aee5fbfcc4a2cea93343c14f37701d63",
+  "original_controls_passed": 50,
+  "candidate_compiled": false,
+  "candidate_tested": false,
+  "integration_accepted": false,
+  "scope": "Main-based two-file draft candidate; original freeze unchanged; no advisory-policy exception."
+}

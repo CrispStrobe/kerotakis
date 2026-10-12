@@ -1,0 +1,30 @@
+{
+  "pr": 783,
+  "url": "https://github.com/CrispStrobe/kerotakis/pull/783",
+  "head": "24f2ff12878582d480da78a9f721ae59bb2ce7b4",
+  "base": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "draft": true,
+  "own_runs": [
+    {
+      "id": 38268522225,
+      "name": "CI",
+      "head_sha": "24f2ff12878582d480da78a9f721ae59bb2ce7b4",
+      "status": "queued",
+      "conclusion": null,
+      "event": "pull_request",
+      "run_attempt": 1
+    },
+    {
+      "id": 38268522254,
+      "name": "Chemistry audit fleets",
+      "head_sha": "24f2ff12878582d480da78a9f721ae59bb2ce7b4",
+      "status": "queued",
+      "conclusion": null,
+      "event": "pull_request",
+      "run_attempt": 1
+    }
+  ],
+  "compiled": false,
+  "tested": false,
+  "integration_accepted": false
+}

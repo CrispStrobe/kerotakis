@@ -13,8 +13,10 @@ and scientific-data gaps are still separate.
 Follow the [YAML parser migration lane](../audits/yaml-parser-migration-20261012/README.md).
 PR782's native/regression controls pass, but cargo-deny refuses archived
 unsafe-libyaml via serde_yaml_ng. Keep the advisory policy unchanged. Verify the
-fifty newly frozen compatibility controls on accepted main before applying the
-one-line registry-pinned safe parser facade proposal to a separate branch. Test
+fifty frozen compatibility controls pass on accepted main in a separately locked
+local leaf-package baseline. The one-line safe parser facade replacement and
+unchanged controls are now [draft PR783](https://github.com/CrispStrobe/kerotakis/pull/783),
+head `24f2ff12`; its own CI and fleet are queued. Test
 all curated mechanism packs, affected libraries, CLI/WASM and the actual new
 dependency graph. Resolve complex-key/tag compatibility explicitly. Source-specific
 PR782 results need fresh binding after integrating a parser change.
@@ -23,10 +25,12 @@ PR782 results need fresh binding after integrating a parser change.
 
 [Draft PR782](https://github.com/CrispStrobe/kerotakis/pull/782), exact head
 `24dda97b`, now passes all50 frozen controls after the original24pass/26fail
-baseline; unchanged-source core604/safety28 libraries pass. Candidate libraries604core+28safety andformatting also pass. Resume
-prior404 focused controls only under a fresh resource gate, then lint and the
-candidate's own nativeCI/fullfleet. Expected native inventory454/38
-is source-derived, not accepted execution. Preserve the original failure evidence.
+baseline; original and candidate core604/safety28 libraries pass. Candidate
+formatting, prior404 focused controls and targeted safety Clippy pass. Both own
+native jobs verify454 focused controls across38 fixtures and649 libraries.
+Whole CI fails on the parser dependency advisory; full fleet remains pending.
+Preserve the original failure evidence. After accepting the dependency repair,
+rebase deliberately and validate the resulting safety source with its own gates.
 Production CLI support and actual guarded integration remain separate gates.
 
 Follow [SAF-01](chemistry-audit-next-lanes.md#saf-01--integrate-one-production-final-safety-exposure-slice)

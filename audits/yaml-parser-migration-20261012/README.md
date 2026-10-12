@@ -14,9 +14,15 @@ YAML inputs; twenty controls require explicit typed or syntax refusal. They
 cover selectors, nested annotations, numeric/complex mapping keys, nonfinite
 values, unit-bearing activation energy, aliases, duplicate fields and multiple
 documents. Synthetic rates test admission semantics, not measured chemistry.
-No baseline results are claimed yet.
+The [local original baseline](local-original-baseline-review.json) passes all
+50 controls, unfiltered, with exact test identities and exit zero. All 2,253
+tracked main files and both tracked submodule inventories were rechecked after
+execution. This uses an isolated leaf package, its separately captured lock and
+default development profile; it does not certify hosted workspace resolution.
+The first attempt stopped on a missing cached dependency before executing any
+tests. Its log is preserved separately from the completed attempt.
 
-The [unapplied candidate](candidate-dependency.patch) replaces one workspace
+The [original candidate proposal](candidate-dependency.patch) replaces one workspace
 manifest entry with the registry-pinned `noyalib-serde-yaml=0.0.57`, retaining the
 existing `serde_yaml_ng` dependency name. Its published facade exports the current
 API names and uses native safe Rust. Exact published source was inspected, rather
@@ -25,6 +31,14 @@ and tag differences; compatibility is a hypothesis until the frozen controls,
 curated packs and affected suites pass. `MechanismError::Yaml` exposes the parser’s
 error type, so its underlying public payload type changes despite retained source
 spelling. No parser error-message byte equality is claimed.
+
+The proposal and unchanged frozen fixture are now committed separately as
+[draft PR783](https://github.com/CrispStrobe/kerotakis/pull/783), head
+`24f2ff12878582d480da78a9f721ae59bb2ce7b4`, based directly on accepted main.
+[Source preparation](repair-source-preparation.json) binds its two changed files;
+[its own CI and fleet](candidate-validation-dispatch.json) are queued. No candidate
+compilation, compatibility result or advisory clearance is accepted yet. The
+earlier unapplied preparation describes the historical proposal stage.
 
 Production YAML is limited to `kinetics/mechanism.rs`: typed admission, selector
 values, ignored or refused annotations and diagnostic rendering. The generic
@@ -40,8 +54,8 @@ Executable lanes:
    actual fresh lock, injects the frozen fixture, preserves all first outcomes and
    runs complete affected libraries. Verify artifact hashes and exact identities.
    Successful capture is not parser-migration acceptance.
-2. Review first outcomes before applying the proposed dependency replacement to a
-   separate main-based branch. Preserve the original fixture and freeze. If the
+2. Review the completed original outcomes and PR783's candidate results.
+   Preserve the original fixture and freeze. If the
    facade changes numeric/complex-key or tag behavior, resolve that explicitly;
    do not silently weaken or discard those controls to obtain a passing build.
 3. Capture the candidate’s actual resolved lock and dependency graph. Require
@@ -55,5 +69,6 @@ Executable lanes:
    a source that includes the parser migration automatically.
 
 Local large work remains subject to the resource gates. Raw evidence and host
-operating details are kept privately. No advisory exception, production parser
-migration, compatibility result or integration acceptance has been made here.
+operating details are kept privately. No advisory exception or parser-migration
+integration acceptance has been made here. Main remains unchanged; PR783 is a
+validation candidate.

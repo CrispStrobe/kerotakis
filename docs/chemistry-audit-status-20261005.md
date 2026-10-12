@@ -1,5 +1,22 @@
 # Chemistry audit: current state, 2026-10-05
 
+## Original YAML controls 50/50; dependency candidate PR783 queued — 2026-10-12
+
+The [original parser baseline](../audits/yaml-parser-migration-20261012/local-original-baseline-review.json)
+passes all fifty frozen controls with exact unfiltered identities. All tracked
+main and submodule source bytes were rechecked. The isolated leaf package has
+its own captured lock and development profile; hosted baseline remains queued.
+The first cache-miss attempt executed no tests and is preserved separately.
+
+[Draft PR783](https://github.com/CrispStrobe/kerotakis/pull/783), head `24f2ff12`,
+contains only the pinned safe-parser dependency alias and unchanged fifty-test
+fixture. Its own CI and fleet are queued; candidate behavior, actual graph,
+advisory clearance and integration are unaccepted. Preserve complex-key/tag
+controls and run shipped packs, affected core/CEA, CLI and WASM before acceptance.
+PR782's safety/native/regression checks pass, but its preflight failed on the
+parser dependency. After the prerequisite is accepted, its revised source needs
+fresh own gates. Main remains `a125c88d`. Earlier entries below are history.
+
 ## PR782 native and regressions pass; YAML dependency blocks preflight — 2026-10-12
 
 Both own nativeCI jobs verify454focusedtests/38fixtures plus649libraries at
