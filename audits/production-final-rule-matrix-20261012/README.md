@@ -34,7 +34,18 @@ separate acceptance gates.
 The dedicated `remaining-final-rules-baseline` dispatch in
 [the audit workflow](../../.github/workflows/chemistry-audit.yml) runs this collector
 without scheduling the regular fleets. Local execution was deferred because the
-resource gate rejected the host load. No production repair has been applied.
+resource gate rejected the host load. The separately captured [local original baseline](local-original-baseline.json)
+completed **24 pass / 26 fail**, with **604 core + 28 safety library tests passing**.
+[Independent review](local-baseline-independent-review.json) verifies source,
+inputs, actual lock and exact unfiltered outcomes. All failures concern omitted
+final warnings; four accepted-journal tests abort before later inventory checks.
+The local pre-existing offline lock and reused ignored native inputs remain
+explicitly qualified and cannot certify the separate hosted run.
+
+[Draft PR782](https://github.com/CrispStrobe/kerotakis/pull/782), head `24dda97b`,
+adds only the four reviewed whitelist entries and the unchanged fifty controls.
+A separate source-bound candidate run has started; candidate outcomes and
+native/CI/fleet/integration acceptance are pending.
 
 Next executable lanes:
 

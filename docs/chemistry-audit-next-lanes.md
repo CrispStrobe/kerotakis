@@ -67,6 +67,21 @@ AUD-01/AUD-02/VAL-01 must not edit native reconstruction concurrently. NUM-02/NU
 
 **Done:** merged PR links, an integration manifest mapping original commits to accepted changes, a new exact-source acceptance receipt and an updated checkpoint. Do not claim deployment without deployment evidence. Documentation cherry-picks are a separate delivery, not completion of this lane.
 
+**First compatible port candidate:** heat-integral precision from accepted historical
+source `8cdab1f6`. Port `crates/kerotakis-core/tests/heat_integral_precision.rs`
+and its unchanged companions `audits/thermal-contracts-20261003/integral-references.json`
+and `generate_integral_references.py`. Preserve the two tests
+`nasa_integrals_match_independent_eighty_digit_references` and
+`liquid_temperature_inversion_closes_at_thaw_certificate_precision`: twelve
+independent 80-digit binary-input integral references and twelve water inversion
+cases. Current main exposes the required APIs. Verify all polynomial inputs and
+the gas constant against the historical source, preserving the original full
+registry hash and recording current registry compatibility separately. Run the
+unchanged focused fixture and complete core library baseline before any repair;
+then verify affected curve and inversion consumers plus source-bound native CI.
+Do not blindly port historical titration rollback expectations: some conflict
+with current published contracts and need an explicit policy decision first.
+
 ## AUD-01 — Reject native phase overdraw before remainder clamping
 
 **Start:** `crates/kerotakis-phreeqc/src/aqueous.rs`, `crates/kerotakis-phreeqc/tests/solid_solution.rs`, [raw-guard plan](https://github.com/CrispStrobe/kerotakis/blob/9331f9e974ff460a91a1617883ae22e1d319e4d1/audits/solid-solution-raw-guards-20261004/NEXT.md).

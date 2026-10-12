@@ -1,0 +1,9 @@
+{
+  "base": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "patch_sha256": "729fd2a9e3617639402344f3781e1e43808a3e366b93c754fac91095d0f6c3eb",
+  "candidate_file_sha256": "f78ca77b561821c1cf912cbccde63607734e48d9b831be8c75b4d9aa892eb447",
+  "change": "Add only four already-reviewed rule IDs to final callback whitelist; existing metadata, identity matching, order and six rules unchanged.",
+  "applied": false,
+  "tested": false,
+  "accepted_integration": false
+}

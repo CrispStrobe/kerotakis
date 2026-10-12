@@ -1,0 +1,17 @@
+{
+  "base": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "head": "24dda97b60443d5e00b1fb25015fe2942c535227",
+  "tree": "34676d838416c13b17bbfac720ccae93615ce44d",
+  "pr": 782,
+  "url": "https://github.com/CrispStrobe/kerotakis/pull/782",
+  "draft": true,
+  "changed_paths": [
+    "crates/kerotakis-safety/src/lib.rs",
+    "crates/kerotakis-safety/tests/production_remaining_final_rules.rs"
+  ],
+  "fixture_sha256": "fa7c370805203489fbcdcb18a6c9e99906073f5e1a3285a09b99f53302f912b6",
+  "change": "Four whitelist IDs only; original fixture byte-identical.",
+  "candidate_local_validation_started": true,
+  "candidate_outcomes_observed_at_recording": false,
+  "accepted_integration": false
+}

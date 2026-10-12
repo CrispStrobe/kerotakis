@@ -1,5 +1,18 @@
 # Chemistry audit: current state, 2026-10-05
 
+## Final-rule first failures verified; narrow PR782 drafted — 2026-10-12
+
+The [original fifty-control baseline](../audits/production-final-rule-matrix-20261012/local-original-baseline.json)
+completed24pass/26fail; complete core604/safety28 libraries pass.
+[Independent review](../audits/production-final-rule-matrix-20261012/local-baseline-independent-review.json)
+verifies all source/module blobs, frozen inputs, actual offline lock and exact
+outcomes. Twenty-two direct warnings and four accepted-journal warnings are
+missing. [Draft PR782](https://github.com/CrispStrobe/kerotakis/pull/782) adds only
+the four reviewed whitelist entries and ports the unchanged fifty controls.
+Candidate execution is running separately; native/CLI/CI/fleet and integration
+acceptance remain pending. The separate hosted baseline remains queued. Original
+failures and resource/cache qualifications are preserved.
+
 ## Remaining final-safety fifty frozen; hosted baseline dispatched — 2026-10-12
 
 [Fifty original source-informed controls](../audits/production-final-rule-matrix-20261012/README.md)

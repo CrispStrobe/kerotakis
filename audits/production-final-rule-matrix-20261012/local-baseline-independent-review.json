@@ -1,0 +1,36 @@
+{
+  "reviewer": "independent agent",
+  "source": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "accepted_complete_baseline_capture": true,
+  "contracts": {
+    "passed": 24,
+    "failed": 26,
+    "count": 50,
+    "exit_code": 101,
+    "ignored": 0,
+    "filtered_out": 0
+  },
+  "libraries": {
+    "core": 604,
+    "safety": 28,
+    "failed": 0,
+    "exit_code": 0,
+    "ignored": 0,
+    "filtered_out": 0
+  },
+  "checks": [
+    "All2253source+552SUNDIALS+716IPhreeqc tracked working blobs independently verified against exact commit membership, SHA1 and SHA256.",
+    "Exactfrozen50identities and actual24/26 outcomes matched rawlog/observations.",
+    "All26failures arise from missing final warning; accepted-journal inventory assertions after failure were not executed.",
+    "Complete library actual names match prior accepted native inventory on unchanged main tree.",
+    "Actual offline lock and frozen input bytes unchanged.",
+    "Candidate24dda97b soleparenta125/exact2paths/four-entry-only whitelist andbyteidenticalfrozenfixture independently verified."
+  ],
+  "raw_sha256": {
+    "contracts.log": "d9791817ed4f07d2ab853ef798ae96b0675e2abaa94cbac8029fcb3a8c546533",
+    "source-binding.json": "a59ee204430d27bf0d79220c63b63a9075af3fad8c785a39fc8b05cae54b9194",
+    "libraries.log": "7a3777c25d071ce4410810cf949d4cc918ed69d2c2cfeead57d069fcdf6e15de",
+    "libraries-observations.json": "ba19a44e50e2d07e97636a30ae9d85c1cc936ab738010dff2f2417f41e8021b2"
+  },
+  "scope": "Baseline capture/source preparation only; cached ignored native inputs qualified; no candidate outcomes, productionCLI/native/empirical/fullCI/fleet/integration acceptance."
+}
