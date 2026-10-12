@@ -1,0 +1,19 @@
+{
+  "run": 38213787330,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38213787330",
+  "workflow_head": "fc9b35ec92a100172bd00f7079b328b7cbf98777",
+  "workflow_head_tree": "fc0f6a6d6510722b183e225a31642371b53b1f0e",
+  "event": "workflow_dispatch",
+  "status": "queued",
+  "conclusion": null,
+  "source": "093db6c9a9e64f1d704ded354685cee4ded6a9ec",
+  "source_tree": "22ab9d3ad14b824274c6c4d7c00e780808fc857f",
+  "collector_sha256": "53b22c431429b091a2f2539039e970d822de7a965605e37677c7c5824bc557d4",
+  "workflow_sha256": "fe8c796e24ad11d09f6fb8d2f6996441e5d38401896070dde7808193f1d17b1c",
+  "freeze_sha256": "53566e8135c88580e938d4abddd69f3515ea6b660fe9d773e4da140fb0fc6e64",
+  "supplement_freeze_sha256": "cd7f4a16f4d5b6d8c5f2899fc083ee01e5572cb5b395540474ee3908d9e0a924",
+  "expected_tests": 26,
+  "executed_results_claimed": false,
+  "accepted_repair": false,
+  "scope": "Dedicated hosted collection dispatched; original source fixed independently of audit workflow revision. Pending actual raw outcomes; job success is capture only."
+}

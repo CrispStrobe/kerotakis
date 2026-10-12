@@ -1,5 +1,10 @@
 # Chemistry audit: current state, 2026-10-05
 
+## Hosted applicability collection and today’s agenda — 2026-10-12
+
+[Run38213787330](https://github.com/CrispStrobe/kerotakis/actions/runs/38213787330) is dispatched to collect the unchanged26 Rust baseline controls on exact main093, independently of the audit workflow source. It was queued at dispatch; no test outcomes or repair acceptance are claimed. The dedicated job preserves actual source and dependency evidence, and successful capture is distinct from passing contracts. [Today’s agenda](chemistry-work-agenda-20261012.md) prioritizes scoped applicability closure, remaining final-safety coverage, historical regression binding restoration and measured release optimization.
+
+
 ## Applicability generator baseline — 2026-10-12
 
 [The first generator baseline](../audits/registry-loader-applicability-20261012/README.md) is independently reviewed:6 pass/18 fail across24 frozen cases. All selected context-constrained or condition-phase-conflicting negative inputs were silently admitted and emitted species output. The six compatibility cases preserve186 scalar triples/phases and47 zero-Cp rows. Execution used the previously observed E644 artifact with tracked tree equal to main093; no rebuild is claimed. The separate26 Rust controls remain unexecuted. A narrow candidate patch is prepared but unapplied/uncompiled; original Rust baseline, paired repair validation and own integration gates remain pending. Earlier preparation-only statements below are history.

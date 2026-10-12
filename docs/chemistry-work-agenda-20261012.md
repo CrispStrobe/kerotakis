@@ -44,7 +44,7 @@ selection and multiple mass anchors remain separate policies.
 ## 3. Extend the next reviewed final-safety rule tranche
 
 Follow [SAF-01](chemistry-audit-next-lanes.md#saf-01--integrate-one-production-final-safety-exposure-slice).
-Choose one already reviewed rule outside the accepted three-rule slice. Freeze
+Choose one already reviewed rule outside the accepted final-rule slices. Freeze
 positive, unchanged, benign, distinct-pair, priority and discarded-refinement
 controls before changing behavior. Establish actual surviving species, phase
 and backend capability; add JSON/text witnesses for supported routes. Keep
