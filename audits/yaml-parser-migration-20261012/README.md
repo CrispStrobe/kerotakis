@@ -48,6 +48,19 @@ pending.
 are independently verified; complete CI status alone does not supply missing
 detailed job reviews.
 
+[Own completed fleet aggregates](own-fleet-completed-aggregates-review-1acdda46.json)
+now verify 360 cases and 488 checks with no unmet expectations: the original
+240-case and v3 120-case aggregates. All fifteen family artifacts were downloaded
+and their saved outputs independently re-analyzed against exact-source frozen
+manifests, analyzers and registry. Each summary binds the own release binary and
+captured fleet lock. [The two own frozen fleets](own-frozen-fleet-review-1acdda46.json)
+add 54 saved cases and 135 passing law checks, with
+[independent review](own-frozen-fleet-independent-review-1acdda46.json).
+These are completed subsets, not full fleet acceptance. At the latest checkpoint,
+three v2 lanes and the required 288-case aggregate remain pending. Next review
+their exact-source outputs and all 33 declared jobs/steps before fresh integration
+guards. No new CLI execution or empirical accuracy claim follows from re-analysis.
+
 The separately frozen [twenty-case supplement](supplement-20/README.md) has
 [18 pass / 2 fail on both original and replacement](supplement-20/paired-first-outcomes.json),
 with identical per-case outcomes. Custom-tagged scalar and sequence metadata

@@ -59,6 +59,15 @@ destination, then inspect readiness and fresh head/base/main/merge-tree guards.
 Only the narrow dependency branch is an integration candidate; never merge the
 audit branch. Preserve all original source-bound receipts and outcomes.
 
+The [completed own fleet aggregates](../audits/yaml-parser-migration-20261012/own-fleet-completed-aggregates-review-1acdda46.json)
+now accept 360 saved cases/488 checks, and the [two frozen fleets](../audits/yaml-parser-migration-20261012/own-frozen-fleet-independent-review-1acdda46.json)
+accept 54 cases/135 checks, all against exact-source inputs and the own release
+artifact. Complete the remaining v2 analytical-observables, thermochemical-paths
+and materials-transport lanes, then the required 288-case aggregate. Review
+actual saved outputs and source/binary/lock associations; verify all 33 declared
+jobs and steps. Preserve partial receipts and original first outcomes. This
+remaining fleet acceptance is the dependency integration blocker; CI is done.
+
 ## 0a. Fix confirmed nested rate-key admission loss
 
 The [twelve prospective controls](../audits/yaml-parser-migration-20261012/nested-rate-controls/README.md)

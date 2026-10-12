@@ -1,7 +1,20 @@
 # Chemistry audit: current state, 2026-10-05
 
 
-## Current checkpoint — 2026-10-12: repair CI accepted; fleets still pending
+## Current checkpoint — 2026-10-12: dependency fleet outputs reviewed in completed subsets
+
+PR783's [completed 240-case and v3 120-case aggregates](../audits/yaml-parser-migration-20261012/own-fleet-completed-aggregates-review-1acdda46.json)
+verify **360 saved cases and 488 checks**, with no unmet expectations.
+[The two frozen fleets](../audits/yaml-parser-migration-20261012/own-frozen-fleet-independent-review-1acdda46.json)
+verify another **54 cases and 135 law checks**. Review uses exact-source
+collectors, analyzers and registry, with the own CLI binary and captured fleet
+lock; no CLI experiment is rerun. The remaining v2 lanes and 288-case aggregate
+still block full 33-job fleet acceptance and integration. Both PRs' required CI
+gates remain accepted, separately from their incomplete fleets.
+
+Follow [the remaining integration lanes](chemistry-work-agenda-20261012.md).
+
+## Earlier checkpoint — 2026-10-12: repair CI accepted; fleets still pending
 
 PR784's [own CI aggregate](../audits/yaml-parser-migration-20261012/own-ci-gate-aggregate-51e99750.json)
 accepts all five required gates at exact head `51e99750`, stacked on `1acdda46`:

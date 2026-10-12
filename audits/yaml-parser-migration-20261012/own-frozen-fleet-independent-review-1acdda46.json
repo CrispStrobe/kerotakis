@@ -1,0 +1,671 @@
+{
+  "schema_version": 1,
+  "pr": 783,
+  "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "base": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "source_tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "synthetic_checkout": "83438d9ba3015592bdf883ddf7e3f91eaa250544",
+  "merge_parents": [
+    "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+    "1acdda4696e565be5dee13f0598eb2aa8081304e"
+  ],
+  "run_id": 38271407728,
+  "run_attempt": 1,
+  "event": "pull_request",
+  "reviewed_root_receipt_path": "audits/yaml-parser-migration-20261012/own-frozen-fleet-review-1acdda46.json",
+  "reviewed_root_receipt_sha256": "6dc61dc85ab4ee44740d83752c1d41c814a934649f6f00455de7658884677c11",
+  "release_artifact_independent_receipt_path": "audits/yaml-parser-migration-20261012/own-cli-artifact-independent-review-1acdda46.json",
+  "release_artifact_independent_receipt_sha256": "025cfa321982fc368f090a12216083816d847a7a8b00179c0fdb8521b37b3bcd",
+  "binary_sha256": "f8b72e4ef84edf95d291c712697534bc69e7cd1e7db42bce51115ec1bb9a3ae5",
+  "actual_captured_fleet_lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+  "source_sha256": {
+    "tools/chemistry-audit/run.py": "3adead02d502903ec4663f1314d94caf0a5b607aa51d6397d841c0fbb9b94e23",
+    "tools/chemistry-audit/sixth_batch.py": "64b27d8d51d36ee20ddb99832a6ff0cc8a806acc30f8b1345d66203d82c528e4",
+    "tools/chemistry-audit/seventh_batch.py": "9164c194e10e7d5d5561c7e76506e844bfc2a57acd3aa38161126d9c4ae7ea7f",
+    "tools/chemistry-audit/analyse_sixth.py": "979dc23a458e502ee33176d15867eba529760ec3c1b6c6c5f1098273c255dcfe",
+    "tools/chemistry-audit/analyse_seventh.py": "d03c7a468401ba6872cc2a4bdc8c4730c30d1480b526fa164f226ff96efa2ea3",
+    "tools/chemistry-audit/SIXTH-BATCH.md": "a70c598032cb4e6632a8a0036f91f12234e58b3865cbc94a4799249ed1c0104b",
+    "tools/chemistry-audit/SEVENTH-BATCH.md": "31970d0de906c761bfc5775e1442b682294a7b847cc93566be0da2e5b95126c7",
+    "data/registry/registry-source-v1.json": "48487e1940c5e0122207d352c78e4377f8f7b47d421be2f78d62b61a096c3774",
+    ".github/workflows/chemistry-audit.yml": "57252f0fb26ac203b5420e82a3e1355a20ec0ea6ac925d7078b95bcaf75e1304"
+  },
+  "source_registry_bytes": 2366390,
+  "collection_verified": true,
+  "independent_saved_streams_and_summaries_verified": true,
+  "independent_exact_source_laws_recomputed": true,
+  "outcomes": [
+    {
+      "family": "sixth-195-218",
+      "job_id": 114924707752,
+      "job_api_sha256": "05e0327c9a62a13f6364bf168f4e124980ee8348101b5ac563f2b9412d52b5f5",
+      "artifact_api_sha256": "2e1e4a750c0db6b3c44318ee310ffb1c79bcfcf5c05a7bb311bb1322b1c251f4",
+      "artifact_id": 11763244345,
+      "artifact_zip_sha256": "f1bfef5b3984852d846f9d51cc1ceed8e55958bb3caf08cebbcd112d6bae0a54",
+      "archive_member_count": 78,
+      "all_saved_members_byte_verified": true,
+      "log_sha256": "c3aeae324740541bb89a9f5d3e8284085b51fd51a570a4ec04b60cbaf7eaf861",
+      "cases": 24,
+      "case_streams": [
+        {
+          "id": "195-descending-acid-titration",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "e7bb1e86e170eea21ed0f52c5e2a5a2a5f2e64d0b9140d1394900211f533bae2",
+          "stdout_sha256": "8be502c4be7fc5d89cdef8d28e89a7f9920bb50d1e088c542ef04b8af1dac7e0",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "196-descending-fine-trial",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "40882af078ad1edd75b107c2f579c83edbf1d80b6c62c6e457e72ccab8cb5d0a",
+          "stdout_sha256": "be89ed4652e05f1e8596d98a77c91694a2f0ebfe2f3da74101e712581fc001d9",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "197-descending-half-concentration",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "f869ae7f2198d5c80b18adf3085fdbe3b8aa8cf719cf1790f4ebdc13b67ecfc1",
+          "stdout_sha256": "a80f7c2ee244515c8500c29412d7e045ef495bfe3b63b016d0280eac29923feb",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "198-descending-neutralized-predose",
+          "exit": 0,
+          "steps": 5,
+          "script_sha256": "4a878838b799b4a2ffc0f72cfb4172f82c6571dd6e81927fd00a916284e15ba6",
+          "stdout_sha256": "a7d043188183cd2fff6cb8a4f811ea1b4a21a4faf43bd8fc37a193ce27a87a65",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "199-descending-extra-solvent",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "ee1db049bcad2fdc5a5e79d1a5408c1b528b37a618b0fe6a5f5b4c139bf5f223",
+          "stdout_sha256": "00b22d7e25ba50b6c08cbb9aba5d45a71e0e453a8cf8424ad7a910ecaf520b01",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "200-descending-extensive-control",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "724374fea4396de1e8901e3effe9bd524af271907358f7afce6d309efa0e7677",
+          "stdout_sha256": "25b055ea1493a38f1792c3dc3b9a1af5f182e0498e8ce89f44eff43d3b840a7c",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "201-conductivity-water-blank",
+          "exit": 0,
+          "steps": 3,
+          "script_sha256": "82f7a23f7a4bf56e30edc05102126709f6b52e1a7bf41b81419375a7afdcfed8",
+          "stdout_sha256": "b3a46b05b19084a62d11f2461ea6c7ecb5fd1ec2089e7c39c0f30aff4f997394",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "202-conductivity-dilute-nitrate",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "d831db30a26db4654ff99b986fec6de7c021d41b4fc4c1a101ed3358dbe54300",
+          "stdout_sha256": "5e2a95c29ed787c107cbb447aea1419179ec3dbd5ca4666e7cb7e02df93ca841",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "203-conductivity-double-nitrate",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "2623b8a3dc889938b50d955472c1a55c4387efea1cd9fcb00bc7a3074d8b371e",
+          "stdout_sha256": "36d12dc02d8453574525cb9a8d9fc306f92d92874242ff7fd705419796d7c586",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "204-conductivity-nitrate-extensive",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "2226a743b400cfdc7f9ae0c5e5a57042f334f30c67b9a0121c4d9da045bfb327",
+          "stdout_sha256": "1ae5a520aa262aa6fda86a5b1b6add1888a913c86401cf720b0808248b7769f0",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "205-conductivity-neutral-solute",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "b5e70b3f713502fc4a058e4370b45b97fe04b99225e27b4c061118270888fd26",
+          "stdout_sha256": "7c7cf3798fdf23f6d84a7256805eb18bf56e28a08d0a2e0f39ab55f47696c33f",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "206-conductivity-chloride-control",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "fc6f6cef1e7fda2af84ac6a89e33fb1c7ae68d258b090648c0afaf213bb4ec20",
+          "stdout_sha256": "4a5dfe4907e4edbe6301e64a4c5aaafe769d0bbdd5ee52e0ddbdded911067848",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "207-dry-gas-small-energy",
+          "exit": 0,
+          "steps": 6,
+          "script_sha256": "3f6046c871b7249e9a911e3e5ba6928381376c2cc0beef0d0b48f80364c2883a",
+          "stdout_sha256": "bed9440dd32c6660ae6ca76a2a24e3edd1670944551ede99a88c7503ad7c0add",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "208-dry-gas-wide-headspace",
+          "exit": 0,
+          "steps": 6,
+          "script_sha256": "2111d99f969de38ec059ad16a3942a8b498b93b052b823164214eb428c37b260",
+          "stdout_sha256": "5e139b70f268eb72b0bd0d4842ee2ba97f1fd79c6a41e973f61def3002825105",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "209-dry-gas-partitioned-energy",
+          "exit": 0,
+          "steps": 7,
+          "script_sha256": "57ab3b4c2de0ed5044dec83ca19d3b01227acca6c73ce23859643fcb689856ef",
+          "stdout_sha256": "6928e625993e2c20b02b28c17f0c409b31d78a084bb7087271c9d2a0d3886cff",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "210-dry-gas-larger-energy",
+          "exit": 0,
+          "steps": 6,
+          "script_sha256": "8504874622f05da5b654b485f04303276ed16ae8195784eb2f9e0dc136a65be5",
+          "stdout_sha256": "8bddac67d68e7e731ef85db5935868e07b5e4f0cbc70dfa5d0cd5e9d80413bd5",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "211-dry-gas-extensive-control",
+          "exit": 0,
+          "steps": 6,
+          "script_sha256": "322ddb865b9d69b1106a367e6e15bfc2fe53366dcb1015a11b6880deff8750f5",
+          "stdout_sha256": "dc9202a3172d048af9299ebda31fe0dc7e0a6263d6962f30551ed35a306e51d7",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "212-dry-gas-energy-round-trip",
+          "exit": 0,
+          "steps": 7,
+          "script_sha256": "df44980c4971c9f79a9bbac5c94e6a205963636ca1241e6ca8cb7d8c2952ee0d",
+          "stdout_sha256": "09802ca50bdf7ea475b2a1f0aabb59991df461eb4a8588e7ec231b10c11add83",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "213-ester-repeat-asymmetric",
+          "exit": 0,
+          "steps": 7,
+          "script_sha256": "bf75d8a3232ba4c8ce15d58bbf26dd5e1909fa50577e785a8e886224f527f117",
+          "stdout_sha256": "f453428d2f26257aafd923009799c816939cc042856639534c23208c4ba88e7f",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "214-ester-repeat-product-rich",
+          "exit": 0,
+          "steps": 7,
+          "script_sha256": "65999cb8c8e6667c1b6343f3068fcdc08431f0085641fd26d86886a97d7bac2b",
+          "stdout_sha256": "be66dd2b5d8f8d1b2c4743dc8eaddb3c3df374f1e03d998861a96d17bde4e306",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "215-ester-repeat-fourfold",
+          "exit": 0,
+          "steps": 7,
+          "script_sha256": "ab69b9f84303e9ba809fe038e36a68b667097022d745459dab068a3143957eff",
+          "stdout_sha256": "6fe75947ec6441e1a6d7f15cd737f7b0e8724afb8a71023c8cfea1615fe56ed3",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "216-ester-repeat-low-water",
+          "exit": 0,
+          "steps": 7,
+          "script_sha256": "af74f98e91e274137bac90465b7cc0de9a2543fb148f01d8e2d7f9a80e53f510",
+          "stdout_sha256": "0d857605236b87d4ada6bcd4e78d70ed23680f654dbf0eec8ab092a7703216ce",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "217-ester-three-requests",
+          "exit": 0,
+          "steps": 8,
+          "script_sha256": "8c5016db4e0cebe47595131668c68de395d40521839c79a8dde5b6dea7c2cc94",
+          "stdout_sha256": "30c6686967a84df3c42dcfc7c88441f3d80167ad1d4a79774b16d054a2446267",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "218-ester-balanced-quotient",
+          "exit": 0,
+          "steps": 7,
+          "script_sha256": "27d133bb880b15e6af256aaf29dd342fa7b62af748bb45bdd5cee8906df6e9fa",
+          "stdout_sha256": "81b051a3b41df5c5e2ef8c7a73f00e1af35e52723abbc3188416781b7433eba1",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "passed_law_checks": 66,
+      "unmet_law_checks": 0,
+      "law_check_identities": [
+        "195: finite registered complete execution",
+        "196: finite registered complete execution",
+        "197: finite registered complete execution",
+        "198: finite registered complete execution",
+        "199: finite registered complete execution",
+        "200: finite registered complete execution",
+        "201: finite registered complete execution",
+        "202: finite registered complete execution",
+        "203: finite registered complete execution",
+        "204: finite registered complete execution",
+        "205: finite registered complete execution",
+        "206: finite registered complete execution",
+        "207: finite registered complete execution",
+        "208: finite registered complete execution",
+        "209: finite registered complete execution",
+        "210: finite registered complete execution",
+        "211: finite registered complete execution",
+        "212: finite registered complete execution",
+        "213: finite registered complete execution",
+        "214: finite registered complete execution",
+        "215: finite registered complete execution",
+        "216: finite registered complete execution",
+        "217: finite registered complete execution",
+        "218: finite registered complete execution",
+        "195: descending endpoint and net base equivalents",
+        "195: titrant and starting solute element ledger",
+        "196: descending endpoint and net base equivalents",
+        "196: titrant and starting solute element ledger",
+        "197: descending endpoint and net base equivalents",
+        "197: titrant and starting solute element ledger",
+        "198: descending endpoint and net base equivalents",
+        "198: titrant and starting solute element ledger",
+        "199: descending endpoint and net base equivalents",
+        "199: titrant and starting solute element ledger",
+        "200: descending endpoint and net base equivalents",
+        "200: titrant and starting solute element ledger",
+        "201: explicit finite nonnegative conductivity",
+        "202: explicit finite nonnegative conductivity",
+        "203: explicit finite nonnegative conductivity",
+        "204: explicit finite nonnegative conductivity",
+        "205: explicit finite nonnegative conductivity",
+        "206: explicit finite nonnegative conductivity",
+        "201/202/203/206: charge-carrier dose and electrolyte controls",
+        "202/204: intensive conductivity under extensive scaling",
+        "201/202/205: neutral-solute negative electrical control",
+        "207: dry sealed gas pressure and retained atoms",
+        "208: dry sealed gas pressure and retained atoms",
+        "209: dry sealed gas pressure and retained atoms",
+        "210: dry sealed gas pressure and retained atoms",
+        "211: dry sealed gas pressure and retained atoms",
+        "212: dry sealed gas pressure and retained atoms",
+        "207/209/211: partitioned and extensive energy controls",
+        "207/210: larger energy raises dry gas temperature",
+        "212: equal positive/negative energy restores temperature",
+        "213: equilibrium law and explicit repeated zero-extent outcome",
+        "213: no-op material state unchanged",
+        "214: equilibrium law and explicit repeated zero-extent outcome",
+        "214: no-op material state unchanged",
+        "215: equilibrium law and explicit repeated zero-extent outcome",
+        "215: no-op material state unchanged",
+        "216: equilibrium law and explicit repeated zero-extent outcome",
+        "216: no-op material state unchanged",
+        "217: equilibrium law and explicit repeated zero-extent outcome",
+        "217: no-op material state unchanged",
+        "218: equilibrium law and explicit repeated zero-extent outcome",
+        "218: no-op material state unchanged"
+      ],
+      "summary_sha256": "7d2a3a102b147dbbb94a650700a4133dba4d842420ebf7b900bc74c7446f8bd0",
+      "law_checks_sha256": "21d9064f7910cb649bd28b37d5e082d17f594b545bca272bb72fa118b3fa6187"
+    },
+    {
+      "family": "seventh-459-488",
+      "job_id": 114924707660,
+      "job_api_sha256": "57c86670e72b0de96c9a48bc4f44f9a6ecefa8d330a9cafae8f2a35b1447d6ba",
+      "artifact_api_sha256": "334c3d013be5344615b94826c56827bbd4627c670ea21916636eb118866714b4",
+      "artifact_id": 11763531493,
+      "artifact_zip_sha256": "f07265c4383371b4ea0cb178021d81e96e7c0f2f5d584a9e8da44c58fc5e4fbd",
+      "archive_member_count": 96,
+      "all_saved_members_byte_verified": true,
+      "log_sha256": "be6219bf7d35584d6cb500f59c05ae26e316d9c7861feac47819f7f4182beede",
+      "cases": 30,
+      "case_streams": [
+        {
+          "id": "459-ammonia-half-dose",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "41ad27a6e51e80ecf562321173b3642ee1063c245aca8a0c2f325033e532fbc3",
+          "stdout_sha256": "ac268f2ab7108a1854acc7b075ce494cffd669ba132e01d571e087abbcdbd61b",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "460-ammonia-full-dose",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "60d87d7f075e18e50dd937c2f6d4ffd4fb612ccf0bac0e89f64e725f1781bac4",
+          "stdout_sha256": "18ed088a03d88fb9ae6050df768c895b05f4888694f4c460e84a92e2e9692c9a",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "461-ammonia-water",
+          "exit": 0,
+          "steps": 5,
+          "script_sha256": "8d655e32cec7c09444d3633981b1b35d4e2b271b5bd35c8d1e16a93b2fffeea3",
+          "stdout_sha256": "74d1806d8b6df1445d90ab03e7b774d6da14a8da96b0223992b4e700c1310f62",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "462-ammonia-more-water",
+          "exit": 0,
+          "steps": 5,
+          "script_sha256": "c38d8620ff3964dd2c7c4e6da6c82c80ca0a00c4809fbf1465c5d83413184517",
+          "stdout_sha256": "ab7e352099cf4f3cff8b9e134f93927dbd7265928b3d5112514dff5b3da03290",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "463-ammonia-cold-water",
+          "exit": 0,
+          "steps": 5,
+          "script_sha256": "04b1acf1f8ad80fcc7f3b96f32855b28b25b92c9ae54fd3d6f4716f14b04a661",
+          "stdout_sha256": "82ae5eb2cf762e38652d09168b878838302fa9a3c64f34625018949c380d053f",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "464-ammonia-warm-water",
+          "exit": 0,
+          "steps": 5,
+          "script_sha256": "976be4707729327c40a9175acf051585c374863ddd9c3da90551b9f8dfd29395",
+          "stdout_sha256": "c1688362d45927c2d69c1b1a3ea608edde8a65a0a47285588b71b4815befd2e4",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "465-ester-balanced-feed",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "d4a300c2a4b402a6ed60d53217bc8ffaabb9a80773dc899e0900378ace494236",
+          "stdout_sha256": "a6577c0299d4b0e48e9ae7db7c44905fc052a9946e0512a8272a3864d86d8a48",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "466-ester-water-rich",
+          "exit": 0,
+          "steps": 5,
+          "script_sha256": "75ec39d11ddf0d53f0418ae918f2a926555ec16103e5197ede5be470c83afc8e",
+          "stdout_sha256": "be36e3d4466a67e4596ed82d615bfb6ffd3c60122eab9add71efcdba83e4ab2c",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "467-ester-product-rich",
+          "exit": 0,
+          "steps": 6,
+          "script_sha256": "ca291e8e6be90e503c90b466ab0b854c1266d32322343c8c48db49481696d1a6",
+          "stdout_sha256": "4ad57f8f0d5452b35edb729df53c2e65180494bebd02a9dd4a094634744b4256",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "468-ester-extensive-scale",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "29f3091ed15107d44c2f088a44284c1f04e3b5c7562b9b2cd6fc6b21b7fc6696",
+          "stdout_sha256": "7f2e02256ca0ae8f1da67fc765ad0dceb40180d4f985fcb918eb397539594142",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "469-ester-feed-order",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "83872608d67736a4e5f6ec96bce352eb3e0fedc3537613cea697fb98bc1f919f",
+          "stdout_sha256": "94fb751f7e59262e05f6a9eed9e9cc5340d429a7ac8d067e2252a8b6d873df13",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "470-ester-repeat",
+          "exit": 0,
+          "steps": 5,
+          "script_sha256": "a72c890a9592095c7620c2f89542fa08677f1b05fa7f12d4883a010a46366f01",
+          "stdout_sha256": "ea83cd0d8e68ea719b04204308d98b416f528e58b7d53055d5ee05505b9b5212",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "471-ester-low-water",
+          "exit": 0,
+          "steps": 5,
+          "script_sha256": "be881bb322374dd3170bc195880d86f6d3bd7207473d548c8ead3dea3b3580b5",
+          "stdout_sha256": "472dc65d62d4e9b211852eb9e242dd2dcf289bb788c0224c03177c2e93d11fb5",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "472-ester-products-only",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "c97f330fea03ab5c34edda2b9364c34c5b64feb51964510b918fff6ce46df0ed",
+          "stdout_sha256": "a67cd11404469e4d0bb16052672de79484fe001611d8ed5cb0bba21ba259aeae",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "473-pop-positive",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "0c3fe05e84e5a44543c5d7a001445127d29cae8f3ba459cb1629e209eabd5d2f",
+          "stdout_sha256": "8e7d535cd8cb13f5ddddfbcc95a6bf12915919b25965c8d14b07db09914fc12e",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "474-pop-negative",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "d024cfdd13c3123684fa12a748dbdee30753d0319e2cecfa55428b42b6d4e797",
+          "stdout_sha256": "2babdfaf28587d3d4a8e40c8c68d9ccd8b4acb82bfa326bdd3fc86ad2353d5f8",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "475-splint-positive",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "8309f9942b022f9d7573d98678f0d8415be8e7ef7130d2123a2ad8750dffdc12",
+          "stdout_sha256": "3db2372fa35a15056f6c2495d2818834c9b2948b25f444dd048ee30f6f6152e2",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "476-splint-negative",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "1df9db65d8a4a0b86e4a7f8d75e010e5d951cec9dcfc4e88ac1f74bd9d1c4763",
+          "stdout_sha256": "ad3d74c8daab1a42fc0f65019e057c4f13aebc6cd324a5e18e74af8a5e87b364",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "477-limewater-positive",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "f35b919a0e7fb9d271d3bf8df3ef392da55ca33b474d068e468901bb2f88668a",
+          "stdout_sha256": "40eff1e98663e1cdac4aa05d0f07e40efd6cd3a132ce3f328a6c1b8c7d452c0d",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "478-limewater-negative",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "0e07a8002d84af7ddd20667ecce4a077630a7fb3fa483072d7615902273beaaf",
+          "stdout_sha256": "c825904e2cf15acec1fd983cd0975fff07009546f4fbb1156d931d307021a94b",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "479-litmus-positive",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "c0eee99905843edf8e0a7846ddf139479e56e75a0d7407b7819c92c8b710dd0e",
+          "stdout_sha256": "121bbd0eca8411762d1fdfe076ce1709d31d9461255a8e756e9c194174ce6bfc",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "480-litmus-negative",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "8bd27c8c77762a18f7cd2d7a34e87ceca7fb6e06e00c5ff12d20cf7a3850ec4f",
+          "stdout_sha256": "8e5d31c6fc2cbf01cfbff483202a5be0246cf0164375609760cb47e16819f67f",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "481-pressure-reference",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "0db0e78cfec3819d5078b5a7f6b86fc4fefa3b4fe658e8b22ac18cfbfcdc25d3",
+          "stdout_sha256": "4a4749f1771eb40a965074970f426641eec2ccaec7f7d765189fcfa33d7d18d7",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "482-pressure-double-moles",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "3a67fc2e3dacfae4d869285f0478e37ede13da07c7ab1613344d63cadcaa09d6",
+          "stdout_sha256": "4f3a6808cbef099fe50fc66fceb5d1094f70333aa5c76fc4cd8760234704bb6d",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "483-pressure-double-volume",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "ff491154e8e7386e6208b04b0424f640fbbd6bf9e2497b998cd5b87738dd290d",
+          "stdout_sha256": "31971d2b4ca4e7d73c3a1c028aeb6cd999d8bd38160131767aa6dde506bdc503",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "484-pressure-heated",
+          "exit": 0,
+          "steps": 6,
+          "script_sha256": "3afcec347bd05fa197d39673bda052b7de84b05d3647cb86d9b8e4ab11257214",
+          "stdout_sha256": "0af91b14fea981f36f6fdebf9996cc505b5515b03908fb527d3592ade7618347",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "485-pressure-extensive",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "15075e69d8c4681f787c4974545103c7a8d08f8a2da49d7cbd707c2eed5290e3",
+          "stdout_sha256": "733bcf193349a16c996b515d774d7573c2d21bfb5fc1dda363628d06d535428c",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "486-vent-nitrogen",
+          "exit": 0,
+          "steps": 6,
+          "script_sha256": "aede37d6f196ef96ba21ab0d34a571cc628c881be01d063718bc6f2c9e428d52",
+          "stdout_sha256": "b62300917ed5ae6ca9d6146a5aed774ffa8caf39793a1d40709636b885ed2f8d",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "487-vent-carbon-dioxide",
+          "exit": 0,
+          "steps": 6,
+          "script_sha256": "0f167af2ab357cae2f5aad7e33fdc4850990848a49459c1bba33467516ad7b71",
+          "stdout_sha256": "812bb3da2711887303e74e271c491f4fa67b99f6e0a1226b98cef0f98dc86860",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "488-pressure-small-charge",
+          "exit": 0,
+          "steps": 4,
+          "script_sha256": "2d566ba38c6040d4b8488cf2ee57333e5f3392195e1a409b06018556c4c4f6f8",
+          "stdout_sha256": "6e3d5d744689d172823b7de6f343789caa1704918f36c278376d7bc10dcba722",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "passed_law_checks": 69,
+      "unmet_law_checks": 0,
+      "law_check_identities": [
+        "459: complete finite execution",
+        "460: complete finite execution",
+        "461: complete finite execution",
+        "462: complete finite execution",
+        "463: complete finite execution",
+        "464: complete finite execution",
+        "465: complete finite execution",
+        "466: complete finite execution",
+        "467: complete finite execution",
+        "468: complete finite execution",
+        "469: complete finite execution",
+        "470: complete finite execution",
+        "471: complete finite execution",
+        "472: complete finite execution",
+        "473: complete finite execution",
+        "474: complete finite execution",
+        "475: complete finite execution",
+        "476: complete finite execution",
+        "477: complete finite execution",
+        "478: complete finite execution",
+        "479: complete finite execution",
+        "480: complete finite execution",
+        "481: complete finite execution",
+        "482: complete finite execution",
+        "483: complete finite execution",
+        "484: complete finite execution",
+        "485: complete finite execution",
+        "486: complete finite execution",
+        "487: complete finite execution",
+        "488: complete finite execution",
+        "459: conserved finite ammonia partition and threshold-consistent litmus",
+        "460: conserved finite ammonia partition and threshold-consistent litmus",
+        "461: conserved finite ammonia partition and threshold-consistent litmus",
+        "462: conserved finite ammonia partition and threshold-consistent litmus",
+        "463: conserved finite ammonia partition and threshold-consistent litmus",
+        "464: conserved finite ammonia partition and threshold-consistent litmus",
+        "459/460: dose ordering",
+        "460/461/462: water-retention ordering",
+        "463/464: temperature partition ordering",
+        "465: declared ester equilibrium",
+        "466: declared ester equilibrium",
+        "467: declared ester equilibrium",
+        "468: declared ester equilibrium",
+        "469: declared ester equilibrium",
+        "470: declared ester equilibrium",
+        "471: declared ester equilibrium",
+        "472: declared ester equilibrium",
+        "465/468: extensive ester scaling",
+        "465/469: ester feed-order invariance",
+        "470: repeated equilibrium is a no-op",
+        "473: threshold verdict is True",
+        "474: threshold verdict is False",
+        "475: threshold verdict is True",
+        "476: threshold verdict is False",
+        "477: threshold verdict is True",
+        "478: threshold verdict is False",
+        "479: threshold verdict is True",
+        "480: threshold verdict is False",
+        "481: pressure/vent relation",
+        "482: pressure/vent relation",
+        "483: pressure/vent relation",
+        "484: pressure/vent relation",
+        "485: pressure/vent relation",
+        "486: pressure/vent relation",
+        "487: pressure/vent relation",
+        "488: pressure/vent relation",
+        "481/485: extensive pressure invariance",
+        "481/482/488: pressure dose ordering",
+        "484: heating raises pressure"
+      ],
+      "summary_sha256": "80889e797fd90d4895fdd3d2173f0c3ff2e36b9f9e7bafab879eeb12db4ee1f2",
+      "law_checks_sha256": "46181b45e0342c8ed4581a3adc27beb5737acad0f8ee68ac4f5050580c8a16b1"
+    }
+  ],
+  "total_cases": 54,
+  "total_passed_law_checks": 135,
+  "total_unmet_law_checks": 0,
+  "preserved_review_preparation_failure_sha256": {
+    "first-review-preparation-failure.txt": "0dd488c70eebcc7e30c239fab9f167472003df8c16df84a68455f7686f65a04b",
+    "second-review-preparation-failure.txt": "7a06cab8f07c70b0896fec36b9cf97046b5abd9754387b825e24d379c79c98ed",
+    "third-review-preparation-failure.txt": "fc133972b10fe2a7f18d510b2dba801f3ffe0449287dee864d025a424fe32afc"
+  },
+  "existing_raw_api_sha256": {
+    "run.json": "1b47ef681d1b857ac6ee8b95426c0b97f7a1e5c357e84101471157c78fb9ceef",
+    "checkout.json": "f791763716e8459f2cce48e8260a42e3e8c5a4d373fa1fba64827e7d6837087c"
+  },
+  "independent_reviewer_sha256": "1ffea3c9f5b5eee1d289a4c3777175a91d325faf21d2fe72f853a627d31dc8be",
+  "cli_executed_by_reviewer": false,
+  "new_downloads": false,
+  "full_fleet_accepted": false,
+  "integration_accepted": false,
+  "scope": "Two completed own-source frozen fleet jobs only; all54savedscripts/outputs/exits/summary-derivedevents/benchstates and135exact-source law checks independently recomputed, with own release CLI/lock and exact registry association.",
+  "limits": [
+    "Uses existing captured own job/run/artifact/checkout APIs and ZIPs; no new API freshness assertion or download. Remaining fleet jobs and aggregates are not accepted here.",
+    "Exact source collectors/analyzers are reused as engineering contracts. This verifies unchanged source-defined expectations and output consistency, not blind independent chemical forecasts or empirical chemistry.",
+    "Canonical JSON round-trip accounts for analyzer integer dictionary keys versus saved JSON string keys; no output, threshold, case, input or expectation is edited.",
+    "Three preserved review setup failures concerned rendered question prefixes, bench output schema and integer-key JSON representation. They did not rerun CLI behavior or alter saved outputs.",
+    "Binary/lock references come from independently reviewed same-source own fleet release artifact and every captured summary; ordinary CI locks are not substituted.",
+    "No chemical calibration, performance improvement, repaired-source51e behavior or full integration claim. Reviewer executes no Cargo/CLI/build/browser commands."
+  ]
+}
