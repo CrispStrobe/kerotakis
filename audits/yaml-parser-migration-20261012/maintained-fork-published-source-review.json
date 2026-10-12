@@ -1,0 +1,157 @@
+{
+  "proposed_workspace_dependency": "serde_yaml_ng = { package = \"yaml_serde\", version = \"=0.10.7\" }",
+  "packages": [
+    {
+      "name": "yaml_serde",
+      "version": "0.10.7",
+      "registry_archive_sha256": "33b729a08a9a6be689bbad3e2bf8015926db54b6622cc89c3a5f7dc174b9e918",
+      "archive_checksum_verified": true,
+      "license": "MIT OR Apache-2.0",
+      "rust_version": "1.82",
+      "source_url": "https://crates.io/api/v1/crates/yaml_serde/0.10.7/download",
+      "repository": "https://github.com/yaml/yaml-serde",
+      "repository_archived": false,
+      "repository_pushed_at": "2026-08-18T16:56:55Z"
+    },
+    {
+      "name": "libyaml-rs",
+      "version": "0.3.0",
+      "registry_archive_sha256": "2e126dda6f34391ab7b444f9922055facc83c07a910da3eb16f1e4d9c45dc777",
+      "archive_checksum_verified": true,
+      "license": "MIT",
+      "rust_version": "1.60",
+      "source_url": "https://crates.io/api/v1/crates/libyaml-rs/0.3.0/download",
+      "repository": "https://github.com/yaml/libyaml-rs",
+      "repository_archived": false,
+      "repository_pushed_at": "2026-03-11T18:51:06Z"
+    }
+  ],
+  "api": {
+    "api_verified_from_published_source": true,
+    "crate": "yaml_serde",
+    "version": "0.10.7",
+    "alias": "serde_yaml_ng",
+    "conclusion": "Generic Value retains arbitrary Value keys in Mapping, tagged values and typeless f64 dispatch. Existing code can keep its dependency alias. Actual compatibility is pending unchanged50controls.",
+    "files": [
+      {
+        "source": "src/mapping.rs",
+        "sha256": "65d44776530eaa57356bc46171c91d8721741a3b60fe7a89a235b1dc649c9b0d",
+        "identical_to_old_serde_yaml_ng": false,
+        "api_markers": [
+          {
+            "line": 71,
+            "text": "pub struct Mapping {"
+          }
+        ]
+      },
+      {
+        "source": "src/value/mod.rs",
+        "sha256": "62d2a7a65324e600217690fc21cc8d77e6cab2160494fd9198d392ed6d0f93b5",
+        "identical_to_old_serde_yaml_ng": false,
+        "api_markers": [
+          {
+            "line": 29,
+            "text": "pub enum Value {"
+          },
+          {
+            "line": 43,
+            "text": "Mapping(Mapping),"
+          },
+          {
+            "line": 45,
+            "text": "Tagged(Box<TaggedValue>),"
+          }
+        ]
+      },
+      {
+        "source": "src/de.rs",
+        "sha256": "3ef49e502e47924a6b5a961d30227565f5f2e6bef63d22eca8e18c5b7855e87c",
+        "identical_to_old_serde_yaml_ng": false,
+        "api_markers": [
+          {
+            "line": 192,
+            "text": "fn deserialize_any<V>(self, visitor: V) -> Result<V::Value>"
+          },
+          {
+            "line": 283,
+            "text": "fn deserialize_f64<V>(self, visitor: V) -> Result<V::Value>"
+          },
+          {
+            "line": 882,
+            "text": "return match parse_f64(v) {"
+          },
+          {
+            "line": 883,
+            "text": "Some(v) => visitor.visit_f64(v),"
+          },
+          {
+            "line": 1065,
+            "text": "pub(crate) fn parse_f64(scalar: &str) -> Option<f64> {"
+          },
+          {
+            "line": 1137,
+            "text": "if let Some(float) = parse_f64(v) {"
+          },
+          {
+            "line": 1138,
+            "text": "return visitor.visit_f64(float);"
+          },
+          {
+            "line": 1207,
+            "text": "fn deserialize_any<V>(self, visitor: V) -> Result<V::Value>"
+          },
+          {
+            "line": 1439,
+            "text": "fn deserialize_f64<V>(self, visitor: V) -> Result<V::Value>"
+          },
+          {
+            "line": 1452,
+            "text": "if let Some(float) = parse_f64(value) {"
+          },
+          {
+            "line": 1453,
+            "text": "break visitor.visit_f64(float);"
+          }
+        ]
+      },
+      {
+        "source": "src/lib.rs",
+        "sha256": "88699d43792296beb292807f4596fbbe8934752a9147ea6da3b8138c207c126f",
+        "identical_to_old_serde_yaml_ng": false,
+        "api_markers": [
+          {
+            "line": 190,
+            "text": "pub use crate::de::from_reader;"
+          },
+          {
+            "line": 191,
+            "text": "pub use crate::de::{from_slice, from_str, Deserializer};"
+          },
+          {
+            "line": 192,
+            "text": "pub use crate::error::{Error, Location, Result};"
+          },
+          {
+            "line": 193,
+            "text": "pub use crate::ser::{to_string, to_writer, Serializer};"
+          },
+          {
+            "line": 195,
+            "text": "pub use crate::value::{from_value, to_value, Index, Number, Sequence, Value};"
+          },
+          {
+            "line": 198,
+            "text": "pub use crate::mapping::Mapping;"
+          }
+        ]
+      }
+    ]
+  },
+  "limits": [
+    "Source review only; no Cargo build or compatibility controls executed.",
+    "libyaml-rs remains unsafe Rust translated from C; this is a maintained-backend repair, not a pure safe Rust claim.",
+    "Actual resolved graph must independently pass unchanged cargo-deny and exclude archived unsafe-libyaml; workspace lock and transitive licensing must be captured."
+  ],
+  "private_source_review_sha256": "cde4783a08e2201914d60b9a9f59cba3614d301cc3bbf3ff8138bd79f818759a",
+  "private_api_review_sha256": "869d849692694468af91befce3de6d05248908c62b9326bff003b1fbb5d516f4"
+}

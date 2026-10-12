@@ -1,0 +1,19 @@
+{
+  "head": "24f2ff12878582d480da78a9f721ae59bb2ce7b4",
+  "regular_files_reverified": 2254,
+  "fixture_sha256": "443569acc3a5ecd4a67fcf845f667976dea2a63c287304a932c2bb8556cb336d",
+  "actual_leaf_lock_sha256": "e5cff000cd63c4ddd3cd66a810a042b02c1e8ebed9c0ad12325bc7230509d3d8",
+  "workspace_lock_created": false,
+  "scope": "Complete local isolated leaf compatibility experiment only; unchanged original50. New parser regression, not an original-main failure.",
+  "contracts_log_sha256": "f25956cef05de1e053181c9fe22f7805793da049102f0804b99039ff289745b8",
+  "actual_exit": 101,
+  "passed": 49,
+  "failed": 1,
+  "filtered_out": 0,
+  "failed_tests": [
+    "note_complex_keys"
+  ],
+  "failure": "Sequence key inside ignored note is rejected as NonScalarKey before typed mechanism deserialization.",
+  "candidate_accepted": false,
+  "integration_accepted": false
+}

@@ -1,0 +1,29 @@
+{
+  "pr": 783,
+  "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "base": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "draft": true,
+  "own_runs": [
+    {
+      "id": 38271407728,
+      "name": "Chemistry audit fleets",
+      "head_sha": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+      "event": "pull_request",
+      "run_attempt": 1,
+      "status": "pending",
+      "conclusion": null
+    },
+    {
+      "id": 38271407738,
+      "name": "CI",
+      "head_sha": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+      "event": "pull_request",
+      "run_attempt": 1,
+      "status": "queued",
+      "conclusion": null
+    }
+  ],
+  "full_ci_accepted": false,
+  "fleet_accepted": false,
+  "integration_accepted": false
+}

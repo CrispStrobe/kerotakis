@@ -1,0 +1,224 @@
+{
+  "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "regular_files_reverified": 2254,
+  "fixture_sha256": "443569acc3a5ecd4a67fcf845f667976dea2a63c287304a932c2bb8556cb336d",
+  "actual_leaf_lock_sha256": "2597946af98d843803922432ff4b4e859bc73622c58a3a9fc243769ef269817b",
+  "workspace_lock_created": false,
+  "scope": "Local isolated-leaf fifty compatibility controls at revised PR783 head only. Actual separately captured leaf lock and default dev profile; existing ignored native cache reused, not freshly checksum-verified. Root postexecution tracked source and module verification, not separate-agent outcome review.",
+  "tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "tracked_modules_reverified": {
+    "sundials-kinetics-rs": 552,
+    "vendor-iphreeqc": 716
+  },
+  "passed": 50,
+  "failed": 0,
+  "actual_exit": 0,
+  "filtered_out": 0,
+  "tests": [
+    {
+      "name": "activation_nan",
+      "outcome": "ok"
+    },
+    {
+      "name": "base_admission",
+      "outcome": "ok"
+    },
+    {
+      "name": "comments",
+      "outcome": "ok"
+    },
+    {
+      "name": "composition_nan",
+      "outcome": "ok"
+    },
+    {
+      "name": "composition_negative",
+      "outcome": "ok"
+    },
+    {
+      "name": "crlf",
+      "outcome": "ok"
+    },
+    {
+      "name": "document_markers",
+      "outcome": "ok"
+    },
+    {
+      "name": "duplicate_description",
+      "outcome": "ok"
+    },
+    {
+      "name": "flow_rate_block",
+      "outcome": "ok"
+    },
+    {
+      "name": "integer_activation",
+      "outcome": "ok"
+    },
+    {
+      "name": "integer_exponent",
+      "outcome": "ok"
+    },
+    {
+      "name": "integer_rate",
+      "outcome": "ok"
+    },
+    {
+      "name": "malformed_flow",
+      "outcome": "ok"
+    },
+    {
+      "name": "multiple_documents",
+      "outcome": "ok"
+    },
+    {
+      "name": "note_complex_keys",
+      "outcome": "ok"
+    },
+    {
+      "name": "note_infinity",
+      "outcome": "ok"
+    },
+    {
+      "name": "note_nan",
+      "outcome": "ok"
+    },
+    {
+      "name": "note_nested",
+      "outcome": "ok"
+    },
+    {
+      "name": "note_no",
+      "outcome": "ok"
+    },
+    {
+      "name": "note_numeric_keys",
+      "outcome": "ok"
+    },
+    {
+      "name": "note_off",
+      "outcome": "ok"
+    },
+    {
+      "name": "note_on",
+      "outcome": "ok"
+    },
+    {
+      "name": "note_scalar",
+      "outcome": "ok"
+    },
+    {
+      "name": "note_yes",
+      "outcome": "ok"
+    },
+    {
+      "name": "quoted_description",
+      "outcome": "ok"
+    },
+    {
+      "name": "rate_infinity",
+      "outcome": "ok"
+    },
+    {
+      "name": "rate_zero",
+      "outcome": "ok"
+    },
+    {
+      "name": "reactions_absent",
+      "outcome": "ok"
+    },
+    {
+      "name": "reactions_no",
+      "outcome": "ok"
+    },
+    {
+      "name": "reactions_none",
+      "outcome": "ok"
+    },
+    {
+      "name": "reactions_null",
+      "outcome": "ok"
+    },
+    {
+      "name": "reactions_off",
+      "outcome": "ok"
+    },
+    {
+      "name": "reactions_on",
+      "outcome": "ok"
+    },
+    {
+      "name": "reactions_sequence",
+      "outcome": "ok"
+    },
+    {
+      "name": "reactions_yes",
+      "outcome": "ok"
+    },
+    {
+      "name": "scientific_rate",
+      "outcome": "ok"
+    },
+    {
+      "name": "single_quoted_description",
+      "outcome": "ok"
+    },
+    {
+      "name": "species_absent",
+      "outcome": "ok"
+    },
+    {
+      "name": "species_boolean",
+      "outcome": "ok"
+    },
+    {
+      "name": "species_equation_of_state",
+      "outcome": "ok"
+    },
+    {
+      "name": "species_explicit",
+      "outcome": "ok"
+    },
+    {
+      "name": "species_mapping",
+      "outcome": "ok"
+    },
+    {
+      "name": "species_mixed",
+      "outcome": "ok"
+    },
+    {
+      "name": "species_null",
+      "outcome": "ok"
+    },
+    {
+      "name": "species_transport",
+      "outcome": "ok"
+    },
+    {
+      "name": "unknown_section",
+      "outcome": "ok"
+    },
+    {
+      "name": "unknown_species_field",
+      "outcome": "ok"
+    },
+    {
+      "name": "unsupported_phase",
+      "outcome": "ok"
+    },
+    {
+      "name": "zero_activation_unit",
+      "outcome": "ok"
+    },
+    {
+      "name": "zero_alias",
+      "outcome": "ok"
+    }
+  ],
+  "contracts_log_sha256": "155fd5b172e710a38ab630f4c41cf4ea5fb803192af05d0e23fc8d75017d4757",
+  "captured_leaf_graph_archived_unsafe_libyaml_absent": true,
+  "full_workspace_graph_accepted": false,
+  "cargo_deny_accepted": false,
+  "integration_accepted": false
+}

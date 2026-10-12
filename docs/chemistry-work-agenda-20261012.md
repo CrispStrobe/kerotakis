@@ -14,9 +14,12 @@ Follow the [YAML parser migration lane](../audits/yaml-parser-migration-20261012
 PR782's native/regression controls pass, but cargo-deny refuses archived
 unsafe-libyaml via serde_yaml_ng. Keep the advisory policy unchanged. Verify the
 fifty frozen compatibility controls pass on accepted main in a separately locked
-local leaf-package baseline. The one-line safe parser facade replacement and
-unchanged controls are now [draft PR783](https://github.com/CrispStrobe/kerotakis/pull/783),
-head `24f2ff12`; its own CI and fleet are queued. Test
+local leaf-package baseline. The first facade candidate passed49/50 and rejected
+an existing complex-key annotation; its failure is preserved. The maintained
+YAML Organization fork and unchanged controls are now
+[draft PR783](https://github.com/CrispStrobe/kerotakis/pull/783), head `1acdda46`,
+with local50/50. It retains an unsafe backend; this is a maintenance replacement.
+Its own revised-head CI and fleet are queued/pending. Test
 all curated mechanism packs, affected libraries, CLI/WASM and the actual new
 dependency graph. Resolve complex-key/tag compatibility explicitly. Source-specific
 PR782 results need fresh binding after integrating a parser change.

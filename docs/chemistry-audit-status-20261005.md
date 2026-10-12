@@ -1,5 +1,25 @@
 # Chemistry audit: current state, 2026-10-05
 
+## Maintained YAML candidate 50/50 after preserved facade regression — 2026-10-12
+
+The first PR783 candidate completed49/50: it rejected a complex mapping key
+inside an ignored annotation that accepted main supports. That failure and source
+are preserved. [Revised PR783 head1acdda46](https://github.com/CrispStrobe/kerotakis/pull/783)
+uses pinned yaml_serde0.10.7 under the existing dependency name and now passes
+[all fifty unchanged controls](../audits/yaml-parser-migration-20261012/local-maintained-fork-fifty-1acdda46.json).
+Tracked candidate and submodule inventories were rechecked after execution.
+The maintained libyaml-rs backend retains unsafe code; no memory-safety claim
+is made. The separately captured leaf lock excludes archived unsafe-libyaml,
+but full workspace graph and unchanged-policy cargo-deny remain unaccepted.
+
+Its own revised-head CI38271407738 and fleet38271407728 are queued/pending.
+All fifteen shipped mechanism-pack tests, affected core/CEA libraries, CLI/WASM,
+additional tag/merge controls and guarded integration remain required. Local
+further starts are blocked by load4.52, despite available memory and disk headroom.
+Public lane descriptions preserve both first outcomes and executable next steps.
+Main remains a125; PR782 still needs the prerequisite and new-source validation.
+Earlier entries below describe historical checkpoints.
+
 ## Original YAML controls 50/50; dependency candidate PR783 queued — 2026-10-12
 
 The [original parser baseline](../audits/yaml-parser-migration-20261012/local-original-baseline-review.json)

@@ -1,0 +1,22 @@
+{
+  "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "parent": "24f2ff12878582d480da78a9f721ae59bb2ce7b4",
+  "base": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "branch": "fix/yaml-safe-parser-20261012",
+  "changed_paths_vs_main": [
+    "Cargo.toml",
+    "crates/kerotakis-core/tests/yaml_mechanism_parser_contracts.rs"
+  ],
+  "fixture_sha256": "443569acc3a5ecd4a67fcf845f667976dea2a63c287304a932c2bb8556cb336d",
+  "manifest_sha256": "80aeffe25abeb7ccf99ffa839d9c37279a19052c420732abe6c008cca129187c",
+  "dependency_alias": "serde_yaml_ng",
+  "package": "yaml_serde",
+  "version": "0.10.7",
+  "backend": "libyaml-rs (maintained unsafe Rust translation)",
+  "first_candidate_preserved": true,
+  "compiled": false,
+  "tested": false,
+  "advisory_clearance": false,
+  "integration_accepted": false
+}

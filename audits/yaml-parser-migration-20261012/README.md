@@ -7,6 +7,23 @@ head, job and raw-log hash. This is a dependency failure separate from the final
 safety repair. The [official advisory](https://raw.githubusercontent.com/RustSec/advisory-db/main/crates/unsafe-libyaml/RUSTSEC-2024-0449.md)
 provides no patched version. Keep `deny.toml` unchanged.
 
+The current [PR783](https://github.com/CrispStrobe/kerotakis/pull/783) candidate is
+`1acdda4696e565be5dee13f0598eb2aa8081304e`. It uses pinned `yaml_serde=0.10.7`
+under the existing dependency name, with the unchanged fifty-test fixture.
+[Its source preparation](maintained-fork-source-preparation.json) and
+[published-source review](maintained-fork-published-source-review.json) bind the
+maintained YAML Organization fork and its `libyaml-rs` backend. The backend still
+contains unsafe code. This is a maintenance replacement, not a memory-safety
+claim. [All fifty local controls pass](local-maintained-fork-fifty-1acdda46.json),
+unfiltered, at this head. All 2,254 candidate tracked files and both tracked
+submodule inventories were rechecked; its separately captured leaf lock excludes
+archived `unsafe-libyaml`. This is not full workspace graph or cargo-deny
+acceptance. [This head's own CI and fleet](maintained-fork-validation-dispatch.json)
+remain queued/pending. Full regression, advisory-policy and integration checks
+remain pending.
+The [manifest patch](maintained-fork-dependency.patch) is separate from the
+preserved earlier facade proposal and its observed regression below.
+
 The [original fifty controls](freeze.json) are frozen against accepted main
 `a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b` before execution or production changes.
 Thirty positive controls compare complete parsed mechanisms across equivalent
@@ -35,12 +52,16 @@ curated packs and affected suites pass. `MechanismError::Yaml` exposes the parse
 error type, so its underlying public payload type changes despite retained source
 spelling. No parser error-message byte equality is claimed.
 
-The proposal and unchanged frozen fixture are now committed separately as
-[draft PR783](https://github.com/CrispStrobe/kerotakis/pull/783), head
+The first proposal and unchanged frozen fixture were committed separately as
+the initial [PR783](https://github.com/CrispStrobe/kerotakis/pull/783) head
 `24f2ff12878582d480da78a9f721ae59bb2ce7b4`, based directly on accepted main.
 [Source preparation](repair-source-preparation.json) binds its two changed files;
-[its own CI and fleet](candidate-validation-dispatch.json) are queued. No candidate
-compilation, compatibility result or advisory clearance is accepted yet. The
+[its own CI and fleet](candidate-validation-dispatch.json) are queued. The
+[first local candidate run](local-candidate-first-outcomes-24f2ff12.json) completed
+49 pass / 1 fail: `note_complex_keys` rejects a sequence key inside an ignored
+annotation, while accepted main passes it. All candidate tracked files and the
+unchanged fixture were rechecked afterwards. The candidate is not accepted.
+No advisory clearance or integration is accepted. The
 earlier unapplied preparation describes the historical proposal stage.
 
 Production YAML is limited to `kinetics/mechanism.rs`: typed admission, selector
@@ -57,7 +78,11 @@ Executable lanes:
    actual fresh lock, injects the frozen fixture, preserves all first outcomes and
    runs complete affected libraries. Verify artifact hashes and exact identities.
    Successful capture is not parser-migration acceptance.
-2. Review the completed original outcomes and PR783's candidate results.
+2. Preserve the original50/50 and first candidate49/50 outcomes. The published
+   facade has only error/stringify policies for complex keys; global stringification
+   also changes typed mechanism keys and must not be used to hide the regression.
+   The separate maintained-fork snapshot now passes all unchanged controls.
+   Review PR783's resulting head and its own candidate results.
    Preserve the original fixture and freeze. If the
    facade changes numeric/complex-key or tag behavior, resolve that explicitly;
    do not silently weaken or discard those controls to obtain a passing build.
@@ -65,7 +90,16 @@ Executable lanes:
    `cargo deny check` with the unchanged policy and proof that `unsafe-libyaml`
    is absent. Repeat the identical fifty controls, compare complete summaries,
    reaction order and provenance of all three shipped mechanism packs, and run
-   affected core/CEA tests plus CLI mechanism commands and WASM checks.
+   affected core/CEA tests plus CLI mechanism commands and WASM checks. In
+   particular, run all fifteen unchanged `gas_mechanism_packs` tests, not a
+   filtered subset: these check provenance, units, reaction order, compileability
+   and bounded combustion behavior. Derive and check their exact identities from
+   `crates/kerotakis-core/tests/gas_mechanism_packs.rs` at the candidate head.
+   Freeze a separate supplement for custom tags, ordinary merge keys, duplicate
+   annotation fields and quoted versus unquoted nonfinite numeric values on
+   accepted main before running the replacement. These cases are outside the
+   current fifty; preserve first outcomes and scope any refusal-policy change
+   explicitly rather than inferring compatibility from public API names.
 4. Require the dependency PR’s own CI and fleet before guarded integration.
    Rebase or stack PR782 deliberately afterwards, then validate its resulting
    source/head/tree and all own gates. Existing PR782-head results cannot certify
