@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "pr": 783,
+  "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "base": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "merge_commit": "b246408b8156f12594ab18e71cc9c3edee3c7623",
+  "merge_parents": [
+    "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+    "1acdda4696e565be5dee13f0598eb2aa8081304e"
+  ],
+  "tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "current_main": "b246408b8156f12594ab18e71cc9c3edee3c7623",
+  "merged_at": "2026-10-12T21:10:15Z",
+  "accepted_integration": true,
+  "accepted_parent_tree_and_main_association": true,
+  "final_nondraft_premerge_guards_recomputed": true,
+  "ordinary_two_parent_merge_verified": true,
+  "merge_command_exit": 0,
+  "atomic_head_guard_arguments_independently_captured": false,
+  "root_integration_receipt_path": "audits/yaml-parser-migration-20261012/integration-accepted-1acdda46.json",
+  "root_integration_receipt_sha256": "a93dce028674dd66f93e8699a7cc1a6e623efa5e2b0d8551e1e1d7eb4a05410a",
+  "final_premerge_receipt_path": "audits/yaml-parser-migration-20261012/integration-final-premerge-1acdda46.json",
+  "final_premerge_receipt_sha256": "79cd406d5d4388222312699a43cd7e360fb9221545db2a4ade77160c9e0070c4",
+  "independent_readiness_receipt_path": "audits/yaml-parser-migration-20261012/integration-ready-independent-review-1acdda46.json",
+  "independent_readiness_receipt_sha256": "6ccf8e2c5cf447586da17a76426d95e2e209ba82f94620db1c032840de94eee5",
+  "plan_sha256": "522874c09036370832b4f11faba5cfa27e78893052a15eb90d5fc8bda1020e39",
+  "final_premerge_evidence_sha256": {
+    "fleet-api.json": "15f6f130afd37ea69ebcd77d519c6aa520934a8fa829df2088831e0464d9e384",
+    "fleet.json": "2bbfbc5945e78b3f8d50112d2425a983ef5c7e3298ad890ae9faaa33e7fc1e55",
+    "pr.json": "43f649cb528f51f296f367ecddcbec449061f9b405e78ef9fccc29d01a006a2f",
+    "main.json": "8828c76b1280dc29e2932f25ed4a785e086407801eae552e0e46a6a4224b8cac",
+    "ci-api.json": "46f6317df83e23bf38e8502943a31466f15d6cb6841462622db99d37b4530558",
+    "ci.json": "a93fd508ed3a8eeecf5feeda3e105644b778e958dc8bfe367419c2961f2096c4",
+    "rollup.json": "4efb18c559ae54154650ba0a4e517ffdc5691a994301aad8c0329f2133aa0317",
+    "current-synthetic-merge.json": "f791763716e8459f2cce48e8260a42e3e8c5a4d373fa1fba64827e7d6837087c",
+    "tested-commit-83438d9ba3015592bdf883ddf7e3f91eaa250544.json": "f791763716e8459f2cce48e8260a42e3e8c5a4d373fa1fba64827e7d6837087c"
+  },
+  "root_merge_evidence_sha256": {
+    "immediate-main.json": "5c773f79993464e3cc1d28bbdd9c1f3b08b7fd5807ec3fc5f6c05ae197191d40",
+    "immediate-pr.json": "5d5ff59414ccb48675aa8f6a49d0dedca9a70f56c089139d7f7680e25ddd4e72",
+    "merge-command.json": "732883d74fff105b6916110dd67928d04765fdfa4fce96791f3d3be410b4440f",
+    "postmerge-pr.json": "f2985ba72b1d0ce77122bc2996b6e877f9d46f3d10c9cdfab665b426506d3338",
+    "actual-merge-commit.json": "a239c631412b4747a2cb6a38a6f66ebf3361db067771babb066e99647d8a43f1",
+    "postmerge-main.json": "d21ea7eadac428e7f4702f92b5a0d0003e3ef31019191aa846f33ea6ecb56bfb"
+  },
+  "fresh_independent_api_sha256": {
+    "main.json": "52628421a85d9349f402b7484bc276d75172e02b5e1aaa0d1b34d48a9937f4a2",
+    "actual-merge.json": "9aeec92bd30b76285b44a189b9ac4b9d699d4a7837c856f2181050d90b5c3aba",
+    "pr783.json": "517a6c222ab690a74e23c4e6ad5537669e30c41dffb7d3557709d39d8c81646f"
+  },
+  "observed_at_utc": "2026-10-12T21:12:15.021977+00:00",
+  "limits": [
+    "Read-only postmerge acceptance: final non-draft preflight independently recomputed, source-bound receiptSHA/CI/native/fleet/rollup/main/merge-tree guards, immediatehead/base checks, commandexit0 and actualtwo parents/tree/currentmain independentlyverified.",
+    "Merge-command evidence records exit/stdout/stderr but notargv; rootreports atomicheadguard use, while this receipt independently verifies resulting exacthead/base parents and doesnotclaimargv capture.",
+    "Premerge actualtestedcheckouts retained; no postmerge test execution inferred.",
+    "Acceptance covers narrow YAMLdependencymaintenance replacement+frozenfifty; unresolveddomain/forecastgaps and separatePR784 repair remain distinct."
+  ]
+}

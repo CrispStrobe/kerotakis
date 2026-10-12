@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "pr": 783,
+  "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "base": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "source_tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "synthetic_checkout": "83438d9ba3015592bdf883ddf7e3f91eaa250544",
+  "merge_parents": [
+    "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+    "1acdda4696e565be5dee13f0598eb2aa8081304e"
+  ],
+  "ci_run": 38271407738,
+  "fleet_run": 38271407728,
+  "run_attempt": 1,
+  "observed_at_utc": "2026-10-12T21:09:00.880038+00:00",
+  "plan_path": "audits/yaml-parser-migration-20261012/integration-preparation-1acdda46.json",
+  "plan_sha256": "522874c09036370832b4f11faba5cfa27e78893052a15eb90d5fc8bda1020e39",
+  "bound_receipt_sha256": {
+    "audits/yaml-parser-migration-20261012/integration-native-plan-1acdda46.json": "46da4fd1737d7fe59649adcac685f1171b370aa629190e6c2f229ee773760d4c",
+    "audits/yaml-parser-migration-20261012/own-ci-gate-aggregate-1acdda46.json": "ab780fe01c93e9fa5c40dd4dc4e78ebef0b83e774cb60d7382b5c4b03b7be253",
+    "audits/yaml-parser-migration-20261012/integration-native-macos-1acdda46.json": "fc7b169dd1b853b45321255304d70ec07b274471c43f45a4a3e30d359797e258",
+    "audits/yaml-parser-migration-20261012/integration-native-linux-1acdda46.json": "e4c842d8a9ac7a3c1015f639672d48d70021d1aa7b7afdf31e40c9719a45a64c",
+    "audits/yaml-parser-migration-20261012/native-macos-independent-review-1acdda46.json": "bee062f6acb4ff62372deb845262e1abfa7007077b04ea622811f182c7074afd",
+    "audits/yaml-parser-migration-20261012/native-linux-independent-review-1acdda46.json": "9e7913a724a52731b0385805fecf6c681ffaf65e1f3ec9a20c1da29c5a2a3cca",
+    "audits/yaml-parser-migration-20261012/local-cli-first-controls-1acdda46.json": "0d74077931bb0ec71194a6e37b08cdf698d6fd8a358bbabd0444be15393bd325",
+    "audits/yaml-parser-migration-20261012/cli-independent-review-1acdda46.json": "59261e27d9ae8319922c79a0e4c68aeb96fd21717b7c600bd57f3d3361f7092f",
+    "audits/yaml-parser-migration-20261012/own-preflight-review-1acdda46.json": "51ecc995f357c632fc4c7f8a6932113cdae836a5c21ab58074dc8853c3be4279",
+    "audits/yaml-parser-migration-20261012/maintained-fork-independent-review-1acdda46.json": "26ddc33d21f04cef0aaa5d3543b815376f357e6e598a808982c2a01bab0b53e6"
+  },
+  "changed_source_sha256": {
+    "Cargo.toml": "80aeffe25abeb7ccf99ffa839d9c37279a19052c420732abe6c008cca129187c",
+    "crates/kerotakis-core/tests/yaml_mechanism_parser_contracts.rs": "443569acc3a5ecd4a67fcf845f667976dea2a63c287304a932c2bb8556cb336d"
+  },
+  "verified_preflight_result_sha256": "d5351982c4f7facb654ae00bcf0ca86508bd9917ac54333bb298a15037fbdf04",
+  "verified_preflight_tool_sha256": "89df34087ddc072e953760bb154af161443799d0914efd8d436e03c755929991",
+  "verified_fleet_tool_sha256": "f56e20a4de90700d317738d5f260f9e0f163c6165393601ab98b847f7696cdb5",
+  "snapshot_evidence_sha256": {
+    "fleet-api.json": "15f6f130afd37ea69ebcd77d519c6aa520934a8fa829df2088831e0464d9e384",
+    "fleet.json": "2bbfbc5945e78b3f8d50112d2425a983ef5c7e3298ad890ae9faaa33e7fc1e55",
+    "pr.json": "9e59245fa1a75b7aad61524b58a4469d79444ba7471964c7f397aa0385216b3f",
+    "main.json": "8828c76b1280dc29e2932f25ed4a785e086407801eae552e0e46a6a4224b8cac",
+    "ci-api.json": "46f6317df83e23bf38e8502943a31466f15d6cb6841462622db99d37b4530558",
+    "ci.json": "a93fd508ed3a8eeecf5feeda3e105644b778e958dc8bfe367419c2961f2096c4",
+    "rollup.json": "bcab32c1e0d8c5271f6fc8bb462526435ab96db00662de54d7f7b7f98dfe331b",
+    "current-synthetic-merge.json": "f791763716e8459f2cce48e8260a42e3e8c5a4d373fa1fba64827e7d6837087c",
+    "tested-commit-83438d9ba3015592bdf883ddf7e3f91eaa250544.json": "f791763716e8459f2cce48e8260a42e3e8c5a4d373fa1fba64827e7d6837087c"
+  },
+  "own_ci_accepted": true,
+  "own_ci_jobs": 26,
+  "own_ci_success": 25,
+  "source_correct_publish_skipped": 1,
+  "own_required_successful_ci_gates": [
+    "Full preflight gate",
+    "Test (native) (ubuntu-latest)",
+    "Test (native) (macos-latest)",
+    "The bench in WebAssembly",
+    "The demo page, in a real browser"
+  ],
+  "own_fleet_gate_accepted": true,
+  "own_fleet_successful_jobs": 33,
+  "both_native_exact_source_functions": 454,
+  "both_native_exact_source_fixtures": 38,
+  "native_original_receipt_pins": [
+    {
+      "path": "audits/yaml-parser-migration-20261012/native-macos-independent-review-1acdda46.json",
+      "sha256": "bee062f6acb4ff62372deb845262e1abfa7007077b04ea622811f182c7074afd"
+    },
+    {
+      "path": "audits/yaml-parser-migration-20261012/native-linux-independent-review-1acdda46.json",
+      "sha256": "9e7913a724a52731b0385805fecf6c681ffaf65e1f3ec9a20c1da29c5a2a3cca"
+    }
+  ],
+  "supporting_fleet_output_receipt_pins": [
+    {
+      "path": "audits/yaml-parser-migration-20261012/own-fleet-gate-review-1acdda46.json",
+      "sha256": "80e1ea9b1479da1d3688f94aecc882a608df8b1e6b293857a56a5768f4635eaa"
+    },
+    {
+      "path": "audits/yaml-parser-migration-20261012/own-fleet-completed-aggregates-review-1acdda46.json",
+      "sha256": "12456df17427effa4fe48c84702b8fcf682a4349ef9d77ea4b66fe6cef12522c"
+    },
+    {
+      "path": "audits/yaml-parser-migration-20261012/own-fleet-v2-output-review-1acdda46.json",
+      "sha256": "08961807d03e8e76cdcebe68a612e631afc84d347483da0d7cf0357d7d1b732d"
+    },
+    {
+      "path": "audits/yaml-parser-migration-20261012/own-fleet-v2-aggregate-independent-review-1acdda46.json",
+      "sha256": "01290c41585b2d4e3af830e717b81a847d3120c3f09a90fc8e603281fb1de59c"
+    }
+  ],
+  "all_source_change_hashes_and_tree_verified": true,
+  "all_declared_fleet_workflow_steps_verified": true,
+  "ci_bound_original_step_inventory_verified": true,
+  "api_run_event_attempt_pr_head_base_verified": true,
+  "pr_open_draft_mergeable": true,
+  "current_main_equals_base": true,
+  "computed_current_merge_tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "synthetic_actual_parents_tree_verified": true,
+  "rollup_all_checks_complete_success_or_skipped": true,
+  "ready_except_draft": true,
+  "ready_for_merge": false,
+  "draft": true,
+  "accepted_integration": false,
+  "ordinary_hosted_locks_captured": false,
+  "limits": [
+    "Independent read-only recomputation of captured exactsource preflight: plan10receiptSHA/source2file hashes, ownCI26/requiredfive/outcomereceiptsteps, ownfleet33/everydeclaredstep, exactnative454/38 sourceordered identities/originalreceiptlinks, PR/main/rollup/syntheticparents/tree and actualmerge-tree guards allpassed.",
+    "Snapshot remains draft; no PR edit/merge or postmergeintegration accepted. Root must collect fresh final guards after readiness change and verify actual mergedparents/tree/main separately.",
+    "Sourcefleet saved original240/v3-120/v2-288 output reviews and actual completed288aggregate are separate linked receipts. Fleetgate acceptance itself covers33declaredjobs/steps; no universal empiricalchemistryaccuracy acceptance.",
+    "Ordinaryhostednative/WASMlock bytes and executiontimeRustSecDB revision uncaptured; separate capturedownfleetlock notsubstituted.",
+    "Supplement20 controls remain18PASS/2FAIL identically on bothsources, classified existinginputforecastgap; this integration doesnot claim20pass or closeallindependent chemistry/domain gaps."
+  ]
+}

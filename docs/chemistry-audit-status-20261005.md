@@ -1,16 +1,39 @@
 # Chemistry audit: current state, 2026-10-05
 
 
-## Current checkpoint — 2026-10-12: dependency fleet outputs reviewed in completed subsets
+## Current checkpoint — 2026-10-12: parser dependency integrated
+
+[PR783](https://github.com/CrispStrobe/kerotakis/pull/783) is merged as
+`b246408b8156f12594ab18e71cc9c3edee3c7623`.
+[Final premerge guards](../audits/yaml-parser-migration-20261012/integration-final-premerge-1acdda46.json)
+passed after draft status was removed.
+[Actual integration evidence](../audits/yaml-parser-migration-20261012/integration-accepted-1acdda46.json)
+verifies expected merge parents and the exact tested tree. The
+[independent postmerge review](../audits/yaml-parser-migration-20261012/integration-accepted-independent-review-1acdda46.json)
+confirms these final guards and actual integration. The maintained YAML
+dependency and fifty parser contract tests are on main. Both required native
+platforms, CI and all 33 fleet jobs were accepted before the ordinary merge.
+No postmerge test execution is inferred.
+
+Next finish PR784's own fleet, bind its repair to accepted main, and prepare
+fresh integration guards. PR782's final-safety work follows the dependency and
+repair integration. Neither remaining PR is accepted as integrated.
+Follow [the executable next-step lanes](chemistry-work-agenda-20261012.md).
+
+## Validation checkpoint — 2026-10-12: dependency fleet outputs reviewed
 
 PR783's [completed 240-case and v3 120-case aggregates](../audits/yaml-parser-migration-20261012/own-fleet-completed-aggregates-review-1acdda46.json)
 verify **360 saved cases and 488 checks**, with no unmet expectations.
 [The two frozen fleets](../audits/yaml-parser-migration-20261012/own-frozen-fleet-independent-review-1acdda46.json)
 verify another **54 cases and 135 law checks**. Review uses exact-source
 collectors, analyzers and registry, with the own CLI binary and captured fleet
-lock; no CLI experiment is rerun. The remaining v2 lanes and 288-case aggregate
-still block full 33-job fleet acceptance and integration. Both PRs' required CI
-gates remain accepted, separately from their incomplete fleets.
+lock; no CLI experiment is rerun. [All twelve own v2 artifacts](../audits/yaml-parser-migration-20261012/own-fleet-v2-output-review-1acdda46.json)
+add **288 cases and 368 checks**, giving **702 cases and 991 checks**, with zero
+unmet expectations. Every family is bound to exact-source inputs and the actual
+own CLI download. The [actual v2 aggregate](../audits/yaml-parser-migration-20261012/own-fleet-v2-aggregate-independent-review-1acdda46.json)
+matches all twelve families, and the [complete dependency fleet gate](../audits/yaml-parser-migration-20261012/own-fleet-gate-review-1acdda46.json)
+accepts all 33 jobs and every declared step. Guarded integration is separate.
+Both PRs' required CI gates remain accepted; the repair fleet remains pending.
 
 Follow [the remaining integration lanes](chemistry-work-agenda-20261012.md).
 

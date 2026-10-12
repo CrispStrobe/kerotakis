@@ -1,14 +1,22 @@
 # Chemistry work agenda — 2026-10-12
 
 The mandatory context-free fallback applicability repair is **integrated** as
-[PR781](https://github.com/CrispStrobe/kerotakis/pull/781), main `a125c88d`.
+[PR781](https://github.com/CrispStrobe/kerotakis/pull/781), merge `a125c88d`.
 [Acceptance evidence](../audits/registry-loader-applicability-20261012/README.md)
 binds revised-head50/50, both native404/37 inventories, complete CI/libraries,
 registry admission, full 33 fleet and actual merge parents/tree. Original failures
 and freezes remain preserved. Optional/contextful/polynomial/multiple-anchor
 and scientific-data gaps are still separate.
 
-## 0. Remove the parser dependency blocking preflight
+## 0. Completed: remove the parser dependency blocking preflight
+
+[PR783](https://github.com/CrispStrobe/kerotakis/pull/783) is integrated as
+`b246408b8156f12594ab18e71cc9c3edee3c7623`.
+[Actual acceptance](../audits/yaml-parser-migration-20261012/integration-accepted-1acdda46.json)
+binds final readiness, expected merge parents and exact tested tree. All 33 own
+fleet jobs/steps and 702 saved cases/991 checks passed. The dependency lane is
+complete; continue with the narrow nested-key repair below. The preceding
+validation work is retained here for provenance.
 
 Follow the [YAML parser migration lane](../audits/yaml-parser-migration-20261012/README.md).
 PR782's native/regression controls pass, but cargo-deny refuses archived
@@ -18,14 +26,14 @@ local leaf-package baseline. The original hosted baseline also verifies50/50
 and complete core604/safety28 with its own fresh captured workspace lock. The first facade candidate passed49/50 and rejected
 an existing complex-key annotation; its failure is preserved. The maintained
 YAML Organization fork and unchanged controls are now
-[draft PR783](https://github.com/CrispStrobe/kerotakis/pull/783), head `1acdda46`,
+[merged PR783](https://github.com/CrispStrobe/kerotakis/pull/783), head `1acdda46`,
 with local50/50. It retains an unsafe backend; this is a maintenance replacement.
 All 652 affected library tests, all 15 unchanged mechanism-pack tests, and all
 four dependency-policy checks now pass with the actual candidate workspace lock.
 Its own macOS native job now verifies all fifty YAML controls, 454 focused
 controls and the full workspace (3,345 pass, four ignored); its completed demo
 and IPhreeqc WASM jobs are source-bound and accepted in those job scopes.
-CI now reports completed success; the fleet remains incomplete. The local core/data/scene WASM compile check and all fifteen separately frozen
+CI and the complete fleet were subsequently accepted. The local core/data/scene WASM compile check and all fifteen separately frozen
 CLI controls now pass at the candidate source. The CLI includes an inert bounded
 simulation, not active chemical integration accuracy. Inspect complete own
 hosted results and the complete required fleet before integration.
@@ -51,24 +59,28 @@ zero oracle tests execute, so no legacy comparison is accepted.
 now accepts all five required gates and complete 26-job inventory. The
 [reviewed integration preparation](../audits/yaml-parser-migration-20261012/integration-preparation-1acdda46.json)
 binds both native platforms and CI to exact head `1acdda46` and base `a125c88d`.
-Its [actual read-only check](../audits/yaml-parser-migration-20261012/integration-awaiting-fleet-1acdda46.json)
-returns not ready because the fleet is incomplete. Next collect all 33 required
-fleet jobs and every declared step, including the three aggregates; rerun
-`tools/registry-integration-preflight.py` against this plan into a new evidence
-destination, then inspect readiness and fresh head/base/main/merge-tree guards.
-Only the narrow dependency branch is an integration candidate; never merge the
-audit branch. Preserve all original source-bound receipts and outcomes.
+Its [first read-only check](../audits/yaml-parser-migration-20261012/integration-awaiting-fleet-1acdda46.json)
+was not ready because the fleet was incomplete. The
+[final check](../audits/yaml-parser-migration-20261012/integration-final-premerge-1acdda46.json)
+subsequently accepted all 33 jobs, every declared step, and fresh
+head/base/main/merge-tree guards. Only the narrow dependency branch was merged;
+never merge the audit branch. Preserve all original source-bound receipts and
+outcomes.
 
 The [completed own fleet aggregates](../audits/yaml-parser-migration-20261012/own-fleet-completed-aggregates-review-1acdda46.json)
 now accept 360 saved cases/488 checks, and the [two frozen fleets](../audits/yaml-parser-migration-20261012/own-frozen-fleet-independent-review-1acdda46.json)
 accept 54 cases/135 checks, all against exact-source inputs and the own release
-artifact. At the [20:41 UTC checkpoint](../audits/yaml-parser-migration-20261012/own-fleet-progress-20261012-2041.json),
-30 of 33 dependency jobs pass. Complete v2 analytical-observables and
-thermochemical-paths, review the completed materials-transport artifact, then
-the required 288-case aggregate. Review
-actual saved outputs and source/binary/lock associations; verify all 33 declared
-jobs and steps. Preserve partial receipts and original first outcomes. This
-remaining fleet acceptance is the dependency integration blocker; CI is done.
+artifact. [All twelve own v2 artifacts](../audits/yaml-parser-migration-20261012/own-fleet-v2-output-review-1acdda46.json)
+now accept another 288 saved cases/368 checks: total **702 cases/991 checks**, zero
+unmet expectations. Exact-source reanalysis and actual family download logs
+bind these outcomes to the own binary and captured fleet lock. The
+[20:41 UTC checkpoint](../audits/yaml-parser-migration-20261012/own-fleet-progress-20261012-2041.json)
+remains historical. The [actual 288-case aggregate](../audits/yaml-parser-migration-20261012/own-fleet-v2-aggregate-independent-review-1acdda46.json)
+and [all 33 declared jobs/steps](../audits/yaml-parser-migration-20261012/own-fleet-gate-review-1acdda46.json)
+are now independently accepted. Fresh guards passed, draft status was removed,
+and an ordinary merge with the exact head guard completed. Actual parents and
+tree were verified afterward. Preserve partial receipts and original first
+outcomes; this dependency integration is complete.
 
 ## 0a. Fix confirmed nested rate-key admission loss
 
@@ -145,9 +157,10 @@ and [independent review](../audits/yaml-parser-migration-20261012/native-guard-i
 prepare both accepted native receipts with exact-source 39/467 inventory. They
 are not a full integration plan and do not establish readiness.
 
-Next accept each own fleet's complete 33-job inventory, every declared step and
-aggregate, and source/artifact/lock/result associations. First finish PR783's
-existing guarded integration lane. Then explicitly resolve PR784's stacked base
+Next accept PR784's own complete 33-job inventory, every declared step and
+aggregate, and source/artifact/lock/result associations. Its 21:09 UTC snapshot
+has 22 successful jobs, ten queued and the v2 aggregate not yet created.
+PR783's guarded integration is complete. Explicitly resolve PR784's stacked base
 against accepted main and create its full integration plan from the actual
 head/base/tested-tree associations. Any changed head needs new source-specific
 bindings and gates; unchanged-head/tree compatibility also requires explicit

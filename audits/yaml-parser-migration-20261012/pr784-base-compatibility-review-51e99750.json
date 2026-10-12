@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "pr": 784,
+  "head": "51e997509126f099b22fbe963750ac06f36dadfe",
+  "head_tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+  "previous_tested_base": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "previous_tested_base_tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "current_base_ref": "main",
+  "current_base": "b246408b8156f12594ab18e71cc9c3edee3c7623",
+  "current_base_tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "base_tree_identical_to_previous_tested_base": true,
+  "source_head_unchanged": true,
+  "changed_source_files": [
+    "crates/kerotakis-core/src/kinetics/mechanism.rs",
+    "crates/kerotakis-core/tests/nested_rate_admission_contracts.rs"
+  ],
+  "computed_current_base_merge_tree": "45b399206c6b407728cbbc409969dd0fca0981c9",
+  "retargeted_to_main_observed": true,
+  "retarget_action_executed_by_reviewer": false,
+  "eligible_for_existing_base_tree_compatibility_guard": true,
+  "pr_state": "open",
+  "draft": true,
+  "pr_api_sha256": "6c2d0c68222194db465a77994e6ca7f8c67d6d4a8a04493e832c7bab06256f79",
+  "accepted_parent_integration_receipt_path": "audits/yaml-parser-migration-20261012/integration-accepted-independent-review-1acdda46.json",
+  "accepted_parent_integration_receipt_sha256": "ed9097d31b0873b65cf7f4e94154fc3a91d5aabfb18c3e99a5efeaf009d2417c",
+  "source_file_sha256": {
+    "crates/kerotakis-core/src/kinetics/mechanism.rs": "e4eaf8b341e8942df81babea48da790927c99066e81c59d170f26e19b82af9c7",
+    "crates/kerotakis-core/tests/nested_rate_admission_contracts.rs": "4afa3dfcd67c582bff633b8d038f43cd5060d7c0a1cdc7c4639702635f8320b5"
+  },
+  "accepted_integration": false,
+  "new_base_context_test_execution": false,
+  "limits": [
+    "GitHub auto-retargeting observed in freshAPI; reviewer/rootperformednoretargedoperation. Previousbase1ac and acceptedmainb246 haveidenticaltrackedtree5027; exactunchangedhead51e remains twosourcefile repair/tree45b.",
+    "Currentmain/head merge-tree45b matches previoussource-bound testedtree, making existing explicitbase-treecompatibilityguard applicable. This is not a rerun againstnewparentcommitcontext.",
+    "OwnPR784 source-bound oldbase1ac checkouts/CI/fleet retainoriginalparents. No newerbase-context run/outcome borrowed and no PR784 integration or wholefleet acceptance claimed."
+  ]
+}

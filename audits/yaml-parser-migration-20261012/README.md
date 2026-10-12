@@ -1,5 +1,30 @@
 # YAML parser migration prerequisite
 
+## Integrated dependency; next integrate the admission repair
+
+[PR783](https://github.com/CrispStrobe/kerotakis/pull/783) is merged as
+`b246408b8156f12594ab18e71cc9c3edee3c7623`.
+[Final premerge checks](integration-final-premerge-1acdda46.json) and
+[actual integration evidence](integration-accepted-1acdda46.json) verify the
+exact head, base, merge parents and tested tree. An
+[independent postmerge review](integration-accepted-independent-review-1acdda46.json)
+confirms the final guards and actual merge. All 33 fleet jobs and their
+declared steps pass; independent saved-output review covers 702 cases and 991
+checks, with zero unmet expectations. The earlier partial checkpoints below
+remain historical. No postmerge test execution is inferred.
+
+Next complete PR784's own fleet, explicitly bind its unchanged repair source to
+accepted main, and prepare its full integration plan. The confirmed nested-key
+repair and final-safety PR782 remain unintegrated. Preserve all original
+forecasts, first outcomes and receipts.
+GitHub automatically retargeted PR784 to main; its head is unchanged.
+[Base compatibility review](pr784-base-compatibility-review-51e99750.json)
+verifies identical tracked trees for its old tested base and accepted main, and
+the exact repair merge tree. This preserves the recorded test context rather
+than claiming execution after retargeting.
+
+## Dependency investigation and validation history
+
 PR782’s own preflight job failed on `RUSTSEC-2024-0449`: the archived
 `unsafe-libyaml0.2.11` dependency enters through `serde_yaml_ng0.10.0`.
 The [observed blocker](observed-preflight-blocker.json) preserves the exact run,
@@ -7,7 +32,7 @@ head, job and raw-log hash. This is a dependency failure separate from the final
 safety repair. The [official advisory](https://raw.githubusercontent.com/RustSec/advisory-db/main/crates/unsafe-libyaml/RUSTSEC-2024-0449.md)
 provides no patched version. Keep `deny.toml` unchanged.
 
-The current [PR783](https://github.com/CrispStrobe/kerotakis/pull/783) candidate is
+The validated [PR783](https://github.com/CrispStrobe/kerotakis/pull/783) head is
 `1acdda4696e565be5dee13f0598eb2aa8081304e`. It uses pinned `yaml_serde=0.10.7`
 under the existing dependency name, with the unchanged fifty-test fixture.
 [Its source preparation](maintained-fork-source-preparation.json) and
@@ -30,7 +55,7 @@ unfiltered, with the actual separately captured workspace lock. The original
 632 core/safety test identities and outcomes match. These are local checks;
 existing ignored native caches were reused.
 [This head's own CI and fleet](maintained-fork-validation-dispatch.json)
-now report completed CI success; the fleet remains incomplete. See the
+report completed CI success; the complete fleet was accepted afterward. See the
 [API progress checkpoint](hosted-progress-20261012-1755.json). The [local core/data/scene WASM compile check](local-wasm-core-check-1acdda46.json)
 passes, with [independent compile/static-control review](wasm-static-cli-independent-review-1acdda46.json).
 The separately [frozen fifteen CLI controls](cli-controls/README.md) now
@@ -42,8 +67,8 @@ complex metadata and explicit refusals. The first CLI build failed on generated
 upstream documentation absent from the archive; a separate candidate-owned
 module archive supplied those derived ignored files without changing tracked
 source or the protected original. The retry built successfully.
-Detailed own-source results appear below; complete fleet and integration remain
-pending.
+Detailed own-source results appear below; complete fleet and integration were
+accepted afterward, as recorded above.
 [Own-run source associations](own-checkpoint-independent-review-1acdda46.json)
 are independently verified; complete CI status alone does not supply missing
 detailed job reviews.
@@ -56,12 +81,18 @@ manifests, analyzers and registry. Each summary binds the own release binary and
 captured fleet lock. [The two own frozen fleets](own-frozen-fleet-review-1acdda46.json)
 add 54 saved cases and 135 passing law checks, with
 [independent review](own-frozen-fleet-independent-review-1acdda46.json).
-These are completed subsets, not full fleet acceptance. At the [20:41 UTC checkpoint](own-fleet-progress-20261012-2041.json),
-30 jobs pass; analytical-observables, thermochemical-paths and the not-yet-created
-288-case aggregate remain pending. PR784 has 19 passing jobs and still awaits
-all three aggregates. Next review remaining exact-source outputs and all 33
-declared jobs/steps before fresh integration
-guards. No new CLI execution or empirical accuracy claim follows from re-analysis.
+[The twelve own v2 artifacts](own-fleet-v2-output-review-1acdda46.json)
+add **288 saved cases and 368 passing checks**, with zero unmet expectations.
+All twelve families' original scripts, raw streams and summaries were checked;
+exact-source analyzers independently recomputed their outcomes. Actual download
+logs bind each family to the own CLI artifact, binary and captured fleet lock.
+Together these reviews cover **702 cases and 991 checks**. The actual
+[v2 aggregate](own-fleet-v2-aggregate-independent-review-1acdda46.json) agrees
+with all twelve reviewed families; the [complete fleet gate](own-fleet-gate-review-1acdda46.json)
+accepts all 33 jobs and every declared step. Guarded integration is separate. The
+[20:41 UTC checkpoint](own-fleet-progress-20261012-2041.json) remains a historical
+partial snapshot. No new CLI execution or empirical accuracy claim follows
+from re-analysis.
 
 The separately frozen [twenty-case supplement](supplement-20/README.md) has
 [18 pass / 2 fail on both original and replacement](supplement-20/paired-first-outcomes.json),
@@ -94,7 +125,7 @@ source-bound job reviews follow; full fleet acceptance remains pending.
 now pass at that same source-bound merge tree. The bridge verifies absent-solver
 refusal, live solving, desktop/browser pH and ionic-strength agreement, species
 transport and five live R1 scenarios. Hosted lock and built binaries are
-uncaptured; complete fleet and integration remain pending.
+uncaptured; complete fleet and integration were accepted separately above.
 [Own full preflight](own-preflight-review-1acdda46.json) now also passes at the
 verified candidate merge tree, including all four cargo-deny categories under
 unchanged policy. Ordinary hosted lock and advisory database revision are
