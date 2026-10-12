@@ -22,10 +22,13 @@ YAML Organization fork and unchanged controls are now
 with local50/50. It retains an unsafe backend; this is a maintenance replacement.
 All 652 affected library tests, all 15 unchanged mechanism-pack tests, and all
 four dependency-policy checks now pass with the actual candidate workspace lock.
-Its own revised-head CI and fleet remain queued/pending. The local core/data/scene WASM compile check and all fifteen separately frozen
+Its own macOS native job now verifies all fifty YAML controls, 454 focused
+controls and the full workspace (3,345 pass, four ignored); its completed demo
+and IPhreeqc WASM jobs are source-bound and accepted in those job scopes.
+Complete CI and fleet remain queued/pending. The local core/data/scene WASM compile check and all fifteen separately frozen
 CLI controls now pass at the candidate source. The CLI includes an inert bounded
 simulation, not active chemical integration accuracy. Inspect complete own
-hosted results and browser/WASM runtime gates before integration. The
+hosted results and remaining bridge/bench-WASM gates before integration. The
 separate twenty-case supplement gives identical 18 pass / 2 fail on both parsers:
 custom tags in ignored annotations remain an explicit follow-up, with first
 failures and forecasts preserved. Resolve that support contract separately. Source-specific

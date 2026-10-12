@@ -41,7 +41,8 @@ complex metadata and explicit refusals. The first CLI build failed on generated
 upstream documentation absent from the archive; a separate candidate-owned
 module archive supplied those derived ignored files without changing tracked
 source or the protected original. The retry built successfully.
-WASM runtime/browser, complete own CI/fleet and integration remain pending.
+Remaining bridge/bench-WASM jobs, complete own CI/fleet and integration remain
+pending.
 [Own-run source associations](own-checkpoint-independent-review-1acdda46.json)
 are independently verified; pending native/preflight jobs are not accepted.
 
@@ -55,6 +56,22 @@ Do not report this supplement as twenty passing expectations.
 An [independent affected-regression review](affected-regressions-independent-review-1acdda46.json)
 verifies all 652 library and 15 pack outcomes, source/module inventories, locks
 and the paired supplement first failures.
+[The candidate's own macOS native review](native-macos-independent-review-1acdda46.json)
+now accepts 454 focused controls across 38 fixtures, including all fifty YAML
+contracts, and the full workspace's 3,345 passing tests with four ignored.
+All thirteen library binaries pass (935 tests). The ordinary hosted lock is
+uncaptured; no local or fleet lock is borrowed for this result.
+[The own-source browser and IPhreeqc WASM review](own-browser-runtime-review-1acdda46.json)
+accepts the completed demo and PHREEQC WASM jobs at the verified candidate merge
+tree. Browser controls include five DOM lesson snapshots, PWA, German rendering
+and UX checks; Svelte reports zero errors and two warnings. Bridge/bench-WASM,
+Linux/preflight and full fleet acceptance remain separate pending gates.
+
+[The annotation contract review](annotation-contract-review.md) records the
+observed custom-tag boundary and six annotation owners. It also identifies
+nested rate-key admission as a distinct source-indicated inquiry requiring
+frozen execution evidence before a repair is claimed.
+
 The [manifest patch](maintained-fork-dependency.patch) is separate from the
 preserved earlier facade proposal and its observed regression below.
 

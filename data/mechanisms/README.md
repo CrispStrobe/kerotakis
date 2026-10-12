@@ -100,7 +100,7 @@ rates, surface and edge phases, real-gas (Redlich–Kwong) phases, NASA9 and
 Shomate thermo, electron-collision rates, `nonreactant-orders`, cross-file
 section references, and per-value unit strings on `A`.
 
-Two known limits, both recorded in the audit:
+Known limits, recorded in the audits:
 
 - **A document is validated whole**, not selected from. A file that pairs an
   `ideal-gas` phase with a Redlich–Kwong variant of the same species — the
@@ -109,6 +109,16 @@ Two known limits, both recorded in the audit:
 - **Reaction types must be spelled out.** Cantera 3 auto-detects `three-body`
   from a bare `M`; this parser requires the explicit `type`, on the principle
   that refusing beats guessing.
+
+Application-specific YAML tags are outside the documented annotation subset.
+The [preserved tagged-note controls](../../audits/yaml-parser-migration-20261012/supplement-20/paired-first-outcomes.json)
+show that document-level custom-tagged scalar and sequence notes are refused
+by both the original and maintained parsers. An allowlisted annotation name
+therefore does not promise admission of every YAML value syntax. Ordinary
+nested metadata and complex annotation keys retain their existing tested
+behavior. Other owner/tag combinations require separate controls before a
+broader claim; the [annotation contract review](../../audits/yaml-parser-migration-20261012/annotation-contract-review.md)
+scopes that follow-up without changing the preserved positive forecasts.
 
 ### Licence, for a file you want to add
 

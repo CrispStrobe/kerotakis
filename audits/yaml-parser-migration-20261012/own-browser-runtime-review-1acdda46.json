@@ -1,0 +1,93 @@
+{
+  "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "base": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "source_tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "run_id": 38271407738,
+  "run_attempt": 1,
+  "synthetic_checkout": "83438d9ba3015592bdf883ddf7e3f91eaa250544",
+  "verified_merge_parents": [
+    "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+    "1acdda4696e565be5dee13f0598eb2aa8081304e"
+  ],
+  "jobs": [
+    {
+      "job_id": 114886293722,
+      "name": "The demo page, in a real browser",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407738/job/114886293722",
+      "conclusion": "success",
+      "raw_log_sha256": "86918c390ba9a0f272433615ddde8af2a0b8d2deba8e7e78d9e25519b3f765ea",
+      "verified_result_markers": [
+        "R1 limewater: PASS",
+        "R1 carbonated_bottle: PASS",
+        "R1 surface_release: PASS",
+        "R1 softener_breakthrough: PASS",
+        "R1 partial_freezing: PASS",
+        "GUI-003: five semantic DOM lesson snapshots match",
+        "svelte-check found 0 errors and 2 warnings in 2 files",
+        "PWA: every check passed",
+        "the German build renders German",
+        "UX quality gates passed"
+      ],
+      "successful_steps": [
+        "Set up job",
+        "Run actions/checkout@v6",
+        "Run dtolnay/rust-toolchain@stable",
+        "Run Swatinem/rust-cache@v2",
+        "Run mymindstorm/setup-emsdk@v14",
+        "Run actions/setup-node@v6",
+        "Install wasm-bindgen",
+        "Build the site",
+        "Run the page headlessly",
+        "Five lesson scenes match their semantic DOM goldens",
+        "Types hold (svelte-check)",
+        "The bench is an installable, offline-first PWA",
+        "The German build renders German",
+        "The responsive bench meets UX invariants",
+        "Package the site",
+        "Post Run actions/setup-node@v6",
+        "Post Run Swatinem/rust-cache@v2",
+        "Post Run actions/checkout@v6",
+        "Complete job"
+      ]
+    },
+    {
+      "job_id": 114886294073,
+      "name": "IPhreeqc wasm gate",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38271407738/job/114886294073",
+      "conclusion": "success",
+      "raw_log_sha256": "351718f6d5ebeefd43aa7c90d602370de03d3479f12f4dd515af5a9ae0dbad7b",
+      "verified_result_markers": [
+        "OK: IPhreeqc wasm module built.",
+        "OK: PHREEQC computes AgCl precipitation, exposes native thermochemistry, and executes MY-BASIC in WebAssembly without filesystem access."
+      ],
+      "successful_steps": [
+        "Set up job",
+        "Run actions/checkout@v6",
+        "Run mymindstorm/setup-emsdk@v14",
+        "Run actions/setup-node@v6",
+        "Build IPhreeqc to wasm",
+        "AgCl end-to-end in wasm",
+        "Post Run actions/setup-node@v6",
+        "Post Run actions/checkout@v6",
+        "Complete job"
+      ]
+    }
+  ],
+  "source_script_sha256": {
+    ".github/workflows/ci.yml": "0151c09468292c9039538c072e3c33980c778511f8e9c03967e6c2149b71c9d2",
+    "tools/build-web.sh": "988691fb1306d8acf3f41b80b63ddb96bbd9959f7e9362ea3a97ac55da7762cc",
+    "tools/build-iphreeqc-wasm.sh": "91a0382f929f99a8871302e4ca478df2fecbdb700b03de2b290a359a6f63b7e3",
+    "tools/test-iphreeqc-wasm.mjs": "be5913810e6442aaee09032912d33145fc0630c2cba094118776f50a703b91db",
+    "tools/test-web-demo.mjs": "e44ca92adb0b630a3586bd2efbc5e6d8d9ec423352808b16cf876be7e6d7adb1",
+    "tools/test-gui003-dom.mjs": "d2aa66aab048566c4a3e375164fdd388651b2d5c9bc68aad96ca72857c70523b",
+    "tools/test-pwa.mjs": "3613870ba4e9422525ea7df4246e4dce630f5d13caf013ae094cf12972bd5e49",
+    "tools/test-i18n-render.mjs": "c75589be7bc95e1e6d01437f4fb5f9a9880190e3c72e6d3e5e553a1f8dc75723",
+    "tools/test-ux-quality.mjs": "68b8b2a45c68faccd6dcb31211e45ea7305745dfa91dc39fd796101030ed74fc"
+  },
+  "ordinary_hosted_lock_captured": false,
+  "built_browser_binary_captured": false,
+  "full_ci_accepted": false,
+  "full_fleet_accepted": false,
+  "integration_accepted": false,
+  "scope": "Completed candidate own browser demo and IPhreeqc WASM jobs only, exact API head/base/PR and checkout merge tree/parents bound; raw successful steps and required terminal result markers verified. Demo includes five semantic DOM snapshots, zero Svelte errors/two warnings, PWA, German rendering and UX controls; IPhreeqc includes declared AgCl/thermochemistry/MY-BASIC WASM checks. Bridge/bench-WASM and complete native/preflight/fleet remain separate. No dependency lock or browser binary hash borrowed from local/fleet evidence; no general chemical accuracy claim."
+}

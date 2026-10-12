@@ -1,6 +1,23 @@
 # Chemistry audit: current state, 2026-10-05
 
 
+## Current checkpoint — 2026-10-12: own macOS and browser jobs verified
+
+[PR783's own macOS native evidence](../audits/yaml-parser-migration-20261012/native-macos-independent-review-1acdda46.json)
+verifies 454 focused controls, including YAML50, and 3,345 workspace passes with
+four ignored. All thirteen library binaries pass (935 tests). The ordinary
+native lock is uncaptured. [Completed own browser and PHREEQC WASM jobs](../audits/yaml-parser-migration-20261012/own-browser-runtime-review-1acdda46.json)
+are bound to the verified candidate merge tree; they include DOM snapshots,
+PWA, German rendering, UX and the declared PHREEQC WASM controls. Complete
+Linux/preflight/bridge/bench-WASM/fleet gates and integration remain pending.
+
+[Annotation adjudication](../audits/yaml-parser-migration-20261012/annotation-contract-review.md)
+documents the two observed custom-tagged note refusals without rewriting their
+positive forecasts. The six actual annotation owners do not establish a nested
+rate-key refusal guarantee; that separate source-indicated inquiry is being
+frozen before execution. No nested-rate production repair is claimed yet.
+Earlier dated checkpoints below retain their historical scopes.
+
 ## Current checkpoint — 2026-10-12: CLI15 and WASM compile verified
 
 The [candidate parser lane](../audits/yaml-parser-migration-20261012/README.md)
