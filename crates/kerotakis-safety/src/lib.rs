@@ -1176,6 +1176,10 @@ impl SafetyScreen for ReactiveGroupScreen {
                     | "bleach-acid-chlorine"
                     | "acid-metal-hydrogen"
                     | "acid-carbonate-co2"
+                    | "bleach-weak-acid-chlorine"
+                    | "oxidizer-flammable-gas"
+                    | "oxidizer-reducer"
+                    | "water-reactive-base"
             ) || prior.iter().any(|old| same_final_finding(old, &finding))
             {
                 continue;
