@@ -14,15 +14,36 @@ Follow the [YAML parser migration lane](../audits/yaml-parser-migration-20261012
 PR782's native/regression controls pass, but cargo-deny refuses archived
 unsafe-libyaml via serde_yaml_ng. Keep the advisory policy unchanged. Verify the
 fifty frozen compatibility controls pass on accepted main in a separately locked
-local leaf-package baseline. The first facade candidate passed49/50 and rejected
+local leaf-package baseline. The original hosted baseline also verifies50/50
+and complete core604/safety28 with its own fresh captured workspace lock. The first facade candidate passed49/50 and rejected
 an existing complex-key annotation; its failure is preserved. The maintained
 YAML Organization fork and unchanged controls are now
 [draft PR783](https://github.com/CrispStrobe/kerotakis/pull/783), head `1acdda46`,
 with local50/50. It retains an unsafe backend; this is a maintenance replacement.
-Its own revised-head CI and fleet are queued/pending. Test
-all curated mechanism packs, affected libraries, CLI/WASM and the actual new
-dependency graph. Resolve complex-key/tag compatibility explicitly. Source-specific
+All 652 affected library tests, all 15 unchanged mechanism-pack tests, and all
+four dependency-policy checks now pass with the actual candidate workspace lock.
+Its own revised-head CI and fleet remain queued/pending. Complete source-bound
+CLI/WASM checks and inspect those own hosted results before integration. The
+separate twenty-case supplement gives identical 18 pass / 2 fail on both parsers:
+custom tags in ignored annotations remain an explicit follow-up, with first
+failures and forecasts preserved. Resolve that support contract separately. Source-specific
 PR782 results need fresh binding after integrating a parser change.
+
+## 0a. Adjudicate tagged ignored annotations as a separate admission lane
+
+Read the [preserved twenty-case forecasts and first paired outcomes](../audits/yaml-parser-migration-20261012/supplement-20/README.md).
+Both parsers refuse custom-tagged scalar and sequence annotations; the original
+positive forecasts remain unmet. First establish the documented support contract
+and all flattened annotation owners in
+`crates/kerotakis-core/src/kinetics/mechanism.rs`. If support is intended, freeze
+an owner-by-owner matrix covering tagged scalar/sequence/mapping metadata,
+complex keys, duplicate known fields and annotations, merge behavior and tagged
+model-bearing scalars before changing code. Keep existing refusal semantics and
+all original freezes intact. Validate the resulting source with the original
+fifty controls, complete affected libraries and all fifteen pack tests. The
+supplement README gives the concrete implementation constraints and acceptance
+criteria. This follows the dependency maintenance gate; it does not block that
+repair on a newly inferred syntax expansion.
 
 ## 1. Close the remaining reviewed final-safety rule tranche
 

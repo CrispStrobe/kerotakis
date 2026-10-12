@@ -1,0 +1,77 @@
+{
+  "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "tests": [
+    {
+      "name": "an_unbalanced_edit_is_refused",
+      "outcome": "ok"
+    },
+    {
+      "name": "carbon_monoxide_burns_only_through_a_hydrogen_bearing_radical",
+      "outcome": "ok"
+    },
+    {
+      "name": "declared_units_survive_into_the_compiled_network",
+      "outcome": "ok"
+    },
+    {
+      "name": "every_pack_parses_compiles_and_keeps_its_reactions",
+      "outcome": "ok"
+    },
+    {
+      "name": "every_pack_states_its_licence_and_its_limits",
+      "outcome": "ok"
+    },
+    {
+      "name": "every_rate_constant_is_finite_and_positive_across_its_declared_range",
+      "outcome": "ok"
+    },
+    {
+      "name": "every_reaction_records_source_validity_and_retrieval",
+      "outcome": "ok"
+    },
+    {
+      "name": "hydrogen_burns_through_ignition_in_one_call",
+      "outcome": "ok"
+    },
+    {
+      "name": "hydrogen_moves_towards_water_in_bounded_time",
+      "outcome": "ok"
+    },
+    {
+      "name": "lean_methane_burns_out_under_a_global_step",
+      "outcome": "ok"
+    },
+    {
+      "name": "methane_inhibits_its_own_combustion",
+      "outcome": "ok"
+    },
+    {
+      "name": "more_oxygen_consumes_more_hydrogen",
+      "outcome": "ok"
+    },
+    {
+      "name": "oxygen_drives_each_global_step_at_its_fitted_power",
+      "outcome": "ok"
+    },
+    {
+      "name": "the_global_steps_carry_the_orders_westbrook_and_dryer_fitted",
+      "outcome": "ok"
+    },
+    {
+      "name": "the_listed_packs_are_the_shipped_packs",
+      "outcome": "ok"
+    }
+  ],
+  "passed": 15,
+  "failed": 0,
+  "filtered_out": 0,
+  "actual_exit": 0,
+  "actual_workspace_lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+  "packs_log_sha256": "4553ee526b2f5968b362d77e2fa85ae31075125537c3df2166ee27694157eccd",
+  "regular_files_reverified": 2254,
+  "scope": "All unchanged curated mechanism-pack controls at current source only; provenance/units/network/model behavior, not new measured chemistry or CLI/WASM/full CI/fleet/integration acceptance.",
+  "fixture_sha256": "6f69b236c013ee78ab28b8d32a44602f5cacffe8b817e3c140c834931a9e9005",
+  "ignored": 0,
+  "first_launch": "Initial pack resource gate rejected before invocation; libraries were not rerun. Separate bounded incremental continuation executed all fifteen."
+}

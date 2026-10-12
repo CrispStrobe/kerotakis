@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "actual_workspace_lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+  "tracked_source_blobs_independently_reverified": 2254,
+  "tracked_modules_independently_reverified": {
+    "sundials-kinetics-rs": 552,
+    "vendor-iphreeqc": 716
+  },
+  "affected_libraries": [
+    {
+      "binary": "kerotakis_cea",
+      "passed": 20,
+      "failed": 0,
+      "ignored": 0,
+      "filtered_out": 0,
+      "test_names_sha256": "73f750aaea4b98f9db95e7a46bb3652e3320d1814b04fca1bbb5dc3b5bbdf74a"
+    },
+    {
+      "binary": "kerotakis_core",
+      "passed": 604,
+      "failed": 0,
+      "ignored": 0,
+      "filtered_out": 0,
+      "test_names_sha256": "48276e8a1f73617cea535a8597d8d0dae1119bf7ef10b19b6373eaf82320d6a8"
+    },
+    {
+      "binary": "kerotakis_safety",
+      "passed": 28,
+      "failed": 0,
+      "ignored": 0,
+      "filtered_out": 0,
+      "test_names_sha256": "82ad97d45c5c59c472bdbedb3047d135ef34c815763270a6ddc34f879b183c99"
+    }
+  ],
+  "library_total_passed": 652,
+  "library_total_failed": 0,
+  "library_exit": 0,
+  "core_and_safety_exact_names_match_original_baseline": true,
+  "library_log_sha256": "b6354b1fb2731ef04e0a8848b8291ebd77e89c515bc68416612335512b8b40f9",
+  "library_observations_sha256": "56825fde9edc4e13d6e5e8b9aecac733a8715a1ce398a2d293a3a76d3f471af8",
+  "library_receipt_sha256": "e0c1bc8bae5990e4b3bb2df7cf2c0fd9bad321cb9e1771433de344d02cadac4e",
+  "packs": {
+    "passed": 15,
+    "failed": 0,
+    "ignored": 0,
+    "filtered_out": 0,
+    "exit": 0,
+    "exact_tests": [
+      {
+        "name": "an_unbalanced_edit_is_refused",
+        "outcome": "ok"
+      },
+      {
+        "name": "carbon_monoxide_burns_only_through_a_hydrogen_bearing_radical",
+        "outcome": "ok"
+      },
+      {
+        "name": "declared_units_survive_into_the_compiled_network",
+        "outcome": "ok"
+      },
+      {
+        "name": "every_pack_parses_compiles_and_keeps_its_reactions",
+        "outcome": "ok"
+      },
+      {
+        "name": "every_pack_states_its_licence_and_its_limits",
+        "outcome": "ok"
+      },
+      {
+        "name": "every_rate_constant_is_finite_and_positive_across_its_declared_range",
+        "outcome": "ok"
+      },
+      {
+        "name": "every_reaction_records_source_validity_and_retrieval",
+        "outcome": "ok"
+      },
+      {
+        "name": "hydrogen_burns_through_ignition_in_one_call",
+        "outcome": "ok"
+      },
+      {
+        "name": "hydrogen_moves_towards_water_in_bounded_time",
+        "outcome": "ok"
+      },
+      {
+        "name": "lean_methane_burns_out_under_a_global_step",
+        "outcome": "ok"
+      },
+      {
+        "name": "methane_inhibits_its_own_combustion",
+        "outcome": "ok"
+      },
+      {
+        "name": "more_oxygen_consumes_more_hydrogen",
+        "outcome": "ok"
+      },
+      {
+        "name": "oxygen_drives_each_global_step_at_its_fitted_power",
+        "outcome": "ok"
+      },
+      {
+        "name": "the_global_steps_carry_the_orders_westbrook_and_dryer_fitted",
+        "outcome": "ok"
+      },
+      {
+        "name": "the_listed_packs_are_the_shipped_packs",
+        "outcome": "ok"
+      }
+    ],
+    "fixture_sha256": "6f69b236c013ee78ab28b8d32a44602f5cacffe8b817e3c140c834931a9e9005",
+    "log_sha256": "4553ee526b2f5968b362d77e2fa85ae31075125537c3df2166ee27694157eccd",
+    "receipt_sha256": "8e4d14d65efa297770ebd2ac73fa2b584c451983f0855abfc09e633ff83be0c3"
+  },
+  "supplement_twenty": {
+    "freeze_sha256": "268b6182090f890cbe9e823bfbdf9ebc13a3811c33d428831cc0eb5a5bea7b21",
+    "fixture_sha256": "e46796c3c49d8a8d24d08595da5e3d54d362ecb01aa24d5bb39c6e9120f009ef",
+    "paired_receipt_sha256": "38afc57080a6e671fa5a25e47eeaa2a1d645ebbe98269e0e5e1843b7c9366763",
+    "records": [
+      {
+        "head": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+        "passed": 18,
+        "failed": 2,
+        "exit": 101,
+        "filtered_out": 0,
+        "ignored": 0,
+        "source_blobs_independently_reverified": 2253,
+        "log_sha256": "687841f5e7d0a8669d7b71c628e7c092e0f54104bae3bb269e33864bacf283f5",
+        "actual_leaf_lock_sha256": "b11c665ab4da296bdd12ec01300e339c681b8674f319e868eb3c13d2b9b1b40f"
+      },
+      {
+        "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+        "passed": 18,
+        "failed": 2,
+        "exit": 101,
+        "filtered_out": 0,
+        "ignored": 0,
+        "source_blobs_independently_reverified": 2254,
+        "log_sha256": "5cc8c0197a1e85c6f69fcbdcaee1d108362c28c210547750962efa6e8b6ce917",
+        "actual_leaf_lock_sha256": "2597946af98d843803922432ff4b4e859bc73622c58a3a9fc243769ef269817b"
+      }
+    ],
+    "exact_outcomes_identical": true,
+    "migration_regressions_observed": 0,
+    "failed_forecasts_each": [
+      "ignored_custom_scalar_tag",
+      "ignored_custom_sequence_tag"
+    ],
+    "all_twenty_passed": false,
+    "qualification": "Both sources refuse custom-tagged ignored metadata through flattened typed deserialization. Two prospective positive forecasts remain unmet; annotation-admission adjudication remains pending, without automatically establishing an app defect."
+  },
+  "limits": [
+    "Local unfiltered affected CEA/core/safety libraries and unchanged curated mechanism-pack controls only, with actual workspace lock.",
+    "Supplemental twenty ran in separately resolved isolated leaf packages; identical 18 PASS/2 FAIL on both sources is not twenty-pass acceptance.",
+    "Tracked sources and both module blobs verified; existing ignored native cache/build artifacts not independently checksum verified.",
+    "No new scientific measurements or empirical chemical accuracy claim.",
+    "No whole workspace test, hosted/native CI, fleet, CLI/WASM or integration acceptance inferred."
+  ],
+  "integration_accepted": false
+}

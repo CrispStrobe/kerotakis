@@ -1,5 +1,25 @@
 # Chemistry audit: current state, 2026-10-05
 
+
+## Current checkpoint — 2026-10-12: dependency repair clears local policy
+
+[PR783](https://github.com/CrispStrobe/kerotakis/pull/783) head `1acdda46`
+passes the unchanged original fifty parser contracts, all 652 CEA/core/safety
+library tests, all 15 mechanism-pack tests, and all four unchanged
+dependency-policy checks. The actual candidate workspace lock excludes archived
+`unsafe-libyaml`. Independent reviews accept the local fifty and policy scopes.
+The replacement remains an unsafe maintained backend; no memory-safety proof
+is claimed. [Evidence and remaining lanes](../audits/yaml-parser-migration-20261012/README.md)
+bind the exact source, locks and unfiltered outcomes.
+
+The new prospective twenty-case supplement yields identical **18 pass / 2 fail**
+on accepted main and the replacement. Two custom-tagged ignored annotations
+remain refused on both. Preserve those failed forecasts and adjudicate the
+annotation support contract in the separate documented lane. CLI/WASM, own
+hosted CI/fleet and integration remain pending. Main is still `a125c88d`; PR781
+is integrated and PR782 must be deliberately rebound after the dependency repair.
+Earlier dated sections below are historical checkpoints.
+
 ## Maintained YAML candidate 50/50 after preserved facade regression — 2026-10-12
 
 The first PR783 candidate completed49/50: it rejected a complex mapping key

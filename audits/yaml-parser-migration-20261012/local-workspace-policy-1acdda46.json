@@ -1,0 +1,25 @@
+{
+  "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "regular_files_reverified": 2254,
+  "actual_workspace_lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+  "metadata_sha256": "26a26dd81390dc9f26859e31fba36a19ac455902669233ff7d2e14d3335240f8",
+  "metadata_package_count": 336,
+  "deny_policy_sha256": "1f83fae0b3a1f548103b11a006a98a1b93ba7d3163c111e27d6441921bf0b5c7",
+  "cargo_deny_exit": 0,
+  "archived_unsafe_libyaml_absent": true,
+  "scope": "Full local workspace actual resolution and unchanged-policy check; first attempt was CLI flag position error/no policy evaluation. Existing ignored native cache qualified. No broader regression/nativeCI/fleet/integration acceptance.",
+  "cargo_deny_version": "cargo-deny 0.20.2",
+  "policy_checks": [
+    "advisories",
+    "bans",
+    "licenses",
+    "sources"
+  ],
+  "policy_unchanged": true,
+  "policy_log_sha256": "311b215941d924653cc83c3756aa8292500f98a3d8d4f1244b9d24e682f4a44d",
+  "first_attempt": "CLI option placement error, exit2 before policy evaluation; preserved separately.",
+  "integration_accepted": false,
+  "full_ci_accepted": false,
+  "fleet_accepted": false
+}

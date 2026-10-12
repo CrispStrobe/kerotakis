@@ -17,10 +17,31 @@ contains unsafe code. This is a maintenance replacement, not a memory-safety
 claim. [All fifty local controls pass](local-maintained-fork-fifty-1acdda46.json),
 unfiltered, at this head. All 2,254 candidate tracked files and both tracked
 submodule inventories were rechecked; its separately captured leaf lock excludes
-archived `unsafe-libyaml`. This is not full workspace graph or cargo-deny
-acceptance. [This head's own CI and fleet](maintained-fork-validation-dispatch.json)
-remain queued/pending. Full regression, advisory-policy and integration checks
-remain pending.
+archived `unsafe-libyaml`. The [independent fifty-test review](maintained-fork-independent-review-1acdda46.json)
+accepts those local controls. The separately captured
+[full workspace resolution and unchanged policy](local-workspace-policy-1acdda46.json)
+now pass advisories, bans, licenses and sources;
+[its independent review](workspace-policy-independent-review-1acdda46.json)
+confirms that bounded result. All
+[652 affected library tests](local-affected-libraries-1acdda46.json)
+(20 CEA, 604 core, 28 safety) and all
+[15 unchanged mechanism-pack tests](local-mechanism-packs-1acdda46.json) pass,
+unfiltered, with the actual separately captured workspace lock. The original
+632 core/safety test identities and outcomes match. These are local checks;
+existing ignored native caches were reused.
+[This head's own CI and fleet](maintained-fork-validation-dispatch.json)
+remain queued/pending. CLI/WASM and integration checks remain pending.
+
+The separately frozen [twenty-case supplement](supplement-20/README.md) has
+[18 pass / 2 fail on both original and replacement](supplement-20/paired-first-outcomes.json),
+with identical per-case outcomes. Custom-tagged scalar and sequence metadata
+are refused by both parsers. Those two new positive forecasts remain unmet;
+they reveal a pre-existing annotation-admission limit requiring adjudication,
+not an observed migration regression. Preserve both first runs and both freezes.
+Do not report this supplement as twenty passing expectations.
+An [independent affected-regression review](affected-regressions-independent-review-1acdda46.json)
+verifies all 652 library and 15 pack outcomes, source/module inventories, locks
+and the paired supplement first failures.
 The [manifest patch](maintained-fork-dependency.patch) is separate from the
 preserved earlier facade proposal and its observed regression below.
 
@@ -41,6 +62,10 @@ the exact outcomes, tracked source, captured leaf lock and PR783's two-file
 preparation. It accepts the original baseline only.
 The first attempt stopped on a missing cached dependency before executing any
 tests. Its log is preserved separately from the completed attempt.
+The [hosted original baseline](hosted-original-baseline-review.json) is now
+verified separately: original50/50 plus core604/safety28, unfiltered, with all
+manifested artifact hashes, original source inventory and a fresh hosted
+workspace lock. It accepts the original only; its result cannot certify PR783.
 
 The [original candidate proposal](candidate-dependency.patch) replaces one workspace
 manifest entry with the registry-pinned `noyalib-serde-yaml=0.0.57`, retaining the

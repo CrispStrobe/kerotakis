@@ -1,0 +1,199 @@
+{
+  "fixture_sha256": "e46796c3c49d8a8d24d08595da5e3d54d362ecb01aa24d5bb39c6e9120f009ef",
+  "freeze_sha256": "268b6182090f890cbe9e823bfbdf9ebc13a3811c33d428831cc0eb5a5bea7b21",
+  "freeze_commit": "f6746598ed6c05bc3d3ea0f327e0ad6360e4538f",
+  "original": {
+    "head": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+    "tests": [
+      {
+        "name": "custom_tag_rate_scalar",
+        "outcome": "ok"
+      },
+      {
+        "name": "duplicate_composition_last_value",
+        "outcome": "ok"
+      },
+      {
+        "name": "duplicate_document_annotation",
+        "outcome": "ok"
+      },
+      {
+        "name": "duplicate_known_rate_field",
+        "outcome": "ok"
+      },
+      {
+        "name": "duplicate_nested_annotation_key",
+        "outcome": "ok"
+      },
+      {
+        "name": "ignored_custom_scalar_tag",
+        "outcome": "FAILED"
+      },
+      {
+        "name": "ignored_custom_sequence_tag",
+        "outcome": "FAILED"
+      },
+      {
+        "name": "ignored_nested_merge_alias",
+        "outcome": "ok"
+      },
+      {
+        "name": "ordinary_merge_document",
+        "outcome": "ok"
+      },
+      {
+        "name": "ordinary_merge_phase",
+        "outcome": "ok"
+      },
+      {
+        "name": "ordinary_merge_species",
+        "outcome": "ok"
+      },
+      {
+        "name": "quoted_activation_decimal",
+        "outcome": "ok"
+      },
+      {
+        "name": "quoted_activation_nan",
+        "outcome": "ok"
+      },
+      {
+        "name": "quoted_activation_scientific",
+        "outcome": "ok"
+      },
+      {
+        "name": "quoted_rate_decimal",
+        "outcome": "ok"
+      },
+      {
+        "name": "quoted_rate_infinity",
+        "outcome": "ok"
+      },
+      {
+        "name": "quoted_rate_scientific",
+        "outcome": "ok"
+      },
+      {
+        "name": "tagged_species_external_mapping",
+        "outcome": "ok"
+      },
+      {
+        "name": "unquoted_activation_negative_infinity",
+        "outcome": "ok"
+      },
+      {
+        "name": "unquoted_rate_negative_infinity",
+        "outcome": "ok"
+      }
+    ],
+    "passed": 18,
+    "failed": 2,
+    "exit_code": 101,
+    "ignored": 0,
+    "filtered_out": 0,
+    "regular_files_reverified": 2253,
+    "actual_leaf_lock_sha256": "b11c665ab4da296bdd12ec01300e339c681b8674f319e868eb3c13d2b9b1b40f",
+    "contracts_log_sha256": "687841f5e7d0a8669d7b71c628e7c092e0f54104bae3bb269e33864bacf283f5",
+    "scope": "New prospective supplemental forecasts; original failures must be adjudicated separately, not rewritten or automatically called app defects. No integration acceptance."
+  },
+  "maintained": {
+    "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+    "tests": [
+      {
+        "name": "custom_tag_rate_scalar",
+        "outcome": "ok"
+      },
+      {
+        "name": "duplicate_composition_last_value",
+        "outcome": "ok"
+      },
+      {
+        "name": "duplicate_document_annotation",
+        "outcome": "ok"
+      },
+      {
+        "name": "duplicate_known_rate_field",
+        "outcome": "ok"
+      },
+      {
+        "name": "duplicate_nested_annotation_key",
+        "outcome": "ok"
+      },
+      {
+        "name": "ignored_custom_scalar_tag",
+        "outcome": "FAILED"
+      },
+      {
+        "name": "ignored_custom_sequence_tag",
+        "outcome": "FAILED"
+      },
+      {
+        "name": "ignored_nested_merge_alias",
+        "outcome": "ok"
+      },
+      {
+        "name": "ordinary_merge_document",
+        "outcome": "ok"
+      },
+      {
+        "name": "ordinary_merge_phase",
+        "outcome": "ok"
+      },
+      {
+        "name": "ordinary_merge_species",
+        "outcome": "ok"
+      },
+      {
+        "name": "quoted_activation_decimal",
+        "outcome": "ok"
+      },
+      {
+        "name": "quoted_activation_nan",
+        "outcome": "ok"
+      },
+      {
+        "name": "quoted_activation_scientific",
+        "outcome": "ok"
+      },
+      {
+        "name": "quoted_rate_decimal",
+        "outcome": "ok"
+      },
+      {
+        "name": "quoted_rate_infinity",
+        "outcome": "ok"
+      },
+      {
+        "name": "quoted_rate_scientific",
+        "outcome": "ok"
+      },
+      {
+        "name": "tagged_species_external_mapping",
+        "outcome": "ok"
+      },
+      {
+        "name": "unquoted_activation_negative_infinity",
+        "outcome": "ok"
+      },
+      {
+        "name": "unquoted_rate_negative_infinity",
+        "outcome": "ok"
+      }
+    ],
+    "passed": 18,
+    "failed": 2,
+    "exit_code": 101,
+    "ignored": 0,
+    "filtered_out": 0,
+    "regular_files_reverified": 2254,
+    "actual_leaf_lock_sha256": "2597946af98d843803922432ff4b4e859bc73622c58a3a9fc243769ef269817b",
+    "contracts_log_sha256": "5cc8c0197a1e85c6f69fcbdcaee1d108362c28c210547750962efa6e8b6ce917",
+    "scope": "New prospective supplemental forecasts; original failures must be adjudicated separately, not rewritten or automatically called app defects. No integration acceptance."
+  },
+  "all_twenty_outcomes_match": true,
+  "migration_regressions_observed": 0,
+  "forecast_failures_per_source": 2,
+  "adjudication": "Custom-tagged ignored metadata is refused on original and replacement by flattened typed deserialization. These two new positive forecasts are unmet on both; preserved as an annotation-admission follow-up, not accepted compatibility controls or automatically established defects.",
+  "first_candidate_launch": "Resource gate rejected before project creation or Cargo invocation. Original first outcomes preserved; separate candidate-only continuation completed twenty unfiltered cases.",
+  "integration_accepted": false
+}

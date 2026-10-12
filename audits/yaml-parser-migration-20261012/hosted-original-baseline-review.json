@@ -1,0 +1,232 @@
+{
+  "run_id": 38266836155,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38266836155",
+  "run_conclusion": "success",
+  "audit_revision": "df653d8192408fbba03ae03e806400feb08ebdef",
+  "source": "a125c88d5e4e97cfc55eb2f51e0490e9cb0ed21b",
+  "source_tree": "cbe987d1fba5eaeaecbd7a23232fb2105eee8684",
+  "artifact_id": 11758946173,
+  "artifact_zip_sha256": "a2395ccac3959e1d9a5287ba6e9049e5337f37597cf184c40fb41432b7c52854",
+  "artifact_manifest_sha256": "de6d79a21cdb697fc0abb7ecfb4598a94a205ae2d6f49d082754da5af4b5148a",
+  "artifact_files_verified": 22,
+  "regular_source_blobs_verified": 2253,
+  "actual_hosted_workspace_lock_sha256": "3bb524492d4facac01d0d5cb9046859174803e7a8289622cb3e7ca6f4be7ddd0",
+  "contracts_passed": 50,
+  "core_libraries_passed": 604,
+  "safety_libraries_passed": 28,
+  "failed": 0,
+  "ignored": 0,
+  "filtered_out": 0,
+  "actual_contracts": [
+    {
+      "binary": "yaml_mechanism_parser_contracts",
+      "tests": [
+        {
+          "name": "activation_nan",
+          "outcome": "ok"
+        },
+        {
+          "name": "base_admission",
+          "outcome": "ok"
+        },
+        {
+          "name": "comments",
+          "outcome": "ok"
+        },
+        {
+          "name": "composition_nan",
+          "outcome": "ok"
+        },
+        {
+          "name": "composition_negative",
+          "outcome": "ok"
+        },
+        {
+          "name": "crlf",
+          "outcome": "ok"
+        },
+        {
+          "name": "document_markers",
+          "outcome": "ok"
+        },
+        {
+          "name": "duplicate_description",
+          "outcome": "ok"
+        },
+        {
+          "name": "flow_rate_block",
+          "outcome": "ok"
+        },
+        {
+          "name": "integer_activation",
+          "outcome": "ok"
+        },
+        {
+          "name": "integer_exponent",
+          "outcome": "ok"
+        },
+        {
+          "name": "integer_rate",
+          "outcome": "ok"
+        },
+        {
+          "name": "malformed_flow",
+          "outcome": "ok"
+        },
+        {
+          "name": "multiple_documents",
+          "outcome": "ok"
+        },
+        {
+          "name": "note_complex_keys",
+          "outcome": "ok"
+        },
+        {
+          "name": "note_infinity",
+          "outcome": "ok"
+        },
+        {
+          "name": "note_nan",
+          "outcome": "ok"
+        },
+        {
+          "name": "note_nested",
+          "outcome": "ok"
+        },
+        {
+          "name": "note_no",
+          "outcome": "ok"
+        },
+        {
+          "name": "note_numeric_keys",
+          "outcome": "ok"
+        },
+        {
+          "name": "note_off",
+          "outcome": "ok"
+        },
+        {
+          "name": "note_on",
+          "outcome": "ok"
+        },
+        {
+          "name": "note_scalar",
+          "outcome": "ok"
+        },
+        {
+          "name": "note_yes",
+          "outcome": "ok"
+        },
+        {
+          "name": "quoted_description",
+          "outcome": "ok"
+        },
+        {
+          "name": "rate_infinity",
+          "outcome": "ok"
+        },
+        {
+          "name": "rate_zero",
+          "outcome": "ok"
+        },
+        {
+          "name": "reactions_absent",
+          "outcome": "ok"
+        },
+        {
+          "name": "reactions_no",
+          "outcome": "ok"
+        },
+        {
+          "name": "reactions_none",
+          "outcome": "ok"
+        },
+        {
+          "name": "reactions_null",
+          "outcome": "ok"
+        },
+        {
+          "name": "reactions_off",
+          "outcome": "ok"
+        },
+        {
+          "name": "reactions_on",
+          "outcome": "ok"
+        },
+        {
+          "name": "reactions_sequence",
+          "outcome": "ok"
+        },
+        {
+          "name": "reactions_yes",
+          "outcome": "ok"
+        },
+        {
+          "name": "scientific_rate",
+          "outcome": "ok"
+        },
+        {
+          "name": "single_quoted_description",
+          "outcome": "ok"
+        },
+        {
+          "name": "species_absent",
+          "outcome": "ok"
+        },
+        {
+          "name": "species_boolean",
+          "outcome": "ok"
+        },
+        {
+          "name": "species_equation_of_state",
+          "outcome": "ok"
+        },
+        {
+          "name": "species_explicit",
+          "outcome": "ok"
+        },
+        {
+          "name": "species_mapping",
+          "outcome": "ok"
+        },
+        {
+          "name": "species_mixed",
+          "outcome": "ok"
+        },
+        {
+          "name": "species_null",
+          "outcome": "ok"
+        },
+        {
+          "name": "species_transport",
+          "outcome": "ok"
+        },
+        {
+          "name": "unknown_section",
+          "outcome": "ok"
+        },
+        {
+          "name": "unknown_species_field",
+          "outcome": "ok"
+        },
+        {
+          "name": "unsupported_phase",
+          "outcome": "ok"
+        },
+        {
+          "name": "zero_activation_unit",
+          "outcome": "ok"
+        },
+        {
+          "name": "zero_alias",
+          "outcome": "ok"
+        }
+      ],
+      "passed": 50,
+      "failed": 0,
+      "ignored": 0,
+      "filtered_out": 0
+    }
+  ],
+  "scope": "Original parser hosted baseline only. Exact collector/freezes, all manifested artifact hashes, source blob inventory, test identities/summaries/exits and fresh captured workspace lock reviewed. Tracked submodule contents not separately blob-compared; ignored caches uninventoried. Not replacement own CI/fleet, CLI, WASM, migration or integration acceptance."
+}

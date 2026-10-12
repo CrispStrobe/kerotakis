@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "head": "1acdda4696e565be5dee13f0598eb2aa8081304e",
+  "tree": "50272a3c3c3724c9c302efd1b08abb54bf128a42",
+  "tracked_source_blobs_independently_reverified": 2254,
+  "tracked_module_blobs_independently_reverified": {
+    "sundials-kinetics-rs": 552,
+    "vendor-iphreeqc": 716
+  },
+  "actual_workspace_lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+  "metadata_sha256": "26a26dd81390dc9f26859e31fba36a19ac455902669233ff7d2e14d3335240f8",
+  "actual_workspace_metadata_packages": 336,
+  "actual_workspace_resolve_nodes": 336,
+  "actual_workspace_lock_packages": 341,
+  "metadata_name_version_graph_is_subset_of_actual_lock": true,
+  "lock_packages_outside_default_metadata_graph": [
+    {
+      "name": "inchi",
+      "version": "0.1.4"
+    },
+    {
+      "name": "inchi-sys",
+      "version": "0.1.4"
+    },
+    {
+      "name": "libmimalloc-sys",
+      "version": "0.1.49"
+    },
+    {
+      "name": "mimalloc",
+      "version": "0.1.52"
+    },
+    {
+      "name": "talc",
+      "version": "4.4.3"
+    }
+  ],
+  "actual_parser_packages": {
+    "yaml_serde": "0.10.7",
+    "libyaml-rs": "0.3.0"
+  },
+  "archived_unsafe_libyaml_absent_from_full_workspace_lock_and_metadata": true,
+  "deny_policy_path": "deny.toml",
+  "deny_policy_sha256": "1f83fae0b3a1f548103b11a006a98a1b93ba7d3163c111e27d6441921bf0b5c7",
+  "deny_policy_unchanged_from_main": true,
+  "cargo_deny_version": "cargo-deny 0.20.2",
+  "policy_checks": [
+    "advisories",
+    "bans",
+    "licenses",
+    "sources"
+  ],
+  "actual_policy_exit": 0,
+  "actual_all_four_policy_checks_accepted": true,
+  "policy_log_sha256": "311b215941d924653cc83c3756aa8292500f98a3d8d4f1244b9d24e682f4a44d",
+  "policy_command_sha256": "69b95d5a2c594ce2fc128bec837e721911c4454d8e5ea05c2b6bf27f5ddc4e19",
+  "post_source_review_sha256": "b88f9c8c2566bb8969ce4c251abfef129572ab0b6cfee7bad39f44568895a0d6",
+  "source_inventory_sha256": "1f04752be5246d9be3ca9c9df723247503ddf6cd27d0c41df294de3ea9dd3932",
+  "configured_graph_targets": [
+    "x86_64-unknown-linux-gnu",
+    "aarch64-apple-darwin"
+  ],
+  "configured_excluded_packages": [
+    "sundials-sys",
+    "sundials",
+    "chem_core",
+    "symengine-sys",
+    "symengine",
+    "kerotakis-sundials"
+  ],
+  "configured_advisory_ignores": [
+    "RUSTSEC-2024-0436"
+  ],
+  "rustsec_database_at_independent_review": {
+    "head": "25a288f68f2d5ebe658b243a334110c7217a2569",
+    "clean": true,
+    "origin": "https://github.com/RustSec/advisory-db",
+    "qualification": "Observed after policy execution; no execution-time database head captured, so this is not a claim of exact database revision used by the command."
+  },
+  "first_attempt": {
+    "exit": 2,
+    "cli_option_placement_error": true,
+    "policy_evaluated": false,
+    "log_sha256": "a6a7516aaffd886634e8f9b7be78aab86365d9933fb0f78e2cf067f0841db66f"
+  },
+  "limits": [
+    "Policy acceptance is the unchanged configuration at two declared native graph targets with configured prototype package exclusions and existing advisory ignore; not blanket all-features/all-targets coverage.",
+    "Full workspace lock and default-feature metadata plus policy evaluation accepted, without compiling or certifying all workspace packages. Actual lock has 341 packages; default metadata resolves 336, leaving five optional dependency entries outside that metadata graph.",
+    "Existing ignored native caches and build artifacts not independently checksum verified; tracked source and module blobs independently reverified after execution.",
+    "Duplicate and unmatched-license warnings remain permitted by unchanged policy; no new exemptions were introduced.",
+    "Maintained libyaml-rs backend is not certified memory-safe. Public dependency error payload type changes remain separately scoped.",
+    "No library, curated-pack, hosted CI/fleet, native execution, CLI/WASM or integration acceptance is inferred."
+  ],
+  "integration_accepted": false,
+  "full_ci_accepted": false,
+  "fleet_accepted": false
+}
