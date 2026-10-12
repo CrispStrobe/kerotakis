@@ -197,8 +197,15 @@ bridge controls including desktop/browser agreement and five live R1 scenarios.
 Ordinary hosted locks, WASM binaries and execution-time advisory database
 revision remain uncaptured; no captured fleet lock is substituted. These are
 bounded engineering/runtime controls, not general empirical chemistry accuracy.
-Linux native, core WASM compilation, demo browser, standalone IPhreeqc WASM,
-complete CI/fleet and integration remain pending. The first leaf
+[Own repaired-source Linux native](native-linux-review-51e99750.json) now
+independently derives the same full workspace **3,358 passes/four ignored**, all
+thirteen libraries (935 passes), original focused 454/38 plus repair 13, and all
+fifteen pack outcomes. [Independent Linux review](native-linux-independent-review-51e99750.json)
+verifies the combined 467-function/39-fixture inventory and actual outputs at
+this platform's own checkout and logs. No macOS outcome or fleet lock is borrowed.
+Both native jobs pass formatting and all-target workspace Clippy with warnings
+denied. Core WASM compilation, demo browser, standalone IPhreeqc WASM, complete
+CI/fleet and integration remain pending. The first leaf
 build setup failed before any test executed; its separately recorded continuation
 passes all 63 controls. Rebase deliberately after the dependency change
 integrates, then validate and bind any resulting new source. Preserve all first

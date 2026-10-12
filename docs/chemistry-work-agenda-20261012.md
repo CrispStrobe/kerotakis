@@ -110,13 +110,19 @@ WASM bench 32 controls plus 8,105 protocol checks/113 lessons, and bridge 10
 controls. Ordinary hosted locks, WASM binaries and execution-time advisory
 revision remain uncaptured; no release-fleet lock is borrowed.
 
-Next review the repair's own Linux native, core WASM compile, demo browser and
-standalone IPhreeqc WASM jobs when complete. Bind exact head/base/merge/tree,
-actual logs, source fixture hashes and individual outcomes; retain uncaptured
-artifact qualifications. Linux must independently verify the repair 13,
-focused 467/39 inventory, workspace 3,358/four ignored, libraries 935 and pack 15.
-Aggregate the complete own CI inventory and required 33-job fleet before
-integration. Do not substitute parent-source or macOS outcomes for Linux. Rebase deliberately after the dependency prerequisite
+[Own Linux native review](../audits/yaml-parser-migration-20261012/native-linux-independent-review-51e99750.json)
+now also accepts actual focused 467/39, workspace 3,358/four ignored, all 13
+libraries 935 and pack 15 outcomes at exact repair source. All native job steps,
+including formatting and workspace Clippy with warnings denied, pass; ordinary
+native lock remains uncaptured. These Linux outcomes are derived independently
+from Linux logs and are not borrowed from macOS.
+
+Next review core WASM compilation, demo browser and standalone IPhreeqc WASM
+when complete. Bind exact head/base/merge/tree, actual logs, source fixture hashes
+and actual controls; retain uncaptured artifact qualifications. Aggregate the
+complete own CI inventory and required 33-job fleet before integration. Then
+resolve the dependency prerequisite's integration and any new repaired-source
+association deliberately; never transfer results across an unchecked new head. Rebase deliberately after the dependency prerequisite
 integrates, then repeat source-specific gates for any new source association.
 
 

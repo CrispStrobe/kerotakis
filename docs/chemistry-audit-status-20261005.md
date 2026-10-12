@@ -1,7 +1,23 @@
 # Chemistry audit: current state, 2026-10-05
 
 
-## Current checkpoint — 2026-10-12: repair preflight and two WASM runtime gates accepted
+## Current checkpoint — 2026-10-12: both repair-native jobs accepted
+
+PR784's [own Linux results](../audits/yaml-parser-migration-20261012/native-linux-review-51e99750.json)
+and [independent review](../audits/yaml-parser-migration-20261012/native-linux-independent-review-51e99750.json)
+now verify **3,358 workspace passes/four ignored**, focused 467/39, all thirteen
+library binaries (935 passes) and all fifteen gas-pack controls, at exact repair
+head `51e99750`. Every Linux outcome is derived from its own actual log; no
+macOS result or captured fleet lock is substituted. Both platforms pass formatting
+and all-target workspace Clippy with warnings denied. Ordinary native locks remain
+uncaptured.
+
+Full preflight and the bench/bridge runtime checks are accepted separately.
+Core WASM compilation, demo browser, standalone IPhreeqc, complete CI/fleet and
+integration remain pending. Preserve the annotation supplement's two historical
+failures and all original freezes. Follow [the next-step lanes](chemistry-work-agenda-20261012.md).
+
+## Earlier checkpoint — 2026-10-12: repair preflight and two WASM runtime gates accepted
 
 PR784's [new completed-gate review](../audits/yaml-parser-migration-20261012/own-completed-gates-review-51e99750.json)
 accepts full preflight, WASM bench and browser-engine bridge at exact repair
