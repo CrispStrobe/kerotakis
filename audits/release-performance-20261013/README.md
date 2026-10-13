@@ -167,3 +167,19 @@ invocations, artifacts and equal environments still need review; it does not
 run the candidate or accept performance. Freeze a new comparison version binding
 the rebuilt bytes before candidate execution, preserving version1/version2 and
 all original control inputs, streams and failed forecasts.
+
+The first standalone controlled-build dispatch was rejected with HTTP 404 because
+the new workflow is absent from the default branch; no build or CLI began.
+[Version2 routing freeze](controlled-build-freeze-v2.json) preserves the original
+collector and workflow bytes, adds a reusable workflow, and selects
+`release-performance-controlled-builds` through the registered chemistry audit
+workflow. The ordinary fleet builder is excluded for this selection. The
+collector's original workflow hash identifies its preserved specification; a
+separate routing witness records the actual caller/reusable workflow hashes.
+This routing correction does not change source, dependency lock or build policy.
+
+[Independent routing review](controlled-build-routing-independent-review.json)
+found and resolved eight generic fleet predicates that initially admitted the
+new selection, including three `always()` aggregate jobs. Every job predicate
+now evaluates to excluded except the dedicated controlled build. This was
+corrected before dispatch; no unintended fleet jobs executed.

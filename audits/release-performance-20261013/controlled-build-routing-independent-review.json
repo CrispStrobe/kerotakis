@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-13T12:17:04.637416+00:00",
+  "review_kind": "independent_bounded_static_reusable_routing_review",
+  "all_checks_pass": true,
+  "ready_for_frozen_build_only_dispatch": true,
+  "files_sha256": {
+    ".github/workflows/release-performance-paired-build.yml": "7c4856e7e1c57b52f8eaa144532618676a6d861f7ad1242210521203ed62b288",
+    "audits/release-performance-20261013/controlled-build.py": "616bd6943346b47b70d36cde3b3476f396fb49a5bdd9b00a96084e9015c2720e",
+    ".github/workflows/release-performance-paired-build-v2.yml": "409014fb19588230f2dee95c8af0938088b6fdbed1179f8bf288d4f831dfca0d",
+    ".github/workflows/chemistry-audit.yml": "31ba6c9dcb4440e2a766fae1f4569221ec912922a872dee6f76495e65155431b"
+  },
+  "freeze_v2_sha256": "cca79075c97283109e084f92fd7a9dafbd51372e52a77e927c8ddd301df15510",
+  "previous_freeze_sha256": "4599eca6d13a44012a419408cf5e542aaaed1a44495e3e13ad0d31f007da5009",
+  "all_job_predicates_for_controlled_build_selection": {
+    "build-cli": false,
+    "sixth-fleet": false,
+    "seventh-fleet": false,
+    "source-fleets": false,
+    "source-fleet-aggregate": false,
+    "source-fleets-v2": false,
+    "source-fleet-v2-aggregate": false,
+    "source-fleets-v3": false,
+    "source-fleet-v3-aggregate": false,
+    "independent-50": false,
+    "independent-next-50": false,
+    "independent-fourth-50": false,
+    "thermal-contracts": false,
+    "independent-third-50": false,
+    "native-scale-contracts": false,
+    "pure-still-contracts": false,
+    "pure-still-performance": false,
+    "representative-performance": false,
+    "registry-applicability-baseline": false,
+    "registry-applicability-candidate": false,
+    "remaining-final-rules-baseline": false,
+    "yaml-parser-baseline": false,
+    "release-performance": false,
+    "release-performance-controlled-builds": true
+  },
+  "checks": [
+    "All V2 frozen source hashes and previous frozen manifest match",
+    "Only controlled build predicate admits workflow_dispatch/new selection; all eight old fleet/aggregate predicates exclude it",
+    "Dedicated caller invokes local reusable callee with read-only permissions",
+    "Callee shares original source checkout/collector/build/upload steps and adds workflow_call plus always routing witness",
+    "Original immutable collector/spec SHA preserved; actual caller/callee SHA explicitly captured separately"
+  ],
+  "preserved_first_blocker": "Initial routing admitted eight old fleet predicates including three always aggregate jobs; no dispatch occurred; all eight exclusions corrected before final acceptance.",
+  "limitations": [
+    "Static only: no dispatch/build/CLI/download or hosted output accepted",
+    "Caller must be dispatched at the exact frozen audit revision; actual API/run/job/artifact/witness association remains review prerequisite",
+    "Original collector identity workflow hash represents preserved specification; actual reusable routing identity uses routing-witness.json",
+    "Compiler-effective invocation review and rebuilt source/binary policy freeze required before candidate execution/performance"
+  ],
+  "resources_before": {
+    "load1": 2.79150390625,
+    "available_memory_mib": 3417
+  },
+  "resources_after": {
+    "load1": 2.79150390625,
+    "available_memory_mib": 3416,
+    "nas_free_mib": 1566551
+  }
+}

@@ -1,0 +1,66 @@
+name: Controlled release performance builds
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: release-performance-paired-build
+  cancel-in-progress: false
+
+jobs:
+  build-pair:
+    name: Two pinned sources under one observed toolchain
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          path: audit
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: 2bf9c771975f24b9e5b933728ef440cbca9a8ec6
+          path: baseline
+          submodules: recursive
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: d06ffe3a1740728656878c4aea0e9507ca83c808
+          path: candidate
+          submodules: recursive
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Build both sources and capture compiler and flag witnesses
+        run: python3 audit/audits/release-performance-20261013/controlled-build.py
+      - name: Record actual caller and reusable workflow definitions
+        if: always()
+        run: |
+          mkdir -p paired-build-evidence
+          python3 - <<'PY_ROUTING'
+          import hashlib, json, os
+          from pathlib import Path
+          paths = ['.github/workflows/chemistry-audit.yml',
+                   '.github/workflows/release-performance-paired-build-v2.yml']
+          record = dict(audit_head=os.environ['GITHUB_SHA'],
+                        run=os.environ['GITHUB_RUN_ID'],
+                        attempt=os.environ['GITHUB_RUN_ATTEMPT'],
+                        original_collector_workflow_hash_is_preserved_specification=True,
+                        actual_routing_sha256={p: hashlib.sha256((Path('audit') / p).read_bytes()).hexdigest()
+                                               for p in paths})
+          Path('paired-build-evidence/routing-witness.json').write_text(json.dumps(record, indent=2) + '\n')
+          PY_ROUTING
+      - name: Preserve builds, logs and partial failures
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: controlled-release-builds-${{ github.run_id }}-${{ github.run_attempt }}
+          path: paired-build-evidence
+          if-no-files-found: error
+          retention-days: 14
