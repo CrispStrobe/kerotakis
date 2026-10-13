@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "failed_run": 38440523017,
+  "failed_audit_head": "93b4d3c1fdb24530dd4f76740d5e908ecb6a7637",
+  "failed_job": 115445602691,
+  "failed_artifact": 11836393153,
+  "failed_artifact_zip_sha256": "4dab29723069543b9c0aa3f0e1a6ba88729be2db4aad426113e68c72722a9afb",
+  "failure_type": "reviewer_schema_assumption",
+  "error": "KeyError: Cargo.lock in untracked-source snapshot",
+  "candidate_application_failure_demonstrated": false,
+  "source_contract": "tools/chemistry-audit/run.py captures only untracked source files in new-source-files.json; a clean checkout has an empty object and tracks Cargo.lock separately.",
+  "correction": "Require an empty untracked snapshot and compare tracked Cargo.lock bytes with actual pinned Git source and accepted release lock digest. Preserve summary lock and empty patch/diff checks.",
+  "new_review_run": 38444619222,
+  "new_review_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38444619222",
+  "new_audit_branch": "audit/hosted-remaining-fleet-review-v2-20261013",
+  "new_audit_head": "d3323f96903149fcd63234e8d31a6f97da2a7601",
+  "new_reader_sha256": "32848ebad876309a04c2eeab4de3eb1e508db3f31ade64248321df55eb4e8886",
+  "status_at_capture": "queued",
+  "new_remaining_saved_cases_accepted": false,
+  "repeated_work": "Fresh hosted saved-output review, including failed-run prefix; no CLI, native build or timing rerun. Prior acid/base acceptance retained without reanalysis.",
+  "static_contract_checks": 4,
+  "independent_launcher_source_review_complete": false,
+  "raw_metadata_sha256": {
+    "run.json": "9a9797467c45a0f203cfa3d2e831d9ece695e665cb34e8c9646fc4b436e82a2e",
+    "job.json": "ba29e5a2b070bc9944235b6d79b907f92f5ab9dd8c98484da074a6e2e500126a",
+    "artifacts.json": "b8fcf7acf00054a1f692f963a9db718d566f01cc9e0b5a9628a083d805ebc60f",
+    "failed.log": "a0f28174da8c2c1d7dde7bf8fdcb3e8b7f3bce6f8a53df74c3a7e76f3b46f60a"
+  }
+}

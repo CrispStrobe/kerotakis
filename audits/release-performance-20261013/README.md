@@ -63,13 +63,24 @@ A resume revision is prepared to verify and retain prior accepted-family bytes
 and reuse partial saved archives without redownloading. It changes orchestration
 only. Static review accepted its approach; explicit parent-reviewer and artifact
 snapshot checks were added in a new revision, which still needs review before
-execution. [A hosted saved-output review](hosted-remaining-fleet-review-dispatch.json)
-is now dispatched at isolated audit revision `93b4d3c1`, using its own actual
-resource gates. It binds the earlier acid/base acceptance without downloading
-or reanalyzing that family and obtains its own copies of the remaining artifacts.
-No CLI or build runs. Current local load gates are closed. Preserve all original forecasts, freezes, interrupted
-runs and partial records. PR785 remains draft. Historical checkpoints below
-retain their capture-time states.
+execution. [The first hosted review failed](hosted-remaining-fleet-review-first-failure.json)
+because its reader incorrectly required the tracked `Cargo.lock` in a snapshot
+of untracked files. The actual runner records an empty snapshot for a clean
+checkout. This is a reviewer defect; it does not demonstrate a chemistry failure.
+The original failed run and uploaded partial evidence are preserved.
+
+[Corrected review run38444619222](https://github.com/CrispStrobe/kerotakis/actions/runs/38444619222)
+is queued at isolated revision `d3323f96`. It requires an empty untracked snapshot
+and verifies the tracked lock against pinned source and the accepted release
+hash. Four focused contract checks pass. Precheckout resource values are now
+printed before assertion. The corrected worker repeats saved-output review of
+the failed prefix; no CLI, build or benchmark runs. Acid/base acceptance remains
+carried without reanalysis. Do not accept additional cases from a queued job.
+Inspect its exact-source result and actual receipts, then close v1/v3 aggregate
+outputs. The earlier local resume also contains the same lock assumption and
+needs a new revision before use. Preserve original forecasts, freezes, failures
+and partial records. PR785 remains draft. Historical checkpoints below retain
+their capture-time states.
 
 The user authorized six lanes in order: performance, fifty fresh CLI experiments,
 annotation contracts, historical regression coverage, broader safety, then deeper

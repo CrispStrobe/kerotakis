@@ -125,3 +125,23 @@ and accept the newly reviewed families before closing the two remaining
 aggregates. Do not duplicate the dispatch or merge its inspection branch.
 Local cached distillation bytes and all earlier results remain protected; the
 hosted worker fetches its own artifact copy to perform this review.
+
+The [first hosted remaining-case review failed](hosted-remaining-fleet-review-first-failure.json)
+at a reader schema assumption: `new-source-files.json` contains untracked files,
+so its clean-checkout object omits the tracked `Cargo.lock`. Preserve failed
+run38440523017 and its uploaded partial evidence. This demonstrates a reviewer
+bug, not a new application defect; its partial successes have not extended the
+accepted 312-case/400-check total.
+
+[Corrected run38444619222](https://github.com/CrispStrobe/kerotakis/actions/runs/38444619222)
+is queued at `d3323f96`. The [corrected reader](https://github.com/CrispStrobe/kerotakis/blob/d3323f96903149fcd63234e8d31a6f97da2a7601/audits/release-performance-20261013/review-remaining-fleets.py)
+requires an empty untracked snapshot and verifies the tracked lock against both
+actual pinned Git bytes and the accepted own release digest. It retains summary
+lock and clean patch/diff checks. The precheckout gate now logs its actual values.
+Four focused checks cover clean tracked lock, wrong lock and unexpected snapshots.
+The unchanged forecasts and evaluators review saved outputs only; the failed
+prefix may be recomputed, with no CLI/build/timing rerun. Do not redispatch while
+this job is active. After success, review its exact-source summary and raw receipt
+before extending acceptance, then reconcile the actual 240/120-case aggregate
+logs and artifact download identities. Keep the isolated review branch unmerged.
+The older local resume requires the same lock correction before execution.
