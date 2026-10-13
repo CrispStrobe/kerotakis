@@ -3,7 +3,7 @@
   "files_sha256": {
     ".github/workflows/chemistry-audit.yml": "96a056b516e8210b6a414c396c01f21dd222815fe0b50202e6e407ad10f595b9",
     ".github/workflows/hosted-remaining-fleet-review.yml": "38286bd2ca1c37ba8bf57b69d404857b1d86d07e87668653a5a3f32bc436eb44",
-    "audits/release-performance-20261013/review-hosted-fleet-evidence.py": "f901947643caeca9bdb42a9e9346872950ac4070115e33f7614f26bd722ab431",
+    "audits/release-performance-20261013/review-hosted-fleet-evidence.py": "7926aa94c7bbbfd18cce4281cf0e83d6d074b007b834d0a747714fd379eea647",
     "audits/release-performance-20261013/review-remaining-aggregates.py": "d639a511d54f5ef29c1c9a0e12654584ff7f269c37524af56c26d9fca3ab29db"
   },
   "input_run": 38450225092,
@@ -16,5 +16,15 @@
     "size_in_bytes": 2773447
   },
   "independent_human_source_review_complete": false,
-  "scope": "Separate worker raw archive/member/forecast/stream/serialized report inspection plus source-owned saved aggregation. No CLI/native build/timing/family analyzer rerun. Pins completed collector artifact; earlier v2 receipts remain external prerequisites."
+  "scope": "Separate worker raw archive/member/forecast/stream/serialized report inspection plus source-owned saved aggregation. No CLI/native build/timing/family analyzer rerun. Pins completed collector artifact; earlier v2 receipts remain external prerequisites.",
+  "prior_failure": {
+    "run": 38452874018,
+    "head": "884a5bb3d9f04087bd5f62e383432534b171eed7",
+    "artifact_id": 11843860129,
+    "artifact_bytes": 3821,
+    "artifact_zip_sha256": "9bd0260007efee4bf521294173b073e5bd9169d8402e3402c228ffd3924e51d2",
+    "error": "the response contains terminal escape sequences; pass --allow-escape-sequences to output it anyway",
+    "phase": "input collector job log; no case archive fetched or inspected",
+    "correction": "Detect gh api help support and pass --allow-escape-sequences for every API output written to evidence files. Preserve raw bytes for log parsing and ZIP digest checks. Old CLI versions omit unsupported flag."
+  }
 }
