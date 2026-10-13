@@ -37,11 +37,14 @@ resource rejections. Large local work requires the private resource gate.
    [hosted remaining-case review](../audits/release-performance-20261013/hosted-remaining-fleet-review-dispatch.json)
    failed on a reviewer assumption that a tracked lock must occur in an untracked
    snapshot. [The preserved failure and correction](../audits/release-performance-20261013/hosted-remaining-fleet-review-first-failure.json)
-   bind the queued corrected run38444619222 at `d3323f96`. It verifies the actual
-   tracked lock instead, retains all original forecasts, and logs precheckout
-   resources. It repeats saved-output review only, with no CLI/build/timing run.
-   Review its exact-source result and raw receipt before accepting more cases;
-   then reconcile own v1/v3 aggregate logs and artifact download identities. PR785 remains draft; later lanes remain queued.
+   bind the original failure. A further [lock-contract correction](../audits/release-performance-20261013/hosted-remaining-fleet-review-lock-contract-correction.json)
+   proves root `Cargo.lock` is ignored and absent from Git. The queued revision
+   `d3323f96` incorrectly attempts a tracked-lock assertion. Corrected source
+   `a2f9b5fb` is pushed, not dispatched; preserve the existing run's actual outcome
+   before dispatching it. Summary lock digest and independently accepted own-release
+   bytes remain the binding. Review its actual raw receipt before accepting more
+   cases, then execute the prepared aggregate reader and reconcile own v1/v3
+   outputs, including all thirteen v1 and five v3 artifact downloads. PR785 remains draft; later lanes remain queued.
 2. **Fifty fresh CLI experiments.** Use a fresh agent that learns only syntax,
    without reading existing corpus cases or implementation details. Freeze all
    fifty original scripts and expectations before execution. Preserve first

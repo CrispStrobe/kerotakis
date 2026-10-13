@@ -69,18 +69,21 @@ of untracked files. The actual runner records an empty snapshot for a clean
 checkout. This is a reviewer defect; it does not demonstrate a chemistry failure.
 The original failed run and uploaded partial evidence are preserved.
 
-[Corrected review run38444619222](https://github.com/CrispStrobe/kerotakis/actions/runs/38444619222)
-is queued at isolated revision `d3323f96`. It requires an empty untracked snapshot
-and verifies the tracked lock against pinned source and the accepted release
-hash. Four focused contract checks pass. Precheckout resource values are now
-printed before assertion. The corrected worker repeats saved-output review of
-the failed prefix; no CLI, build or benchmark runs. Acid/base acceptance remains
-carried without reanalysis. Do not accept additional cases from a queued job.
-Inspect its exact-source result and actual receipts, then close v1/v3 aggregate
-outputs. The earlier local resume also contains the same lock assumption and
-needs a new revision before use. Preserve original forecasts, freezes, failures
-and partial records. PR785 remains draft. Historical checkpoints below retain
-their capture-time states.
+[Run38444619222](https://github.com/CrispStrobe/kerotakis/actions/runs/38444619222)
+remains queued at `d3323f96`, but its tracked-lock correction is invalid.
+[Actual candidate Git inspection](hosted-remaining-fleet-review-lock-contract-correction.json)
+shows root `Cargo.lock` is ignored and absent from the Git tree. It is therefore
+excluded from the untracked snapshot too. The earlier description of a tracked
+lock was wrong.
+
+[Corrected source `a2f9b5fb`](https://github.com/CrispStrobe/kerotakis/blob/a2f9b5fb7a85c3d56eb2ee260708ee615cb17e96/audits/release-performance-20261013/review-remaining-fleets.py)
+is pushed and not dispatched. It retains the frozen summary lock digest,
+accepted own-release byte binding, empty patch/diff and empty untracked snapshot;
+it makes no Git lock-blob claim. Preserve the queued run's actual outcome before
+dispatching this source. The older local reader needs the same schema correction.
+No additional cases are accepted. PR785 remains draft. Historical checkpoints
+below retain their capture-time states; the explicit lock correction supersedes
+earlier tracked-lock descriptions.
 
 The user authorized six lanes in order: performance, fifty fresh CLI experiments,
 annotation contracts, historical regression coverage, broader safety, then deeper
@@ -361,3 +364,10 @@ no ELF or builds. This moves data inspection to a hosted worker while local
 resources are busy; semantic compiler/source/routing acceptance remains pending.
 Original workflow bytes and frozen experimental inputs stay unchanged on the
 audit branch.
+
+[The portable remaining-aggregate reviewer](review-remaining-aggregates.py) is prepared;
+its [metadata-only checks](remaining-aggregate-review-preparation.json) account
+for all thirteen v1 and five v3 downloads. Actual saved-report recalculation
+requires separate acceptance of the queued corrected family review and open
+resource gates. Invocation and required artifact structure are documented in
+[the results handoff](PAIRED-RESULTS-V3.md). No additional cases are accepted.

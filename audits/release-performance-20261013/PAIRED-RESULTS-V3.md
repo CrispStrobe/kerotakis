@@ -145,3 +145,52 @@ this job is active. After success, review its exact-source summary and raw recei
 before extending acceptance, then reconcile the actual 240/120-case aggregate
 logs and artifact download identities. Keep the isolated review branch unmerged.
 The older local resume requires the same lock correction before execution.
+
+The final [aggregate reviewer](review-remaining-aggregates.py) is prepared,
+with [metadata-only download bindings](remaining-aggregate-review-preparation.json).
+The actual 240-case job downloaded thirteen artifacts: ten source families,
+two frozen batches and its own CLI. All thirteen IDs, sizes and digests match
+own-run APIs and actual download logs. The 120-case job's five downloads match
+likewise. This does not accept saved-report aggregate recalculation yet.
+
+After separately accepting the corrected hosted family's completed raw receipt,
+freeze that receipt's digest and run the reviewer under fresh resource gates:
+
+```sh
+python3 -B audits/release-performance-20261013/review-remaining-aggregates.py \
+  --source candidate-source --families remaining-fleet-evidence \
+  --acid-report accepted-acid/acid-base-buffers-law-checks.json \
+  --saved-jobs own-fleet-job-evidence --audit audit-source \
+  --out aggregate-review \
+  --accepted-receipt-sha256 "$ACCEPTED_FAMILY_RECEIPT_SHA256"
+```
+
+These are artifact-relative destinations; physical operating locations belong
+in the private handoff. The families directory must contain the accepted
+`review.json`, extracted original law reports and recomputed family reports;
+the acid report remains the separately accepted original. The saved-jobs
+collection must contain own `run.json`, `artifacts.json` and the two job-ID
+subdirectories with `job.json` and `job.log`. The source checkout must be clean
+at `d06ffe3a`; the audit checkout supplies the pinned public acid/base and own
+release receipts. Choose a new output directory for every attempt.
+
+The reviewer verifies original report hashes and accepted recomputed equality,
+copies only accepted reports into isolated aggregate inputs, invokes the exact
+source-owned aggregators, and compares their output with actual hosted JSON.
+It binds v1's otherwise unversioned aggregate using its checkout and all thirteen
+downloads, and checks v3's embedded commit/binary as well. It journals resource
+snapshots before assertions and preserves first failures. Preparation passed AST
+and help checks; independent source review and actual aggregate execution remain
+pending. It performs no family analyzer, app, build or timing rerun.
+
+The [second lock-contract correction](hosted-remaining-fleet-review-lock-contract-correction.json)
+supersedes the tracked-lock description above. Root `Cargo.lock` is ignored and
+absent from the candidate Git tree; `--exclude-standard` omits it from the
+untracked snapshot as well. Revision `d3323f96` therefore contains an invalid
+Git-blob assertion and remains queued, without accepted outcomes.
+Corrected revision `a2f9b5fb` is pushed but not dispatched. It retains the frozen
+summary's lock digest and independently accepted own-release byte binding,
+with no Git lock-blob or frozen-archive lock-byte claim. Wait for the existing
+run's actual completion before dispatching the corrected source. Apply this
+same contract to any local resume. The prepared aggregate reader now likewise
+uses the accepted release binding; its actual execution remains pending.

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "candidate": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+  "superseded_correction_head": "d3323f96903149fcd63234e8d31a6f97da2a7601",
+  "superseded_run": 38444619222,
+  "superseded_run_status_at_capture": "queued",
+  "error": "The previous correction incorrectly described root Cargo.lock as tracked and attempted git show HEAD:Cargo.lock. It is absent from the candidate Git tree and explicitly ignored.",
+  "source_proof": {
+    "git_tree_has_root_lock": false,
+    "gitignore_root_lock_line": 3,
+    "runner_snapshot_command": "git ls-files --others --exclude-standard",
+    "ignored_lock_in_untracked_snapshot": false
+  },
+  "corrected_audit_head": "a2f9b5fb7a85c3d56eb2ee260708ee615cb17e96",
+  "corrected_branch": "audit/hosted-remaining-fleet-review-v3-20261013",
+  "corrected_reader_sha256": "5be8f7f408021080176f5a9023276207723341c1eda22832cf30be7ccba2eaa8",
+  "corrected_run_dispatched": false,
+  "binding": "Frozen summary lock digest5135e2cc remains required. Independent own-release receipt8ec12471 supplies actual lock-byte digest/binary/source association. Empty patch/diff/untracked snapshots remain required. No Git lock blob or archive lock-byte claim.",
+  "existing_run_policy": "Preserve actual outcome; no duplicate dispatch while queued or running. Dispatch corrected source only after completion.",
+  "remaining_saved_cases_accepted": false,
+  "independent_launcher_source_review_complete": false,
+  "cli_build_timing_rerun": false
+}

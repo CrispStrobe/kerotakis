@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "reviewer_path": "audits/release-performance-20261013/review-remaining-aggregates.py",
+  "reviewer_sha256": "d639a511d54f5ef29c1c9a0e12654584ff7f269c37524af56c26d9fca3ab29db",
+  "reviewer_execution_complete": false,
+  "static_ast_and_help_checks_pass": true,
+  "independent_source_review_complete": false,
+  "metadata_download_bindings": [
+    {
+      "job": 115346519078,
+      "downloads_verified": 13,
+      "aggregate": {
+        "families": 10,
+        "cases": 240,
+        "checks": 338,
+        "unmet_families": []
+      },
+      "job_log_sha256": "ecaa11bf9d6cd70174ca0734073ac43aa450395095ba5a7f1292d382c6e477d0",
+      "scope": "Metadata/download binding only; saved-report recalculation remains pending."
+    },
+    {
+      "job": 115351275849,
+      "downloads_verified": 5,
+      "aggregate": {
+        "schema": "kerotakis-source-aggregate-v3",
+        "families": 5,
+        "cases": 120,
+        "relations": 30,
+        "checks": 150,
+        "commit": "4df5deab77506d372a8df45f5d517e2f070d7f5a",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "unmet_families": []
+      },
+      "job_log_sha256": "42a2a952998f6896fe335b3cbb887f727cf08d44d185cdd4c699935bd9e79329",
+      "scope": "Metadata/download binding only; saved-report recalculation remains pending."
+    }
+  ],
+  "aggregate_saved_report_recalculation_accepted": false,
+  "prerequisites": [
+    "Separately accept the completed remaining-family raw receipt at corrected reviewer revision a2f9b5fb (not the queued, invalid tracked-lock revision d3323f96).",
+    "Provide protected original acid/base law report, actual candidate d06ffe3a checkout and own saved aggregate API/log files.",
+    "Fresh load1<=3.5, MemAvailable>=3200MiB and evidence filesystem free>=8192MiB."
+  ],
+  "scope": "Prepared portable source-owned aggregate recalculation against accepted saved reports, with own exact13/5 artifact-download and actual checkout/log/API bindings. No archive download, CLI, family analyzer, native build or new case acceptance.",
+  "root_lock_contract": "Root Cargo.lock is ignored and absent from candidate Git tree. Accepted own-release digest/bytes bind the lock; no tracked Git lock assertion."
+}
