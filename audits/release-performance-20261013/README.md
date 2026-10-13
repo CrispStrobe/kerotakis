@@ -41,7 +41,14 @@ status; it is not evidence that the aggregate exposure API omitted the reducer.
 [Startup attribution](attribution-startup.json) identifies eager construction of
 the optional explanation engine as about30% of startup instruction work. A narrow
 candidate is lazy initialization on first `explain`, retaining an independent
-engine and one-time unavailable state. No implementation or speedup is accepted.
+engine and one-time unavailable state. [Draft PR785](https://github.com/CrispStrobe/kerotakis/pull/785) prepares this one
+optimization on actual main. [Candidate plan](candidate-plan.json) pins its source,
+own CI runs, seven prospective correctness controls and paired acceptance policy.
+Two new native controls cover invalid-target noninitialization and cached
+unavailability with preserved primary PHREEQC computation. Formatting and source
+review pass; own tests and paired numbers are pending. It remains unmerged.
+Optional-engine failure diagnostics intentionally move to first valid explanation.
+No candidate speedup is accepted.
 The instrumented titration exceeded its60-second diagnostic budget; preserve that
 incomplete profile separately from its successful ordinary release benchmark.
 [Manifest](manifest.json), [inputs](scripts/), [profiler](profile.py) and

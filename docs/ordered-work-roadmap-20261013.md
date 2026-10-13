@@ -11,7 +11,10 @@ resource rejections. Large local work requires the private resource gate.
    is dispatched. Review admission pilots, exact canonical outputs, wall/CPU/RSS
    and variance. Attribute costs, select one measured hot path, and verify one
    narrow optimization with paired release measurements and unchanged outputs.
-   No baseline result or speedup is accepted yet.
+   Four admitted baselines and startup attribution are accepted with recorded
+   limits; the safety pilot remains unadmitted. Draft PR785 prepares deferred
+   explanation-engine initialization. Own CI, seven correctness controls and
+   paired measurements are pending; no speedup or merge is accepted.
 2. **Fifty fresh CLI experiments.** Use a fresh agent that learns only syntax,
    without reading existing corpus cases or implementation details. Freeze all
    fifty original scripts and expectations before execution. Preserve first

@@ -1,0 +1,8 @@
+add v1 water 100mL
+add v1 NaCl 0.001mol
+inspect v1
+explain v1
+explain v1
+inspect v1
+add v1 HCl 0.0001mol
+inspect v1
