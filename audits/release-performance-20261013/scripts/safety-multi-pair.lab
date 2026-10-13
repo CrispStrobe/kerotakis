@@ -1,0 +1,5 @@
+seal v1 1L
+add v1 KMnO4 0.0001mol
+add v1 H2 0.0001mol
+add v1 Na2SO3 0.0001mol
+inspect v1

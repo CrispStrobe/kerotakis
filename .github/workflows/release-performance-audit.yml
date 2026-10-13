@@ -1,0 +1,218 @@
+name: Frozen release performance audit
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: release-performance-audit
+  cancel-in-progress: false
+
+jobs:
+  baseline:
+    name: Existing release artifact performance baseline
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+      EVIDENCE: ${{ runner.temp }}/release-performance-evidence
+      SOURCE: ${{ github.workspace }}/accepted-source
+      ARTIFACT: ${{ runner.temp }}/release-performance-artifact
+      GUARD: ${{ runner.temp }}/release-performance-source-guard.py
+    steps:
+      - name: Checkout audit definitions
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          path: audit
+          persist-credentials: false
+      - name: Checkout exact accepted source
+        uses: actions/checkout@v6
+        with:
+          ref: 7337bb58ce48285c54be5885dbe07afca1adbb7e
+          path: accepted-source
+          submodules: recursive
+          persist-credentials: false
+      - name: Verify own artifact and record source guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE" "$ARTIFACT"
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib, re, subprocess, zipfile
+          evidence = pathlib.Path(os.environ['EVIDENCE'])
+          artifact = pathlib.Path(os.environ['ARTIFACT'])
+          source = pathlib.Path(os.environ['SOURCE'])
+          repository = os.environ['GITHUB_REPOSITORY']
+          if repository != 'CrispStrobe/kerotakis':
+              raise ValueError('artifact repository changed')
+          def require(ok, message):
+              if not ok:
+                  raise ValueError(message)
+          def sha(path):
+              h = hashlib.sha256()
+              with path.open('rb') as stream:
+                  for chunk in iter(lambda: stream.read(1024 * 1024), b''):
+                      h.update(chunk)
+              return h.hexdigest()
+          def api(name, endpoint):
+              raw = subprocess.check_output(['gh', 'api', 'repos/' + repository + '/' + endpoint])
+              (evidence / (name + '.json')).write_bytes(raw)
+              return json.loads(raw)
+          head = '2bf9c771975f24b9e5b933728ef440cbca9a8ec6'
+          base = '668220add3c81adf9d86ca551f4a0278ba3969f5'
+          checkout = '2d6cd03c3a6ab1913f48d0be161bb6fbb6cc8a89'
+          tree = '8613e46420a8f8d76f39732c5a50d3dcd8417811'
+          accepted = '7337bb58ce48285c54be5885dbe07afca1adbb7e'
+          run = api('artifact-run', 'actions/runs/38315281856')
+          job = api('artifact-build-job', 'actions/jobs/115030315843')
+          metadata = api('artifact-api', 'actions/artifacts/11777801862')
+          commit = api('artifact-checkout', 'git/commits/' + checkout)
+          require(run['id'] == 38315281856 and run['head_sha'] == head
+                  and run['event'] == 'pull_request' and run['run_attempt'] == 1
+                  and run['status'] == 'completed' and run['conclusion'] == 'success', 'wrong artifact run')
+          require([(p['number'], p['head']['sha'], p['base']['sha']) for p in run['pull_requests']]
+                  == [(782, head, base)], 'wrong artifact PR association')
+          require(job['run_id'] == run['id'] and job['id'] == 115030315843
+                  and job['head_sha'] == head and job['run_attempt'] == 1
+                  and job['status'] == 'completed' and job['conclusion'] == 'success', 'wrong build job')
+          require(all(s['status'] == 'completed' and s['conclusion'] in ('success', 'skipped')
+                      for s in job['steps']), 'unsuccessful build step')
+          require(metadata['workflow_run']['id'] == run['id']
+                  and metadata['workflow_run']['head_sha'] == head and not metadata['expired']
+                  and metadata['name'] == 'chemistry-audit-cli-' + checkout, 'wrong CLI artifact')
+          require(commit['sha'] == checkout and commit['tree']['sha'] == tree
+                  and [p['sha'] for p in commit['parents']] == [base, head], 'wrong artifact checkout')
+          build_log = subprocess.check_output([
+              'gh', 'api', 'repos/' + repository + '/actions/jobs/115030315843/logs'])
+          (evidence / 'artifact-build-job.log').write_bytes(build_log)
+          plain_log = re.sub(r'\x1b\[[0-9;]*m', '', build_log.decode())
+          require(re.search(r'git log -1 --format=%H\n[^\n]*Z ' + checkout + r'\n', plain_log)
+                  is not None and 'cargo build --release -p kerotakis-cli' in plain_log,
+                  'artifact build log checkout changed')
+          zipped = artifact / 'artifact.zip'
+          with zipped.open('xb') as stream:
+              subprocess.run(['gh', 'api', 'repos/' + repository + '/actions/artifacts/11777801862/zip'],
+                             stdout=stream, check=True)
+          expected_zip = 'e44101a69e91b0a4d857467f842a84f2f8d6dcf00a6080b8a11a1c5a87924d10'
+          require(sha(zipped) == expected_zip and metadata['digest'] == 'sha256:' + expected_zip, 'ZIP changed')
+          with zipfile.ZipFile(zipped) as archive:
+              names = archive.namelist()
+              require(len(names) == 4 and set(names) == {
+                  'target/release/kero', 'Cargo.lock', 'binary-sha256.txt', 'submodules.txt'}, 'wrong ZIP inventory')
+              for name in names:
+                  target = artifact / name
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  target.write_bytes(archive.read(name))
+          binary_sha = '54b83783ccc361bfdc853bddfff47e57f4b0b5993b9f57190eda5da486b9c1d1'
+          lock_sha = '5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93'
+          require(sha(artifact / 'target/release/kero') == binary_sha, 'binary changed')
+          require((artifact / 'binary-sha256.txt').read_text().split()
+                  == [binary_sha, 'target/release/kero'], 'embedded binary claim changed')
+          require(sha(artifact / 'Cargo.lock') == lock_sha, 'captured lock changed')
+          modules = (artifact / 'submodules.txt').read_text()
+          require(all(line.startswith(' ') for line in modules.splitlines()), 'unclean artifact modules')
+          for path, revision in [('sundials-kinetics-rs', '8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa'),
+                                 ('vendor/iphreeqc', '47b459c4a5e3e20b9990fa304e207eca0dcc6ff1')]:
+              require(revision + ' ' + path in modules, 'artifact module changed')
+          (artifact / 'target/release/kero').chmod(0o500)
+          (source / 'Cargo.lock').write_bytes((artifact / 'Cargo.lock').read_bytes())
+          binding = dict(accepted_main=accepted, accepted_tree=tree, artifact_source_head=head,
+                         artifact_source_base=base, artifact_tested_checkout=checkout,
+                         artifact_checkout_parents=[base, head], artifact_tree=tree,
+                         artifact_id=11777801862, artifact_run=38315281856,
+                         artifact_zip_sha256=expected_zip, binary_sha256=binary_sha,
+                         actual_artifact_lock_sha256=lock_sha, source_tree_equivalent=True,
+                         new_binary_built=False, audit_revision=os.environ['GITHUB_SHA'],
+                         hosted_run_id=os.environ['GITHUB_RUN_ID'],
+                         hosted_run_attempt=os.environ['GITHUB_RUN_ATTEMPT'],
+                         callgrind_requested=False, local_build_performed=False)
+          (evidence / 'artifact-source-binding.json').write_text(json.dumps(binding, indent=2) + '\n')
+          (evidence / 'captured-artifact-Cargo.lock').write_bytes((artifact / 'Cargo.lock').read_bytes())
+          guard = '''import hashlib,json,os,pathlib,subprocess,sys
+          source=pathlib.Path(os.environ["SOURCE"]);artifact=pathlib.Path(os.environ["ARTIFACT"])
+          evidence=pathlib.Path(os.environ["EVIDENCE"])
+          def require(ok,message):
+              if not ok:raise ValueError(message)
+          def git(*args,cwd=source):return subprocess.check_output(["git",*args],cwd=cwd)
+          def digest(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+          require(git("rev-parse","HEAD").decode().strip()=="7337bb58ce48285c54be5885dbe07afca1adbb7e","source HEAD changed")
+          require(git("rev-parse","HEAD^{tree}").decode().strip()=="8613e46420a8f8d76f39732c5a50d3dcd8417811","source tree changed")
+          def inventory(directory):
+              rows=[]
+              entries=git("ls-tree","-rz","--full-tree","HEAD",cwd=directory).split(b"\\0")
+              for entry in entries:
+                  if not entry:continue
+                  meta,name=entry.split(b"\\t",1);mode,kind,oid=meta.decode().split()
+                  if kind=="commit":continue
+                  path=directory/os.fsdecode(name)
+                  raw=os.readlink(path).encode() if mode=="120000" else path.read_bytes()
+                  actual=hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\\0"+raw).hexdigest()
+                  require(actual==oid,"source blob changed: "+os.fsdecode(name))
+                  rows.append(dict(path=os.fsdecode(name),git_blob=oid,sha256=hashlib.sha256(raw).hexdigest()))
+              return rows
+          rows=inventory(source);modules=[]
+          for line in git("submodule","status","--recursive").decode().splitlines():
+              require(line.startswith(" "),"submodule status changed")
+              revision,path,*rest=line.split();directory=source/path
+              require(git("rev-parse","HEAD",cwd=directory).decode().strip()==revision,"module HEAD changed")
+              modules.append(dict(path=path,commit=revision,tracked_blobs=inventory(directory)))
+          require(digest(source/"Cargo.lock")=="5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93","source lock changed")
+          require(digest(artifact/"target/release/kero")=="54b83783ccc361bfdc853bddfff47e57f4b0b5993b9f57190eda5da486b9c1d1","binary changed")
+          result=dict(head=git("rev-parse","HEAD").decode().strip(),tracked_blobs=rows,modules=modules,
+                      source_lock_sha256=digest(source/"Cargo.lock"),binary_sha256=digest(artifact/"target/release/kero"))
+          target=evidence/("source-"+sys.argv[1]+".json")
+          target.write_text(json.dumps(result,indent=2)+"\\n")
+          if sys.argv[1]=="after":require(result==json.loads((evidence/"source-before.json").read_text()),"before/after source association changed")
+          '''
+          pathlib.Path(os.environ['GUARD']).write_text(guard)
+          (evidence / 'source-guard.py').write_text(guard)
+          PY
+          python3 "$GUARD" before
+          git -C "$SOURCE" archive --format=tar --output="$EVIDENCE/accepted-source.tar" HEAD
+          python3 --version > "$EVIDENCE/python-version.txt" 2>&1
+          uname -a > "$EVIDENCE/host-kernel.txt"
+          lscpu > "$EVIDENCE/host-cpu.txt"
+          cp audit/audits/release-performance-20261013/profile.py "$EVIDENCE/profile.py"
+      - name: Run frozen release workloads sequentially
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib, subprocess, sys
+          evidence = pathlib.Path(os.environ['EVIDENCE'])
+          argv = [sys.executable, 'audit/audits/release-performance-20261013/profile.py',
+                  '--binary', os.environ['ARTIFACT'] + '/target/release/kero',
+                  '--source', os.environ['SOURCE'], '--out', str(evidence / 'profile'), '--hosted']
+          with (evidence / 'profiler.stdout').open('wb') as stdout, (evidence / 'profiler.stderr').open('wb') as stderr:
+              result = subprocess.run(argv, stdout=stdout, stderr=stderr)
+          record = dict(argv=argv, exit=result.returncode,
+                        stdout_sha256=hashlib.sha256((evidence / 'profiler.stdout').read_bytes()).hexdigest(),
+                        stderr_sha256=hashlib.sha256((evidence / 'profiler.stderr').read_bytes()).hexdigest())
+          (evidence / 'profiler-command.json').write_text(json.dumps(record, indent=2) + '\n')
+          print(json.dumps(record))
+          raise SystemExit(result.returncode)
+          PY
+      - name: Verify post-run source and artifact association
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if test -f "$GUARD" && test -f "$EVIDENCE/source-before.json"; then
+            python3 "$GUARD" after
+          else
+            echo "Source preparation did not complete; no successful source guard is claimed."
+            exit 1
+          fi
+      - name: Upload all raw performance evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: release-performance-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/release-performance-evidence
+          if-no-files-found: warn
+          retention-days: 14
