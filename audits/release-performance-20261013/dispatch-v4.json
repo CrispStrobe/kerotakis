@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "run": 38368899782,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38368899782",
+  "audit_head": "eea46f8c2c0c4cb0069235d3be7d4009866e42e4",
+  "event": "workflow_dispatch",
+  "status_at_capture": "queued",
+  "conclusion_at_capture": null,
+  "selection": "release-performance",
+  "freeze_sha256": "22d3651be1f443410a051b59945c1f613eed03d401e92a857a9811abf021fd4f",
+  "workflow_revision_path": "audits/release-performance-20261013/workflow-revision-v4.json",
+  "previous_failed_run": 38363500803,
+  "run_metadata_sha256": "ea9cacacc86ab82e27e3ed1fceadb832a82103160cd22f04316a7987fd492123",
+  "baseline_source": "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+  "actual_release_binary_source": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+  "baseline_measurements_accepted": false,
+  "optimization_selected": false,
+  "later_lanes_started": false
+}

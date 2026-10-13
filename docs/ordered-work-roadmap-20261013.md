@@ -7,7 +7,7 @@ resource rejections. Large local work requires the private resource gate.
 
 1. **Release performance.** Frozen representative inputs and measurement policy
    are in [the performance audit](../audits/release-performance-20261013/README.md).
-   [Hosted baseline38363500803](https://github.com/CrispStrobe/kerotakis/actions/runs/38363500803)
+   [Hosted baseline38368899782](https://github.com/CrispStrobe/kerotakis/actions/runs/38368899782)
    is dispatched. Review admission pilots, exact canonical outputs, wall/CPU/RSS
    and variance. Attribute costs, select one measured hot path, and verify one
    narrow optimization with paired release measurements and unchanged outputs.

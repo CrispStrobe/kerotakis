@@ -6,13 +6,20 @@ accounting and scientific calibration. Later lanes remain queued until the
 preceding lane's deliverable is complete; do not substitute planning for completion.
 
 Current phase: baseline collection is frozen and dispatched as
-[run38363500803](https://github.com/CrispStrobe/kerotakis/actions/runs/38363500803).
+[run38368899782](https://github.com/CrispStrobe/kerotakis/actions/runs/38368899782).
 The [first hosted run38358454350](https://github.com/CrispStrobe/kerotakis/actions/runs/38358454350)
 failed artifact preparation because its completed source run returned an empty
 PR association; no pilot or timing executed. [Setup revision 3](workflow-revision-v3.json)
 checks the exact merged PR head/base/merge in addition to all original checkout,
-job, ZIP, binary and lock guards. [New dispatch](dispatch-v3.json) preserves the
+job, ZIP, binary and lock guards. [Association-repair dispatch](dispatch-v3.json) preserves the
 original failed run and unchanged measurement definitions.
+The [association-repair run38363500803](https://github.com/CrispStrobe/kerotakis/actions/runs/38363500803)
+passed that check but failed raw build-log retrieval when the hosted GitHub CLI
+rejected terminal escape sequences. Its benchmark step was skipped.
+[Setup revision 4](workflow-revision-v4.json) detects the documented
+[raw-response option](https://cli.github.com/manual/gh_api), uses it for file-bound
+logs and ZIP bytes, and records the CLI version. [Current dispatch](dispatch-v4.json)
+pins the new run. All earlier failures and frozen definitions remain preserved.
 No measurements are accepted yet.
 [Manifest](manifest.json), [inputs](scripts/), [profiler](profile.py) and
 [freeze](freeze.json) specify five representative performance workloads.
@@ -61,6 +68,6 @@ extracted evidence directory and `--out` to a new review JSON file. It checks
 recorded source guards and run identity; actual runner API/job/upload association
 and ZIP/binary byte verification remain separate acceptance requirements. It
 reports incomplete or refused workloads without converting them to successes.
-Use `--dispatch audits/release-performance-20261013/dispatch-v3.json` for the
+Use `--dispatch audits/release-performance-20261013/dispatch-v4.json` for the
 corrected run. The reviewer is a later evidence consumer; it does not change the frozen inputs,
 profiler, workflow or baseline run. No actual baseline review is accepted yet.
