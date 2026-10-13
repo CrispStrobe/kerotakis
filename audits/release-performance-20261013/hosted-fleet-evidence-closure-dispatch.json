@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "run": 38452874018,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38452874018",
+  "job": 115487991254,
+  "audit_head": "884a5bb3d9f04087bd5f62e383432534b171eed7",
+  "audit_branch": "audit/hosted-fleet-evidence-closure-20261013",
+  "status_at_capture": "queued",
+  "reader_sha256": "f901947643caeca9bdb42a9e9346872950ac4070115e33f7614f26bd722ab431",
+  "aggregate_reader_sha256": "d639a511d54f5ef29c1c9a0e12654584ff7f269c37524af56c26d9fca3ab29db",
+  "input_collector_run": 38450225092,
+  "input_artifact_id": 11841870091,
+  "input_artifact_zip_sha256": "b80a639add25d767cb0e45f673a85ad9e35e9e9cf1c10442dbf1ab8702aa28c4",
+  "input_artifact_bytes": 2773447,
+  "only_admitted_job": [
+    "hosted-remaining-fleet-review"
+  ],
+  "ast_and_six_json_boundary_checks_pass": true,
+  "independent_human_source_review_complete": false,
+  "full_closure_accepted": false,
+  "cli_or_build_or_timing_or_family_analyzer_executed": false,
+  "raw_metadata_sha256": {
+    "run.json": "f3aeb89013aacac805bf1aab45c9891e67042b793f615539221ba4a06064e406",
+    "jobs.json": "384d02db35dc9999e83980c94d251a1d27ce2ff14a02f5c1f6750693855f632a"
+  },
+  "scope": "New gated hosted worker inspects completed archive/safe ZIP/member hashes/source forecasts/raw streams and serialized original/recomputed reports; rereads accepted acid archive without analyzer; runs source-owned aggregate scripts on verified saved reports and binds actual13/5 downloads/logs. V2 receipts remain digest-pinned external prerequisites. No scientific calibration, integration or timing claim."
+}

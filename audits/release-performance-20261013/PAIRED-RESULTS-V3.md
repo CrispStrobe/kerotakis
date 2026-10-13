@@ -223,3 +223,22 @@ checks cover expected integer-key conversion, changed numbers/verdicts, collisio
 NaN and infinity. The local fallback carries the same unexecuted correction.
 Do not duplicate this dispatch. No new application defect or additional case
 acceptance follows from these reviewer failures; accepted totals remain 312/400.
+
+[The fourth collector completed successfully](hosted-remaining-fleet-review-v4-completed.json)
+at `c5c56f9c`. Actual run/job steps, reader hash, marker and uploaded archive
+metadata are verified. Its result is414/623 including externally acceptedacid24/32,
+so the newly reviewed portion is390/591. This success does not itself accept
+archive bytes or the two remaining aggregates.
+
+[The separate closure run38452874018](hosted-fleet-evidence-closure-dispatch.json)
+is queued at `884a5bb3`. Its [consumer](review-hosted-fleet-evidence.py) checks the
+frozen completed archive digest, safe members, source/manifest forecasts,
+original raw streams and serialized reports. It rereads the accepted acid/base
+artifact without reexecuting a family analyzer, then invokes the existing
+aggregate reviewer on these verified saved reports and actual own240/120-job
+logs. All13/5 download bindings are required. V2 raw/aggregate acceptance remains
+an explicitly digest-pinned external prerequisite. No CLI/build/timing/family
+analyzer runs. AST and six strict-JSON boundary checks pass; independent human
+source review is outside this preparation. Inspect the actual outcome and
+receipt before accepting combined702/991 and proceeding to guarded narrow-PR
+acceptance. The old first failures, frozen scripts and expectations remain intact.

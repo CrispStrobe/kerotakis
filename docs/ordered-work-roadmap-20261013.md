@@ -40,16 +40,15 @@ resource rejections. Large local work requires the private resource gate.
    bind the original failure. A further [lock-contract correction](../audits/release-performance-20261013/hosted-remaining-fleet-review-lock-contract-correction.json)
    proves root `Cargo.lock` is ignored and absent from Git. The queued revision
    `d3323f96` failed at that incorrect tracked-lock assertion. The next revision
-   reached a [report-transport mismatch](../audits/release-performance-20261013/hosted-remaining-fleet-report-transport-correction.json):
-   frozen analyzers use integer evidence keys that their original JSON writers
-   stringify. All failed outcomes remain preserved. Run38450225092 is queued at
-   `c5c56f9c`, using the original JSON transport with collision rejection and
-   persisted recomputed reports; six focused checks pass without changing values,
-   verdicts or thresholds. Summary lock digest and accepted own-release bytes
-   remain bound. Do not duplicate the active job. Review its raw receipt before
-   accepting more
-   cases, then execute the prepared aggregate reader and reconcile own v1/v3
-   outputs, including all thirteen v1 and five v3 artifact downloads. PR785 remains draft; later lanes remain queued.
+   exposed integer evidence keys becoming string keys in original JSON reports.
+   All failures are preserved. [Corrected collector38450225092](../audits/release-performance-20261013/hosted-remaining-fleet-review-v4-completed.json)
+   succeeded at `c5c56f9c`, reporting414/623 including prioracid24/32. Its exact
+   marker/job/upload metadata are verified; archive and aggregate closure remain
+   pending. [Closure run38452874018](../audits/release-performance-20261013/hosted-fleet-evidence-closure-dispatch.json)
+   is queued at `884a5bb3`. It inspects completed archive/raw/forecast/report
+   integrity and runs both source-owned aggregate checks on saved verified reports,
+   binding all13/5 actual downloads. It executes no app/build/timing/family analyzer.
+   Accept its source-bound actual receipt before claiming full702/991 closure. PR785 remains draft; later lanes remain queued.
 2. **Fifty fresh CLI experiments.** Use a fresh agent that learns only syntax,
    without reading existing corpus cases or implementation details. Freeze all
    fifty original scripts and expectations before execution. Preserve first

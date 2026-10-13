@@ -69,24 +69,24 @@ of untracked files. The actual runner records an empty snapshot for a clean
 checkout. This is a reviewer defect; it does not demonstrate a chemistry failure.
 The original failed run and uploaded partial evidence are preserved.
 
-The ignored-lock correction proceeded to a further
-[report-transport mismatch](hosted-remaining-fleet-report-transport-correction.json).
-Run38448464127 failed when comparing a frozen analyzer's in-memory result with
-its saved JSON report. The source uses integer experiment IDs as evidence keys;
-the original CLI JSON writer converts them to string object keys. The reader
-incorrectly compared those two representations directly. The failed run, archive
-and original reports remain preserved. Its recomputed report was not saved before
-the assertion, so the corrected comparison must still exclude other differences.
+[The corrected collector completed successfully](hosted-remaining-fleet-review-v4-completed.json)
+at `c5c56f9c`: all actual job steps pass and its source-bound result marker reports
+17 families/414 cases/623 checks, including the earlier accepted acid/base24/32
+and the remaining390/591. Its uploaded archive digest and size are verified;
+raw archive acceptance remains pending. All earlier reviewer failures are retained.
 
-[Run38450225092](https://github.com/CrispStrobe/kerotakis/actions/runs/38450225092)
-is queued at `c5c56f9c`, dispatched after that completed failure. It applies the
-original JSON transport, rejects key collisions, preserves every value/verdict,
-and saves recomputed reports before equality assertions. Six focused transport
-checks pass. The ignored-lock binding remains correct. No forecasts, thresholds,
-CLI outputs or accepted performance results changed. No additional cases are
-accepted. The local fallback carries the same versioned correction and remains
-unexecuted; do not duplicate the hosted job. PR785 remains draft.
-Historical checkpoints below retain their capture-time states.
+[A separate hosted evidence-and-aggregate review](hosted-fleet-evidence-closure-dispatch.json)
+is queued as run38452874018 at `884a5bb3`. The
+[portable consumer](review-hosted-fleet-evidence.py) reads the completed archive,
+checks safe ZIP members, hashes, exact source forecasts, raw streams and original/
+recomputed report equality, then verifies both remaining actual aggregate outputs.
+It rereads the accepted acid/base archive for raw/report aggregation without
+reanalyzing it. It runs no CLI, native build, timing or family analyzer. Six JSON
+boundary checks and AST checks pass; independent human source review is not claimed.
+Previously accepted v2 raw/aggregate receipts are pinned external prerequisites.
+Full702/991 closure requires this actual outcome and its source-bound receipt;
+current accepted totals remain312/400. PR785 remains draft. Historical checkpoints
+below retain their capture-time states.
 
 The user authorized six lanes in order: performance, fifty fresh CLI experiments,
 annotation contracts, historical regression coverage, broader safety, then deeper

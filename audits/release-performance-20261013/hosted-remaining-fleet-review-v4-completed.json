@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "run": 38450225092,
+  "job": 115478922130,
+  "audit_head": "c5c56f9cfa7381df63d7fa85a4ed64838d9eea79",
+  "actual_run_and_all_job_steps_success": true,
+  "exact_source_marker_verified": true,
+  "marker": {
+    "accepted_own_release_receipt_sha256": "8ec124715750fbb0b316d7354f5b924ff9517ec6ff92ad7cdf59c879e0995c9c",
+    "accepted_partial_receipt_sha256": "23eca87b0d200ecafd07294bc2ee5f72a79161dd9119044d633ff93a5f745e50",
+    "all_checks_pass": true,
+    "candidate": {
+      "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+      "head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+      "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+      "tested_checkout": "4df5deab77506d372a8df45f5d517e2f070d7f5a",
+      "tree": "25d1dd490acc080a59f2a02e5b9399a22bd0f4bc"
+    },
+    "cli_executed": false,
+    "families_complete": 17,
+    "limitations": [
+      "Accepted acid/base receipt bytes and identity trusted externally; its archive and laws were not re-read on this worker. Host execution fetches each remaining artifact once, including its own distillation copy; local cached bytes remain protected.",
+      "Exact source-owned analyzer algorithms rerun on saved evidence; report comparison uses the original analyzer JSON transport (integer evidence keys become strings), rejects key collisions, and preserves all values. Independent raw integrity/forecast/provenance checks are separate, not an independent scientific oracle.",
+      "Recorded commit and binary/lock envelopes tied to own accepted release artifact; sourcev1/v3 family summary does not itself capture actual lock or executable bytes.",
+      "Own complete source/tree/artifact API/checkouts proven by accepted release receipt; no whole family runner/native source reread or CLI rerun.",
+      "Frozen summaries capture the ignored root lock digest, not its bytes; accepted own release supplies the independent lock-byte binding. Git does not track root Cargo.lock.",
+      "Cases are frozen engineering contracts/source-informed laws, not new blind experiments or empirical chemical calibration.",
+      "This receipt covers only10v1+5v3+frozen sixth/seventh; v2 and actual aggregate job logs require separate closure."
+    ],
+    "newly_reviewed_cases": 390,
+    "newly_reviewed_law_checks": 591,
+    "reviewer_sha256": "63481df0492e3dba7b4aa3c4f99ac8b929a0dfb3bf729c2f2f87d5f47f23653c",
+    "run": 38387729183,
+    "scientific_calibration_accepted": false,
+    "total_cases": 414,
+    "total_passed_law_checks": 623
+  },
+  "artifact": {
+    "id": 11841870091,
+    "name": "remaining-fleet-saved-review-38450225092-1",
+    "digest": "sha256:b80a639add25d767cb0e45f673a85ad9e35e9e9cf1c10442dbf1ab8702aa28c4",
+    "size_in_bytes": 2773447
+  },
+  "raw_metadata_sha256": {
+    "run.json": "7295e9401bb39c7aee2c21a122e8c379f75396dd631d5f4883a1a28f302b7e12",
+    "job.json": "f8f6d8edefa11b7b6da669de7b94addf1f16f99c62abf351d3d50bcafd2d4e66",
+    "artifacts.json": "77a8cbe649e93a1b60a594692e5e9325e4d7129470dd753d89ae54703eb9f321",
+    "job.log": "90dfa0c5d3746f8843ba212d1724cdbecb39c92029070079032dcb0d42968511"
+  },
+  "raw_archive_independently_inspected": false,
+  "remaining_fleet_acceptance_complete": false,
+  "scope": "Successful exact-source collector marker and upload metadata verified. Its 414/623 includes previously accepted acid24/32, newly reviewed390/591. Preserve original failed attempts. Separate raw-receipt/aggregate proof is queued; no combined702/991 acceptance from metadata alone."
+}
