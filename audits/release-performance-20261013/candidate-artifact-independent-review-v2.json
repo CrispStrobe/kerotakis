@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "review_kind": "independent_current_candidate_own_release_artifact",
+  "utc": "2026-10-13T12:07:56.863191+00:00",
+  "all_checks_pass": true,
+  "candidate": {
+    "head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+    "tree": "25d1dd490acc080a59f2a02e5b9399a22bd0f4bc",
+    "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+    "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+  },
+  "base": "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+  "tested_checkout": "4df5deab77506d372a8df45f5d517e2f070d7f5a",
+  "tested_parents": [
+    "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+    "d06ffe3a1740728656878c4aea0e9507ca83c808"
+  ],
+  "run": 38387729183,
+  "run_attempt": 1,
+  "build_job": 115275834062,
+  "artifact_id": 11811008023,
+  "artifact_zip_sha256": "0bfa80773f3a00114855a3167bd074dd4cfb614c39c3ba36c687f490df054125",
+  "artifact_members": [
+    {
+      "path": "target/release/kero",
+      "bytes": 17584008,
+      "sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853"
+    },
+    {
+      "path": "Cargo.lock",
+      "bytes": 79537,
+      "sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+    },
+    {
+      "path": "binary-sha256.txt",
+      "bytes": 86,
+      "sha256": "a4e067c31e6947e127ec3658b000f915cd362facd380da0486f662de8c0ad791"
+    },
+    {
+      "path": "submodules.txt",
+      "bytes": 151,
+      "sha256": "dae123bd185b0dff0f0d7176cb509940c4f7f68da6087ad6e6ab003543dbdd47"
+    }
+  ],
+  "submodules": {
+    "sundials-kinetics-rs": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+    "vendor/iphreeqc": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+  },
+  "source_workflow_sha256": "57252f0fb26ac203b5420e82a3e1355a20ec0ea6ac925d7078b95bcaf75e1304",
+  "root_review_receipt_sha256": "2b512e197a4c186a23d7d9891bd7b04376b1657d12ae5955dea0975b5af4b2a7",
+  "evidence_hashes": {
+    "run.json": "502bd2b3bb6f7ecba23f3bb54bdf6f4aa891c143365ef97f5e4de071321ccaa4",
+    "job.json": "479f27e8ff4fa80ce02acac4c6fb2d37ef64909e22325a8bf43c6b0fb408487d",
+    "pr.json": "9a9d5b89a81297d5236574968c822251b53e4e9336d70261465c95e046d3de2b",
+    "tested-commit.json": "b46f66bbf2b3ac1f8b9ab9026f560f5209b71e74c28c7b39cb6175ce7db675d1",
+    "artifacts.json": "b07b3ac05c6a5090654ea22096e8e995e9e4ba516de0bbcc96590509d32c84a5",
+    "build.log": "d90000ea45b95374892f71d01a8594b7e657cc0121f6260bb57b071b3aa20297",
+    "artifact.zip": "0bfa80773f3a00114855a3167bd074dd4cfb614c39c3ba36c687f490df054125"
+  },
+  "checks": [
+    "Captured evidence bytes match recorded hashes and sizes",
+    "Current PR/head/base/run/attempt/buildjob/tested merge parents and tree agree",
+    "ZIP API/log digest and exact four regular member bytes agree with extracted bytes, ELF/checksum/actual lock",
+    "Captured initialized module revisions match current source gitlinks; recursive content not traversed",
+    "Source-bound workflow build/checksum/module/upload actions agree with actual checkout/build/upload log"
+  ],
+  "compiler_witnesses": {
+    "rustc": "1.99.0 (b940084d7 2026-09-28)",
+    "rustc_commit_hash": "b940084d7eb6a299eb4bfeb8e34901bc051e7ac4",
+    "rustc_host": "x86_64-unknown-linux-gnu",
+    "llvm": "23.1.1",
+    "build_command": "cargo build --release -p kerotakis-cli",
+    "cargo_version_observed": false,
+    "explicit_rustflags_observed": false,
+    "explicit_native_flags_observed": false,
+    "native_compiler_version_observed": false,
+    "target_in_actual_compiler_invocation_observed": false,
+    "same_build_environment_verified": false
+  },
+  "resources_before": {
+    "load1": 1.3642578125,
+    "available_memory_mib": 4096,
+    "nas_free_mib": 1566613
+  },
+  "resources_after": {
+    "load1": 1.3642578125,
+    "available_memory_mib": 4048,
+    "nas_free_mib": 1566613
+  },
+  "limitations": [
+    "Offline verification of captured API/log bytes, not new independent GitHub fetch.",
+    "Top-level gitlinks and recursive checkout command observed; module file bytes not independently traversed.",
+    "Cache was restored; ordinary nonverbose cargo build log lacks full compiler/native invocation and explicit flag witnesses.",
+    "Rust host string is not proof of actual compile target; unstated defaults were not inferred.",
+    "Run snapshot remains queued for the wider fleet; only own build job accepted, no full fleet or ordinary CI approval.",
+    "No binary execution, source archive creation, timing or local build performed."
+  ]
+}

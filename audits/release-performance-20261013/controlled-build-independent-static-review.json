@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "review_kind": "bounded_independent_static_review_before_dispatch",
+  "utc": "2026-10-13T12:12:24.569729+00:00",
+  "collector_sha256": "616bd6943346b47b70d36cde3b3476f396fb49a5bdd9b00a96084e9015c2720e",
+  "workflow_sha256": "7c4856e7e1c57b52f8eaa144532618676a6d861f7ad1242210521203ed62b288",
+  "all_checks_pass": true,
+  "accepted_static_properties": [
+    "Hosted repository and manual dispatch guards",
+    "Explicit two source heads/trees and prior own artifact ZIP/actual lock SHA binding",
+    "Pinned recursive checkout and initialized module/source cleanliness before and after builds",
+    "Fresh separate Cargo targets; sequential same lock --locked --release explicit target",
+    "Complete allowlisted common build environment with explicit native/Rust flags",
+    "Actual Rust/Cargo binary identity separately from rustup proxy; compiler versions/hash before-after",
+    "Process-group kill and wait on timeout, structured build status and post-build guard",
+    "Same observed environment equality; verbose logs and native caches retained",
+    "Always artifact upload; no CLI/performance/merge acceptance claimed",
+    "Early audit binding rejection now produces structured failure within always-upload evidence"
+  ],
+  "qualifications": [
+    "No hosted collector main, local Cargo/CLI/network/download run",
+    "Build-effective invocations/global toolchain configuration require actual logs review",
+    "No runtime chemistry or performance accepted",
+    "Final manifest freeze and current workflow_dispatch revision association still root prerequisites"
+  ],
+  "resources": {
+    "load1": 0.98193359375,
+    "available_memory_mib": 4050,
+    "nas_free_mib": 1566563
+  },
+  "ready_for_frozen_build_only_dispatch": true,
+  "prior_review_receipt_sha256": "e02d32f81e344d32f8b24b1b2d079473682e07683cfb282a451d08c2b849728d"
+}

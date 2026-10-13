@@ -16,8 +16,11 @@ resource rejections. Large local work requires the private resource gate.
    explanation-engine initialization. The corrected candidate passes its own
    [macOS native job review](../audits/release-performance-20261013/candidate-macos-ci-review-v2.json),
    including both new regressions and the repaired locale guard. Remaining CI,
-   current-head artifact acceptance, seven candidate correctness controls and
-   paired measurements are pending; no speedup or merge is accepted.
+   seven candidate correctness controls and paired measurements are pending;
+   the current-head release artifact and version2 namespace have passed independent
+   review. Missing native compiler/flag witnesses require the frozen controlled
+   build collector to rebuild both sources under one captured environment, then
+   a new comparison version binding those bytes. No speedup or merge is accepted.
 2. **Fifty fresh CLI experiments.** Use a fresh agent that learns only syntax,
    without reading existing corpus cases or implementation details. Freeze all
    fifty original scripts and expectations before execution. Preserve first

@@ -147,3 +147,23 @@ entry points select the version2 definitions and wrapper identity, bind the
 corrected candidate and verify every frozen shared/versioned file. The dispatch
 body was replaced by an observer: no CLI or timing ran. This root check does not
 replace independent protocol or artifact review. Frozen definitions are unchanged.
+
+[Current-head release artifact review](candidate-artifact-independent-review-v2.json)
+independently accepts the actual `d06ffe3a` build's ZIP, binary, lock, pinned
+modules and source/build/upload association. The binary has not executed here.
+[Independent version2 review](protocol-v2-independent-review.json) also accepts
+its frozen definition namespace, retaining the stated external prerequisites.
+
+The actual ordinary build log lacks Cargo/native compiler versions and explicit
+compiler flag witnesses, so equal build environments cannot be established from
+these artifacts. [Controlled build collector](controlled-build.py),
+[workflow](../../.github/workflows/release-performance-paired-build.yml),
+[build freeze](controlled-build-freeze.json) and
+[independent static review](controlled-build-independent-static-review.json)
+prepare both pinned sources under one observed toolchain with the same actual
+dependency lock, fresh separate targets, explicit sanitized flags, verbose build
+logs and source/module guards. This collects builds only. Actual compiler
+invocations, artifacts and equal environments still need review; it does not
+run the candidate or accept performance. Freeze a new comparison version binding
+the rebuilt bytes before candidate execution, preserving version1/version2 and
+all original control inputs, streams and failed forecasts.

@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "review_kind": "independent_bounded_definition_namespace_review",
+  "utc": "2026-10-13T12:05:39.664787+00:00",
+  "all_static_checks_pass": true,
+  "ready_for_controls_only_after_external_prerequisites": true,
+  "candidate_head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+  "candidate_tree": "25d1dd490acc080a59f2a02e5b9399a22bd0f4bc",
+  "paired_freeze_sha256": "929cf53c1e0f50963268cb1f308bcd49c773824cce81698290a09eaf5f4d9ba2",
+  "resources_before": {
+    "load1": 2.513671875,
+    "available_memory_mib": 3988
+  },
+  "resources_after": {
+    "load1": 2.513671875,
+    "available_memory_mib": 3983
+  },
+  "checks": [
+    {
+      "check": "all_freeze_members_match",
+      "definition": "freeze.json",
+      "members": 7
+    },
+    {
+      "check": "all_freeze_members_match",
+      "definition": "paired-freeze.json",
+      "members": 19
+    },
+    {
+      "check": "all_freeze_members_match",
+      "definition": "protocol-v2/freeze.json",
+      "members": 7
+    },
+    {
+      "check": "all_freeze_members_match",
+      "definition": "protocol-v2/paired-freeze.json",
+      "members": 28
+    },
+    {
+      "check": "same_seven_cases_arguments_expectations_and_scripts",
+      "passed": true
+    },
+    {
+      "check": "unchanged_original_baseline_stream_reuse",
+      "definition": "candidate-controls-baseline.json",
+      "passed": true
+    },
+    {
+      "check": "unchanged_original_baseline_stream_reuse",
+      "definition": "candidate-controls-reference.json",
+      "passed": true
+    },
+    {
+      "check": "original_performance_manifest_and_references_unchanged_except_relative_input_paths",
+      "passed": true
+    },
+    {
+      "check": "actual_wrapper_dispatch_identity_and_shared_profile_import",
+      "observations": [
+        {
+          "entrypoint": "controls.py",
+          "namespace": "protocol-v2",
+          "recorded_runner_sha256": "5522f207b6ead09960b374c4538b6a3bb50feb69de4ba6cf0846369db861c1b3",
+          "actual_shared_implementation_sha256": "f1189d9ccf4529d7cfe1489c0788667d297bef6f05683769ba12db6252f62cf2"
+        },
+        {
+          "entrypoint": "paired.py",
+          "namespace": "protocol-v2",
+          "recorded_runner_sha256": "0dbee9da3e4cd75ccce232a9ba4a62921b2dc88606129a40bf02eea50c0a64d7",
+          "actual_shared_implementation_sha256": "488f162b91326b41a611437cf5bf1055fe4d7a44bd94bf0c8270519265a0f0d7"
+        }
+      ],
+      "qualification": "Only final shared main replaced by observer; no execution/source/artifact/resource functions called."
+    }
+  ],
+  "prerequisites": [
+    "Actual current-head own artifact bytes/source/parents/tree/lock/modules accepted independently.",
+    "CLI gates load<=3.5, MemAvailable>=3200, fast free>=4224MiB, evidence free>=8192MiB.",
+    "Both binaries and source snapshots on same fast filesystem; runner does not verify actual filesystem placement.",
+    "Seven actual candidate controls accepted before paired collection.",
+    "Actual equal build witnesses required; missing witnesses require controlled BOTH-source rebuild and a new protocol version.",
+    "Own complete CI and independent measurements review before narrow merge."
+  ],
+  "limitations": [
+    "No candidate CLI/build/download/source snapshot traversal/timing performed.",
+    "Artifact and build receipts are externally trusted, not reconstructed by consumers.",
+    "Recursive native module source proof is external; parent source_guard does not traverse gitlinks.",
+    "Canonical JSON/text equality establishes preservation only, not scientific calibration."
+  ]
+}
