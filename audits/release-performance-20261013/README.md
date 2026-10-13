@@ -105,3 +105,11 @@ Use `--dispatch audits/release-performance-20261013/dispatch-v4.json` for the
 corrected run. The reviewer is a later evidence consumer; it does not change the frozen inputs,
 profiler, workflow or baseline run. The four admitted baseline reviews above are accepted with their recorded
 source/archive/clock qualifications; safety remains unadmitted.
+
+[Paired protocol](PAIRED.md) and [paired freeze](paired-freeze.json) prepare the
+resource-gated candidate-control and alternating measurement consumers. Their
+source/binary/lock, actual receipt bytes and frozen consumer/reference checks
+passed static review and small guard tests. They have not executed the candidate
+or collected paired measurements; own CI and build-environment witnesses remain
+prerequisites. Missing compiler evidence requires a controlled rebuild and new
+paired policy, rather than an inferred source-caused improvement.
