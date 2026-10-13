@@ -7,7 +7,7 @@
   "files_sha256": {
     ".github/workflows/chemistry-audit.yml": "a370aba7f9252821bc597b23519a9ca6d6cdd83cab465e66818def1ce3af0b1f",
     ".github/workflows/hosted-remaining-fleet-review.yml": "90dc42f332ac85bbf54cb5e1163e2922a318ed45819916c2cf78d63d2d0c4636",
-    "audits/release-performance-20261013/review-remaining-fleets.py": "5be8f7f408021080176f5a9023276207723341c1eda22832cf30be7ccba2eaa8"
+    "audits/release-performance-20261013/review-remaining-fleets.py": "63481df0492e3dba7b4aa3c4f99ac8b929a0dfb3bf729c2f2f87d5f47f23653c"
   },
   "cli_or_build_permitted": false,
   "independent_launcher_source_review_complete": false,
@@ -28,5 +28,21 @@
     "reason": "Root Cargo.lock is ignored, absent from candidate Git tree and absent from git ls-files --others --exclude-standard. Previous tracked-lock assertion was wrong.",
     "binding": "Retain frozen summary lock digest, accepted own release receipt/digest/identity, empty diff/patch and empty untracked snapshots. No claim of archive lock bytes or tracked Git lock.",
     "dispatch_policy": "Do not dispatch until existing run38444619222 completes; preserve its actual outcome."
+  },
+  "json_transport_correction": {
+    "failed_run": 38448464127,
+    "failed_head": "a2f9b5fb7a85c3d56eb2ee260708ee615cb17e96",
+    "failed_artifact_id": 11839498591,
+    "failed_artifact_zip_sha256": "9ca1a4cbc298971e929ff06bceda83c78e46d9b2d69564fb58d2fc2fe23419ff",
+    "reason": "Source frozen analyzers use integer-keyed evidence; original JSON writers stringify object keys. Compare the source result through the same JSON transport and reject key collisions. Save recomputed report before equality assertion. No values/checks/thresholds changed.",
+    "static_transport_checks": [
+      "integer experiment-ID evidence keys match original JSON transport",
+      "changed numeric evidence remains rejected",
+      "changed verdict/check totals remain rejected",
+      "colliding integer/string keys rejected",
+      "NaN rejected",
+      "infinity rejected"
+    ],
+    "scientific_defect_proven": false
   }
 }

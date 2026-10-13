@@ -27,6 +27,16 @@ def finite(x):
   for z in x.values():finite(z)
 def load(p):
  d=json.loads(p.read_bytes(),parse_constant=reject);finite(d);return d
+def report_json_transport(value):
+ # Match the source analyzer CLI's JSON writer, including integer evidence keys.
+ # Refuse key collisions instead of silently discarding evidence on roundtrip.
+ def unique(pairs):
+  result={}
+  for key,item in pairs:
+   if key in result:raise ValueError('duplicate report key after JSON transport: '+key)
+   result[key]=item
+  return result
+ return json.loads(json.dumps(value,allow_nan=False),parse_constant=reject,object_pairs_hook=unique)
 def git(path):return subprocess.check_output(['git','show',HEAD+':'+path],cwd=REPO)
 def verify_source(path):
  b=(SOURCE/path).read_bytes();assert b==git(path),path;return hashlib.sha256(b).hexdigest()
@@ -121,16 +131,17 @@ try:
     digest,path=line.split(None,1);path=path.strip();assert verify_source(path)==digest,path;RECEIPT['source_sha256'][path]=digest
   gate('source-owned reevaluation '+name)
   result=a3.analyse(directory,SOURCE/'tools/chemistry-audit/source-fleets-3',family) if v3 else (a1.analyse(directory,SOURCE/'tools/chemistry-audit/source-fleets',family) if kind=='v1' else (a6.analyse(directory) if family=='sixth' else a7.analyse(directory)))
+  result=report_json_transport(result)
+  write(folder/'source-owned-recomputed-law-checks.json',result)
   lawfiles=[x for x in directory.glob('*law-checks.json')];assert len(lawfiles)==1;reported=load(lawfiles[0]);assert result==reported,'source-owned result differs'
   assert result['unmet']==0 and result['passed']==len(result['checks']) and all(x['passed'] is True for x in result['checks'])
-  write(folder/'source-owned-recomputed-law-checks.json',result)
   row=dict(family=family,generation=kind,artifact_id=metadata['id'],artifact_name=name,artifact_zip_sha256=sha(folder/'artifact.zip'),artifact_api_sha256=sha(folder/'artifact-api.json'),archive_members=len(members),member_sha256=members,cases=expected_count,passed_law_checks=result['passed'],law_kinds=dict(collections.Counter(x['kind'] for x in result['checks'])),raw_evidence_sha256=raw,event_counts=dict(counts),original_law_receipt_sha256=sha(lawfiles[0]),source_owned_recomputed_law_receipt_sha256=sha(folder/'source-owned-recomputed-law-checks.json'),independent_raw_provenance_contracts_pass=True,source_owned_laws_pass=True)
   RECEIPT['families'].append(row);checkpoint();print(json.dumps({'accepted':family,'generation':kind,'cases':expected_count,'laws':result['passed']}),flush=True)
  gate('final source identity guards')
  for path,digest in RECEIPT['source_sha256'].items():assert verify_source(path)==digest
  assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=SOURCE).decode().strip()==HEAD
  assert subprocess.check_output(['git','status','--porcelain','--untracked-files=all'],cwd=SOURCE)==b''
- RECEIPT.update(all_checks_pass=True,total_cases=sum(x['cases'] for x in RECEIPT['families']),total_passed_law_checks=sum(x['passed_law_checks'] for x in RECEIPT['families']),families_complete=len(RECEIPT['families']),reviewer_sha256=sha(Path(__file__)),resources_after=gate('final checkpoint'),limitations=['Accepted acid/base receipt bytes and identity trusted externally; its archive and laws were not re-read on this worker. Host execution fetches each remaining artifact once, including its own distillation copy; local cached bytes remain protected.','Exact source-owned analyzer algorithms rerun on saved evidence; independent raw integrity/forecast/provenance checks are separate, not an independent scientific oracle.','Recorded commit and binary/lock envelopes tied to own accepted release artifact; sourcev1/v3 family summary does not itself capture actual lock or executable bytes.','Own complete source/tree/artifact API/checkouts proven by accepted release receipt; no whole family runner/native source reread or CLI rerun.','Frozen summaries capture the ignored root lock digest, not its bytes; accepted own release supplies the independent lock-byte binding. Git does not track root Cargo.lock.','Cases are frozen engineering contracts/source-informed laws, not new blind experiments or empirical chemical calibration.','This receipt covers only10v1+5v3+frozen sixth/seventh; v2 and actual aggregate job logs require separate closure.'])
+ RECEIPT.update(all_checks_pass=True,total_cases=sum(x['cases'] for x in RECEIPT['families']),total_passed_law_checks=sum(x['passed_law_checks'] for x in RECEIPT['families']),families_complete=len(RECEIPT['families']),reviewer_sha256=sha(Path(__file__)),resources_after=gate('final checkpoint'),limitations=['Accepted acid/base receipt bytes and identity trusted externally; its archive and laws were not re-read on this worker. Host execution fetches each remaining artifact once, including its own distillation copy; local cached bytes remain protected.','Exact source-owned analyzer algorithms rerun on saved evidence; report comparison uses the original analyzer JSON transport (integer evidence keys become strings), rejects key collisions, and preserves all values. Independent raw integrity/forecast/provenance checks are separate, not an independent scientific oracle.','Recorded commit and binary/lock envelopes tied to own accepted release artifact; sourcev1/v3 family summary does not itself capture actual lock or executable bytes.','Own complete source/tree/artifact API/checkouts proven by accepted release receipt; no whole family runner/native source reread or CLI rerun.','Frozen summaries capture the ignored root lock digest, not its bytes; accepted own release supplies the independent lock-byte binding. Git does not track root Cargo.lock.','Cases are frozen engineering contracts/source-informed laws, not new blind experiments or empirical chemical calibration.','This receipt covers only10v1+5v3+frozen sixth/seventh; v2 and actual aggregate job logs require separate closure.'])
  RECEIPT['newly_reviewed_cases']=RECEIPT['total_cases']-24;RECEIPT['newly_reviewed_law_checks']=RECEIPT['total_passed_law_checks']-32
  write(OUT/'review.json',RECEIPT);print('REMAINING_FLEET_REVIEW_JSON='+json.dumps({k:RECEIPT[k] for k in ['all_checks_pass','run','candidate','families_complete','total_cases','total_passed_law_checks','newly_reviewed_cases','newly_reviewed_law_checks','accepted_partial_receipt_sha256','accepted_own_release_receipt_sha256','reviewer_sha256','cli_executed','scientific_calibration_accepted','limitations']},sort_keys=True),flush=True);print(json.dumps({'all_checks_pass':True,'families':17,'cases':RECEIPT['total_cases'],'laws':RECEIPT['total_passed_law_checks'],'receipt_sha256':sha(OUT/'review.json')}),flush=True)
 except Exception as error:
