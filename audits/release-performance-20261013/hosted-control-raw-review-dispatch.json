@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "run": 38421013508,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38421013508",
+  "run_attempt": 1,
+  "audit_branch": "audit/hosted-control-raw-review-20261013",
+  "audit_head": "d3cc3c14f9d3bee0e8a6804ff23e1f3278663e69",
+  "parent_audit_head": "ce4fc3f488df5283f0f84ae333dd6a804d6e5004",
+  "input_control_run": 38407663054,
+  "input_artifact_id": 11821110986,
+  "input_zip_sha256": "45e9d561944e983c059f4cad70fd43adb7acbf5a63036e06ced7dce452ccd9a2",
+  "protocol": "audits/release-performance-20261013/protocol-v2",
+  "candidate_head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+  "run_metadata_sha256": "c8fe6ef11b89a85a77d6156b72d73d7c22150d87a4d2d9ebb729c7c585dde561",
+  "jobs_metadata_sha256": "981525042569a1803b5126a7d36e8d57626aea4339ab5905660d6e0b2294a622",
+  "status_at_capture": "queued",
+  "review_algorithm_independent_of_control_collection": true,
+  "independent_human_source_review_complete": false,
+  "source_blobs_independently_reread": false,
+  "raw_control_review_accepted": false,
+  "cli_or_performance_execution_permitted": false,
+  "scope": "Saved-output review only: actual archive bytes, contract checks, canonical/full-text comparisons and recorded guard identities. Root-reviewed preparation; no source/native/clock remeasurement or performance acceptance."
+}

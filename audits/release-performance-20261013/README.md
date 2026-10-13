@@ -1,5 +1,28 @@
 # Ordered roadmap lane 1: release performance
 
+
+Current checkpoint: the controlled-build archive has been collected under open
+resource gates. [Structural collection](controlled-build-structural-collection.json)
+verifies all 26 archive members, both ELF digests, the shared captured lock and
+recorded guard/environment equality. The rebuilt baseline is `b1867d84`; the
+rebuilt candidate is `1e94804f`. Effective native compiler acceptance and an
+independent artifact receipt remain pending. The seven passing controls used
+ordinary candidate `b290b436`, so they do not certify the rebuilt candidate.
+
+[Saved-control raw review](hosted-control-raw-review-dispatch.json) is dispatched
+at isolated revision `d3cc3c14`. It independently recomputes seven contracts from
+saved streams without running the CLI. Both that run and the earlier hosted
+compiler-witness inspection are queued. Preserve their exact source bindings;
+do not duplicate dispatches. Bounded independent reviews of the collected build
+and ordinary CI evidence can proceed only while their resource gates permit.
+
+Next deliverable: accept actual build/compiler evidence, freeze a new comparison
+version binding both rebuilt digests, replicate the seven compatibility controls
+on the rebuilt candidate, then collect and independently review 64 paired samples
+across the four admitted workloads. Preserve the original freezes, baseline
+transcripts and failed safety forecast. PR785 remains draft; no paired speedup or
+merge is accepted. Historical checkpoints below retain their capture-time states.
+
 The user authorized six lanes in order: performance, fifty fresh CLI experiments,
 annotation contracts, historical regression coverage, broader safety, then deeper
 accounting and scientific calibration. Later lanes remain queued until the

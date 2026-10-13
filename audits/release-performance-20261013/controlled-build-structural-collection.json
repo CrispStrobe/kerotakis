@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "controlled_build_run": 38396270148,
+  "controlled_artifact_id": 11814954199,
+  "zip_sha256": "e121b7648165c121f8e9826ffac50f497cff46e884d505aa0a3ef08efabcaa16",
+  "zip_bytes": 19776062,
+  "collector_sha256": "a5ce37c28f53ffa1b155d3fd5102810a675f9440e753ee0c6516bef2b579521f",
+  "archive_member_count": 26,
+  "variants": {
+    "baseline": {
+      "head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+      "tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+      "binary_sha256": "b1867d840a9da7cd909308e016bfa24cf2f41f263848109bf6d14ee1db4a4769",
+      "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+    },
+    "candidate": {
+      "head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+      "tree": "25d1dd490acc080a59f2a02e5b9399a22bd0f4bc",
+      "binary_sha256": "1e94804fee60f5ddfb08b42dd324890ef71abacdca5bd02eda0036d49be3df3b",
+      "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+    }
+  },
+  "recorded_source_guards_and_locks_equal": true,
+  "actual_recorded_environments_equal": true,
+  "candidate_digest_differs_from_ordinary_control_binary": true,
+  "collection_receipt_sha256": "f2305c92cb5893391aebcfee65609a49b680a384611d687cb4c21ecbec17968a",
+  "native_effective_compiler_review_accepted": false,
+  "independent_artifact_review_complete": false,
+  "rebuilt_candidate_cli_executed": false,
+  "paired_timing_executed": false,
+  "scope": "Actual gated root ZIP/CRC/ELF/lock/recorded-guard collection. Complete source/tool/routing/compiler semantics remain unaccepted. Both binaries remain unexecuted; original seven controls apply to the ordinary candidate digest only."
+}
