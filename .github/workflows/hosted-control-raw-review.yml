@@ -1,0 +1,28 @@
+name: Saved candidate control review
+on:
+  workflow_call:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  review:
+    name: Recompute seven saved control contracts without executing CLI
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          path: audit
+          persist-credentials: false
+      - name: Verify archive and recompute every frozen saved-output check
+        run: python3 audit/audits/release-performance-20261013/review-hosted-controls.py
+      - name: Preserve review, saved evidence and first failures
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: candidate-control-raw-review-${{ github.run_id }}-${{ github.run_attempt }}
+          path: control-raw-review-evidence
+          if-no-files-found: error
+          retention-days: 14

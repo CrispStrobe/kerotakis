@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "purpose": "Saved raw control review only; no CLI/benchmark/build execution.",
+  "input_run": 38407663054,
+  "input_artifact": 11821110986,
+  "input_zip_sha256": "45e9d561944e983c059f4cad70fd43adb7acbf5a63036e06ced7dce452ccd9a2",
+  "files_sha256": {
+    ".github/workflows/chemistry-audit.yml": "f4063eb60bd53694ba44695193728e3dd3402740223289a960ceb44940e2902d",
+    ".github/workflows/hosted-control-raw-review.yml": "3e6f5c161e400e3be2a0344fe0c52c3b987c0c3be83dc3b77664ab3fdc352475",
+    "audits/release-performance-20261013/review-hosted-controls.py": "6b2b55c5f157a544520c1aff9060d2d5a170dea0b4208ae717d45b69019c5e56"
+  },
+  "all_route_predicates_evaluated": true,
+  "independent_human_source_review_complete": false,
+  "source_blobs_and_native_modules_reread": false
+}
