@@ -133,3 +133,17 @@ and reuse the seven saved baseline streams without rerunning their admissions.
 head, versioned entry points and explicitly reused original baseline references.
 Use its consumers for `d06ffe3a`; version1 stays historical. New CI/artifact
 acceptance and actual candidate execution remain pending.
+
+[Corrected-head macOS native review](candidate-macos-ci-review-v2.json) verifies
+the actual job log and synthetic checkout parents/tree for `d06ffe3a`. Format,
+Clippy, workspace tests, codex lint and curiosity coverage completed successfully;
+both new lazy-initialization regressions and the repaired locale guard passed.
+This accepts the macOS job only. Linux native, preflight and paired wasm are
+queued, browser CI is running, and the current-head audited CLI build is queued
+in the captured snapshot. Full CI, candidate controls and speedup remain pending.
+
+[Version2 wrapper probe](protocol-v2-wrapper-review.json) checks both actual
+entry points select the version2 definitions and wrapper identity, bind the
+corrected candidate and verify every frozen shared/versioned file. The dispatch
+body was replaced by an observer: no CLI or timing ran. This root check does not
+replace independent protocol or artifact review. Frozen definitions are unchanged.

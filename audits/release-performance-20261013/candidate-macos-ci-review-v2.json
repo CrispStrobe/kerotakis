@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-13T11:43:34.117451+00:00",
+  "pr": 785,
+  "candidate_head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+  "candidate_tree": "25d1dd490acc080a59f2a02e5b9399a22bd0f4bc",
+  "base": "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+  "run": 38387729203,
+  "run_attempt": 1,
+  "job": 115263786422,
+  "platform": "macos-latest",
+  "tested_checkout": "4df5deab77506d372a8df45f5d517e2f070d7f5a",
+  "tested_checkout_parents": [
+    "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+    "d06ffe3a1740728656878c4aea0e9507ca83c808"
+  ],
+  "tested_checkout_tree": "25d1dd490acc080a59f2a02e5b9399a22bd0f4bc",
+  "job_conclusion": "success",
+  "all_declared_job_steps_pass": true,
+  "commands_verified_in_log": [
+    "cargo fmt --check",
+    "cargo clippy --workspace --all-targets -- -D warnings",
+    "cargo test --workspace --no-fail-fast",
+    "cargo run -p kerotakis-cli -- codex lint",
+    "cargo run -p kerotakis-cli -- coverage curiosity --check"
+  ],
+  "candidate_regression_tests": {
+    "native_startup_tests::invalid_explanation_target_does_not_initialize_optional_paths": "passed",
+    "native_startup_tests::unavailable_explanation_is_cached_and_primary_chemistry_remains_active": "passed",
+    "every_hardcoded_english_locale_in_the_cli_is_justified": "passed"
+  },
+  "test_binary_summary_count": 371,
+  "log_summary_totals": {
+    "passed": 3410,
+    "failed": 0,
+    "ignored": 4,
+    "measured": 0,
+    "filtered_out": 0
+  },
+  "raw_evidence_sha256": {
+    "pr.json": {
+      "sha256": "253c85bad1af54d185939fd862e1c919a0e88b55a3a4f2aa8bffedba891cfcc2",
+      "bytes": 17815
+    },
+    "ci-jobs.json": {
+      "sha256": "781985b0ba5d2096f3dcb20464b359bb152fa192ee2ce12452a42454801f089d",
+      "bytes": 41496
+    },
+    "job.json": {
+      "sha256": "0835a2b2c03ed8c3d223cfdae2e1a5cdd0749a567b7501ddba42f46d70ca6af6",
+      "bytes": 3279
+    },
+    "commit.json": {
+      "sha256": "4b29bc2c5602e11682c21206ee740e441b2014588e36828f58d1bcec45c66584",
+      "bytes": 4811
+    },
+    "fleet-jobs.json": {
+      "sha256": "4aabde74b2b144495eab35d0ecc6ae9217782c5e5e6a8e19d7694f4b0327608f",
+      "bytes": 900
+    },
+    "run.json": {
+      "sha256": "350e3b6b75f79ebd75b6361257b05c0594e8a487fe62f11846ce0d1375d7eff1",
+      "bytes": 13086
+    },
+    "macos.log": {
+      "sha256": "88f1f29bac76fc86af765381d023fbf5541c8681f124bc8a9bfc6517127c247c",
+      "bytes": 556675
+    },
+    "tested-commit.json": {
+      "sha256": "b46f66bbf2b3ac1f8b9ab9026f560f5209b71e74c28c7b39cb6175ce7db675d1",
+      "bytes": 12611
+    },
+    "capture.json": {
+      "sha256": "faad7cc11dcfd1d86c247f25a939ae177b3d8349e38972bc25e2768136e41e19",
+      "bytes": 1326
+    }
+  },
+  "source_files_sha256": {
+    ".github/workflows/ci.yml": "0151c09468292c9039538c072e3c33980c778511f8e9c03967e6c2149b71c9d2",
+    "crates/kerotakis-cli/src/main.rs": "2ba5fff1c8fa57dafeaf766b127bd072480bee218e6395430568cc2aedd5d432",
+    "crates/kerotakis-cli/tests/cli_locale.rs": "ae2053812387b93bab3acb3f8a0ad6cb26b495ab9d232f7d66a34a814db54063"
+  },
+  "required_gate_snapshot": [
+    {
+      "id": 115263786417,
+      "name": "The demo page, in a real browser",
+      "status": "in_progress",
+      "conclusion": null
+    },
+    {
+      "id": 115263786422,
+      "name": "Test (native) (macos-latest)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115263786593,
+      "name": "Test (native) (ubuntu-latest)",
+      "status": "queued",
+      "conclusion": null
+    },
+    {
+      "id": 115263786677,
+      "name": "The two wasm halves, together",
+      "status": "queued",
+      "conclusion": null
+    },
+    {
+      "id": 115263786861,
+      "name": "Full preflight gate",
+      "status": "queued",
+      "conclusion": null
+    }
+  ],
+  "release_job_snapshot": [
+    {
+      "id": 115275834062,
+      "name": "Build audited CLI once",
+      "status": "queued",
+      "conclusion": null
+    }
+  ],
+  "scope": "Root review of actual current-head macOS native log and API metadata. Summary totals are log occurrences, not distinct experiments or independent chemistry calibration. No local Cargo/CLI or release artifact download.",
+  "full_ci_accepted": false,
+  "current_release_artifact_accepted": false,
+  "candidate_controls_executed": false,
+  "paired_measurements_executed": false,
+  "speedup_accepted": false,
+  "independent_review": false
+}

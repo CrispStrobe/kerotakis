@@ -13,7 +13,10 @@ resource rejections. Large local work requires the private resource gate.
    narrow optimization with paired release measurements and unchanged outputs.
    Four admitted baselines and startup attribution are accepted with recorded
    limits; the safety pilot remains unadmitted. Draft PR785 prepares deferred
-   explanation-engine initialization. Own CI, seven correctness controls and
+   explanation-engine initialization. The corrected candidate passes its own
+   [macOS native job review](../audits/release-performance-20261013/candidate-macos-ci-review-v2.json),
+   including both new regressions and the repaired locale guard. Remaining CI,
+   current-head artifact acceptance, seven candidate correctness controls and
    paired measurements are pending; no speedup or merge is accepted.
 2. **Fifty fresh CLI experiments.** Use a fresh agent that learns only syntax,
    without reading existing corpus cases or implementation details. Freeze all

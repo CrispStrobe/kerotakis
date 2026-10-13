@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "candidate_head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+  "checks": [
+    {
+      "entry_point": "protocol-v2/controls.py",
+      "versioned_definition_directory": true,
+      "corrected_candidate_binding": true,
+      "wrapper_identity_bound": true,
+      "all_frozen_shared_and_versioned_files_verified": true
+    },
+    {
+      "entry_point": "protocol-v2/paired.py",
+      "versioned_definition_directory": true,
+      "corrected_candidate_binding": true,
+      "wrapper_identity_bound": true,
+      "all_frozen_shared_and_versioned_files_verified": true
+    }
+  ],
+  "paired_freeze_sha256": "929cf53c1e0f50963268cb1f308bcd49c773824cce81698290a09eaf5f4d9ba2",
+  "cli_or_measurement_executed": false,
+  "resource_gate_stubbed": false,
+  "dispatch_main_replaced_by_observer": true,
+  "independent_review": false,
+  "scope": "Root definition/identity probe through actual wrappers; shared main replaced before dispatch. Does not certify runtime controls, resource admission or independent protocol review."
+}
