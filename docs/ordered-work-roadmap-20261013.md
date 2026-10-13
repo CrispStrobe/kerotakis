@@ -15,8 +15,10 @@ resource rejections. Large local work requires the private resource gate.
    limits; the safety pilot remains unadmitted. Draft PR785 prepares deferred
    explanation-engine initialization. The corrected candidate passes its own
    [macOS native job review](../audits/release-performance-20261013/candidate-macos-ci-review-v2.json),
-   including both new regressions and the repaired locale guard. Remaining CI,
-   seven candidate correctness controls and paired measurements are pending;
+   [Linux native job review](../audits/release-performance-20261013/candidate-linux-native-ci-review-v2.json)
+   and [wasm/browser review](../audits/release-performance-20261013/candidate-wasm-browser-ci-review-v2.json).
+   Both new regressions and the repaired locale guard pass on both native platforms.
+   Preflight, seven candidate correctness controls and paired measurements are pending;
    the current-head release artifact and version2 namespace have passed independent
    review. Missing native compiler/flag witnesses require the frozen controlled
    build collector to rebuild both sources under one captured environment, then

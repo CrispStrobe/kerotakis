@@ -219,3 +219,11 @@ prerequisite receipt bytes. Recorded source guards are checked for equality and
 identity; module/source bytes, physical filesystem placement and compiler
 invocations require external review. A successful review does not accept a
 speedup or authorize merging.
+
+[Current-head Linux native review](candidate-linux-native-ci-review-v2.json)
+verifies format, Clippy, workspace tests, codex lint and curiosity coverage in the
+actual job log. Both lazy-initialization regressions, the required primary-engine
+failure guard and the repaired locale guard pass. Both native platforms, browser
+and paired wasm now have source-bound log reviews. Preflight is running in the
+latest snapshot; the controlled build is still queued. Full CI and performance
+acceptance remain pending.
