@@ -7,7 +7,7 @@
   "files_sha256": {
     ".github/workflows/chemistry-audit.yml": "a370aba7f9252821bc597b23519a9ca6d6cdd83cab465e66818def1ce3af0b1f",
     ".github/workflows/hosted-remaining-fleet-review.yml": "90dc42f332ac85bbf54cb5e1163e2922a318ed45819916c2cf78d63d2d0c4636",
-    "audits/release-performance-20261013/review-remaining-fleets.py": "32848ebad876309a04c2eeab4de3eb1e508db3f31ade64248321df55eb4e8886"
+    "audits/release-performance-20261013/review-remaining-fleets.py": "5be8f7f408021080176f5a9023276207723341c1eda22832cf30be7ccba2eaa8"
   },
   "cli_or_build_permitted": false,
   "independent_launcher_source_review_complete": false,
@@ -21,5 +21,12 @@
     "artifact_zip_sha256": "4dab29723069543b9c0aa3f0e1a6ba88729be2db4aad426113e68c72722a9afb",
     "failure": "Reviewer KeyError Cargo.lock: untracked snapshot was incorrectly required to contain a tracked lockfile. Original evidence retained.",
     "repeated_work": "Saved-output provenance/law review only; failed prefix may be rereviewed. No CLI, build or benchmark rerun."
+  },
+  "second_correction": {
+    "superseded_head": "d3323f96903149fcd63234e8d31a6f97da2a7601",
+    "superseded_run": 38444619222,
+    "reason": "Root Cargo.lock is ignored, absent from candidate Git tree and absent from git ls-files --others --exclude-standard. Previous tracked-lock assertion was wrong.",
+    "binding": "Retain frozen summary lock digest, accepted own release receipt/digest/identity, empty diff/patch and empty untracked snapshots. No claim of archive lock bytes or tracked Git lock.",
+    "dispatch_policy": "Do not dispatch until existing run38444619222 completes; preserve its actual outcome."
   }
 }
