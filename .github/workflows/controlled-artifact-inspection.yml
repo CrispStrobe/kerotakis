@@ -1,0 +1,30 @@
+name: Controlled build artifact inspection
+on:
+  workflow_call:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  inspect:
+    name: Inspect controlled artifact bytes and compiler witnesses
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          path: audit
+          persist-credentials: false
+      - name: Verify actual controlled artifact bytes without executing binaries
+        run: python3 audit/audits/release-performance-20261013/collect-controlled-build.py --out controlled-artifact-evidence
+      - name: Preserve compiler witness summary in the job log
+        run: python3 audit/audits/release-performance-20261013/print-compiler-witnesses.py
+      - name: Preserve raw artifact, guards and first failures
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: controlled-artifact-inspection-${{ github.run_id }}-${{ github.run_attempt }}
+          path: controlled-artifact-evidence
+          if-no-files-found: error
+          retention-days: 14

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "purpose": "Hosted controlled artifact inspection only; no build or ELF execution.",
+  "controlled_build_run": 38396270148,
+  "controlled_artifact_id": 11814954199,
+  "controlled_zip_sha256": "e121b7648165c121f8e9826ffac50f497cff46e884d505aa0a3ef08efabcaa16",
+  "files_sha256": {
+    ".github/workflows/chemistry-audit.yml": "06271fd93495eea85d8790b94ee54dc3a5d052d2a9e8972479717deac42d2108",
+    ".github/workflows/controlled-artifact-inspection.yml": "d9e6075afc53ef9d41b58d481b44ad0c8bf57394a395a05e80071ee2122197af",
+    "audits/release-performance-20261013/collect-controlled-build.py": "a5ce37c28f53ffa1b155d3fd5102810a675f9440e753ee0c6516bef2b579521f",
+    "audits/release-performance-20261013/print-compiler-witnesses.py": "df8189683477428a5aaddc31840e5809dc2c8d941544f0374124f137ca6df0bc"
+  },
+  "routing_predicates_evaluated": true,
+  "only_inspection_job_selected": true,
+  "independent_semantic_compiler_review_complete": false
+}
