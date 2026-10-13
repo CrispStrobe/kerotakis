@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "superseded_run": 38444619222,
+  "superseded_head": "d3323f96903149fcd63234e8d31a6f97da2a7601",
+  "superseded_conclusion": "failure",
+  "superseded_failure": "FileNotFoundError: candidate checkout has no root Cargo.lock. Wrong tracked-lock assertion.",
+  "superseded_artifact_id": 11839706711,
+  "superseded_artifact_zip_sha256": "46d2f7557d96def3de5515bce9c1eea88ec4b5ac47623220174d741ab9f1de96",
+  "superseded_artifact_size": 1295030,
+  "superseded_host_precheckout_resources": {
+    "load1": 0.28662109375,
+    "available_memory_mib": 14611,
+    "evidence_disk_free_mib": 87155
+  },
+  "run": 38448464127,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38448464127",
+  "audit_head": "a2f9b5fb7a85c3d56eb2ee260708ee615cb17e96",
+  "audit_branch": "audit/hosted-remaining-fleet-review-v3-20261013",
+  "status_at_capture": "queued",
+  "job": 115472944568,
+  "reader_sha256": "5be8f7f408021080176f5a9023276207723341c1eda22832cf30be7ccba2eaa8",
+  "own_fleet_run": 38387729183,
+  "candidate": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+  "accepted_prior_acid_base_receipt_sha256": "23eca87b0d200ecafd07294bc2ee5f72a79161dd9119044d633ff93a5f745e50",
+  "remaining_cases_accepted": false,
+  "new_cases_to_review": 390,
+  "new_law_checks_to_review": 591,
+  "cli_build_timing_rerun": false,
+  "independent_launcher_source_review_complete": false,
+  "superseded_raw_metadata_sha256": {
+    "run.json": "b8c1c4faafd7e9f699df310ed467383bed13399658ef8c74a27aad68531ee44d",
+    "job.json": "bf2dbfa314fedc36f784986bca67dc4b952eaf75da469760773935294d518bf0",
+    "artifacts.json": "aa9ce6e93f25a4d6ec4f03f941e94c000d0108281ebe0ee3a66fb985bb19e6b0",
+    "failed.log": "c1cbe50a0f8f88cc3b9ecc793947a57314f488f0ed47fe49e1559aabbb6e6707"
+  },
+  "dispatch_raw_metadata_sha256": {
+    "run.json": "71df43c9c743b2d681d66202dbf80d68a157d66683b7dc85e79779c557499972",
+    "jobs.json": "b5ccd318f93616d99206e03e8e9105032c202fe5d0f0adf5363e39925deae9a1"
+  },
+  "scope": "Actual source-corrected dispatch AFTER previous completed failure; ignored root lock bound by accepted own release bytes and frozen summary digest, without Git-blob/archive-byte claim. Original failed outcomes and frozen expectations retained. No overlapping dispatch or CLI/build/timing rerun."
+}

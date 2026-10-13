@@ -194,3 +194,15 @@ with no Git lock-blob or frozen-archive lock-byte claim. Wait for the existing
 run's actual completion before dispatching the corrected source. Apply this
 same contract to any local resume. The prepared aggregate reader now likewise
 uses the accepted release binding; its actual execution remains pending.
+
+[Revision3 is now dispatched](hosted-remaining-fleet-review-v3-dispatch.json)
+as [run38448464127](https://github.com/CrispStrobe/kerotakis/actions/runs/38448464127)
+at `a2f9b5fb`, after revision2 completed with the actual missing-lock-file error.
+The second failed run's logs and partial artifact are preserved. The new job is
+queued; no further cases are accepted. Its reader retains the correct ignored-lock
+binding and original forecasts. [The local fallback](remaining-fleet-local-fallback-correction.json)
+now uses the same corrected contract, explicitly pins the accepted release receipt
+and rejects optimized Python. It remains unexecuted and requires independent
+review before use under fresh resource gates. Do not run it alongside the hosted
+review. The source check also reconciles frozen script construction and preflight
+files; those checks introduce no new experiment or scientific acceptance.

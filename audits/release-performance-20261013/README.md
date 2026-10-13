@@ -70,20 +70,20 @@ checkout. This is a reviewer defect; it does not demonstrate a chemistry failure
 The original failed run and uploaded partial evidence are preserved.
 
 [Run38444619222](https://github.com/CrispStrobe/kerotakis/actions/runs/38444619222)
-remains queued at `d3323f96`, but its tracked-lock correction is invalid.
-[Actual candidate Git inspection](hosted-remaining-fleet-review-lock-contract-correction.json)
-shows root `Cargo.lock` is ignored and absent from the Git tree. It is therefore
-excluded from the untracked snapshot too. The earlier description of a tracked
-lock was wrong.
+completed with the missing ignored-lock-file error, as diagnosed by candidate
+Git inspection. Its logs and partial artifact are retained.
+[Corrected run38448464127](hosted-remaining-fleet-review-v3-dispatch.json) is now
+queued at `a2f9b5fb`, dispatched only after that completed failure. The reader
+retains the frozen summary lock digest, accepted own-release byte binding,
+empty patch/diff and empty untracked snapshot. It makes no Git lock-blob claim.
+The earlier tracked-lock description was wrong and is superseded by the explicit
+[lock-contract correction](hosted-remaining-fleet-review-lock-contract-correction.json).
 
-[Corrected source `a2f9b5fb`](https://github.com/CrispStrobe/kerotakis/blob/a2f9b5fb7a85c3d56eb2ee260708ee615cb17e96/audits/release-performance-20261013/review-remaining-fleets.py)
-is pushed and not dispatched. It retains the frozen summary lock digest,
-accepted own-release byte binding, empty patch/diff and empty untracked snapshot;
-it makes no Git lock-blob claim. Preserve the queued run's actual outcome before
-dispatching this source. The older local reader needs the same schema correction.
-No additional cases are accepted. PR785 remains draft. Historical checkpoints
-below retain their capture-time states; the explicit lock correction supersedes
-earlier tracked-lock descriptions.
+[The local fallback correction](remaining-fleet-local-fallback-correction.json)
+is also prepared without changing original forecasts or evaluators; it is
+unexecuted and still requires independent review and fresh resource gates.
+Do not duplicate the active hosted review. No additional cases are accepted.
+PR785 remains draft. Historical checkpoints below retain their capture-time states.
 
 The user authorized six lanes in order: performance, fifty fresh CLI experiments,
 annotation contracts, historical regression coverage, broader safety, then deeper

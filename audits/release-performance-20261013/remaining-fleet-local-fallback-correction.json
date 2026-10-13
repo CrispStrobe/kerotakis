@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "parent_reviewer_sha256": "a45f189ad85102badff8532be7a6b7e83017f2f166a4368f679090e2dbb1ba1a",
+  "corrected_reviewer_sha256": "3e78104de0ea8ce94a432ce2d17fd1e7a63707e1a575713a1fdf4f22a86654f2",
+  "ast_valid": true,
+  "executed": false,
+  "independent_source_review_complete": false,
+  "changes": [
+    "Replace impossible ignored root-lock snapshot entry with required empty clean snapshot; existing summary lock digest and own release identity checks retained.",
+    "Pin accepted own release receipt bytes explicitly to8ec.",
+    "Reject optimized Python before provenance assertions.",
+    "Qualify ignored root-lock digest versus accepted own release bytes."
+  ],
+  "frozen_inputs_and_evaluators_changed": false,
+  "execution_rule": "Use a new exclusive evidence directory, independently review the method, require fresh resource gates, and avoid duplicating the active hosted review.",
+  "source_contract_checks": [
+    "Frozen recorder.case prepends register lv3 and appends inspect before the original question/script is archived.",
+    "Sixth/seventh specs are captured before the shared recorder module changes to the next batch.",
+    "Frozen preflight checks bind tracked harness/analyzer/document files and do not claim ignored root lock bytes."
+  ],
+  "scope": "Prepared versioned local fallback only. Protected accepted acid/base and partial distillation bytes retained; requires independent method review and fresh gates. Do not run alongside active hosted review."
+}

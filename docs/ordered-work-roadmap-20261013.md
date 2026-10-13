@@ -39,10 +39,12 @@ resource rejections. Large local work requires the private resource gate.
    snapshot. [The preserved failure and correction](../audits/release-performance-20261013/hosted-remaining-fleet-review-first-failure.json)
    bind the original failure. A further [lock-contract correction](../audits/release-performance-20261013/hosted-remaining-fleet-review-lock-contract-correction.json)
    proves root `Cargo.lock` is ignored and absent from Git. The queued revision
-   `d3323f96` incorrectly attempts a tracked-lock assertion. Corrected source
-   `a2f9b5fb` is pushed, not dispatched; preserve the existing run's actual outcome
-   before dispatching it. Summary lock digest and independently accepted own-release
-   bytes remain the binding. Review its actual raw receipt before accepting more
+   `d3323f96` failed at that incorrect tracked-lock assertion; its actual logs and
+   partial evidence are retained. [Corrected run38448464127](../audits/release-performance-20261013/hosted-remaining-fleet-review-v3-dispatch.json)
+   is now queued at `a2f9b5fb`, dispatched after the failure completed. Summary
+   lock digest and independently accepted own-release bytes remain the binding.
+   The local fallback is corrected but unexecuted; do not duplicate the active
+   hosted job. Review its actual raw receipt before accepting more
    cases, then execute the prepared aggregate reader and reconcile own v1/v3
    outputs, including all thirteen v1 and five v3 artifact downloads. PR785 remains draft; later lanes remain queued.
 2. **Fifty fresh CLI experiments.** Use a fresh agent that learns only syntax,
