@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "run": 38416861628,
+  "job": 115363505849,
+  "audit_head": "57f5ba613969059ec6f68a1479e15fb757e540ad",
+  "conclusion": "success",
+  "all_declared_steps_success": true,
+  "job_log_sha256": "f723f2f3ad50d693b1133a5dd80b919c9d051a6450600144033384568d65c312",
+  "hosted_summary_sha256": "3b346b9f25f90102971e6fc43e67c471af5d16edafe79f7cb06e36245e68fe8c",
+  "raw_api_sha256": {
+    "run.json": "82e259c3a7b7c7bf4dc4192878237cc9813f4f7d01ac309b7c1bde02ed8caaf2",
+    "job.json": "df59ead0e4d71adff8e736a1ba341464f348d75cd8d0d2fcd7cf878cd011f4a2",
+    "artifacts.json": "bd0312896abe9374362b0b8fb15a3f46204771f4435cdef4be146fd31f14c2e9"
+  },
+  "output_artifacts": [
+    {
+      "id": 11828024140,
+      "name": "controlled-artifact-inspection-38416861628-1",
+      "size_in_bytes": 39541918,
+      "digest": "sha256:81a251489b327788d9996d023514eb57df1d0160c35f04e76abe5d5f98a4fe53"
+    }
+  ],
+  "raw_output_archive_downloaded_here": false,
+  "scope": "Actual source-bound job-log summary and API association only; no local raw output archive download, runtime rerun or independent whole hosted source audit.",
+  "variants": {
+    "baseline": {
+      "binary_sha256": "b1867d840a9da7cd909308e016bfa24cf2f41f263848109bf6d14ee1db4a4769",
+      "head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+      "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+      "tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811"
+    },
+    "candidate": {
+      "binary_sha256": "1e94804fee60f5ddfb08b42dd324890ef71abacdca5bd02eda0036d49be3df3b",
+      "head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+      "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+      "tree": "25d1dd490acc080a59f2a02e5b9399a22bd0f4bc"
+    }
+  },
+  "artifact_zip_sha256": "e121b7648165c121f8e9826ffac50f497cff46e884d505aa0a3ef08efabcaa16",
+  "agrees_with_accepted_local_artifact_review": true,
+  "independent_effective_compiler_review_complete": false,
+  "independent_local_acceptance_receipt_sha256": "7611e83cb6db9e98ff2fbf2e15b072f5a221707a14cc337057df466631aab580"
+}

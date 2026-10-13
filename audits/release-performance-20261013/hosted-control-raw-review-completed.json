@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "run": 38421013508,
+  "job": 115378026151,
+  "audit_head": "d3cc3c14f9d3bee0e8a6804ff23e1f3278663e69",
+  "conclusion": "success",
+  "all_declared_steps_success": true,
+  "job_log_sha256": "68735c8d3d2f8ce8f64c2d9832ede0a522eb9364f0efce9089929b0f4c37a2d8",
+  "hosted_summary_sha256": "e4fb2a8749ad13dc15217d1213f3a10220abbf6ce2fba88ab8bba172217859d6",
+  "raw_api_sha256": {
+    "run.json": "6b50c8c48f9aec2a83c1f205fe8f0b1832a81dd9af2237373b63fc0eb30382ae",
+    "job.json": "7786eab29bf1fbd67ad04d68a72c0574729392c2eb44bf6b82ec59b4c3f6d44f",
+    "artifacts.json": "05ddeefa60b84eb340e0e231362aad620493707c7edadb584fd74b1a55e505b7"
+  },
+  "output_artifacts": [
+    {
+      "id": 11829345789,
+      "name": "candidate-control-raw-review-38421013508-1",
+      "size_in_bytes": 13665324,
+      "digest": "sha256:4b0c44c586c9ed7bfdbf8117d3886216655c32c66fc88d74705a93860e6b2a5f"
+    }
+  ],
+  "raw_output_archive_downloaded_here": false,
+  "scope": "Actual source-bound job-log summary and API association only; no local raw output archive download, runtime rerun or independent whole hosted source audit.",
+  "saved_control_summary": {
+    "candidate": {
+      "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+      "head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+      "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+      "tree": "25d1dd490acc080a59f2a02e5b9399a22bd0f4bc"
+    },
+    "cli_executed": false,
+    "controls": [
+      {
+        "canonical_stdout_sha256": "30a42a6ae9cc4441f0862f410ef4e1043656f290611cf3acf363b1f87d7c218c",
+        "id": "first-repeat-en-json",
+        "passed": true,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "f37ca8682e5466598ab15fc3c3edd2ba9a0a98ec6440fdbff0801ac58b01bec6"
+      },
+      {
+        "canonical_stdout_sha256": null,
+        "id": "first-repeat-en-text",
+        "passed": true,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "ac615da2142003ae1b8b108850052f67f4a774a00f6afe36daaf3b51d14f20d7"
+      },
+      {
+        "canonical_stdout_sha256": "1c0340641f8092dc1dafdff94ee12f76a172c69639570e89b9d71afb0d757984",
+        "id": "first-repeat-de-json",
+        "passed": true,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "85593ec36cbedff4665673533162fda29ad2871756ced7fd13a70d353341f4f0"
+      },
+      {
+        "canonical_stdout_sha256": null,
+        "id": "first-repeat-de-text",
+        "passed": true,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "44945af889c666ccc99e44e56289d438281c4a880183fc185ceb4404e7b1a017"
+      },
+      {
+        "canonical_stdout_sha256": "dc1930b630dc873438d01d6bb2897471f2e77f0d03707cf5a489ed2191723a36",
+        "id": "empty-explanation-json",
+        "passed": true,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "24567e2aae52594bc06cc878ff105c04ed782f76ed042d3581ef18f22e322b4f"
+      },
+      {
+        "canonical_stdout_sha256": null,
+        "id": "invalid-vessel-json",
+        "passed": true,
+        "stderr_sha256": "a3a30eb1cf3a9a3aca66383c56fcbe54fe5ef46847ed009d770e74261398f0b6",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "canonical_stdout_sha256": null,
+        "id": "masked-explanation-text",
+        "passed": true,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "94728d3b2fe60bf2f6136941c62a091b5471285903a700868963e8a3e3d8fc08"
+      }
+    ],
+    "input_artifact_zip_sha256": "45e9d561944e983c059f4cad70fd43adb7acbf5a63036e06ced7dce452ccd9a2",
+    "input_run": 38407663054,
+    "paired_freeze_sha256": "929cf53c1e0f50963268cb1f308bcd49c773824cce81698290a09eaf5f4d9ba2",
+    "performance_measured": false,
+    "recursive_native_modules_rechecked": false,
+    "reviewer_sha256": "6b2b55c5f157a544520c1aff9060d2d5a170dea0b4208ae717d45b69019c5e56",
+    "saved_raw_control_review_pass": true,
+    "scope": "Independent saved-output calculation, not an independent human/source-code audit. Exit/watchdog/source guards checked as recorded; no runtime remeasurement. Text equality preserves old quest transcript, not new privacy/science proof.",
+    "source_blobs_independently_reread": false,
+    "underlying_controls_sha256": "067a0bccb3f228e273cd40512d323965d92a54c149693bdb480641fd655a099e"
+  },
+  "algorithm_independent_raw_review_reported_pass": true,
+  "independent_human_source_review_complete": false,
+  "reviewer_source_path": "audits/release-performance-20261013/review-hosted-controls.py",
+  "reviewer_source_sha256": "6b2b55c5f157a544520c1aff9060d2d5a170dea0b4208ae717d45b69019c5e56",
+  "actual_printed_reviewer_source_identity_verified": true
+}

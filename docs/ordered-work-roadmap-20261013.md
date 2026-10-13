@@ -19,7 +19,10 @@ resource rejections. Large local work requires the private resource gate.
    review. The original safety admission failure and interrupted timing attempt
    remain preserved. No general significance or application-memory gain is claimed.
    [Fleet inventory](../audits/release-performance-20261013/candidate-fleet-closure-inventory-20261013.json)
-   records 29 successful jobs, three queued families and an absent v2 aggregate.
+   preserves the earlier snapshot. [Current fleet progress](../audits/release-performance-20261013/candidate-fleet-progress-20261013.json)
+   verifies all 33 materialized source jobs: 32 successful, only the 288-case
+   aggregate queued. Source-bound 240-case and 120-case aggregate log outcomes
+   are recorded; independent own saved family/aggregate closure remains pending.
    Next accept the own saved family/frozen outputs and actual aggregates at the
    exact candidate source, obtain a completed 33-job checkpoint, and finish the
    narrow PR's guarded acceptance. Detailed executable review obligations are in

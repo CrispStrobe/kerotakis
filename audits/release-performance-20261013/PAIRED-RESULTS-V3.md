@@ -73,3 +73,19 @@ The bounded fleet inventory is [source-bound here](candidate-fleet-closure-inven
 The latest two family-review attempts stopped at their initial load/memory gates;
 no new family archive was downloaded. Previously accepted performance evidence
 and original forecasts remain intact.
+
+Latest progress: [all 33 source-defined jobs now materialized](candidate-fleet-progress-20261013.json),
+with 32 successful jobs and the 288-case aggregate queued. The 240-case/338-check
+and 120-case/150-check aggregate logs are source-bound and successful. Their
+own saved family outputs still require recomputation before full acceptance.
+The two formerly queued inspection jobs also completed successfully:
+[original seven-control saved-output calculation](hosted-control-raw-review-completed.json)
+and [controlled compiler-witness inspection](hosted-controlled-inspection-completed.json).
+These are separate from the accepted rebuilt-candidate timing evidence.
+
+The prepared v2 family reader now persists each resource snapshot before its
+assertions, including a rejecting snapshot, and rejects JSON NaN/infinity and
+numeric overflow recursively. The first method and initial rejection records
+remain intact. Strict JSON rejection checks and an actual gate-journal probe
+pass; no fleet archive or case has been accepted by this preparation. Large
+saved-output work still waits for the operating load/memory gates to reopen.

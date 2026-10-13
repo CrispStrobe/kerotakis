@@ -13,12 +13,15 @@ native per-file compiler argv and separate Ninja/archiver hashes are outside the
 accepted scope. The seven passing controls used
 ordinary candidate `b290b436`, so they do not certify the rebuilt candidate.
 
-[Saved-control raw review](hosted-control-raw-review-dispatch.json) is dispatched
-at isolated revision `d3cc3c14`. It independently recomputes seven contracts from
-saved streams without running the CLI. Both that run and the earlier hosted
-compiler-witness inspection are queued. Preserve their exact source bindings;
-do not duplicate dispatches. Bounded independent reviews of the collected build
-and ordinary CI evidence can proceed only while their resource gates permit.
+[Completed saved-control raw review](hosted-control-raw-review-completed.json)
+reports all seven original version2 controls pass an independently implemented
+saved-output calculation at isolated revision `d3cc3c14`. Its printed reviewer
+hash matches the actual source. No CLI ran in that review, and independent human
+source audit and whole source-blob rereading remain outside its scope.
+[Completed hosted compiler inspection](hosted-controlled-inspection-completed.json)
+agrees with the rebuilt identities already accepted locally. Both previously
+queued review jobs succeeded; their raw archives remain separate from the
+source-bound log summaries captured here.
 
 [Version3](protocol-v3/README.md) binds both rebuilt digests. Its initial review
 caught missing enforcement of the candidate digest; corrected wrappers now
@@ -47,9 +50,15 @@ the titration effect is modest relative to variation. These are host-specific
 fresh-process measurements, with no general significance or memory claim.
 Next deliverable: close the separate own chemistry fleet saved outputs and
 finish narrow PR acceptance. [The fleet inventory](candidate-fleet-closure-inventory-20261013.json)
-records 29 successful jobs, three queued v2 families and an absent aggregate.
+retains the earlier 29-job checkpoint. [Current fleet progress](candidate-fleet-progress-20261013.json)
+now verifies all 33 source-expanded jobs: 32 succeeded, and the 288-case aggregate
+is queued. The hosted 240-case/338-check and 120-case/150-check aggregate log
+outcomes pass; own saved family outputs still require recomputation.
 The latest two saved-family review starts stopped at closed load/memory gates
-before downloads. Follow the ordered review obligations in the results handoff.
+before downloads. A new prepared reviewer journals each resource reading before
+enforcing the gate and rejects nonstandard/nonfinite raw JSON; the original
+method and rejections remain preserved. These preparation checks do not accept
+any new fleet case. Follow the ordered review obligations in the results handoff.
 Preserve original freezes, baseline transcripts and the failed safety forecast.
 PR785 remains draft; merge is pending. Historical checkpoints below retain their
 capture-time states.

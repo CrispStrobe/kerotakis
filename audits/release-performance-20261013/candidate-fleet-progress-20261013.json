@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "run": 38387729183,
+  "head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+  "captured_jobs": 32,
+  "successful_jobs": 31,
+  "pending_jobs": [
+    {
+      "id": 115283965623,
+      "name": "Source fleet v2 thermochemical-paths",
+      "status": "in_progress"
+    }
+  ],
+  "actual_aggregate_log_summaries": [
+    {
+      "job": 115346519078,
+      "name": "All 240 source-informed cases",
+      "outcome": {
+        "families": 10,
+        "cases": 240,
+        "checks": 338,
+        "unmet_families": []
+      },
+      "job_log_sha256": "ecaa11bf9d6cd70174ca0734073ac43aa450395095ba5a7f1292d382c6e477d0",
+      "actual_family_outputs_independently_recomputed_here": false
+    },
+    {
+      "job": 115351275849,
+      "name": "All 120 source-informed v3 cases",
+      "outcome": {
+        "schema": "kerotakis-source-aggregate-v3",
+        "families": 5,
+        "cases": 120,
+        "relations": 30,
+        "checks": 150,
+        "commit": "4df5deab77506d372a8df45f5d517e2f070d7f5a",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "unmet_families": []
+      },
+      "job_log_sha256": "42a2a952998f6896fe335b3cbb887f727cf08d44d185cdd4c699935bd9e79329",
+      "actual_family_outputs_independently_recomputed_here": false
+    }
+  ],
+  "full_fleet_saved_outputs_accepted": false,
+  "raw_api_sha256": {
+    "run.json": "be9b3ff560e58df79853d37f6f733c5bb31ac2f33d3d0ea16b5295414b028b1b",
+    "jobs.json": "6b60718ec1a5daa4521f711bacf8f81635d1654013e7d411b11b2f36868b95b9",
+    "pr.json": "4a69692050fa1e1aa995a36b2e15691249ab2ecba9070c0abf5a0fa9389c53d5",
+    "artifacts.json": "603894a1b523e579e8f6925182689ac4d2c07b07e4fd99f81812fe82342627e6"
+  },
+  "latest_capture_utc": "2026-10-13T16:29:33.091397+00:00",
+  "latest_materialized_jobs": 33,
+  "latest_successful_jobs": 32,
+  "latest_pending_jobs": [
+    {
+      "id": 115408584535,
+      "name": "All 288 source-informed v2 cases",
+      "status": "queued",
+      "conclusion": null
+    }
+  ],
+  "all_33_source_defined_job_names_verified": true,
+  "completed_source_named_steps_verified": true,
+  "source_workflow_sha256": "57252f0fb26ac203b5420e82a3e1355a20ec0ea6ac925d7078b95bcaf75e1304",
+  "latest_raw_api_sha256": {
+    "run.json": "5da8537bf5626db65c5964be73386763d78a779e617b7fe756b52c4cbf993d38",
+    "jobs.json": "f1f539d0f9cd8f7efb0a445cc62e3f6ec7519591b6e663480510332f4d34fbc9",
+    "artifacts.json": "876e78cae88f7c84159601953c67ce010572b875fa784830534241eac7259aef",
+    "checkout.json": "1e15ec1f36f7a5e983486d5f0442e061a2791b3a76948b5d29b427382214b7df"
+  }
+}
