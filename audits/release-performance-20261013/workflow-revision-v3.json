@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "original_freeze_sha256": "22d3651be1f443410a051b59945c1f613eed03d401e92a857a9811abf021fd4f",
+  "previous_audit_commit": "674754619372d00bda2976e69cba29d1dfd61d72",
+  "failed_run": 38358454350,
+  "failed_job": 115166741271,
+  "failure": "Artifact run API pull_requests was empty after merge; exact list check failed before any pilot or timing.",
+  "benchmark_step_skipped": true,
+  "change": "Accept only original association or empty run association; additionally verify exact merged PR782 head/base/merge. Preserve exact checkout parents/tree, job, artifact ZIP, binary and captured lock checks.",
+  "workloads_and_measurement_code_unchanged": true,
+  "new_workflow_sha256": "82beab85c8329b07ef355419f56389a3a99de432fe3019e70993eae1e18cafe8"
+}

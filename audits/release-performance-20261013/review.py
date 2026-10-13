@@ -109,9 +109,9 @@ def measurement(folder, expected, case):
     return actual
 
 
-def review(evidence):
+def review(evidence, dispatch_path=HERE / 'dispatch.json'):
     freeze = load(HERE / 'freeze.json')
-    dispatch = load(HERE / 'dispatch.json')
+    dispatch = load(dispatch_path)
     require(sha(HERE / 'freeze.json') == dispatch['freeze_sha256'], 'freeze changed')
     for name, expected in freeze['files_sha256'].items():
         require(sha(HERE / name) == expected, 'frozen input changed: ' + name)
@@ -202,8 +202,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--evidence', type=Path, required=True)
     parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--dispatch', type=Path, default=HERE / 'dispatch.json',
+                        help='Public binding for the specific baseline run being reviewed')
     args = parser.parse_args()
-    result = review(args.evidence)
+    result = review(args.evidence, args.dispatch)
     with args.out.open('x') as stream:
         stream.write(json.dumps(result, indent=2) + '\n')
     print(json.dumps(dict(baseline_collection_complete=result['baseline_collection_complete'],

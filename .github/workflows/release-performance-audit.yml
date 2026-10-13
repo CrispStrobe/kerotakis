@@ -81,8 +81,16 @@ jobs:
           require(run['id'] == 38315281856 and run['head_sha'] == head
                   and run['event'] == 'pull_request' and run['run_attempt'] == 1
                   and run['status'] == 'completed' and run['conclusion'] == 'success', 'wrong artifact run')
-          require([(p['number'], p['head']['sha'], p['base']['sha']) for p in run['pull_requests']]
-                  == [(782, head, base)], 'wrong artifact PR association')
+          associations = [(p['number'], p['head']['sha'], p['base']['sha'])
+                          for p in run['pull_requests']]
+          require(associations in ([(782, head, base)], []), 'wrong artifact PR association')
+          # A completed merged PR's run can have an empty pull_requests field.
+          # Bind the original PR explicitly; checkout parents/tree are checked below.
+          original_pr = api('artifact-original-pr', 'pulls/782')
+          require(original_pr['number'] == 782 and original_pr['head']['sha'] == head
+                  and original_pr['base']['sha'] == base and original_pr['merged'] is True
+                  and original_pr['state'] == 'closed'
+                  and original_pr['merge_commit_sha'] == accepted, 'wrong original artifact PR')
           require(job['run_id'] == run['id'] and job['id'] == 115030315843
                   and job['head_sha'] == head and job['run_attempt'] == 1
                   and job['status'] == 'completed' and job['conclusion'] == 'success', 'wrong build job')
@@ -134,6 +142,8 @@ jobs:
                          artifact_zip_sha256=expected_zip, binary_sha256=binary_sha,
                          actual_artifact_lock_sha256=lock_sha, source_tree_equivalent=True,
                          new_binary_built=False, audit_revision=os.environ['GITHUB_SHA'],
+                         artifact_run_pr_associations=associations,
+                         original_pr_verified=True, original_pr_merge=accepted,
                          hosted_run_id=os.environ['GITHUB_RUN_ID'],
                          hosted_run_attempt=os.environ['GITHUB_RUN_ATTEMPT'],
                          callgrind_requested=False, local_build_performed=False)
