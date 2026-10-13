@@ -48,20 +48,21 @@ review of all 88 process outputs and 64 timed samples. Median wall reductions
 are 21.0% startup, 26.6% one salt addition, 10.2% salt batch and 4.5% titration;
 the titration effect is modest relative to variation. These are host-specific
 fresh-process measurements, with no general significance or memory claim.
-Next deliverable: close the separate own chemistry fleet saved outputs and
-finish narrow PR acceptance. [The fleet inventory](candidate-fleet-closure-inventory-20261013.json)
-retains the earlier 29-job checkpoint. [Current fleet progress](candidate-fleet-progress-20261013.json)
-now verifies all 33 source-expanded jobs: 32 succeeded, and the 288-case aggregate
-is queued. The hosted 240-case/338-check and 120-case/150-check aggregate log
-outcomes pass; own saved family outputs still require recomputation.
-The latest two saved-family review starts stopped at closed load/memory gates
-before downloads. A new prepared reviewer journals each resource reading before
-enforcing the gate and rejects nonstandard/nonfinite raw JSON; the original
-method and rejections remain preserved. These preparation checks do not accept
-any new fleet case. Follow the ordered review obligations in the results handoff.
-Preserve original freezes, baseline transcripts and the failed safety forecast.
-PR785 remains draft; merge is pending. Historical checkpoints below retain their
-capture-time states.
+Next deliverable: finish own saved family/frozen outputs and aggregate
+recomputation, then finish narrow PR acceptance. [All 33 jobs and declared
+steps](candidate-fleet-completed-steps-20261013.json) now pass. [The v2 review](candidate-fleet-v2-saved-output-review.json)
+accepts 12 families, 288 cases and 368 checks; [the partial v1 review](candidate-fleet-v1-v3-partial-review.json)
+accepts acid/base buffers, 24 cases and 32 checks. Together, 312 cases and
+400 checks are accepted; 390 cases and 591 checks remain. Distillation bytes and
+raw inputs are validated but its law evaluation stopped at the load gate.
+Actual aggregate recomputation remains separate from hosted job success.
+
+A resume revision is prepared to verify and retain prior accepted-family bytes
+and reuse partial saved archives without redownloading. It changes orchestration
+only and still requires independent review before execution. Current load and
+memory gates are closed. Preserve all original forecasts, freezes, interrupted
+runs and partial records. PR785 remains draft. Historical checkpoints below
+retain their capture-time states.
 
 The user authorized six lanes in order: performance, fifty fresh CLI experiments,
 annotation contracts, historical regression coverage, broader safety, then deeper

@@ -89,3 +89,14 @@ numeric overflow recursively. The first method and initial rejection records
 remain intact. Strict JSON rejection checks and an actual gate-journal probe
 pass; no fleet archive or case has been accepted by this preparation. Large
 saved-output work still waits for the operating load/memory gates to reopen.
+
+Current closure checkpoint: [all 33 own fleet jobs and source-defined steps pass](candidate-fleet-completed-steps-20261013.json).
+[V2 saved-output review](candidate-fleet-v2-saved-output-review.json) accepts all
+12 families/288 cases/368 checks. [Partial v1 review](candidate-fleet-v1-v3-partial-review.json)
+accepts acid/base buffers, another 24 cases/32 checks. Total 312 cases/400 checks
+are accepted; 390 cases/591 checks and aggregate recomputation remain.
+Distillation's own archive and raw-input checks completed, but its law evaluation
+stopped at the resource gate and is unaccepted. Reuse protected saved bytes
+through a reviewed resume revision; do not rerun the CLI or overwrite accepted
+reports. The prepared resume changes orchestration only, requires independent
+review, and preserves the original forecasts and source-owned evaluators.

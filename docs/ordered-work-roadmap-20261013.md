@@ -18,13 +18,15 @@ resource rejections. Large local work requires the private resource gate.
    rebuilt-candidate controls and all five actual required CI logs pass independent
    review. The original safety admission failure and interrupted timing attempt
    remain preserved. No general significance or application-memory gain is claimed.
-   [Fleet inventory](../audits/release-performance-20261013/candidate-fleet-closure-inventory-20261013.json)
-   preserves the earlier snapshot. [Current fleet progress](../audits/release-performance-20261013/candidate-fleet-progress-20261013.json)
-   verifies all 33 materialized source jobs: 32 successful, only the 288-case
-   aggregate queued. Source-bound 240-case and 120-case aggregate log outcomes
-   are recorded; independent own saved family/aggregate closure remains pending.
+   [Completed fleet steps](../audits/release-performance-20261013/candidate-fleet-completed-steps-20261013.json)
+   now verifies all 33 jobs and source-defined steps pass. The source-bound
+   [v2 raw review](../audits/release-performance-20261013/candidate-fleet-v2-saved-output-review.json)
+   accepts 288 cases/368 checks, and [partial v1 review](../audits/release-performance-20261013/candidate-fleet-v1-v3-partial-review.json)
+   accepts 24 cases/32 checks. Total accepted: 312 cases/400 checks; remaining:
+   390 cases/591 checks plus actual aggregate recomputation. Distillation's
+   downloaded bytes are retained; its law evaluation stopped at the load gate.
    Next accept the own saved family/frozen outputs and actual aggregates at the
-   exact candidate source, obtain a completed 33-job checkpoint, and finish the
+   exact candidate source, retain the completed 33-job checkpoint, and finish the
    narrow PR's guarded acceptance. Detailed executable review obligations are in
    [the results handoff](../audits/release-performance-20261013/PAIRED-RESULTS-V3.md).
    Downloads, recomputation and execution require open operating resource gates;

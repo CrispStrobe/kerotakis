@@ -1,0 +1,279 @@
+{
+  "schema_version": 1,
+  "run": 38387729183,
+  "candidate": {
+    "head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+    "tree": "25d1dd490acc080a59f2a02e5b9399a22bd0f4bc",
+    "tested_checkout": "4df5deab77506d372a8df45f5d517e2f070d7f5a",
+    "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+    "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+  },
+  "partial_checkpoint_sha256": "d893bc7553c3171992880255ecae41c5f730f3a27ab399b635f338ca6c240c67",
+  "source_sha256": {
+    "tools/chemistry-audit/run.py": "3adead02d502903ec4663f1314d94caf0a5b607aa51d6397d841c0fbb9b94e23",
+    "tools/chemistry-audit/source_fleets.py": "a04f6905692b2783a9fd4e0a4e2c3581be5768a1b2bacd47cdbf76617bd57f5b",
+    "tools/chemistry-audit/source_fleets_2.py": "641285a057c870f3f698d486791ca368435ceefa8f5ae89dec0627078e47b45f",
+    "tools/chemistry-audit/source_fleets_3.py": "c84c8ffa381a6300487334ba394316d830564753f7c0f74119ff8a5be07c119c",
+    "tools/chemistry-audit/analyse_source_fleets.py": "1d4d741ce8afd537ba7def50bce422187f178bdc5feefb1cb5a59c3e6e8e6957",
+    "tools/chemistry-audit/analyse_source_fleets_3.py": "0f01ac5a331b2e26dcf17ec391a23cf5be7d7461a038cca32d92dade042b75c5",
+    "tools/chemistry-audit/sixth_batch.py": "64b27d8d51d36ee20ddb99832a6ff0cc8a806acc30f8b1345d66203d82c528e4",
+    "tools/chemistry-audit/seventh_batch.py": "9164c194e10e7d5d5561c7e76506e844bfc2a57acd3aa38161126d9c4ae7ea7f",
+    "tools/chemistry-audit/analyse_sixth.py": "979dc23a458e502ee33176d15867eba529760ec3c1b6c6c5f1098273c255dcfe",
+    "tools/chemistry-audit/analyse_seventh.py": "d03c7a468401ba6872cc2a4bdc8c4730c30d1480b526fa164f226ff96efa2ea3",
+    "data/registry/registry-source-v1.json": "48487e1940c5e0122207d352c78e4377f8f7b47d421be2f78d62b61a096c3774",
+    ".github/workflows/chemistry-audit.yml": "57252f0fb26ac203b5420e82a3e1355a20ec0ea6ac925d7078b95bcaf75e1304",
+    "tools/chemistry-audit/source-fleets/acid-base-buffers.json": "685a4c0edad27dbb0eff02754995bb8916bac0fd55fe9dc16b70b832706e1492",
+    "tools/chemistry-audit/source-fleets/distillation.json": "18bfcab295e4dec165ee168953225b2b48f4f7ed3952eb6b3757de27dea6684a"
+  },
+  "accepted_own_release_receipt_sha256": "8ec124715750fbb0b316d7354f5b924ff9517ec6ff92ad7cdf59c879e0995c9c",
+  "accepted_families": [
+    {
+      "family": "acid-base-buffers",
+      "generation": "v1",
+      "artifact_id": 11818352790,
+      "artifact_name": "chemistry-audit-acid-base-buffers-4df5deab77506d372a8df45f5d517e2f070d7f5a",
+      "artifact_zip_sha256": "45510b1b37601d1ea86b037e3d0948a4b682a88213b2f249f032ce69a597aba8",
+      "artifact_api_sha256": "e1133e77beb12f7f801f19f8fabaed5baafcbaf300199ae01bf2b3d3fbfc3e27",
+      "archive_members": 74,
+      "member_sha256": {
+        "acid-base-buffers/219-strong-acid-0.00025/experiment.lab": "67ee07cc4bad3fb0ffa41daf45eae6b11f4e62e0c1fe77f53c39bfa0435d13ea",
+        "acid-base-buffers/219-strong-acid-0.00025/stdout.ndjson": "7cf5c01bad6b1628dcd850a7ae2ffb603f22ece5f4c645dc4cb4d25a6cdffa63",
+        "acid-base-buffers/219-strong-acid-0.00025/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/220-strong-acid-0.0005/experiment.lab": "be9f4637c5ac52376592282511c43456e1723c57286661edac1f7d124140f906",
+        "acid-base-buffers/220-strong-acid-0.0005/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/220-strong-acid-0.0005/stdout.ndjson": "14892a276c53e4f0ad40833dd9109032ec7e65eda6adc32c47413eaf6c534611",
+        "acid-base-buffers/221-strong-acid-0.001/experiment.lab": "8f2a936d9510ba4ff3e3957185c3fe5a7d7dfed72e0ec2f7014d92e4a9e93d76",
+        "acid-base-buffers/221-strong-acid-0.001/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/221-strong-acid-0.001/stdout.ndjson": "a88eb8cd368db2da86ce2d60337a32b9cc15a801d0fbb1764c2d7bc092eb8804",
+        "acid-base-buffers/222-strong-acid-0.002/experiment.lab": "b91bf339748a7fdb12bb2706a96866a3a5f956232afd9ded7317e0606ecd18c3",
+        "acid-base-buffers/222-strong-acid-0.002/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/222-strong-acid-0.002/stdout.ndjson": "f65dfffea3e7a6097630c95e747e8cedbfea113eaf6488bfc52e37279f17de73",
+        "acid-base-buffers/223-acid-dilution-100/experiment.lab": "a281b46fc42693424cb4b02e32f4c7ee64ed6da0d5896c86ea19e258ba7a6fbd",
+        "acid-base-buffers/223-acid-dilution-100/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/223-acid-dilution-100/stdout.ndjson": "2cc1152683c4143ef306ed393e8e751d3d2bc4b95a4aa0fef26874c7c7fbee9f",
+        "acid-base-buffers/224-acid-dilution-200/experiment.lab": "e7660fec00ab323290681df7017847d27c9110124f30378fcba5f335352d766f",
+        "acid-base-buffers/224-acid-dilution-200/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/224-acid-dilution-200/stdout.ndjson": "0359256c43ce7ce0dabb68e97625db4ee071fa2506dc6b82230faface7f7ddfe",
+        "acid-base-buffers/225-acid-dilution-400/experiment.lab": "c1ce6af2567b9cbc0bdea6ef6c53dac89a062460cd7b487d2d104d4ba27a4965",
+        "acid-base-buffers/225-acid-dilution-400/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/225-acid-dilution-400/stdout.ndjson": "e3a99aaf4ae94de8e2e10c815ad650490b108908c0705fb9f6367eab7f2e70a8",
+        "acid-base-buffers/226-acid-dilution-800/experiment.lab": "388f33f5bfd87df1b9bd34d0fee0ec96bd77bdcfb5ad6e72534ae7d81543db53",
+        "acid-base-buffers/226-acid-dilution-800/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/226-acid-dilution-800/stdout.ndjson": "0f44f001b1a417cd58e03e00864bd796e4d93b33a875cef77c07ad79d12455b5",
+        "acid-base-buffers/227-strong-base-0.00025/experiment.lab": "fcd058408ccc1d734f84f9882f6912d56e1175e4420a2591f64f295f054d5a89",
+        "acid-base-buffers/227-strong-base-0.00025/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/227-strong-base-0.00025/stdout.ndjson": "4f033dcbe9d5bd35792cd94fd6319bf14e459dd9be21b00736c35c1706006bae",
+        "acid-base-buffers/228-strong-base-0.0005/experiment.lab": "a08d977dcee0491e08383051f65dbc6540f121e24dad27d95b5e12244111753c",
+        "acid-base-buffers/228-strong-base-0.0005/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/228-strong-base-0.0005/stdout.ndjson": "5b7f8e67a1697295010fdae9541b35c5c4f15e595ed9d39decca51a48664d756",
+        "acid-base-buffers/229-strong-base-0.001/experiment.lab": "a2366d3d0246267e1eda6bce5969a79ceda64c485dcfd12808714bccda79434c",
+        "acid-base-buffers/229-strong-base-0.001/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/229-strong-base-0.001/stdout.ndjson": "71ee681bcaf37ab950d1cab8bd8bed8b649af4cd49f9e658100963c1dffcefff",
+        "acid-base-buffers/230-strong-base-0.002/experiment.lab": "5bddd5a6de2bf22be762de4239fcf840e6362514558cc5b5182706ac287a678e",
+        "acid-base-buffers/230-strong-base-0.002/stdout.ndjson": "d47562bd6a1c808f12c72c6a60054e66b6493fc443f2f2bfcabf73fedf7aac1b",
+        "acid-base-buffers/230-strong-base-0.002/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/231-neutral-order-acid-first/experiment.lab": "cd04a36981584bad363fa2e0286c71e7096dfdb1c22c01a131b0ba5d334ee4cd",
+        "acid-base-buffers/231-neutral-order-acid-first/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/231-neutral-order-acid-first/stdout.ndjson": "ba3bf7ea0de9a6e1399d9357014651607c8ac4af27a2d7a06c93cf15e7323883",
+        "acid-base-buffers/232-neutral-order-base-first/experiment.lab": "c9d21003664c2ad0bcb122b92b95e2030a5afecb4dbe1c5c91c34644cbd7dc8f",
+        "acid-base-buffers/232-neutral-order-base-first/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/232-neutral-order-base-first/stdout.ndjson": "8dfa757db0d1746306dd7580c2eb2d03424a8cc95484e46e34b1272b58c1792d",
+        "acid-base-buffers/233-neutral-split-acid/experiment.lab": "114d87fac1f813d2783213fdb65a84b30c7cfc26f8e3825562abd0a423b1b949",
+        "acid-base-buffers/233-neutral-split-acid/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/233-neutral-split-acid/stdout.ndjson": "8f06e863b590caa53b7ee8981dd7d1b200032967fbe6bb93c27a92fbb6e673a3",
+        "acid-base-buffers/234-neutral-split-base/experiment.lab": "fa2fe08492942cda6f22bc0c6f8b2d84b63a2014f6e3185a494a60578bf2f757",
+        "acid-base-buffers/234-neutral-split-base/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/234-neutral-split-base/stdout.ndjson": "992c9c8d6c10af59c704b3424bb99d1f662a7d858739a94a10f2f98a4e4976a2",
+        "acid-base-buffers/235-acetate-buffer-0.001/experiment.lab": "58b421e268125d750dd6668bae28b311da2696db5c38e172a46cc84b5ef91ac5",
+        "acid-base-buffers/235-acetate-buffer-0.001/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/235-acetate-buffer-0.001/stdout.ndjson": "99a2bc0e75fb048955a349f6238d90e4826c91f168cef4a8ebe68668acc19b7c",
+        "acid-base-buffers/236-acetate-buffer-0.002/experiment.lab": "9c57f92b18e08eab60c9e294151f3cace7a1f7077045adbd4d2225c687451803",
+        "acid-base-buffers/236-acetate-buffer-0.002/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/236-acetate-buffer-0.002/stdout.ndjson": "091c589b091f69a21c799bce6ec03ee4f4a4527fa0fd0c40ff53882434705777",
+        "acid-base-buffers/237-acetate-buffer-0.004/experiment.lab": "af8242b93c5994d0672ce7c77dda648bb83943a890abe2dfbca9f3e76d595bd9",
+        "acid-base-buffers/237-acetate-buffer-0.004/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/237-acetate-buffer-0.004/stdout.ndjson": "5c3234e016bae234fdddc50ab852cc07a6e40a315524ae313a3f67c3afeeb3fc",
+        "acid-base-buffers/238-acetate-buffer-0.008/experiment.lab": "f97d7822ecaca5969a28d90f404b6c3bb0ee3f61bb8cd39ae461de7539c04a49",
+        "acid-base-buffers/238-acetate-buffer-0.008/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/238-acetate-buffer-0.008/stdout.ndjson": "1ee459aea9fafecc52b40d4716d10469a820744f02c042efbb0fbdcbc1e65a1b",
+        "acid-base-buffers/239-buffer-extensive-1/experiment.lab": "dedac5913da935c03950724d975e4c8b099074164cfb781c9720e8e1408d6216",
+        "acid-base-buffers/239-buffer-extensive-1/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/239-buffer-extensive-1/stdout.ndjson": "660b86402c519494e618ca6f2077bd4263f5557d1e1584ef3c7f486492bfd063",
+        "acid-base-buffers/240-buffer-extensive-2/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/240-buffer-extensive-2/experiment.lab": "8007caadaac238c555a7d10071657d4df0c63cbac487cf964c6e2e95ac5d1a8e",
+        "acid-base-buffers/240-buffer-extensive-2/stdout.ndjson": "cbed7bf09b9ad439c5d52071d6f3a1257d21c9836e06aa7e016730ec25e283e7",
+        "acid-base-buffers/241-buffer-extensive-3/experiment.lab": "156d16f00c884ca80d41fbf53ba52bae7786735133dcc94f9fc57f494ebb52ce",
+        "acid-base-buffers/241-buffer-extensive-3/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/241-buffer-extensive-3/stdout.ndjson": "3d5fd1724c173cbb02c45bc81427a4cab95c3027132c8d690a85d6e2fd6148c2",
+        "acid-base-buffers/242-buffer-extensive-4/experiment.lab": "130c9f974f5ad5f0cf2407e73a6d40d13e5017d2cecb36028ef8585de5c7c3d2",
+        "acid-base-buffers/242-buffer-extensive-4/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "acid-base-buffers/242-buffer-extensive-4/stdout.ndjson": "654f9e6959bd3cb4ac29d8b0d7c72be8081f734f6b7a07c60dbeb432444761e0",
+        "acid-base-buffers/acid-base-buffers-law-checks.json": "bd05247f27a4ce2bac723070ad66e3de7de5caed4f4ff9c16b3d9ef4a32765d9",
+        "acid-base-buffers/summary.json": "67356b0fa5cdfb294490598589dfdce1b7c3a18679e43d7e1115919dc148ea5d"
+      },
+      "cases": 24,
+      "passed_law_checks": 32,
+      "law_kinds": {
+        "execution": 24,
+        "independent-law": 4,
+        "conservation": 2,
+        "metamorphic": 2
+      },
+      "raw_evidence_sha256": {
+        "219-strong-acid-0.00025": {
+          "experiment.lab": "67ee07cc4bad3fb0ffa41daf45eae6b11f4e62e0c1fe77f53c39bfa0435d13ea",
+          "stdout.ndjson": "7cf5c01bad6b1628dcd850a7ae2ffb603f22ece5f4c645dc4cb4d25a6cdffa63",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "220-strong-acid-0.0005": {
+          "experiment.lab": "be9f4637c5ac52376592282511c43456e1723c57286661edac1f7d124140f906",
+          "stdout.ndjson": "14892a276c53e4f0ad40833dd9109032ec7e65eda6adc32c47413eaf6c534611",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "221-strong-acid-0.001": {
+          "experiment.lab": "8f2a936d9510ba4ff3e3957185c3fe5a7d7dfed72e0ec2f7014d92e4a9e93d76",
+          "stdout.ndjson": "a88eb8cd368db2da86ce2d60337a32b9cc15a801d0fbb1764c2d7bc092eb8804",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "222-strong-acid-0.002": {
+          "experiment.lab": "b91bf339748a7fdb12bb2706a96866a3a5f956232afd9ded7317e0606ecd18c3",
+          "stdout.ndjson": "f65dfffea3e7a6097630c95e747e8cedbfea113eaf6488bfc52e37279f17de73",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "223-acid-dilution-100": {
+          "experiment.lab": "a281b46fc42693424cb4b02e32f4c7ee64ed6da0d5896c86ea19e258ba7a6fbd",
+          "stdout.ndjson": "2cc1152683c4143ef306ed393e8e751d3d2bc4b95a4aa0fef26874c7c7fbee9f",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "224-acid-dilution-200": {
+          "experiment.lab": "e7660fec00ab323290681df7017847d27c9110124f30378fcba5f335352d766f",
+          "stdout.ndjson": "0359256c43ce7ce0dabb68e97625db4ee071fa2506dc6b82230faface7f7ddfe",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "225-acid-dilution-400": {
+          "experiment.lab": "c1ce6af2567b9cbc0bdea6ef6c53dac89a062460cd7b487d2d104d4ba27a4965",
+          "stdout.ndjson": "e3a99aaf4ae94de8e2e10c815ad650490b108908c0705fb9f6367eab7f2e70a8",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "226-acid-dilution-800": {
+          "experiment.lab": "388f33f5bfd87df1b9bd34d0fee0ec96bd77bdcfb5ad6e72534ae7d81543db53",
+          "stdout.ndjson": "0f44f001b1a417cd58e03e00864bd796e4d93b33a875cef77c07ad79d12455b5",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "227-strong-base-0.00025": {
+          "experiment.lab": "fcd058408ccc1d734f84f9882f6912d56e1175e4420a2591f64f295f054d5a89",
+          "stdout.ndjson": "4f033dcbe9d5bd35792cd94fd6319bf14e459dd9be21b00736c35c1706006bae",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "228-strong-base-0.0005": {
+          "experiment.lab": "a08d977dcee0491e08383051f65dbc6540f121e24dad27d95b5e12244111753c",
+          "stdout.ndjson": "5b7f8e67a1697295010fdae9541b35c5c4f15e595ed9d39decca51a48664d756",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "229-strong-base-0.001": {
+          "experiment.lab": "a2366d3d0246267e1eda6bce5969a79ceda64c485dcfd12808714bccda79434c",
+          "stdout.ndjson": "71ee681bcaf37ab950d1cab8bd8bed8b649af4cd49f9e658100963c1dffcefff",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "230-strong-base-0.002": {
+          "experiment.lab": "5bddd5a6de2bf22be762de4239fcf840e6362514558cc5b5182706ac287a678e",
+          "stdout.ndjson": "d47562bd6a1c808f12c72c6a60054e66b6493fc443f2f2bfcabf73fedf7aac1b",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "231-neutral-order-acid-first": {
+          "experiment.lab": "cd04a36981584bad363fa2e0286c71e7096dfdb1c22c01a131b0ba5d334ee4cd",
+          "stdout.ndjson": "ba3bf7ea0de9a6e1399d9357014651607c8ac4af27a2d7a06c93cf15e7323883",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "232-neutral-order-base-first": {
+          "experiment.lab": "c9d21003664c2ad0bcb122b92b95e2030a5afecb4dbe1c5c91c34644cbd7dc8f",
+          "stdout.ndjson": "8dfa757db0d1746306dd7580c2eb2d03424a8cc95484e46e34b1272b58c1792d",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "233-neutral-split-acid": {
+          "experiment.lab": "114d87fac1f813d2783213fdb65a84b30c7cfc26f8e3825562abd0a423b1b949",
+          "stdout.ndjson": "8f06e863b590caa53b7ee8981dd7d1b200032967fbe6bb93c27a92fbb6e673a3",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "234-neutral-split-base": {
+          "experiment.lab": "fa2fe08492942cda6f22bc0c6f8b2d84b63a2014f6e3185a494a60578bf2f757",
+          "stdout.ndjson": "992c9c8d6c10af59c704b3424bb99d1f662a7d858739a94a10f2f98a4e4976a2",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "235-acetate-buffer-0.001": {
+          "experiment.lab": "58b421e268125d750dd6668bae28b311da2696db5c38e172a46cc84b5ef91ac5",
+          "stdout.ndjson": "99a2bc0e75fb048955a349f6238d90e4826c91f168cef4a8ebe68668acc19b7c",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "236-acetate-buffer-0.002": {
+          "experiment.lab": "9c57f92b18e08eab60c9e294151f3cace7a1f7077045adbd4d2225c687451803",
+          "stdout.ndjson": "091c589b091f69a21c799bce6ec03ee4f4a4527fa0fd0c40ff53882434705777",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "237-acetate-buffer-0.004": {
+          "experiment.lab": "af8242b93c5994d0672ce7c77dda648bb83943a890abe2dfbca9f3e76d595bd9",
+          "stdout.ndjson": "5c3234e016bae234fdddc50ab852cc07a6e40a315524ae313a3f67c3afeeb3fc",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "238-acetate-buffer-0.008": {
+          "experiment.lab": "f97d7822ecaca5969a28d90f404b6c3bb0ee3f61bb8cd39ae461de7539c04a49",
+          "stdout.ndjson": "1ee459aea9fafecc52b40d4716d10469a820744f02c042efbb0fbdcbc1e65a1b",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "239-buffer-extensive-1": {
+          "experiment.lab": "dedac5913da935c03950724d975e4c8b099074164cfb781c9720e8e1408d6216",
+          "stdout.ndjson": "660b86402c519494e618ca6f2077bd4263f5557d1e1584ef3c7f486492bfd063",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "240-buffer-extensive-2": {
+          "experiment.lab": "8007caadaac238c555a7d10071657d4df0c63cbac487cf964c6e2e95ac5d1a8e",
+          "stdout.ndjson": "cbed7bf09b9ad439c5d52071d6f3a1257d21c9836e06aa7e016730ec25e283e7",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "241-buffer-extensive-3": {
+          "experiment.lab": "156d16f00c884ca80d41fbf53ba52bae7786735133dcc94f9fc57f494ebb52ce",
+          "stdout.ndjson": "3d5fd1724c173cbb02c45bc81427a4cab95c3027132c8d690a85d6e2fd6148c2",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "242-buffer-extensive-4": {
+          "experiment.lab": "130c9f974f5ad5f0cf2407e73a6d40d13e5017d2cecb36028ef8585de5c7c3d2",
+          "stdout.ndjson": "654f9e6959bd3cb4ac29d8b0d7c72be8081f734f6b7a07c60dbeb432444761e0",
+          "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "event_counts": {
+        "added": 62,
+        "solution_routed": 48,
+        "solution_characterized": 38,
+        "measured": 24,
+        "dissolved": 17,
+        "temperature_changed": 27,
+        "neutralised": 5
+      },
+      "original_law_receipt_sha256": "bd05247f27a4ce2bac723070ad66e3de7de5caed4f4ff9c16b3d9ef4a32765d9",
+      "source_owned_recomputed_law_receipt_sha256": "bd05247f27a4ce2bac723070ad66e3de7de5caed4f4ff9c16b3d9ef4a32765d9",
+      "independent_raw_provenance_contracts_pass": true,
+      "source_owned_laws_pass": true
+    }
+  ],
+  "accepted_cases": 24,
+  "accepted_law_checks": 32,
+  "full_v1_v3_frozen_review_complete": false,
+  "cli_executed": false,
+  "source_owned_analyzer_reuse_qualified": true,
+  "scientific_calibration_accepted": false,
+  "stopped_stage": "Distillation source-owned reevaluation",
+  "raw_distillation_validated_but_laws_unaccepted": true,
+  "first_failure": {
+    "type": "RuntimeError",
+    "message": "resource gate closed: source-owned reevaluation chemistry-audit-distillation-4df5deab77506d372a8df45f5d517e2f070d7f5a",
+    "accepted_families": [
+      "acid-base-buffers"
+    ],
+    "cli_executed": false
+  },
+  "limits": [
+    "Prior resource failures and partial raw evidence preserved. Source-owned analyzer reuse plus independent raw/source/provenance checks, not an independent scientific oracle.",
+    "Only acid/base buffers accepted here; distillation and all other v1/v3/frozen families remain unaccepted."
+  ]
+}

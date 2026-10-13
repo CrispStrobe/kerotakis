@@ -1,0 +1,420 @@
+{
+  "schema_version": 1,
+  "run": 38387729183,
+  "attempt": 1,
+  "head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+  "base": "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+  "main_at_capture": "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+  "source_workflow_sha256": "57252f0fb26ac203b5420e82a3e1355a20ec0ea6ac925d7078b95bcaf75e1304",
+  "all_33_source_defined_job_names_verified": true,
+  "all_33_jobs_and_declared_steps_pass": true,
+  "jobs": [
+    {
+      "id": 115275834062,
+      "name": "Build audited CLI once",
+      "declared_named_steps": [],
+      "actual_declared_steps": 10,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965348,
+      "name": "Frozen fleet 195-218",
+      "declared_named_steps": [
+        "Prepare the evidence envelope",
+        "Verify the frozen analyzer rejects missing evidence",
+        "Record all 24 process-isolated experiments",
+        "Bind the frozen contract and harness to the evidence",
+        "Apply independent laws and matched controls",
+        "Preserve raw successes and failures"
+      ],
+      "actual_declared_steps": 12,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965408,
+      "name": "Source fleet v3 water-energy",
+      "declared_named_steps": [
+        "Validate frozen v3 manifests and analyzer mutations",
+        "Record 24 process-isolated v3 experiments",
+        "Bind the frozen v3 contract and harness to the evidence",
+        "Apply frozen v3 named relations",
+        "Preserve raw v3 successes and failures"
+      ],
+      "actual_declared_steps": 11,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965422,
+      "name": "Source fleet v3 metal-ligand",
+      "declared_named_steps": [
+        "Validate frozen v3 manifests and analyzer mutations",
+        "Record 24 process-isolated v3 experiments",
+        "Bind the frozen v3 contract and harness to the evidence",
+        "Apply frozen v3 named relations",
+        "Preserve raw v3 successes and failures"
+      ],
+      "actual_declared_steps": 11,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965431,
+      "name": "Frozen fleet 459-488",
+      "declared_named_steps": [
+        "Prepare the evidence envelope",
+        "Verify the analyzer rejects missing evidence",
+        "Record all 30 process-isolated experiments",
+        "Bind the frozen contract and harness to the evidence",
+        "Apply independent laws and matched controls",
+        "Preserve raw successes and failures"
+      ],
+      "actual_declared_steps": 12,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965445,
+      "name": "Source fleet v3 organic-equilibrium",
+      "declared_named_steps": [
+        "Validate frozen v3 manifests and analyzer mutations",
+        "Record 24 process-isolated v3 experiments",
+        "Bind the frozen v3 contract and harness to the evidence",
+        "Apply frozen v3 named relations",
+        "Preserve raw v3 successes and failures"
+      ],
+      "actual_declared_steps": 11,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965464,
+      "name": "Source fleet v3 aqueous-selectivity",
+      "declared_named_steps": [
+        "Validate frozen v3 manifests and analyzer mutations",
+        "Record 24 process-isolated v3 experiments",
+        "Bind the frozen v3 contract and harness to the evidence",
+        "Apply frozen v3 named relations",
+        "Preserve raw v3 successes and failures"
+      ],
+      "actual_declared_steps": 11,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965467,
+      "name": "Source fleet v3 ionic-conductivity",
+      "declared_named_steps": [
+        "Validate frozen v3 manifests and analyzer mutations",
+        "Record 24 process-isolated v3 experiments",
+        "Bind the frozen v3 contract and harness to the evidence",
+        "Apply frozen v3 named relations",
+        "Preserve raw v3 successes and failures"
+      ],
+      "actual_declared_steps": 11,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965472,
+      "name": "Source fleet filtration-evaporation",
+      "declared_named_steps": [
+        "Validate frozen manifests and analyzer mutations",
+        "Record 24 process-isolated experiments",
+        "Apply frozen named relations",
+        "Preserve raw successes and failures"
+      ],
+      "actual_declared_steps": 10,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965479,
+      "name": "Source fleet v2 gas-production-transfer",
+      "declared_named_steps": [
+        "Validate frozen v2 manifests and analyzer mutations",
+        "Record 24 process-isolated v2 experiments",
+        "Bind the frozen v2 contract and harness to the evidence",
+        "Apply frozen v2 named relations",
+        "Preserve raw v2 successes and failures"
+      ],
+      "actual_declared_steps": 11,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965524,
+      "name": "Source fleet distillation",
+      "declared_named_steps": [
+        "Validate frozen manifests and analyzer mutations",
+        "Record 24 process-isolated experiments",
+        "Apply frozen named relations",
+        "Preserve raw successes and failures"
+      ],
+      "actual_declared_steps": 10,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965542,
+      "name": "Source fleet gas-boundaries",
+      "declared_named_steps": [
+        "Validate frozen manifests and analyzer mutations",
+        "Record 24 process-isolated experiments",
+        "Apply frozen named relations",
+        "Preserve raw successes and failures"
+      ],
+      "actual_declared_steps": 10,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965550,
+      "name": "Source fleet v2 household-biochemistry",
+      "declared_named_steps": [
+        "Validate frozen v2 manifests and analyzer mutations",
+        "Record 24 process-isolated v2 experiments",
+        "Bind the frozen v2 contract and harness to the evidence",
+        "Apply frozen v2 named relations",
+        "Preserve raw v2 successes and failures"
+      ],
+      "actual_declared_steps": 11,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965555,
+      "name": "Source fleet acid-base-buffers",
+      "declared_named_steps": [
+        "Validate frozen manifests and analyzer mutations",
+        "Record 24 process-isolated experiments",
+        "Apply frozen named relations",
+        "Preserve raw successes and failures"
+      ],
+      "actual_declared_steps": 10,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965576,
+      "name": "Source fleet mixing-transfer",
+      "declared_named_steps": [
+        "Validate frozen manifests and analyzer mutations",
+        "Record 24 process-isolated experiments",
+        "Apply frozen named relations",
+        "Preserve raw successes and failures"
+      ],
+      "actual_declared_steps": 10,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965577,
+      "name": "Source fleet v2 phase-colligative",
+      "declared_named_steps": [
+        "Validate frozen v2 manifests and analyzer mutations",
+        "Record 24 process-isolated v2 experiments",
+        "Bind the frozen v2 contract and harness to the evidence",
+        "Apply frozen v2 named relations",
+        "Preserve raw v2 successes and failures"
+      ],
+      "actual_declared_steps": 11,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965597,
+      "name": "Source fleet solubility-precipitation",
+      "declared_named_steps": [
+        "Validate frozen manifests and analyzer mutations",
+        "Record 24 process-isolated experiments",
+        "Apply frozen named relations",
+        "Preserve raw successes and failures"
+      ],
+      "actual_declared_steps": 10,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965601,
+      "name": "Source fleet organic-equilibria",
+      "declared_named_steps": [
+        "Validate frozen manifests and analyzer mutations",
+        "Record 24 process-isolated experiments",
+        "Apply frozen named relations",
+        "Preserve raw successes and failures"
+      ],
+      "actual_declared_steps": 10,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965614,
+      "name": "Source fleet observables-negative-controls",
+      "declared_named_steps": [
+        "Validate frozen manifests and analyzer mutations",
+        "Record 24 process-isolated experiments",
+        "Apply frozen named relations",
+        "Preserve raw successes and failures"
+      ],
+      "actual_declared_steps": 10,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965615,
+      "name": "Source fleet v2 quantitative-solutions",
+      "declared_named_steps": [
+        "Validate frozen v2 manifests and analyzer mutations",
+        "Record 24 process-isolated v2 experiments",
+        "Bind the frozen v2 contract and harness to the evidence",
+        "Apply frozen v2 named relations",
+        "Preserve raw v2 successes and failures"
+      ],
+      "actual_declared_steps": 11,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965619,
+      "name": "Source fleet v2 crystallisation-boundaries",
+      "declared_named_steps": [
+        "Validate frozen v2 manifests and analyzer mutations",
+        "Record 24 process-isolated v2 experiments",
+        "Bind the frozen v2 contract and harness to the evidence",
+        "Apply frozen v2 named relations",
+        "Preserve raw v2 successes and failures"
+      ],
+      "actual_declared_steps": 11,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965623,
+      "name": "Source fleet v2 thermochemical-paths",
+      "declared_named_steps": [
+        "Validate frozen v2 manifests and analyzer mutations",
+        "Record 24 process-isolated v2 experiments",
+        "Bind the frozen v2 contract and harness to the evidence",
+        "Apply frozen v2 named relations",
+        "Preserve raw v2 successes and failures"
+      ],
+      "actual_declared_steps": 11,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965625,
+      "name": "Source fleet v2 redox-cells",
+      "declared_named_steps": [
+        "Validate frozen v2 manifests and analyzer mutations",
+        "Record 24 process-isolated v2 experiments",
+        "Bind the frozen v2 contract and harness to the evidence",
+        "Apply frozen v2 named relations",
+        "Preserve raw v2 successes and failures"
+      ],
+      "actual_declared_steps": 11,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965668,
+      "name": "Source fleet v2 separation-trains",
+      "declared_named_steps": [
+        "Validate frozen v2 manifests and analyzer mutations",
+        "Record 24 process-isolated v2 experiments",
+        "Bind the frozen v2 contract and harness to the evidence",
+        "Apply frozen v2 named relations",
+        "Preserve raw v2 successes and failures"
+      ],
+      "actual_declared_steps": 11,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965750,
+      "name": "Source fleet v2 analytical-observables",
+      "declared_named_steps": [
+        "Validate frozen v2 manifests and analyzer mutations",
+        "Record 24 process-isolated v2 experiments",
+        "Bind the frozen v2 contract and harness to the evidence",
+        "Apply frozen v2 named relations",
+        "Preserve raw v2 successes and failures"
+      ],
+      "actual_declared_steps": 11,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965758,
+      "name": "Source fleet v2 materials-transport",
+      "declared_named_steps": [
+        "Validate frozen v2 manifests and analyzer mutations",
+        "Record 24 process-isolated v2 experiments",
+        "Bind the frozen v2 contract and harness to the evidence",
+        "Apply frozen v2 named relations",
+        "Preserve raw v2 successes and failures"
+      ],
+      "actual_declared_steps": 11,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965765,
+      "name": "Source fleet electrochemistry",
+      "declared_named_steps": [
+        "Validate frozen manifests and analyzer mutations",
+        "Record 24 process-isolated experiments",
+        "Apply frozen named relations",
+        "Preserve raw successes and failures"
+      ],
+      "actual_declared_steps": 10,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965811,
+      "name": "Source fleet thermal-phase-paths",
+      "declared_named_steps": [
+        "Validate frozen manifests and analyzer mutations",
+        "Record 24 process-isolated experiments",
+        "Apply frozen named relations",
+        "Preserve raw successes and failures"
+      ],
+      "actual_declared_steps": 10,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965891,
+      "name": "Source fleet v2 kinetics-boundaries",
+      "declared_named_steps": [
+        "Validate frozen v2 manifests and analyzer mutations",
+        "Record 24 process-isolated v2 experiments",
+        "Bind the frozen v2 contract and harness to the evidence",
+        "Apply frozen v2 named relations",
+        "Preserve raw v2 successes and failures"
+      ],
+      "actual_declared_steps": 11,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115283965933,
+      "name": "Source fleet v2 polyprotic-carbonate",
+      "declared_named_steps": [
+        "Validate frozen v2 manifests and analyzer mutations",
+        "Record 24 process-isolated v2 experiments",
+        "Bind the frozen v2 contract and harness to the evidence",
+        "Apply frozen v2 named relations",
+        "Preserve raw v2 successes and failures"
+      ],
+      "actual_declared_steps": 11,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115346519078,
+      "name": "All 240 source-informed cases",
+      "declared_named_steps": [],
+      "actual_declared_steps": 6,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115351275849,
+      "name": "All 120 source-informed v3 cases",
+      "declared_named_steps": [],
+      "actual_declared_steps": 6,
+      "all_actual_steps_success": true
+    },
+    {
+      "id": 115408584535,
+      "name": "All 288 source-informed v2 cases",
+      "declared_named_steps": [],
+      "actual_declared_steps": 6,
+      "all_actual_steps_success": true
+    }
+  ],
+  "raw_api_sha256": {
+    "run.json": "1c6a2c0326fd44b381b443bd19821b6ba11e44beac0c5e11da63afda56e75893",
+    "jobs.json": "f29b5f16eb8fddc5cb26d67237ef1c06dbcdd75ef4843b4845aee5520c2d111d",
+    "artifacts.json": "876e78cae88f7c84159601953c67ce010572b875fa784830534241eac7259aef",
+    "pr.json": "0bdb663a104f0ab8d14d4151083b7af150ba5e2d771f2d4c4562eb5e700ee7e5",
+    "main.json": "3cd867ff7e3a567cd6b4932067411774596e2d850d68de623fea2c346d5726ff"
+  },
+  "full_fleet_saved_output_acceptance": false,
+  "merge_accepted": false,
+  "scope": "Completed exact-source own run/33 jobs/declared steps metadata only. Saved-output/aggregate recomputation and PR acceptance remain separate."
+}
