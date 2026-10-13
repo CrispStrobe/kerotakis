@@ -47,3 +47,13 @@ in an unavailable context. [Workflow revision](workflow-revision-v2.json)
 fixes runner setup while preserving every frozen input and measurement rule.
 [Ordered roadmap](../../docs/ordered-work-roadmap-20261013.md) keeps subsequent
 lanes queued until the performance deliverable is complete.
+
+[Saved-output reviewer](review.py) independently recomputes pilot admission,
+canonical output comparisons and all reported statistics from downloaded raw
+evidence without executing the CLI. Run it with `--evidence` pointing to the
+extracted evidence directory and `--out` to a new review JSON file. It checks
+recorded source guards and run identity; actual runner API/job/upload association
+and ZIP/binary byte verification remain separate acceptance requirements. It
+reports incomplete or refused workloads without converting them to successes.
+The reviewer is a later evidence consumer; it does not change the frozen inputs,
+profiler, workflow or baseline run. No actual baseline review is accepted yet.
