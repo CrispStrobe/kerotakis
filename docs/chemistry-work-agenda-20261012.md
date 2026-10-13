@@ -1,12 +1,17 @@
 # Chemistry work agenda — 2026-10-12
 
-Current update, 2026-10-13: PR782's own CI and all 33 fleet jobs finished
+Current update, 2026-10-13: both new-head native reviews pass all 517 focused
+tests/40 fixtures, with 3,408 workspace passes and four ignored tests each.
+Four independently reviewed saved families pass 96 cases/127 checks, zero
+unmet; resume the remaining 606 cases/864 checks and three aggregates without
+repeating those four. PR782's own CI and all 33 fleet jobs finished
 successfully at head `2bf9c771`. [Captured status](../audits/production-final-rule-matrix-20261012/hosted-progress-20261013.json)
 is separate from detailed native and saved-output acceptance. The
 [own release artifact](../audits/production-final-rule-matrix-20261012/own-cli-artifact-independent-review-2bf9c771.json)
 is independently verified. [Eight new discovery controls](../audits/production-final-rule-matrix-20261012/cli-witness-controls/README.md)
-are frozen before execution, but the resource gate rejected available memory
-before any CLI run. Resume exact-head reviewers and those controls only after
+were frozen before execution. [Five actual probes](../audits/production-final-rule-matrix-20261012/cli-witness-partial-five-independent-review-2bf9c771.json)
+completed successfully before the per-case load gate stopped the next case.
+Resume the three unexecuted probes and remaining CI/fleet reviewers only after
 a fresh passing gate; preserve all first forecasts and results. PR782 stays
 draft pending its own behavioral evidence and fresh integration guards.
 

@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "pr": 782,
+  "head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+  "source_tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+  "reviewed_at_utc": "2026-10-13T03:42:46.504930+00:00",
+  "frozen_control_count": 8,
+  "actual_completed_cases": 5,
+  "actual_passed_cases": 5,
+  "unexecuted_cases": [
+    "reducer-benign",
+    "reactive-base-positive",
+    "reactive-base-benign"
+  ],
+  "resource_rejected_before_launch_case": "reducer-benign",
+  "first_rejected_case_directory_empty": true,
+  "actual_completed_case_reviews": [
+    {
+      "id": "weak-acid-positive",
+      "passed": true,
+      "exit": 0,
+      "rows": 4,
+      "target_rule": "bleach-weak-acid-chlorine",
+      "target_warning_count": 1,
+      "stdout_sha256": "de197c6b6dc75653b2c8b516c5a6e0297c2073b4ba0d7fee5cde29ce76d7f8c4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "input_sha256": "e5bca7323172d2d1a483c30e88055aee9b1e4e776e20daa53e4d6003d93a18a5",
+      "command_sha256": "5c6ae9c4448977b8cbb004bf49309429a10a6b2d6a35bfe75eae48c20beeb964",
+      "result_sha256": "2454c8d767ae5d677000d887a482e3d60ca14a0d3a3231f27eaa4526f8bda4bb"
+    },
+    {
+      "id": "weak-acid-benign",
+      "passed": true,
+      "exit": 0,
+      "rows": 4,
+      "target_rule": "bleach-weak-acid-chlorine",
+      "target_warning_count": 0,
+      "stdout_sha256": "589862a204bb3716fd1d438e1eb604b080ee091fb7d6d718a1a74c3c0e436a0a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "input_sha256": "414684be2ab166466a7b8dd5106a986c85e85d5cbf21c4e26208ce28f9da081d",
+      "command_sha256": "4f89e81dc66a9e6c99e989fad1968d8ecd50c603a1ed18282b0e6cb630618455",
+      "result_sha256": "3af225cfb07952df11a54e05bbd4d222b7f189ec8e0b621fefcb5c93525bee39"
+    },
+    {
+      "id": "flammable-gas-positive",
+      "passed": true,
+      "exit": 0,
+      "rows": 4,
+      "target_rule": "oxidizer-flammable-gas",
+      "target_warning_count": 1,
+      "stdout_sha256": "6b06861fb06a053000b70eadb5a6c36c3f3f545023a18a6967db7ddfa05ef422",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "input_sha256": "cd18ebaa840218db783609abd96c9b4086f8cbcf702bb2d02a8481a08c736270",
+      "command_sha256": "3fc2daf13acbb80702f590d9a8584b9c581b8352be157ebda22f48f3e57b843a",
+      "result_sha256": "2b7e903bfe52a75f6fda67e8a4bd756e0ee200b3c96129856a6996422c4438f8"
+    },
+    {
+      "id": "flammable-gas-benign",
+      "passed": true,
+      "exit": 0,
+      "rows": 4,
+      "target_rule": "oxidizer-flammable-gas",
+      "target_warning_count": 0,
+      "stdout_sha256": "ff269b4925595e8d959d65e4c30f72b3b9233cc7c32204f19640982c0b197a96",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "input_sha256": "ea3d49ebf361d11d90913f9be0ad6d7ce1ac63bfde879895f8cebda1cfe96e02",
+      "command_sha256": "8ba64b1de66e5f6ed958e857d48b35ad901f7e206a8986e4c009b44e6987190b",
+      "result_sha256": "b51a0194a5f00377628b129fd201162336d0decbb3dc26412532589606ea88e4"
+    },
+    {
+      "id": "reducer-positive",
+      "passed": true,
+      "exit": 0,
+      "rows": 4,
+      "target_rule": "oxidizer-reducer",
+      "target_warning_count": 1,
+      "stdout_sha256": "2b8028032a7db3589cbf6a39001be4f3d4502c7e6fce6a35f26702f9a954fb9b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "input_sha256": "60553e01271b9dd1d8f91b7df1e35d763d8bf40817cfa9fb5b26d408db0e93b3",
+      "command_sha256": "33e5bc3448f4e2420a78c058d7f0d12a6bc1dd9cf03c6601445b91ca3584be41",
+      "result_sha256": "6b6e1ce2c86b1e8bb1def68e56b7ef42afab39477cdd2d5f16d7d7029d25a110"
+    }
+  ],
+  "own_artifact_receipt": {
+    "path": "audits/production-final-rule-matrix-20261012/own-cli-artifact-independent-review-2bf9c771.json",
+    "sha256": "e61633d0c0108d05e5d61b84304d99061710df5b06120e15ed04db1a0ab28759"
+  },
+  "own_binary_sha256": "54b83783ccc361bfdc853bddfff47e57f4b0b5993b9f57190eda5da486b9c1d1",
+  "actual_fleet_lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+  "manifest_sha256": "388049ca2132b3acfe471d8d3dcd71167ed0f7db8eb5a525a08204cd6969f7ea",
+  "collector_sha256": "cb1d25edd104b5dc22ffa225df687a93e9e5d0a44c53df169dc1bed015b83e6a",
+  "freeze_sha256": "3b210c3f4cffa2e7a3e05927c429b5f8cf21819d42add6a3220f80b6cb0b946f",
+  "recorded_before_after_source_blob_count": 2256,
+  "before_after_guard_records_equal": true,
+  "independently_reread_source_archive_blobs": false,
+  "execution_guard_source_sha256": "2d92804eb4d22575525b44000a6dc52adf1b2f93bc3b1d59a1b2e5511b2c011d",
+  "execution_evidence_sha256": {
+    "execution-binding-before.json": "42543d5d6bf0c78fa41f69cae707c8cacd263ea6ab302a7ce6ab0094c9d54f6f",
+    "execution-binding-after.json": "d3fdddd23b2477bcd83825d56914f10ce1c37cb72643f23e898c704153a4afa2",
+    "collector-command.json": "1d1b891ef13db1365673e9289747a4105f8e2f415d49d0ec1504eda9a15bd100",
+    "collector.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "collector.stderr": "813b97f4925887189421f26e505ea1246a72cc5e644844b79085ee01ab7e45a4",
+    "first-execution/checkpoint.json": "50a77c7061faf569a6ed5de8f531279f79dbb80d0859e931e97cde3378a883bd"
+  },
+  "accepted_partial_saved_outcomes": true,
+  "accepted_complete_eight_controls": false,
+  "accepted_final_callback_coverage": false,
+  "accepted_empirical_accuracy": false,
+  "accepted_integration": false,
+  "limits": [
+    "Five immutable saved results independently rechecked using the unchanged frozen check function; no CLI execution or downloads.",
+    "The sixth case was blocked by its resource gate before command capture or CLI launch; remaining three cases have no outcomes.",
+    "Source archive integrity is supported by reviewed before/after Git-blob checking guard and identical recorded2256-blob inventories. The independent review did not repeat the full source reread.",
+    "Warnings demonstrate end-to-end presence only. Final callback attribution and complete solver applicability remain unresolved; no scientific measurement forecast is accepted."
+  ]
+}

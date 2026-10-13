@@ -18,3 +18,10 @@ actual route admission and surviving inventory before assigning that scope.
 The four native rule fixtures remain separate exact callback controls. Gas
 and solid applicability, sulfite pseudo-element redox limits and consumed
 lime must remain explicit model boundaries. Extend only the unresolved lane.
+
+
+[First partial runtime review](../cli-witness-partial-five-independent-review-2bf9c771.json)
+accepts five actual probes against the unchanged forecasts. The next probe was
+resource-rejected before launch. Resume only reducer-benign and the two
+reactive-base cases; preserve the original completed outcomes and gate failure.
+The [first memory rejection](execution-deferred.json) remains historical.

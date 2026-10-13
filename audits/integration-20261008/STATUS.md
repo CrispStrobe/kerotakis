@@ -1,5 +1,24 @@
 # Integration checkpoint — 2026-10-10
 
+## Safety replay validation progress — 2026-10-13
+
+Draft PR782 remains at `2bf9c771` on accepted main `668220ad`.
+Both own [macOS](../production-final-rule-matrix-20261012/native-macos-independent-review-2bf9c771.json)
+and [Linux](../production-final-rule-matrix-20261012/native-linux-independent-review-2bf9c771.json)
+reviews accept 517 focused tests across 40 fixtures, with 3,408 workspace
+passes and four ignored tests each. All 33 hosted fleet job gates pass;
+[independent saved-output review](../production-final-rule-matrix-20261012/own-fleet-partial-four-family-output-review-2bf9c771.json)
+currently accepts 96 cases/127 checks. [Five actual CLI probes](../production-final-rule-matrix-20261012/cli-witness-partial-five-independent-review-2bf9c771.json)
+pass their unchanged forecasts; three remain unexecuted after a resource stop.
+Warning presence does not establish final-callback attribution.
+
+Next resume remaining source-bound CI logs, 606 saved cases/864 checks and
+three aggregates, plus only the three unexecuted CLI probes under fresh
+resource gates. Preserve completed outputs and rejected starts; draft status
+and integration stay pending. [Current safety lane](../production-final-rule-matrix-20261012/README.md)
+specifies the evidence and limitations.
+
+
 ## Parser and nested-rate admission repairs integrated — 2026-10-12
 
 [PR783](https://github.com/CrispStrobe/kerotakis/pull/783) and

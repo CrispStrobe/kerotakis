@@ -1,24 +1,51 @@
 # Remaining final-state safety rule matrix
 
+## Accepted native and partial runtime evidence — 2026-10-13
+
+The new head's [macOS native review](native-macos-independent-review-2bf9c771.json)
+and [Linux native review](native-linux-independent-review-2bf9c771.json)
+independently verify all 517 focused tests across 40 fixtures. Each platform
+reports 3,408 workspace passes, four ignored tests and no failures, plus the
+13-library inventory and fifteen mechanism-pack controls. The actual ordinary
+native CI lock remains uncaptured; the own fleet lock is not substituted.
+
+[Four saved family outputs](own-fleet-partial-four-family-output-review-2bf9c771.json)
+now independently pass **96 cases and 127 checks**, zero unmet expectations.
+The per-family resource gate stopped the next download. These original outputs
+are preserved; the prepared continuation skips these four families. Remaining
+saved-output acceptance covers 606 cases/864 checks and three aggregate outputs.
+
+[Five actual CLI probes](cli-witness-partial-five-independent-review-2bf9c771.json)
+independently pass their unchanged frozen forecasts. The next probe was stopped
+before launch by its resource gate: reducer-benign and both reactive-base
+probes remain unexecuted. Original raw outputs and before/after source, binary
+and actual lock bindings are preserved. Warning presence alone does not prove
+final-callback attribution; no complete-eight or empirical accuracy acceptance
+is inferred. Resume only the three unexecuted cases under a fresh passing gate.
+Complete required CI log review and fresh integration guards also remain
+pending. PR782 remains draft.
+
 ## New-head hosted results and execution gate — 2026-10-13
 
 PR782 remains draft at `2bf9c771`; its own CI and all 33 fleet jobs finished
 successfully overnight. The [captured status checkpoint](hosted-progress-20261013.json)
 records 25 successful CI jobs and the source-appropriate publication skip.
 The [fleet job gate review](own-fleet-progress-20261013.json) verifies all
-33 declared jobs and workflow steps against exact-source metadata. Detailed
-native test outcomes and saved fleet outputs remain unaccepted; successful
-job gates alone are not their independent review.
+33 declared jobs and workflow steps against exact-source metadata. At that first checkpoint, detailed
+native test outcomes and saved fleet outputs were unaccepted. The native and
+partial runtime reviews above supersede that historical status; successful
+job gates alone are not independent saved-output review.
 
 The [own CLI artifact review](own-cli-artifact-independent-review-2bf9c771.json)
 accepts artifact11777801862, actual release binary and captured fleet lock,
-with the exact own tested checkout and source tree. It has not been executed.
+with the exact own tested checkout and source tree. It was subsequently executed only on the bounded probes described above.
 The [eight CLI discovery controls](cli-witness-controls/README.md) are now
 frozen before first execution, including immutable scripts, forecasts and
 collector hashes. Their [execution deferral](cli-witness-controls/execution-deferred.json)
 preserves a failed resource gate before any CLI start. Available memory fell
 below the agreed minimum; artifact workers and CLI execution were deferred.
-No forecast is rewritten and no new-head behavioral acceptance is inferred.
+This first rejection is historical. Later native and partial runtime results
+are independently accepted above; no forecast is rewritten.
 
 Next resume the prepared exact-head native and saved-output reviewers under
 a fresh passing resource gate. Then verify the own artifact bytes again,
