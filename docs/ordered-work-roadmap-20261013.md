@@ -20,7 +20,9 @@ resource rejections. Large local work requires the private resource gate.
    Both new regressions and the repaired locale guard pass on both native platforms.
    All five required ordinary CI logs, including clean preflight, are now
    root-reviewed; the full ordinary run passes. Independent gate review, seven
-   candidate correctness controls and paired measurements are pending;
+   candidate correctness controls and paired measurements are pending. The
+   [hosted seven-control run](https://github.com/CrispStrobe/kerotakis/actions/runs/38407663054)
+   is queued using the independently reviewed ordinary candidate artifact;
    the current-head release artifact and version2 namespace have passed independent
    review. Missing native compiler/flag witnesses require the frozen controlled
    build collector to rebuild both sources under one captured environment, then

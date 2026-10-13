@@ -246,3 +246,20 @@ completed under the reviewed collector; the artifact's binary bytes, lock,
 effective compiler records, guards and actual routing witness have not yet been
 downloaded or accepted. Review those under an open artifact-review resource gate
 before binding a further comparison version to the rebuilt bytes.
+
+[Hosted control dispatch](hosted-controls-dispatch.json) binds the first candidate
+control collection to [run38407663054](https://github.com/CrispStrobe/kerotakis/actions/runs/38407663054)
+and isolated audit revision `f8ca430e`. It uses the already independently reviewed
+ordinary release artifact `b290b436` at candidate `d06ffe3a`, preserving all seven
+version2 inputs, expectations and saved baseline references. The original audit
+branch's workflow bytes and freezes are unchanged; the isolated branch routes
+only the correctness collector. No whole source worktree was created locally.
+
+The [hosted launcher](https://github.com/CrispStrobe/kerotakis/blob/f8ca430eeed82f4c9e78fe8db972f4786c130576/audits/release-performance-20261013/hosted-controls.py)
+checks the accepted receipt, actual artifact/member bytes, source identity,
+filesystem placement and existing resource gates, then invokes the actual frozen
+version2 consumer. Its job preserves raw streams and failures. The run is queued;
+no control output is accepted yet. Native compiler matching is not required for
+these correctness controls. Paired timing still requires review of the controlled
+build artifacts and a further comparison version; these controls cannot certify
+a rebuilt binary with a different digest.
