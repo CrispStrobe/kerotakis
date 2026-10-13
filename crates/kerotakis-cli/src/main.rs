@@ -40,8 +40,9 @@ struct Session {
     json: bool,
     stack: SolverStack,
     /// A second engine instance used only for `explain`'s path comparison,
-    /// so comparing never disturbs the session's own solver state.
-    paths: Option<kerotakis_phreeqc::PhreeqcEquilibrator>,
+    /// so comparing never disturbs the session's own solver state. Initialize
+    /// on the first valid explanation and retain unavailable results too.
+    paths: std::cell::OnceCell<Option<kerotakis_phreeqc::PhreeqcEquilibrator>>,
     /// EXP-0: loaded quest specs (lazy, from ./quests) and live states.
     quests: Vec<kerotakis_codex::quest::QuestSpec>,
     quest_states: std::collections::BTreeMap<String, kerotakis_codex::quest::QuestState>,
@@ -190,6 +191,18 @@ fn optional_explanation_engine() -> Option<kerotakis_phreeqc::PhreeqcEquilibrato
     }
 }
 
+fn explanation_paths<'a>(
+    bench: &Bench,
+    target: VesselId,
+    paths: &'a mut std::cell::OnceCell<Option<kerotakis_phreeqc::PhreeqcEquilibrator>>,
+    initialize: impl FnOnce() -> Option<kerotakis_phreeqc::PhreeqcEquilibrator>,
+) -> Result<&'a mut Option<kerotakis_phreeqc::PhreeqcEquilibrator>, String> {
+    // Invalid requests must not initialize an engine or emit its diagnostic.
+    bench.vessel(target).map_err(|error| error.to_string())?;
+    paths.get_or_init(initialize);
+    Ok(paths.get_mut().expect("explanation state initialized"))
+}
+
 fn main() {
     let args: Vec<String> = std::env::args().skip(1).collect();
     match args.first().map(String::as_str) {
@@ -228,7 +241,7 @@ fn main() {
                 register: Register::default(),
                 json,
                 stack: build_stack(),
-                paths: optional_explanation_engine(),
+                paths: Default::default(),
                 quests: Vec::new(),
                 quest_states: Default::default(),
                 aliases: Default::default(),
@@ -3053,7 +3066,7 @@ fn repl() {
         register: Register::default(),
         json: false,
         stack: build_stack(),
-        paths: optional_explanation_engine(),
+        paths: Default::default(),
         quests: Vec::new(),
         quest_states: Default::default(),
         aliases: Default::default(),
@@ -3220,7 +3233,13 @@ impl Session {
                     .map(|w| parse_vessel(w))
                     .transpose()?
                     .unwrap_or(VesselId(0));
-                let text = explain_text(&self.bench, &mut self.paths, target, self.locale)?;
+                let paths = explanation_paths(
+                    &self.bench,
+                    target,
+                    &mut self.paths,
+                    optional_explanation_engine,
+                )?;
+                let text = explain_text(&self.bench, paths, target, self.locale)?;
                 if self.json {
                     println!(
                         "{}",
@@ -3712,6 +3731,71 @@ impl Session {
 #[cfg(test)]
 mod native_startup_tests {
     use super::*;
+
+    #[test]
+    fn invalid_explanation_target_does_not_initialize_optional_paths() {
+        let bench = Bench::new();
+        let mut paths = std::cell::OnceCell::new();
+        let expected = bench.vessel(VesselId(999)).unwrap_err().to_string();
+        let result = explanation_paths(&bench, VesselId(999), &mut paths, || {
+            panic!("invalid target must not initialize optional paths")
+        });
+        assert_eq!(result.err().unwrap(), expected);
+        assert!(paths.get().is_none());
+    }
+
+    #[test]
+    fn unavailable_explanation_is_cached_and_primary_chemistry_remains_active() {
+        let mut bench = Bench::new();
+        let mut stack = build_stack();
+        let mut paths = std::cell::OnceCell::new();
+        let attempts = std::cell::Cell::new(0);
+        let before = serde_json::to_value(&bench).unwrap();
+        for _ in 0..2 {
+            let state = explanation_paths(&bench, VesselId(0), &mut paths, || {
+                attempts.set(attempts.get() + 1);
+                None
+            })
+            .unwrap();
+            let explanation = explain_text(&bench, state, VesselId(0), Locale::EN).unwrap();
+            assert!(explanation.contains("no engine available to compare paths"));
+        }
+        assert_eq!(attempts.get(), 1);
+        assert_eq!(serde_json::to_value(&bench).unwrap(), before);
+        for (species, amount) in [("water", 3.0), ("NaCl", 0.001)] {
+            let events = bench
+                .step_with(
+                    Operator::Add {
+                        vessel: VesselId(0),
+                        species: SpeciesId::new(species),
+                        moles: Moles(amount),
+                        at: None,
+                    },
+                    &mut stack,
+                    &kerotakis_safety::ReactiveGroupScreen,
+                )
+                .unwrap();
+            assert!(
+                !events
+                    .iter()
+                    .any(|event| matches!(event, Event::SolverFailed { .. })),
+                "{events:?}"
+            );
+        }
+        let solution = bench
+            .vessel(VesselId(0))
+            .unwrap()
+            .solution
+            .as_ref()
+            .unwrap();
+        assert!(solution.ph.is_finite() && solution.ionic_strength > 0.0);
+        assert!(solution
+            .provenance
+            .as_ref()
+            .expect("computed primary engine provenance")
+            .engine
+            .contains("PHREEQC"));
+    }
 
     #[test]
     fn semantic_event_adapter_exposes_only_documented_scalar_fields() {

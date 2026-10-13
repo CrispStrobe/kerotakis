@@ -198,6 +198,13 @@ const JUSTIFIED: &[(&str, &str)] = &[
         "flag.map_or(kerotakis_core::Locale::EN",
     ),
     (
+        "main.rs",
+        // The cached-unavailability regression fixture reads the English
+        // no-engine diagnostic to verify fallback rendering. This call is
+        // inside the test; interactive explanations use the session locale.
+        "let explanation = explain_text(&bench, state, VesselId(0), Locale::EN).unwrap();",
+    ),
+    (
         "mcp.rs",
         // `explain` over MCP, at both call sites. Its consumer is a tool,
         // not a reader, and a caller that parses this text must not have
