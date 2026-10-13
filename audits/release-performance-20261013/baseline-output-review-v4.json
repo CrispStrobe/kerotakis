@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "run": 38368899782,
+  "audit_head": "eea46f8c2c0c4cb0069235d3be7d4009866e42e4",
+  "freeze_sha256": "22d3651be1f443410a051b59945c1f613eed03d401e92a857a9811abf021fd4f",
+  "profile_sha256": "09492a3df1e2c2f679ea811142f1685ebc56da80cc63781b967ba46fcb6eb990",
+  "reviewer_sha256": "8fac382b6ebc0ce161223da368e963b5d36f252feddc64d69d30d481623e9676",
+  "baseline_collection_complete": false,
+  "workloads": [
+    {
+      "id": "startup",
+      "pilot_admitted": true,
+      "unmet": [],
+      "complete_eight_timed_samples": true,
+      "statistics": {
+        "parent_wall_seconds": {
+          "median": 0.08627568449999501,
+          "minimum": 0.08463421900000867,
+          "maximum": 0.08989714700001628,
+          "mad": 0.0010152564999970082
+        },
+        "wrapper_and_waited_child_user_seconds": {
+          "median": 0.077405,
+          "minimum": 0.072853,
+          "maximum": 0.081742,
+          "mad": 0.0018345000000000028
+        },
+        "wrapper_and_waited_child_system_seconds": {
+          "median": 0.008948999999999999,
+          "minimum": 0.00681,
+          "maximum": 0.012843,
+          "mad": 0.0010314999999999986
+        },
+        "max_rss_kib": {
+          "median": 34104.0,
+          "minimum": 34104,
+          "maximum": 34104,
+          "mad": 0.0
+        }
+      }
+    },
+    {
+      "id": "salt-single",
+      "pilot_admitted": true,
+      "unmet": [],
+      "complete_eight_timed_samples": true,
+      "statistics": {
+        "parent_wall_seconds": {
+          "median": 0.09518311800000845,
+          "minimum": 0.09264484099998072,
+          "maximum": 0.11567907200000604,
+          "mad": 0.0008429505000293602
+        },
+        "wrapper_and_waited_child_user_seconds": {
+          "median": 0.0853815,
+          "minimum": 0.080875,
+          "maximum": 0.097478,
+          "mad": 0.0021214999999999984
+        },
+        "wrapper_and_waited_child_system_seconds": {
+          "median": 0.0094825,
+          "minimum": 0.008889,
+          "maximum": 0.017997,
+          "mad": 0.0005739999999999999
+        },
+        "max_rss_kib": {
+          "median": 34104.0,
+          "minimum": 34104,
+          "maximum": 34104,
+          "mad": 0.0
+        }
+      }
+    },
+    {
+      "id": "salt-batch",
+      "pilot_admitted": true,
+      "unmet": [],
+      "complete_eight_timed_samples": true,
+      "statistics": {
+        "parent_wall_seconds": {
+          "median": 0.2607539720000034,
+          "minimum": 0.25898551599999564,
+          "maximum": 0.27244592200000284,
+          "mad": 0.0010980260000081898
+        },
+        "wrapper_and_waited_child_user_seconds": {
+          "median": 0.247651,
+          "minimum": 0.243415,
+          "maximum": 0.259366,
+          "mad": 0.002482000000000026
+        },
+        "wrapper_and_waited_child_system_seconds": {
+          "median": 0.012443,
+          "minimum": 0.008893999999999999,
+          "maximum": 0.015971,
+          "mad": 0.0005939999999999999
+        },
+        "max_rss_kib": {
+          "median": 34104.0,
+          "minimum": 34104,
+          "maximum": 34104,
+          "mad": 0.0
+        }
+      }
+    },
+    {
+      "id": "titration-refinement",
+      "pilot_admitted": true,
+      "unmet": [],
+      "complete_eight_timed_samples": true,
+      "statistics": {
+        "parent_wall_seconds": {
+          "median": 0.5316893924999988,
+          "minimum": 0.5284975440000039,
+          "maximum": 0.547158823000018,
+          "mad": 0.002812753499995324
+        },
+        "wrapper_and_waited_child_user_seconds": {
+          "median": 0.5188524999999999,
+          "minimum": 0.5152019999999999,
+          "maximum": 0.535063,
+          "mad": 0.003261000000000014
+        },
+        "wrapper_and_waited_child_system_seconds": {
+          "median": 0.013416999999999998,
+          "minimum": 0.006004,
+          "maximum": 0.016973,
+          "mad": 0.0015655
+        },
+        "max_rss_kib": {
+          "median": 34104.0,
+          "minimum": 34104,
+          "maximum": 34104,
+          "mad": 0.0
+        }
+      }
+    },
+    {
+      "id": "safety-multi-pair",
+      "pilot_admitted": false,
+      "unmet": [
+        "missing warning"
+      ],
+      "complete_eight_timed_samples": false,
+      "statistics": {}
+    }
+  ],
+  "scope": "Saved output admission and numeric summary recomputation. Source guards are checked as recorded evidence, not re-executed. Runner API/job/upload association and artifact ZIP/binary bytes need separate independent review. No optimization, empirical accuracy or speedup claim."
+}

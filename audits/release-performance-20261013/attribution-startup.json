@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "source_binding": {
+    "accepted_tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+    "archive_source_head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+    "accepted_main": "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+    "regular_blobs": 2256,
+    "binary_sha256": "54b83783ccc361bfdc853bddfff47e57f4b0b5993b9f57190eda5da486b9c1d1",
+    "recursive_submodule_files_rechecked": false
+  },
+  "baseline_run": 38368899782,
+  "actual_artifact_lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+  "cases": [
+    {
+      "case": "startup",
+      "exit": 0,
+      "timed_out": false,
+      "canonical_equal_to_hosted": true,
+      "stdout_sha256": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotate_exit": 0,
+      "callgrind_sha256": "513f9724c45051dc681058d2a243776390dc6820f5bd57daa05c9f41153ce4df"
+    },
+    {
+      "case": "titration-refinement",
+      "exit": -9,
+      "timed_out": true,
+      "canonical_equal_to_hosted": false,
+      "stdout_sha256": "526fece855007a0a1700f236eac9f694a11801429b5c93ffb7a3dd584f46695d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "startup_instruction_total": 749655535,
+  "optional_explanation_engine_inclusive_instructions": 224706995,
+  "optional_explanation_engine_reported_inclusive_percent": 29.97,
+  "source_inspection": "Session creates an optional second engine eagerly in run and REPL constructors. Only explain uses it for path comparison; consider initializing it once on first explain.",
+  "candidate_implemented": false,
+  "paired_speedup_verified": false,
+  "scope": "Local Callgrind attribution using reviewed existing release binary and equal startup canonical output. Instructions are not elapsed time; inclusive costs overlap. Titration instrumented run timed out at60seconds and is incomplete, not a chemistry or ordinary benchmark failure. Parent source archive regular blobs checked before/after; recursive submodule contents not rechecked locally."
+}

@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-13T09:29:07.046064+00:00",
+  "gate": {
+    "load1": 1.33984375,
+    "mem_available_mib": 3780,
+    "nas_free_mib": 1571779
+  },
+  "run": 38368899782,
+  "job": 115200676558,
+  "artifact": 11800404197,
+  "all_checks_pass": true,
+  "association_review": {
+    "api_run_job_upload_log_zip_digest_extracted_member_bytes": "passed in initial review before sourcearchive scope rejection",
+    "original_own_run_build_pr782_merge_synthetic_checkout_and_tree": "passed",
+    "frozen_profiler_actual_lock_and_binary_recorded_guards": "passed",
+    "source_before_after_identical_parent_2256_git_inventory": "passed"
+  },
+  "source_archive_parent_blobs_independently_verified": 2256,
+  "source_archive_module_blobs": 0,
+  "module_guard_blobs_recorded_not_archived": 1268,
+  "output_statistics_checks_passed": 65,
+  "workloads": [
+    {
+      "id": "startup",
+      "admitted": true,
+      "timed_samples": 8,
+      "wall_median_seconds": 0.08627568449999501,
+      "wall_mad_seconds": 0.0010152564999970082
+    },
+    {
+      "id": "salt-single",
+      "admitted": true,
+      "timed_samples": 8,
+      "wall_median_seconds": 0.09518311800000845,
+      "wall_mad_seconds": 0.0008429505000293602
+    },
+    {
+      "id": "salt-batch",
+      "admitted": true,
+      "timed_samples": 8,
+      "wall_median_seconds": 0.2607539720000034,
+      "wall_mad_seconds": 0.0010980260000081898
+    },
+    {
+      "id": "titration-refinement",
+      "admitted": true,
+      "timed_samples": 8,
+      "wall_median_seconds": 0.5316893924999988,
+      "wall_mad_seconds": 0.002812753499995324
+    },
+    {
+      "id": "safety-multi-pair",
+      "admitted": false,
+      "unmet": [
+        "missing expected warning: oxidizer-reducer"
+      ]
+    }
+  ],
+  "total_timed_samples": 32,
+  "baseline_collection_complete": false,
+  "ready_for_cost_attribution_of_admitted_workloads": true,
+  "qualifications": [
+    "Initial recursivearchive and ensure_ascii checker errors preserved separately; not behaviorfailures.",
+    "Actual benchmark binary bytes not in outputartifact; identity bound recorded beforeafterguards/previous ownbinaryreview.",
+    "Module archive contents unavailable; recursive moduleblob guards identical beforeafter but moduleobjectdb not independently queried.",
+    "Timings saved associations/arithmetic only; clocks/process accounting not remeasured.",
+    "Source-informed performance inputs; not blindchemistry/scientificcalibration.",
+    "Fouradmittedworkloads only; firstsafetypilot unmet oxidizer-reducerwarning untimed.",
+    "No candidate optimization/speedup/empiricalaccuracy claim."
+  ]
+}

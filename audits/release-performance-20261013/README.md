@@ -20,7 +20,30 @@ rejected terminal escape sequences. Its benchmark step was skipped.
 [raw-response option](https://cli.github.com/manual/gh_api), uses it for file-bound
 logs and ZIP bytes, and records the CLI version. [Current dispatch](dispatch-v4.json)
 pins the new run. All earlier failures and frozen definitions remain preserved.
-No measurements are accepted yet.
+Four admitted workloads are now reviewed; the safety pilot remains unadmitted.
+[Saved-output review](baseline-output-review-v4.json) and
+[independent review](baseline-independent-review-v4.json) preserve all five outcomes.
+The complete-five flag remains false. Eight timed samples per admitted workload
+match their pilot outputs exactly.
+
+| Workload | Median wall (ms) | MAD (ms) |
+| --- | ---: | ---: |
+| Startup | 86.28 | 1.02 |
+| One salt addition | 95.18 | 0.84 |
+| 64 salt additions | 260.75 | 1.10 |
+| Titration | 531.69 | 2.81 |
+
+The safety forecast required both gas and reducer warnings; the actual screen
+returns its first priority finding. Both hazards were present, but only the gas
+warning was emitted. Preserve this failed admission forecast and its untimed
+status; it is not evidence that the aggregate exposure API omitted the reducer.
+
+[Startup attribution](attribution-startup.json) identifies eager construction of
+the optional explanation engine as about30% of startup instruction work. A narrow
+candidate is lazy initialization on first `explain`, retaining an independent
+engine and one-time unavailable state. No implementation or speedup is accepted.
+The instrumented titration exceeded its60-second diagnostic budget; preserve that
+incomplete profile separately from its successful ordinary release benchmark.
 [Manifest](manifest.json), [inputs](scripts/), [profiler](profile.py) and
 [freeze](freeze.json) specify five representative performance workloads.
 The own reviewed release artifact was built from `2bf9c771`; accepted main
@@ -70,4 +93,5 @@ and ZIP/binary byte verification remain separate acceptance requirements. It
 reports incomplete or refused workloads without converting them to successes.
 Use `--dispatch audits/release-performance-20261013/dispatch-v4.json` for the
 corrected run. The reviewer is a later evidence consumer; it does not change the frozen inputs,
-profiler, workflow or baseline run. No actual baseline review is accepted yet.
+profiler, workflow or baseline run. The four admitted baseline reviews above are accepted with their recorded
+source/archive/clock qualifications; safety remains unadmitted.
