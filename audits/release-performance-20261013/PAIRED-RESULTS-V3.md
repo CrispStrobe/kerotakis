@@ -37,37 +37,35 @@ attempt uses a separate evidence destination and pools no partial-run samples.
 The original safety admission failure remains untimed and unadmitted.
 
 [All five actual required CI logs](candidate-ordinary-ci-independent-review-v4.json)
-now pass independent review; the correction from an optional wasm job to the
-required WebAssembly bench job is explicit. The separate own chemistry fleet
-still requires saved-output closure. PR785 remains draft. Next review its
-remaining source-bound fleet outcomes and update the narrow PR with these
-results; merge only after all its outstanding acceptance conditions pass.
+pass independent review. [The final raw and aggregate closure](hosted-fleet-evidence-closure-completed.json)
+accepts all 702 saved cases / 991 engineering checks, including both remaining
+actual aggregate outputs and the previously accepted v2 receipt. The completed
+hosted worker independently inspected source forecasts, scripts, streams,
+archive/member hashes and serialized reports without running the CLI or family
+analyzers. Source-owned laws and aggregates remain internal engineering contracts;
+independent human audit of the new consumer and empirical chemical calibration
+are not claimed.
 
-The next agent should close the following obligations in order:
+[PR785 is merged](pr785-integration-completed.json) at `30fd09eb`. Its actual
+main tree and merge parents match reviewed candidate `d06ffe3a` on `7337bb58`.
+The guarded merge included only the two narrow source files after refreshing
+head/base/main, all five enforced checks and applicable rules. Performance lane 1
+is complete. The broad audit and isolated inspection branches remain unmerged.
+Repository-triggered postmerge workflows are separate from this accepted source
+and integrated-tree proof.
 
-1. Refresh metadata for own fleet run38387729183 at `d06ffe3a`, confirming tested
-   synthetic checkout `4df5deab` has parents `7337bb58` and `d06ffe3a` and the
-   candidate tree. Reconcile all 33 source-expanded jobs from the pinned
-   `.github/workflows/chemistry-audit.yml`; the v2 aggregate was absent from the
-   earlier 32-job snapshot. Preserve changes in status and first failures.
-2. Under fresh resource gates, collect only this run's family/frozen artifacts.
-   Bind exact artifact API source association, name, digest/size, safe ZIP members,
-   raw streams, manifests, harness/analyzer hashes and ordinary CLI `b290b436`
-   with captured lock `5135e2cc`. This fleet uses that binary, rather than the
-   different rebuilt candidate used for paired timing. Recompute actual saved
-   outcomes without running the CLI. Qualify any reused source-owned evaluator;
-   it does not provide an independent scientific oracle. Retain first rejections
-   and incomplete reviews. The known total is 702 cases/991 engineering-law checks;
-   do not claim that total before its actual own outputs are accepted.
-3. Review actual 240/120/288-case aggregate outputs against accepted own family
-   reports, including the three previously queued v2 families: thermochemical
-   paths, analytical observables and materials transport. Require the final
-   completed 33-job/source-bound checkpoint. Do not borrow earlier-source results,
-   dispatch duplicates or cancel queued jobs.
-4. Attach accepted results to the narrow PR, verify its source/base and current
-   required checks, then finish guarded acceptance. Keep the broad audit and
-   isolated inspection branches unmerged. Only after lane 1 is complete start
-   the fresh syntax-only fifty experiments described in the ordered roadmap.
+Next execute [roadmap lane 2](../../docs/ordered-work-roadmap-20261013.md): a fresh
+agent learns syntax only, invents fifty original scripts and expectations, and
+freezes them before CLI execution. Give it no source/corpus/history context.
+Begin only when agent and execution resource gates permit. Preserve first outcomes
+and classify demonstrated gaps before repairs. The existing 702 contracts are
+not the new fifty. Do not rerun completed performance, controls or ordinary CI
+unless new source changes, failures or unresolved concerns justify it.
+
+## Historical checkpoints
+
+The following records preserve prior capture-time states and first failures.
+The completed receipts above supersede their pending-work descriptions.
 
 The bounded fleet inventory is [source-bound here](candidate-fleet-closure-inventory-20261013.json).
 The latest two family-review attempts stopped at their initial load/memory gates;

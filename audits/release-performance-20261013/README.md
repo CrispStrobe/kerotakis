@@ -1,5 +1,25 @@
 # Ordered roadmap lane 1: release performance
 
+Current state: [PR785 is merged](pr785-integration-completed.json) at
+`30fd09eb`, whose actual tree matches reviewed candidate `d06ffe3a`.
+[Final source-bound raw and aggregate validation](hosted-fleet-evidence-closure-completed.json)
+accepts all 702 saved cases / 991 engineering checks and all three actual
+aggregates. Controlled performance, seven rebuilt compatibility controls and all
+five required CI logs were accepted before the guarded merge. The broad audit
+and isolated inspection branches remain separate. Lane 1 is complete.
+
+The next deliverable is lane 2's fresh syntax-only fifty, using a fresh agent
+without corpus or implementation context. Its forecasts must be frozen before
+CLI execution. Agent work and local execution wait for the private resource
+gates; current load and memory gates are closed. These new experiments are
+separate from the existing 702 source-informed cases. See
+[the ordered roadmap](../../docs/ordered-work-roadmap-20261013.md).
+
+The earlier progress reports below are historical capture-time states. They do
+not reopen completed performance/fleet/merge obligations. Saved source-owned
+laws establish internal engineering consistency, not empirical calibration.
+
+
 
 Current checkpoint: the controlled-build archive has been collected under open
 resource gates. [Structural collection](controlled-build-structural-collection.json)

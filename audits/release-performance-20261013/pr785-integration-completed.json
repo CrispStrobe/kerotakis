@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "lane_1_complete": true,
+  "pr": 785,
+  "url": "https://github.com/CrispStrobe/kerotakis/pull/785",
+  "merged_at": "2026-10-13T20:05:30Z",
+  "merge_commit": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+  "candidate_head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+  "accepted_base": "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+  "actual_merge_parents": [
+    "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+    "d06ffe3a1740728656878c4aea0e9507ca83c808"
+  ],
+  "accepted_candidate_and_integrated_tree": "25d1dd490acc080a59f2a02e5b9399a22bd0f4bc",
+  "actual_main_at_capture": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+  "actual_integrated_tree_matches_accepted_candidate": true,
+  "all_five_current_required_checks_pass_before_merge": true,
+  "extra_active_main_rulesets": [],
+  "only_two_narrow_source_files_merged": true,
+  "full_saved_case_and_aggregate_receipt_sha256": "28cb4bf4ae5aa79fc344f9ab0a855bedce837619a63a02319a18406602b36c10",
+  "accepted_cases": 702,
+  "accepted_engineering_checks": 991,
+  "all_three_actual_aggregates_accepted": true,
+  "broad_audit_or_inspection_branches_merged": false,
+  "local_new_cli_or_build_or_benchmark_run": false,
+  "later_lanes_complete": false,
+  "captured_at": "2026-10-13T20:07:33.766199+00:00",
+  "raw_metadata_sha256": {
+    "pr.json": "bdc0d6e042fe3e174a6d1dcfac2a47b75acac6039bca7bfd47d0c2ce0716e418",
+    "main.json": "3cd867ff7e3a567cd6b4932067411774596e2d850d68de623fea2c346d5726ff",
+    "protection.json": "240c929c4a479c48b0c5a554b1d07dafacfa3512ccf9f78af0004186f5792eaa",
+    "rules.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "source.json": "34fd119394c634c1e7ef1c97865f9177fae6527f019159aa643dc8d90917c386",
+    "ready-pr.json": "c2f1835670a5dc083ac32dd813dd3e91c03b6e5c52329bfe1d3b51d2edbc3780",
+    "ready-main.json": "7d2e103ed83be63ad05c86b1714c74f6c1d2c54ca95bd3aa543c935cd1784ec3",
+    "merged-pr.json": "171f3dad9e2f8fc43e6eec67d12fc7516d65147b0c11056a4a8a4ef81410582b",
+    "merged-main.json": "8d3c41bd905776b2a231a95c9d43cbfe278edb540cd4a242714678048c59d3c0",
+    "merged-commit.json": "bb251d7a2186833b3fcbcf3b97e8d6bcaa4f4c6c9f7de885dffb2bee259cd07e"
+  },
+  "scope": "Guarded narrow PR merge after exact-source performance/controls/required CI and702/991 saved-output/three-aggregate acceptance. Actual integrated tree equals accepted candidate. Existing source-owned laws are internal engineering contracts, not empirical calibration. Repository-triggered postmerge workflows remain separate from source-tree equivalence."
+}

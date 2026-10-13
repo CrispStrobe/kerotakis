@@ -1,57 +1,34 @@
 # Ordered work roadmap — 2026-10-13
 
-The user authorized these six lanes in this exact order. Lane 1 is active;
-lanes 2–6 are queued. Planning or a queued job does not complete a lane.
-Preserve original forecasts, first failures, accepted source bindings and
-resource rejections. Large local work requires the private resource gate.
+The user authorized these six lanes in this exact order. Lane 1 is complete;
+lane 2 is next, waiting for resource gates. Lanes 3–6 remain queued. Preserve
+original forecasts, first failures, accepted source bindings and resource
+rejections. Large local work and agent work require the private resource gate.
 
-1. **Release performance — measured; fleet closure pending.**
-   [Draft PR785](https://github.com/CrispStrobe/kerotakis/pull/785) defers the optional
-   explanation engine until first valid `explain`, retaining primary solver
-   initialization and cached optional unavailability. The candidate is
-   `d06ffe3a`, based on accepted main `7337bb58`.
+1. **Release performance — complete and merged.**
+   [PR785](https://github.com/CrispStrobe/kerotakis/pull/785) merged at `30fd09eb`.
+   [Integrated-tree proof](../audits/release-performance-20261013/pr785-integration-completed.json)
+   confirms the actual main tree matches reviewed candidate `d06ffe3a` on
+   accepted base `7337bb58`. The optional explanation engine now initializes on
+   the first valid `explain`, preserving primary initialization and cached optional
+   unavailability. Only the two narrow source files were merged; broad audit and
+   isolated infrastructure branches remain separate.
    [Controlled paired results](../audits/release-performance-20261013/PAIRED-RESULTS-V3.md)
-   pass independent review of 88 process outputs and 64 timed samples, with exact
-   equality to the original admitted chemistry outputs. Observed median wall
-   reductions: startup 21.0%, one salt 26.6%, batch 10.2%, titration 4.5%. These are
-   host-specific; the titration effect is modest relative to variation. All seven
-   rebuilt-candidate controls and all five actual required CI logs pass independent
-   review. The original safety admission failure and interrupted timing attempt
-   remain preserved. No general significance or application-memory gain is claimed.
-   [Completed fleet steps](../audits/release-performance-20261013/candidate-fleet-completed-steps-20261013.json)
-   now verifies all 33 jobs and source-defined steps pass. The source-bound
-   [v2 raw review](../audits/release-performance-20261013/candidate-fleet-v2-saved-output-review.json)
-   accepts 288 cases/368 checks, and [partial v1 review](../audits/release-performance-20261013/candidate-fleet-v1-v3-partial-review.json)
-   accepts 24 cases/32 checks. Total accepted: 312 cases/400 checks; remaining:
-   390 cases/591 checks plus v1/v3 aggregate recomputation.
-   [V2 aggregate closure](../audits/release-performance-20261013/candidate-fleet-v2-aggregate-independent-review.json)
-   now matches accepted own reports and independently verifies all 33 source job
-   and step outcomes. Distillation's
-   downloaded bytes are retained; its law evaluation stopped at the load gate.
-   Next accept the own saved family/frozen outputs and actual aggregates at the
-   exact candidate source, retain the completed 33-job checkpoint, and finish the
-   narrow PR's guarded acceptance. Detailed executable review obligations are in
-   [the results handoff](../audits/release-performance-20261013/PAIRED-RESULTS-V3.md).
-   Downloads, recomputation and execution require open operating resource gates;
-   local review stops at closed load/memory gates. A
-   [hosted remaining-case review](../audits/release-performance-20261013/hosted-remaining-fleet-review-dispatch.json)
-   failed on a reviewer assumption that a tracked lock must occur in an untracked
-   snapshot. [The preserved failure and correction](../audits/release-performance-20261013/hosted-remaining-fleet-review-first-failure.json)
-   bind the original failure. A further [lock-contract correction](../audits/release-performance-20261013/hosted-remaining-fleet-review-lock-contract-correction.json)
-   proves root `Cargo.lock` is ignored and absent from Git. The queued revision
-   `d3323f96` failed at that incorrect tracked-lock assertion. The next revision
-   exposed integer evidence keys becoming string keys in original JSON reports.
-   All failures are preserved. [Corrected collector38450225092](../audits/release-performance-20261013/hosted-remaining-fleet-review-v4-completed.json)
-   succeeded at `c5c56f9c`, reporting414/623 including prioracid24/32. Its exact
-   marker/job/upload metadata are verified; archive and aggregate closure remain
-   pending. [Closure run38452874018](../audits/release-performance-20261013/hosted-fleet-evidence-closure-dispatch.json)
-   failed before case-archive inspection because the hosted GitHub CLI refused
-   terminal escapes in the collector's log. [The preserved API transport failure](../audits/release-performance-20261013/hosted-fleet-evidence-api-transport-correction.json)
-   binds corrected run38457451902, now queued at `b8f5d64c`. It negotiates the
-   client flag for original log/archive bytes; all raw/source/aggregate checks
-   remain intact. It executes no app/build/timing/family analyzer. Accept its
-   source-bound actual receipt before claiming full702/991 closure. PR785 remains draft; later lanes remain queued.
-2. **Fifty fresh CLI experiments.** Use a fresh agent that learns only syntax,
+   accept 88 process outputs / 64 timed samples with exact admitted chemistry
+   equality. Observed median reductions: startup 21.0%, one salt 26.6%, batch 10.2%,
+   titration 4.5%, qualified to this host and protocol; no general significance
+   or application-memory gain is claimed. All seven rebuilt controls and all five
+   actual required CI logs pass independent review.
+   [Final saved-output closure](../audits/release-performance-20261013/hosted-fleet-evidence-closure-completed.json)
+   accepts 702 cases / 991 engineering checks and all three actual aggregates.
+   Forecasts, scripts, raw streams, archive/member and serialized report integrity
+   are source-bound. Source-owned laws are internal consistency contracts, not
+   empirical calibration. First reviewer and timing failures remain preserved.
+   Live source/base/main, all enforced checks and applicable rules were refreshed
+   before the guarded merge. Do not repeat completed checks at unchanged source;
+   repository-triggered postmerge workflows remain separate.
+2. **Fifty fresh CLI experiments — next, resource-gated.** Start from actual main
+   `30fd09eb` (or a separately reviewed later revision). Use a fresh agent that learns only syntax,
    without reading existing corpus cases or implementation details. Freeze all
    fifty original scripts and expectations before execution. Preserve first
    outcomes, classify gaps, and repair demonstrated app failures with regression

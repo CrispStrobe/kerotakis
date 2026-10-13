@@ -1,5 +1,13 @@
 # Chemistry audit: actionable next lanes
 
+The current execution order is [the six-lane roadmap](ordered-work-roadmap-20261013.md).
+Release performance lane 1 is complete: PR785 merged at `30fd09eb`, with
+accepted controlled performance and 702 saved cases / 991 engineering checks.
+The next lane is fifty fresh syntax-only experiments, waiting for resource gates.
+The older catalog and agenda below preserve task IDs and historical starting
+points; refresh their presence/source prerequisites before later-lane execution.
+
+
 [Today’s ordered agenda](chemistry-work-agenda-20261012.md) turns the current applicability failure, remaining safety coverage and historical binding gaps into concrete completion targets.
 
 Read [the current checkpoint](chemistry-audit-status-20261005.md) first. These are proposed, uncompleted tasks, scoped for a fresh agent. They cover audit followup, not every pre-existing product roadmap item. Keep existing task numbers unchanged; the IDs here form a separate namespace.
