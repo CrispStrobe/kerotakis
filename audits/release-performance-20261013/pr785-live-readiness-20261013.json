@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-13T19:22:08.514368+00:00",
+  "pr": 785,
+  "head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+  "base": "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+  "main": "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+  "state": "OPEN",
+  "draft": true,
+  "mergeable": "MERGEABLE",
+  "merge_state": "CLEAN",
+  "files": [
+    "crates/kerotakis-cli/src/main.rs",
+    "crates/kerotakis-cli/tests/cli_locale.rs"
+  ],
+  "live_required_checks": [
+    {
+      "name": "Full preflight gate",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38387729203/job/115263786861"
+    },
+    {
+      "name": "Test (native) (ubuntu-latest)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38387729203/job/115263786593"
+    },
+    {
+      "name": "Test (native) (macos-latest)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38387729203/job/115263786422"
+    },
+    {
+      "name": "The bench in WebAssembly",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38387729203/job/115263786526"
+    },
+    {
+      "name": "The demo page, in a real browser",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38387729203/job/115263786417"
+    }
+  ],
+  "required_review_rule": null,
+  "required_checks_strict": false,
+  "accepted_required_log_receipt_sha256": "86f8f951d73883df6a11e73a1916f226084e4d27f3283c76a8e21e82ebd22653",
+  "final_raw_and_aggregate_closure_run": 38452874018,
+  "final_closure_accepted": false,
+  "merge_performed": false,
+  "limitations": [
+    "This is live metadata readiness, not new CI execution or final evidence acceptance.",
+    "Refresh head/base/main/required checks immediately before making the PR ready or merging; await exact-source raw-and-aggregate closure first."
+  ],
+  "raw_metadata_sha256": {
+    "pr.json": "ae20b7ff13ebe42718090c64419fa71f9c9b0810b62f9f4705b76ebda6c32ead",
+    "main.json": "3cd867ff7e3a567cd6b4932067411774596e2d850d68de623fea2c346d5726ff",
+    "protection.json": "240c929c4a479c48b0c5a554b1d07dafacfa3512ccf9f78af0004186f5792eaa"
+  }
+}

@@ -242,3 +242,10 @@ analyzer runs. AST and six strict-JSON boundary checks pass; independent human
 source review is outside this preparation. Inspect the actual outcome and
 receipt before accepting combined702/991 and proceeding to guarded narrow-PR
 acceptance. The old first failures, frozen scripts and expectations remain intact.
+
+[The live PR readiness check](pr785-live-readiness-20261013.json) confirms the
+reviewed head/base/main remain unchanged, the PR contains only the two expected
+source files, and all five currently enforced checks pass. Its description now
+records the successful collector and queued final validation. This is metadata
+readiness, not a new test run or merge acceptance. PR785 remains draft. Refresh
+these guards after the exact-source raw-and-aggregate validation completes.
