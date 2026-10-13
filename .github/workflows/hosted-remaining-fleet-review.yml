@@ -1,4 +1,4 @@
-name: Remaining saved fleet review
+name: Saved fleet receipt and aggregate closure
 on:
   workflow_call:
 permissions:
@@ -6,7 +6,7 @@ permissions:
   actions: read
 jobs:
   review:
-    name: Recompute remaining 390 saved cases without CLI or build
+    name: Inspect raw saved receipts and close remaining aggregates
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
@@ -32,13 +32,13 @@ jobs:
           path: candidate-source
           persist-credentials: false
           submodules: false
-      - name: Recompute frozen saved outputs and retain prior acceptance
-        run: python3 -B audit/audits/release-performance-20261013/review-remaining-fleets.py --source candidate-source --audit audit --out remaining-fleet-evidence
+      - name: Independently inspect saved raw outputs and compare actual aggregates
+        run: python3 -B audit/audits/release-performance-20261013/review-hosted-fleet-evidence.py --source candidate-source --audit audit --out hosted-fleet-evidence
       - name: Preserve raw successes, partial checkpoints and failures
         if: always()
         uses: actions/upload-artifact@v6
         with:
-          name: remaining-fleet-saved-review-${{ github.run_id }}-${{ github.run_attempt }}
-          path: remaining-fleet-evidence
+          name: hosted-fleet-closure-${{ github.run_id }}-${{ github.run_attempt }}
+          path: hosted-fleet-evidence
           if-no-files-found: warn
           retention-days: 14

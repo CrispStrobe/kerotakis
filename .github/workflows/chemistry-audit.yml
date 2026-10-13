@@ -834,7 +834,7 @@ jobs:
       actions: read
 
   hosted-remaining-fleet-review:
-    name: Remaining saved chemistry fleet outputs
+    name: Saved fleet receipt and aggregate closure
     if: github.event_name == 'workflow_dispatch' && inputs.audit == 'hosted-remaining-fleet-review'
     uses: ./.github/workflows/hosted-remaining-fleet-review.yml
     permissions:
