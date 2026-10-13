@@ -1,0 +1,10 @@
+# Fresh independent syntax-only experiment 44
+# Ethanol enrichment by distillation
+new
+add v1 H2O 80mL
+add v1 C2H5OH 20mL
+stir v1 200rpm 1s
+inspect v1
+distil v1 v2 0.1 stages 1
+inspect
+measure v2 density

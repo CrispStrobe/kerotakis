@@ -1,0 +1,10 @@
+# Fresh independent syntax-only experiment 35
+# Ethanol water mixing
+new
+add v1 H2O 50mL @ 20C
+add v1 C2H5OH 50mL @ 20C
+add v2 H2O 100mL @ 20C
+stir v1 200rpm 1s
+inspect v1
+measure v1 density
+measure v2 density

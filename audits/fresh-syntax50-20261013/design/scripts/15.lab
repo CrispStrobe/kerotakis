@@ -1,0 +1,11 @@
+# Fresh independent syntax-only experiment 15
+# Temperature dependent nitrate solubility
+new
+add v1 H2O 50g @ 20C
+add v1 KNO3 20g
+add v2 H2O 50g @ 80C
+add v2 KNO3 20g
+stir v1 200rpm 1s
+stir v2 200rpm 1s
+inspect v1
+inspect v2

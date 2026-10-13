@@ -1,0 +1,12 @@
+# Fresh independent syntax-only experiment 07
+# Nonelectrolyte sugar
+new
+add v1 H2O 100mL
+add v1 C12H22O11 0.01mol
+add v2 H2O 100mL
+add v2 NaCl 0.01mol
+stir v1 200rpm 1s
+stir v2 200rpm 1s
+measure v1 conductivity
+measure v2 conductivity
+inspect v1

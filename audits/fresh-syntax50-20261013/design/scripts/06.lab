@@ -1,0 +1,9 @@
+# Fresh independent syntax-only experiment 06
+# Electrolyte conductivity
+new
+add v1 H2O 100mL
+add v2 H2O 100mL
+add v2 NaCl 0.01mol
+stir v2 200rpm 1s
+measure v1 conductivity
+measure v2 conductivity

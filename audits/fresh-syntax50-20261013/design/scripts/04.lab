@@ -1,0 +1,7 @@
+# Fresh independent syntax-only experiment 04
+# Hot and cold water mixing
+add v1 H2O 50g @ 20C
+add v1 H2O 50g @ 60C
+measure v1 thermometer
+measure v1 balance
+inspect v1

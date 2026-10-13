@@ -1,7 +1,7 @@
 # Ordered work roadmap — 2026-10-13
 
 The user authorized these six lanes in this exact order. Lane 1 is complete;
-lane 2 is next, waiting for resource gates. Lanes 3–6 remain queued. Preserve
+lane 2 has fifty independently designed, frozen experiments awaiting execution gates. Lanes 3–6 remain queued. Preserve
 original forecasts, first failures, accepted source bindings and resource
 rejections. Large local work and agent work require the private resource gate.
 
@@ -27,7 +27,11 @@ rejections. Large local work and agent work require the private resource gate.
    Live source/base/main, all enforced checks and applicable rules were refreshed
    before the guarded merge. Do not repeat completed checks at unchanged source;
    repository-triggered postmerge workflows remain separate.
-2. **Fifty fresh CLI experiments — next, resource-gated.** Start from actual main
+2. **Fifty fresh CLI experiments — design frozen, execution resource-gated.**
+   [The independent fifty](../audits/fresh-syntax50-20261013/README.md) and all
+   original expectations are frozen; 0/50 executed and no physical verdicts yet.
+   The verified ordinary release binary is staged and the source-bound runner
+   preserves first outcomes and skips completed cases when resuming. Start from actual main
    `30fd09eb` (or a separately reviewed later revision). Use a fresh agent that learns only syntax,
    without reading existing corpus cases or implementation details. Freeze all
    fifty original scripts and expectations before execution. Preserve first

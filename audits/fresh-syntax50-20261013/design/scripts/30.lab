@@ -1,0 +1,9 @@
+# Fresh independent syntax-only experiment 30
+# Gas pressure versus amount
+seal v1 1L
+measure v1 pressure
+add v1 N2 0.005mol @ 25C
+measure v1 pressure
+add v1 N2 0.005mol @ 25C
+measure v1 pressure
+inspect v1

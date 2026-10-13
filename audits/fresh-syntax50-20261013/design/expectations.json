@@ -1,0 +1,1367 @@
+{
+  "schema_version": 1,
+  "design_scope": "50 original experiments authored before any execution using only a syntax reference and independent chemistry/physics knowledge.",
+  "global_assumptions": [
+    "Fresh CLI bench provides v1; new provides v2. Every script is a separate fresh process.",
+    "Added formula keys are guesses from ordinary chemistry, not claims of registry availability. Unknown keys are unsupported, never a physical failure.",
+    "Reported concentrations and temperatures must be checked before applying quantitative bounds. Liquid water defaults are assumed near room temperature only where no explicit temperature is given.",
+    "Inspect may represent ions, molecular equivalents, phases, or named pools. Match chemical identity and conserved elemental/equivalent amounts rather than requiring a particular internal label.",
+    "Observations are predictions, not measurements. Confidence describes the scientific expectation under stated conditions, not predicted engine coverage.",
+    "A 1 s stir or wait is a resource bound, not a universal assurance of physical equilibration. Rate-limited absence of products is inconclusive unless explicit equilibrium is reported.",
+    "Fractions, seal volume, dilute volume, sweep, and titration syntax have inferred physical semantics. Observed alternative documented semantics should be recorded, with physical comparisons recalculated from actual inventories; do not rewrite this frozen design.",
+    "Tests may perturb inventory, so quantitative conservation should preferentially use the preceding inspect observation.",
+    "Approximate density units are g/mL, conductivity units mS/cm, pressures kPa, and temperatures C unless output explicitly uses alternatives. Convert units before comparison."
+  ],
+  "experiments": [
+    {
+      "id": "01",
+      "title": "Water sensible heating",
+      "question": "Does a known heat input cause the expected water temperature rise?",
+      "script": "scripts/01.lab",
+      "expected_observations": "The final water temperature should rise by approximately 2.4 C; allow 1.5\u20133.5 C for ordinary vessel heat capacity. Water remains liquid, with essentially unchanged inventory.",
+      "confidence": "high",
+      "rationale": "For 100 g of liquid water, Q/(m cp)=1000/(100*4.18)=2.39 C. No boiling is expected.",
+      "observation_commands": [
+        {
+          "step": 2,
+          "command": "measure v1 thermometer"
+        },
+        {
+          "step": 4,
+          "command": "measure v1 thermometer"
+        },
+        {
+          "step": 5,
+          "command": "inspect v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "No measurable warming, cooling, loss of most water, or a rise above 6 C despite successful heating and resolved temperatures.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "02",
+      "title": "Water sensible cooling",
+      "question": "Is cooling consistent with removing thermal energy?",
+      "script": "scripts/02.lab",
+      "expected_observations": "Temperature falls about 2.4 C; allow a fall of 1.5\u20133.5 C. Water remains liquid.",
+      "confidence": "high",
+      "rationale": "The heat capacity of 100 g water is about 418 J/K.",
+      "observation_commands": [
+        {
+          "step": 2,
+          "command": "measure v1 thermometer"
+        },
+        {
+          "step": 4,
+          "command": "measure v1 thermometer"
+        },
+        {
+          "step": 5,
+          "command": "inspect v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Temperature rises or falls by more than 6 C, or does not change despite successful resolved cooling.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "03",
+      "title": "Mass dependence of heating",
+      "question": "Does twice the water mass approximately halve the temperature response?",
+      "script": "scripts/03.lab",
+      "expected_observations": "Both warm; the 50 g sample warms more. Ideal rises are 4.8 and 2.4 C. The ratio of temperature rises should be approximately 2, with 1.4\u20132.6 acceptable if equal vessel heat capacities contribute.",
+      "confidence": "high",
+      "rationale": "Heat input is equal and water heat capacity scales with mass.",
+      "observation_commands": [
+        {
+          "step": 4,
+          "command": "measure v1 thermometer"
+        },
+        {
+          "step": 5,
+          "command": "measure v2 thermometer"
+        },
+        {
+          "step": 8,
+          "command": "measure v1 thermometer"
+        },
+        {
+          "step": 9,
+          "command": "measure v2 thermometer"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "The larger sample warms more, either cools, or identical temperature changes occur with enough resolution to distinguish the predicted rises.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "04",
+      "title": "Hot and cold water mixing",
+      "question": "Does equal-mass water mixing conserve sensible heat?",
+      "script": "scripts/04.lab",
+      "expected_observations": "A mixed temperature near 40 C, broadly 35\u201345 C allowing a vessel initially near ambient, and approximately 100 g of water.",
+      "confidence": "high",
+      "rationale": "Equal masses with similar heat capacities equilibrate near the arithmetic mean.",
+      "observation_commands": [
+        {
+          "step": 3,
+          "command": "measure v1 thermometer"
+        },
+        {
+          "step": 4,
+          "command": "measure v1 balance"
+        },
+        {
+          "step": 5,
+          "command": "inspect v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Temperature outside the 20\u201360 C input range or major inventory loss.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "05",
+      "title": "Salt solution density",
+      "question": "Does dissolved sodium chloride raise density above water?",
+      "script": "scripts/05.lab",
+      "expected_observations": "Salt should dissolve and the solution should be denser than the water control. A 10 g/100 mL water solution has density roughly 1.05\u20131.10 g/mL at room temperature.",
+      "confidence": "high",
+      "rationale": "Dissolved NaCl adds mass with substantially less proportional volume increase. This loading is below room-temperature solubility.",
+      "observation_commands": [
+        {
+          "step": 6,
+          "command": "measure v1 density"
+        },
+        {
+          "step": 7,
+          "command": "measure v2 density"
+        },
+        {
+          "step": 8,
+          "command": "inspect v2"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Resolved solution density below the water control, or undissolved bulk salt remaining after reported equilibrium.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "06",
+      "title": "Electrolyte conductivity",
+      "question": "Does salt create an electrically conducting solution?",
+      "script": "scripts/06.lab",
+      "expected_observations": "Approximately 0.1 M NaCl should conduct far better than the water control; ideally around 5\u201315 mS/cm at room temperature if absolute units are reported. The sign and substantial increase are the primary observations.",
+      "confidence": "high",
+      "rationale": "Mobile Na+ and Cl- ions conduct electric current.",
+      "observation_commands": [
+        {
+          "step": 6,
+          "command": "measure v1 conductivity"
+        },
+        {
+          "step": 7,
+          "command": "measure v2 conductivity"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Salt solution conductivity equal to or below the water control at usable resolution.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "07",
+      "title": "Nonelectrolyte sugar",
+      "question": "Does sugar dissolve without the conductivity increase of salt?",
+      "script": "scripts/07.lab",
+      "expected_observations": "Sucrose should dissolve. Its solution should have much lower conductivity than the equimolar NaCl solution; a factor of at least 10 is expected for reasonably pure materials.",
+      "confidence": "medium",
+      "rationale": "Sucrose molecules are neutral and do not appreciably ionize in water.",
+      "observation_commands": [
+        {
+          "step": 8,
+          "command": "measure v1 conductivity"
+        },
+        {
+          "step": 9,
+          "command": "measure v2 conductivity"
+        },
+        {
+          "step": 10,
+          "command": "inspect v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Sucrose gives comparable or larger conductivity than NaCl, or is reported as extensively ionized.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "08",
+      "title": "Strong acid dilution",
+      "question": "Does tenfold dilution raise strong-acid pH by about one unit?",
+      "script": "scripts/08.lab",
+      "expected_observations": "Initial pH approximately 2 and diluted pH approximately 3. The pH increase should be 0.8\u20131.2; final liquid volume should be approximately 1 L if dilute specifies a target volume.",
+      "confidence": "high",
+      "rationale": "Hydrochloric acid is strong; pH=-log10([H+]). The syntax does not say whether dilute targets final volume or adds volume: adding 1 L instead predicts pH 3.04, still inside the same bound.",
+      "observation_commands": [
+        {
+          "step": 3,
+          "command": "measure v1 ph"
+        },
+        {
+          "step": 5,
+          "command": "measure v1 ph"
+        },
+        {
+          "step": 6,
+          "command": "inspect v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Dilution lowers pH or changes pH by less than 0.5 or more than 1.5 with correct acid and volume inventories.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "09",
+      "title": "Strong base dilution",
+      "question": "Does dilution reduce hydroxide alkalinity?",
+      "script": "scripts/09.lab",
+      "expected_observations": "At approximately 25 C, pH starts near 12 and ends near 11; the drop should be 0.8\u20131.2.",
+      "confidence": "high",
+      "rationale": "NaOH dissociates strongly; a tenfold concentration drop raises pOH by one. Target-versus-added dilute volume changes prediction by only about 0.04 pH units.",
+      "observation_commands": [
+        {
+          "step": 3,
+          "command": "measure v1 ph"
+        },
+        {
+          "step": 5,
+          "command": "measure v1 ph"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Dilution increases pH or produces a change outside 0.5\u20131.5 units after successful additions.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "10",
+      "title": "Stoichiometric neutralization",
+      "question": "Do equal strong acid/base equivalents remove extreme pH?",
+      "script": "scripts/10.lab",
+      "expected_observations": "Initial pH near 2; final pH approximately 6\u20138 at room temperature. No persistent free HCl/NaOH excess should remain; Na+ and Cl- may be reported as ions or NaCl.",
+      "confidence": "high",
+      "rationale": "Equal monoprotic acid and hydroxide amounts form water and a neutral salt.",
+      "observation_commands": [
+        {
+          "step": 3,
+          "command": "measure v1 ph"
+        },
+        {
+          "step": 6,
+          "command": "measure v1 ph"
+        },
+        {
+          "step": 7,
+          "command": "inspect v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Final pH remains below 4 or above 10 with correct equal inventories.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "11",
+      "title": "Acid excess after neutralization",
+      "question": "Does pH track the unneutralized acid amount?",
+      "script": "scripts/11.lab",
+      "expected_observations": "Approximately 0.001 mol acid equivalents remain in about 0.1 L, giving pH 1.7\u20132.3. The final solution remains acidic.",
+      "confidence": "high",
+      "rationale": "Only 0.001 mol of 0.002 mol acid can be neutralized by the supplied hydroxide.",
+      "observation_commands": [
+        {
+          "step": 5,
+          "command": "measure v1 ph"
+        },
+        {
+          "step": 6,
+          "command": "inspect v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Neutral or alkaline final pH, or acid equivalents consumed beyond the hydroxide inventory.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "12",
+      "title": "Weak versus strong acid",
+      "question": "Is acetic acid less acidic than equal-concentration HCl?",
+      "script": "scripts/12.lab",
+      "expected_observations": "For approximately 0.01 M solutions, HCl pH is near 2 while acetic acid is near 3.4 (allow 3.1\u20133.7). Acetic acid should be at least 0.8 pH unit higher.",
+      "confidence": "medium",
+      "rationale": "Acetic acid has Ka about 1.8e-5 and dissociates only partially.",
+      "observation_commands": [
+        {
+          "step": 6,
+          "command": "measure v1 ph"
+        },
+        {
+          "step": 7,
+          "command": "measure v2 ph"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Acetic acid pH equal to or lower than HCl at the same concentration.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "13",
+      "title": "Acetate buffer response",
+      "question": "Does an acetate buffer resist a small strong-acid addition?",
+      "script": "scripts/13.lab",
+      "expected_observations": "Initial pH about 4.76 (allow 4.3\u20135.2). Addition consumes some acetate and lowers pH slightly; expected drop near 0.09, broadly 0.03\u20130.3.",
+      "confidence": "medium",
+      "rationale": "Henderson-Hasselbalch predicts pKa+log10(0.0045/0.0055), a change of -0.087.",
+      "observation_commands": [
+        {
+          "step": 4,
+          "command": "measure v1 ph"
+        },
+        {
+          "step": 7,
+          "command": "measure v1 ph"
+        },
+        {
+          "step": 8,
+          "command": "inspect v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "A pH increase, or a drop greater than 1 with a correctly represented buffer.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "14",
+      "title": "Salt saturation",
+      "question": "Does excess NaCl coexist with a saturated solution?",
+      "script": "scripts/14.lab",
+      "expected_observations": "Liquid brine and undissolved solid NaCl should coexist. Roughly 34\u201338 g dissolves per 100 g water, leaving approximately 12\u201316 g solid.",
+      "confidence": "medium",
+      "rationale": "NaCl solubility near 20 C is about 36 g per 100 g water.",
+      "observation_commands": [
+        {
+          "step": 4,
+          "command": "inspect v1"
+        },
+        {
+          "step": 5,
+          "command": "particles v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "All 50 g is dissolved, no aqueous dissolved salt exists, or total NaCl is not conserved.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "15",
+      "title": "Temperature dependent nitrate solubility",
+      "question": "Does warmer water dissolve more potassium nitrate?",
+      "script": "scripts/15.lab",
+      "expected_observations": "At near 20 C, approximately 15\u201317 g KNO3 dissolves and some solid remains. At a retained temperature well above 40 C, all 20 g should dissolve. Inspect reported temperatures before evaluating.",
+      "confidence": "medium",
+      "rationale": "KNO3 solubility rises steeply with temperature, from about 32 g/100 g water at 20 C to more than 100 g/100 g at 80 C.",
+      "observation_commands": [
+        {
+          "step": 8,
+          "command": "inspect v1"
+        },
+        {
+          "step": 9,
+          "command": "inspect v2"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Hot sample dissolves less than the cold sample under comparable equilibrium, or all 20 g dissolves at a confirmed near-20 C.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "16",
+      "title": "Silver chloride precipitation",
+      "question": "Does mixing soluble silver and chloride form AgCl solid?",
+      "script": "scripts/16.lab",
+      "expected_observations": "A white AgCl precipitate should appear, amount close to 0.001 mol (0.143 g; allow 0.12\u20130.15 g if quantified). Residual dissolved silver should be a small fraction of the input.",
+      "confidence": "high",
+      "rationale": "AgCl has a very small solubility product and precipitation is 1:1.",
+      "observation_commands": [
+        {
+          "step": 5,
+          "command": "inspect v1"
+        },
+        {
+          "step": 6,
+          "command": "look v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "No solid AgCl or equivalent chloride precipitate at equilibrium, or a dominant differently colored product.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "17",
+      "title": "Barium sulfate precipitation",
+      "question": "Does soluble barium precipitate with sulfate?",
+      "script": "scripts/17.lab",
+      "expected_observations": "White BaSO4 solid close to 0.001 mol (0.233 g; allow 0.21\u20130.24 g) should form.",
+      "confidence": "high",
+      "rationale": "BaSO4 is extremely insoluble and the reaction consumes equal barium and sulfate amounts.",
+      "observation_commands": [
+        {
+          "step": 5,
+          "command": "inspect v1"
+        },
+        {
+          "step": 6,
+          "command": "look v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "No precipitate with ions present at equilibrium, or product amount substantially above the supplied equivalents.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "18",
+      "title": "Calcium carbonate precipitation",
+      "question": "Does calcium react with carbonate to make an insoluble solid?",
+      "script": "scripts/18.lab",
+      "expected_observations": "White calcium carbonate precipitate should form, approaching 0.001 mol (0.100 g) if equilibrium is modeled. A broadly 0.07\u20130.11 g solid amount is acceptable.",
+      "confidence": "high",
+      "rationale": "The ion product greatly exceeds the CaCO3 solubility product.",
+      "observation_commands": [
+        {
+          "step": 5,
+          "command": "inspect v1"
+        },
+        {
+          "step": 6,
+          "command": "look v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "No carbonate solid after equilibrium or a solid amount exceeding available calcium/carbonate.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "19",
+      "title": "Copper hydroxide precipitation",
+      "question": "Does hydroxide remove copper ions into a blue solid?",
+      "script": "scripts/19.lab",
+      "expected_observations": "Blue Cu(OH)2 precipitate should form, close to 0.001 mol (0.098 g). Dissolved Cu(II) should decline substantially.",
+      "confidence": "medium",
+      "rationale": "Copper hydroxide is sparingly soluble and requires two hydroxides per Cu2+.",
+      "observation_commands": [
+        {
+          "step": 5,
+          "command": "inspect v1"
+        },
+        {
+          "step": 6,
+          "command": "look v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "No copper-containing solid at equilibrium or full dissolved Cu inventory alongside unconsumed stoichiometric hydroxide.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "20",
+      "title": "Amphoteric aluminum hydroxide",
+      "question": "Does aluminum hydroxide first precipitate and then dissolve in excess base?",
+      "script": "scripts/20.lab",
+      "expected_observations": "The first stage should have a white Al(OH)3-rich solid. Large hydroxide excess should substantially reduce that solid and create dissolved aluminate species; an 80% decrease in solid aluminum is a useful quantitative target if speciation is available.",
+      "confidence": "medium",
+      "rationale": "Al(OH)3 is amphoteric and forms soluble Al(OH)4- in sufficiently alkaline water.",
+      "observation_commands": [
+        {
+          "step": 5,
+          "command": "inspect v1"
+        },
+        {
+          "step": 8,
+          "command": "inspect v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Confirmed equilibrium retains all hydroxide solid despite strongly alkaline excess, or the first stoichiometric stage has no aluminum precipitate.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "21",
+      "title": "Zinc with acid",
+      "question": "Does zinc liberate hydrogen from hydrochloric acid?",
+      "script": "scripts/21.lab",
+      "expected_observations": "Hydrogen should be generated and a positive pop test is expected if the assay samples it. The stoichiometric upper limit is 0.001 mol H2, with about 0.002 mol acid consumed and zinc declining. Actual conversion after one second may be partial.",
+      "confidence": "medium",
+      "rationale": "Zn is above hydrogen in the activity series; Zn+2H+ gives Zn2++H2.",
+      "observation_commands": [
+        {
+          "step": 6,
+          "command": "inspect v1"
+        },
+        {
+          "step": 7,
+          "command": "test v1 pop"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Hydrogen above 0.0011 mol, acid consumed with a chemically incompatible gas identity, or explicit equilibrium with no reaction.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "22",
+      "title": "Carbonate acid gas",
+      "question": "Does carbonate consume two acid equivalents and release CO2?",
+      "script": "scripts/22.lab",
+      "expected_observations": "CO2 generation and a positive limewater test are expected when the assay samples generated gas. Total generated CO2 across gas and dissolved pools is at most 0.001 mol. Remaining strong acid is about 0.001 mol, so pH should be roughly 2.",
+      "confidence": "high",
+      "rationale": "CO3(2-)+2H+ gives CO2+H2O; an extra acid equivalent remains.",
+      "observation_commands": [
+        {
+          "step": 6,
+          "command": "inspect v1"
+        },
+        {
+          "step": 7,
+          "command": "test v1 limewater"
+        },
+        {
+          "step": 8,
+          "command": "measure v1 ph"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Generated CO2 exceeds available carbonate, positive hydrogen identification instead of CO2, or strongly alkaline final state at equilibrium.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "23",
+      "title": "Magnesium combustion",
+      "question": "Does burning magnesium consume oxygen to form oxide?",
+      "script": "scripts/23.lab",
+      "expected_observations": "Ignition should give bright combustion and white MgO if ignition chemistry is supported. Complete combustion consumes 0.001 mol O2 and produces 0.002 mol MgO (about 0.081 g), with oxygen left over.",
+      "confidence": "medium",
+      "rationale": "2Mg+O2 gives 2MgO; the oxygen supply is twice the required amount.",
+      "observation_commands": [
+        {
+          "step": 5,
+          "command": "inspect v1"
+        },
+        {
+          "step": 6,
+          "command": "look v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "MgO yield exceeds available magnesium or oxygen demand exceeds the reaction stoichiometry.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "24",
+      "title": "Copper resists nonoxidizing acid",
+      "question": "Does copper remain largely unchanged in dilute HCl?",
+      "script": "scripts/24.lab",
+      "expected_observations": "Copper should remain overwhelmingly metallic and no substantial H2 should be generated. No positive hydrogen pop attributable to this mixture is expected.",
+      "confidence": "medium",
+      "rationale": "Copper is below hydrogen in the activity series and dilute nonoxidizing HCl does not efficiently oxidize it. Small oxygen-driven surface corrosion is not excluded.",
+      "observation_commands": [
+        {
+          "step": 6,
+          "command": "inspect v1"
+        },
+        {
+          "step": 7,
+          "command": "test v1 pop"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Near-stoichiometric Cu dissolution paired with H2 production.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "25",
+      "title": "Iron displaces copper",
+      "question": "Does iron reduce dissolved copper to metal?",
+      "script": "scripts/25.lab",
+      "expected_observations": "Copper metal should appear, the dissolved blue Cu(II) pool should decline, and some Fe(II) should appear. Cu production cannot exceed 0.001 mol; complete reaction consumes 0.001 mol Fe.",
+      "confidence": "medium",
+      "rationale": "Fe is less noble than Cu; Fe+Cu2+ gives Fe2++Cu.",
+      "observation_commands": [
+        {
+          "step": 5,
+          "command": "inspect v1"
+        },
+        {
+          "step": 6,
+          "command": "look v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Copper production above available Cu, iron consumption without corresponding reduction chemistry, or reversed displacement at stated equilibrium.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "26",
+      "title": "Copper displaces silver",
+      "question": "Does copper reduce silver ions with a two-to-one stoichiometry?",
+      "script": "scripts/26.lab",
+      "expected_observations": "Silver metal should appear and dissolved Cu(II) should increase. Complete conversion gives 0.002 mol Ag (0.216 g) while consuming 0.001 mol Cu.",
+      "confidence": "medium",
+      "rationale": "Cu+2Ag+ gives Cu2++2Ag, favored by the silver/copper potential difference.",
+      "observation_commands": [
+        {
+          "step": 5,
+          "command": "inspect v1"
+        },
+        {
+          "step": 6,
+          "command": "look v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Silver amount exceeds its input or full Ag reduction consumes two or more copper moles per silver mole.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "27",
+      "title": "Peroxide oxidizes ferrous iron",
+      "question": "Can peroxide oxidize Fe(II) in acid?",
+      "script": "scripts/27.lab",
+      "expected_observations": "Fe(II) should decrease and Fe(III) appear. The ideal net stoichiometry permits up to 0.002 mol Fe(III) from 0.001 mol peroxide; partial yield is possible because radical side reactions and kinetics matter.",
+      "confidence": "medium",
+      "rationale": "H2O2+2Fe2++2H+ gives 2Fe3++2H2O as a net oxidation.",
+      "observation_commands": [
+        {
+          "step": 6,
+          "command": "inspect v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Fe(III) generation exceeds total iron or substantial Fe(III) is reduced to Fe(II) by the added oxidant without another identified cause.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "28",
+      "title": "Gas pressure versus volume",
+      "question": "Does equal gas inventory produce higher pressure in smaller headspace?",
+      "script": "scripts/28.lab",
+      "expected_observations": "For equal final gas amount and temperature, pressure in 500 mL should be about twice that in 1 L. For a fresh seal that includes ambient air, compare nitrogen partial pressures or added-pressure increments; added N2 contributions are about 24.8 and 49.6 kPa.",
+      "confidence": "high",
+      "rationale": "Ideal gas pressure nRT/V scales inversely with gas volume. Trapped ambient gas must be accounted for from inspect.",
+      "observation_commands": [
+        {
+          "step": 6,
+          "command": "measure v1 pressure"
+        },
+        {
+          "step": 7,
+          "command": "measure v2 pressure"
+        },
+        {
+          "step": 8,
+          "command": "inspect"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Smaller headspace has lower gas pressure at matched temperature/inventory, or inferred nitrogen partial pressures fail the inverse-volume relation by more than 25%.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "29",
+      "title": "Heating sealed gas",
+      "question": "Does sealed gas pressure rise with absolute temperature?",
+      "script": "scripts/29.lab",
+      "expected_observations": "If heat raises reported gas temperature and volume/inventory stay fixed, pressure should rise in the same ratio as absolute temperature: Pafter/Pbefore=(Tafter+273.15)/(Tbefore+273.15), within 10%. No exact temperature rise is assumed because vessel heat capacity is unspecified.",
+      "confidence": "high",
+      "rationale": "The ideal gas law at fixed n and V makes pressure proportional to Kelvin temperature.",
+      "observation_commands": [
+        {
+          "step": 3,
+          "command": "measure v1 thermometer"
+        },
+        {
+          "step": 4,
+          "command": "measure v1 pressure"
+        },
+        {
+          "step": 6,
+          "command": "measure v1 thermometer"
+        },
+        {
+          "step": 7,
+          "command": "measure v1 pressure"
+        },
+        {
+          "step": 8,
+          "command": "inspect v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Resolved warming with pressure falling, or more than 20% disagreement with the measured-temperature pressure ratio.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "30",
+      "title": "Gas pressure versus amount",
+      "question": "Does adding a second equal gas dose yield an equal pressure increment?",
+      "script": "scripts/30.lab",
+      "expected_observations": "At stable temperature, each dose adds approximately 12.4 kPa to pressure; allow 10\u201315 kPa. The two increments should agree within 15%, accounting for reported temperature shifts.",
+      "confidence": "high",
+      "rationale": "Each 0.005 mol dose contributes nRT/V in the same volume.",
+      "observation_commands": [
+        {
+          "step": 2,
+          "command": "measure v1 pressure"
+        },
+        {
+          "step": 4,
+          "command": "measure v1 pressure"
+        },
+        {
+          "step": 6,
+          "command": "measure v1 pressure"
+        },
+        {
+          "step": 7,
+          "command": "inspect v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "The second increment is negative or more than 30% different after temperature correction, or either increment exceeds twice the ideal prediction.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "31",
+      "title": "Gas sweeping",
+      "question": "Does sweeping to lower pressure reduce gas inventory?",
+      "script": "scripts/31.lab",
+      "expected_observations": "If sweep sets total pressure, final pressure should be approximately 10 kPa and gas inventory should decrease. At 25 C and 1 L, final total gas is about 0.0040 mol (allow 0.003\u20130.005 mol). Temperature must be checked before evaluating the range.",
+      "confidence": "medium",
+      "rationale": "Reducing pressure in a fixed gas space requires removing gas. Sweep semantics are only inferred from command naming.",
+      "observation_commands": [
+        {
+          "step": 3,
+          "command": "inspect v1"
+        },
+        {
+          "step": 5,
+          "command": "measure v1 pressure"
+        },
+        {
+          "step": 6,
+          "command": "inspect v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "A claimed successful sweep increases gas inventory or reports a stable final pressure far from its target.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "32",
+      "title": "Opening a pressurized vessel",
+      "question": "Does opening release overpressure?",
+      "script": "scripts/32.lab",
+      "expected_observations": "Initial pressure should exceed ambient substantially; after opening, overpressure should disappear and any reported pressure should be about ambient (90\u2013110 kPa at a standard bench). Gas inventory may fall or be treated as exchanged with atmosphere.",
+      "confidence": "high",
+      "rationale": "An open vessel cannot sustain a large static gas overpressure.",
+      "observation_commands": [
+        {
+          "step": 3,
+          "command": "measure v1 pressure"
+        },
+        {
+          "step": 5,
+          "command": "measure v1 pressure"
+        },
+        {
+          "step": 6,
+          "command": "inspect v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Open status accompanied by a sustained pressure above 150 kPa without an active inflow source.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "33",
+      "title": "Carbon dioxide acidifies water",
+      "question": "Does dissolving CO2 lower water pH?",
+      "script": "scripts/33.lab",
+      "expected_observations": "Water pH should decline and become acidic, ordinarily around 3.5\u20135.5 at this CO2 loading. Some CO2 should be dissolved if gas-liquid equilibrium is supported.",
+      "confidence": "medium",
+      "rationale": "Dissolved CO2 establishes carbonic acid/bicarbonate equilibria.",
+      "observation_commands": [
+        {
+          "step": 3,
+          "command": "measure v1 ph"
+        },
+        {
+          "step": 6,
+          "command": "measure v1 ph"
+        },
+        {
+          "step": 7,
+          "command": "inspect v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "CO2 addition makes equilibrated water alkaline, or no acidity change despite a resolved substantial dissolved CO2 pool.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "34",
+      "title": "Ammonia basifies water",
+      "question": "Does dissolved ammonia generate hydroxide?",
+      "script": "scripts/34.lab",
+      "expected_observations": "Water should become alkaline. If most ammonia dissolves, about 0.01 M total ammonia gives pH near 10.6; broadly pH 9\u201311.5 is reasonable given partitioning.",
+      "confidence": "medium",
+      "rationale": "NH3+H2O equilibrates with NH4+ and OH-, with Kb about 1.8e-5.",
+      "observation_commands": [
+        {
+          "step": 3,
+          "command": "measure v1 ph"
+        },
+        {
+          "step": 6,
+          "command": "measure v1 ph"
+        },
+        {
+          "step": 7,
+          "command": "inspect v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Dissolved ammonia causes an acidic equilibrium without another acid source.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "35",
+      "title": "Ethanol water mixing",
+      "question": "Are water and ethanol miscible and of intermediate density?",
+      "script": "scripts/35.lab",
+      "expected_observations": "The mixture should form one liquid phase and have density below pure water but above pure ethanol; broadly 0.85\u20130.97 g/mL. A final volume modestly below 100 mL is physically expected, but additive volume is a modeling approximation to record rather than the primary failure criterion.",
+      "confidence": "medium",
+      "rationale": "Water and ethanol are fully miscible; their mixture has nonideal volume contraction.",
+      "observation_commands": [
+        {
+          "step": 6,
+          "command": "inspect v1"
+        },
+        {
+          "step": 7,
+          "command": "measure v1 density"
+        },
+        {
+          "step": 8,
+          "command": "measure v2 density"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Persistent two immiscible liquid layers or a density above water/below ethanol at the same temperature.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "36",
+      "title": "Hexane water immiscibility",
+      "question": "Does hexane form a separate lighter liquid layer?",
+      "script": "scripts/36.lab",
+      "expected_observations": "Two liquid phases should be recognized at equilibrium, with hexane above water because its density is about 0.66 g/mL. Tiny mutual solubility is allowed.",
+      "confidence": "medium",
+      "rationale": "Nonpolar hexane and polar water have very limited mutual solubility.",
+      "observation_commands": [
+        {
+          "step": 5,
+          "command": "inspect v1"
+        },
+        {
+          "step": 6,
+          "command": "look v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Equilibrium treats the full mixture as molecularly miscible, or places the hexane-rich layer below water.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "37",
+      "title": "Iodine solvent extraction",
+      "question": "Does iodine preferentially transfer from water to hexane?",
+      "script": "scripts/37.lab",
+      "expected_observations": "The hexane-rich receiver should contain iodine and normally appear violet/purple. Most recoverable iodine should prefer the organic phase; a greater-than-50% transfer is expected if phases equilibrate, while total iodine remains at most 0.005 g.",
+      "confidence": "medium",
+      "rationale": "Molecular iodine is much more soluble in nonpolar hydrocarbons than water. The low initial loading avoids gross aqueous saturation.",
+      "observation_commands": [
+        {
+          "step": 4,
+          "command": "inspect v1"
+        },
+        {
+          "step": 6,
+          "command": "inspect"
+        },
+        {
+          "step": 7,
+          "command": "look v2"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Successful equilibrium extraction leaves essentially all iodine in water despite a resolved organic phase, or creates extra iodine.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "38",
+      "title": "Filtration of sand suspension",
+      "question": "Does filtration separate insoluble silica from water?",
+      "script": "scripts/38.lab",
+      "expected_observations": "Receiver v2 should contain liquid water and little insoluble SiO2; at least 90% of the initial silica should be excluded from filtrate if the filter represents an ordinary solid/liquid separator. Silica may remain in v1 or be separately recorded as filter residue.",
+      "confidence": "medium",
+      "rationale": "Ordinary macroscopic sand is insoluble and retained by a filter.",
+      "observation_commands": [
+        {
+          "step": 6,
+          "command": "inspect"
+        },
+        {
+          "step": 7,
+          "command": "particles v2"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Nearly all solid silica transfers into the filtrate as intact particles or water inventory is substantially created.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "39",
+      "title": "Magnetic iron sulfur separation",
+      "question": "Can a magnet enrich iron without transferring sulfur?",
+      "script": "scripts/39.lab",
+      "expected_observations": "Receiver v2 should be enriched in Fe relative to the original 1:1 mass ratio. Most Fe should transfer and most sulfur remain; a receiver Fe:S mass ratio above 5 is a useful pass target when amounts are available.",
+      "confidence": "high",
+      "rationale": "Iron is ferromagnetic at room temperature; elemental sulfur is not.",
+      "observation_commands": [
+        {
+          "step": 5,
+          "command": "inspect"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Magnet transfers sulfur preferentially or produces no Fe enrichment while claiming supported magnetic separation.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "40",
+      "title": "Decanting supernatant",
+      "question": "Does decanting retain settled solid while moving liquid?",
+      "script": "scripts/40.lab",
+      "expected_observations": "Approximately half the available supernatant liquid should transfer, broadly 40\u201360 mL, with most settled silica remaining in v1 if settling and decanting are represented. Receiver should be depleted in solid relative to source.",
+      "confidence": "medium",
+      "rationale": "Decanting pours off supernatant, rather than deliberately transferring a homogeneous solid slurry. Grain size/settling semantics are unspecified.",
+      "observation_commands": [
+        {
+          "step": 6,
+          "command": "inspect"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "After explicitly reported settling, receiver transfers essentially all solid with only half the liquid, or liquid volume is not conserved.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "41",
+      "title": "Draining a salt solution",
+      "question": "Does draining conserve dissolved solute and solvent?",
+      "script": "scripts/41.lab",
+      "expected_observations": "Most liquid and its dissolved salt should move into v2, maintaining approximately the original dissolved salt-to-water ratio. Combined water and salt amounts should remain unchanged within 1% if quantities are precise.",
+      "confidence": "high",
+      "rationale": "Dissolved solute follows the liquid in an ordinary drain; no chemical reaction is expected.",
+      "observation_commands": [
+        {
+          "step": 5,
+          "command": "inspect v1"
+        },
+        {
+          "step": 7,
+          "command": "inspect"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Drain creates/destroys a substantial amount of salt or water, or strips all dissolved salt while moving the solvent.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "42",
+      "title": "Partial evaporation concentrates salt",
+      "question": "Does loss of solvent increase salt concentration without salt loss?",
+      "script": "scripts/42.lab",
+      "expected_observations": "Water should decline roughly by half if the fraction denotes liquid evaporation; NaCl should remain near 1 g. Concentration should rise to approximately twice its initial value while remaining far below saturation. Evaluate concentration from reported inventories if fraction semantics differ.",
+      "confidence": "medium",
+      "rationale": "Water is volatile; NaCl is effectively nonvolatile under ordinary evaporation.",
+      "observation_commands": [
+        {
+          "step": 4,
+          "command": "inspect v1"
+        },
+        {
+          "step": 6,
+          "command": "inspect v1"
+        },
+        {
+          "step": 7,
+          "command": "measure v1 conductivity"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Substantial NaCl disappears along with evaporating water, or remaining salt concentration decreases with confirmed water loss.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "43",
+      "title": "Distilling salt water",
+      "question": "Does distillation separate volatile water from salt?",
+      "script": "scripts/43.lab",
+      "expected_observations": "Receiver should gain water and be strongly depleted in NaCl, normally with less than 1% of the initial salt. Receiver conductivity should be low compared with brine; roughly 10\u201330 mL collected is expected if fraction is initial liquid fraction.",
+      "confidence": "medium",
+      "rationale": "Water vapor excludes nonvolatile dissolved NaCl absent entrainment.",
+      "observation_commands": [
+        {
+          "step": 6,
+          "command": "inspect"
+        },
+        {
+          "step": 7,
+          "command": "measure v2 conductivity"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Distillate carries a proportional approximately 20% share of the salt as if merely drained, or net salt inventory increases.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "44",
+      "title": "Ethanol enrichment by distillation",
+      "question": "Is the first distillate richer in ethanol than the feed?",
+      "script": "scripts/44.lab",
+      "expected_observations": "Receiver ethanol mole or mass fraction should exceed that of the initial feed; source should be correspondingly depleted. A clear enrichment of at least 20% relative to feed is expected for the first small fraction at atmospheric conditions. Compare fractions on the same basis.",
+      "confidence": "medium",
+      "rationale": "Ethanol is more volatile than water in a dilute ethanol feed; vapor-liquid equilibrium enriches the early vapor.",
+      "observation_commands": [
+        {
+          "step": 5,
+          "command": "inspect v1"
+        },
+        {
+          "step": 7,
+          "command": "inspect"
+        },
+        {
+          "step": 8,
+          "command": "measure v2 density"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Successful ordinary distillation gives early distillate ethanol fraction below the feed or creates total ethanol.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "45",
+      "title": "Charge bounded aqueous electrolysis",
+      "question": "Does water electrolysis obey its Faraday-law gas ceiling?",
+      "script": "scripts/45.lab",
+      "expected_observations": "If inert-electrode water electrolysis is supported, H2 and O2 should be produced in approximately 2:1 molar ratio. With Q=1 C, maxima are 5.18e-6 mol H2 and 2.59e-6 mol O2 at 100% current efficiency; dissolved gas and headspace gas must be summed. Water consumption is tiny.",
+      "confidence": "medium",
+      "rationale": "Faraday law requires two electrons per H2 and four per O2. Electrode materials and efficiency are unspecified, so the maxima are stronger predictions than exact yield.",
+      "observation_commands": [
+        {
+          "step": 5,
+          "command": "inspect v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "New H2 or O2 exceeds these charge ceilings by more than 20% with no other reaction source.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "46",
+      "title": "Bounded acid base titration",
+      "question": "Does a modest titration locate a known equivalence volume?",
+      "script": "scripts/46.lab",
+      "expected_observations": "If 1 mL means aliquot size and max means number of aliquots, the endpoint should occur at about 10 mL of 0.1 M NaOH, within one 1 mL increment. If until ph 7 uses a crossing condition, final pH should be at least 7 and may overshoot; inventories should show about 0.001\u20130.0011 mol added hydroxide.",
+      "confidence": "medium",
+      "rationale": "0.001 mol acid requires 0.001 mol hydroxide; at 0.1 M that is 0.010 L. Endpoint syntax semantics are explicitly an assumption.",
+      "observation_commands": [
+        {
+          "step": 3,
+          "command": "measure v1 ph"
+        },
+        {
+          "step": 5,
+          "command": "measure v1 ph"
+        },
+        {
+          "step": 6,
+          "command": "inspect v1"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Endpoint claimed with substantially fewer than 9 mL or more than 12 mL absent a different reported increment/termination interpretation.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "47",
+      "title": "Carbon combustion identity",
+      "question": "Does ignited carbon consume oxygen to produce carbon dioxide?",
+      "script": "scripts/47.lab",
+      "expected_observations": "If carbon ignition is supported, CO2 should form and limewater should identify it. Complete oxidation gives 0.001 mol CO2 and consumes 0.001 mol O2. Abundant O2 favors CO2 over CO; some incomplete conversion is allowed.",
+      "confidence": "medium",
+      "rationale": "C+O2 gives CO2; carbon availability bounds the product.",
+      "observation_commands": [
+        {
+          "step": 5,
+          "command": "inspect v1"
+        },
+        {
+          "step": 6,
+          "command": "test v1 limewater"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Generated CO2 exceeds 0.0011 mol or combustion product is hydrogen with no hydrogen source.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "48",
+      "title": "Bicarbonate vinegar effervescence",
+      "question": "Does a weak acid release CO2 from bicarbonate?",
+      "script": "scripts/48.lab",
+      "expected_observations": "CO2 should form, up to 0.001 mol across phases, and residual mixture should contain acetate plus unconsumed acetic acid. After CO2 loss the equal acetate/acid buffer would have pH near 4.76; dissolved CO2 can lower it. Broad final pH 4\u20136 is expected.",
+      "confidence": "medium",
+      "rationale": "One acid equivalent reacts per bicarbonate, and CO2 formation drives the weak-acid reaction.",
+      "observation_commands": [
+        {
+          "step": 6,
+          "command": "inspect v1"
+        },
+        {
+          "step": 7,
+          "command": "test v1 limewater"
+        },
+        {
+          "step": 8,
+          "command": "measure v1 ph"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "CO2 exceeds bicarbonate input, or an equilibrated strongly alkaline solution remains despite excess acetic acid.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "49",
+      "title": "Oxygen splint test",
+      "question": "Does the oxygen assay distinguish oxygen from nitrogen?",
+      "script": "scripts/49.lab",
+      "expected_observations": "An oxygen-enriched sample should give a positive glowing-splint/reignition response; the nitrogen-enriched control should not. Trapped ambient air may weaken a strict negative control; evaluate final composition from inspect.",
+      "confidence": "medium",
+      "rationale": "Oxygen supports combustion while nitrogen dilutes oxidizer. At equal headspace volumes, these additions should produce markedly different oxygen fractions.",
+      "observation_commands": [
+        {
+          "step": 6,
+          "command": "test v1 splint"
+        },
+        {
+          "step": 7,
+          "command": "test v2 splint"
+        },
+        {
+          "step": 8,
+          "command": "inspect"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "A compositional oxygen-rich sample is negative while a nitrogen-rich sample is positive under the same assay.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    },
+    {
+      "id": "50",
+      "title": "Hydrogen pop test specificity",
+      "question": "Does the pop test distinguish hydrogen from carbon dioxide?",
+      "script": "scripts/50.lab",
+      "expected_observations": "Hydrogen should give a positive pop identification when the test introduces suitable air/oxygen; CO2 should give a negative pop. No sustained CO2 combustion is expected. If the test requires preexisting oxygen and sealed vessels contain none, hydrogen negativity is inconclusive.",
+      "confidence": "medium",
+      "rationale": "Hydrogen burns rapidly when mixed with air; carbon dioxide is already highly oxidized and nonflammable.",
+      "observation_commands": [
+        {
+          "step": 6,
+          "command": "test v1 pop"
+        },
+        {
+          "step": 7,
+          "command": "test v2 pop"
+        },
+        {
+          "step": 8,
+          "command": "inspect"
+        }
+      ],
+      "classification": {
+        "pass": "Supported commands complete and observations establish the physical direction, identity, conservation relation, and applicable numerical bounds described above. A pass requires substantive observational evidence; successful command parsing alone is insufficient.",
+        "fail": "Positive combustion pop attributed to pure CO2 without combustible contaminant, or reversed identities with assay oxygen availability established.",
+        "unsupported": "Unknown ingredient key, unimplemented command/instrument/physical mechanism, or explicit rejection prevents the intended comparison. This is a coverage result, separate from the correctness of the independent physical expectation.",
+        "inconclusive": "No decisive resolved observation; undocumented command semantics, unreported phases/speciation, missing units, numerical rounding, missing equilibration, unknown electrode/assay conditions, or temperature/volume outside assumptions prevent physical judgment. Partial conversion alone is inconclusive for kinetic experiments unless a stated conservation ceiling is violated."
+      }
+    }
+  ]
+}

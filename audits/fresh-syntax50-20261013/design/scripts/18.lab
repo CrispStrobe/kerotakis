@@ -1,0 +1,8 @@
+# Fresh independent syntax-only experiment 18
+# Calcium carbonate precipitation
+add v1 H2O 100mL
+add v1 CaCl2 0.001mol
+add v1 Na2CO3 0.001mol
+stir v1 200rpm 1s
+inspect v1
+look v1

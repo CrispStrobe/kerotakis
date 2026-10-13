@@ -1,0 +1,15 @@
+{
+  "utc": "2026-10-13T21:11:22.842048+00:00",
+  "runner_sha256": "67e5b53ea8802297e1f14fe7057297b099bc79533417ed6f13e6426f9490e715",
+  "ast_parses": true,
+  "journal_before_case_resource_refusal": true,
+  "single_sequential_cli_launch": true,
+  "completed_run_repeats_refused": true,
+  "completed_streams_hash_checked_before_skip": true,
+  "incomplete_streams_refused": true,
+  "design_matches_original_freeze": true,
+  "cli_executed": false,
+  "limitations": [
+    "Static operational checks only; no chemistry or execution acceptance."
+  ]
+}

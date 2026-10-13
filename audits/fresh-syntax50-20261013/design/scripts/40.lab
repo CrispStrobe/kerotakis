@@ -1,0 +1,8 @@
+# Fresh independent syntax-only experiment 40
+# Decanting supernatant
+new
+add v1 H2O 100mL
+add v1 SiO2 1g
+wait 2s
+decant v1 v2 0.5
+inspect

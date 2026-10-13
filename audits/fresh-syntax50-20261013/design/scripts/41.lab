@@ -1,0 +1,9 @@
+# Fresh independent syntax-only experiment 41
+# Draining a salt solution
+new
+add v1 H2O 100mL
+add v1 NaCl 1g
+stir v1 200rpm 1s
+inspect v1
+drain v1 v2
+inspect

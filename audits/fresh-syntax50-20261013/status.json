@@ -1,0 +1,15 @@
+{
+  "utc": "2026-10-13T21:11:22.842048+00:00",
+  "design_count": 50,
+  "executed_count": 0,
+  "verdict_count": 0,
+  "expectations_sha256": "69ce701a208f63561c6d55be81aacefd89632cec0d8846051c5f4e9dc900afc4",
+  "freeze_sha256": "b064cd21c3364c6b5cad9bfc69dad4c3cb54dbc86d1d663bddef7313b07708cd",
+  "resource_gate": {
+    "load1": 9.94970703125,
+    "memory_available_mib": 3680,
+    "permitted": false
+  },
+  "status": "frozen_execution_pending",
+  "first_outcomes_modified": false
+}

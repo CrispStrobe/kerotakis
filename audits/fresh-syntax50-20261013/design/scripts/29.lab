@@ -1,0 +1,10 @@
+# Fresh independent syntax-only experiment 29
+# Heating sealed gas
+seal v1 1L
+add v1 N2 0.02mol @ 25C
+measure v1 thermometer
+measure v1 pressure
+heat v1 10J
+measure v1 thermometer
+measure v1 pressure
+inspect v1

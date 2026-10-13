@@ -1,0 +1,10 @@
+# Fresh independent syntax-only experiment 20
+# Amphoteric aluminum hydroxide
+add v1 H2O 100mL
+add v1 AlCl3 0.001mol
+add v1 NaOH 0.003mol
+stir v1 200rpm 1s
+inspect v1
+add v1 NaOH 0.01mol
+stir v1 200rpm 1s
+inspect v1

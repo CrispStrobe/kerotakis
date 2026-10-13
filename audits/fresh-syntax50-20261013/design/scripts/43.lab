@@ -1,0 +1,9 @@
+# Fresh independent syntax-only experiment 43
+# Distilling salt water
+new
+add v1 H2O 100mL
+add v1 NaCl 1g
+stir v1 200rpm 1s
+distil v1 v2 0.2 stages 1
+inspect
+measure v2 conductivity

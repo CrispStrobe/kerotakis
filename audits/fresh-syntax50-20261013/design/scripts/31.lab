@@ -1,0 +1,8 @@
+# Fresh independent syntax-only experiment 31
+# Gas sweeping
+seal v1 1L
+add v1 N2 0.02mol @ 25C
+inspect v1
+sweep v1 10kPa
+measure v1 pressure
+inspect v1

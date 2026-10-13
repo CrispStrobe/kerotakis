@@ -1,0 +1,10 @@
+# Fresh independent syntax-only experiment 05
+# Salt solution density
+new
+add v1 H2O 100mL @ 20C
+add v2 H2O 100mL @ 20C
+add v2 NaCl 10g
+stir v2 200rpm 1s
+measure v1 density
+measure v2 density
+inspect v2

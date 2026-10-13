@@ -1,0 +1,9 @@
+# Fresh independent syntax-only experiment 42
+# Partial evaporation concentrates salt
+add v1 H2O 100mL
+add v1 NaCl 1g
+stir v1 200rpm 1s
+inspect v1
+evaporate v1 0.5
+inspect v1
+measure v1 conductivity
