@@ -263,3 +263,19 @@ no control output is accepted yet. Native compiler matching is not required for
 these correctness controls. Paired timing still requires review of the controlled
 build artifacts and a further comparison version; these controls cannot certify
 a rebuilt binary with a different digest.
+
+[Completed hosted-control preflight](hosted-controls-completed-preflight.json)
+confirms the exact-source hosted job reports all seven candidate controls passed.
+Its uploaded raw evidence still needs independent stream/receipt/guard review;
+there is no timing result. The ordinary candidate binary remains the stated
+artifact identity, so this does not certify different rebuilt bytes.
+
+[Hosted controlled-artifact inspection](hosted-controlled-inspection-dispatch.json)
+is [queued](https://github.com/CrispStrobe/kerotakis/actions/runs/38416861628)
+at isolated revision `57f5ba61`. It runs the unchanged resource-gated collector
+on the actual controlled-build ZIP, verifies both binaries/locks/recorded guards,
+and preserves a bounded compiler-witness summary and raw archive. It executes
+no ELF or builds. This moves data inspection to a hosted worker while local
+resources are busy; semantic compiler/source/routing acceptance remains pending.
+Original workflow bytes and frozen experimental inputs stay unchanged on the
+audit branch.

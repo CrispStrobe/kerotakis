@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "run": 38416861628,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38416861628",
+  "run_attempt": 1,
+  "audit_branch": "audit/hosted-controlled-review-20261013",
+  "audit_head": "57f5ba613969059ec6f68a1479e15fb757e540ad",
+  "parent_audit_head": "f867216261366f50b32b420a993c04b777a7a501",
+  "selection": "controlled-artifact-inspection",
+  "controlled_build_run": 38396270148,
+  "controlled_artifact_id": 11814954199,
+  "controlled_zip_sha256": "e121b7648165c121f8e9826ffac50f497cff46e884d505aa0a3ef08efabcaa16",
+  "collector_sha256": "a5ce37c28f53ffa1b155d3fd5102810a675f9440e753ee0c6516bef2b579521f",
+  "source_frozen_before_execution": true,
+  "root_original_workflows_unchanged": true,
+  "run_metadata_sha256": "04da27112c15f3f801f13ec8eb1be7fab6efc611734ea71ea368770a934fba1f",
+  "job_metadata_sha256": "bb337037067f4fe6b4a0c365ff58c823f1625ebb30f79745e3c2daecaef58197",
+  "status_at_capture": "queued",
+  "artifact_bytes_accepted": false,
+  "effective_native_compiler_review_complete": false,
+  "elf_execution_permitted": false,
+  "scope": "Hosted byte/guard/environment inspection only, using unchanged gated collector on isolated audit branch. Bounded compiler witness summary and raw archive are preserved; independent semantic acceptance remains pending."
+}

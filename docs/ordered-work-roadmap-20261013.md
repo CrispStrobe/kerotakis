@@ -22,7 +22,10 @@ resource rejections. Large local work requires the private resource gate.
    root-reviewed; the full ordinary run passes. Independent gate review, seven
    candidate correctness controls and paired measurements are pending. The
    [hosted seven-control run](https://github.com/CrispStrobe/kerotakis/actions/runs/38407663054)
-   is queued using the independently reviewed ordinary candidate artifact;
+   reports seven passing controls using the independently reviewed ordinary
+   candidate artifact; its raw evidence still needs independent review. The
+   [hosted controlled-artifact inspection](https://github.com/CrispStrobe/kerotakis/actions/runs/38416861628)
+   is queued to verify rebuilt bytes and expose compiler witnesses;
    the current-head release artifact and version2 namespace have passed independent
    review. Missing native compiler/flag witnesses require the frozen controlled
    build collector to rebuild both sources under one captured environment, then

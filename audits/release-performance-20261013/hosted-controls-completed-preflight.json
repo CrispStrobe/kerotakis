@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "run": 38407663054,
+  "run_attempt": 1,
+  "audit_head": "f8ca430eeed82f4c9e78fe8db972f4786c130576",
+  "job": 115331419135,
+  "job_conclusion": "success",
+  "all_declared_steps_pass": true,
+  "seven_controls_pass_observed_in_actual_log": true,
+  "candidate_head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+  "candidate_binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+  "control_result_artifact": {
+    "id": 11821110986,
+    "name": "candidate-explanation-controls-38407663054-1",
+    "zip_sha256": "45e9d561944e983c059f4cad70fd43adb7acbf5a63036e06ced7dce452ccd9a2",
+    "bytes": 6830488
+  },
+  "captured_evidence": {
+    "job.json": "99c6aff06f820c12c5be6de20a6c8fcb77fb0b3a66eb67601fa8eaf9fe424560",
+    "artifacts.json": "4538f157d89b370473cb279d01f810dfdb1208dda341d26a26d9249a7f569f8c",
+    "job.log": "bc0538b3adb6fae2ab04bc86ee2ee5c18900bde4817fbbe05efa4d6696d02a6e",
+    "run.json": "3d9c5cc85c1792ab0928a8bf0ffa52b61efd6403f2513cc021f9f169d6e93285"
+  },
+  "raw_outputs_downloaded_and_independently_reviewed": false,
+  "performance_measured": false,
+  "scope": "Actual source-bound correctness job reports all seven unchanged V2 controls pass. Raw per-case streams/receipt/guards still require independent review; compiled replacement bytes remain separate."
+}
