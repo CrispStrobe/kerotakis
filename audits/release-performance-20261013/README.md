@@ -5,7 +5,9 @@ annotation contracts, historical regression coverage, broader safety, then deepe
 accounting and scientific calibration. Later lanes remain queued until the
 preceding lane's deliverable is complete; do not substitute planning for completion.
 
-Current phase: baseline collection is prepared and frozen, not measured yet.
+Current phase: baseline collection is frozen and dispatched as
+[run38358454350](https://github.com/CrispStrobe/kerotakis/actions/runs/38358454350).
+No measurements are accepted yet.
 [Manifest](manifest.json), [inputs](scripts/), [profiler](profile.py) and
 [freeze](freeze.json) specify five representative performance workloads.
 The own reviewed release artifact was built from `2bf9c771`; accepted main
@@ -37,3 +39,11 @@ The 50 fresh experiments in lane 2 must be authored before execution by an agent
 that learns only syntax, without reading existing cases or implementation details.
 They are separate from these source-informed performance workloads and from the
 annotation owner's proposed fifty controls.
+
+
+[Dispatch binding](dispatch.json) pins audit revision and source. The original
+workflow dispatch was rejected before any run because runner paths were used
+in an unavailable context. [Workflow revision](workflow-revision-v2.json)
+fixes runner setup while preserving every frozen input and measurement rule.
+[Ordered roadmap](../../docs/ordered-work-roadmap-20261013.md) keeps subsequent
+lanes queued until the performance deliverable is complete.
