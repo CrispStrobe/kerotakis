@@ -100,3 +100,11 @@ stopped at the resource gate and is unaccepted. Reuse protected saved bytes
 through a reviewed resume revision; do not rerun the CLI or overwrite accepted
 reports. The prepared resume changes orchestration only, requires independent
 review, and preserves the original forecasts and source-owned evaluators.
+
+[V2 aggregate closure](candidate-fleet-v2-aggregate-independent-review.json) now
+passes independent review: 12 families, 288 cases, 80 relations and 368 checks
+match the accepted own reports and actual hosted aggregate output. All twelve
+actual download IDs, sizes and digests match the accepted family artifacts.
+The same reviewer independently verifies all 33 source-defined job and step
+outcomes. No family analyzer or CLI was rerun for this aggregate review.
+V1/v3 aggregate closure and the remaining 390 cases/591 checks are pending.

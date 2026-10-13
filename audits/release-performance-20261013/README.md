@@ -55,11 +55,15 @@ accepts 12 families, 288 cases and 368 checks; [the partial v1 review](candidate
 accepts acid/base buffers, 24 cases and 32 checks. Together, 312 cases and
 400 checks are accepted; 390 cases and 591 checks remain. Distillation bytes and
 raw inputs are validated but its law evaluation stopped at the load gate.
-Actual aggregate recomputation remains separate from hosted job success.
+[V2 aggregate review](candidate-fleet-v2-aggregate-independent-review.json) now
+matches all twelve accepted reports and independently verifies all 33 source job
+and step outcomes. V1/v3 aggregate recomputation remains pending.
 
 A resume revision is prepared to verify and retain prior accepted-family bytes
 and reuse partial saved archives without redownloading. It changes orchestration
-only and still requires independent review before execution. Current load and
+only. Static review accepted its approach; explicit parent-reviewer and artifact
+snapshot checks were added in a new revision, which still needs review before
+execution. Current load and
 memory gates are closed. Preserve all original forecasts, freezes, interrupted
 runs and partial records. PR785 remains draft. Historical checkpoints below
 retain their capture-time states.

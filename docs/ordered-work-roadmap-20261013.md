@@ -23,7 +23,10 @@ resource rejections. Large local work requires the private resource gate.
    [v2 raw review](../audits/release-performance-20261013/candidate-fleet-v2-saved-output-review.json)
    accepts 288 cases/368 checks, and [partial v1 review](../audits/release-performance-20261013/candidate-fleet-v1-v3-partial-review.json)
    accepts 24 cases/32 checks. Total accepted: 312 cases/400 checks; remaining:
-   390 cases/591 checks plus actual aggregate recomputation. Distillation's
+   390 cases/591 checks plus v1/v3 aggregate recomputation.
+   [V2 aggregate closure](../audits/release-performance-20261013/candidate-fleet-v2-aggregate-independent-review.json)
+   now matches accepted own reports and independently verifies all 33 source job
+   and step outcomes. Distillation's
    downloaded bytes are retained; its law evaluation stopped at the load gate.
    Next accept the own saved family/frozen outputs and actual aggregates at the
    exact candidate source, retain the completed 33-job checkpoint, and finish the
