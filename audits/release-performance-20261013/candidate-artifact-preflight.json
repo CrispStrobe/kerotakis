@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "pr": 785,
+  "head": "5535903238c86dc1a3e2085d8196d1350dde766a",
+  "base": "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+  "own_run": 38377791595,
+  "own_build_job": 115230418519,
+  "build_completed_successfully": true,
+  "tested_checkout": "e0afacc9bbcb2b1d4a733f2e9d831eee8fa415a5",
+  "tested_checkout_parents": [
+    "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+    "5535903238c86dc1a3e2085d8196d1350dde766a"
+  ],
+  "tested_tree": "55da4806aab22f5cab91e3f0f5734eb4de9683ce",
+  "artifact_id": 11802409399,
+  "artifact_name": "chemistry-audit-cli-e0afacc9bbcb2b1d4a733f2e9d831eee8fa415a5",
+  "artifact_zip_sha256": "7b9804a600ba9bff2667ad1dd8841874d12ec68e01b00143baf1872c2105843e",
+  "artifact_size_bytes": 6488388,
+  "api_and_build_log_sha256": {
+    "run.stdout": "9edd8f76bc783d62e6904d4b5e379e6054eac00fe805a119c9b5a4ec685bfdd5",
+    "build-job.stdout": "c63156627bd86e0732ac80288de1dd8508e81e49a8383da755e23d9b6f9c485c",
+    "pr.stdout": "432ea26ddf5e0e3a00ba616975da469e4f64dafcb2c81ae8de1702a537ce0bee",
+    "artifacts.stdout": "5d13f8621a5be0fe029e3a3270fe9fd5a37bfc11544e0a1369181da21f911b76",
+    "build-log.stdout": "3e9c8538799ec6d8e0f81f7f8f804207530b0dc33c14eeb2c97a93b84a266164",
+    "checkout.json": "b83b43dea235123ebe9bc50e5ccb32988e1073d6ea6f3c3960c9037004a6ec38"
+  },
+  "rustc_version_observations": [
+    [
+      "rustc 1.99.0 (b940084d7 2026-09-28)"
+    ],
+    [
+      "rustc 1.99.0 (b940084d7 2026-09-28)"
+    ]
+  ],
+  "artifact_bytes_downloaded_and_verified": false,
+  "actual_candidate_binary_sha256": null,
+  "actual_candidate_lock_sha256": null,
+  "build_environment_match_accepted": false,
+  "candidate_runtime_checks_complete": false,
+  "full_ci_accepted": false,
+  "scope": "Completed own build and API/log source association preflight only. Artifact bytes, actual lock, compiler/native flag witnesses, full CI and candidate outputs remain unaccepted."
+}

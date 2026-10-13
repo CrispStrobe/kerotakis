@@ -113,3 +113,9 @@ passed static review and small guard tests. They have not executed the candidate
 or collected paired measurements; own CI and build-environment witnesses remain
 prerequisites. Missing compiler evidence requires a controlled rebuild and new
 paired policy, rather than an inferred source-caused improvement.
+
+[Candidate artifact preflight](candidate-artifact-preflight.json) confirms the
+own PR785 build completed and its artifact is available with the expected
+synthetic checkout parents and tree. Full CI is pending. Artifact bytes, actual
+candidate lock and build-environment witnesses still require review before
+candidate controls or paired execution; availability is not artifact acceptance.
