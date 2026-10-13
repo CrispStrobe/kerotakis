@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "purpose": "Hosted seven-control collection only; no build, baseline rerun or performance timing.",
+  "candidate_head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+  "artifact_id": 11811008023,
+  "artifact_zip_sha256": "0bfa80773f3a00114855a3167bd074dd4cfb614c39c3ba36c687f490df054125",
+  "accepted_artifact_review_sha256": "8ec124715750fbb0b316d7354f5b924ff9517ec6ff92ad7cdf59c879e0995c9c",
+  "protocol": "audits/release-performance-20261013/protocol-v2",
+  "paired_freeze_sha256": "929cf53c1e0f50963268cb1f308bcd49c773824cce81698290a09eaf5f4d9ba2",
+  "files_sha256": {
+    ".github/workflows/chemistry-audit.yml": "6feef629f61db1597b07a70d6abfeb7a1e1f86aeee8b4b56cfa385fe3221af22",
+    ".github/workflows/hosted-explanation-controls.yml": "53540564ee2802bc7362e1e1dae365fc087e8f95e92851b39031cdff4fb3bb69",
+    "audits/release-performance-20261013/hosted-controls.py": "0c327654c78078fae771a8a499de6e3f4f6420042c75d3c195f75bd68d065a0d"
+  },
+  "all_dispatch_predicates_evaluated": true,
+  "only_control_job_admitted": true,
+  "independent_launcher_source_review_complete": false,
+  "actual_controls_complete": false,
+  "performance_accepted": false,
+  "isolated_branch_required_to_preserve_original_workflow_bytes": true
+}
