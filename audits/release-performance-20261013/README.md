@@ -227,3 +227,9 @@ failure guard and the repaired locale guard pass. Both native platforms, browser
 and paired wasm now have source-bound log reviews. Preflight is running in the
 latest snapshot; the controlled build is still queued. Full CI and performance
 acceptance remain pending.
+
+[Running-build checkpoint](controlled-build-running-checkpoint.json) confirms
+the controlled collector started at the exact reviewed audit revision. It is
+compiling and preflight is running at the candidate revision. The earlier queued
+snapshots are preserved; no artifact, compiler-environment, control or performance
+result is accepted from an in-progress job.

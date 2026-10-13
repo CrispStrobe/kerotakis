@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-13T12:53:00.625298+00:00",
+  "controlled_build_run": 38396270148,
+  "controlled_build_job": 115292178103,
+  "controlled_build_status": "in_progress",
+  "controlled_build_conclusion": null,
+  "controlled_build_started_at": "2026-10-13T12:44:55Z",
+  "build_step_status": "in_progress",
+  "build_step_started_at": "2026-10-13T12:45:08Z",
+  "preflight_run": 38387729203,
+  "preflight_job": 115263786861,
+  "preflight_status": "in_progress",
+  "preflight_conclusion": null,
+  "captured_api_sha256": {
+    "controlled-job.json": "0df864a6c124c1d226905507c6a5b740a0b82df66012401e3f40ff5eb2b295cd",
+    "preflight-job.json": "963242842b20a9f40f72ba5e404f5e99e7f4aa6f0b1b522f8f538f368e8bcacb"
+  },
+  "builds_accepted": false,
+  "full_ci_accepted": false,
+  "candidate_controls_or_paired_measurements_executed_here": false,
+  "scope": "Metadata checkpoint only; actual build artifacts, effective compiler logs and preflight completion remain review prerequisites.",
+  "controlled_build_audit_head": "d49d9659030a1311442f3aaddf49dd6158731c7f",
+  "preflight_candidate_head": "d06ffe3a1740728656878c4aea0e9507ca83c808"
+}

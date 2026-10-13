@@ -24,7 +24,9 @@ resource rejections. Large local work requires the private resource gate.
    build collector to rebuild both sources under one captured environment, then
    a new comparison version binding those bytes. The
    [controlled build run](https://github.com/CrispStrobe/kerotakis/actions/runs/38396270148)
-   is queued at frozen audit revision `d49d9659`; its results require review.
+   is running at frozen audit revision `d49d9659`; its results require review.
+   Candidate preflight is also running. Artifact review and execution wait for
+   completed evidence and open operating resource gates.
    No speedup or merge is accepted.
 2. **Fifty fresh CLI experiments.** Use a fresh agent that learns only syntax,
    without reading existing corpus cases or implementation details. Freeze all
