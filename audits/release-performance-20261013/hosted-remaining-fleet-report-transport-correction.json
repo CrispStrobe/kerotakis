@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "failed_run": 38448464127,
+  "failed_head": "a2f9b5fb7a85c3d56eb2ee260708ee615cb17e96",
+  "failed_job": 115472944568,
+  "failed_artifact_id": 11839498591,
+  "failed_artifact_zip_sha256": "9ca1a4cbc298971e929ff06bceda83c78e46d9b2d69564fb58d2fc2fe23419ff",
+  "failed_artifact_size": 1295070,
+  "failure": "AssertionError: source-owned result differs at the first frozen family report comparison.",
+  "source_backed_diagnosis": "Frozen analyzers use integer experiment IDs as evidence keys. Their original CLI serializes results as JSON, converting those keys to strings. Direct Python-result versus parsed-JSON equality is invalid.",
+  "raw_difference_from_first_attempt_captured": false,
+  "raw_difference_limit": "The prior reader did not persist recomputed results before asserting. Integer-key mismatch is guaranteed by source construction; other differences remain unexcluded until the corrected exact comparison executes.",
+  "correction": "Use original analyzer JSON serialization before comparison, reject duplicate keys after transport, and persist recomputed results before equality. Preserve every evidence value, verdict, threshold and original saved report.",
+  "transport_checks": [
+    "integer experiment-ID evidence keys match original JSON transport",
+    "changed numeric evidence remains rejected",
+    "changed verdict/check totals remain rejected",
+    "colliding integer/string keys rejected",
+    "NaN rejected",
+    "infinity rejected"
+  ],
+  "candidate_application_failure_demonstrated": false,
+  "run": 38450225092,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38450225092",
+  "audit_head": "c5c56f9cfa7381df63d7fa85a4ed64838d9eea79",
+  "audit_branch": "audit/hosted-remaining-fleet-review-v4-20261013",
+  "job": 115478922130,
+  "status_at_capture": "queued",
+  "reader_sha256": "63481df0492e3dba7b4aa3c4f99ac8b929a0dfb3bf729c2f2f87d5f47f23653c",
+  "remaining_saved_cases_accepted": false,
+  "independent_source_review_complete": false,
+  "local_fallback": {
+    "parent_sha256": "3e78104de0ea8ce94a432ce2d17fd1e7a63707e1a575713a1fdf4f22a86654f2",
+    "corrected_sha256": "e796846ba90004573f6d857b615f09505edbb9a3e491a999b377a4ba66b8150e",
+    "ast_valid": true,
+    "executed": false,
+    "independent_source_review_complete": false,
+    "change": "Original analyzer JSON transport before report comparison, rejecting key collisions and saving recomputed reports before equality. No forecast/check/value changes."
+  },
+  "cli_build_timing_rerun": false,
+  "raw_failure_metadata_sha256": {
+    "run.json": "09f136406635395da957115c24b4f7db1223863b9f9275cfbeab63b7734944ff",
+    "job.json": "d66bab8caa1e19fa396f5186625ac26572168a3e3226dc4199a8c1e3836042bd",
+    "artifacts.json": "8b3f261bd13aafba4e72f529c00f03cd24c7e26884b8a479d40be291edf50f19",
+    "failed.log": "5a46baedca56844c2c9af5e678e23dab8c452b7dc1a7f91656d8a189341d4879"
+  },
+  "raw_dispatch_metadata_sha256": {
+    "run.json": "3d0f494c2d6b6d6adfb4d9af6a4f49ec90b50f86dee4692f1b8125264397e746",
+    "jobs.json": "21005f54606057b9615c4f22c10e794de168e4d42066af7e1d89eb98a32607a2"
+  }
+}

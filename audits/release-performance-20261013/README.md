@@ -69,21 +69,24 @@ of untracked files. The actual runner records an empty snapshot for a clean
 checkout. This is a reviewer defect; it does not demonstrate a chemistry failure.
 The original failed run and uploaded partial evidence are preserved.
 
-[Run38444619222](https://github.com/CrispStrobe/kerotakis/actions/runs/38444619222)
-completed with the missing ignored-lock-file error, as diagnosed by candidate
-Git inspection. Its logs and partial artifact are retained.
-[Corrected run38448464127](hosted-remaining-fleet-review-v3-dispatch.json) is now
-queued at `a2f9b5fb`, dispatched only after that completed failure. The reader
-retains the frozen summary lock digest, accepted own-release byte binding,
-empty patch/diff and empty untracked snapshot. It makes no Git lock-blob claim.
-The earlier tracked-lock description was wrong and is superseded by the explicit
-[lock-contract correction](hosted-remaining-fleet-review-lock-contract-correction.json).
+The ignored-lock correction proceeded to a further
+[report-transport mismatch](hosted-remaining-fleet-report-transport-correction.json).
+Run38448464127 failed when comparing a frozen analyzer's in-memory result with
+its saved JSON report. The source uses integer experiment IDs as evidence keys;
+the original CLI JSON writer converts them to string object keys. The reader
+incorrectly compared those two representations directly. The failed run, archive
+and original reports remain preserved. Its recomputed report was not saved before
+the assertion, so the corrected comparison must still exclude other differences.
 
-[The local fallback correction](remaining-fleet-local-fallback-correction.json)
-is also prepared without changing original forecasts or evaluators; it is
-unexecuted and still requires independent review and fresh resource gates.
-Do not duplicate the active hosted review. No additional cases are accepted.
-PR785 remains draft. Historical checkpoints below retain their capture-time states.
+[Run38450225092](https://github.com/CrispStrobe/kerotakis/actions/runs/38450225092)
+is queued at `c5c56f9c`, dispatched after that completed failure. It applies the
+original JSON transport, rejects key collisions, preserves every value/verdict,
+and saves recomputed reports before equality assertions. Six focused transport
+checks pass. The ignored-lock binding remains correct. No forecasts, thresholds,
+CLI outputs or accepted performance results changed. No additional cases are
+accepted. The local fallback carries the same versioned correction and remains
+unexecuted; do not duplicate the hosted job. PR785 remains draft.
+Historical checkpoints below retain their capture-time states.
 
 The user authorized six lanes in order: performance, fifty fresh CLI experiments,
 annotation contracts, historical regression coverage, broader safety, then deeper

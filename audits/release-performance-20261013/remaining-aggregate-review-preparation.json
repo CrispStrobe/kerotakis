@@ -37,7 +37,7 @@
   ],
   "aggregate_saved_report_recalculation_accepted": false,
   "prerequisites": [
-    "Separately accept the completed remaining-family raw receipt at corrected reviewer revision a2f9b5fb (not the queued, invalid tracked-lock revision d3323f96).",
+    "Separately accept the completed remaining-family raw receipt at corrected report-transport reviewer revision c5c56f9c; preserve all earlier failed versions.",
     "Provide protected original acid/base law report, actual candidate d06ffe3a checkout and own saved aggregate API/log files.",
     "Fresh load1<=3.5, MemAvailable>=3200MiB and evidence filesystem free>=8192MiB."
   ],

@@ -206,3 +206,20 @@ and rejects optimized Python. It remains unexecuted and requires independent
 review before use under fresh resource gates. Do not run it alongside the hosted
 review. The source check also reconciles frozen script construction and preflight
 files; those checks introduce no new experiment or scientific acceptance.
+
+[The third review's transport failure is preserved](hosted-remaining-fleet-report-transport-correction.json).
+Frozen analyzers retain integer experiment IDs in some evidence dictionary keys;
+the original CLI writes JSON, so those keys are strings in the archived report.
+The reviewer incorrectly compared the raw Python result to parsed JSON.
+The previous method did not save recomputed output before assertion, so other
+differences remain unexcluded until the corrected exact comparison succeeds.
+
+[Run38450225092](https://github.com/CrispStrobe/kerotakis/actions/runs/38450225092)
+is queued at `c5c56f9c`. Its [reader](https://github.com/CrispStrobe/kerotakis/blob/c5c56f9cfa7381df63d7fa85a4ed64838d9eea79/audits/release-performance-20261013/review-remaining-fleets.py)
+compares the result through the original analyzer JSON transport, rejecting key
+collisions and nonfinite values without changing any verdict, evidence value or
+threshold. It persists the recomputed report before comparison. Six transport
+checks cover expected integer-key conversion, changed numbers/verdicts, collisions,
+NaN and infinity. The local fallback carries the same unexecuted correction.
+Do not duplicate this dispatch. No new application defect or additional case
+acceptance follows from these reviewer failures; accepted totals remain 312/400.
