@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "all_checks_pass": true,
+  "full_fleet_saved_outputs_accepted": true,
+  "all_three_actual_aggregate_reviews_accepted": true,
+  "run": 38457451902,
+  "job": 115503727549,
+  "audit_head": "b8f5d64cb7137f14803bef0d2779be2fc0c11bb5",
+  "actual_all_job_steps_success": true,
+  "marker": {
+    "accepted_v2_aggregate_sha256": "e2c1110673b350dd81e1efec5c5d7eb4c542949df557264d4f835f20c04adaf1",
+    "accepted_v2_receipt_sha256": "c1b1fbacd39fe73251d7982dea199810eea771077c80570378b17f0c36177883",
+    "all_checks_pass": true,
+    "candidate": {
+      "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+      "head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+      "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+      "tested_checkout": "4df5deab77506d372a8df45f5d517e2f070d7f5a",
+      "tree": "25d1dd490acc080a59f2a02e5b9399a22bd0f4bc"
+    },
+    "cli_executed": false,
+    "combined_cases": 702,
+    "combined_checks": 991,
+    "family_analyzers_reexecuted": false,
+    "gh_api_flags": [
+      "--allow-escape-sequences"
+    ],
+    "independently_checked_cases": 414,
+    "independently_checked_saved_law_checks": 623,
+    "input_artifact_id": 11841870091,
+    "input_artifact_zip_sha256": "b80a639add25d767cb0e45f673a85ad9e35e9e9cf1c10442dbf1ab8702aa28c4",
+    "input_receipt_sha256": "2f6172b6bc62edbdb49b7680b0862588e60ad4e100c338aaf90350ff69fc3438",
+    "input_review_head": "c5c56f9cfa7381df63d7fa85a4ed64838d9eea79",
+    "input_review_run": 38450225092,
+    "input_reviewer_sha256": "63481df0492e3dba7b4aa3c4f99ac8b929a0dfb3bf729c2f2f87d5f47f23653c",
+    "limitations": [
+      "Raw evidence integrity, original forecasts and serialized report equality independently inspected on this worker; family analyzer algorithms not rerun.",
+      "Source-owned laws and aggregate algorithms remain engineering contracts, not independent chemical calibration.",
+      "Ignored root lock bytes are bound by the accepted own-release receipt, not by Git or frozen family archives.",
+      "Accepted acid/base archive is fetched once on this worker for raw/report verification and aggregation, without app or analyzer execution.",
+      "Previously accepted v2 raw/aggregate receipts are digest-pinned external prerequisites; their raw archives are not reread here.",
+      "No integration approval, deployment or new timing claim."
+    ],
+    "own_fleet_run": 38387729183,
+    "prior_v2_cases": 288,
+    "prior_v2_checks": 368,
+    "remaining_aggregate_receipt_sha256": "a11ba7ca174e6c1c237f9196e328710f4e0c6b6e70868c20829b7751441badf3",
+    "reviewer_sha256": "7926aa94c7bbbfd18cce4281cf0e83d6d074b007b834d0a747714fd379eea647",
+    "schema_version": 1,
+    "scientific_calibration_accepted": false
+  },
+  "artifact": {
+    "id": 11845331823,
+    "name": "hosted-fleet-closure-38457451902-1",
+    "digest": "sha256:d3d6deff62c2945c46f0c64cc631b019bf7d0452e4ee847acad9f38613229604",
+    "size_in_bytes": 5418738
+  },
+  "independent_human_source_review_claimed": false,
+  "local_large_archive_reread": false,
+  "integration_accepted": false,
+  "raw_metadata_sha256": {
+    "run.json": "7b54176b46453a97751285e1a1aae5592817c6cde270978318b977901b7eaf53",
+    "job.json": "4022365f0f12184eb22df992fc3d3b16c09abfb647b85b092b9e9d999c964457",
+    "artifacts.json": "4e9690833bf78e48b29c14608524a68330e46a0d5da56364f1046cbb8340f55e",
+    "job.log": "0eda5fae030cd5d30b862a7b0a6599cc4cfbfe20764329d743e10ebf1942017e"
+  },
+  "scope": "Actual frozen-source hosted raw forecast/stream/member/serialized-law checks pass for414/623 and own240/120 aggregate outputs, combined with digest-pinned accepted V2288/368/aggregate proof. Internal engineering consistency; no empirical calibration, native/CLI/family-analyzer rerun or integration implied."
+}
