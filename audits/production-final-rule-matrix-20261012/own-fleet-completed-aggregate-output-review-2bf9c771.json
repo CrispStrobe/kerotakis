@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "pr": 782,
+  "head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+  "actual_tested_base": "668220add3c81adf9d86ca551f4a0278ba3969f5",
+  "current_main_base": "668220add3c81adf9d86ca551f4a0278ba3969f5",
+  "source_tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+  "synthetic_checkout": "2d6cd03c3a6ab1913f48d0be161bb6fbb6cc8a89",
+  "merge_parents": [
+    "668220add3c81adf9d86ca551f4a0278ba3969f5",
+    "2bf9c771975f24b9e5b933728ef440cbca9a8ec6"
+  ],
+  "run_id": 38315281856,
+  "run_attempt": 1,
+  "event": "pull_request",
+  "completed_aggregate_outcomes": [
+    {
+      "version": 1,
+      "job_id": 115058285914,
+      "job_name": "All 240 source-informed cases",
+      "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38315281856/job/115058285914",
+      "all_source_defined_job_steps_completed_success": true,
+      "actual_outcome": {
+        "families": 10,
+        "cases": 240,
+        "checks": 338,
+        "unmet_families": []
+      },
+      "job_log_sha256": "bfdb18b551b8a2a2da77b817227d4cba9ceec37daa17d8aefe4989c69c0e0706",
+      "accepted_family_artifact_ids": [
+        11779812627,
+        11779560176,
+        11778213051,
+        11779032787,
+        11779551368,
+        11779797923,
+        11780405658,
+        11778853310,
+        11780435504,
+        11779384258
+      ],
+      "actual_download_ids_and_digests_verified": true,
+      "source_aggregate_path": "tools/chemistry-audit/aggregate_source_fleets.py",
+      "source_aggregate_sha256": "9db772935ed0315bd86b4f53d12aea2e1320702605f33e31ad8f7537f5eb1968",
+      "independently_recomputed_exit": 0,
+      "independently_recomputed_stdout_sha256": "2f3fb8dc10e185f07f5db3363bba2e3c2f2265aa08004e0d3a8b9d0f8b00e342",
+      "independently_recomputed_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "version": 2,
+      "job_id": 115059313749,
+      "job_name": "All 288 source-informed v2 cases",
+      "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38315281856/job/115059313749",
+      "all_source_defined_job_steps_completed_success": true,
+      "actual_outcome": {
+        "schema": "kerotakis-source-aggregate-v2",
+        "families": 12,
+        "cases": 288,
+        "relations": 80,
+        "checks": 368,
+        "commit": "2d6cd03c3a6ab1913f48d0be161bb6fbb6cc8a89",
+        "binary_sha256": "54b83783ccc361bfdc853bddfff47e57f4b0b5993b9f57190eda5da486b9c1d1",
+        "unmet_families": []
+      },
+      "job_log_sha256": "b85945df56a7e6730cb204fde87a41c0f88bebd335ebfa7e00aa26d6d17509eb",
+      "accepted_family_artifact_ids": [
+        11780015267,
+        11779857998,
+        11780355813,
+        11779828087,
+        11780325836,
+        11780365873,
+        11780016342,
+        11780016595,
+        11779614333,
+        11779858847,
+        11779494661,
+        11780196356
+      ],
+      "actual_download_ids_and_digests_verified": true,
+      "source_aggregate_path": "tools/chemistry-audit/aggregate_source_fleets_2.py",
+      "source_aggregate_sha256": "beab0853e7004dd773406f32926020d447a14bb26d592d3927b419c05780ae23",
+      "independently_recomputed_exit": 0,
+      "independently_recomputed_stdout_sha256": "ced77dc295ed4ac6ac3b1de344f2928a8a88970ae3de93d1c8451528cfd4c416",
+      "independently_recomputed_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "version": 3,
+      "job_id": 115058381364,
+      "job_name": "All 120 source-informed v3 cases",
+      "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38315281856/job/115058381364",
+      "all_source_defined_job_steps_completed_success": true,
+      "actual_outcome": {
+        "schema": "kerotakis-source-aggregate-v3",
+        "families": 5,
+        "cases": 120,
+        "relations": 30,
+        "checks": 150,
+        "commit": "2d6cd03c3a6ab1913f48d0be161bb6fbb6cc8a89",
+        "binary_sha256": "54b83783ccc361bfdc853bddfff47e57f4b0b5993b9f57190eda5da486b9c1d1",
+        "unmet_families": []
+      },
+      "job_log_sha256": "275669ac920c437ca98a7bfc19b92b2ae7e0f8d39c699518dc5710bd801a443b",
+      "accepted_family_artifact_ids": [
+        11779113504,
+        11779518809,
+        11779647607,
+        11778072973,
+        11779986287
+      ],
+      "actual_download_ids_and_digests_verified": true,
+      "source_aggregate_path": "tools/chemistry-audit/aggregate_source_fleets_3.py",
+      "source_aggregate_sha256": "b08794184b85c6a6812bff5cff6a3fab97a64f01453aa279794ad218c3cebc54",
+      "independently_recomputed_exit": 0,
+      "independently_recomputed_stdout_sha256": "1beccac7196e3e2b57262e95ccc5cdddf4a77eab223d6f8a97199d1803efd225",
+      "independently_recomputed_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "pending_aggregate_outputs": [],
+  "actual_aggregate_cases": 648,
+  "actual_aggregate_checks": 856,
+  "actual_unmet": 0,
+  "family_outcomes_receipt_path": "audits/production-final-rule-matrix-20261012/own-fleet-family-output-review-2bf9c771.json",
+  "family_outcomes_receipt_sha256": "167529e8313cd941c207c9849810c91663895de10b760b3629528f9a8c19fd0e",
+  "own_binary_sha256": "54b83783ccc361bfdc853bddfff47e57f4b0b5993b9f57190eda5da486b9c1d1",
+  "actual_own_fleet_captured_lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+  "own_cli_download_artifact_id": 11777801862,
+  "review_source_sha256": "6c8dd94e1d6df32a1484714840c070258070146a10ce7db7565d454fe38e6f9a",
+  "fresh_jobs_api_sha256": "854daa76d85d23d96d22e3ac31a872135ad51f2a5d298247536a6c63e9ba21eb",
+  "full_fleet_accepted": false,
+  "integration_accepted": false,
+  "limits": [
+    "Only snapshot-completed own782 aggregate actual logs and exactsource savedreport recomputations accepted. Pending aggregates remain explicitly unaccepted; full33/readiness separate. No API polling or chemistry output rerun.",
+    "Actual original240 aggregate does not bind source/binary by itself; all own family summaries and original manifests/rawoutputs independently bind checkout2d6cd03c/binary54b837/commonownartifact11777801862/capturedlock5135. Other aggregates explicitly bind checkout/binary in loggedJSON.",
+    "Actual download artifact IDs/digests and all successful aggregate steps verified against captured own run snapshot. Python aggregate re-evaluates existing savedreports only; no CLI/Cargo/build, parent784 outcome borrowing, newbase-context testexecution, empiricalchemistryaccuracy or integration acceptance."
+  ]
+}

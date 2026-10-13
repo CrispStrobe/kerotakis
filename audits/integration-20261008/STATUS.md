@@ -1,5 +1,24 @@
 # Integration checkpoint — 2026-10-10
 
+## Four-rule final-state safety repair integrated — 2026-10-13
+
+[PR782](https://github.com/CrispStrobe/kerotakis/pull/782) is merged as
+`7337bb58ce48285c54be5885dbe07afca1adbb7e`, parents `[668220ad, 2bf9c771]`,
+tree `8613e464`.
+[Actual acceptance](../production-final-rule-matrix-20261012/integration-accepted-2bf9c771.json)
+and [independent verification](../production-final-rule-matrix-20261012/integration-accepted-independent-review-2bf9c771.json)
+bind final fresh guards and actual merge. Own complete CI, native517/40 on both
+platforms, all33 fleet job gates, 702 saved cases/991 checks and eight CLI
+presence controls pass. Original forecasts and partial checkpoints remain.
+No postmerge tests or empirical chemistry accuracy are inferred.
+
+The demonstrated callback omissions for four reviewed rules are closed on main.
+Next: tagged ignored annotations, coherent historical regression coverage, then
+measured release optimization. Broader intermediate-product and multi-location
+safety remain separate. [Current agenda](../../docs/chemistry-work-agenda-20261012.md)
+specifies the executable lanes; earlier pending updates below are history.
+
+
 ## Safety replay validation progress — 2026-10-13
 
 Draft PR782 remains at `2bf9c771` on accepted main `668220ad`.

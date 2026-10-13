@@ -1,5 +1,49 @@
 # Remaining final-state safety rule matrix
 
+## Four-rule final-state safety repair integrated — 2026-10-13
+
+[PR782](https://github.com/CrispStrobe/kerotakis/pull/782) is merged as
+`7337bb58ce48285c54be5885dbe07afca1adbb7e`, with actual parents
+`668220ad` and `2bf9c771`, tree `8613e464`.
+[Final premerge guards](integration-final-premerge-2bf9c771.json),
+[actual integration evidence](integration-accepted-2bf9c771.json), and
+[independent postmerge review](integration-accepted-independent-review-2bf9c771.json)
+verify the exact head, immediate base, actual parents and reviewed source tree.
+Only the four reviewed whitelist additions and unchanged fifty controls were
+merged. The broad audit branch was not merged; no postmerge test execution is
+inferred.
+
+The final callback now includes `bleach-weak-acid-chlorine`,
+`oxidizer-flammable-gas`, `oxidizer-reducer` and `water-reactive-base`.
+The fifty frozen controls pass on the replay, preserving the original baseline
+of 24 passes and 26 missing-warning failures. Both own native reviews verify
+517 focused tests across 40 fixtures, with 3,408 workspace passes and four
+ignored tests on each platform. [Complete CI review](own-ci-gate-aggregate-2bf9c771.json)
+accepts all five required gates and the complete 26-job inventory.
+[Complete own fleet review](own-fleet-complete-output-independent-review-2bf9c771.json)
+verifies all 33 declared job gates, **702 original cases and 991 checks**,
+zero unmet expectations, and all three actual hosted aggregates.
+[Eight CLI controls](cli-witness-eight-independent-review-2bf9c771.json)
+pass their original presence forecasts. The first five cases and four families
+were preserved and reused without execution or analysis repeats.
+
+This closes the demonstrated four-rule callback omission. CLI warning presence
+alone does not establish final-callback attribution or empirical chemical
+accuracy. Ordinary native CI lock and execution-time advisory database revision
+remain uncaptured. Multiple locations, additional aliases, intermediate-product
+observation and physical predictions remain separate lanes. Original freezes,
+first failures and partial resource checkpoints remain unchanged.
+
+Next address the separate [tagged ignored annotation lane](../yaml-parser-migration-20261012/README.md)
+and preserve its original 18-pass/2-fail supplement. Historical regression
+coverage and measured optimization remain separate work in the
+[agenda](../../docs/chemistry-work-agenda-20261012.md).
+
+## Preserved validation progression
+
+The following checkpoints record earlier pending states and are superseded by
+the accepted integration above. They must not be reused as current readiness.
+
 ## Accepted native and partial runtime evidence — 2026-10-13
 
 The new head's [macOS native review](native-macos-independent-review-2bf9c771.json)
@@ -54,7 +98,7 @@ scripts once sequentially, and preserve every first outcome. Review surviving
 inventories and diagnostic attribution before claiming supported final-state
 CLI witnesses. Do not duplicate hosted dispatches or rerun old accepted controls.
 
-## Current safety replay after integrated prerequisites
+## Source replay after integrated prerequisites
 
 The parser prerequisite [PR783](https://github.com/CrispStrobe/kerotakis/pull/783)
 and nested-rate admission repair [PR784](https://github.com/CrispStrobe/kerotakis/pull/784)
@@ -168,19 +212,15 @@ passes cannot automatically certify a future source including the parser change.
 
 Next executable lanes:
 
-1. Source replay is prepared on actual accepted main; verify its independent
-   source review and exact new-head association before accepting any outcome.
-2. Capture the replay's own CI and full fleet, without duplicate dispatches.
-   Review all fifty unchanged controls and complete affected libraries from its
-   actual outputs. Preserve its actual lock associations and do not borrow
-   old-head results.
-3. Derive the complete focused native fixture inventory from that actual source;
-   retain all prior six-rule contracts. Require the candidate's own CI on both
-   native platforms and complete fleet before integration. Establish actual
-   surviving inventories and supported solver domains before claiming CLI
-   witnesses. Unsupported chemistry routes remain explicit model boundaries.
-4. Integrate through fresh head/base guarded checks. Update public status and the
-   private operating handoff with actual results and remaining scope.
+1. The four-rule safety callback repair is integrated. Preserve its original
+   baselines and accepted evidence; do not rerun this completed tranche.
+2. Continue the separate tagged annotation contract lane, then restore coherent
+   historical regression bindings. Source presence counts do not establish
+   runtime defects or empirical chemistry accuracy.
+3. Keep broader intermediate-product and multi-location safety controls
+   separate, with forecasts frozen before first execution and actual solver
+   domains qualified. Measure release performance after freezing workload and
+   correctness checks; preserve chemistry outputs and report variance.
 
 The callback uses the fixed location `vessel`, so this tranche makes no
 multi-location identity claim. Weak-acid findings use derived H+ and do not

@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "pr": 782,
+  "head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+  "base": "668220add3c81adf9d86ca551f4a0278ba3969f5",
+  "source_tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+  "ci_run": 38315281854,
+  "fleet_run": 38315281856,
+  "run_attempt": 1,
+  "reviewed_at_utc": "2026-10-13T04:54:00.468320+00:00",
+  "plan_path": "audits/production-final-rule-matrix-20261012/integration-preparation-2bf9c771.json",
+  "plan_sha256": "801b18500facf41804cafaae86de12767dc4117079ecb97219aec251c8b81d6f",
+  "bound_receipt_sha256": {
+    "audits/production-final-rule-matrix-20261012/native-plan-replay.json": "03909f9b47e1ab42f714c7770560be475ce2a3e5a5b31beeff536c53cd0c63a3",
+    "audits/production-final-rule-matrix-20261012/integration-native-macos-2bf9c771.json": "47f1c4bf0ea20d233662f129f44a1847a3c6912dfcd1895a6f8641b687491e01",
+    "audits/production-final-rule-matrix-20261012/integration-native-linux-2bf9c771.json": "2fa878fc5c18210fdca81f0dfd73026098068cef46e717d61996e9b201c3e23e",
+    "audits/production-final-rule-matrix-20261012/native-macos-independent-review-2bf9c771.json": "b1c70bd1fd77942fd305cd35a34dd554935626fcf435bebe5802f4dd384eef07",
+    "audits/production-final-rule-matrix-20261012/native-linux-independent-review-2bf9c771.json": "6e9264826747bff29c89d6b5bcae1d4d4407d24a42352662f2933d7a4e21f715",
+    "audits/production-final-rule-matrix-20261012/integration-native-adapters-independent-review-2bf9c771.json": "842d3ee1d4deae355445c885f9a723cc6a13a2229db4c48ac7b9ca48f91ad7a3",
+    "audits/production-final-rule-matrix-20261012/own-ci-gate-aggregate-2bf9c771.json": "87cf48dcf43cadfc68701749c5ad96502d24ce146e74ec80e7f16a9742aa73ec",
+    "audits/production-final-rule-matrix-20261012/own-cli-artifact-independent-review-2bf9c771.json": "e61633d0c0108d05e5d61b84304d99061710df5b06120e15ed04db1a0ab28759",
+    "audits/production-final-rule-matrix-20261012/cli-witness-eight-independent-review-2bf9c771.json": "d93a08909e1087d9d4503645679f549e696e347f480ea5185f00d4891a883c3c",
+    "audits/production-final-rule-matrix-20261012/own-fleet-progress-20261013.json": "03bbb4dae82c6835917d9162118756da01f4110d7a72c5aed732a10851eeccf2",
+    "audits/production-final-rule-matrix-20261012/own-fleet-family-output-review-2bf9c771.json": "167529e8313cd941c207c9849810c91663895de10b760b3629528f9a8c19fd0e",
+    "audits/production-final-rule-matrix-20261012/own-frozen-fleet-output-review-2bf9c771.json": "7d63afe2c765fad68f327349c76ac0c5521bf56886887ea8ddc9c4c98ff76250",
+    "audits/production-final-rule-matrix-20261012/own-fleet-completed-aggregate-output-review-2bf9c771.json": "0236e1adcaae54c9df5361044c6a4db4fdd515601343a554fc881f904a4c02ee",
+    "audits/production-final-rule-matrix-20261012/source-replay-independent-review-2bf9c771.json": "d019c867950fbfb8069090afe6af82868e5934c17bece739614e354d47c039d3",
+    "audits/production-final-rule-matrix-20261012/cli-witness-controls/freeze.json": "3b210c3f4cffa2e7a3e05927c429b5f8cf21819d42add6a3220f80b6cb0b946f"
+  },
+  "changed_source_sha256": {
+    "crates/kerotakis-safety/src/lib.rs": "f78ca77b561821c1cf912cbccde63607734e48d9b831be8c75b4d9aa892eb447",
+    "crates/kerotakis-safety/tests/production_remaining_final_rules.rs": "fa7c370805203489fbcdcb18a6c9e99906073f5e1a3285a09b99f53302f912b6"
+  },
+  "verified_preflight_result_sha256": "58cdefa413569aa4c6030f2627a3f24657edd859c52c69837be475130c4858f4",
+  "verified_preflight_tool_sha256": "89df34087ddc072e953760bb154af161443799d0914efd8d436e03c755929991",
+  "snapshot_evidence_sha256": {
+    "fleet-api.json": "9adc12c3f1c638d15c44e30b535977283cd6a954924486159eb6efde062d7123",
+    "fleet.json": "72b3f9bef31698590495818b90720a9899d6e8dd06699113d3f9a02b38679bd4",
+    "pr.json": "bf5248794261dc310ee46f3c3c10fc6e383a2c1a0b7aaa6c54a98cd1cec4ecdf",
+    "main.json": "dc643eb43d3647e15c6bc32e4b5fa860a01da036c266a183e8a58035ee3f8145",
+    "ci-api.json": "3ce49dcfabfc7d7a433202d7116bb9f351395ae69882e8f7d58854a12e2cbf8c",
+    "ci.json": "9304dea4ca01d07506c4d7ac260714971a9b0f8fc0d44a347f19cfc318ebb1d7",
+    "rollup.json": "cc910ca437aa765333f912d1b84173c1d987979058c5ce8174652c44c3417ce6",
+    "current-synthetic-merge.json": "7683c5af01dba24b24a849b6ea07691e4b20352ddebe754816b66aad63aa4a88",
+    "tested-commit-2d6cd03c3a6ab1913f48d0be161bb6fbb6cc8a89.json": "7683c5af01dba24b24a849b6ea07691e4b20352ddebe754816b66aad63aa4a88"
+  },
+  "own_ci_accepted": true,
+  "own_ci_jobs": 26,
+  "own_fleet_gate_accepted": true,
+  "own_fleet_successful_jobs": 33,
+  "own_fleet_output_receipt": {
+    "path": "audits/production-final-rule-matrix-20261012/own-fleet-complete-output-independent-review-2bf9c771.json",
+    "sha256": "4bf32b072f74b9981ade62464cd2de00b7e6f196f47d550b5aaad37e6ffcee92",
+    "component_receipt_sha256": {
+      "audits/production-final-rule-matrix-20261012/own-fleet-family-output-review-2bf9c771.json": "167529e8313cd941c207c9849810c91663895de10b760b3629528f9a8c19fd0e",
+      "audits/production-final-rule-matrix-20261012/own-frozen-fleet-output-review-2bf9c771.json": "7d63afe2c765fad68f327349c76ac0c5521bf56886887ea8ddc9c4c98ff76250",
+      "audits/production-final-rule-matrix-20261012/own-fleet-completed-aggregate-output-review-2bf9c771.json": "0236e1adcaae54c9df5361044c6a4db4fdd515601343a554fc881f904a4c02ee",
+      "audits/production-final-rule-matrix-20261012/own-fleet-progress-20261013.json": "03bbb4dae82c6835917d9162118756da01f4110d7a72c5aed732a10851eeccf2",
+      "audits/production-final-rule-matrix-20261012/own-cli-artifact-independent-review-2bf9c771.json": "e61633d0c0108d05e5d61b84304d99061710df5b06120e15ed04db1a0ab28759",
+      "audits/production-final-rule-matrix-20261012/own-fleet-partial-four-family-output-review-2bf9c771.json": "cfa611eb58614c9ffefe0d089683ed843f6d51e53c291832390638d0482aa57f"
+    }
+  },
+  "own_fleet_output_cases": 702,
+  "own_fleet_output_passed_checks": 991,
+  "own_fleet_output_unmet_checks": 0,
+  "eight_cli_receipt": {
+    "path": "audits/production-final-rule-matrix-20261012/cli-witness-eight-independent-review-2bf9c771.json",
+    "sha256": "d93a08909e1087d9d4503645679f549e696e347f480ea5185f00d4891a883c3c"
+  },
+  "accepted_cli_presence_controls": 8,
+  "both_native_exact_source_functions": 517,
+  "both_native_exact_source_fixtures": 40,
+  "native": [
+    {
+      "job": "Test (native) (macos-latest)",
+      "tested_checkout": "2d6cd03c3a6ab1913f48d0be161bb6fbb6cc8a89",
+      "tested_checkout_parents": [
+        "668220add3c81adf9d86ca551f4a0278ba3969f5",
+        "2bf9c771975f24b9e5b933728ef440cbca9a8ec6"
+      ],
+      "tested_tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+      "current_base_tree_compatible": true,
+      "new_base_context_test_execution": true
+    },
+    {
+      "job": "Test (native) (ubuntu-latest)",
+      "tested_checkout": "2d6cd03c3a6ab1913f48d0be161bb6fbb6cc8a89",
+      "tested_checkout_parents": [
+        "668220add3c81adf9d86ca551f4a0278ba3969f5",
+        "2bf9c771975f24b9e5b933728ef440cbca9a8ec6"
+      ],
+      "tested_tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+      "current_base_tree_compatible": true,
+      "new_base_context_test_execution": true
+    }
+  ],
+  "all_source_change_hashes_and_tree_verified": true,
+  "all_declared_fleet_workflow_steps_verified": true,
+  "api_run_event_attempt_pr_head_base_verified": true,
+  "current_main_equals_base": true,
+  "computed_current_merge_tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+  "current_synthetic_merge": "2d6cd03c3a6ab1913f48d0be161bb6fbb6cc8a89",
+  "current_synthetic_parents": [
+    "668220add3c81adf9d86ca551f4a0278ba3969f5",
+    "2bf9c771975f24b9e5b933728ef440cbca9a8ec6"
+  ],
+  "rollup_all_checks_complete_success_or_skipped": true,
+  "ready_except_draft": true,
+  "ready_for_merge": false,
+  "draft": true,
+  "accepted_integration": false,
+  "ordinary_native_lock_captured": false,
+  "limits": [
+    "Independent read-only recomputation of captured exact-source premerge gates and all fifteen bound receipts. No PR edit or merge.",
+    "Own complete fleet output acceptance relies on separately independently reviewed paired output/component receipts, whose hashes, identities and totals are verified here; no raw chemistry output rerun.",
+    "Eight CLI controls establish warning presence only; final callback attribution and empirical numerical chemistry remain outside their scope.",
+    "Ordinary native lock bytes and RustSec database revision are uncaptured; own fleet lock is not borrowed for native CI.",
+    "Final nondraft readiness requires a fresh exact-source preflight after the authorized ready action."
+  ]
+}

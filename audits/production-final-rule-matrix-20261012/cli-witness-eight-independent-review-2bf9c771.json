@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "pr": 782,
+  "head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+  "source_tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+  "actual_cases": 8,
+  "actual_passed": 8,
+  "prior_five_receipt": {
+    "path": "audits/production-final-rule-matrix-20261012/cli-witness-partial-five-independent-review-2bf9c771.json",
+    "sha256": "dd320526fc9688b1ddf83f05e6b87bc2d9c2d25519e616e2993871eade8ca687"
+  },
+  "prior_five_reexecuted": false,
+  "prior_five_reanalyzed": false,
+  "new_three_saved_outcomes": [
+    {
+      "id": "reducer-benign",
+      "passed": true,
+      "exit": 0,
+      "rows": 4,
+      "target_warning_count": 0,
+      "raw_sha256": {
+        "input.lab": "00d00e266eda9f1696383cab7255a02259fa26df64097f9f3684c13b7d117990",
+        "stdout.log": "121cdf93c65367fcd9b4d60fbb7f2391fa0656acc4748810bbf74b9cc71019fe",
+        "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "command.json": "a46ed213066052ea4d607879455800c9da18dd5b08ba9e09a952afedb7eebd1a",
+        "result.json": "334316f1143032b7a0363fe54053d47772eb527576839c29a30f9e3d3f90525e"
+      }
+    },
+    {
+      "id": "reactive-base-positive",
+      "passed": true,
+      "exit": 0,
+      "rows": 3,
+      "target_warning_count": 1,
+      "raw_sha256": {
+        "input.lab": "3c83314dce6d05e67ac0364bcbdb1c3d47e2c0de82dd23bd8fff3b20138129e7",
+        "stdout.log": "b95b05c5a030c51df1a4d02b1cd12675b57daa61c4bc91bc183101fb82a47a5e",
+        "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "command.json": "5d4d56be24094e8392f42e60817f8ce9e770771ac0cb81a62e47a7b26e6adde4",
+        "result.json": "49369242dd1a8858a930bd249d2c75916fd6224dd50d008a1fce4a5ce06953d0"
+      }
+    },
+    {
+      "id": "reactive-base-benign",
+      "passed": true,
+      "exit": 0,
+      "rows": 3,
+      "target_warning_count": 0,
+      "raw_sha256": {
+        "input.lab": "62da44ab26911d0f0d5beed40f9afc908d6e4e0baf82dd19bfe73d4833b64878",
+        "stdout.log": "8881b8b450848ca406ed9458eda13a48998b5b24f03b0f866f8392e08c2a11e0",
+        "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "command.json": "fce41d619605d2c46df0447973b8c602765cc56c6700a599190ebd42de70e6a9",
+        "result.json": "9fb0838c049f710fddd927deb1141ed316786a59425207a9f4c93fe5b28a32ab"
+      }
+    }
+  ],
+  "binary_sha256": "54b83783ccc361bfdc853bddfff47e57f4b0b5993b9f57190eda5da486b9c1d1",
+  "actual_fleet_lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+  "manifest_sha256": "388049ca2132b3acfe471d8d3dcd71167ed0f7db8eb5a525a08204cd6969f7ea",
+  "freeze_sha256": "3b210c3f4cffa2e7a3e05927c429b5f8cf21819d42add6a3220f80b6cb0b946f",
+  "collector_sha256": "cb1d25edd104b5dc22ffa225df687a93e9e5d0a44c53df169dc1bed015b83e6a",
+  "recorded_before_after_source_blobs": 2256,
+  "source_guard_runner_sha256": "27b62308cb6fcc81781c7a5500ca15cc74a93b08ad5b0d60779cb69fbd139730",
+  "source_archive_sha256": "9912cbcd010b422e4c82075ec21bcac65939105a17c25f5478e93470f58aafdd",
+  "execution_evidence_sha256": {
+    "before.json": "19e5def21c18df3e07918ae43dbb4c497de8f1f61160ef7f4f1cbeea304af57d",
+    "after.json": "19e5def21c18df3e07918ae43dbb4c497de8f1f61160ef7f4f1cbeea304af57d",
+    "result.json": "9d8c1a30fa8bc7ad487bfcc2275d4437ec0ec9e5c9e63b4d74f1a180d9933d1b",
+    "checkpoint.json": "f3562ea32a58aab9c63033eabfadcf8f82fd3f09e721374ee582f0aed1e1dc83"
+  },
+  "accepted_eight_presence_controls": true,
+  "accepted_final_callback_coverage": false,
+  "accepted_empirical_accuracy": false,
+  "accepted_integration": false,
+  "limits": [
+    "The new three saved outcomes were independently reevaluated with the unchanged frozen checker; the prior five accepted receipt is pinned unchanged.",
+    "Before/after source2256-blob checks and own binary/lock association were reviewed from the recorded execution guard; the independent review did not reread the complete source archive.",
+    "Eight controls verify target warning presence/absence only. Final callback attribution, empirical chemical measurements and integration are not accepted.",
+    "No CLI, Cargo, build or download occurred during independent saved-output review."
+  ]
+}

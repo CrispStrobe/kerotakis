@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "pr": 782,
+  "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/782",
+  "head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+  "base": "668220add3c81adf9d86ca551f4a0278ba3969f5",
+  "merge_commit": "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+  "merge_parents": [
+    "668220add3c81adf9d86ca551f4a0278ba3969f5",
+    "2bf9c771975f24b9e5b933728ef440cbca9a8ec6"
+  ],
+  "tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+  "current_main": "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+  "merged_at": "2026-10-13T04:55:10Z",
+  "ordinary_merge": true,
+  "exact_head_guard": true,
+  "actual_parents_tree_verified": true,
+  "accepted_integration": true,
+  "premerge_receipt_path": "audits/production-final-rule-matrix-20261012/integration-final-premerge-2bf9c771.json",
+  "premerge_receipt_sha256": "f0265e3020d32ebd34d0abbe40da505f71a9c5235799c8654f06167d9fc0856b",
+  "independent_readiness_path": "audits/production-final-rule-matrix-20261012/integration-readiness-independent-review-2bf9c771.json",
+  "independent_readiness_sha256": "d63fe83d341d55b7aec5a98e96765f02ddcb4cd00ffe7812fef333a2fdfbc70a",
+  "actual_postmerge_evidence_sha256": {
+    "immediate-main-command.json": "6673b6d839adff9329200ffc194ec05107db7f3ad3c2ba7f1ca5190a3545907a",
+    "immediate-main.json": "dc643eb43d3647e15c6bc32e4b5fa860a01da036c266a183e8a58035ee3f8145",
+    "postmerge-main-command.json": "b12952c9dfac18b9f65fd1a2db7de0f9ffcadc56e2bf1f77e306887b665a719f",
+    "immediate-pr-command.json": "8b0452301c87c7c4910897677de2337a13d0266b279deace254e4673c7a0ba34",
+    "postmerge-main.json": "3cd867ff7e3a567cd6b4932067411774596e2d850d68de623fea2c346d5726ff",
+    "merge-command.json": "df2b44cce2bdd86f7b6cb6b72e6601b5ff4f1203c038adb3a63c506808f8fb83",
+    "immediate-pr.json": "688eefcb01976a0c7b9751c34cbc4f03d71990e5c01c6b9166058a5b21046cdd",
+    "postmerge-pr.json": "bf01ddd8590e6b18c514e6b011e518c318eb7a7e87c337218da32cad095b7721",
+    "actual-merge-commit-command.json": "adfadc63027d13ab0cbaf8aca53b318686647bb3563a5fac7e5f5cb439654e89",
+    "actual-merge-commit.json": "6c72958d9ee7e0d22a412e83938b662424ee7d7e19056cb3c0915441082b6a94",
+    "postmerge-pr-command.json": "2959a4744dc1e80a5985b6943d5c9a2a5265224238c5995f22a16184fb314ab0"
+  },
+  "limits": [
+    "Premerge outcomes retain actual tested checkout; no postmerge test execution inferred.",
+    "Atomic exact head guard plus immediate base check; actual parents/tree independently verified after merge.",
+    "Only narrow four-rule final-state safety whitelist and unchanged fifty controls merged; broad audit branch never merged."
+  ]
+}

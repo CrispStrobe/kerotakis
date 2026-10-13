@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "source_head": "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+  "source_tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+  "source_commit_parents": [
+    "668220add3c81adf9d86ca551f4a0278ba3969f5",
+    "2bf9c771975f24b9e5b933728ef440cbca9a8ec6"
+  ],
+  "source_role": "actual accepted main merge, not prospective safety replay",
+  "source_file_sha256": {
+    "crates/kerotakis-core/src/kinetics/mechanism.rs": "e4eaf8b341e8942df81babea48da790927c99066e81c59d170f26e19b82af9c7",
+    "Cargo.toml": "80aeffe25abeb7ccf99ffa839d9c37279a19052c420732abe6c008cca129187c",
+    "data/mechanisms/README.md": "9c31fe56588c3d881694c419cf83978968e18f3604f35d5706c02e4af98500b3",
+    "provenance/brd-040-cantera-audit.md": "4387c30fe3ccce248c0a6fd9a2af0ab9935513f254f90cc2b4177587f36d563b"
+  },
+  "parser_implementation_byteidentical_to_reviewed_51e99750": true,
+  "published_audit_context_file_sha256": {
+    "data/mechanisms/README.md": "d06422caf3d0b2a4a6774f2bf265d4b7fe1ffeab0be51bab694643e10ea2b418",
+    "docs/chemistry-work-agenda-20261012.md": "fb04692d94d7749d99d66b63522cfa61f5a202aae0388259c273be98cda83973",
+    "audits/yaml-parser-migration-20261012/annotation-contract-review.md": "db21da79b12a035714414a519abee1d27c5c22a1d8bcfd329ab4f266fac4b719",
+    "audits/yaml-parser-migration-20261012/supplement-20/paired-first-outcomes.json": "38afc57080a6e671fa5a25e47eeaa2a1d645ebbe98269e0e5e1843b7c9366763",
+    "audits/yaml-parser-migration-20261012/supplement-20/freeze.json": "268b6182090f890cbe9e823bfbdf9ebc13a3811c33d428831cc0eb5a5bea7b21",
+    "audits/yaml-parser-migration-20261012/supplement-20/fixtures/yaml_mechanism_edge_contracts.rs": "e46796c3c49d8a8d24d08595da5e3d54d362ecb01aa24d5bb39c6e9120f009ef",
+    "audits/yaml-parser-migration-20261012/supplement-independent-review-51e99750.json": "2cfd35ac2cd1a3129b981e35ff436324d56d1ffb59ff79d15558db9575605d9d"
+  },
+  "accepted_main_and_published_audit_mechanism_readme_identical": false,
+  "public_entrypoint": "kerotakis_core::kinetics::mechanism::parse_yaml",
+  "flatten_attribute_count": 9,
+  "allowlisted_annotation_owner_count": 6,
+  "strict_modeled_extra_owner_names": [
+    "RawRate",
+    "RawTroe"
+  ],
+  "modeled_flatten_owner": "RawPressureRate",
+  "annotation_allowlists": {
+    "document": [
+      "generator",
+      "input-files",
+      "cantera-version",
+      "date",
+      "note",
+      "references",
+      "elements"
+    ],
+    "units": [
+      "mass",
+      "current"
+    ],
+    "phase": [
+      "elements",
+      "note",
+      "state",
+      "transport",
+      "adjacent-phases",
+      "skip-undeclared-elements",
+      "skip-undeclared-third-bodies",
+      "explicit-third-body-duplicates"
+    ],
+    "species": [
+      "note",
+      "transport",
+      "critical-parameters",
+      "equation-of-state"
+    ],
+    "species_thermo": [
+      "note"
+    ],
+    "reaction": [
+      "note",
+      "id",
+      "duplicate"
+    ]
+  },
+  "allowlisted_key_count": 25,
+  "preserved_twenty_outcome": {
+    "passed": 18,
+    "failed": 2,
+    "failed_names": [
+      "ignored_custom_scalar_tag",
+      "ignored_custom_sequence_tag"
+    ],
+    "new_main_execution": false,
+    "forecasts_unchanged": true
+  },
+  "plan_path": "audits/yaml-parser-migration-20261012/annotation-owner-contract-plan-7337bb58.md",
+  "plan_sha256": "2248f7bad4b743ef5556562e4ffb02eff536de3f2125809f0dadf38a602d639c",
+  "prospective_first_matrix_groups": {
+    "plain_allowlisted_keys": 25,
+    "owner_root_custom_tags": 18,
+    "nested_custom_tags": 6,
+    "tagged_unknown_field": 1
+  },
+  "prospective_first_matrix_count": 50,
+  "executable_matrix_frozen": false,
+  "planning_origin": "source-informed engineering contract plan",
+  "blind_experiments_claimed": false,
+  "tests_executed": false,
+  "production_source_changed": false,
+  "expectations_or_old_evidence_changed": false,
+  "accepted_integration": false,
+  "scope": "Source and preserved-evidence planning only on actual7337 main. No new case execution/results/fix/feature support accepted; published audit clarification and actual main document bytes are separately bound."
+}

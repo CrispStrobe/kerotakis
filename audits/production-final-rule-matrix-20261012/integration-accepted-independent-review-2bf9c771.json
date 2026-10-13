@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "pr": 782,
+  "head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+  "base": "668220add3c81adf9d86ca551f4a0278ba3969f5",
+  "source_tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+  "actual_merge_commit": "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+  "actual_merge_parents": [
+    "668220add3c81adf9d86ca551f4a0278ba3969f5",
+    "2bf9c771975f24b9e5b933728ef440cbca9a8ec6"
+  ],
+  "actual_merge_tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+  "immediate_postmerge_main": "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+  "reviewed_at_utc": "2026-10-13T04:56:13.999558+00:00",
+  "root_accepted_receipt": {
+    "path": "audits/production-final-rule-matrix-20261012/integration-accepted-2bf9c771.json",
+    "sha256": "cb7f33a817a1cc9dd4770a3ef056fa138f902d68aa312a448d09c5fa91b50c23"
+  },
+  "final_premerge_receipt": {
+    "path": "audits/production-final-rule-matrix-20261012/integration-final-premerge-2bf9c771.json",
+    "sha256": "f0265e3020d32ebd34d0abbe40da505f71a9c5235799c8654f06167d9fc0856b"
+  },
+  "plan_sha256": "801b18500facf41804cafaae86de12767dc4117079ecb97219aec251c8b81d6f",
+  "bound_receipt_sha256": {
+    "audits/production-final-rule-matrix-20261012/native-plan-replay.json": "03909f9b47e1ab42f714c7770560be475ce2a3e5a5b31beeff536c53cd0c63a3",
+    "audits/production-final-rule-matrix-20261012/integration-native-macos-2bf9c771.json": "47f1c4bf0ea20d233662f129f44a1847a3c6912dfcd1895a6f8641b687491e01",
+    "audits/production-final-rule-matrix-20261012/integration-native-linux-2bf9c771.json": "2fa878fc5c18210fdca81f0dfd73026098068cef46e717d61996e9b201c3e23e",
+    "audits/production-final-rule-matrix-20261012/native-macos-independent-review-2bf9c771.json": "b1c70bd1fd77942fd305cd35a34dd554935626fcf435bebe5802f4dd384eef07",
+    "audits/production-final-rule-matrix-20261012/native-linux-independent-review-2bf9c771.json": "6e9264826747bff29c89d6b5bcae1d4d4407d24a42352662f2933d7a4e21f715",
+    "audits/production-final-rule-matrix-20261012/integration-native-adapters-independent-review-2bf9c771.json": "842d3ee1d4deae355445c885f9a723cc6a13a2229db4c48ac7b9ca48f91ad7a3",
+    "audits/production-final-rule-matrix-20261012/own-ci-gate-aggregate-2bf9c771.json": "87cf48dcf43cadfc68701749c5ad96502d24ce146e74ec80e7f16a9742aa73ec",
+    "audits/production-final-rule-matrix-20261012/own-cli-artifact-independent-review-2bf9c771.json": "e61633d0c0108d05e5d61b84304d99061710df5b06120e15ed04db1a0ab28759",
+    "audits/production-final-rule-matrix-20261012/cli-witness-eight-independent-review-2bf9c771.json": "d93a08909e1087d9d4503645679f549e696e347f480ea5185f00d4891a883c3c",
+    "audits/production-final-rule-matrix-20261012/own-fleet-progress-20261013.json": "03bbb4dae82c6835917d9162118756da01f4110d7a72c5aed732a10851eeccf2",
+    "audits/production-final-rule-matrix-20261012/own-fleet-family-output-review-2bf9c771.json": "167529e8313cd941c207c9849810c91663895de10b760b3629528f9a8c19fd0e",
+    "audits/production-final-rule-matrix-20261012/own-frozen-fleet-output-review-2bf9c771.json": "7d63afe2c765fad68f327349c76ac0c5521bf56886887ea8ddc9c4c98ff76250",
+    "audits/production-final-rule-matrix-20261012/own-fleet-completed-aggregate-output-review-2bf9c771.json": "0236e1adcaae54c9df5361044c6a4db4fdd515601343a554fc881f904a4c02ee",
+    "audits/production-final-rule-matrix-20261012/source-replay-independent-review-2bf9c771.json": "d019c867950fbfb8069090afe6af82868e5934c17bece739614e354d47c039d3",
+    "audits/production-final-rule-matrix-20261012/cli-witness-controls/freeze.json": "3b210c3f4cffa2e7a3e05927c429b5f8cf21819d42add6a3220f80b6cb0b946f"
+  },
+  "changed_source_sha256": {
+    "crates/kerotakis-safety/src/lib.rs": "f78ca77b561821c1cf912cbccde63607734e48d9b831be8c75b4d9aa892eb447",
+    "crates/kerotakis-safety/tests/production_remaining_final_rules.rs": "fa7c370805203489fbcdcb18a6c9e99906073f5e1a3285a09b99f53302f912b6"
+  },
+  "final_readiness_independently_recomputed": true,
+  "final_ready_for_merge": true,
+  "final_draft": false,
+  "own_complete_fleet_jobs_verified": 33,
+  "own_ci_jobs_verified": 26,
+  "native_fixture_files": 40,
+  "native_functions": 517,
+  "captured_merge_argv": [
+    "gh",
+    "pr",
+    "merge",
+    "782",
+    "--merge",
+    "--match-head-commit",
+    "2bf9c771975f24b9e5b933728ef440cbca9a8ec6"
+  ],
+  "merge_exit": 0,
+  "merge_command_sha256": "df2b44cce2bdd86f7b6cb6b72e6601b5ff4f1203c038adb3a63c506808f8fb83",
+  "guard_source_sha256": "f0ec066e07bdb09708cccadc745b7a9657e92044718d757476dadb9a8fb90f51",
+  "immediate_exact_head_base_and_main_verified": true,
+  "actual_parents_tree_and_postmerge_main_verified": true,
+  "postmerge_evidence_sha256": {
+    "immediate-main-command.json": "6673b6d839adff9329200ffc194ec05107db7f3ad3c2ba7f1ca5190a3545907a",
+    "immediate-main.json": "dc643eb43d3647e15c6bc32e4b5fa860a01da036c266a183e8a58035ee3f8145",
+    "postmerge-main-command.json": "b12952c9dfac18b9f65fd1a2db7de0f9ffcadc56e2bf1f77e306887b665a719f",
+    "immediate-pr-command.json": "8b0452301c87c7c4910897677de2337a13d0266b279deace254e4673c7a0ba34",
+    "postmerge-main.json": "3cd867ff7e3a567cd6b4932067411774596e2d850d68de623fea2c346d5726ff",
+    "merge-command.json": "df2b44cce2bdd86f7b6cb6b72e6601b5ff4f1203c038adb3a63c506808f8fb83",
+    "immediate-pr.json": "688eefcb01976a0c7b9751c34cbc4f03d71990e5c01c6b9166058a5b21046cdd",
+    "postmerge-pr.json": "bf01ddd8590e6b18c514e6b011e518c318eb7a7e87c337218da32cad095b7721",
+    "actual-merge-commit-command.json": "adfadc63027d13ab0cbaf8aca53b318686647bb3563a5fac7e5f5cb439654e89",
+    "actual-merge-commit.json": "6c72958d9ee7e0d22a412e83938b662424ee7d7e19056cb3c0915441082b6a94",
+    "postmerge-pr-command.json": "2959a4744dc1e80a5985b6943d5c9a2a5265224238c5995f22a16184fb314ab0"
+  },
+  "accepted_integration": true,
+  "tests_executed_by_review": false,
+  "limits": [
+    "Independent read-only review of final captured premerge and actual guarded ordinary merge. Captured argv proves exact head guard; immediate base/main checks and resulting parents/tree are verified.",
+    "Main equals the actual merge at its immediate postmerge capture. Later changes to main are outside this receipt.",
+    "Native and fleet outcomes retain their actual premerge source and checkout association; no postmerge test execution is inferred.",
+    "Eight CLI controls retain warning presence-only scope, not final callback attribution or empirical chemical accuracy.",
+    "Ordinary native locks and RustSec database revision remain uncaptured; fleet or local lock evidence is not borrowed."
+  ]
+}

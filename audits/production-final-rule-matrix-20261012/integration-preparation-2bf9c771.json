@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "pr": 782,
+  "head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+  "base": "668220add3c81adf9d86ca551f4a0278ba3969f5",
+  "tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+  "ci_run": 38315281854,
+  "fleet_run": 38315281856,
+  "expected_final_fleet_jobs": 33,
+  "expected_native_fixture_files": 40,
+  "expected_native_functions": 517,
+  "required_successful_jobs": [
+    "Full preflight gate",
+    "Test (native) (ubuntu-latest)",
+    "Test (native) (macos-latest)",
+    "The bench in WebAssembly",
+    "The demo page, in a real browser"
+  ],
+  "native_plan_path": "audits/production-final-rule-matrix-20261012/native-plan-replay.json",
+  "native_receipt_paths": [
+    "audits/production-final-rule-matrix-20261012/integration-native-macos-2bf9c771.json",
+    "audits/production-final-rule-matrix-20261012/integration-native-linux-2bf9c771.json"
+  ],
+  "full_ci_receipt_path": "audits/production-final-rule-matrix-20261012/own-ci-gate-aggregate-2bf9c771.json",
+  "receipt_sha256": {
+    "audits/production-final-rule-matrix-20261012/native-plan-replay.json": "03909f9b47e1ab42f714c7770560be475ce2a3e5a5b31beeff536c53cd0c63a3",
+    "audits/production-final-rule-matrix-20261012/integration-native-macos-2bf9c771.json": "47f1c4bf0ea20d233662f129f44a1847a3c6912dfcd1895a6f8641b687491e01",
+    "audits/production-final-rule-matrix-20261012/integration-native-linux-2bf9c771.json": "2fa878fc5c18210fdca81f0dfd73026098068cef46e717d61996e9b201c3e23e",
+    "audits/production-final-rule-matrix-20261012/native-macos-independent-review-2bf9c771.json": "b1c70bd1fd77942fd305cd35a34dd554935626fcf435bebe5802f4dd384eef07",
+    "audits/production-final-rule-matrix-20261012/native-linux-independent-review-2bf9c771.json": "6e9264826747bff29c89d6b5bcae1d4d4407d24a42352662f2933d7a4e21f715",
+    "audits/production-final-rule-matrix-20261012/integration-native-adapters-independent-review-2bf9c771.json": "842d3ee1d4deae355445c885f9a723cc6a13a2229db4c48ac7b9ca48f91ad7a3",
+    "audits/production-final-rule-matrix-20261012/own-ci-gate-aggregate-2bf9c771.json": "87cf48dcf43cadfc68701749c5ad96502d24ce146e74ec80e7f16a9742aa73ec",
+    "audits/production-final-rule-matrix-20261012/own-cli-artifact-independent-review-2bf9c771.json": "e61633d0c0108d05e5d61b84304d99061710df5b06120e15ed04db1a0ab28759",
+    "audits/production-final-rule-matrix-20261012/cli-witness-eight-independent-review-2bf9c771.json": "d93a08909e1087d9d4503645679f549e696e347f480ea5185f00d4891a883c3c",
+    "audits/production-final-rule-matrix-20261012/own-fleet-progress-20261013.json": "03bbb4dae82c6835917d9162118756da01f4110d7a72c5aed732a10851eeccf2",
+    "audits/production-final-rule-matrix-20261012/own-fleet-family-output-review-2bf9c771.json": "167529e8313cd941c207c9849810c91663895de10b760b3629528f9a8c19fd0e",
+    "audits/production-final-rule-matrix-20261012/own-frozen-fleet-output-review-2bf9c771.json": "7d63afe2c765fad68f327349c76ac0c5521bf56886887ea8ddc9c4c98ff76250",
+    "audits/production-final-rule-matrix-20261012/own-fleet-completed-aggregate-output-review-2bf9c771.json": "0236e1adcaae54c9df5361044c6a4db4fdd515601343a554fc881f904a4c02ee",
+    "audits/production-final-rule-matrix-20261012/source-replay-independent-review-2bf9c771.json": "d019c867950fbfb8069090afe6af82868e5934c17bece739614e354d47c039d3",
+    "audits/production-final-rule-matrix-20261012/cli-witness-controls/freeze.json": "3b210c3f4cffa2e7a3e05927c429b5f8cf21819d42add6a3220f80b6cb0b946f"
+  },
+  "changed_source_sha256": {
+    "crates/kerotakis-safety/src/lib.rs": "f78ca77b561821c1cf912cbccde63607734e48d9b831be8c75b4d9aa892eb447",
+    "crates/kerotakis-safety/tests/production_remaining_final_rules.rs": "fa7c370805203489fbcdcb18a6c9e99906073f5e1a3285a09b99f53302f912b6"
+  },
+  "scope": "Narrow four-rule safety replay integration preparation on actual accepted main. Complete own CI/native40-517/fleet702-991 and eight CLI presence controls pinned. Native tests retain actual tested checkout; presence controls do not prove final-callback attribution or empirical chemistry. Fresh read-only guards and actual postmerge parents/tree verification still required.",
+  "base_race_limit": "Exact head guard cannot atomically pin base. Check main immediately before ordinary merge, then verify actual parents/tree; changed head/base needs new source-specific bindings."
+}

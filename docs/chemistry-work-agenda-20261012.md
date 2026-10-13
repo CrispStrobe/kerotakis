@@ -1,19 +1,15 @@
 # Chemistry work agenda — 2026-10-12
 
-Current update, 2026-10-13: both new-head native reviews pass all 517 focused
-tests/40 fixtures, with 3,408 workspace passes and four ignored tests each.
-Four independently reviewed saved families pass 96 cases/127 checks, zero
-unmet; resume the remaining 606 cases/864 checks and three aggregates without
-repeating those four. PR782's own CI and all 33 fleet jobs finished
-successfully at head `2bf9c771`. [Captured status](../audits/production-final-rule-matrix-20261012/hosted-progress-20261013.json)
-is separate from detailed native and saved-output acceptance. The
-[own release artifact](../audits/production-final-rule-matrix-20261012/own-cli-artifact-independent-review-2bf9c771.json)
-is independently verified. [Eight new discovery controls](../audits/production-final-rule-matrix-20261012/cli-witness-controls/README.md)
-were frozen before execution. [Five actual probes](../audits/production-final-rule-matrix-20261012/cli-witness-partial-five-independent-review-2bf9c771.json)
-completed successfully before the per-case load gate stopped the next case.
-Resume the three unexecuted probes and remaining CI/fleet reviewers only after
-a fresh passing gate; preserve all first forecasts and results. PR782 stays
-draft pending its own behavioral evidence and fresh integration guards.
+Current update, 2026-10-13: [PR782 is integrated](https://github.com/CrispStrobe/kerotakis/pull/782)
+as main `7337bb58ce48285c54be5885dbe07afca1adbb7e`.
+[Actual integration](../audits/production-final-rule-matrix-20261012/integration-accepted-2bf9c771.json)
+and [independent postmerge review](../audits/production-final-rule-matrix-20261012/integration-accepted-independent-review-2bf9c771.json)
+verify final guards, parents and reviewed tree. Both native517/40 inventories,
+complete CI and fleet702/991, all33 jobs and eight CLI presence controls are
+accepted. Original partial outcomes and resource rejections remain preserved.
+No postmerge execution or empirical accuracy is inferred. Next: tagged ignored
+annotation contract, coherent historical regression bindings, then measured
+release optimization. Earlier pending paragraphs below are historical.
 
 The mandatory context-free fallback applicability repair is **integrated** as
 [PR781](https://github.com/CrispStrobe/kerotakis/pull/781), merge `a125c88d`.
@@ -204,6 +200,15 @@ then the separate annotation contract lane below.
 
 ## 0b. Adjudicate tagged ignored annotations as a separate admission lane
 
+Start with the [actual-main owner plan](../audits/yaml-parser-migration-20261012/annotation-owner-contract-plan-7337bb58.md)
+and its source bindings at `7337bb58`. Six annotation owners are distinct from
+strict modeled flattening. The main documentation does not promise arbitrary
+custom tags; treat expanded support as a deliberate contract change rather than
+a demonstrated parser migration regression. Scope and freeze the prospective
+fifty-control matrix before running it, with the original 18/2 outcomes intact.
+Known field types, duplicate keys, merge/complex keys and strict nested model
+refusals need their own coverage before any implementation is accepted.
+
 Read the [preserved twenty-case forecasts and first paired outcomes](../audits/yaml-parser-migration-20261012/supplement-20/README.md).
 Both parsers refuse custom-tagged scalar and sequence annotations; the original
 positive forecasts remain unmet. First establish the documented support contract
@@ -218,7 +223,12 @@ supplement README gives the concrete implementation constraints and acceptance
 criteria. This follows the dependency maintenance gate; it does not block that
 repair on a newly inferred syntax expansion.
 
-## 1. Close the remaining reviewed final-safety rule tranche
+## 1. Completed: integrate the four reviewed final-safety rules
+
+The four-rule repair is now integrated as PR782. Its
+[complete safety evidence](../audits/production-final-rule-matrix-20261012/README.md)
+closes the original callback omissions. Do not repeat its accepted source-bound
+checks. The replay and original baseline notes below remain provenance history.
 
 PR783 and PR784 are integrated. The [actual narrow replay](../audits/production-final-rule-matrix-20261012/source-replay-preparation.json)
 now carries the original safety change onto accepted main `668220ad`, at new

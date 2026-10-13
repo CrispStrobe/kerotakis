@@ -1,5 +1,25 @@
 # YAML parser migration prerequisite
 
+
+## Dependent safety replay integrated — 2026-10-13
+
+[PR782](https://github.com/CrispStrobe/kerotakis/pull/782) is integrated as main
+`7337bb58`, after accepted parser and nested-rate prerequisites.
+[Actual safety acceptance](../production-final-rule-matrix-20261012/integration-accepted-2bf9c771.json)
+verifies guarded merge, actual parents and tested tree. All own required CI,
+native517/40, fleet702/991 and eight CLI presence controls are accepted.
+Next address the separate tagged ignored annotation contract: its original
+supplement remains 18 pass / 2 fail. Preserve those forecasts and first outcomes
+while mapping supported annotation owners and strict model-bearing fields.
+The [actual-main annotation owner plan](annotation-owner-contract-plan-7337bb58.md)
+and [source bindings](annotation-owner-contract-source-7337bb58.json) identify
+six annotation owners and separate strict modeled fields. They distinguish the
+documented boundary from a deliberate support expansion and scope fifty
+prospective controls. These controls are not yet frozen or executed. Establish
+that contract and preserve duplicate, merge, complex-key and modeled-tag
+refusals before changing the reader.
+
+
 ## Dependency and nested-rate admission repair integrated
 
 [PR783](https://github.com/CrispStrobe/kerotakis/pull/783) is merged as

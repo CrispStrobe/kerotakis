@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "pr": 782,
+  "head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+  "base": "668220add3c81adf9d86ca551f4a0278ba3969f5",
+  "source_tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+  "native_functions": 517,
+  "native_fixture_files": 40,
+  "native_guard_validation": [
+    {
+      "job": "Test (native) (macos-latest)",
+      "tested_checkout": "2d6cd03c3a6ab1913f48d0be161bb6fbb6cc8a89",
+      "tested_checkout_parents": [
+        "668220add3c81adf9d86ca551f4a0278ba3969f5",
+        "2bf9c771975f24b9e5b933728ef440cbca9a8ec6"
+      ],
+      "tested_tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+      "current_base_tree_compatible": true,
+      "new_base_context_test_execution": true
+    },
+    {
+      "job": "Test (native) (ubuntu-latest)",
+      "tested_checkout": "2d6cd03c3a6ab1913f48d0be161bb6fbb6cc8a89",
+      "tested_checkout_parents": [
+        "668220add3c81adf9d86ca551f4a0278ba3969f5",
+        "2bf9c771975f24b9e5b933728ef440cbca9a8ec6"
+      ],
+      "tested_tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+      "current_base_tree_compatible": true,
+      "new_base_context_test_execution": true
+    }
+  ],
+  "adapter_sha256": {
+    "audits/production-final-rule-matrix-20261012/integration-native-macos-2bf9c771.json": "47f1c4bf0ea20d233662f129f44a1847a3c6912dfcd1895a6f8641b687491e01",
+    "audits/production-final-rule-matrix-20261012/integration-native-linux-2bf9c771.json": "2fa878fc5c18210fdca81f0dfd73026098068cef46e717d61996e9b201c3e23e"
+  },
+  "native_plan_path": "audits/production-final-rule-matrix-20261012/native-plan-replay.json",
+  "native_plan_sha256": "03909f9b47e1ab42f714c7770560be475ce2a3e5a5b31beeff536c53cd0c63a3",
+  "guard_tool_sha256": "89df34087ddc072e953760bb154af161443799d0914efd8d436e03c755929991",
+  "accepted_native_guard_preparation": true,
+  "tests_executed": false,
+  "ready_for_merge": false,
+  "accepted_integration": false,
+  "limits": [
+    "Adapters preserve original independently accepted actual own-source native identities and outcomes byte-for-byte in equivalent fields. Existing guard validate_native recomputed source hashes, ordered517 identities, both exact jobs, five required successful steps and actual merge parents/tree.",
+    "No test rerun or new outcome. Ordinary hosted native lock remains uncaptured."
+  ]
+}
