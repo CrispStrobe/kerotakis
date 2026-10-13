@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "original_freeze_sha256": "22d3651be1f443410a051b59945c1f613eed03d401e92a857a9811abf021fd4f",
+  "original_audit_commit": "e23fc7382a8b199df31ca6956d552f83e9f1065c",
+  "failure": "HTTP422 called-workflow validation: runner context unavailable in job-level env; no run or benchmark started.",
+  "change": "Initialize runner-specific evidence paths in a shell step via GITHUB_ENV.",
+  "workloads_and_measurement_code_unchanged": true,
+  "new_workflow_sha256": "849e3f5a4b8ee4c43ad4cee58afc9701b4da7c951bf9e39a6783f0a1ae4ab114"
+}

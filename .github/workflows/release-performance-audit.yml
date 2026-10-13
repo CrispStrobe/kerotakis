@@ -19,11 +19,17 @@ jobs:
     timeout-minutes: 30
     env:
       GH_TOKEN: ${{ github.token }}
-      EVIDENCE: ${{ runner.temp }}/release-performance-evidence
-      SOURCE: ${{ github.workspace }}/accepted-source
-      ARTIFACT: ${{ runner.temp }}/release-performance-artifact
-      GUARD: ${{ runner.temp }}/release-performance-source-guard.py
     steps:
+      - name: Prepare runner evidence destinations
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo "EVIDENCE=$RUNNER_TEMP/release-performance-evidence"
+            echo "SOURCE=$GITHUB_WORKSPACE/accepted-source"
+            echo "ARTIFACT=$RUNNER_TEMP/release-performance-artifact"
+            echo "GUARD=$RUNNER_TEMP/release-performance-source-guard.py"
+          } >> "$GITHUB_ENV"
       - name: Checkout audit definitions
         uses: actions/checkout@v6
         with:
