@@ -119,3 +119,12 @@ own PR785 build completed and its artifact is available with the expected
 synthetic checkout parents and tree. Full CI is pending. Artifact bytes, actual
 candidate lock and build-environment witnesses still require review before
 candidate controls or paired execution; availability is not artifact acceptance.
+
+Current candidate is `d06ffe3a`: [source revision](candidate-revision-v2.json) and
+[version2 plan](candidate-plan-v2.json) preserve the first three own CI failures
+and their test-only locale justification repair. Production `main.rs` and all
+control scripts/expectations are unchanged. New own CI and artifact review are
+pending. The earlier artifact preflight and paired freeze bind the first head;
+they do not certify this revision. Rebind a new consumer protocol/freeze and
+references to the corrected head before candidate execution; preserve version1
+and reuse the seven saved baseline streams without rerunning their admissions.

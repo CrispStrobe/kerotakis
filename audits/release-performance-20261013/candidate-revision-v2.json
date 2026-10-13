@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "pr": 785,
+  "first_candidate_head": "5535903238c86dc1a3e2085d8196d1350dde766a",
+  "corrected_candidate_head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+  "corrected_tree": "25d1dd490acc080a59f2a02e5b9399a22bd0f4bc",
+  "failed_normal_ci_run": 38377791623,
+  "failed_jobs": [
+    115230419713,
+    115230419737,
+    115230419773
+  ],
+  "failure_test": "every_hardcoded_english_locale_in_the_cli_is_justified",
+  "failure": "New test fixture invoked explain_text with Locale::EN without a documented reader in the locale guard.",
+  "fix": "Add one exact test-only call-site justification; preserve session locale, runtime code and guard strictness.",
+  "new_normal_ci_run": 38387729203,
+  "new_release_fleet_run": 38387729183,
+  "first_failure_log_sha256": {
+    "preflight.log": "a4fe623c76f3dc456caca4acc697efd1e25dff8ad3e5ec7175759e097cfdd740",
+    "native-macos.log": "fe07f3b40717654706dd484ac7a0b241bc8a5d4457efeac77f16ac471bfe9cbc",
+    "native-linux.log": "9d9efe11bc60018576f394a14e3eee8728c7f0931fb7f6a2058e4cd9f7609df8"
+  },
+  "standalone_rustfmt_pass": true,
+  "locale_source_inventory_with_exact_justification_pass": true,
+  "new_ci_accepted": false,
+  "old_release_artifact_not_current_source_certification": true,
+  "original_paired_freeze_preserved": true,
+  "new_protocol_freeze_required": true,
+  "controls_and_expectations_unchanged": true
+}
