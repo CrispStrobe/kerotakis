@@ -6,12 +6,20 @@
   "accepted_prior_partial_receipt_sha256": "23eca87b0d200ecafd07294bc2ee5f72a79161dd9119044d633ff93a5f745e50",
   "files_sha256": {
     ".github/workflows/chemistry-audit.yml": "a370aba7f9252821bc597b23519a9ca6d6cdd83cab465e66818def1ce3af0b1f",
-    ".github/workflows/hosted-remaining-fleet-review.yml": "e31be3edefc9bfcd4870df5d444c0d666bd3eab77689436489e5facfce328219",
-    "audits/release-performance-20261013/review-remaining-fleets.py": "19ae5ca40db3c38c54d6ed6e9ff9702ca53afe184b652dc67a2dab2ba00a6a3e"
+    ".github/workflows/hosted-remaining-fleet-review.yml": "90dc42f332ac85bbf54cb5e1163e2922a318ed45819916c2cf78d63d2d0c4636",
+    "audits/release-performance-20261013/review-remaining-fleets.py": "32848ebad876309a04c2eeab4de3eb1e508db3f31ade64248321df55eb4e8886"
   },
   "cli_or_build_permitted": false,
   "independent_launcher_source_review_complete": false,
   "scope": "Hosted saved-output recomputation only. Original source inputs/evaluators unchanged; trust exact prior acid/base acceptance, newly review remaining390 cases591 checks. Separate from CLI performance/calibration/merge.",
   "all_job_conditions_root_evaluated": true,
-  "only_admitted_job": "hosted-remaining-fleet-review"
+  "only_admitted_job": "hosted-remaining-fleet-review",
+  "supersedes_failed_review": {
+    "run": 38440523017,
+    "head": "93b4d3c1fdb24530dd4f76740d5e908ecb6a7637",
+    "artifact_id": 11836393153,
+    "artifact_zip_sha256": "4dab29723069543b9c0aa3f0e1a6ba88729be2db4aad426113e68c72722a9afb",
+    "failure": "Reviewer KeyError Cargo.lock: untracked snapshot was incorrectly required to contain a tracked lockfile. Original evidence retained.",
+    "repeated_work": "Saved-output provenance/law review only; failed prefix may be rereviewed. No CLI, build or benchmark rerun."
+  }
 }

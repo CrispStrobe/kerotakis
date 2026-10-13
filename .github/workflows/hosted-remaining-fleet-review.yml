@@ -16,9 +16,11 @@ jobs:
       - name: Check resources before source checkout
         run: |
           python3 - <<'PYGATE'
-          import os, pathlib, shutil
+          import os, pathlib, shutil, json
           memory=int(next(x.split()[1] for x in pathlib.Path('/proc/meminfo').read_text().splitlines() if x.startswith('MemAvailable:')))//1024
-          assert os.getloadavg()[0]<=3.5 and memory>=3200 and shutil.disk_usage('.').free//1048576>=8192
+          resources=dict(load1=os.getloadavg()[0],available_memory_mib=memory,evidence_disk_free_mib=shutil.disk_usage('.').free//1048576)
+          print('PRECHECKOUT_RESOURCES_JSON='+json.dumps(resources),flush=True)
+          assert resources['load1']<=3.5 and memory>=3200 and resources['evidence_disk_free_mib']>=8192
           PYGATE
       - uses: actions/checkout@v6
         with:

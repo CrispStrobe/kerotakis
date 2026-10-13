@@ -99,7 +99,8 @@ try:
   if kind=='frozen':
    assert summary['lock_sha256']==LOCK and summary['complete_source_patch_sha256']==sha(directory/'source.patch') and (directory/'source.patch').read_bytes()==b''
    assert summary['source_diff_sha256']==hashlib.sha256(b'').hexdigest() and summary['untracked_source_sha256']=={}
-   newfiles=load(directory/'new-source-files.json');assert hashlib.sha256(newfiles['Cargo.lock'].encode()).hexdigest()==LOCK
+   newfiles=load(directory/'new-source-files.json');assert newfiles=={},'clean tracked checkout must have no untracked source snapshots'
+   assert verify_source('Cargo.lock')==LOCK,'tracked lock differs from accepted own release';RECEIPT['source_sha256']['Cargo.lock']=LOCK
    specs={x['id']:x for x in (frozen6 if family=='sixth' else frozen7)};expected_count=24 if family=='sixth' else 30
   else:
    manifestpath='tools/chemistry-audit/'+('source-fleets-3' if v3 else 'source-fleets')+'/'+family+'.json';RECEIPT['source_sha256'][manifestpath]=verify_source(manifestpath);manifest=load(SOURCE/manifestpath);specs={x['id']:x for x in manifest['cases']};expected_count=24
