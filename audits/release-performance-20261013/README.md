@@ -128,3 +128,8 @@ pending. The earlier artifact preflight and paired freeze bind the first head;
 they do not certify this revision. Rebind a new consumer protocol/freeze and
 references to the corrected head before candidate execution; preserve version1
 and reuse the seven saved baseline streams without rerunning their admissions.
+
+[Version2 comparison namespace](protocol-v2/README.md) now freezes the corrected
+head, versioned entry points and explicitly reused original baseline references.
+Use its consumers for `d06ffe3a`; version1 stays historical. New CI/artifact
+acceptance and actual candidate execution remain pending.

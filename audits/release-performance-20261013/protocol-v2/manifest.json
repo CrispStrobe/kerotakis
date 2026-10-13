@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "accepted_main": "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+  "actual_binary_source_head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+  "source_tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+  "baseline_binary_sha256": "54b83783ccc361bfdc853bddfff47e57f4b0b5993b9f57190eda5da486b9c1d1",
+  "actual_fleet_lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+  "baseline_artifact_receipt": "audits/production-final-rule-matrix-20261012/own-cli-artifact-independent-review-2bf9c771.json",
+  "baseline_artifact_receipt_sha256": "e61633d0c0108d05e5d61b84304d99061710df5b06120e15ed04db1a0ab28759",
+  "timeout_seconds": 60,
+  "correctness": "Pilot each frozen script once before timing. Require exit0, empty stderr, finite NDJSON, exact rows, successful workload-specific events and expected warning IDs. Keep first refusals as workload-admission failures. Freeze full canonical output digest after admitted pilot; every timed run must match it exactly. Canonicalization sorts object keys only, retains array order and numeric JSON values; raw output hashes are also retained. This does not inspect state hidden by the public JSON interface.",
+  "timing": "Blocking process wait with group watchdog. One serial worker. GNUtime wall/user/sys/maxRSS plus high-resolution parent wall. Two warmup fresh-process runs and eight timed fresh-process repetitions per workload. Report median/min/max/MAD; do not call fresh-process warmups warm in-process engine execution. Separate solver/serialization attribution; no speedup claim before candidate paired comparison. High-resolution wait4 user/system/maxRSS also include time wrapper and waited descendants; GNU CPU clocks remain coarse.",
+  "candidate_comparison": "ABBA/BAAB alternating own exact-source release baseline/candidate, at least eight timed samples each. Bit-identical outputs. Allocation/call-count attribution separately; report uncertainty and outliers, no significance claim from medians alone.",
+  "cases": [
+    {
+      "id": "startup",
+      "script": "../scripts/startup.lab",
+      "script_sha256": "8f96056c340700cfd2fa3fb40432dbd08ce6902813182db2c67603b464ce666b",
+      "expected_exit": 0,
+      "expected_rows": 1,
+      "scope": "Fresh process includes startup and JSON serialization; repeated commands have within-process solver/cache reuse. No numerical chemistry forecast.",
+      "required_events": [],
+      "target_warning_rules": [],
+      "expected_added_counts": {},
+      "require_endpoint_reached": false
+    },
+    {
+      "id": "salt-single",
+      "script": "../scripts/salt-single.lab",
+      "script_sha256": "8e3a266b31fdd1ab48ee0b02ce23c6a58ba11702601f2f1f15b1613d67f05244",
+      "expected_exit": 0,
+      "expected_rows": 3,
+      "scope": "Fresh process includes startup and JSON serialization; repeated commands have within-process solver/cache reuse. No numerical chemistry forecast.",
+      "required_events": [],
+      "target_warning_rules": [],
+      "expected_added_counts": {
+        "NaCl": 1
+      },
+      "require_endpoint_reached": false
+    },
+    {
+      "id": "salt-batch",
+      "script": "../scripts/salt-batch.lab",
+      "script_sha256": "c3d6d3f2d4edca73160ab0c425fd78dbbbc20035c79aa101e8e9727f3ded470b",
+      "expected_exit": 0,
+      "expected_rows": 66,
+      "scope": "Fresh process includes startup and JSON serialization; repeated commands have within-process solver/cache reuse. No numerical chemistry forecast.",
+      "required_events": [],
+      "target_warning_rules": [],
+      "expected_added_counts": {
+        "NaCl": 64
+      },
+      "require_endpoint_reached": false
+    },
+    {
+      "id": "titration-refinement",
+      "script": "../scripts/titration-refinement.lab",
+      "script_sha256": "545f744b5e4db16f26606fb9bf4cf2f68f1c5c42680acc08d293605a58104d2f",
+      "expected_exit": 0,
+      "expected_rows": 4,
+      "scope": "Fresh process includes startup and JSON serialization; repeated commands have within-process solver/cache reuse. No numerical chemistry forecast. Endpoint completion is required; refinement count remains unobserved without separate attribution.",
+      "required_events": [
+        "titrated"
+      ],
+      "target_warning_rules": [],
+      "expected_added_counts": {
+        "CH3COOH": 1
+      },
+      "require_endpoint_reached": true
+    },
+    {
+      "id": "safety-multi-pair",
+      "script": "../scripts/safety-multi-pair.lab",
+      "script_sha256": "d0390aec86a3bf4734f64881d7834c4b15cb246ac4e55b3974f98abcbc700688",
+      "expected_exit": 0,
+      "expected_rows": 5,
+      "scope": "Fresh process includes startup and JSON serialization; repeated commands have within-process solver/cache reuse. No numerical chemistry forecast.",
+      "required_events": [],
+      "target_warning_rules": [
+        "oxidizer-flammable-gas",
+        "oxidizer-reducer"
+      ],
+      "expected_added_counts": {
+        "KMnO4": 1,
+        "H2": 1,
+        "Na2SO3": 1
+      },
+      "require_endpoint_reached": false
+    }
+  ],
+  "frozen_before_execution": true
+}
