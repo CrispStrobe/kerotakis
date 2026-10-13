@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "original_freeze_sha256": "22d3651be1f443410a051b59945c1f613eed03d401e92a857a9811abf021fd4f",
+  "failed_run": 38363500803,
+  "failed_job": 115183034153,
+  "failure": "Hosted gh refused escape-bearing build log before artifact download or pilot.",
+  "benchmark_step_skipped": true,
+  "change": "Detect gh raw-response option and use it for file-bound build logs and ZIP; record CLI version. All source/artifact identity and byte guards retained.",
+  "workloads_and_measurement_code_unchanged": true,
+  "new_workflow_sha256": "6ea69163796ede28d279bbabc471417fc4bce8e4614e195f36f6f86f4fa37665",
+  "raw_response_option_reference": "https://cli.github.com/manual/gh_api",
+  "original_build_log_sha256": "8a3568862c0d542fce1ff0e96f66b3b5964279a4cc3f942f4a271943caa98e4c",
+  "build_log_checkout_guard_preflight_passed": true
+}

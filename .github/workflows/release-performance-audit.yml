@@ -69,6 +69,11 @@ jobs:
               raw = subprocess.check_output(['gh', 'api', 'repos/' + repository + '/' + endpoint])
               (evidence / (name + '.json')).write_bytes(raw)
               return json.loads(raw)
+          # New gh versions reject escape-bearing responses even when piped.
+          # Preserve raw logs/ZIP bytes in files, never render them to a terminal.
+          api_help = subprocess.check_output(['gh', 'api', '--help']).decode()
+          raw_flags = ['--allow-escape-sequences'] if '--allow-escape-sequences' in api_help else []
+          (evidence / 'github-cli-version.txt').write_bytes(subprocess.check_output(['gh', '--version']))
           head = '2bf9c771975f24b9e5b933728ef440cbca9a8ec6'
           base = '668220add3c81adf9d86ca551f4a0278ba3969f5'
           checkout = '2d6cd03c3a6ab1913f48d0be161bb6fbb6cc8a89'
@@ -102,7 +107,7 @@ jobs:
           require(commit['sha'] == checkout and commit['tree']['sha'] == tree
                   and [p['sha'] for p in commit['parents']] == [base, head], 'wrong artifact checkout')
           build_log = subprocess.check_output([
-              'gh', 'api', 'repos/' + repository + '/actions/jobs/115030315843/logs'])
+              'gh', 'api', *raw_flags, 'repos/' + repository + '/actions/jobs/115030315843/logs'])
           (evidence / 'artifact-build-job.log').write_bytes(build_log)
           plain_log = re.sub(r'\x1b\[[0-9;]*m', '', build_log.decode())
           require(re.search(r'git log -1 --format=%H\n[^\n]*Z ' + checkout + r'\n', plain_log)
@@ -110,7 +115,7 @@ jobs:
                   'artifact build log checkout changed')
           zipped = artifact / 'artifact.zip'
           with zipped.open('xb') as stream:
-              subprocess.run(['gh', 'api', 'repos/' + repository + '/actions/artifacts/11777801862/zip'],
+              subprocess.run(['gh', 'api', *raw_flags, 'repos/' + repository + '/actions/artifacts/11777801862/zip'],
                              stdout=stream, check=True)
           expected_zip = 'e44101a69e91b0a4d857467f842a84f2f8d6dcf00a6080b8a11a1c5a87924d10'
           require(sha(zipped) == expected_zip and metadata['digest'] == 'sha256:' + expected_zip, 'ZIP changed')
