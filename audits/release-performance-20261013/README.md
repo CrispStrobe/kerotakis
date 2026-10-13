@@ -183,3 +183,11 @@ found and resolved eight generic fleet predicates that initially admitted the
 new selection, including three `always()` aggregate jobs. Every job predicate
 now evaluates to excluded except the dedicated controlled build. This was
 corrected before dispatch; no unintended fleet jobs executed.
+
+[Controlled-build dispatch](controlled-build-dispatch.json) binds the actual
+[queued hosted run](https://github.com/CrispStrobe/kerotakis/actions/runs/38396270148)
+to audit revision `d49d9659` and the version2 build freeze. A second rejected
+dispatch supplied a commit SHA where GitHub requires a branch/tag ref; it created
+no run. The accepted dispatch used the audit branch after verifying its remote
+head, and the resulting run API confirms the exact revision. No build result,
+candidate execution or paired measurement is accepted yet.

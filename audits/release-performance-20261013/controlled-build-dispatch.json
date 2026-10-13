@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "run": 38396270148,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38396270148",
+  "audit_head": "d49d9659030a1311442f3aaddf49dd6158731c7f",
+  "event": "workflow_dispatch",
+  "run_attempt": 1,
+  "workflow": ".github/workflows/chemistry-audit.yml",
+  "selection": "release-performance-controlled-builds",
+  "status_at_capture": "queued",
+  "conclusion_at_capture": null,
+  "run_metadata_sha256": "2490a8a29a0ae8a7557c927232262e6590cc3323787b79484107f97ce4d127db",
+  "build_freeze_sha256": "cca79075c97283109e084f92fd7a9dafbd51372e52a77e927c8ddd301df15510",
+  "previous_dispatches_rejected_before_run": [
+    "HTTP 404: standalone workflow absent on default branch",
+    "HTTP 422: commit SHA is not an accepted branch/tag ref"
+  ],
+  "builds_accepted": false,
+  "candidate_executed": false,
+  "paired_measurements_accepted": false,
+  "later_lanes_started": false
+}
