@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+  "source_tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+  "files_sha256": {
+    "collect.py": "cb1d25edd104b5dc22ffa225df687a93e9e5d0a44c53df169dc1bed015b83e6a",
+    "manifest.json": "388049ca2132b3acfe471d8d3dcd71167ed0f7db8eb5a525a08204cd6969f7ea",
+    "scripts/flammable-gas-benign.lab": "ea3d49ebf361d11d90913f9be0ad6d7ce1ac63bfde879895f8cebda1cfe96e02",
+    "scripts/flammable-gas-positive.lab": "cd18ebaa840218db783609abd96c9b4086f8cbcf702bb2d02a8481a08c736270",
+    "scripts/reactive-base-benign.lab": "62da44ab26911d0f0d5beed40f9afc908d6e4e0baf82dd19bfe73d4833b64878",
+    "scripts/reactive-base-positive.lab": "3c83314dce6d05e67ac0364bcbdb1c3d47e2c0de82dd23bd8fff3b20138129e7",
+    "scripts/reducer-benign.lab": "00d00e266eda9f1696383cab7255a02259fa26df64097f9f3684c13b7d117990",
+    "scripts/reducer-positive.lab": "60553e01271b9dd1d8f91b7df1e35d763d8bf40817cfa9fb5b26d408db0e93b3",
+    "scripts/weak-acid-benign.lab": "414684be2ab166466a7b8dd5106a986c85e85d5cbf21c4e26208ce28f9da081d",
+    "scripts/weak-acid-positive.lab": "e5bca7323172d2d1a483c30e88055aee9b1e4e776e20daa53e4d6003d93a18a5"
+  },
+  "frozen_before_first_execution": true,
+  "scope": "Eight independent source-informed discovery forecasts. Preserve all first outcomes; warning presence alone does not prove final callback."
+}

@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+  "source_tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+  "forecast_authored_before_execution": true,
+  "timeout_seconds": 30,
+  "cases": [
+    {
+      "id": "weak-acid-positive",
+      "script": "scripts/weak-acid-positive.lab",
+      "script_sha256": "e5bca7323172d2d1a483c30e88055aee9b1e4e776e20daa53e4d6003d93a18a5",
+      "expected_exit": 0,
+      "expected_rows": 4,
+      "target_rule": "bleach-weak-acid-chlorine",
+      "expected_target_warning": true,
+      "expected_severity": "danger",
+      "forecast_scope": "End-to-end screen compatibility only; final-callback attribution, solver admission and actual surviving inventory are separately observed."
+    },
+    {
+      "id": "weak-acid-benign",
+      "script": "scripts/weak-acid-benign.lab",
+      "script_sha256": "414684be2ab166466a7b8dd5106a986c85e85d5cbf21c4e26208ce28f9da081d",
+      "expected_exit": 0,
+      "expected_rows": 4,
+      "target_rule": "bleach-weak-acid-chlorine",
+      "expected_target_warning": false,
+      "expected_severity": "danger",
+      "forecast_scope": "End-to-end screen compatibility only; final-callback attribution, solver admission and actual surviving inventory are separately observed."
+    },
+    {
+      "id": "flammable-gas-positive",
+      "script": "scripts/flammable-gas-positive.lab",
+      "script_sha256": "cd18ebaa840218db783609abd96c9b4086f8cbcf702bb2d02a8481a08c736270",
+      "expected_exit": 0,
+      "expected_rows": 4,
+      "target_rule": "oxidizer-flammable-gas",
+      "expected_target_warning": true,
+      "expected_severity": "danger",
+      "forecast_scope": "End-to-end screen compatibility only; final-callback attribution, solver admission and actual surviving inventory are separately observed."
+    },
+    {
+      "id": "flammable-gas-benign",
+      "script": "scripts/flammable-gas-benign.lab",
+      "script_sha256": "ea3d49ebf361d11d90913f9be0ad6d7ce1ac63bfde879895f8cebda1cfe96e02",
+      "expected_exit": 0,
+      "expected_rows": 4,
+      "target_rule": "oxidizer-flammable-gas",
+      "expected_target_warning": false,
+      "expected_severity": "danger",
+      "forecast_scope": "End-to-end screen compatibility only; final-callback attribution, solver admission and actual surviving inventory are separately observed."
+    },
+    {
+      "id": "reducer-positive",
+      "script": "scripts/reducer-positive.lab",
+      "script_sha256": "60553e01271b9dd1d8f91b7df1e35d763d8bf40817cfa9fb5b26d408db0e93b3",
+      "expected_exit": 0,
+      "expected_rows": 4,
+      "target_rule": "oxidizer-reducer",
+      "expected_target_warning": true,
+      "expected_severity": "danger",
+      "forecast_scope": "End-to-end screen compatibility only; final-callback attribution, solver admission and actual surviving inventory are separately observed."
+    },
+    {
+      "id": "reducer-benign",
+      "script": "scripts/reducer-benign.lab",
+      "script_sha256": "00d00e266eda9f1696383cab7255a02259fa26df64097f9f3684c13b7d117990",
+      "expected_exit": 0,
+      "expected_rows": 4,
+      "target_rule": "oxidizer-reducer",
+      "expected_target_warning": false,
+      "expected_severity": "danger",
+      "forecast_scope": "End-to-end screen compatibility only; final-callback attribution, solver admission and actual surviving inventory are separately observed."
+    },
+    {
+      "id": "reactive-base-positive",
+      "script": "scripts/reactive-base-positive.lab",
+      "script_sha256": "3c83314dce6d05e67ac0364bcbdb1c3d47e2c0de82dd23bd8fff3b20138129e7",
+      "expected_exit": 0,
+      "expected_rows": 3,
+      "target_rule": "water-reactive-base",
+      "expected_target_warning": true,
+      "expected_severity": "caution",
+      "forecast_scope": "End-to-end screen compatibility only; final-callback attribution, solver admission and actual surviving inventory are separately observed."
+    },
+    {
+      "id": "reactive-base-benign",
+      "script": "scripts/reactive-base-benign.lab",
+      "script_sha256": "62da44ab26911d0f0d5beed40f9afc908d6e4e0baf82dd19bfe73d4833b64878",
+      "expected_exit": 0,
+      "expected_rows": 3,
+      "target_rule": "water-reactive-base",
+      "expected_target_warning": false,
+      "expected_severity": "caution",
+      "forecast_scope": "End-to-end screen compatibility only; final-callback attribution, solver admission and actual surviving inventory are separately observed."
+    }
+  ],
+  "limits": [
+    "Eight new virtual discovery controls from the prepared source-informed proposals, not empirical chemistry predictions.",
+    "Positive forecasts may fail when catalog, solver domain or final surviving inventory does not support the proposed witness. Preserve first failures without rewriting expectations.",
+    "All events are retained; target absence in benign counterpart does not mean absence of all hazards.",
+    "A warning alone does not attribute the final-state callback or establish chemical yield."
+  ]
+}

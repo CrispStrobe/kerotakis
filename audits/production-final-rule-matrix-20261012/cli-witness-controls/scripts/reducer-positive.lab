@@ -1,0 +1,4 @@
+add v1 water 100mL
+add v1 KMnO4 0.0001mol
+add v1 Na2SO3 0.0001mol
+inspect v1

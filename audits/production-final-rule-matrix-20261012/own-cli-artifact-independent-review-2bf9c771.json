@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "pr": 782,
+  "head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+  "base": "668220add3c81adf9d86ca551f4a0278ba3969f5",
+  "source_tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+  "synthetic_checkout": "2d6cd03c3a6ab1913f48d0be161bb6fbb6cc8a89",
+  "merge_parents": [
+    "668220add3c81adf9d86ca551f4a0278ba3969f5",
+    "2bf9c771975f24b9e5b933728ef440cbca9a8ec6"
+  ],
+  "own_run_id": 38315281856,
+  "run_attempt": 1,
+  "event": "pull_request",
+  "job_id": 115030315843,
+  "artifact_id": 11777801862,
+  "artifact_url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/artifacts/11777801862",
+  "artifact_zip_sha256": "e44101a69e91b0a4d857467f842a84f2f8d6dcf00a6080b8a11a1c5a87924d10",
+  "binary_sha256": "54b83783ccc361bfdc853bddfff47e57f4b0b5993b9f57190eda5da486b9c1d1",
+  "binary_bytes": 17583144,
+  "actual_fleet_lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+  "workflow_sha256": "57252f0fb26ac203b5420e82a3e1355a20ec0ea6ac925d7078b95bcaf75e1304",
+  "raw_job_log_sha256": "8a3568862c0d542fce1ff0e96f66b3b5964279a4cc3f942f4a271943caa98e4c",
+  "raw_metadata_sha256": {
+    "fleet-run.json": "9adc12c3f1c638d15c44e30b535977283cd6a954924486159eb6efde062d7123",
+    "build-job.json": "9eef9ea9433fb8368211bf682620af152ce32d874f48825fcf01f00089ea0209",
+    "cli-artifact.json": "50d14a51cfec771af461596e59cad731620f34447839fbfeac16006c8f366098",
+    "synthetic-merge.json": "7683c5af01dba24b24a849b6ea07691e4b20352ddebe754816b66aad63aa4a88"
+  },
+  "submodules_record_sha256": "dae123bd185b0dff0f0d7176cb509940c4f7f68da6087ad6e6ab003543dbdd47",
+  "max_required_glibc": "2.39",
+  "reviewer_sha256": "f215db3e9c3c9a150f0ef95a297284d0b23ebcf135dae2115774ab5d4afce3cc",
+  "artifact_binary_executed": false,
+  "accepted_own_cli_artifact": true,
+  "full_ci_accepted": false,
+  "full_fleet_accepted": false,
+  "accepted_integration": false,
+  "scope": "Independent own-source release CLI artifact provenance and static ELF compatibility only. Actual captured fleet lock and binary hashes derive from its own four-file ZIP. No execution, chemistry witness, ordinary native lock borrowing or integration acceptance."
+}

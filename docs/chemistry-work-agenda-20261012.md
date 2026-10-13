@@ -1,5 +1,15 @@
 # Chemistry work agenda — 2026-10-12
 
+Current update, 2026-10-13: PR782's own CI and all 33 fleet jobs finished
+successfully at head `2bf9c771`. [Captured status](../audits/production-final-rule-matrix-20261012/hosted-progress-20261013.json)
+is separate from detailed native and saved-output acceptance. The
+[own release artifact](../audits/production-final-rule-matrix-20261012/own-cli-artifact-independent-review-2bf9c771.json)
+is independently verified. [Eight new discovery controls](../audits/production-final-rule-matrix-20261012/cli-witness-controls/README.md)
+are frozen before execution, but the resource gate rejected available memory
+before any CLI run. Resume exact-head reviewers and those controls only after
+a fresh passing gate; preserve all first forecasts and results. PR782 stays
+draft pending its own behavioral evidence and fresh integration guards.
+
 The mandatory context-free fallback applicability repair is **integrated** as
 [PR781](https://github.com/CrispStrobe/kerotakis/pull/781), merge `a125c88d`.
 [Acceptance evidence](../audits/registry-loader-applicability-20261012/README.md)

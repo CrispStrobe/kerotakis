@@ -1,0 +1,4 @@
+add v1 water 100mL
+add v1 NaOCl 0.0001mol
+add v1 CH3COOH 0.0001mol
+inspect v1

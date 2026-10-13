@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+  "manifest_sha256": "388049ca2132b3acfe471d8d3dcd71167ed0f7db8eb5a525a08204cd6969f7ea",
+  "collector_sha256": "cb1d25edd104b5dc22ffa225df687a93e9e5d0a44c53df169dc1bed015b83e6a",
+  "frozen_cases": 8,
+  "execution_started": false,
+  "resource_gate_passed": false,
+  "reason": "Available memory below the agreed operating minimum before any CLI start.",
+  "accepted_behavior": false,
+  "accepted_integration": false,
+  "first_resource_rejection_sha256": "77c6902a88ff7166f27ceb636481bcdf7b4449023cf18cf558f85cbe793eba5b"
+}

@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "pr": 782,
+  "head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+  "base": "668220add3c81adf9d86ca551f4a0278ba3969f5",
+  "ci_run": 38315281854,
+  "fleet_run": 38315281856,
+  "observed_ci_status": "completed",
+  "observed_ci_conclusion": "success",
+  "observed_ci_jobs": [
+    {
+      "id": 115030316105,
+      "name": "BRD-080 viewer decision spike",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316249,
+      "name": "Legacy BASIC oracle (development only)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316345,
+      "name": "feos adapter (aarch64-apple-ios)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316355,
+      "name": "Full preflight gate",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316383,
+      "name": "Test (native) (macos-latest)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316405,
+      "name": "feos adapter (x86_64-pc-windows-msvc)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316419,
+      "name": "Theme contrast tokens",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316433,
+      "name": "Test (native) (ubuntu-latest)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316441,
+      "name": "Presentation authority adapters",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316453,
+      "name": "GPU release tools (deterministic)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316542,
+      "name": "Shell payload (windows-latest)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316545,
+      "name": "The native host still compiles",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316568,
+      "name": "The demo page, in a real browser",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316576,
+      "name": "IPhreeqc under MSVC",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316587,
+      "name": "Core and data schemas compile to wasm32",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316627,
+      "name": "IPhreeqc wasm gate",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316650,
+      "name": "The two wasm halves, together",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316656,
+      "name": "The bench in WebAssembly",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316657,
+      "name": "Shell payload (ubuntu-22.04)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316713,
+      "name": "feos adapter (aarch64-apple-darwin)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316724,
+      "name": "feos adapter (aarch64-linux-android)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316762,
+      "name": "Current registry source export",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316785,
+      "name": "MY-BASIC preview (macos-latest)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030316805,
+      "name": "feos adapter (wasm32-unknown-unknown)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115030317377,
+      "name": "MY-BASIC preview (ubuntu-latest)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115050349666,
+      "name": "Publish the demo",
+      "status": "completed",
+      "conclusion": "skipped"
+    }
+  ],
+  "observed_fleet_status": "completed",
+  "observed_fleet_conclusion": "success",
+  "observed_fleet_job_count": 33,
+  "captured_metadata_sha256": {
+    "pr": "1906681d10c399850708662fa7d20826a5348d4cd8f867a7d63916cb085058c0",
+    "ci": "9770f14a8962e53839043fbdd0cfaf3e096da64bfbe9e484739ce36b1e4755f7",
+    "fleet": "9fa7f25c3c11fc03891dfcfa04a4a6bc9fe9f69bf774091251a8f915ac77840e"
+  },
+  "own_cli_artifact_receipt_path": "audits/production-final-rule-matrix-20261012/own-cli-artifact-independent-review-2bf9c771.json",
+  "own_cli_artifact_receipt_sha256": "e61633d0c0108d05e5d61b84304d99061710df5b06120e15ed04db1a0ab28759",
+  "accepted_complete_ci_outcomes": false,
+  "accepted_native_outcomes": false,
+  "accepted_saved_fleet_outputs": false,
+  "accepted_integration": false,
+  "scope": "Captured own-head hosted status and inventory only; detailed source-bound test and saved-output reviews remain pending. Own executable provenance separately accepted. No new-head CLI execution."
+}

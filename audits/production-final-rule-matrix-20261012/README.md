@@ -1,5 +1,32 @@
 # Remaining final-state safety rule matrix
 
+## New-head hosted results and execution gate — 2026-10-13
+
+PR782 remains draft at `2bf9c771`; its own CI and all 33 fleet jobs finished
+successfully overnight. The [captured status checkpoint](hosted-progress-20261013.json)
+records 25 successful CI jobs and the source-appropriate publication skip.
+The [fleet job gate review](own-fleet-progress-20261013.json) verifies all
+33 declared jobs and workflow steps against exact-source metadata. Detailed
+native test outcomes and saved fleet outputs remain unaccepted; successful
+job gates alone are not their independent review.
+
+The [own CLI artifact review](own-cli-artifact-independent-review-2bf9c771.json)
+accepts artifact11777801862, actual release binary and captured fleet lock,
+with the exact own tested checkout and source tree. It has not been executed.
+The [eight CLI discovery controls](cli-witness-controls/README.md) are now
+frozen before first execution, including immutable scripts, forecasts and
+collector hashes. Their [execution deferral](cli-witness-controls/execution-deferred.json)
+preserves a failed resource gate before any CLI start. Available memory fell
+below the agreed minimum; artifact workers and CLI execution were deferred.
+No forecast is rewritten and no new-head behavioral acceptance is inferred.
+
+Next resume the prepared exact-head native and saved-output reviewers under
+a fresh passing resource gate. Then verify the own artifact bytes again,
+prepare its executable in an allowed execution location, run the eight frozen
+scripts once sequentially, and preserve every first outcome. Review surviving
+inventories and diagnostic attribution before claiming supported final-state
+CLI witnesses. Do not duplicate hosted dispatches or rerun old accepted controls.
+
 ## Current safety replay after integrated prerequisites
 
 The parser prerequisite [PR783](https://github.com/CrispStrobe/kerotakis/pull/783)
