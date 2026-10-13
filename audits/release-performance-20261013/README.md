@@ -63,8 +63,11 @@ A resume revision is prepared to verify and retain prior accepted-family bytes
 and reuse partial saved archives without redownloading. It changes orchestration
 only. Static review accepted its approach; explicit parent-reviewer and artifact
 snapshot checks were added in a new revision, which still needs review before
-execution. Current load and
-memory gates are closed. Preserve all original forecasts, freezes, interrupted
+execution. [A hosted saved-output review](hosted-remaining-fleet-review-dispatch.json)
+is now dispatched at isolated audit revision `93b4d3c1`, using its own actual
+resource gates. It binds the earlier acid/base acceptance without downloading
+or reanalyzing that family and obtains its own copies of the remaining artifacts.
+No CLI or build runs. Current local load gates are closed. Preserve all original forecasts, freezes, interrupted
 runs and partial records. PR785 remains draft. Historical checkpoints below
 retain their capture-time states.
 

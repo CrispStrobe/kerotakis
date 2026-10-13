@@ -108,3 +108,20 @@ actual download IDs, sizes and digests match the accepted family artifacts.
 The same reviewer independently verifies all 33 source-defined job and step
 outcomes. No family analyzer or CLI was rerun for this aggregate review.
 V1/v3 aggregate closure and the remaining 390 cases/591 checks are pending.
+
+[A hosted saved-output reviewer is dispatched](hosted-remaining-fleet-review-dispatch.json)
+as [run38440523017](https://github.com/CrispStrobe/kerotakis/actions/runs/38440523017)
+at isolated audit revision `93b4d3c1`. It binds the exact accepted acid/base
+receipt and source without downloading or reanalyzing that family, then checks
+the remaining 390 saved cases/591 checks using the unchanged original forecasts
+and source-owned evaluators. Its own resource checks precede source checkout,
+API reads, extraction and evaluation; raw partial results and failures are retained.
+It executes no CLI or build and does not certify science or merging.
+
+The [reader source](https://github.com/CrispStrobe/kerotakis/blob/93b4d3c1fdb24530dd4f76740d5e908ecb6a7637/audits/release-performance-20261013/review-remaining-fleets.py)
+is root-reviewed and freeze-bound; independent launcher source audit is not
+claimed. Wait for the exact-source job result, inspect actual raw/summary receipts,
+and accept the newly reviewed families before closing the two remaining
+aggregates. Do not duplicate the dispatch or merge its inspection branch.
+Local cached distillation bytes and all earlier results remain protected; the
+hosted worker fetches its own artifact copy to perform this review.

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "run": 38440523017,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38440523017",
+  "attempt": 1,
+  "status_at_capture": "queued",
+  "audit_branch": "audit/hosted-remaining-fleet-review-20261013",
+  "audit_head": "93b4d3c1fdb24530dd4f76740d5e908ecb6a7637",
+  "parent_audit_head": "591da1af80bf030093660c56f0aa6328cd44c14d",
+  "own_fleet_run": 38387729183,
+  "candidate": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+  "reader_sha256": "19ae5ca40db3c38c54d6ed6e9ff9702ca53afe184b652dc67a2dab2ba00a6a3e",
+  "accepted_prior_acid_base_receipt_sha256": "23eca87b0d200ecafd07294bc2ee5f72a79161dd9119044d633ff93a5f745e50",
+  "new_cases_to_review": 390,
+  "new_law_checks_to_review": 591,
+  "accepted_acid_family_rerun": false,
+  "cli_or_build_permitted": false,
+  "independent_launcher_source_review_complete": false,
+  "remaining_saved_cases_accepted": false,
+  "raw_api_sha256": {
+    "run.json": "a339e8ebc3535b4953d5ff930d33d8e117826f9557b53ba2245c6a74a86294be",
+    "jobs.json": "5cb14f88083c8c54be7b5cb4a5e1d4f3792fda828605399140f177af3ca04cf1",
+    "dispatch.json": "6afce6157acf37e8467485828e3b9838193979546e20ab26f0eb8ff3ef954e17"
+  },
+  "scope": "Actual isolated hosted saved-output review dispatch. Own host resource gates, exact source/freeze/receipt/archive/raw-input checks; prior accepted acid/base receipt trusted with byte/identity binding. Original source inputs and evaluators unchanged. Hosted worker obtains its own remaining artifact copies; local cached bytes stay protected. No CLI, build, performance, scientific calibration or merge implied."
+}

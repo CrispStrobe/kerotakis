@@ -33,8 +33,11 @@ resource rejections. Large local work requires the private resource gate.
    narrow PR's guarded acceptance. Detailed executable review obligations are in
    [the results handoff](../audits/release-performance-20261013/PAIRED-RESULTS-V3.md).
    Downloads, recomputation and execution require open operating resource gates;
-   the latest fleet review stopped before downloads because load/memory gates
-   closed. PR785 remains draft; later lanes remain queued.
+   local review stops at closed load/memory gates. A
+   [hosted remaining-case review](../audits/release-performance-20261013/hosted-remaining-fleet-review-dispatch.json)
+   is now dispatched with its own real gates and preserved partial evidence;
+   it uses original saved outcomes, runs no CLI/build, and remains unaccepted
+   until its actual result is reviewed. PR785 remains draft; later lanes remain queued.
 2. **Fifty fresh CLI experiments.** Use a fresh agent that learns only syntax,
    without reading existing corpus cases or implementation details. Freeze all
    fifty original scripts and expectations before execution. Preserve first
