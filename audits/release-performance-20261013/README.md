@@ -75,18 +75,20 @@ at `c5c56f9c`: all actual job steps pass and its source-bound result marker repo
 and the remaining390/591. Its uploaded archive digest and size are verified;
 raw archive acceptance remains pending. All earlier reviewer failures are retained.
 
-[A separate hosted evidence-and-aggregate review](hosted-fleet-evidence-closure-dispatch.json)
-is queued as run38452874018 at `884a5bb3`. The
-[portable consumer](review-hosted-fleet-evidence.py) reads the completed archive,
-checks safe ZIP members, hashes, exact source forecasts, raw streams and original/
-recomputed report equality, then verifies both remaining actual aggregate outputs.
-It rereads the accepted acid/base archive for raw/report aggregation without
-reanalyzing it. It runs no CLI, native build, timing or family analyzer. Six JSON
-boundary checks and AST checks pass; independent human source review is not claimed.
-Previously accepted v2 raw/aggregate receipts are pinned external prerequisites.
-Full702/991 closure requires this actual outcome and its source-bound receipt;
-current accepted totals remain312/400. PR785 remains draft. Historical checkpoints
-below retain their capture-time states.
+The first [evidence-and-aggregate reader failed at API transport](hosted-fleet-evidence-api-transport-correction.json),
+before fetching any case archive: the hosted GitHub CLI requires explicit
+permission to preserve terminal escape sequences in job logs. Its failure and
+tiny diagnostic metadata artifact are retained.
+
+[Corrected run38457451902](https://github.com/CrispStrobe/kerotakis/actions/runs/38457451902)
+is queued at `b8f5d64c`. It detects client support and passes
+`--allow-escape-sequences` on every API output written to an evidence file,
+preserving original logs and ZIP bytes. Older clients omit the unsupported flag.
+All source, archive, raw forecast/stream/report and aggregate checks remain
+unchanged. It executes no CLI, native build, timing or family analyzer. Full
+702-case/991-check acceptance remains pending; current acceptance is312/400.
+PR785 remains draft, with reviewed head/base and all five enforced checks still
+passing. Historical checkpoints below retain their capture-time states.
 
 The user authorized six lanes in order: performance, fifty fresh CLI experiments,
 annotation contracts, historical regression coverage, broader safety, then deeper

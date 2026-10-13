@@ -45,10 +45,12 @@ resource rejections. Large local work requires the private resource gate.
    succeeded at `c5c56f9c`, reporting414/623 including prioracid24/32. Its exact
    marker/job/upload metadata are verified; archive and aggregate closure remain
    pending. [Closure run38452874018](../audits/release-performance-20261013/hosted-fleet-evidence-closure-dispatch.json)
-   is queued at `884a5bb3`. It inspects completed archive/raw/forecast/report
-   integrity and runs both source-owned aggregate checks on saved verified reports,
-   binding all13/5 actual downloads. It executes no app/build/timing/family analyzer.
-   Accept its source-bound actual receipt before claiming full702/991 closure. PR785 remains draft; later lanes remain queued.
+   failed before case-archive inspection because the hosted GitHub CLI refused
+   terminal escapes in the collector's log. [The preserved API transport failure](../audits/release-performance-20261013/hosted-fleet-evidence-api-transport-correction.json)
+   binds corrected run38457451902, now queued at `b8f5d64c`. It negotiates the
+   client flag for original log/archive bytes; all raw/source/aggregate checks
+   remain intact. It executes no app/build/timing/family analyzer. Accept its
+   source-bound actual receipt before claiming full702/991 closure. PR785 remains draft; later lanes remain queued.
 2. **Fifty fresh CLI experiments.** Use a fresh agent that learns only syntax,
    without reading existing corpus cases or implementation details. Freeze all
    fifty original scripts and expectations before execution. Preserve first

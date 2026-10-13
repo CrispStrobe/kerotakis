@@ -249,3 +249,18 @@ source files, and all five currently enforced checks pass. Its description now
 records the successful collector and queued final validation. This is metadata
 readiness, not a new test run or merge acceptance. PR785 remains draft. Refresh
 these guards after the exact-source raw-and-aggregate validation completes.
+
+[The first final-validation failure is preserved](hosted-fleet-evidence-api-transport-correction.json).
+The hosted GitHub CLI refused a job log containing terminal escape sequences,
+before any case archive was fetched. Its 3821-byte diagnostic metadata bundle
+was digest/CRC checked to retrieve the actual stderr. This is a reader transport
+failure, with no new app defect or case acceptance.
+
+[Corrected run38457451902](https://github.com/CrispStrobe/kerotakis/actions/runs/38457451902)
+is queued at `b8f5d64c`. The consumer negotiates `--allow-escape-sequences` from
+client help and applies it to every API read into an evidence file, including
+logs and ZIPs. Older clients omit the unsupported option. The original bytes,
+source bindings, raw contracts and source-owned aggregate checks remain required.
+AST checks verify flag initialization precedes API reads and every API path uses
+it. Await its exact-source receipt before accepting full702/991. PR785 remains
+draft; the live merge guards must be refreshed after final evidence acceptance.

@@ -105,7 +105,7 @@ def main():
     def api(path, endpoint, raw=False):
         gate('API ' + path.name)
         with path.open('xb') as stdout, path.with_name(path.name + '.stderr').open('xb') as stderr:
-            completed = subprocess.run(['gh', 'api', 'repos/CrispStrobe/kerotakis/' + endpoint],
+            completed = subprocess.run(['gh', 'api', *api_flags, 'repos/CrispStrobe/kerotakis/' + endpoint],
                                        stdout=stdout, stderr=stderr, timeout=60)
         assert completed.returncode == 0, endpoint
         return None if raw else load(path)
@@ -141,6 +141,10 @@ def main():
 
     try:
         gate('initial source and frozen-method guards')
+        api_help = subprocess.check_output(['gh', 'api', '--help']).decode()
+        api_flags = ['--allow-escape-sequences'] if '--allow-escape-sequences' in api_help else []
+        write(out / 'api-client.json', dict(flags=api_flags,
+                                           scope='Preserve original log/archive bytes; output goes to evidence files.'))
         assert subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=audit).decode().strip() == os.environ['GITHUB_SHA']
         assert subprocess.check_output(['git', 'status', '--porcelain', '--untracked-files=all'], cwd=audit) == b''
         frozen = load(audit / 'audits/release-performance-20261013/hosted-fleet-evidence-freeze.json')
@@ -334,6 +338,7 @@ def main():
                       accepted_v2_receipt_sha256=V2, accepted_v2_aggregate_sha256=V2_AGGREGATE,
                       remaining_aggregate_receipt_sha256=sha(aggregate_out / 'review.json'),
                       reviewer_sha256=sha(Path(__file__)), cli_executed=False,
+                      gh_api_flags=api_flags,
                       family_analyzers_reexecuted=False, scientific_calibration_accepted=False,
                       limitations=['Raw evidence integrity, original forecasts and serialized report equality independently inspected on this worker; family analyzer algorithms not rerun.',
                                    'Source-owned laws and aggregate algorithms remain engineering contracts, not independent chemical calibration.',
