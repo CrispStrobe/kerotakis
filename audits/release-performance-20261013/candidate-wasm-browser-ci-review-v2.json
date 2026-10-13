@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-13T12:29:47.753857+00:00",
+  "pr": 785,
+  "head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+  "tree": "25d1dd490acc080a59f2a02e5b9399a22bd0f4bc",
+  "base": "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+  "run": 38387729203,
+  "run_attempt": 1,
+  "tested_checkout": "4df5deab77506d372a8df45f5d517e2f070d7f5a",
+  "tested_parents": [
+    "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+    "d06ffe3a1740728656878c4aea0e9507ca83c808"
+  ],
+  "source_files_sha256": {
+    ".github/workflows/ci.yml": "0151c09468292c9039538c072e3c33980c778511f8e9c03967e6c2149b71c9d2",
+    "tools/test-wasm-bridge.mjs": "e24d4398e24d2629d5473671ff4746d54fafb48ddd6d25240f6c955361556687",
+    "tools/extract-solution.py": "4e8b0d6eaed348e8e2ea45aa9916ec3a0e1f225fee6c025db204fdf4026f0cf2",
+    "tools/test-web-demo.mjs": "e44ca92adb0b630a3586bd2efbc5e6d8d9ec423352808b16cf876be7e6d7adb1",
+    "tools/test-gui003-dom.mjs": "d2aa66aab048566c4a3e375164fdd388651b2d5c9bc68aad96ca72857c70523b",
+    "tools/test-pwa.mjs": "3613870ba4e9422525ea7df4246e4dce630f5d13caf013ae094cf12972bd5e49",
+    "tools/test-i18n-render.mjs": "c75589be7bc95e1e6d01437f4fb5f9a9880190e3c72e6d3e5e553a1f8dc75723",
+    "tools/test-ux-quality.mjs": "68b8b2a45c68faccd6dcb31211e45ea7305745dfa91dc39fd796101030ed74fc"
+  },
+  "jobs": [
+    {
+      "job": 115263786677,
+      "name": "The two wasm halves, together",
+      "conclusion": "success",
+      "all_declared_steps_pass": true,
+      "declared_steps": 15,
+      "raw_evidence": {
+        "wasm.log": {
+          "sha256": "e3d735c96be7a32e24e7240bc42489ec989ebd21156388798fe21b398297b934",
+          "bytes": 92011
+        },
+        "job.json": {
+          "sha256": "3a27e253a9d3b4fa379ce6f01bf0faf37ab050541ab63524f361217feacf6b42",
+          "bytes": 3441
+        },
+        "tested-commit.json": {
+          "sha256": "b46f66bbf2b3ac1f8b9ab9026f560f5209b71e74c28c7b39cb6175ce7db675d1",
+          "bytes": 12611
+        },
+        "run.json": {
+          "sha256": "350e3b6b75f79ebd75b6361257b05c0594e8a487fe62f11846ce0d1375d7eff1",
+          "bytes": 13086
+        }
+      },
+      "output_checks": [
+        "a bare bench admits it cannot solve",
+        "and reports a miss rather than inventing an answer",
+        "with IPhreeqc attached, the bench can solve",
+        "a state nobody pre-computed is now solved",
+        "the pH is a real number",
+        "browser and desktop agree on pH",
+        "browser and desktop agree on ionic strength",
+        "the species distribution came across",
+        "the live R1 report uses schema 1",
+        "all five R1 scenarios solve through live browser IPhreeqc"
+      ],
+      "source_defined_agreement_tolerances": {
+        "ph_absolute": 1e-06,
+        "ionic_strength_absolute": 1e-09
+      },
+      "scope": "Browser/desktop compatibility of the source-defined live solver route; no runtime performance or independent property calibration."
+    },
+    {
+      "job": 115263786417,
+      "name": "The demo page, in a real browser",
+      "conclusion": "success",
+      "all_declared_steps_pass": true,
+      "declared_steps": 19,
+      "raw_evidence": {
+        "browser.log": {
+          "sha256": "508d2bc4aed806b216a10b58b224923bbd54955af76211a66033f6fbaf4f3eaa",
+          "bytes": 170604
+        },
+        "job.json": {
+          "sha256": "8f8a409485e4a058f0e37618459b24b94fdb15cb8a19d02ff1c9da467f71a055",
+          "bytes": 4140
+        }
+      },
+      "commands_verified": [
+        "test-web-demo.mjs",
+        "test-gui003-dom.mjs",
+        "test-pwa.mjs",
+        "test-i18n-render.mjs",
+        "test-ux-quality.mjs",
+        "npm run check"
+      ],
+      "successful_check_log_occurrences": 407,
+      "svelte_check_errors": 0,
+      "svelte_check_warnings": 2,
+      "scope": "Actual source-bound browser CI execution; occurrence count is not a distinct experiment total. Two type-tool warnings remain recorded, no zero-warning claim."
+    }
+  ],
+  "root_review": true,
+  "independent_review": false,
+  "full_ci_accepted": false,
+  "controlled_builds_accepted": false,
+  "candidate_controls_executed_here": false,
+  "paired_performance_accepted": false
+}

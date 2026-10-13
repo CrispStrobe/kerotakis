@@ -191,3 +191,31 @@ dispatch supplied a commit SHA where GitHub requires a branch/tag ref; it create
 no run. The accepted dispatch used the audit branch after verifying its remote
 head, and the resulting run API confirms the exact revision. No build result,
 candidate execution or paired measurement is accepted yet.
+
+[Current-head wasm/browser CI review](candidate-wasm-browser-ci-review-v2.json)
+checks the actual logs and tested checkout. The wasm bridge's ten checks pass,
+including desktop/browser pH agreement within `1e-6` and ionic-strength agreement
+within `1e-9`. Browser headless, semantic DOM, PWA, locale and UX steps pass;
+svelte-check reports zero errors and two warnings, which remain recorded. These
+are compatibility checks; they do not establish a CLI speedup or full CI closure.
+
+[Saved paired-output reviewer](review-paired.py) and
+[preparation receipt](paired-reviewer-preparation.json) prepare independent
+recomputation of admission, unchanged canonical outputs, eight timed samples per
+variant in the frozen order, raw-clock consistency and median/MAD statistics.
+It uses the independent saved-baseline reviewer rather than the collection
+program. Small metadata fixtures reject altered raw streams, clocks and command
+arguments; no CLI or actual paired-data review ran. Independent source review
+and a complete evidence fixture are still pending.
+
+For actual saved evidence, supply `--evidence`, the actual `--protocol` namespace,
+`--bindings`, accepted `--artifact-review`, `--build-review`, `--controls-review`,
+and `--runtime-map`; write `--out` to an unused file in an existing evidence
+directory. The operating-reviewed runtime map supplies `baseline` and `candidate`
+objects with recorded `binary` and `source` locations, `scripts` mapping workload
+IDs to recorded arguments, and `comparison_root` for exact GNU-time output
+arguments. Raw evidence remains private. The reviewer hashes the actual map and
+prerequisite receipt bytes. Recorded source guards are checked for equality and
+identity; module/source bytes, physical filesystem placement and compiler
+invocations require external review. A successful review does not accept a
+speedup or authorize merging.

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "prepared_at": "2026-10-13T12:31:26.066009+00:00",
+  "purpose": "Prospective saved-output reviewer; no candidate execution or paired results yet.",
+  "reviewer_sha256": "c9df380413549dbd4c1715879fd02005232362ceef698d4fc07b582231adb9f3",
+  "shared_baseline_review_sha256": "8fac382b6ebc0ce161223da368e963b5d36f252feddc64d69d30d481623e9676",
+  "small_metadata_fixture_checks": [
+    "AST/import",
+    "eight samples per variant in frozen order",
+    "median/MAD with outlier",
+    "nonfinite metric rejected",
+    "raw stream tampering rejected",
+    "raw GNU-clock tampering rejected",
+    "command argument tampering rejected"
+  ],
+  "candidate_or_fixture_cli_executed": false,
+  "resource_gate_spoofed": false,
+  "full_comparison_fixture_reviewed": false,
+  "independent_static_review_complete": false,
+  "actual_paired_data_reviewed": false,
+  "required_before_acceptance": [
+    "Independent source review of this saved-output consumer",
+    "Current controlled build artifacts and effective compiler witness acceptance",
+    "Further comparison protocol freezing rebuilt bytes before first candidate execution",
+    "Actual seven candidate controls and paired raw outputs",
+    "Operating-reviewed recorded runtime map, including comparison_root, both source/binary locations and exact script arguments"
+  ],
+  "scope": "Shares independent saved-baseline raw stream/clock/admission verification, not the collection program. Recomputes four workloads/64 samples and statistics. Recorded guards and accepted prerequisite receipts are externally trusted with byte/identity checks; no source/blob/clock remeasurement."
+}
