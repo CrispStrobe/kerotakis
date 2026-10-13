@@ -233,3 +233,16 @@ the controlled collector started at the exact reviewed audit revision. It is
 compiling and preflight is running at the candidate revision. The earlier queued
 snapshots are preserved; no artifact, compiler-environment, control or performance
 result is accepted from an in-progress job.
+
+[Completed ordinary CI review](candidate-ordinary-ci-completed-v2.json) records
+25 successful jobs and the intentional PR publishing skip, with all five required
+job logs reviewed at `d06ffe3a`. Preflight reports `preflight clean`. Independent
+full gate review and the separate chemistry fleet saved-output closure remain
+pending; this does not accept candidate performance or merging.
+
+[Completed controlled-build preflight](controlled-build-completed-preflight.json)
+verifies the actual source-bound job and uploaded artifact ID/digest. Both builds
+completed under the reviewed collector; the artifact's binary bytes, lock,
+effective compiler records, guards and actual routing witness have not yet been
+downloaded or accepted. Review those under an open artifact-review resource gate
+before binding a further comparison version to the rebuilt bytes.

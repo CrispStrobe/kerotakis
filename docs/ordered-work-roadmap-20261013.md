@@ -18,15 +18,17 @@ resource rejections. Large local work requires the private resource gate.
    [Linux native job review](../audits/release-performance-20261013/candidate-linux-native-ci-review-v2.json)
    and [wasm/browser review](../audits/release-performance-20261013/candidate-wasm-browser-ci-review-v2.json).
    Both new regressions and the repaired locale guard pass on both native platforms.
-   Preflight, seven candidate correctness controls and paired measurements are pending;
+   All five required ordinary CI logs, including clean preflight, are now
+   root-reviewed; the full ordinary run passes. Independent gate review, seven
+   candidate correctness controls and paired measurements are pending;
    the current-head release artifact and version2 namespace have passed independent
    review. Missing native compiler/flag witnesses require the frozen controlled
    build collector to rebuild both sources under one captured environment, then
    a new comparison version binding those bytes. The
    [controlled build run](https://github.com/CrispStrobe/kerotakis/actions/runs/38396270148)
-   is running at frozen audit revision `d49d9659`; its results require review.
-   Candidate preflight is also running. Artifact review and execution wait for
-   completed evidence and open operating resource gates.
+   completed at frozen audit revision `d49d9659`; its uploaded artifact bytes
+   and effective compiler records require review. Artifact review and execution
+   wait for open operating resource gates.
    No speedup or merge is accepted.
 2. **Fifty fresh CLI experiments.** Use a fresh agent that learns only syntax,
    without reading existing corpus cases or implementation details. Freeze all

@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-13T12:59:39.972171+00:00",
+  "pr": 785,
+  "head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+  "ordinary_ci_run": 38387729203,
+  "ordinary_ci_attempt": 1,
+  "ordinary_ci_conclusion": "success",
+  "workflow_jobs_completed": 26,
+  "successful_jobs": 25,
+  "intentionally_skipped_jobs": [
+    "Publish the demo"
+  ],
+  "required_five_job_metadata_pass": true,
+  "required_five_logs_root_review_complete": true,
+  "preflight_job": 115263786861,
+  "preflight_all_steps_pass": true,
+  "preflight_clean_observed": true,
+  "tested_checkout": "4df5deab77506d372a8df45f5d517e2f070d7f5a",
+  "source_preflight_sha256": "ed4928883b9808a5ecb0103e55b66244d8016c12482053b85745f9053507ec15",
+  "previous_job_log_reviews": [
+    "candidate-macos-ci-review-v2.json",
+    "candidate-linux-native-ci-review-v2.json",
+    "candidate-wasm-browser-ci-review-v2.json"
+  ],
+  "raw_evidence": {
+    "preflight.log": {
+      "sha256": "6ce3cb2f00b3afa8de30aaf41f1d0d12d32643adcbe16e981afad331664a8e88",
+      "bytes": 723758
+    },
+    "controlled-job.json": {
+      "sha256": "28ae7b913029196a62d006a606fc132d8887883c80a6ddf9335d1b4b57d59ff0",
+      "bytes": 3071
+    },
+    "controlled-log-head.txt": {
+      "sha256": "13c3a467fbf3f8b590b0e6fc0e79284ceb9d0cb499c7cc1c9d2d3edc80a8f259",
+      "bytes": 1000
+    },
+    "controlled-artifacts.json": {
+      "sha256": "42706598e14574c06a83905249810abbcbcbf59237e236fa56b9df126dc9e3a6",
+      "bytes": 774
+    },
+    "controlled-run.json": {
+      "sha256": "3b12ba3af467ba14a5ba997c01e1cea0b8c687cb2153018b161efdca88393613",
+      "bytes": 13083
+    },
+    "ci-jobs.json": {
+      "sha256": "581107bd5452feb4bccc214f10d6aa59528fce13b02b93235136904a8501a747",
+      "bytes": 67791
+    },
+    "preflight-log-head.txt": {
+      "sha256": "a5653331cc461926c4633732863af93a2d62f2ac7909e953f2383bfc00d0c353",
+      "bytes": 1001
+    },
+    "preflight-job.json": {
+      "sha256": "b4aa0bf759842caddfdb2b4f1f9df99daf93814e3d8b608c4a7384dc360ecdc9",
+      "bytes": 2780
+    },
+    "controlled.log": {
+      "sha256": "8c875cf20a792d98d53420aec18dec298976a950d0388d70d56cf5f98a8fbc96",
+      "bytes": 72389
+    },
+    "ci-run.json": {
+      "sha256": "469c8c64097f988697e29a545352afbb0dd817302836d4683db4ffe8ea3724e5",
+      "bytes": 13094
+    }
+  },
+  "independent_full_ci_review_complete": false,
+  "own_chemistry_fleet_outputs_accepted": false,
+  "controlled_artifact_bytes_accepted": false,
+  "seven_candidate_cli_controls_complete": false,
+  "paired_measurements_complete": false,
+  "speedup_accepted": false,
+  "merge_accepted": false,
+  "scope": "Current-head ordinary CI run/job metadata and all five required job logs root-reviewed. Wider chemistry fleet and controlled build artifact/effective compiler review remain separate."
+}
