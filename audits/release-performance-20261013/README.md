@@ -46,7 +46,10 @@ optimization on actual main. [Candidate plan](candidate-plan.json) pins its sour
 own CI runs, seven prospective correctness controls and paired acceptance policy.
 Two new native controls cover invalid-target noninitialization and cached
 unavailability with preserved primary PHREEQC computation. Formatting and source
-review pass; own tests and paired numbers are pending. It remains unmerged.
+review pass. [Seven baseline acceptance controls](candidate-controls-baseline.json)
+pass and retain reference streams, including first/repeated explanation in both
+languages and modes, empty/invalid vessels and a masked quest transcript.
+Candidate outcomes, own tests and paired numbers are pending. It remains unmerged.
 Optional-engine failure diagnostics intentionally move to first valid explanation.
 No candidate speedup is accepted.
 The instrumented titration exceeded its60-second diagnostic budget; preserve that
