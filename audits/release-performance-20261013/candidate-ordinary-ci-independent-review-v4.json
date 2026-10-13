@@ -1,0 +1,755 @@
+{
+  "schema_version": 1,
+  "pr": 785,
+  "head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+  "base": "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+  "source_tree": "25d1dd490acc080a59f2a02e5b9399a22bd0f4bc",
+  "run_id": 38387729203,
+  "run_attempt": 1,
+  "synthetic_checkout": "4df5deab77506d372a8df45f5d517e2f070d7f5a",
+  "merge_parents": [
+    "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+    "d06ffe3a1740728656878c4aea0e9507ca83c808"
+  ],
+  "ordinary_ci_run_completed_success": true,
+  "workflow_inventory_exact_source_verified": true,
+  "workflow_jobs": 26,
+  "successful_jobs": 25,
+  "intentionally_skipped_jobs": [
+    "Publish the demo"
+  ],
+  "source_declared_steps_metadata_verified_for_all_successful_jobs": true,
+  "source_file_sha256": {
+    ".github/workflows/ci.yml": "0151c09468292c9039538c072e3c33980c778511f8e9c03967e6c2149b71c9d2",
+    "crates/kerotakis-cli/src/main.rs": "2ba5fff1c8fa57dafeaf766b127bd072480bee218e6395430568cc2aedd5d432",
+    "crates/kerotakis-cli/tests/cli_locale.rs": "ae2053812387b93bab3acb3f8a0ad6cb26b495ab9d232f7d66a34a814db54063",
+    "tools/test-wasm-bridge.mjs": "e24d4398e24d2629d5473671ff4746d54fafb48ddd6d25240f6c955361556687",
+    "tools/extract-solution.py": "4e8b0d6eaed348e8e2ea45aa9916ec3a0e1f225fee6c025db204fdf4026f0cf2",
+    "tools/test-web-demo.mjs": "e44ca92adb0b630a3586bd2efbc5e6d8d9ec423352808b16cf876be7e6d7adb1",
+    "tools/test-gui003-dom.mjs": "d2aa66aab048566c4a3e375164fdd388651b2d5c9bc68aad96ca72857c70523b",
+    "tools/test-pwa.mjs": "3613870ba4e9422525ea7df4246e4dce630f5d13caf013ae094cf12972bd5e49",
+    "tools/test-i18n-render.mjs": "c75589be7bc95e1e6d01437f4fb5f9a9880190e3c72e6d3e5e553a1f8dc75723",
+    "tools/test-ux-quality.mjs": "68b8b2a45c68faccd6dcb31211e45ea7305745dfa91dc39fd796101030ed74fc",
+    "tools/preflight.sh": "ed4928883b9808a5ecb0103e55b66244d8016c12482053b85745f9053507ec15",
+    "tools/test-wasm-lab.mjs": "83d856e90a71b109b15995c37493a0dc557e7be9c07dbf06eff37fdcccaa6f9d",
+    "tools/test-protocol-conformance.mjs": "ef60efcef6ab3d3bbcda176c5181a6e7a5cdeb301bae9e4867fef42e4e9045ef"
+  },
+  "reviewed_root_receipt_sha256": {
+    "audits/release-performance-20261013/candidate-macos-ci-review-v2.json": "11d6313ba4678aac247215bbdb1a99095de8e1173ae58663825fc72800954f45",
+    "audits/release-performance-20261013/candidate-linux-native-ci-review-v2.json": "93a0deb940912d5b8d8ee1adf6562eb402551dd9484df2f3c6aa11781f1570a5",
+    "audits/release-performance-20261013/candidate-wasm-browser-ci-review-v2.json": "dde03be9484dcc8c8b290b1a908585b4dda38e844478b3ef2e3d611a8449e314",
+    "audits/release-performance-20261013/candidate-ordinary-ci-completed-v2.json": "2d4b04815a3c5bb015d9e0e357df48bde411a3509f03ab764dfc7a44c98f3cf3"
+  },
+  "raw_evidence_sha256": {
+    "pr785-current-macos-ci-review-20261013/pr.json": {
+      "sha256": "253c85bad1af54d185939fd862e1c919a0e88b55a3a4f2aa8bffedba891cfcc2",
+      "bytes": 17815
+    },
+    "pr785-current-macos-ci-review-20261013/ci-jobs.json": {
+      "sha256": "781985b0ba5d2096f3dcb20464b359bb152fa192ee2ce12452a42454801f089d",
+      "bytes": 41496
+    },
+    "pr785-current-macos-ci-review-20261013/job.json": {
+      "sha256": "0835a2b2c03ed8c3d223cfdae2e1a5cdd0749a567b7501ddba42f46d70ca6af6",
+      "bytes": 3279
+    },
+    "pr785-current-macos-ci-review-20261013/commit.json": {
+      "sha256": "4b29bc2c5602e11682c21206ee740e441b2014588e36828f58d1bcec45c66584",
+      "bytes": 4811
+    },
+    "pr785-current-macos-ci-review-20261013/run.json": {
+      "sha256": "350e3b6b75f79ebd75b6361257b05c0594e8a487fe62f11846ce0d1375d7eff1",
+      "bytes": 13086
+    },
+    "pr785-current-macos-ci-review-20261013/macos.log": {
+      "sha256": "88f1f29bac76fc86af765381d023fbf5541c8681f124bc8a9bfc6517127c247c",
+      "bytes": 556675
+    },
+    "pr785-current-macos-ci-review-20261013/tested-commit.json": {
+      "sha256": "b46f66bbf2b3ac1f8b9ab9026f560f5209b71e74c28c7b39cb6175ce7db675d1",
+      "bytes": 12611
+    },
+    "pr785-current-macos-ci-review-20261013/capture.json": {
+      "sha256": "faad7cc11dcfd1d86c247f25a939ae177b3d8349e38972bc25e2768136e41e19",
+      "bytes": 1326
+    },
+    "pr785-current-linux-native-review-20261013/linux.log": {
+      "sha256": "4f7006644afce5611350e328c29fa7a85c9c923acbb80c755a8213faffcfff0e",
+      "bytes": 553740
+    },
+    "pr785-current-linux-native-review-20261013/job.json": {
+      "sha256": "ce3a4d968eb406f29904ccda9662ff9f34220a83ed6db70aafff5b0b3cac5e32",
+      "bytes": 3281
+    },
+    "pr785-current-linux-native-review-20261013/run.json": {
+      "sha256": "2e3be20516fa534dd74e679731b2a1e772c00bb9c07568812b17cf0a6fc3f801",
+      "bytes": 13091
+    },
+    "pr785-current-wasm-bridge-review-20261013/wasm.log": {
+      "sha256": "e3d735c96be7a32e24e7240bc42489ec989ebd21156388798fe21b398297b934",
+      "bytes": 92011
+    },
+    "pr785-current-wasm-bridge-review-20261013/job.json": {
+      "sha256": "3a27e253a9d3b4fa379ce6f01bf0faf37ab050541ab63524f361217feacf6b42",
+      "bytes": 3441
+    },
+    "pr785-current-wasm-bridge-review-20261013/tested-commit.json": {
+      "sha256": "b46f66bbf2b3ac1f8b9ab9026f560f5209b71e74c28c7b39cb6175ce7db675d1",
+      "bytes": 12611
+    },
+    "pr785-current-wasm-bridge-review-20261013/run.json": {
+      "sha256": "350e3b6b75f79ebd75b6361257b05c0594e8a487fe62f11846ce0d1375d7eff1",
+      "bytes": 13086
+    },
+    "pr785-current-browser-ci-review-20261013/browser.log": {
+      "sha256": "508d2bc4aed806b216a10b58b224923bbd54955af76211a66033f6fbaf4f3eaa",
+      "bytes": 170604
+    },
+    "pr785-current-browser-ci-review-20261013/job.json": {
+      "sha256": "8f8a409485e4a058f0e37618459b24b94fdb15cb8a19d02ff1c9da467f71a055",
+      "bytes": 4140
+    },
+    "current-completed-build-metadata-20261013/preflight.log": {
+      "sha256": "6ce3cb2f00b3afa8de30aaf41f1d0d12d32643adcbe16e981afad331664a8e88",
+      "bytes": 723758
+    },
+    "current-completed-build-metadata-20261013/ci-jobs.json": {
+      "sha256": "581107bd5452feb4bccc214f10d6aa59528fce13b02b93235136904a8501a747",
+      "bytes": 67791
+    },
+    "current-completed-build-metadata-20261013/preflight-log-head.txt": {
+      "sha256": "a5653331cc461926c4633732863af93a2d62f2ac7909e953f2383bfc00d0c353",
+      "bytes": 1001
+    },
+    "current-completed-build-metadata-20261013/preflight-job.json": {
+      "sha256": "b4aa0bf759842caddfdb2b4f1f9df99daf93814e3d8b608c4a7384dc360ecdc9",
+      "bytes": 2780
+    },
+    "current-completed-build-metadata-20261013/ci-run.json": {
+      "sha256": "469c8c64097f988697e29a545352afbb0dd817302836d4683db4ffe8ea3724e5",
+      "bytes": 13094
+    },
+    "pr785-required-bench-wasm-review-20261013/required-contexts.json": {
+      "sha256": "40d8f99ad03d8e272336afe8ebb0d0f248a9b55b773803b32438e13584795367",
+      "bytes": 701
+    },
+    "pr785-required-bench-wasm-review-20261013/job.json": {
+      "sha256": "33f4f90c2e120aad79bc2fa1c700e8acec2f373934d0e852e14b7936f067444c",
+      "bytes": 3256
+    },
+    "pr785-required-bench-wasm-review-20261013/run.json": {
+      "sha256": "469c8c64097f988697e29a545352afbb0dd817302836d4683db4ffe8ea3724e5",
+      "bytes": 13094
+    },
+    "pr785-required-bench-wasm-review-20261013/bench.log": {
+      "sha256": "2e3416fe6d4253ff943d92888cb0bb49dc1ed09d2d98242fb09bcae8f613b305",
+      "bytes": 73380
+    }
+  },
+  "workflow_source_job_inventory": {
+    "BRD-080 viewer decision spike": {
+      "job": 115263786249,
+      "workflow_job": "viewer-decision-spike",
+      "source_declared_steps": 6,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run actions/setup-node@v6",
+        "Run npm ci --ignore-scripts --no-audit --no-fund",
+        "Run npm test",
+        "Run npm run build",
+        "Exercise both viewers, every fixture, teardown and offline boundary"
+      ]
+    },
+    "GPU release tools (deterministic)": {
+      "job": 115263786374,
+      "workflow_job": "gpu-release-tools",
+      "source_declared_steps": 3,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run actions/setup-node@v6",
+        "Test asset, probe, evaluator, and audit tooling"
+      ]
+    },
+    "The demo page, in a real browser": {
+      "job": 115263786417,
+      "workflow_job": "demo",
+      "source_declared_steps": 14,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run dtolnay/rust-toolchain@stable",
+        "Run Swatinem/rust-cache@v2",
+        "Run mymindstorm/setup-emsdk@v14",
+        "Run actions/setup-node@v6",
+        "Install wasm-bindgen",
+        "Build the site",
+        "Run the page headlessly",
+        "Five lesson scenes match their semantic DOM goldens",
+        "Types hold (svelte-check)",
+        "The bench is an installable, offline-first PWA",
+        "The German build renders German",
+        "The responsive bench meets UX invariants",
+        "Package the site"
+      ]
+    },
+    "Test (native) (macos-latest)": {
+      "job": 115263786422,
+      "workflow_job": "test",
+      "source_declared_steps": 10,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run dtolnay/rust-toolchain@stable",
+        "Run Swatinem/rust-cache@v2",
+        "Fetch SUNDIALS (not vendored; pinned by checksum)",
+        "Format",
+        "Clippy",
+        "Test",
+        "Codex \u2014 every claim must still compute",
+        "Curiosity coverage \u2014 the recorded route is still the route",
+        "Preserve regenerated snapshots for review"
+      ]
+    },
+    "Theme contrast tokens": {
+      "job": 115263786472,
+      "workflow_job": "theme-contrast",
+      "source_declared_steps": 3,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run actions/setup-node@v6",
+        "Enforce WCAG AA theme pairs"
+      ]
+    },
+    "feos adapter (aarch64-linux-android)": {
+      "job": 115263786508,
+      "workflow_job": "feos-target-contract",
+      "source_declared_steps": 4,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run dtolnay/rust-toolchain@stable",
+        "Run Swatinem/rust-cache@v2",
+        "Compile the locked disposable adapter"
+      ]
+    },
+    "MY-BASIC preview (ubuntu-latest)": {
+      "job": 115263786509,
+      "workflow_job": "my-basic-preview",
+      "source_declared_steps": 5,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run dtolnay/rust-toolchain@stable",
+        "Run Swatinem/rust-cache@v2",
+        "Fetch SUNDIALS (not vendored; pinned by checksum)",
+        "Differential and live preview corpus"
+      ]
+    },
+    "The bench in WebAssembly": {
+      "job": 115263786526,
+      "workflow_job": "wasm-lab",
+      "source_declared_steps": 9,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run dtolnay/rust-toolchain@stable",
+        "Run Swatinem/rust-cache@v2",
+        "Run actions/setup-node@v6",
+        "Install wasm-bindgen",
+        "Build the wasm lab",
+        "Pre-warm the lessons",
+        "Run the bench in a wasm runtime",
+        "Protocol conformance against the wasm host"
+      ]
+    },
+    "IPhreeqc wasm gate": {
+      "job": 115263786542,
+      "workflow_job": "wasm-engine",
+      "source_declared_steps": 5,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run mymindstorm/setup-emsdk@v14",
+        "Run actions/setup-node@v6",
+        "Build IPhreeqc to wasm",
+        "AgCl end-to-end in wasm"
+      ]
+    },
+    "Presentation authority adapters": {
+      "job": 115263786567,
+      "workflow_job": "presentation-authority",
+      "source_declared_steps": 4,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run actions/setup-node@v6",
+        "Run npm ci",
+        "Every vitest file in the app runs"
+      ]
+    },
+    "Test (native) (ubuntu-latest)": {
+      "job": 115263786593,
+      "workflow_job": "test",
+      "source_declared_steps": 10,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run dtolnay/rust-toolchain@stable",
+        "Run Swatinem/rust-cache@v2",
+        "Fetch SUNDIALS (not vendored; pinned by checksum)",
+        "Format",
+        "Clippy",
+        "Test",
+        "Codex \u2014 every claim must still compute",
+        "Curiosity coverage \u2014 the recorded route is still the route",
+        "Preserve regenerated snapshots for review"
+      ]
+    },
+    "MY-BASIC preview (macos-latest)": {
+      "job": 115263786595,
+      "workflow_job": "my-basic-preview",
+      "source_declared_steps": 5,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run dtolnay/rust-toolchain@stable",
+        "Run Swatinem/rust-cache@v2",
+        "Fetch SUNDIALS (not vendored; pinned by checksum)",
+        "Differential and live preview corpus"
+      ]
+    },
+    "feos adapter (wasm32-unknown-unknown)": {
+      "job": 115263786619,
+      "workflow_job": "feos-target-contract",
+      "source_declared_steps": 4,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run dtolnay/rust-toolchain@stable",
+        "Run Swatinem/rust-cache@v2",
+        "Compile the locked disposable adapter"
+      ]
+    },
+    "Core and data schemas compile to wasm32": {
+      "job": 115263786620,
+      "workflow_job": "wasm-core",
+      "source_declared_steps": 5,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run dtolnay/rust-toolchain@stable",
+        "Run Swatinem/rust-cache@v2",
+        "Fetch SUNDIALS (not vendored; pinned by checksum)",
+        "Check core, data and scene physics on wasm"
+      ]
+    },
+    "Shell payload (windows-latest)": {
+      "job": 115263786631,
+      "workflow_job": "payload",
+      "source_declared_steps": 8,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run actions/setup-python@v5",
+        "Which interpreter is this, exactly",
+        "The Python half of the shell payload",
+        "The payload is not empty, and the accents survived",
+        "Every workflow that reaches a tomllib tool names its Python",
+        "npm cannot run a shell script on Windows",
+        "Nothing that ships may pass --without-codex"
+      ]
+    },
+    "Legacy BASIC oracle (development only)": {
+      "job": 115263786644,
+      "workflow_job": "legacy-basic-oracle",
+      "source_declared_steps": 5,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run dtolnay/rust-toolchain@stable",
+        "Run Swatinem/rust-cache@v2",
+        "Fetch SUNDIALS (not vendored; pinned by checksum)",
+        "Independently verify Stage 6 classifications"
+      ]
+    },
+    "The two wasm halves, together": {
+      "job": 115263786677,
+      "workflow_job": "wasm-bridge",
+      "source_declared_steps": 10,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run dtolnay/rust-toolchain@stable",
+        "Run Swatinem/rust-cache@v2",
+        "Run mymindstorm/setup-emsdk@v14",
+        "Run actions/setup-node@v6",
+        "Install wasm-bindgen",
+        "Build the bench for the browser",
+        "Build IPhreeqc for the browser",
+        "Record the desktop answer",
+        "Solve in the browser and compare"
+      ]
+    },
+    "feos adapter (aarch64-apple-darwin)": {
+      "job": 115263786830,
+      "workflow_job": "feos-target-contract",
+      "source_declared_steps": 4,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run dtolnay/rust-toolchain@stable",
+        "Run Swatinem/rust-cache@v2",
+        "Compile the locked disposable adapter"
+      ]
+    },
+    "Current registry source export": {
+      "job": 115263786839,
+      "workflow_job": "registry-export",
+      "source_declared_steps": 7,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run dtolnay/rust-toolchain@stable",
+        "Run Swatinem/rust-cache@v2",
+        "Fetch SUNDIALS (not vendored; pinned by checksum)",
+        "Diff every legacy registry field",
+        "Generate the reviewable source document",
+        "Generated source document is checked in exactly"
+      ]
+    },
+    "The native host still compiles": {
+      "job": 115263786849,
+      "workflow_job": "native-host",
+      "source_declared_steps": 7,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run dtolnay/rust-toolchain@stable",
+        "Run Swatinem/rust-cache@v2",
+        "Fetch SUNDIALS (not vendored; pinned by checksum)",
+        "Run actions/setup-node@v6",
+        "The shell payload tauri-build looks for",
+        "cargo check"
+      ]
+    },
+    "Full preflight gate": {
+      "job": 115263786861,
+      "workflow_job": "preflight-gate",
+      "source_declared_steps": 7,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run dtolnay/rust-toolchain@stable",
+        "Run Swatinem/rust-cache@v2",
+        "Fetch SUNDIALS (not vendored; pinned by checksum)",
+        "Install cargo-deny",
+        "librsvg and Pillow, so the icon check actually runs",
+        "Run tools/preflight.sh"
+      ]
+    },
+    "feos adapter (x86_64-pc-windows-msvc)": {
+      "job": 115263786862,
+      "workflow_job": "feos-target-contract",
+      "source_declared_steps": 4,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run dtolnay/rust-toolchain@stable",
+        "Run Swatinem/rust-cache@v2",
+        "Compile the locked disposable adapter"
+      ]
+    },
+    "Shell payload (ubuntu-22.04)": {
+      "job": 115263786881,
+      "workflow_job": "payload",
+      "source_declared_steps": 8,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run actions/setup-python@v5",
+        "Which interpreter is this, exactly",
+        "The Python half of the shell payload",
+        "The payload is not empty, and the accents survived",
+        "Every workflow that reaches a tomllib tool names its Python",
+        "npm cannot run a shell script on Windows",
+        "Nothing that ships may pass --without-codex"
+      ]
+    },
+    "feos adapter (aarch64-apple-ios)": {
+      "job": 115263786898,
+      "workflow_job": "feos-target-contract",
+      "source_declared_steps": 4,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run dtolnay/rust-toolchain@stable",
+        "Run Swatinem/rust-cache@v2",
+        "Compile the locked disposable adapter"
+      ]
+    },
+    "IPhreeqc under MSVC": {
+      "job": 115263787104,
+      "workflow_job": "engine-msvc",
+      "source_declared_steps": 4,
+      "declared_step_names": [
+        "Run actions/checkout@v6",
+        "Run dtolnay/rust-toolchain@stable",
+        "Run Swatinem/rust-cache@v2",
+        "cargo test --no-run -p kerotakis-phreeqc"
+      ]
+    }
+  },
+  "review_source_sha256": "9edc05884db8b1c5ba73e6923d4d937ee2f20e8e519e4d200d28b736231844b1",
+  "resource_gate_snapshots": [
+    {
+      "load": 0.9140625,
+      "mem_available_mib": 4125.5,
+      "nas_free_mib": 1564260.75
+    },
+    {
+      "load": 0.92138671875,
+      "mem_available_mib": 4120.76953125,
+      "nas_free_mib": 1564260.75
+    },
+    {
+      "load": 0.92138671875,
+      "mem_available_mib": 4117.32421875,
+      "nas_free_mib": 1564260.75
+    },
+    {
+      "load": 0.92138671875,
+      "mem_available_mib": 4113.6328125,
+      "nas_free_mib": 1564260.75
+    },
+    {
+      "load": 0.92138671875,
+      "mem_available_mib": 4115.89453125,
+      "nas_free_mib": 1564260.75
+    },
+    {
+      "load": 0.92138671875,
+      "mem_available_mib": 4115.89453125,
+      "nas_free_mib": 1564260.75
+    },
+    {
+      "load": 2.208984375,
+      "mem_available_mib": 3378.74609375,
+      "nas_free_mib": 1564248.75
+    }
+  ],
+  "limits": [
+    "Native counts are log occurrences and distinct observed artifact-qualified identities per platform; do not sum platforms as distinct source tests or scientific experiments.",
+    "Preflight has 3410 named pass identities plus four quiet unnamed pass occurrences, not 3414 independently identified tests.",
+    "Browser 407 and bridge 10 counts describe actual printed checks; textual uniqueness is not independent scientific calibration.",
+    "Svelte reported zero errors and two warnings. Ordinary hosted Cargo.lock and produced binary bytes were not directly captured in this lane.",
+    "No chemistry-fleet closure, controlled artifact, candidate CLI admission, paired performance, speedup, merge or integration acceptance.",
+    "All five live required-context logs plus the optional paired bridge were reviewed. Auxiliary ordinary jobs retain exact-source step API acceptance only.",
+    "Required bench printed32 checks and protocol reported8105 source-counter checks over113 lessons; neither count is a distinct independently calibrated chemistry experiment total."
+  ],
+  "chemistry_fleet_accepted": false,
+  "controlled_artifact_accepted_here": false,
+  "candidate_cli_controls_accepted_here": false,
+  "paired_performance_accepted": false,
+  "speedup_accepted": false,
+  "integration_accepted": false,
+  "reviewed_job_logs": [
+    {
+      "job": 115263786861,
+      "name": "Full preflight gate",
+      "all_source_declared_steps_pass": true,
+      "source_declared_steps": 7,
+      "tested_checkout_in_actual_log": true,
+      "log_sha256": "6ce3cb2f00b3afa8de30aaf41f1d0d12d32643adcbe16e981afad331664a8e88",
+      "tests": {
+        "summary_occurrences": 373,
+        "summary_totals": {
+          "passed": 3414,
+          "failed": 0,
+          "ignored": 4,
+          "measured": 0,
+          "filtered_out": 0
+        },
+        "named_pass_occurrences": 3410,
+        "distinct_artifact_qualified_pass_identities": 3410,
+        "named_ignored_occurrences": 4,
+        "distinct_artifact_qualified_ignored_identities": 4,
+        "unnamed_pass_occurrences": 4
+      },
+      "quiet_sections": {
+        "inchi_identity_pass_occurrences": 3,
+        "pubchem_identity_pass_occurrences": 1
+      },
+      "preflight_clean_observed": true
+    },
+    {
+      "job": 115263786422,
+      "name": "Test (native) (macos-latest)",
+      "all_source_declared_steps_pass": true,
+      "source_declared_steps": 10,
+      "tested_checkout_in_actual_log": true,
+      "log_sha256": "88f1f29bac76fc86af765381d023fbf5541c8681f124bc8a9bfc6517127c247c",
+      "tests": {
+        "summary_occurrences": 371,
+        "summary_totals": {
+          "passed": 3410,
+          "failed": 0,
+          "ignored": 4,
+          "measured": 0,
+          "filtered_out": 0
+        },
+        "named_pass_occurrences": 3410,
+        "distinct_artifact_qualified_pass_identities": 3410,
+        "named_ignored_occurrences": 4,
+        "distinct_artifact_qualified_ignored_identities": 4,
+        "unnamed_pass_occurrences": 0
+      },
+      "candidate_regressions_passed": [
+        "native_startup_tests::invalid_explanation_target_does_not_initialize_optional_paths",
+        "native_startup_tests::primary_engine_initialization_failure_never_constructs_a_reduced_stack",
+        "native_startup_tests::semantic_event_adapter_exposes_only_documented_scalar_fields",
+        "native_startup_tests::successful_native_startup_retains_aqueous_computation_and_provenance",
+        "native_startup_tests::unavailable_explanation_is_cached_and_primary_chemistry_remains_active",
+        "every_hardcoded_english_locale_in_the_cli_is_justified"
+      ]
+    },
+    {
+      "job": 115263786593,
+      "name": "Test (native) (ubuntu-latest)",
+      "all_source_declared_steps_pass": true,
+      "source_declared_steps": 10,
+      "tested_checkout_in_actual_log": true,
+      "log_sha256": "4f7006644afce5611350e328c29fa7a85c9c923acbb80c755a8213faffcfff0e",
+      "tests": {
+        "summary_occurrences": 371,
+        "summary_totals": {
+          "passed": 3410,
+          "failed": 0,
+          "ignored": 4,
+          "measured": 0,
+          "filtered_out": 0
+        },
+        "named_pass_occurrences": 3410,
+        "distinct_artifact_qualified_pass_identities": 3410,
+        "named_ignored_occurrences": 4,
+        "distinct_artifact_qualified_ignored_identities": 4,
+        "unnamed_pass_occurrences": 0
+      },
+      "candidate_regressions_passed": [
+        "native_startup_tests::primary_engine_initialization_failure_never_constructs_a_reduced_stack",
+        "native_startup_tests::invalid_explanation_target_does_not_initialize_optional_paths",
+        "native_startup_tests::semantic_event_adapter_exposes_only_documented_scalar_fields",
+        "native_startup_tests::successful_native_startup_retains_aqueous_computation_and_provenance",
+        "native_startup_tests::unavailable_explanation_is_cached_and_primary_chemistry_remains_active",
+        "every_hardcoded_english_locale_in_the_cli_is_justified"
+      ]
+    },
+    {
+      "job": 115263786677,
+      "name": "The two wasm halves, together",
+      "all_source_declared_steps_pass": true,
+      "source_declared_steps": 10,
+      "tested_checkout_in_actual_log": true,
+      "log_sha256": "e3d735c96be7a32e24e7240bc42489ec989ebd21156388798fe21b398297b934",
+      "printed_check_occurrences": 10,
+      "distinct_printed_labels": 10,
+      "actual_check_labels": [
+        "a bare bench admits it cannot solve",
+        "and reports a miss rather than inventing an answer",
+        "with IPhreeqc attached, the bench can solve",
+        "a state nobody pre-computed is now solved",
+        "the pH is a real number",
+        "browser and desktop agree on pH",
+        "browser and desktop agree on ionic strength",
+        "the species distribution came across",
+        "the live R1 report uses schema 1",
+        "all five R1 scenarios solve through live browser IPhreeqc"
+      ],
+      "source_agreement_tolerances": {
+        "ph_absolute": 1e-06,
+        "ionic_strength_absolute": 1e-09
+      }
+    },
+    {
+      "job": 115263786417,
+      "name": "The demo page, in a real browser",
+      "all_source_declared_steps_pass": true,
+      "source_declared_steps": 14,
+      "tested_checkout_in_actual_log": true,
+      "log_sha256": "508d2bc4aed806b216a10b58b224923bbd54955af76211a66033f6fbaf4f3eaa",
+      "printed_check_occurrences": 407,
+      "distinct_printed_labels": 407,
+      "svelte_check": {
+        "errors": 0,
+        "warnings": 2
+      }
+    },
+    {
+      "job": 115263786526,
+      "name": "The bench in WebAssembly",
+      "all_source_declared_steps_pass": true,
+      "source_declared_steps": 9,
+      "tested_checkout_in_actual_log": true,
+      "log_sha256": "2e3416fe6d4253ff943d92888cb0bb49dc1ed09d2d98242fb09bcae8f613b305",
+      "printed_check_occurrences": 32,
+      "distinct_printed_labels": 32,
+      "actual_check_labels": [
+        "species registry is exposed",
+        "every species carries provenance",
+        "magnesium ignites in WebAssembly",
+        "it burns to the oxide",
+        "and the flame is hot",
+        "the child register speaks",
+        "inspect renders the frozen liquid inventory",
+        "inspect renders the frozen solid inventory",
+        "inspect prose does not leak the machine state contract",
+        "a finite headspace survives the Wasm JSON boundary",
+        "heating trapped gas raises its pressure",
+        "rigid trapped gas warms more than the same pressure-controlled gas",
+        "a pressure controller crosses the Wasm boundary",
+        "the controller holds its target pressure",
+        "a swept boundary crosses the Wasm boundary",
+        "the sweep owns no gas inventory",
+        "an aqueous state nobody pre-computed is an honest miss, not a guess",
+        "shipped results load",
+        "a whole lesson replays from shipped data, with no engine present",
+        "and the marquee precipitate appears",
+        "narrated for a nine-year-old",
+        "a gas dose transfers inward from cached equilibrium",
+        "limewater clouds and clears again in cached WebAssembly",
+        "the cached R1 report uses schema 1",
+        "all five R1 scenarios replay in cache-only WebAssembly",
+        "a German command line runs in WebAssembly",
+        "and is logged as the canonical English",
+        "the live validator canonicalises too",
+        "and an unknown verb is refused in German, naming the German verbs",
+        "the verb inventory offers a German line to type",
+        "an English session logs the line it was given",
+        "and an English bench still refuses a German verb it was never told about"
+      ],
+      "lesson_prewarm_observed": {
+        "solver_results": 1113,
+        "lesson_steps": 1336,
+        "r1_scenarios": 5,
+        "lessons": 113
+      },
+      "protocol_conformance_observed": {
+        "source_counter_occurrences": 8105,
+        "lessons": 113,
+        "all_clean": true,
+        "relations": 7
+      },
+      "scope": "Actual source-defined Node WebAssembly bench and protocol execution. Counter increments and printed checks are not independent empirical chemistry calibration or performance measurements."
+    }
+  ],
+  "reviewed_job_log_count": 6,
+  "actual_required_job_logs_accepted": 5,
+  "optional_paired_bridge_log_accepted": true,
+  "all_required_job_logs_accepted": true,
+  "scope_correction": {
+    "supersedes_required_gate_mapping_in": "audits/release-performance-20261013/candidate-ordinary-ci-independent-review-v2.json",
+    "previous_receipt_sha256": "f4710af5c63eb74746fc3e71809367a2757ce1e3551f844f075a36d0e1f465fa",
+    "reason": "Root confirmed live required contexts are preflight, two native, bench-in-WebAssembly and browser. Optional paired bridge must not substitute for required bench.",
+    "closed_by_actual_required_bench_log_review": true
+  },
+  "required_contexts_api_verified": true,
+  "required_contexts": [
+    "Full preflight gate",
+    "Test (native) (macos-latest)",
+    "Test (native) (ubuntu-latest)",
+    "The bench in WebAssembly",
+    "The demo page, in a real browser"
+  ],
+  "required_job_ids": [
+    115263786861,
+    115263786422,
+    115263786593,
+    115263786417,
+    115263786526
+  ],
+  "bench_continuation_review_source_sha256": "97cbc631691782be4b63e4732f569334e66e56b3fa907a3102a669bbfb67a11c",
+  "previous_partial_receipt": {
+    "path": "audits/release-performance-20261013/candidate-ordinary-ci-independent-review-v3.json",
+    "sha256": "6f1f5d0e0245f6d7d0c47b4ff4c3155b6cec85af73eb56b8db9c5174d3db8693",
+    "preserved": true
+  },
+  "ordinary_ci_required_gate_acceptance": true
+}

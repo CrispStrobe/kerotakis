@@ -5,8 +5,12 @@ Current checkpoint: the controlled-build archive has been collected under open
 resource gates. [Structural collection](controlled-build-structural-collection.json)
 verifies all 26 archive members, both ELF digests, the shared captured lock and
 recorded guard/environment equality. The rebuilt baseline is `b1867d84`; the
-rebuilt candidate is `1e94804f`. Effective native compiler acceptance and an
-independent artifact receipt remain pending. The seven passing controls used
+rebuilt candidate is `1e94804f`. [Independent artifact and compiler review](controlled-build-independent-review.json)
+accepts the rebuilt bytes and shared build environment: 203 Rust invocations per
+build match after source/target path substitutions; native flags and target
+options match actual CMake configuration and pinned source logic. Exhaustive
+native per-file compiler argv and separate Ninja/archiver hashes are outside the
+accepted scope. The seven passing controls used
 ordinary candidate `b290b436`, so they do not certify the rebuilt candidate.
 
 [Saved-control raw review](hosted-control-raw-review-dispatch.json) is dispatched
@@ -16,12 +20,39 @@ compiler-witness inspection are queued. Preserve their exact source bindings;
 do not duplicate dispatches. Bounded independent reviews of the collected build
 and ordinary CI evidence can proceed only while their resource gates permit.
 
-Next deliverable: accept actual build/compiler evidence, freeze a new comparison
-version binding both rebuilt digests, replicate the seven compatibility controls
-on the rebuilt candidate, then collect and independently review 64 paired samples
-across the four admitted workloads. Preserve the original freezes, baseline
-transcripts and failed safety forecast. PR785 remains draft; no paired speedup or
-merge is accepted. Historical checkpoints below retain their capture-time states.
+[Version3](protocol-v3/README.md) binds both rebuilt digests. Its initial review
+caught missing enforcement of the candidate digest; corrected wrappers now
+reject a different digest before invoking either consumer. The initial freeze is
+preserved alongside the revision. [Independent namespace review](protocol-v3-independent-review.json) accepts the
+corrected wrappers and operating placement. [All seven rebuilt-candidate controls](controlled-candidate-controls-v3.json)
+pass, including [independent saved-stream recomputation](controlled-candidate-controls-v3-independent-review.json).
+
+[Independent ordinary CI review](candidate-ordinary-ci-independent-review-v4.json)
+accepts all five actual required logs. The earlier five-log mapping mistakenly
+substituted the optional paired-wasm job for the required WebAssembly bench job;
+the required bench log is now independently reviewed. Earlier receipts and the
+correction chain are preserved.
+
+The [saved paired-results reader](paired-saved-reader-independent-review.json)
+passes static review and 24 focused checks. [The first partial timing attempt](paired-v3-first-resource-rejection.json)
+stopped at the real memory gate after 51 timed samples; those samples are retained
+and excluded from the fresh complete attempt. The prior bindings setup failure
+ran no workload. A fresh attempt uses the unchanged frozen policy and its own
+evidence destination.
+
+[The complete paired comparison](PAIRED-RESULTS-V3.md) now passes independent
+review of all 88 process outputs and 64 timed samples. Median wall reductions
+are 21.0% startup, 26.6% one salt addition, 10.2% salt batch and 4.5% titration;
+the titration effect is modest relative to variation. These are host-specific
+fresh-process measurements, with no general significance or memory claim.
+Next deliverable: close the separate own chemistry fleet saved outputs and
+finish narrow PR acceptance. [The fleet inventory](candidate-fleet-closure-inventory-20261013.json)
+records 29 successful jobs, three queued v2 families and an absent aggregate.
+The latest two saved-family review starts stopped at closed load/memory gates
+before downloads. Follow the ordered review obligations in the results handoff.
+Preserve original freezes, baseline transcripts and the failed safety forecast.
+PR785 remains draft; merge is pending. Historical checkpoints below retain their
+capture-time states.
 
 The user authorized six lanes in order: performance, fifty fresh CLI experiments,
 annotation contracts, historical regression coverage, broader safety, then deeper

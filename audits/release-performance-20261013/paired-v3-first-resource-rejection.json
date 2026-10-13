@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "protocol_version": 3,
+  "first_preexecution_binding_failure": {
+    "missing_field": "candidate_controls_review_passed",
+    "timed_samples": 0
+  },
+  "partial_comparison_sha256": "dc4def4f97d8d89e1b9e0fb3dc2f0fe535ea7b7efdf1d2512fc6833ad24cc035",
+  "comparison_complete": false,
+  "failure": {
+    "type": "ValueError",
+    "message": "local execution resource gate closed"
+  },
+  "source_guards_equal": true,
+  "timed_samples_completed": 51,
+  "workloads": [
+    {
+      "id": "startup",
+      "timed_samples": 16
+    },
+    {
+      "id": "salt-single",
+      "timed_samples": 16
+    },
+    {
+      "id": "salt-batch",
+      "timed_samples": 16
+    },
+    {
+      "id": "titration-refinement",
+      "timed_samples": 3
+    }
+  ],
+  "resource_rejection": {
+    "load1": 2.630859375,
+    "available_memory_mib": 3104,
+    "fast_free_mib": 4353,
+    "evidence_free_mib": 1564246,
+    "unix_time": 1791906037.1000013
+  },
+  "speedup_accepted": false,
+  "scope": "Memory gate stopped the partial comparison at3104MiB. Preserve all51timed samples; do not pool with a fresh complete attempt or present as64. Earlier bindings failure executed no workload."
+}

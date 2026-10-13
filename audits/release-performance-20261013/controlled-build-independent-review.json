@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-13T15:31:23.334215+00:00",
+  "all_checks_pass": true,
+  "review_kind": "independent_saved_artifact_and_semantic_build_environment_review",
+  "baseline": {
+    "head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+    "tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+    "binary_sha256": "b1867d840a9da7cd909308e016bfa24cf2f41f263848109bf6d14ee1db4a4769",
+    "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+  },
+  "candidate": {
+    "head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+    "tree": "25d1dd490acc080a59f2a02e5b9399a22bd0f4bc",
+    "binary_sha256": "1e94804fee60f5ddfb08b42dd324890ef71abacdca5bd02eda0036d49be3df3b",
+    "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+  },
+  "same_build_environment_verified": true,
+  "baseline_binary_sha256": "b1867d840a9da7cd909308e016bfa24cf2f41f263848109bf6d14ee1db4a4769",
+  "candidate_binary_sha256": "1e94804fee60f5ddfb08b42dd324890ef71abacdca5bd02eda0036d49be3df3b",
+  "baseline_environment": {
+    "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+    "cargo": "cargo 1.99.0 (5f94df478 2026-08-27)",
+    "target": "x86_64-unknown-linux-gnu",
+    "release_profile_sha256": "43515d048af118313d3fc8ac84f742dc4f1c6109a8fae04ecb0010dfa61cab29",
+    "native_toolchain": {
+      "/usr/bin/gcc": {
+        "version": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+        "binary_sha256": "1b99826121ae6682a634e5efe09bd3e3df58ce58e0b28f849114ab5b89139c26"
+      },
+      "/usr/bin/g++": {
+        "version": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+        "binary_sha256": "1353e9bdd29a7295c7226bf6c63abccce056d8cac31f112e5cdbecc3f28c2769"
+      },
+      "cmake": {
+        "version": "cmake version 3.31.6\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\n",
+        "binary_sha256": "c4b3b237dc7a013590db9e90f70fca2dfdedde09521e920d3339569ea364230a"
+      },
+      "make": {
+        "version": "GNU Make 4.3\nBuilt for x86_64-pc-linux-gnu\nCopyright (C) 1988-2020 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\nThis is free software: you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n",
+        "binary_sha256": "d78b8f1d099fbcfb6f2f49ab87223b9b68fb3956642f92d6ec6de812e8afa965"
+      }
+    },
+    "rustflags": "",
+    "native_build_flags": [
+      "CFLAGS=",
+      "CXXFLAGS=",
+      "LDFLAGS=",
+      "CMake Release: -ffunction-sections -fdata-sections -fPIC -m64 -w -O3 -DNDEBUG",
+      "IPhreeqc static; MY_BASIC on; Fortran module off; BUILD_TESTING off; C++14; GNU13.3",
+      "Target definitions: IPHREEQC_WITH_MY_BASIC IPHREEQC_HAS_BASIC MB_DOUBLE_FLOAT MB_DISABLE_LOAD_FILE SWIG_SHARED_OBJ USE_PHRQ_ALLOC IPHREEQC_NO_FORTRAN_MODULE MULTICHART"
+    ],
+    "cargo_toml_sha256": "80aeffe25abeb7ccf99ffa839d9c37279a19052c420732abe6c008cca129187c",
+    "cargo_config_sha256": "84fd4fa17fd967cae6006ba1b0dc430904239dec921c1441dd657387ee802d6c",
+    "actual_rustc_binary_sha256": "f3834d26669b03f6855fa54bd2381443123e860167bc0c7a8dd137e5cf6e5e4f",
+    "actual_cargo_binary_sha256": "e951141cc55a6cd7b9876d187bd30a3720e6086b99413af95e3b8de1cdd72f14"
+  },
+  "candidate_environment": {
+    "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+    "cargo": "cargo 1.99.0 (5f94df478 2026-08-27)",
+    "target": "x86_64-unknown-linux-gnu",
+    "release_profile_sha256": "43515d048af118313d3fc8ac84f742dc4f1c6109a8fae04ecb0010dfa61cab29",
+    "native_toolchain": {
+      "/usr/bin/gcc": {
+        "version": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+        "binary_sha256": "1b99826121ae6682a634e5efe09bd3e3df58ce58e0b28f849114ab5b89139c26"
+      },
+      "/usr/bin/g++": {
+        "version": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+        "binary_sha256": "1353e9bdd29a7295c7226bf6c63abccce056d8cac31f112e5cdbecc3f28c2769"
+      },
+      "cmake": {
+        "version": "cmake version 3.31.6\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\n",
+        "binary_sha256": "c4b3b237dc7a013590db9e90f70fca2dfdedde09521e920d3339569ea364230a"
+      },
+      "make": {
+        "version": "GNU Make 4.3\nBuilt for x86_64-pc-linux-gnu\nCopyright (C) 1988-2020 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\nThis is free software: you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n",
+        "binary_sha256": "d78b8f1d099fbcfb6f2f49ab87223b9b68fb3956642f92d6ec6de812e8afa965"
+      }
+    },
+    "rustflags": "",
+    "native_build_flags": [
+      "CFLAGS=",
+      "CXXFLAGS=",
+      "LDFLAGS=",
+      "CMake Release: -ffunction-sections -fdata-sections -fPIC -m64 -w -O3 -DNDEBUG",
+      "IPhreeqc static; MY_BASIC on; Fortran module off; BUILD_TESTING off; C++14; GNU13.3",
+      "Target definitions: IPHREEQC_WITH_MY_BASIC IPHREEQC_HAS_BASIC MB_DOUBLE_FLOAT MB_DISABLE_LOAD_FILE SWIG_SHARED_OBJ USE_PHRQ_ALLOC IPHREEQC_NO_FORTRAN_MODULE MULTICHART"
+    ],
+    "cargo_toml_sha256": "80aeffe25abeb7ccf99ffa839d9c37279a19052c420732abe6c008cca129187c",
+    "cargo_config_sha256": "84fd4fa17fd967cae6006ba1b0dc430904239dec921c1441dd657387ee802d6c",
+    "actual_rustc_binary_sha256": "f3834d26669b03f6855fa54bd2381443123e860167bc0c7a8dd137e5cf6e5e4f",
+    "actual_cargo_binary_sha256": "e951141cc55a6cd7b9876d187bd30a3720e6086b99413af95e3b8de1cdd72f14"
+  },
+  "run": 38396270148,
+  "attempt": 1,
+  "build_job": 115292178103,
+  "artifact_id": 11814954199,
+  "artifact_zip_sha256": "e121b7648165c121f8e9826ffac50f497cff46e884d505aa0a3ef08efabcaa16",
+  "identity_sha256": "a931ea5fe571fa06d2d9cbc234c77e07c17067063c78d6e7ca61214c59bc0a68",
+  "routing_witness_sha256": "ceecb4012517382157b60ee6d699e9569cf9a9fe0e0d542b80cd94446e5e4eb6",
+  "build_pair_sha256": "cc65fbfa81d0084464fdb4d94cfe8ecc92e4dc3e3f40dbf8ee02f2d3550b0576",
+  "source_inputs_sha256": {
+    "baseline": {
+      "Cargo.toml": "80aeffe25abeb7ccf99ffa839d9c37279a19052c420732abe6c008cca129187c",
+      ".cargo/config.toml": "84fd4fa17fd967cae6006ba1b0dc430904239dec921c1441dd657387ee802d6c",
+      "crates/kerotakis-cli/Cargo.toml": "bf37c2974740c1d320e12a7f17b4172dcb37191a38b7c821827375c7667ae9d5",
+      "crates/kerotakis-phreeqc/Cargo.toml": "dd3d8806bcdc5f4e20e3585f611b9fdaa7c2866f0186e92d4d1e072185cc2465",
+      "crates/kerotakis-phreeqc/build.rs": "1367bd68d6eafbf1122990759b1e22e800eab5192ae6d3755c19035492f0de4c"
+    },
+    "candidate": {
+      "Cargo.toml": "80aeffe25abeb7ccf99ffa839d9c37279a19052c420732abe6c008cca129187c",
+      ".cargo/config.toml": "84fd4fa17fd967cae6006ba1b0dc430904239dec921c1441dd657387ee802d6c",
+      "crates/kerotakis-cli/Cargo.toml": "bf37c2974740c1d320e12a7f17b4172dcb37191a38b7c821827375c7667ae9d5",
+      "crates/kerotakis-phreeqc/Cargo.toml": "dd3d8806bcdc5f4e20e3585f611b9fdaa7c2866f0186e92d4d1e072185cc2465",
+      "crates/kerotakis-phreeqc/build.rs": "1367bd68d6eafbf1122990759b1e22e800eab5192ae6d3755c19035492f0de4c"
+    }
+  },
+  "pinned_native_cmake_sha256": "fc1accbdc6aa95884bb17f765c0eff3993dbb8d79309447b05a47ae2fc3f1b63",
+  "actual_rustc_invocations_each": 203,
+  "normalized_actual_rustc_invocations_sha256": "261de8edb995718627f14a3702486773c9f45279a0c8ba228a37184f692d4d6b",
+  "native_configure_and_install_commands_match": true,
+  "primary_cmake_semantic_cache_keys_match": true,
+  "effective_compiler_scope": "Actual 203 Rust invocation argv per source and semantically reviewed GNU/Linux PHREEQC compiler/configured flags plus pinned target-option logic. Full native per-translation-unit argv coverage is not claimed.",
+  "raw_member_sha256": {
+    "Cargo.lock": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+    "baseline/Cargo.lock": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+    "baseline/after.json": "aa3dd5c123a1aa7480914a7d83020e066d26db7afef7c9cb5d59c038c51b6a15",
+    "baseline/before.json": "aa3dd5c123a1aa7480914a7d83020e066d26db7afef7c9cb5d59c038c51b6a15",
+    "baseline/build-status.json": "ac4d13c58a0ae5531656c123e77c710a24013bca5a3ae20590398dbffa7cf7af",
+    "baseline/build.log": "5cb61a7f9e850b3c9d6d4a735b3c49390072fb6fb7407c6223ef8f2e26cb2e64",
+    "baseline/command.json": "564d6e63c8aa1fa72f4a3d27ce02a020167d297bac8ae17695071092f66ca939",
+    "baseline/kero": "b1867d840a9da7cd909308e016bfa24cf2f41f263848109bf6d14ee1db4a4769",
+    "baseline/native-cache-0.txt": "44add3e943c997cbb4408b3435133f93d582ade32c2fffd0deb160f898ed1e58",
+    "baseline/native-cache-1.txt": "dad57e3585231adf62008cde62f64514a10fa7c1e3db288a4a3176f24ebbc849",
+    "baseline/receipt.json": "a80e4832fa98796e39e255a3deb4b03be3082986e49e9ab9ec56bba091e615db",
+    "build-pair.json": "cc65fbfa81d0084464fdb4d94cfe8ecc92e4dc3e3f40dbf8ee02f2d3550b0576",
+    "candidate/Cargo.lock": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+    "candidate/after.json": "c1243644ea439788aa83f1a411f2068221e0bb2c64cf5f24d23501382f233a08",
+    "candidate/before.json": "c1243644ea439788aa83f1a411f2068221e0bb2c64cf5f24d23501382f233a08",
+    "candidate/build-status.json": "ac4d13c58a0ae5531656c123e77c710a24013bca5a3ae20590398dbffa7cf7af",
+    "candidate/build.log": "114341929349f1805a466a55ee9627e76c385b0528d201aaf7446da9b0531beb",
+    "candidate/command.json": "145c1de8c7239b4bb5042761043736910a341f43afaf8f678f0f24326563d615",
+    "candidate/kero": "1e94804fee60f5ddfb08b42dd324890ef71abacdca5bd02eda0036d49be3df3b",
+    "candidate/native-cache-0.txt": "475b944b328c614f0e99d85708b4f92da18a537bb69461562a967c4a9bd3cd2c",
+    "candidate/native-cache-1.txt": "414100ed339fb6d98a6dae1dd6f59cd354c9bb3ff69fd034e0e15378adfb7d5e",
+    "candidate/receipt.json": "c2473d34e2fdac58a7cc6e4be58ad5062dbd0f8af855d7c45a94f579e61101b5",
+    "gates.jsonl": "9b418ba09405b8439078a2cab98cff9db6f9bc6fccab4142f38a5f8163b1799d",
+    "identity.json": "a931ea5fe571fa06d2d9cbc234c77e07c17067063c78d6e7ca61214c59bc0a68",
+    "original-lock-artifact.zip": "e44101a69e91b0a4d857467f842a84f2f8d6dcf00a6080b8a11a1c5a87924d10",
+    "routing-witness.json": "ceecb4012517382157b60ee6d699e9569cf9a9fe0e0d542b80cd94446e5e4eb6"
+  },
+  "resources_before": {
+    "load1": 0.828125,
+    "available_memory_mib": 4107,
+    "nas_free_mib": 1564311
+  },
+  "resources_after": {
+    "load1": 0.84228515625,
+    "available_memory_mib": 4084,
+    "nas_free_mib": 1564309
+  },
+  "candidate_executed": false,
+  "performance_accepted": false,
+  "limitations": [
+    "Offline captured API/job/run/artifact verification; no new network fetch.",
+    "Source HEAD/tree/clean guards and initialized recursive module identities are recorded evidence; whole hosted source/module bytes not independently reread.",
+    "Bounded parent build files and pinned IPhreeqc CMakeLists independently checked; all parent Git changes confined to CLI source and locale fixture.",
+    "Native compiler flags accepted from actual configure command, caches and pinned option logic; no exhaustive native translation-unit argv or object bytes audit.",
+    "Ninja generator and gcc ar/ranlib are observed through caches but their executable versions/hashes were not captured separately; same hosted build/toolchain and source/config binding is scoped environment proof.",
+    "Captured tool hashes not independently recomputed on absent hosted tool binaries.",
+    "Actual-target directory placement and later runtime clocks/output equality require separate execution evidence.",
+    "New paired protocol must bind rebuilt baseline/candidate bytes and own controls before execution."
+  ]
+}

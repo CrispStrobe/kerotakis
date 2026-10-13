@@ -1,0 +1,279 @@
+{
+  "schema_version": 1,
+  "protocol_version": 3,
+  "comparison_complete": true,
+  "independent_outputs_and_statistics_accepted": true,
+  "timed_samples": 64,
+  "total_process_outputs": 88,
+  "root_saved_review_sha256": "7b759502893470ef23888822dc9aa930b1c5ce9fd8a425f98aef45ea2cd1b7c5",
+  "independent_review_sha256": "f4dee0628a9e0960982621fda060283c683b3fd54260870d80f9d8214fb53fd0",
+  "comparison_sha256": "dcd4681ee1ba54ebff00be0cf6e5f1f1b0879ebe3d349f9c56fc91f4457b16f1",
+  "bindings_sha256": "1d31446ddfac410aa2fda7e1d78ac4699b187b8a467f1559441365bc2f6e2903",
+  "paired_freeze_sha256": "7af80fea5e82f24458bab67856e21212a91e4a542128418e88fa5f47e80ddefb",
+  "baseline_binary_sha256": "b1867d840a9da7cd909308e016bfa24cf2f41f263848109bf6d14ee1db4a4769",
+  "candidate_binary_sha256": "1e94804fee60f5ddfb08b42dd324890ef71abacdca5bd02eda0036d49be3df3b",
+  "workloads": [
+    {
+      "id": "startup",
+      "timed_samples_each": 8,
+      "statistics": {
+        "baseline": {
+          "parent_wall_seconds": {
+            "median": 0.2778135184198618,
+            "minimum": 0.2673484534025192,
+            "maximum": 0.314912635833025,
+            "mad": 0.00940998550504446
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "median": 0.17567549999999998,
+            "minimum": 0.155367,
+            "maximum": 0.19350499999999998,
+            "mad": 0.005766500000000008
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "median": 0.021891,
+            "minimum": 0.011791,
+            "maximum": 0.025797999999999998,
+            "mad": 0.0026599999999999974
+          },
+          "max_rss_kib": {
+            "median": 37152.0,
+            "minimum": 37152,
+            "maximum": 37152,
+            "mad": 0.0
+          }
+        },
+        "candidate": {
+          "parent_wall_seconds": {
+            "median": 0.2195684863254428,
+            "minimum": 0.1966548841446638,
+            "maximum": 0.25065658427774906,
+            "mad": 0.014380399137735367
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "median": 0.1210555,
+            "minimum": 0.10654999999999999,
+            "maximum": 0.14606,
+            "mad": 0.005294500000000001
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "median": 0.015757999999999998,
+            "minimum": 0.010997,
+            "maximum": 0.021078,
+            "mad": 0.0006154999999999989
+          },
+          "max_rss_kib": {
+            "median": 37152.0,
+            "minimum": 37152,
+            "maximum": 37152,
+            "mad": 0.0
+          }
+        }
+      },
+      "median_ratios": {
+        "parent_wall_seconds": 0.7903448600136411,
+        "wrapper_and_waited_child_user_seconds": 0.6890858429319968,
+        "wrapper_and_waited_child_system_seconds": 0.7198392033255675,
+        "max_rss_kib": 1.0
+      }
+    },
+    {
+      "id": "salt-single",
+      "timed_samples_each": 8,
+      "statistics": {
+        "baseline": {
+          "parent_wall_seconds": {
+            "median": 0.32588524650782347,
+            "minimum": 0.26797408051788807,
+            "maximum": 0.3529557678848505,
+            "mad": 0.019275751896202564
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "median": 0.1891705,
+            "minimum": 0.182884,
+            "maximum": 0.24936899999999998,
+            "mad": 0.004799999999999999
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "median": 0.021733,
+            "minimum": 0.01604,
+            "maximum": 0.033519,
+            "mad": 0.0011764999999999987
+          },
+          "max_rss_kib": {
+            "median": 37152.0,
+            "minimum": 37152,
+            "maximum": 37152,
+            "mad": 0.0
+          }
+        },
+        "candidate": {
+          "parent_wall_seconds": {
+            "median": 0.23934949468821287,
+            "minimum": 0.20643939264118671,
+            "maximum": 0.28794083185493946,
+            "mad": 0.018415258266031742
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "median": 0.132434,
+            "minimum": 0.11888599999999999,
+            "maximum": 0.165735,
+            "mad": 0.004679499999999989
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "median": 0.0181215,
+            "minimum": 0.010938999999999999,
+            "maximum": 0.025054999999999997,
+            "mad": 0.0024174999999999995
+          },
+          "max_rss_kib": {
+            "median": 37152.0,
+            "minimum": 37152,
+            "maximum": 37152,
+            "mad": 0.0
+          }
+        }
+      },
+      "median_ratios": {
+        "parent_wall_seconds": 0.7344594370351983,
+        "wrapper_and_waited_child_user_seconds": 0.7000774433645838,
+        "wrapper_and_waited_child_system_seconds": 0.8338241384070307,
+        "max_rss_kib": 1.0
+      }
+    },
+    {
+      "id": "salt-batch",
+      "timed_samples_each": 8,
+      "statistics": {
+        "baseline": {
+          "parent_wall_seconds": {
+            "median": 0.706975351087749,
+            "minimum": 0.6539395116269588,
+            "maximum": 0.862244687974453,
+            "mad": 0.024022535420954227
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "median": 0.5977835,
+            "minimum": 0.5574709999999999,
+            "maximum": 0.724244,
+            "mad": 0.03005150000000001
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "median": 0.033756,
+            "minimum": 0.023403999999999998,
+            "maximum": 0.045535,
+            "mad": 0.008519999999999998
+          },
+          "max_rss_kib": {
+            "median": 37152.0,
+            "minimum": 37152,
+            "maximum": 37152,
+            "mad": 0.0
+          }
+        },
+        "candidate": {
+          "parent_wall_seconds": {
+            "median": 0.6347446190193295,
+            "minimum": 0.611141549423337,
+            "maximum": 0.6723158024251461,
+            "mad": 0.019775071181356907
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "median": 0.5314175,
+            "minimum": 0.512786,
+            "maximum": 0.5457179999999999,
+            "mad": 0.011585500000000026
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "median": 0.0224485,
+            "minimum": 0.021460999999999997,
+            "maximum": 0.029172999999999998,
+            "mad": 0.0008855000000000009
+          },
+          "max_rss_kib": {
+            "median": 37152.0,
+            "minimum": 37152,
+            "maximum": 37152,
+            "mad": 0.0
+          }
+        }
+      },
+      "median_ratios": {
+        "parent_wall_seconds": 0.897831328974503,
+        "wrapper_and_waited_child_user_seconds": 0.8889798731480544,
+        "wrapper_and_waited_child_system_seconds": 0.6650225145159379,
+        "max_rss_kib": 1.0
+      }
+    },
+    {
+      "id": "titration-refinement",
+      "timed_samples_each": 8,
+      "statistics": {
+        "baseline": {
+          "parent_wall_seconds": {
+            "median": 1.4175128946080804,
+            "minimum": 1.3629577402025461,
+            "maximum": 1.5031625218689442,
+            "mad": 0.03707339894026518
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "median": 1.2956590000000001,
+            "minimum": 1.232432,
+            "maximum": 1.386117,
+            "mad": 0.03949900000000006
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "median": 0.0309885,
+            "minimum": 0.023853,
+            "maximum": 0.039265999999999995,
+            "mad": 0.0045275
+          },
+          "max_rss_kib": {
+            "median": 37152.0,
+            "minimum": 37152,
+            "maximum": 37152,
+            "mad": 0.0
+          }
+        },
+        "candidate": {
+          "parent_wall_seconds": {
+            "median": 1.3539987476542592,
+            "minimum": 1.2721631359308958,
+            "maximum": 1.4910185243934393,
+            "mad": 0.035291921347379684
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "median": 1.236494,
+            "minimum": 1.1745619999999999,
+            "maximum": 1.327393,
+            "mad": 0.015885499999999997
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "median": 0.027333,
+            "minimum": 0.017832,
+            "maximum": 0.035928999999999996,
+            "mad": 0.0014114999999999996
+          },
+          "max_rss_kib": {
+            "median": 37152.0,
+            "minimum": 37152,
+            "maximum": 37152,
+            "mad": 0.0
+          }
+        }
+      },
+      "median_ratios": {
+        "parent_wall_seconds": 0.9551932492498547,
+        "wrapper_and_waited_child_user_seconds": 0.954335978833937,
+        "wrapper_and_waited_child_system_seconds": 0.8820368846507576,
+        "max_rss_kib": 1.0
+      }
+    }
+  ],
+  "chemistry_outputs_equal_to_original_admitted_references": true,
+  "partial_run_samples_pooled": false,
+  "host_specific_median_improvement_observed": true,
+  "general_speedup_or_significance_accepted": false,
+  "merge_accepted": false,
+  "scope": "Four fresh-process workloads; wall includes process startup, wrapper and output I/O. Eight timed samples per variant per workload. No browser, warm-kernel, empirical chemical calibration or pure-application RSS claim; titration effect is modest relative to variation."
+}

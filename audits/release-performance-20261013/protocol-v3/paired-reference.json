@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "baseline_run": 38368899782,
+  "baseline_profile_sha256": "09492a3df1e2c2f679ea811142f1685ebc56da80cc63781b967ba46fcb6eb990",
+  "canonical_output_sha256": {
+    "startup": "4abf3465e09e47aa0a15d5b03696d32c58a5b3bffde54b14cb814107002d556c",
+    "salt-single": "ddb41691ed4db2890cf215f26676829030b1f406a855b2a77d7cf2702f706914",
+    "salt-batch": "d967e1608f8077c678ec098285eba721fd29b8e026fdc5fdbd52526f44617624",
+    "titration-refinement": "436c6855003b7bb8bd22b0bdb655868f680e05e034bb3daefe13d1374a68db06"
+  },
+  "scope": "Original admitted hosted pilot canonical outputs. Safety pilot remains excluded and unadmitted."
+}

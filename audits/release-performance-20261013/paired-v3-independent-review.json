@@ -1,0 +1,1349 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-13T15:45:42.002247+00:00",
+  "review_kind": "independent_full_actual_saved_paired_output_and_statistical_recomputation",
+  "all_checks_pass": true,
+  "actual_measurement_review_complete": true,
+  "comparison_sha256": "dcd4681ee1ba54ebff00be0cf6e5f1f1b0879ebe3d349f9c56fc91f4457b16f1",
+  "paired_freeze_sha256": "7af80fea5e82f24458bab67856e21212a91e4a542128418e88fa5f47e80ddefb",
+  "bindings_sha256": "1d31446ddfac410aa2fda7e1d78ac4699b187b8a467f1559441365bc2f6e2903",
+  "runtime_map_sha256": "c3b3551df047e080181a09a8462df03df5ba7c2e160985884507ca4df85b8ee3",
+  "baseline": {
+    "head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+    "tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+    "binary_sha256": "b1867d840a9da7cd909308e016bfa24cf2f41f263848109bf6d14ee1db4a4769",
+    "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+  },
+  "candidate": {
+    "head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+    "tree": "25d1dd490acc080a59f2a02e5b9399a22bd0f4bc",
+    "binary_sha256": "1e94804fee60f5ddfb08b42dd324890ef71abacdca5bd02eda0036d49be3df3b",
+    "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+  },
+  "artifact_build_review_sha256": "7611e83cb6db9e98ff2fbf2e15b072f5a221707a14cc337057df466631aab580",
+  "underlying_candidate_controls_sha256": "1bb4dee855265152e52e5a2506515c99c2f50d58599b0a9677458cd533b15a0d",
+  "processes_reviewed": 88,
+  "timed_samples": 64,
+  "workloads": [
+    {
+      "id": "startup",
+      "timed_samples_each": 8,
+      "canonical_output_sha256": "4abf3465e09e47aa0a15d5b03696d32c58a5b3bffde54b14cb814107002d556c",
+      "statistics": {
+        "baseline": {
+          "parent_wall_seconds": {
+            "median": 0.2778135184198618,
+            "minimum": 0.2673484534025192,
+            "maximum": 0.314912635833025,
+            "mad": 0.00940998550504446
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "median": 0.17567549999999998,
+            "minimum": 0.155367,
+            "maximum": 0.19350499999999998,
+            "mad": 0.005766500000000008
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "median": 0.021891,
+            "minimum": 0.011791,
+            "maximum": 0.025797999999999998,
+            "mad": 0.0026599999999999974
+          },
+          "max_rss_kib": {
+            "median": 37152.0,
+            "minimum": 37152,
+            "maximum": 37152,
+            "mad": 0.0
+          }
+        },
+        "candidate": {
+          "parent_wall_seconds": {
+            "median": 0.2195684863254428,
+            "minimum": 0.1966548841446638,
+            "maximum": 0.25065658427774906,
+            "mad": 0.014380399137735367
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "median": 0.1210555,
+            "minimum": 0.10654999999999999,
+            "maximum": 0.14606,
+            "mad": 0.005294500000000001
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "median": 0.015757999999999998,
+            "minimum": 0.010997,
+            "maximum": 0.021078,
+            "mad": 0.0006154999999999989
+          },
+          "max_rss_kib": {
+            "median": 37152.0,
+            "minimum": 37152,
+            "maximum": 37152,
+            "mad": 0.0
+          }
+        }
+      },
+      "variance_details": {
+        "baseline": {
+          "parent_wall_seconds": {
+            "mean": 0.2846188188996166,
+            "population_stddev": 0.016689629518429585,
+            "relative_MAD": 0.03387158968565048,
+            "samples": [
+              0.29053706862032413,
+              0.3068915493786335,
+              0.2721751946955919,
+              0.2792222276329994,
+              0.27640480920672417,
+              0.2673484534025192,
+              0.26945861242711544,
+              0.314912635833025
+            ]
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "mean": 0.17537575,
+            "population_stddev": 0.010676186031888912,
+            "relative_MAD": 0.032824725132417486,
+            "samples": [
+              0.183635,
+              0.174362,
+              0.174256,
+              0.179249,
+              0.17698899999999998,
+              0.16564299999999998,
+              0.155367,
+              0.19350499999999998
+            ]
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "mean": 0.021124499999999997,
+            "population_stddev": 0.0042987975644358965,
+            "relative_MAD": 0.12151112329267723,
+            "samples": [
+              0.023554,
+              0.025547999999999998,
+              0.021936,
+              0.021845999999999997,
+              0.011791,
+              0.025797999999999998,
+              0.020888,
+              0.017634999999999998
+            ]
+          },
+          "max_rss_kib": {
+            "mean": 37152,
+            "population_stddev": 0.0,
+            "relative_MAD": 0.0,
+            "samples": [
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152
+            ]
+          }
+        },
+        "candidate": {
+          "parent_wall_seconds": {
+            "mean": 0.22184427501633763,
+            "population_stddev": 0.018369700070790463,
+            "relative_MAD": 0.06549391207452623,
+            "samples": [
+              0.20630128681659698,
+              0.1966548841446638,
+              0.2418567929416895,
+              0.25065658427774906,
+              0.23445423878729343,
+              0.22858536057174206,
+              0.2056934405118227,
+              0.21055161207914352
+            ]
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "mean": 0.124981,
+            "population_stddev": 0.013201564045597023,
+            "relative_MAD": 0.04373613755674051,
+            "samples": [
+              0.116548,
+              0.10654999999999999,
+              0.14606,
+              0.145064,
+              0.127052,
+              0.117306,
+              0.124805,
+              0.116463
+            ]
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "mean": 0.016093,
+            "population_stddev": 0.002753172261228854,
+            "relative_MAD": 0.03905952532047208,
+            "samples": [
+              0.021078,
+              0.016002,
+              0.018866,
+              0.014998,
+              0.015915,
+              0.015286999999999999,
+              0.010997,
+              0.015600999999999999
+            ]
+          },
+          "max_rss_kib": {
+            "mean": 37152,
+            "population_stddev": 0.0,
+            "relative_MAD": 0.0,
+            "samples": [
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152
+            ]
+          }
+        }
+      },
+      "gnu_time_medians": {
+        "baseline": {
+          "wall_seconds": 0.19,
+          "user_seconds": 0.17,
+          "system_seconds": 0.01,
+          "max_rss_kib": 26460.0
+        },
+        "candidate": {
+          "wall_seconds": 0.13,
+          "user_seconds": 0.11499999999999999,
+          "system_seconds": 0.01,
+          "max_rss_kib": 20704.0
+        }
+      },
+      "candidate_to_baseline_median_ratio": {
+        "parent_wall_seconds": 0.7903448600136411,
+        "wrapper_and_waited_child_user_seconds": 0.6890858429319968,
+        "wrapper_and_waited_child_system_seconds": 0.7198392033255675,
+        "max_rss_kib": 1.0
+      },
+      "parent_wall_median_reduction_percent": 20.96551399863589
+    },
+    {
+      "id": "salt-single",
+      "timed_samples_each": 8,
+      "canonical_output_sha256": "ddb41691ed4db2890cf215f26676829030b1f406a855b2a77d7cf2702f706914",
+      "statistics": {
+        "baseline": {
+          "parent_wall_seconds": {
+            "median": 0.32588524650782347,
+            "minimum": 0.26797408051788807,
+            "maximum": 0.3529557678848505,
+            "mad": 0.019275751896202564
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "median": 0.1891705,
+            "minimum": 0.182884,
+            "maximum": 0.24936899999999998,
+            "mad": 0.004799999999999999
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "median": 0.021733,
+            "minimum": 0.01604,
+            "maximum": 0.033519,
+            "mad": 0.0011764999999999987
+          },
+          "max_rss_kib": {
+            "median": 37152.0,
+            "minimum": 37152,
+            "maximum": 37152,
+            "mad": 0.0
+          }
+        },
+        "candidate": {
+          "parent_wall_seconds": {
+            "median": 0.23934949468821287,
+            "minimum": 0.20643939264118671,
+            "maximum": 0.28794083185493946,
+            "mad": 0.018415258266031742
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "median": 0.132434,
+            "minimum": 0.11888599999999999,
+            "maximum": 0.165735,
+            "mad": 0.004679499999999989
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "median": 0.0181215,
+            "minimum": 0.010938999999999999,
+            "maximum": 0.025054999999999997,
+            "mad": 0.0024174999999999995
+          },
+          "max_rss_kib": {
+            "median": 37152.0,
+            "minimum": 37152,
+            "maximum": 37152,
+            "mad": 0.0
+          }
+        }
+      },
+      "variance_details": {
+        "baseline": {
+          "parent_wall_seconds": {
+            "mean": 0.3108131142798811,
+            "population_stddev": 0.03218138393938484,
+            "relative_MAD": 0.059148893982654764,
+            "samples": [
+              0.32514721155166626,
+              0.26797408051788807,
+              0.33736622892320156,
+              0.33259753324091434,
+              0.3529557678848505,
+              0.3266232814639807,
+              0.2693123836070299,
+              0.27452842704951763
+            ]
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "mean": 0.2004445,
+            "population_stddev": 0.021187818339791376,
+            "relative_MAD": 0.025373935153736968,
+            "samples": [
+              0.182884,
+              0.19102999999999998,
+              0.211743,
+              0.18600699999999998,
+              0.24936899999999998,
+              0.20935499999999999,
+              0.187311,
+              0.185857
+            ]
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "mean": 0.0234685,
+            "population_stddev": 0.004955151612211275,
+            "relative_MAD": 0.054134265862973305,
+            "samples": [
+              0.028478,
+              0.021512,
+              0.033519,
+              0.02119,
+              0.021943999999999998,
+              0.01604,
+              0.023542999999999998,
+              0.021522
+            ]
+          },
+          "max_rss_kib": {
+            "mean": 37152,
+            "population_stddev": 0.0,
+            "relative_MAD": 0.0,
+            "samples": [
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152
+            ]
+          }
+        },
+        "candidate": {
+          "parent_wall_seconds": {
+            "mean": 0.23964592744596303,
+            "population_stddev": 0.025831252510722186,
+            "relative_MAD": 0.0769387806313118,
+            "samples": [
+              0.20643939264118671,
+              0.2575312163680792,
+              0.2207006998360157,
+              0.2261485643684864,
+              0.28794083185493946,
+              0.25274215266108513,
+              0.25255042500793934,
+              0.21311413682997227
+            ]
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "mean": 0.13760699999999998,
+            "population_stddev": 0.015400302277877531,
+            "relative_MAD": 0.03533458175393018,
+            "samples": [
+              0.126113,
+              0.165735,
+              0.13458699999999998,
+              0.13547199999999998,
+              0.11888599999999999,
+              0.15989299999999998,
+              0.129889,
+              0.130281
+            ]
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "mean": 0.017544499999999998,
+            "population_stddev": 0.004151985007198364,
+            "relative_MAD": 0.13340507132411775,
+            "samples": [
+              0.010938999999999999,
+              0.020064,
+              0.019788999999999998,
+              0.018387,
+              0.017856,
+              0.013037,
+              0.025054999999999997,
+              0.015229
+            ]
+          },
+          "max_rss_kib": {
+            "mean": 37152,
+            "population_stddev": 0.0,
+            "relative_MAD": 0.0,
+            "samples": [
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152
+            ]
+          }
+        }
+      },
+      "gnu_time_medians": {
+        "baseline": {
+          "wall_seconds": 0.21000000000000002,
+          "user_seconds": 0.185,
+          "system_seconds": 0.01,
+          "max_rss_kib": 29536.0
+        },
+        "candidate": {
+          "wall_seconds": 0.15,
+          "user_seconds": 0.125,
+          "system_seconds": 0.01,
+          "max_rss_kib": 23326.0
+        }
+      },
+      "candidate_to_baseline_median_ratio": {
+        "parent_wall_seconds": 0.7344594370351983,
+        "wrapper_and_waited_child_user_seconds": 0.7000774433645838,
+        "wrapper_and_waited_child_system_seconds": 0.8338241384070307,
+        "max_rss_kib": 1.0
+      },
+      "parent_wall_median_reduction_percent": 26.554056296480166
+    },
+    {
+      "id": "salt-batch",
+      "timed_samples_each": 8,
+      "canonical_output_sha256": "d967e1608f8077c678ec098285eba721fd29b8e026fdc5fdbd52526f44617624",
+      "statistics": {
+        "baseline": {
+          "parent_wall_seconds": {
+            "median": 0.706975351087749,
+            "minimum": 0.6539395116269588,
+            "maximum": 0.862244687974453,
+            "mad": 0.024022535420954227
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "median": 0.5977835,
+            "minimum": 0.5574709999999999,
+            "maximum": 0.724244,
+            "mad": 0.03005150000000001
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "median": 0.033756,
+            "minimum": 0.023403999999999998,
+            "maximum": 0.045535,
+            "mad": 0.008519999999999998
+          },
+          "max_rss_kib": {
+            "median": 37152.0,
+            "minimum": 37152,
+            "maximum": 37152,
+            "mad": 0.0
+          }
+        },
+        "candidate": {
+          "parent_wall_seconds": {
+            "median": 0.6347446190193295,
+            "minimum": 0.611141549423337,
+            "maximum": 0.6723158024251461,
+            "mad": 0.019775071181356907
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "median": 0.5314175,
+            "minimum": 0.512786,
+            "maximum": 0.5457179999999999,
+            "mad": 0.011585500000000026
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "median": 0.0224485,
+            "minimum": 0.021460999999999997,
+            "maximum": 0.029172999999999998,
+            "mad": 0.0008855000000000009
+          },
+          "max_rss_kib": {
+            "median": 37152.0,
+            "minimum": 37152,
+            "maximum": 37152,
+            "mad": 0.0
+          }
+        }
+      },
+      "variance_details": {
+        "baseline": {
+          "parent_wall_seconds": {
+            "mean": 0.7266678460873663,
+            "population_stddev": 0.06362830015152907,
+            "relative_MAD": 0.033979311137217534,
+            "samples": [
+              0.7105080503970385,
+              0.7017838377505541,
+              0.6539395116269588,
+              0.862244687974453,
+              0.6711203847080469,
+              0.7191654555499554,
+              0.7911381889134645,
+              0.7034426517784595
+            ]
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "mean": 0.61428925,
+            "population_stddev": 0.056235731705362384,
+            "relative_MAD": 0.05027154479840947,
+            "samples": [
+              0.6070169999999999,
+              0.573562,
+              0.5574709999999999,
+              0.724244,
+              0.561902,
+              0.617625,
+              0.683943,
+              0.58855
+            ]
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "mean": 0.035537374999999996,
+            "population_stddev": 0.007931286133684436,
+            "relative_MAD": 0.25239957340917163,
+            "samples": [
+              0.026937,
+              0.045535,
+              0.032042999999999995,
+              0.043976999999999995,
+              0.044891,
+              0.023403999999999998,
+              0.03531,
+              0.032202
+            ]
+          },
+          "max_rss_kib": {
+            "mean": 37152,
+            "population_stddev": 0.0,
+            "relative_MAD": 0.0,
+            "samples": [
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152
+            ]
+          }
+        },
+        "candidate": {
+          "parent_wall_seconds": {
+            "mean": 0.6369223154615611,
+            "population_stddev": 0.02231450888146833,
+            "relative_MAD": 0.031154373883325048,
+            "samples": [
+              0.6369254551827908,
+              0.611141549423337,
+              0.6723158024251461,
+              0.6325637828558683,
+              0.6116444543004036,
+              0.6437094267457724,
+              0.6687834113836288,
+              0.6182946413755417
+            ]
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "mean": 0.530945125,
+            "population_stddev": 0.012290218899977941,
+            "relative_MAD": 0.02180112623314066,
+            "samples": [
+              0.5457179999999999,
+              0.527615,
+              0.527309,
+              0.543914,
+              0.512907,
+              0.53522,
+              0.542092,
+              0.512786
+            ]
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "mean": 0.02353375,
+            "population_stddev": 0.0024123025178239975,
+            "relative_MAD": 0.03944584270663968,
+            "samples": [
+              0.023989999999999997,
+              0.021460999999999997,
+              0.025016,
+              0.022067999999999997,
+              0.029172999999999998,
+              0.022614,
+              0.021665,
+              0.022283
+            ]
+          },
+          "max_rss_kib": {
+            "mean": 37152,
+            "population_stddev": 0.0,
+            "relative_MAD": 0.0,
+            "samples": [
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152
+            ]
+          }
+        }
+      },
+      "gnu_time_medians": {
+        "baseline": {
+          "wall_seconds": 0.625,
+          "user_seconds": 0.59,
+          "system_seconds": 0.025,
+          "max_rss_kib": 30180.0
+        },
+        "candidate": {
+          "wall_seconds": 0.555,
+          "user_seconds": 0.525,
+          "system_seconds": 0.01,
+          "max_rss_kib": 24036.0
+        }
+      },
+      "candidate_to_baseline_median_ratio": {
+        "parent_wall_seconds": 0.897831328974503,
+        "wrapper_and_waited_child_user_seconds": 0.8889798731480544,
+        "wrapper_and_waited_child_system_seconds": 0.6650225145159379,
+        "max_rss_kib": 1.0
+      },
+      "parent_wall_median_reduction_percent": 10.216867102549699
+    },
+    {
+      "id": "titration-refinement",
+      "timed_samples_each": 8,
+      "canonical_output_sha256": "436c6855003b7bb8bd22b0bdb655868f680e05e034bb3daefe13d1374a68db06",
+      "statistics": {
+        "baseline": {
+          "parent_wall_seconds": {
+            "median": 1.4175128946080804,
+            "minimum": 1.3629577402025461,
+            "maximum": 1.5031625218689442,
+            "mad": 0.03707339894026518
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "median": 1.2956590000000001,
+            "minimum": 1.232432,
+            "maximum": 1.386117,
+            "mad": 0.03949900000000006
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "median": 0.0309885,
+            "minimum": 0.023853,
+            "maximum": 0.039265999999999995,
+            "mad": 0.0045275
+          },
+          "max_rss_kib": {
+            "median": 37152.0,
+            "minimum": 37152,
+            "maximum": 37152,
+            "mad": 0.0
+          }
+        },
+        "candidate": {
+          "parent_wall_seconds": {
+            "median": 1.3539987476542592,
+            "minimum": 1.2721631359308958,
+            "maximum": 1.4910185243934393,
+            "mad": 0.035291921347379684
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "median": 1.236494,
+            "minimum": 1.1745619999999999,
+            "maximum": 1.327393,
+            "mad": 0.015885499999999997
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "median": 0.027333,
+            "minimum": 0.017832,
+            "maximum": 0.035928999999999996,
+            "mad": 0.0014114999999999996
+          },
+          "max_rss_kib": {
+            "median": 37152.0,
+            "minimum": 37152,
+            "maximum": 37152,
+            "mad": 0.0
+          }
+        }
+      },
+      "variance_details": {
+        "baseline": {
+          "parent_wall_seconds": {
+            "mean": 1.4226146114524454,
+            "population_stddev": 0.04644139936773468,
+            "relative_MAD": 0.026153835412210044,
+            "samples": [
+              1.4212397374212742,
+              1.3697281777858734,
+              1.391150813549757,
+              1.4137860517948866,
+              1.5031625218689442,
+              1.4417308177798986,
+              1.3629577402025461,
+              1.477161031216383
+            ]
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "mean": 1.302012125,
+            "population_stddev": 0.04786678968094035,
+            "relative_MAD": 0.03048564475683807,
+            "samples": [
+              1.312116,
+              1.232432,
+              1.276122,
+              1.279202,
+              1.386117,
+              1.332173,
+              1.253175,
+              1.34476
+            ]
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "mean": 0.030952749999999998,
+            "population_stddev": 0.0050605858788780565,
+            "relative_MAD": 0.14610258644335802,
+            "samples": [
+              0.036217,
+              0.025144999999999997,
+              0.023853,
+              0.027162,
+              0.039265999999999995,
+              0.034002,
+              0.030636999999999998,
+              0.03134
+            ]
+          },
+          "max_rss_kib": {
+            "mean": 37152,
+            "population_stddev": 0.0,
+            "relative_MAD": 0.0,
+            "samples": [
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152
+            ]
+          }
+        },
+        "candidate": {
+          "parent_wall_seconds": {
+            "mean": 1.3636505105532706,
+            "population_stddev": 0.06514237387527483,
+            "relative_MAD": 0.02606495863347091,
+            "samples": [
+              1.2721631359308958,
+              1.3687052559107542,
+              1.3506865035742521,
+              1.4910185243934393,
+              1.3332531452178955,
+              1.3041605073958635,
+              1.4319060202687979,
+              1.3573109917342663
+            ]
+          },
+          "wrapper_and_waited_child_user_seconds": {
+            "mean": 1.24819475,
+            "population_stddev": 0.04411592820838639,
+            "relative_MAD": 0.012847211551370244,
+            "samples": [
+              1.1745619999999999,
+              1.258073,
+              1.236396,
+              1.299032,
+              1.236592,
+              1.226302,
+              1.327393,
+              1.227208
+            ]
+          },
+          "wrapper_and_waited_child_system_seconds": {
+            "mean": 0.027040124999999998,
+            "population_stddev": 0.004640406217064945,
+            "relative_MAD": 0.051640873669191074,
+            "samples": [
+              0.025845,
+              0.027822,
+              0.035928999999999996,
+              0.028012,
+              0.025369,
+              0.017832,
+              0.026844,
+              0.028668
+            ]
+          },
+          "max_rss_kib": {
+            "mean": 37152,
+            "population_stddev": 0.0,
+            "relative_MAD": 0.0,
+            "samples": [
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152,
+              37152
+            ]
+          }
+        }
+      },
+      "gnu_time_medians": {
+        "baseline": {
+          "wall_seconds": 1.32,
+          "user_seconds": 1.29,
+          "system_seconds": 0.02,
+          "max_rss_kib": 31196.0
+        },
+        "candidate": {
+          "wall_seconds": 1.2650000000000001,
+          "user_seconds": 1.23,
+          "system_seconds": 0.02,
+          "max_rss_kib": 25054.0
+        }
+      },
+      "candidate_to_baseline_median_ratio": {
+        "parent_wall_seconds": 0.9551932492498547,
+        "wrapper_and_waited_child_user_seconds": 0.954335978833937,
+        "wrapper_and_waited_child_system_seconds": 0.8820368846507576,
+        "max_rss_kib": 1.0
+      },
+      "parent_wall_median_reduction_percent": 4.4806750750145286
+    }
+  ],
+  "raw_evidence_sha256": {
+    "startup/baseline-pilot/measurement.json": "d8158e470481cb9d258d2c2033a24a12f638c0eee4507a0f953cc4132bd0baed",
+    "startup/baseline-pilot/stdout.jsonl": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+    "startup/baseline-pilot/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "startup/baseline-pilot/gnu-time.txt": "143510a01f57d920611c806387933abf443c7c38136f9eda4d65598b103efb49",
+    "startup/baseline-pilot/command.json": "cf947604694c6113927fe03373a36f85053cddd2f1a182589a94e2526e610394",
+    "startup/candidate-pilot/measurement.json": "2c678a163101acb823b61cf398b6fecd6b2f0c5bbd6bb0edaafaa39d9a834fbc",
+    "startup/candidate-pilot/stdout.jsonl": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+    "startup/candidate-pilot/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "startup/candidate-pilot/gnu-time.txt": "67fe5d44ba8b8c18f806c9747c4c05ecba6ba1492cee5181adefce042fc4aab9",
+    "startup/candidate-pilot/command.json": "f9bb32441d246dfcfa738ec826e24277f097691f41674d0d8f49204b26b1ae74",
+    "startup/warmup-0/measurement.json": "cf482e06170943559749fdbc3468db0cfa1fd152698c6875c896bfd1c2397ea2",
+    "startup/warmup-0/stdout.jsonl": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+    "startup/warmup-0/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "startup/warmup-0/gnu-time.txt": "2d6a6ace26a5e86b7a55189786cee661a3ea7f16427af846b316e483d917cb1e",
+    "startup/warmup-0/command.json": "7ae2bf0214ce46b240b03ee05033f9905c8b3f92cdf95ee6319e8326cae566b1",
+    "startup/warmup-1/measurement.json": "eb6dcbf34aceccae132da84c1b67d7d03a9699becb6240e072b4037615bcf770",
+    "startup/warmup-1/stdout.jsonl": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+    "startup/warmup-1/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "startup/warmup-1/gnu-time.txt": "76d91305be94808d771638d5c8b79d58349697b4c6b227ac9274513a476dedff",
+    "startup/warmup-1/command.json": "f5b6ac3046d819d6ec06d27e91f8dc3fca059ccd2a9c7eaca6c4fdb1f2bf5793",
+    "startup/warmup-2/measurement.json": "40606355b41acd4b1d48871583f773e2ee73d75db9fd71664fd899c2be42a955",
+    "startup/warmup-2/stdout.jsonl": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+    "startup/warmup-2/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "startup/warmup-2/gnu-time.txt": "02243e0df4e9e7c90f8aaa194e2862d05304fbed0e9f57d6bcb6bf47e8734ee8",
+    "startup/warmup-2/command.json": "e42d2198a98e69cfe4c177d6750de1d22807f96d153b41917909ccb25ffe4748",
+    "startup/warmup-3/measurement.json": "2c0fba141b5f21c3c2df3cb598792444acc8c5544fea6b182ae209fd00eed9a4",
+    "startup/warmup-3/stdout.jsonl": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+    "startup/warmup-3/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "startup/warmup-3/gnu-time.txt": "76d0326ac6753f6a5bad02270d79508d2fc440b5f50049473b3d1166aa35d976",
+    "startup/warmup-3/command.json": "098e2f347b4a9a1ba6baddfda24b014921592109686321878929cd70cdfff96d",
+    "startup/paired-0/measurement.json": "690b3f094b2ac0080bd2180d606c5bbcbe2b18fab3aaf296e3348cb978bcade6",
+    "startup/paired-0/stdout.jsonl": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+    "startup/paired-0/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "startup/paired-0/gnu-time.txt": "04e07fe87c8b3d0fcc392a7160f6097e91f294efcca8e0fe8309f132c7c7202f",
+    "startup/paired-0/command.json": "3668f9489bf0b57c9ade04f184fb071a5892b07afb8d0b3079e1bc978fef84c7",
+    "startup/paired-1/measurement.json": "5544e9354bb45ad0282b36801887afaab6edbbb6be1ecb2a882f273f0601e108",
+    "startup/paired-1/stdout.jsonl": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+    "startup/paired-1/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "startup/paired-1/gnu-time.txt": "c6cffc25b7dc7a7a07b61697353885549605d7fca79c55bb96bc2cc76d41e71e",
+    "startup/paired-1/command.json": "bae5e72e3fa75d8cbbe64f9a48313e93a106e8ebbf4f80ec47f79583d74651de",
+    "startup/paired-2/measurement.json": "ced38932576bb361e2fae636f60b3d72d31bd100be0f7e428af709a964e29f06",
+    "startup/paired-2/stdout.jsonl": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+    "startup/paired-2/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "startup/paired-2/gnu-time.txt": "fb7531299530feb6de8e966cb497fbf54b241c9f5149cd319074372c1eb36bda",
+    "startup/paired-2/command.json": "24893e6e3d4dd8319ebec9db0ce87c2728b39d7fccecbd9987f57728f7cdf359",
+    "startup/paired-3/measurement.json": "ca9d41297195716b68cb506df467ddba84fc8cd9faf9e255a90f258dd7de43e3",
+    "startup/paired-3/stdout.jsonl": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+    "startup/paired-3/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "startup/paired-3/gnu-time.txt": "8bcab329a5b919f463a50bcb146c4d947f1fd5b73bc55afec78244e2a325c251",
+    "startup/paired-3/command.json": "f5b4aa54748f254ab4cb9533fd52dfb0c4ee3b96dea651264f15d7132ec40286",
+    "startup/paired-4/measurement.json": "49354b19a5877fd810e6fb717987c204fbc5000c0675c5753ddbc123c0bd32fd",
+    "startup/paired-4/stdout.jsonl": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+    "startup/paired-4/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "startup/paired-4/gnu-time.txt": "cd823f326afa0c6a22d0f3292452e76be6aaa4ce8fc2241ff4d16b1f05e8959a",
+    "startup/paired-4/command.json": "42c7f417eaa91a29bde2b4cc64b8a581362e42c25e9cd022a2fe56e44938e9e9",
+    "startup/paired-5/measurement.json": "097db1e791f42ae7642b0d27c3fa4a279158fb3ee4d0d0640929a0874f536c97",
+    "startup/paired-5/stdout.jsonl": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+    "startup/paired-5/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "startup/paired-5/gnu-time.txt": "74410670266888892fab1fac51613a6401811fb2c74d02b35e9f3dc32ff3dd05",
+    "startup/paired-5/command.json": "cd546f30966abb6a693ce1a367838a1265420b12eef91de299f19acba0cdd1f5",
+    "startup/paired-6/measurement.json": "818f008838f7d0a0c20359f633b09419f8783e0fd401f5717b61c9cb8a26b5a4",
+    "startup/paired-6/stdout.jsonl": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+    "startup/paired-6/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "startup/paired-6/gnu-time.txt": "c36170ad719e427e60f7b499575d38867dfda0be600de1ab6ef41f269ab93881",
+    "startup/paired-6/command.json": "3fbebde36df2476d6476e11ba397a19c24214c0a930d31dbcc8c5236dd5e57bc",
+    "startup/paired-7/measurement.json": "ae35d1419bb6c54881e101e38d44125dc95d15fbd3cd436f903e943e3267aff1",
+    "startup/paired-7/stdout.jsonl": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+    "startup/paired-7/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "startup/paired-7/gnu-time.txt": "b8a8dc56d7f564d1f65b186c6c3eff9df8da70d27c45654367c1ac8e3b852c24",
+    "startup/paired-7/command.json": "23d69fcefb6f1c702ed5cc1b5fd8d4a751cdfc35fecd06e164b2fadf2100fa79",
+    "startup/paired-8/measurement.json": "ceaf6cb098779d65ee393dee1031f3bf460d106850ac64a4773c21252d342a78",
+    "startup/paired-8/stdout.jsonl": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+    "startup/paired-8/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "startup/paired-8/gnu-time.txt": "bbf985c776af0a4910b6feb83d0a5f8f011a7685a527263151085d3aca11f905",
+    "startup/paired-8/command.json": "4dcab2344d66b1dcdd0ed657f3f6ee3c9b64dc862b5131a784d8c011e60db605",
+    "startup/paired-9/measurement.json": "d73ca383e6159ae9725b65f8ea666802b4543621f9279cdcebdbc4f219b37831",
+    "startup/paired-9/stdout.jsonl": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+    "startup/paired-9/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "startup/paired-9/gnu-time.txt": "58dc89c96bfa788f202776097d256c0114ec4e15bd5737a9b9c3eb4441297a57",
+    "startup/paired-9/command.json": "d9e11bb4c8723c97cbfaceee7cbf61a80d027ee93b2e22846d74333196d5d386",
+    "startup/paired-10/measurement.json": "4640f6ab1c128dbff9b46164111dfe91d158d9e4aa058c8a56ef5d1ee9c1a83c",
+    "startup/paired-10/stdout.jsonl": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+    "startup/paired-10/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "startup/paired-10/gnu-time.txt": "5664b420c71eed78ed7cfd0818b2792b833b18d432263240aa66a1104aa7d2e5",
+    "startup/paired-10/command.json": "bd5ece4d26eea704ed94072fc47326802d6c26ba7cd044e1f7b780dd1d62090d",
+    "startup/paired-11/measurement.json": "1ba9ad99d3b91a5a31787b4b751a31333a47602387e9635f1b1170873d45af39",
+    "startup/paired-11/stdout.jsonl": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+    "startup/paired-11/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "startup/paired-11/gnu-time.txt": "cb593137cc3b322271c136efe82cf5a597121deff4fad45d2487aba661d64dd5",
+    "startup/paired-11/command.json": "9d42a0970f124b2828b54d7924e577c674e60dc75c3426a2f45d8951b15a52d9",
+    "startup/paired-12/measurement.json": "efcf59576442bec7fb0dc16f3e587919da0155848f09ed9542e853a26142bce4",
+    "startup/paired-12/stdout.jsonl": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+    "startup/paired-12/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "startup/paired-12/gnu-time.txt": "5b1e4dd77b9559f76c4820439fea1fc10fa2ffa984b0043f0a594ee17e0fbcc9",
+    "startup/paired-12/command.json": "25a3dca9f65d4f981e9e5401dc405b13bec107e1234928713049d59cc50ca826",
+    "startup/paired-13/measurement.json": "a91629ed2b251fec5c35d26e84efb4c79cfab0da37e4d5f618aeb6fd05bfc182",
+    "startup/paired-13/stdout.jsonl": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+    "startup/paired-13/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "startup/paired-13/gnu-time.txt": "2d85efd6600bf2d4bde58a817285b5116329d2af9a93229fab1c7ad497307dc5",
+    "startup/paired-13/command.json": "a582f63bc619592feda09c49eb23eda8c5916f6d3650e88a5e1d1162a3ce4629",
+    "startup/paired-14/measurement.json": "3eab9bcac2cb9b37f729b4185e5beef7e135cb957aa2f3f5761b3f67352ec011",
+    "startup/paired-14/stdout.jsonl": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+    "startup/paired-14/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "startup/paired-14/gnu-time.txt": "795698867e5d1031fabff78275d111d5d101dd53cfc31257bf332c9df3684667",
+    "startup/paired-14/command.json": "5e767781dacf0a450e07d603277552f04e91909d30ac9cf4be740fa55e097569",
+    "startup/paired-15/measurement.json": "faf1d75a400a769d50d0af6f83af91ace6373365d67b2aff9f82caf43b9854da",
+    "startup/paired-15/stdout.jsonl": "6bffd1ec103a96e257c63c18c82006a42f343734f050f388b40712c7f45b9b21",
+    "startup/paired-15/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "startup/paired-15/gnu-time.txt": "5664b420c71eed78ed7cfd0818b2792b833b18d432263240aa66a1104aa7d2e5",
+    "startup/paired-15/command.json": "0dabb32ac7b85d74269c06d89c7343678996c5d7f77e3b4c00a12006868160c5",
+    "salt-single/baseline-pilot/measurement.json": "3a398d8e6e54d1b41cef5d620c751f1b4442fc0021d359763f3910a347cd48c0",
+    "salt-single/baseline-pilot/stdout.jsonl": "09722961f938ef6c03134e775c653580c3ef9fde03ce5034f4e4ce50594a4a61",
+    "salt-single/baseline-pilot/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-single/baseline-pilot/gnu-time.txt": "5c8ecdf70576dcf9615883e7beb5ce40d14f958d9c1468a6e78e6efc8be11494",
+    "salt-single/baseline-pilot/command.json": "be26ce452ed4429db83e500938bfaf92a3bac923c4076967a9b6c4a2cd440a0f",
+    "salt-single/candidate-pilot/measurement.json": "d358dba13f902ccce9172dac8d0f7a74fd8a2d578730991b55ca2dcc29b4076c",
+    "salt-single/candidate-pilot/stdout.jsonl": "09722961f938ef6c03134e775c653580c3ef9fde03ce5034f4e4ce50594a4a61",
+    "salt-single/candidate-pilot/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-single/candidate-pilot/gnu-time.txt": "63865167b5c216413e7d1b8b4fddc21eb476b3076c21dd1522e8646cf9f7a658",
+    "salt-single/candidate-pilot/command.json": "03becbe0d1cb73afce6acd265c02836b0f70d8e993bbc2a115709f18ad184412",
+    "salt-single/warmup-0/measurement.json": "08a7efa42a374909361eec6faa2166d989aa56ccb81cbe2a97fcba695c7030d6",
+    "salt-single/warmup-0/stdout.jsonl": "09722961f938ef6c03134e775c653580c3ef9fde03ce5034f4e4ce50594a4a61",
+    "salt-single/warmup-0/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-single/warmup-0/gnu-time.txt": "7f5b689bdc41e31fbb2df42c2e03709c8b4b09720321d10f7b593eae2128e147",
+    "salt-single/warmup-0/command.json": "baeb88e248d8a1128800fab2ee4301055c8ede76e5b808ee27c4e7da39baed6f",
+    "salt-single/warmup-1/measurement.json": "262171daec62cc852555ebc182a90af29e22941142bd61f8fa092f22c863e4dd",
+    "salt-single/warmup-1/stdout.jsonl": "09722961f938ef6c03134e775c653580c3ef9fde03ce5034f4e4ce50594a4a61",
+    "salt-single/warmup-1/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-single/warmup-1/gnu-time.txt": "8ee8c30333fbd79a2c62208b291bd224da574779da7746a7fdbae11bfe32792f",
+    "salt-single/warmup-1/command.json": "5017ce1b08e0b1e0d2d9c830dafa0880f61b56407c33f8c7fb277536d225a445",
+    "salt-single/warmup-2/measurement.json": "b69fe3529b6d574a07db0477658c8ec02a275ec38d5fa37b7273c85f21d7ca55",
+    "salt-single/warmup-2/stdout.jsonl": "09722961f938ef6c03134e775c653580c3ef9fde03ce5034f4e4ce50594a4a61",
+    "salt-single/warmup-2/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-single/warmup-2/gnu-time.txt": "eac47a30a4e871695ba79b7b0bff5da7f1a7666476e2945ad7f46069cf5018c3",
+    "salt-single/warmup-2/command.json": "b46195859cbc432e868522ab6f1d600b050b849ea28a27f848b2334f1210859a",
+    "salt-single/warmup-3/measurement.json": "ccaeffc6ea25c02817b58f12c0ef8db600a8ac4aa28a0450cbdc6210d0d72107",
+    "salt-single/warmup-3/stdout.jsonl": "09722961f938ef6c03134e775c653580c3ef9fde03ce5034f4e4ce50594a4a61",
+    "salt-single/warmup-3/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-single/warmup-3/gnu-time.txt": "81421ce32b2e6b7a17223922798d12e0a9aca21c50f3b1ef174e5ce265afc085",
+    "salt-single/warmup-3/command.json": "eb60a4d181aa8f8ca84ec0d3f4e1df4880cc2a4c6e95aaf460aee7a486dd4f3e",
+    "salt-single/paired-0/measurement.json": "c6d634fc0ff75cf812f2f8d6d37764d5b1ab5c4d0cc0580794d932b53a6b4b01",
+    "salt-single/paired-0/stdout.jsonl": "09722961f938ef6c03134e775c653580c3ef9fde03ce5034f4e4ce50594a4a61",
+    "salt-single/paired-0/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-single/paired-0/gnu-time.txt": "186e8c74471dd8239b376653de70434505e138de738cdeb75d8f137b3614a978",
+    "salt-single/paired-0/command.json": "b4ea86e9c53a81c390928da1df70fec1dda8daf661e1f5575e1549967a9bf5cb",
+    "salt-single/paired-1/measurement.json": "dac1e010aeda8f4da152b41debb99a4c1fa5cae99599ba32c8c8eb3e2878a14c",
+    "salt-single/paired-1/stdout.jsonl": "09722961f938ef6c03134e775c653580c3ef9fde03ce5034f4e4ce50594a4a61",
+    "salt-single/paired-1/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-single/paired-1/gnu-time.txt": "6056bf5d19c2e401d99d9a770d552843f6cd8a92ab7650d684bf1d159baa994a",
+    "salt-single/paired-1/command.json": "db58cb0358763e24f6c9fb54a6f0394fd2fc4648b2ef682e9a57e5488c51c29e",
+    "salt-single/paired-2/measurement.json": "7929670ce1380b002d4bdf46cfdc82703a6ce25d7d96788766bd7e86b47d363c",
+    "salt-single/paired-2/stdout.jsonl": "09722961f938ef6c03134e775c653580c3ef9fde03ce5034f4e4ce50594a4a61",
+    "salt-single/paired-2/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-single/paired-2/gnu-time.txt": "c9bed1408aa0591639b52f71cd6e6c94a7a012df756ee6ee5f8c6c47e9da7c09",
+    "salt-single/paired-2/command.json": "36a0ad7979ab0c830bde3b23504c16fd871bcd54b504bc694ab18089318be76c",
+    "salt-single/paired-3/measurement.json": "8d6a49ae1d9b6cbfdc3152802f1ce0c16a01e85c79377a935f4659a3314b9888",
+    "salt-single/paired-3/stdout.jsonl": "09722961f938ef6c03134e775c653580c3ef9fde03ce5034f4e4ce50594a4a61",
+    "salt-single/paired-3/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-single/paired-3/gnu-time.txt": "708ca29ee6181b8778767f58d3bba3c525ced70675449830a899de9eeaf9e8d8",
+    "salt-single/paired-3/command.json": "7b213f88a0c389a46637ba87b4aa1c115a0f057cf172e12153b4ebd2ff74adc7",
+    "salt-single/paired-4/measurement.json": "89c92888ce337b797211b2af443d2db2ffe04a2da371f91b450c2dd635e6160d",
+    "salt-single/paired-4/stdout.jsonl": "09722961f938ef6c03134e775c653580c3ef9fde03ce5034f4e4ce50594a4a61",
+    "salt-single/paired-4/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-single/paired-4/gnu-time.txt": "b3ce63a8e8ba8eb330a8363f1879241d8650f7ecd7bebd086523bf4866f2a8eb",
+    "salt-single/paired-4/command.json": "9ffb69ac69aab1a1ead7f21ae5166de1a5c9350952c80495ad34191e1d36561f",
+    "salt-single/paired-5/measurement.json": "7874b7c95962a02fc5586b6199cd79e637f8e65d7d2b15126ae71253b8abd91c",
+    "salt-single/paired-5/stdout.jsonl": "09722961f938ef6c03134e775c653580c3ef9fde03ce5034f4e4ce50594a4a61",
+    "salt-single/paired-5/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-single/paired-5/gnu-time.txt": "3eed505897ec8129f402892bea3085aa0d5d6b6db6f5c97ea0ad1c86a1429cd9",
+    "salt-single/paired-5/command.json": "c4446775014f9e919affe973c86ff6050a02d005a2ab84c1cc002154ddff59bd",
+    "salt-single/paired-6/measurement.json": "397f539b0a35486178469b23006574388b7c7580630d7db16518d9a9cc3153c9",
+    "salt-single/paired-6/stdout.jsonl": "09722961f938ef6c03134e775c653580c3ef9fde03ce5034f4e4ce50594a4a61",
+    "salt-single/paired-6/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-single/paired-6/gnu-time.txt": "e5ec5ac359e5a8b13ab673f3b2ceb8e13ad849c1ad76fa914f4009ab6b415506",
+    "salt-single/paired-6/command.json": "f286756e0496a731821296d28ea8c8956e200f2e07b056f4cc029c0014dfc0e4",
+    "salt-single/paired-7/measurement.json": "5ec2c5f6a13fd42bf38e56da06660affccf09f9b511b8c0f34d6e4ba534a3207",
+    "salt-single/paired-7/stdout.jsonl": "09722961f938ef6c03134e775c653580c3ef9fde03ce5034f4e4ce50594a4a61",
+    "salt-single/paired-7/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-single/paired-7/gnu-time.txt": "8ee8c30333fbd79a2c62208b291bd224da574779da7746a7fdbae11bfe32792f",
+    "salt-single/paired-7/command.json": "bf25b75e90785b3c56fff182c9474053038a81b5c0c55e62bbe87729f98874b1",
+    "salt-single/paired-8/measurement.json": "96e8329e3d54593b953c211edd6fd462093416e6c08c148f0a82f8cacd896442",
+    "salt-single/paired-8/stdout.jsonl": "09722961f938ef6c03134e775c653580c3ef9fde03ce5034f4e4ce50594a4a61",
+    "salt-single/paired-8/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-single/paired-8/gnu-time.txt": "48a41a4953bbfac810d57f4d3fe41461baa33e8fe6c827df12f0fa6dfcbad5d4",
+    "salt-single/paired-8/command.json": "b48bbdf7809bbccafa4b9c3bcaa5ef47a408558cb679b8a955283d157dd63f8a",
+    "salt-single/paired-9/measurement.json": "a231940da601e2f67208730c4f66499c7f675f30119ddbfd85a4ded6ae2b0b67",
+    "salt-single/paired-9/stdout.jsonl": "09722961f938ef6c03134e775c653580c3ef9fde03ce5034f4e4ce50594a4a61",
+    "salt-single/paired-9/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-single/paired-9/gnu-time.txt": "017149db97fb48c2c2e49fc6785e6b4030f9eb243d763ac483d9228256a12da1",
+    "salt-single/paired-9/command.json": "10b8c41eb3b5de50789815d4fa0c3c5c7016c809e7acec864edcf4e43dcde3fb",
+    "salt-single/paired-10/measurement.json": "4690ef26d642a94916ac557b655986db5a66e35e470286fa5b76f00469d5fb35",
+    "salt-single/paired-10/stdout.jsonl": "09722961f938ef6c03134e775c653580c3ef9fde03ce5034f4e4ce50594a4a61",
+    "salt-single/paired-10/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-single/paired-10/gnu-time.txt": "3fd7986de8d6134d4105fc36f45f0c07b8d8c791ec2016e3e7123e0c704bb17a",
+    "salt-single/paired-10/command.json": "2bb4f6427103844a885eaeaaec2ca3aeacfd3e3ce4d7c8a9961ae4bdd22236aa",
+    "salt-single/paired-11/measurement.json": "84f3bf81c8d026b334e040d9ac057b54b61e8d2c44118d4c0d7d9ec27882337a",
+    "salt-single/paired-11/stdout.jsonl": "09722961f938ef6c03134e775c653580c3ef9fde03ce5034f4e4ce50594a4a61",
+    "salt-single/paired-11/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-single/paired-11/gnu-time.txt": "b5f94550d5f7d98377e89e1ddfa662527a6f0bb326d49c4ec02a6529192725b3",
+    "salt-single/paired-11/command.json": "f17d950c04dc2b128f3bb04891d6edc97c3deea0114617cc99944cf6517429e0",
+    "salt-single/paired-12/measurement.json": "27e3c75f06e4fc988bbc1fcb009efd91fc6899aec8bbeaddf6762bf7bf5fe57c",
+    "salt-single/paired-12/stdout.jsonl": "09722961f938ef6c03134e775c653580c3ef9fde03ce5034f4e4ce50594a4a61",
+    "salt-single/paired-12/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-single/paired-12/gnu-time.txt": "242196e14d939a5248fdc800386fec089c32e6a07f1809c9542dc4bf552824a4",
+    "salt-single/paired-12/command.json": "33bba43b6fbc7e5e6e10761ef9071678382a7b89d76113817e53334e4211ad0e",
+    "salt-single/paired-13/measurement.json": "ce10ace11ada190323c02ef136d606de399fd8274786e43bb50784ed791c2cbb",
+    "salt-single/paired-13/stdout.jsonl": "09722961f938ef6c03134e775c653580c3ef9fde03ce5034f4e4ce50594a4a61",
+    "salt-single/paired-13/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-single/paired-13/gnu-time.txt": "c5716842578a7150340d2421c9ce93ccfae8942bc9032748e2af7ff44da0d17c",
+    "salt-single/paired-13/command.json": "a4bd9dbac2e328bd76c65f26da238741d76f12d592cc70fca5a5899dd97f12ce",
+    "salt-single/paired-14/measurement.json": "4d6164885292a8b980a803040d2991690b97b090af6cebb2f3759da22c4dbfe5",
+    "salt-single/paired-14/stdout.jsonl": "09722961f938ef6c03134e775c653580c3ef9fde03ce5034f4e4ce50594a4a61",
+    "salt-single/paired-14/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-single/paired-14/gnu-time.txt": "6c4a7f70e243b544fac8ff4b832e6036892fffb365c2c76fa7f9c605256efe20",
+    "salt-single/paired-14/command.json": "38a50ab752ab0fd1b1af20c18d3eeb0aecb08334ca058d65f18fbf4de76bc1f2",
+    "salt-single/paired-15/measurement.json": "5fa1703d4371b4da54997bca59faf8397c59efd649777be9cf3caec1801fe001",
+    "salt-single/paired-15/stdout.jsonl": "09722961f938ef6c03134e775c653580c3ef9fde03ce5034f4e4ce50594a4a61",
+    "salt-single/paired-15/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-single/paired-15/gnu-time.txt": "548f2969804050ab218b7c2b447f24766b858ac1cff89d3de97dba694d9891d0",
+    "salt-single/paired-15/command.json": "faf668625dbc27889f9e96d2a8aba40b9d88625c2948d77151c6775b77f83a79",
+    "salt-batch/baseline-pilot/measurement.json": "856a565f9ccf5aa8878f6b01e841e2abcd38aa507a2a503f738adedbeb9f6fad",
+    "salt-batch/baseline-pilot/stdout.jsonl": "bd4bfcb5e73046301e2448db2e52f89ad7aa6d44c24a0b0a85b1a04857d514c4",
+    "salt-batch/baseline-pilot/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-batch/baseline-pilot/gnu-time.txt": "868b5691d539326da62c8d174c942f78d480ba3c1aa8b79650895921b08f962a",
+    "salt-batch/baseline-pilot/command.json": "758f35792dafe70062c81e64bb92829612509ea014e03a4bdd540d03c1e59bfd",
+    "salt-batch/candidate-pilot/measurement.json": "784cc887cf5d6bd92cb4abe1990a50487523324df1fb8418989ecc631b5913f1",
+    "salt-batch/candidate-pilot/stdout.jsonl": "bd4bfcb5e73046301e2448db2e52f89ad7aa6d44c24a0b0a85b1a04857d514c4",
+    "salt-batch/candidate-pilot/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-batch/candidate-pilot/gnu-time.txt": "1984aff8743313396136555bfee3a338a61ec1ac9c9fb09cd90dbf18a4daa2d6",
+    "salt-batch/candidate-pilot/command.json": "136920f2e591b682cca66090ce8468fffa893da147d0a5480950ec4ef134e139",
+    "salt-batch/warmup-0/measurement.json": "9b9f71440e929730d0aaf77cfe716adbb26a102d12146685e0ee5167aba11aa7",
+    "salt-batch/warmup-0/stdout.jsonl": "bd4bfcb5e73046301e2448db2e52f89ad7aa6d44c24a0b0a85b1a04857d514c4",
+    "salt-batch/warmup-0/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-batch/warmup-0/gnu-time.txt": "2c95d1cdb847c593a021a38d48e448bf360b394d3ab6c346c4651bae5c0a9414",
+    "salt-batch/warmup-0/command.json": "887025b28a2eba359d7f221a29421a03935e10650ca5ab84073706928cb187c4",
+    "salt-batch/warmup-1/measurement.json": "b324c4f4818ae11e8f515aa5476eed312d9f1688ac5949d72d3a81eff0e91685",
+    "salt-batch/warmup-1/stdout.jsonl": "bd4bfcb5e73046301e2448db2e52f89ad7aa6d44c24a0b0a85b1a04857d514c4",
+    "salt-batch/warmup-1/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-batch/warmup-1/gnu-time.txt": "51c86c285d03cb1063b033b2db3fe888a5bb70200c43c8d4faafd0a63f425a46",
+    "salt-batch/warmup-1/command.json": "190519d82fbf5dd915b71093ab5087442b460c1161f54c790daccd6681e1a93a",
+    "salt-batch/warmup-2/measurement.json": "0a19a5bcae0c6d12ab7b8151c7c4ae6a56f2cbfe74eee29d84db74895b2ce462",
+    "salt-batch/warmup-2/stdout.jsonl": "bd4bfcb5e73046301e2448db2e52f89ad7aa6d44c24a0b0a85b1a04857d514c4",
+    "salt-batch/warmup-2/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-batch/warmup-2/gnu-time.txt": "5ee3012e58f2b18f80ba2724e047a0a93bfadc3c1cd78707de19bb4dac31f6b4",
+    "salt-batch/warmup-2/command.json": "50742df92abc17a4fa9c7d2536b5bc9563283c8246ce8e44246c8479a4c64d26",
+    "salt-batch/warmup-3/measurement.json": "30d9fc1fd69bb02ac369d17e9c4b6e28cc5d55b78eec64251fdbe9f962c93561",
+    "salt-batch/warmup-3/stdout.jsonl": "bd4bfcb5e73046301e2448db2e52f89ad7aa6d44c24a0b0a85b1a04857d514c4",
+    "salt-batch/warmup-3/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-batch/warmup-3/gnu-time.txt": "35d5cb7bb1953e8fa2af68d5a4969b3af2720607dda33baf759a309c6799f0bd",
+    "salt-batch/warmup-3/command.json": "79d3c10db753e6c5cef1a95d159eec0a42cddd092f3a011bd8fb9d005d88737c",
+    "salt-batch/paired-0/measurement.json": "c9fccd28f4c1f57d819aea263ea13142719e38aeaf06d3521af3e77ab3c4b4d2",
+    "salt-batch/paired-0/stdout.jsonl": "bd4bfcb5e73046301e2448db2e52f89ad7aa6d44c24a0b0a85b1a04857d514c4",
+    "salt-batch/paired-0/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-batch/paired-0/gnu-time.txt": "3be2a16ce409fc29f147336a5a2b97a8bc11ec0f9a1d000931a56152380630fe",
+    "salt-batch/paired-0/command.json": "a9d20a7dd26b5785ecff6f47a09779f635212b25b7dd0ff302bf056e89863f11",
+    "salt-batch/paired-1/measurement.json": "49d8cb7f2dac5c5763b8bcd239cb6b0f2b239f424c7d1ae6e9398c4a2c7518e5",
+    "salt-batch/paired-1/stdout.jsonl": "bd4bfcb5e73046301e2448db2e52f89ad7aa6d44c24a0b0a85b1a04857d514c4",
+    "salt-batch/paired-1/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-batch/paired-1/gnu-time.txt": "12dc7588239ba8de50a80a58c8bfc7512e7bcc44c2dbd7594d7473ee75aecab1",
+    "salt-batch/paired-1/command.json": "fa9a6423db3c092a86e796adef85d95d2b8dc2f84ef33d19cd08b287f77884b1",
+    "salt-batch/paired-2/measurement.json": "df54ecb8cb13c9b617725a2ae6068c2084033c59c18d6ccab3d4fae2ea63129b",
+    "salt-batch/paired-2/stdout.jsonl": "bd4bfcb5e73046301e2448db2e52f89ad7aa6d44c24a0b0a85b1a04857d514c4",
+    "salt-batch/paired-2/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-batch/paired-2/gnu-time.txt": "220ba92f891218380f0366e15aea2e90161114916c1f1bcbb55831259c658bd3",
+    "salt-batch/paired-2/command.json": "3756ea5bf8c894b7133b3557bcc383aaac9c69fceeb9f3f668ec07082d1aae02",
+    "salt-batch/paired-3/measurement.json": "126fffaac6ae2388251710bb914fe4cf0de274acfa9322baeba88c2f1aa27b13",
+    "salt-batch/paired-3/stdout.jsonl": "bd4bfcb5e73046301e2448db2e52f89ad7aa6d44c24a0b0a85b1a04857d514c4",
+    "salt-batch/paired-3/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-batch/paired-3/gnu-time.txt": "a78185ca050bfa708c6ecf9468e69d5e32244aa01be13df543e17c1147506ffb",
+    "salt-batch/paired-3/command.json": "ce03e6fd4c1669512877ea812bde8fdf093d4b06e6717c54e17045c8d6745e95",
+    "salt-batch/paired-4/measurement.json": "d4a0c023144ff33054194671f255c3974a915c803a51af45a59243e32b3b406d",
+    "salt-batch/paired-4/stdout.jsonl": "bd4bfcb5e73046301e2448db2e52f89ad7aa6d44c24a0b0a85b1a04857d514c4",
+    "salt-batch/paired-4/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-batch/paired-4/gnu-time.txt": "1b50c2398d584d34c328b0bc16ddbefd65768b753970e80bfa84cec91abe27fb",
+    "salt-batch/paired-4/command.json": "e969896019273b7fe3ef507db7ed37fe1f68ad825398e4f98fcf63c4857b4084",
+    "salt-batch/paired-5/measurement.json": "e257e37a1414afa593d9650d10b07f7e1273688461e1a319fb938edaa1efe647",
+    "salt-batch/paired-5/stdout.jsonl": "bd4bfcb5e73046301e2448db2e52f89ad7aa6d44c24a0b0a85b1a04857d514c4",
+    "salt-batch/paired-5/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-batch/paired-5/gnu-time.txt": "5ee0f3348f46a486b409421f531c23bdb69bff7d26b714f28fbdfd6a6ad5a1b6",
+    "salt-batch/paired-5/command.json": "16ae8701ae73286d7c6ce0c0ebb0da175d64bacc6a13f55003065f61435ff272",
+    "salt-batch/paired-6/measurement.json": "dd52a77617d272bcb36769f7d42b5e2a74d9c3137c80ac639e142a3a810fd067",
+    "salt-batch/paired-6/stdout.jsonl": "bd4bfcb5e73046301e2448db2e52f89ad7aa6d44c24a0b0a85b1a04857d514c4",
+    "salt-batch/paired-6/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-batch/paired-6/gnu-time.txt": "aa7998298456985610b393ddb081eec15b98f4d6cad69b8f4b56e20dc6cab17f",
+    "salt-batch/paired-6/command.json": "8174344e220f7f3000e07f9dfb270b497db7f1b14290b013689ee7710747dbcd",
+    "salt-batch/paired-7/measurement.json": "a4e101a6a6190574c1da142fad344907b196baa888b50b200c2af48063960de7",
+    "salt-batch/paired-7/stdout.jsonl": "bd4bfcb5e73046301e2448db2e52f89ad7aa6d44c24a0b0a85b1a04857d514c4",
+    "salt-batch/paired-7/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-batch/paired-7/gnu-time.txt": "cb915ecf891cf97472fec042d09b7d9c106e2d305999fd17739914471b4126e1",
+    "salt-batch/paired-7/command.json": "831505bb2e720dec1b0f38e3f7a3d49233d37d97ec3b259fcf4bf2faf05501e5",
+    "salt-batch/paired-8/measurement.json": "c411fac8445032c8f2a70da4c04005da1263beab12a1b5c2904e2d9b33c0bddb",
+    "salt-batch/paired-8/stdout.jsonl": "bd4bfcb5e73046301e2448db2e52f89ad7aa6d44c24a0b0a85b1a04857d514c4",
+    "salt-batch/paired-8/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-batch/paired-8/gnu-time.txt": "9709b3006e59ea15fbc1d8f6cc2c219d771f8cd6072e2aad8af6f6c3f9ae5b84",
+    "salt-batch/paired-8/command.json": "26dad805bdabaa3602ca4300a814668ebcdcc4cef727710538f6b712d684b820",
+    "salt-batch/paired-9/measurement.json": "20a6b22ab0315a334c44f4f9acc825179634a71d2dac090d2c2791c71791e190",
+    "salt-batch/paired-9/stdout.jsonl": "bd4bfcb5e73046301e2448db2e52f89ad7aa6d44c24a0b0a85b1a04857d514c4",
+    "salt-batch/paired-9/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-batch/paired-9/gnu-time.txt": "db1196dd6d20e1d5ab662a42ff77b39f9c79789fbe1b04de202ebcd7e9d34924",
+    "salt-batch/paired-9/command.json": "273f59b698f16044f387ebff5628ca38db3707234e22a384e9a803fb5052e59d",
+    "salt-batch/paired-10/measurement.json": "15b4663d56c38f4884c3e5094f8faa1ad5fce507daf7f0e9d3d726a04b383ebe",
+    "salt-batch/paired-10/stdout.jsonl": "bd4bfcb5e73046301e2448db2e52f89ad7aa6d44c24a0b0a85b1a04857d514c4",
+    "salt-batch/paired-10/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-batch/paired-10/gnu-time.txt": "621c3f0ae9695666d356b645950dabde95b2f77a7350f9f6d0657ca58b892e99",
+    "salt-batch/paired-10/command.json": "557fae693aae5a25b4e6d85b3c5ac9f64d654d6247d6fc316a808a1e6ccb7a9b",
+    "salt-batch/paired-11/measurement.json": "d51d9dc24013b6bb3e53ca39f80c8077105b14169cd92c4fe3aa4ac87dec3004",
+    "salt-batch/paired-11/stdout.jsonl": "bd4bfcb5e73046301e2448db2e52f89ad7aa6d44c24a0b0a85b1a04857d514c4",
+    "salt-batch/paired-11/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-batch/paired-11/gnu-time.txt": "5270163aaeb01cdbae5d88bdc17fb21d35a36ddbe7071f60587e93c144025dd1",
+    "salt-batch/paired-11/command.json": "9a8da52b7e96ccaae4d4a231151117b2d0b2c3cc9d651e69a6cb687c99d897eb",
+    "salt-batch/paired-12/measurement.json": "17c22c04de3d1f0c04d121b136e3345806fb570d68f03661a811f5daf916582f",
+    "salt-batch/paired-12/stdout.jsonl": "bd4bfcb5e73046301e2448db2e52f89ad7aa6d44c24a0b0a85b1a04857d514c4",
+    "salt-batch/paired-12/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-batch/paired-12/gnu-time.txt": "12dc7588239ba8de50a80a58c8bfc7512e7bcc44c2dbd7594d7473ee75aecab1",
+    "salt-batch/paired-12/command.json": "672bd406b64fd6b5a7e7cef9c947533ce606b88dea255748652746e8fd675653",
+    "salt-batch/paired-13/measurement.json": "b68cbf83949c32dc80683b2df3aa16a4cf1dcacb91388e75712c845121162326",
+    "salt-batch/paired-13/stdout.jsonl": "bd4bfcb5e73046301e2448db2e52f89ad7aa6d44c24a0b0a85b1a04857d514c4",
+    "salt-batch/paired-13/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-batch/paired-13/gnu-time.txt": "8a79f569b106f20eac2efe123b1e1e27936fa922aad279244de077364c1b4a26",
+    "salt-batch/paired-13/command.json": "8d972bd63ec264b1d2b3c90be03f23836d208bb653fa81fb366f8214ddc7eafa",
+    "salt-batch/paired-14/measurement.json": "22e5521814215cae6b7a0e38842f358daa7bc348ef8f50a50288da7649d5d10e",
+    "salt-batch/paired-14/stdout.jsonl": "bd4bfcb5e73046301e2448db2e52f89ad7aa6d44c24a0b0a85b1a04857d514c4",
+    "salt-batch/paired-14/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-batch/paired-14/gnu-time.txt": "95b55745c3e343cc21b7f598278ba7318d563c067eebf4c5f39ca9f3158300b1",
+    "salt-batch/paired-14/command.json": "9c605c222d2ea76b56419d1bbe3771e96394cde7b68502f301c3945a1074ae0d",
+    "salt-batch/paired-15/measurement.json": "a464c7d60d0e914c5c39fd5b2f3fae82daa4aa001e37a1a433fb964b136c4b8a",
+    "salt-batch/paired-15/stdout.jsonl": "bd4bfcb5e73046301e2448db2e52f89ad7aa6d44c24a0b0a85b1a04857d514c4",
+    "salt-batch/paired-15/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "salt-batch/paired-15/gnu-time.txt": "732671b7e3ac683f3481a2cfc61d9ac1ae261cc7764f8bbfeb9820c985e30637",
+    "salt-batch/paired-15/command.json": "9665e990631133b83e8fa97d173ea5d8022ec69bc5591757ac481ff47dc731d6",
+    "titration-refinement/baseline-pilot/measurement.json": "c4bb6b5d87ff423b7bfb580a06f7fa59af4d655244216ddfced63ecd5410c410",
+    "titration-refinement/baseline-pilot/stdout.jsonl": "65124c17502e0e4599f3e6d9d86a004d7c81aa95a1cc405b50c4449f6ff0e5f3",
+    "titration-refinement/baseline-pilot/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "titration-refinement/baseline-pilot/gnu-time.txt": "96702469115b7b674d55feb4158aa5a602f5a8c6f926cc7923d857059f9e4f2f",
+    "titration-refinement/baseline-pilot/command.json": "441af04222c4fe0edc36e04bef69ba36f75d9736ce75ab640c230e30c7393a09",
+    "titration-refinement/candidate-pilot/measurement.json": "2e320bb6947275f2f3e2044e1a4fc41e9419cfacc55a11077b2f15ab0dfa2b36",
+    "titration-refinement/candidate-pilot/stdout.jsonl": "65124c17502e0e4599f3e6d9d86a004d7c81aa95a1cc405b50c4449f6ff0e5f3",
+    "titration-refinement/candidate-pilot/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "titration-refinement/candidate-pilot/gnu-time.txt": "0dbf6463eda9028ed9ff93ee1927072c2dbebd80c19c40130a0d6ffce0904bc3",
+    "titration-refinement/candidate-pilot/command.json": "a63c33fa9d9ba635edc22db76c16c74357909e4b78f73b6037d56cf3546ad00f",
+    "titration-refinement/warmup-0/measurement.json": "e03c447b3de61b974e0c43124fe06af807075e757c5d238a4314139874171388",
+    "titration-refinement/warmup-0/stdout.jsonl": "65124c17502e0e4599f3e6d9d86a004d7c81aa95a1cc405b50c4449f6ff0e5f3",
+    "titration-refinement/warmup-0/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "titration-refinement/warmup-0/gnu-time.txt": "4512cc867c85a69f74276fb8bc96f1be279fce0c9f80e2fb8e49e64fe6a21eb1",
+    "titration-refinement/warmup-0/command.json": "b2df2a966e9c3764e6e5b457a14e7501ab26c747e8f59e6950c90f955df5d81c",
+    "titration-refinement/warmup-1/measurement.json": "daa79f87d737f51e6098b4a7c4e9892d5a804b6909df0c9b36b5e396cb4cf197",
+    "titration-refinement/warmup-1/stdout.jsonl": "65124c17502e0e4599f3e6d9d86a004d7c81aa95a1cc405b50c4449f6ff0e5f3",
+    "titration-refinement/warmup-1/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "titration-refinement/warmup-1/gnu-time.txt": "b1ee3febfa35546da6a19030764d60ec4997f2e34281b575c832d3c460d50652",
+    "titration-refinement/warmup-1/command.json": "b73f319d69abfe04cb4ae718c19c2739493db1571b2b38e6a67f957fed9c5a06",
+    "titration-refinement/warmup-2/measurement.json": "9016504a8070694ded901dddc8e8881c82f4f91c897b59d47e37f09403c24ff0",
+    "titration-refinement/warmup-2/stdout.jsonl": "65124c17502e0e4599f3e6d9d86a004d7c81aa95a1cc405b50c4449f6ff0e5f3",
+    "titration-refinement/warmup-2/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "titration-refinement/warmup-2/gnu-time.txt": "99414275024e4860e32cd552e3cd89d8880827bce0cb9f81844d52926920b7ee",
+    "titration-refinement/warmup-2/command.json": "aedb7b33890349f8f858259a1a6c95596d44c715e473145fcd7b58f38bb2c975",
+    "titration-refinement/warmup-3/measurement.json": "fa09665478dd842cdffb0c0667af5d5f958577fe75427bc718b84989bd8e0a21",
+    "titration-refinement/warmup-3/stdout.jsonl": "65124c17502e0e4599f3e6d9d86a004d7c81aa95a1cc405b50c4449f6ff0e5f3",
+    "titration-refinement/warmup-3/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "titration-refinement/warmup-3/gnu-time.txt": "d0fde06f729c9eb5b79c5cda1fa0d8a3563b6486a99d46822a6bf2da7f908f97",
+    "titration-refinement/warmup-3/command.json": "1f9f862be45b9072fd8650d2d6ac2b51a4494352476abcea51c4033ad652a077",
+    "titration-refinement/paired-0/measurement.json": "9c5f7f6131c0f10a517ad048647eed8621dcb46cacef032325821e1133a3cb83",
+    "titration-refinement/paired-0/stdout.jsonl": "65124c17502e0e4599f3e6d9d86a004d7c81aa95a1cc405b50c4449f6ff0e5f3",
+    "titration-refinement/paired-0/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "titration-refinement/paired-0/gnu-time.txt": "5e4120b8081b5e8bf30e558b395123e83bcb3ad35ff2113356f582efc813a80a",
+    "titration-refinement/paired-0/command.json": "4dba7176ca63bf4921ab0a9e7e6773490ed68861a021692fa3c713208d5cae3a",
+    "titration-refinement/paired-1/measurement.json": "1e29885bc527eb17f947c63422d07b25ccb444bda25ba84f8ced92d08729b725",
+    "titration-refinement/paired-1/stdout.jsonl": "65124c17502e0e4599f3e6d9d86a004d7c81aa95a1cc405b50c4449f6ff0e5f3",
+    "titration-refinement/paired-1/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "titration-refinement/paired-1/gnu-time.txt": "3ae9f5477b3105ae4c68a354d7b32287afb3d03f95de96d1d1a1544c88d51385",
+    "titration-refinement/paired-1/command.json": "695f4c0a3c46d03c983f1b2b7b40cb331b3bf709a0b8aebf0ae168f5c87971dc",
+    "titration-refinement/paired-2/measurement.json": "5c825dfc95221342ea89cfb07925d056d2dade5220b2d8124415afd5e81b019a",
+    "titration-refinement/paired-2/stdout.jsonl": "65124c17502e0e4599f3e6d9d86a004d7c81aa95a1cc405b50c4449f6ff0e5f3",
+    "titration-refinement/paired-2/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "titration-refinement/paired-2/gnu-time.txt": "ac7e9e69873f360b12bb8183aea08f966ad0e370afe2d84369f6905a10bf6e90",
+    "titration-refinement/paired-2/command.json": "04e7612e5b3e806cbb63d4e8a21eb82b1bc5f9011c22f889383f0494c4c9c1f2",
+    "titration-refinement/paired-3/measurement.json": "670071226392961cb1b2746b575e188f500d513d295e57f5adb26523bc2b00fe",
+    "titration-refinement/paired-3/stdout.jsonl": "65124c17502e0e4599f3e6d9d86a004d7c81aa95a1cc405b50c4449f6ff0e5f3",
+    "titration-refinement/paired-3/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "titration-refinement/paired-3/gnu-time.txt": "bb518be6518635bd30f4a9227165c3cecc1f6aaf382d18bf620283a6486a003e",
+    "titration-refinement/paired-3/command.json": "6500d066c8be9e7b90f30f1678423f682192d55feddbfbe9dcd8d7d91367234a",
+    "titration-refinement/paired-4/measurement.json": "9bf5d0c6e285b17277379eb7c6cce2af193a7ad71ead4fdffb299a1e197e01d6",
+    "titration-refinement/paired-4/stdout.jsonl": "65124c17502e0e4599f3e6d9d86a004d7c81aa95a1cc405b50c4449f6ff0e5f3",
+    "titration-refinement/paired-4/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "titration-refinement/paired-4/gnu-time.txt": "723cb7d52489daebdf4229a0101919bf9a7776f59d3ee5ac1b0dd536e2089dc7",
+    "titration-refinement/paired-4/command.json": "0ad46d446c995a7ed56424c471a403dffa183bf6e883ca3649855f8146afd913",
+    "titration-refinement/paired-5/measurement.json": "3a76237e030bfcadc5ba87aaa6fd4c11ed96b84c63052fd9e3580d126325e4f5",
+    "titration-refinement/paired-5/stdout.jsonl": "65124c17502e0e4599f3e6d9d86a004d7c81aa95a1cc405b50c4449f6ff0e5f3",
+    "titration-refinement/paired-5/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "titration-refinement/paired-5/gnu-time.txt": "a208cffcca1d8379b6b6c2b9f5e01acd122d4840df91c2bbbaa1b3d05152745d",
+    "titration-refinement/paired-5/command.json": "60e9e49ba1514fc54bba74b1fc9806239f504606304643bb1d0ca70c7239c11c",
+    "titration-refinement/paired-6/measurement.json": "531272f7f113d4e62ce974b3650de73878251ab8d3e39c6c0a38c7e1048f237b",
+    "titration-refinement/paired-6/stdout.jsonl": "65124c17502e0e4599f3e6d9d86a004d7c81aa95a1cc405b50c4449f6ff0e5f3",
+    "titration-refinement/paired-6/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "titration-refinement/paired-6/gnu-time.txt": "6821a8604599ddf077ebb2db2df05a4cccedfdadb6a45b28bb5dbf49cd0cc50d",
+    "titration-refinement/paired-6/command.json": "4c34122bb57b66e12c20383cf272389a5ec8ff69d497f3840cce8c7f29d4ccf1",
+    "titration-refinement/paired-7/measurement.json": "0ecf8ad8262028ca445339b6875f53d864f733500c807d5cfba9f9d584254b61",
+    "titration-refinement/paired-7/stdout.jsonl": "65124c17502e0e4599f3e6d9d86a004d7c81aa95a1cc405b50c4449f6ff0e5f3",
+    "titration-refinement/paired-7/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "titration-refinement/paired-7/gnu-time.txt": "816293f62695720436870803682e8a3dd08dd03cc8cf3e622fee7a50d3a277d6",
+    "titration-refinement/paired-7/command.json": "abe9df9dde9434755bc08ec2e80db82381840331c0ccc7aa9426916792cb5025",
+    "titration-refinement/paired-8/measurement.json": "6b43a31cc3e7f4d580582618185f9c0dc673e10ea9ab76c4718aea7e7bd4cee7",
+    "titration-refinement/paired-8/stdout.jsonl": "65124c17502e0e4599f3e6d9d86a004d7c81aa95a1cc405b50c4449f6ff0e5f3",
+    "titration-refinement/paired-8/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "titration-refinement/paired-8/gnu-time.txt": "1ff8d3fb9e47e97a5b190d6582d85ad2c1e2d786938f0ec46e671aec0674b62f",
+    "titration-refinement/paired-8/command.json": "1f6666f8935174bbe53f5cabd8d25c0f228839c3f5a78a7de30ff4b5a6c92dc7",
+    "titration-refinement/paired-9/measurement.json": "61074534c90e9f90943347520dcd48c67f0cfec0dfc79a52219a811c38a08800",
+    "titration-refinement/paired-9/stdout.jsonl": "65124c17502e0e4599f3e6d9d86a004d7c81aa95a1cc405b50c4449f6ff0e5f3",
+    "titration-refinement/paired-9/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "titration-refinement/paired-9/gnu-time.txt": "6da0a7416f3c23b8300b4ed013bce1e651ecea3c75cc9254c220d9c8b10d4010",
+    "titration-refinement/paired-9/command.json": "b28a0c1252822b0d673192642ba28de42602b9cf7675e0d9e6886cc5c814ff40",
+    "titration-refinement/paired-10/measurement.json": "6e606a9f570e5ec5825a81383cb398c37325429f8e4235fb8f350282102ce7ae",
+    "titration-refinement/paired-10/stdout.jsonl": "65124c17502e0e4599f3e6d9d86a004d7c81aa95a1cc405b50c4449f6ff0e5f3",
+    "titration-refinement/paired-10/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "titration-refinement/paired-10/gnu-time.txt": "6f1306482ecd4d153d4a08988a8a8407e87b93033775353f0232041150ff583c",
+    "titration-refinement/paired-10/command.json": "90d661e4d0a14f1598def4a4f2e2c00ca8a2f195691978a270e1e09e1d5a03f0",
+    "titration-refinement/paired-11/measurement.json": "3f10dc7f5eca73249095236e7c4dd99470609da01d7c9d10ca32949657a828ef",
+    "titration-refinement/paired-11/stdout.jsonl": "65124c17502e0e4599f3e6d9d86a004d7c81aa95a1cc405b50c4449f6ff0e5f3",
+    "titration-refinement/paired-11/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "titration-refinement/paired-11/gnu-time.txt": "ab01dc98826e6ef7328d4f83ec04c7ae8440a8f171d4900fe097b2f7f7f5fb40",
+    "titration-refinement/paired-11/command.json": "6e1aa7b41b0fee7c7cd87006dcfd585a33538df37cf068a1ecfce0697bacd0e1",
+    "titration-refinement/paired-12/measurement.json": "e61a231974deeafd3396b0772406666c257b05470ebb1fd8cf7608845387f24a",
+    "titration-refinement/paired-12/stdout.jsonl": "65124c17502e0e4599f3e6d9d86a004d7c81aa95a1cc405b50c4449f6ff0e5f3",
+    "titration-refinement/paired-12/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "titration-refinement/paired-12/gnu-time.txt": "f33964f93294203d037e57227596bd43d26fd6ebd12a72bbd9ff65cccb20ee5c",
+    "titration-refinement/paired-12/command.json": "b04200ae5b3739318746ad49c64e4946617f83cd671987cd291d6a49d197ea77",
+    "titration-refinement/paired-13/measurement.json": "8a03a29ba69a534da4dfdd98ab607089e37e1b74f7ee73871a6185bb78487781",
+    "titration-refinement/paired-13/stdout.jsonl": "65124c17502e0e4599f3e6d9d86a004d7c81aa95a1cc405b50c4449f6ff0e5f3",
+    "titration-refinement/paired-13/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "titration-refinement/paired-13/gnu-time.txt": "5162ca79b26d0604e896afed68ee7d4be45184b4bb82a6c379e878a87d0b6fd6",
+    "titration-refinement/paired-13/command.json": "374e70580c488fe6ea75130b609779862623c71a9978f1746191ca797ca1ca28",
+    "titration-refinement/paired-14/measurement.json": "f099b5e4512c8cc7f4bc66c18f1cf13f9cc92d2d50dd593fd14c6b9252daeb0d",
+    "titration-refinement/paired-14/stdout.jsonl": "65124c17502e0e4599f3e6d9d86a004d7c81aa95a1cc405b50c4449f6ff0e5f3",
+    "titration-refinement/paired-14/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "titration-refinement/paired-14/gnu-time.txt": "e3e0deab9161ef1f4aa281174172929f3a61d4d86659a5a5c3fe0877d780ef12",
+    "titration-refinement/paired-14/command.json": "c75394cc0931c0150f8eaf39eeaf367dd023008d24145e4577c6a0e0521def4c",
+    "titration-refinement/paired-15/measurement.json": "2cd97c68599d45049fcce7d9549dde13864ff415f1b53c55da8a3b04ebdbd2c8",
+    "titration-refinement/paired-15/stdout.jsonl": "65124c17502e0e4599f3e6d9d86a004d7c81aa95a1cc405b50c4449f6ff0e5f3",
+    "titration-refinement/paired-15/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "titration-refinement/paired-15/gnu-time.txt": "86b65bc5dd18447bf9ff36216e09d5b2056a994524495231177bd703c55e71ae",
+    "titration-refinement/paired-15/command.json": "eca618b457e62f2f5c3e3a37373339d5af2b9f287cf6b91b3c1e66e34543626b"
+  },
+  "execution_gate_count": 89,
+  "execution_gate_min_memory_mib": 4194,
+  "execution_gate_min_fast_free_mib": 4353,
+  "execution_gate_max_load1": 1.49609375,
+  "execution_gates_sha256": "45575327b6ebc61711e11d053382e838b5eb95dcc7d2fa7a4f08b93fe10b43ee",
+  "recorded_source_before_after_equal_to_prior_preparation": true,
+  "recorded_parent_blobs_each": 2256,
+  "independent_runtime_physical_stat_same_fast_device": true,
+  "root_saved_reader_statistics_agree": true,
+  "partial_attempt_samples_used": false,
+  "cli_executed_by_reviewer": false,
+  "speedup_generalization_accepted": false,
+  "merge_accepted": false,
+  "method": "Own pure Python algorithms; no frozen collector/saved-reader algorithms imported. All pilots/warmups/timed raw JSON finite+canonical/admission, exact commands, GNU clocks, process records, order and statistics recomputed. Only the single completed attempt used; no partial observations pooled or samples omitted.",
+  "limitations": [
+    "Exit/watchdog and source/blob/binary/lock guard values checked as recorded; source/native module bytes and CLI not rerun.",
+    "Parent monotonic/wait4 clocks cannot be independently remeasured; raw GNU time floats checked against each measurement.",
+    "Resource gates bound pre-child admission, not continuous load/memory isolation; machine scheduling and output filesystem I/O remain in fresh-process wall times.",
+    "Waited maxRSS includes wrapper/descendants and inherited memory high-water behavior; GNU child maxRSS recorded separately, no allocator attribution claim.",
+    "Observed ratios describe these four workloads/eight samples per variant on this host; no confidence interval or significance/general speed claim implied.",
+    "Independent primary chemical calibration, full CI/fleet and guarded merge are separate requirements."
+  ],
+  "resources_before": {
+    "load1": 1.3095703125,
+    "available_memory_mib": 4282,
+    "nas_free_mib": 1564223
+  },
+  "resources_during": [
+    {
+      "load1": 1.3095703125,
+      "available_memory_mib": 4270,
+      "nas_free_mib": 1564223
+    },
+    {
+      "load1": 1.3095703125,
+      "available_memory_mib": 4280,
+      "nas_free_mib": 1564223
+    },
+    {
+      "load1": 1.3095703125,
+      "available_memory_mib": 4259,
+      "nas_free_mib": 1564223
+    },
+    {
+      "load1": 1.3095703125,
+      "available_memory_mib": 4249,
+      "nas_free_mib": 1564223
+    }
+  ],
+  "resources_after": {
+    "load1": 1.28466796875,
+    "available_memory_mib": 4254,
+    "nas_free_mib": 1564223
+  }
+}

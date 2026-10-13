@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "frozen_before_execution": true,
+  "files_sha256": {
+    "../manifest.json": "510d66f0243411a11c2a1aaa38101675304a00fb2e0f2733a4934579f1bdda42",
+    "../profile.py": "1abc1fb5e5adc52186f592b37ee54a7b47152fc4a700f85b288ad05e7732ad90",
+    "../scripts/safety-multi-pair.lab": "d0390aec86a3bf4734f64881d7834c4b15cb246ac4e55b3974f98abcbc700688",
+    "../scripts/salt-batch.lab": "c3d6d3f2d4edca73160ab0c425fd78dbbbc20035c79aa101e8e9727f3ded470b",
+    "../scripts/salt-single.lab": "8e3a266b31fdd1ab48ee0b02ce23c6a58ba11702601f2f1f15b1613d67f05244",
+    "../scripts/startup.lab": "8f96056c340700cfd2fa3fb40432dbd08ce6902813182db2c67603b464ce666b",
+    "../scripts/titration-refinement.lab": "545f744b5e4db16f26606fb9bf4cf2f68f1c5c42680acc08d293605a58104d2f"
+  },
+  "workflow_sha256": {
+    ".github/workflows/chemistry-audit.yml": "400d1c40cd359eebb88109d7944cf1ea610aea59f0b5dfb87bcda112d46361b8",
+    ".github/workflows/release-performance-audit.yml": "c9282bf040914eea61a9bbb194188b9fd74dd8cf2c444f78f334934cae1f2648"
+  },
+  "scope": "Five own-source performance admission pilots and serial release baseline policy. No performance result or optimization accepted at freeze."
+}

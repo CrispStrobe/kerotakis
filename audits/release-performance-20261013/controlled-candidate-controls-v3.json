@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "protocol_version": 3,
+  "candidate_head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+  "candidate_binary_sha256": "1e94804fee60f5ddfb08b42dd324890ef71abacdca5bd02eda0036d49be3df3b",
+  "raw_control_receipt_sha256": "1bb4dee855265152e52e5a2506515c99c2f50d58599b0a9677458cd533b15a0d",
+  "runner_sha256": "b813b70298a95aeba7eb18147c555471ffa1af049b8284876b262e7e0a2b9750",
+  "paired_freeze_sha256": "7af80fea5e82f24458bab67856e21212a91e4a542128418e88fa5f47e80ddefb",
+  "candidate_plan_sha256": "ff5cb6e4b289f38b81ec2d8577c4564fa0931d836c4a0c4a53ccf4ea4503a7f8",
+  "results": [
+    {
+      "id": "first-repeat-en-json",
+      "passed": true,
+      "unmet": []
+    },
+    {
+      "id": "first-repeat-en-text",
+      "passed": true,
+      "unmet": []
+    },
+    {
+      "id": "first-repeat-de-json",
+      "passed": true,
+      "unmet": []
+    },
+    {
+      "id": "first-repeat-de-text",
+      "passed": true,
+      "unmet": []
+    },
+    {
+      "id": "empty-explanation-json",
+      "passed": true,
+      "unmet": []
+    },
+    {
+      "id": "invalid-vessel-json",
+      "passed": true,
+      "unmet": []
+    },
+    {
+      "id": "masked-explanation-text",
+      "passed": true,
+      "unmet": []
+    }
+  ],
+  "all_seven_pass": true,
+  "recorded_source_guards_equal": true,
+  "independent_raw_review_accepted": true,
+  "paired_timing_executed": false,
+  "scope": "Actual rebuilt-candidate compatibility replication of seven original forecasts; no baseline rerun, fresh blind experiments, speedup or merge implied.",
+  "independent_raw_review_receipt_sha256": "7f8548fd1e9cf5ec6b07cb6e64ff66b5ed2255ee1b71fb0e9e3fb3785b3e4d48"
+}

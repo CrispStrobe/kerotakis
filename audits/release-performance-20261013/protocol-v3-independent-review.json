@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-13T15:35:23.994491+00:00",
+  "all_checks_pass": true,
+  "ready_for_candidate_controls_if_fresh_execution_gates_pass": true,
+  "paired_freeze_sha256": "7af80fea5e82f24458bab67856e21212a91e4a542128418e88fa5f47e80ddefb",
+  "freeze_member_counts_checked": {
+    "freeze.json": 7,
+    "paired-freeze.json": 19,
+    "protocol-v2/freeze.json": 7,
+    "protocol-v2/paired-freeze.json": 28,
+    "protocol-v3/freeze.json": 7,
+    "protocol-v3/paired-freeze.json": 31
+  },
+  "files_sha256": {
+    "../PAIRED.md": "07eafb8640212904ba03c868af3e64394cadb92969e4d1d74eba9558cc23a63e",
+    "../candidate-controls-baseline.json": "7dfbf1c58c23495314d33af5ed6b32c600bacc97d2729051401d7894e6fa720f",
+    "../candidate-controls-reference.json": "3c2ce17439bf0d9135167c6724c87aed5449f3c36b12090c6d91667aa294e7cd",
+    "../candidate-controls/empty-explanation.lab": "8fd33ee8cf2d5ed20c42be7a10723ccf5283bfc74bf50e30902c604cc43a6442",
+    "../candidate-controls/first-repeat.lab": "29ee6908f2ffbb7fdbb786f2e1a29bcd4be39dc0e3e8177ac5c976becd40357c",
+    "../candidate-controls/invalid-vessel.lab": "080033e3f17e4c98ee845ee37982d83432ee45f2975755d7dbb3db42b926b71f",
+    "../candidate-controls/masked-explanation.lab": "b93396cf3acfada7e341a5235b70c5179c6477139d6c9ff7aabbd39fdf01775e",
+    "../candidate-plan-v2.json": "c11bbeb4178f62263030ac43ef6a22a6ce05ebaa992842ce64775101932c5387",
+    "../candidate-plan.json": "847ac09929eb5b5a6b49c0ff800ecfe0c86d5e75751917c5ac3459904bec76a0",
+    "../controls.py": "f1189d9ccf4529d7cfe1489c0788667d297bef6f05683769ba12db6252f62cf2",
+    "../freeze.json": "22d3651be1f443410a051b59945c1f613eed03d401e92a857a9811abf021fd4f",
+    "../manifest.json": "510d66f0243411a11c2a1aaa38101675304a00fb2e0f2733a4934579f1bdda42",
+    "../paired.py": "488f162b91326b41a611437cf5bf1055fe4d7a44bd94bf0c8270519265a0f0d7",
+    "../profile.py": "1abc1fb5e5adc52186f592b37ee54a7b47152fc4a700f85b288ad05e7732ad90",
+    "../scripts/safety-multi-pair.lab": "d0390aec86a3bf4734f64881d7834c4b15cb246ac4e55b3974f98abcbc700688",
+    "../scripts/salt-batch.lab": "c3d6d3f2d4edca73160ab0c425fd78dbbbc20035c79aa101e8e9727f3ded470b",
+    "../scripts/salt-single.lab": "8e3a266b31fdd1ab48ee0b02ce23c6a58ba11702601f2f1f15b1613d67f05244",
+    "../scripts/startup.lab": "8f96056c340700cfd2fa3fb40432dbd08ce6902813182db2c67603b464ce666b",
+    "../scripts/titration-refinement.lab": "545f744b5e4db16f26606fb9bf4cf2f68f1c5c42680acc08d293605a58104d2f",
+    "README.md": "9ed00e6cf9e06fdc0f7fec71005b26bbb76ce9139954632d4e1556de3fe84cad",
+    "candidate-controls-baseline.json": "86af1b9cc6bdebafabe871bdbe60415d6f01725a042e0e57d02148cebbcaee09",
+    "candidate-controls-reference.json": "89b47cd359498cf7ef4eb485a087336c6eca0a4be57bba8868e92209afb89bf7",
+    "candidate-plan.json": "ff5cb6e4b289f38b81ec2d8577c4564fa0931d836c4a0c4a53ccf4ea4503a7f8",
+    "controls.py": "b813b70298a95aeba7eb18147c555471ffa1af049b8284876b262e7e0a2b9750",
+    "freeze.json": "c84b5b2e0d95a595be795db0a54f9e4133fd3523363a9e351f24ee97326ccc86",
+    "manifest.json": "393e9d755782d9686f2ea48b64f2d0811158118f6522b96baf31104deb591d7e",
+    "paired-reference.json": "57d16ba1ae86057dfc486da3ddfe8598d350dcdd4460945c50e905357850b586",
+    "paired.py": "e08b22ff5427c68267698014cacc7e523f91e6085c792ef77f178048e2356a23",
+    "../controlled-build-structural-collection.json": "65ea3e88eb736ae15bc2b428d2a4ceb53371be6c212201e152b9883b2f68fa83",
+    "../review-paired.py": "c9df380413549dbd4c1715879fd02005232362ceef698d4fc07b582231adb9f3",
+    "../review.py": "8fac382b6ebc0ce161223da368e963b5d36f252feddc64d69d30d481623e9676"
+  },
+  "baseline": {
+    "head": "2bf9c771975f24b9e5b933728ef440cbca9a8ec6",
+    "tree": "8613e46420a8f8d76f39732c5a50d3dcd8417811",
+    "binary_sha256": "b1867d840a9da7cd909308e016bfa24cf2f41f263848109bf6d14ee1db4a4769",
+    "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+  },
+  "candidate": {
+    "head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+    "tree": "25d1dd490acc080a59f2a02e5b9399a22bd0f4bc",
+    "binary_sha256": "1e94804fee60f5ddfb08b42dd324890ef71abacdca5bd02eda0036d49be3df3b",
+    "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+  },
+  "observations": [
+    {
+      "entrypoint": "controls.py",
+      "old_candidate_rejected_before_import": true,
+      "matching_candidate_dispatch_namespace_and_digest_pass": true
+    },
+    {
+      "entrypoint": "paired.py",
+      "old_candidate_rejected_before_import": true,
+      "matching_candidate_dispatch_namespace_and_digest_pass": true
+    }
+  ],
+  "original_cases_scripts_baseline_streams_and_performance_refs_unchanged": true,
+  "structural_collection_nonaccepting_runtime_artifact_receipt_mandatory": true,
+  "first_blocker_receipt_sha256": "f7e240bb176d6db0e39656259f3fd2699203b4906bbaece15ae0eeb017697931",
+  "first_checker_error_sha256": "9fade75eb55189f895cfb4da31da8db4ed12dd801b0928609a3c3ce752138e6b",
+  "accepted_artifact_build_receipt_sha256": "7611e83cb6db9e98ff2fbf2e15b072f5a221707a14cc337057df466631aab580",
+  "runtime_receipt_sha256": "535cb9ebea09e124aa1efb77e0a5dc6d0076d73a04f837cb7dc624c88145ee9e",
+  "runtime_binding_sha256": "7726797ffd366409c663ba04fd2dfca9fc7a51502c8bb3f86dc6f170a67eac22",
+  "recorded_source_guard_sha256": "5b107773393335f717093f5d3c9efc030379ea47dd933f04ea28757bfc444dfa",
+  "runtime_physical_placement_review": {
+    "baseline": {
+      "physical_binary_source_lock_same_fast_filesystem": true,
+      "recorded_parent_blobs": 2256,
+      "binary_mode": "500"
+    },
+    "candidate": {
+      "physical_binary_source_lock_same_fast_filesystem": true,
+      "recorded_parent_blobs": 2256,
+      "binary_mode": "500"
+    }
+  },
+  "cli_executed": false,
+  "performance_measured": false,
+  "limitations": [
+    "Wrapper tiny fixtures reject old candidate and observe matching dispatch; shared final main replaced, no CLI/source/execution helpers invoked.",
+    "Physical placement and binary mode independently statted; runtime binary/lock bytes and 2256 source blobs were not reread; accepted artifact and recorded source guards remain explicit prerequisites.",
+    "Execution resource gate must run fresh before actual CLI; namespace readiness does not waive reservations.",
+    "All seven rebuilt-candidate controls required before paired collection; original ordinary candidate control receipt cannot replace them.",
+    "Whole native-module files and runtime clocks not audited here."
+  ],
+  "resources_before": {
+    "load1": 0.6806640625,
+    "available_memory_mib": 4164
+  },
+  "resources_after": {
+    "load1": 0.6806640625,
+    "available_memory_mib": 4153
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "pr": 785,
+  "url": "https://github.com/CrispStrobe/kerotakis/pull/785",
+  "candidate_head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+  "candidate_tree": "25d1dd490acc080a59f2a02e5b9399a22bd0f4bc",
+  "base": "7337bb58ce48285c54be5885dbe07afca1adbb7e",
+  "source_files": [
+    "crates/kerotakis-cli/src/main.rs",
+    "crates/kerotakis-cli/tests/cli_locale.rs"
+  ],
+  "normal_ci_run": 38387729203,
+  "own_release_artifact_workflow_run": 38387729183,
+  "local_cargo_checks_run": false,
+  "courtesy_gate_deferral": "All execution and evidence acceptance require actual operating gates and source-bound independent prerequisite receipts.",
+  "standalone_rustfmt_pass": true,
+  "source_review_complete": true,
+  "controls_frozen_before_execution": true,
+  "cases": [
+    {
+      "id": "first-repeat-en-json",
+      "script": "../candidate-controls/first-repeat.lab",
+      "args": [
+        "--json"
+      ],
+      "expected_exit": 0,
+      "expected_stderr_empty": true,
+      "expected_rows": 8,
+      "expected_explain_rows": 2,
+      "unchanged_bench_json_rows": [
+        2,
+        5
+      ],
+      "contract": "First and repeated explanations retain output, locale, primary bench state, and subsequent acid chemistry."
+    },
+    {
+      "id": "first-repeat-en-text",
+      "script": "../candidate-controls/first-repeat.lab",
+      "args": [],
+      "expected_exit": 0,
+      "expected_stderr_empty": true,
+      "expected_rows": null,
+      "expected_explain_rows": null,
+      "unchanged_bench_json_rows": null,
+      "contract": "First and repeated explanations retain output, locale, primary bench state, and subsequent acid chemistry."
+    },
+    {
+      "id": "first-repeat-de-json",
+      "script": "../candidate-controls/first-repeat.lab",
+      "args": [
+        "--json",
+        "--lang",
+        "de"
+      ],
+      "expected_exit": 0,
+      "expected_stderr_empty": true,
+      "expected_rows": 8,
+      "expected_explain_rows": 2,
+      "unchanged_bench_json_rows": [
+        2,
+        5
+      ],
+      "contract": "First and repeated explanations retain output, locale, primary bench state, and subsequent acid chemistry."
+    },
+    {
+      "id": "first-repeat-de-text",
+      "script": "../candidate-controls/first-repeat.lab",
+      "args": [
+        "--lang",
+        "de"
+      ],
+      "expected_exit": 0,
+      "expected_stderr_empty": true,
+      "expected_rows": null,
+      "expected_explain_rows": null,
+      "unchanged_bench_json_rows": null,
+      "contract": "First and repeated explanations retain output, locale, primary bench state, and subsequent acid chemistry."
+    },
+    {
+      "id": "empty-explanation-json",
+      "script": "../candidate-controls/empty-explanation.lab",
+      "args": [
+        "--json"
+      ],
+      "expected_exit": 0,
+      "expected_stderr_empty": true,
+      "expected_rows": 4,
+      "expected_explain_rows": 2,
+      "unchanged_bench_json_rows": [
+        0,
+        3
+      ]
+    },
+    {
+      "id": "invalid-vessel-json",
+      "script": "../candidate-controls/invalid-vessel.lab",
+      "args": [
+        "--json"
+      ],
+      "expected_exit": 1,
+      "expected_stderr_empty": false,
+      "expected_stdout_empty": true,
+      "stderr_required": "no vessel v999",
+      "stderr_forbidden": "optional explanation path comparison is unavailable"
+    },
+    {
+      "id": "masked-explanation-text",
+      "script": "../candidate-controls/masked-explanation.lab",
+      "args": [],
+      "expected_exit": 0,
+      "expected_stderr_empty": true,
+      "contract": "Preserve original sealed-unknown masking before identification; baseline/candidate full text must agree. Existing quest native tests independently validate concealed terms."
+    }
+  ],
+  "files_sha256": {
+    "../candidate-controls/empty-explanation.lab": "8fd33ee8cf2d5ed20c42be7a10723ccf5283bfc74bf50e30902c604cc43a6442",
+    "../candidate-controls/first-repeat.lab": "29ee6908f2ffbb7fdbb786f2e1a29bcd4be39dc0e3e8177ac5c976becd40357c",
+    "../candidate-controls/invalid-vessel.lab": "080033e3f17e4c98ee845ee37982d83432ee45f2975755d7dbb3db42b926b71f",
+    "../candidate-controls/masked-explanation.lab": "b93396cf3acfada7e341a5235b70c5179c6477139d6c9ff7aabbd39fdf01775e"
+  },
+  "performance_workloads": [
+    "startup",
+    "salt-single",
+    "salt-batch",
+    "titration-refinement"
+  ],
+  "paired_policy": "Own source/binary/actual lock checks before/after. Alternate ABBA/BAAB baseline/candidate, eight timed samples each per admitted workload, blocking wait and watchdog; equal canonical outputs and report median/MAD/outliers. Use hosted execution or separately frozen locally resource-gated runner; never spoof hosted profiler guards.",
+  "correctness_policy": "Run all seven prospective controls on baseline and candidate, preserving first admission failures; compare full text or canonical JSON without rounding and verify explicit invariants before timing performance workloads. Include own CI primary initialization failure/MCP/locale/quest tests.",
+  "changed_diagnostic_contract": "Optional explanation-engine failure is diagnosed on first valid explain, and cached; required primary failure remains startup-fatal.",
+  "candidate_tests_executed": false,
+  "paired_speedup_verified": false,
+  "merge_ready": false,
+  "later_lanes_started": false,
+  "previous_candidate_head": "5535903238c86dc1a3e2085d8196d1350dde766a",
+  "previous_candidate_plan_sha256": "847ac09929eb5b5a6b49c0ff800ecfe0c86d5e75751917c5ac3459904bec76a0",
+  "revision": "Controlled-build comparison namespace; source and all seven original forecasts unchanged. New rebuilt candidate compatibility replication required.",
+  "consumer_protocol_rebinding_pending": false,
+  "protocol_version": 3,
+  "previous_plan_sha256": "847ac09929eb5b5a6b49c0ff800ecfe0c86d5e75751917c5ac3459904bec76a0",
+  "previous_protocol_plan_sha256": "3545d3b9d3e2281afbc0b620fd2e3b977a564e6d321ab32eafecbe6467335aa6",
+  "controlled_build_run": 38396270148,
+  "controlled_artifact_id": 11814954199,
+  "controlled_candidate_binary_sha256": "1e94804fee60f5ddfb08b42dd324890ef71abacdca5bd02eda0036d49be3df3b",
+  "normal_ci_completed": true
+}

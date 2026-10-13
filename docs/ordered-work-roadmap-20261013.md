@@ -5,44 +5,28 @@ lanes 2–6 are queued. Planning or a queued job does not complete a lane.
 Preserve original forecasts, first failures, accepted source bindings and
 resource rejections. Large local work requires the private resource gate.
 
-1. **Release performance.** Frozen representative inputs and measurement policy
-   are in [the performance audit](../audits/release-performance-20261013/README.md).
-   [Hosted baseline38368899782](https://github.com/CrispStrobe/kerotakis/actions/runs/38368899782)
-   is dispatched. Review admission pilots, exact canonical outputs, wall/CPU/RSS
-   and variance. Attribute costs, select one measured hot path, and verify one
-   narrow optimization with paired release measurements and unchanged outputs.
-   Four admitted baselines and startup attribution are accepted with recorded
-   limits; the safety pilot remains unadmitted. Draft PR785 prepares deferred
-   explanation-engine initialization. The corrected candidate passes its own
-   [macOS native job review](../audits/release-performance-20261013/candidate-macos-ci-review-v2.json),
-   [Linux native job review](../audits/release-performance-20261013/candidate-linux-native-ci-review-v2.json)
-   and [wasm/browser review](../audits/release-performance-20261013/candidate-wasm-browser-ci-review-v2.json).
-   Both new regressions and the repaired locale guard pass on both native platforms.
-   All five required ordinary CI logs, including clean preflight, are now
-   root-reviewed; the full ordinary run passes. Independent gate review, raw control acceptance and paired measurements
-   are pending. The
-   [hosted seven-control run](https://github.com/CrispStrobe/kerotakis/actions/runs/38407663054)
-   reports seven passing controls using the independently reviewed ordinary
-   candidate artifact; its raw evidence still needs independent review. The
-   [hosted controlled-artifact inspection](https://github.com/CrispStrobe/kerotakis/actions/runs/38416861628)
-   is queued to verify rebuilt bytes and expose compiler witnesses;
-   the current-head release artifact and version2 namespace have passed independent
-   review. Missing native compiler/flag witnesses require the frozen controlled
-   build collector to rebuild both sources under one captured environment, then
-   a new comparison version binding those bytes. The
-   [controlled build run](https://github.com/CrispStrobe/kerotakis/actions/runs/38396270148)
-   completed at frozen audit revision `d49d9659`. Its
-   [actual archive collection](../audits/release-performance-20261013/controlled-build-structural-collection.json)
-   verifies rebuilt baseline `b1867d84`, rebuilt candidate `1e94804f`, captured lock,
-   archive structure and recorded guard/environment equality. Independent artifact
-   acceptance and effective native compiler review remain pending. The seven
-   ordinary-candidate controls do not certify these different rebuilt bytes.
-   [Saved-stream review](../audits/release-performance-20261013/hosted-control-raw-review-dispatch.json)
-   is queued separately. Next freeze a comparison version for the accepted rebuilt
-   bytes, replicate seven compatibility controls, then run and review 64 paired
-   samples across four admitted workloads. Review and execution require open
-   operating resource gates.
-   No speedup or merge is accepted.
+1. **Release performance — measured; fleet closure pending.**
+   [Draft PR785](https://github.com/CrispStrobe/kerotakis/pull/785) defers the optional
+   explanation engine until first valid `explain`, retaining primary solver
+   initialization and cached optional unavailability. The candidate is
+   `d06ffe3a`, based on accepted main `7337bb58`.
+   [Controlled paired results](../audits/release-performance-20261013/PAIRED-RESULTS-V3.md)
+   pass independent review of 88 process outputs and 64 timed samples, with exact
+   equality to the original admitted chemistry outputs. Observed median wall
+   reductions: startup 21.0%, one salt 26.6%, batch 10.2%, titration 4.5%. These are
+   host-specific; the titration effect is modest relative to variation. All seven
+   rebuilt-candidate controls and all five actual required CI logs pass independent
+   review. The original safety admission failure and interrupted timing attempt
+   remain preserved. No general significance or application-memory gain is claimed.
+   [Fleet inventory](../audits/release-performance-20261013/candidate-fleet-closure-inventory-20261013.json)
+   records 29 successful jobs, three queued families and an absent v2 aggregate.
+   Next accept the own saved family/frozen outputs and actual aggregates at the
+   exact candidate source, obtain a completed 33-job checkpoint, and finish the
+   narrow PR's guarded acceptance. Detailed executable review obligations are in
+   [the results handoff](../audits/release-performance-20261013/PAIRED-RESULTS-V3.md).
+   Downloads, recomputation and execution require open operating resource gates;
+   the latest fleet review stopped before downloads because load/memory gates
+   closed. PR785 remains draft; later lanes remain queued.
 2. **Fifty fresh CLI experiments.** Use a fresh agent that learns only syntax,
    without reading existing corpus cases or implementation details. Freeze all
    fifty original scripts and expectations before execution. Preserve first

@@ -1,0 +1,245 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-13T15:37:34.779425+00:00",
+  "review_kind": "independent_seven_saved_control_contract_recomputation",
+  "all_checks_pass": true,
+  "ready_for_paired_timing_if_fresh_resource_gates_pass": true,
+  "candidate": {
+    "head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+    "tree": "25d1dd490acc080a59f2a02e5b9399a22bd0f4bc",
+    "binary_sha256": "1e94804fee60f5ddfb08b42dd324890ef71abacdca5bd02eda0036d49be3df3b",
+    "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+  },
+  "underlying_controls_sha256": "1bb4dee855265152e52e5a2506515c99c2f50d58599b0a9677458cd533b15a0d",
+  "paired_consumer_controls_receipt_requirement": "Pass the exact accepted underlying controls.json bytes, not this summary, as --candidate-controls-review.",
+  "paired_freeze_sha256": "7af80fea5e82f24458bab67856e21212a91e4a542128418e88fa5f47e80ddefb",
+  "candidate_plan_sha256": "ff5cb6e4b289f38b81ec2d8577c4564fa0931d836c4a0c4a53ccf4ea4503a7f8",
+  "reference_sha256": "89b47cd359498cf7ef4eb485a087336c6eca0a4be57bba8868e92209afb89bf7",
+  "bindings_sha256": "7726797ffd366409c663ba04fd2dfca9fc7a51502c8bb3f86dc6f170a67eac22",
+  "accepted_artifact_build_review_sha256": "7611e83cb6db9e98ff2fbf2e15b072f5a221707a14cc337057df466631aab580",
+  "results": [
+    {
+      "id": "first-repeat-en-json",
+      "passed": true,
+      "stdout_sha256": "f37ca8682e5466598ab15fc3c3edd2ba9a0a98ec6440fdbff0801ac58b01bec6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "canonical_stdout_sha256": "30a42a6ae9cc4441f0862f410ef4e1043656f290611cf3acf363b1f87d7c218c",
+      "command_sha256": "1a701a3d23202cd646d355db445a5b454cb813ac61355acaff81592e9f40f168",
+      "recorded_exit": 0,
+      "recorded_timed_out": false
+    },
+    {
+      "id": "first-repeat-en-text",
+      "passed": true,
+      "stdout_sha256": "ac615da2142003ae1b8b108850052f67f4a774a00f6afe36daaf3b51d14f20d7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "canonical_stdout_sha256": null,
+      "command_sha256": "a1ea0dbe1a04fcde535f2002e8215edb95d1006c3700b2cb330b5afa8abfdd1e",
+      "recorded_exit": 0,
+      "recorded_timed_out": false
+    },
+    {
+      "id": "first-repeat-de-json",
+      "passed": true,
+      "stdout_sha256": "85593ec36cbedff4665673533162fda29ad2871756ced7fd13a70d353341f4f0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "canonical_stdout_sha256": "1c0340641f8092dc1dafdff94ee12f76a172c69639570e89b9d71afb0d757984",
+      "command_sha256": "c24aa7273037512ee42df5b4e2413b8234baa86f0b1817660a63e16adacf67e5",
+      "recorded_exit": 0,
+      "recorded_timed_out": false
+    },
+    {
+      "id": "first-repeat-de-text",
+      "passed": true,
+      "stdout_sha256": "44945af889c666ccc99e44e56289d438281c4a880183fc185ceb4404e7b1a017",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "canonical_stdout_sha256": null,
+      "command_sha256": "793d203b1355a8a3d5a6c7065622a9a0f3ca07252008f63131ffec997ceede28",
+      "recorded_exit": 0,
+      "recorded_timed_out": false
+    },
+    {
+      "id": "empty-explanation-json",
+      "passed": true,
+      "stdout_sha256": "24567e2aae52594bc06cc878ff105c04ed782f76ed042d3581ef18f22e322b4f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "canonical_stdout_sha256": "dc1930b630dc873438d01d6bb2897471f2e77f0d03707cf5a489ed2191723a36",
+      "command_sha256": "5cac065407fa78d671a619148d0eca59c12d0468262a5ce5db19e935f85040e0",
+      "recorded_exit": 0,
+      "recorded_timed_out": false
+    },
+    {
+      "id": "invalid-vessel-json",
+      "passed": true,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "885314d5da64443e30da5d074e849dca536a4c3f27d7213a34872d6106723ac3",
+      "canonical_stdout_sha256": null,
+      "command_sha256": "f2f6fb188c25a382b777ebb208f78fa0f059a8c1e0bebd16ce9fe5ebb5306c20",
+      "recorded_exit": 1,
+      "recorded_timed_out": false
+    },
+    {
+      "id": "masked-explanation-text",
+      "passed": true,
+      "stdout_sha256": "94728d3b2fe60bf2f6136941c62a091b5471285903a700868963e8a3e3d8fc08",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "canonical_stdout_sha256": null,
+      "command_sha256": "445c8f29be7c97100f42d4bf565008e009a1c5a9e3abbe5ea5207089883c3df9",
+      "recorded_exit": 0,
+      "recorded_timed_out": false
+    }
+  ],
+  "raw_evidence_sha256": {
+    "first-repeat-en-json": {
+      "stdout": "f37ca8682e5466598ab15fc3c3edd2ba9a0a98ec6440fdbff0801ac58b01bec6",
+      "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command": "1a701a3d23202cd646d355db445a5b454cb813ac61355acaff81592e9f40f168"
+    },
+    "first-repeat-en-text": {
+      "stdout": "ac615da2142003ae1b8b108850052f67f4a774a00f6afe36daaf3b51d14f20d7",
+      "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command": "a1ea0dbe1a04fcde535f2002e8215edb95d1006c3700b2cb330b5afa8abfdd1e"
+    },
+    "first-repeat-de-json": {
+      "stdout": "85593ec36cbedff4665673533162fda29ad2871756ced7fd13a70d353341f4f0",
+      "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command": "c24aa7273037512ee42df5b4e2413b8234baa86f0b1817660a63e16adacf67e5"
+    },
+    "first-repeat-de-text": {
+      "stdout": "44945af889c666ccc99e44e56289d438281c4a880183fc185ceb4404e7b1a017",
+      "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command": "793d203b1355a8a3d5a6c7065622a9a0f3ca07252008f63131ffec997ceede28"
+    },
+    "empty-explanation-json": {
+      "stdout": "24567e2aae52594bc06cc878ff105c04ed782f76ed042d3581ef18f22e322b4f",
+      "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command": "5cac065407fa78d671a619148d0eca59c12d0468262a5ce5db19e935f85040e0"
+    },
+    "invalid-vessel-json": {
+      "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr": "885314d5da64443e30da5d074e849dca536a4c3f27d7213a34872d6106723ac3",
+      "command": "f2f6fb188c25a382b777ebb208f78fa0f059a8c1e0bebd16ce9fe5ebb5306c20"
+    },
+    "masked-explanation-text": {
+      "stdout": "94728d3b2fe60bf2f6136941c62a091b5471285903a700868963e8a3e3d8fc08",
+      "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command": "445c8f29be7c97100f42d4bf565008e009a1c5a9e3abbe5ea5207089883c3df9"
+    }
+  },
+  "recorded_execution_gates": [
+    {
+      "load1": 0.6103515625,
+      "available_memory_mib": 4154,
+      "fast_free_mib": 4353,
+      "evidence_free_mib": 1564270,
+      "unix_time": 1791905756.4570346
+    },
+    {
+      "load1": 0.8017578125,
+      "available_memory_mib": 4126,
+      "fast_free_mib": 4353,
+      "evidence_free_mib": 1564270,
+      "unix_time": 1791905757.0484352
+    },
+    {
+      "load1": 0.8017578125,
+      "available_memory_mib": 4111,
+      "fast_free_mib": 4353,
+      "evidence_free_mib": 1564270,
+      "unix_time": 1791905757.500992
+    },
+    {
+      "load1": 0.8017578125,
+      "available_memory_mib": 4111,
+      "fast_free_mib": 4353,
+      "evidence_free_mib": 1564270,
+      "unix_time": 1791905757.8605595
+    },
+    {
+      "load1": 0.8017578125,
+      "available_memory_mib": 4117,
+      "fast_free_mib": 4353,
+      "evidence_free_mib": 1564270,
+      "unix_time": 1791905758.347786
+    },
+    {
+      "load1": 0.8017578125,
+      "available_memory_mib": 4104,
+      "fast_free_mib": 4353,
+      "evidence_free_mib": 1564269,
+      "unix_time": 1791905758.927558
+    },
+    {
+      "load1": 0.8017578125,
+      "available_memory_mib": 4095,
+      "fast_free_mib": 4353,
+      "evidence_free_mib": 1564269,
+      "unix_time": 1791905759.3088715
+    },
+    {
+      "load1": 0.8017578125,
+      "available_memory_mib": 4081,
+      "fast_free_mib": 4353,
+      "evidence_free_mib": 1564269,
+      "unix_time": 1791905759.5858421
+    }
+  ],
+  "recorded_source_guards_before_after_equal": true,
+  "recorded_parent_blobs": 2256,
+  "cli_executed_by_reviewer": false,
+  "performance_measured_by_reviewer": false,
+  "resources_before": {
+    "load1": 0.90771484375,
+    "available_memory_mib": 4151,
+    "nas_free_mib": 1564263
+  },
+  "resources_during": [
+    {
+      "load1": 0.90771484375,
+      "available_memory_mib": 4139,
+      "nas_free_mib": 1564263
+    },
+    {
+      "load1": 0.90771484375,
+      "available_memory_mib": 4138,
+      "nas_free_mib": 1564263
+    },
+    {
+      "load1": 0.90771484375,
+      "available_memory_mib": 4138,
+      "nas_free_mib": 1564263
+    },
+    {
+      "load1": 0.90771484375,
+      "available_memory_mib": 4137,
+      "nas_free_mib": 1564263
+    },
+    {
+      "load1": 0.90771484375,
+      "available_memory_mib": 4139,
+      "nas_free_mib": 1564263
+    },
+    {
+      "load1": 0.90771484375,
+      "available_memory_mib": 4139,
+      "nas_free_mib": 1564263
+    },
+    {
+      "load1": 0.90771484375,
+      "available_memory_mib": 4141,
+      "nas_free_mib": 1564263
+    }
+  ],
+  "resources_after": {
+    "load1": 0.90771484375,
+    "available_memory_mib": 4139,
+    "nas_free_mib": 1564263
+  },
+  "limitations": [
+    "Independent pure saved-output algorithms; controls.py not imported or reused and no CLI rerun.",
+    "Exit status/watchdog and source guards reviewed as recorded, not independently rerun; clocks not measured.",
+    "No whole sourceblob/native-module reread; identity and full recorded 2256-blob guard equality checked against prior runtime proof.",
+    "Raw text equality preserves baseline quest transcript; existing quest tests supply concealed-identity contract, not new empirical privacy/science proof.",
+    "All seven controls certify rebuilt candidate compatibility only; speedup and merge remain unaccepted."
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-13T15:40:08.523162+00:00",
+  "all_checks_pass": true,
+  "review_kind": "independent_prospective_saved_paired_reader_static_and_pure_helper_checks",
+  "paired_freeze_sha256": "7af80fea5e82f24458bab67856e21212a91e4a542128418e88fa5f47e80ddefb",
+  "source_hashes": {
+    "audits/release-performance-20261013/review-paired.py": "c9df380413549dbd4c1715879fd02005232362ceef698d4fc07b582231adb9f3",
+    "audits/release-performance-20261013/review.py": "8fac382b6ebc0ce161223da368e963b5d36f252feddc64d69d30d481623e9676"
+  },
+  "tests": [
+    {
+      "test": "statistics_even_sample_outlier_median_and_MAD",
+      "passed": true
+    },
+    {
+      "test": "statistics_nan",
+      "negative_rejected": true
+    },
+    {
+      "test": "statistics_infinite",
+      "negative_rejected": true
+    },
+    {
+      "test": "statistics_negative",
+      "negative_rejected": true
+    },
+    {
+      "test": "statistics_boolean",
+      "negative_rejected": true
+    },
+    {
+      "test": "statistics_empty_samples",
+      "negative_rejected": true
+    },
+    {
+      "test": "raw_measurement_and_GNU_clock_positive",
+      "passed": true
+    },
+    {
+      "test": "GNU_time_different_value",
+      "negative_rejected": true
+    },
+    {
+      "test": "GNU_time_nonfinite",
+      "negative_rejected": true
+    },
+    {
+      "test": "GNU_time_missing_field",
+      "negative_rejected": true
+    },
+    {
+      "test": "GNU_time_zero_RSS",
+      "negative_rejected": true
+    },
+    {
+      "test": "measurement_wrong_output_mode",
+      "negative_rejected": true
+    },
+    {
+      "test": "JSON_nonstandard_nonfinite",
+      "negative_rejected": true
+    },
+    {
+      "test": "JSON_overflow_nonfinite",
+      "negative_rejected": true
+    },
+    {
+      "test": "canonical_JSON_preserves_numbers_and_array_order",
+      "passed": true
+    },
+    {
+      "test": "actual_original_ABBA_BAAB_predicate_positive",
+      "passed": true
+    },
+    {
+      "test": "actual_original_order_wrong_variant",
+      "negative_rejected": true
+    },
+    {
+      "test": "actual_original_order_missing_sample",
+      "negative_rejected": true
+    },
+    {
+      "test": "actual_original_order_wrong_index",
+      "negative_rejected": true
+    },
+    {
+      "test": "actual_original_exact_invocation_predicate_positive",
+      "passed": true
+    },
+    {
+      "test": "actual_original_invocation_wrong_binary",
+      "negative_rejected": true
+    },
+    {
+      "test": "actual_original_invocation_wrong_script",
+      "negative_rejected": true
+    },
+    {
+      "test": "actual_original_invocation_wrong_GNU_output",
+      "negative_rejected": true
+    },
+    {
+      "test": "actual_original_invocation_wrong_source",
+      "negative_rejected": true
+    }
+  ],
+  "resources_before": {
+    "load1": 1.69091796875,
+    "available_memory_mib": 3777,
+    "nas_free_mib": 1564251
+  },
+  "resources_after": {
+    "load1": 1.69091796875,
+    "available_memory_mib": 3769,
+    "nas_free_mib": 1564251
+  },
+  "cli_executed": false,
+  "network_used": false,
+  "performance_accepted": false,
+  "merge_accepted": false,
+  "limitations": [
+    "Prospective synthetic pure-helper and original-expression fixtures only; no full 88-process-output paired dataset reviewed in this receipt.",
+    "Statistics/rawGNU/finiteJSON/recorded-command/order rejection paths exercised; full artifact/build/control/source-guard integration still needs actual dataset review.",
+    "Recorded parent and waited-resource clocks cannot be independently remeasured from saved evidence.",
+    "Source guards/native modules/physical invocation map are external recorded prerequisites, not reread here.",
+    "No FAST writes, Cargo, native executables or CLI performed."
+  ]
+}
