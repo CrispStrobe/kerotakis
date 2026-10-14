@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "frozen_utc": "2026-10-14T09:18:38.523600+00:00",
+  "scope": "Two separately frozen low-pressure follow-ups to the recorded pressure-burst control-design failures. No original forecast rewrite.",
+  "source_head": "10c963e17401b65c947f1f4b89a8d4e35fef5e71",
+  "source_tree": "789aff13dcc51c089a97472f2347f39a012103ee",
+  "base": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+  "own_cli_workflow_run": 38528139788,
+  "own_cli_build_job": 115733291584,
+  "ordinary_ci_run": 38528139789,
+  "files": {
+    "expectations.json": "d4f1bec38cf25223d1ec86b51fad571f999aacc6c8d7b6f012879fda2201d5f0",
+    "scripts/01-sealed-magnesium.lab": "394b994c99e08ec0dc5ef320bb1199c0d968774a153831e69679738ea7d862ca",
+    "scripts/02-sealed-carbon.lab": "dc9f2399a6c73a73291c3fbe52d7c1339ec425647503f762e23f53d9417f29e0"
+  },
+  "execution_binding_state": "awaiting_own_source_artifact_verification",
+  "executed_cases": 0,
+  "requirements": [
+    "Verify actual own build job checkout, tested commit parents/tree, successful steps and artifact API/upload identity.",
+    "Freeze actual artifact ZIP digest, binary digest, captured Cargo.lock digest and receipt association before executing any control.",
+    "Execute each original script once in a new result directory; preserve stdout, stderr, exit, timeout and resource refusal.",
+    "Verify typed boundary refusal and inventory preservation from ignition rows; distinguish permitted heating/phase changes from chemical inventory changes.",
+    "Preserve first control failures/inconclusive conditions before any versioned correction.",
+    "Do not borrow faaf4baf or original main b290 binaries for this source."
+  ],
+  "resource_thresholds": {
+    "load1_max": 3.5,
+    "memory_available_mib_min": 3200,
+    "fast_free_mib_min": 4224,
+    "storage_free_mib_min": 8192
+  },
+  "original_seven_protocol_sha256": "ea821d83a3b71ea65ba2a094207469c0edb81d1d3b961e91c79bcb0e656724f3",
+  "followup_only": true
+}

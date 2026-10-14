@@ -834,7 +834,7 @@ jobs:
       actions: read
 
   pr786-replay:
-    name: Own-source PR786 seven-control replay
+    name: Own-source PR786 low-pressure pair
     if: github.event_name == 'workflow_dispatch' && inputs.audit == 'pr786-replay'
     runs-on: ubuntu-latest
     permissions:
@@ -847,17 +847,17 @@ jobs:
           sparse-checkout-cone-mode: false
           sparse-checkout: |
             /.github/workflows/chemistry-audit.yml
-            /audits/fresh-syntax50-20261013/pr786-replay/
-            /audits/fresh-syntax50-20261013/hosted-pr786-replay.py
+            /audits/fresh-syntax50-20261013/pr786-low-pressure/
+            /audits/fresh-syntax50-20261013/hosted-pr786-low-pressure.py
       - name: Verify own completed artifact and run the frozen seven
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python3 audits/fresh-syntax50-20261013/hosted-pr786-replay.py
+        run: python3 audits/fresh-syntax50-20261013/hosted-pr786-low-pressure.py
       - name: Preserve original metadata, archive and CLI outcomes
         if: always()
         uses: actions/upload-artifact@v6
         with:
-          name: pr786-seven-control-replay-${{ github.run_id }}-${{ github.run_attempt }}
-          path: pr786-hosted-evidence
+          name: pr786-low-pressure-replay-${{ github.run_id }}-${{ github.run_attempt }}
+          path: pr786-low-pressure-evidence
           if-no-files-found: error
           retention-days: 30
