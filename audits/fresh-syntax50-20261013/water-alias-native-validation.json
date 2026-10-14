@@ -1,0 +1,34 @@
+{
+  "utc": "2026-10-14T17:10:18.969847+00:00",
+  "pr": 787,
+  "source_head": "e4fb5e33434e9c7d76c0846d9ac995bbf11349f9",
+  "source_tree": "00417fa4ba74a5ba65539eb0fd2e842bb03397e0",
+  "ci_run": 38598370658,
+  "job": 115970872986,
+  "platform": "macos-latest",
+  "tested_checkout": "4bd1e13153e666b3000cfd812c932dc27fc2379e",
+  "all_steps_success": true,
+  "actual_checkout_verified": true,
+  "named_tests_passed": [
+    "formula_and_canonical_text_have_equal_quantities_and_snapshots",
+    "identity_bearing_commands_and_shelf_json_are_canonical",
+    "direct_solvent_grinding_and_titrant_inputs_match_canonical_behavior",
+    "direct_and_json_operators_share_a_finite_bottle_and_canonical_log",
+    "both_stock_formats_normalize_single_alias_and_refuse_collisions",
+    "direct_vessel_inputs_queries_and_debits_use_one_species_and_preserve_lots",
+    "restored_alias_portions_keep_their_quantities_and_provenance",
+    "alias_water_transfer_and_snapshot_replay_conserve_inventory",
+    "alias_safety_veto_preserves_inventory_and_stock"
+  ],
+  "alias_regressions_passed": 9,
+  "workspace_tests": "success",
+  "codex": "success",
+  "coverage": {
+    "unmet_requirements": 0,
+    "solver_runtime_failures": 0,
+    "baseline_drift": 0
+  },
+  "saved_job_log_sha256": "04d62b729b9d04b38a5ccd4505da2ce2abe48b122b531af5b79682865ff96388",
+  "candidate_integrated": false,
+  "remaining_acceptance": "Other required CI and full own fleet remain pending."
+}

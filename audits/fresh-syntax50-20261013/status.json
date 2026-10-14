@@ -1,5 +1,5 @@
 {
-  "utc": "2026-10-14T16:46:41.724182+00:00",
+  "utc": "2026-10-14T17:10:18.969847+00:00",
   "design_count": 50,
   "executed_count": 50,
   "verdict_count": 50,
@@ -54,6 +54,11 @@
   "alias_own_cli_build_job": 115970871509,
   "alias_own_cli_artifact_id": 11911279897,
   "alias_own_cli_metadata_association_verified": true,
-  "alias_own_cli_bytes_verified": false,
-  "alias_fix_validation_status": "source_owned_build_success_macos_format_clippy_passed_workspace_tests_running"
+  "alias_own_cli_bytes_verified": true,
+  "alias_fix_validation_status": "macos_all_steps_and_nine_alias_regressions_passed_other_checks_pending",
+  "alias_current_macos_pass": true,
+  "alias_native_regressions_passed": 9,
+  "alias_cli_smoke_control_count": 2,
+  "alias_cli_smoke_executed": 0,
+  "alias_cli_smoke_status": "frozen_resource_gate_refused_before_first_case"
 }
