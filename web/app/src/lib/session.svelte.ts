@@ -1304,7 +1304,9 @@ export class Session {
       this.position = this.commandLog.length;
       const dispensed = result.steps.some((step) =>
         (step.events as Array<Record<string, unknown>>).some((event) =>
-          event.event === "added" || event.event === "material_added"));
+          event.event === "added" || event.event === "material_added" ||
+          (event.event === "titrated" && typeof event.total_volume === "number" &&
+            Number.isFinite(event.total_volume) && event.total_volume > 0)));
       if (this.mode === "story" && stockItem && !missionSupply && dispensed) {
         this.storyStockUsed = {
           ...this.storyStockUsed,

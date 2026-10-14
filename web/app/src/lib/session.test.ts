@@ -93,7 +93,10 @@ class FakeHost implements EngineHost {
     return {
       steps: script.split("\n").map((line) => ({
         operator: {},
-        events: /^(?:add|titrate)\s/.test(line) ? [{ event: "added" }] : [],
+        events: /^add\s/.test(line) ? [{ event: "added" }]
+          : /^titrate\s/.test(line) ? [{ event: "titrated", vessel: 0,
+            titrant: line.split(/\s+/)[2], concentration: 0.1, steps: 1,
+            total_volume: 0.001, final_ph: 7, curve: [[1, 7]] }] : [],
         rendered: [`did: ${line}`],
       })),
       scene: this.nextScene(),
@@ -337,6 +340,42 @@ describe("Session", () => {
       const s = new Session(host, new FakeStorage(), "story");
       await s.connect();
       await s.submit("add v1 H2O 1mol");
+      expect(s.storyStockUsed).toEqual({});
+    }
+  });
+
+  it("charges Story titrant only when the engine reports a positive delivered volume", async () => {
+    for (const total_volume of [0.003, 0]) {
+      const host = new FakeHost();
+      host.species = async () => [{ key: "water", name: "water", formula: "H2O", phase: "liquid" }];
+      const run = host.runScript.bind(host);
+      host.runScript = async (line) => {
+        const result = await run(line);
+        return { ...result, steps: result.steps.map((step) => ({ ...step, events: [{
+          event: "titrated", vessel: 0, titrant: "water", concentration: 0.1,
+          steps: total_volume > 0 ? 3 : 0, total_volume, final_ph: 7,
+          curve: [[0, 7]], pe_curve: [], endpoint_reached: true,
+        }] })) };
+      };
+      const s = new Session(host, new FakeStorage(), "story");
+      await s.connect();
+      expect(await s.submit("titrate v1 H2O 0.1M 1mL until ph 7")).toBe(true);
+      expect(s.storyStockUsed).toEqual(total_volume > 0 ? { water: 1 } : {});
+    }
+  });
+
+  it("does not charge Story titrant when no dose succeeds", async () => {
+    for (const events of [[], [{ event: "safety_veto" }], [{ event: "stock_exhausted" }]]) {
+      const host = new FakeHost();
+      host.species = async () => [{ key: "water", name: "water", formula: "H2O", phase: "liquid" }];
+      const run = host.runScript.bind(host);
+      host.runScript = async (line) => {
+        const result = await run(line);
+        return { ...result, steps: result.steps.map((step) => ({ ...step, events })) };
+      };
+      const s = new Session(host, new FakeStorage(), "story");
+      await s.connect();
+      await s.submit("titrate v1 H2O 0.1M 1mL until ph 7");
       expect(s.storyStockUsed).toEqual({});
     }
   });
