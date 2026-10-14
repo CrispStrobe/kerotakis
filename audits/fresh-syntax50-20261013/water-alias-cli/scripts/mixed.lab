@@ -1,0 +1,6 @@
+stock H2O 1mol
+add v1 H2O 0.25mol
+add v1 water 0.25mol
+add v1 H2O 0.75mol
+look v1
+balance v1

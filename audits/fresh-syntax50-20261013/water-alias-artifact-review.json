@@ -1,0 +1,25 @@
+{
+  "utc": "2026-10-14T17:07:21.628524+00:00",
+  "review_kind": "own_artifact_byte_and_source_association",
+  "all_checks_pass": true,
+  "source_head": "e4fb5e33434e9c7d76c0846d9ac995bbf11349f9",
+  "source_tree": "00417fa4ba74a5ba65539eb0fd2e842bb03397e0",
+  "tested_checkout": "4bd1e13153e666b3000cfd812c932dc27fc2379e",
+  "tested_parents": [
+    "8a6aa68eeec234d8cfde7b092b70c30a5c13411c",
+    "e4fb5e33434e9c7d76c0846d9ac995bbf11349f9"
+  ],
+  "own_run": 38598370252,
+  "build_job": 115970871509,
+  "artifact_id": 11911279897,
+  "artifact_zip_sha256": "6dafdbd7782656a8924f675e89438827e010da3dfb206f774af9cfdbc70b1321",
+  "binary_sha256": "15d9b38b399671229553dcd9f643df62145c27cf6570852e4a45b9cbd7d25600",
+  "lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc",
+  "full_archive_and_member_crcs_verified": true,
+  "workflow_sha256_verified": true,
+  "candidate_integrated": false,
+  "limitations": [
+    "Top-level module revisions verified; recursive module file bytes and complete compiler/native flags not independently traversed.",
+    "Archive verification does not complete pending CI and fleets."
+  ]
+}
