@@ -1,5 +1,5 @@
 {
-  "utc": "2026-10-14T08:52:15.865525+00:00",
+  "utc": "2026-10-14T09:39:54.883509+00:00",
   "design_count": 50,
   "executed_count": 50,
   "verdict_count": 50,
@@ -21,9 +21,17 @@
   "native_fix_ci_run": 38528139789,
   "native_fix_own_cli_audit_run": 38528139788,
   "native_fix_validation_status": "mac_workspace_and_codex_passed_curiosity_support_contract_failed",
-  "coverage_followup_head": "ca3801c24f4d32310d0844fe6eaf4303e2251d92",
+  "coverage_followup_head": "fdd951a7db70ab3a5da0470a9c82981b6cb61f34",
   "coverage_followup_applied": false,
   "hosted_replay_run": 38536343562,
-  "hosted_replay_status": "queued",
-  "hosted_replay_accepted": false
+  "hosted_replay_status": "completed_checker_failed_5_pass_2_burst_scope_failures",
+  "hosted_replay_accepted": false,
+  "hosted_replay_first_counts": {
+    "pass": 5,
+    "fail": 2
+  },
+  "original_rupture_vent_budgets_verified": true,
+  "low_pressure_followup_run": 38542694018,
+  "low_pressure_followup_status": "queued",
+  "low_pressure_followup_accepted": false
 }

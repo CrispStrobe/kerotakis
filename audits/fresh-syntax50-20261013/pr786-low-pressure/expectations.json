@@ -1,0 +1,13 @@
+{
+  "scope": "Two new matched low-pressure controls, avoiding the recorded simulated glass-burst threshold. Original seven results and expectations remain unchanged.",
+  "cases": {
+    "01-sealed-magnesium.lab": {
+      "question": "Does the sealed thermal refusal preserve Mg and retained nitrogen/oxygen below the mechanical burst threshold?",
+      "expectation": "Mg identity and owned gases remain through ignition and observation; phase changes are allowed. Require typed boundary mismatch, sealed boundary, positive pressure, no thermal equilibrium and no exhaust."
+    },
+    "02-sealed-carbon.lab": {
+      "question": "Does the sealed thermal refusal preserve carbon and retained gases below the mechanical burst threshold?",
+      "expectation": "Carbon and owned nitrogen/oxygen remain; require typed boundary mismatch, sealed boundary, positive pressure, no thermal equilibrium and no exhaust. The limewater query does not establish closed combustion."
+    }
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "source": "10c963e17401b65c947f1f4b89a8d4e35fef5e71",
+  "binary_sha256": "ff05d78a6bc1aa23b4122564c2361a698cc5d02d335a866eefe5ac6300bbcfb5",
+  "all_seven_cli_runs_completed": true,
+  "first_frozen_acceptance_counts": {
+    "pass": 5,
+    "fail": 2
+  },
+  "frozen_acceptance_all_pass": false,
+  "control_scope_error": "Original sealed beakers rupture after spark heating raises pressure above the simulated 405300 Pa rating. The first frozen controls assumed the seal remained intact.",
+  "diagnosed_originals": [
+    {
+      "ordinal": 1,
+      "stdout_bytes": 11521,
+      "stdout_sha256": "33f785e3baa4c8fde494130e304e76fe1852b05dc489693b7c1979318331080d",
+      "bursts": [
+        {
+          "at_pa": 440149.65439336485,
+          "event": "burst",
+          "rating_pa": 405300.0,
+          "vessel": 0
+        }
+      ],
+      "vented": [
+        {
+          "event": "gas_evolved",
+          "moles": 0.016147291289336348,
+          "species": "N2",
+          "vessel": 0
+        },
+        {
+          "event": "gas_evolved",
+          "moles": 0.006281556163923509,
+          "species": "O2",
+          "vessel": 0
+        },
+        {
+          "event": "gas_evolved",
+          "moles": 8.174808904865889e-06,
+          "species": "CO2",
+          "vessel": 0
+        }
+      ],
+      "hazard_warnings": [
+        {
+          "event": "hazard_warning",
+          "hazard": "sealed vessel over-pressurised and burst",
+          "real_world": "flying glass and a pressure wave \u2014 a sealed vessel that makes gas or warms up is how real labs get hurt",
+          "rule": "sealed-vessel-burst",
+          "severity": "danger"
+        }
+      ],
+      "final_boundary": {
+        "boundary": "open"
+      },
+      "vented_gas_budget_closes": true
+    },
+    {
+      "ordinal": 2,
+      "stdout_bytes": 11420,
+      "stdout_sha256": "586c7d27fc166f1a88135f7256b55ff9caa228ebd2bf44d10c04db8f64ab5940",
+      "bursts": [
+        {
+          "at_pa": 507588.40970880573,
+          "event": "burst",
+          "rating_pa": 405300.0,
+          "vessel": 0
+        }
+      ],
+      "vented": [
+        {
+          "event": "gas_evolved",
+          "moles": 0.032294582578672695,
+          "species": "N2",
+          "vessel": 0
+        },
+        {
+          "event": "gas_evolved",
+          "moles": 0.01856311232784702,
+          "species": "O2",
+          "vessel": 0
+        },
+        {
+          "event": "gas_evolved",
+          "moles": 1.6349617809731778e-05,
+          "species": "CO2",
+          "vessel": 0
+        }
+      ],
+      "hazard_warnings": [
+        {
+          "event": "hazard_warning",
+          "hazard": "sealed vessel over-pressurised and burst",
+          "real_world": "flying glass and a pressure wave \u2014 a sealed vessel that makes gas or warms up is how real labs get hurt",
+          "rule": "sealed-vessel-burst",
+          "severity": "danger"
+        }
+      ],
+      "final_boundary": {
+        "boundary": "open"
+      },
+      "vented_gas_budget_closes": true
+    }
+  ],
+  "mechanical_venting_accounted": true,
+  "chemical_equilibrium_still_refused": true,
+  "original_forecasts_or_failed_checker_changed": false,
+  "full_archive_digest_verified_locally": false,
+  "bounded_selected_member_crc_and_stream_digests_verified": true,
+  "local_app_execution": false,
+  "candidate_integration_accepted": false,
+  "next_controls": "Freeze two new low-pressure nitrogen-headspace controls, leaving the first seven untouched; retain the five saved passing controls without rerunning them."
+}

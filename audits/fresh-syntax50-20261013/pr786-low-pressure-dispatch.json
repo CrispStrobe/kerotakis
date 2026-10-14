@@ -1,0 +1,18 @@
+{
+  "utc": "2026-10-14T09:39:54.883509+00:00",
+  "run": 38542694018,
+  "audit_head": "c7ef207ad7f1b5e901464a9f14d72a005283008d",
+  "audit_branch": "audit/pr786-low-pressure-replay-20261014",
+  "source_head": "10c963e17401b65c947f1f4b89a8d4e35fef5e71",
+  "artifact_id": 11878769254,
+  "artifact_zip_sha256": "39cbbd687e3d4be92a858a99abc3074fd52f968401f2760c65f177979d036fe3",
+  "helper_sha256": "5b180217b39933aee7ca229cab5452092ce075fac19326cba726760982442e29",
+  "protocol_sha256": "be0336d56bbc38689663524a77bb0e20e089616d3606cd88be6219ad069d3997",
+  "case_count": 2,
+  "status": "queued",
+  "five_passing_controls_rerun": false,
+  "original_seven_forecasts_changed": false,
+  "local_cli_execution": false,
+  "candidate_integration_accepted": false,
+  "artifact_lookup": "Direct immutable ID avoids run-artifact pagination."
+}

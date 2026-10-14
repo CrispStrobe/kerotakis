@@ -54,14 +54,21 @@ exactly two stale finite-carbon support records. [The follow-up](pr786-coverage-
 preserves their original computed claims and records the scoped qualitative
 support contract until closed combustion is validated. It also adds CLI
 regressions using the original failed scripts unchanged. Follow-up source
-`ca3801c2` is staged separately; current executions finish before it is applied
+`fdd951a7` is staged separately; current executions finish before it is applied
 to PR786.
 
 The own release build has completed. [Hosted replay `38536343562`](pr786-hosted-replay-dispatch.json)
 will verify actual artifact `11878769254`, checkout/tree/parent and captured byte
 identity, then run the frozen seven under fresh worker resource gates. Only that
 replay job is selected; all 24 ordinary jobs are skipped. It does not rebuild
-the app or replace the ongoing native/fleet checks. Replay acceptance is pending.
+the app or replace the ongoing native/fleet checks. The first replay executed all seven: five passed and two failed their frozen
+intact-seal assumptions. [The saved diagnosis](pr786-replay-first-outcomes.json)
+confirms reported bursts at 440.15/507.59 kPa above the modeled 405.3 kPa rating,
+with danger warnings and exact gas vent budgets. No original result was rewritten.
+[Two low-pressure follow-ups](pr786-low-pressure/README.md) are frozen separately
+and [dispatched](pr786-low-pressure-dispatch.json); the five passing controls are
+retained without rerunning them. Follow-up regression source is now `fdd951a7`
+and distinguishes accounted rupture from silent loss. Replay closure remains pending.
 
 Follow the [new ordered improvement agenda](../../docs/improvement-agenda-20261014.md)
 before resuming the older queued lanes.

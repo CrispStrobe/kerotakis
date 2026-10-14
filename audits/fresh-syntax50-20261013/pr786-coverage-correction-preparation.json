@@ -37,16 +37,18 @@
   "preserved_log_sha256": "35c6f56bec4b60bc97068df0b72b72e5a0fd766c28ac273bc79203c187d5be1d",
   "new_validation_accepted": false,
   "followup_branch": "fix/thermal-boundary-coverage-contract-20261014",
-  "followup_head": "ca3801c24f4d32310d0844fe6eaf4303e2251d92",
+  "followup_head": "fdd951a7db70ab3a5da0470a9c82981b6cb61f34",
   "followup_applied_to_pr786": false,
   "original_question_and_script_bytes_preserved": true,
   "original_sealed_cli_regression_added": true,
   "regression_files": {
-    "crates/kerotakis-cli/tests/thermal_boundary_inventory.rs": "8f98b28566f3b8b372ba0e0d1a5ee8e530fe0ae3874f1a2b20583a05cee8c175",
+    "crates/kerotakis-cli/tests/thermal_boundary_inventory.rs": "02b80ebb87f4916eb1007e1b44a470840e71c3132a4974000ab811c33cb78e8c",
     "crates/kerotakis-cli/tests/fixtures/thermal-boundary/sealed-carbon.lab": "219f983f44fb68def803f7cad1e554e182543ab6cfd938e07e7fe08924aed558",
     "crates/kerotakis-cli/tests/fixtures/thermal-boundary/sealed-magnesium.lab": "b2006b5e13928b23f20d93a31e72d4389092638ba9dcad25e9416c6bf8bf3c24"
   },
   "rustfmt_passed": true,
   "native_followup_tests_executed": false,
-  "transition_condition": "Apply only after current CI and own fleet executions finish; no cancellation or overlapping replacement build."
+  "transition_condition": "Apply only after current CI and own fleet executions finish; no cancellation or overlapping replacement build.",
+  "regression_scope": "Original scripts require recorded pressure rupture and a closing retained-plus-vented gas budget; new matched low-pressure variants require intact gas retention. Both require typed thermal refusal and fuel identity preservation.",
+  "previous_unexecuted_followup_head": "ca3801c24f4d32310d0844fe6eaf4303e2251d92"
 }
