@@ -1,0 +1,76 @@
+{
+  "utc": "2026-10-14T07:26:37.346483+00:00",
+  "pr": "https://github.com/CrispStrobe/kerotakis/pull/786",
+  "original_head": "faaf4baf34c9697bdff220d9de8d4b10c69a80c0",
+  "original_ci_run": 38515087509,
+  "original_ci_conclusion": "failure",
+  "original_audit_run": 38515087535,
+  "original_audit_conclusion": "success",
+  "preserved_log_sha256": {
+    "115691972807": "43b7b41328630577cbc176048ed7c91ee391d742648d18ba042c4ddabe585999",
+    "115691972939": "a87bcb3967ac731dd112fdf9c95643641603aad9996ff2041eae86746e15db8f",
+    "115691972952": "94ed54de310d8826899f8cc22292e0d27dd8a66d3d36bf6fe4992c7d33e04a2a"
+  },
+  "original_failures": [
+    "warm_methane_and_oxygen_do_not_burn_without_a_spark",
+    "hydrogen_is_gated_too_and_without_oxygen_nothing_is_said",
+    "above_autoignition_the_same_mixture_burns",
+    "authored_dose_siblings_are_not_answered_alike: th-035+th-034"
+  ],
+  "original_new_boundary_tests_passed_on_both_native_hosts": true,
+  "corrections": [
+    "Keep below-autoignition diagnostics before the boundary refusal; preserve the original warm methane/hydrogen controls.",
+    "Exercise burning/exhaust on an open boundary and separately assert full sealed methane inventory retention with a typed refusal.",
+    "Require an actual boundary-mismatch event in both original hydrogen dose cases before admitting their identical unsupported result."
+  ],
+  "head": "10c963e17401b65c947f1f4b89a8d4e35fef5e71",
+  "base": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+  "draft": true,
+  "files": [
+    {
+      "path": "crates/kerotakis-cea/src/thermal.rs",
+      "additions": 15,
+      "deletions": 0,
+      "changeType": "MODIFIED"
+    },
+    {
+      "path": "crates/kerotakis-cea/tests/autoignition.rs",
+      "additions": 26,
+      "deletions": 1,
+      "changeType": "MODIFIED"
+    },
+    {
+      "path": "crates/kerotakis-cea/tests/thermal_boundary_refusal.rs",
+      "additions": 100,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "crates/kerotakis-cli/tests/corpus_perturbation.rs",
+      "additions": 30,
+      "deletions": 1,
+      "changeType": "MODIFIED"
+    },
+    {
+      "path": "crates/kerotakis-core/i18n/de.toml",
+      "additions": 1,
+      "deletions": 0,
+      "changeType": "MODIFIED"
+    }
+  ],
+  "source_sha256": {
+    "crates/kerotakis-cea/src/thermal.rs": "e7525c104e947ec9c3867cbdefc7981e01b823137cdef36e43d6daa839b2f64f",
+    "crates/kerotakis-cea/tests/autoignition.rs": "5628218100472f7f5654fac6d7ddd6b6a60edcc62f143fb09c8a4cc6ca713ca1",
+    "crates/kerotakis-cea/tests/thermal_boundary_refusal.rs": "8c595bff0cc96883d9f69dd3a2431d0804ee689c54a17f9b4f1c22593e70364c",
+    "crates/kerotakis-cli/tests/corpus_perturbation.rs": "0e1a530a09e66e08613e38a05f13086d5e02a2d4e227f46ab633c8bba966983f",
+    "crates/kerotakis-core/i18n/de.toml": "8fba3ae1499f95676c32c74f45698bcff919ae1d1511510cd04ec7f83959efbe"
+  },
+  "new_ci_run": 38528139789,
+  "new_audit_run": 38528139788,
+  "new_validation_state": "queued",
+  "native_acceptance_complete": false,
+  "source_bound_cli_replay_complete": false,
+  "integrated": false,
+  "original_fifty_and_normalized40_forecasts_modified": false,
+  "empirical_calibration": false
+}

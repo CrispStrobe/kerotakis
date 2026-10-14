@@ -1,5 +1,5 @@
 {
-  "utc": "2026-10-14T05:08:19.518137+00:00",
+  "utc": "2026-10-14T07:26:37.346483+00:00",
   "design_count": 50,
   "executed_count": 50,
   "verdict_count": 50,
@@ -13,11 +13,12 @@
     "pass": 7,
     "inconclusive": 1
   },
-  "native_fix_head": "faaf4baf34c9697bdff220d9de8d4b10c69a80c0",
+  "native_fix_head": "10c963e17401b65c947f1f4b89a8d4e35fef5e71",
   "native_fix_validated": false,
   "normalized_followup_controls": 40,
   "normalized_followup_executed": 0,
   "native_fix_pr": "https://github.com/CrispStrobe/kerotakis/pull/786",
-  "native_fix_ci_run": 38515087509,
-  "native_fix_own_cli_audit_run": 38515087535
+  "native_fix_ci_run": 38528139789,
+  "native_fix_own_cli_audit_run": 38528139788,
+  "native_fix_validation_status": "queued_after_preserved_first_ci_failure"
 }

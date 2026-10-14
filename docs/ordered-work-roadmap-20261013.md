@@ -34,7 +34,9 @@ rejections. Large local work and agent work require the private resource gate.
    frozen `water` spelling follow-up; it is not another blind batch. The two
    failures share sealed thermal gas loss. Narrow boundary-refusal fix
    `faaf4baf` is prepared with inventory, open-air and inert-gas controls;
-   native acceptance and integration remain pending. Close the invalid route,
+   native acceptance and integration remain pending. The [new improvement agenda](improvement-agenda-20261014.md)
+   now orders this gap work; PR786 revision `10c963e1` corrects preserved first CI
+   compatibility failures. Close the invalid route,
    execute the spelling follow-up when resources permit, classify further
    demonstrated gaps and repair them before lane 3. The original run used actual main
    `30fd09eb` (or a separately reviewed later revision). Use a fresh agent that learns only syntax,
