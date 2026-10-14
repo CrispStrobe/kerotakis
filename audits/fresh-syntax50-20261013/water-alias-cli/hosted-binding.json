@@ -1,0 +1,10 @@
+{
+  "protocol_sha256": "cfbad3b2883f9022bcb5c540089beb72406cdd08f840d243768a59d90987fe05",
+  "helper_sha256": "4f2b928cfcda22240c577f6b2b0a5c2b550d0ceaad6bf0757f81dcb536abc141",
+  "workflow_sha256": "0a1260963811adb887164252f1a62b3505c8194aa54d33c274f8a730521df88d",
+  "selection": "water-alias-cli",
+  "ordinary_jobs_excluded": 24,
+  "application_rebuild": false,
+  "case_count": 2,
+  "original_inputs_changed": false
+}

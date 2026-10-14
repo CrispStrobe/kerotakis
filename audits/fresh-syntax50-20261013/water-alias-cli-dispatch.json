@@ -1,0 +1,25 @@
+{
+  "utc": "2026-10-14T17:32:40.125189+00:00",
+  "run": 38607283700,
+  "audit_branch": "audit/water-alias-cli-hosted-20261014",
+  "audit_head": "a9bea2b37e8dcbafe9b65369729ff1f4e8075b30",
+  "source_head": "e4fb5e33434e9c7d76c0846d9ac995bbf11349f9",
+  "artifact_id": 11911279897,
+  "status": "queued",
+  "binding": {
+    "protocol_sha256": "cfbad3b2883f9022bcb5c540089beb72406cdd08f840d243768a59d90987fe05",
+    "helper_sha256": "4f2b928cfcda22240c577f6b2b0a5c2b550d0ceaad6bf0757f81dcb536abc141",
+    "workflow_sha256": "0a1260963811adb887164252f1a62b3505c8194aa54d33c274f8a730521df88d",
+    "selection": "water-alias-cli",
+    "ordinary_jobs_excluded": 24,
+    "application_rebuild": false,
+    "case_count": 2,
+    "original_inputs_changed": false
+  },
+  "ordinary_jobs_selected": false,
+  "application_rebuild": false,
+  "local_cases_executed": 0,
+  "local_retries_suspended_while_hosted_replay_pending": true,
+  "original_inputs_changed": false,
+  "candidate_integrated": false
+}

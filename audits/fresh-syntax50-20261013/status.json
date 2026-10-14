@@ -1,5 +1,5 @@
 {
-  "utc": "2026-10-14T17:10:18.969847+00:00",
+  "utc": "2026-10-14T17:32:40.125189+00:00",
   "design_count": 50,
   "executed_count": 50,
   "verdict_count": 50,
@@ -60,5 +60,6 @@
   "alias_native_regressions_passed": 9,
   "alias_cli_smoke_control_count": 2,
   "alias_cli_smoke_executed": 0,
-  "alias_cli_smoke_status": "frozen_resource_gate_refused_before_first_case"
+  "alias_cli_smoke_status": "hosted_replay_queued_local_retries_suspended",
+  "alias_cli_smoke_run": 38607283700
 }
