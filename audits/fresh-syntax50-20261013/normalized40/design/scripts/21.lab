@@ -1,0 +1,9 @@
+# Fresh independent syntax-only experiment 21
+# Zinc with acid
+seal v1 1L
+add v1 water 100mL
+add v1 Zn 0.001mol
+add v1 HCl 0.004mol
+stir v1 200rpm 1s
+inspect v1
+test v1 pop

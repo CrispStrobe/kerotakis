@@ -1,0 +1,8 @@
+# Fresh independent syntax-only experiment 27
+# Peroxide oxidizes ferrous iron
+add v1 water 100mL
+add v1 FeSO4 0.002mol
+add v1 HCl 0.004mol
+add v1 H2O2 0.001mol
+stir v1 200rpm 1s
+inspect v1

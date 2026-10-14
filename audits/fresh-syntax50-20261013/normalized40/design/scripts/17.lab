@@ -1,0 +1,8 @@
+# Fresh independent syntax-only experiment 17
+# Barium sulfate precipitation
+add v1 water 100mL
+add v1 BaCl2 0.001mol
+add v1 Na2SO4 0.001mol
+stir v1 200rpm 1s
+inspect v1
+look v1

@@ -1,0 +1,7 @@
+# Fresh independent syntax-only experiment 02
+# Water sensible cooling
+add v1 water 100g @ 30C
+measure v1 thermometer
+cool v1 1kJ
+measure v1 thermometer
+inspect v1

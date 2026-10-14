@@ -1,0 +1,9 @@
+# Fresh independent syntax-only experiment 37
+# Iodine solvent extraction
+new
+add v1 water 50mL
+add v1 I2 0.005g
+inspect v1
+extract v1 v2 C6H14 20mL stages 1
+inspect
+look v2

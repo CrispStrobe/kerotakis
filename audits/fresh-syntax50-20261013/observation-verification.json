@@ -1,0 +1,116 @@
+{
+  "utc": "2026-10-14T05:06:39.878114+00:00",
+  "cases_verified": 50,
+  "physics_observations": {
+    "28": {
+      "pressure_increments_kpa": [
+        24.789570295567003,
+        49.57914059113399
+      ],
+      "ratio": 1.9999999999999993
+    },
+    "29": {
+      "temperature_c": [
+        25.0,
+        32.87806146014134
+      ],
+      "pressure_kpa": [
+        150.904140591134,
+        154.89150297304502
+      ],
+      "absolute_temperature_ratio": 1.0264231476107373,
+      "pressure_ratio": 1.0264231476107375
+    },
+    "30": {
+      "pressure_increments_kpa": [
+        12.394785147783509,
+        12.39478514778348
+      ]
+    },
+    "32": {
+      "pressure_kpa": [
+        349.22070295566994,
+        101.325
+      ]
+    },
+    "39": {
+      "donor_s_mol": 0.03119151590767311,
+      "receiver_fe_mol": 0.017906706061420002,
+      "other_transfer_mol": 0
+    },
+    "49": {
+      "tests": [
+        {
+          "event": "gas_tested",
+          "notes": "the glowing splint relights \u2014 O\u2082 mole fraction 60.0% (above the 25% enrichment threshold)",
+          "positive": true,
+          "test": "glowing_splint",
+          "vessel": 0
+        },
+        {
+          "event": "gas_tested",
+          "notes": "the splint does not relight \u2014 O\u2082 mole fraction 10.6% is below the 25% enrichment threshold",
+          "positive": false,
+          "test": "glowing_splint",
+          "vessel": 1
+        }
+      ]
+    },
+    "50": {
+      "tests": [
+        {
+          "event": "gas_tested",
+          "notes": "squeaky pop \u2014 0.0020 mol H\u2082 ignited with 0.0010 mol O\u2082, producing 0.0020 mol H\u2082O; 2 H\u2082 + O\u2082 \u2192 2 H\u2082O",
+          "positive": true,
+          "test": "pop",
+          "vessel": 0
+        },
+        {
+          "event": "gas_tested",
+          "notes": "no pop \u2014 H\u2082 mole fraction -0.0% is below the 4% ignition limit",
+          "positive": false,
+          "test": "pop",
+          "vessel": 1
+        }
+      ]
+    },
+    "23": {
+      "sealed_boundary": {
+        "boundary": "sealed",
+        "volume": 0.5
+      },
+      "final_pressure_pa": -0.0,
+      "final_contents": [
+        {
+          "moles": 0.002,
+          "phase": "solid",
+          "species": "MgO"
+        }
+      ]
+    },
+    "47": {
+      "sealed_boundary": {
+        "boundary": "sealed",
+        "volume": 1.0
+      },
+      "final_pressure_pa": -0.0,
+      "final_contents": []
+    },
+    "31": {
+      "boundary": {
+        "boundary": "swept",
+        "pressure": 10000.0
+      },
+      "reported_pressure_pa": 10000.0,
+      "finite_volume_absent": true
+    }
+  },
+  "resource_journal_all_admitted": true,
+  "peak_load1": 2.3828125,
+  "minimum_available_memory_mib": 3381,
+  "minimum_fast_free_mib": 8295,
+  "original_design_unchanged": true,
+  "source_informed_diagnosis_separate_from_frozen_expectations": true,
+  "empirical_calibration": false,
+  "independent_second_review": false
+}

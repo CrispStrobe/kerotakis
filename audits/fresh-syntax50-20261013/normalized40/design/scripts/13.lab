@@ -1,0 +1,10 @@
+# Fresh independent syntax-only experiment 13
+# Acetate buffer response
+add v1 water 100mL
+add v1 CH3COOH 0.005mol
+add v1 CH3COONa 0.005mol
+measure v1 ph
+add v1 HCl 0.0005mol
+stir v1 200rpm 1s
+measure v1 ph
+inspect v1

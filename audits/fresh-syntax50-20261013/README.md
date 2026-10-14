@@ -1,4 +1,4 @@
-# Fresh syntax-only fifty — frozen, execution pending
+# Fresh syntax-only fifty — first outcomes preserved
 
 Lane 2 follows the completed performance lane. A fresh agent with no inherited
 history read only [the syntax reference](syntax-only.md), then independently
@@ -19,10 +19,34 @@ hashes, every design member, and the runner. The artifact was built on the
 reviewed candidate merge tree; actual main has the same tree. This is source-tree
 equivalence, not a claim of a new postmerge build.
 
-Current result: **0/50 executed; no physical verdicts yet.** Load and memory gates
-closed after design completed. The verified binary is staged privately. The
-completed earlier evidence archives were also preserved durably and verified;
-these are separate from the fresh fifty.
+Current result: **50/50 executed: 7 pass, 2 fail, 40 unsupported and 1 inconclusive.**
+Every case was admitted by its recorded resource gate. All original scripts,
+expectations and first streams remain unchanged. [The first-outcome review](first-outcome-review.json)
+and [observation verification](observation-verification.json) distinguish physical
+observations from coverage and inferred boundary semantics. This is root review,
+not a blinded independent second review or empirical calibration.
+
+The forty unsupported cases all rejected the guessed `H2O` key with a `water`
+suggestion before the intended comparison. [Forty spelling-normalized controls](normalized40/design/README.md)
+are frozen separately, retaining the physical forecasts and changing only the
+`add` ingredient token. These are source-informed follow-ups, not replacements
+for the original blind outcomes or forty newly invented experiments.
+
+The two physical failures share a serious thermal boundary defect: sealed carbon
+combustion drops all gases, ends with zero pressure and gives a negative CO2 test;
+sealed magnesium combustion also loses retained oxygen and nitrogen. The open-air
+CEA route adds reservoir air and vents products at a finite boundary. Narrow fix
+`faaf4baf` preserves inventory and reports `boundary-mismatch` for sealed,
+pressure-controlled and swept charges that would enter this open-air route.
+It includes six boundary/fuel controls plus open-air and inert-gas controls,
+with an English/German diagnostic. Formatting passed; native validation and
+integration are pending. Validated closed energy/volume or energy/pressure
+chemistry remains a separate extension; refusing an invalid route does not
+implement that chemistry.
+
+The sweep case is inconclusive: `sweep` establishes an external nitrogen purge,
+not a finite 1 L gas inventory. The reported pressure is 10 kPa. Preserve the
+frozen assumption rather than changing it into a passing forecast.
 
 ## Execution and review task
 
@@ -38,7 +62,7 @@ completed streams are hash-checked and skipped. Incomplete executions or timeout
 require review and a separately documented continuation. Never overwrite first
 outcomes, rewrite forecasts, or substitute corrected scripts for the blind batch.
 
-Once all first outcomes exist, evaluate each original expectation against its
+After the preserved first outcomes, review each original expectation against its
 observation commands, converting reported units and qualifying inferred command
 semantics. Record physical failures, unsupported coverage and inconclusive
 observations separately. Rank demonstrated failures by user impact and shared

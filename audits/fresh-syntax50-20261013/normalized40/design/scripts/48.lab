@@ -1,0 +1,10 @@
+# Fresh independent syntax-only experiment 48
+# Bicarbonate vinegar effervescence
+seal v1 1L
+add v1 water 100mL
+add v1 NaHCO3 0.001mol
+add v1 CH3COOH 0.002mol
+stir v1 200rpm 1s
+inspect v1
+test v1 limewater
+measure v1 ph

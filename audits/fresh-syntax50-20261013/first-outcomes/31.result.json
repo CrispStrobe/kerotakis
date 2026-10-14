@@ -1,0 +1,13 @@
+{
+  "case": "scripts/31.lab",
+  "ordinal": 31,
+  "started_utc": "2026-10-14T04:59:11.020836+00:00",
+  "elapsed_seconds": 0.17235355637967587,
+  "exit_code": 0,
+  "timeout": false,
+  "stdout_sha256": "170c26b2e82baee0ae3c18b10c895aeeb9fcb78bd4a0422e46754cabbb2a0dce",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_bytes": 7164,
+  "stderr_bytes": 0,
+  "script_sha256": "382ca39a13c964320fee59b5b5cfd97d22b16c2255462fee533cd5216eea72ed"
+}

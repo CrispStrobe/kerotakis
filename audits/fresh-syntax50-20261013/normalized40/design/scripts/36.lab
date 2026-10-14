@@ -1,0 +1,8 @@
+# Fresh independent syntax-only experiment 36
+# Hexane water immiscibility
+add v1 water 50mL @ 20C
+add v1 C6H14 20mL @ 20C
+stir v1 200rpm 1s
+wait 1s
+inspect v1
+look v1

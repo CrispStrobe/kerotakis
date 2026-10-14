@@ -1,0 +1,11 @@
+# Fresh independent syntax-only experiment 03
+# Mass dependence of heating
+new
+add v1 water 50g @ 20C
+add v2 water 100g @ 20C
+measure v1 thermometer
+measure v2 thermometer
+heat v1 1kJ
+heat v2 1kJ
+measure v1 thermometer
+measure v2 thermometer

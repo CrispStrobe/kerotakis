@@ -1,15 +1,20 @@
 {
-  "utc": "2026-10-13T21:11:22.842048+00:00",
+  "utc": "2026-10-14T05:08:19.518137+00:00",
   "design_count": 50,
-  "executed_count": 0,
-  "verdict_count": 0,
+  "executed_count": 50,
+  "verdict_count": 50,
   "expectations_sha256": "69ce701a208f63561c6d55be81aacefd89632cec0d8846051c5f4e9dc900afc4",
   "freeze_sha256": "b064cd21c3364c6b5cad9bfc69dad4c3cb54dbc86d1d663bddef7313b07708cd",
-  "resource_gate": {
-    "load1": 9.94970703125,
-    "memory_available_mib": 3680,
-    "permitted": false
+  "status": "first_outcomes_preserved_fix_validation_pending",
+  "first_outcomes_modified": false,
+  "classification_counts": {
+    "unsupported": 40,
+    "fail": 2,
+    "pass": 7,
+    "inconclusive": 1
   },
-  "status": "frozen_execution_pending",
-  "first_outcomes_modified": false
+  "native_fix_head": "faaf4baf34c9697bdff220d9de8d4b10c69a80c0",
+  "native_fix_validated": false,
+  "normalized_followup_controls": 40,
+  "normalized_followup_executed": 0
 }

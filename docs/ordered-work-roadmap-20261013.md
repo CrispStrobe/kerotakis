@@ -1,7 +1,7 @@
 # Ordered work roadmap — 2026-10-13
 
 The user authorized these six lanes in this exact order. Lane 1 is complete;
-lane 2 has fifty independently designed, frozen experiments awaiting execution gates. Lanes 3–6 remain queued. Preserve
+lane 2 has preserved all fifty first outcomes and is closing demonstrated gaps. Lanes 3–6 remain queued. Preserve
 original forecasts, first failures, accepted source bindings and resource
 rejections. Large local work and agent work require the private resource gate.
 
@@ -27,11 +27,16 @@ rejections. Large local work and agent work require the private resource gate.
    Live source/base/main, all enforced checks and applicable rules were refreshed
    before the guarded merge. Do not repeat completed checks at unchanged source;
    repository-triggered postmerge workflows remain separate.
-2. **Fifty fresh CLI experiments — design frozen, execution resource-gated.**
+2. **Fifty fresh CLI experiments — first outcomes preserved; repairs active.**
    [The independent fifty](../audits/fresh-syntax50-20261013/README.md) and all
-   original expectations are frozen; 0/50 executed and no physical verdicts yet.
-   The verified ordinary release binary is staged and the source-bound runner
-   preserves first outcomes and skips completed cases when resuming. Start from actual main
+   original expectations remain frozen; 50/50 executed with 7 pass, 2 fail,
+   40 unsupported and 1 inconclusive. Forty `H2O` refusals have a separately
+   frozen `water` spelling follow-up; it is not another blind batch. The two
+   failures share sealed thermal gas loss. Narrow boundary-refusal fix
+   `faaf4baf` is prepared with inventory, open-air and inert-gas controls;
+   native acceptance and integration remain pending. Close the invalid route,
+   execute the spelling follow-up when resources permit, classify further
+   demonstrated gaps and repair them before lane 3. The original run used actual main
    `30fd09eb` (or a separately reviewed later revision). Use a fresh agent that learns only syntax,
    without reading existing corpus cases or implementation details. Freeze all
    fifty original scripts and expectations before execution. Preserve first
