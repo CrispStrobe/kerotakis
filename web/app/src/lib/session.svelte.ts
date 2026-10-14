@@ -1084,6 +1084,9 @@ export class Session {
       // Availability and stock must use the same identities the engine applies.
       // Raw spellings can be aliases or localized ingredient/verb names.
       const parsed = this.mode === "story" ? await this.host.parse(trimmed) : null;
+      if (parsed && !parsed.ok) {
+        throw new EngineError(parsed.error ?? t("the bench refused this operation"), "refused");
+      }
       const supplied = parsed?.ok ? suppliedSpeciesFromOperator(parsed.operator) : suppliedSpecies(trimmed);
       const lesson = this.lesson;
       if (this.mode === "story" && supplied && lesson && !lesson.kit.includes(supplied)) {
@@ -1299,7 +1302,10 @@ export class Session {
       if (canonical !== trimmed) this.feed[echo] = { kind: "command", text: canonical };
       this.commandLog.push(canonical);
       this.position = this.commandLog.length;
-      if (this.mode === "story" && stockItem && !missionSupply) {
+      const dispensed = result.steps.some((step) =>
+        (step.events as Array<Record<string, unknown>>).some((event) =>
+          event.event === "added" || event.event === "material_added"));
+      if (this.mode === "story" && stockItem && !missionSupply && dispensed) {
         this.storyStockUsed = {
           ...this.storyStockUsed,
           [stockItem.key]: (this.storyStockUsed[stockItem.key] ?? 0) + 1,

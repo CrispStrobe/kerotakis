@@ -93,7 +93,7 @@ class FakeHost implements EngineHost {
     return {
       steps: script.split("\n").map((line) => ({
         operator: {},
-        events: [],
+        events: /^(?:add|titrate)\s/.test(line) ? [{ event: "added" }] : [],
         rendered: [`did: ${line}`],
       })),
       scene: this.nextScene(),
@@ -322,6 +322,31 @@ describe("Session", () => {
     expect(s.storyStockUsed).toEqual({});
     s.startLesson("canonical-kit", "add v1 water 1mol\nmeasure v1 balance");
     expect(await s.submit("add v1 H2O 1mol")).toBe(true);
+    expect(s.storyStockUsed).toEqual({});
+  });
+
+  it("does not charge Story stock for vetoed or exhausted alias requests", async () => {
+    for (const event of ["safety_veto", "stock_exhausted"]) {
+      const host = new FakeHost();
+      host.species = async () => [{ key: "water", name: "water", formula: "H2O", phase: "liquid" }];
+      const run = host.runScript.bind(host);
+      host.runScript = async (line) => {
+        const result = await run(line);
+        return { ...result, steps: result.steps.map((step) => ({ ...step, events: [{ event }] })) };
+      };
+      const s = new Session(host, new FakeStorage(), "story");
+      await s.connect();
+      await s.submit("add v1 H2O 1mol");
+      expect(s.storyStockUsed).toEqual({});
+    }
+  });
+
+  it("does not execute a Story command that the parser rejected", async () => {
+    const host = new FakeHost();
+    const s = new Session(host, new FakeStorage(), "story");
+    await s.connect();
+    expect(await s.submit("boom v1")).toBe(false);
+    expect(host.calls).not.toContain("run:boom v1");
     expect(s.storyStockUsed).toEqual({});
   });
 
