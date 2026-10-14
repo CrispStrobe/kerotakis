@@ -4,7 +4,11 @@ Active after thermal boundary PR786 integrated. Draft PR787 now contains the
 core and app follow-up at `98051f7b` on main `8a6aa68e`. The
 [application receipt](../audits/fresh-syntax50-20261013/water-alias-app-followup-application.json)
 records eleven files and new exact-source CI `38627469049` / own fleet
-`38627469041`, both queued. Seven new app tests remain unexecuted.
+`38627469041`. [Current macOS native validation passed](../audits/fresh-syntax50-20261013/water-alias-app-candidate-native-validation.json),
+including all nine alias regressions, workspace/CODEX/coverage. The
+[new own build is source-associated](../audits/fresh-syntax50-20261013/water-alias-app-candidate-own-build-metadata.json);
+archive/binary bytes remain unverified. Remaining CI and full fleet are pending.
+Seven new app tests remain unexecuted.
 
 The previous core candidate `e4fb5e33` passed all nine native regressions,
 workspace/CODEX/coverage checks, full CI and all 33 own-fleet jobs. Its corrected

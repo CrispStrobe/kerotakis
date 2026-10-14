@@ -1,0 +1,24 @@
+{
+  "utc": "2026-10-14T20:27:54.657647+00:00",
+  "pr": 787,
+  "source_head": "98051f7b4e09eeebce31c5eee64a5da47450626f",
+  "source_tree": "46fac840c24329b4fa1b8528e6bcc43d1f04d2ca",
+  "tested_checkout": "8940ae91c9a4c5ecc1461fe9c5a9275a6ea6c17e",
+  "tested_parents": [
+    "8a6aa68eeec234d8cfde7b092b70c30a5c13411c",
+    "98051f7b4e09eeebce31c5eee64a5da47450626f"
+  ],
+  "own_run": 38627469041,
+  "build_job": 116070175886,
+  "build_success": true,
+  "actual_metadata_checkout_tree_and_upload_association_verified": true,
+  "artifact_id": 11925406982,
+  "artifact_name": "chemistry-audit-cli-8940ae91c9a4c5ecc1461fe9c5a9275a6ea6c17e",
+  "artifact_size_bytes": 6491994,
+  "advertised_zip_digest": "sha256:098ccde32cac16d6fd73c5332b612a0c7e5b0343eb5e144b9cde23823fa05627",
+  "archive_downloaded": false,
+  "archive_or_binary_bytes_verified": false,
+  "native_alias_tests_passed": true,
+  "candidate_integrated": false,
+  "next_gate": "Full archive/member/binary/lock verification requires fresh resource gates; actual app and full candidate acceptance still pending."
+}

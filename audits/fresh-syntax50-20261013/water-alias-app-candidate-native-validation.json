@@ -1,0 +1,34 @@
+{
+  "utc": "2026-10-14T20:27:53.100524+00:00",
+  "pr": 787,
+  "source_head": "98051f7b4e09eeebce31c5eee64a5da47450626f",
+  "source_tree": "46fac840c24329b4fa1b8528e6bcc43d1f04d2ca",
+  "ci_run": 38627469049,
+  "job": 116070176260,
+  "platform": "macos-latest",
+  "tested_checkout": "8940ae91c9a4c5ecc1461fe9c5a9275a6ea6c17e",
+  "all_steps_success": true,
+  "actual_checkout_verified": true,
+  "named_tests_passed": [
+    "formula_and_canonical_text_have_equal_quantities_and_snapshots",
+    "identity_bearing_commands_and_shelf_json_are_canonical",
+    "direct_solvent_grinding_and_titrant_inputs_match_canonical_behavior",
+    "direct_and_json_operators_share_a_finite_bottle_and_canonical_log",
+    "both_stock_formats_normalize_single_alias_and_refuse_collisions",
+    "direct_vessel_inputs_queries_and_debits_use_one_species_and_preserve_lots",
+    "restored_alias_portions_keep_their_quantities_and_provenance",
+    "alias_water_transfer_and_snapshot_replay_conserve_inventory",
+    "alias_safety_veto_preserves_inventory_and_stock"
+  ],
+  "alias_regressions_passed": 9,
+  "workspace_tests": "success",
+  "codex": "success",
+  "coverage": {
+    "unmet_requirements": 0,
+    "solver_runtime_failures": 0,
+    "baseline_drift": 0
+  },
+  "saved_job_log_sha256": "8f5a0ba7e2177b7f4476dac0c12e64648f1f60a3b4cee88e9f56e54ca62600fc",
+  "candidate_integrated": false,
+  "remaining_acceptance": "Ubuntu, browser/app/type/WASM/preflight checks and full current own fleet remain pending. Seven new app tests not yet confirmed executed."
+}

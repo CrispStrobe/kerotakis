@@ -35,8 +35,13 @@ in the private handoff. Heavy local work and delegation require resource gates.
    with unchanged quantitative forecasts and verified saved stream/report hashes.
    The new candidate's core/CLI/WASM source is unchanged, but those CLI passes
    do not establish app acceptance.
-   Fresh CI `38627469049` and own fleet `38627469041` are queued on `98051f7b`.
-   Require actual execution of seven new app tests, all-app Vitest, type/browser
+   Fresh CI `38627469049` and own fleet `38627469041` run on `98051f7b`.
+   [Current macOS native validation passed](../audits/fresh-syntax50-20261013/water-alias-app-candidate-native-validation.json),
+   including all nine alias regressions, workspace/CODEX/coverage with zero gaps
+   or drift. The [current own build succeeded](../audits/fresh-syntax50-20261013/water-alias-app-candidate-own-build-metadata.json)
+   and is tied to the actual merge parents and candidate tree; archive/binary
+   bytes remain unverified until resource gates permit. Other CI and full fleet
+   checks remain pending. Require actual execution of seven new app tests, all-app Vitest, type/browser
    checks and the complete candidate fleet before guarded integration. Preserve
    any first new-source failure before fixing it. Do not duplicate the queued runs.
    Follow the [entry-point review and implementation task](water-alias-task-20261014.md).

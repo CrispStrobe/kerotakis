@@ -62,8 +62,12 @@ including Ubuntu and browser validation. All 33 own-fleet jobs also passed; the 
 [Draft PR787](https://github.com/CrispStrobe/kerotakis/pull/787) now contains
 the core and app follow-up at `98051f7b` on integrated main `8a6aa68e`.
 [The application receipt](water-alias-app-followup-application.json) records its
-eleven-file scope and fresh CI `38627469049` / own fleet `38627469041`, queued.
-Seven new app tests remain unexecuted; PR787 is not integrated.
+eleven-file scope and fresh CI `38627469049` / own fleet `38627469041`.
+[Current macOS native validation passed](water-alias-app-candidate-native-validation.json)
+with all nine regressions and zero coverage gaps/drift. The
+[new own build's source association is verified](water-alias-app-candidate-own-build-metadata.json);
+archive/binary bytes, other CI and full fleet are pending. Seven new app tests
+remain unexecuted; PR787 is not integrated.
 
 Previous core source `e4fb5e33` passed [full CI](water-alias-core-ci-validation.json)
 and [all 33 own-fleet jobs](water-alias-core-fleet-validation.json), including
