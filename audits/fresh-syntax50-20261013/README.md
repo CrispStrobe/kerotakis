@@ -62,8 +62,16 @@ including Ubuntu and browser validation. All 33 own-fleet jobs also passed; the 
 [Draft PR787](https://github.com/CrispStrobe/kerotakis/pull/787) now implements
 the canonical water alias on that integrated main. [Its preparation receipt](water-alias-preparation.json)
 binds seven changed files and nine regression tests to source `e4fb5e33`;
-CI `38598370658` and own fleet `38598370252` are queued. This alias revision is
-not yet validated or integrated. Original forecasts and first outcomes remain unchanged.
+[Core CI `38598370658` passed](water-alias-core-ci-validation.json); own fleet
+`38598370252` has 18 passes and 12 queued jobs at this checkpoint. A separately
+[staged app follow-up](water-alias-story-followup.json) closes Story gating and
+usage gaps, including actual positive-volume titration events. Its seven new
+app tests are unexecuted. The first [two CLI controls failed](water-alias-cli-first-outcomes.json)
+on an invalid final command; saved prefixes support canonical shared stock
+accounting. Two [corrected controls](water-alias-cli-followup/README.md) are queued
+with unchanged quantitative forecasts. PR787 is not integrated; the
+[ordered agenda](../../docs/improvement-agenda-20261014.md) specifies acceptance
+and the guarded branch transition. Original forecasts and first outcomes remain unchanged.
 
 [The original seven-control replay](pr786-replay-first-outcomes.json) at
 `10c963e1` produced five passes and two failed intact-seal predictions. Both

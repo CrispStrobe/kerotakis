@@ -28,9 +28,19 @@ in the private handoff. Heavy local work and delegation require resource gates.
    before fixes. [All nine regressions passed on macOS](../audits/fresh-syntax50-20261013/water-alias-native-validation.json),
    along with workspace tests, CODEX and coverage (zero unmet requirements,
    runtime failures or drift). The [new CLI archive is verified](../audits/fresh-syntax50-20261013/water-alias-artifact-review.json).
-   Two [mixed-spelling CLI controls](../audits/fresh-syntax50-20261013/water-alias-cli/README.md)
-   are frozen but unexecuted after a resource refusal. Complete other required
-   checks, the full own fleet and these controls before guarded integration.
+   The [full core CI passed](../audits/fresh-syntax50-20261013/water-alias-core-ci-validation.json);
+   its own fleet still has 12 queued jobs and 18 passes at this checkpoint.
+   The first two [mixed-spelling CLI controls](../audits/fresh-syntax50-20261013/water-alias-cli/README.md)
+   failed because their final command was invalid; preserve those first outcomes.
+   Their saved prefixes confirm canonical inventory/shared exhaustion. Two separately
+   frozen [corrected controls](../audits/fresh-syntax50-20261013/water-alias-cli-followup/README.md)
+   are queued with unchanged quantitative forecasts.
+   A [staged app follow-up](../audits/fresh-syntax50-20261013/water-alias-story-followup.json)
+   closes Story access/accounting bypasses and handles actual titration dose events;
+   seven new app tests remain unexecuted. Do not merge the known-incomplete core-only
+   candidate. Let its current fleet finish, refresh head/base/main, then fast-forward
+   PR787 to reviewed staged source `98051f7b` and require fresh exact-source CI,
+   including app tests. Complete these acceptances before guarded integration.
    Follow the [entry-point review and implementation task](water-alias-task-20261014.md).
    Accept `H2O` as an input alias for `water`, resolve at a
    shared boundary, and persist canonical identities. Inventory additions,

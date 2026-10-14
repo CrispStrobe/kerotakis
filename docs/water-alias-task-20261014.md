@@ -2,7 +2,8 @@
 
 Active after thermal boundary PR786 integrated. Draft PR787 implements the
 reviewed design at `e4fb5e33` on main `8a6aa68e`. All nine macOS regressions,
-workspace tests, CODEX and coverage passed; remaining acceptance is pending.
+workspace tests, CODEX and coverage passed; full core CI is green. Own-fleet, CLI
+and staged app acceptance remain pending.
 See the [native receipt](../audits/fresh-syntax50-20261013/water-alias-native-validation.json)
 and [verified CLI artifact](../audits/fresh-syntax50-20261013/water-alias-artifact-review.json).
 This specification does not claim completed integration acceptance.
@@ -50,9 +51,13 @@ For both legacy and compensated stock restore, reject a map containing both
 without changing its authoritative amount, unit or compensated components.
 Inventory portions and provenance lots can retain separate entries under one
 canonical species; preserve their quantities rather than silently dropping or
-merging lots. A rejected WASM restore must preserve the live bench. No frontend
-change is currently indicated by canonical story-shelf keys; verify its actual
-integrated behavior before deciding.
+merging lots. A rejected WASM restore must preserve the live bench. Frontend review found that raw text is used before the canonical engine output
+arrives. This bypasses Story access and usage gates for aliases. The staged
+follow-up uses non-mutating typed engine parse output before those gates and
+canonicalizes mission-kit keys through the same parser, without a second product
+alias table. Only actual addition/material addition or finite positive-volume
+`titrated` events consume a Story dispense; veto, exhaustion and zero-dose
+endpoint responses must not consume one.
 
 Acceptance must exercise equivalent `water`/`H2O` additions in moles, grams and
 milliliters; mixed-spelling finite stock, exhaustion and unlimit operations;
@@ -67,3 +72,27 @@ Freeze the alias acceptance inputs before execution on the resulting source.
 Keep the original blind fifty and original-source normalized forty unchanged.
 Run bounded tests only when resource gates permit, then record actual source,
 checks and limitations in the ordered agenda.
+
+## Immediate acceptance lane
+
+Read the [staged follow-up receipt](../audits/fresh-syntax50-20261013/water-alias-story-followup.json)
+for source `98051f7b`, the four app files and seven new tests. Those tests are
+unexecuted. Independent source review caught a titration regression in the first
+staged predicate; the correction now uses the engine's `titrated.total_volume`
+and the fake emits the real event shape. Positive, zero-volume and unsuccessful
+responses have separate controls.
+
+1. Preserve the current core-only CI receipt and let own fleet `38598370252`
+   finish. Do not cancel it or merge `e4fb5e33` with the known Story gap.
+2. Check PR787 head, base and current main against their saved bindings. If
+   unchanged, fast-forward its original branch to the reviewed staged descendant.
+   Keep the combined scope to seven core files and four app files.
+3. Require fresh candidate CI, actual app regression execution, and full own
+   fleet acceptance. Confirm source/tree associations; old core-only passes do
+   not imply new app tests passed.
+4. Consume the [two queued corrected CLI controls](../audits/fresh-syntax50-20261013/water-alias-cli-followup/README.md)
+   once, preserving first streams and failures. Their source remains `e4fb5e33`;
+   record that limit rather than relabel their binary as the app follow-up.
+5. Integrate only after exact-head checks and current merge guards pass. Verify
+   the integrated tree, then advance to the forty naming follow-ups in the
+   [ordered agenda](improvement-agenda-20261014.md).

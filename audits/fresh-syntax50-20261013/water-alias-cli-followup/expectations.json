@@ -1,0 +1,12 @@
+{
+  "scope": "Two source-informed CLI entry-point controls, separate from blind fifty and normalized forty.",
+  "both_processes_exit": 0,
+  "stderr_empty": true,
+  "final_water_moles": 0.5,
+  "final_stock_water_moles": 0.5,
+  "one_canonical_water_bottle": true,
+  "one_canonical_water_inventory_identity": true,
+  "overdraw_stock_exhausted_key": "water",
+  "no_inventory_mutation_on_overdraw": true,
+  "canonical_and_mixed_semantic_rows_equal": true
+}

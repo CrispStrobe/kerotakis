@@ -1,0 +1,165 @@
+{
+  "utc": "2026-10-14T18:29:47.910316+00:00",
+  "run": 38598370658,
+  "head": "e4fb5e33434e9c7d76c0846d9ac995bbf11349f9",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "id": 115970872530,
+      "name": "Core and data schemas compile to wasm32",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970872530"
+    },
+    {
+      "id": 115970872893,
+      "name": "MY-BASIC preview (ubuntu-latest)",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970872893"
+    },
+    {
+      "id": 115970872925,
+      "name": "Current registry source export",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970872925"
+    },
+    {
+      "id": 115970872946,
+      "name": "IPhreeqc wasm gate",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970872946"
+    },
+    {
+      "id": 115970872973,
+      "name": "MY-BASIC preview (macos-latest)",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970872973"
+    },
+    {
+      "id": 115970872986,
+      "name": "Test (native) (macos-latest)",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970872986"
+    },
+    {
+      "id": 115970872989,
+      "name": "Test (native) (ubuntu-latest)",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970872989"
+    },
+    {
+      "id": 115970873035,
+      "name": "Full preflight gate",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970873035"
+    },
+    {
+      "id": 115970873078,
+      "name": "GPU release tools (deterministic)",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970873078"
+    },
+    {
+      "id": 115970873104,
+      "name": "BRD-080 viewer decision spike",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970873104"
+    },
+    {
+      "id": 115970873123,
+      "name": "The native host still compiles",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970873123"
+    },
+    {
+      "id": 115970873138,
+      "name": "feos adapter (aarch64-linux-android)",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970873138"
+    },
+    {
+      "id": 115970873145,
+      "name": "Presentation authority adapters",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970873145"
+    },
+    {
+      "id": 115970873147,
+      "name": "Shell payload (ubuntu-22.04)",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970873147"
+    },
+    {
+      "id": 115970873168,
+      "name": "The bench in WebAssembly",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970873168"
+    },
+    {
+      "id": 115970873180,
+      "name": "feos adapter (x86_64-pc-windows-msvc)",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970873180"
+    },
+    {
+      "id": 115970873184,
+      "name": "Shell payload (windows-latest)",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970873184"
+    },
+    {
+      "id": 115970873219,
+      "name": "The two wasm halves, together",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970873219"
+    },
+    {
+      "id": 115970873245,
+      "name": "feos adapter (wasm32-unknown-unknown)",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970873245"
+    },
+    {
+      "id": 115970873250,
+      "name": "feos adapter (aarch64-apple-darwin)",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970873250"
+    },
+    {
+      "id": 115970873264,
+      "name": "IPhreeqc under MSVC",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970873264"
+    },
+    {
+      "id": 115970873302,
+      "name": "Theme contrast tokens",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970873302"
+    },
+    {
+      "id": 115970873318,
+      "name": "Legacy BASIC oracle (development only)",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970873318"
+    },
+    {
+      "id": 115970873396,
+      "name": "feos adapter (aarch64-apple-ios)",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970873396"
+    },
+    {
+      "id": 115970873612,
+      "name": "The demo page, in a real browser",
+      "conclusion": "success",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/115970873612"
+    },
+    {
+      "id": 116008440545,
+      "name": "Publish the demo",
+      "conclusion": "skipped",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38598370658/job/116008440545"
+    }
+  ],
+  "qualification": "Acceptance applies to the seven-file core candidate only. The separately staged app followup remains unexecuted; own fleet and corrected CLI controls are pending. Candidate is not integrated."
+}

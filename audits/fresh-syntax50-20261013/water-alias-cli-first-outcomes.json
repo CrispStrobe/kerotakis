@@ -1,0 +1,269 @@
+{
+  "utc": "2026-10-14T18:07:39.921103+00:00",
+  "run": 38607283700,
+  "job": 116001307515,
+  "audit_head": "a9bea2b37e8dcbafe9b65369729ff1f4e8075b30",
+  "source_head": "e4fb5e33434e9c7d76c0846d9ac995bbf11349f9",
+  "hosted_conclusion": "failure",
+  "reader_failure": "KeyError stock: CLI bench JSON exposes vessels, not the stock map.",
+  "case_count_executed": 2,
+  "classification_counts": {
+    "fail": 2,
+    "pass": 0
+  },
+  "saved_reanalysis": {
+    "binding": {
+      "protocol_sha256": "cfbad3b2883f9022bcb5c540089beb72406cdd08f840d243768a59d90987fe05",
+      "helper_sha256": "4f2b928cfcda22240c577f6b2b0a5c2b550d0ceaad6bf0757f81dcb536abc141",
+      "audit_checkout": "a9bea2b37e8dcbafe9b65369729ff1f4e8075b30",
+      "source_head": "e4fb5e33434e9c7d76c0846d9ac995bbf11349f9",
+      "binary_sha256": "15d9b38b399671229553dcd9f643df62145c27cf6570852e4a45b9cbd7d25600",
+      "lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc",
+      "artifact_id": 11911279897,
+      "artifact_zip_sha256": "6dafdbd7782656a8924f675e89438827e010da3dfb206f774af9cfdbc70b1321"
+    },
+    "cases": [
+      {
+        "name": "canonical",
+        "classification": "fail",
+        "checks": {
+          "exit_zero": false,
+          "stderr_empty": false,
+          "final_water_moles": true,
+          "canonical_inventory": true,
+          "one_canonical_bottle_creation": true,
+          "shared_finite_stock_balance": true,
+          "overdraw_inventory_unchanged": true,
+          "later_observations_preserve_inventory": true
+        },
+        "record": {
+          "protocol_sha256": "cfbad3b2883f9022bcb5c540089beb72406cdd08f840d243768a59d90987fe05",
+          "helper_sha256": "4f2b928cfcda22240c577f6b2b0a5c2b550d0ceaad6bf0757f81dcb536abc141",
+          "audit_checkout": "a9bea2b37e8dcbafe9b65369729ff1f4e8075b30",
+          "source_head": "e4fb5e33434e9c7d76c0846d9ac995bbf11349f9",
+          "binary_sha256": "15d9b38b399671229553dcd9f643df62145c27cf6570852e4a45b9cbd7d25600",
+          "lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc",
+          "artifact_id": 11911279897,
+          "artifact_zip_sha256": "6dafdbd7782656a8924f675e89438827e010da3dfb206f774af9cfdbc70b1321",
+          "name": "canonical",
+          "script_sha256": "246b9c38d8c933b4474018a97dca2bf8fc4c64c2204c0a2cb450dabe548073dd",
+          "exit": 1,
+          "timeout": false,
+          "elapsed_seconds": 0.07919902099999376,
+          "stdout_sha256": "3c323de3c82c8c1f80f511ebe9d52cfb2bd54dbae21f4c67c2d6733010de8449",
+          "stderr_sha256": "5de59edb533fbce0c177cc7e6af4335059ee453fff971a1deae893bab6464632"
+        },
+        "stderr": "kero: case.lab:6: unknown command 'balance' (try 'help')\n"
+      },
+      {
+        "name": "mixed",
+        "classification": "fail",
+        "checks": {
+          "exit_zero": false,
+          "stderr_empty": false,
+          "final_water_moles": true,
+          "canonical_inventory": true,
+          "one_canonical_bottle_creation": true,
+          "shared_finite_stock_balance": true,
+          "overdraw_inventory_unchanged": true,
+          "later_observations_preserve_inventory": true
+        },
+        "record": {
+          "protocol_sha256": "cfbad3b2883f9022bcb5c540089beb72406cdd08f840d243768a59d90987fe05",
+          "helper_sha256": "4f2b928cfcda22240c577f6b2b0a5c2b550d0ceaad6bf0757f81dcb536abc141",
+          "audit_checkout": "a9bea2b37e8dcbafe9b65369729ff1f4e8075b30",
+          "source_head": "e4fb5e33434e9c7d76c0846d9ac995bbf11349f9",
+          "binary_sha256": "15d9b38b399671229553dcd9f643df62145c27cf6570852e4a45b9cbd7d25600",
+          "lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc",
+          "artifact_id": 11911279897,
+          "artifact_zip_sha256": "6dafdbd7782656a8924f675e89438827e010da3dfb206f774af9cfdbc70b1321",
+          "name": "mixed",
+          "script_sha256": "dbde1ba8b50400b58d2d6c210e9f7e0647f9aa819c2ab3387bc7a81927543f8b",
+          "exit": 1,
+          "timeout": false,
+          "elapsed_seconds": 0.0783147040000074,
+          "stdout_sha256": "3c323de3c82c8c1f80f511ebe9d52cfb2bd54dbae21f4c67c2d6733010de8449",
+          "stderr_sha256": "5de59edb533fbce0c177cc7e6af4335059ee453fff971a1deae893bab6464632"
+        },
+        "stderr": "kero: case.lab:6: unknown command 'balance' (try 'help')\n"
+      }
+    ],
+    "semantic_rows_equal": true,
+    "all_pass": false,
+    "stock_evidence": "CLI bench JSON exposes vessels, not the stock map. Shared finite balance is verified from shelf_stocked and stock_exhausted events; map cardinality is checked separately by the exact-source native regressions.",
+    "candidate_integrated": false,
+    "empirical_calibration": false
+  },
+  "case_failure_cause": "Both processes exited 1 on invalid final balance v1 command; supported syntax is measure v1 balance.",
+  "positive_observations": "Both traces have canonical water stock creation, remaining 0.5 mol on refused overdraw, canonical water inventory 0.5 mol, unchanged later observation and equal semantic rows.",
+  "artifact": {
+    "id": 11917270997,
+    "name": "water-alias-cli-38607283700-1",
+    "bytes": 6538608,
+    "advertised_zip_sha256": "058f4c9c30375065504eb2a48801c2b9070f26424364fa61f0081777eb262fb4",
+    "full_archive_downloaded": false
+  },
+  "bounded_diagnostic_reads": {
+    "artifact": 11917270997,
+    "advertised_full_zip_sha256": "058f4c9c30375065504eb2a48801c2b9070f26424364fa61f0081777eb262fb4",
+    "full_zip_downloaded": false,
+    "reads": [
+      {
+        "first": 6473072,
+        "last": 6538607,
+        "bytes": 65536
+      },
+      {
+        "first": 0,
+        "last": 29,
+        "bytes": 30
+      },
+      {
+        "first": 44,
+        "last": 584,
+        "bytes": 541
+      },
+      {
+        "first": 2533,
+        "last": 2562,
+        "bytes": 30
+      },
+      {
+        "first": 2577,
+        "last": 3114,
+        "bytes": 538
+      },
+      {
+        "first": 719,
+        "last": 748,
+        "bytes": 30
+      },
+      {
+        "first": 764,
+        "last": 2516,
+        "bytes": 1753
+      },
+      {
+        "first": 3249,
+        "last": 3278,
+        "bytes": 30
+      },
+      {
+        "first": 3294,
+        "last": 5046,
+        "bytes": 1753
+      },
+      {
+        "first": 601,
+        "last": 630,
+        "bytes": 30
+      },
+      {
+        "first": 644,
+        "last": 702,
+        "bytes": 59
+      },
+      {
+        "first": 3131,
+        "last": 3160,
+        "bytes": 30
+      },
+      {
+        "first": 3174,
+        "last": 3232,
+        "bytes": 59
+      },
+      {
+        "first": 6509411,
+        "last": 6509440,
+        "bytes": 30
+      },
+      {
+        "first": 6509453,
+        "last": 6509804,
+        "bytes": 352
+      },
+      {
+        "first": 6526836,
+        "last": 6526865,
+        "bytes": 30
+      },
+      {
+        "first": 6526879,
+        "last": 6527545,
+        "bytes": 667
+      },
+      {
+        "first": 6527562,
+        "last": 6527591,
+        "bytes": 30
+      },
+      {
+        "first": 6527614,
+        "last": 6527864,
+        "bytes": 251
+      }
+    ],
+    "selected_members": [
+      {
+        "name": "01.result.json",
+        "bytes": 958,
+        "sha256": "2f216f2bbd3ae59ce05501f705456911012dc2082cae4bc9ce4c64f86d8f09ce",
+        "crc_verified": true
+      },
+      {
+        "name": "02.result.json",
+        "bytes": 953,
+        "sha256": "5e0d9d7473c8a0a6a72bc033239c165c94c73a732edcc1aa42539ca19a4d96c7",
+        "crc_verified": true
+      },
+      {
+        "name": "01.stdout.jsonl",
+        "bytes": 15768,
+        "sha256": "3c323de3c82c8c1f80f511ebe9d52cfb2bd54dbae21f4c67c2d6733010de8449",
+        "crc_verified": true
+      },
+      {
+        "name": "02.stdout.jsonl",
+        "bytes": 15768,
+        "sha256": "3c323de3c82c8c1f80f511ebe9d52cfb2bd54dbae21f4c67c2d6733010de8449",
+        "crc_verified": true
+      },
+      {
+        "name": "01.stderr.txt",
+        "bytes": 57,
+        "sha256": "5de59edb533fbce0c177cc7e6af4335059ee453fff971a1deae893bab6464632",
+        "crc_verified": true
+      },
+      {
+        "name": "02.stderr.txt",
+        "bytes": 57,
+        "sha256": "5de59edb533fbce0c177cc7e6af4335059ee453fff971a1deae893bab6464632",
+        "crc_verified": true
+      },
+      {
+        "name": "binding.json",
+        "bytes": 599,
+        "sha256": "04637090463e32044b7071bda7a92c483482225608b4eeba9c04b24e03e4f619",
+        "crc_verified": true
+      },
+      {
+        "name": "protocol.json",
+        "bytes": 1160,
+        "sha256": "cfbad3b2883f9022bcb5c540089beb72406cdd08f840d243768a59d90987fe05",
+        "crc_verified": true
+      },
+      {
+        "name": "resource-journal.jsonl",
+        "bytes": 1594,
+        "sha256": "c3a9fa872f878fdcb1711e4c464f820372ace6c5c97363e138296195ecc34cc5",
+        "crc_verified": true
+      }
+    ],
+    "raw_hashes_match_producer_records": true
+  },
+  "first_stdout_stderr_hashes_verified": true,
+  "original_protocol_and_scripts_modified": false,
+  "application_fix_indicated_by_invalid_command": false,
+  "candidate_integrated": false
+}

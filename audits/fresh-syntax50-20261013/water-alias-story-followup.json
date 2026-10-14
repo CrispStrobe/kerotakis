@@ -1,0 +1,28 @@
+{
+  "utc": "2026-10-14T18:29:47.910316+00:00",
+  "pr": 787,
+  "current_head": "e4fb5e33434e9c7d76c0846d9ac995bbf11349f9",
+  "followup_branch": "fix/canonical-water-story-input-20261014",
+  "followup_head": "98051f7b4e09eeebce31c5eee64a5da47450626f",
+  "followup_applied_to_pr": false,
+  "source_backed_gaps": [
+    "Raw ingredient text misses canonical shelf/catalog keys, bypassing Story access and dispense accounting.",
+    "Successful responses containing only veto/exhaustion events still incremented Story usage.",
+    "Successful titration emits titrated, not added; the initial staged predicate missed its delivered volume and the fake masked that regression."
+  ],
+  "fix": "Use non-mutating typed engine parse output before Story access/stock gates, resolve mission-kit aliases through that parser, and charge only successful added/material_added or finite positive-volume titrated events.",
+  "duplicate_alias_table_added_to_product": false,
+  "files_sha256": {
+    "web/app/src/lib/session.svelte.ts": "f4df494c25a1cf336c678b683c2717a8609f9a5b583ef198b33131cc706322b4",
+    "web/app/src/lib/session.test.ts": "0badf422b8e4d3d2d7e9c0b33b4eab162df62ab3334398bc1b8e0e143e9415fc",
+    "web/app/src/lib/storyStock.ts": "fdf88ecb21d8e80bc2e9397c2703e12f9b9982cce9845e2f5d65cc3aa122fc58",
+    "web/app/src/lib/storyStock.test.ts": "7b7e84d28c633324c231ed3a4e6fe277a1a75c31f5f2ed10ade4b247af4af00f"
+  },
+  "new_tests": 7,
+  "new_tests_executed": false,
+  "diff_check": "pass",
+  "transition": "Wait for current candidate CI and own fleet to finish; preserve their exact-source evidence. Refresh head/base/main, fast-forward the original PR branch to this descendant, then require fresh exact-source acceptance.",
+  "expected_combined_pr_files": 11,
+  "candidate_integrated": false,
+  "review": "Independent source review found a titration-accounting blocker; corrected event predicate and FakeHost to the real event shape, with positive-dose, zero-dose and refusal controls. Final changes require executed acceptance."
+}

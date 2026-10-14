@@ -1,5 +1,5 @@
 {
-  "utc": "2026-10-14T17:32:40.125189+00:00",
+  "utc": "2026-10-14T18:29:47.910316+00:00",
   "design_count": 50,
   "executed_count": 50,
   "verdict_count": 50,
@@ -55,11 +55,24 @@
   "alias_own_cli_artifact_id": 11911279897,
   "alias_own_cli_metadata_association_verified": true,
   "alias_own_cli_bytes_verified": true,
-  "alias_fix_validation_status": "macos_all_steps_and_nine_alias_regressions_passed_other_checks_pending",
+  "alias_fix_validation_status": "current_core_ci_passed_own_fleet_pending_story_followup_staged_unexecuted",
   "alias_current_macos_pass": true,
   "alias_native_regressions_passed": 9,
   "alias_cli_smoke_control_count": 2,
-  "alias_cli_smoke_executed": 0,
-  "alias_cli_smoke_status": "hosted_replay_queued_local_retries_suspended",
-  "alias_cli_smoke_run": 38607283700
+  "alias_cli_smoke_executed": 2,
+  "alias_cli_smoke_status": "first_two_failed_invalid_final_command_and_reader_stock_projection_assumption",
+  "alias_cli_smoke_run": 38607283700,
+  "alias_cli_smoke_first_counts": {
+    "fail": 2,
+    "pass": 0
+  },
+  "alias_story_followup_head": "98051f7b4e09eeebce31c5eee64a5da47450626f",
+  "alias_story_followup_applied": false,
+  "alias_cli_corrected_followups": 2,
+  "alias_cli_corrected_executed": 0,
+  "alias_cli_corrected_run": 38614113822,
+  "alias_cli_corrected_status": "queued",
+  "alias_current_ci_pass": true,
+  "alias_current_own_fleet_success_jobs": 18,
+  "alias_current_own_fleet_pending_jobs": 12
 }

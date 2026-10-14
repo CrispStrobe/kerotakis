@@ -1,0 +1,37 @@
+{
+  "frozen_utc": "2026-10-14T18:07:39.933293+00:00",
+  "source_head": "e4fb5e33434e9c7d76c0846d9ac995bbf11349f9",
+  "source_tree": "00417fa4ba74a5ba65539eb0fd2e842bb03397e0",
+  "own_run": 38598370252,
+  "build_job": 115970871509,
+  "artifact_id": 11911279897,
+  "artifact_zip_sha256": "6dafdbd7782656a8924f675e89438827e010da3dfb206f774af9cfdbc70b1321",
+  "binary_sha256": "15d9b38b399671229553dcd9f643df62145c27cf6570852e4a45b9cbd7d25600",
+  "lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc",
+  "artifact_review_sha256": "a8b82e207f22fb0cc0db72a8894ce0197b1014b92abfbcdf844dd25767b0e301",
+  "files_sha256": {
+    "scripts/canonical.lab": "5c3167d9df3eebcdf72a642cf33010bbb791588a2f2984639aa3aa2030be0d42",
+    "scripts/mixed.lab": "c1a6c1f057498cf5df4ef8cb171eed2efa1c55d1ebbbb4cfcfd852302b59e5f9",
+    "expectations.json": "d74ac2fe050ff122af7153d7c3db8d56a24c73d69ff3e6f2b1b4f0ab5d61acf2",
+    "analyse.py": "5061022f4331adb477322f42ab3505e5104824864e9fd779ee26097122b637d4"
+  },
+  "case_count": 2,
+  "resource_thresholds": {
+    "load1_max": 3.5,
+    "mem_available_mib_min": 3200,
+    "fast_free_mib_min": 4224,
+    "storage_free_mib_min": 8192
+  },
+  "original_forecasts_and_first_results_modified": false,
+  "parent_protocol_sha256": "cfbad3b2883f9022bcb5c540089beb72406cdd08f840d243768a59d90987fe05",
+  "changes": {
+    "canonical": {
+      "last_command_before": "balance v1",
+      "last_command_after": "measure v1 balance"
+    },
+    "mixed": {
+      "last_command_before": "balance v1",
+      "last_command_after": "measure v1 balance"
+    }
+  }
+}
