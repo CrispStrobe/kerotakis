@@ -877,18 +877,18 @@ jobs:
           sparse-checkout-cone-mode: false
           sparse-checkout: |
             /.github/workflows/chemistry-audit.yml
-            /audits/fresh-syntax50-20261013/water-alias-cli/
+            /audits/fresh-syntax50-20261013/water-alias-cli-followup/
             /audits/fresh-syntax50-20261013/water-alias-artifact-review.json
-            /audits/fresh-syntax50-20261013/hosted-water-alias-cli.py
+            /audits/fresh-syntax50-20261013/hosted-water-alias-cli-followup.py
       - name: Verify the own artifact and run the two frozen controls
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python3 audits/fresh-syntax50-20261013/hosted-water-alias-cli.py
+        run: python3 audits/fresh-syntax50-20261013/hosted-water-alias-cli-followup.py
       - name: Preserve metadata, artifact bytes and original CLI streams
         if: always()
         uses: actions/upload-artifact@v6
         with:
-          name: water-alias-cli-${{ github.run_id }}-${{ github.run_attempt }}
-          path: water-alias-cli-evidence
+          name: water-alias-cli-followup-${{ github.run_id }}-${{ github.run_attempt }}
+          path: water-alias-cli-followup-evidence
           if-no-files-found: error
           retention-days: 30

@@ -1,0 +1,11 @@
+{
+  "protocol_sha256": "c9b6e590bc5cb7d15e20b80a3a266ab2ff1bdc5759492f1f2074477d32530072",
+  "helper_sha256": "34546ea5223cbce637b0f003c0dd3849bd69cb57ee6b0015fc69d2b0bc2661e4",
+  "consumer_sha256": "5061022f4331adb477322f42ab3505e5104824864e9fd779ee26097122b637d4",
+  "workflow_sha256": "07fa492b67d6024fc124cf16fe07f78e6d46fe68765121eb08f53dfd05d996bb",
+  "selection": "water-alias-cli",
+  "ordinary_jobs_excluded": 24,
+  "original_reader_and_runs_preserved": true,
+  "application_rebuild": false,
+  "case_count": 2
+}
