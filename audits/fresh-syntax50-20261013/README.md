@@ -66,7 +66,8 @@ eleven-file scope and fresh CI `38627469049` / own fleet `38627469041`.
 [Current macOS native validation passed](water-alias-app-candidate-native-validation.json)
 with all nine regressions and zero coverage gaps/drift. The
 [new own build's source association is verified](water-alias-app-candidate-own-build-metadata.json);
-archive/binary bytes, other CI and full fleet are pending. The
+[archive/binary bytes are verified](water-alias-app-candidate-artifact-review.json)
+and equal the earlier verified executable/lock. Other CI and full fleet are pending. The
 [first app suite failed](water-alias-app-first-failure.json) with 1,636 passes and
 one visualization-guard failure from scanning stock accounting as drawing.
 The seven new regressions were included. A staged correction at `d5c6cecf`

@@ -1,0 +1,28 @@
+{
+  "utc": "2026-10-14T20:34:42.772017+00:00",
+  "review_kind": "own_artifact_byte_and_source_association",
+  "all_checks_pass": true,
+  "source_head": "98051f7b4e09eeebce31c5eee64a5da47450626f",
+  "source_tree": "46fac840c24329b4fa1b8528e6bcc43d1f04d2ca",
+  "tested_checkout": "8940ae91c9a4c5ecc1461fe9c5a9275a6ea6c17e",
+  "tested_parents": [
+    "8a6aa68eeec234d8cfde7b092b70c30a5c13411c",
+    "98051f7b4e09eeebce31c5eee64a5da47450626f"
+  ],
+  "own_run": 38627469041,
+  "build_job": 116070175886,
+  "artifact_id": 11925406982,
+  "artifact_zip_sha256": "098ccde32cac16d6fd73c5332b612a0c7e5b0343eb5e144b9cde23823fa05627",
+  "binary_sha256": "15d9b38b399671229553dcd9f643df62145c27cf6570852e4a45b9cbd7d25600",
+  "lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc",
+  "full_archive_and_member_crcs_verified": true,
+  "workflow_sha256_verified": true,
+  "top_level_submodules_equal_previous_verified_artifact": true,
+  "binary_byte_identical_previous_verified_cli": true,
+  "lock_byte_identical_previous_captured_lock": true,
+  "candidate_integrated": false,
+  "limitations": [
+    "Top-level module revisions verified; recursive module bytes and complete compiler/native flags not independently traversed.",
+    "Byte verification does not accept the failed app suite, pending candidate CI or own fleet."
+  ]
+}

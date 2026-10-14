@@ -39,8 +39,10 @@ in the private handoff. Heavy local work and delegation require resource gates.
    [Current macOS native validation passed](../audits/fresh-syntax50-20261013/water-alias-app-candidate-native-validation.json),
    including all nine alias regressions, workspace/CODEX/coverage with zero gaps
    or drift. The [current own build succeeded](../audits/fresh-syntax50-20261013/water-alias-app-candidate-own-build-metadata.json)
-   and is tied to the actual merge parents and candidate tree; archive/binary
-   bytes remain unverified until resource gates permit. Other CI and full fleet
+   and is tied to the actual merge parents and candidate tree. The
+   [full archive and binary are verified](../audits/fresh-syntax50-20261013/water-alias-app-candidate-artifact-review.json);
+   executable and captured lock bytes equal the earlier verified CLI, so the
+   corrected controls need no duplicate execution. Other CI and full fleet
    checks remain pending. The [first app suite failed](../audits/fresh-syntax50-20261013/water-alias-app-first-failure.json):
    1,636 tests passed, with one visualization-guard failure. The seven new app
    regressions were included; the failure is in another file. Stock accounting

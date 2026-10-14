@@ -7,7 +7,9 @@ records eleven files and new exact-source CI `38627469049` / own fleet
 `38627469041`. [Current macOS native validation passed](../audits/fresh-syntax50-20261013/water-alias-app-candidate-native-validation.json),
 including all nine alias regressions, workspace/CODEX/coverage. The
 [new own build is source-associated](../audits/fresh-syntax50-20261013/water-alias-app-candidate-own-build-metadata.json);
-archive/binary bytes remain unverified. Remaining CI and full fleet are pending.
+[archive/binary bytes are verified](../audits/fresh-syntax50-20261013/water-alias-app-candidate-artifact-review.json).
+The executable and captured lock match the earlier verified CLI byte for byte.
+Remaining CI and full fleet are pending.
 The [first app suite](../audits/fresh-syntax50-20261013/water-alias-app-first-failure.json)
 ran 1,637 tests: 1,636 passed and one visualization coverage guard failed.
 The seven new regressions were included; individual passing names are not printed
