@@ -1,8 +1,11 @@
 # Canonical water input alias — implementation lane
 
 Active after thermal boundary PR786 integrated. Draft PR787 implements the
-reviewed design at `e4fb5e33` on main `8a6aa68e`; hosted validation is queued.
-This specification does not claim executed acceptance.
+reviewed design at `e4fb5e33` on main `8a6aa68e`. All nine macOS regressions,
+workspace tests, CODEX and coverage passed; remaining acceptance is pending.
+See the [native receipt](../audits/fresh-syntax50-20261013/water-alias-native-validation.json)
+and [verified CLI artifact](../audits/fresh-syntax50-20261013/water-alias-artifact-review.json).
+This specification does not claim completed integration acceptance.
 Recheck these call sites against actual integrated main before editing.
 The audit branch's bench, vessel and operator implementations include unrelated
 changes. Use integrated main as the implementation base; do not transplant those

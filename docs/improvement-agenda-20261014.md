@@ -25,7 +25,12 @@ in the private handoff. Heavy local work and delegation require resource gates.
    the reviewed input boundaries and nine regression tests. Review the
    [preparation receipt](../audits/fresh-syntax50-20261013/water-alias-preparation.json)
    and exact-source CI `38598370658` / own fleet `38598370252`; preserve failures
-   before fixes. Tests remain unexecuted locally and hosted validation is queued.
+   before fixes. [All nine regressions passed on macOS](../audits/fresh-syntax50-20261013/water-alias-native-validation.json),
+   along with workspace tests, CODEX and coverage (zero unmet requirements,
+   runtime failures or drift). The [new CLI archive is verified](../audits/fresh-syntax50-20261013/water-alias-artifact-review.json).
+   Two [mixed-spelling CLI controls](../audits/fresh-syntax50-20261013/water-alias-cli/README.md)
+   are frozen but unexecuted after a resource refusal. Complete other required
+   checks, the full own fleet and these controls before guarded integration.
    Follow the [entry-point review and implementation task](water-alias-task-20261014.md).
    Accept `H2O` as an input alias for `water`, resolve at a
    shared boundary, and persist canonical identities. Inventory additions,
