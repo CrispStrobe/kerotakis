@@ -1,5 +1,5 @@
 {
-  "utc": "2026-10-14T20:36:00.836544+00:00",
+  "utc": "2026-10-14T20:37:59.419703+00:00",
   "design_count": 50,
   "executed_count": 50,
   "verdict_count": 50,
@@ -73,8 +73,8 @@
   "alias_cli_corrected_run": 38614113822,
   "alias_cli_corrected_status": "completed_success_two_saved_stream_passes_exact_core_source",
   "alias_current_ci_pass": false,
-  "alias_current_own_fleet_success_jobs": 0,
-  "alias_current_own_fleet_pending_jobs": null,
+  "alias_current_own_fleet_success_jobs": 6,
+  "alias_current_own_fleet_pending_jobs": 24,
   "alias_cli_corrected_counts": {
     "pass": 2,
     "fail": 0
