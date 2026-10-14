@@ -2166,6 +2166,7 @@ fn authored_dose_siblings_are_not_answered_alike() {
     let recorded: BTreeMap<&str, &str> = SIBLING_ALIKE.iter().copied().collect();
     let mut alike = Vec::new();
     let mut discriminated = 0usize;
+    let mut boundary_refused_ids = BTreeSet::new();
     for group in &groups {
         let mut members: Vec<(String, f64, BTreeMap<String, f64>)> = Vec::new();
         for prompt in group {
@@ -2178,7 +2179,19 @@ fn authored_dose_siblings_are_not_answered_alike() {
                 .next_back()
                 .unwrap_or_default();
             match run(&render(&steps)) {
-                Ok(steps) => members.push((prompt.id.clone(), loading, observe(&steps))),
+                Ok(steps) => {
+                    if steps.iter().any(|step| {
+                        step["events"].as_array().is_some_and(|events| {
+                            events.iter().any(|event| {
+                                event["event"] == "not_yet_modeled"
+                                    && event["cause"] == "boundary-mismatch"
+                            })
+                        })
+                    }) {
+                        boundary_refused_ids.insert(prompt.id.clone());
+                    }
+                    members.push((prompt.id.clone(), loading, observe(&steps)));
+                }
                 Err(error) => members.push((
                     prompt.id.clone(),
                     loading,
@@ -2198,6 +2211,17 @@ fn authored_dose_siblings_are_not_answered_alike() {
         }
         let separated = moved(&first.2, &last.2, CAUSAL_TOLERANCE);
         if separated.is_empty() {
+            // These original closed-hydrogen scripts used the open CEA
+            // exhaust model. Keep the original cases and report their gap;
+            // this exception requires an actual typed refusal in BOTH runs.
+            if name == "th-035+th-034" {
+                assert!(
+                    members
+                        .iter()
+                        .all(|(id, ..)| boundary_refused_ids.contains(id)),
+                    "the closed-hydrogen exception requires explicit boundary refusals: {name}"
+                );
+            }
             alike.push((name.clone(), first.1, last.1));
             continue;
         }
@@ -2257,6 +2281,11 @@ fn authored_dose_siblings_are_not_answered_alike() {
 /// Sibling groups the engine answers identically, and why each is entitled
 /// to. Filled from the sweep.
 const SIBLING_ALIKE: &[(&str, &str)] = &[
+    (
+        "th-035+th-034",
+        "finite hydrogen combustion needs a closed energy balance; both runs \
+         must explicitly refuse the open-air CEA boundary",
+    ),
     // Hexane and oxygen, ignited, at 0.01 mol and 0.5 mol of oxygen —
     // starved and in excess. Both answer "the beaker is empty" at 298.15 K,
     // because the hexane evaporates (`state_changed`, `gas_evolved`) and

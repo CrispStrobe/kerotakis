@@ -59,11 +59,15 @@ fn warm_methane_and_oxygen_do_not_burn_without_a_spark() {
 }
 
 #[test]
-fn above_autoignition_the_same_mixture_burns() {
+fn above_autoignition_an_open_mixture_burns() {
     let mut v = sealed(
         900.0,
         &[("methane", 0.01, Phase::Gas), ("O2", 0.03, Phase::Gas)],
     );
+    // Exhaust and room-air oxygen belong to the supported open route.
+    // Finite combustion is tested separately as an explicit boundary gap.
+    v.headspace = Headspace::Open;
+    v.refresh_pressure();
     let mut cea = ThermalEquilibrator;
     let events = cea.equilibrate(&mut v).expect("equilibrates");
     assert!(below(&events, "methane").is_none(), "{events:?}");
@@ -125,4 +129,25 @@ fn an_open_flask_of_warm_ethanol_is_below_autoignition_on_the_rooms_air() {
     let (needs, _) = below(&events, "ethanol").expect("ethanol named");
     assert!((needs - 636.15).abs() < 1e-9);
     assert!((moles(&v, "ethanol") - 0.05).abs() < 1e-12);
+}
+
+#[test]
+fn above_autoignition_a_sealed_mixture_keeps_its_inventory_and_names_the_gap() {
+    let mut v = sealed(
+        900.0,
+        &[("methane", 0.01, Phase::Gas), ("O2", 0.03, Phase::Gas)],
+    );
+    let before = serde_json::to_value(&v).unwrap();
+    let events = ThermalEquilibrator.equilibrate(&mut v).unwrap();
+    assert_eq!(serde_json::to_value(&v).unwrap(), before);
+    assert!(
+        matches!(
+            events.as_slice(),
+            [Event::NotYetModeled {
+                cause: kerotakis_core::ops::NotModelledCause::BoundaryMismatch,
+                ..
+            }]
+        ),
+        "the closed charge must not use an open exhaust model: {events:?}"
+    );
 }
