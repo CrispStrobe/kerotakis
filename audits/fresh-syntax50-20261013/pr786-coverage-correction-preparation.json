@@ -1,0 +1,52 @@
+{
+  "utc": "2026-10-14T08:12:54.596252+00:00",
+  "source_before": "10c963e17401b65c947f1f4b89a8d4e35fef5e71",
+  "ci_run": 38528139789,
+  "job": 115733291006,
+  "first_failure_step": "Curiosity coverage \u2014 the recorded route is still the route",
+  "workspace_tests": "success",
+  "codex_check": "success",
+  "coverage_check": "failure",
+  "actual_observed_totals": {
+    "computed": 321,
+    "curated": 64,
+    "qualitative": 54,
+    "boundary": 60,
+    "missing": 1
+  },
+  "solver_runtime_failures": 0,
+  "baseline_drift_cases": [
+    "th-037",
+    "th-116"
+  ],
+  "unmet_requirement_cases": [
+    "th-116"
+  ],
+  "original_baseline_blocks": {
+    "th-037": "id = \"th-037\"\nowning_task = \"BRD-041\"\noutcome = \"computed\"\nreason_code = \"computed-route\"\n",
+    "th-116": "id = \"th-116\"\nowning_task = \"BRD-041\"\noutcome = \"computed\"\nreason_code = \"computed-route\"\n"
+  },
+  "proposed_baseline_blocks": {
+    "th-037": "id = \"th-037\"\nowning_task = \"BRD-041\"\noutcome = \"qualitative\"\nreason_code = \"typed-observation\"\n",
+    "th-116": "id = \"th-116\"\nowning_task = \"BRD-041\"\noutcome = \"qualitative\"\nreason_code = \"typed-observation\"\n"
+  },
+  "original_required_grade_th116": "computed",
+  "proposed_required_grade_th116": "qualitative",
+  "scope": "Explicit support-contract downgrade for previously invalid finite-carbon thermal chemistry. Original questions and scripts remain unchanged; closed chemical computation is still an open gap.",
+  "independent_fifty_and_normalized40_forecasts_changed": false,
+  "preserved_log_sha256": "35c6f56bec4b60bc97068df0b72b72e5a0fd766c28ac273bc79203c187d5be1d",
+  "new_validation_accepted": false,
+  "followup_branch": "fix/thermal-boundary-coverage-contract-20261014",
+  "followup_head": "ca3801c24f4d32310d0844fe6eaf4303e2251d92",
+  "followup_applied_to_pr786": false,
+  "original_question_and_script_bytes_preserved": true,
+  "original_sealed_cli_regression_added": true,
+  "regression_files": {
+    "crates/kerotakis-cli/tests/thermal_boundary_inventory.rs": "8f98b28566f3b8b372ba0e0d1a5ee8e530fe0ae3874f1a2b20583a05cee8c175",
+    "crates/kerotakis-cli/tests/fixtures/thermal-boundary/sealed-carbon.lab": "219f983f44fb68def803f7cad1e554e182543ab6cfd938e07e7fe08924aed558",
+    "crates/kerotakis-cli/tests/fixtures/thermal-boundary/sealed-magnesium.lab": "b2006b5e13928b23f20d93a31e72d4389092638ba9dcad25e9416c6bf8bf3c24"
+  },
+  "rustfmt_passed": true,
+  "native_followup_tests_executed": false,
+  "transition_condition": "Apply only after current CI and own fleet executions finish; no cancellation or overlapping replacement build."
+}

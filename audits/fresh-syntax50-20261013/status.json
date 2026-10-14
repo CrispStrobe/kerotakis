@@ -1,5 +1,5 @@
 {
-  "utc": "2026-10-14T07:26:37.346483+00:00",
+  "utc": "2026-10-14T08:52:15.865525+00:00",
   "design_count": 50,
   "executed_count": 50,
   "verdict_count": 50,
@@ -20,5 +20,10 @@
   "native_fix_pr": "https://github.com/CrispStrobe/kerotakis/pull/786",
   "native_fix_ci_run": 38528139789,
   "native_fix_own_cli_audit_run": 38528139788,
-  "native_fix_validation_status": "queued_after_preserved_first_ci_failure"
+  "native_fix_validation_status": "mac_workspace_and_codex_passed_curiosity_support_contract_failed",
+  "coverage_followup_head": "ca3801c24f4d32310d0844fe6eaf4303e2251d92",
+  "coverage_followup_applied": false,
+  "hosted_replay_run": 38536343562,
+  "hosted_replay_status": "queued",
+  "hosted_replay_accepted": false
 }

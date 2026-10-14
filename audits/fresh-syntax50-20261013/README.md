@@ -49,7 +49,21 @@ routing remain. Revised CI and own CLI workflows are queued. Native acceptance,
 source-bound replay and integration remain pending. [Seven CLI acceptance controls](pr786-replay/README.md)
 are now frozen separately; 0/7 executed while the own CLI build is pending. Validated closed U/V or
 finite H/P chemistry remains a separate extension; refusing the invalid route
-does not implement that chemistry. Follow the [new ordered improvement agenda](../../docs/improvement-agenda-20261014.md)
+does not implement that chemistry. Mac workspace tests and codex checks subsequently passed, but coverage found
+exactly two stale finite-carbon support records. [The follow-up](pr786-coverage-correction-preparation.json)
+preserves their original computed claims and records the scoped qualitative
+support contract until closed combustion is validated. It also adds CLI
+regressions using the original failed scripts unchanged. Follow-up source
+`ca3801c2` is staged separately; current executions finish before it is applied
+to PR786.
+
+The own release build has completed. [Hosted replay `38536343562`](pr786-hosted-replay-dispatch.json)
+will verify actual artifact `11878769254`, checkout/tree/parent and captured byte
+identity, then run the frozen seven under fresh worker resource gates. Only that
+replay job is selected; all 24 ordinary jobs are skipped. It does not rebuild
+the app or replace the ongoing native/fleet checks. Replay acceptance is pending.
+
+Follow the [new ordered improvement agenda](../../docs/improvement-agenda-20261014.md)
 before resuming the older queued lanes.
 
 The sweep case is inconclusive: `sweep` establishes an external nitrogen purge,
