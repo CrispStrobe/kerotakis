@@ -1,5 +1,5 @@
 {
-  "utc": "2026-10-14T20:28:39.975107+00:00",
+  "utc": "2026-10-14T20:32:31.977719+00:00",
   "design_count": 50,
   "executed_count": 50,
   "verdict_count": 50,
@@ -55,7 +55,7 @@
   "alias_own_cli_artifact_id": 11925406982,
   "alias_own_cli_metadata_association_verified": true,
   "alias_own_cli_bytes_verified": false,
-  "alias_fix_validation_status": "current_macos_native_pass_own_build_source_verified_remaining_ci_app_fleet_and_archive_bytes_pending",
+  "alias_fix_validation_status": "current_app_suite_failed_visual_guard_accounting_confusion_fix_staged_current_runs_pending",
   "alias_current_macos_pass": true,
   "alias_native_regressions_passed": 9,
   "alias_cli_smoke_control_count": 2,
@@ -91,6 +91,14 @@
   "alias_own_cli_artifact_source": "98051f7b4e09eeebce31c5eee64a5da47450626f",
   "alias_own_cli_build_source": "98051f7b4e09eeebce31c5eee64a5da47450626f",
   "alias_native_regressions_passed_source": "98051f7b4e09eeebce31c5eee64a5da47450626f",
-  "alias_current_app_tests_executed": false,
-  "alias_previous_own_cli_artifact_id": 11911279897
+  "alias_current_app_tests_executed": true,
+  "alias_previous_own_cli_artifact_id": 11911279897,
+  "alias_current_app_suite_pass": false,
+  "alias_current_app_suite_job": 116070176170,
+  "alias_current_app_suite_counts": {
+    "pass": 1636,
+    "fail": 1
+  },
+  "alias_story_accounting_followup_head": "d5c6cecfc5815f88bd9c5e4ace3e62e656909258",
+  "alias_story_accounting_followup_applied": false
 }

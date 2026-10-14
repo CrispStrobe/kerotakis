@@ -1,0 +1,54 @@
+{
+  "utc": "2026-10-14T20:31:40.751567+00:00",
+  "source_head": "98051f7b4e09eeebce31c5eee64a5da47450626f",
+  "tested_checkout": "8940ae91c9a4c5ecc1461fe9c5a9275a6ea6c17e",
+  "ci_run": 38627469049,
+  "job": 116070176170,
+  "conclusion": "failure",
+  "saved_job_log_sha256": "70bcc9e11b1573176fc51c3288de3fb85712bc137c3617bca686c3d85d7f1ae1",
+  "test_files": {
+    "pass": 122,
+    "fail": 1
+  },
+  "tests": {
+    "pass": 1636,
+    "fail": 1
+  },
+  "failure": {
+    "file": "web/app/src/lib/effectVisibility.test.ts",
+    "test": "puts no event in two buckets at once",
+    "duplicate_classifications": [
+      "added",
+      "material_added"
+    ]
+  },
+  "diagnosis": "The visual coverage guard scans comparisons in session.svelte.ts as drawing handlers. New non-visual Story stock accounting comparisons caused duplicate classification with the existing scene-drawn entries.",
+  "new_seven_app_regressions": "Included in the all-app Vitest invocation; the sole failure is in effectVisibility.test.ts. Their individual names are not printed by the dot reporter.",
+  "staged_followup": {
+    "branch": "fix/canonical-water-story-accounting-20261014",
+    "head": "d5c6cecfc5815f88bd9c5e4ace3e62e656909258",
+    "tree": "858854f9c0af595529a85697c24936e595285d4a",
+    "applied_to_pr": false,
+    "changed_files": [
+      "web/app/src/lib/session.svelte.ts",
+      "web/app/src/lib/storyStock.test.ts",
+      "web/app/src/lib/storyStock.ts"
+    ],
+    "combined_scope_files": 11,
+    "fix": "Move actual-dispense event predicate into storyStock.ts and test that accounting contract there; preserve the visualization guard and scene classifications.",
+    "new_direct_predicate_test_executed": false,
+    "prior_seven_app_tests_unchanged": true,
+    "static_regex_diagnostic": {
+      "removed_false_drawing_handlers": [
+        "added",
+        "material_added"
+      ],
+      "new_drawing_handlers": [],
+      "titration_visual_handler_preserved": true,
+      "original_guard_unchanged": true
+    },
+    "diff_check": "pass"
+  },
+  "candidate_integrated": false,
+  "next_gate": "Let current CI and own fleet finish; preserve the first failure. Refresh head/base/main before applying the staged descendant, then require actual corrected-source all-app/type/browser/native/fleet acceptance."
+}

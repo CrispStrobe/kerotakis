@@ -1,5 +1,5 @@
 {
-  "utc": "2026-10-14T19:54:41.901472+00:00",
+  "utc": "2026-10-14T20:32:31.977719+00:00",
   "pr": 787,
   "current_head": "98051f7b4e09eeebce31c5eee64a5da47450626f",
   "followup_branch": "fix/canonical-water-story-input-20261014",
@@ -19,10 +19,13 @@
     "web/app/src/lib/storyStock.test.ts": "7b7e84d28c633324c231ed3a4e6fe277a1a75c31f5f2ed10ade4b247af4af00f"
   },
   "new_tests": 7,
-  "new_tests_executed": false,
+  "new_tests_executed": true,
   "diff_check": "pass",
   "transition": "Applied by guarded normal fast-forward after old CI/fleet completed; fresh exact-source CI and own fleet queued.",
   "expected_combined_pr_files": 11,
   "candidate_integrated": false,
-  "review": "Independent source review found a titration-accounting blocker; corrected event predicate and FakeHost to the real event shape, with positive-dose, zero-dose and refusal controls. Final changes require executed acceptance."
+  "review": "Independent source review found a titration-accounting blocker; corrected event predicate and FakeHost to the real event shape, with positive-dose, zero-dose and refusal controls. Final changes require executed acceptance.",
+  "new_tests_result": "Included in all-app suite with 1636 passes and one failure in effectVisibility.test.ts; dot reporter does not print individual passing names.",
+  "current_app_suite_pass": false,
+  "current_app_suite_first_failure": "water-alias-app-first-failure.json"
 }

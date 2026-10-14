@@ -66,8 +66,12 @@ eleven-file scope and fresh CI `38627469049` / own fleet `38627469041`.
 [Current macOS native validation passed](water-alias-app-candidate-native-validation.json)
 with all nine regressions and zero coverage gaps/drift. The
 [new own build's source association is verified](water-alias-app-candidate-own-build-metadata.json);
-archive/binary bytes, other CI and full fleet are pending. Seven new app tests
-remain unexecuted; PR787 is not integrated.
+archive/binary bytes, other CI and full fleet are pending. The
+[first app suite failed](water-alias-app-first-failure.json) with 1,636 passes and
+one visualization-guard failure from scanning stock accounting as drawing.
+The seven new regressions were included. A staged correction at `d5c6cecf`
+separates that predicate into stock accounting and adds a direct test, preserving
+the drawing guard. It remains unapplied/unexecuted; PR787 is not integrated.
 
 Previous core source `e4fb5e33` passed [full CI](water-alias-core-ci-validation.json)
 and [all 33 own-fleet jobs](water-alias-core-fleet-validation.json), including

@@ -41,9 +41,16 @@ in the private handoff. Heavy local work and delegation require resource gates.
    or drift. The [current own build succeeded](../audits/fresh-syntax50-20261013/water-alias-app-candidate-own-build-metadata.json)
    and is tied to the actual merge parents and candidate tree; archive/binary
    bytes remain unverified until resource gates permit. Other CI and full fleet
-   checks remain pending. Require actual execution of seven new app tests, all-app Vitest, type/browser
-   checks and the complete candidate fleet before guarded integration. Preserve
-   any first new-source failure before fixing it. Do not duplicate the queued runs.
+   checks remain pending. The [first app suite failed](../audits/fresh-syntax50-20261013/water-alias-app-first-failure.json):
+   1,636 tests passed, with one visualization-guard failure. The seven new app
+   regressions were included; the failure is in another file. Stock accounting
+   comparisons were mistaken for drawing handlers. A correction at `d5c6cecf`
+   moves that predicate into `storyStock.ts`, preserves the guard and adds one
+   direct accounting test. This descendant is staged, not applied or executed.
+   Let current runs finish, then refresh head/base/main and apply the descendant
+   by normal fast-forward. Require fresh all-app/type/browser/native/fleet
+   acceptance before integration. Preserve first failures and do not duplicate
+   the queued candidate runs.
    Follow the [entry-point review and implementation task](water-alias-task-20261014.md).
    Accept `H2O` as an input alias for `water`, resolve at a
    shared boundary, and persist canonical identities. Inventory additions,
