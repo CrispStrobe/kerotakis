@@ -50,6 +50,14 @@ applied](pr786-followup-application.json), bringing the scope to ten files; fres
 CI `38552626507` and own fleet `38552626557` are pending. Native acceptance and
 integration remain incomplete.
 
+[Current-source macOS native validation](pr786-current-native-validation.json)
+has passed, including the four CLI variants, direct boundary controls and
+open/inert/kinetic controls; coverage has zero unmet requirements and zero drift.
+The [new own-source artifact](pr786-current-artifact-review.json) is verified
+against its actual build checkout, parents/tree and archived bytes. Its executable
+is byte-identical to the earlier verified CLI; its captured lock digest is
+recorded separately. Pending Ubuntu, browser and fleet checks still prevent merge.
+
 [The original seven-control replay](pr786-replay-first-outcomes.json) at
 `10c963e1` produced five passes and two failed intact-seal predictions. Both
 original beakers reported bursts at 440.15/507.59 kPa above the modeled 405.3 kPa

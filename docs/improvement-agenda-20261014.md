@@ -30,6 +30,11 @@ in the private handoff. Heavy local work and delegation require resource gates.
    controls passed at `10c963e1`. The [descendant follow-up is now applied](../audits/fresh-syntax50-20261013/pr786-followup-application.json):
    require fresh native CI `38552626507` and own fleet `38552626557` on `fdd951a7`.
    Do not relabel earlier-source replay results as this revision's acceptance.
+   [Current macOS native validation](../audits/fresh-syntax50-20261013/pr786-current-native-validation.json)
+   passed the four CLI variants, open/inert/kinetic controls, CODEX and coverage
+   (zero unmet requirements or baseline drift). The [current own CLI artifact](../audits/fresh-syntax50-20261013/pr786-current-artifact-review.json)
+   is source- and byte-verified. Ubuntu, browser and remaining fleet checks still
+   need their actual successful results; refresh their latest state before merge.
    Refresh head/base/main, checks, rules and the expected ten-file combined scope
    before making ready and merging. Confirm the actual integrated tree.
 2. **Canonical water alias.** After step 1 integrates, create a narrow branch
