@@ -6,10 +6,14 @@ inert gas heating, warm methane, finite pressure control and an external sweep
 check the supported behavior and explicit remaining boundaries.
 
 Read [the expectations](expectations.json) and [the frozen protocol](protocol.json).
-Current state: **0/7 executed**. The own CLI build is pending. Before execution,
-verify its actual checkout and artifact identity, then freeze a separate runtime
-binding with ZIP, binary and captured lock digests. Existing production/frozen
-experiment files remain untouched. Every CLI run requires current resource gates.
+Current state: **7/7 executed; five passed and two failed their original
+intact-seal predictions**. The source-bound own CLI artifact was verified by the
+hosted worker. Both original beakers explicitly burst above the modeled pressure
+rating; their vent events account for the original gases. See the preserved
+[first outcomes](../pr786-replay-first-outcomes.json). Two separately frozen
+[low-pressure controls](../pr786-low-pressure/README.md) test intact retention.
+Original expectations and results remain unchanged. Every CLI run requires
+current resource gates; these outcomes do not establish integration acceptance.
 
 Compare each ignition row with its preceding bench snapshot: retain total fuel
 identity and each owned gas amount; allow explicit heating and phase changes.
@@ -38,7 +42,8 @@ Each process uses the relative script path and default Kero configuration.
 [analyse.py](analyse.py) consumes only saved streams and their producer records.
 It verifies the runtime/artifact association and frozen inputs, rejects malformed
 or nonfinite JSON, checks inventory through ignition and later observations, and
-writes an exclusive report. All seven must pass for replay acceptance. The
+writes an exclusive report. The original seven-case acceptance failed; retain
+that verdict rather than rewrite its assumptions after observing rupture. The
 [eleven checker controls](checker-verification.json) include both original real
 gas-loss failures and the real inert-gas pass, plus explicitly synthetic adversarial
 fixtures. These tests validate the checker; they are not seven app executions or

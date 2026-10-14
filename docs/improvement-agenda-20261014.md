@@ -18,8 +18,18 @@ in the private handoff. Heavy local work and delegation require resource gates.
    required checks and the own CLI artifact, then replay sealed carbon/magnesium
    and benign/open/kinetic controls separately from original outcomes. Require
    retained inventory and explicit unsupported boundaries, with no invented
-   closed chemistry. Refresh head/base/main, checks, rules and expected five-file
-   scope before making ready and merging. Confirm the actual integrated tree.
+   closed chemistry. The first replay executed all seven: five passed; the two
+   original beakers explicitly burst above their modeled pressure rating and
+   accounted for their gas through vent events. Preserve the two failed original
+   intact-seal predictions. Review the [first outcomes](../audits/fresh-syntax50-20261013/pr786-replay-first-outcomes.json)
+   and the separately frozen [low-pressure pair](../audits/fresh-syntax50-20261013/pr786-low-pressure/README.md).
+   Revised native workspace tests passed, but coverage still asserts computed
+   finite-carbon chemistry for two unsupported routes. The [staged follow-up](../audits/fresh-syntax50-20261013/pr786-coverage-correction-preparation.json)
+   explicitly qualifies those claims and adds four CLI inventory/burst controls.
+   Wait for the existing own fleet to finish before applying that descendant
+   follow-up to PR786; require fresh native CI on the resulting source.
+   Refresh head/base/main, checks, rules and the expected ten-file combined scope
+   before making ready and merging. Confirm the actual integrated tree.
 2. **Canonical water alias.** After step 1 integrates, create a narrow branch
    from actual main. Accept `H2O` as an input alias for `water`, resolve at a
    shared boundary, and persist canonical identities. Inventory additions,
