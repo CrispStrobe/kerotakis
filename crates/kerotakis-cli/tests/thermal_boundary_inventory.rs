@@ -27,18 +27,21 @@ fn vessel(row: &serde_json::Value) -> &serde_json::Value {
 }
 
 #[test]
-fn original_sealed_combustion_scripts_retain_fuel_and_gases_through_observation() {
-    for (name, script, fuel) in [
+fn sealed_combustion_scripts_retain_inventory_or_account_for_a_pressure_burst() {
+    let magnesium = include_str!("fixtures/thermal-boundary/sealed-magnesium.lab");
+    let carbon = include_str!("fixtures/thermal-boundary/sealed-carbon.lab");
+    let low_magnesium = magnesium.replacen("seal v1 ", "sweep v1 0.1bar\nseal v1 ", 1);
+    let low_carbon = carbon.replacen("seal v1 ", "sweep v1 0.1bar\nseal v1 ", 1);
+    for (name, script, fuel, should_burst) in [
+        ("magnesium", magnesium, "Mg", true),
+        ("carbon", carbon, "C", true),
         (
-            "magnesium",
-            include_str!("fixtures/thermal-boundary/sealed-magnesium.lab"),
+            "low-pressure-magnesium",
+            low_magnesium.as_str(),
             "Mg",
+            false,
         ),
-        (
-            "carbon",
-            include_str!("fixtures/thermal-boundary/sealed-carbon.lab"),
-            "C",
-        ),
+        ("low-pressure-carbon", low_carbon.as_str(), "C", false),
     ] {
         let dir = std::env::temp_dir().join(format!(
             "kero-thermal-boundary-{}-{name}",
@@ -81,14 +84,40 @@ fn original_sealed_combustion_scripts_retain_fuel_and_gases_through_observation(
             "{name}: explicit finite-boundary refusal: {events:?}"
         );
         assert!(
-            !events
-                .iter()
-                .any(|e| e["event"] == "thermal_equilibrium" || e["event"] == "gas_evolved"),
-            "{name}: no open-air equilibrium or exhaust: {events:?}"
+            !events.iter().any(|e| e["event"] == "thermal_equilibrium"),
+            "{name}: no invented closed thermal chemistry: {events:?}"
         );
+        let bursts: Vec<_> = events.iter().filter(|e| e["event"] == "burst").collect();
+        let mut vented = BTreeMap::new();
+        for event in events.iter().filter(|e| e["event"] == "gas_evolved") {
+            *vented
+                .entry(event["species"].as_str().unwrap().to_string())
+                .or_insert(0.0) += event["moles"].as_f64().unwrap();
+        }
+        if should_burst {
+            assert_eq!(
+                bursts.len(),
+                1,
+                "{name}: the original air-filled beaker exceeds its rating"
+            );
+            assert!(
+                bursts[0]["at_pa"].as_f64().unwrap() > bursts[0]["rating_pa"].as_f64().unwrap()
+            );
+            assert!(events.iter().any(|e| e["event"] == "hazard_warning"
+                && e["rule"] == "sealed-vessel-burst"
+                && e["severity"] == "danger"));
+        } else {
+            assert!(
+                bursts.is_empty() && vented.is_empty(),
+                "{name}: low pressure must not vent"
+            );
+        }
         for row in &rows[ignition..] {
             let observed = vessel(row);
-            assert_eq!(observed["headspace"]["boundary"], "sealed");
+            assert_eq!(
+                observed["headspace"]["boundary"],
+                if should_burst { "open" } else { "sealed" }
+            );
             assert!(observed["pressure"].as_f64().unwrap() > 0.0);
             let remaining = inventory(observed, false);
             assert!(
@@ -96,11 +125,19 @@ fn original_sealed_combustion_scripts_retain_fuel_and_gases_through_observation(
                 "{name}: fuel identity retained; melting is allowed"
             );
             let actual = inventory(observed, true);
-            assert_eq!(actual.len(), gases.len(), "{name}: gas identities retained");
+            let mut accounted = actual.clone();
+            for (species, amount) in &vented {
+                *accounted.entry(species.clone()).or_insert(0.0) += amount;
+            }
+            assert_eq!(
+                accounted.len(),
+                gases.len(),
+                "{name}: retained plus vented gas identities"
+            );
             for (species, expected) in &gases {
                 assert!(
-                    (actual.get(species).copied().unwrap_or(0.0) - expected).abs() < 1e-12,
-                    "{name}: {species} retained through subsequent observations"
+                    (accounted.get(species).copied().unwrap_or(0.0) - expected).abs() < 1e-12,
+                    "{name}: {species} retained or explicitly vented through subsequent observations"
                 );
             }
         }
