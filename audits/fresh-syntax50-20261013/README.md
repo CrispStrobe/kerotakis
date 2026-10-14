@@ -35,12 +35,14 @@ for the original blind outcomes or forty newly invented experiments.
 The two physical failures share a serious thermal boundary defect: sealed carbon
 combustion drops all gases, ends with zero pressure and gives a negative CO2 test;
 sealed magnesium combustion also loses retained oxygen and nitrogen. The open-air
-CEA route adds reservoir air and vents products at a finite boundary. Narrow fix
-`faaf4baf` preserves inventory and reports `boundary-mismatch` for sealed,
+CEA route adds reservoir air and vents products at a finite boundary. [Draft PR786](https://github.com/CrispStrobe/kerotakis/pull/786), source
+`faaf4baf`, preserves inventory and reports `boundary-mismatch` for sealed,
 pressure-controlled and swept charges that would enter this open-air route.
 It includes six boundary/fuel controls plus open-air and inert-gas controls,
 with an English/German diagnostic. Formatting passed; native validation and
-integration are pending. Validated closed energy/volume or energy/pressure
+integration are pending. Both source-bound CI and own CLI workflows are queued;
+[the preparation receipt](pr786-fix-preparation.json) records the exact three files
+and acceptance conditions. Validated closed energy/volume or energy/pressure
 chemistry remains a separate extension; refusing an invalid route does not
 implement that chemistry.
 

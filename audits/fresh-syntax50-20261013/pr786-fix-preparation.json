@@ -1,0 +1,55 @@
+{
+  "utc": "2026-10-14T05:10:24.981545+00:00",
+  "pr": "https://github.com/CrispStrobe/kerotakis/pull/786",
+  "head": "faaf4baf34c9697bdff220d9de8d4b10c69a80c0",
+  "base": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+  "draft": true,
+  "files": [
+    {
+      "path": "crates/kerotakis-cea/src/thermal.rs",
+      "additions": 15,
+      "deletions": 0,
+      "changeType": "MODIFIED"
+    },
+    {
+      "path": "crates/kerotakis-cea/tests/thermal_boundary_refusal.rs",
+      "additions": 100,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "crates/kerotakis-core/i18n/de.toml",
+      "additions": 1,
+      "deletions": 0,
+      "changeType": "MODIFIED"
+    }
+  ],
+  "source_sha256": {
+    "crates/kerotakis-cea/src/thermal.rs": "f42ef0f30a9e661e1b3b46b564b4aa9fed9ff42d77f771351f2d4fc6e1aed0a2",
+    "crates/kerotakis-cea/tests/thermal_boundary_refusal.rs": "8c595bff0cc96883d9f69dd3a2431d0804ee689c54a17f9b4f1c22593e70364c",
+    "crates/kerotakis-core/i18n/de.toml": "8fba3ae1499f95676c32c74f45698bcff919ae1d1511510cd04ec7f83959efbe"
+  },
+  "fix_scope": "Prevent open-air CEA equilibrium from admitting reservoir air or venting inventory at sealed, finite pressure-controlled and swept boundaries. Preserve charge and report explicit boundary mismatch.",
+  "original_failure_cases": [
+    "23",
+    "47"
+  ],
+  "regression_tests": {
+    "unsupported_fuel_boundary_combinations": 6,
+    "open_magnesium_control": 1,
+    "inert_sealed_control": 1
+  },
+  "rustfmt_passed": true,
+  "diff_check_passed": true,
+  "native_tests_accepted": false,
+  "fixed_cli_replay_accepted": false,
+  "integrated": false,
+  "ci_run": 38515087509,
+  "own_cli_audit_run": 38515087535,
+  "observed_ci_state": "queued",
+  "no_manual_duplicate_workflows": true,
+  "limitations": [
+    "Validated closed U/V and finite H/P thermochemistry remains unsupported by this narrow fix.",
+    "No general formula alias expansion is included. Original H2O refusals remain preserved."
+  ]
+}

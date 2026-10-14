@@ -16,5 +16,8 @@
   "native_fix_head": "faaf4baf34c9697bdff220d9de8d4b10c69a80c0",
   "native_fix_validated": false,
   "normalized_followup_controls": 40,
-  "normalized_followup_executed": 0
+  "normalized_followup_executed": 0,
+  "native_fix_pr": "https://github.com/CrispStrobe/kerotakis/pull/786",
+  "native_fix_ci_run": 38515087509,
+  "native_fix_own_cli_audit_run": 38515087535
 }
