@@ -1,5 +1,5 @@
 {
-  "utc": "2026-10-14T16:29:59.941525+00:00",
+  "utc": "2026-10-14T16:46:41.724182+00:00",
   "design_count": 50,
   "executed_count": 50,
   "verdict_count": 50,
@@ -49,5 +49,11 @@
   "alias_fix_head": "e4fb5e33434e9c7d76c0846d9ac995bbf11349f9",
   "alias_fix_validated": false,
   "alias_fix_ci_run": 38598370658,
-  "alias_fix_own_cli_audit_run": 38598370252
+  "alias_fix_own_cli_audit_run": 38598370252,
+  "alias_own_cli_build_success": true,
+  "alias_own_cli_build_job": 115970871509,
+  "alias_own_cli_artifact_id": 11911279897,
+  "alias_own_cli_metadata_association_verified": true,
+  "alias_own_cli_bytes_verified": false,
+  "alias_fix_validation_status": "source_owned_build_success_macos_format_clippy_passed_workspace_tests_running"
 }
