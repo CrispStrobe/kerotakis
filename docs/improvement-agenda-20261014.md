@@ -1,45 +1,32 @@
 # Ordered improvement agenda — 2026-10-14
 
-The user authorized all six steps below in this order. Step 1 is active;
-steps 2–6 are queued. This agenda orders the current fresh-experiment gap work;
+The user authorized all six steps below in this order. Step 1 is complete;
+step 2 is active and steps 3–6 are queued. This agenda orders the current fresh-experiment gap work;
 the annotation and other queued lanes in the [earlier roadmap](ordered-work-roadmap-20261013.md)
 resume afterward. Preserve all original predictions, first outcomes, failed CI
 logs and versioned source associations. Host-specific operating details belong
 in the private handoff. Heavy local work and delegation require resource gates.
 
-1. **Validate and integrate the thermal inventory repair.** Own draft PR786,
-   current source `fdd951a7` on main `30fd09eb`. Read the
-   [compatibility correction](../audits/fresh-syntax50-20261013/pr786-compatibility-correction.json).
-   Original new boundary controls passed, while native CI failed on autoignition
-   and a hydrogen dose comparison; retain these failures. Review revised CI
-   `38528139789` and own CLI workflow `38528139788` at the exact new source.
-   Capture failures before changing code. [Seven source-informed CLI controls](../audits/fresh-syntax50-20261013/pr786-replay/README.md)
-   are frozen; the first two retain the exact original failed scripts. Verify source-bound native controls,
-   required checks and the own CLI artifact, then replay sealed carbon/magnesium
-   and benign/open/kinetic controls separately from original outcomes. Require
-   retained inventory and explicit unsupported boundaries, with no invented
-   closed chemistry. The first replay executed all seven: five passed; the two
-   original beakers explicitly burst above their modeled pressure rating and
-   accounted for their gas through vent events. Preserve the two failed original
-   intact-seal predictions. Review the [first outcomes](../audits/fresh-syntax50-20261013/pr786-replay-first-outcomes.json)
-   and the separately frozen [low-pressure pair](../audits/fresh-syntax50-20261013/pr786-low-pressure/README.md).
-   Revised native workspace tests passed, but coverage still asserts computed
-   finite-carbon chemistry for two unsupported routes. The [staged follow-up](../audits/fresh-syntax50-20261013/pr786-coverage-correction-preparation.json)
-   explicitly qualifies those claims and adds four CLI inventory/burst controls.
-   The previous own fleet finished successfully and both matched low-pressure
-   controls passed at `10c963e1`. The [descendant follow-up is now applied](../audits/fresh-syntax50-20261013/pr786-followup-application.json):
-   require fresh native CI `38552626507` and own fleet `38552626557` on `fdd951a7`.
-   Do not relabel earlier-source replay results as this revision's acceptance.
-   [Current macOS native validation](../audits/fresh-syntax50-20261013/pr786-current-native-validation.json)
-   passed the four CLI variants, open/inert/kinetic controls, CODEX and coverage
-   (zero unmet requirements or baseline drift). The [current own CLI artifact](../audits/fresh-syntax50-20261013/pr786-current-artifact-review.json)
-   is source- and byte-verified. [All 25 CI jobs now passed](../audits/fresh-syntax50-20261013/pr786-current-ci-completion.json),
-   including Ubuntu and browser validation. The remaining own-fleet jobs still
-   need their actual successful results; refresh their latest state before merge.
-   Refresh head/base/main, checks, rules and the expected ten-file combined scope
-   before making ready and merging. Confirm the actual integrated tree.
-2. **Canonical water alias.** After step 1 integrates, create a narrow branch
-   from actual main. Follow the [entry-point review and implementation task](water-alias-task-20261014.md).
+1. **Validate and integrate the thermal inventory repair — complete.** PR786
+   [integrated as `8a6aa68e`](../audits/fresh-syntax50-20261013/pr786-integration.json)
+   after all 25 CI checks and 33 own-fleet jobs passed. The actual main tree
+   equals the validated candidate tree. Exact-source native controls verify
+   retained inventory below the burst threshold and accounted gas venting when
+   mechanical rupture occurs, plus explicit unsupported thermal boundaries and
+   existing open/inert/kinetic behavior. Coverage has zero unmet requirements,
+   runtime failures or drift. Closed combustion remains an unimplemented domain.
+   Preserve the [original replay failures](../audits/fresh-syntax50-20261013/pr786-replay-first-outcomes.json),
+   [matched low-pressure passes](../audits/fresh-syntax50-20261013/pr786-low-pressure-outcomes.json),
+   [qualified support claims](../audits/fresh-syntax50-20261013/pr786-coverage-correction-preparation.json)
+   and [native acceptance](../audits/fresh-syntax50-20261013/pr786-current-native-validation.json).
+   Do not repeat this completed lane on unchanged source.
+2. **Canonical water alias — active.** [Draft PR787](https://github.com/CrispStrobe/kerotakis/pull/787)
+   is based on actual integrated main `8a6aa68e`; source `e4fb5e33` implements
+   the reviewed input boundaries and nine regression tests. Review the
+   [preparation receipt](../audits/fresh-syntax50-20261013/water-alias-preparation.json)
+   and exact-source CI `38598370658` / own fleet `38598370252`; preserve failures
+   before fixes. Tests remain unexecuted locally and hosted validation is queued.
+   Follow the [entry-point review and implementation task](water-alias-task-20261014.md).
    Accept `H2O` as an input alias for `water`, resolve at a
    shared boundary, and persist canonical identities. Inventory additions,
    stock, transfers, extracts, formula lookup and save/replay must not create

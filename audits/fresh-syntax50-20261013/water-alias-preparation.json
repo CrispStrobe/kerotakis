@@ -1,0 +1,29 @@
+{
+  "utc": "2026-10-14T16:29:59.941525+00:00",
+  "pr": 787,
+  "head": "e4fb5e33434e9c7d76c0846d9ac995bbf11349f9",
+  "base": "8a6aa68eeec234d8cfde7b092b70c30a5c13411c",
+  "source_files_sha256": {
+    "crates/kerotakis-core/src/bench.rs": "a7fdf44f8ec9f76db1350f25df7183c5da0ba1173ede09ad80bea3db3176ba73",
+    "crates/kerotakis-core/src/ops.rs": "a8ed36e723f1a6ed0f55147f81f77a41d4cef00f55d18eecb96f7060cd793bdc",
+    "crates/kerotakis-core/src/script.rs": "ecd94ce206e075257b7acaf6e385ab3f3867f9a27783f6e44f0b4be3028b0fdb",
+    "crates/kerotakis-core/src/species.rs": "d108222855e3912b1c4207a7d7e708da2a0dc98bab14efac0705efc0531a2b77",
+    "crates/kerotakis-core/src/stock.rs": "68f4d1cbf2fb1eb0ec0f3007f1038b9e47b7a831bedb48208999aeca9789766e",
+    "crates/kerotakis-core/src/vessel.rs": "7dba0d995e92eff47e96644fd5f3cb89b349e9e1b6da46d6c097d3ed75a02214",
+    "crates/kerotakis-core/tests/water_input_alias.rs": "cce6dfd1c83710b26d3ca7beba0fc186b1c144686aa839325334daf39b0574ed"
+  },
+  "scope": "One exact H2O input alias resolved as canonical water; stock and inventory identity preservation across text/direct/JSON/restore inputs.",
+  "test_functions": 9,
+  "tests_executed": false,
+  "local_native_or_cli_execution": false,
+  "rustfmt_and_diff_check": "pass",
+  "ci_run": 38598370658,
+  "own_fleet_run": 38598370252,
+  "validation_status": "queued",
+  "original_fifty_forecasts_and_first_results_changed": false,
+  "original_normalized40_changed": false,
+  "stock_restore_collision_policy": "Explicitly reject both H2O and water keys; preserve authoritative quantities and compensated components for single aliases.",
+  "canonical_hot_path_allocations_added": false,
+  "independent_review": "Pending when resource gates permit.",
+  "candidate_integrated": false
+}

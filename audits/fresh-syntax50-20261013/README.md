@@ -34,7 +34,7 @@ for the original blind outcomes or forty newly invented experiments.
 
 The two original physical failures share a serious thermal boundary defect:
 sealed carbon and magnesium enter an open-air CEA route and silently lose owned
-gases. [Draft PR786](https://github.com/CrispStrobe/kerotakis/pull/786), current
+gases. [Merged PR786](https://github.com/CrispStrobe/kerotakis/pull/786), current
 source `fdd951a7` on main `30fd09eb`, refuses unsupported thermal chemistry while
 preserving the charged inventory. Mechanical pressure rupture remains explicit.
 
@@ -45,10 +45,10 @@ CODEX checks then passed, but coverage found exactly two stale finite-carbon
 support claims. [The scoped follow-up](pr786-coverage-correction-preparation.json)
 preserves those original computed claims, qualifies current support and adds four
 CLI controls. Original questions and scripts remain unchanged. The previous own
-fleet completed successfully with all 33 jobs. [The descendant follow-up is now
-applied](pr786-followup-application.json), bringing the scope to ten files; fresh
-CI `38552626507` and own fleet `38552626557` are pending. Native acceptance and
-integration remain incomplete.
+fleet completed successfully with all 33 jobs. [The descendant follow-up](pr786-followup-application.json)
+brought the scope to ten files. [Integration is complete](pr786-integration.json):
+current CI `38552626507` and own fleet `38552626557` passed, and main `8a6aa68e`
+has exactly the validated candidate tree.
 
 [Current-source macOS native validation](pr786-current-native-validation.json)
 has passed, including the four CLI variants, direct boundary controls and
@@ -57,7 +57,13 @@ The [new own-source artifact](pr786-current-artifact-review.json) is verified
 against its actual build checkout, parents/tree and archived bytes. Its executable
 is byte-identical to the earlier verified CLI; its captured lock digest is
 recorded separately. [All 25 CI jobs now passed](pr786-current-ci-completion.json),
-including Ubuntu and browser validation. Remaining own-fleet jobs still prevent merge.
+including Ubuntu and browser validation. All 33 own-fleet jobs also passed; the repair is merged.
+
+[Draft PR787](https://github.com/CrispStrobe/kerotakis/pull/787) now implements
+the canonical water alias on that integrated main. [Its preparation receipt](water-alias-preparation.json)
+binds seven changed files and nine regression tests to source `e4fb5e33`;
+CI `38598370658` and own fleet `38598370252` are queued. This alias revision is
+not yet validated or integrated. Original forecasts and first outcomes remain unchanged.
 
 [The original seven-control replay](pr786-replay-first-outcomes.json) at
 `10c963e1` produced five passes and two failed intact-seal predictions. Both

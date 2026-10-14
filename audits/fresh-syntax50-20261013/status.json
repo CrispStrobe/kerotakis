@@ -1,11 +1,11 @@
 {
-  "utc": "2026-10-14T13:41:05.508183+00:00",
+  "utc": "2026-10-14T16:29:59.941525+00:00",
   "design_count": 50,
   "executed_count": 50,
   "verdict_count": 50,
   "expectations_sha256": "69ce701a208f63561c6d55be81aacefd89632cec0d8846051c5f4e9dc900afc4",
   "freeze_sha256": "b064cd21c3364c6b5cad9bfc69dad4c3cb54dbc86d1d663bddef7313b07708cd",
-  "status": "first_outcomes_preserved_fix_validation_pending",
+  "status": "thermal_repair_integrated_water_alias_validation_pending",
   "first_outcomes_modified": false,
   "classification_counts": {
     "unsupported": 40,
@@ -14,13 +14,13 @@
     "inconclusive": 1
   },
   "native_fix_head": "fdd951a7db70ab3a5da0470a9c82981b6cb61f34",
-  "native_fix_validated": false,
+  "native_fix_validated": true,
   "normalized_followup_controls": 40,
   "normalized_followup_executed": 0,
   "native_fix_pr": "https://github.com/CrispStrobe/kerotakis/pull/786",
   "native_fix_ci_run": 38552626507,
   "native_fix_own_cli_audit_run": 38552626557,
-  "native_fix_validation_status": "all_25_ci_check_jobs_passed_own_fleet_pending",
+  "native_fix_validation_status": "integrated_after_all_required_ci_and_33_job_own_fleet_passed",
   "coverage_followup_head": "fdd951a7db70ab3a5da0470a9c82981b6cb61f34",
   "coverage_followup_applied": true,
   "hosted_replay_run": 38536343562,
@@ -43,5 +43,11 @@
   "current_artifact_id": 11887234215,
   "current_ubuntu_native_pass": true,
   "current_browser_pass": true,
-  "current_required_ci_checks_pass": true
+  "current_required_ci_checks_pass": true,
+  "native_fix_merge": "8a6aa68eeec234d8cfde7b092b70c30a5c13411c",
+  "alias_fix_pr": "https://github.com/CrispStrobe/kerotakis/pull/787",
+  "alias_fix_head": "e4fb5e33434e9c7d76c0846d9ac995bbf11349f9",
+  "alias_fix_validated": false,
+  "alias_fix_ci_run": 38598370658,
+  "alias_fix_own_cli_audit_run": 38598370252
 }

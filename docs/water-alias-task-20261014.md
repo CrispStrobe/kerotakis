@@ -1,7 +1,8 @@
 # Canonical water input alias — implementation lane
 
-Queued after thermal boundary PR786 integrates. This is a source review and
-task specification, not an implemented fix or executed acceptance result.
+Active after thermal boundary PR786 integrated. Draft PR787 implements the
+reviewed design at `e4fb5e33` on main `8a6aa68e`; hosted validation is queued.
+This specification does not claim executed acceptance.
 Recheck these call sites against actual integrated main before editing.
 The audit branch's bench, vessel and operator implementations include unrelated
 changes. Use integrated main as the implementation base; do not transplant those
