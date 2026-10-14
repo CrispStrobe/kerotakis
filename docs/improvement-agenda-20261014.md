@@ -31,7 +31,8 @@ in the private handoff. Heavy local work and delegation require resource gates.
    Refresh head/base/main, checks, rules and the expected ten-file combined scope
    before making ready and merging. Confirm the actual integrated tree.
 2. **Canonical water alias.** After step 1 integrates, create a narrow branch
-   from actual main. Accept `H2O` as an input alias for `water`, resolve at a
+   from actual main. Follow the [entry-point review and implementation task](water-alias-task-20261014.md).
+   Accept `H2O` as an input alias for `water`, resolve at a
    shared boundary, and persist canonical identities. Inventory additions,
    stock, transfers, extracts, formula lookup and save/replay must not create
    duplicate water species or separate stock balances. Inventory every input
