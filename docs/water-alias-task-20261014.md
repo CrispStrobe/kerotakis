@@ -2,7 +2,7 @@
 
 Active after thermal boundary PR786 integrated. Draft PR787 implements the
 reviewed design at `e4fb5e33` on main `8a6aa68e`. All nine macOS regressions,
-workspace tests, CODEX and coverage passed; full core CI is green. Own-fleet, CLI
+workspace tests, CODEX and coverage passed; full core CI is green. The corrected CLI pair passed; own-fleet
 and staged app acceptance remain pending.
 See the [native receipt](../audits/fresh-syntax50-20261013/water-alias-native-validation.json)
 and [verified CLI artifact](../audits/fresh-syntax50-20261013/water-alias-artifact-review.json).
@@ -94,8 +94,9 @@ responses have separate controls.
 3. Require fresh candidate CI, actual app regression execution, and full own
    fleet acceptance. Confirm source/tree associations; old core-only passes do
    not imply new app tests passed.
-4. Consume the [two queued corrected CLI controls](../audits/fresh-syntax50-20261013/water-alias-cli-followup/README.md)
-   once, preserving first streams and failures. Their source remains `e4fb5e33`;
+4. Review the [two corrected CLI passes](../audits/fresh-syntax50-20261013/water-alias-cli-followup-outcomes.json)
+   and retain their raw stream/report bindings. These controls are complete;
+   do not repeat them on unchanged source. Their source remains `e4fb5e33`;
    record that limit rather than relabel their binary as the app follow-up.
 5. Integrate only after exact-head checks and current merge guards pass. Verify
    the integrated tree, then advance to the forty naming follow-ups in the

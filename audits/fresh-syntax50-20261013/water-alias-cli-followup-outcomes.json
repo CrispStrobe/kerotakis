@@ -1,0 +1,276 @@
+{
+  "utc": "2026-10-14T18:51:03.294337+00:00",
+  "run": 38614113822,
+  "job": 116024670167,
+  "audit_head": "3632f5810663ce7900e4b0cc16dc872d091838a6",
+  "source_head": "e4fb5e33434e9c7d76c0846d9ac995bbf11349f9",
+  "hosted_conclusion": "success",
+  "case_count_executed": 2,
+  "classification_counts": {
+    "pass": 2,
+    "fail": 0
+  },
+  "report_sha256": "939e70939dcbbffca165963a551735b0d6a2a9af395145e18cd21b76d1b27cc5",
+  "saved_reanalysis": {
+    "binding": {
+      "protocol_sha256": "c9b6e590bc5cb7d15e20b80a3a266ab2ff1bdc5759492f1f2074477d32530072",
+      "helper_sha256": "07acfaf87e3b7a4d1fb76bdb2557ed003e8cedfe52649af433800d6643e5c4d5",
+      "audit_checkout": "3632f5810663ce7900e4b0cc16dc872d091838a6",
+      "source_head": "e4fb5e33434e9c7d76c0846d9ac995bbf11349f9",
+      "binary_sha256": "15d9b38b399671229553dcd9f643df62145c27cf6570852e4a45b9cbd7d25600",
+      "lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc",
+      "artifact_id": 11911279897,
+      "artifact_zip_sha256": "6dafdbd7782656a8924f675e89438827e010da3dfb206f774af9cfdbc70b1321"
+    },
+    "cases": [
+      {
+        "name": "canonical",
+        "classification": "pass",
+        "checks": {
+          "exit_zero": true,
+          "stderr_empty": true,
+          "final_water_moles": true,
+          "canonical_inventory": true,
+          "one_canonical_bottle_creation": true,
+          "shared_finite_stock_balance": true,
+          "overdraw_inventory_unchanged": true,
+          "later_observations_preserve_inventory": true
+        },
+        "record": {
+          "protocol_sha256": "c9b6e590bc5cb7d15e20b80a3a266ab2ff1bdc5759492f1f2074477d32530072",
+          "helper_sha256": "07acfaf87e3b7a4d1fb76bdb2557ed003e8cedfe52649af433800d6643e5c4d5",
+          "audit_checkout": "3632f5810663ce7900e4b0cc16dc872d091838a6",
+          "source_head": "e4fb5e33434e9c7d76c0846d9ac995bbf11349f9",
+          "binary_sha256": "15d9b38b399671229553dcd9f643df62145c27cf6570852e4a45b9cbd7d25600",
+          "lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc",
+          "artifact_id": 11911279897,
+          "artifact_zip_sha256": "6dafdbd7782656a8924f675e89438827e010da3dfb206f774af9cfdbc70b1321",
+          "name": "canonical",
+          "script_sha256": "5c3167d9df3eebcdf72a642cf33010bbb791588a2f2984639aa3aa2030be0d42",
+          "exit": 0,
+          "timeout": false,
+          "elapsed_seconds": 0.0806140310000103,
+          "stdout_sha256": "b2ee71237c1b0a1afac7c1290c1508d06b4b2e0ce0c095c43f5831439ffac8c4",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": ""
+      },
+      {
+        "name": "mixed",
+        "classification": "pass",
+        "checks": {
+          "exit_zero": true,
+          "stderr_empty": true,
+          "final_water_moles": true,
+          "canonical_inventory": true,
+          "one_canonical_bottle_creation": true,
+          "shared_finite_stock_balance": true,
+          "overdraw_inventory_unchanged": true,
+          "later_observations_preserve_inventory": true
+        },
+        "record": {
+          "protocol_sha256": "c9b6e590bc5cb7d15e20b80a3a266ab2ff1bdc5759492f1f2074477d32530072",
+          "helper_sha256": "07acfaf87e3b7a4d1fb76bdb2557ed003e8cedfe52649af433800d6643e5c4d5",
+          "audit_checkout": "3632f5810663ce7900e4b0cc16dc872d091838a6",
+          "source_head": "e4fb5e33434e9c7d76c0846d9ac995bbf11349f9",
+          "binary_sha256": "15d9b38b399671229553dcd9f643df62145c27cf6570852e4a45b9cbd7d25600",
+          "lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc",
+          "artifact_id": 11911279897,
+          "artifact_zip_sha256": "6dafdbd7782656a8924f675e89438827e010da3dfb206f774af9cfdbc70b1321",
+          "name": "mixed",
+          "script_sha256": "c1a6c1f057498cf5df4ef8cb171eed2efa1c55d1ebbbb4cfcfd852302b59e5f9",
+          "exit": 0,
+          "timeout": false,
+          "elapsed_seconds": 0.07903723500000126,
+          "stdout_sha256": "b2ee71237c1b0a1afac7c1290c1508d06b4b2e0ce0c095c43f5831439ffac8c4",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": ""
+      }
+    ],
+    "semantic_rows_equal": true,
+    "all_pass": true,
+    "stock_evidence": "CLI bench JSON exposes vessels, not the stock map. Shared finite balance is verified from shelf_stocked and stock_exhausted events; map cardinality is checked separately by the exact-source native regressions.",
+    "candidate_integrated": false,
+    "empirical_calibration": false
+  },
+  "selected_archive_evidence": {
+    "artifact": 11919509165,
+    "advertised_full_zip_sha256": "sha256:7a2762247e72b0b1f1d24dabfcdd4b6ba393a68a8d5211136ffe873c928418c0",
+    "full_zip_downloaded": false,
+    "reads": [
+      {
+        "first": 6474442,
+        "last": 6539977,
+        "bytes": 65536
+      },
+      {
+        "first": 0,
+        "last": 29,
+        "bytes": 30
+      },
+      {
+        "first": 44,
+        "last": 582,
+        "bytes": 539
+      },
+      {
+        "first": 2538,
+        "last": 2567,
+        "bytes": 30
+      },
+      {
+        "first": 2582,
+        "last": 3117,
+        "bytes": 536
+      },
+      {
+        "first": 660,
+        "last": 689,
+        "bytes": 30
+      },
+      {
+        "first": 705,
+        "last": 2521,
+        "bytes": 1817
+      },
+      {
+        "first": 3195,
+        "last": 3224,
+        "bytes": 30
+      },
+      {
+        "first": 3240,
+        "last": 5056,
+        "bytes": 1817
+      },
+      {
+        "first": 599,
+        "last": 628,
+        "bytes": 30
+      },
+      {
+        "first": 642,
+        "last": 643,
+        "bytes": 2
+      },
+      {
+        "first": 3134,
+        "last": 3163,
+        "bytes": 30
+      },
+      {
+        "first": 3177,
+        "last": 3178,
+        "bytes": 2
+      },
+      {
+        "first": 6509421,
+        "last": 6509450,
+        "bytes": 30
+      },
+      {
+        "first": 6509463,
+        "last": 6509815,
+        "bytes": 353
+      },
+      {
+        "first": 6526847,
+        "last": 6526876,
+        "bytes": 30
+      },
+      {
+        "first": 6526890,
+        "last": 6527725,
+        "bytes": 836
+      },
+      {
+        "first": 6528881,
+        "last": 6528910,
+        "bytes": 30
+      },
+      {
+        "first": 6528933,
+        "last": 6529177,
+        "bytes": 245
+      },
+      {
+        "first": 6527742,
+        "last": 6527771,
+        "bytes": 30
+      },
+      {
+        "first": 6527783,
+        "last": 6528864,
+        "bytes": 1082
+      }
+    ],
+    "selected_members": [
+      {
+        "name": "01.result.json",
+        "bytes": 957,
+        "sha256": "ee71f6a349c85d84b1eb143dc9bfab04555e0f5b034541293b956b7fd02382f7",
+        "crc_verified": true
+      },
+      {
+        "name": "02.result.json",
+        "bytes": 954,
+        "sha256": "ba4a9e3a5e7632c9c0ae4aaa3b42191e89bbbf04be96f9b2256ffdd36085ed38",
+        "crc_verified": true
+      },
+      {
+        "name": "01.stdout.jsonl",
+        "bytes": 19137,
+        "sha256": "b2ee71237c1b0a1afac7c1290c1508d06b4b2e0ce0c095c43f5831439ffac8c4",
+        "crc_verified": true
+      },
+      {
+        "name": "02.stdout.jsonl",
+        "bytes": 19137,
+        "sha256": "b2ee71237c1b0a1afac7c1290c1508d06b4b2e0ce0c095c43f5831439ffac8c4",
+        "crc_verified": true
+      },
+      {
+        "name": "01.stderr.txt",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "crc_verified": true
+      },
+      {
+        "name": "02.stderr.txt",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "crc_verified": true
+      },
+      {
+        "name": "binding.json",
+        "bytes": 599,
+        "sha256": "000f538fad639e8aface64ca58c040382ed1dea256f46051781490b0dc9195db",
+        "crc_verified": true
+      },
+      {
+        "name": "protocol.json",
+        "bytes": 1593,
+        "sha256": "c9b6e590bc5cb7d15e20b80a3a266ab2ff1bdc5759492f1f2074477d32530072",
+        "crc_verified": true
+      },
+      {
+        "name": "resource-journal.jsonl",
+        "bytes": 1609,
+        "sha256": "f9c54efe890050a9f3289916a7f93f8f9afe8f7e267c025c775fb7d486693cc2",
+        "crc_verified": true
+      },
+      {
+        "name": "report.json",
+        "bytes": 4013,
+        "sha256": "939e70939dcbbffca165963a551735b0d6a2a9af395145e18cd21b76d1b27cc5",
+        "crc_verified": true
+      }
+    ],
+    "raw_hashes_match_producer_records": true
+  },
+  "original_two_failures_preserved": true,
+  "scope": "Two separately frozen source-informed corrected controls on e4fb5e33. Core/CLI/WASM source unchanged in staged app candidate; app tests remain unexecuted. Full result ZIP not downloaded or byte-verified; selected member CRC/raw stream hashes and report hash verified.",
+  "candidate_integrated": false,
+  "empirical_calibration": false
+}

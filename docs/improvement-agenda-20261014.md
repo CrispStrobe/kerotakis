@@ -29,12 +29,15 @@ in the private handoff. Heavy local work and delegation require resource gates.
    along with workspace tests, CODEX and coverage (zero unmet requirements,
    runtime failures or drift). The [new CLI archive is verified](../audits/fresh-syntax50-20261013/water-alias-artifact-review.json).
    The [full core CI passed](../audits/fresh-syntax50-20261013/water-alias-core-ci-validation.json);
-   its own fleet still has 12 queued jobs and 18 passes at this checkpoint.
+   its own fleet has 24 passes and eight queued jobs at this checkpoint.
    The first two [mixed-spelling CLI controls](../audits/fresh-syntax50-20261013/water-alias-cli/README.md)
    failed because their final command was invalid; preserve those first outcomes.
    Their saved prefixes confirm canonical inventory/shared exhaustion. Two separately
    frozen [corrected controls](../audits/fresh-syntax50-20261013/water-alias-cli-followup/README.md)
-   are queued with unchanged quantitative forecasts.
+   passed both cases with unchanged quantitative forecasts; archived stream hashes
+   and the worker report were verified, then reproduced by the saved-data reader.
+   The full result ZIP remains unarchived locally; selected member checks are scoped
+   in the [receipt](../audits/fresh-syntax50-20261013/water-alias-cli-followup-outcomes.json).
    A [staged app follow-up](../audits/fresh-syntax50-20261013/water-alias-story-followup.json)
    closes Story access/accounting bypasses and handles actual titration dose events;
    seven new app tests remain unexecuted. Do not merge the known-incomplete core-only

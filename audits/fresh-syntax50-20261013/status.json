@@ -1,5 +1,5 @@
 {
-  "utc": "2026-10-14T18:29:47.910316+00:00",
+  "utc": "2026-10-14T18:51:44.354661+00:00",
   "design_count": 50,
   "executed_count": 50,
   "verdict_count": 50,
@@ -69,10 +69,15 @@
   "alias_story_followup_head": "98051f7b4e09eeebce31c5eee64a5da47450626f",
   "alias_story_followup_applied": false,
   "alias_cli_corrected_followups": 2,
-  "alias_cli_corrected_executed": 0,
+  "alias_cli_corrected_executed": 2,
   "alias_cli_corrected_run": 38614113822,
-  "alias_cli_corrected_status": "queued",
+  "alias_cli_corrected_status": "completed_success_two_saved_stream_passes_exact_core_source",
   "alias_current_ci_pass": true,
-  "alias_current_own_fleet_success_jobs": 18,
-  "alias_current_own_fleet_pending_jobs": 12
+  "alias_current_own_fleet_success_jobs": 24,
+  "alias_current_own_fleet_pending_jobs": 8,
+  "alias_cli_corrected_counts": {
+    "pass": 2,
+    "fail": 0
+  },
+  "alias_cli_corrected_accepted": true
 }
