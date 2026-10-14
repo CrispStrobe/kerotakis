@@ -15,7 +15,7 @@ on:
         description: Audit selection
         type: choice
         default: fleets
-        options: [fleets, independent-50, independent-next-50, independent-fourth-50, thermal-contracts, independent-third-50, native-scale-contracts, pure-still-contracts, pure-still-performance, representative-performance, registry-applicability-baseline, registry-applicability-candidate, remaining-final-rules-baseline, yaml-parser-baseline, release-performance, release-performance-controlled-builds]
+        options: [fleets, independent-50, independent-next-50, independent-fourth-50, thermal-contracts, independent-third-50, native-scale-contracts, pure-still-contracts, pure-still-performance, representative-performance, registry-applicability-baseline, registry-applicability-candidate, remaining-final-rules-baseline, yaml-parser-baseline, release-performance, release-performance-controlled-builds, pr786-replay]
       validated_run:
         description: Successful independent-50 validation run supplying the executable
         type: string
@@ -48,7 +48,7 @@ env:
 jobs:
   build-cli:
     name: Build audited CLI once
-    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline' && inputs.audit != 'registry-applicability-candidate' && inputs.audit != 'remaining-final-rules-baseline' && inputs.audit != 'yaml-parser-baseline' && inputs.audit != 'release-performance' && inputs.audit != 'release-performance-controlled-builds')
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline' && inputs.audit != 'registry-applicability-candidate' && inputs.audit != 'remaining-final-rules-baseline' && inputs.audit != 'yaml-parser-baseline' && inputs.audit != 'release-performance' && inputs.audit != 'release-performance-controlled-builds'))
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -72,7 +72,7 @@ jobs:
 
   sixth-fleet:
     name: Frozen fleet 195-218
-    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline' && inputs.audit != 'registry-applicability-candidate' && inputs.audit != 'remaining-final-rules-baseline' && inputs.audit != 'yaml-parser-baseline' && inputs.audit != 'release-performance' && inputs.audit != 'release-performance-controlled-builds')
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline' && inputs.audit != 'registry-applicability-candidate' && inputs.audit != 'remaining-final-rules-baseline' && inputs.audit != 'yaml-parser-baseline' && inputs.audit != 'release-performance' && inputs.audit != 'release-performance-controlled-builds'))
     needs: build-cli
     runs-on: ubuntu-latest
     steps:
@@ -117,7 +117,7 @@ jobs:
 
   seventh-fleet:
     name: Frozen fleet 459-488
-    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline' && inputs.audit != 'registry-applicability-candidate' && inputs.audit != 'remaining-final-rules-baseline' && inputs.audit != 'yaml-parser-baseline' && inputs.audit != 'release-performance' && inputs.audit != 'release-performance-controlled-builds')
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline' && inputs.audit != 'registry-applicability-candidate' && inputs.audit != 'remaining-final-rules-baseline' && inputs.audit != 'yaml-parser-baseline' && inputs.audit != 'release-performance' && inputs.audit != 'release-performance-controlled-builds'))
     needs: build-cli
     runs-on: ubuntu-latest
     steps:
@@ -162,7 +162,7 @@ jobs:
 
   source-fleets:
     name: Source fleet ${{ matrix.family }}
-    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline' && inputs.audit != 'registry-applicability-candidate' && inputs.audit != 'remaining-final-rules-baseline' && inputs.audit != 'yaml-parser-baseline' && inputs.audit != 'release-performance' && inputs.audit != 'release-performance-controlled-builds')
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline' && inputs.audit != 'registry-applicability-candidate' && inputs.audit != 'remaining-final-rules-baseline' && inputs.audit != 'yaml-parser-baseline' && inputs.audit != 'release-performance' && inputs.audit != 'release-performance-controlled-builds'))
     needs: build-cli
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -215,7 +215,7 @@ jobs:
 
   source-fleet-aggregate:
     name: All 240 source-informed cases
-    if: ${{ always() && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline' && inputs.audit != 'registry-applicability-candidate' && inputs.audit != 'remaining-final-rules-baseline' && inputs.audit != 'yaml-parser-baseline' && inputs.audit != 'release-performance' && inputs.audit != 'release-performance-controlled-builds')) }}
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (always() && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline' && inputs.audit != 'registry-applicability-candidate' && inputs.audit != 'remaining-final-rules-baseline' && inputs.audit != 'yaml-parser-baseline' && inputs.audit != 'release-performance' && inputs.audit != 'release-performance-controlled-builds')))
     needs: source-fleets
     runs-on: ubuntu-latest
     steps:
@@ -228,7 +228,7 @@ jobs:
 
   source-fleets-v2:
     name: Source fleet v2 ${{ matrix.family }}
-    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline' && inputs.audit != 'registry-applicability-candidate' && inputs.audit != 'remaining-final-rules-baseline' && inputs.audit != 'yaml-parser-baseline' && inputs.audit != 'release-performance' && inputs.audit != 'release-performance-controlled-builds')
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline' && inputs.audit != 'registry-applicability-candidate' && inputs.audit != 'remaining-final-rules-baseline' && inputs.audit != 'yaml-parser-baseline' && inputs.audit != 'release-performance' && inputs.audit != 'release-performance-controlled-builds'))
     needs: build-cli
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -294,7 +294,7 @@ jobs:
 
   source-fleet-v2-aggregate:
     name: All 288 source-informed v2 cases
-    if: ${{ always() && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline' && inputs.audit != 'registry-applicability-candidate' && inputs.audit != 'remaining-final-rules-baseline' && inputs.audit != 'yaml-parser-baseline' && inputs.audit != 'release-performance' && inputs.audit != 'release-performance-controlled-builds')) }}
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (always() && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline' && inputs.audit != 'registry-applicability-candidate' && inputs.audit != 'remaining-final-rules-baseline' && inputs.audit != 'yaml-parser-baseline' && inputs.audit != 'release-performance' && inputs.audit != 'release-performance-controlled-builds')))
     needs: source-fleets-v2
     runs-on: ubuntu-latest
     steps:
@@ -307,7 +307,7 @@ jobs:
 
   source-fleets-v3:
     name: Source fleet v3 ${{ matrix.family }}
-    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline' && inputs.audit != 'registry-applicability-candidate' && inputs.audit != 'remaining-final-rules-baseline' && inputs.audit != 'yaml-parser-baseline' && inputs.audit != 'release-performance' && inputs.audit != 'release-performance-controlled-builds')
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline' && inputs.audit != 'registry-applicability-candidate' && inputs.audit != 'remaining-final-rules-baseline' && inputs.audit != 'yaml-parser-baseline' && inputs.audit != 'release-performance' && inputs.audit != 'release-performance-controlled-builds'))
     needs: build-cli
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -364,7 +364,7 @@ jobs:
 
   source-fleet-v3-aggregate:
     name: All 120 source-informed v3 cases
-    if: ${{ always() && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline' && inputs.audit != 'registry-applicability-candidate' && inputs.audit != 'remaining-final-rules-baseline' && inputs.audit != 'yaml-parser-baseline' && inputs.audit != 'release-performance' && inputs.audit != 'release-performance-controlled-builds')) }}
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (always() && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50' && inputs.audit != 'independent-fourth-50' && inputs.audit != 'thermal-contracts' && inputs.audit != 'independent-third-50' && inputs.audit != 'native-scale-contracts' && inputs.audit != 'pure-still-contracts' && inputs.audit != 'pure-still-performance' && inputs.audit != 'representative-performance' && inputs.audit != 'registry-applicability-baseline' && inputs.audit != 'registry-applicability-candidate' && inputs.audit != 'remaining-final-rules-baseline' && inputs.audit != 'yaml-parser-baseline' && inputs.audit != 'release-performance' && inputs.audit != 'release-performance-controlled-builds')))
     needs: source-fleets-v3
     runs-on: ubuntu-latest
     steps:
@@ -377,7 +377,7 @@ jobs:
 
   independent-50:
     name: Independent 50 and phase ownership
-    if: github.event_name == 'workflow_dispatch' && inputs.audit == 'independent-50'
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (github.event_name == 'workflow_dispatch' && inputs.audit == 'independent-50')
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:
@@ -405,7 +405,7 @@ jobs:
 
   independent-next-50:
     name: Fifty new frozen independent CLI experiments
-    if: github.event_name == 'workflow_dispatch' && inputs.audit == 'independent-next-50'
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (github.event_name == 'workflow_dispatch' && inputs.audit == 'independent-next-50')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -444,7 +444,7 @@ jobs:
 
   independent-fourth-50:
     name: Fourth fifty frozen forecasts
-    if: github.event_name == 'workflow_dispatch' && inputs.audit == 'independent-fourth-50'
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (github.event_name == 'workflow_dispatch' && inputs.audit == 'independent-fourth-50')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -479,7 +479,7 @@ jobs:
 
   thermal-contracts:
     name: Frozen thermal phase and energy controls
-    if: github.event_name == 'workflow_dispatch' && inputs.audit == 'thermal-contracts'
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (github.event_name == 'workflow_dispatch' && inputs.audit == 'thermal-contracts')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -513,7 +513,7 @@ jobs:
 
   independent-third-50:
     name: Third fifty original frozen CLI experiments
-    if: github.event_name == 'workflow_dispatch' && inputs.audit == 'independent-third-50'
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (github.event_name == 'workflow_dispatch' && inputs.audit == 'independent-third-50')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -554,7 +554,7 @@ jobs:
 
   native-scale-contracts:
     name: Native microscopic scale contracts
-    if: github.event_name == 'workflow_dispatch' && inputs.audit == 'native-scale-contracts'
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (github.event_name == 'workflow_dispatch' && inputs.audit == 'native-scale-contracts')
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
@@ -580,7 +580,7 @@ jobs:
 
   pure-still-contracts:
     name: Pure still analytic and phase-cost contracts
-    if: github.event_name == 'workflow_dispatch' && inputs.audit == 'pure-still-contracts'
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (github.event_name == 'workflow_dispatch' && inputs.audit == 'pure-still-contracts')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
@@ -603,7 +603,7 @@ jobs:
 
   pure-still-performance:
     name: Matched validated pure-still CLI performance
-    if: github.event_name == 'workflow_dispatch' && inputs.audit == 'pure-still-performance'
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (github.event_name == 'workflow_dispatch' && inputs.audit == 'pure-still-performance')
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
@@ -632,7 +632,7 @@ jobs:
 
   representative-performance:
     name: Matched representative CLI wall CPU and RSS
-    if: github.event_name == 'workflow_dispatch' && inputs.audit == 'representative-performance'
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (github.event_name == 'workflow_dispatch' && inputs.audit == 'representative-performance')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
@@ -658,7 +658,7 @@ jobs:
 
   registry-applicability-baseline:
     name: Capture exact-main registry applicability baseline
-    if: github.event_name == 'workflow_dispatch' && inputs.audit == 'registry-applicability-baseline'
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (github.event_name == 'workflow_dispatch' && inputs.audit == 'registry-applicability-baseline')
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
@@ -699,7 +699,7 @@ jobs:
 
   registry-applicability-candidate:
     name: Paired registry applicability candidate controls
-    if: github.event_name == 'workflow_dispatch' && inputs.audit == 'registry-applicability-candidate'
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (github.event_name == 'workflow_dispatch' && inputs.audit == 'registry-applicability-candidate')
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
@@ -739,7 +739,7 @@ jobs:
 
   remaining-final-rules-baseline:
     name: Capture exact-main remaining final-rule baseline
-    if: github.event_name == 'workflow_dispatch' && inputs.audit == 'remaining-final-rules-baseline'
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (github.event_name == 'workflow_dispatch' && inputs.audit == 'remaining-final-rules-baseline')
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
@@ -779,7 +779,7 @@ jobs:
 
   yaml-parser-baseline:
     name: Capture exact-main YAML parser compatibility baseline
-    if: github.event_name == 'workflow_dispatch' && inputs.audit == 'yaml-parser-baseline'
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (github.event_name == 'workflow_dispatch' && inputs.audit == 'yaml-parser-baseline')
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
@@ -819,7 +819,7 @@ jobs:
 
   release-performance:
     name: Frozen release performance baseline
-    if: github.event_name == 'workflow_dispatch' && inputs.audit == 'release-performance'
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (github.event_name == 'workflow_dispatch' && inputs.audit == 'release-performance')
     uses: ./.github/workflows/release-performance-audit.yml
     permissions:
       contents: read
@@ -827,8 +827,37 @@ jobs:
 
   release-performance-controlled-builds:
     name: Controlled release performance builds
-    if: github.event_name == 'workflow_dispatch' && inputs.audit == 'release-performance-controlled-builds'
+    if: (github.event_name != 'workflow_dispatch' || inputs.audit != 'pr786-replay') && (github.event_name == 'workflow_dispatch' && inputs.audit == 'release-performance-controlled-builds')
     uses: ./.github/workflows/release-performance-paired-build-v2.yml
     permissions:
       contents: read
       actions: read
+
+  pr786-replay:
+    name: Own-source PR786 seven-control replay
+    if: github.event_name == 'workflow_dispatch' && inputs.audit == 'pr786-replay'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /.github/workflows/chemistry-audit.yml
+            /audits/fresh-syntax50-20261013/pr786-replay/
+            /audits/fresh-syntax50-20261013/hosted-pr786-replay.py
+      - name: Verify own completed artifact and run the frozen seven
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 audits/fresh-syntax50-20261013/hosted-pr786-replay.py
+      - name: Preserve original metadata, archive and CLI outcomes
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: pr786-seven-control-replay-${{ github.run_id }}-${{ github.run_attempt }}
+          path: pr786-hosted-evidence
+          if-no-files-found: error
+          retention-days: 30
