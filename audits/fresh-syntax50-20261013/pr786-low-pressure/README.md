@@ -13,7 +13,11 @@ so retained-inventory assertions can test the finite thermal refusal directly.
 They are virtual CLI controls, not a procedure or pressure rating for real glass.
 
 Read [the expectations](expectations.json) and [the frozen protocol](protocol.json).
-Current state: 0/2 executed. The already passing five controls need no rerun at
+Current state: **2/2 executed and passed** at source `10c963e1`; see the
+[verified outcomes](../pr786-low-pressure-outcomes.json). The complete result
+archive, report, receipt, binary, lock and raw-stream digests were verified;
+reanalysis of saved streams reproduced the hosted report exactly. These results
+are bound to that source, not the later PR revision. The already passing five controls need no rerun at
 unchanged source. The original two remain failed against their original intact-seal
 expectations; a separate saved-output diagnosis verifies the reported burst budget.
 Own artifact/source verification and resource gates apply to this follow-up.

@@ -8,7 +8,7 @@ logs and versioned source associations. Host-specific operating details belong
 in the private handoff. Heavy local work and delegation require resource gates.
 
 1. **Validate and integrate the thermal inventory repair.** Own draft PR786,
-   current source `10c963e1` on main `30fd09eb`. Read the
+   current source `fdd951a7` on main `30fd09eb`. Read the
    [compatibility correction](../audits/fresh-syntax50-20261013/pr786-compatibility-correction.json).
    Original new boundary controls passed, while native CI failed on autoignition
    and a hydrogen dose comparison; retain these failures. Review revised CI
@@ -26,8 +26,10 @@ in the private handoff. Heavy local work and delegation require resource gates.
    Revised native workspace tests passed, but coverage still asserts computed
    finite-carbon chemistry for two unsupported routes. The [staged follow-up](../audits/fresh-syntax50-20261013/pr786-coverage-correction-preparation.json)
    explicitly qualifies those claims and adds four CLI inventory/burst controls.
-   Wait for the existing own fleet to finish before applying that descendant
-   follow-up to PR786; require fresh native CI on the resulting source.
+   The previous own fleet finished successfully and both matched low-pressure
+   controls passed at `10c963e1`. The [descendant follow-up is now applied](../audits/fresh-syntax50-20261013/pr786-followup-application.json):
+   require fresh native CI `38552626507` and own fleet `38552626557` on `fdd951a7`.
+   Do not relabel earlier-source replay results as this revision's acceptance.
    Refresh head/base/main, checks, rules and the expected ten-file combined scope
    before making ready and merging. Confirm the actual integrated tree.
 2. **Canonical water alias.** After step 1 integrates, create a narrow branch

@@ -1,0 +1,20 @@
+{
+  "utc": "2026-10-14T10:53:24.871616+00:00",
+  "pr": 786,
+  "previous_head": "10c963e17401b65c947f1f4b89a8d4e35fef5e71",
+  "head": "fdd951a7db70ab3a5da0470a9c82981b6cb61f34",
+  "base": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+  "method": "guarded descendant fast-forward; no history rewrite",
+  "prior_runs_completed": {
+    "38528139789": "failure (two support-contract coverage checks)",
+    "38528139788": "success (all 33 jobs)"
+  },
+  "expected_combined_file_count": 10,
+  "new_ci_run": 38552626507,
+  "new_own_fleet_run": 38552626557,
+  "independent_review": "No blocking source/schema/scope findings; no native execution by reviewer.",
+  "rustfmt_and_diff_check": "pass",
+  "new_source_native_controls_executed": false,
+  "candidate_integrated": false,
+  "prior_source_replay_relabelled": false
+}

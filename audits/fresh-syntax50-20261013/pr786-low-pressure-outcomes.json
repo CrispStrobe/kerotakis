@@ -1,0 +1,104 @@
+{
+  "utc": "2026-10-14T10:53:24.871616+00:00",
+  "run": 38542694018,
+  "job": 115781099847,
+  "run_conclusion": "success",
+  "verified_marker": {
+    "audit_checkout": "c7ef207ad7f1b5e901464a9f14d72a005283008d",
+    "helper_sha256": "5b180217b39933aee7ca229cab5452092ce075fac19326cba726760982442e29",
+    "source_head": "10c963e17401b65c947f1f4b89a8d4e35fef5e71",
+    "source_tree": "789aff13dcc51c089a97472f2347f39a012103ee",
+    "binary_sha256": "ff05d78a6bc1aa23b4122564c2361a698cc5d02d335a866eefe5ac6300bbcfb5",
+    "lock_sha256": "87305e23b0b8c3802cc4dd8817e1fe7eefb39cbcafc6881305f00655fcf8d692",
+    "artifact_id": 11878769254,
+    "artifact_zip_sha256": "39cbbd687e3d4be92a858a99abc3074fd52f968401f2760c65f177979d036fe3",
+    "protocol_sha256": "be0336d56bbc38689663524a77bb0e20e089616d3606cd88be6219ad069d3997",
+    "artifact_review_sha256": "f26519fab4dfe62db25f0c99a9b118a0e31d04cb5b08858123607c4c12fc90e5",
+    "report_sha256": "5a5f4715d061d865041047a1d971f84e5d367511a1475eb8536696fe1c3d8bb0",
+    "cases": [
+      {
+        "classification": "pass",
+        "checks": {
+          "expected_boundary": true,
+          "typed_boundary_refusal": true,
+          "fuel_retained": true,
+          "no_thermal_equilibrium": true,
+          "no_ignition_exhaust": true,
+          "gas_inventory_retained": true,
+          "positive_pressure": true,
+          "fuel_retained_through_observation": true,
+          "gas_retained_through_observation": true,
+          "observed_pressure_positive": true
+        },
+        "details": {
+          "gases_before": {
+            "N2": 0.0020169772772923485,
+            "O2": 0.002
+          },
+          "gases_after": {
+            "N2": 0.0020169772772923485,
+            "O2": 0.002
+          },
+          "fuel_before": 0.002,
+          "fuel_after": 0.002
+        },
+        "case": "01-sealed-magnesium.lab",
+        "stdout_sha256": "ed5cbd804f61d907232ef46e91984d4ab2b1eb53b5433b1793f264c499896b51",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "classification": "pass",
+        "checks": {
+          "expected_boundary": true,
+          "typed_boundary_refusal": true,
+          "fuel_retained": true,
+          "no_thermal_equilibrium": true,
+          "no_ignition_exhaust": true,
+          "gas_inventory_retained": true,
+          "positive_pressure": true,
+          "fuel_retained_through_observation": true,
+          "gas_retained_through_observation": true,
+          "observed_pressure_positive": true
+        },
+        "details": {
+          "gases_before": {
+            "N2": 0.004033954554584697,
+            "O2": 0.01
+          },
+          "gases_after": {
+            "N2": 0.004033954554584697,
+            "O2": 0.01
+          },
+          "fuel_before": 0.001,
+          "fuel_after": 0.001
+        },
+        "case": "02-sealed-carbon.lab",
+        "stdout_sha256": "08d941b4ff5bc258fdb34bc68cdb95432b51a018e2d097842f472da8ac6bf198",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "all_two_pass": true,
+    "candidate_integrated": false,
+    "empirical_calibration": false,
+    "closed_chemistry_implemented": false
+  },
+  "result_artifact": {
+    "id": 11884133684,
+    "name": "pr786-low-pressure-replay-38542694018-1",
+    "size_bytes": 13005245,
+    "zip_sha256": "1032cf922ff80a0a65d6242f273c356c6fbadca98b9ea67561a8cdb1930644fc",
+    "full_archive_downloaded_and_digest_verified": true,
+    "all_member_crcs_verified": true
+  },
+  "raw_stdout_stderr_digests_verified": true,
+  "binary_lock_report_and_receipt_digests_verified": true,
+  "saved_consumer_recomputed": "exact JSON equality with hosted report; both pass",
+  "local_application_executed": false,
+  "original_seven_predictions_modified": false,
+  "original_seven_result": {
+    "pass": 5,
+    "fail": 2
+  },
+  "original_two_failure_diagnosis": "Explicit pressure bursts and danger warnings; retained plus vented gas inventory closes. Original intact-seal predictions remain failed.",
+  "scope": "Two source-informed matched retention controls at 10c963 only; no integrated-source or calibrated closed-chemistry claim."
+}

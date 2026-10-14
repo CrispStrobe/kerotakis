@@ -1,5 +1,5 @@
 {
-  "utc": "2026-10-14T09:39:54.883509+00:00",
+  "utc": "2026-10-14T10:53:24.871616+00:00",
   "design_count": 50,
   "executed_count": 50,
   "verdict_count": 50,
@@ -13,16 +13,16 @@
     "pass": 7,
     "inconclusive": 1
   },
-  "native_fix_head": "10c963e17401b65c947f1f4b89a8d4e35fef5e71",
+  "native_fix_head": "fdd951a7db70ab3a5da0470a9c82981b6cb61f34",
   "native_fix_validated": false,
   "normalized_followup_controls": 40,
   "normalized_followup_executed": 0,
   "native_fix_pr": "https://github.com/CrispStrobe/kerotakis/pull/786",
-  "native_fix_ci_run": 38528139789,
-  "native_fix_own_cli_audit_run": 38528139788,
-  "native_fix_validation_status": "mac_workspace_and_codex_passed_curiosity_support_contract_failed",
+  "native_fix_ci_run": 38552626507,
+  "native_fix_own_cli_audit_run": 38552626557,
+  "native_fix_validation_status": "followup_applied_fresh_native_ci_and_own_fleet_pending",
   "coverage_followup_head": "fdd951a7db70ab3a5da0470a9c82981b6cb61f34",
-  "coverage_followup_applied": false,
+  "coverage_followup_applied": true,
   "hosted_replay_run": 38536343562,
   "hosted_replay_status": "completed_checker_failed_5_pass_2_burst_scope_failures",
   "hosted_replay_accepted": false,
@@ -32,6 +32,9 @@
   },
   "original_rupture_vent_budgets_verified": true,
   "low_pressure_followup_run": 38542694018,
-  "low_pressure_followup_status": "queued",
-  "low_pressure_followup_accepted": false
+  "low_pressure_followup_status": "completed_success_two_pass_exact_old_source",
+  "low_pressure_followup_accepted": true,
+  "low_pressure_followup_source": "10c963e17401b65c947f1f4b89a8d4e35fef5e71",
+  "previous_own_source_fleet_run": 38528139788,
+  "previous_own_source_fleet_conclusion": "success"
 }
