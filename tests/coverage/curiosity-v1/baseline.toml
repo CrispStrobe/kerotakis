@@ -2471,8 +2471,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "th-037"
 owning_task = "BRD-041"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "th-038"
@@ -2945,8 +2945,8 @@ reason_code = "curated-route"
 [[observation]]
 id = "th-116"
 owning_task = "BRD-041"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "th-117"

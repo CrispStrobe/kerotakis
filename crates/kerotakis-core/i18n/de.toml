@@ -1666,6 +1666,7 @@ PVA = "PVA"
 # falls back to `[refusal]`; `tools/engine-locale-lint.py` counts how many
 # of each there are, with the denominator read out of the Rust.
 [not-modeled]
+"cea-open-atmosphere-required" = "Der thermische Gleichgewichtspfad für offene Luft modelliert diese geschlossene, druckgeregelte oder gespülte Randbedingung nicht; der Stoffbestand bleibt erhalten und es wurde keine thermische Reaktion übernommen."
 
 # Ideal-liquid still checked refusal categories.
 ideal-still-invalid-input = "Die ideale Destille benötigt endliche nichtnegative Bestände, gültige Stoffdaten, einen gültigen Schnitt, eine unterstützte Stufenzahl und positiven Druck; es wurde kein Material übertragen"

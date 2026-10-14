@@ -1349,7 +1349,10 @@ question = "Can I make matter vanish by burning it in a closed container?"
 age_band = "age9_to12"
 action = "burn_and_oxidise"
 material_class = "conservation"
-expected = "computed"
+# The original computed claim used an invalid open-air balance in a sealed
+# vessel. Preserve the physical question and script; require honest observation
+# until a validated finite carbon-combustion balance restores computed support.
+expected = "qualitative"
 owning_task = "BRD-041"
 tags = ["combustion", "conservation"]
 script = ["add v1 C 0.01mol", "add v1 O2 0.02mol", "seal v1 1L", "measure v1 balance", "ignite v1", "measure v1 balance"]

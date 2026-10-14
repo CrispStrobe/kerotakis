@@ -494,6 +494,21 @@ impl Equilibrator for ThermalEquilibrator {
                 })
                 .collect());
         }
+        // This route admits a room-air reservoir and vents its gaseous
+        // products. A finite or swept boundary cannot borrow that reservoir:
+        // doing so discards owned oxygen/nitrogen and even sealed products.
+        // Leave the charge untouched until a boundary-specific energy and
+        // matter balance is supported.
+        if !matches!(vessel.headspace, kerotakis_core::vessel::Headspace::Open) {
+            return Ok(vec![Event::not_modeled(
+                vessel.id,
+                kerotakis_core::ops::NotModelledCause::BoundaryMismatch,
+                Phrase::bare(
+                    "not-modeled.cea-open-atmosphere-required",
+                    "the open-air thermal equilibrium route does not model this sealed, pressure-controlled or swept boundary; its inventory is retained and no thermal chemistry has been committed",
+                ),
+            )]);
+        }
         let elements: Vec<String> = charge.budget.keys().cloned().collect();
         let mut pool = pool_for(&elements);
         if charge.used_feed_thermo {
