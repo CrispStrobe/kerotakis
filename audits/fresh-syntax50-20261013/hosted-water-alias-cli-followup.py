@@ -40,7 +40,8 @@ def strict(text):
 
 
 def main():
-    assert not sys.flags.optimize
+    if sys.flags.optimize:
+        raise SystemExit("optimized Python is unsupported")
     assert os.environ["GITHUB_ACTIONS"] == "true"
     assert os.environ["GITHUB_EVENT_NAME"] == "workflow_dispatch"
     assert subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip() == os.environ["GITHUB_SHA"]
