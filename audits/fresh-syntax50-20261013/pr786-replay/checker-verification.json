@@ -1,0 +1,62 @@
+{
+  "checker_sha256": "d1d7874b00dc54f3e3fd025d5d4dcd21c61f922d3e7c38680647d00fe6530df6",
+  "runner_sha256": "2f8f8d4996f322db0589a81076527c404d951914fae7a46be2df0638d3add548",
+  "checks": [
+    {
+      "check": "reject actual original sealed gas loss",
+      "original_case": "23",
+      "classification": "fail"
+    },
+    {
+      "check": "reject actual original sealed gas loss",
+      "original_case": "47",
+      "classification": "fail"
+    },
+    {
+      "check": "accept actual original inert gas law",
+      "original_case": "29",
+      "classification": "pass"
+    },
+    {
+      "check": "accept synthetic retained gases with permitted Mg melting and explicit refusal",
+      "synthetic": true
+    },
+    {
+      "check": "reject synthetic oxygen loss despite positive pressure",
+      "synthetic": true
+    },
+    {
+      "check": "reject synthetic loss after ignition during observation",
+      "synthetic": true
+    },
+    {
+      "check": "reject synthetic silent stand-down without typed refusal",
+      "synthetic": true
+    },
+    {
+      "check": "reject malformed/nonfinite JSON",
+      "input": "{\"x\":NaN}"
+    },
+    {
+      "check": "reject malformed/nonfinite JSON",
+      "input": "{\"x\":Infinity}"
+    },
+    {
+      "check": "reject malformed/nonfinite JSON",
+      "input": "{\"x\":1e999}"
+    },
+    {
+      "check": "reject malformed/nonfinite JSON",
+      "input": "{\"x\":1,\"x\":2}"
+    }
+  ],
+  "all_checks_pass": true,
+  "cli_executed": false,
+  "actual_original_streams_used_only_as_checker_controls": [
+    "23",
+    "47",
+    "29"
+  ],
+  "new_seven_case_acceptance": false,
+  "scope": "Lightweight saved-data and adversarial checker verification; synthetic fixtures are not app results."
+}

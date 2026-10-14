@@ -1,0 +1,20 @@
+{
+  "state": "template only; not an accepted runtime binding",
+  "fields": {
+    "protocol_sha256": "SHA256 of protocol.json",
+    "runner_sha256": "SHA256 of run.py",
+    "analyzer_sha256": "SHA256 of analyse.py",
+    "artifact_review_receipt_sha256": "SHA256 of accepted own artifact review receipt",
+    "source_head": "10c963e17401b65c947f1f4b89a8d4e35fef5e71",
+    "source_tree": "789aff13dcc51c089a97472f2347f39a012103ee",
+    "binary_sha256": "actual verified own ELF digest",
+    "lock_sha256": "actual captured lock digest",
+    "artifact_id": "actual own artifact integer ID",
+    "artifact_zip_sha256": "actual own artifact ZIP digest"
+  },
+  "receipt_schema": "Same candidate/head/tree/binary/lock/run/build_job/tested_parents/artifact identity fields as the earlier accepted own release receipt; every value must be verified at the new own source.",
+  "producer_sha256": "2f8f8d4996f322db0589a81076527c404d951914fae7a46be2df0638d3add548",
+  "consumer_sha256": "d1d7874b00dc54f3e3fd025d5d4dcd21c61f922d3e7c38680647d00fe6530df6",
+  "producer_static_checks_pass": true,
+  "cli_executed": false
+}

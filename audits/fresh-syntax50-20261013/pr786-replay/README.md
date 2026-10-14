@@ -23,3 +23,28 @@ that inconclusive design result and freeze a corrected control separately. Do no
 change the expectations after execution. These controls qualify the narrow
 inventory-preservation repair; they do not validate closed U/V or finite H/P
 combustion. Integration also requires native and applicable repository CI gates.
+
+## Run and assess
+
+[run.py](run.py) requires an accepted own-artifact receipt and a separately frozen
+[runtime binding](runtime-binding-fields.json), the verified binary and captured
+lock, a dedicated output directory and configured fast/storage locations.
+It verifies the source, tested merge parents, own run/build job, artifact identity,
+protocol and helper digests before execution. Resource gates are journaled before
+refusal, cases run sequentially, and a resumed run skips hash-verified completed
+cases. Incomplete streams, timeouts and completed batches cannot be overwritten.
+Each process uses the relative script path and default Kero configuration.
+
+[analyse.py](analyse.py) consumes only saved streams and their producer records.
+It verifies the runtime/artifact association and frozen inputs, rejects malformed
+or nonfinite JSON, checks inventory through ignition and later observations, and
+writes an exclusive report. All seven must pass for replay acceptance. The
+[eleven checker controls](checker-verification.json) include both original real
+gas-loss failures and the real inert-gas pass, plus explicitly synthetic adversarial
+fixtures. These tests validate the checker; they are not seven app executions or
+current-source acceptance.
+
+Example argument names: producer `--binary`, `--lock`, `--binding`,
+`--artifact-review`, `--out`, `--fast`, `--storage`; consumer `--raw`, `--out`.
+Actual operating locations are recorded privately. Preserve the original
+protocol and all first outcomes when changing a producer, consumer or source.
