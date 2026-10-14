@@ -1,0 +1,27 @@
+{
+  "utc": "2026-10-14T13:41:05.508183+00:00",
+  "source_head": "fdd951a7db70ab3a5da0470a9c82981b6cb61f34",
+  "ci_run": 38552626507,
+  "run_conclusion": "success",
+  "successful_check_jobs": 25,
+  "total_jobs_including_publication": 26,
+  "intentionally_skipped_job": "Publish the demo",
+  "ubuntu_native": {
+    "job": 115813997344,
+    "all_steps_success": true,
+    "actual_checkout_verified": true,
+    "cli_four_variants_pass": true,
+    "coverage_unmet": 0,
+    "coverage_runtime_failures": 0,
+    "coverage_drift": 0,
+    "saved_job_log_sha256": "94a3b975e10e838985902cabeffdaa525a79ff3105d97d1d65362aab7d3e1e41"
+  },
+  "browser": {
+    "job": 115813997340,
+    "all_steps_success": true
+  },
+  "required_ci_checks_pass": true,
+  "own_fleet_complete": false,
+  "candidate_integrated": false,
+  "next_gate": "Wait for own-source fleet 38552626557, then refresh head/base/main, scope, rules and latest checks before ready/merge."
+}

@@ -3,6 +3,9 @@
 Queued after thermal boundary PR786 integrates. This is a source review and
 task specification, not an implemented fix or executed acceptance result.
 Recheck these call sites against actual integrated main before editing.
+The audit branch's bench, vessel and operator implementations include unrelated
+changes. Use integrated main as the implementation base; do not transplant those
+files from the audit checkout.
 
 The desired behavior is one canonical `water` identity and one stock balance
 when users supply either `water` or `H2O`. A lookup-only alias is insufficient:
@@ -28,6 +31,24 @@ direct operators. Inventory all writers before choosing it; do not assume that
 changing `lookup_key` or `SpeciesId::new` covers serde and string-keyed ledgers.
 Limit the accepted new spelling to exact `H2O`; broader formula normalization
 needs a separate reviewed contract.
+
+The source review suggests one exact-spelling `canonical_input_key` resolver,
+used by lookup, species construction/deserialization and all stock key APIs.
+Normalize owned operators before dispatch, safety assessment, application and
+logging to cover direct tuple construction as well as JSON/text inputs. On the
+reviewed production source, the identity-bearing operator fields are addition
+species, extraction solvent, grinding species and titrant, plus the string key
+for stocking. Recheck that inventory after integration. Direct vessel deposit,
+withdrawal and query APIs also need consistent canonical identities.
+
+For both legacy and compensated stock restore, reject a map containing both
+`H2O` and `water` before constructing the ledger. Canonicalize a single alias
+without changing its authoritative amount, unit or compensated components.
+Inventory portions and provenance lots can retain separate entries under one
+canonical species; preserve their quantities rather than silently dropping or
+merging lots. A rejected WASM restore must preserve the live bench. No frontend
+change is currently indicated by canonical story-shelf keys; verify its actual
+integrated behavior before deciding.
 
 Acceptance must exercise equivalent `water`/`H2O` additions in moles, grams and
 milliliters; mixed-spelling finite stock, exhaustion and unlimit operations;

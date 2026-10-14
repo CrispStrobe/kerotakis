@@ -56,7 +56,8 @@ open/inert/kinetic controls; coverage has zero unmet requirements and zero drift
 The [new own-source artifact](pr786-current-artifact-review.json) is verified
 against its actual build checkout, parents/tree and archived bytes. Its executable
 is byte-identical to the earlier verified CLI; its captured lock digest is
-recorded separately. Pending Ubuntu, browser and fleet checks still prevent merge.
+recorded separately. [All 25 CI jobs now passed](pr786-current-ci-completion.json),
+including Ubuntu and browser validation. Remaining own-fleet jobs still prevent merge.
 
 [The original seven-control replay](pr786-replay-first-outcomes.json) at
 `10c963e1` produced five passes and two failed intact-seal predictions. Both

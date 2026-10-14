@@ -33,7 +33,8 @@ in the private handoff. Heavy local work and delegation require resource gates.
    [Current macOS native validation](../audits/fresh-syntax50-20261013/pr786-current-native-validation.json)
    passed the four CLI variants, open/inert/kinetic controls, CODEX and coverage
    (zero unmet requirements or baseline drift). The [current own CLI artifact](../audits/fresh-syntax50-20261013/pr786-current-artifact-review.json)
-   is source- and byte-verified. Ubuntu, browser and remaining fleet checks still
+   is source- and byte-verified. [All 25 CI jobs now passed](../audits/fresh-syntax50-20261013/pr786-current-ci-completion.json),
+   including Ubuntu and browser validation. The remaining own-fleet jobs still
    need their actual successful results; refresh their latest state before merge.
    Refresh head/base/main, checks, rules and the expected ten-file combined scope
    before making ready and merging. Confirm the actual integrated tree.
