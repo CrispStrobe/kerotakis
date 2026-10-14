@@ -1,0 +1,50 @@
+{
+  "utc": "2026-10-14T18:44:53.182564+00:00",
+  "candidate_head": "98051f7b4e09eeebce31c5eee64a5da47450626f",
+  "candidate_tree": "46fac840c24329b4fa1b8528e6bcc43d1f04d2ca",
+  "base": "8a6aa68eeec234d8cfde7b092b70c30a5c13411c",
+  "previous_core_head": "e4fb5e33434e9c7d76c0846d9ac995bbf11349f9",
+  "previous_core_tree": "00417fa4ba74a5ba65539eb0fd2e842bb03397e0",
+  "changes_from_previous_core_head": [
+    "web/app/src/lib/session.svelte.ts",
+    "web/app/src/lib/session.test.ts",
+    "web/app/src/lib/storyStock.test.ts",
+    "web/app/src/lib/storyStock.ts"
+  ],
+  "combined_files": [
+    "crates/kerotakis-core/src/bench.rs",
+    "crates/kerotakis-core/src/ops.rs",
+    "crates/kerotakis-core/src/script.rs",
+    "crates/kerotakis-core/src/species.rs",
+    "crates/kerotakis-core/src/stock.rs",
+    "crates/kerotakis-core/src/vessel.rs",
+    "crates/kerotakis-core/tests/water_input_alias.rs",
+    "web/app/src/lib/session.svelte.ts",
+    "web/app/src/lib/session.test.ts",
+    "web/app/src/lib/storyStock.test.ts",
+    "web/app/src/lib/storyStock.ts"
+  ],
+  "app_files_sha256": {
+    "web/app/src/lib/session.svelte.ts": "f4df494c25a1cf336c678b683c2717a8609f9a5b583ef198b33131cc706322b4",
+    "web/app/src/lib/session.test.ts": "0badf422b8e4d3d2d7e9c0b33b4eab162df62ab3334398bc1b8e0e143e9415fc",
+    "web/app/src/lib/storyStock.test.ts": "7b7e84d28c633324c231ed3a4e6fe277a1a75c31f5f2ed10ade4b247af4af00f",
+    "web/app/src/lib/storyStock.ts": "fdf88ecb21d8e80bc2e9397c2703e12f9b9982cce9845e2f5d65cc3aa122fc58"
+  },
+  "core_cli_and_wasm_source_unchanged_from_previous_candidate": true,
+  "app_tests_executed": false,
+  "expected_new_app_tests": 7,
+  "required_acceptance": [
+    "Actual all-app Vitest execution including session and storyStock regressions.",
+    "Actual app type checking and browser checks on candidate source.",
+    "Full native/workspace/CODEX/coverage CI on candidate source.",
+    "Complete own-source fleet on candidate source.",
+    "Review actual corrected CLI first outcomes at their frozen old-core binding, without relabeling the binary.",
+    "Fresh exact PR head/base/main/check/rules guard and postmerge tree equality."
+  ],
+  "preconditions": [
+    "Wait for previous-source own fleet 38598370252 to complete before updating PR787.",
+    "Preserve original CLI failures and original blind fifty/normalized forty unchanged."
+  ],
+  "candidate_integrated": false,
+  "empirical_calibration": false
+}

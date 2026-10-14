@@ -76,7 +76,11 @@ checks and limitations in the ordered agenda.
 ## Immediate acceptance lane
 
 Read the [staged follow-up receipt](../audits/fresh-syntax50-20261013/water-alias-story-followup.json)
-for source `98051f7b`, the four app files and seven new tests. Those tests are
+for source `98051f7b`, the four app files and seven new tests. The
+[candidate acceptance binding](../audits/fresh-syntax50-20261013/water-alias-app-acceptance-binding.json)
+records its exact tree, eleven-file combined scope, and confirms that core/CLI/WASM
+source is unchanged from the earlier candidate. This supports the earlier kernel
+evidence without claiming new app acceptance. Those tests are
 unexecuted. Independent source review caught a titration regression in the first
 staged predicate; the correction now uses the engine's `titrated.total_volume`
 and the fake emits the real event shape. Positive, zero-volume and unsuccessful
