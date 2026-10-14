@@ -1,10 +1,10 @@
 {
-  "utc": "2026-10-14T18:29:47.910316+00:00",
+  "utc": "2026-10-14T19:54:41.901472+00:00",
   "pr": 787,
-  "current_head": "e4fb5e33434e9c7d76c0846d9ac995bbf11349f9",
+  "current_head": "98051f7b4e09eeebce31c5eee64a5da47450626f",
   "followup_branch": "fix/canonical-water-story-input-20261014",
   "followup_head": "98051f7b4e09eeebce31c5eee64a5da47450626f",
-  "followup_applied_to_pr": false,
+  "followup_applied_to_pr": true,
   "source_backed_gaps": [
     "Raw ingredient text misses canonical shelf/catalog keys, bypassing Story access and dispense accounting.",
     "Successful responses containing only veto/exhaustion events still incremented Story usage.",
@@ -21,7 +21,7 @@
   "new_tests": 7,
   "new_tests_executed": false,
   "diff_check": "pass",
-  "transition": "Wait for current candidate CI and own fleet to finish; preserve their exact-source evidence. Refresh head/base/main, fast-forward the original PR branch to this descendant, then require fresh exact-source acceptance.",
+  "transition": "Applied by guarded normal fast-forward after old CI/fleet completed; fresh exact-source CI and own fleet queued.",
   "expected_combined_pr_files": 11,
   "candidate_integrated": false,
   "review": "Independent source review found a titration-accounting blocker; corrected event predicate and FakeHost to the real event shape, with positive-dose, zero-dose and refusal controls. Final changes require executed acceptance."

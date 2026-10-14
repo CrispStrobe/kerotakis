@@ -21,29 +21,24 @@ in the private handoff. Heavy local work and delegation require resource gates.
    and [native acceptance](../audits/fresh-syntax50-20261013/pr786-current-native-validation.json).
    Do not repeat this completed lane on unchanged source.
 2. **Canonical water alias — active.** [Draft PR787](https://github.com/CrispStrobe/kerotakis/pull/787)
-   is based on actual integrated main `8a6aa68e`; source `e4fb5e33` implements
-   the reviewed input boundaries and nine regression tests. Review the
-   [preparation receipt](../audits/fresh-syntax50-20261013/water-alias-preparation.json)
-   and exact-source CI `38598370658` / own fleet `38598370252`; preserve failures
-   before fixes. [All nine regressions passed on macOS](../audits/fresh-syntax50-20261013/water-alias-native-validation.json),
-   along with workspace tests, CODEX and coverage (zero unmet requirements,
-   runtime failures or drift). The [new CLI archive is verified](../audits/fresh-syntax50-20261013/water-alias-artifact-review.json).
-   The [full core CI passed](../audits/fresh-syntax50-20261013/water-alias-core-ci-validation.json);
-   its own fleet has 24 passes and eight queued jobs at this checkpoint.
-   The first two [mixed-spelling CLI controls](../audits/fresh-syntax50-20261013/water-alias-cli/README.md)
-   failed because their final command was invalid; preserve those first outcomes.
-   Their saved prefixes confirm canonical inventory/shared exhaustion. Two separately
-   frozen [corrected controls](../audits/fresh-syntax50-20261013/water-alias-cli-followup/README.md)
-   passed both cases with unchanged quantitative forecasts; archived stream hashes
-   and the worker report were verified, then reproduced by the saved-data reader.
-   The full result ZIP remains unarchived locally; selected member checks are scoped
-   in the [receipt](../audits/fresh-syntax50-20261013/water-alias-cli-followup-outcomes.json).
-   A [staged app follow-up](../audits/fresh-syntax50-20261013/water-alias-story-followup.json)
-   closes Story access/accounting bypasses and handles actual titration dose events;
-   seven new app tests remain unexecuted. Do not merge the known-incomplete core-only
-   candidate. Let its current fleet finish, refresh head/base/main, then fast-forward
-   PR787 to reviewed staged source `98051f7b` and require fresh exact-source CI,
-   including app tests. Complete these acceptances before guarded integration.
+   now contains the reviewed core and app follow-up at `98051f7b` on integrated
+   main `8a6aa68e`: seven core files and four app files. The [guarded application
+   receipt](../audits/fresh-syntax50-20261013/water-alias-app-followup-application.json)
+   records the normal fast-forward after the previous source's
+   [full CI](../audits/fresh-syntax50-20261013/water-alias-core-ci-validation.json)
+   and [all 33 own-fleet jobs](../audits/fresh-syntax50-20261013/water-alias-core-fleet-validation.json)
+   passed. Its nine native regressions, workspace tests, CODEX and coverage passed;
+   those receipts retain their original `e4fb5e33` source binding.
+   The first two [CLI controls](../audits/fresh-syntax50-20261013/water-alias-cli/README.md)
+   remain failed due to the invalid final command. Two separately frozen
+   [corrected controls passed](../audits/fresh-syntax50-20261013/water-alias-cli-followup-outcomes.json)
+   with unchanged quantitative forecasts and verified saved stream/report hashes.
+   The new candidate's core/CLI/WASM source is unchanged, but those CLI passes
+   do not establish app acceptance.
+   Fresh CI `38627469049` and own fleet `38627469041` are queued on `98051f7b`.
+   Require actual execution of seven new app tests, all-app Vitest, type/browser
+   checks and the complete candidate fleet before guarded integration. Preserve
+   any first new-source failure before fixing it. Do not duplicate the queued runs.
    Follow the [entry-point review and implementation task](water-alias-task-20261014.md).
    Accept `H2O` as an input alias for `water`, resolve at a
    shared boundary, and persist canonical identities. Inventory additions,

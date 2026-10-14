@@ -1,12 +1,19 @@
 # Canonical water input alias — implementation lane
 
-Active after thermal boundary PR786 integrated. Draft PR787 implements the
-reviewed design at `e4fb5e33` on main `8a6aa68e`. All nine macOS regressions,
-workspace tests, CODEX and coverage passed; full core CI is green. The corrected CLI pair passed; own-fleet
-and staged app acceptance remain pending.
-See the [native receipt](../audits/fresh-syntax50-20261013/water-alias-native-validation.json)
-and [verified CLI artifact](../audits/fresh-syntax50-20261013/water-alias-artifact-review.json).
-This specification does not claim completed integration acceptance.
+Active after thermal boundary PR786 integrated. Draft PR787 now contains the
+core and app follow-up at `98051f7b` on main `8a6aa68e`. The
+[application receipt](../audits/fresh-syntax50-20261013/water-alias-app-followup-application.json)
+records eleven files and new exact-source CI `38627469049` / own fleet
+`38627469041`, both queued. Seven new app tests remain unexecuted.
+
+The previous core candidate `e4fb5e33` passed all nine native regressions,
+workspace/CODEX/coverage checks, full CI and all 33 own-fleet jobs. Its corrected
+CLI pair also passed. Core/CLI/WASM source is unchanged in the app descendant;
+retain the previous receipts' source bindings. See the
+[native receipt](../audits/fresh-syntax50-20261013/water-alias-native-validation.json),
+[fleet completion](../audits/fresh-syntax50-20261013/water-alias-core-fleet-validation.json)
+and [CLI passes](../audits/fresh-syntax50-20261013/water-alias-cli-followup-outcomes.json).
+Current app acceptance and integration remain pending.
 Recheck these call sites against actual integrated main before editing.
 The audit branch's bench, vessel and operator implementations include unrelated
 changes. Use integrated main as the implementation base; do not transplant those
@@ -86,14 +93,16 @@ staged predicate; the correction now uses the engine's `titrated.total_volume`
 and the fake emits the real event shape. Positive, zero-volume and unsuccessful
 responses have separate controls.
 
-1. Preserve the current core-only CI receipt and let own fleet `38598370252`
-   finish. Do not cancel it or merge `e4fb5e33` with the known Story gap.
-2. Check PR787 head, base and current main against their saved bindings. If
-   unchanged, fast-forward its original branch to the reviewed staged descendant.
-   Keep the combined scope to seven core files and four app files.
-3. Require fresh candidate CI, actual app regression execution, and full own
-   fleet acceptance. Confirm source/tree associations; old core-only passes do
-   not imply new app tests passed.
+1. The previous-source CI and own fleet completed successfully, and PR787 was
+   fast-forwarded to `98051f7b` after exact head/base/main guards. Keep those
+   receipts and the [application record](../audits/fresh-syntax50-20261013/water-alias-app-followup-application.json);
+   do not repeat that completed transition.
+2. Monitor new CI `38627469049` and own fleet `38627469041`. Preserve actual
+   failing job logs and first outcomes before changing source or tests. Do not
+   cancel or duplicate the active candidate runs.
+3. Require fresh candidate CI, actual execution of all seven new app regressions,
+   app type/browser checks, and complete own-fleet acceptance. Confirm actual
+   source/tree associations; old core-only passes do not imply new app tests passed.
 4. Review the [two corrected CLI passes](../audits/fresh-syntax50-20261013/water-alias-cli-followup-outcomes.json)
    and retain their raw stream/report bindings. These controls are complete;
    do not repeat them on unchanged source. Their source remains `e4fb5e33`;

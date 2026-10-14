@@ -59,20 +59,21 @@ is byte-identical to the earlier verified CLI; its captured lock digest is
 recorded separately. [All 25 CI jobs now passed](pr786-current-ci-completion.json),
 including Ubuntu and browser validation. All 33 own-fleet jobs also passed; the repair is merged.
 
-[Draft PR787](https://github.com/CrispStrobe/kerotakis/pull/787) now implements
-the canonical water alias on that integrated main. [Its preparation receipt](water-alias-preparation.json)
-binds seven changed files and nine regression tests to source `e4fb5e33`;
-[Core CI `38598370658` passed](water-alias-core-ci-validation.json); own fleet
-`38598370252` has 24 passes and eight queued jobs at this checkpoint. A separately
-[staged app follow-up](water-alias-story-followup.json) closes Story gating and
-usage gaps, including actual positive-volume titration events. Its seven new
-app tests are unexecuted. The first [two CLI controls failed](water-alias-cli-first-outcomes.json)
-on an invalid final command; saved prefixes support canonical shared stock
-accounting. Two [corrected controls](water-alias-cli-followup/README.md) passed
-with unchanged quantitative forecasts; the saved-data reader reproduced the
-archived report after selected CRC/stream-hash/report-hash verification. PR787 is not integrated; the
-[ordered agenda](../../docs/improvement-agenda-20261014.md) specifies acceptance
-and the guarded branch transition. Original forecasts and first outcomes remain unchanged.
+[Draft PR787](https://github.com/CrispStrobe/kerotakis/pull/787) now contains
+the core and app follow-up at `98051f7b` on integrated main `8a6aa68e`.
+[The application receipt](water-alias-app-followup-application.json) records its
+eleven-file scope and fresh CI `38627469049` / own fleet `38627469041`, queued.
+Seven new app tests remain unexecuted; PR787 is not integrated.
+
+Previous core source `e4fb5e33` passed [full CI](water-alias-core-ci-validation.json)
+and [all 33 own-fleet jobs](water-alias-core-fleet-validation.json), including
+nine native alias regressions. The first [two CLI controls failed](water-alias-cli-first-outcomes.json)
+on an invalid final command; two separately frozen [corrected controls passed](water-alias-cli-followup-outcomes.json)
+with unchanged quantitative forecasts and verified saved stream/report hashes.
+Those source bindings remain intact. Core/CLI/WASM is unchanged in the new app
+candidate; the old receipts do not establish app acceptance. The
+[ordered agenda](../../docs/improvement-agenda-20261014.md) specifies the remaining
+validation and guarded integration. Original forecasts and first outcomes remain unchanged.
 
 [The original seven-control replay](pr786-replay-first-outcomes.json) at
 `10c963e1` produced five passes and two failed intact-seal predictions. Both
