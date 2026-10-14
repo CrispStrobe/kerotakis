@@ -476,6 +476,21 @@ impl Equilibrator for ThermalEquilibrator {
         let Some(charge) = charge(vessel) else {
             return Ok(Vec::new());
         };
+        // This route admits a room-air reservoir and vents its gaseous
+        // products. A finite or swept boundary cannot borrow that reservoir:
+        // doing so discards owned oxygen/nitrogen and even sealed products.
+        // Leave the charge untouched until a boundary-specific energy and
+        // matter balance is supported.
+        if !matches!(vessel.headspace, kerotakis_core::vessel::Headspace::Open) {
+            return Ok(vec![Event::not_modeled(
+                vessel.id,
+                kerotakis_core::ops::NotModelledCause::BoundaryMismatch,
+                Phrase::bare(
+                    "not-modeled.cea-open-atmosphere-required",
+                    "the open-air thermal equilibrium route does not model this sealed, pressure-controlled or swept boundary; its inventory is retained and no thermal chemistry has been committed",
+                ),
+            )]);
+        }
         // BRD-041: equilibrium would burn methane and air the moment they
         // were warm. A real mixture below its autoignition temperature sits
         // there until a spark, and `ignite` IS the spark — it takes the
