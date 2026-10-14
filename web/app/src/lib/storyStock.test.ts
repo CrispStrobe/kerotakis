@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { persistStockUsed, restoreStockUsed, stockCapacity, stockRemaining, suppliedSpecies, suppliedSpeciesFromOperator } from "./storyStock";
+import { isStoryDispenseEvent, persistStockUsed, restoreStockUsed, stockCapacity, stockRemaining, suppliedSpecies, suppliedSpeciesFromOperator } from "./storyStock";
 
 describe("Story stockroom", () => {
   it("allocates smaller supervised stocks for higher-risk substances", () => {
@@ -24,6 +24,18 @@ describe("Story stockroom", () => {
     expect(suppliedSpeciesFromOperator({ op: "titrate", titrant: "NaOH" })).toBe("NaOH");
     for (const operator of [null, [], "add v1 H2O 1mol", { op: "measure" }, { op: "add", species: 1 }]) {
       expect(suppliedSpeciesFromOperator(operator)).toBeNull();
+    }
+  });
+
+  it("recognises actual dispenses independently of their visualization", () => {
+    expect(isStoryDispenseEvent({ event: "added", moles: 0.25 })).toBe(true);
+    expect(isStoryDispenseEvent({ event: "material_added", total_amount: 1 })).toBe(true);
+    expect(isStoryDispenseEvent({ event: "titrated", total_volume: 0.003 })).toBe(true);
+    for (const total_volume of [0, -1, NaN, Infinity, undefined, "0.003"]) {
+      expect(isStoryDispenseEvent({ event: "titrated", total_volume })).toBe(false);
+    }
+    for (const event of ["safety_veto", "stock_exhausted", "measured"]) {
+      expect(isStoryDispenseEvent({ event, total_volume: 0.003 })).toBe(false);
     }
   });
 

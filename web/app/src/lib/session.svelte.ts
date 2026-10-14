@@ -44,7 +44,7 @@ import { missionTitle } from "./storyProgress";
 import { caseAwardedTools, contaminatedSampleComplete } from "./storyChapter";
 import { access as catalogAccess, catalogMap, type CabinetStatus, type CatalogMap } from "./catalogProgress";
 import type { GrammarRow } from "./completions";
-import { persistStockUsed, restoreStockUsed, stockRemaining, suppliedSpecies, suppliedSpeciesFromOperator, STORY_STOCK_KEY } from "./storyStock";
+import { isStoryDispenseEvent, persistStockUsed, restoreStockUsed, stockRemaining, suppliedSpecies, suppliedSpeciesFromOperator, STORY_STOCK_KEY } from "./storyStock";
 import type { LabMode } from "./worldState";
 import { parseElementCoverage, type ElementCoverageReport } from "./elements";
 import {
@@ -1303,10 +1303,7 @@ export class Session {
       this.commandLog.push(canonical);
       this.position = this.commandLog.length;
       const dispensed = result.steps.some((step) =>
-        (step.events as Array<Record<string, unknown>>).some((event) =>
-          event.event === "added" || event.event === "material_added" ||
-          (event.event === "titrated" && typeof event.total_volume === "number" &&
-            Number.isFinite(event.total_volume) && event.total_volume > 0)));
+        (step.events as Array<Record<string, unknown>>).some(isStoryDispenseEvent));
       if (this.mode === "story" && stockItem && !missionSupply && dispensed) {
         this.storyStockUsed = {
           ...this.storyStockUsed,
