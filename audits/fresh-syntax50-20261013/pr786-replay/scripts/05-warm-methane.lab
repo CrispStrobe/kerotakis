@@ -1,0 +1,5 @@
+seal v1 1L
+add v1 methane 0.01mol
+add v1 O2 0.03mol
+heat v1 500J
+inspect v1

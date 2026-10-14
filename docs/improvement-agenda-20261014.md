@@ -13,7 +13,8 @@ in the private handoff. Heavy local work and delegation require resource gates.
    Original new boundary controls passed, while native CI failed on autoignition
    and a hydrogen dose comparison; retain these failures. Review revised CI
    `38528139789` and own CLI workflow `38528139788` at the exact new source.
-   Capture failures before changing code. Verify source-bound native controls,
+   Capture failures before changing code. [Seven source-informed CLI controls](../audits/fresh-syntax50-20261013/pr786-replay/README.md)
+   are frozen; the first two retain the exact original failed scripts. Verify source-bound native controls,
    required checks and the own CLI artifact, then replay sealed carbon/magnesium
    and benign/open/kinetic controls separately from original outcomes. Require
    retained inventory and explicit unsupported boundaries, with no invented

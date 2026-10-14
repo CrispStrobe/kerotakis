@@ -1,0 +1,7 @@
+# Fresh independent syntax-only experiment 23
+# Magnesium combustion
+add v1 Mg 0.002mol
+add v1 O2 0.002mol
+ignite v1
+inspect v1
+look v1

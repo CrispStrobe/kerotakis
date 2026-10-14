@@ -1,0 +1,4 @@
+sweep v1 1bar
+add v1 Mg 0.002mol
+ignite v1
+inspect v1

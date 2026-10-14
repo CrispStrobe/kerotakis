@@ -1,0 +1,5 @@
+regulate v1 1bar 500mL
+add v1 Mg 0.002mol
+add v1 O2 0.002mol
+ignite v1
+inspect v1

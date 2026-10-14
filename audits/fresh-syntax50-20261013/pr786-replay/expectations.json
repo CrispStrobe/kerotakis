@@ -1,0 +1,40 @@
+{
+  "01-sealed-magnesium.lab": {
+    "boundary": "sealed",
+    "fuel": "Mg",
+    "fuel_moles": 0.002,
+    "expectation": "Ignition may melt Mg; total Mg identity and retained gases are conserved. A typed boundary-mismatch refusal replaces open-air CEA chemistry; no thermal_equilibrium or gaseous exhaust is emitted by ignition. Final pressure stays positive."
+  },
+  "02-sealed-carbon.lab": {
+    "boundary": "sealed",
+    "fuel": "C",
+    "fuel_moles": 0.001,
+    "expectation": "Carbon and retained gases remain; ignition reports boundary-mismatch, with no thermal_equilibrium or CO2 exhaust. Final pressure stays positive. The original limewater outcome is preserved as an unsupported chemistry question, not turned into a physical pass."
+  },
+  "03-open-magnesium.lab": {
+    "boundary": "open",
+    "expectation": "Supported open-air ignition yields MgO and a thermal_equilibrium event. No open-atmosphere-required boundary refusal occurs."
+  },
+  "04-inert-gas-heating.lab": {
+    "boundary": "sealed",
+    "expectation": "Retained N2/O2/CO2 inventories stay fixed through heating; pressure ratio agrees with absolute-temperature ratio within 1e-6 relative. No thermal equilibrium or boundary refusal is needed for this inert gas-law control."
+  },
+  "05-warm-methane.lab": {
+    "boundary": "sealed",
+    "fuel": "methane",
+    "fuel_moles": 0.01,
+    "expectation": "After the bounded 500 J input, the resolved temperature must be at least 500 K and below methane autoignition (810.15 K). The below_autoignition diagnostic names methane, and methane/oxygen/nitrogen remain. No committed thermal chemistry. If this heat input does not reach that interval, record an inconclusive control design; preserve it before a separately frozen correction."
+  },
+  "06-pressure-controlled-magnesium.lab": {
+    "boundary": "pressure_controlled",
+    "fuel": "Mg",
+    "fuel_moles": 0.002,
+    "expectation": "The finite pressure-controlled charge retains Mg and owned gases; ignition reports boundary-mismatch without thermal equilibrium or open-air exhaust. Pressure is 1 bar; permitted boundary-volume adjustment is distinct from chemical inventory loss."
+  },
+  "07-swept-magnesium.lab": {
+    "boundary": "swept",
+    "fuel": "Mg",
+    "fuel_moles": 0.002,
+    "expectation": "Mg remains unoxidized; the open-air CEA route reports boundary-mismatch and does not borrow room oxygen. No thermal_equilibrium or MgO production. Carrier inventory is external, so no finite retained-gas amount is invented."
+  }
+}

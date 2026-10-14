@@ -1,0 +1,8 @@
+# Fresh independent syntax-only experiment 47
+# Carbon combustion identity
+seal v1 1L
+add v1 C 0.001mol
+add v1 O2 0.01mol
+ignite v1
+inspect v1
+test v1 limewater

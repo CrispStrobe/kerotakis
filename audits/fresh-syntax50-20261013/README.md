@@ -46,7 +46,8 @@ diagnostics now precede the refusal; open combustion and sealed refusal have
 separate controls; the dose exception requires actual typed refusals in both
 runs. English/German diagnostic, original inventory controls and inert-gas
 routing remain. Revised CI and own CLI workflows are queued. Native acceptance,
-source-bound replay and integration remain pending. Validated closed U/V or
+source-bound replay and integration remain pending. [Seven CLI acceptance controls](pr786-replay/README.md)
+are now frozen separately; 0/7 executed while the own CLI build is pending. Validated closed U/V or
 finite H/P chemistry remains a separate extension; refusing the invalid route
 does not implement that chemistry. Follow the [new ordered improvement agenda](../../docs/improvement-agenda-20261014.md)
 before resuming the older queued lanes.

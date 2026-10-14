@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "frozen_utc": "2026-10-14T07:39:26.269413+00:00",
+  "scope": "Seven source-informed CLI acceptance controls, not a new blind batch or independent scientific calibration.",
+  "source_head": "10c963e17401b65c947f1f4b89a8d4e35fef5e71",
+  "source_tree": "789aff13dcc51c089a97472f2347f39a012103ee",
+  "base": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+  "own_cli_workflow_run": 38528139788,
+  "own_cli_build_job": 115733291584,
+  "ordinary_ci_run": 38528139789,
+  "files": {
+    "expectations.json": "93af13ad2e5a04f0bf7c4020ce594e3ffe1149ba7bff93f8eabdb64943d52b57",
+    "scripts/01-sealed-magnesium.lab": "b2006b5e13928b23f20d93a31e72d4389092638ba9dcad25e9416c6bf8bf3c24",
+    "scripts/02-sealed-carbon.lab": "219f983f44fb68def803f7cad1e554e182543ab6cfd938e07e7fe08924aed558",
+    "scripts/03-open-magnesium.lab": "1a62bcbc4a8cb41b67d668582f364718f8805b7077f345334ddb4539affd0ff5",
+    "scripts/04-inert-gas-heating.lab": "7fae3a8c382206a2f6a7ada4482ca141af9d457659b00fbfbefe683170fbb5ca",
+    "scripts/05-warm-methane.lab": "2e843adb6156a203a81bdcd5e9e1fb498bd6fdb1ababd14c986a5100264b6ab6",
+    "scripts/06-pressure-controlled-magnesium.lab": "84d7412e78164a6986a12c2dd283c5a43c38fe65eb2a20876dc63125cae567ad",
+    "scripts/07-swept-magnesium.lab": "e1c9b5447769d934776f55e214702e3be0c5117295fec986568c74641cc46fc5"
+  },
+  "execution_binding_state": "awaiting_own_source_artifact_verification",
+  "executed_cases": 0,
+  "requirements": [
+    "Verify actual own build job checkout, tested commit parents/tree, successful steps and artifact API/upload identity.",
+    "Freeze actual artifact ZIP digest, binary digest, captured Cargo.lock digest and receipt association before executing any control.",
+    "Execute each original script once in a new result directory; preserve stdout, stderr, exit, timeout and resource refusal.",
+    "Verify typed boundary refusal and inventory preservation from ignition rows; distinguish permitted heating/phase changes from chemical inventory changes.",
+    "Preserve first control failures/inconclusive conditions before any versioned correction.",
+    "Do not borrow faaf4baf or original main b290 binaries for this source."
+  ],
+  "resource_thresholds": {
+    "load1_max": 3.5,
+    "memory_available_mib_min": 3200,
+    "fast_free_mib_min": 4224,
+    "storage_free_mib_min": 8192
+  }
+}
