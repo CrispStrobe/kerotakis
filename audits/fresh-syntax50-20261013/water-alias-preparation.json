@@ -24,6 +24,8 @@
   "original_normalized40_changed": false,
   "stock_restore_collision_policy": "Explicitly reject both H2O and water keys; preserve authoritative quantities and compensated components for single aliases.",
   "canonical_hot_path_allocations_added": false,
-  "independent_review": "Pending when resource gates permit.",
-  "candidate_integrated": false
+  "independent_review": "Read-only review found no blocking correctness, compile-shape or scope issue; no builds or CLI execution by reviewer.",
+  "candidate_integrated": false,
+  "nonblocking_test_coverage_followup": "A separately frozen snapshot with distinct water and H2O contents portions would directly test mixed-inventory quantity preservation. Current restore test covers one contents portion and mixed provenance lots. Preserve the pending candidate and original nine tests.",
+  "review_utc": "2026-10-14T16:33:10.049787+00:00"
 }
