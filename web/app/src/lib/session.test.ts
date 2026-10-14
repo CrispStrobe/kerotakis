@@ -80,9 +80,13 @@ class FakeHost implements EngineHost {
   }
   async parse(line: string) {
     this.calls.push(`parse:${line}`);
-    return line.startsWith("boom")
-      ? { ok: false, error: "no such verb" }
-      : { ok: true };
+    if (line.startsWith("boom")) return { ok: false, error: "no such verb" };
+    const words = line.trim().split(/\s+/);
+    // Match the engine's typed parse contract; aliases are resolved in core.
+    const key = words[2] === "H2O" ? "water" : words[2];
+    const operator = words[0] === "add" ? { op: "add", species: key }
+      : words[0] === "titrate" ? { op: "titrate", titrant: key } : null;
+    return { ok: true, operator };
   }
   async runScript(script: string): Promise<ScriptResult> {
     this.calls.push(`run:${script}`);
@@ -276,6 +280,49 @@ describe("Session", () => {
 
     const restored = new Session(new FakeHost(), storage, "story");
     expect(restored.storyStockUsed).toEqual({ NaCl: 1 });
+  });
+
+  it("charges aliases to the canonical Story bottle and refuses either spelling when empty", async () => {
+    const host = new FakeHost();
+    host.species = async () => [{ key: "water", name: "water", formula: "H2O", phase: "liquid" }];
+    const storage = new FakeStorage();
+    const s = new Session(host, storage, "story");
+    await s.connect();
+    for (let i = 0; i < 10; i += 1) {
+      expect(await s.submit(`add v1 ${i % 2 ? "water" : "H2O"} 1mol`)).toBe(true);
+    }
+    expect(s.storyStockUsed).toEqual({ water: 10 });
+    for (const key of ["H2O", "water"]) {
+      const runs = host.calls.filter((call) => call.startsWith("run:")).length;
+      expect(await s.submit(`add v1 ${key} 1mol`)).toBe(false);
+      expect(host.calls.filter((call) => call.startsWith("run:"))).toHaveLength(runs);
+    }
+    const restored = new Session(new FakeHost(), storage, "story");
+    expect(restored.storyStockUsed).toEqual({ water: 10 });
+    // A mission spelling the same ingredient as an alias loans that one bottle.
+    s.startLesson("water-kit", "add v1 H2O 1mol\nmeasure v1 balance");
+    expect(await s.submit("add v1 water 1mol")).toBe(true);
+    expect(s.lesson?.kit).toContain("water");
+    expect(s.storyStockUsed).toEqual({ water: 10 });
+  });
+
+  it("applies Story access gates before executing an aliased ingredient", async () => {
+    const host = new FakeHost();
+    host.species = async () => [{ key: "water", name: "water", formula: "H2O", phase: "liquid" }];
+    const catalog = host.catalog.bind(host);
+    host.catalog = async (request) => {
+      const result = await catalog(request);
+      return { ...result, items: result.items.map((item) => item.id === "water"
+        ? { ...item, available: false, reason: { reason: "locked" as const, minimum_completed: 3 } } : item) };
+    };
+    const s = new Session(host, new FakeStorage(), "story");
+    await s.connect();
+    expect(await s.submit("add v1 H2O 1mol")).toBe(false);
+    expect(host.calls).not.toContain("run:add v1 H2O 1mol");
+    expect(s.storyStockUsed).toEqual({});
+    s.startLesson("canonical-kit", "add v1 water 1mol\nmeasure v1 balance");
+    expect(await s.submit("add v1 H2O 1mol")).toBe(true);
+    expect(s.storyStockUsed).toEqual({});
   });
 
   it("does not consume Story stock when the engine rejects a dispense", async () => {

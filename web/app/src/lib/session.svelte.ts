@@ -44,7 +44,7 @@ import { missionTitle } from "./storyProgress";
 import { caseAwardedTools, contaminatedSampleComplete } from "./storyChapter";
 import { access as catalogAccess, catalogMap, type CabinetStatus, type CatalogMap } from "./catalogProgress";
 import type { GrammarRow } from "./completions";
-import { persistStockUsed, restoreStockUsed, stockRemaining, suppliedSpecies, STORY_STOCK_KEY } from "./storyStock";
+import { persistStockUsed, restoreStockUsed, stockRemaining, suppliedSpecies, suppliedSpeciesFromOperator, STORY_STOCK_KEY } from "./storyStock";
 import type { LabMode } from "./worldState";
 import { parseElementCoverage, type ElementCoverageReport } from "./elements";
 import {
@@ -1081,7 +1081,24 @@ export class Session {
       if (trimmed.startsWith("register ")) {
         return await this.applyRegister(trimmed.slice("register ".length).trim());
       }
-      const supplied = suppliedSpecies(trimmed);
+      // Availability and stock must use the same identities the engine applies.
+      // Raw spellings can be aliases or localized ingredient/verb names.
+      const parsed = this.mode === "story" ? await this.host.parse(trimmed) : null;
+      const supplied = parsed?.ok ? suppliedSpeciesFromOperator(parsed.operator) : suppliedSpecies(trimmed);
+      const lesson = this.lesson;
+      if (this.mode === "story" && supplied && lesson && !lesson.kit.includes(supplied)) {
+        for (const key of lesson.kit) {
+          // Canonical shelf keys need no lookup. Resolve unknown kit spellings
+          // through the non-mutating engine parser, without duplicating aliases.
+          if (this.shelf.some((item) => item.key === key)) continue;
+          const candidate = await this.host.parse(`add v1 ${key} 1mol`);
+          if (this.lesson !== lesson) break;
+          if (candidate.ok && suppliedSpeciesFromOperator(candidate.operator) === supplied) {
+            lesson.kit = [...new Set(lesson.kit.map((item) => item === key ? supplied : item))];
+            break;
+          }
+        }
+      }
       const stockItem = supplied ? this.shelf.find((item) => item.key === supplied) : undefined;
       const missionSupply = Boolean(supplied && this.lesson?.kit.includes(supplied));
       if (this.mode === "story" && stockItem) {
