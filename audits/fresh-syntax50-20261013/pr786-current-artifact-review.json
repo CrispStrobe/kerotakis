@@ -1,0 +1,31 @@
+{
+  "utc": "2026-10-14T13:08:56.678860+00:00",
+  "review_kind": "own_artifact_byte_and_source_association",
+  "all_checks_pass": true,
+  "candidate": {
+    "head": "fdd951a7db70ab3a5da0470a9c82981b6cb61f34",
+    "tree": "839924b4ce1dba71feb9347c7ef09063d54a3e53",
+    "binary_sha256": "ff05d78a6bc1aa23b4122564c2361a698cc5d02d335a866eefe5ac6300bbcfb5",
+    "lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+  },
+  "base": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+  "tested_checkout": "0f7b710214f2d68349c7570ceafa3d83b188353b",
+  "tested_parents": [
+    "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+    "fdd951a7db70ab3a5da0470a9c82981b6cb61f34"
+  ],
+  "run": 38552626557,
+  "run_attempt": 1,
+  "build_job": 115813994991,
+  "artifact_id": 11887234215,
+  "artifact_zip_sha256": "ef34b65bc6f27daa3d53d398c68fff64c897029a96efef2e4066c5e9a4431a93",
+  "zip_bytes": 6489401,
+  "full_archive_sha_and_member_crc_verified": true,
+  "actual_build_checkout_and_source_workflow_verified": true,
+  "application_executed_locally": false,
+  "candidate_integrated": false,
+  "limitations": [
+    "Top-level module revisions verified; recursive module file bytes and full compiler/native flags are not independently traversed.",
+    "Artifact acceptance alone does not complete pending CI or fleet acceptance."
+  ]
+}

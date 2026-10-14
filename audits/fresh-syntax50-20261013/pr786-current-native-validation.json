@@ -1,0 +1,43 @@
+{
+  "utc": "2026-10-14T13:10:22.622350+00:00",
+  "source_head": "fdd951a7db70ab3a5da0470a9c82981b6cb61f34",
+  "source_tree": "839924b4ce1dba71feb9347c7ef09063d54a3e53",
+  "tested_checkout": "0f7b710214f2d68349c7570ceafa3d83b188353b",
+  "tested_parents": [
+    "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+    "fdd951a7db70ab3a5da0470a9c82981b6cb61f34"
+  ],
+  "ci_run": 38552626507,
+  "native_job": 115813997053,
+  "platform": "macos-latest",
+  "job_conclusion": "success",
+  "all_steps_success": true,
+  "actual_checkout_verified": true,
+  "actual_job_log_sha256": "406992482e12cabe083448bfd7226e591bdf386f2537f5d62d4a5e54cd16f82e",
+  "named_tests_confirmed_pass": [
+    "sealed_combustion_scripts_retain_inventory_or_account_for_a_pressure_burst",
+    "unsupported_boundaries_keep_the_entire_charge_and_report_the_gap",
+    "inert_sealed_gas_still_stands_down_for_pressure_settlement",
+    "open_magnesium_still_uses_the_supported_thermal_route",
+    "above_autoignition_a_sealed_mixture_keeps_its_inventory_and_names_the_gap",
+    "above_autoignition_an_open_mixture_burns",
+    "warm_methane_and_oxygen_do_not_burn_without_a_spark",
+    "hydrogen_is_gated_too_and_without_oxygen_nothing_is_said"
+  ],
+  "cli_integration_variants": 4,
+  "coverage": {
+    "prompts": 500,
+    "computed": 321,
+    "curated": 64,
+    "qualitative": 54,
+    "boundary": 60,
+    "missing": 1,
+    "unmet_requirements": 0,
+    "solver_runtime_failures": 0,
+    "baseline_drift": 0
+  },
+  "independent_acceptance_review": "No additional bespoke replay required after pending native, browser and fleet checks pass; source-bound tests cover repaired path and existing benign/open/kinetic behavior.",
+  "all_required_checks_pass": false,
+  "candidate_integrated": false,
+  "pending": "Ubuntu native, browser and remaining own-fleet jobs; recheck actual latest state before merge."
+}
