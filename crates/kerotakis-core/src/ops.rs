@@ -154,7 +154,14 @@ pub enum Operator {
     /// outcome depends on has to be in the log, or the replay is not one.
     /// A key that is never stocked stays an unlimited supply, which is the
     /// sandbox every script written before this assumed.
-    StockShelf { key: String, amount: f64 },
+    StockShelf {
+        #[serde(
+            serialize_with = "crate::species::serialize_input_key",
+            deserialize_with = "crate::species::deserialize_input_key"
+        )]
+        key: String,
+        amount: f64,
+    },
     /// Put energy into a vessel (burner, heating mantle). Negative energy is
     /// expressed with `Cool`.
     ///
@@ -424,6 +431,27 @@ pub enum Operator {
         steps: u32,
         courant: f64,
     },
+}
+
+impl Operator {
+    /// Direct Rust callers can construct public tuple IDs or string shelf keys.
+    /// Normalize before dispatch, safety screening and append-only logging.
+    pub(crate) fn canonicalize_inputs(&mut self) {
+        match self {
+            Self::Add { species, .. } | Self::Grind { species, .. } => {
+                species.canonicalize();
+            }
+            Self::Extract { solvent, .. } => solvent.canonicalize(),
+            Self::Titrate { titrant, .. } => titrant.canonicalize(),
+            Self::StockShelf { key, .. } => {
+                let canonical = crate::species::canonical_input_key(key);
+                if canonical != key.as_str() {
+                    *key = canonical.to_string();
+                }
+            }
+            _ => {}
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]

@@ -663,6 +663,8 @@ impl Bench {
         solver: &mut dyn Equilibrator,
         screen: &dyn SafetyScreen,
     ) -> Result<Vec<Event>, BenchError> {
+        let mut op = op;
+        op.canonicalize_inputs();
         // Protect physical state and stock while keeping the append-only
         // journal cheap to restore. Solver-private state is outside this scope.
         let checkpoint = (
