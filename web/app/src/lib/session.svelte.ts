@@ -1094,7 +1094,7 @@ export class Session {
           // Canonical shelf keys need no lookup. Resolve unknown kit spellings
           // through the non-mutating engine parser, without duplicating aliases.
           if (this.shelf.some((item) => item.key === key)) continue;
-          const candidate = await this.host.parse(`add v1 ${key} 1mol`);
+          const candidate = await this.host.parse(`add v1 ${key} 1g`);
           if (this.lesson !== lesson) break;
           if (candidate.ok && suppliedSpeciesFromOperator(candidate.operator) === supplied) {
             lesson.kit = [...new Set(lesson.kit.map((item) => item === key ? supplied : item))];
