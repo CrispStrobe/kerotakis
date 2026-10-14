@@ -32,43 +32,35 @@ are frozen separately, retaining the physical forecasts and changing only the
 `add` ingredient token. These are source-informed follow-ups, not replacements
 for the original blind outcomes or forty newly invented experiments.
 
-The two physical failures share a serious thermal boundary defect: sealed carbon
-combustion drops all gases, ends with zero pressure and gives a negative CO2 test;
-sealed magnesium combustion also loses retained oxygen and nitrogen. The open-air
-CEA route adds reservoir air and vents products at a finite boundary. [Draft PR786](https://github.com/CrispStrobe/kerotakis/pull/786), current source
-`10c963e1`, preserves inventory and reports `boundary-mismatch` for sealed,
-pressure-controlled and swept charges that would enter this open-air route.
-The original new boundary tests passed on both native hosts, but first CI failed
-on three autoignition controls and the original hydrogen dose comparison.
-[The compatibility correction](pr786-compatibility-correction.json) preserves
-those first failures and explains the revised five-file scope. Below-autoignition
-diagnostics now precede the refusal; open combustion and sealed refusal have
-separate controls; the dose exception requires actual typed refusals in both
-runs. English/German diagnostic, original inventory controls and inert-gas
-routing remain. Revised CI and own CLI workflows are queued. Native acceptance,
-source-bound replay and integration remain pending. [Seven CLI acceptance controls](pr786-replay/README.md)
-are now frozen separately; 0/7 executed while the own CLI build is pending. Validated closed U/V or
-finite H/P chemistry remains a separate extension; refusing the invalid route
-does not implement that chemistry. Mac workspace tests and codex checks subsequently passed, but coverage found
-exactly two stale finite-carbon support records. [The follow-up](pr786-coverage-correction-preparation.json)
-preserves their original computed claims and records the scoped qualitative
-support contract until closed combustion is validated. It also adds CLI
-regressions using the original failed scripts unchanged. Follow-up source
-`fdd951a7` is staged separately; current executions finish before it is applied
-to PR786.
+The two original physical failures share a serious thermal boundary defect:
+sealed carbon and magnesium enter an open-air CEA route and silently lose owned
+gases. [Draft PR786](https://github.com/CrispStrobe/kerotakis/pull/786), current
+source `fdd951a7` on main `30fd09eb`, refuses unsupported thermal chemistry while
+preserving the charged inventory. Mechanical pressure rupture remains explicit.
 
-The own release build has completed. [Hosted replay `38536343562`](pr786-hosted-replay-dispatch.json)
-will verify actual artifact `11878769254`, checkout/tree/parent and captured byte
-identity, then run the frozen seven under fresh worker resource gates. Only that
-replay job is selected; all 24 ordinary jobs are skipped. It does not rebuild
-the app or replace the ongoing native/fleet checks. The first replay executed all seven: five passed and two failed their frozen
-intact-seal assumptions. [The saved diagnosis](pr786-replay-first-outcomes.json)
-confirms reported bursts at 440.15/507.59 kPa above the modeled 405.3 kPa rating,
-with danger warnings and exact gas vent budgets. No original result was rewritten.
-[Two low-pressure follow-ups](pr786-low-pressure/README.md) are frozen separately
-and [dispatched](pr786-low-pressure-dispatch.json); the five passing controls are
-retained without rerunning them. Follow-up regression source is now `fdd951a7`
-and distinguishes accounted rupture from silent loss. Replay closure remains pending.
+First CI failed on autoignition controls and a hydrogen dose comparison;
+[the compatibility correction](pr786-compatibility-correction.json) preserves
+those failures and the initial five-file repair. Native workspace tests and
+CODEX checks then passed, but coverage found exactly two stale finite-carbon
+support claims. [The scoped follow-up](pr786-coverage-correction-preparation.json)
+preserves those original computed claims, qualifies current support and adds four
+CLI controls. Original questions and scripts remain unchanged. The previous own
+fleet completed successfully with all 33 jobs. [The descendant follow-up is now
+applied](pr786-followup-application.json), bringing the scope to ten files; fresh
+CI `38552626507` and own fleet `38552626557` are pending. Native acceptance and
+integration remain incomplete.
+
+[The original seven-control replay](pr786-replay-first-outcomes.json) at
+`10c963e1` produced five passes and two failed intact-seal predictions. Both
+original beakers reported bursts at 440.15/507.59 kPa above the modeled 405.3 kPa
+rating, with danger warnings and fully accounted vented gases. Those original
+forecasts and failures remain unchanged. [The two separate low-pressure controls](pr786-low-pressure-outcomes.json)
+passed at that same source: sealed fuel and gas inventories remain intact through
+later observations, with explicit thermal refusals. The complete result archive
+and associated stream/report/receipt/binary/lock digests were verified; saved
+reanalysis reproduced the report exactly. No earlier-source result is relabeled
+as current-source acceptance. Validated closed U/V or finite H/P chemistry remains
+a separate extension; refusing the invalid route does not implement it.
 
 Follow the [new ordered improvement agenda](../../docs/improvement-agenda-20261014.md)
 before resuming the older queued lanes.
