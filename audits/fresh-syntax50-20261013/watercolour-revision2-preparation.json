@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-15T09:56:00Z",
+  "recipe_pinning_pr": 792,
+  "active_pr_head": "6e85484be6516b7f0d40befdfddc1790f10fc63b",
+  "app_migration_commit": "8c71211ceb52c8f6f4186cb80506affb10644b22",
+  "history_and_stock_preparation_commit": "41dbbef8c9f23b2112b42b45e447f7a381d45ba7",
+  "candidate_head": "b094f9696ac02290ead0d2032cc5f80a7ddb3411",
+  "candidate_branch": "fix/dilute-teaching-watercolours-20261015",
+  "candidate_not_applied_to_active_pr": true,
+  "changes": [
+    "Reserve recipe selector namespace against loaded species and material id/alias collisions.",
+    "Build-validated exact revision-1 archive and independent engine historical parser.",
+    "Versioned material bottle keys and legacy snapshot/operator stock migration.",
+    "Atomic all-history app migration before snapshot/replay; preserve raw saves and clear partial replay on valid-history execution failure.",
+    "Browser and Tauri legacy parser transport; English/German/French preservation messages.",
+    "Blue/yellow revision-2 teaching wash at 0.002% dye by mass, preserving old 0.02% revision 1.",
+    "Borrow pure-species stock keys without material lookup/allocation."
+  ],
+  "candidate_file_hashes": {
+    "data/registry/material-recipe-history-v1.json": "743f0ab7c4f897a37d258b85db3547653f916b809e508c4640d0c9632e1a54d5",
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+    "crates/kerotakis-core/tests/watercolour_revision.rs": "1f029bbfc0288b45597876f3c62724c858ac184a2db3ecb640f7cab8a88f80ae",
+    "docs/watercolour-v2-controls.md": "7a21477ba244810d6547e9a9b9c20218d879256be69c19004ffa7c38ad8bc553"
+  },
+  "static_checks": [
+    "rustfmt and git diff checks",
+    "Archived recipe objects equal the original source objects at 5af0be7f.",
+    "Only two intended current recipe rows differ; mass fractions balance.",
+    "Locale JSON syntax"
+  ],
+  "renderer_actual_focused_tests": {
+    "source_head": "35a10ec334fa22b46b9acb2bfe3ed997e6330ba9",
+    "files": [
+      "web/app/src/lib/fluidScene.test.ts",
+      "web/app/src/lib/pour.test.ts"
+    ],
+    "passed": 36,
+    "failed": 0,
+    "log_sha256": "7accc03cffdf90a0d940007e2dc44c6ef0c656a34543db3c7f347d1c23e8bac8",
+    "scope": "Cached dependencies and one worker; no real-browser execution."
+  },
+  "naming_browser_first_failure": {
+    "run": 38705297500,
+    "job": 116323111014,
+    "log_sha256": "cdadc777b8fecac0d7a1530a1f8fb46f0be33c59858d86438eb042eb0a42d084",
+    "cause": "Same single-microtask catalog assertion as the preserved unit failure; reviewed staging correction already passed 121 focused session cases on 30d84ed5."
+  },
+  "new_candidate_acceptance": {
+    "native_test_groups_prepared_total": 26,
+    "app_migration_cases_prepared": 17,
+    "candidate_native_executed": false,
+    "candidate_app_executed": false,
+    "candidate_browser_executed": false,
+    "extended_candidate_independent_review_pending": true
+  },
+  "limits": [
+    "Initial PR792 namespace blocker found by independent review is addressed in staging, not yet runtime-validated.",
+    "Seven optical control groups are frozen predictions, not outcomes or calibration.",
+    "No deployed/main recipe or active PR head changed; no running CI was cancelled.",
+    "Standalone unversioned script imports use current defaults unless explicitly read as historical."
+  ]
+}

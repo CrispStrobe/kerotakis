@@ -99,6 +99,24 @@ archives and cross-version bottle semantics still precede new watercolor default
 The [coding checkpoint](../audits/fresh-syntax50-20261013/colour-coding-checkpoint-20261015.json)
 separates executed tests, source review and prepared candidates.
 
+A [staged descendant](https://github.com/CrispStrobe/kerotakis/tree/fix/dilute-teaching-watercolours-20261015)
+now implements the archive, independent historical parser, complete saved-history
+migration in browser/native hosts and revision-specific finite bottles. It also
+contains the blue/yellow revision-2 wash at one-tenth the old dye concentration.
+The original revision-1 recipes remain intact. Seven optical control groups
+forecast a visible green mixture at the declared dose, with concentration/path
+sensitivity and historical replay retained; their native outcomes are pending.
+The extended candidate is `b094f969`, while active PR792 remains at `6e85484b` to
+preserve its current run. Full source review and native/app/protocol/browser
+acceptance precede promotion. See the
+[source-bound preparation receipt](../audits/fresh-syntax50-20261013/watercolour-revision2-preparation.json).
+
+The renderer correction's focused grid/pour suite has now passed **36/36** at
+`35a10ec3`. This does not replace pending actual-browser validation. PR789's
+browser job reproduced the already-preserved catalog test failure; it adds no
+new cause, and the current corrected-head full acceptance is still pending.
+
+
 Documentation portability/current-state PR788 merged as `5af0be7f` after all 25
 CI jobs passed. Its reviewed candidate and actual integrated tree match; this is
 [documentation integration evidence](../audits/fresh-syntax50-20261013/documentation-integration-20261015.json),

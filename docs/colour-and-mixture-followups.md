@@ -12,7 +12,8 @@ Do not change frozen experiments to agree with a candidate.
    `c4513357` addresses these paths in `web/app/src/lib/fluidScene.ts`, `pour.ts`
    and `components/FluidOverlay.svelte`. Review the whole diff, run focused app
    controls and the actual-browser `tools/test-fluid-rendering.mjs` probe through
-   CI. Verify 100 mL fill/headspace, all glassware, layer colours, conserved pour
+   CI. Focused grid/pour tests now pass 36/36 on staging `35a10ec3`; actual-browser
+   acceptance is pending. Verify 100 mL fill/headspace, all glassware, layer colours, conserved pour
    handoff, node identity and replacement activity during fading. Also inspect
    economy-grid transitions: a fresh full-resolution run must restore canvas
    dimensions after a previous run reduced them. Preserve any first failure;
@@ -22,7 +23,8 @@ Do not change frozen experiments to agree with a candidate.
 2. **Recipe identity and historical replay — prerequisite for new defaults.**
    PR792 is the first candidate: explicit revision selectors and canonical script
    pins, with no default recipe changes. Native/protocol acceptance and independent
-   review are pending; migration/archive/bottle semantics remain unfinished.
+   review are pending. Staged descendant `b094f969` now implements archive,
+   migration and revision-specific bottle semantics; actual acceptance is pending.
    Inspect `crates/kerotakis-core/src/material.rs` version lookup and the
    `Operator::AddMaterial` branch in `bench.rs`. Current admission compares the
    requested version against the current recipe. A version archive alone is
@@ -37,6 +39,10 @@ Do not change frozen experiments to agree with a candidate.
    script formats can be interpreted reproducibly.
 
 3. **Transparent teaching wash optics — reproduction and versioned remedy.**
+   The staged revision-2 blue/yellow recipes and seven native control groups are
+   coded at `b094f969`; native and full browser/CLI outcomes remain unexecuted.
+   Review [the frozen candidate expectations](https://github.com/CrispStrobe/kerotakis/blob/b094f969/docs/watercolour-v2-controls.md)
+   and retain their initial outcomes before any correction.
    Reproduce an empty vessel followed by `add v1 watercolour_blue 100g` and
    `add v1 watercolour_yellow 100g` using actual accepted recipe keys (confirm
    spelling in the registry). Inspect scene colour and browser pixels after
