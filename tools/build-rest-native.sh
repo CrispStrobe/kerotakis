@@ -16,8 +16,10 @@ docker pull public.ecr.aws/amazonlinux/amazonlinux:2023
 REST_BUILD_IMAGE="$(docker image inspect public.ecr.aws/amazonlinux/amazonlinux:2023 --format '{{index .RepoDigests 0}}')"
 docker run --rm --cpus=2 --memory=4g --pids-limit=256 \
   -v "$ROOT:/src:ro" -v "$OUT:/out" -v "$REST_BUILD_CACHE:/build" \
+  -e KERO_BUILD_UID="$(id -u)" -e KERO_BUILD_GID="$(id -g)" \
   -w /src -e KEROTAKIS_GIT_REV="$SOURCE_HEAD" -e CARGO_TARGET_DIR=/build/target \
   "$REST_BUILD_IMAGE" bash -euo pipefail -c '
+    trap "chown -R $KERO_BUILD_UID:$KERO_BUILD_GID /build /out" EXIT
     dnf install -y --allowerasing curl gcc gcc-c++ cmake make git tar gzip perl python3 diffutils findutils
     curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal
     source /root/.cargo/env
