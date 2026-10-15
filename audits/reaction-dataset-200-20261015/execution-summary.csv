@@ -1,0 +1,201 @@
+rank,id,execution_status,exit_status,timed_out,all_add_commands_reached,first_diagnostic
+1,neutralisation,completed,0,False,True,
+2,hydrogen_oxygen,completed,0,False,True,
+3,carbon_combustion,completed,0,False,True,
+4,methane_combustion,completed,0,False,True,
+5,magnesium_combustion,completed,0,False,True,
+6,iron_sulfur,completed,0,False,True,
+7,water_electrolysis,completed,0,False,True,
+8,carbonate_acid,completed,0,False,True,
+9,limewater_test,completed,0,False,True,
+10,zinc_acid,completed,0,False,True,
+11,sodium_water,nonzero_exit,1,False,False,"line 5: unknown species or material 'Na' — did you mean 'CO3-2'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find Na' searches both)"
+12,hydrogen_chloride_protolysis,completed,0,False,True,
+13,ammonia_protolysis,completed,0,False,True,
+14,daniell_cell,completed,0,False,True,
+15,copper_oxide_hydrogen,completed,0,False,True,
+16,iron_rusting_overall,completed,0,False,True,
+17,fischer_esterification,completed,0,False,True,
+18,ethanol_oxidation_cuo,completed,0,False,True,
+19,haber_bosch,completed,0,False,True,
+20,fehling_test,completed,0,False,True,
+21,tollens_test,nonzero_exit,1,False,False,"line 4: unknown species or material 'ethanal' — did you mean 'ethanol'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find ethanal' searches both)"
+22,ethene_bromination,nonzero_exit,1,False,False,"line 6: unknown species or material 'Br2' — did you mean 'bromothymol_blue'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find Br2' searches both)"
+23,methane_chlorination,completed,0,False,True,
+24,ethanol_combustion,completed,0,False,True,
+25,photosynthesis_overall,completed,0,False,True,
+26,cellular_respiration_overall,completed,0,False,True,
+27,alcoholic_fermentation,completed,0,False,True,
+28,limestone_calcination,completed,0,False,True,
+29,quicklime_slaking,completed,0,False,True,
+30,copper_oxide_carbon,completed,0,False,True,
+31,sodium_chloride_synthesis,nonzero_exit,1,False,False,"line 4: unknown species or material 'Na' — did you mean 'CO3-2'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find Na' searches both)"
+32,hydrogen_peroxide_decomposition,completed,0,False,True,
+33,silver_chloride_precipitation,completed,0,False,True,
+34,barium_sulfate_precipitation,completed,0,False,True,
+35,acetic_acid_protolysis,completed,0,False,True,
+36,water_autoprotolysis,completed,0,False,True,
+37,ethene_hydration,completed,0,False,True,
+38,polyethene_formation,completed,0,False,True,
+39,fat_saponification,nonzero_exit,1,False,False,"line 4: unknown species or material 'tristearin' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+40,sucrose_hydrolysis,completed,0,False,True,
+41,starch_iodine_test,nonzero_exit,1,False,False,"line 5: unknown species or material 'I3-' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+42,biuret_test,nonzero_exit,1,False,False,"line 4: unknown species or material 'peptide' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+43,peptide_bond_formation,nonzero_exit,1,False,False,"line 3: unknown species or material 'glycine' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+44,lead_acid_battery,nonzero_exit,1,False,False,"line 5: unknown species or material 'PbO2' — did you mean 'Pb+2'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find PbO2' searches both)"
+45,ethene_hydrogenation,completed,0,False,True,
+46,copper_oxidation,completed,0,False,True,
+47,sulfur_combustion,completed,0,False,True,
+48,bicarbonate_acid,completed,0,False,True,
+49,blast_furnace_reduction,completed,0,False,True,
+50,copper_sulfate_hydration,nonzero_exit,1,False,False,"line 3: unknown species or material 'CuSO4_anhydrous' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+51,permanganate_iron_titration,completed,0,False,True,
+52,ammonium_test,completed,0,False,True,
+53,ammonium_chloride_formation,completed,0,False,True,
+54,carbon_dioxide_hydration,completed,0,False,True,
+55,carbonic_acid_first_protolysis,nonzero_exit,1,False,False,"line 4: unknown species or material 'H2CO3' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+56,bicarbonate_second_protolysis,completed,0,False,True,
+57,carbonate_hydrolysis,completed,0,False,True,
+58,ammonium_acid_protolysis,completed,0,False,True,
+59,acetate_hydrolysis,nonzero_exit,1,False,False,"line 4: unknown species or material 'acetate' — did you mean 'CH3COO-'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find acetate' searches both)"
+60,phosphate_buffer,completed,0,False,True,
+61,copper_oxide_acid,completed,0,False,True,
+62,sulfuric_acid_first_protolysis,completed,0,False,True,
+63,bisulfate_protolysis,nonzero_exit,1,False,False,"line 4: unknown species or material 'HSO4-' — did you mean 'HSO3-'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find HSO4-' searches both)"
+64,aspirin_acetylation,nonzero_exit,1,False,False,"line 3: unknown species or material 'salicylic_acid' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+65,secondary_alcohol_oxidation,completed,0,False,True,
+66,aldehyde_oxidation_to_acid,nonzero_exit,1,False,False,"line 4: unknown species or material 'ethanal' — did you mean 'ethanol'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find ethanal' searches both)"
+67,acetic_fermentation,completed,0,False,True,
+68,chloroethane_hydrolysis,nonzero_exit,1,False,False,"line 5: unknown species or material 'chloroethane' — did you mean 'bromoethane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find chloroethane' searches both)"
+69,ethanol_dehydration,completed,0,False,True,
+70,propene_hydrobromination,nonzero_exit,1,False,False,"line 4: unknown species or material 'propene' — did you mean 'isobutylene'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find propene' searches both)"
+71,benzene_bromination,nonzero_exit,1,False,False,"line 4: unknown species or material 'benzene' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+72,benzene_nitration,nonzero_exit,1,False,False,"line 4: unknown species or material 'benzene' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+73,ethyl_acetate_saponification,completed,0,False,True,
+74,starch_hydrolysis,completed,0,False,True,
+75,lactic_fermentation,completed,0,False,True,
+76,fat_hydrogenation,nonzero_exit,1,False,False,"line 4: unknown species or material 'triolein' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+77,biodiesel_transesterification,nonzero_exit,1,False,False,"line 3: unknown species or material 'triolein' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+78,pet_polycondensation,nonzero_exit,1,False,False,"line 3: unknown species or material 'terephthalic_acid' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+79,nylon66_polycondensation,nonzero_exit,1,False,False,"line 3: unknown species or material 'adipic_acid' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+80,polypropene_formation,nonzero_exit,1,False,False,"line 4: unknown species or material 'propene' — did you mean 'isobutylene'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find propene' searches both)"
+81,polystyrene_formation,nonzero_exit,1,False,False,"line 3: unknown species or material 'styrene' — did you mean 'PS'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find styrene' searches both)"
+82,pvc_formation,nonzero_exit,1,False,False,"line 4: unknown species or material 'vinyl_chloride' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+83,polyurethane_formation,nonzero_exit,1,False,False,"line 3: unknown species or material 'diisocyanate' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+84,copper_chloride_electrolysis,nonzero_exit,1,False,False,"line 5: unknown species or material 'CuCl2' — did you mean 'CaCl2'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find CuCl2' searches both)"
+85,molten_salt_electrolysis,nonzero_exit,1,False,False,"line 4: unknown species or material 'NaCl_melt' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+86,chlor_alkali,nonzero_exit,1,False,False,"line 5: unknown species or material 'NaCl_aq' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+87,aluminium_electrolysis,nonzero_exit,1,False,False,"line 4: unknown species or material 'Al2O3' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+88,alkaline_manganese_cell,completed,0,False,True,
+89,lithium_ion_cell,nonzero_exit,1,False,False,"line 3: unknown species or material 'LiC6' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+90,iron_corrosion_anode,completed,0,False,True,
+91,oxygen_reduction_cathode,nonzero_exit,1,False,False,"line 7: unknown species or material 'e-' — did you mean 'dishwasher_detergent'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find e-' searches both)"
+92,dichromate_ethanol,nonzero_exit,1,False,False,"line 4: unknown species or material 'Cr2O7--' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+93,iodine_thiosulfate,completed,0,False,True,
+94,copper_hydroxide_precipitation,completed,0,False,True,
+95,iron_three_hydroxide_precipitation,completed,0,False,True,
+96,iron_thiocyanate_complex,completed,0,False,True,
+97,copper_ammonia_complex,nonzero_exit,1,False,False,"line 4: unknown species or material 'Cuaqua' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+98,cobalt_chloride_equilibrium,nonzero_exit,1,False,False,"line 4: unknown species or material 'Coaqua' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+99,nitrogen_dioxide_dimerisation,nonzero_exit,1,False,False,"line 4: unknown species or material 'NO2' — did you mean 'MnO2'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find NO2' searches both)"
+100,contact_process,completed,0,False,True,
+101,ostwald_ammonia_oxidation,completed,0,False,True,
+102,nitric_oxide_oxidation,nonzero_exit,1,False,False,"line 4: unknown species or material 'NO' — did you mean 'AgNO3'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find NO' searches both)"
+103,nitric_acid_absorption,nonzero_exit,1,False,False,"line 5: unknown species or material 'NO2' — did you mean 'MnO2'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find NO2' searches both)"
+104,sulfur_trioxide_hydration,nonzero_exit,1,False,False,"line 5: unknown species or material 'SO3' — did you mean 'HSO3-'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find SO3' searches both)"
+105,catalytic_converter_no_co,nonzero_exit,1,False,False,"line 4: unknown species or material 'NO' — did you mean 'AgNO3'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find NO' searches both)"
+106,carbon_monoxide_oxidation,completed,0,False,True,
+107,alkane_cracking,nonzero_exit,1,False,False,"line 4: unknown species or material 'decane' — did you mean 'dodecane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find decane' searches both)"
+108,steam_reforming,completed,0,False,True,
+109,water_gas_shift,completed,0,False,True,
+110,methanol_synthesis,completed,0,False,True,
+111,sabatier_methanation,completed,0,False,True,
+112,boudouard_equilibrium,completed,0,False,True,
+113,aluminothermy,completed,0,False,True,
+114,iron_copper_displacement,completed,0,False,True,
+115,copper_silver_displacement,completed,0,False,True,
+116,chlorine_bromide_displacement,completed,0,False,True,
+117,bromine_iodide_displacement,nonzero_exit,1,False,False,"line 4: unknown species or material 'Br2' — did you mean 'bromothymol_blue'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find Br2' searches both)"
+118,permanganate_oxalate,nonzero_exit,1,False,False,"line 6: unknown species or material 'C2O4--' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+119,permanganate_peroxide,completed,0,False,True,
+120,peroxide_iodide,nonzero_exit,1,False,False,"line 5: unknown species or material 'I-' — did you mean 'alkaline_battery'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find I-' searches both)"
+121,ascorbic_acid_iodine,completed,0,False,True,
+122,copper_iodide_redox_precipitation,nonzero_exit,1,False,False,"line 5: unknown species or material 'I-' — did you mean 'alkaline_battery'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find I-' searches both)"
+123,silver_bromide_precipitation,completed,0,False,True,
+124,silver_chloride_ammonia,completed,0,False,True,
+125,calcium_carbonate_precipitation,completed,0,False,True,
+126,iron_two_hydroxide_precipitation,completed,0,False,True,
+127,aluminium_hydroxide_precipitation,nonzero_exit,1,False,False,"line 4: unknown species or material 'Al3+' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+128,aluminium_hydroxide_amphoterism,nonzero_exit,1,False,False,"line 4: unknown species or material 'AlOH3' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+129,zinc_hydroxide_amphoterism,completed,0,False,True,
+130,calcium_edta,nonzero_exit,1,False,False,"line 5: unknown species or material 'EDTA' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+131,limestone_dissolution,completed,0,False,True,
+132,plaster_setting,nonzero_exit,1,False,False,"line 3: unknown species or material 'hemihydrate' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+133,bicarbonate_thermal_decomposition,completed,0,False,True,
+134,sulfur_dioxide_water,completed,0,False,True,
+135,nitrogen_dioxide_photolysis,nonzero_exit,1,False,False,"line 4: unknown species or material 'NO2' — did you mean 'MnO2'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find NO2' searches both)"
+136,ozone_formation,nonzero_exit,1,False,False,"line 4: unknown species or material 'O_atom' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+137,ozone_decomposition,nonzero_exit,1,False,False,"line 4: unknown species or material 'O3' — did you mean 'AgNO3'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find O3' searches both)"
+138,chlorine_water_equilibrium,completed,0,False,True,
+139,thiosulfate_acid_decomposition,completed,0,False,True,
+140,carbon_dioxide_alkali,completed,0,False,True,
+141,glycine_first_protolysis,nonzero_exit,1,False,False,"line 4: unknown species or material 'glycine_cation' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+142,glycine_second_protolysis,nonzero_exit,1,False,False,"line 4: unknown species or material 'glycine_zwitterion' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+143,glucose_ring_chain,nonzero_exit,1,False,False,"line 3: unknown species or material 'glucose_open' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+144,glucose_fructose_isomerisation,completed,0,False,True,
+145,iodoform_test,completed,0,False,True,
+146,xanthoproteic_test,nonzero_exit,1,False,False,"line 4: unknown species or material 'aromatic_aminoacid' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+147,ninhydrin_test,nonzero_exit,1,False,False,"line 4: unknown species or material 'ninhydrin' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+148,azo_coupling,nonzero_exit,1,False,False,"line 4: unknown species or material 'benzenediazonium' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+149,aniline_diazotisation,nonzero_exit,1,False,False,"line 4: unknown species or material 'aniline' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+150,indigo_reduction,nonzero_exit,1,False,False,"line 4: unknown species or material 'indigo' — did you mean 'indigo_carmine'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find indigo' searches both)"
+151,grignard_carbonyl_addition,nonzero_exit,1,False,False,"line 4: unknown species or material 'MeMgBr' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+152,grignard_carboxylation,nonzero_exit,1,False,False,"line 4: unknown species or material 'PhMgBr' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+153,grignard_reagent_formation,nonzero_exit,1,False,False,"line 4: unknown species or material 'bromomethane' — did you mean 'bromoethane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find bromomethane' searches both)"
+154,borohydride_ketone_reduction,nonzero_exit,1,False,False,"line 5: unknown species or material 'BH4-' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+155,ester_hydride_reduction,nonzero_exit,1,False,False,"line 4: unknown species or material 'H_equiv' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+156,acetal_formation,nonzero_exit,1,False,False,"line 3: unknown species or material 'ethanal' — did you mean 'ethanol'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find ethanal' searches both)"
+157,imine_formation,nonzero_exit,1,False,False,"line 3: unknown species or material 'ethanal' — did you mean 'ethanol'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find ethanal' searches both)"
+158,cyanohydrin_formation,nonzero_exit,1,False,False,"line 4: unknown species or material 'HCN' — did you mean 'HCl'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find HCN' searches both)"
+159,aldol_addition,nonzero_exit,1,False,False,"line 3: unknown species or material 'ethanal' — did you mean 'ethanol'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find ethanal' searches both)"
+160,aldol_condensation,nonzero_exit,1,False,False,"line 3: unknown species or material 'ethanal' — did you mean 'ethanol'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find ethanal' searches both)"
+161,claisen_condensation,completed,0,False,True,
+162,michael_addition,nonzero_exit,1,False,False,"line 3: unknown species or material 'diethyl_malonate' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+163,wittig_olefination,nonzero_exit,1,False,False,"line 5: unknown species or material 'wittig_ylide' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+164,diels_alder,nonzero_exit,1,False,False,"line 4: unknown species or material 'butadiene' — did you mean 'butane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find butadiene' searches both)"
+165,friedel_crafts_alkylation,nonzero_exit,1,False,False,"line 4: unknown species or material 'benzene' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+166,friedel_crafts_acylation,nonzero_exit,1,False,False,"line 4: unknown species or material 'benzene' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+167,williamson_ether,nonzero_exit,1,False,False,"line 4: unknown species or material 'ethoxide' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+168,e2_elimination,nonzero_exit,1,False,False,"line 5: unknown species or material 'bromopropane2' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+169,sn1_solvolysis,completed,0,False,True,
+170,small_ester_transesterification,nonzero_exit,1,False,False,"line 3: unknown species or material 'methyl_acetate' — did you mean 'ethyl_acetate'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find methyl_acetate' searches both)"
+171,acyl_chloride_amidation,nonzero_exit,1,False,False,"line 4: unknown species or material 'acetyl_chloride' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+172,acyl_chloride_hydrolysis,nonzero_exit,1,False,False,"line 4: unknown species or material 'acetyl_chloride' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+173,nitrile_hydrolysis,nonzero_exit,1,False,False,"line 4: unknown species or material 'acetonitrile' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+174,nitrile_reduction,nonzero_exit,1,False,False,"line 4: unknown species or material 'acetonitrile' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+175,nitro_group_reduction,nonzero_exit,1,False,False,"line 4: unknown species or material 'nitrobenzene' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+176,alkene_epoxidation,nonzero_exit,1,False,False,"line 4: unknown species or material 'propene' — did you mean 'isobutylene'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find propene' searches both)"
+177,hydroboration_oxidation,nonzero_exit,1,False,False,"line 5: unknown species or material 'propene' — did you mean 'isobutylene'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find propene' searches both)"
+178,reductive_ozonolysis,nonzero_exit,1,False,False,"line 4: unknown species or material 'butene2' — did you mean 'butane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find butene2' searches both)"
+179,terminal_alkyne_deprotonation,nonzero_exit,1,False,False,"line 5: unknown species or material 'ethyne' — did you mean 'ethene'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find ethyne' searches both)"
+180,acetylide_alkylation,nonzero_exit,1,False,False,"line 5: unknown species or material 'acetylide' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+181,enolate_formation,nonzero_exit,1,False,False,"line 5: unknown species or material 'LDA' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+182,enolate_alkylation,nonzero_exit,1,False,False,"line 4: unknown species or material 'acetone_enolate' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+183,keto_enol_tautomerism,completed,0,False,True,
+184,cannizzaro,nonzero_exit,1,False,False,"line 4: unknown species or material 'benzaldehyde' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+185,baeyer_villiger,nonzero_exit,1,False,False,"line 4: unknown species or material 'peracetic_acid' — did you mean 'lactic_acid'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find peracetic_acid' searches both)"
+186,sandmeyer,nonzero_exit,1,False,False,"line 5: unknown species or material 'benzenediazonium' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+187,hofmann_amide_rearrangement,nonzero_exit,1,False,False,"line 4: unknown species or material 'acetamide' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+188,beckmann,nonzero_exit,1,False,False,"line 3: unknown species or material 'cyclohexanone_oxime' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+189,fischer_indole,nonzero_exit,1,False,False,"line 4: unknown species or material 'phenylhydrazine' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+190,claisen_rearrangement,nonzero_exit,1,False,False,"line 3: unknown species or material 'allyl_vinyl_ether' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+191,suzuki_miyaura,nonzero_exit,1,False,False,"line 4: unknown species or material 'bromobenzene' — did you mean 'bromoethane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find bromobenzene' searches both)"
+192,heck,nonzero_exit,1,False,False,"line 5: unknown species or material 'bromobenzene' — did you mean 'bromoethane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find bromobenzene' searches both)"
+193,sonogashira,nonzero_exit,1,False,False,"line 5: unknown species or material 'bromobenzene' — did you mean 'bromoethane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find bromobenzene' searches both)"
+194,negishi,nonzero_exit,1,False,False,"line 3: unknown species or material 'bromobenzene' — did you mean 'bromoethane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find bromobenzene' searches both)"
+195,buchwald_hartwig,nonzero_exit,1,False,False,"line 4: unknown species or material 'bromobenzene' — did you mean 'bromoethane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find bromobenzene' searches both)"
+196,olefin_metathesis,nonzero_exit,1,False,False,"line 4: unknown species or material 'propene' — did you mean 'isobutylene'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find propene' searches both)"
+197,sharpless_epoxidation,nonzero_exit,1,False,False,"line 3: unknown species or material 'allyl_alcohol' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"
+198,stille,nonzero_exit,1,False,False,"line 3: unknown species or material 'bromobenzene' — did you mean 'bromoethane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find bromobenzene' searches both)"
+199,kumada,nonzero_exit,1,False,False,"line 3: unknown species or material 'bromobenzene' — did you mean 'bromoethane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find bromobenzene' searches both)"
+200,cope_rearrangement,nonzero_exit,1,False,False,"line 3: unknown species or material 'cope_start' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)"

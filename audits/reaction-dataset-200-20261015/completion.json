@@ -1,0 +1,22 @@
+{
+  "status": "complete",
+  "run_id": 38763662200,
+  "audit_head": "f4da8338fea4d00ac08c26117e783b699087cda4",
+  "updated_utc": "2026-10-15T16:37:37.573795+00:00",
+  "executed_count": 200,
+  "execution_counts": {
+    "completed": 92,
+    "nonzero_exit": 108
+  },
+  "artifact_id": 11990783031,
+  "artifact_sha256": "89f32985f7416e56d39ed7a7fa57d75887bb98fbd5cb505bd64183ea18c9f6e3",
+  "physical_verdict": "not_assigned",
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38763662200",
+  "scope": "All 200 generated contact/activation probes attempted; no physical verdicts",
+  "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+  "all_add_commands_reached": 92,
+  "reports": {
+    "execution-assessment.json": "629949b95f4163ae9353e2fee3fb385dc8f9ad3786f9f94893dfaeaa734bfb40",
+    "execution-summary.csv": "d1649270bfa1db17a51d800b00550218acd7e869a15259bdcd805202545524a5"
+  }
+}

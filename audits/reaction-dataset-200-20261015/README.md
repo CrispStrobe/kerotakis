@@ -7,8 +7,11 @@ or overall equations; the 14 schematic records remain outside that balance claim
 [Input hashes](input-inventory.json), [the frozen manifest](design/manifest.json)
 and [all 200 scripts](design/scripts) retain exact record accounting.
 
-Execution is dispatched in [run 38763662200](https://github.com/CrispStrobe/kerotakis/actions/runs/38763662200).
-Follow this existing run; do not duplicate the batch. Its isolated branch
+Execution completed in [run 38763662200](https://github.com/CrispStrobe/kerotakis/actions/runs/38763662200).
+All 200 records were attempted: 92 zero exits and 108 nonzero exits, with no
+timeouts or invalid JSON. All additions were reached in 92 scripts.
+[Authenticated completion](completion.json), [case report](execution-assessment.json)
+and [CSV](execution-summary.csv) preserve outcomes. Do not duplicate the batch. Its isolated branch
 `audit/reaction-dataset-200-20261015` must never merge into main. Only the explicit
 200-record lane is eligible; all nine ordinary fleet jobs were verified skipped.
 No new binary build is performed.
@@ -61,5 +64,5 @@ combined case time: twelve zero exits and one identity refusal (`Na`, rank 11).
 The memory gate stopped execution before rank 14. All thirteen saved stream
 hashes were verified. See the [partial receipt](vps-partial-execution.json).
 Ranks 14–200 remain unexecuted locally; resume only unfinished cases under fresh
-resource headroom. The independent hosted run remains queued. These execution
+resource headroom. The independent hosted run subsequently completed all 200 attempts. These execution
 results assign no physical passes and do not validate the generated procedures.

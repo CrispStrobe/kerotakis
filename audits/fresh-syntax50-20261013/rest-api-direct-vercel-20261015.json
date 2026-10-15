@@ -1,0 +1,48 @@
+{
+  "recorded_utc": "2026-10-15T17:27:43.027148+00:00",
+  "supersedes": "rest-api-preparation-20261015.json architecture; earlier evidence remains historical",
+  "pr": "https://github.com/CrispStrobe/kerotakis/pull/795",
+  "head": "d326d707c047bf190b211a2927762adce53732ad",
+  "design": "FastAPI and native CLI directly inside existing Vercel project; no VPS backend required",
+  "local_acceptance": {
+    "tests_passed": 22,
+    "log_sha256": "3f3542f59ddbafd8d59405bbb300d4649cf1a1c8ad0c7c5ed0280855913ef9af",
+    "post_commit_packaging": "passed",
+    "standalone_client_and_service_worker": "passed at root and project scope",
+    "runtime_file_sha256": {
+      "app.py": "2d1bbf51cc346392b2f9da0543294331848e0599d9018809f1915e8805e2bcdf",
+      "worker.py": "ff4f9d72e7a85befc5ae2752d236f1536aaaa6b3c7d373e469fc936f3a7f4f69",
+      "sandbox.py": "f232480fdd7caeea2089fa49e81ffb1a99f08c98d88fc818dadc44b48cb277c3"
+    },
+    "direct_native_smoke": {
+      "status": "completed",
+      "observations": 2,
+      "engine": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+        "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+        "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+      },
+      "raw_sha256": "142f481471f053e9d79da52dd3b3f8d69747e0139065ef958dc9225882353e48"
+    }
+  },
+  "security": "auth before body; fixed argv; Landlock+seccomp fail closed; no inherited credentials/capabilities; bounded CPU/memory/time/output; atomic Redis REST admission across replicas",
+  "deployment_configuration": {
+    "key_digest_mapping": "encrypted Actions secret configured; raw owner key outside Git",
+    "origins": "Pages and existing Vercel frontend configured",
+    "shared_redis_credentials": "must be present in Vercel environment, not verified yet"
+  },
+  "hosted_runs": {
+    "ci": 38777182205,
+    "rest_api": 38777182292,
+    "vercel_preview": 38777249799
+  },
+  "run_state_at_recording": "queued",
+  "pending": [
+    "Hosted AL2023 native build and authenticated bundle",
+    "Actual Vercel native loader and kernel restriction acceptance",
+    "Actual routing, credentials, shared admission and real browser origins",
+    "Normal protected merge and production delivery"
+  ],
+  "public_execution_enabled": false,
+  "physical_verdict": "not_assigned"
+}

@@ -1,84 +1,56 @@
-# Simulation API implementation and remaining lanes — 2026-10-15
+# Direct Vercel REST API — current implementation and remaining lanes
 
-[PR795](https://github.com/CrispStrobe/kerotakis/pull/795) implements the initial
-authenticated service and same-project Vercel gateway. Eighteen local acceptance
-tests and an actual native HTTP smoke passed; CI and preview are queued.
-No public execution service is activated. See the
-[preparation receipt](../audits/fresh-syntax50-20261013/rest-api-preparation-20261015.json).
+[PR795](https://github.com/CrispStrobe/kerotakis/pull/795) runs FastAPI and the
+native engine directly in the existing Vercel project. It does **not** require
+a VPS backend, gateway-to-VPS connection or additional worker hostname. This
+follows the service/client split in `stc-compiler`: Pages hosts the client,
+Vercel hosts REST compute. Both Kerotakis web hosts receive `web/rest.html`.
 
-The interface is a conventional FastAPI REST service, following
-[`stc-compiler`](https://github.com/CrispStrobe/stc-compiler/tree/a043daa58c2437f936f94971b3b0695c9c2510cb):
-its `app.py` serves FastAPI on Vercel, and `docs/index.html` on GitHub Pages
-calls that service. GitHub Pages hosts the client and documentation, not the
-Python execution service. Both Kerotakis web hosts can use one REST backend.
+The routes are `/api/run`, `/api/health`, `/api/docs` and `/api/openapi.json`.
+Authentication, bounded English scripts, independent process limits, Landlock/
+seccomp restrictions and atomic shared Redis admission are implemented. Raw
+client keys are excluded from Git and deployment assets; only their digests
+are passed privately. Redis stores admission counters/leases, not chemistry
+scripts or results. An optional standalone Linux deployment remains available.
 
-Start with authenticated `POST /run` accepting `{ "script": "..." }` and
-returning bounded JSON observations, diagnostics, exit status and engine identity.
-Provide `GET /health` with deployed revision/engine identity, and generated
-OpenAPI `/docs`. Run one isolated CLI process per request with strict admission
-and execution limits. A synchronous single-script endpoint is sufficient to
-start; the asynchronous job routes below are an extension for larger batches,
-not a prerequisite. API clients should send credentials at runtime; shared
-credentials must not be embedded in either static site's assets. Restrict
-browser origins explicitly while enforcing authorization independently of CORS.
-Do not copy the reference service's permissive CORS or per-instance rate guard
-as a substitute for authenticated, fleet-wide admission control.
+Twenty-two local tests passed. A preserved native engine ran in the direct
+sandbox, and client/service-worker controls passed at root and project scope.
+This does not establish actual Vercel kernel compatibility or an AL2023 build.
+See the [exact-source preparation receipt](../audits/fresh-syntax50-20261013/rest-api-direct-vercel-20261015.json).
+The earlier VPS-gateway receipt remains historical and is superseded.
 
-The current web deployment is a static payload. `web/app/src/lib/host/WorkerHost.ts`
-starts a browser worker; `engineWorker.ts` loads the bench WebAssembly and
-IPhreeQC there. No server simulation route exists in the inspected source.
-Using the deployed UI runs chemistry on the browser host. The latest successful
-Vercel workflow's deployment URL redirected to Vercel authentication when checked;
-its deployed engine version and runtime behaviour were not verified.
+## Doable next lanes
 
-An API would provide remote compute and repeatable automation. It is separate
-from browser acceptance: a native API result does not validate browser rendering
-or establish native/WebAssembly agreement.
+1. **Native build and actual preview.** Complete the already-dispatched current
+   source Vercel preview. Authenticate the AL2023 native artifact, source/lock/
+   binary/library binding and container/compiler identity. Verify `/api/health`
+   reports the packaged revision, the native loader works, and the actual
+   platform installs Landlock/seccomp. Refuse unsupported restrictions rather
+   than silently dropping isolation. Verify `/api/docs` schema base and existing
+   static app routes; local packaging tests do not prove Vercel routing.
+2. **Activate and verify admission.** The deployment key-digest secret and two
+   frontend origins are configured. Verify Redis REST credentials in the project
+   environment, using the documented standard integration names or dedicated
+   variables. Test valid/invalid keys, concurrent saturation, rate quotas, store
+   outage and cross-origin controls on the actual preview. Keep invocation/WAF
+   and spending limits configured independently of in-function authorization.
+   Missing configuration remains disabled. No VPS network setup is needed.
+3. **Integrate and deliver.** After the named non-protected acceptance and normal
+   repository CI pass, mark PR795 ready and enable protected auto-merge at its
+   exact reviewed head. Then deploy production deliberately to the existing
+   project, record actual build/deployment identity and repeat bounded health,
+   auth and representative native controls. Do not infer deployment from a merge.
+4. **Dataset and runtime comparison.** Assess the already completed 200 supplied
+   contact probes separately from process exits. Freeze valid condition-specific
+   native/API/WebAssembly comparisons and distinguish chemistry from rendering.
+   The source supplies no procedures; generated screens are not 200 validated
+   laboratory protocols. Reuse saved results before requesting new executions.
+5. **Optional asynchronous jobs.** Only if synchronous request limits prove
+   restrictive, add bounded durable submission/status routes with principal
+   ownership, cancellation, idempotency and retained provenance. This extension
+   is not required for the initial conventional REST interface.
 
-## Implementable lanes
-
-1. **Bounded execution worker.** Reuse the CLI in one fresh process per script,
-   with no shell interpolation. Enforce wall time, memory, output bytes, script
-   bytes, command count and simulated-work limits before execution where possible.
-   Disable user-supplied file paths, imports and network access. Run with an
-   unprivileged identity, read-only engine assets and disposable job storage.
-   Preserve source/build/lock/script hashes, exit status, diagnostics and timings.
-   Acceptance: timeout/output exhaustion terminate and reap the worker; two jobs
-   cannot share bench state or access each other's files. A timeout alone must
-   not leave a solver running.
-2. **Authenticated job service.** Proposed routes: `POST /api/v1/runs` accepts one
-   bounded script and returns `202` plus an opaque job ID; authenticated
-   `GET /api/v1/runs/{id}` returns only that principal's status/result. Validate
-   revocable, scoped credentials server-side before accepting work; never ship a
-   shared secret in browser assets. Use bounded durable queues, per-principal
-   quotas, global concurrency and cost limits, and shared rate-limit counters.
-   Reject requests when authentication, quota storage or queue admission fails.
-   Acceptance: missing/invalid/revoked credentials, oversized/chunked bodies,
-   cross-principal reads, concurrent quota races and queue saturation all fail
-   safely. Do not use permissive CORS or process-local counters as authorization
-   or fleet-wide admission control. Keep credentials/scripts out of access logs.
-3. **Vercel integration.** Package an actual server function alongside the static
-   payload, or use an authenticated gateway to a separate execution service.
-   First prove that the selected runtime can load the exact solver assets and
-   enforce worker termination. Native and WebAssembly are distinct build targets;
-   choose and report the one actually used. Keep the compute origin inaccessible
-   except to the gateway, with authenticated transport. Verify deployment
-   protection and application authorization separately. Require configured
-   credentials and admission controls before enabling execution; absent settings
-   leave the route disabled. Test in a protected preview before production.
-4. **Cross-runtime comparison.** Freeze the same valid scripts and explicit
-   expectations for native CLI and deployed WebAssembly, record both build
-   identities and compare chemistry observations separately from presentation.
-   The 200 generated probes have missing procedures and known condition issues;
-   execution coverage must not become a claim of 200 validated reactions.
-
-For the immediate dataset, sequential native CLI needs no public service or new
-build. A first partial VPS run completed thirteen attempts in 3.61 seconds before
-its memory gate closed; this suggests practical speed but is not a timing bound
-for the remaining complex cases. Preserve that prefix when resuming.
-
-Platform references: [Vercel Functions](https://vercel.com/docs/functions),
-[WAF rate limiting](https://vercel.com/docs/vercel-firewall/vercel-waf/rate-limiting).
-The initial API is implemented in PR795; worker HTTPS routing, private
-configuration, hosted acceptance and deployment remain pending. The asynchronous
-job and cross-runtime lanes are extensions beyond this initial service.
+The detailed service/deployment contract is in `services/rest_api/README.md` on
+PR795. [Vercel Python runtime](https://vercel.com/docs/functions/runtimes/python)
+and [function limits](https://vercel.com/docs/functions/limitations) describe
+platform packaging; actual preview tests remain authoritative for this build.

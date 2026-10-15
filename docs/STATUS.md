@@ -87,8 +87,9 @@ against the accompanying schema. All have separate frozen CLI scripts in the
 [200-record audit](../audits/reaction-dataset-200-20261015/README.md), dispatched
 in [run 38763662200](https://github.com/CrispStrobe/kerotakis/actions/runs/38763662200).
 The runner reuses the verified pinned-main CLI without rebuilding, and continues
-after individual refusals/timeouts. It is queued; no executed count or scientific
-pass is assigned yet. Every source record lacks a procedure: solvent, gas
+after individual refusals/timeouts. It completed all 200 attempts: 92 zero exits and 108 nonzero exits, with all
+additions reached in 92 scripts. No scientific passes are assigned. See the
+[authenticated completion and case report](../audits/reaction-dataset-200-20261015/completion.json). Every source record lacks a procedure: solvent, gas
 boundary, activation, symbolic/electron and catalyst limitations are explicit.
 Read the [independent protocol review](../audits/reaction-dataset-200-20261015/protocol-review.json),
 including organic water-setup and starch-surrogate limits. Keep this supplied
@@ -191,5 +192,10 @@ scope bounded workers, authenticated job admission, deployment and cross-runtime
 comparison. [PR795](https://github.com/CrispStrobe/kerotakis/pull/795) now implements the
 initial service and same-project gateway. Eighteen local tests and actual native
 HTTP controls passed; [preparation evidence](../audits/fresh-syntax50-20261013/rest-api-preparation-20261015.json)
-records source and pending hosted CI/preview. Worker HTTPS routing and private
-configuration remain required; no public API execution is activated.
+records source and pending hosted CI/preview. The design now runs FastAPI and the native engine directly on Vercel: no VPS
+backend or worker hostname is required. Twenty-two local tests, direct native
+sandbox execution and client/service-worker controls passed.
+[Current direct-service evidence](../audits/fresh-syntax50-20261013/rest-api-direct-vercel-20261015.json)
+records the exact source and pending AL2023/actual-platform acceptance. The
+key-digest mapping and both client origins are configured; shared admission
+credentials still need verification in Vercel. No public execution is activated.
