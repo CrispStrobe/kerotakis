@@ -38,7 +38,7 @@ else
 fi
 
 echo "== the page"
-cp "$ROOT/web/index.html" "$ROOT/web/privacy.html" "$ROOT/web/kerotakis.mjs" \
+cp "$ROOT/web/index.html" "$ROOT/web/privacy.html" "$ROOT/web/rest.html" "$ROOT/web/kerotakis.mjs" \
    "$ROOT/web/manifest.webmanifest" \
    "$ROOT/web/icon.svg" \
    "$ROOT/web/icon-192.png" "$ROOT/web/icon-512.png" \

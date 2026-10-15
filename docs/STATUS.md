@@ -144,3 +144,18 @@ headroom. Large evidence belongs on the designated storage volume; private host
 paths, thresholds and protected worktree inventories stay in the private handoff.
 Some recoverable cache cleanup is complete; broad worktree consolidation remains
 incomplete and must preserve unique commits, modifications and evidence.
+
+
+## Authenticated REST service candidate
+
+`services/rest_api` adds FastAPI `/run`, `/health` and OpenAPI documentation,
+with bearer authentication, bounded English scripts, atomic single-host quotas,
+and isolated native execution. The same-project Vercel package mounts a gateway
+at `/api/*`; `web/rest.html` is included in the shared Pages/Vercel static payload.
+The existing browser WebAssembly lab is unchanged. See the
+[service contract and deployment instructions](../services/rest_api/README.md).
+Local acceptance covers the real process sandbox, auth/admission failure paths,
+gateway mounting and the standalone client. A native HTTP smoke used preserved
+engine source `d791d306`, not a newly built engine. HTTPS worker routing,
+private deployment configuration and deployed acceptance remain pending; no
+public production API is enabled. Missing configuration refuses execution.

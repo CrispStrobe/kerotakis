@@ -5,9 +5,9 @@
 # always been here — immutable caching for the hashed assets, nosniff for
 # everything else — but nothing ever sent Vercel a build.
 #
-# Dispatch-only, and it uploads a PREBUILT payload: the same
-# `tools/build-web.sh` output Pages serves, so the two hosts cannot drift
-# into being two different builds. Vercel runs nothing.
+# Dispatch-only: uploads the same static `tools/build-web.sh` payload Pages
+# serves, plus a FastAPI gateway under /api. Chemistry executes on the isolated
+# worker; the gateway refuses execution until its server configuration exists.
 name: Vercel
 
 on:
@@ -81,7 +81,7 @@ jobs:
           # never writes .vercel/output. Dropping it is the fix; the default
           # is exactly the non-prebuilt upload this wants.
           set -euo pipefail
-          cp web/vercel.json "$RUNNER_TEMP/site/vercel.json"
+          python3 tools/package-rest-api.py "$RUNNER_TEMP/site"
           npx --yes vercel@latest deploy "$RUNNER_TEMP/site" \
             --yes --token "$VERCEL_TOKEN" \
             ${{ inputs.target == 'production' && '--prod' || '' }} \

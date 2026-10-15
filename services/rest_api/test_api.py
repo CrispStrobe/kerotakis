@@ -1,0 +1,280 @@
+"""API acceptance: auth, bounded input, concurrent admission and real sandbox."""
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
+import hashlib
+import importlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
+import time
+from types import SimpleNamespace
+import unittest
+from unittest.mock import AsyncMock, patch
+
+from fastapi import HTTPException
+from fastapi.testclient import TestClient
+import httpx
+
+api = importlib.import_module("services.rest_api.app")
+TOKEN = "test-only-" + "a" * 64
+AUTH = {"Authorization": "Bearer " + TOKEN}
+
+
+class ApiTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.cfg = api.Settings(mode="worker", keys={"test": hashlib.sha256(TOKEN.encode()).hexdigest()},
+            origins=["https://client.example"], state=str(Path(self.tmp.name) / "admission.sqlite"))
+        self.client = TestClient(api.create_app(self.cfg))
+
+    def test_disabled_and_missing_credentials_never_execute(self):
+        self.assertEqual(TestClient(api.create_app(api.Settings())).post("/run", json={"script": "inspect v1"}).status_code, 503)
+        with patch.object(api, "run_engine", new_callable=AsyncMock) as engine:
+            for headers in ({}, {"Authorization": "Bearer wrong"}):
+                response = self.client.post("/run", headers=headers, content=b"x" * 100_000)
+                self.assertEqual(response.status_code, 401)
+            engine.assert_not_called()
+
+    def test_config_rejects_unsafe_or_incomplete_environment(self):
+        base = {"KERO_API_MODE": "gateway", "KERO_API_KEYS": json.dumps(self.cfg.keys),
+                "KERO_API_UPSTREAM": "https://worker.example"}
+        for bad in ("http://worker.example", "https://user:secret@worker.example", "https://worker.example/path", "https://worker.example?x=1"):
+            with patch.dict(os.environ, {**base, "KERO_API_UPSTREAM": bad}, clear=True):
+                self.assertEqual(api.Settings.from_env().mode, "disabled")
+        with patch.dict(os.environ, base, clear=True):
+            self.assertEqual(api.Settings.from_env().mode, "gateway")
+        with patch.dict(os.environ, {**base, "KERO_API_KEYS": "[]"}, clear=True):
+            self.assertEqual(api.Settings.from_env().mode, "disabled")
+
+    def test_input_limits_and_no_script_echo_in_errors(self):
+        cases = ({"script": "lang de\nwarte 1s"}, {"script": "quest start x"},
+                 {"script": "extract v1 v2 hexane 1mol stages 999999"},
+                 {"script": "transport v1 steps 999999"}, {"script": "titrate v1 NaOH 1M 1mL until ph 7"},
+                 {"script": "distil v1 v2 1 stages 999999"},
+                 {"script": "wait 1e309s"}, {"script": "wait 1h\nwait 1s"},
+                 {"script": "wait 3601"}, {"script": "wait 61minutes"},
+                 {"script": "stir v1 500rpm 2hours"}, {"script": "wait inf"},
+                 {"script": "wait 1s\n" * 129}, {"script": "add v1 SECRET 1mol\x00"},
+                 {"script": "inspect v1", "path": "/etc/passwd"}, {"script": 5})
+        for body in cases:
+            response = self.client.post("/run", headers=AUTH, json=body)
+            self.assertEqual(response.status_code, 422, body)
+            self.assertNotIn("SECRET", response.text)
+        self.assertEqual(self.client.post("/run", headers={**AUTH, "Content-Type": "application/json"},
+                                         content=b" " * (api.BODY_LIMIT + 1)).status_code, 413)
+        self.assertEqual(self.client.post("/run", headers=AUTH, content="inspect v1").status_code, 415)
+
+    def test_openapi_health_and_cors(self):
+        schema = self.client.get("/openapi.json").json()
+        self.assertIn("HTTPBearer", schema["components"]["securitySchemes"])
+        self.assertIn("script", schema["paths"]["/run"]["post"]["requestBody"]["content"]["application/json"]["schema"]["properties"])
+        health = self.client.get("/health")
+        self.assertEqual(health.headers["cache-control"], "no-store")
+        self.assertNotIn(self.tmp.name, health.text)
+        for origin, allowed in (("https://client.example", True), ("https://evil.example", False)):
+            response = self.client.options("/run", headers={"Origin": origin,
+                "Access-Control-Request-Method": "POST", "Access-Control-Request-Headers": "Authorization,Content-Type"})
+            self.assertEqual(response.headers.get("access-control-allow-origin") == origin, allowed)
+
+    def test_atomic_concurrency_and_quotas_across_instances(self):
+        stores = [api.Admission(self.cfg) for _ in range(8)]
+        def acquire(store):
+            try:
+                return store.acquire("test")
+            except HTTPException as exc:
+                return exc.status_code
+        with ThreadPoolExecutor(max_workers=8) as pool:
+            results = list(pool.map(acquire, stores))
+        leases = [value for value in results if isinstance(value, str)]
+        self.assertEqual(len(leases), 1)
+        self.assertEqual(results.count(429), 7)
+        stores[0].release(leases[0])
+        self.cfg.minute = 2
+        lease = stores[0].acquire("test")
+        stores[0].release(lease)
+        with self.assertRaises(HTTPException) as err:
+            stores[0].acquire("test")
+        self.assertEqual(err.exception.status_code, 429)
+
+    def test_admission_outage_fails_closed(self):
+        self.cfg.state = str(Path(self.tmp.name) / "missing" / "state")
+        with self.assertRaises(HTTPException) as err:
+            api.Admission(self.cfg).acquire("test")
+        self.assertEqual(err.exception.status_code, 503)
+
+    def test_low_disk_refuses_before_execution(self):
+        with patch.object(api.os, "getloadavg", return_value=(0, 0, 0)), \
+             patch.object(api.Path, "read_text", return_value="MemAvailable: 10485760 kB"), \
+             patch.object(api.shutil, "disk_usage", return_value=SimpleNamespace(free=500 * 1024 ** 2)):
+            with self.assertRaises(HTTPException) as err:
+                api.check_resources(self.cfg)
+        self.assertEqual(err.exception.status_code, 503)
+
+    def test_daily_quota_survives_store_recreation(self):
+        self.cfg.daily = 1
+        store = api.Admission(self.cfg)
+        lease = store.acquire("test")
+        store.release(lease)
+        with self.assertRaises(HTTPException) as err:
+            api.Admission(self.cfg).acquire("test")
+        self.assertEqual(err.exception.status_code, 429)
+
+    def test_chunked_body_cannot_bypass_limit(self):
+        async def body():
+            yield b" " * 10_000
+            yield b" " * 10_001
+        async def exercise():
+            async with httpx.AsyncClient(transport=httpx.ASGITransport(app=api.create_app(self.cfg)), base_url="http://test") as client:
+                return await client.post("/run", headers={**AUTH, "Content-Type": "application/json"}, content=body())
+        self.assertEqual(asyncio.run(exercise()).status_code, 413)
+
+    def test_lease_released_after_engine_failure_and_resource_refusal(self):
+        with patch.object(api, "check_resources"), patch.object(api, "run_engine", new=AsyncMock(side_effect=HTTPException(503, "failure"))):
+            self.assertEqual(self.client.post("/run", headers=AUTH, json={"script": "inspect v1"}).status_code, 503)
+        store = api.Admission(self.cfg)
+        lease = store.acquire("test")
+        store.release(lease)
+        with patch.object(api, "check_resources", side_effect=HTTPException(503, "resources")), patch.object(api, "run_engine", new_callable=AsyncMock) as engine:
+            self.assertEqual(self.client.post("/run", headers=AUTH, json={"script": "inspect v1"}).status_code, 503)
+            engine.assert_not_called()
+
+    def test_gateway_passes_token_only_to_fixed_destination_and_refuses_redirects(self):
+        self.cfg.mode, self.cfg.upstream = "gateway", "https://worker.example"
+        seen = []
+        async def handle(request):
+            seen.append(request)
+            return httpx.Response(302, headers={"Location": "https://evil.example"})
+        original = httpx.AsyncClient
+        with patch.object(api.httpx, "AsyncClient", side_effect=lambda **kwargs: original(transport=httpx.MockTransport(handle), **kwargs)):
+            response = self.client.post("/run", headers=AUTH, json={"script": "inspect v1"})
+        self.assertEqual(response.status_code, 502)
+        self.assertEqual(len(seen), 1)
+        self.assertEqual(str(seen[0].url), "https://worker.example/run")
+        self.assertEqual(seen[0].headers["Authorization"], AUTH["Authorization"])
+
+
+class PackagingTests(unittest.TestCase):
+    def test_same_project_gateway_mount_and_static_payload_preservation(self):
+        import importlib.util
+        with tempfile.TemporaryDirectory() as directory:
+            payload = Path(directory)
+            (payload / "index.html").write_text("preserved static app")
+            subprocess.run([sys.executable, "tools/package-rest-api.py", directory], check=True)
+            self.assertEqual((payload / "index.html").read_text(), "preserved static app")
+            config = json.loads((payload / "vercel.json").read_text())
+            self.assertEqual(config["rewrites"][0]["source"], "/api/:path*")
+            self.assertIn("headers", config)
+            spec = importlib.util.spec_from_file_location("packaged_gateway", payload / "api/index.py")
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[spec.name] = module
+            self.addCleanup(sys.modules.pop, spec.name, None)
+            settings = {"KERO_API_MODE": "gateway", "KERO_API_UPSTREAM": "https://worker.example",
+                        "KERO_API_KEYS": json.dumps({"test": hashlib.sha256(TOKEN.encode()).hexdigest()})}
+            with patch.dict(os.environ, settings, clear=True):
+                spec.loader.exec_module(module)
+            client = TestClient(module.app)
+            self.assertEqual(client.get("/api/health").json()["mode"], "gateway")
+            schema = client.get("/api/openapi.json").json()
+            self.assertEqual(schema["servers"][0]["url"], "/api")
+            self.assertEqual(client.post("/api/run", json={"script": "inspect v1"}).status_code, 401)
+
+
+class SandboxTests(unittest.IsolatedAsyncioTestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = tempfile.TemporaryDirectory()
+        cls.binary = Path(cls.tmp.name) / "fixture"
+        source = cls.binary.with_suffix(".c")
+        source.write_text(r'''
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdlib.h>
+int main(int argc,char **argv) {
+  if(argc!=4 || strcmp(argv[1],"run") || strcmp(argv[2],"/job/input.lab") || strcmp(argv[3],"--json")) return 4;
+  FILE *f=fopen(argv[2],"r"); char text[2000]={0}; fread(text,1,sizeof(text)-1,f); fclose(f);
+  if(strstr(text,"999s")){ if(fork()==0) sleep(10); sleep(10); return 0; }
+  if(strstr(text,"998s")){ for(;;) puts("{\"large\":\"abcdefghijklmnopqrstuvwxyz\"}"); }
+  if(strstr(text,"997s")){ fputs("kero: fixture refusal\n",stderr); return 1; }
+  if(strstr(text,"996s")){ puts("{\"bad\":NaN}"); return 0; }
+  if(strstr(text,"995s")){ fputs("bwrap: fixture startup failure\n",stderr); return 1; }
+  char net[200]={0}; readlink("/proc/self/ns/net",net,sizeof(net)-1);
+  printf("{\"host_passwd_visible\":%s,\"credential_present\":%s,\"network_namespace\":\"%s\"}\n",
+    access("/etc/passwd",F_OK)==0?"true":"false",getenv("KERO_API_KEYS")?"true":"false",net);
+  return 0;
+}''')
+        subprocess.run(["cc", "-O0", str(source), "-o", str(cls.binary)], check=True)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.tmp.cleanup()
+
+    def cfg(self):
+        return api.Settings(binary=str(self.binary), engine={"binary_sha256": hashlib.sha256(self.binary.read_bytes()).hexdigest()})
+
+    async def test_filesystem_credentials_and_network_namespace_isolation(self):
+        with patch.dict(os.environ, {"KERO_API_KEYS": "must-not-reach-child"}):
+            result = await api.run_engine(self.cfg(), "inspect v1")
+        observation = result["observations"][0]
+        self.assertFalse(observation["host_passwd_visible"])
+        self.assertFalse(observation["credential_present"])
+        self.assertNotEqual(observation["network_namespace"], os.readlink("/proc/self/ns/net"))
+
+    async def test_deadline_kills_descendants_holding_pipes(self):
+        started = time.monotonic()
+        with patch.object(api, "WALL_SECONDS", .2):
+            result = await api.run_engine(self.cfg(), "wait 999s")
+        self.assertEqual(result["execution_status"], "timeout")
+        self.assertLess(time.monotonic() - started, 2)
+
+    async def test_output_exhaustion_and_chemistry_refusal_are_distinct(self):
+        result = await api.run_engine(self.cfg(), "wait 998s")
+        self.assertEqual(result["execution_status"], "output_limit")
+        result = await api.run_engine(self.cfg(), "wait 997s")
+        self.assertEqual(result["execution_status"], "refused")
+        self.assertEqual(result["physical_verdict"], "not_assigned")
+
+    async def test_cancellation_during_startup_reaps_process(self):
+        original = asyncio.create_subprocess_exec
+        spawned = []
+        ready = asyncio.Event()
+        async def delayed(*args, **kwargs):
+            proc = await original(*args, **kwargs)
+            spawned.append(proc)
+            ready.set()
+            await asyncio.sleep(.1)
+            return proc
+        with patch.object(api.asyncio, "create_subprocess_exec", side_effect=delayed):
+            task = asyncio.create_task(api.run_engine(self.cfg(), "wait 999s"))
+            await ready.wait()
+            task.cancel()
+            with self.assertRaises(asyncio.CancelledError):
+                await task
+        self.assertIsNotNone(spawned[0].returncode)
+
+    async def test_binary_identity_and_sandbox_fail_closed(self):
+        cfg = self.cfg()
+        cfg.engine["binary_sha256"] = "0" * 64
+        with self.assertRaises(HTTPException) as err:
+            await api.run_engine(cfg, "inspect v1")
+        self.assertEqual(err.exception.status_code, 503)
+
+    async def test_nonfinite_output_and_bootstrap_failure_are_not_science_refusals(self):
+        for script, expected in (("wait 996s", 502), ("wait 995s", 503)):
+            with self.assertRaises(HTTPException) as err:
+                await api.run_engine(self.cfg(), script)
+            self.assertEqual(err.exception.status_code, expected)
+        cfg = self.cfg()
+        cfg.binary = "/usr/bin/false"
+        cfg.engine["binary_sha256"] = hashlib.sha256(Path(cfg.binary).read_bytes()).hexdigest()
+        with self.assertRaises(HTTPException) as err:
+            await api.run_engine(cfg, "inspect v1")
+        self.assertEqual(err.exception.status_code, 503)
+
+
+if __name__ == "__main__":
+    unittest.main()

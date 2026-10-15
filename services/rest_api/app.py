@@ -1,0 +1,391 @@
+"""FastAPI worker or Vercel gateway. Execution is disabled without configuration."""
+from __future__ import annotations
+
+import asyncio
+from contextlib import closing
+from dataclasses import dataclass, field
+import hashlib
+import hmac
+import json
+import math
+import os
+from pathlib import Path
+import re
+import signal
+import shutil
+import sqlite3
+import sys
+import tempfile
+import time
+from urllib.parse import urlsplit
+from typing import Literal
+import uuid
+
+from fastapi import Depends, FastAPI, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+import httpx
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
+
+BODY_LIMIT = 20_000
+SCRIPT_LIMIT = 16_000
+OUTPUT_LIMIT = 1_000_000
+WALL_SECONDS = 10
+LEASE_SECONDS = 90
+# English only. Deliberately excludes language/session directives and commands
+# whose user-supplied loop bounds require a separate admission policy.
+VERBS = frozenset("new add heat cool wait stir seal open "
+                  "ignite filter decant drain measure "
+                  "chromatograph electrolyse electrolyze cell grind centrifuge "
+                  "irradiate dilute magnet react test inspect particles sweep".split())
+bearer = HTTPBearer(auto_error=False)
+
+
+class RunInput(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+    script: str = Field(min_length=1, max_length=SCRIPT_LIMIT)
+
+
+class RunOutput(BaseModel):
+    execution_status: Literal["completed", "refused", "timeout", "output_limit"]
+    exit_status: int | None
+    observations: list[dict]
+    diagnostics: str
+    elapsed_seconds: float
+    script_sha256: str
+    engine: dict
+    physical_verdict: Literal["not_assigned"] = "not_assigned"
+
+
+def require(condition):
+    if not condition:
+        raise ValueError("Invalid API configuration")
+
+
+@dataclass
+class Settings:
+    mode: str = "disabled"
+    keys: dict[str, str] = field(default_factory=dict)  # principal -> SHA256(key)
+    origins: list[str] = field(default_factory=list)
+    revision: str = "unknown"
+    engine: dict = field(default_factory=dict)
+    binary: str = ""
+    state: str = ""
+    upstream: str = ""
+    slots: int = 1
+    minute: int = 30
+    daily: int = 1000
+    min_memory_mib: int = 1024
+    min_disk_mib: int = 1024
+    max_load: float = 3.5
+
+    @classmethod
+    def from_env(cls):
+        try:
+            cfg = cls(mode=os.getenv("KERO_API_MODE", "disabled"),
+                      keys=json.loads(os.getenv("KERO_API_KEYS", "{}")),
+                      origins=json.loads(os.getenv("KERO_API_ORIGINS", "[]")),
+                      revision=os.getenv("VERCEL_GIT_COMMIT_SHA", "unknown"),
+                      state=os.getenv("KERO_API_STATE", ""),
+                      upstream=os.getenv("KERO_API_UPSTREAM", ""),
+                      min_memory_mib=int(os.getenv("KERO_API_MIN_MEMORY_MIB", "1024")),
+                      min_disk_mib=int(os.getenv("KERO_API_MIN_DISK_MIB", "1024")))
+            if cfg.mode == "worker":
+                manifest = json.loads(Path(os.environ["KERO_API_ENGINE_MANIFEST"]).read_text())
+                cfg.binary = str(Path(os.environ["KERO_API_BINARY"]).resolve(strict=True))
+                require(hashlib.sha256(Path(cfg.binary).read_bytes()).hexdigest() == manifest["binary_sha256"])
+                require(all(re.fullmatch(r"[a-f0-9]{64}", manifest[k]) for k in ("binary_sha256", "cargo_lock_sha256")))
+                require(re.fullmatch(r"[a-f0-9]{40}", manifest["source_head"]))
+                cfg.engine = {k: manifest[k] for k in ("source_head", "binary_sha256", "cargo_lock_sha256")}
+                cfg.revision = os.getenv("KERO_API_REVISION", "unknown")
+                require(Path(cfg.state).is_absolute() and os.access(cfg.binary, os.X_OK))
+                require(Path("/usr/bin/bwrap").is_file() and sys.platform == "linux" and os.geteuid() != 0)
+            elif cfg.mode == "gateway":
+                url = urlsplit(cfg.upstream)
+                require(url.scheme == "https" and url.hostname and not url.username and not url.password)
+                require(not url.query and not url.fragment and url.path in ("", "/"))
+                cfg.upstream = cfg.upstream.rstrip("/")
+            else:
+                return cls()
+            require(isinstance(cfg.keys, dict) and 0 < len(cfg.keys) <= 64)
+            require(all(re.fullmatch(r"[a-zA-Z0-9_-]{1,64}", k) and
+                       isinstance(v, str) and re.fullmatch(r"[a-f0-9]{64}", v) for k, v in cfg.keys.items()))
+            require(len(set(cfg.keys.values())) == len(cfg.keys))
+            require(isinstance(cfg.origins, list) and all(isinstance(o, str) and
+                       o.startswith("https://") and urlsplit(o).path == "" for o in cfg.origins))
+            require(cfg.min_memory_mib >= 1024)
+            require(cfg.min_disk_mib >= 1024)
+            return cfg
+        except (AssertionError, KeyError, ValueError, TypeError, OSError):
+            # No partially configured execution service, no secret/path in logs.
+            return cls()
+
+
+def validate_script(script: str):
+    if len(script.encode("utf-8")) > SCRIPT_LIMIT or any(ord(c) < 32 and c not in "\n\r\t" for c in script):
+        raise HTTPException(422, "Script exceeds byte limit or contains control characters")
+    lines = [line.strip() for line in script.splitlines() if line.strip() and not line.lstrip().startswith("#")]
+    if not lines or len(lines) > 128:
+        raise HTTPException(422, "Supply 1–128 commands")
+    for n, line in enumerate(lines, 1):
+        words = line.split()
+        if len(words) > 32 or words[0] not in VERBS:
+            raise HTTPException(422, f"Command {n} is outside the API command subset")
+    if sum(line.split()[0] == "new" for line in lines) > 16:
+        raise HTTPException(422, "At most 16 vessel creation commands")
+    duration = 0.0
+    for line in lines:
+        words = line.split()
+        index = {"wait": 1, "stir": 3, "electrolyse": 3, "electrolyze": 3, "centrifuge": 3}.get(words[0])
+        if index is None:
+            continue
+        if len(words) <= index:
+            if words[0] == "stir":
+                duration += 10  # The CLI's default stir duration.
+                continue
+            raise HTTPException(422, "Duration required")
+        match = re.fullmatch(r"([+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?)(s|sec|secs|seconds|min|mins|minutes|h|hr|hours|)", words[index].lower())
+        if not match:
+            raise HTTPException(422, "Use a finite Kero duration")
+        unit = match[2]
+        value = float(match[1]) * (3600 if unit in ("h", "hr", "hours") else 60 if unit.startswith("min") else 1)
+        if not 0 <= value <= 3600:
+            raise HTTPException(422, "Duration outside API limit")
+        duration += value
+    if duration > 3600:
+        raise HTTPException(422, "Aggregate simulated duration exceeds one hour")
+
+
+class Admission:
+    """Atomic quotas and worker leases, shared by every process on one host.
+
+    Use one authoritative worker host, on a local persistent filesystem.
+    SQLite is intentionally not a distributed/serverless rate limiter.
+    """
+    def __init__(self, cfg: Settings):
+        self.cfg = cfg
+
+    def acquire(self, principal: str) -> str:
+        cfg, now = self.cfg, time.time()
+        try:
+            with closing(sqlite3.connect(cfg.state, timeout=1)) as db, db:
+                db.execute("CREATE TABLE IF NOT EXISTS quota (principal TEXT, bucket TEXT, count INTEGER, PRIMARY KEY(principal,bucket))")
+                db.execute("CREATE TABLE IF NOT EXISTS leases (id TEXT PRIMARY KEY, expires REAL)")
+                db.execute("BEGIN IMMEDIATE")
+                db.execute("DELETE FROM leases WHERE expires <= ?", (now,))
+                # Only configured principals may reach here; bounded key count.
+                db.execute("DELETE FROM quota WHERE (bucket LIKE 'd%' AND bucket < ?) OR (bucket LIKE 'm%' AND bucket < ?)",
+                           (f"d{int(now // 86400)-1:012d}", f"m{int(now // 60)-1:012d}"))
+                if db.execute("SELECT count(*) FROM leases").fetchone()[0] >= cfg.slots:
+                    raise HTTPException(429, "Worker busy", headers={"Retry-After": "10"})
+                buckets = [(f"m{int(now // 60):012d}", cfg.minute), (f"d{int(now // 86400):012d}", cfg.daily)]
+                for bucket, limit in buckets:
+                    row = db.execute("SELECT count FROM quota WHERE principal=? AND bucket=?", (principal, bucket)).fetchone()
+                    if row and row[0] >= limit:
+                        retry = 60 if bucket[0] == "m" else 86400
+                        raise HTTPException(429, "Quota exceeded", headers={"Retry-After": str(retry)})
+                for bucket, _ in buckets:
+                    db.execute("INSERT INTO quota VALUES (?,?,1) ON CONFLICT(principal,bucket) DO UPDATE SET count=count+1", (principal, bucket))
+                lease = uuid.uuid4().hex
+                db.execute("INSERT INTO leases VALUES (?,?)", (lease, now + LEASE_SECONDS))
+                return lease
+        except sqlite3.Error:
+            raise HTTPException(503, "Admission store unavailable") from None
+
+    def release(self, lease: str):
+        try:
+            with closing(sqlite3.connect(self.cfg.state, timeout=1)) as db, db:
+                db.execute("DELETE FROM leases WHERE id=?", (lease,))
+        except sqlite3.Error:
+            pass  # Lease remains occupied until expiry; never grants extra work.
+
+
+def check_resources(cfg: Settings):
+    try:
+        memory = dict(line.split(":", 1) for line in Path("/proc/meminfo").read_text().splitlines())
+        free_disk = min(shutil.disk_usage(tempfile.gettempdir()).free,
+                        shutil.disk_usage(Path(cfg.state).parent).free) // 1024 ** 2
+        if (int(memory["MemAvailable"].split()[0]) // 1024 < cfg.min_memory_mib
+                or os.getloadavg()[0] > cfg.max_load or free_disk < cfg.min_disk_mib):
+            raise HTTPException(503, "Worker resource gate closed", headers={"Retry-After": "30"})
+    except (OSError, KeyError, ValueError):
+        raise HTTPException(503, "Worker resources unavailable") from None
+
+
+async def run_engine(cfg: Settings, script: str) -> dict:
+    started = time.monotonic()
+    if hashlib.sha256(Path(cfg.binary).read_bytes()).hexdigest() != cfg.engine["binary_sha256"]:
+        raise HTTPException(503, "Engine identity mismatch")
+    with tempfile.TemporaryDirectory(prefix="kero-api-") as directory:
+        path = Path(directory) / "input.lab"
+        path.write_text(script, encoding="utf-8")
+        wrapper = Path(__file__).with_name("worker.py")
+        spawning = asyncio.create_task(asyncio.create_subprocess_exec(sys.executable, "-I", str(wrapper), cfg.binary, str(path),
+            stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE,
+            env={"PATH": "/usr/bin:/bin", "LANG": "C.UTF-8"}, start_new_session=True))
+        try:
+            proc = await asyncio.shield(spawning)
+        except asyncio.CancelledError:
+            proc = await spawning
+            try:
+                os.killpg(proc.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            await proc.communicate()
+            raise
+        except OSError:
+            raise HTTPException(503, "Execution worker could not start") from None
+        total = 0
+
+        async def read(stream):
+            nonlocal total
+            chunks = []
+            while chunk := await stream.read(8192):
+                total += len(chunk)
+                if total > OUTPUT_LIMIT:
+                    raise OverflowError
+                chunks.append(chunk)
+            return b"".join(chunks)
+
+        tasks = [asyncio.create_task(read(proc.stdout)), asyncio.create_task(read(proc.stderr)), asyncio.create_task(proc.wait())]
+        status = "completed"
+        try:
+            stdout, stderr, code = await asyncio.wait_for(asyncio.gather(*tasks), WALL_SECONDS)
+        except (TimeoutError, OverflowError) as exc:
+            status = "timeout" if isinstance(exc, TimeoutError) else "output_limit"
+            stdout, stderr, code = b"", b"Execution limit reached", None
+        finally:
+            # Kill the whole group even when its leader exited with open pipes.
+            try:
+                os.killpg(proc.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            for task in tasks:
+                if not task.done():
+                    task.cancel()
+            await asyncio.gather(*tasks, return_exceptions=True)
+            # A paused asyncio pipe transport can keep wait() pending after
+            # exit. Drain its bounded residual buffers after killing the group.
+            await proc.communicate()
+        observations = []
+        def finite_float(value):
+            number = float(value)
+            if not math.isfinite(number):
+                raise ValueError
+            return number
+
+        def invalid_constant(_value):
+            raise ValueError
+
+        try:
+            for line in stdout.splitlines():
+                row = json.loads(line, parse_float=finite_float, parse_constant=invalid_constant)
+                if not isinstance(row, dict):
+                    raise ValueError
+                observations.append(row)
+        except (ValueError, UnicodeError):
+            raise HTTPException(502, "Engine returned invalid observations") from None
+        if status == "completed" and code:
+            if not stderr.startswith(b"kero:"):
+                raise HTTPException(503, "Engine or sandbox failed to execute")
+            status = "refused"
+        result = {"execution_status": status, "exit_status": code,
+                "observations": observations, "diagnostics": stderr.decode("utf-8", "replace").replace("/job/input.lab", "<script>"),
+                "elapsed_seconds": time.monotonic() - started,
+                "script_sha256": hashlib.sha256(script.encode()).hexdigest(), "engine": cfg.engine,
+                "physical_verdict": "not_assigned"}
+        if len(json.dumps(result, ensure_ascii=False, allow_nan=False, separators=(",", ":")).encode()) > OUTPUT_LIMIT * 2:
+            raise HTTPException(502, "Serialized engine response exceeds limit")
+        return result
+
+
+async def forward(cfg: Settings, token: str, script: str):
+    try:
+        async with httpx.AsyncClient(timeout=20, follow_redirects=False, trust_env=False) as client:
+            async with client.stream("POST", cfg.upstream + "/run", json={"script": script},
+                    headers={"Authorization": "Bearer " + token}) as response:
+                data = bytearray()
+                async for chunk in response.aiter_bytes():
+                    if len(data) + len(chunk) > OUTPUT_LIMIT * 2:
+                        raise ValueError
+                    data.extend(chunk)
+                if response.status_code in (401, 403, 422, 429, 503):
+                    raise HTTPException(response.status_code, "Execution worker declined the request",
+                        headers={"Retry-After": "30"} if response.status_code in (429, 503) else None)
+                if response.status_code != 200:
+                    raise ValueError
+                return RunOutput.model_validate_json(data).model_dump()
+    except (httpx.HTTPError, ValueError, ValidationError):
+        raise HTTPException(502, "Execution worker unavailable or returned an invalid response") from None
+
+
+def create_app(cfg: Settings | None = None):
+    cfg = cfg or Settings.from_env()
+    app = FastAPI(title="Kerotakis REST API", version="1.0.0",
+                  swagger_ui_parameters={"persistAuthorization": False})
+    app.add_middleware(CORSMiddleware, allow_origins=cfg.origins,
+                       allow_methods=["POST", "GET"], allow_headers=["Authorization", "Content-Type"])
+    admission = Admission(cfg)
+
+    @app.middleware("http")
+    async def headers(request, call_next):
+        response = await call_next(request)
+        response.headers["Cache-Control"] = "no-store"
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        return response
+
+    async def authenticate(credentials: HTTPAuthorizationCredentials | None = Depends(bearer)):
+        if cfg.mode == "disabled":
+            raise HTTPException(503, "Execution service is not configured")
+        if credentials is None or len(credentials.credentials) > 512:
+            raise HTTPException(401, "Bearer credential required", headers={"WWW-Authenticate": "Bearer"})
+        digest = hashlib.sha256(credentials.credentials.encode()).hexdigest()
+        principal = None
+        for name, expected in cfg.keys.items():
+            if hmac.compare_digest(digest, expected):
+                principal = name
+        if principal is None:
+            raise HTTPException(401, "Invalid bearer credential", headers={"WWW-Authenticate": "Bearer"})
+        return principal, credentials.credentials
+
+    @app.get("/health")
+    async def health():
+        return {"service": "kerotakis", "api_version": 1, "mode": cfg.mode,
+                "configured": cfg.mode != "disabled", "revision": cfg.revision,
+                "engine": cfg.engine or None}
+
+    @app.post("/run", response_model=RunOutput, openapi_extra={"requestBody": {
+        "required": True, "content": {"application/json": {"schema": RunInput.model_json_schema()}}}})
+    async def run(request: Request, identity=Depends(authenticate)):
+        if request.headers.get("content-type", "").split(";", 1)[0].strip().lower() != "application/json":
+            raise HTTPException(415, "Use application/json")
+        if request.headers.get("content-encoding", "identity") != "identity":
+            raise HTTPException(415, "Compressed request bodies are not supported")
+        body = bytearray()
+        try:
+            async with asyncio.timeout(5):
+                async for chunk in request.stream():
+                    if len(body) + len(chunk) > BODY_LIMIT:
+                        raise HTTPException(413, "Request body too large")
+                    body.extend(chunk)
+        except TimeoutError:
+            raise HTTPException(408, "Request body timeout") from None
+        try:
+            payload = RunInput.model_validate_json(body)
+        except ValidationError:
+            raise HTTPException(422, "Expected only a bounded non-empty script string") from None
+        validate_script(payload.script)
+        principal, token = identity
+        if cfg.mode == "gateway":
+            return await forward(cfg, token, payload.script)
+        check_resources(cfg)
+        lease = admission.acquire(principal)
+        try:
+            return await run_engine(cfg, payload.script)
+        finally:
+            admission.release(lease)
+
+    return app
+
+
+app = create_app()
