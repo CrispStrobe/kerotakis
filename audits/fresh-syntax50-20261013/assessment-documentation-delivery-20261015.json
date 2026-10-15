@@ -1,0 +1,45 @@
+{
+  "autoMergeRequest": {
+    "authorEmail": null,
+    "commitBody": null,
+    "commitHeadline": null,
+    "mergeMethod": "MERGE",
+    "enabledAt": "2026-10-15T11:32:17Z",
+    "enabledBy": {
+      "id": "U_kgDOCTeQZA",
+      "is_bot": false,
+      "login": "CrispStrobe",
+      "name": ""
+    }
+  },
+  "baseRefOid": "5af0be7f4e2ce54667af208303dcd448d41cddbc",
+  "files": [
+    {
+      "path": "docs/STATUS.md",
+      "additions": 92,
+      "deletions": 4,
+      "changeType": "MODIFIED"
+    },
+    {
+      "path": "docs/colour-and-mixture-followups.md",
+      "additions": 92,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "docs/improvement-agenda-20261014.md",
+      "additions": 22,
+      "deletions": 11,
+      "changeType": "MODIFIED"
+    }
+  ],
+  "headRefOid": "6335e2aeeaaf2cf622e8e37af6b75f487a7df84b",
+  "isDraft": false,
+  "number": 793,
+  "state": "OPEN",
+  "url": "https://github.com/CrispStrobe/kerotakis/pull/793",
+  "recorded_utc": "2026-10-15T11:33:12.187047+00:00",
+  "ci_run": 38728003819,
+  "scope": "Exactly three Markdown files from main; audit-only evidence links pin aee33e18349761189ff9312bdb6dc9e4f20d51b9. No runtime/data/workflow/experiment changes; no chemistry fleet applicable.",
+  "merge_verified": false
+}
