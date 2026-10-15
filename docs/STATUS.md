@@ -39,10 +39,10 @@ exits. Raw case integrity is now verified for all forty saved cases, with no mis
 cases or stdout parse errors. The first manual physical assessment is now
 **28 pass, 1 fail, 9 unsupported and 2 inconclusive**. This is a separate old-source
 control set; the original fifty remain unchanged. Process exits are not scientific
-verdicts. See the [case assessment and scoped next steps](https://github.com/CrispStrobe/kerotakis/blob/51beacc0b1bf018b8f3bd0a4c7cdc70b13d1cca6/audits/fresh-syntax50-20261013/normalized40-first-assessment.md). See the [raw-integrity receipt](https://github.com/CrispStrobe/kerotakis/blob/51beacc0b1bf018b8f3bd0a4c7cdc70b13d1cca6/audits/fresh-syntax50-20261013/normalized40-raw-integrity.json). Do not duplicate the execution. See the
-[completion receipt](https://github.com/CrispStrobe/kerotakis/blob/51beacc0b1bf018b8f3bd0a4c7cdc70b13d1cca6/audits/fresh-syntax50-20261013/normalized40-hosted-completion.json).
+verdicts. See the [case assessment and scoped next steps](https://github.com/CrispStrobe/kerotakis/blob/e60a11291968619e475124c0823e6fcf66e5dd49/audits/fresh-syntax50-20261013/normalized40-first-assessment.md). See the [raw-integrity receipt](https://github.com/CrispStrobe/kerotakis/blob/e60a11291968619e475124c0823e6fcf66e5dd49/audits/fresh-syntax50-20261013/normalized40-raw-integrity.json). Do not duplicate the execution. See the
+[completion receipt](https://github.com/CrispStrobe/kerotakis/blob/e60a11291968619e475124c0823e6fcf66e5dd49/audits/fresh-syntax50-20261013/normalized40-hosted-completion.json).
 
-The [saved-evidence reader](https://github.com/CrispStrobe/kerotakis/blob/51beacc0b1bf018b8f3bd0a4c7cdc70b13d1cca6/audits/fresh-syntax50-20261013/normalized40-review/README.md)
+The [saved-evidence reader](https://github.com/CrispStrobe/kerotakis/blob/e60a11291968619e475124c0823e6fcf66e5dd49/audits/fresh-syntax50-20261013/normalized40-review/README.md)
 is ready with seventeen ingestion tests; it produces a review queue and assigns no
 physical verdicts.
 
@@ -56,7 +56,7 @@ physical verdicts.
 
 The unchanged KNO3 control completed against pinned merged source `d791d306` in
 [run 38739278904](https://github.com/CrispStrobe/kerotakis/actions/runs/38739278904).
-The [authenticated assessment and raw observations](https://github.com/CrispStrobe/kerotakis/blob/51beacc0b1bf018b8f3bd0a4c7cdc70b13d1cca6/audits/fresh-syntax50-20261013/kno3-current-main/assessment.json)
+The [authenticated assessment and raw observations](https://github.com/CrispStrobe/kerotakis/blob/e60a11291968619e475124c0823e6fcf66e5dd49/audits/fresh-syntax50-20261013/kno3-current-main/assessment.json)
 reproduce the failure: all 20 g dissolves in 50 g water at 20.004 °C, with no
 solid left. This is a separate current-main replay; original counts are unchanged.
 The [finite-solubility repair lanes](kno3-finite-solubility-lane.md) trace the
@@ -75,8 +75,8 @@ names retain canonical identities and finite bottles, including parsed Story kit
 All 25 CI and 33 own-fleet checks passed. The separately frozen eight CLI controls
 passed all four named/canonical pairs: complete streams are byte-identical,
 overdraw leaves the entire bench unchanged, and final retained increments match
-0.005 mol after subtracting initial trapped gas. [CLI assessment](https://github.com/CrispStrobe/kerotakis/blob/51beacc0b1bf018b8f3bd0a4c7cdc70b13d1cca6/audits/fresh-syntax50-20261013/english-naming-cli/completed-assessment.json)
-and [actual merge evidence](https://github.com/CrispStrobe/kerotakis/blob/51beacc0b1bf018b8f3bd0a4c7cdc70b13d1cca6/audits/fresh-syntax50-20261013/english-naming-integration.json)
+0.005 mol after subtracting initial trapped gas. [CLI assessment](https://github.com/CrispStrobe/kerotakis/blob/e60a11291968619e475124c0823e6fcf66e5dd49/audits/fresh-syntax50-20261013/english-naming-cli/completed-assessment.json)
+and [actual merge evidence](https://github.com/CrispStrobe/kerotakis/blob/e60a11291968619e475124c0823e6fcf66e5dd49/audits/fresh-syntax50-20261013/english-naming-integration.json)
 preserve source/artifact/lock/parents/tree bindings. The original control syntax
 failure remains preserved; these engineering passes establish no new reaction domain.
 
@@ -89,9 +89,9 @@ in [run 38763662200](https://github.com/CrispStrobe/kerotakis/actions/runs/38763
 The runner reuses the verified pinned-main CLI without rebuilding, and continues
 after individual refusals/timeouts. It completed all 200 attempts: 92 zero exits and 108 nonzero exits, with all
 additions reached in 92 scripts. No scientific passes are assigned. See the
-[authenticated completion and case report](https://github.com/CrispStrobe/kerotakis/blob/51beacc0b1bf018b8f3bd0a4c7cdc70b13d1cca6/audits/reaction-dataset-200-20261015/completion.json). Every source record lacks a procedure: solvent, gas
+[authenticated completion and case report](https://github.com/CrispStrobe/kerotakis/blob/e60a11291968619e475124c0823e6fcf66e5dd49/audits/reaction-dataset-200-20261015/completion.json). Every source record lacks a procedure: solvent, gas
 boundary, activation, symbolic/electron and catalyst limitations are explicit.
-Read the [independent protocol review](https://github.com/CrispStrobe/kerotakis/blob/51beacc0b1bf018b8f3bd0a4c7cdc70b13d1cca6/audits/reaction-dataset-200-20261015/protocol-review.json),
+Read the [independent protocol review](https://github.com/CrispStrobe/kerotakis/blob/e60a11291968619e475124c0823e6fcf66e5dd49/audits/reaction-dataset-200-20261015/protocol-review.json),
 including organic water-setup and starch-surrogate limits. Keep this supplied
 reference screen separate from the original blind fifty and old-source forty.
 
@@ -103,7 +103,7 @@ seconds. [PR790](https://github.com/CrispStrobe/kerotakis/pull/790) is now merge
 replacement activity during fading, and restored dimensions after economy mode.
 All 25 CI jobs passed. The merged runtime subtrees match the reviewed candidate;
 the complete tree matches the expected merge with main's inherited documentation.
-See [integration evidence](https://github.com/CrispStrobe/kerotakis/blob/51beacc0b1bf018b8f3bd0a4c7cdc70b13d1cca6/audits/fresh-syntax50-20261013/fluid-rendering-integration.json).
+See [integration evidence](https://github.com/CrispStrobe/kerotakis/blob/e60a11291968619e475124c0823e6fcf66e5dd49/audits/fresh-syntax50-20261013/fluid-rendering-integration.json).
 
 The blue/yellow watercolor repair is now integrated through
 [PR792](https://github.com/CrispStrobe/kerotakis/pull/792) as `b22f3da5`.
@@ -122,14 +122,14 @@ readback work is scoped in the [follow-up lanes](colour-and-mixture-followups.md
 step-local narration collapses exact repeated model-limit events in CLI/app,
 preserving raw events, distinct causes and later-step warnings. All 25 CI and
 33 own-fleet checks passed, including the four new native groups. The
-[integration receipt](https://github.com/CrispStrobe/kerotakis/blob/51beacc0b1bf018b8f3bd0a4c7cdc70b13d1cca6/audits/fresh-syntax50-20261013/coverage-prose-integration.json)
+[integration receipt](https://github.com/CrispStrobe/kerotakis/blob/e60a11291968619e475124c0823e6fcf66e5dd49/audits/fresh-syntax50-20261013/coverage-prose-integration.json)
 verifies actual parents and expected merge tree. Equilibrium readback churn
 remains a separate task.
 
 PR789, PR790, PR791 and PR792 are integrated. Original source-review and CI
 failures remain in their dated receipts; later acceptance does not erase them.
 [Documentation PR793](https://github.com/CrispStrobe/kerotakis/pull/793)
-merged as `208f9a72` after all 25 CI jobs passed; its [integration receipt](https://github.com/CrispStrobe/kerotakis/blob/51beacc0b1bf018b8f3bd0a4c7cdc70b13d1cca6/audits/fresh-syntax50-20261013/assessment-documentation-integration-20261015.json)
+merged as `208f9a72` after all 25 CI jobs passed; its [integration receipt](https://github.com/CrispStrobe/kerotakis/blob/e60a11291968619e475124c0823e6fcf66e5dd49/audits/fresh-syntax50-20261013/assessment-documentation-integration-20261015.json)
 verifies actual parents and expected merge tree. First failures remain preserved.
 Do not transfer checks across changed source or merge broad audit/infrastructure
 branches.
@@ -137,7 +137,7 @@ branches.
 
 Documentation portability/current-state PR788 merged as `5af0be7f` after all 25
 CI jobs passed. Its reviewed candidate and actual integrated tree match; this is
-[documentation integration evidence](https://github.com/CrispStrobe/kerotakis/blob/51beacc0b1bf018b8f3bd0a4c7cdc70b13d1cca6/audits/fresh-syntax50-20261013/documentation-integration-20261015.json),
+[documentation integration evidence](https://github.com/CrispStrobe/kerotakis/blob/e60a11291968619e475124c0823e6fcf66e5dd49/audits/fresh-syntax50-20261013/documentation-integration-20261015.json),
 not a runtime or chemistry acceptance claim.
 
 ## PR delivery and resources
@@ -158,7 +158,7 @@ incomplete and must preserve unique commits, modifications and evidence.
 A separate VPS run of the frozen 200 generated probes attempted ranks 1–13
 in 3.61 seconds combined case time: twelve zero exits and one `Na` identity
 refusal. The memory gate stopped it before rank 14; all thirteen saved stream
-hashes were verified. [Partial execution receipt](https://github.com/CrispStrobe/kerotakis/blob/51beacc0b1bf018b8f3bd0a4c7cdc70b13d1cca6/audits/reaction-dataset-200-20261015/vps-partial-execution.json).
+hashes were verified. [Partial execution receipt](https://github.com/CrispStrobe/kerotakis/blob/e60a11291968619e475124c0823e6fcf66e5dd49/audits/reaction-dataset-200-20261015/vps-partial-execution.json).
 The remaining 187 were not executed locally. The independent hosted batch has
 completed all 200; do not repeat it merely to finish the local prefix. No physical passes
 are assigned and the generated screens are not individually validated procedures.
@@ -176,7 +176,7 @@ requests returned HTTP200 without errors or retries: 92 completed and 108
 preserved CLI refusals. Execution status and full parsed observations match the
 CLI baseline for all 200. Median request time was 3.27 seconds. The saved
 responses/CLI streams were independently rechecked by the report reader.
-[API comparison](https://github.com/CrispStrobe/kerotakis/blob/51beacc0b1bf018b8f3bd0a4c7cdc70b13d1cca6/audits/reaction-dataset-200-20261015/api-comparison/completion.json).
+[API comparison](https://github.com/CrispStrobe/kerotakis/blob/e60a11291968619e475124c0823e6fcf66e5dd49/audits/reaction-dataset-200-20261015/api-comparison/completion.json).
 This is transport/runtime agreement; no new physical passes are assigned.
 
 Actual Vercel Landlock support was unavailable. Execution now uses fresh,
@@ -184,7 +184,7 @@ network-denied Vercel microVMs with a bound engine/security snapshot, private
 root, dropped privileges and seccomp; no VPS worker is needed. Shared admission
 uses a dedicated free Redis store. Production API revision `9bee95d9` retains
 verified engine `d791d306`; the existing frontend assets were preserved.
-[Deployment evidence](https://github.com/CrispStrobe/kerotakis/blob/51beacc0b1bf018b8f3bd0a4c7cdc70b13d1cca6/audits/fresh-syntax50-20261013/rest-api-production-20261015.json)
+[Deployment evidence](https://github.com/CrispStrobe/kerotakis/blob/e60a11291968619e475124c0823e6fcf66e5dd49/audits/fresh-syntax50-20261013/rest-api-production-20261015.json)
 records first failures, exact bindings, controls and limits. Execution success
 continues to carry `physical_verdict: not_assigned`.
 
@@ -213,8 +213,13 @@ The original 200 outcomes and all previous blind forecasts are unchanged.
 
 [PR796](https://github.com/CrispStrobe/kerotakis/pull/796) contains the first
 charged-input reporting repair and eight regression groups; hosted native/full
-fleet acceptance is pending. Next implement the sourced silver–ammonia capability
-route, then bounded acidified permanganate/peroxide chemistry. Follow the
+fleet acceptance is pending. [PR798](https://github.com/CrispStrobe/kerotakis/pull/798)
+contains sourced silver–ammonia routing, four focused groups and an explicit
+canonical ligand-ownership limitation; hosted execution remains pending.
+Before adding acidified permanganate/peroxide, implement the
+[shared continuation and thermal-ownership prerequisites](acid-permanganate-peroxide-lane.md).
+Fresh acidity and unmodeled reaction heat must survive native/browser continuation
+and repeated phase-tail solves correctly. Follow the
 [ordered repair contracts](../audits/reaction-dataset-200-20261015/CHEMISTRY-RESULTS.md#ordered-repairs)
 for identities, protocol completion, conservation, phase and observable gaps.
 
@@ -223,3 +228,10 @@ The PR795 native AL2023 preview build now passed in
 Its first API acceptance failure, encoding offences and workflow-lint failure
 are preserved; fixes are in progress. Production API execution remains on its
 explicitly reported pinned engine; no newer chemistry is claimed deployed.
+
+PR795's CI repair is now pushed at `21dcb14c`, including integrated main through
+PR792. On that exact source, 25 API controls, 15 workflow-toolchain controls,
+UTF-8 and payload lint, and client/service-worker checks passed locally. The
+Ubuntu vendor Bubblewrap profile and complete native/fleet/browser acceptance
+remain subject to fresh hosted checks; no engine or browser build ran locally.
+The first sandbox/build/lint failures remain preserved.
