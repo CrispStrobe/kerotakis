@@ -594,18 +594,33 @@ pub fn parse_command(line: &str, locale: Locale) -> Result<Command, ParseError> 
     let canonical = canonical_line_in(line, locale);
     let attempt = canonical.as_deref().unwrap_or(line);
     match parse_op_typed(attempt) {
-        Ok(operator) => Ok(Command {
-            canonical: attempt.trim().to_string(),
-            operator,
-        }),
+        Ok(operator) => Ok(replayable_command(attempt, operator)),
         Err(error) if canonical.is_some() => match parse_op_typed(line) {
-            Ok(operator) => Ok(Command {
-                canonical: line.trim().to_string(),
-                operator,
-            }),
+            Ok(operator) => Ok(replayable_command(line, operator)),
             Err(_) => Err(localised(error, locale)),
         },
         Err(error) => Err(localised(error, locale)),
+    }
+}
+
+/// Material names alone select a current default; saved commands must retain
+/// the same revision that the typed operator already pins.
+fn replayable_command(line: &str, operator: Option<Operator>) -> Command {
+    let canonical = if let Some(Operator::AddMaterial {
+        material,
+        recipe_version,
+        ..
+    }) = &operator
+    {
+        let mut words: Vec<String> = line.split_whitespace().map(str::to_string).collect();
+        words[2] = format!("{material}@{recipe_version}");
+        words.join(" ")
+    } else {
+        line.trim().to_string()
+    };
+    Command {
+        canonical,
+        operator,
     }
 }
 
@@ -927,7 +942,7 @@ pub fn parse_op_typed(line: &str) -> Result<Option<Operator>, ParseError> {
         ["add", _, species, ..]
             if species::lookup_key(species).is_none()
                 && crate::nuclide::lookup_notation(species).is_none()
-                && material::lookup(species, None).is_none() =>
+                && material::lookup_input(species, None).is_none() =>
         {
             ParseErrorKind::UnknownSpecies
         }
@@ -1077,7 +1092,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                     moles: parse_amount(words[3], data)?,
                     at: parse_at(&words[4..])?,
                 }
-            } else if let Some(recipe) = material::lookup(words[2], None) {
+            } else if let Some(recipe) = material::lookup_input(words[2], None) {
                 let total_amount = parse_material_amount(words[3], &recipe)?;
                 Operator::AddMaterial {
                     vessel,
@@ -2363,7 +2378,7 @@ mod localised_grammar {
         assert_eq!(salt.canonical, "add v1 NaCl 1g");
 
         let milk = parse_command("zugeben v1 Milch 100mL", de).expect("German milk");
-        assert_eq!(milk.canonical, "add v1 whole_milk 100mL");
+        assert_eq!(milk.canonical, "add v1 whole_milk@1 100mL");
         assert_eq!(milk.operator, parse_op("add v1 whole_milk 100mL").unwrap());
     }
 

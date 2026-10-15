@@ -1837,10 +1837,12 @@ impl Bench {
                 if !total_amount.is_finite() || *total_amount <= 0.0 {
                     return Err(BenchError::NonPositiveAmount);
                 }
-                let recipe = material::lookup(material_name, None)
+                let current = material::lookup(material_name, None)
                     .ok_or_else(|| BenchError::UnknownMaterial(material_name.clone()))?;
-                if recipe.id != *recipe_id
-                    || recipe.version != *recipe_version
+                let recipe = material::lookup_versioned(recipe_id, *recipe_version)
+                    .ok_or(BenchError::MaterialRecipeMismatch)?;
+                if current.id != recipe.id
+                    || current.canonical_key != recipe.canonical_key
                     || recipe.basis != *basis
                 {
                     return Err(BenchError::MaterialRecipeMismatch);

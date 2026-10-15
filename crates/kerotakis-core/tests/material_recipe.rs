@@ -5,6 +5,112 @@ use kerotakis_core::species::SpeciesId;
 use kerotakis_core::Bench;
 
 #[test]
+fn canonical_material_commands_pin_revision_and_replay_the_same_expansion() {
+    use kerotakis_core::script::parse_command;
+    use kerotakis_core::Locale;
+
+    for (line, locale, expected) in [
+        (
+            "add v1 watercolour_blue 100g",
+            Locale::EN,
+            "add v1 watercolour_blue@1 100g",
+        ),
+        (
+            "add v1 watercolour_yellow 100mL @ 30C",
+            Locale::EN,
+            "add v1 watercolour_yellow@1 100mL @ 30C",
+        ),
+        (
+            "zugeben v1 Milch 100mL",
+            Locale::parse("de"),
+            "add v1 whole_milk@1 100mL",
+        ),
+    ] {
+        let command = parse_command(line, locale).expect("parse material");
+        assert_eq!(command.canonical, expected);
+        let replay = parse_command(&command.canonical, Locale::EN).expect("replay pin");
+        assert_eq!(replay.canonical, command.canonical);
+        assert_eq!(replay.operator, command.operator);
+        let mut original_bench = Bench::new();
+        let mut replay_bench = Bench::new();
+        let original_events = original_bench
+            .step(command.operator.unwrap())
+            .expect("original addition");
+        let replay_events = replay_bench
+            .step(replay.operator.unwrap())
+            .expect("replayed addition");
+        assert_eq!(original_events, replay_events);
+        assert_eq!(
+            serde_json::to_value(&original_bench).unwrap(),
+            serde_json::to_value(&replay_bench).unwrap()
+        );
+    }
+}
+
+#[test]
+fn pinned_material_alias_uses_the_canonical_bottle_and_finite_stock() {
+    use kerotakis_core::script::parse_command;
+    use kerotakis_core::Locale;
+
+    let mut bench = Bench::new();
+    bench
+        .step(parse_op("stock whole_milk 20g").unwrap().unwrap())
+        .unwrap();
+    let command = parse_command("add v1 Milch@1 5g", Locale::EN).unwrap();
+    assert_eq!(command.canonical, "add v1 whole_milk@1 5g");
+    bench.step(command.operator.unwrap()).unwrap();
+    assert_eq!(bench.stock.remaining("whole_milk").unwrap().amount, 15.0);
+    assert!(bench.stock.remaining("Milch@1").is_none());
+}
+
+#[test]
+fn unavailable_or_invalid_material_revision_never_selects_current_default() {
+    for revision in ["", "0", "-1", "+1", "1.0", "2", "4294967296", "1@1"] {
+        assert!(
+            parse_op(&format!("add v1 watercolour_blue@{revision} 100g")).is_err(),
+            "revision {revision:?} must not become the current recipe"
+        );
+    }
+}
+
+#[test]
+fn direct_material_replay_refuses_mismatched_identity_or_revision_without_mutation() {
+    let original = parse_op("add v1 watercolour_blue 100g").unwrap().unwrap();
+    for wrong_identity in [false, true] {
+        let mut forged = original.clone();
+        if let Operator::AddMaterial {
+            recipe_id,
+            recipe_version,
+            ..
+        } = &mut forged
+        {
+            if wrong_identity {
+                *recipe_id = kerotakis_core::material::lookup("watercolour_yellow", None)
+                    .unwrap()
+                    .id;
+            } else {
+                *recipe_version = 2;
+            }
+        }
+        let mut bench = Bench::new();
+        let before = serde_json::to_value(&bench).unwrap();
+        assert!(bench.step(forged).is_err());
+        assert_eq!(serde_json::to_value(&bench).unwrap(), before);
+    }
+}
+
+#[test]
+fn material_revision_pins_do_not_change_pure_species_or_session_commands() {
+    use kerotakis_core::script::parse_command;
+    use kerotakis_core::Locale;
+
+    for line in ["add v1 water 100mL", "add v1 NaCl 1g", "inspect v1"] {
+        assert_eq!(parse_command(line, Locale::EN).unwrap().canonical, line);
+    }
+    assert!(parse_op("add v1 NaCl@1 1g").is_err());
+}
+
+#[test]
 fn household_peroxide_volume_expands_and_pins_recipe() {
     let op = parse_op("add v1 Wasserstoffperoxid_3% 100mL")
         .expect("valid material command")

@@ -43,6 +43,24 @@ pub fn lookup(query: &str, language: Option<&str>) -> Option<MaterialRecipe> {
         })
 }
 
+/// Resolve an ingredient, optionally pinned as `<name>@<recipe-version>`.
+/// An unavailable revision fails closed instead of selecting today's recipe.
+pub fn lookup_input(query: &str, language: Option<&str>) -> Option<MaterialRecipe> {
+    let Some((name, revision)) = query.rsplit_once('@') else {
+        return lookup(query, language);
+    };
+    if revision.is_empty() || !revision.bytes().all(|byte| byte.is_ascii_digit()) {
+        return None;
+    }
+    let revision = revision
+        .parse::<u32>()
+        .ok()
+        .filter(|revision| *revision > 0)?;
+    let current = lookup(name, language)?;
+    lookup_versioned(&current.id, revision)
+        .filter(|recipe| recipe.canonical_key == current.canonical_key)
+}
+
 pub fn all() -> Vec<MaterialRecipe> {
     let mut recipes = builtins().to_vec();
     recipes.extend(
@@ -109,9 +127,18 @@ pub fn surface_floaters(vessel: &crate::Vessel) -> Vec<SurfaceFloatObservation> 
 
 /// Recover the exact recipe pinned by an unresolved material portion.
 pub fn lookup_versioned(id: &str, version: u32) -> Option<MaterialRecipe> {
-    all()
-        .into_iter()
+    builtins()
+        .iter()
         .find(|recipe| recipe.id == id && recipe.version == version)
+        .cloned()
+        .or_else(|| {
+            loaded()
+                .read()
+                .unwrap_or_else(|poisoned| poisoned.into_inner())
+                .iter()
+                .find(|recipe| recipe.id == id && recipe.version == version)
+                .cloned()
+        })
 }
 
 /// The lot source the material route stamps on everything a recipe
@@ -497,10 +524,12 @@ pub fn register_loaded(recipes: Vec<MaterialRecipe>) -> (usize, usize) {
     let mut skipped = 0;
     for recipe in recipes {
         let conflicts = recipe_names(&recipe).into_iter().any(|name| {
-            builtins()
-                .iter()
-                .chain(target.iter())
-                .any(|present| present.matches(&name, None))
+            // `@` separates a material name from its pinned revision in scripts.
+            name.contains('@')
+                || builtins()
+                    .iter()
+                    .chain(target.iter())
+                    .any(|present| present.matches(&name, None))
         });
         if conflicts {
             skipped += 1;
@@ -529,5 +558,25 @@ mod tests {
         assert_eq!(expansion.recipe_version, 1);
         assert_eq!(expansion.components[0].species_id, "H2O2");
         assert!((expansion.components[0].amount - 3.0).abs() < 1e-12);
+    }
+
+    #[test]
+    fn loaded_materials_cannot_claim_script_revision_syntax() {
+        for in_alias in [false, true] {
+            let mut recipe = lookup("whole_milk", None).unwrap();
+            recipe.id = "test/revision-syntax-reservation".to_string();
+            recipe.canonical_key = "revision_syntax_reservation".to_string();
+            recipe.name = "Revision syntax reservation".to_string();
+            recipe.aliases.clear();
+            if in_alias {
+                recipe.aliases.insert(
+                    "en".to_string(),
+                    vec!["revision_syntax_alias@1".to_string()],
+                );
+            } else {
+                recipe.canonical_key.push_str("@1");
+            }
+            assert_eq!(register_loaded(vec![recipe]), (0, 1));
+        }
     }
 }
