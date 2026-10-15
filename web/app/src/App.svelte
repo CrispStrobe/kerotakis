@@ -409,6 +409,11 @@
     if (phase === "story") {
       const storyReloaded = labMode === "story" && session.commandLog.join("\n") === "add v1 water 100mL";
       appStorage.setItem("kero.selftest.world002.story-reloaded", storyReloaded ? "yes" : "no");
+      // Restore may legitimately migrate and persist the Story save. Freeze
+      // that completed restore before checking that Sandbox cannot change it.
+      const restoredStory = story.getItem("kero.session.v1");
+      if (restoredStory === null) throw new Error("Story save missing after restore");
+      appStorage.setItem("kero.selftest.world002.story-baseline", restoredStory);
       sandbox.setItem("kero.session.v1", JSON.stringify({ log: ["add v1 AgNO3 1g"], position: 1, register: "lv1" }));
       appStorage.setItem(WORLD_SELFTEST_PHASE, "sandbox");
       writeLabMode(appStorage, "sandbox");
@@ -417,7 +422,9 @@
     }
 
     const sandboxReloaded = labMode === "sandbox" && session.commandLog.join("\n") === "add v1 AgNO3 1g";
-    const storyUnchanged = story.getItem("kero.session.v1") === storySession;
+    const storyBaseline = appStorage.getItem("kero.selftest.world002.story-baseline");
+    const storyUnchanged = storyBaseline !== null
+      && story.getItem("kero.session.v1") === storyBaseline;
     const sharedSettings = readSharedSetting(appSaveRepository, "theme") === "contrast"
       && readSharedSetting(appSaveRepository, "locale") === "de";
     const cloneDeletedAbsent = sandbox.getItem(MODE_APPARATUS_KEY) === null;
@@ -471,6 +478,7 @@
     }
     appStorage.removeItem(WORLD_SELFTEST_PHASE);
     appStorage.removeItem("kero.selftest.world002.story-reloaded");
+    appStorage.removeItem("kero.selftest.world002.story-baseline");
     return {
       world_storage_ready: true,
       world_story_reloaded: storyReloaded,
