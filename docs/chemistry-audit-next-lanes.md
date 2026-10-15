@@ -9,7 +9,9 @@ checkpoint/priority sections below retain historical pending statements.
 The current execution order is [the six-lane roadmap](ordered-work-roadmap-20261013.md).
 Release performance lane 1 is complete: PR785 merged at `30fd09eb`, with
 accepted controlled performance and 702 saved cases / 991 engineering checks.
-The next lane is fifty fresh syntax-only experiments, waiting for resource gates.
+The fifty have executed; thermal and water-alias repairs are integrated. The
+active lane is the original forty spelling-normalized controls, dispatched on
+a bounded hosted worker. Follow STATUS and the newer improvement agenda.
 The older catalog and agenda below preserve task IDs and historical starting
 points; refresh their presence/source prerequisites before later-lane execution.
 

@@ -1,7 +1,7 @@
 # Ordered improvement agenda — 2026-10-14
 
-The user authorized all six steps below in this order. Step 1 is complete;
-steps 1–2 are complete; step 3 is active and steps 4–6 are queued. This agenda orders the current fresh-experiment gap work;
+The user authorized all six steps below in this order. Steps 1–2 are complete;
+step 3 is active and steps 4–6 are queued. This agenda orders the current fresh-experiment gap work;
 the annotation and other queued lanes in the [earlier roadmap](ordered-work-roadmap-20261013.md)
 resume afterward. Preserve all original predictions, first outcomes, failed CI
 logs and versioned source associations. Host-specific operating details belong

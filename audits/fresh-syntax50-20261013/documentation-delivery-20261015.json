@@ -1,0 +1,17 @@
+{
+  "utc": "2026-10-15T07:24:58.362351+00:00",
+  "pr": 788,
+  "url": "https://github.com/CrispStrobe/kerotakis/pull/788",
+  "state": "OPEN",
+  "head": "a3ca7cad8e43d989ac078281603adf08196637e8",
+  "base": "4d3203a3d4a41839761e83495bee5129092be1db",
+  "auto_merge_enabled": true,
+  "auto_merge_method": "MERGE",
+  "markdown_files": 42,
+  "runtime_or_frozen_experiment_changes": false,
+  "current_entry_point": "docs/STATUS.md",
+  "agent_policy": "AGENTS.md",
+  "next_experiment_plan": "docs/closure43-plan.md",
+  "ci_run": 38698423031,
+  "required_checks_pending": true
+}
