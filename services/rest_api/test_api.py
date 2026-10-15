@@ -1,5 +1,7 @@
 """API acceptance: auth, bounded input, concurrent admission and real sandbox."""
 import asyncio
+import base64
+from contextlib import asynccontextmanager
 from concurrent.futures import ThreadPoolExecutor
 import hashlib
 import importlib
@@ -240,6 +242,17 @@ class PackagingTests(unittest.TestCase):
             schema = client.get("/api/openapi.json").json()
             self.assertEqual(schema["servers"][0]["url"], "/api")
             self.assertEqual(client.post("/api/run", json={"script": "inspect v1"}).status_code, 401)
+            binding = {"snapshot_id": "snap_fixture", "engine": json.loads((artifacts / "manifest.json").read_text())}
+            for name in ("vm_job", "sandbox"):
+                binding[name + "_sha256"] = hashlib.sha256((payload / "api/assets" / (name + ".runtime")).read_bytes()).hexdigest()
+            binding_path = payload / "api/assets/microvm.json"
+            with patch.dict(os.environ, {**settings, "KERO_API_EXECUTOR": "microvm", "KERO_API_SNAPSHOT": "snap_fixture"}, clear=True):
+                binding_path.write_text(json.dumps(binding))
+                self.assertEqual(module.Settings.from_env().mode, "vercel")
+                for field in ("snapshot_id", "vm_job_sha256", "sandbox_sha256", "engine"):
+                    tampered = {**binding, field: "incorrect"}
+                    binding_path.write_text(json.dumps(tampered))
+                    self.assertEqual(module.Settings.from_env().mode, "disabled", field)
 
 
 class SandboxTests(unittest.IsolatedAsyncioTestCase):
@@ -374,6 +387,45 @@ int main(int argc,char **argv) {
         result = await api.run_engine(cfg, "inspect v1")
         self.assertEqual(result["execution_status"], "completed")
         self.assertFalse(result["observations"][0]["host_passwd_visible"])
+
+    async def test_microvm_refusal_and_deadline_destroy_the_isolated_job(self):
+        from vercel import sandbox
+        from vercel import api as vercel_api
+        cfg = self.cfg()
+        cfg.mode, cfg.executor, cfg.snapshot = "vercel", "microvm", "snap_fixture"
+        envelope = dict(binary_sha256=cfg.engine["binary_sha256"], status="completed", code=0,
+            stdout=base64.b64encode(b'{"answer":42}\n').decode(), stderr="")
+        box = SimpleNamespace(fs=SimpleNamespace(write_text=AsyncMock()),
+            run_process=AsyncMock(return_value=SimpleNamespace(returncode=0, stdout=json.dumps(envelope))))
+        destroyed = []
+        @asynccontextmanager
+        async def vm(**kwargs):
+            self.assertEqual(kwargs["env"], {})
+            self.assertEqual(kwargs["ports"], [])
+            try:
+                yield box
+            finally:
+                destroyed.append(True)
+        @asynccontextmanager
+        async def session():
+            yield
+        with patch.object(sandbox, "create_sandbox", side_effect=vm), patch.object(vercel_api, "session", session):
+            result = await api.run_engine(cfg, "inspect v1")
+            self.assertEqual(result["observations"], [{"answer": 42}])
+            envelope["binary_sha256"] = "0" * 64
+            box.run_process.return_value.stdout = json.dumps(envelope)
+            with self.assertRaises(HTTPException) as refused:
+                await api.run_engine(cfg, "inspect v1")
+            self.assertEqual(refused.exception.status_code, 503)
+            original_timeout = asyncio.timeout
+            async def blocked(*args, **kwargs):
+                await asyncio.sleep(100)
+            box.run_process.side_effect = blocked
+            with patch.object(api.asyncio, "timeout", side_effect=lambda seconds: original_timeout(.01)):
+                with self.assertRaises(HTTPException) as expired:
+                    await api.run_engine(cfg, "inspect v1")
+            self.assertEqual(expired.exception.status_code, 503)
+        self.assertEqual(len(destroyed), 3)
 
 
 if __name__ == "__main__":

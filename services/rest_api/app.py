@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import asyncio
+import base64
 from contextlib import closing
 from dataclasses import dataclass, field
 import hashlib
@@ -66,6 +67,8 @@ def require(condition):
 @dataclass
 class Settings:
     mode: str = "disabled"
+    executor: str = "direct"
+    snapshot: str = ""
     keys: dict[str, str] = field(default_factory=dict)  # principal -> SHA256(key)
     origins: list[str] = field(default_factory=list)
     revision: str = "unknown"
@@ -88,6 +91,8 @@ class Settings:
     def from_env(cls):
         try:
             cfg = cls(mode=os.getenv("KERO_API_MODE", "disabled"),
+                      executor=os.getenv("KERO_API_EXECUTOR", "direct"),
+                      snapshot=os.getenv("KERO_API_SNAPSHOT", ""),
                       keys=json.loads(os.getenv("KERO_API_KEYS", "{}")),
                       origins=json.loads(os.getenv("KERO_API_ORIGINS", "[]")),
                       revision=os.getenv("VERCEL_GIT_COMMIT_SHA", "unknown"),
@@ -112,6 +117,14 @@ class Settings:
                     require(Path("/usr/bin/bwrap").is_file() and os.geteuid() != 0)
                 else:
                     require(os.getenv("VERCEL") == "1" and os.geteuid() != 0)
+                    require(cfg.executor in ("direct", "microvm"))
+                    if cfg.executor == "microvm":
+                        require(re.fullmatch(r"snap_[A-Za-z0-9]+", cfg.snapshot))
+                        binding = json.loads((assets / "microvm.json").read_text())
+                        require(binding["snapshot_id"] == cfg.snapshot and binding["engine"] == manifest)
+                        for name in ("vm_job", "sandbox"):
+                            require(hashlib.sha256((assets / (name + ".runtime")).read_bytes()).hexdigest()
+                                    == binding[name + "_sha256"])
                     url = urlsplit(cfg.redis_url)
                     require(url.scheme == "https" and url.hostname and not url.username and not url.password)
                     require(url.path in ("", "/") and not url.query and not url.fragment)
@@ -303,6 +316,8 @@ def check_resources(cfg: Settings):
 
 
 async def run_engine(cfg: Settings, script: str) -> dict:
+    if cfg.mode == "vercel" and cfg.executor == "microvm":
+        return await run_microvm_engine(cfg, script)
     started = time.monotonic()
     if hashlib.sha256(Path(cfg.binary).read_bytes()).hexdigest() != cfg.engine["binary_sha256"]:
         raise HTTPException(503, "Engine identity mismatch")
@@ -363,44 +378,83 @@ async def run_engine(cfg: Settings, script: str) -> dict:
             # A paused asyncio pipe transport can keep wait() pending after
             # exit. Drain its bounded residual buffers after killing the group.
             await proc.communicate()
-        observations = []
-        def finite_float(value):
-            number = float(value)
-            if not math.isfinite(number):
-                raise ValueError
-            return number
+        return build_result(cfg, script, started, status, stdout, stderr, code, path)
 
-        def invalid_constant(_value):
+
+def build_result(cfg, script, started, status, stdout, stderr, code, path):
+    observations = []
+    def finite_float(value):
+        number = float(value)
+        if not math.isfinite(number):
             raise ValueError
+        return number
 
-        try:
-            for line in stdout.splitlines():
-                row = json.loads(line, parse_float=finite_float, parse_constant=invalid_constant)
-                if not isinstance(row, dict):
-                    raise ValueError
-                observations.append(row)
-        except (ValueError, UnicodeError):
-            raise HTTPException(502, "Engine returned invalid observations") from None
-        if status == "completed" and code:
-            if not stderr.startswith(b"kero:"):
-                reason = stderr.strip().decode("ascii", "ignore")
-                permitted = {"sandbox: " + value for value in (
-                    "architecture", "landlock", "privileges", "capabilities",
-                    "filesystem_create", "filesystem_rule", "filesystem_install", "seccomp", "exec")}
-                logging.getLogger("kerotakis.api").warning(
-                    "Engine startup failed: exit=%s restriction=%s", code,
-                    reason if reason in permitted or re.fullmatch(
-                        r"sandbox: landlock_abi=-?\d{1,5}_errno=\d{1,5}", reason) else "unclassified")
-                raise HTTPException(503, "Engine or sandbox failed to execute")
-            status = "refused"
-        result = {"execution_status": status, "exit_status": code,
-                "observations": observations, "diagnostics": stderr.decode("utf-8", "replace").replace("/job/input.lab", "<script>").replace(str(path), "<script>"),
-                "elapsed_seconds": time.monotonic() - started,
-                "script_sha256": hashlib.sha256(script.encode()).hexdigest(), "engine": cfg.engine,
-                "physical_verdict": "not_assigned"}
-        if len(json.dumps(result, ensure_ascii=False, allow_nan=False, separators=(",", ":")).encode()) > OUTPUT_LIMIT * 2:
-            raise HTTPException(502, "Serialized engine response exceeds limit")
-        return result
+    def invalid_constant(_value):
+        raise ValueError
+
+    try:
+        for line in stdout.splitlines():
+            row = json.loads(line, parse_float=finite_float, parse_constant=invalid_constant)
+            if not isinstance(row, dict):
+                raise ValueError
+            observations.append(row)
+    except (ValueError, UnicodeError):
+        raise HTTPException(502, "Engine returned invalid observations") from None
+    if status == "completed" and code:
+        if not stderr.startswith(b"kero:"):
+            reason = stderr.strip().decode("ascii", "ignore")
+            permitted = {"sandbox: " + value for value in (
+                "architecture", "landlock", "privileges", "capabilities",
+                "filesystem_create", "filesystem_rule", "filesystem_install", "seccomp", "exec")}
+            logging.getLogger("kerotakis.api").warning(
+                "Engine startup failed: exit=%s restriction=%s", code,
+                reason if reason in permitted or re.fullmatch(
+                    r"sandbox: landlock_abi=-?\d{1,5}_errno=\d{1,5}", reason) else "unclassified")
+            raise HTTPException(503, "Engine or sandbox failed to execute")
+        status = "refused"
+    result = {"execution_status": status, "exit_status": code,
+            "observations": observations, "diagnostics": stderr.decode("utf-8", "replace").replace("/job/input.lab", "<script>").replace(str(path), "<script>"),
+            "elapsed_seconds": time.monotonic() - started,
+            "script_sha256": hashlib.sha256(script.encode()).hexdigest(), "engine": cfg.engine,
+            "physical_verdict": "not_assigned"}
+    if len(json.dumps(result, ensure_ascii=False, allow_nan=False, separators=(",", ":")).encode()) > OUTPUT_LIMIT * 2:
+        raise HTTPException(502, "Serialized engine response exceeds limit")
+    return result
+
+
+async def run_microvm_engine(cfg: Settings, script: str):
+    # The function authenticates/admit requests; the disposable VM receives only
+    # this script, immutable engine snapshot, fixed limits and no API secrets.
+    from vercel import sandbox
+    from vercel.api import session
+    started = time.monotonic()
+    try:
+        async with asyncio.timeout(35):
+            async with session():
+                async with sandbox.create_sandbox(
+                        source=sandbox.SnapshotSource(snapshot_id=cfg.snapshot),
+                        resources=sandbox.SandboxResources(vcpus=1, memory=2048),
+                        execution_time_limit=30, network_policy=sandbox.NetworkPolicy.deny_all(),
+                        env={}, ports=[], persistent=False, region="iad1") as box:
+                    await box.fs.write_text("/vercel/sandbox/engine/input.lab", script, mode=0o644)
+                    async with asyncio.timeout(20):
+                        completed = await box.run_process("python3", ["-I", "/vercel/sandbox/engine-job.py"],
+                            sudo=True, capture_output=True, kill_after=15)
+                    require(completed.returncode == 0 and len(completed.stdout.encode()) <= OUTPUT_LIMIT * 2)
+                    raw = json.loads(completed.stdout)
+                    require(raw["binary_sha256"] == cfg.engine["binary_sha256"])
+                    require(raw["status"] in ("completed", "timeout", "output_limit"))
+                    require(type(raw["code"]) is int or raw["code"] is None)
+                    stdout = base64.b64decode(raw["stdout"], validate=True)
+                    stderr = base64.b64decode(raw["stderr"], validate=True)
+                    require(len(stdout) + len(stderr) <= OUTPUT_LIMIT)
+                    return build_result(cfg, script, started, raw["status"], stdout, stderr, raw["code"], "/input.lab")
+    except HTTPException:
+        raise
+    except Exception as exc:
+        # Error category only; SDK errors may contain credentials or job data.
+        logging.getLogger("kerotakis.api").warning("Isolated Vercel execution unavailable: %s", type(exc).__name__)
+        raise HTTPException(503, "Isolated Vercel execution unavailable") from None
 
 
 async def forward(cfg: Settings, token: str, script: str):
@@ -457,6 +511,7 @@ def create_app(cfg: Settings | None = None):
     async def health():
         return {"service": "kerotakis", "api_version": 1, "mode": cfg.mode,
                 "configured": cfg.mode != "disabled", "revision": cfg.revision,
+                "execution_backend": cfg.executor if cfg.mode == "vercel" else cfg.mode,
                 "engine": cfg.engine or None}
 
     @app.post("/run", response_model=RunOutput, openapi_extra={"requestBody": {
