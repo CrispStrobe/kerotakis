@@ -1,0 +1,309 @@
+rank,id,http_status,execution_status,exit_status,observations,execution_matches_cli,observations_equal_cli,all_add_commands_reached,first_diagnostic
+1,neutralisation,200,completed,0,8,True,True,True,
+2,hydrogen_oxygen,200,completed,0,8,True,True,True,
+3,carbon_combustion,200,completed,0,8,True,True,True,
+4,methane_combustion,200,completed,0,8,True,True,True,
+5,magnesium_combustion,200,completed,0,8,True,True,True,
+6,iron_sulfur,200,completed,0,7,True,True,True,
+7,water_electrolysis,200,completed,0,7,True,True,True,
+8,carbonate_acid,200,completed,0,9,True,True,True,
+9,limewater_test,200,completed,0,8,True,True,True,
+10,zinc_acid,200,completed,0,9,True,True,True,
+11,sodium_water,200,refused,1,3,True,True,False,"kero: <script>:5: unknown species or material 'Na' — did you mean 'CO3-2'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find Na' searches both)
+"
+12,hydrogen_chloride_protolysis,200,completed,0,8,True,True,True,
+13,ammonia_protolysis,200,completed,0,7,True,True,True,
+14,daniell_cell,200,completed,0,7,True,True,True,
+15,copper_oxide_hydrogen,200,completed,0,8,True,True,True,
+16,iron_rusting_overall,200,completed,0,8,True,True,True,
+17,fischer_esterification,200,completed,0,6,True,True,True,
+18,ethanol_oxidation_cuo,200,completed,0,6,True,True,True,
+19,haber_bosch,200,completed,0,8,True,True,True,
+20,fehling_test,200,completed,0,8,True,True,True,
+21,tollens_test,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'ethanal' — did you mean 'ethanol'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find ethanal' searches both)
+"
+22,ethene_bromination,200,refused,1,4,True,True,False,"kero: <script>:6: unknown species or material 'Br2' — did you mean 'bromothymol_blue'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find Br2' searches both)
+"
+23,methane_chlorination,200,completed,0,8,True,True,True,
+24,ethanol_combustion,200,completed,0,8,True,True,True,
+25,photosynthesis_overall,200,completed,0,7,True,True,True,
+26,cellular_respiration_overall,200,completed,0,7,True,True,True,
+27,alcoholic_fermentation,200,completed,0,6,True,True,True,
+28,limestone_calcination,200,completed,0,7,True,True,True,
+29,quicklime_slaking,200,completed,0,6,True,True,True,
+30,copper_oxide_carbon,200,completed,0,8,True,True,True,
+31,sodium_chloride_synthesis,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'Na' — did you mean 'CO3-2'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find Na' searches both)
+"
+32,hydrogen_peroxide_decomposition,200,completed,0,7,True,True,True,
+33,silver_chloride_precipitation,200,completed,0,7,True,True,True,
+34,barium_sulfate_precipitation,200,completed,0,7,True,True,True,
+35,acetic_acid_protolysis,200,completed,0,7,True,True,True,
+36,water_autoprotolysis,200,completed,0,6,True,True,True,
+37,ethene_hydration,200,completed,0,7,True,True,True,
+38,polyethene_formation,200,completed,0,6,True,True,True,
+39,fat_saponification,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'tristearin' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+40,sucrose_hydrolysis,200,completed,0,6,True,True,True,
+41,starch_iodine_test,200,refused,1,3,True,True,False,"kero: <script>:5: unknown species or material 'I3-' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+42,biuret_test,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'peptide' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+43,peptide_bond_formation,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'glycine' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+44,lead_acid_battery,200,refused,1,3,True,True,False,"kero: <script>:5: unknown species or material 'PbO2' — did you mean 'Pb+2'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find PbO2' searches both)
+"
+45,ethene_hydrogenation,200,completed,0,7,True,True,True,
+46,copper_oxidation,200,completed,0,8,True,True,True,
+47,sulfur_combustion,200,completed,0,8,True,True,True,
+48,bicarbonate_acid,200,completed,0,9,True,True,True,
+49,blast_furnace_reduction,200,completed,0,8,True,True,True,
+50,copper_sulfate_hydration,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'CuSO4_anhydrous' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+51,permanganate_iron_titration,200,completed,0,8,True,True,True,
+52,ammonium_test,200,completed,0,8,True,True,True,
+53,ammonium_chloride_formation,200,completed,0,7,True,True,True,
+54,carbon_dioxide_hydration,200,completed,0,8,True,True,True,
+55,carbonic_acid_first_protolysis,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'H2CO3' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+56,bicarbonate_second_protolysis,200,completed,0,7,True,True,True,
+57,carbonate_hydrolysis,200,completed,0,7,True,True,True,
+58,ammonium_acid_protolysis,200,completed,0,7,True,True,True,
+59,acetate_hydrolysis,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'acetate' — did you mean 'CH3COO-'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find acetate' searches both)
+"
+60,phosphate_buffer,200,completed,0,7,True,True,True,
+61,copper_oxide_acid,200,completed,0,8,True,True,True,
+62,sulfuric_acid_first_protolysis,200,completed,0,7,True,True,True,
+63,bisulfate_protolysis,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'HSO4-' — did you mean 'HSO3-'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find HSO4-' searches both)
+"
+64,aspirin_acetylation,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'salicylic_acid' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+65,secondary_alcohol_oxidation,200,completed,0,6,True,True,True,
+66,aldehyde_oxidation_to_acid,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'ethanal' — did you mean 'ethanol'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find ethanal' searches both)
+"
+67,acetic_fermentation,200,completed,0,7,True,True,True,
+68,chloroethane_hydrolysis,200,refused,1,3,True,True,False,"kero: <script>:5: unknown species or material 'chloroethane' — did you mean 'bromoethane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find chloroethane' searches both)
+"
+69,ethanol_dehydration,200,completed,0,6,True,True,True,
+70,propene_hydrobromination,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'propene' — did you mean 'isobutylene'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find propene' searches both)
+"
+71,benzene_bromination,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'benzene' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+72,benzene_nitration,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'benzene' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+73,ethyl_acetate_saponification,200,completed,0,7,True,True,True,
+74,starch_hydrolysis,200,completed,0,6,True,True,True,
+75,lactic_fermentation,200,completed,0,5,True,True,True,
+76,fat_hydrogenation,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'triolein' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+77,biodiesel_transesterification,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'triolein' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+78,pet_polycondensation,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'terephthalic_acid' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+79,nylon66_polycondensation,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'adipic_acid' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+80,polypropene_formation,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'propene' — did you mean 'isobutylene'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find propene' searches both)
+"
+81,polystyrene_formation,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'styrene' — did you mean 'PS'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find styrene' searches both)
+"
+82,pvc_formation,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'vinyl_chloride' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+83,polyurethane_formation,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'diisocyanate' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+84,copper_chloride_electrolysis,200,refused,1,3,True,True,False,"kero: <script>:5: unknown species or material 'CuCl2' — did you mean 'CaCl2'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find CuCl2' searches both)
+"
+85,molten_salt_electrolysis,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'NaCl_melt' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+86,chlor_alkali,200,refused,1,3,True,True,False,"kero: <script>:5: unknown species or material 'NaCl_aq' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+87,aluminium_electrolysis,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'Al2O3' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+88,alkaline_manganese_cell,200,completed,0,7,True,True,True,
+89,lithium_ion_cell,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'LiC6' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+90,iron_corrosion_anode,200,completed,0,6,True,True,True,
+91,oxygen_reduction_cathode,200,refused,1,5,True,True,False,"kero: <script>:7: unknown species or material 'e-' — did you mean 'dishwasher_detergent'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find e-' searches both)
+"
+92,dichromate_ethanol,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'Cr2O7--' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+93,iodine_thiosulfate,200,completed,0,7,True,True,True,
+94,copper_hydroxide_precipitation,200,completed,0,7,True,True,True,
+95,iron_three_hydroxide_precipitation,200,completed,0,7,True,True,True,
+96,iron_thiocyanate_complex,200,completed,0,7,True,True,True,
+97,copper_ammonia_complex,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'Cuaqua' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+98,cobalt_chloride_equilibrium,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'Coaqua' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+99,nitrogen_dioxide_dimerisation,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'NO2' — did you mean 'MnO2'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find NO2' searches both)
+"
+100,contact_process,200,completed,0,7,True,True,True,
+101,ostwald_ammonia_oxidation,200,completed,0,7,True,True,True,
+102,nitric_oxide_oxidation,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'NO' — did you mean 'AgNO3'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find NO' searches both)
+"
+103,nitric_acid_absorption,200,refused,1,3,True,True,False,"kero: <script>:5: unknown species or material 'NO2' — did you mean 'MnO2'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find NO2' searches both)
+"
+104,sulfur_trioxide_hydration,200,refused,1,3,True,True,False,"kero: <script>:5: unknown species or material 'SO3' — did you mean 'HSO3-'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find SO3' searches both)
+"
+105,catalytic_converter_no_co,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'NO' — did you mean 'AgNO3'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find NO' searches both)
+"
+106,carbon_monoxide_oxidation,200,completed,0,7,True,True,True,
+107,alkane_cracking,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'decane' — did you mean 'dodecane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find decane' searches both)
+"
+108,steam_reforming,200,completed,0,8,True,True,True,
+109,water_gas_shift,200,completed,0,7,True,True,True,
+110,methanol_synthesis,200,completed,0,7,True,True,True,
+111,sabatier_methanation,200,completed,0,7,True,True,True,
+112,boudouard_equilibrium,200,completed,0,8,True,True,True,
+113,aluminothermy,200,completed,0,6,True,True,True,
+114,iron_copper_displacement,200,completed,0,7,True,True,True,
+115,copper_silver_displacement,200,completed,0,7,True,True,True,
+116,chlorine_bromide_displacement,200,completed,0,8,True,True,True,
+117,bromine_iodide_displacement,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'Br2' — did you mean 'bromothymol_blue'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find Br2' searches both)
+"
+118,permanganate_oxalate,200,refused,1,4,True,True,False,"kero: <script>:6: unknown species or material 'C2O4--' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+119,permanganate_peroxide,200,completed,0,9,True,True,True,
+120,peroxide_iodide,200,refused,1,3,True,True,False,"kero: <script>:5: unknown species or material 'I-' — did you mean 'alkaline_battery'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find I-' searches both)
+"
+121,ascorbic_acid_iodine,200,completed,0,7,True,True,True,
+122,copper_iodide_redox_precipitation,200,refused,1,3,True,True,False,"kero: <script>:5: unknown species or material 'I-' — did you mean 'alkaline_battery'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find I-' searches both)
+"
+123,silver_bromide_precipitation,200,completed,0,7,True,True,True,
+124,silver_chloride_ammonia,200,completed,0,7,True,True,True,
+125,calcium_carbonate_precipitation,200,completed,0,7,True,True,True,
+126,iron_two_hydroxide_precipitation,200,completed,0,7,True,True,True,
+127,aluminium_hydroxide_precipitation,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'Al3+' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+128,aluminium_hydroxide_amphoterism,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'AlOH3' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+129,zinc_hydroxide_amphoterism,200,completed,0,7,True,True,True,
+130,calcium_edta,200,refused,1,3,True,True,False,"kero: <script>:5: unknown species or material 'EDTA' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+131,limestone_dissolution,200,completed,0,9,True,True,True,
+132,plaster_setting,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'hemihydrate' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+133,bicarbonate_thermal_decomposition,200,completed,0,7,True,True,True,
+134,sulfur_dioxide_water,200,completed,0,8,True,True,True,
+135,nitrogen_dioxide_photolysis,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'NO2' — did you mean 'MnO2'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find NO2' searches both)
+"
+136,ozone_formation,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'O_atom' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+137,ozone_decomposition,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'O3' — did you mean 'AgNO3'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find O3' searches both)
+"
+138,chlorine_water_equilibrium,200,completed,0,8,True,True,True,
+139,thiosulfate_acid_decomposition,200,completed,0,9,True,True,True,
+140,carbon_dioxide_alkali,200,completed,0,8,True,True,True,
+141,glycine_first_protolysis,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'glycine_cation' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+142,glycine_second_protolysis,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'glycine_zwitterion' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+143,glucose_ring_chain,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'glucose_open' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+144,glucose_fructose_isomerisation,200,completed,0,5,True,True,True,
+145,iodoform_test,200,completed,0,8,True,True,True,
+146,xanthoproteic_test,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'aromatic_aminoacid' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+147,ninhydrin_test,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'ninhydrin' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+148,azo_coupling,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'benzenediazonium' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+149,aniline_diazotisation,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'aniline' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+150,indigo_reduction,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'indigo' — did you mean 'indigo_carmine'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find indigo' searches both)
+"
+151,grignard_carbonyl_addition,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'MeMgBr' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+152,grignard_carboxylation,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'PhMgBr' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+153,grignard_reagent_formation,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'bromomethane' — did you mean 'bromoethane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find bromomethane' searches both)
+"
+154,borohydride_ketone_reduction,200,refused,1,3,True,True,False,"kero: <script>:5: unknown species or material 'BH4-' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+155,ester_hydride_reduction,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'H_equiv' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+156,acetal_formation,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'ethanal' — did you mean 'ethanol'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find ethanal' searches both)
+"
+157,imine_formation,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'ethanal' — did you mean 'ethanol'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find ethanal' searches both)
+"
+158,cyanohydrin_formation,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'HCN' — did you mean 'HCl'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find HCN' searches both)
+"
+159,aldol_addition,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'ethanal' — did you mean 'ethanol'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find ethanal' searches both)
+"
+160,aldol_condensation,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'ethanal' — did you mean 'ethanol'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find ethanal' searches both)
+"
+161,claisen_condensation,200,completed,0,5,True,True,True,
+162,michael_addition,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'diethyl_malonate' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+163,wittig_olefination,200,refused,1,3,True,True,False,"kero: <script>:5: unknown species or material 'wittig_ylide' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+164,diels_alder,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'butadiene' — did you mean 'butane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find butadiene' searches both)
+"
+165,friedel_crafts_alkylation,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'benzene' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+166,friedel_crafts_acylation,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'benzene' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+167,williamson_ether,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'ethoxide' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+168,e2_elimination,200,refused,1,3,True,True,False,"kero: <script>:5: unknown species or material 'bromopropane2' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+169,sn1_solvolysis,200,completed,0,7,True,True,True,
+170,small_ester_transesterification,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'methyl_acetate' — did you mean 'ethyl_acetate'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find methyl_acetate' searches both)
+"
+171,acyl_chloride_amidation,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'acetyl_chloride' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+172,acyl_chloride_hydrolysis,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'acetyl_chloride' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+173,nitrile_hydrolysis,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'acetonitrile' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+174,nitrile_reduction,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'acetonitrile' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+175,nitro_group_reduction,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'nitrobenzene' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+176,alkene_epoxidation,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'propene' — did you mean 'isobutylene'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find propene' searches both)
+"
+177,hydroboration_oxidation,200,refused,1,3,True,True,False,"kero: <script>:5: unknown species or material 'propene' — did you mean 'isobutylene'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find propene' searches both)
+"
+178,reductive_ozonolysis,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'butene2' — did you mean 'butane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find butene2' searches both)
+"
+179,terminal_alkyne_deprotonation,200,refused,1,3,True,True,False,"kero: <script>:5: unknown species or material 'ethyne' — did you mean 'ethene'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find ethyne' searches both)
+"
+180,acetylide_alkylation,200,refused,1,3,True,True,False,"kero: <script>:5: unknown species or material 'acetylide' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+181,enolate_formation,200,refused,1,3,True,True,False,"kero: <script>:5: unknown species or material 'LDA' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+182,enolate_alkylation,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'acetone_enolate' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+183,keto_enol_tautomerism,200,completed,0,5,True,True,True,
+184,cannizzaro,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'benzaldehyde' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+185,baeyer_villiger,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'peracetic_acid' — did you mean 'lactic_acid'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find peracetic_acid' searches both)
+"
+186,sandmeyer,200,refused,1,3,True,True,False,"kero: <script>:5: unknown species or material 'benzenediazonium' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+187,hofmann_amide_rearrangement,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'acetamide' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+188,beckmann,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'cyclohexanone_oxime' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+189,fischer_indole,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'phenylhydrazine' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+190,claisen_rearrangement,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'allyl_vinyl_ether' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+191,suzuki_miyaura,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'bromobenzene' — did you mean 'bromoethane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find bromobenzene' searches both)
+"
+192,heck,200,refused,1,3,True,True,False,"kero: <script>:5: unknown species or material 'bromobenzene' — did you mean 'bromoethane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find bromobenzene' searches both)
+"
+193,sonogashira,200,refused,1,3,True,True,False,"kero: <script>:5: unknown species or material 'bromobenzene' — did you mean 'bromoethane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find bromobenzene' searches both)
+"
+194,negishi,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'bromobenzene' — did you mean 'bromoethane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find bromobenzene' searches both)
+"
+195,buchwald_hartwig,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'bromobenzene' — did you mean 'bromoethane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find bromobenzene' searches both)
+"
+196,olefin_metathesis,200,refused,1,2,True,True,False,"kero: <script>:4: unknown species or material 'propene' — did you mean 'isobutylene'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find propene' searches both)
+"
+197,sharpless_epoxidation,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'allyl_alcohol' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"
+198,stille,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'bromobenzene' — did you mean 'bromoethane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find bromobenzene' searches both)
+"
+199,kumada,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'bromobenzene' — did you mean 'bromoethane'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find bromobenzene' searches both)
+"
+200,cope_rearrangement,200,refused,1,1,True,True,False,"kero: <script>:3: unknown species or material 'cope_start' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)
+"

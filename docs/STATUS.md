@@ -193,6 +193,14 @@ Authenticated native execution, invalid-key/body/subset rejection, both approved
 CORS preflights and shared concurrency saturation are verified in production.
 Twenty-five focused tests and actual Vercel microVM isolation controls passed.
 
+The separately requested **200-protocol API batch is also complete**. All 200
+requests returned HTTP200 without errors or retries: 92 completed and 108
+preserved CLI refusals. Execution status and full parsed observations match the
+CLI baseline for all 200. Median request time was 3.27 seconds. The saved
+responses/CLI streams were independently rechecked by the report reader.
+[API comparison](../audits/reaction-dataset-200-20261015/api-comparison/completion.json).
+This is transport/runtime agreement; no new physical passes are assigned.
+
 Actual Vercel Landlock support was unavailable. Execution now uses fresh,
 network-denied Vercel microVMs with a bound engine/security snapshot, private
 root, dropped privileges and seccomp; no VPS worker is needed. Shared admission

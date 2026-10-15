@@ -69,6 +69,22 @@ results assign no physical passes and do not validate the generated procedures.
 
 ## Explicitly requested production API comparison
 
+**Complete:** all 200 unchanged scripts were sent through the public production
+API, one request each. All 200 returned HTTP200: **92 completed, 108 refused**.
+Execution status and full parsed observations match the verified CLI baseline
+for **all 200**. There were no transport/server errors or rate-limit retries.
+Only the 92 completed scripts reached every addition. Median request time was
+3.27 seconds; the paced batch took 12 minutes 38 seconds. This establishes API/CLI
+agreement for the pinned engine, not scientific validation of the reactions.
+
+[Verified completion](api-comparison/completion.json),
+[case-level assessment](api-comparison/assessment.json),
+[CSV](api-comparison/summary.csv) and [binding](api-comparison/binding.json)
+preserve exact API/source/binary/script identities and response hashes. A
+separate reader rechecked every saved HTTP attempt and both CLI streams.
+The API comparison is finished; do not run it again without a new purpose.
+
+
 The user subsequently requested all 200 protocols through the deployed API.
 `run_api.py PRIVATE_KEY_JSON NEW_OUTPUT_DIRECTORY VERIFIED_CLI_EXECUTIONS`
 submits the exact frozen script bytes to the public production endpoint. This is

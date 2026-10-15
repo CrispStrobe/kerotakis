@@ -1,0 +1,26 @@
+{
+  "created_utc": "2026-10-15T19:01:11.156239+00:00",
+  "origin": "https://kerotakis-web-payload.vercel.app",
+  "health": {
+    "service": "kerotakis",
+    "api_version": 1,
+    "mode": "vercel",
+    "configured": true,
+    "revision": "9bee95d9282919c435692f3b961cdaa2823d76bf",
+    "execution_backend": "microvm",
+    "engine": {
+      "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+      "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+      "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+    }
+  },
+  "runner_sha256": "2a22d69c742db82c9e0217fd2f13e50872ff275bf6b4e439a015a2fecca33688",
+  "design_freeze_sha256": "f0f1ef81ac4861493eb96256144b78f371d00ee21d86188dcdf5e66ed2d2ecc2",
+  "manifest_sha256": "de87f5cc37f42a4b9785d442588a7f5d00f4507dd59bb003defdbc3eeac411a4",
+  "cli_executions_sha256": "89c5469bf04f0a0d44f43496f8fe32535b0be0a8863aff513cebfb2e67dc60d7",
+  "cli_binding_sha256": "cbb8dbe8c8aa052b2908e07ab361fde517b2f8f0390f338e6b98de53b7067f5b",
+  "record_count": 200,
+  "minimum_request_interval_seconds": 3.1,
+  "retry_policy": "Only explicit HTTP429 admission refusal; at most5 retries, at least60 seconds. No ambiguous retries.",
+  "physical_verdict": "not_assigned"
+}

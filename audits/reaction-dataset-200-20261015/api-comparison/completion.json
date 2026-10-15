@@ -1,0 +1,39 @@
+{
+  "status": "complete",
+  "created_utc": "2026-10-15T19:01:11.156239+00:00",
+  "completed_utc": "2026-10-15T19:13:49.171689+00:00",
+  "paced_batch_seconds": 758.01545,
+  "origin": "https://kerotakis-web-payload.vercel.app",
+  "api_revision": "9bee95d9282919c435692f3b961cdaa2823d76bf",
+  "engine": {
+    "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+    "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+    "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+  },
+  "records": 200,
+  "http_attempts": 200,
+  "http_counts": {
+    "200": 200
+  },
+  "execution_counts": {
+    "completed": 92,
+    "refused": 108
+  },
+  "execution_matches_cli": 200,
+  "observations_equal_cli": 200,
+  "all_add_commands_reached": 92,
+  "transport_errors": 0,
+  "rate_limit_retries": 0,
+  "physical_verdict": "not_assigned",
+  "unchanged_protocols": true,
+  "baseline_cli_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/38763662200",
+  "reports": {
+    "assessment.json": "011be49c0d85ff44299887aa7b514d656d09a740c6ae62070bfd254798206ddb",
+    "summary.csv": "213c21c43c7e81467edb37dd77686d21d4aed9533719356a25aec5ce0b1a4436",
+    "binding.json": "3a40783b63fe3181273b5a31788768fb44e7a8419f4147ae7b92399b003a4542"
+  },
+  "limits": [
+    "These generated contact probes are not individually validated laboratory procedures.",
+    "108 CLI refusals are preserved; successful HTTP responses do not imply completed chemistry or scientific validation."
+  ]
+}

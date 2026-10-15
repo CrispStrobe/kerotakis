@@ -30,6 +30,13 @@ preserved as a CLI refusal, then a separate `0.001mol` follow-up executed. Neith
 HTTP200 nor process completion assigns a scientific pass.
 [Deployment receipt](../audits/fresh-syntax50-20261013/rest-api-production-20261015.json).
 
+The requested full API comparison is now complete: **200 HTTP200 responses,
+92 completed scripts, 108 CLI refusals, no errors/retries**. Execution statuses
+and full parsed observations agree with the prior CLI run for all 200 unchanged
+scripts. Median request time was 3.27 seconds. See the
+[verified comparison](../audits/reaction-dataset-200-20261015/api-comparison/completion.json).
+Physical validation remains separate; do not duplicate this finished API batch.
+
 ## Doable next lanes
 
 1. **Finish source integration and rebuild acceptance.** Continue
