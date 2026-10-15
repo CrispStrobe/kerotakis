@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isStoryDispenseEvent, persistStockUsed, restoreStockUsed, stockCapacity, stockRemaining, suppliedSpecies, suppliedSpeciesFromOperator } from "./storyStock";
+import { isStoryDispenseEvent, kitSpeciesFromOperator, persistStockUsed, restoreStockUsed, stockCapacity, stockRemaining, suppliedSpecies, suppliedSpeciesFromOperator } from "./storyStock";
 
 describe("Story stockroom", () => {
   it("allocates smaller supervised stocks for higher-risk substances", () => {
@@ -46,5 +46,28 @@ describe("Story stockroom", () => {
     expect(restoreStockUsed(storage)).toEqual({ water: 2 });
     values.set("kero.story-stock.v1", '{"water":2.9,"bad":-1,"no":"x"}');
     expect(restoreStockUsed(storage)).toEqual({ water: 2 });
+  });
+});
+
+
+describe("engine-parsed mission kit identities", () => {
+  it("accepts supplies and grinding identities without treating grinding as a dispense", () => {
+    for (const operator of [
+      { op: "add", species: "CO2" },
+      { op: "add_material", material: "whole_milk" },
+      { op: "titrate", titrant: "NaCl" },
+      { op: "grind", species: "NaCl" },
+    ]) {
+      expect(kitSpeciesFromOperator(operator)).toBe("material" in operator ? "whole_milk"
+        : "titrant" in operator ? "NaCl" : operator.species);
+    }
+    expect(suppliedSpeciesFromOperator({ op: "grind", species: "NaCl" })).toBeNull();
+  });
+
+  it("does not invent kit ingredients for unrelated or malformed operators", () => {
+    for (const operator of [null, [], {}, { op: "heat", species: "NaCl" },
+      { op: "grind", species: 2 }, { op: "add", species: null }]) {
+      expect(kitSpeciesFromOperator(operator)).toBeNull();
+    }
   });
 });
