@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-15T08:57:07.947733+00:00",
+  "run": 38699207052,
+  "job": 116303030862,
+  "source_head": "df35271b3f48dc30c995ea66a2883075e5ae9408",
+  "conclusion": "success",
+  "producer_report": {
+    "cases_executed": 40,
+    "process_exit_codes": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "binding": {
+      "protocol_sha256": "8c55f59bdc2230f0567692042b49a57754aeed325689bb02926a8dedc2708246",
+      "helper_sha256": "1da3e1e5b31828c134393a7612db5aea26048ece89f289fe7efdf3102d808ac4",
+      "audit_checkout": "df35271b3f48dc30c995ea66a2883075e5ae9408",
+      "source_head": "d06ffe3a1740728656878c4aea0e9507ca83c808",
+      "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+      "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+      "artifact_id": 11811008023,
+      "artifact_zip_sha256": "0bfa80773f3a00114855a3167bd074dd4cfb614c39c3ba36c687f490df054125"
+    },
+    "original_execution_binding_sha256": "624ac3d9b9a4760c0be18be4a6dcbcf3ec8d2ec1be9fd8dc0b0d7f58cd91223a",
+    "physical_verdicts_pending_saved_observation_review": true,
+    "original_forecasts_changed": false,
+    "new_blind_designs": false
+  },
+  "artifact_metadata": [
+    {
+      "id": 11957908414,
+      "name": "normalized40-38699207052-1",
+      "size_in_bytes": 6681696,
+      "digest": "sha256:dda5fad25bb6d23535641aeb99c6f29af75a66085f9f9b7051aecbda381d9153"
+    }
+  ],
+  "archive_locally_downloaded": false,
+  "raw_case_streams_locally_verified": false,
+  "physical_verdicts_assigned": 0,
+  "limits": [
+    "Producer reports forty executions, 33 zero exits and seven nonzero exits; these are process outcomes, not scientific passes/failures.",
+    "Actual raw observation integrity and physical forecast assessment remain pending.",
+    "No local duplicate execution or hosted cancellation occurred."
+  ]
+}

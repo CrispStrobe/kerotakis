@@ -34,8 +34,9 @@ in the private handoff. Heavy local work and delegation require resource gates.
 3. **Execute and assess the forty naming follow-ups — active.** The
    [forty controls](../audits/fresh-syntax50-20261013/normalized40/design/README.md)
    are dispatched in [hosted run 38699207052](https://github.com/CrispStrobe/kerotakis/actions/runs/38699207052).
-   Only one replay job is selected; there is no app rebuild. Completion and physical
-   verdicts remain pending. Do not duplicate this execution. The controls
+   The producer reports all 40 executed (33 zero exits, seven nonzero exits); raw
+   stream verification and physical assessment remain pending. There was no app
+   rebuild. Do not duplicate this execution. The controls
    already freeze `H2O`→`water` substitutions and unchanged physical forecasts
    on original main `30fd09eb`/binary `b290`. Run that source-bound control set
    when resources permit, preserving it separately from any alias/fix replay.
@@ -64,3 +65,10 @@ in the private handoff. Heavy local work and delegation require resource gates.
    Preserve the original inconclusive sweep prediction; create separate controls
    for the documented contract. Finish the six-step agenda with evidence links,
    scoped limitations and current integration status.
+
+The reported transient vessel tint and black watercolor are a user-facing repair
+priority alongside step 3. Follow [these scoped lanes](colour-and-mixture-followups.md):
+validate PR790 first; then reproduce optical density and preserve recipe replay
+before changing teaching washes; then investigate duplicate diagnostics and
+equilibrium/settling state. This does not change the frozen forty forecasts or
+permit scientific verdicts from process exits.

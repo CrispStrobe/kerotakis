@@ -32,7 +32,10 @@ The first wrapper attempt stopped before any case on a policy-key mismatch;
 that failure is preserved and only the lookup was corrected. See the
 [live execution checkpoint](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/fresh-syntax50-20261013/normalized40-hosted/README.md).
 They retain their original old-source binding and physical forecasts. Execution
-completion and physical verdicts remain pending; do not duplicate the worker.
+is complete: the producer reports 40 executions, 33 zero exits and seven nonzero
+exits. Raw case integrity and physical verdicts remain pending; process exits are
+not scientific verdicts. Do not duplicate the execution. See the
+[completion receipt](../audits/fresh-syntax50-20261013/normalized40-hosted-completion.json).
 
 The [saved-evidence reader](../audits/fresh-syntax50-20261013/normalized40-review/README.md)
 is ready with seventeen ingestion tests; it produces a review queue and assigns no
@@ -57,6 +60,29 @@ reject material/grammar/phase ambiguities. [PR789](https://github.com/CrispStrob
 now contains the four-name candidate and parser-derived Story kits. Eleven native
 test groups and fifteen app cases are prepared; actual CI/fleet/CLI acceptance
 remains pending. The candidate is a draft and is not integrated.
+
+## Reported colour and rendering defects
+
+The user confirmed that colour covering the whole vessel disappears after a few
+seconds. This matches the transient overlay source defect: every positive liquid
+volume seeded the full grid, and a synthetic `solution` layer could receive a
+catalogue fallback colour. [PR790](https://github.com/CrispStrobe/kerotakis/pull/790)
+contains a candidate using the static glassware fill geometry and computed layer
+colours, a persistent canvas and cancellation of superseded fade timers.
+Head `c4513357` has focused grid/pour tests and a real-browser command/pixel probe
+prepared. Actual app/browser acceptance remains queued; it is not integrated.
+
+The separate blue/yellow watercolor report remains open. Source-only calculation
+with current recipe strengths and the beaker optical path predicts a nearly black
+mixture. This is not an executed CLI reproduction or an optical calibration.
+Recipe changes must address versioned operator and text-session replay first;
+changing a version-1 concentration in place would reinterpret old experiments.
+See the [actionable follow-up lanes](colour-and-mixture-followups.md).
+
+Documentation portability/current-state PR788 merged as `5af0be7f` after all 25
+CI jobs passed. Its reviewed candidate and actual integrated tree match; this is
+[documentation integration evidence](../audits/fresh-syntax50-20261013/documentation-integration-20261015.json),
+not a runtime or chemistry acceptance claim.
 
 ## PR delivery and resources
 

@@ -19,7 +19,10 @@ The lookup is corrected without changing any limit or frozen input, and every
 literal resource key was checked against the actual policy before redispatch.
 
 Current execution: [corrected dispatch](../normalized40-hosted-retry-dispatch.json),
-run 38699207052. No completed cases yet verified. Do not duplicate
+run 38699207052 completed successfully. The producer reports 40 executions,
+33 zero exits and seven nonzero exits. See the
+[completion receipt](../normalized40-hosted-completion.json). Raw case streams
+have not yet been independently verified or physically assessed. Do not duplicate
 this run. Review saved observations against the unchanged physical forecasts
 before classifying. A current-main replay needs its own new source binding.
 
@@ -27,4 +30,5 @@ The [saved-evidence reader](../normalized40-review/README.md) is prepared and
 passes seventeen bounded ingestion tests. It preserves the original experiment
 IDs despite filtered runner ordinals and creates a review queue without assigning
 physical verdicts. Verify producer/artifact receipts before consuming actual
-outputs. No completed forty-case execution is yet verified.
+outputs. Producer completion is verified; archive/raw-stream verification and
+physical verdicts remain pending.
