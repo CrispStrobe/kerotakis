@@ -252,10 +252,17 @@ metal-depletion controls close hydrogen and charge before the aqueous tail.
 No frozen forecast or conservation tolerance changed. Carbon/gas elemental
 reconciliation remains a separate accuracy gap.
 
-The shared unknown-heat continuation prerequisite is under source review.
-Review found stale-answer admission, unbound readback, contained-gas event
-accounting and mutable thermal/boundary metadata gaps; these must close before
-acceptance or new peroxide reaction claims. PR795's current REST acceptance job
+The shared unknown-heat continuation prerequisite is now in draft
+[PR799](https://github.com/CrispStrobe/kerotakis/pull/799), head `75acd407`.
+Source review exposed stale-answer admission, unbound readback, contained-gas
+accounting and mutable thermal/boundary metadata gaps. The implementation adds
+input/output-bound trusted receipts, atomic rollback, exact retained-gas event
+accounting and step-local thermal ownership. Fifteen prepared controls include
+native cache replay and separately executed no-engine hook-failure checks.
+Formatting, diff checks and workflow lint passed; native/browser/full-fleet
+execution remains pending. The trusted shared-wrapper bridge and successful
+actual browser continuation still precede enabling any peroxide endpoint.
+No new reaction is installed by this prerequisite. PR795's current REST acceptance job
 passed; its broader native/browser/fleet checks and the separate silver route
 in PR798 remain pending. The deployed API still reports its original pinned
 engine; none of these pending repairs is claimed deployed.
