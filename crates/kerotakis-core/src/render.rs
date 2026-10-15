@@ -610,8 +610,9 @@ fn redox_words(locale: Locale, solution: Option<&SolutionInfo>) -> Option<String
 /// At lv1 identical lines collapse to one. Every unmodelled note renders
 /// there as the same sentence — "this part of the lab isn't awake yet" —
 /// and a step with two different notes read as a stutter; a young reader
-/// cannot use the distinction between them anyway. lv2 and above keep
-/// every line, because there the notes render distinctly.
+/// cannot use the distinction between them anyway. At every register, exact
+/// repeats of a model-limit event within this step are narrated once; distinct
+/// limits and the raw event stream remain available.
 pub fn render_events(events: &[Event], register: Register) -> Vec<String> {
     render_events_in(events, register, Locale::EN)
 }
@@ -678,11 +679,23 @@ pub fn render_events_narrated(
     narration: Narration,
 ) -> Vec<String> {
     let mut out: Vec<String> = Vec::new();
+    let mut narrated_limits: Vec<&Event> = Vec::new();
     for event in events
         .iter()
         .filter(|e| e.is_observable())
         .filter(|e| narration.announces(e))
     {
+        // Internal solver passes can report the same coverage limit more than
+        // once in one accepted step. Collapse only exact event repeats, not
+        // equal prose: different vessels, causes and localized reasons matter.
+        // This is deliberately local to narration; events and later steps keep
+        // their complete evidence, and repeated chemistry remains visible.
+        if matches!(event, Event::NotYetModeled { .. }) {
+            if narrated_limits.contains(&event) {
+                continue;
+            }
+            narrated_limits.push(event);
+        }
         let line = render_event_in(event, register, locale);
         if register.level() == 1 && out.contains(&line) {
             continue;
@@ -5312,6 +5325,95 @@ mod dedupe_tests {
     fn identical_lv1_lines_collapse_and_lv2_lines_do_not() {
         assert_eq!(render_events(&notes(), Register::LV1).len(), 1);
         assert_eq!(render_events(&notes(), Register::LV2).len(), 2);
+    }
+
+    fn dissolved() -> Event {
+        Event::Dissolved {
+            vessel: VesselId(0),
+            species: SpeciesId::new("NaCl"),
+            moles: crate::units::Moles(0.05),
+        }
+    }
+
+    #[test]
+    fn repeated_limits_are_narrated_once_across_intervening_chemistry() {
+        let note = notes().remove(0);
+        let events = vec![note.clone(), dissolved(), note.clone()];
+        for locale in [Locale::EN, Locale::parse("de")] {
+            for register in [Register::LV1, Register::LV2, Register::LV3] {
+                for narration in [Narration::FULL, Narration::WITHOUT_ROUTING] {
+                    assert_eq!(
+                        render_events_narrated(&events, register, locale, narration),
+                        vec![
+                            render_event_in(&note, register, locale),
+                            render_event_in(&dissolved(), register, locale),
+                        ]
+                    );
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn different_limits_are_kept_even_when_their_prose_matches() {
+        let note = notes().remove(0);
+        let mut changes = vec![note.clone(); 5];
+        if let Event::NotYetModeled { vessel, .. } = &mut changes[0] {
+            *vessel = VesselId(1);
+        }
+        if let Event::NotYetModeled { cause, .. } = &mut changes[1] {
+            *cause = crate::ops::NotModelledCause::NotSpeciated;
+        }
+        if let Event::NotYetModeled { what, .. } = &mut changes[2] {
+            *what = "another limit".to_string();
+        }
+        if let Event::NotYetModeled {
+            beside_a_visible_change,
+            ..
+        } = &mut changes[3]
+        {
+            *beside_a_visible_change = true;
+        }
+        if let Event::NotYetModeled { reason, .. } = &mut changes[4] {
+            *reason = Some(crate::phrase::Phrase::bare(
+                "test.coverage-limit",
+                "one thing",
+            ));
+        }
+        for changed in changes {
+            for locale in [Locale::EN, Locale::parse("de")] {
+                for register in [Register::LV2, Register::LV3] {
+                    assert_eq!(
+                        render_events_in(&[note.clone(), changed.clone()], register, locale).len(),
+                        2
+                    );
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn repeated_physical_events_remain_visible_at_detailed_registers() {
+        for register in [Register::LV2, Register::LV3] {
+            for locale in [Locale::EN, Locale::parse("de")] {
+                assert_eq!(
+                    render_events_in(&[dissolved(), dissolved()], register, locale).len(),
+                    2
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn narration_preserves_raw_limits_and_reports_them_again_on_later_steps() {
+        let note = notes().remove(0);
+        let events = vec![note.clone(), note];
+        let before = serde_json::to_vec(&events).expect("serialize raw evidence");
+        let first = render_events(&events, Register::LV3);
+        assert_eq!(first.len(), 1);
+        assert_eq!(render_events(&events, Register::LV3), first);
+        assert_eq!(serde_json::to_vec(&events).unwrap(), before);
+        assert_eq!(events.len(), 2);
     }
 }
 
