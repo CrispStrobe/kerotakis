@@ -1,5 +1,9 @@
 # The apparatus catalog (CAP-25 handoff to the GUI workline)
 
+For current integration status and next work, read [STATUS](docs/STATUS.md).
+This guide retains its own technical scope; dated plans and historical entries
+are not current acceptance claims.
+
 The user supplied a ~70-item palette of lab apparatus that the bench
 should show and manipulate: put on the shelf, clamp, pour between,
 probe with instruments, heat, distil — with the effects visualised.

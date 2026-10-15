@@ -1,5 +1,9 @@
 # EngineHost protocol v1 (GUI-001)
 
+For current integration status and next work, read [STATUS](docs/STATUS.md).
+This guide retains its own technical scope; dated plans and historical entries
+are not current acceptance claims.
+
 The contract between any Kerotakis UI and any engine transport. Two hosts
 implement it:
 

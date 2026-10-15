@@ -1,0 +1,38 @@
+{
+  "utc": "2026-10-15T07:10:05.488920+00:00",
+  "head": "d5c6cecfc5815f88bd9c5e4ace3e62e656909258",
+  "base": "8a6aa68eeec234d8cfde7b092b70c30a5c13411c",
+  "tree": "858854f9c0af595529a85697c24936e595285d4a",
+  "required_checks": [
+    {
+      "bucket": "pass",
+      "name": "The bench in WebAssembly",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "name": "The demo page, in a real browser",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "name": "Full preflight gate",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "name": "Test (native) (ubuntu-latest)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "name": "Test (native) (macos-latest)",
+      "state": "SUCCESS"
+    }
+  ],
+  "file_count": 11,
+  "active_extra_branch_rules": [],
+  "admins_enforced": true,
+  "all_ci_and_own_fleet_success": true,
+  "merge_method": "auto merge with exact-head guard; no admin bypass"
+}

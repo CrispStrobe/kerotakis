@@ -1,5 +1,12 @@
 # Fresh syntax-only fifty — first outcomes preserved
 
+Current checkpoint 2026-10-15: PR786 and PR787 are integrated; original fifty
+results remain unchanged. The original normalized forty are dispatched in
+[run 38697577370](https://github.com/CrispStrobe/kerotakis/actions/runs/38697577370).
+Read [current status](../../docs/STATUS.md), [the 43-case plan](../../docs/closure43-plan.md)
+and [PR787 integration](water-alias-integration.json). Earlier dated pending
+statements below retain their original evidence scope.
+
 Lane 2 follows the completed performance lane. A fresh agent with no inherited
 history read only [the syntax reference](syntax-only.md), then independently
 invented exactly fifty distinct scripts and physical expectations. No registry,

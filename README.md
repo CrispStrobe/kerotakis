@@ -1,6 +1,6 @@
 # Kerotakis
 
-For the latest branch-verified chemistry audit status and independently scoped next tasks, read [the checkpoint](docs/chemistry-audit-status-20261005.md) and [task lanes](docs/chemistry-audit-next-lanes.md). The checkpoint distinguishes accepted branch behavior from main/release availability.
+Current implementation, experiment gaps and ordered next work: [STATUS](docs/STATUS.md), [43-case closure plan](docs/closure43-plan.md) and [auto-merge policy](docs/PR-WORKFLOW.md).
 
 A virtual chemistry laboratory that computes real chemistry.
 

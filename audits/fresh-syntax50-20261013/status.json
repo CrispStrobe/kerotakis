@@ -1,11 +1,11 @@
 {
-  "utc": "2026-10-15T03:00:20.576469+00:00",
+  "utc": "2026-10-15T07:19:44.888206+00:00",
   "design_count": 50,
   "executed_count": 50,
   "verdict_count": 50,
   "expectations_sha256": "69ce701a208f63561c6d55be81aacefd89632cec0d8846051c5f4e9dc900afc4",
   "freeze_sha256": "b064cd21c3364c6b5cad9bfc69dad4c3cb54dbc86d1d663bddef7313b07708cd",
-  "status": "thermal_repair_integrated_water_alias_validation_pending",
+  "status": "thermal_and_water_alias_integrated_original_normalized_forty_dispatched",
   "first_outcomes_modified": false,
   "classification_counts": {
     "unsupported": 40,
@@ -47,7 +47,7 @@
   "native_fix_merge": "8a6aa68eeec234d8cfde7b092b70c30a5c13411c",
   "alias_fix_pr": "https://github.com/CrispStrobe/kerotakis/pull/787",
   "alias_fix_head": "d5c6cecfc5815f88bd9c5e4ace3e62e656909258",
-  "alias_fix_validated": false,
+  "alias_fix_validated": true,
   "alias_fix_ci_run": 38673902939,
   "alias_fix_own_cli_audit_run": 38673902811,
   "alias_own_cli_build_success": true,
@@ -55,8 +55,8 @@
   "alias_own_cli_artifact_id": 11925406982,
   "alias_own_cli_metadata_association_verified": true,
   "alias_own_cli_bytes_verified": true,
-  "alias_fix_validation_status": "corrected_stock_predicate_candidate_applied_fresh_ci_and_fleet_active_all_current_acceptance_pending",
-  "alias_current_macos_pass": false,
+  "alias_fix_validation_status": "integrated_after_final_exact_source_acceptance_and_auto_merge",
+  "alias_current_macos_pass": true,
   "alias_native_regressions_passed": 9,
   "alias_cli_smoke_control_count": 2,
   "alias_cli_smoke_executed": 2,
@@ -72,9 +72,9 @@
   "alias_cli_corrected_executed": 2,
   "alias_cli_corrected_run": 38614113822,
   "alias_cli_corrected_status": "completed_success_two_saved_stream_passes_exact_core_source",
-  "alias_current_ci_pass": false,
-  "alias_current_own_fleet_success_jobs": 0,
-  "alias_current_own_fleet_pending_jobs": null,
+  "alias_current_ci_pass": true,
+  "alias_current_own_fleet_success_jobs": 33,
+  "alias_current_own_fleet_pending_jobs": 0,
   "alias_cli_corrected_counts": {
     "pass": 2,
     "fail": 0
@@ -91,11 +91,14 @@
   "alias_own_cli_artifact_source": "98051f7b4e09eeebce31c5eee64a5da47450626f",
   "alias_own_cli_build_source": "98051f7b4e09eeebce31c5eee64a5da47450626f",
   "alias_native_regressions_passed_source": "98051f7b4e09eeebce31c5eee64a5da47450626f",
-  "alias_current_app_tests_executed": false,
+  "alias_current_app_tests_executed": true,
   "alias_previous_own_cli_artifact_id": 11911279897,
-  "alias_current_app_suite_pass": false,
+  "alias_current_app_suite_pass": true,
   "alias_current_app_suite_job": null,
-  "alias_current_app_suite_counts": null,
+  "alias_current_app_suite_counts": {
+    "pass": 1638,
+    "fail": 0
+  },
   "alias_story_accounting_followup_head": "d5c6cecfc5815f88bd9c5e4ace3e62e656909258",
   "alias_story_accounting_followup_applied": true,
   "alias_current_cli_binary_identical_previous_verified": true,
@@ -109,5 +112,8 @@
     "pass": 1636,
     "fail": 1
   },
-  "alias_current_new_app_regressions": 8
+  "alias_current_new_app_regressions": 8,
+  "alias_fix_merge": "4d3203a3d4a41839761e83495bee5129092be1db",
+  "normalized_followup_hosted_run": 38697577370,
+  "normalized_followup_status": "dispatched_no_completed_cases_yet_verified"
 }

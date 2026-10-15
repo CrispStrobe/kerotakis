@@ -1,5 +1,9 @@
 # Kerotakis — history
 
+For current integration status and next work, read [STATUS](docs/STATUS.md).
+This guide retains its own technical scope; dated plans and historical entries
+are not current acceptance claims.
+
 What landed, and what it taught us. Newest first, one line per item:
 task number, what it did, and the PR, branch or commit that carries it.
 

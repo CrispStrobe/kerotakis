@@ -1,5 +1,11 @@
 # Chemistry audit: actionable next lanes
 
+Current checkpoint, 2026-10-15: PR787 is merged as `4d3203a3`; all 25 CI jobs,
+33 fleet jobs and 1,638 app tests passed. The forty original spelling follow-ups
+are dispatched. Read [STATUS](STATUS.md), [the current ordered agenda](improvement-agenda-20261014.md)
+and [auto-merge policy](PR-WORKFLOW.md) for current next actions. Older dated
+checkpoint/priority sections below retain historical pending statements.
+
 The current execution order is [the six-lane roadmap](ordered-work-roadmap-20261013.md).
 Release performance lane 1 is complete: PR785 merged at `30fd09eb`, with
 accepted controlled performance and 702 saved cases / 991 engineering checks.

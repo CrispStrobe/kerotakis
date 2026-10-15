@@ -1,5 +1,9 @@
 # Replacing PHREEQC BASIC
 
+For current integration status and next work, read [STATUS](docs/STATUS.md).
+This guide retains its own technical scope; dated plans and historical entries
+are not current acceptance claims.
+
 Status: **migration complete**, 2026-08-22. PBasic deleted, MY-BASIC is the official backend.
 
 ## Implementation progress

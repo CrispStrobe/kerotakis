@@ -1,5 +1,11 @@
 # Chemistry work agenda — 2026-10-12
 
+Current checkpoint, 2026-10-15: PR787 is merged as `4d3203a3`; all 25 CI jobs,
+33 fleet jobs and 1,638 app tests passed. The forty original spelling follow-ups
+are dispatched. Read [STATUS](STATUS.md), [the current ordered agenda](improvement-agenda-20261014.md)
+and [auto-merge policy](PR-WORKFLOW.md) for current next actions. Older dated
+checkpoint/priority sections below retain historical pending statements.
+
 Current update, 2026-10-13: [PR782 is integrated](https://github.com/CrispStrobe/kerotakis/pull/782)
 as main `7337bb58ce48285c54be5885dbe07afca1adbb7e`.
 [Actual integration](../audits/production-final-rule-matrix-20261012/integration-accepted-2bf9c771.json)

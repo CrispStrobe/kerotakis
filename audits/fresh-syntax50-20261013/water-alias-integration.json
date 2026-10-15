@@ -1,0 +1,23 @@
+{
+  "utc": "2026-10-15T07:11:10.194542+00:00",
+  "pr": 787,
+  "state": "merged",
+  "merged_at": "2026-10-15T07:10:08Z",
+  "head": "d5c6cecfc5815f88bd9c5e4ace3e62e656909258",
+  "base_before": "8a6aa68eeec234d8cfde7b092b70c30a5c13411c",
+  "merge_commit": "4d3203a3d4a41839761e83495bee5129092be1db",
+  "integrated_tree": "858854f9c0af595529a85697c24936e595285d4a",
+  "integrated_tree_equals_validated_candidate": true,
+  "ci_run": 38673902939,
+  "ci_check_jobs_success": 25,
+  "own_fleet_run": 38673902811,
+  "own_fleet_jobs_success": 33,
+  "app_tests_pass": 1638,
+  "required_checks_refreshed_and_passed": true,
+  "remote_head_base_and_main_refreshed_before_merge": true,
+  "expected_file_count": 11,
+  "auto_merge_requested": true,
+  "merge_method": "gh pr merge --auto --merge with exact-head guard; all checks already green so merged immediately",
+  "admin_bypass": false,
+  "next_lane": "Forty frozen spelling-normalized controls; preserve original blind outcomes and old-source binding."
+}

@@ -1,5 +1,9 @@
 # Contributing to Kerotakis
 
+For current integration status and next work, read [STATUS](docs/STATUS.md).
+This guide retains its own technical scope; dated plans and historical entries
+are not current acceptance claims.
+
 Thank you for considering a contribution. Two things in this document are
 load-bearing and non-negotiable; everything else is ordinary courtesy.
 
@@ -180,3 +184,11 @@ for: **a defect can be latent for exactly as long as a corpus row is
 `missing`.** A row that never executes cannot expose anything. Closing rows is
 a way of finding bugs and not only of raising a number, and the `missing`
 column is a shadow as much as it is a to-do list.
+
+## PR delivery
+
+Use [auto-merge by default](docs/PR-WORKFLOW.md) for review-ready PRs after
+applicable non-protected acceptance is complete. Required branch checks still
+gate integration. Follow failures through repair and verify the merged tree;
+do not leave fully accepted work waiting for another confirmation. Read
+[current status](docs/STATUS.md) before selecting implementation work.

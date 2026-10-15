@@ -1,5 +1,9 @@
 # Kerotakis — Development Plan
 
+For current integration status and next work, read [STATUS](docs/STATUS.md).
+This guide retains its own technical scope; dated plans and historical entries
+are not current acceptance claims.
+
 A virtual chemistry laboratory that computes real chemistry, accompanied by a
 codex of a few hundred curriculum reactions and every concept that explains
 them — from nine-year-old to expert, one simulation, rendered at every

@@ -1,0 +1,10 @@
+{
+  "protocol_sha256": "8c55f59bdc2230f0567692042b49a57754aeed325689bb02926a8dedc2708246",
+  "helper_sha256": "ec7c4f572d31d0eee0ee00a6bf38e61a4156d1e0915d66d00cc5f457e4f8d994",
+  "workflow_sha256": "6e7753aaa17d2f2e0c1b6fed54568883f0514b83dfcf671bd3d4af673f85eae0",
+  "selection": "normalized40",
+  "selected_jobs": 1,
+  "other_jobs_excluded": 26,
+  "application_rebuild": false,
+  "original_runner_and_inputs_unchanged": true
+}

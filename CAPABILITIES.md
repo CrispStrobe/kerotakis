@@ -1,5 +1,9 @@
 # Kerotakis — Capability extension tasks
 
+For current integration status and next work, read [STATUS](docs/STATUS.md).
+This guide retains its own technical scope; dated plans and historical entries
+are not current acceptance claims.
+
 > Finished work is not listed here. What landed, and what it taught us, is in
 > [HISTORY.md](HISTORY.md). Task numbers are never renumbered and never reused.
 

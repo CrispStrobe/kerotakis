@@ -1,0 +1,54 @@
+{
+  "utc": "2026-10-15T07:09:29.156524+00:00",
+  "pr": 787,
+  "head": "d5c6cecfc5815f88bd9c5e4ace3e62e656909258",
+  "base": "8a6aa68eeec234d8cfde7b092b70c30a5c13411c",
+  "tree": "858854f9c0af595529a85697c24936e595285d4a",
+  "tested_checkout": "37f070e25c7c7fd9e565484b7fe732ece28689a8",
+  "tested_parents": [
+    "8a6aa68eeec234d8cfde7b092b70c30a5c13411c",
+    "d5c6cecfc5815f88bd9c5e4ace3e62e656909258"
+  ],
+  "ci_run": 38673902939,
+  "ci_success_jobs": 25,
+  "ci_publication_skip": 1,
+  "own_fleet_run": 38673902811,
+  "own_fleet_success_jobs": 33,
+  "both_native_platforms_nine_alias_tests_pass": true,
+  "workspace_codex_coverage_pass": true,
+  "coverage": {
+    "unmet": 0,
+    "runtime_failures": 0,
+    "drift": 0
+  },
+  "app": {
+    "test_files_pass": 123,
+    "tests_pass": 1638,
+    "new_app_regressions": 8
+  },
+  "browser_all_steps_success": true,
+  "svelte": {
+    "errors": 0,
+    "warnings": 2
+  },
+  "saved_raw_log_sha256": {
+    "ubuntu": "f2c1cc05cb0d45447188913e0a86d5104dc346dbfdff88b768dd8eb687a4fef9",
+    "macos": "a1e2525ce9c74cbb34db54e92667e8dc043bf15d3d6d5a5e5207325b6b4af72f",
+    "app": "099a852f53eac6d9b28db9ee3ecd30bd989578dd35f7c77bb42ffdf63b768c88",
+    "browser": "f7152738f7c699ff712cd3bda24942533a8ead056bd3e065198567feac199dff",
+    "build": "d86653b819d33ed13df362116288cee63060add7153fec5c27363967755f712b"
+  },
+  "own_artifact": {
+    "id": 11945298398,
+    "size": 6491994,
+    "advertised_zip_digest": "sha256:84c829474f01a3ba5d83539ea3d3d0ca9942365b544a4082f5f96a160a9ed1c7",
+    "archived_binary_checksum": "15d9b38b399671229553dcd9f643df62145c27cf6570852e4a45b9cbd7d25600",
+    "captured_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc",
+    "checksum_and_lock_match_previous_byte_verified_executable_and_lock": true,
+    "selected_members_crc_verified": true,
+    "full_current_zip_downloaded_locally": false
+  },
+  "qualification": "Current own fleet executed successfully using its own built CLI. Local bounded archive review verifies checksum/lock members, not the full current executable bytes. Previous byte-verified executable/lock match these checksum declarations.",
+  "candidate_integrated": false,
+  "empirical_calibration": false
+}

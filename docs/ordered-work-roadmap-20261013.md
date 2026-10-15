@@ -27,23 +27,15 @@ rejections. Large local work and agent work require the private resource gate.
    Live source/base/main, all enforced checks and applicable rules were refreshed
    before the guarded merge. Do not repeat completed checks at unchanged source;
    repository-triggered postmerge workflows remain separate.
-2. **Fifty fresh CLI experiments — first outcomes preserved; repairs active.**
-   [The independent fifty](../audits/fresh-syntax50-20261013/README.md) and all
-   original expectations remain frozen; 50/50 executed with 7 pass, 2 fail,
-   40 unsupported and 1 inconclusive. Forty `H2O` refusals have a separately
-   frozen `water` spelling follow-up; it is not another blind batch. The two
-   failures share sealed thermal gas loss. Narrow boundary-refusal fix
-   `faaf4baf` is prepared with inventory, open-air and inert-gas controls;
-   native acceptance and integration remain pending. The [new improvement agenda](improvement-agenda-20261014.md)
-   now orders this gap work; PR786 revision `10c963e1` corrects preserved first CI
-   compatibility failures. Close the invalid route,
-   execute the spelling follow-up when resources permit, classify further
-   demonstrated gaps and repair them before lane 3. The original run used actual main
-   `30fd09eb` (or a separately reviewed later revision). Use a fresh agent that learns only syntax,
-   without reading existing corpus cases or implementation details. Freeze all
-   fifty original scripts and expectations before execution. Preserve first
-   outcomes, classify gaps, and repair demonstrated app failures with regression
-   controls. These are distinct from performance inputs and annotation matrices.
+2. **Fifty fresh CLI experiments — first outcomes preserved; forty follow-ups active.**
+   Original fifty: 7 pass, 2 fail, 40 unsupported, 1 inconclusive. PR786 thermal
+   inventory and PR787 canonical water/Story accounting fixes are integrated.
+   The unchanged forty spelling-normalized controls are dispatched with their
+   original source binding. Follow the [current improvement agenda](improvement-agenda-20261014.md)
+   and [43-case closure plan](closure43-plan.md): assess those outcomes, bind a
+   separate current-main replay, repair demonstrated physical gaps, validate one
+   closed-gas domain, then finish boundary/help semantics. Original forecasts and
+   first failures remain unchanged. These controls are not new blind designs.
 3. **Annotation contract.** Use the [actual-main owner plan](../audits/yaml-parser-migration-20261012/annotation-owner-contract-plan-7337bb58.md).
    Freeze and run its proposed fifty controls; preserve the original 18/2
    outcomes. Resolve documented boundaries versus intentional support expansion,
