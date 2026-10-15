@@ -53,6 +53,6 @@
     "ordinary_cancel_requested": true,
     "force_cancel_requested_after_queued_did_not_stop": true,
     "new_current_fleet_status": "queued; previously pending",
-    "completion_status": "Verify final cancellation separately; API acknowledgement is not completion"
+    "completion_status": "completed/cancelled verified after cancellation"
   }
 }

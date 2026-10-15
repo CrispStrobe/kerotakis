@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/794",
+  "head": "19ec09789d7aab1cd4e2afb59328e7244c3d66df",
+  "base": "f471b628e99b4ccb78a5ca97ec93d04cdfad0dbf",
+  "state_at_receipt": "OPEN",
+  "auto_merge": "MERGE",
+  "auto_merge_enabled_at": "2026-10-15T15:27:49Z",
+  "scope": [
+    "docs/STATUS.md",
+    "docs/colour-and-mixture-followups.md",
+    "docs/improvement-agenda-20261014.md",
+    "docs/kno3-finite-solubility-lane.md"
+  ],
+  "pinned_public_evidence_commit": "5808123a346ced48e407ddcd903ed4f252a7c7c2",
+  "validation": [
+    "Only four Markdown files relative to main",
+    "Pinned audit evidence paths exist",
+    "Public files contain no private host paths",
+    "git diff --check passed"
+  ],
+  "chemistry_fleet": "Not applicable: documentation only",
+  "next_action": "Follow existing protected CI and normal auto-merge; verify actual merge parents and expected tree afterward",
+  "limits": "OPEN/auto-merge is not an actual merge, deployment or chemistry-validation claim"
+}
