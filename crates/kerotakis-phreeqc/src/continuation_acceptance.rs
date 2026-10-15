@@ -37,6 +37,11 @@ pub fn run_continuation_acceptance(
         .into_iter()
         .map(|sealed| {
             let result = scenario(solver, sealed, expect_missing);
+            let (passed, detail) = match result {
+                Ok(Some(refusal)) => (true, refusal),
+                Ok(None) => (true, "passed mechanical control".into()),
+                Err(detail) => (false, detail),
+            };
             ContinuationCase {
                 id: format!(
                     "{}-{}",
@@ -47,10 +52,8 @@ pub fn run_continuation_acceptance(
                         "continuation"
                     }
                 ),
-                passed: result.is_ok(),
-                detail: result
-                    .err()
-                    .unwrap_or_else(|| "passed mechanical control".into()),
+                passed,
+                detail,
             }
         })
         .collect();
@@ -65,7 +68,7 @@ fn scenario(
     solver: &mut dyn Equilibrator,
     sealed: bool,
     expect_missing: bool,
-) -> Result<(), String> {
+) -> Result<Option<String>, String> {
     let mut vessel = Vessel::new(VesselId(0), "isolated mechanical continuation control");
     vessel.deposit(SpeciesId::new("water"), Moles(5.55), Phase::Liquid);
     vessel.deposit(SpeciesId::new("HCl"), Moles(0.005), Phase::Liquid);
@@ -119,13 +122,23 @@ fn scenario(
         }])
     });
     if expect_missing {
-        if result.is_ok() {
-            return Err("un-prewarmed callback unexpectedly answered".into());
+        let error = result
+            .err()
+            .ok_or("un-prewarmed callback unexpectedly answered")?;
+        let SolveError::NotConverged { solver, detail } = &error;
+        let expected_failure = (solver == "phreeqc-aqueous (cache-only build)"
+            && detail.contains("this state is not in the shipped results"))
+            || (solver == "phreeqc-aqueous (external engine)"
+                && detail.contains("controlled continuation current-question failure"));
+        if !expected_failure {
+            return Err(format!(
+                "unexpected refusal instead of cache/hook failure: {error}"
+            ));
         }
         if format!("{vessel:?}") != before {
             return Err("failed readback changed full vessel state".into());
         }
-        return Ok(());
+        return Ok(Some(format!("expected cache/hook refusal: {error}")));
     }
     let events = result.map_err(|e| format!("continuation answer: {e}"))?;
     let gas_report = events
@@ -164,5 +177,5 @@ fn scenario(
             return Err("shared wrapper reentry reclaimed unknown heat".into());
         }
     }
-    Ok(())
+    Ok(None)
 }

@@ -131,6 +131,9 @@ Wasm bridge harness checks the real Emscripten hook, then replaces it with a
 throwing hook and verifies changed-input refusal and rollback. Both fixtures
 also verify that a deposit invalidates the genuine initial receipt before the
 callback runs. Native acceptance uses the boxed displacement wrapper.
+Negative controls require the concrete cache-miss source or the deliberately
+tagged external-hook failure and retain that error in the report. An unrelated
+receipt, conservation or thermal guard failure cannot count as a cache/hook pass.
 
 These existing harnesses execute actual Wasm and Emscripten in Node. They are
 distinct from a Chromium/Playwright runtime measurement; no Chromium execution

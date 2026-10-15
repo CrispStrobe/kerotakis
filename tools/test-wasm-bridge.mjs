@@ -128,7 +128,9 @@ lab.setSolver(() => {
 });
 const rollback = JSON.parse(lab.continuationAcceptance(true));
 check("changed-input hook failure restores the complete continuation vessel",
-    failedHookCalls > 0 && rollback.cases.length === 2 && rollback.cases.every((test) => test.passed),
+    failedHookCalls > 0 && rollback.cases.length === 2 && rollback.cases.every((test) =>
+        test.passed && test.detail.includes("phreeqc-aqueous (external engine)") &&
+        test.detail.includes("controlled continuation current-question failure")),
     JSON.stringify(rollback));
 
 process.exit(failures === 0 ? 0 : 1);

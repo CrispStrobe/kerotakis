@@ -188,7 +188,8 @@ if (cachePath) {
             missing ? "changed-input continuation cache miss rolls back in WebAssembly"
                 : "mechanical continuation replays through the browser wrapper and shipped cache",
             continuation.schema === 1 && continuation.mechanical_fixture === true &&
-                continuation.cases.length === 2 && continuation.cases.every((test) => test.passed),
+                continuation.cases.length === 2 && continuation.cases.every((test) =>
+                    test.passed && (!missing || test.detail.includes("phreeqc-aqueous (cache-only build)"))),
             JSON.stringify(continuation),
         );
     }
