@@ -1,0 +1,12 @@
+{
+  "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+  "original_design": "audits/fresh-syntax50-20261013/normalized40/design",
+  "original_freeze_sha256": "d7b97632d675c15c3aa81955dc1c948709a5b26b2344fa0692ea8450886a5bac",
+  "selected_experiment": "15",
+  "copied_files": {
+    "README.md": "932019480ef2626a75c1ed4230c4a6a5fd9494f975621a9423e2e077eefd4ace",
+    "expectations.json": "e68847d2681d55fb8055d4c914ef85da6b86dfe221ea43acdcfe22a9dc555915",
+    "scripts/15.lab": "bbeb7962924baabe4afa1d5d352be4c10e17228c53bd08ed355866969c2eaf75"
+  },
+  "unchanged_forecasts": true
+}

@@ -10,9 +10,18 @@ on:
       - "Cargo.toml"
       - "Cargo.lock"
   workflow_dispatch:
+    inputs:
+      lane:
+        description: Explicit isolated lane or the existing full fleet
+        type: choice
+        required: true
+        default: full-fleet
+        options:
+          - full-fleet
+          - kno3-current-main-replay
 
 concurrency:
-  group: chemistry-audit-${{ github.event.pull_request.number || github.ref }}
+  group: chemistry-audit-${{ github.event.pull_request.number || github.ref }}-${{ inputs.lane || 'full-fleet' }}
   cancel-in-progress: true
 
 env:
@@ -20,6 +29,7 @@ env:
 
 jobs:
   build-cli:
+    if: github.event_name != 'workflow_dispatch' || inputs.lane != 'kno3-current-main-replay'
     name: Build audited CLI once
     runs-on: ubuntu-latest
     steps:
@@ -43,6 +53,7 @@ jobs:
           retention-days: 7
 
   sixth-fleet:
+    if: github.event_name != 'workflow_dispatch' || inputs.lane != 'kno3-current-main-replay'
     name: Frozen fleet 195-218
     needs: build-cli
     runs-on: ubuntu-latest
@@ -87,6 +98,7 @@ jobs:
           retention-days: 30
 
   seventh-fleet:
+    if: github.event_name != 'workflow_dispatch' || inputs.lane != 'kno3-current-main-replay'
     name: Frozen fleet 459-488
     needs: build-cli
     runs-on: ubuntu-latest
@@ -131,6 +143,7 @@ jobs:
           retention-days: 30
 
   source-fleets:
+    if: github.event_name != 'workflow_dispatch' || inputs.lane != 'kno3-current-main-replay'
     name: Source fleet ${{ matrix.family }}
     needs: build-cli
     runs-on: ubuntu-latest
@@ -184,7 +197,7 @@ jobs:
 
   source-fleet-aggregate:
     name: All 240 source-informed cases
-    if: always()
+    if: ${{ always() && !(github.event_name == 'workflow_dispatch' && inputs.lane == 'kno3-current-main-replay') }}
     needs: source-fleets
     runs-on: ubuntu-latest
     steps:
@@ -196,6 +209,7 @@ jobs:
       - run: python3 tools/chemistry-audit/aggregate_source_fleets.py downloaded-evidence
 
   source-fleets-v2:
+    if: github.event_name != 'workflow_dispatch' || inputs.lane != 'kno3-current-main-replay'
     name: Source fleet v2 ${{ matrix.family }}
     needs: build-cli
     runs-on: ubuntu-latest
@@ -262,7 +276,7 @@ jobs:
 
   source-fleet-v2-aggregate:
     name: All 288 source-informed v2 cases
-    if: always()
+    if: ${{ always() && !(github.event_name == 'workflow_dispatch' && inputs.lane == 'kno3-current-main-replay') }}
     needs: source-fleets-v2
     runs-on: ubuntu-latest
     steps:
@@ -274,6 +288,7 @@ jobs:
       - run: python3 tools/chemistry-audit/aggregate_source_fleets_2.py downloaded-evidence-v2
 
   source-fleets-v3:
+    if: github.event_name != 'workflow_dispatch' || inputs.lane != 'kno3-current-main-replay'
     name: Source fleet v3 ${{ matrix.family }}
     needs: build-cli
     runs-on: ubuntu-latest
@@ -331,7 +346,7 @@ jobs:
 
   source-fleet-v3-aggregate:
     name: All 120 source-informed v3 cases
-    if: always()
+    if: ${{ always() && !(github.event_name == 'workflow_dispatch' && inputs.lane == 'kno3-current-main-replay') }}
     needs: source-fleets-v3
     runs-on: ubuntu-latest
     steps:
@@ -341,3 +356,9 @@ jobs:
           pattern: chemistry-source-v3-*-${{ github.sha }}
           path: downloaded-evidence-v3
       - run: python3 tools/chemistry-audit/aggregate_source_fleets_3.py downloaded-evidence-v3
+
+  kno3-current-main-replay:
+    if: github.event_name == 'workflow_dispatch' && inputs.lane == 'kno3-current-main-replay'
+    uses: ./.github/workflows/kno3-current-main-replay.yml
+    permissions:
+      contents: read
