@@ -577,11 +577,15 @@ pub fn register_loaded(recipes: Vec<MaterialRecipe>) -> (usize, usize) {
     let mut added = 0;
     let mut skipped = 0;
     for recipe in recipes {
-        let conflicts = builtins()
+        let reserved_alias = crate::species::INPUT_ALIASES
             .iter()
-            .chain(historical())
-            .chain(target.iter())
-            .any(|present| present.id == recipe.id)
+            .any(|(alias, _)| recipe.matches(alias, None));
+        let conflicts = reserved_alias
+            || builtins()
+                .iter()
+                .chain(historical())
+                .chain(target.iter())
+                .any(|present| present.id == recipe.id)
             || recipe_names(&recipe).into_iter().any(|name| {
                 // `@` separates a material name from its pinned revision in scripts.
                 name.contains('@')

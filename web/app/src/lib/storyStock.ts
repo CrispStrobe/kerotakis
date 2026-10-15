@@ -41,6 +41,15 @@ export function suppliedSpeciesFromOperator(operator: unknown): string | null {
   return typeof key === "string" ? key : null;
 }
 
+/** A lesson can loan a named ingredient used by a grind command as well. */
+export function kitSpeciesFromOperator(operator: unknown): string | null {
+  const supplied = suppliedSpeciesFromOperator(operator);
+  if (supplied) return supplied;
+  if (!operator || typeof operator !== "object" || Array.isArray(operator)) return null;
+  const op = operator as Record<string, unknown>;
+  return op.op === "grind" && typeof op.species === "string" ? op.species : null;
+}
+
 /** Actual cabinet use is bookkeeping, independent of drawing an event.
  * A titration at an already-reached endpoint can deliver no solution. */
 export function isStoryDispenseEvent(event: Readonly<Record<string, unknown>>): boolean {

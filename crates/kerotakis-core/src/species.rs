@@ -15,13 +15,31 @@ use crate::units::{Grams, Liters, Moles};
 #[derive(Debug, Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct SpeciesId(pub String);
 
-/// Resolve the one accepted formula spelling at input boundaries.
-/// Other registry keys and unknown-key refusals retain their exact spelling.
+/// Curated input spellings, never inferred from formulas or arbitrary display names.
+/// Keep case-sensitive species identity separate from localized text matching.
+pub(crate) const INPUT_ALIASES: &[(&str, &str)] = &[
+    ("H2O", "water"),
+    ("oxygen", "O2"),
+    ("nitrogen", "N2"),
+    ("carbon dioxide", "CO2"),
+    ("sodium chloride", "NaCl"),
+];
+
+/// Resolve accepted spellings at every species identity boundary.
 pub(crate) fn canonical_input_key(key: &str) -> &str {
-    match key {
-        "H2O" => "water",
-        _ => key,
-    }
+    INPUT_ALIASES
+        .iter()
+        .find_map(|(alias, canonical)| (*alias == key).then_some(*canonical))
+        .unwrap_or(key)
+}
+
+/// A pack must not install an identity hidden by a reserved input spelling.
+/// Text tokenization collapses whitespace; protect that spelling as well.
+fn reserved_input_alias(key: &str) -> bool {
+    let normalized = key.split_whitespace().collect::<Vec<_>>().join(" ");
+    INPUT_ALIASES
+        .iter()
+        .any(|(alias, _)| alias.eq_ignore_ascii_case(&normalized))
 }
 
 pub(crate) fn serialize_input_key<S: serde::Serializer>(
@@ -537,7 +555,10 @@ pub fn register_loaded(list: Vec<SpeciesData>) -> (usize, usize) {
         .collect::<Vec<_>>();
     let mut map = loaded_index().write().expect("loaded-species lock");
     for s in candidates {
-        if lookup_index().contains_key(s.key) || map.contains_key(s.key) {
+        if reserved_input_alias(s.key)
+            || lookup_index().contains_key(s.key)
+            || map.contains_key(s.key)
+        {
             skipped += 1;
             continue;
         }

@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { EngineError, type EngineHost, type Scene, type ScriptResult } from "./host/EngineHost";
 import { REGISTERS, Session, type StorageLike } from "./session.svelte";
 import { EFFECT_WINDOW_MS, effectWindowMs } from "./magnitudes";
@@ -312,6 +312,128 @@ describe("Session", () => {
     expect(s.storyStockUsed).toEqual({ water: 10 });
   });
 
+  describe.each([
+    ["oxygen", "O2"],
+    ["nitrogen", "N2"],
+    ["carbon dioxide", "CO2"],
+    ["sodium chloride", "NaCl"],
+  ])("reviewed name %s", (name, key) => {
+    function hostForName() {
+      const host = new FakeHost();
+      host.species = async () => [{ key, name, formula: key, phase: "solid" }];
+      const catalog = host.catalog.bind(host);
+      host.catalog = async (request) => {
+        const result = await catalog(request);
+        return { ...result, items: [...result.items.filter((item) => item.id !== key), {
+          id: key, kind: "reagent" as const, minimum_completed: 0, available: true,
+          reason: { reason: "earned" as const, minimum_completed: 0 },
+        }] };
+      };
+      const parse = host.parse.bind(host);
+      host.parse = async (line) => {
+        // Fixture for the typed core parser contract; native tests establish
+        // that the actual parser resolves these names and all unit forms.
+        const named = /^(add|titrate|grind) v1 (.+?) (?:1mol|1g|50um)/.exec(line);
+        if (named && [name, key].includes(named[2]!)) {
+          host.calls.push(`parse:${line}`);
+          const op = named[1]!;
+          return { ok: true, operator: op === "titrate"
+            ? { op, titrant: key } : { op, species: key } };
+        }
+        return parse(line);
+      };
+      return host;
+    }
+
+    it("shares Story use and exhaustion between canonical and named inputs", async () => {
+      const host = hostForName();
+      const storage = new FakeStorage();
+      const s = new Session(host, storage, "story");
+      await s.connect();
+      for (let i = 0; i < 10; i += 1) {
+        expect(await s.submit(`add v1 ${i % 2 ? name : key} 1mol`)).toBe(true);
+      }
+      expect(s.storyStockUsed).toEqual({ [key]: 10 });
+      for (const spelling of [name, key]) {
+        const runs = host.calls.filter((call) => call.startsWith("run:")).length;
+        expect(await s.submit(`add v1 ${spelling} 1mol`)).toBe(false);
+        expect(host.calls.filter((call) => call.startsWith("run:"))).toHaveLength(runs);
+      }
+      expect(new Session(hostForName(), storage, "story").storyStockUsed).toEqual({ [key]: 10 });
+    });
+
+    it("resolves the original multiword lesson command into a mission supply", async () => {
+      for (const verb of ["add", "grind"]) {
+        const host = hostForName();
+        const s = new Session(host, new FakeStorage(), "story");
+        await s.connect();
+        s.storyStockUsed = { [key]: 10 };
+        s.startLesson("named-kit", `${verb} v1 ${name} ${verb === "grind" ? "50um" : "1mol"}`);
+        expect(await s.submit(`add v1 ${key} 1mol`)).toBe(true);
+        expect(s.lesson?.kit).toContain(key);
+        expect(s.storyStockUsed).toEqual({ [key]: 10 });
+      }
+    });
+
+    it("applies availability before executing the name and never charges a veto", async () => {
+      const host = hostForName();
+      const catalog = host.catalog.bind(host);
+      host.catalog = async (request) => {
+        const result = await catalog(request);
+        return { ...result, items: result.items.map((item) => item.id === key
+          ? { ...item, available: false, reason: { reason: "locked" as const, minimum_completed: 3 } } : item) };
+      };
+      const s = new Session(host, new FakeStorage(), "story");
+      await s.connect();
+      expect(await s.submit(`add v1 ${name} 1mol`)).toBe(false);
+      expect(host.calls).not.toContain(`run:add v1 ${name} 1mol`);
+      expect(s.storyStockUsed).toEqual({});
+      for (const event of ["safety_veto", "stock_exhausted"]) {
+        const refusalHost = hostForName();
+        const run = refusalHost.runScript.bind(refusalHost);
+        refusalHost.runScript = async (line) => {
+          const result = await run(line);
+          return { ...result, steps: result.steps.map((step) => ({ ...step, events: [{ event }] })) };
+        };
+        const refusalSession = new Session(refusalHost, new FakeStorage(), "story");
+        await refusalSession.connect();
+        await refusalSession.submit(`add v1 ${name} 1mol`);
+        expect(refusalHost.calls).toContain(`run:add v1 ${name} 1mol`);
+        expect(refusalSession.storyStockUsed).toEqual({});
+      }
+    });
+  });
+
+  it("never loans a truncated kit word to a distinct optional-pack ingredient", async () => {
+    const host = new FakeHost();
+    host.species = async () => [
+      { key: "CO2", name: "carbon dioxide", formula: "CO2", phase: "gas" },
+      { key: "carbon", name: "distinct optional-pack ingredient", formula: "C", phase: "solid" },
+    ];
+    const parse = host.parse.bind(host);
+    host.parse = async (line) => line.startsWith("add v1 carbon dioxide ")
+      ? { ok: true, operator: { op: "add", species: "CO2" } } : parse(line);
+    const requestedKits: string[][] = [];
+    host.catalog = async (request) => {
+      const kit = request.mission_kit ?? [];
+      requestedKits.push([...kit]);
+      return { mode: "story" as const, completed: 0, packs: [], items: ["CO2", "carbon"].map((id) => ({
+        id, kind: "reagent" as const, minimum_completed: 3, available: kit.includes(id),
+        reason: { reason: "locked" as const, minimum_completed: 3 },
+      })) };
+    };
+    const s = new Session(host, new FakeStorage(), "story");
+    await s.connect();
+    s.startLesson("multiword-kit", "add v1 carbon dioxide 1mol");
+    await s.refreshCatalog();
+    expect(s.lesson?.kit).toEqual(["CO2"]);
+    expect(requestedKits.every((kit) => !kit.includes("carbon"))).toBe(true);
+    expect(await s.submit("add v1 carbon 1mol")).toBe(false);
+    expect(host.calls).not.toContain("run:add v1 carbon 1mol");
+    expect(await s.submit("add v1 CO2 1mol")).toBe(true);
+    expect(s.storyStockUsed).toEqual({});
+  });
+
   it("applies Story access gates before executing an aliased ingredient", async () => {
     const host = new FakeHost();
     host.species = async () => [{ key: "water", name: "water", formula: "H2O", phase: "liquid" }];
@@ -464,12 +586,13 @@ describe("Session", () => {
     expect(s.position).toBe(2);
   });
 
-  it("a lesson's kit is exactly the species its own commands use", () => {
+  it("a lesson's kit is exactly the species its own commands use", async () => {
     const s = new Session(new FakeHost());
     s.startLesson(
       "titration",
       "# neutralise it\nadd v1 water 100mL\nadd v1 HCl 0.1mol\ntitrate v1 NaOH 1M 1mL until ph 7\n",
     );
+    await s.refreshCatalog();
     expect([...s.lesson!.kit].sort()).toEqual(["HCl", "NaOH", "water"]);
   });
 
@@ -517,6 +640,7 @@ describe("Session", () => {
     s.startLesson("silver-and-salt", "# Find chloride\nadd v1 water 100mL\nadd v1 NaCl 0.01mol\nadd v1 AgNO3 0.01mol\n");
 
     expect(s.lessonNextCommand).toBeNull();
+    await s.refreshCatalog();
     expect(s.lesson?.kit).toEqual(expect.arrayContaining(["water", "NaCl", "AgNO3", "KCl"]));
     await s.submit("add v1 AgCl 0.01mol");
     expect(s.completedMissions.has("silver-and-salt")).toBe(false);
@@ -2067,8 +2191,13 @@ describe("the catalog is asked, not computed (WORLD-003 client migration)", () =
     const afterConnect = host.catalogCalls;
 
     s.startLesson("acid-kit", "add v1 HCl 10mL\n");
-    await Promise.resolve();
-    expect(host.catalogCalls).toBeGreaterThan(afterConnect);
+    // The automatic refresh waits for engine parsing of the mission kit.
+    // Observe its completed answer rather than assuming one microtask is enough.
+    await vi.waitFor(() => {
+      expect(host.catalogCalls).toBeGreaterThan(afterConnect);
+      expect(s.catalogAccess("HCl")?.available).toBe(true);
+      expect(s.lesson?.kit).toEqual(["HCl"]);
+    });
   });
 
   it("asks again when a completion changes what is earned", async () => {

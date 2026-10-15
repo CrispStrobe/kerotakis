@@ -584,6 +584,33 @@ pub struct Command {
     pub operator: Option<Operator>,
 }
 
+/// Normalize only the ingredient argument of commands that carry species.
+/// Names must never rewrite vessel identifiers, filenames or unrelated words.
+fn canonical_ingredient_line(line: &str) -> Option<String> {
+    let words: Vec<&str> = line.split_whitespace().collect();
+    let position = match words.first().copied()? {
+        "stock" => 1,
+        "add" | "grind" | "titrate" => 2,
+        "extract" => 3,
+        _ => return None,
+    };
+    let mut selected = None;
+    for (alias, canonical) in species::INPUT_ALIASES {
+        let tokens: Vec<&str> = alias.split_whitespace().collect();
+        let end = position + tokens.len();
+        if words.get(position..end) == Some(tokens.as_slice())
+            && selected.is_none_or(|(width, _)| tokens.len() > width)
+        {
+            selected = Some((tokens.len(), *canonical));
+        }
+    }
+    let (width, canonical) = selected?;
+    let mut rewritten = words[..position].to_vec();
+    rewritten.push(canonical);
+    rewritten.extend_from_slice(&words[position + width..]);
+    Some(rewritten.join(" "))
+}
+
 /// Parse one line typed in `locale`.
 ///
 /// The alias rewrite is tried first and the raw line second, so an alias
@@ -591,12 +618,20 @@ pub struct Command {
 /// is dropped when the index is built, and if a rewritten line does not
 /// parse the untouched one still gets its turn.
 pub fn parse_command(line: &str, locale: Locale) -> Result<Command, ParseError> {
-    let canonical = canonical_line_in(line, locale);
-    let attempt = canonical.as_deref().unwrap_or(line);
+    let translated = canonical_line_in(line, locale);
+    let candidate = translated.as_deref().unwrap_or(line);
+    let ingredient = canonical_ingredient_line(candidate);
+    let attempt = ingredient.as_deref().unwrap_or(candidate);
     match parse_op_typed(attempt) {
         Ok(operator) => Ok(replayable_command(attempt, operator)),
-        Err(error) if canonical.is_some() => match parse_op_typed(line) {
-            Ok(operator) => Ok(replayable_command(line, operator)),
+        Err(error) if translated.is_some() || ingredient.is_some() => match parse_op_typed(line) {
+            Ok(operator) => {
+                let fallback = canonical_ingredient_line(line);
+                Ok(replayable_command(
+                    fallback.as_deref().unwrap_or(line),
+                    operator,
+                ))
+            }
             Err(_) => Err(localised(error, locale)),
         },
         Err(error) => Err(localised(error, locale)),
@@ -984,6 +1019,8 @@ pub struct ParseError {
 }
 
 pub fn parse_op_typed(line: &str) -> Result<Option<Operator>, ParseError> {
+    let ingredient = canonical_ingredient_line(line);
+    let line = ingredient.as_deref().unwrap_or(line);
     let words = line.split_whitespace().collect::<Vec<_>>();
     let kind = match words.as_slice() {
         ["add", _, species, ..]
