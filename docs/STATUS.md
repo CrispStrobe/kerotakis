@@ -70,7 +70,10 @@ catalogue fallback colour. [PR790](https://github.com/CrispStrobe/kerotakis/pull
 contains a candidate using the static glassware fill geometry and computed layer
 colours, a persistent canvas and cancellation of superseded fade timers.
 Head `c4513357` has focused grid/pour tests and a real-browser command/pixel probe
-prepared. Actual app/browser acceptance remains queued; it is not integrated.
+prepared. Actual app/browser acceptance remains queued; it is not integrated. Independent
+review found a further canvas-size restart defect. Its correction and browser
+regression are reviewed on staging `35a10ec3`; the current run is preserved before
+advancing the PR. See the [candidate receipt](../audits/fresh-syntax50-20261013/fluid-rendering-preparation.json).
 
 The separate blue/yellow watercolor report remains open. Source-only calculation
 with current recipe strengths and the beaker optical path predicts a nearly black

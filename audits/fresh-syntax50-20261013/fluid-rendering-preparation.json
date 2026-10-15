@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "pr": "https://github.com/CrispStrobe/kerotakis/pull/790",
+  "pr_head": "c45133572dfa7efdf42c126f37daffed183d13e8",
+  "ci_run": 38709007507,
+  "reported_whole_vessel_tint": "disappears after a few seconds",
+  "source_review": "Bounded independent review found an additional canvas backing-store restart defect; other candidate changes found coherent. Source review is not execution.",
+  "staged_correction_head": "35a10ec334fa22b46b9acb2bfe3ed997e6330ba9",
+  "staged_correction_branch": "fix/fluid-rendering-canvas-reset-20261015",
+  "correction": "Check live canvas dimensions as well as ImageData; deterministic real-browser regression reproduces stale economy dimensions on the persistent node.",
+  "correction_source_review": "Independent reviewer found the correction closes the blocker and the regression would fail the original guard.",
+  "validation_executed": [
+    "node --check tools/test-fluid-rendering.mjs",
+    "git diff --check"
+  ],
+  "app_unit_execution": false,
+  "browser_execution": false,
+  "chemistry_recipe_changed": false,
+  "integration_pending": "Current PR run remains queued and uncancelled. After it completes, preserve results then advance PR to reviewed staging descendant for fresh source-bound acceptance."
+}
