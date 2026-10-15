@@ -601,6 +601,8 @@ jobs:
         run: node tools/test-i18n-render.mjs "$RUNNER_TEMP/site"
       - name: The responsive bench meets UX invariants
         run: node tools/test-ux-quality.mjs "$RUNNER_TEMP/site"
+      - name: Fluid animation keeps accepted fill bounds and scene colours
+        run: node tools/test-fluid-rendering.mjs "$RUNNER_TEMP/site"
       - name: Package the site
         uses: actions/upload-pages-artifact@v5
         with:
