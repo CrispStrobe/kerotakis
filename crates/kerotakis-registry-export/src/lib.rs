@@ -984,9 +984,9 @@ fn export_material_recipes(document: &mut RegistryDocument) {
     // exact revision-1 records live in the separate replay archive.
     let reviewed_wash_v2 = |mut recipe: MaterialRecipe| {
         recipe.version = 2;
-        recipe.evidence.method = Method::Editorial {
-            detail: "editorial tenfold dilution of revision 1 for a transparent 4 cm-path teaching wash; not a measured retail formulation".to_string(),
-        };
+        recipe.evidence.method = Method::Editorial(
+            "editorial tenfold dilution of revision 1 for a transparent 4 cm-path teaching wash; not a measured retail formulation".to_string(),
+        );
         recipe
     };
     // These Gaussian bands are illustrative optical surrogates, not measured
