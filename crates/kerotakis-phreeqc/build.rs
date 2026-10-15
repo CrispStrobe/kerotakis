@@ -49,7 +49,10 @@ fn main() {
 
     let with_my_basic = std::env::var_os("CARGO_FEATURE_MY_BASIC").is_some();
     let mut cfg = cmake::Config::new(&vendor);
-    cfg.define("BUILD_SHARED_LIBS", "OFF")
+    // GNUInstallDirs selects lib64 on RPM systems; keep the install and
+    // Cargo link-search directories identical on every native host.
+    cfg.define("CMAKE_INSTALL_LIBDIR", "lib")
+        .define("BUILD_SHARED_LIBS", "OFF")
         .define("IPHREEQC_ENABLE_MODULE", "OFF")
         .define(
             "IPHREEQC_WITH_MY_BASIC",
