@@ -13,12 +13,12 @@ fn canonical_material_commands_pin_revision_and_replay_the_same_expansion() {
         (
             "add v1 watercolour_blue 100g",
             Locale::EN,
-            "add v1 watercolour_blue@1 100g",
+            "add v1 watercolour_blue@2 100g",
         ),
         (
             "add v1 watercolour_yellow 100mL @ 30C",
             Locale::EN,
-            "add v1 watercolour_yellow@1 100mL @ 30C",
+            "add v1 watercolour_yellow@2 100mL @ 30C",
         ),
         (
             "zugeben v1 Milch 100mL",
@@ -84,7 +84,10 @@ fn loaded_species_cannot_hijack_material_revision_tokens() {
         Ok(Some(Operator::AddMaterial { .. }))
     ));
     assert!(parse_op("add v1 watercolour_blue@invalid 1g").is_err());
-    assert!(parse_op("add v1 watercolour_blue@2 1g").is_err());
+    assert!(matches!(
+        parse_op("add v1 watercolour_blue@2 1g"),
+        Ok(Some(Operator::AddMaterial { .. }))
+    ));
     assert!(matches!(
         parse_op("add v1 water 10mL @ 30C"),
         Ok(Some(Operator::Add { .. }))
@@ -223,7 +226,7 @@ fn stock_revision_keys_do_not_share_balances_and_legacy_alias_collisions_are_rej
 
 #[test]
 fn unavailable_or_invalid_material_revision_never_selects_current_default() {
-    for revision in ["", "0", "-1", "+1", "1.0", "2", "4294967296", "1@1"] {
+    for revision in ["", "0", "-1", "+1", "1.0", "999", "4294967296", "1@1"] {
         assert!(
             parse_op(&format!("add v1 watercolour_blue@{revision} 100g")).is_err(),
             "revision {revision:?} must not become the current recipe"
@@ -247,7 +250,7 @@ fn direct_material_replay_refuses_mismatched_identity_or_revision_without_mutati
                     .unwrap()
                     .id;
             } else {
-                *recipe_version = 2;
+                *recipe_version += 1;
             }
         }
         let mut bench = Bench::new();

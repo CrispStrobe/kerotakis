@@ -145,10 +145,25 @@ mod tests {
     #[test]
     fn history_rejects_rewritten_same_revision_future_and_duplicate_records() {
         for mutation in 0..3 {
-            let (registry, mut history) = fixtures();
+            let (mut registry, mut history) = fixtures();
             match mutation {
-                0 => history.recipes[0].preparation = Some("rewritten history".to_string()),
-                1 => history.recipes[0].version += 1,
+                0 => {
+                    *registry
+                        .material_recipes
+                        .iter_mut()
+                        .find(|recipe| recipe.id == history.recipes[0].id)
+                        .unwrap() = history.recipes[0].clone();
+                    history.recipes[0].preparation = Some("rewritten history".to_string());
+                }
+                1 => {
+                    history.recipes[0].version = registry
+                        .material_recipes
+                        .iter()
+                        .find(|recipe| recipe.id == history.recipes[0].id)
+                        .unwrap()
+                        .version
+                        + 1
+                }
                 _ => history.recipes.push(history.recipes[0].clone()),
             }
             assert!(history.validate_against(&registry).is_err());

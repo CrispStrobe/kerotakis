@@ -28,7 +28,9 @@ older engine without this operation preserve the original save; automatic writes
 remain blocked until the user explicitly clears the bench. A valid history that
 fails during execution is also preserved, with its partial replay cleared.
 
-This staged prerequisite does not change recipe concentrations or defaults.
+The replay contract retains the composition attached to each declared revision.
+See [the blue/yellow revision-2 controls](watercolour-v2-controls.md) for the
+separate optical teaching change.
 Native/protocol and actual app acceptance remain required before promotion.
 Unversioned standalone script imports still select current defaults unless the
 caller explicitly requests historical parsing; only a saved session is known to
