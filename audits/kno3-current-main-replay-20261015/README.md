@@ -16,7 +16,9 @@ The audit checkout is bound to the dispatched revision, while the separate
 product checkout is pinned to the SHA above. The hosted collector records clean
 source/tree/submodule identities before and after each child process, actual
 tool versions and hashes, explicit build environment, resource gates, build
-arguments and verbose logs. No build cache is restored. Because this product
+arguments and verbose logs. Heavy stages require 4,736 MiB available memory
+and 8,192 MiB free disk; light stages require 3,400 MiB available memory. The
+checksum-pinned SUNDIALS fetch precedes the locked build. No build cache is restored. Because this product
 revision has no tracked Cargo.lock, it resolves dependencies once, preserves the
 actual lock, and builds with `--locked`; this does not claim dependency identity
 with the earlier frozen binary. Native logs/environment are witnesses, not a

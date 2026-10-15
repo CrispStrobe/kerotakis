@@ -57,7 +57,10 @@ def main():
                "memory_available_mib": available,
                "source_free_mib": shutil.disk_usage(source).free // 1048576,
                "evidence_free_mib": shutil.disk_usage(evidence).free // 1048576}
-        row["permitted"] = (row["load1"] <= 3.5 and available >= 3200
+        minimum_memory = 4736 if stage in ("prepare", "fetch-sundials", "resolve-lock", "release-build") else 3400
+        row["minimum_memory_mib"] = minimum_memory
+        row["minimum_disk_mib"] = disk_mib
+        row["permitted"] = (row["load1"] <= 3.5 and available >= minimum_memory
                             and min(row["source_free_mib"], row["evidence_free_mib"]) >= disk_mib)
         with (evidence / "resources.jsonl").open("a") as stream:
             stream.write(json.dumps(row, allow_nan=False) + "\n")
@@ -75,7 +78,7 @@ def main():
                 "tracked_status": status, "recursive_submodules": modules}
 
     def run(label, command, env, timeout, cwd=source):
-        gate(label, 8192 if label in ("resolve-lock", "release-build") else 1024)
+        gate(label, 8192 if label in ("fetch-sundials", "resolve-lock", "release-build") else 1024)
         before = guard()
         started = utc()
         clock = time.monotonic()
@@ -172,13 +175,14 @@ def main():
         write(evidence / "toolchain.json", toolchain)
         if (source / "target").exists():
             raise RuntimeError("target must be fresh; no build cache admitted")
+        run("fetch-sundials", ["bash", "tools/fetch-sundials.sh"], env, 300)
         if not (source / "Cargo.lock").exists():
-            run("resolve-lock", ["cargo", "generate-lockfile"], env, 600)
+            run("resolve-lock", ["cargo", "generate-lockfile"], env, 300)
         shutil.copyfile(source / "Cargo.lock", evidence / "Cargo.lock")
         lock_sha = sha(evidence / "Cargo.lock")
         write(evidence / "lock-binding.json", {"sha256": lock_sha, "tracked_in_source":
               bool(git(source, "ls-files", "Cargo.lock")), "build_uses_locked": True})
-        run("release-build", ["cargo", "build", "--release", "--locked", "-p", "kerotakis-cli", "-vv"], env, 2700)
+        run("release-build", ["cargo", "build", "--release", "--locked", "-p", "kerotakis-cli", "-vv"], env, 2400)
         if sha(source / "Cargo.lock") != lock_sha:
             raise RuntimeError("dependency lock changed during build")
         binary = source / "target/release/kero"
