@@ -1,0 +1,96 @@
+{
+  "kind": "static naming admission inventory; not CLI outcomes",
+  "source_commit": "a3ca7cad8e43d989ac078281603adf08196637e8",
+  "runtime_source_main": "4d3203a3d4a41839761e83495bee5129092be1db",
+  "identities": 186,
+  "material_recipes": 132,
+  "candidates": [
+    {
+      "key": "O2",
+      "display_name": "oxygen",
+      "species_name_targets": [
+        "O2"
+      ],
+      "material_name_targets": [],
+      "status": "candidate only; parser and identity acceptance not executed"
+    },
+    {
+      "key": "N2",
+      "display_name": "nitrogen",
+      "species_name_targets": [
+        "N2"
+      ],
+      "material_name_targets": [],
+      "status": "candidate only; parser and identity acceptance not executed"
+    },
+    {
+      "key": "CO2",
+      "display_name": "carbon dioxide",
+      "species_name_targets": [
+        "CO2"
+      ],
+      "material_name_targets": [],
+      "status": "candidate only; parser and identity acceptance not executed"
+    },
+    {
+      "key": "NaCl",
+      "display_name": "sodium chloride",
+      "species_name_targets": [
+        "NaCl"
+      ],
+      "material_name_targets": [],
+      "status": "candidate only; parser and identity acceptance not executed"
+    },
+    {
+      "key": "CuSO4",
+      "display_name": "copper sulfate",
+      "species_name_targets": [
+        "CuSO4"
+      ],
+      "material_name_targets": [],
+      "status": "candidate only; parser and identity acceptance not executed"
+    }
+  ],
+  "duplicate_species_display_names": {},
+  "formula_collisions": {
+    "C": [
+      "catalase",
+      "C",
+      "amylase",
+      "graphite",
+      "diamond",
+      "activated_charcoal"
+    ],
+    "CO2": [
+      "CO2",
+      "dry_ice",
+      "CO2(aq)"
+    ],
+    "N2": [
+      "N2",
+      "liquid_nitrogen"
+    ],
+    "C6H10O5": [
+      "starch",
+      "cellulose"
+    ],
+    "C12H22O11": [
+      "maltose",
+      "sucrose"
+    ],
+    "C2H4": [
+      "PE",
+      "ethene"
+    ],
+    "C6H12O6": [
+      "glucose",
+      "fructose"
+    ]
+  },
+  "species_display_name_material_collisions": {},
+  "limits": [
+    "Static registry inspection only; grammar words, loaded packs and locale rewrites require further collision review.",
+    "Formula uniqueness in this registry does not prove chemical identity equivalence.",
+    "No runtime aliases added and no experiments reclassified."
+  ]
+}

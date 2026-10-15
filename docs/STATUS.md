@@ -47,6 +47,10 @@ Detailed deliverables and prerequisites are in the
 [broader roadmap](ordered-work-roadmap-20261013.md) and
 [lane catalog](chemistry-audit-next-lanes.md).
 
+A [bounded naming-alias lane](naming-alias-lane.md) is scoped from integrated
+source: begin with reviewed English names, preserve canonical identity, and
+reject material/grammar/phase ambiguities. No new aliases are implemented yet.
+
 ## PR delivery and resources
 
 Use [auto-merge by default](PR-WORKFLOW.md). Follow all authorized PRs through
