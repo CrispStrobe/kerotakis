@@ -254,7 +254,7 @@ No frozen forecast or conservation tolerance changed. Carbon/gas elemental
 reconciliation remains a separate accuracy gap.
 
 The shared unknown-heat continuation prerequisite remains draft
-[PR799](https://github.com/CrispStrobe/kerotakis/pull/799), now `3aca4d99`.
+[PR799](https://github.com/CrispStrobe/kerotakis/pull/799), now `a45c6f45`.
 Its first hosted build failed on two nonexistent vessel-field references;
 those references are corrected and the first logs remain preserved. The
 implementation guards fresh answer binding, atomic rollback, retained-gas events
@@ -263,6 +263,8 @@ through native and browser wrappers, CLI cache prewarming and actual Node Wasm/
 Emscripten controls for continuation, changed-input cache refusal and failing-hook
 rollback. Seventeen Rust controls plus the Wasm harness additions await execution
 on the corrected source; formatting, JavaScript syntax and diff checks passed.
+Negative controls require the intended concrete cache miss or tagged hook failure;
+an unrelated guard error cannot earn a cache/hook acceptance pass.
 These isolated mechanical callbacks install no chemical endpoint. Node Wasm
 acceptance and Chromium execution remain distinct.
 
