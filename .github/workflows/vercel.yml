@@ -66,11 +66,23 @@ jobs:
         run: bash tools/build-web.sh "$RUNNER_TEMP/site"
       - name: Build the native engine for the serverless runtime
         run: bash tools/build-rest-native.sh "$RUNNER_TEMP/rest-native"
+      - name: Prepare and verify the isolated native image
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_TEAM_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          python -m pip install -r services/rest_api/requirements.txt
+          python tools/prepare-rest-snapshot.py "$RUNNER_TEMP/rest-native" "$RUNNER_TEMP/rest-snapshot.json"
+          python tools/test-rest-microvm.py "$RUNNER_TEMP/rest-snapshot.json" "$RUNNER_TEMP/rest-isolation.json"
       - name: Preserve the native build binding
         uses: actions/upload-artifact@v4
         with:
           name: rest-native-${{ github.run_id }}
-          path: ${{ runner.temp }}/rest-native
+          path: |
+            ${{ runner.temp }}/rest-native
+            ${{ runner.temp }}/rest-snapshot.json
+            ${{ runner.temp }}/rest-isolation.json
           retention-days: 14
       - name: Deploy
         env:
@@ -92,8 +104,9 @@ jobs:
           # never writes .vercel/output. Dropping it is the fix; the default
           # is exactly the non-prebuilt upload this wants.
           set -euo pipefail
-          python3 tools/package-rest-api.py "$RUNNER_TEMP/site" "$RUNNER_TEMP/rest-native"
-          rest_env=()
+          python3 tools/package-rest-api.py "$RUNNER_TEMP/site" "$RUNNER_TEMP/rest-native" "$RUNNER_TEMP/rest-snapshot.json"
+          rest_snapshot="$(python3 -c 'import json,os; print(json.load(open(os.environ["RUNNER_TEMP"] + "/rest-snapshot.json"))["snapshot_id"])')"
+          rest_env=(--env KERO_API_EXECUTOR=microvm --env "KERO_API_SNAPSHOT=$rest_snapshot")
           if [ -n "$KERO_API_KEYS" ]; then
             rest_env+=(--env "KERO_API_KEYS=$KERO_API_KEYS")
           fi

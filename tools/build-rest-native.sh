@@ -33,11 +33,10 @@ import re,shutil
 for line in Path("/out/ldd.txt").read_text().splitlines():
     if "not found" in line:
         raise SystemExit("Missing native dependency")
-    match=re.search(r"=> (/[^ ]+)",line)
+    match=re.search(r"=> (/[^ ]+)",line) or re.search(r"^\s*(/[^ ]+)",line)
     if match:
         path=Path(match[1])
-        if path.name not in {"libc.so.6","libm.so.6","libpthread.so.0","libdl.so.2","librt.so.1"}:
-            shutil.copyfile(path,Path("/out/lib")/path.name)
+        shutil.copyfile(path,Path("/out/lib")/path.name)
 PY
     rustc --version > /out/rustc.txt
   '
@@ -50,6 +49,7 @@ sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 manifest={"source_head":sys.argv[3],"source_tree":sys.argv[4],"build_image":sys.argv[5],
           "binary_sha256":sha(out/"kero"),"cargo_lock_sha256":sha(root/"Cargo.lock"),
           "libraries":{p.name:sha(p) for p in sorted((out/"lib").iterdir())},
+          "loader":"ld-linux-x86-64.so.2",
           "rustc":(out/"rustc.txt").read_text().strip(),"target":"x86_64-unknown-linux-gnu"}
 (out/"manifest.json").write_text(json.dumps(manifest,indent=2)+"\n")
 PY

@@ -1,6 +1,7 @@
 # Kerotakis REST API
 
-FastAPI and the native engine run directly in the **existing Vercel project**.
+FastAPI runs in the **existing Vercel project** and executes the native CLI in
+a fresh Vercel Sandbox microVM for each admitted request.
 No VPS backend or separate compute hostname is required. GitHub Pages and the
 Vercel app can both call this API. Each request starts a fresh lab. Execution
 success is not scientific validation: responses retain `physical_verdict:
@@ -55,9 +56,11 @@ only after installing restrictions, leaving its own runtime unchanged.
 immutable native/runtime assets. Only `/api/*` is rewritten to the function;
 existing static routes and caching headers remain. The packaged API revision
 is stamped from Git, including a dirty marker when relevant source differs.
-The function is configured for 2 GiB memory and a 30-second platform deadline;
-its engine has a stricter independent deadline. Actual Vercel native loading,
-function routing and kernel support must pass preview acceptance.
+The function has a 60-second platform deadline. The isolated VM has one vCPU,
+two GiB memory, a 30-second lifetime, no exposed ports and denied outbound
+networking. The complete VM lifecycle has a 35-second client deadline; its native
+child has stricter independent limits. Vercel Fluid Compute controls the
+function allocation and may ignore the configured memory field.
 
 Configure these privately in the existing project's server environment:
 
@@ -66,6 +69,8 @@ Configure these privately in the existing project's server environment:
 | `KERO_API_KEYS` | JSON object mapping principal names to SHA256 digests of personal bearer keys |
 | `KERO_API_REDIS_URL` | HTTPS Redis REST endpoint for shared admission |
 | `KERO_API_REDIS_TOKEN` | Its private REST credential |
+| `KERO_API_EXECUTOR` | `microvm` for the actual Vercel runtime |
+| `KERO_API_SNAPSHOT` | Exact immutable native/security snapshot ID |
 | `KERO_API_ORIGINS` | JSON array of exact HTTPS frontend origins, or no cross-origin access by default |
 
 The deployment workflow also accepts `KERO_API_KEYS` from an encrypted GitHub
@@ -75,9 +80,19 @@ The repository variable `KERO_API_ORIGINS` supplies the two approved frontend
 origins to the same deployment; add verified aliases there when needed.
 
 Standard `UPSTASH_REDIS_REST_*` or `KV_REST_API_*` URL/token pairs are also
-recognized. The packaged function selects direct `vercel` mode; missing or
+recognized. The packaged function selects `vercel` mode; missing or
 invalid authentication, native assets or shared-admission configuration disables
 execution. No upstream URL or VPS address is involved.
+
+`tools/prepare-rest-snapshot.py NATIVE_BUNDLE NEW_RECEIPT` prepares a secret-free
+image and executes a native smoke check before snapshotting. The deployment
+workflow follows it with `tools/test-rest-microvm.py RECEIPT NEW_EVIDENCE`.
+Pass the receipt as the third argument to `tools/package-rest-api.py`; packaging
+binds its exact snapshot ID, full engine manifest, supervisor and seccomp hashes.
+Changed policies require a new snapshot. Snapshots expire after 30 days without
+use. SDK access uses project OIDC in Vercel; the account access token is never
+uploaded into a function, VM or snapshot. A preview supplies its own snapshot ID
+as a deployment override, preserving the production binding.
 
 Use personal bearer keys with at least 256 random bits. Store their SHA256
 digests in configuration and distribute raw keys privately. Removing a principal
@@ -101,8 +116,17 @@ empty credential environment and no shell. The native executable and bundled
 libraries are verified against their build manifest. The child runs without
 root privileges or Linux capabilities, with `no_new_privs` set.
 
-Direct execution requires Landlock ABI3+ and seccomp in the **actual function
-runtime**. Landlock permits reads only for the input, engine and runtime
+The deployed Vercel kernel returns `ENOSYS` for Landlock. The production
+executor therefore uses a separate microVM rather than running the child in the
+credential-bearing function. Its fixed supervisor enters a root containing only
+verified engine libraries and the input, drops supplementary groups and uid/gid
+to 65534, clears capabilities and installs seccomp. Read-only open filters,
+mutation syscall denial and restricted `fcntl` prevent writes and asynchronous
+signals. The VM is destroyed after the request; its server-enforced lifetime
+bounds cleanup failures. Neither application keys nor shared-store credentials
+enter it. The actual deployed native smoke and adversarial fixture passed.
+
+The optional direct executor still requires Landlock ABI3+ and seccomp. Landlock permits reads only for the input, engine and runtime
 libraries, and executable access only for the engine/ELF loader. File metadata
 visibility is not equivalent to permission to read file contents. The seccomp
 allowlist validates the architecture/x32 bit and denies networking, separate
@@ -160,9 +184,11 @@ and Redis Lua admission, store outage, redirects, packaged route mounting,
 filesystem/network/process restrictions, timeout, output exhaustion, cancellation
 and native identity. Sandbox failures must not be skipped to obtain a pass.
 
-The direct sandbox and preserved native engine have executed locally. That
-engine is bound to source `d791d306`, not a new AL2023 build. Hosted native build,
-actual Vercel kernel/native-loading probes, live auth/quota controls, both real
-browser origins and production delivery remain pending. No public compute
-endpoint is enabled by merely pushing this code. The initial VPS-gateway design
-was superseded by the user's direct-Vercel requirement.
+Twenty-five focused tests pass, including malformed/rollback snapshot refusal
+and isolated-job cleanup after identity mismatch and timeout. Actual Vercel
+microVM controls verify filesystem isolation, immutable input, missing secrets,
+network/fork/parent-signal denial, restricted file-control operations and blocked
+privilege escalation. The authenticated FastAPI preview completed a native run.
+The retained engine is bound to source `d791d306`; it is not a new AL2023 build
+or a deployment of every current frontend change. The original VPS gateway and
+in-function Landlock plans are superseded for this deployment.
