@@ -235,3 +235,24 @@ UTF-8 and payload lint, and client/service-worker checks passed locally. The
 Ubuntu vendor Bubblewrap profile and complete native/fleet/browser acceptance
 remain subject to fresh hosted checks; no engine or browser build ran locally.
 The first sandbox/build/lint failures remain preserved.
+
+PR796's first hosted macOS job passed the original eight focused groups and
+the complete Rust suite, then failed unchanged curiosity forecasts `aq-063`,
+`aq-065` and `mat-063`. The first two exposed nanomole-scale carbon/gas readback
+residuals misreported as missing counterions. The last exposed a real hydrogen
+cathode defect: gas production had no corresponding water consumption or OH−.
+The corrected head `077cb067` fixes electrode accounting, refuses finite-water
+overdraw before mutation and declares the charge diagnostic's reporting allowance.
+Eleven aqueous and five core regression groups await fresh hosted execution;
+formatting, diff checks and independent source review passed. See the
+[first failure, contracts and remaining limits](../crates/kerotakis-phreeqc/CHARGED-COMPONENTS.md).
+No frozen forecast or conservation tolerance changed. Carbon/gas elemental
+reconciliation remains a separate accuracy gap.
+
+The shared unknown-heat continuation prerequisite is under source review.
+Review found stale-answer admission, unbound readback, contained-gas event
+accounting and mutable thermal/boundary metadata gaps; these must close before
+acceptance or new peroxide reaction claims. PR795's current REST acceptance job
+passed; its broader native/browser/fleet checks and the separate silver route
+in PR798 remain pending. The deployed API still reports its original pinned
+engine; none of these pending repairs is claimed deployed.
