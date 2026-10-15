@@ -4604,6 +4604,7 @@ impl Bench {
                 let v = self.vessel(*vessel)?;
                 match crate::displacement::electrolyse(v, *amps, *seconds) {
                     Some(run) => {
+                        require_electrolysis_water(v, run.electrons / 2.0)?;
                         // The counter-electrode's half-reaction, named
                         // before the event rather than only booked after
                         // it: an inert anode splits water,
@@ -4723,6 +4724,7 @@ impl Bench {
                         *seconds,
                     ) {
                         Some(run) => {
+                            require_electrolysis_water(self.vessel(*vessel)?, run.water_spent)?;
                             let v = self.vessel_mut(*vessel)?;
                             if run.water_spent > crate::OBSERVABLE_MOLES {
                                 v.withdraw(&SpeciesId::new("water"), Moles(run.water_spent));
@@ -6286,6 +6288,30 @@ fn stock_refusal_event(vessel: VesselId, key: &str, refusal: crate::stock::Stock
 /// there so a solver that neither warms nor consumes cannot spin, and when
 /// it is reached the event says so rather than pretending the dose ran out.
 const HEAT_DELIVERY_PASSES: u32 = 32;
+
+/// Refuse the whole current dose before any electrode product is booked.
+/// The represented route is aqueous: exhausting the last observable solvent
+/// would require a different phase/voltage model, so that endpoint is declined.
+fn require_electrolysis_water(vessel: &Vessel, required: f64) -> Result<(), BenchError> {
+    let available: f64 = vessel
+        .contents
+        .iter()
+        .filter(|portion| portion.species.0 == "water" && portion.phase == Phase::Liquid)
+        .map(|portion| portion.moles.0)
+        .sum();
+    if !required.is_finite()
+        || required < 0.0
+        || !available.is_finite()
+        || available - required <= crate::OBSERVABLE_MOLES
+    {
+        return Err(BenchError::InvalidState(format!(
+            "electrolysis water budget: requested dose requires {required} mol liquid water, \
+             available {available} mol; an observable aqueous solvent remainder is required. \
+             No electrode products or partial current dose were applied"
+        )));
+    }
+    Ok(())
+}
 
 /// One `Electrolysed` for a solvent-electrolysis run, with BOTH electrodes
 /// named.
