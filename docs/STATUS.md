@@ -241,11 +241,14 @@ the complete Rust suite, then failed unchanged curiosity forecasts `aq-063`,
 `aq-065` and `mat-063`. The first two exposed nanomole-scale carbon/gas readback
 residuals misreported as missing counterions. The last exposed a real hydrogen
 cathode defect: gas production had no corresponding water consumption or OH−.
-The corrected head `077cb067` fixes electrode accounting, refuses finite-water
+The corrected head `f253fc21` fixes electrode accounting, refuses finite-water
 overdraw before mutation and declares the charge diagnostic's reporting allowance.
-Eleven aqueous and five core regression groups await fresh hosted execution;
+Eleven aqueous and six core regression groups await fresh hosted execution;
 formatting, diff checks and independent source review passed. See the
-[first failure, contracts and remaining limits](https://github.com/CrispStrobe/kerotakis/blob/077cb067bf0ab81e0cde6b277e3a149e2bd5ba4b/crates/kerotakis-phreeqc/CHARGED-COMPONENTS.md).
+[first failure, contracts and remaining limits](https://github.com/CrispStrobe/kerotakis/blob/f253fc21d4641fbb88f4a9cb7a953c7566d393ae/crates/kerotakis-phreeqc/CHARGED-COMPONENTS.md).
+The separate existing-metal electrode route also omitted anodic H+; it now
+books only the metal-deposition electron share. Successful full-plating and
+metal-depletion controls close hydrogen and charge before the aqueous tail.
 No frozen forecast or conservation tolerance changed. Carbon/gas elemental
 reconciliation remains a separate accuracy gap.
 
