@@ -66,7 +66,7 @@ def main():
              "fast_free_mib": shutil.disk_usage(fast).free // 2**20,
              "storage_free_mib": shutil.disk_usage(out).free // 2**20}
         limits = protocol["resource_thresholds"]
-        r["permitted"] = (r["load1"] <= limits["load1_max"] and mem >= limits["mem_available_mib_min"]
+        r["permitted"] = (r["load1"] <= limits["load1_max"] and mem >= limits["memory_available_mib_min"]
                           and r["fast_free_mib"] >= limits["fast_free_mib_min"]
                           and r["storage_free_mib"] >= limits["storage_free_mib_min"])
         with (out / "resource-journal.jsonl").open("a") as f:
