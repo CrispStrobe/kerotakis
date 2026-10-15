@@ -48,7 +48,17 @@ finite two-equivalent NH3 dose.
 
 Public speciation is rounded to four significant figures. Tests comparing sums
 of those reported species use a 5e-4 relative rounding allowance plus a 1e-12 mol
-trace floor. Analytical-ledger charge and element conservation are checked
+trace floor. The public species list omits molalities at or below 1e-9; the
+alkaline control therefore obtains hydrogen activity from `10^(-pH)` rather
+than requiring a filtered-out H+ row. Its mass-action check still requires the
+silver and ammonium activities and both NIST equations. The first native test
+attempt's missing-activity lookup failure remains preserved. A fresh native run
+must confirm the corrected assertion and the remaining finite-balance controls;
+that failed lookup alone did not establish a chemistry failure. The first
+[native failure](https://github.com/CrispStrobe/kerotakis/actions/runs/38799616390/job/116644921313)
+at `c32a608febdca6e506528d364e2da7ada1cc7e67` passed three other focused
+groups and failed this lookup before its mass-action assertions.
+Analytical-ledger charge and element conservation are checked
 separately, over the union of pre/post elements so newly created elements are
 also detected; the public-speciation allowance does not relax that ledger.
 

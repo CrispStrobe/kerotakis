@@ -110,12 +110,20 @@ fn finite_ammonia_forms_complexes_and_increases_silver_chloride_dissolution() {
     assert!(provenance.routing.contains("silver-ammonia complexes"));
     // Match the native NH4-based NIST equations, not a guessed yield or
     // a constant converted to an incompatible NH3 reaction convention.
+    // The public distribution omits molality <=1e-9. In this alkaline
+    // mixture H+ is below that reporting threshold, so its absence is not
+    // zero proton activity. pH defines the authoritative hydrogen activity.
+    assert!(solution.ph > 9.0);
+    assert!(!solution.species.iter().any(|species| species.name == "H+"));
     let activity = |name: &str| {
+        if name == "H+" {
+            return 10.0_f64.powf(-solution.ph);
+        }
         solution
             .species
             .iter()
             .find(|species| species.name == name)
-            .unwrap()
+            .unwrap_or_else(|| panic!("required {name} activity absent at pH {}", solution.ph))
             .activity
     };
     for (complex, ligands, log_k) in [("AgNH3+", 1.0, -5.934), ("Ag(NH3)2+", 2.0, -11.268)] {
