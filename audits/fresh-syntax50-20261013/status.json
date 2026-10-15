@@ -1,5 +1,5 @@
 {
-  "utc": "2026-10-15T07:19:44.888206+00:00",
+  "utc": "2026-10-15T07:31:53.377132+00:00",
   "design_count": 50,
   "executed_count": 50,
   "verdict_count": 50,
@@ -114,6 +114,8 @@
   },
   "alias_current_new_app_regressions": 8,
   "alias_fix_merge": "4d3203a3d4a41839761e83495bee5129092be1db",
-  "normalized_followup_hosted_run": 38697577370,
-  "normalized_followup_status": "dispatched_no_completed_cases_yet_verified"
+  "normalized_followup_hosted_run": 38699207052,
+  "normalized_followup_status": "first_wrapper_failure_before_cases_preserved_corrected_retry_dispatched",
+  "normalized_followup_original_runner_or_inputs_changed": false,
+  "normalized_followup_first_failed_wrapper_run": 38697577370
 }

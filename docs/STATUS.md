@@ -27,7 +27,10 @@ inconclusive**. Those first outcomes are immutable. The 43 unresolved cases are
 See [the 43-case closure plan](closure43-plan.md).
 
 The unchanged forty spelling-normalized controls are dispatched in
-[run 38697577370](https://github.com/CrispStrobe/kerotakis/actions/runs/38697577370).
+[run 38699207052](https://github.com/CrispStrobe/kerotakis/actions/runs/38699207052).
+The first wrapper attempt stopped before any case on a policy-key mismatch;
+that failure is preserved and only the lookup was corrected. See the
+[live execution checkpoint](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/fresh-syntax50-20261013/normalized40-hosted/README.md).
 They retain their original old-source binding and physical forecasts. Execution
 completion and physical verdicts remain pending; do not duplicate the worker.
 

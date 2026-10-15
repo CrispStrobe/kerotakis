@@ -33,7 +33,7 @@ in the private handoff. Heavy local work and delegation require resource gates.
    for subsequent PRs.
 3. **Execute and assess the forty naming follow-ups — active.** The
    [forty controls](../audits/fresh-syntax50-20261013/normalized40/design/README.md)
-   are dispatched in [hosted run 38697577370](https://github.com/CrispStrobe/kerotakis/actions/runs/38697577370).
+   are dispatched in [hosted run 38699207052](https://github.com/CrispStrobe/kerotakis/actions/runs/38699207052).
    Only one replay job is selected; there is no app rebuild. Completion and physical
    verdicts remain pending. Do not duplicate this execution. The controls
    already freeze `H2O`→`water` substitutions and unchanged physical forecasts

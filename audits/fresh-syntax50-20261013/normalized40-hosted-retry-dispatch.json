@@ -1,0 +1,22 @@
+{
+  "utc": "2026-10-15T07:31:53.377132+00:00",
+  "run": 38699207052,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38699207052",
+  "audit_head": "df35271b3f48dc30c995ea66a2883075e5ae9408",
+  "status": "queued",
+  "conclusion": "",
+  "job": 116303030862,
+  "original_first_failure_preserved": "normalized40-hosted-first-failure.json",
+  "binding": {
+    "protocol_sha256": "8c55f59bdc2230f0567692042b49a57754aeed325689bb02926a8dedc2708246",
+    "helper_sha256": "1da3e1e5b31828c134393a7612db5aea26048ece89f289fe7efdf3102d808ac4",
+    "workflow_sha256": "6e7753aaa17d2f2e0c1b6fed54568883f0514b83dfcf671bd3d4af673f85eae0",
+    "selection": "normalized40",
+    "selected_jobs": 1,
+    "other_jobs_excluded": 26,
+    "application_rebuild": false,
+    "original_runner_and_inputs_unchanged": true
+  },
+  "cases_executed_verified": 0,
+  "original_inputs_changed": false
+}

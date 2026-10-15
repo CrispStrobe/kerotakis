@@ -1,0 +1,21 @@
+{
+  "utc": "2026-10-15T07:31:53.377132+00:00",
+  "run": 38697577370,
+  "job": 116297692983,
+  "audit_head": "bbbbbb98ab52b038ec1788c44c2559435f98d6da",
+  "conclusion": "failure",
+  "failure": "Wrapper looked up mem_available_mib_min but frozen policy names memory_available_mib_min.",
+  "cases_executed": 0,
+  "first_case_streams_created": false,
+  "artifact_id": 11955318246,
+  "artifact_size_bytes": 2617,
+  "artifact_sha256": "e2c8e5d29f0a97969339e613c5730b4e2bff533d9851a346963f2c55c96fde89",
+  "archive_members": [
+    "protocol.json"
+  ],
+  "full_small_archive_crc_and_digest_verified": true,
+  "job_log_sha256": "fa61290a1a7fa180a33dd4ddf1b74f264854afeace9ccdbf9ec6defc506ec27e",
+  "resource_threshold_values_changed": false,
+  "original_runner_scripts_or_predictions_changed": false,
+  "repair": "Correct wrapper lookup and statically verify every resource key against the actual frozen policy before dispatch."
+}

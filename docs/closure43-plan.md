@@ -12,7 +12,7 @@ not rewrite original predictions or manufacture a 50/50 scientific score.
 
 ## Execute the forty, then assess
 
-[Hosted run 38697577370](https://github.com/CrispStrobe/kerotakis/actions/runs/38697577370)
+[Hosted run 38699207052](https://github.com/CrispStrobe/kerotakis/actions/runs/38699207052)
 uses the original normalized controls, binding, runner and verified old executable.
 Only its one replay job is selected. No app build is requested. Do not duplicate
 execution while it is pending. Preserve first streams, exits, warnings, timeouts,
