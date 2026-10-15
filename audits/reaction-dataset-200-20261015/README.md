@@ -55,3 +55,11 @@ authenticates the eventual artifact and automatically invokes the execution
 reader when all 200 records are present. It preserves partial artifacts and
 terminal failures rather than rerunning cases. Its bounded polling interval is
 30 seconds, for at most 480 polls; inspect its state before restarting collection.
+
+A separately bound VPS run attempted ranks 1–13 on 2026-10-15 in 3.61 seconds
+combined case time: twelve zero exits and one identity refusal (`Na`, rank 11).
+The memory gate stopped execution before rank 14. All thirteen saved stream
+hashes were verified. See the [partial receipt](vps-partial-execution.json).
+Ranks 14–200 remain unexecuted locally; resume only unfinished cases under fresh
+resource headroom. The independent hosted run remains queued. These execution
+results assign no physical passes and do not validate the generated procedures.

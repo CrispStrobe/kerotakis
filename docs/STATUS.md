@@ -173,3 +173,19 @@ headroom. Large evidence belongs on the designated storage volume; private host
 paths, thresholds and protected worktree inventories stay in the private handoff.
 Some recoverable cache cleanup is complete; broad worktree consolidation remains
 incomplete and must preserve unique commits, modifications and evidence.
+
+## Dataset execution and remote API investigation
+
+A separate VPS run of the frozen 200 generated probes attempted ranks 1–13
+in 3.61 seconds combined case time: twelve zero exits and one `Na` identity
+refusal. The memory gate stopped it before rank 14; all thirteen saved stream
+hashes were verified. [Partial execution receipt](../audits/reaction-dataset-200-20261015/vps-partial-execution.json).
+The remaining 187 require a separately bound continuation without repeating the
+completed prefix. The independent hosted run remains queued. No physical passes
+are assigned and the generated screens are not individually validated procedures.
+
+The inspected Vercel payload runs chemistry in browser WebAssembly and has no
+server simulation API. A protected deployment URL redirected to authentication;
+its engine version was not verified. The [API implementation lanes](simulation-api-lane.md)
+scope bounded workers, authenticated job admission, deployment and cross-runtime
+comparison. No API has been implemented or deployed.
