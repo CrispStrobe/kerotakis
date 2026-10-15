@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "verified_utc": "2026-10-15T07:58:01.280248+00:00",
+  "scope": "saved-evidence consumer validation only; synthetic streams, no CLI execution",
+  "test_command": "python3 -B -m unittest discover -s audits/fresh-syntax50-20261013/normalized40-review -p 'test_*.py' -v",
+  "tests_passed": 17,
+  "tests_failed": 0,
+  "files_sha256": {
+    "prepare.py": "66abff9eff9ef0337dcfcca801e80fca9a525512f0c4c3602410654aafedc828",
+    "test_prepare.py": "94cc64692f078c9ca43cc1a3b7245801a591d9faf61b37476444e22fde0de7ba"
+  },
+  "frozen_execution_binding_sha256": "624ac3d9b9a4760c0be18be4a6dcbcf3ec8d2ec1be9fd8dc0b0d7f58cd91223a",
+  "actual_forty_case_outputs_consumed": 0,
+  "physical_verdicts_assigned": 0,
+  "no_frozen_producer_changes": true,
+  "previous_validation_source": "8a7054d4",
+  "previous_validation_receipt": "consumer-validation.json",
+  "review_findings_corrected": [
+    "Reject completion marker contradicting any recorded timeout.",
+    "Preserve valid stdout rows before/after malformed JSON or UTF-8 with original line positions; never certify whole-stream sequence after parse errors."
+  ]
+}

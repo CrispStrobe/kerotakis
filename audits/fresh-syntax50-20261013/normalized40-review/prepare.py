@@ -102,20 +102,26 @@ def prepare(design, evidence):
             require(type(record[key + '_bytes']) is int and record[key + '_bytes'] == len(raw), 'stream size mismatch')
             require(record[key + '_sha256'] == digest(raw), 'stream hash mismatch')
         rows = []
-        parse_error = None
-        try:
-            for line in stdout.decode('utf-8').splitlines():
-                row = strict(line)
+        row_lines = []
+        parse_errors = []
+        for line_number, line in enumerate(stdout.splitlines(), 1):
+            try:
+                row = strict(line.decode('utf-8'))
                 require(isinstance(row, dict), 'non-object CLI row')
-                rows.append(row)
-        except (ValueError, UnicodeError) as error:
-            # Preserve malformed process output as evidence, never turn it into a physics verdict.
-            parse_error = str(error)
+            except (ValueError, UnicodeError) as error:
+                # Keep valid observations on either side of a malformed raw line.
+                parse_errors.append({'line': line_number, 'error': str(error)})
+                continue
+            rows.append(row)
+            row_lines.append(line_number)
         sequences = [row.get('output_sequence') for row in rows]
-        sequence_ok = all(type(x) is int and x == i for i, x in enumerate(sequences))
+        sequence_ok = bool(rows) and not parse_errors and all(
+            type(x) is int and x == i for i, x in enumerate(sequences))
         case.update(execution_status='recorded', process=record, record_sha256=digest(raw_record),
                     stderr=stderr.decode('utf-8', errors='replace'), stdout_rows=rows,
-                    stdout_parse_error=parse_error, contiguous_output_sequence=sequence_ok)
+                    stdout_row_line_numbers=row_lines, stdout_parse_errors=parse_errors,
+                    stdout_parse_error=parse_errors[0]['error'] if parse_errors else None,
+                    contiguous_output_sequence=sequence_ok)
         cases.append(case)
     actual_members = {p.name for p in evidence.iterdir() if p.name.endswith(('.result.json', '.stdout.jsonl', '.stderr.txt'))}
     require(actual_members <= expected_members, 'unexpected case evidence')
@@ -124,6 +130,7 @@ def prepare(design, evidence):
     if complete:
         marker = strict(read(evidence, 'completed.json'))
         require(type(marker['cases']) is int and marker['cases'] == recorded == 40, 'false completion marker')
+        require(not any(c['process']['timeout'] for c in cases), 'completion contradicts timeout')
         require(marker['binding_sha256'] == digest(read(evidence, 'binding.json')), 'completion binding mismatch')
         require(marker['original_outcomes_preserved'] is True, 'invalid preservation marker')
     return {'schema_version': 1, 'kind': 'verified saved-evidence review queue; not physical acceptance',

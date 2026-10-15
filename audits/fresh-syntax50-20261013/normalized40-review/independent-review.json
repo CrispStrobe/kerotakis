@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "reviewed_utc": "2026-10-15T07:58:15.067244+00:00",
+  "review_kind": "independent read-only consumer source review; not chemistry acceptance",
+  "original_reviewed_commit": "8a7054d4",
+  "findings": [
+    {
+      "issue": "Completion marker accepted despite timeout, contrary to frozen runner.",
+      "status": "closed",
+      "correction": "Reject completion with any recorded timeout; negative completed-forty fixture."
+    },
+    {
+      "issue": "Malformed or non-UTF8 stdout discarded otherwise valid observations.",
+      "status": "closed",
+      "correction": "Parse raw lines independently, preserve valid rows and line positions, report all errors and require error-free nonempty stream for sequence verification."
+    }
+  ],
+  "correction_files_sha256": {
+    "prepare.py": "66abff9eff9ef0337dcfcca801e80fca9a525512f0c4c3602410654aafedc828",
+    "test_prepare.py": "94cc64692f078c9ca43cc1a3b7245801a591d9faf61b37476444e22fde0de7ba"
+  },
+  "remaining_material_findings": [],
+  "reviewer_executed_tests": false,
+  "root_fixture_tests_passed": 17,
+  "actual_chemistry_executions": 0,
+  "physical_verdicts_assigned": 0
+}

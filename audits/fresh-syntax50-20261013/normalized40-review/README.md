@@ -22,6 +22,9 @@ case files, with `completed.json` only if the producer completed. Missing cases
 are explicit. Orphan outputs and inconsistent bindings/checksums stop preparation;
 keep them for investigation rather than deleting or overwriting them. Malformed
 stdout and timed-out processes remain recorded diagnostics with pending verdicts.
+Valid stdout rows on either side of malformed lines retain their original line
+numbers; any parse error prevents whole-stream sequence verification. A completion
+marker with a timeout is rejected because the frozen runner cannot produce it.
 Eight MiB per file is an ingestion bound; an oversized file requires separate
 bounded review, not a scientific failure. The reader validates saved evidence
 consistency; matching a copied binding alone does not authenticate execution.
@@ -53,5 +56,5 @@ python3 -B -m unittest discover \
   -s audits/fresh-syntax50-20261013/normalized40-review -p 'test_*.py' -v
 ```
 
-The fifteen tests use tiny synthetic streams with a copy of the frozen design.
+The seventeen tests use tiny synthetic streams with a copy of the frozen design.
 They are ingestion tests, not additional experiments or product acceptance.

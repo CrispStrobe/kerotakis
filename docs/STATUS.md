@@ -35,7 +35,7 @@ They retain their original old-source binding and physical forecasts. Execution
 completion and physical verdicts remain pending; do not duplicate the worker.
 
 The [saved-evidence reader](../audits/fresh-syntax50-20261013/normalized40-review/README.md)
-is ready with fifteen ingestion tests; it produces a review queue and assigns no
+is ready with seventeen ingestion tests; it produces a review queue and assigns no
 physical verdicts.
 
 1. Consume the forty first outcomes and classify actual observations.

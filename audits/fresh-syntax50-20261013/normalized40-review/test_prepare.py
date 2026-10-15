@@ -144,6 +144,26 @@ class ReviewEvidenceTests(unittest.TestCase):
         self.assertFalse(case['contiguous_output_sequence'])
         self.assertEqual(case['physical_verdict'], 'pending_review')
 
+    def test_completion_with_timeout_contradicts_frozen_runner(self):
+        for ordinal in range(1, 41):
+            self.record(ordinal, timeout=ordinal == 23, exit_code=-9 if ordinal == 23 else 0)
+        (self.evidence / 'completed.json').write_text(json.dumps({'cases': 40,
+            'binding_sha256': reader.digest((self.evidence / 'binding.json').read_bytes()),
+            'original_outcomes_preserved': True}))
+        with self.assertRaisesRegex(reader.EvidenceError, 'completion contradicts timeout'):
+            self.review()
+
+    def test_valid_rows_survive_malformed_middle_line(self):
+        for middle in [b'not JSON', b'\xff', b'{"x":NaN}']:
+            with self.subTest(middle=middle):
+                self.record(stdout=b'{"output_sequence":0}\n' + middle + b'\n{"output_sequence":1}\n')
+                case = self.review()['cases'][22]
+                self.assertEqual([r['output_sequence'] for r in case['stdout_rows']], [0, 1])
+                self.assertEqual(case['stdout_row_line_numbers'], [1, 3])
+                self.assertEqual([e['line'] for e in case['stdout_parse_errors']], [2])
+                self.assertFalse(case['contiguous_output_sequence'])
+                self.assertEqual(case['physical_verdict'], 'pending_review')
+
 
 if __name__ == '__main__':
     unittest.main()
