@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-15T13:03:05.831804+00:00",
+  "first_failed_head": "a14962a8afc6a4d90e5232bf2c20ce078666e949",
+  "run": 38727666954,
+  "job": 116397560225,
+  "first_log_sha256": "46fbaebeffc71ef5093a848e96a4a9f04a19d0779cdd7092f237eca01fac22a5",
+  "stage": "Clippy compilation, before native tests",
+  "error": "E0559: Method::Editorial has no named detail field; schema defines Editorial(String).",
+  "correction_commit": "fd6f6d70",
+  "corrected_and_integrated_head": "af788ba6df3aaa67fc21f9c44c8ea70059bb0359",
+  "accepted_main_incorporated": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+  "correction": "Use tuple constructor; serde kind/detail JSON unchanged. No test/assertion weakened.",
+  "source_review": "Confirmed actual Method enum definition and unchanged JSON shape. Prior static review missed constructor shape.",
+  "new_ci": 38737923435,
+  "new_fleet": 38737923170,
+  "actual_corrected_native_acceptance": "pending",
+  "superseded_bad_head_fleet": {
+    "run": 38727666987,
+    "ordinary_cancel_then_force_cancel": "completed/cancelled verified after preserving metadata"
+  }
+}

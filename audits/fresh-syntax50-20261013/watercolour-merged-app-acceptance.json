@@ -1,0 +1,14 @@
+{
+  "source": "af788ba6df3aaa67fc21f9c44c8ea70059bb0359",
+  "app_tree": "cb1c90d010f2a16fc09170a7880e024166ea6b12",
+  "fixture": "Complete tracked archive plus exact pinned IPhreeqc notice; cached dependencies",
+  "scope": "Actual combined-head app unit suite with accepted PR790 changes; no native, browser-pixel, fleet or calibration claim.",
+  "schema_version": 1,
+  "recorded_utc": "2026-10-15T13:09:04.132367+00:00",
+  "passed": 1666,
+  "failed": 0,
+  "files": 123,
+  "seconds": 110.67,
+  "exit_code": 0,
+  "log_sha256": "3b7b29aefd736640c17f229224c4480ff678613517d2730cda4f9966679a8699"
+}

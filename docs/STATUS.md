@@ -14,6 +14,7 @@ calibration claim follows from a merge or green engineering tests.
 | CLI performance | PR785 merged: deferred optional explanation engine. Controlled startup median improved about 21%; this is host/protocol-specific, not a general app-memory claim. |
 | Thermal inventory | PR786 merged: finite-boundary thermal refusals retain inventory; modeled rupture vents explicitly. Closed combustion remains unsupported. |
 | Water identity and Story stock | PR787 merged as `4d3203a3`: canonical `H2O`/`water` identity, shared finite bottle, parsed Story gates, positive-dose accounting. All 25 CI and 33 fleet jobs passed; app suite 1,638/1,638, Svelte zero errors/two warnings. Integrated tree equals the validated candidate. |
+| Liquid animation | PR790 merged as `d791d306`: accepted liquid fill geometry and computed colours, persistent canvas/fade cancellation and economy-mode resize. All 25 CI jobs passed, including the actual-browser probe; focused controls passed 36/36. This does not validate the separate watercolor recipe change or establish deployment. |
 
 [PR787 integration evidence](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/fresh-syntax50-20261013/water-alias-integration.json)
 retains exact source, tests, merge parents and tree. Earlier failed experiments
@@ -52,6 +53,13 @@ physical verdicts.
 6. Resume annotation policy, coherent historical regression ports, broader safety,
    authoritative amount ownership/reconstruction and independent calibration.
 
+The unchanged KNO3 control is now dispatched against pinned merged source
+`d791d306` in [run 38739278904](https://github.com/CrispStrobe/kerotakis/actions/runs/38739278904).
+The [dispatch receipt](../audits/fresh-syntax50-20261013/kno3-current-main-dispatch.json)
+binds a single hosted build, generated dependency lock, binary and raw evidence.
+It is queued; no new physical verdict is assigned. The isolated workflow branch
+must not merge into main.
+
 Detailed deliverables and prerequisites are in the
 [ordered agenda](improvement-agenda-20261014.md),
 [broader roadmap](ordered-work-roadmap-20261013.md) and
@@ -71,15 +79,12 @@ is still pending. The candidate is a draft and is not integrated.
 ## Reported colour and rendering defects
 
 The user confirmed that colour covering the whole vessel disappears after a few
-seconds. This matches the transient overlay source defect: every positive liquid
-volume seeded the full grid, and a synthetic `solution` layer could receive a
-catalogue fallback colour. [PR790](https://github.com/CrispStrobe/kerotakis/pull/790)
-contains a candidate using the static glassware fill geometry and computed layer
-colours, a persistent canvas and cancellation of superseded fade timers.
-Current head `35a10ec3` includes the reviewed canvas-size restart correction.
-Focused grid/pour controls passed **36/36**; actual-browser and full CI acceptance
-remain queued. It is not integrated. See the
-[candidate receipt](../audits/fresh-syntax50-20261013/fluid-rendering-preparation.json).
+seconds. [PR790](https://github.com/CrispStrobe/kerotakis/pull/790) is now merged as
+`d791d306`. Its real-browser probe verified accepted liquid bounds and colours,
+replacement activity during fading, and restored dimensions after economy mode.
+All 25 CI jobs passed. The merged runtime subtrees match the reviewed candidate;
+the complete tree matches the expected merge with main's inherited documentation.
+See [integration evidence](../audits/fresh-syntax50-20261013/fluid-rendering-integration.json).
 
 The separate blue/yellow watercolor report remains open. Source-only calculation
 with integrated revision-1 recipe strengths and the beaker optical path predicts a nearly black
@@ -94,37 +99,31 @@ preserving raw events, distinct causes and later-step warnings. Independent sour
 review passed; four new native test groups and full applicable acceptance remain
 pending.
 
-[PR792](https://github.com/CrispStrobe/kerotakis/pull/792) now contains the full
-versioned watercolor candidate at `a14962a8`: exact revision-1 archive,
-independent historical parsing, whole-history saved-session migration across
-browser/native hosts, revision-specific finite bottles, and blue/yellow revision-2
-washes at one-tenth the former dye concentration. Original recipes, spectra and
-optical paths are retained. Seven optical control groups forecast green at the
-declared current dose and a dark old-recipe mixture; native outcomes are pending.
+[PR792](https://github.com/CrispStrobe/kerotakis/pull/792) contains the full
+versioned watercolor candidate at `af788ba6`: exact revision-1 archive,
+historical parsing, whole-history saved-session migration across browser/native
+hosts, revision-specific finite bottles, and blue/yellow revision-2 washes with
+one-tenth the former dye concentration. Spectra and optical paths are unchanged.
+Seven frozen optical groups forecast green at the declared new dose and a dark
+old-recipe mixture; native outcomes are still pending.
 
-Independent review found and closed two further replay gaps: pack species could
-claim a material name, and incomplete legacy-default tables could silently fall
-back to today's recipe. Admission now reserves material names, historical parsing
-retains pure-species priority, and archive validation requires complete default
-coverage. Source review passed. The focused app Session suite passed **125/125**, and the corrected full app
-suite passed **1,655/1,655** across 123 files on `bc4591de`, whose complete app tree
-matches current `a14962a8`. The mode-isolation mock now supports historical parsing;
-production older-host refusal remains covered. Two incomplete fixture attempts
-are preserved separately from product failures. Hosted registry-export validation
-then caught its old v1 blue/yellow generator definitions; the independently
-reviewed correction now emits the reviewed v2 concentrations and evidence.
-Actual corrected-source export, native optics/protocol, browser and fleet acceptance
-remain pending. [App results and preserved first failures](../audits/fresh-syntax50-20261013/watercolour-full-app-acceptance.json)
-retain exact sources and log hashes.
+Source review closed material/species name collisions and missing legacy-default
+selectors. CI then exposed stale exporter definitions and an incorrect Rust enum
+constructor. Both corrections are pushed; [the native correction checkpoint](../audits/fresh-syntax50-20261013/watercolour-native-first-failure.json)
+preserves the first failure and exact corrected source/run bindings.
 
-All four PRs remain drafts pending their named acceptance. CI has resumed and its first registry-export failure is preserved and corrected.
-Updated PR789/790 heads are active; the full corrected PR792 candidate has replaced its earlier
-incomplete head. Superseded run metadata and first failures are preserved. Two
-stuck obsolete fleets were cancelled after ordinary cancellation failed to finish;
-current candidate runs remain untouched. Follow
-[the current merge checkpoint](../audits/fresh-syntax50-20261013/continued-acceptance-20261015.json)
-for exact source and run bindings. Do not transfer earlier checks to changed
-source, merge the broad audit branch, or weaken acceptance to obtain a merge.
+The combined app suite on `af788ba6`, including accepted PR790 changes, passes
+**1,666/1,666** across 123 files in 110.67 seconds.
+[Combined-head app acceptance](../audits/fresh-syntax50-20261013/watercolour-merged-app-acceptance.json)
+and [earlier app results and failures](../audits/fresh-syntax50-20261013/watercolour-full-app-acceptance.json)
+retain their own source bindings. Native export, optics/protocol, actual-browser
+and own-fleet acceptance remain pending. App unit tests do not establish those.
+
+PR790 is integrated. PR789/791/792 remain drafts pending named acceptance;
+[documentation PR793](https://github.com/CrispStrobe/kerotakis/pull/793) is ready
+with normal auto-merge enabled and required CI pending. Superseded checks and
+first failures remain preserved; current runs are untouched. Do not transfer
+checks across changed source or merge the broad audit/infrastructure branches.
 
 
 Documentation portability/current-state PR788 merged as `5af0be7f` after all 25

@@ -5,44 +5,40 @@ recipe choices and chemistry coverage. Start from integrated main; use narrow
 PRs, retain first failures and bind executed checks to their actual source.
 Do not change frozen experiments to agree with a candidate.
 
-1. **Transient liquid overlay — candidate PR790, acceptance pending.** The
-   whole-vessel tint disappears after a few seconds. Source defects fill the
-   animation grid for any positive volume, discard computed `solution` colour,
-   replace the canvas node and leave a superseded fade timer alive. Candidate
-   `35a10ec3` addresses these paths in `web/app/src/lib/fluidScene.ts`, `pour.ts`
-   and `components/FluidOverlay.svelte`. Review the whole diff, run focused app
-   controls and the actual-browser `tools/test-fluid-rendering.mjs` probe through
-   CI. Focused grid/pour tests now pass 36/36 at current PR head `35a10ec3`; actual-browser
-   acceptance is pending. Verify 100 mL fill/headspace, all glassware, layer colours, conserved pour
-   handoff, node identity and replacement activity during fading. Also inspect
-   economy-grid transitions: a fresh full-resolution run must restore canvas
-   dimensions after a previous run reduced them. Preserve any first failure;
-   require accepted checks before normal exact-head auto-merge. Do not claim
-   the black static watercolor mixture is fixed by this renderer change.
+1. **Transient liquid overlay — integrated PR790.** Commit `d791d306` passed
+   all 25 CI jobs. The actual-browser probe covers accepted fill/headspace and
+   computed layer colour, persistent canvas, superseded fades, and restoration
+   of full canvas dimensions after economy mode. Focused grid/pour controls
+   passed 36/36. [Integration evidence](../audits/fresh-syntax50-20261013/fluid-rendering-integration.json)
+   verifies parents, expected merge tree and unchanged reviewed runtime subtrees.
+   Preserve this acceptance; repeat or extend controls when those paths change.
+   Current recipe/replay PR792 includes this accepted main change and still needs
+   combined-head acceptance. The separate black static watercolor mixture remains
+   in lanes 2–3; no deployment claim follows from this merge.
 
-2. **Recipe identity and historical replay — prerequisite for new defaults.**
-   PR792 now contains the complete candidate at `a14962a8`: archive, migration,
-   revision-specific bottles and version-2 blue/yellow defaults. Source review
-   passed after closing material/species name collisions and incomplete legacy
-   selector tables. Full app unit controls passed 1,655/1,655 on `bc4591de`, whose app tree equals
-   `a14962a8`. The reviewed exporter correction follows its preserved byte-diff
-   failure. Actual corrected-source export, native/protocol/optical, browser and
-   fleet acceptance remain pending. App unit tests do not execute native optics.
-   Inspect `crates/kerotakis-core/src/material.rs` version lookup and the
-   `Operator::AddMaterial` branch in `bench.rs`. Verify requested revision lookup and its canonical identity/basis guards;
-   current and archived versions must both resolve without sharing bottle balances. Inspect `web/app/src/lib/session.svelte.ts` save,
-   snapshot fallback, undo and script export: text replay reparses current
-   recipe names. Define how existing version-1 experiments retain their exact
-   expansion, including sessions without a usable snapshot. Keep historical
-   versions out of default shelf enumeration, validate id/version/basis, and
-   reject unknown versions without mutation. Deliver native and app controls
-   for old saves, new defaults, undo, export/replay and snapshot fallback before
-   promoting a changed default. State explicitly which unversioned historical
-   script formats can be interpreted reproducibly.
+2. **Recipe identity and historical replay — candidate PR792.** Current head
+   `af788ba6` contains archive/migration/revision-specific bottles and v2 defaults,
+   plus accepted rendering changes from main. Source review passed after closing
+   namespace and archive-selector gaps. Both exporter definition and constructor
+   failures are preserved and corrected. The combined app unit suite passes
+   **1,666/1,666**; native export/protocol/optical, browser and fleet acceptance
+   remain pending. Follow their actual current-head results before normal merge.
+
+   Verify `crates/kerotakis-core/src/material.rs` revision lookup and the
+   `Operator::AddMaterial` branch in `bench.rs`: exact revision, canonical identity,
+   basis and finite bottle balances must survive replay. In
+   `web/app/src/lib/session.svelte.ts`, verify whole-history preflight includes
+   undone future entries, snapshot fallback, undo and export. Missing historical
+   parsing or failed replay must preserve original saved bytes. Exercise both
+   browser-worker and native-host transports. Keep archived recipes off the
+   default shelf and refuse unavailable revisions without mutation. Prepared
+   native controls and executed app mocks are separate evidence domains; report
+   which actually ran. See [current native correction](../audits/fresh-syntax50-20261013/watercolour-native-first-failure.json)
+   and [combined app acceptance](../audits/fresh-syntax50-20261013/watercolour-merged-app-acceptance.json).
 
 3. **Transparent teaching wash optics — reproduction and versioned remedy.**
    The staged revision-2 blue/yellow recipes and seven native control groups are
-   on PR792 at `a14962a8`; native and full browser/CLI outcomes remain unexecuted.
+   on PR792 at `af788ba6`; native and full browser/CLI outcomes remain unexecuted.
    Review [the frozen candidate expectations](https://github.com/CrispStrobe/kerotakis/blob/b094f969/docs/watercolour-v2-controls.md)
    and retain their initial outcomes before any correction.
    Reproduce an empty vessel followed by `add v1 watercolour_blue 100g` and

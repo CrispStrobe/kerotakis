@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-15T12:49:37.168568+00:00",
+  "pr": 790,
+  "head": "35a10ec334fa22b46b9acb2bfe3ed997e6330ba9",
+  "base": "5af0be7f4e2ce54667af208303dcd448d41cddbc",
+  "merge": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+  "parents": [
+    "5af0be7f4e2ce54667af208303dcd448d41cddbc",
+    "35a10ec334fa22b46b9acb2bfe3ed997e6330ba9"
+  ],
+  "merged_tree": "651096a6f71630b7985934e7338071e926b1b38e",
+  "expected_merge_tree_verified": true,
+  "runtime_subtrees": {
+    "web/app": {
+      "reviewed": "3e4015c6e2bbc8d4959cd8c22f95f51ac6f89c3e",
+      "merged": "3e4015c6e2bbc8d4959cd8c22f95f51ac6f89c3e"
+    },
+    "crates": {
+      "reviewed": "c020c2e0a0057621f0fc03d6d8da6d180968b1ad",
+      "merged": "c020c2e0a0057621f0fc03d6d8da6d180968b1ad"
+    },
+    "tools": {
+      "reviewed": "73cc1785115e43bb34f0e0779b894895fea8be25",
+      "merged": "73cc1785115e43bb34f0e0779b894895fea8be25"
+    },
+    ".github": {
+      "reviewed": "73faeecb2cc1d54a78f15b755366ff62b2e2ec64",
+      "merged": "73faeecb2cc1d54a78f15b755366ff62b2e2ec64"
+    }
+  },
+  "head_to_merge_inherited_markdown_files": [
+    "AGENTS.md",
+    "APPARATUS.md",
+    "BREADTH.md",
+    "CAPABILITIES.md",
+    "CONTRIBUTING.md",
+    "EXPERIMENTS.md",
+    "HISTORY.md",
+    "I18N.md",
+    "KIDS.md",
+    "OPTIMIZATION.md",
+    "PACKAGING.md",
+    "PLAN.md",
+    "PROTOCOL.md",
+    "README.md",
+    "ROADMAP-GUI.md",
+    "ROADMAP-Webapp.md",
+    "basic-replace.md",
+    "docs/ANIMATION-AUDIT.md",
+    "docs/CURIOSITY-COVERAGE.md",
+    "docs/INSTRUMENTS-ONE-SURFACE.md",
+    "docs/MUTATION-SENSITIVITY.md",
+    "docs/NEXT-MEASURE.md",
+    "docs/ORACLE-COVERAGE.md",
+    "docs/PR-WORKFLOW.md",
+    "docs/SEMANTIC-ASSERTIONS.md",
+    "docs/STATUS.md",
+    "docs/chemistry-amount-ownership-decision-20261007.md",
+    "docs/chemistry-audit-integration-20261007.md",
+    "docs/chemistry-audit-next-lanes.md",
+    "docs/chemistry-audit-status-20261005.md",
+    "docs/chemistry-audit-status-20261008.md",
+    "docs/chemistry-work-agenda-20261012.md",
+    "docs/closure43-plan.md",
+    "docs/gpu-cross-host-release-matrix.md",
+    "docs/gui098-gpu-release-evidence.md",
+    "docs/improvement-agenda-20261014.md",
+    "docs/milk-buffer-and-the-fermentation-rate.md",
+    "docs/one-value-for-the-solvent.md",
+    "docs/ordered-work-roadmap-20261013.md",
+    "docs/registry-unattributed-census.md",
+    "docs/registry-uncertainty-and-measurement.md",
+    "docs/water-alias-task-20261014.md"
+  ],
+  "ci_run": 38721954296,
+  "ci_successes": 25,
+  "publication_skipped": 1,
+  "browser_job": 116378549698,
+  "browser_log_sha256": "f7588d237c0cd543617da3e74ab5b9b64d6e08514c94d974fa8b3e37f5c8dac1",
+  "actual_browser_controls": [
+    "live canvas uses accepted scene colour and liquid fill boundaries",
+    "superseded fade cannot hide replacement activity",
+    "new full run restores dimensions after economy mode"
+  ],
+  "svelte_errors": 0,
+  "svelte_warnings": 2,
+  "focused_tests_previously_passed": 36,
+  "chemistry_fleet": "not applicable: UI/rendering-only change",
+  "merge_policy": "normal exact-head auto-merge, protected contexts preserved; no bypass",
+  "scope": "Transient overlay fix accepted; does not establish watercolor recipe/aqueous chemistry acceptance or deployment."
+}

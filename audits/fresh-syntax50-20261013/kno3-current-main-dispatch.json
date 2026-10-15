@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-15T13:03:05.801766+00:00",
+  "run": 38739278904,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38739278904",
+  "audit_head": "4c3840129e53debcd68455bfc4b6935cefe018e4",
+  "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+  "branch": "audit/kno3-current-main-replay-20261015",
+  "workflow": "chemistry-audit.yml",
+  "lane": "kno3-current-main-replay",
+  "original_forecast_or_first_outcome_changed": false,
+  "experiment_ids": [
+    "15"
+  ],
+  "routing_and_producer_sha256": {
+    ".github/workflows/chemistry-audit.yml": "b77d9e94e646538b1ff8979ffc0630b2209bdbde7b51f61f5107092f6a398157",
+    ".github/workflows/kno3-current-main-replay.yml": "69f08fd172159faa37ffe65d26145096b5fa545c68509133e53ce035509fd6bd",
+    "audits/kno3-current-main-replay-20261015/collect.py": "fd0ec7c231bb98df8dccc7c4eb540664e7d492ad8c1d47ba028c200f49385057"
+  },
+  "design_binding": {
+    "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+    "original_design": "audits/fresh-syntax50-20261013/normalized40/design",
+    "original_freeze_sha256": "d7b97632d675c15c3aa81955dc1c948709a5b26b2344fa0692ea8450886a5bac",
+    "selected_experiment": "15",
+    "copied_files": {
+      "README.md": "932019480ef2626a75c1ed4230c4a6a5fd9494f975621a9423e2e077eefd4ace",
+      "expectations.json": "e68847d2681d55fb8055d4c914ef85da6b86dfe221ea43acdcfe22a9dc555915",
+      "scripts/15.lab": "bbeb7962924baabe4afa1d5d352be4c10e17228c53bd08ed355866969c2eaf75"
+    },
+    "unchanged_forecasts": true
+  },
+  "static_review": [
+    "AST and YAML",
+    "one selected job; all nine existing fleet jobs exclude selected lane, including always aggregates",
+    "copied frozen inputs byte-identical to original design and freeze",
+    "pinned SUNDIALS fetch; generated dependency lock preserved then locked build",
+    "source/tree/submodule/binary/lock/toolchain/build-argument/environment/resource witnesses; raw stdout/stderr/exit/timeout retained"
+  ],
+  "status_at_dispatch": "queued; no experiment executed yet",
+  "physical_verdict": "pending actual artifact authentication and raw-observation review",
+  "merge_policy": "Never merge this isolated infrastructure branch; default main workflows unchanged."
+}

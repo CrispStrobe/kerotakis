@@ -1,7 +1,7 @@
 # Ordered improvement agenda — 2026-10-14
 
-The user authorized all six steps below in this order. Steps 1–2 are complete;
-step 3 is active and steps 4–6 are queued. This agenda orders the current fresh-experiment gap work;
+The user authorized all six steps below in this order. Steps 1–3 are complete;
+step 4 is active and steps 5–6 are queued. This agenda orders the current fresh-experiment gap work;
 the annotation and other queued lanes in the [earlier roadmap](ordered-work-roadmap-20261013.md)
 resume afterward. Preserve all original predictions, first outcomes, failed CI
 logs and versioned source associations. Host-specific operating details belong
@@ -31,7 +31,7 @@ in the private handoff. Heavy local work and delegation require resource gates.
    consumes Story usage. The visualization guard remains unchanged. Do not repeat
    completed controls on unchanged source. Follow [auto-merge policy](PR-WORKFLOW.md)
    for subsequent PRs.
-3. **Execute and assess the forty naming follow-ups — active.** The
+3. **Execute and assess the forty naming follow-ups — complete.** The
    [forty controls](../audits/fresh-syntax50-20261013/normalized40/design/README.md)
    are dispatched in [hosted run 38699207052](https://github.com/CrispStrobe/kerotakis/actions/runs/38699207052).
    The producer reports all 40 executed (33 zero exits, seven nonzero exits); raw
@@ -47,7 +47,11 @@ in the private handoff. Heavy local work and delegation require resource gates.
    the original one. Compare physical observations and classify pass, fail,
    unsupported and inconclusive. These controls do not supersede the forty
    original unsupported results or count as forty new blind designs.
-4. **Repair demonstrated shared causes.** Rank the step-3 findings by user
+4. **Repair demonstrated shared causes — active.** The KNO3 cold/hot failure is
+   being replayed against pinned merged main in
+   [run 38739278904](https://github.com/CrispStrobe/kerotakis/actions/runs/38739278904),
+   with a separate source/binary/lock binding and unchanged forecasts. No new
+   result is assigned while that run is queued. Rank the step-3 findings by user
    impact and recurrence. Inventory all affected solver routes and writers.
    Add targeted conservation, retained gas, pressure, energy and observable
    consistency controls, including rejected/unsupported paths. Reported products
