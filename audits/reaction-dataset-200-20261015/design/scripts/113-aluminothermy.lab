@@ -1,0 +1,7 @@
+# aluminothermy
+inspect v1
+add v1 Fe2O3 0.001mol
+add v1 Al 0.002mol
+inspect v1
+wait 10s
+inspect v1

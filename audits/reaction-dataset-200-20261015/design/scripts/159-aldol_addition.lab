@@ -1,0 +1,6 @@
+# aldol_addition
+inspect v1
+add v1 ethanal 0.002mol
+inspect v1
+wait 10s
+inspect v1

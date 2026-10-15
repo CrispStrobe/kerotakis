@@ -1,0 +1,9 @@
+# dichromate_ethanol
+add v1 water 100mL @ 25C
+inspect v1
+add v1 Cr2O7-- 0.002mol
+add v1 ethanol 0.003mol
+add v1 H+ 0.016mol
+inspect v1
+wait 10s
+inspect v1

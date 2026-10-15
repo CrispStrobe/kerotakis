@@ -1,0 +1,8 @@
+# copper_iodide_redox_precipitation
+add v1 water 100mL @ 25C
+inspect v1
+add v1 Cu+2 0.002mol
+add v1 I- 0.004mol
+inspect v1
+wait 10s
+inspect v1

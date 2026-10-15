@@ -1,0 +1,7 @@
+# copper_sulfate_hydration
+inspect v1
+add v1 CuSO4_anhydrous 0.001mol
+add v1 water 0.005mol
+inspect v1
+wait 10s
+inspect v1

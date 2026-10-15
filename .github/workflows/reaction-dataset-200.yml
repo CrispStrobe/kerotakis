@@ -1,0 +1,27 @@
+name: All 200 supplied reaction contact probes
+on:
+  workflow_call:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Authenticate existing CLI artifact and run every frozen reaction
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 -B audits/reaction-dataset-200-20261015/hosted.py
+      - name: Preserve all available evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: reaction-dataset-200-${{ github.run_id }}-${{ github.run_attempt }}
+          path: reaction-evidence/
+          if-no-files-found: error
+          retention-days: 30

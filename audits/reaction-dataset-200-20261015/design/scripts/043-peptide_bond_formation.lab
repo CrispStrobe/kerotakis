@@ -1,0 +1,6 @@
+# peptide_bond_formation
+inspect v1
+add v1 glycine 0.002mol
+inspect v1
+wait 10s
+inspect v1

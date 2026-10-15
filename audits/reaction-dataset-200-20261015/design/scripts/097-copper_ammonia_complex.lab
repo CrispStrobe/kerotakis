@@ -1,0 +1,8 @@
+# copper_ammonia_complex
+add v1 water 100mL @ 25C
+inspect v1
+add v1 Cuaqua 0.001mol
+add v1 NH3 0.004mol
+inspect v1
+wait 10s
+inspect v1

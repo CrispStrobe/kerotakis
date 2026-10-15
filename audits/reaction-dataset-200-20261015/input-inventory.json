@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "filename": "german_chemistry_reactions_200.json",
+      "sha256": "83059bc0de52f1be882128941d5e45fe9ea2122309dd75b3bce904e9fd89c97a",
+      "bytes": 956948,
+      "kind": "reaction_dataset"
+    },
+    {
+      "filename": "reaction_dataset.schema.json",
+      "sha256": "a6959300af5347d3f53488f0b565455077d0e57caf77198a1cab318e5884c577",
+      "bytes": 19486,
+      "kind": "json_schema"
+    }
+  ],
+  "reaction_count": 200,
+  "schema_validation": "passed",
+  "schema_is_not_a_reaction": "Read and validated, not treated as a chemistry script",
+  "all_records_read": true
+}
