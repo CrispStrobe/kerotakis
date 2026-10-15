@@ -526,7 +526,7 @@ pub fn register_loaded(list: Vec<SpeciesData>) -> (usize, usize) {
     let mut skipped = 0;
     let mut map = loaded_index().write().expect("loaded-species lock");
     for s in list {
-        if lookup_index().contains_key(s.key) || map.contains_key(s.key) {
+        if s.key.contains('@') || lookup_index().contains_key(s.key) || map.contains_key(s.key) {
             skipped += 1;
             continue;
         }

@@ -23,6 +23,44 @@ fn builtins() -> &'static [MaterialRecipe] {
         .as_slice()
 }
 
+/// Reviewed past revisions, excluded from the ordinary shelf catalogue.
+fn historical() -> &'static [MaterialRecipe] {
+    static RECIPES: OnceLock<Vec<MaterialRecipe>> = OnceLock::new();
+    RECIPES
+        .get_or_init(|| {
+            serde_json::from_str(HISTORICAL_MATERIAL_RECIPES_JSON)
+                .expect("build-validated historical recipes must parse")
+        })
+        .as_slice()
+}
+
+/// The pre-revision-script default, for migration rather than new input.
+pub fn lookup_legacy(query: &str, language: Option<&str>) -> Option<MaterialRecipe> {
+    #[derive(serde::Deserialize)]
+    struct LegacyDefault {
+        id: String,
+        version: u32,
+    }
+    static DEFAULTS: OnceLock<Vec<LegacyDefault>> = OnceLock::new();
+    let defaults = DEFAULTS.get_or_init(|| {
+        serde_json::from_str(LEGACY_MATERIAL_DEFAULTS_JSON)
+            .expect("build-validated legacy defaults must parse")
+    });
+    historical()
+        .iter()
+        .find(|recipe| {
+            defaults
+                .iter()
+                .any(|entry| entry.id == recipe.id && entry.version == recipe.version)
+                && recipe.matches(query, language)
+        })
+        .cloned()
+}
+
+pub fn revision_key(recipe: &MaterialRecipe) -> String {
+    format!("{}@{}", recipe.canonical_key, recipe.version)
+}
+
 fn loaded() -> &'static RwLock<Vec<MaterialRecipe>> {
     static RECIPES: OnceLock<RwLock<Vec<MaterialRecipe>>> = OnceLock::new();
     RECIPES.get_or_init(|| RwLock::new(Vec::new()))
@@ -56,7 +94,7 @@ pub fn lookup_input(query: &str, language: Option<&str>) -> Option<MaterialRecip
         .parse::<u32>()
         .ok()
         .filter(|revision| *revision > 0)?;
-    let current = lookup(name, language)?;
+    let current = lookup(name, language).or_else(|| lookup_legacy(name, language))?;
     lookup_versioned(&current.id, revision)
         .filter(|recipe| recipe.canonical_key == current.canonical_key)
 }
@@ -129,6 +167,7 @@ pub fn surface_floaters(vessel: &crate::Vessel) -> Vec<SurfaceFloatObservation> 
 pub fn lookup_versioned(id: &str, version: u32) -> Option<MaterialRecipe> {
     builtins()
         .iter()
+        .chain(historical())
         .find(|recipe| recipe.id == id && recipe.version == version)
         .cloned()
         .or_else(|| {
@@ -523,14 +562,20 @@ pub fn register_loaded(recipes: Vec<MaterialRecipe>) -> (usize, usize) {
     let mut added = 0;
     let mut skipped = 0;
     for recipe in recipes {
-        let conflicts = recipe_names(&recipe).into_iter().any(|name| {
-            // `@` separates a material name from its pinned revision in scripts.
-            name.contains('@')
-                || builtins()
-                    .iter()
-                    .chain(target.iter())
-                    .any(|present| present.matches(&name, None))
-        });
+        let conflicts = builtins()
+            .iter()
+            .chain(historical())
+            .chain(target.iter())
+            .any(|present| present.id == recipe.id)
+            || recipe_names(&recipe).into_iter().any(|name| {
+                // `@` separates a material name from its pinned revision in scripts.
+                name.contains('@')
+                    || builtins()
+                        .iter()
+                        .chain(historical())
+                        .chain(target.iter())
+                        .any(|present| present.matches(&name, None))
+            });
         if conflicts {
             skipped += 1;
         } else {
@@ -578,5 +623,14 @@ mod tests {
             }
             assert_eq!(register_loaded(vec![recipe]), (0, 1));
         }
+    }
+
+    #[test]
+    fn loaded_materials_cannot_reuse_reviewed_recipe_identity_under_a_new_name() {
+        let mut recipe = lookup("watercolour_blue", None).unwrap();
+        recipe.canonical_key = "new_name_for_existing_recipe_id".to_string();
+        recipe.name = "A new name for an existing recipe id".to_string();
+        recipe.aliases.clear();
+        assert_eq!(register_loaded(vec![recipe]), (0, 1));
     }
 }

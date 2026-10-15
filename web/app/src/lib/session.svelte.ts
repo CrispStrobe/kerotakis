@@ -870,17 +870,17 @@ export class Session {
     if (log.length === 0) return [];
     const parseLegacy = this.host.parseLegacy;
     if (typeof parseLegacy !== "function") {
-      throw new Error("the engine cannot safely migrate saved commands");
+      throw new Error(t("the engine cannot safely migrate saved commands"));
     }
     const canonical: string[] = [];
     for (const line of log) {
       if (typeof line !== "string" || !line.trim() || /[\r\n\0]/.test(line)) {
-        throw new Error("the saved history contains an invalid command");
+        throw new Error(t("the saved history contains an invalid command"));
       }
       const parsed = await parseLegacy.call(this.host, line);
       if (!parsed || parsed.ok !== true || typeof parsed.canonical !== "string"
         || !parsed.canonical.trim() || /[\r\n\0]/.test(parsed.canonical)) {
-        throw new Error(parsed?.error || "the engine could not migrate a saved command");
+        throw new Error(parsed?.error || t("the engine could not migrate a saved command"));
       }
       canonical.push(parsed.canonical);
     }
@@ -892,6 +892,7 @@ export class Session {
   private async restore(): Promise<void> {
     const raw = this.storage?.getItem(SAVE_KEY);
     if (!raw) return;
+    let validHistory = false;
     try {
       const saved = JSON.parse(raw) as {
         log: string[];
@@ -904,6 +905,7 @@ export class Session {
         snapshot?: string;
       };
       if (!Array.isArray(saved.log)) return;
+      validHistory = true;
       const notes = Array.isArray(saved.notes)
         ? saved.notes.filter((note) => typeof note?.text === "string" && typeof note?.createdAt === "string")
         : [];
@@ -918,7 +920,7 @@ export class Session {
         this.feed.push({
           kind: "error",
           status: "restore-failed",
-          text: t("saved session migration failed; the original save is preserved: {reason}", {
+          text: t("saved session migration failed; the original save is preserved: {reason}. Clear the bench to start a new saved session.", {
             reason: error instanceof Error ? error.message : String(error),
           }),
         });
@@ -970,7 +972,23 @@ export class Session {
       });
       this.feed.push(...notes.map((note) => ({ kind: "user-note" as const, ...note })));
       this.persist();
-    } catch {
+    } catch (error) {
+      if (validHistory) {
+        // A runtime refusal after successful parse preflight must not erase a
+        // recoverable experiment or leave a partially replayed bench as success.
+        this.saveMigrationBlocked = true;
+        try { await this.host.reset(); } catch { /* keep the original save */ }
+        this.snapshots.clear();
+        this.commandLog = [];
+        this.position = 0;
+        this.feed.push({
+          kind: "error", status: "restore-failed",
+          text: t("saved session could not be restored; the original save is preserved: {reason}. Clear the bench to start a new saved session.", {
+            reason: error instanceof Error ? error.message : String(error),
+          }),
+        });
+        return;
+      }
       // A corrupt save must never wedge the bench: drop it and start clean.
       this.storage?.removeItem(SAVE_KEY);
       this.feed.push({

@@ -92,15 +92,32 @@ pub enum StockRefusal {
 /// Registry species win, exactly as they do in the `add` grammar: a
 /// built-in identity is never shadowed by a recipe.
 pub fn stock_unit(key: &str) -> Option<StockUnit> {
-    if species::lookup_key(key).is_some() {
+    if !key.contains('@') && species::lookup_key(key).is_some() {
         return Some(StockUnit::Mole);
     }
-    let recipe = material::lookup(key, None)?;
+    let recipe = material::lookup_input(key, None)?;
     Some(match recipe.basis {
         material::MaterialBasis::MassFraction => StockUnit::Gram,
         material::MaterialBasis::MoleFraction => StockUnit::Mole,
         material::MaterialBasis::VolumeFraction => StockUnit::Millilitre,
     })
+}
+
+fn canonical_stock_key(key: &str) -> String {
+    let key = species::canonical_input_key(key);
+    material::lookup_input(key, None)
+        .map(|recipe| material::revision_key(&recipe))
+        .unwrap_or_else(|| key.to_string())
+}
+
+/// Old stored operators and ledgers predate explicit material recipe pins.
+pub(crate) fn legacy_stock_key(key: &str) -> String {
+    if !key.contains('@') {
+        if let Some(recipe) = material::lookup_legacy(key, None) {
+            return material::revision_key(&recipe);
+        }
+    }
+    canonical_stock_key(key)
 }
 
 /// The authoritative balance; the public StockAmount is only its scalar view.
@@ -157,31 +174,30 @@ impl StockLedger {
     /// Replace a bottle. Invalid or negative input retains the established
     /// stock API policy of creating an empty bottle rather than a debt.
     pub fn stock(&mut self, key: &str, amount: f64, unit: StockUnit) {
-        let key = species::canonical_input_key(key);
+        let key = canonical_stock_key(key);
         let amount = Amount::new(amount).unwrap_or_else(|_| Amount::new(0.0).unwrap());
-        self.bottles
-            .insert(key.to_string(), OwnedStockAmount { amount, unit });
+        self.bottles.insert(key, OwnedStockAmount { amount, unit });
     }
 
     pub fn unlimit(&mut self, key: &str) {
-        let key = species::canonical_input_key(key);
-        self.bottles.remove(key);
+        let key = canonical_stock_key(key);
+        self.bottles.remove(&key);
     }
 
     /// Rounded display value. In compensated mode a debit can change the
     /// authoritative low component while leaving this projection unchanged.
     pub fn remaining(&self, key: &str) -> Option<StockAmount> {
-        let key = species::canonical_input_key(key);
+        let key = canonical_stock_key(key);
         self.bottles
-            .get(key)
+            .get(&key)
             .copied()
             .map(OwnedStockAmount::projected)
     }
 
     /// Complete authoritative amount, including its signed low component.
     pub fn remaining_exact(&self, key: &str) -> Option<Amount> {
-        let key = species::canonical_input_key(key);
-        self.bottles.get(key).map(|bottle| bottle.amount)
+        let key = canonical_stock_key(key);
+        self.bottles.get(&key).map(|bottle| bottle.amount)
     }
 
     pub fn entries(&self) -> impl Iterator<Item = (&str, StockAmount)> + '_ {
@@ -195,14 +211,14 @@ impl StockLedger {
     /// mode instead certifies the change in both authoritative components and
     /// refuses genuine overdraw without that allowance.
     pub fn draw(&mut self, key: &str, amount: f64) -> Result<(), StockRefusal> {
-        let key = species::canonical_input_key(key);
+        let key = canonical_stock_key(key);
         if !amount.is_finite() || amount < 0.0 {
             return Err(StockRefusal::InvalidRequest { requested: amount });
         }
         if amount == 0.0 {
             return Ok(());
         }
-        let Some(bottle) = self.bottles.get_mut(key) else {
+        let Some(bottle) = self.bottles.get_mut(&key) else {
             return Ok(());
         };
         let before = bottle.amount;
@@ -275,7 +291,7 @@ impl Serialize for StockLedger {
 fn canonical_bottles<T>(bottles: BTreeMap<String, T>) -> Result<BTreeMap<String, T>, String> {
     let mut canonical = BTreeMap::new();
     for (key, value) in bottles {
-        let key = species::canonical_input_key(&key).to_string();
+        let key = legacy_stock_key(&key);
         if canonical.insert(key.clone(), value).is_some() {
             return Err(format!(
                 "duplicate stock identity after input normalization: {key}"

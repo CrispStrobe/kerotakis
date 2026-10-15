@@ -1688,6 +1688,10 @@ describe("Session", () => {
       session.addUserNote("new observations must not overwrite the original save");
       expect(storage.getItem("kero.session.v1")).toBe(raw);
       expect(session.feed.some((entry) => entry.status === "restore-failed")).toBe(true);
+      await session.clear();
+      session.addUserNote("a deliberately cleared bench can save again");
+      expect(JSON.parse(storage.getItem("kero.session.v1")!).notes[0].text)
+        .toBe("a deliberately cleared bench can save again");
     });
 
     it("fails closed on a host without historical parsing", async () => {
@@ -1737,6 +1741,26 @@ describe("Session", () => {
       await session.connect();
       expect(host.calls.some((call) => /^(run:|restore:|reset$)/.test(call))).toBe(false);
       expect(storage.getItem("kero.session.v1")).toBe(raw);
+    });
+
+    it("preserves a valid save and clears partial state when migrated replay refuses", async () => {
+      const storage = new FakeStorage();
+      const raw = saved(storage, [oldBlue]);
+      const host = migrationHost();
+      host.runScript = async (script) => {
+        host.calls.push(`run:${script}`);
+        throw new Error("historical equilibrium is unavailable");
+      };
+      const session = new Session(host, storage);
+      await session.connect();
+      expect(host.calls).toContain(`run:${pinnedBlue}`);
+      expect(host.calls).toContain("reset");
+      expect(session.commandLog).toEqual([]);
+      expect(session.position).toBe(0);
+      expect(storage.getItem("kero.session.v1")).toBe(raw);
+      session.addUserNote("failure does not overwrite the original");
+      expect(storage.getItem("kero.session.v1")).toBe(raw);
+      expect(session.feed.some((entry) => entry.status === "restored")).toBe(false);
     });
   });
 

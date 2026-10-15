@@ -615,6 +615,14 @@ fn replayable_command(line: &str, operator: Option<Operator>) -> Command {
         let mut words: Vec<String> = line.split_whitespace().map(str::to_string).collect();
         words[2] = format!("{material}@{recipe_version}");
         words.join(" ")
+    } else if let Some(Operator::StockShelf { key, .. }) = &operator {
+        if material::lookup_input(key, None).is_some() {
+            let mut words: Vec<String> = line.split_whitespace().map(str::to_string).collect();
+            words[1] = key.clone();
+            words.join(" ")
+        } else {
+            line.trim().to_string()
+        }
     } else {
         line.trim().to_string()
     };
@@ -622,6 +630,36 @@ fn replayable_command(line: &str, operator: Option<Operator>) -> Command {
         canonical,
         operator,
     }
+}
+
+/// Migrate a pre-revision saved command using reviewed historical defaults.
+/// Resolve archived aliases before today's parser: a changed default may no
+/// longer accept an old alias or amount unit. Explicit pins keep their meaning.
+pub fn parse_legacy_command(line: &str, locale: Locale) -> Result<Command, ParseError> {
+    let localized = canonical_line_in(line, locale);
+    let input = localized.as_deref().unwrap_or(line);
+    let words: Vec<&str> = input.split_whitespace().collect();
+    let ingredient = match words.first().copied() {
+        Some("add") => Some(2),
+        Some("stock") => Some(1),
+        _ => None,
+    };
+    if let Some(index) = ingredient.filter(|index| words.len() > *index + 1) {
+        if !words[index].contains('@') {
+            for end in (index + 1..words.len()).rev() {
+                if let Some(recipe) = material::lookup_legacy(&words[index..end].join(" "), None) {
+                    let mut pinned: Vec<String> = words[..index]
+                        .iter()
+                        .map(|word| (*word).to_string())
+                        .collect();
+                    pinned.push(material::revision_key(&recipe));
+                    pinned.extend(words[end..].iter().map(|word| (*word).to_string()));
+                    return parse_command(&pinned.join(" "), Locale::EN);
+                }
+            }
+        }
+    }
+    parse_command(line, locale)
 }
 
 /// The word THIS locale shows for a canonical verb: the first alias its
@@ -949,7 +987,8 @@ pub fn parse_op_typed(line: &str) -> Result<Option<Operator>, ParseError> {
         // BRD-002: `stock` names a shelf entry in the same vocabulary
         // `add` does, so an unknown one fails the same way.
         ["stock", key, ..]
-            if species::lookup_key(key).is_none() && material::lookup(key, None).is_none() =>
+            if species::lookup_key(key).is_none()
+                && material::lookup_input(key, None).is_none() =>
         {
             ParseErrorKind::UnknownSpecies
         }
@@ -1066,7 +1105,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
             let vessel = parse_vessel(words[1])?;
             // EXP-49: El-A notation with a curated nuclide entry routes
             // to the tracer ledger, not the chemical registry.
-            if crate::nuclide::lookup_notation(words[2]).is_some() {
+            if !words[2].contains('@') && crate::nuclide::lookup_notation(words[2]).is_some() {
                 let amount = words[3];
                 let moles = amount
                     .strip_suffix("mol")
@@ -1085,7 +1124,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                     moles: Moles(moles),
                 }));
             }
-            if let Some(data) = species::lookup_key(words[2]) {
+            if let Some(data) = species::lookup_key(words[2]).filter(|_| !words[2].contains('@')) {
                 Operator::Add {
                     vessel,
                     species: SpeciesId::new(data.key),
@@ -1116,17 +1155,18 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
             if words.len() < 3 {
                 return Err(usage("stock <species|material> <amount><mol|g|mL>"));
             }
-            let amount = if let Some(data) = species::lookup_key(words[1]) {
-                parse_amount(words[2], data)?.0
-            } else if let Some(recipe) = material::lookup(words[1], None) {
-                parse_material_amount(words[2], &recipe)?
+            let (key, amount) = if let Some(data) =
+                species::lookup_key(words[1]).filter(|_| !words[1].contains('@'))
+            {
+                (data.key.to_string(), parse_amount(words[2], data)?.0)
+            } else if let Some(recipe) = material::lookup_input(words[1], None) {
+                (
+                    material::revision_key(&recipe),
+                    parse_material_amount(words[2], &recipe)?,
+                )
             } else {
                 return Err(unknown_ingredient(words[1]));
             };
-            let key = species::lookup_key(words[1])
-                .map(|data| data.key.to_string())
-                .or_else(|| material::lookup(words[1], None).map(|recipe| recipe.canonical_key))
-                .expect("one of the two lookups above resolved");
             Operator::StockShelf { key, amount }
         }
         "heat" | "cool" => {

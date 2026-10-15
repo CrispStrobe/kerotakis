@@ -1815,9 +1815,10 @@ impl Bench {
                 if !amount.is_finite() || *amount < 0.0 {
                     return Err(BenchError::NonPositiveAmount);
                 }
-                let unit = crate::stock::stock_unit(key)
+                let key = crate::stock::legacy_stock_key(key);
+                let unit = crate::stock::stock_unit(&key)
                     .ok_or_else(|| BenchError::UnstockableKey(key.clone()))?;
-                self.stock.stock(key, *amount, unit);
+                self.stock.stock(&key, *amount, unit);
                 events.push(Event::ShelfStocked {
                     key: key.clone(),
                     amount: *amount,
@@ -1900,8 +1901,9 @@ impl Bench {
                 // counted in, so a 5% vinegar bottle empties in millilitres
                 // poured — not in moles of acetic acid, which is a number
                 // nobody reads off a label.
-                if let Err(refusal) = self.stock.draw(&recipe.canonical_key, *total_amount) {
-                    events.push(stock_refusal_event(*vessel, &recipe.canonical_key, refusal));
+                let stock_key = material::revision_key(&recipe);
+                if let Err(refusal) = self.stock.draw(&stock_key, *total_amount) {
+                    events.push(stock_refusal_event(*vessel, &stock_key, refusal));
                     *disposition = ApplyDisposition::Unchanged;
                     return Ok(events);
                 }
