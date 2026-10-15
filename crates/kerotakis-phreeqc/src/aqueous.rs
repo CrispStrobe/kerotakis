@@ -1269,6 +1269,12 @@ fn water_autoionisation_log_k(temperature_k: f64) -> Option<f64> {
 /// A homogeneous analytical component input is not necessarily a complete
 /// physical reagent. The legacy adapter charge-balances its non-H/O totals
 /// through pH; never describe that convention as supplied counterions.
+// Reporting resolution of the existing canonical readback, in mol of charge.
+// Finite native gas/element convergence leaves nanomole-scale residuals; a
+// neutral gas leaving can retain that residual after most ions have gone.
+// This allowance changes neither inventory nor conservation acceptance.
+const ANALYTICAL_CHARGE_READBACK_ALLOWANCE: f64 = 1e-8;
+
 fn analytical_charge_note(vessel: &Vessel) -> Option<Event> {
     // These models own fixed/interfacial charge outside the bulk ledger.
     // Their admission and countercharge remain with their reviewed routes.
@@ -1293,8 +1299,11 @@ fn analytical_charge_note(vessel: &Vessel) -> Option<Event> {
         charge += contribution;
         absolute_charge += contribution.abs();
     }
-    // Relative to charged inventory, so trace doses are not silently exempt.
-    if charge.abs() <= absolute_charge * 1e-7 {
+    // Current ionic magnitude alone is not a numerical error budget: opening
+    // carbonated water vents neutral CO2 while retaining its earlier native
+    // element/readback residual. Do not call that an uncompensated user dose.
+    // Bare H/O input refusal remains separate and has no dose floor.
+    if charge.abs() <= ANALYTICAL_CHARGE_READBACK_ALLOWANCE + absolute_charge * 1e-7 {
         return None;
     }
     Some(Event::not_modeled(

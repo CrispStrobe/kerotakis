@@ -264,3 +264,101 @@ fn mixing_a_withheld_ion_input_falls_back_to_the_complete_target_problem() {
     assert!(mixed.solution.as_ref().unwrap().ph < 3.0);
     close_inventory(&before, &mixed);
 }
+
+#[test]
+fn bulk_charge_reporting_has_a_declared_readback_resolution() {
+    let mut solver = PhreeqcEquilibrator::new().unwrap();
+    for (dose, warned) in [(5e-9, false), (2e-8, true), (1e-6, true), (1e-3, true)] {
+        for ion in ["Na+", "Cl-", "NH4+"] {
+            let mut vessel = water();
+            deposit(&mut vessel, ion, dose);
+            let before = vessel.clone();
+            let events = solver.equilibrate(&mut vessel).unwrap();
+            assert_eq!(
+                named(&events, "not-modeled.analytical-component-charge"),
+                warned,
+                "{ion}, {dose} mol"
+            );
+            close_inventory(&before, &vessel);
+        }
+    }
+}
+
+fn production_stack() -> kerotakis_core::SolverStack {
+    use kerotakis_core::{DisplacementEquilibrator, PhaseEquilibrator, SolverStack};
+    SolverStack::new(kerotakis_stack::standard_solvers(vec![Box::new(
+        PhaseEquilibrator::wrapping(Box::new(DisplacementEquilibrator::wrapping(Box::new(
+            PhreeqcEquilibrator::new().unwrap(),
+        )))),
+    )]))
+}
+
+fn execute_complete_input_script(script: &[&str]) -> (kerotakis_core::Bench, Vec<Event>) {
+    let mut bench = kerotakis_core::Bench::new();
+    let mut solver = production_stack();
+    let mut events = Vec::new();
+    for line in script {
+        let op = kerotakis_core::script::parse_op(line)
+            .expect("syntax")
+            .expect("operator");
+        let more = bench
+            .step_with(op, &mut solver, &kerotakis_core::PermissiveScreen)
+            .unwrap();
+        assert!(
+            !named(&more, "not-modeled.analytical-component-charge"),
+            "{line}"
+        );
+        assert!(!named(&more, "not-modeled.bare-acid-base-basis"), "{line}");
+        events.extend(more);
+    }
+    (bench, events)
+}
+
+#[test]
+fn complete_carbonated_water_paths_do_not_become_charged_input_gaps() {
+    for script in [
+        vec![
+            "add v1 water 100mL",
+            "seal v1 100mL",
+            "add v1 CO2 0.02mol",
+            "open v1",
+            "wait 1s",
+        ],
+        vec![
+            "add v1 water 100mL",
+            "regulate v1 2bar 500mL",
+            "add v1 CO2 0.01mol",
+            "wait 1s",
+        ],
+    ] {
+        let (bench, events) = execute_complete_input_script(&script);
+        assert!(bench.vessel(VesselId(0)).unwrap().solution.is_some());
+        assert!(events
+            .iter()
+            .any(|event| matches!(event, Event::HeadspaceEquilibrated { .. })));
+    }
+}
+
+#[test]
+fn chloralkali_retains_countercharge_and_water_through_the_aqueous_tail() {
+    let (bench, events) = execute_complete_input_script(&[
+        "add v1 water 100mL",
+        "add v1 NaCl 0.01mol",
+        "electrolyse v1 0.5A 30min",
+    ]);
+    let vessel = bench.vessel(VesselId(0)).unwrap();
+    let charge = ConservedLedger::from_vessel(vessel).charge;
+    assert!(
+        charge.abs() < 1e-8,
+        "charge retained after electrolysis: {charge}"
+    );
+    let electrons = 0.5 * 1800.0 / kerotakis_core::displacement::FARADAY;
+    assert!(
+        (vessel.moles_of(&SpeciesId::new("water")).0 - (5.534276991396059 - electrons)).abs()
+            < 1e-7
+    );
+    assert!(vessel.solution.as_ref().unwrap().ph > 11.0);
+    assert!(events
+        .iter()
+        .any(|event| matches!(event, Event::Electrolysed { .. })));
+}
