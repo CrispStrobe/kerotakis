@@ -2397,6 +2397,34 @@ fn checked_crystal_reconciliation(
     Ok(corrected)
 }
 
+impl kerotakis_core::aqueous_continuation::TrustedAqueousReadback for PhreeqcEquilibrator {
+    fn characterize_current(
+        &mut self,
+        vessel: &mut Vessel,
+    ) -> Result<
+        (
+            Vec<Event>,
+            kerotakis_core::aqueous_continuation::CurrentAqueousAnswer,
+        ),
+        SolveError,
+    > {
+        // Concrete native/hook/cache adapter: no generic Equilibrator may
+        // manufacture a freshness receipt by restoring an old SolutionInfo.
+        let input = vessel.clone();
+        let mut candidate = input.clone();
+        candidate.solution = None;
+        candidate.resolved.invalidate();
+        candidate.free_proton = 0.0;
+        candidate.free_hydroxide = 0.0;
+        let events = self.equilibrate(&mut candidate)?;
+        let receipt = kerotakis_core::aqueous_continuation::CurrentAqueousAnswer::attest_computed(
+            &input, &candidate,
+        )?;
+        *vessel = candidate;
+        Ok((events, receipt))
+    }
+}
+
 impl Equilibrator for PhreeqcEquilibrator {
     fn name(&self) -> &'static str {
         "phreeqc-aqueous"
@@ -2577,7 +2605,12 @@ impl Equilibrator for PhreeqcEquilibrator {
             // the fixed-point loop walk a thermostatted vessel away from t0
             // made the bath a suggestion.
             let held = start.energy_between(t_ref, t0) + q_joules;
-            let next = if !matches!(start.thermal_mode, ThermalMode::Adiabatic) {
+            // Unknown-heat continuation is characterisation at the supplied
+            // temperature, not an adiabatic prediction. Even a Cp/water basis
+            // change must not reconstruct omitted endpoint heat indirectly.
+            let next = if !matches!(start.thermal_mode, ThermalMode::Adiabatic)
+                || !kerotakis_core::aqueous_continuation::whole_step_heat_available(&start)
+            {
                 t0
             } else if trial.heat_capacity() > 0.0 {
                 trial.temperature_after_from(t_ref, held)
@@ -2705,6 +2738,11 @@ impl Equilibrator for PhreeqcEquilibrator {
         soln_b: &Vessel,
         frac_b: f64,
     ) -> Option<Result<Vec<Event>, SolveError>> {
+        // Native MIX has its own whole-step thermal bookkeeping. An active
+        // unknown-heat continuation must use the ordinary guarded readback.
+        if !kerotakis_core::aqueous_continuation::whole_step_heat_available(vessel) {
+            return None;
+        }
         // Both source vessels must be solvable aqueous problems.
         let problem_a = partition(soln_a)?;
         let problem_b = partition(soln_b)?;
@@ -3572,7 +3610,9 @@ impl PhreeqcEquilibrator {
                 let k_h = kerotakis_core::properties::henry_at_t(coeff, vessel.temperature.0).value;
                 (co2_moles / problem.kgw) / k_h
             });
-        if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
+        if matches!(vessel.thermal_mode, ThermalMode::Adiabatic)
+            && kerotakis_core::aqueous_continuation::whole_step_heat_available(vessel)
+        {
             // Gas this solver gave off, added to whatever the solvers
             // above it already booked into the snapshot.
             for e in &events {
