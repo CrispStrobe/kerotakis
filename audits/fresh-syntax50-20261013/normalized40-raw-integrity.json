@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-15T10:56:13.558316+00:00",
+  "run": 38699207052,
+  "artifact_id": 11957908414,
+  "producer_source": "df35271b3f48dc30c995ea66a2883075e5ae9408",
+  "artifact_zip_sha256": "dda5fad25bb6d23535641aeb99c6f29af75a66085f9f9b7051aecbda381d9153",
+  "artifact_bytes": 6681696,
+  "archive_members": 144,
+  "uncompressed_bytes": 7881390,
+  "selected_members": 129,
+  "cases_members": 123,
+  "verified_report": {
+    "recorded_cases": 40,
+    "missing_cases": 0,
+    "completion_marker_verified": true,
+    "physical_verdicts_assigned": 0
+  },
+  "review_queue_sha256": "13cf307f660444c1a7135d93d2e5c400229e5b5399c33c19e031a12d82532246",
+  "selected_members_receipt_sha256": "89420cc3b6020f7bdb6571316d438225d710352f8ee10a2e8d78163f8a3487a7",
+  "reader_first_refusal": "Storage alias was a symlink; unchanged reader succeeded using canonical target. Original evidence preserved.",
+  "scope": "Verified hosted association, ZIP digest, safe selected extraction and all frozen case/binding/stream integrity. No chemistry execution, no scientific verdicts, no current-main replay."
+}

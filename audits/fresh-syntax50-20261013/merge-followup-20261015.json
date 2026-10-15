@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-15T10:54:27.962266+00:00",
+  "merged": [],
+  "prs": {
+    "789": {
+      "head": "30d84ed58b7a3ca6680046ba577632ec3dee553d",
+      "ci": 38721945812,
+      "fleet": 38721945844,
+      "state": "draft; acceptance queued"
+    },
+    "790": {
+      "head": "35a10ec334fa22b46b9acb2bfe3ed997e6330ba9",
+      "ci": 38721954296,
+      "state": "draft; full CI/browser queued; focused 36/36 passed"
+    },
+    "791": {
+      "head": "a5ad70a8b9400d968341b7c74acd40bf34fd3e35",
+      "ci": 38712445575,
+      "fleet": 38712445396,
+      "state": "draft; native/fleet acceptance queued"
+    },
+    "792": {
+      "head": "1c037058b9069fe80df67960b115d627683ed857",
+      "ci": 38723360126,
+      "fleet": 38723360148,
+      "state": "draft; source review passed; native/full-app/browser/fleet acceptance pending",
+      "source_review_gaps_closed": [
+        "material/pure species pack name collision; parser priority retained",
+        "missing legacy-default selectors now rejected"
+      ],
+      "focused_app": {
+        "executed_source": "b094f9696ac02290ead0d2032cc5f80a7ddb3411",
+        "current_head": "1c037058b9069fe80df67960b115d627683ed857",
+        "web_app_trees": {
+          "b094f969": "def076aff7f030d9ea8605afe5c740810a43f1f5",
+          "1c037058b9069fe80df67960b115d627683ed857": "def076aff7f030d9ea8605afe5c740810a43f1f5"
+        },
+        "scope": "session.test.ts only; unchanged app tree, no native equivalence claim",
+        "tests": 125,
+        "passed": 125,
+        "seconds": 14.91,
+        "log_sha256": "fc4d0a5988c809f640c0dbbb0a4632773fefef2bb9ac375af167d4cc7483448c"
+      }
+    }
+  },
+  "superseded_runs": {
+    "ordinary_cancel_then_force_cancel_completed": [
+      38713065675,
+      38705297501
+    ],
+    "automatically_cancelled": [
+      38713065780,
+      38709007507,
+      38721778239,
+      38721778207
+    ]
+  },
+  "limits": [
+    "No native optical outcome yet; green/old-dark remain forecasts.",
+    "No actual-browser acceptance yet.",
+    "Original fifty outcomes and normalized forty physical assessment unchanged.",
+    "No branch protection bypass, force push or acceptance waiver."
+  ]
+}

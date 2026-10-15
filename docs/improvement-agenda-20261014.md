@@ -35,7 +35,9 @@ in the private handoff. Heavy local work and delegation require resource gates.
    [forty controls](../audits/fresh-syntax50-20261013/normalized40/design/README.md)
    are dispatched in [hosted run 38699207052](https://github.com/CrispStrobe/kerotakis/actions/runs/38699207052).
    The producer reports all 40 executed (33 zero exits, seven nonzero exits); raw
-   stream verification and physical assessment remain pending. There was no app
+   stream verification is complete for all forty cases; physical assessment
+   remains pending. The [raw-integrity receipt](../audits/fresh-syntax50-20261013/normalized40-raw-integrity.json)
+   records artifact/source authentication, checksums and the verified review queue. There was no app
    rebuild. Do not duplicate this execution. The controls
    already freeze `H2O`→`water` substitutions and unchanged physical forecasts
    on original main `30fd09eb`/binary `b290`. Run that source-bound control set
