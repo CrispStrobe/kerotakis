@@ -1,0 +1,50 @@
+{
+  "recorded_utc": "2026-10-15T16:59:09.539668+00:00",
+  "pr": "https://github.com/CrispStrobe/kerotakis/pull/795",
+  "head": "6efa62b16a187dd5b193122da1c684000c357d28",
+  "base": "b21599ab834d48801622802a80f17a589dd65b96",
+  "api_tests": {
+    "count": 18,
+    "status": "passed",
+    "log_sha256": "2083de498bea6653d66216f1af8ebfffd1d2611f1926ccf560f61de97d5a7d06"
+  },
+  "client_controls": "passed: exact HTTPS destination, root and /api bases, redirect refusal, no cookies/storage, text rendering and key clearing",
+  "native_http_smoke": {
+    "scope": "Actual loopback HTTP; tested Origin headers, not deployed-browser acceptance",
+    "http_statuses": [
+      200,
+      200
+    ],
+    "unauthenticated_status": 401,
+    "api_head": "6efa62b16a187dd5b193122da1c684000c357d28",
+    "engine": {
+      "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+      "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+      "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+    },
+    "raw_sha256": "98e2ce64727a82d00d10393040ffedfe383657c29d1908a5dd24c5d185ec7bc1"
+  },
+  "additional_checks": [
+    "Python optimized-mode configuration refusal",
+    "pip check",
+    "shell syntax",
+    "git diff --check",
+    "independent source review"
+  ],
+  "runs": {
+    "ci": 38773267161,
+    "rest_api": 38773267072,
+    "vercel_preview": 38773265320
+  },
+  "run_state_at_recording": "all queued",
+  "implementation": "same existing Vercel project gateway /api/* plus shared Pages/Vercel standalone client; authoritative isolated Linux worker",
+  "public_execution_enabled": false,
+  "pending": [
+    "Hosted CI and API acceptance",
+    "Actual Vercel preview rewrite/static/doc routing acceptance",
+    "Worker HTTPS origin, private credentials and reverse-proxy configuration",
+    "Deployed request and real browser origin controls",
+    "Normal protected integration and production delivery"
+  ],
+  "physical_verdict": "not_assigned"
+}

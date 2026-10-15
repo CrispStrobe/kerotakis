@@ -1,6 +1,12 @@
-# Simulation API proposal — 2026-10-15
+# Simulation API implementation and remaining lanes — 2026-10-15
 
-The intended interface is a conventional FastAPI REST service, following
+[PR795](https://github.com/CrispStrobe/kerotakis/pull/795) implements the initial
+authenticated service and same-project Vercel gateway. Eighteen local acceptance
+tests and an actual native HTTP smoke passed; CI and preview are queued.
+No public execution service is activated. See the
+[preparation receipt](../audits/fresh-syntax50-20261013/rest-api-preparation-20261015.json).
+
+The interface is a conventional FastAPI REST service, following
 [`stc-compiler`](https://github.com/CrispStrobe/stc-compiler/tree/a043daa58c2437f936f94971b3b0695c9c2510cb):
 its `app.py` serves FastAPI on Vercel, and `docs/index.html` on GitHub Pages
 calls that service. GitHub Pages hosts the client and documentation, not the
@@ -73,4 +79,6 @@ for the remaining complex cases. Preserve that prefix when resuming.
 
 Platform references: [Vercel Functions](https://vercel.com/docs/functions),
 [WAF rate limiting](https://vercel.com/docs/vercel-firewall/vercel-waf/rate-limiting).
-No API has been implemented or deployed by this investigation.
+The initial API is implemented in PR795; worker HTTPS routing, private
+configuration, hosted acceptance and deployment remain pending. The asynchronous
+job and cross-runtime lanes are extensions beyond this initial service.

@@ -188,4 +188,8 @@ The inspected Vercel payload runs chemistry in browser WebAssembly and has no
 server simulation API. A protected deployment URL redirected to authentication;
 its engine version was not verified. The [API implementation lanes](simulation-api-lane.md)
 scope bounded workers, authenticated job admission, deployment and cross-runtime
-comparison. No API has been implemented or deployed.
+comparison. [PR795](https://github.com/CrispStrobe/kerotakis/pull/795) now implements the
+initial service and same-project gateway. Eighteen local tests and actual native
+HTTP controls passed; [preparation evidence](../audits/fresh-syntax50-20261013/rest-api-preparation-20261015.json)
+records source and pending hosted CI/preview. Worker HTTPS routing and private
+configuration remain required; no public API execution is activated.
