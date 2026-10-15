@@ -476,6 +476,22 @@ impl Lab {
         }
     }
 
+    /// Preflight saved pre-revision text using the reviewed historical defaults.
+    /// Separate from `parse`: freshly typed commands still select today's recipe.
+    pub fn parse_legacy(&self, line: &str) -> String {
+        match kerotakis_core::script::parse_legacy_command(line, self.locale) {
+            Ok(command) => serde_json::json!({
+                "ok": true,
+                "operator": command.operator,
+                "canonical": command.canonical,
+            })
+            .to_string(),
+            Err(error) => {
+                serde_json::json!({ "ok": false, "error": error.to_string() }).to_string()
+            }
+        }
+    }
+
     /// The grammar's verb inventory with canonical examples (GUI-029) —
     /// the list a UI's affordance manifest is conformance-checked against.
     pub fn grammar(&self) -> String {

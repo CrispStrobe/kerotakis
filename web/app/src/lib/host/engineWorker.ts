@@ -20,6 +20,7 @@ type Lab = {
   step(operatorJson: string): string;
   runScript(text: string): string;
   parse(line: string): string;
+  parse_legacy(line: string): string;
   grammar(): string;
   meta(): string;
   questStart(specJson: string): void;
@@ -183,6 +184,9 @@ onmessage = async (ev: MessageEvent) => {
         break;
       case "parse":
         done(id, lab.parse(String(msg.line)));
+        break;
+      case "parse_legacy":
+        done(id, lab.parse_legacy(String(msg.line)));
         break;
       case "grammar":
         done(id, lab.grammar());

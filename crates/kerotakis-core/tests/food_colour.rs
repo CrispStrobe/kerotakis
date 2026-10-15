@@ -74,7 +74,7 @@ fn transparent_watercolor_is_weaker_than_the_food_colour_dropper() {
     let dropper = coloured_water(&[("blue_food_color", 1.0)]);
     assert!(
         brightness(wash) > brightness(dropper),
-        "the 0.02% wash should be paler than the 0.1% dropper: {wash:?} vs {dropper:?}"
+        "the 0.002% blue wash should be paler than the 0.1% dropper: {wash:?} vs {dropper:?}"
     );
     assert!(wash[2] > wash[0], "blue wash should remain blue: {wash:?}");
 }
