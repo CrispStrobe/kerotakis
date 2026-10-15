@@ -78,6 +78,7 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           KERO_API_KEYS: ${{ secrets.KERO_API_KEYS }}
+          KERO_API_ORIGINS: ${{ vars.KERO_API_ORIGINS }}
         run: |
           # pipefail is not optional here. Piping the CLI into `tee` hands the
           # step tee's exit status, and this deploy has already failed once
@@ -95,6 +96,9 @@ jobs:
           rest_env=()
           if [ -n "$KERO_API_KEYS" ]; then
             rest_env+=(--env "KERO_API_KEYS=$KERO_API_KEYS")
+          fi
+          if [ -n "$KERO_API_ORIGINS" ]; then
+            rest_env+=(--env "KERO_API_ORIGINS=$KERO_API_ORIGINS")
           fi
           npx --yes vercel@latest deploy "$RUNNER_TEMP/site" \
             --yes --token "$VERCEL_TOKEN" \

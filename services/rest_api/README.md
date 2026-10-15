@@ -65,6 +65,8 @@ Configure these privately in the existing project's server environment:
 The deployment workflow also accepts `KERO_API_KEYS` from an encrypted GitHub
 Actions secret and passes only those key digests to the function environment.
 Raw client keys stay outside the repository and deployment artifacts.
+The repository variable `KERO_API_ORIGINS` supplies the two approved frontend
+origins to the same deployment; add verified aliases there when needed.
 
 Standard `UPSTASH_REDIS_REST_*` or `KV_REST_API_*` URL/token pairs are also
 recognized. The packaged function selects direct `vercel` mode; missing or
