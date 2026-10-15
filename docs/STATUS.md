@@ -243,8 +243,10 @@ residuals misreported as missing counterions. The last exposed a real hydrogen
 cathode defect: gas production had no corresponding water consumption or OH−.
 The corrected head `f253fc21` fixes electrode accounting, refuses finite-water
 overdraw before mutation and declares the charge diagnostic's reporting allowance.
-Eleven aqueous and six core regression groups await fresh hosted execution;
-formatting, diff checks and independent source review passed. See the
+Eleven aqueous and six core regression groups passed on Linux and macOS,
+alongside each full Rust suite and the unchanged 500-prompt curiosity gate
+(zero unmet requirements, runtime failures or baseline drift). Full own-fleet
+acceptance remains pending. See the [native receipt](../audits/reaction-dataset-200-20261015/charged-input-native-acceptance.json). See the
 [first failure, contracts and remaining limits](https://github.com/CrispStrobe/kerotakis/blob/f253fc21d4641fbb88f4a9cb7a953c7566d393ae/crates/kerotakis-phreeqc/CHARGED-COMPONENTS.md).
 The separate existing-metal electrode route also omitted anodic H+; it now
 books only the metal-deposition electron share. Successful full-plating and
@@ -252,17 +254,30 @@ metal-depletion controls close hydrogen and charge before the aqueous tail.
 No frozen forecast or conservation tolerance changed. Carbon/gas elemental
 reconciliation remains a separate accuracy gap.
 
-The shared unknown-heat continuation prerequisite is now in draft
-[PR799](https://github.com/CrispStrobe/kerotakis/pull/799), head `75acd407`.
-Source review exposed stale-answer admission, unbound readback, contained-gas
-accounting and mutable thermal/boundary metadata gaps. The implementation adds
-input/output-bound trusted receipts, atomic rollback, exact retained-gas event
-accounting and step-local thermal ownership. Fifteen prepared controls include
-native cache replay and separately executed no-engine hook-failure checks.
-Formatting, diff checks and workflow lint passed; native/browser/full-fleet
-execution remains pending. The trusted shared-wrapper bridge and successful
-actual browser continuation still precede enabling any peroxide endpoint.
-No new reaction is installed by this prerequisite. PR795's current REST acceptance job
-passed; its broader native/browser/fleet checks and the separate silver route
-in PR798 remain pending. The deployed API still reports its original pinned
-engine; none of these pending repairs is claimed deployed.
+The shared unknown-heat continuation prerequisite remains draft
+[PR799](https://github.com/CrispStrobe/kerotakis/pull/799), now `3aca4d99`.
+Its first hosted build failed on two nonexistent vessel-field references;
+those references are corrected and the first logs remain preserved. The
+implementation guards fresh answer binding, atomic rollback, retained-gas events
+and step-local thermal ownership. It now includes an explicit trusted bridge
+through native and browser wrappers, CLI cache prewarming and actual Node Wasm/
+Emscripten controls for continuation, changed-input cache refusal and failing-hook
+rollback. Seventeen Rust controls plus the Wasm harness additions await execution
+on the corrected source; formatting, JavaScript syntax and diff checks passed.
+These isolated mechanical callbacks install no chemical endpoint. Node Wasm
+acceptance and Chromium execution remain distinct.
+
+[PR798](https://github.com/CrispStrobe/kerotakis/pull/798), now `54d40916`,
+passed three of four initial focused controls. The remaining test looked up H+
+below the public species-list reporting cutoff; it now uses hydrogen activity
+from pH while retaining both mass-action equations and conservation assertions.
+Fresh native and full-fleet acceptance are pending. This reporting-test failure
+alone did not demonstrate a failed silver equilibrium calculation.
+
+[PR797](https://github.com/CrispStrobe/kerotakis/pull/797) merged normally as
+`e027e964`; its integrated tree matches the reviewed candidate. All 25 applicable
+checks passed, with one unrelated job skipped.
+[Integration receipt](../audits/reaction-dataset-200-20261015/pr797-integration.json).
+PR795's REST acceptance and both native jobs passed; remaining applicable fleet
+checks still precede integration. The deployed API retains its original pinned
+engine; none of these pending runtime repairs is claimed deployed.
