@@ -15,6 +15,9 @@ motion and crossfades are presentation, not a new colour or reaction model.
 Keep one canvas mounted across animation activation and fading. A replacement
 activity cancels both the previous animation frame and its pending fade timer.
 Otherwise callbacks can paint a detached node or hide a newer run.
+Each run must also restore the canvas backing-store dimensions after an earlier
+run used the governor's smaller economy grid; matching ImageData dimensions
+alone do not establish that the live canvas has the correct size.
 
 Focused checks cover fill levels across all glassware, masked walls, a transparent
 headspace and bottom, engine-owned mixture/layer colours, and conserved pour

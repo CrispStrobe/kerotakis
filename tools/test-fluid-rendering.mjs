@@ -79,6 +79,29 @@ try {
   assert(await page.evaluate(`document.querySelector('[data-vessel-id="0"] foreignObject canvas') === window.fluidCanvasBefore`),
     "replacement activity changed the live canvas node");
   console.log("Fluid rendering: a superseded fade cannot hide replacement activity");
+
+  await requirePage(`!document.querySelector('[data-vessel-id="0"] foreignObject.visible')`,
+    "replacement animation never finished");
+  // Deterministically reproduce the backing-store state left by economy mode.
+  // Keep the node: the next full-grid run must reset its actual dimensions.
+  await page.evaluate(`(() => {
+    const canvas = window.fluidCanvasBefore;
+    canvas.width = 34;
+    canvas.height = 48;
+  })()`);
+  await command("stir v1 100rpm 1s");
+  await requirePage(`(() => {
+    const canvas = document.querySelector('[data-vessel-id="0"] foreignObject.visible canvas');
+    return canvas?.width === 50 && canvas?.height === 70 &&
+      canvas.getContext('2d').getImageData(15, 57, 1, 1).data[3] > 0;
+  })()`, "a new full-grid run did not restore its canvas backing store");
+  const restarted = JSON.parse(await audit());
+  assert(restarted.sameCanvas, "economy restart replaced the persistent canvas");
+  assert.deepEqual(restarted.liquid.slice(0, 3), restarted.colour,
+    "economy restart clipped or changed the accepted liquid colour");
+  assert.equal(restarted.air[3], 0, "economy restart painted headspace");
+  assert.equal(restarted.below[3], 0, "economy restart painted below the vessel");
+  console.log("Fluid rendering: a new run restores the canvas after economy mode");
 } finally {
   await page?.close();
   server.close();
