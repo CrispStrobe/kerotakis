@@ -45,3 +45,7 @@ kerotakis-stack = { path = "../kerotakis-stack" }
 [[bench]]
 name = "equilibrate"
 harness = false
+
+[[example]]
+name = "solid-solubility-coverage"
+test = true
