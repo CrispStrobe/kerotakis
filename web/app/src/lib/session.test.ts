@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { EngineError, type EngineHost, type Scene, type ScriptResult } from "./host/EngineHost";
 import { REGISTERS, Session, type StorageLike } from "./session.svelte";
 import { EFFECT_WINDOW_MS, effectWindowMs } from "./magnitudes";
@@ -2021,8 +2021,13 @@ describe("the catalog is asked, not computed (WORLD-003 client migration)", () =
     const afterConnect = host.catalogCalls;
 
     s.startLesson("acid-kit", "add v1 HCl 10mL\n");
-    await Promise.resolve();
-    expect(host.catalogCalls).toBeGreaterThan(afterConnect);
+    // The automatic refresh waits for engine parsing of the mission kit.
+    // Observe its completed answer rather than assuming one microtask is enough.
+    await vi.waitFor(() => {
+      expect(host.catalogCalls).toBeGreaterThan(afterConnect);
+      expect(s.catalogAccess("HCl")?.available).toBe(true);
+      expect(s.lesson?.kit).toEqual(["HCl"]);
+    });
   });
 
   it("asks again when a completion changes what is earned", async () => {
