@@ -1,5 +1,8 @@
 # Packaging: the PWA, the Mac app, the iPhone app
 
+Current integration state and ordered next work: [STATUS](docs/STATUS.md).
+Dated historical entries retain their original evidence scope.
+
 One UI (`web/app`), three shipped products. The bench is the same Svelte
 app in all three; only the transport under `EngineHost` differs, which is
 the whole point of PROTOCOL.md:

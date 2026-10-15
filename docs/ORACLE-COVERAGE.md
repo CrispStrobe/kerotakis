@@ -1,5 +1,8 @@
 # Build-time oracle coverage
 
+Current integration state and ordered next work: [STATUS](STATUS.md).
+Dated historical entries retain their original evidence scope.
+
 *Tier C of the three-tier plan in [`EXPERIMENTS.md`](../EXPERIMENTS.md)
 ("How the expectations get checked: three tiers"). Tier A is perturbation,
 tier B is authored expectations; this file is about the middle one —

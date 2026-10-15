@@ -1,5 +1,8 @@
 # Would the suite notice if the engine were wrong?
 
+Current integration state and ordered next work: [STATUS](STATUS.md).
+Dated historical entries retain their original evidence scope.
+
 *An instrument, its first measurement, and — at equal length — what that
 measurement cannot say.*
 

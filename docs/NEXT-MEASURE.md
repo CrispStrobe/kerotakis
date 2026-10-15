@@ -1,5 +1,8 @@
 # The measure after the curiosity corpus
 
+Current integration state and ordered next work: [STATUS](STATUS.md).
+Dated historical entries retain their original evidence scope.
+
 A proposal for the owner. Nothing here is implemented: no engine change, no
 test, no new gate. It sets out three candidate successors to the curiosity
 corpus with what each would cost, recommends one, and names the first step.

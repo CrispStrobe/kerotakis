@@ -1,5 +1,8 @@
 # The apparatus catalog (CAP-25 handoff to the GUI workline)
 
+Current integration state and ordered next work: [STATUS](docs/STATUS.md).
+Dated historical entries retain their original evidence scope.
+
 The user supplied a ~70-item palette of lab apparatus that the bench
 should show and manipulate: put on the shelf, clamp, pour between,
 probe with instruments, heat, distil — with the effects visualised.

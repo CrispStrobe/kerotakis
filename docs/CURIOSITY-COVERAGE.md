@@ -1,5 +1,8 @@
 # Curiosity coverage
 
+Current integration state and ordered next work: [STATUS](STATUS.md).
+Dated historical entries retain their original evidence scope.
+
 The corpus contains 500 prompts. Its `expected` value is a minimum evidence
 grade, not an exact category: computed and curated results share the quantified
 top grade, while boundary refusals compare only with boundary requirements.

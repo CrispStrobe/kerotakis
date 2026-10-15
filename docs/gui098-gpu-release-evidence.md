@@ -1,5 +1,8 @@
 # GUI-098 GPU release evidence
 
+Current integration state and ordered next work: [STATUS](STATUS.md).
+Dated historical entries retain their original evidence scope.
+
 Copy `gui098-gpu-release-evidence.template.json`, fill it from physical runs,
 and validate it with:
 

@@ -1,5 +1,8 @@
 # Giving numeric records an uncertainty, and marking which are measured
 
+Current integration state and ordered next work: [STATUS](STATUS.md).
+Dated historical entries retain their original evidence scope.
+
 > **Followed up the same day by [`docs/one-value-for-the-solvent.md`](one-value-for-the-solvent.md).**
 > Section 2 below — *the bench does not read the record the band is attached
 > to* — is closed. The engine's constants are generated from the registry

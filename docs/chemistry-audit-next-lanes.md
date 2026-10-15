@@ -1,5 +1,8 @@
 # Chemistry audit: actionable next lanes
 
+Current integration state and ordered next work: [STATUS](STATUS.md).
+Dated historical entries retain their original evidence scope.
+
 Read [the current checkpoint](chemistry-audit-status-20261008.md) first. These lanes describe delivered prerequisites and remaining tasks for a fresh agent; check each status note before implementing its original proposal. They cover audit followup, not every pre-existing product roadmap item. Keep existing task numbers unchanged; the IDs here form a separate namespace.
 
 ## Shared execution contract

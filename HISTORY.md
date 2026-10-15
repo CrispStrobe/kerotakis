@@ -1,5 +1,8 @@
 # Kerotakis — history
 
+Current integration state and ordered next work: [STATUS](docs/STATUS.md).
+Dated historical entries retain their original evidence scope.
+
 What landed, and what it taught us. Newest first, one line per item:
 task number, what it did, and the PR, branch or commit that carries it.
 

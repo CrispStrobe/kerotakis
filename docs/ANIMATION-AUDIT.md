@@ -1,5 +1,8 @@
 # Animation audit — what the engine computes vs what the bench draws
 
+Current integration state and ordered next work: [STATUS](STATUS.md).
+Dated historical entries retain their original evidence scope.
+
 Status: 2026-09-06. Companion to `ROADMAP-GUI.md` (**GUI-099**), which owns
 the task; this file is the evidence behind it.
 

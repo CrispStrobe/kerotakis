@@ -1,5 +1,8 @@
 # GPU cross-host release matrix
 
+Current integration state and ordered next work: [STATUS](STATUS.md).
+Dated historical entries retain their original evidence scope.
+
 This is a collection template, not evidence of a pass. Run it on each physical
 release host; CI, VMs, simulators and inferred results do not substitute.
 
