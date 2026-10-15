@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "frozen_utc": "2026-10-15T08:24:57.636897+00:00",
+  "pair_count": 4,
+  "script_count": 8,
+  "execution_count_verified": 0,
+  "files": {
+    "expectations.json": "c9a4eb1ae60f9975ab48538c634aac5b80359d52363ed5bc1c6bb974aa7f0aae",
+    "scripts/01-canonical.lab": "a435d817dd227adb637cecee8628e1322db8546b3877c953cba98dcdb8e8b2f7",
+    "scripts/01-named.lab": "c2026f5f117ebd59484af23570fa2dc8a0c06caa5b79142dc684715967ade305",
+    "scripts/02-canonical.lab": "722b03796c382f147dcc605c706e6ea2159f78f8dfbf7aaa27dd4b782f32a510",
+    "scripts/02-named.lab": "65cb39a8f2673faf3369566137013a5106f246d1f979e51b7fd688a4cc8a11a4",
+    "scripts/03-canonical.lab": "56afaa20de618e56905edaa64a89acf820151d83936e56088c1325edf75109a4",
+    "scripts/03-named.lab": "3f8eb333624408e4d5f049b2cb13307853d16ae7458be8359a67b7321799305d",
+    "scripts/04-canonical.lab": "ac0cf4f43c24ef1a8ef5bee2c2c6e2b78802506122c45adf3033d84cfd67fc73",
+    "scripts/04-named.lab": "60110576f05811ce6797ff700f5d757d4a1efcb852acb02a86aaeef1caa1665a"
+  }
+}

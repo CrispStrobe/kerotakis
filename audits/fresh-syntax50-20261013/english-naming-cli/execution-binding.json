@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "frozen_utc": "2026-10-15T13:26:09.837895+00:00",
+  "scope": "Eight frozen PR789 naming controls; no new blind chemistry or calibration",
+  "candidate_head": "30d84ed58b7a3ca6680046ba577632ec3dee553d",
+  "built_merge_commit": "fe87a07cae8e55e958b3162b2a3631ea7c9080ac",
+  "built_tree": "26069ae871c89959ffbdd146957108a1bd28888f",
+  "runtime_equivalence": "All candidate-to-build differences are inherited Markdown only",
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38721945844",
+  "build_job_id": 116383343938,
+  "artifact_id": 11967894898,
+  "artifact_sha256": "e7cc37ba66bc86ef425bb2b32385bf3fee196465d75683fe97dd16ec9ae37e59",
+  "binary_sha256": "7868fcedf3b51b0f84a6e51f0476e03c6966d4c7a155efd06f81c428db492677",
+  "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc",
+  "submodules_sha256": "dae123bd185b0dff0f0d7176cb509940c4f7f68da6087ad6e6ab003543dbdd47",
+  "build_log_sha256": "0b8d15e388ec48a8846cc941cbb1f34f9ba4378755f7e0486377497b4862a05c",
+  "runner_sha256": "c3cb82ef2d9b3376ff0f44c584eeb6dfb53431a2a33da11a28dfd69da8e87ff3",
+  "design_freeze_sha256": "1765694701c2da6b02ea7de8db5b956035d78874b064ebff22d96f6381cfb81b",
+  "execution_status": "Not executed at binding freeze; see separately preserved executions"
+}

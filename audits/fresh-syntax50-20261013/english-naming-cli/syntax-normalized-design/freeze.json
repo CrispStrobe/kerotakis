@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "frozen_utc": "2026-10-15T13:26:55.609716+00:00",
+  "scope": "Only @25C to @ 25C syntax normalization; all forecasts byte-identical",
+  "original_freeze_sha256": "1765694701c2da6b02ea7de8db5b956035d78874b064ebff22d96f6381cfb81b",
+  "files": {
+    "expectations.json": "c9a4eb1ae60f9975ab48538c634aac5b80359d52363ed5bc1c6bb974aa7f0aae",
+    "scripts/01-canonical.lab": "462a2a9a01e9f3f0317da71be8b8f8480fa7b018ed64be607bd73aaaa7c956ec",
+    "scripts/01-named.lab": "6f473d6ac557803ac8a6cdd31dc40cd3b86eadab73b777b2765d7716a9d237ff",
+    "scripts/02-canonical.lab": "3ebf0daafdd0389326cc8019c688e2c1311dece2f92649c3140b145b72c40165",
+    "scripts/02-named.lab": "1fd35f19eed529014fcaeef9ed2df256a11543dd4a5e9efe4c858215586a16de",
+    "scripts/03-canonical.lab": "38d9337005d83578e03d6ae96c626fe007dd416637934cbf35e8176ddf34a095",
+    "scripts/03-named.lab": "c3fe22b2f19a9b86662befb6cf04ef042eb381d3e7ecf9276e12a5caa13ed0cb",
+    "scripts/04-canonical.lab": "aee8115038af8335b1beb0ab3dbb7eb7a72dc15f8afe3af3c29d8e1ec1cf6d3a",
+    "scripts/04-named.lab": "57c925c148cf4f75c58a626bdee0ec30a270373a1818f750d6af305bb55685fa"
+  }
+}
