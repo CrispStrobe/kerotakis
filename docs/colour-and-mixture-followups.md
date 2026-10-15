@@ -58,8 +58,9 @@ Do not change frozen experiments to agree with a candidate.
 
 4. **Duplicate diagnostics and equilibrium readback — establish event causes.**
    PR791 implements exact model-limit prose deduplication per step; raw events
-   and chemistry are unchanged. Source review passed, actual native/fleet checks
-   are pending. This does not fix equilibrium readback churn.
+   and chemistry are unchanged. Source review and the four new native test groups
+   passed; [actual native evidence](../audits/fresh-syntax50-20261013/coverage-prose-native-acceptance.json)
+   is preserved. Own-fleet checks remain pending. This does not fix equilibrium readback churn.
    Preserve a minimal blue-color addition showing repeated indigo unsupported
    notes, then a bounded saline/alkaline case showing equal magnesium hydroxide
    dissolution/precipitation on repeated waits. Trace `aqueous.rs` through the

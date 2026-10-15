@@ -75,6 +75,11 @@ existing catalog-refresh test that assumed a single microtask. Its reviewed
 correction now on PR789 at `30d84ed5` waits for the automatic parsed-kit answer; the
 corrected focused session suite passed 121/121. Full corrected-source acceptance
 is still pending. The candidate is a draft and is not integrated.
+The first [paired CLI attempt](../audits/fresh-syntax50-20261013/english-naming-cli/first-outcomes.json)
+stopped before dispensing because the frozen control used `@25C` instead of
+the documented `@ 25C`. The original failure is preserved. Eight spacing-only
+follow-ups and their verified candidate binary/lock binding are frozen separately;
+memory gates stopped their execution before the first case. They have no verdict yet.
 
 ## Reported colour and rendering defects
 
@@ -96,8 +101,8 @@ See the [actionable follow-up lanes](colour-and-mixture-followups.md).
 [PR791](https://github.com/CrispStrobe/kerotakis/pull/791), head `a5ad70a8`,
 implements step-local narration of exact repeated model-limit events in CLI/app,
 preserving raw events, distinct causes and later-step warnings. Independent source
-review passed; four new native test groups and full applicable acceptance remain
-pending.
+review passed, and all [four new native test groups passed in actual CI](../audits/fresh-syntax50-20261013/coverage-prose-native-acceptance.json).
+The own-fleet acceptance is still pending; the PR remains a draft.
 
 [PR792](https://github.com/CrispStrobe/kerotakis/pull/792) contains the full
 versioned watercolor candidate at `af788ba6`: exact revision-1 archive,

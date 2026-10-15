@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-15T13:27:52.908029+00:00",
+  "scope": "PR789 naming CLI controls; first failure and later resource refusal",
+  "original_binding": "execution-binding.json",
+  "original_executions": [
+    {
+      "script": "01-canonical.lab",
+      "script_sha256": "a435d817dd227adb637cecee8628e1322db8546b3877c953cba98dcdb8e8b2f7",
+      "exit_status": 1,
+      "timed_out": false,
+      "elapsed_seconds": 0.25302344374358654,
+      "resources_before": {
+        "load1": 1.8896484375,
+        "available_memory_mib": 4482,
+        "free_disk_mib": 1519725
+      },
+      "stdout_sha256": "19be9767b4938d31d4e80241f5d161e6ba3bfe7bd90ca927b9e45747d69c5515",
+      "stderr_sha256": "86c928e2d952025e9d59d4eb077522cacfe97034a9f3eca7c5b42b2aac506f8b"
+    }
+  ],
+  "first_failure": {
+    "script": "design/scripts/01-canonical.lab",
+    "line": 5,
+    "diagnostic": "temperature goes last: \u2026 @ 60C",
+    "cause": "Frozen test script used @25C; parser requires separate @ and temperature tokens",
+    "classification": "Control syntax failure before dispensing; no naming or physical verdict",
+    "runner": "first-runner.py",
+    "raw_stderr_sha256": "86c928e2d952025e9d59d4eb077522cacfe97034a9f3eca7c5b42b2aac506f8b"
+  },
+  "separate_followup": {
+    "design": "syntax-normalized-design/freeze.json",
+    "binding": "syntax-normalized-binding.json",
+    "changes": "Only @25C to @ 25C in 24 temperature suffixes; expectation bytes unchanged",
+    "executed_cases": 0,
+    "gate_stop": {
+      "load1": 2.37109375,
+      "available_memory_mib": 4108,
+      "free_disk_mib": 1519725
+    }
+  },
+  "next_action": "When fresh CLI resource gates permit, run the syntax-normalized binding into a new empty output directory. Do not repeat the original syntax failure. Assess all physical/identity assertions, not just process exits."
+}
