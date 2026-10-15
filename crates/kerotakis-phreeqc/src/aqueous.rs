@@ -2426,6 +2426,12 @@ impl kerotakis_core::aqueous_continuation::TrustedAqueousReadback for PhreeqcEqu
 }
 
 impl Equilibrator for PhreeqcEquilibrator {
+    fn trusted_aqueous_readback(
+        &mut self,
+    ) -> Option<&mut dyn kerotakis_core::aqueous_continuation::TrustedAqueousReadback> {
+        Some(self)
+    }
+
     fn name(&self) -> &'static str {
         "phreeqc-aqueous"
     }

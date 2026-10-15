@@ -54,6 +54,10 @@ impl Aqueous {
 }
 
 impl Equilibrator for Aqueous {
+    fn trusted_aqueous_readback(&mut self) -> Option<&mut dyn TrustedAqueousReadback> {
+        // Explicit synthetic adapter contract; not native/browser proof.
+        Some(self)
+    }
     fn name(&self) -> &'static str {
         "continuation-test-aqueous"
     }
@@ -119,6 +123,36 @@ impl Equilibrator for Aqueous {
             Vec::new()
         })
     }
+}
+
+#[test]
+fn erased_wrapper_forwards_only_an_explicit_trusted_adapter() {
+    use kerotakis_core::aqueous_continuation::{characterize_via, continue_via};
+    struct Untrusted(Aqueous);
+    impl Equilibrator for Untrusted {
+        fn name(&self) -> &'static str {
+            "generic-complete-looking-answer"
+        }
+        fn equilibrate(&mut self, v: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+            self.0.equilibrate(v)
+        }
+    }
+    let mut vessel = fixture(false);
+    let receipt = CurrentAqueousAnswer::attest_computed(&vessel, &vessel).unwrap();
+    let before = format!("{vessel:?}");
+    let mut untrusted =
+        DisplacementEquilibrator::wrapping(Box::new(Untrusted(Aqueous::new(Answer::Complete))));
+    assert!(characterize_via(&mut untrusted, &mut vessel).is_err());
+    assert!(
+        continue_via(&mut vessel, &receipt, &mut untrusted, |_| panic!(
+            "untrusted bridge invoked transform"
+        ))
+        .is_err()
+    );
+    assert_eq!(format!("{vessel:?}"), before);
+    let mut trusted = DisplacementEquilibrator::wrapping(Box::new(Aqueous::new(Answer::Complete)));
+    continue_via(&mut vessel, &receipt, &mut trusted, transform).unwrap();
+    assert!(!whole_step_heat_available(&vessel));
 }
 
 // Explicit trusted test-double contract: fixture answers are synthetic. This

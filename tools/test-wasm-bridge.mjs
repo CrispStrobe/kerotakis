@@ -116,4 +116,19 @@ check(
     JSON.stringify(r1.cases.filter((test) => !test.passed)),
 );
 
+const continuation = JSON.parse(lab.continuationAcceptance(false));
+check("mechanical continuation uses the actual Wasm/Emscripten hook through the browser wrapper",
+    continuation.schema === 1 && continuation.mechanical_fixture === true &&
+    continuation.cases.length === 2 && continuation.cases.every((test) => test.passed),
+    JSON.stringify(continuation));
+let failedHookCalls = 0;
+lab.setSolver(() => {
+    failedHookCalls++;
+    throw new Error("controlled continuation current-question failure");
+});
+const rollback = JSON.parse(lab.continuationAcceptance(true));
+check("changed-input hook failure restores the complete continuation vessel",
+    failedHookCalls > 0 && rollback.cases.length === 2 && rollback.cases.every((test) => test.passed),
+    JSON.stringify(rollback));
+
 process.exit(failures === 0 ? 0 : 1);

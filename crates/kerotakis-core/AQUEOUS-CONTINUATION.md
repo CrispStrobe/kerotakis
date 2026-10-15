@@ -5,10 +5,14 @@ for a separately admitted post-speciation material transformation. It installs
 no reaction rows, rate laws or chemical admission rules. Native and browser
 hosts can call the same core function immediately after a fresh aqueous answer;
 their shared existing continuation point is `displacement::over`.
-This prerequisite does not install that call. Endpoint integration still needs
-a trusted-adapter bridge through the shared wrapper: `displacement::over`
-currently receives an erased `dyn Equilibrator`, which does not implement the
-new trusted readback contract by itself.
+This prerequisite does not install a chemical endpoint call. The object-safe
+`Equilibrator::trusted_aqueous_readback` bridge defaults to `None`; concrete
+PHREEQC opts in, and both `DisplacementEquilibrator` and `BrowserAqueous` forward
+that explicit capability. `characterize_via` and `continue_via` can therefore
+reach the trusted adapter through the erased interface used by the shared
+wrapper. Untrusted generic equilibrators refuse before any transformation.
+The bridge characterizes aqueous state; it does not run other wrapper chemistry
+or choose when a future endpoint should be admitted by `displacement::over`.
 
 The caller provides a current-answer receipt, a trusted aqueous recharacterizer
 and a transformation closure. A complete finite solution and active `StepStart`
@@ -116,7 +120,23 @@ test exercises concrete cache misses and failing external hooks with stale
 readings present; CI runs it explicitly because native builds do not dispatch
 through `SolveHook`. These are distinct controls. A successful real browser
 hook and shipped-cache continuation, including changed-input cache refusal,
-still require hosted browser acceptance before an endpoint is enabled.
+must pass the hosted Wasm/Emscripten acceptance before an endpoint is enabled.
+
+`Lab.continuationAcceptance(expectMissing)` runs isolated local mechanical
+fixtures through the actual browser wrapper without modifying the learner
+bench. CLI prewarm includes their complete-extent native answers in its exported
+cache. The existing Wasm lab harness checks successful shipped-cache replay and
+a different, un-prewarmed extent refusing with complete vessel rollback. The
+Wasm bridge harness checks the real Emscripten hook, then replaces it with a
+throwing hook and verifies changed-input refusal and rollback. Both fixtures
+also verify that a deposit invalidates the genuine initial receipt before the
+callback runs. Native acceptance uses the boxed displacement wrapper.
+
+These existing harnesses execute actual Wasm and Emscripten in Node. They are
+distinct from a Chromium/Playwright runtime measurement; no Chromium execution
+or empirical chemical validation is implied. The artificial peroxide callback
+is only a mechanical conservation fixture with deliberately unmodeled heat,
+not an installed peroxide reaction or a forecast for its laboratory behavior.
 
 No acidic permanganate/peroxide chemistry is added here. That next lane needs
 its own reviewed gate, finite acidity/reactants, explicit product-domain and

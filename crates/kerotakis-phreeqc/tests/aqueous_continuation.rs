@@ -8,6 +8,21 @@ use kerotakis_core::vessel::StepStart;
 use kerotakis_core::*;
 use kerotakis_phreeqc::PhreeqcEquilibrator;
 
+#[test]
+fn real_native_wrapper_exposes_shared_mechanical_acceptance() {
+    let mut wrapper =
+        DisplacementEquilibrator::wrapping(Box::new(PhreeqcEquilibrator::new().unwrap()));
+    let report = kerotakis_phreeqc::continuation_acceptance::run_continuation_acceptance(
+        &mut wrapper,
+        false,
+    );
+    assert!(
+        report.passed(),
+        "{}",
+        serde_json::to_string_pretty(&report).unwrap()
+    );
+}
+
 fn release_peroxide(candidate: &mut Vessel) -> Result<Vec<Event>, SolveError> {
     let peroxide = candidate.moles_of(&SpeciesId::new("H2O2")).0;
     candidate.withdraw(&SpeciesId::new("H2O2"), Moles(peroxide));

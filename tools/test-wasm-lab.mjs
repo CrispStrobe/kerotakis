@@ -182,6 +182,16 @@ if (cachePath) {
         r1.cases.length === 5 && r1.cases.every((test) => test.passed),
         JSON.stringify(r1.cases.filter((test) => !test.passed)),
     );
+    for (const missing of [false, true]) {
+        const continuation = JSON.parse(lab5.continuationAcceptance(missing));
+        check(
+            missing ? "changed-input continuation cache miss rolls back in WebAssembly"
+                : "mechanical continuation replays through the browser wrapper and shipped cache",
+            continuation.schema === 1 && continuation.mechanical_fixture === true &&
+                continuation.cases.length === 2 && continuation.cases.every((test) => test.passed),
+            JSON.stringify(continuation),
+        );
+    }
 }
 
 // --- the grammar in the learner's own language (I18N) --------------------

@@ -65,6 +65,33 @@ pub trait TrustedAqueousReadback {
     ) -> Result<(Vec<Event>, CurrentAqueousAnswer), SolveError>;
 }
 
+/// Obtain a current answer through an explicitly opted-in erased/wrapped
+/// adapter. This characterizes the aqueous state only; it does not run other
+/// wrapper chemistry or install a post-speciation reaction route.
+pub fn characterize_via(
+    aqueous: &mut dyn crate::Equilibrator,
+    vessel: &mut Vessel,
+) -> Result<(Vec<Event>, CurrentAqueousAnswer), SolveError> {
+    aqueous
+        .trusted_aqueous_readback()
+        .ok_or_else(|| refused("equilibrator has no trusted aqueous readback adapter"))?
+        .characterize_current(vessel)
+}
+
+/// Shared host bridge for the atomic primitive. A wrapper that does not
+/// explicitly expose a trusted adapter refuses before invoking `transform`.
+pub fn continue_via(
+    vessel: &mut Vessel,
+    initial_answer: &CurrentAqueousAnswer,
+    aqueous: &mut dyn crate::Equilibrator,
+    transform: impl FnOnce(&mut Vessel) -> Result<Vec<Event>, SolveError>,
+) -> Result<Vec<Event>, SolveError> {
+    let adapter = aqueous
+        .trusted_aqueous_readback()
+        .ok_or_else(|| refused("equilibrator has no trusted aqueous readback adapter"))?;
+    continue_without_reaction_heat(vessel, initial_answer, adapter, transform)
+}
+
 fn refused(detail: &str) -> SolveError {
     SolveError::NotConverged {
         solver: "aqueous-continuation".into(),
