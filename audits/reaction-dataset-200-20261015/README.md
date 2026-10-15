@@ -48,3 +48,10 @@ After completion, authenticate the run/artifact and then use
 200 records and streams. The report distinguishes execution coverage and
 commands reached. It assigns no physical passes. Preserve first outputs and
 freeze any corrected or condition-specific follow-ups separately.
+
+`monitor.py NEW_EVIDENCE_DIRECTORY` watches only the already-dispatched run,
+without dispatching or executing chemistry. It freezes its ingestion inputs,
+authenticates the eventual artifact and automatically invokes the execution
+reader when all 200 records are present. It preserves partial artifacts and
+terminal failures rather than rerunning cases. Its bounded polling interval is
+30 seconds, for at most 480 polls; inspect its state before restarting collection.
