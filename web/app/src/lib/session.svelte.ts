@@ -26,7 +26,6 @@ import {
 } from "./ionic";
 import { type Lesson, parseLesson } from "./lesson";
 import { lessonProse } from "./lessonProse";
-import { scriptKit } from "./codex";
 import { benchDiffersFromFresh, benchOccupied } from "./catalogRunner";
 import { schedule, type Playback } from "./replay";
 import type { AnswerRefusal, QuestOutput } from "./host/EngineHost";
@@ -44,7 +43,7 @@ import { missionTitle } from "./storyProgress";
 import { caseAwardedTools, contaminatedSampleComplete } from "./storyChapter";
 import { access as catalogAccess, catalogMap, type CabinetStatus, type CatalogMap } from "./catalogProgress";
 import type { GrammarRow } from "./completions";
-import { isStoryDispenseEvent, persistStockUsed, restoreStockUsed, stockRemaining, suppliedSpecies, suppliedSpeciesFromOperator, STORY_STOCK_KEY } from "./storyStock";
+import { isStoryDispenseEvent, kitSpeciesFromOperator, persistStockUsed, restoreStockUsed, stockRemaining, suppliedSpecies, suppliedSpeciesFromOperator, STORY_STOCK_KEY } from "./storyStock";
 import type { LabMode } from "./worldState";
 import { parseElementCoverage, type ElementCoverageReport } from "./elements";
 import {
@@ -598,6 +597,7 @@ export class Session {
    * itself uses — "what the teacher put out for you" — derived from its
    * own command lines, so it can never drift from the lesson. */
   lesson = $state<{ lesson: Lesson; cursor: number; kit: string[] } | null>(null);
+  private lessonKits = new WeakMap<object, Promise<string[]>>();
   /** An open-ended mission is evaluated from typed engine events instead of
    * advancing through the source .lab commands. The .lab remains its source
    * for narration and core kit; the contract adds alternative valid routes. */
@@ -1089,17 +1089,10 @@ export class Session {
       }
       const supplied = parsed?.ok ? suppliedSpeciesFromOperator(parsed.operator) : suppliedSpecies(trimmed);
       const lesson = this.lesson;
-      if (this.mode === "story" && supplied && lesson && !lesson.kit.includes(supplied)) {
-        for (const key of lesson.kit) {
-          // Canonical shelf keys need no lookup. Resolve unknown kit spellings
-          // through the non-mutating engine parser, without duplicating aliases.
-          if (this.shelf.some((item) => item.key === key)) continue;
-          const candidate = await this.host.parse(`add v1 ${key} 1g`);
-          if (this.lesson !== lesson) break;
-          if (candidate.ok && suppliedSpeciesFromOperator(candidate.operator) === supplied) {
-            lesson.kit = [...new Set(lesson.kit.map((item) => item === key ? supplied : item))];
-            break;
-          }
+      if (this.mode === "story" && lesson) {
+        await this.resolveLessonKit(lesson);
+        if (this.lesson !== lesson) {
+          throw new EngineError(t("the bench refused this operation"), "refused");
         }
       }
       const stockItem = supplied ? this.shelf.find((item) => item.key === supplied) : undefined;
@@ -1856,6 +1849,39 @@ export class Session {
     this.startLesson(pending.name, pending.text);
   }
 
+  /** Only engine-parsed lesson ingredients may grant mission supply. */
+  private async resolveLessonKit(lesson: NonNullable<Session["lesson"]>): Promise<string[]> {
+    let pending = this.lessonKits.get(lesson);
+    if (!pending) {
+      pending = (async () => {
+        const kit = new Set<string>();
+        for (const step of lesson.lesson.steps) {
+          if (step.kind !== "command") continue;
+          const parsed = await this.host.parse(step.line);
+          if (this.lesson !== lesson) return [];
+          const key = parsed.ok ? kitSpeciesFromOperator(parsed.operator) : null;
+          if (key) kit.add(key);
+        }
+        for (const extra of outcomeMissionContract(lesson.lesson.name)?.extraKit ?? []) {
+          const parsed = await this.host.parse(`add v1 ${extra} 1g`);
+          if (this.lesson !== lesson) return [];
+          const key = parsed.ok ? suppliedSpeciesFromOperator(parsed.operator) : null;
+          if (key) kit.add(key);
+        }
+        return [...kit];
+      })();
+      this.lessonKits.set(lesson, pending);
+    }
+    try {
+      const kit = await pending;
+      if (this.lesson === lesson) lesson.kit = kit;
+      return kit;
+    } catch (error) {
+      this.lessonKits.delete(lesson);
+      throw error;
+    }
+  }
+
   /** Begin walking a lesson. Reached through `requestLesson`, which is
    * where the bench the lesson needs is settled first. */
   startLesson(name: string, text: string): void {
@@ -1865,7 +1891,7 @@ export class Session {
     this.lesson = {
       lesson: parseLesson(name, text),
       cursor: 0,
-      kit: [...new Set([...scriptKit(text), ...(contract?.extraKit ?? [])])],
+      kit: [],
     };
     this.lessonBaseline = this.position;
     this.feed.push({ kind: "note", text: t("lesson started: {name}", { name: t(missionTitle(name)) }) });
@@ -2164,18 +2190,18 @@ export class Session {
    */
   async refreshCatalog(): Promise<void> {
     const ask = ++this.catalogAsk;
-    const request = {
-      mode: this.mode,
-      completed: this.completedMissions.size,
-      awarded: caseAwardedTools(this.completedMissions),
-      mission_kit: [
-        ...(this.lesson?.kit ?? []),
-        ...(this.missionOutcome?.contract.extraTools ?? []),
-      ],
-    };
     let reason = "";
     for (let attempt = 1; attempt <= CATALOG_ATTEMPTS; attempt += 1) {
       try {
+        const lesson = this.lesson;
+        const kit = lesson ? await this.resolveLessonKit(lesson) : [];
+        if (ask !== this.catalogAsk) return;
+        const request = {
+          mode: this.mode,
+          completed: this.completedMissions.size,
+          awarded: caseAwardedTools(this.completedMissions),
+          mission_kit: [...kit, ...(this.missionOutcome?.contract.extraTools ?? [])],
+        };
         const response = await this.host.catalog(request);
         // A superseded ask answers with a stale mode and a stale count.
         if (ask !== this.catalogAsk) return;
