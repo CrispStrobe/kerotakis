@@ -255,6 +255,27 @@ fn reference_complex_boundary(vessel: &Vessel, distribution: &[SpeciesDetail]) -
     ))
 }
 
+/// Native equilibrium includes bound ammonia, while the canonical NH3/NH4
+/// portions still partition total reduced nitrogen using only free-ion weights.
+fn silver_ammine_inventory_boundary(
+    vessel: &Vessel,
+    distribution: &[SpeciesDetail],
+) -> Option<Event> {
+    if !distribution.iter().any(|species| {
+        species.molality > 0.0 && matches!(species.name.as_str(), "AgNH3+" | "Ag(NH3)2+")
+    }) {
+        return None;
+    }
+    Some(Event::not_modeled(
+        vessel.id,
+        kerotakis_core::ops::NotModelledCause::ModelBoundary,
+        Phrase::bare(
+            "not-modeled.silver-ammine-ligand-inventory",
+            "Silver-ammonia equilibrium complexes and free ligand are represented in the solution speciation. The canonical NH3/NH4 portions remain analytical total-nitrogen carriers, including complex-bound ammonia; they are not measured free NH3 amounts. Their use for downstream ammonia volatilisation or curated reaction availability is not yet reconciled with bound ligand. This limitation does not withdraw the reported equilibrium complex distribution",
+        ),
+    ))
+}
+
 fn reactive_gas_boundary(vessel: &Vessel, problem: &Problem) -> Option<Event> {
     if !problem.gases.iter().any(|(_, species, _)| species == "HBr")
         && !problem
@@ -1691,6 +1712,13 @@ fn append_candidate_phases(
     }
 }
 
+/// Element coverage alone cannot express ligand coverage: wateq4f knows
+/// both Ag and N(-3), but lacks silver ammines. Nitrate N(5) is not ammonia.
+fn needs_silver_ammine(elements: &[String]) -> bool {
+    elements.iter().any(|element| element == "Ag")
+        && elements.iter().any(|element| element == "N(-3)")
+}
+
 fn partition(vessel: &Vessel) -> Option<Problem> {
     let mut kgw = 0.0;
     let mut totals: Vec<(String, f64)> = Vec::new();
@@ -2740,6 +2768,13 @@ impl Equilibrator for PhreeqcEquilibrator {
             }
         }
 
+        // Separate sources can each use wateq4f while their combination
+        // needs silver ammines. Leave that new ligand problem to the
+        // ordinary target solve, which owns capability routing/provenance.
+        if needs_silver_ammine(&merged_elements) {
+            return None;
+        }
+
         // Candidate phases for the mixed solution, reconciled with the
         // routed database by the same `posed_phase` the direct path uses in
         // `setup_problem`. Keeping only the names the database defines
@@ -2940,6 +2975,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         vessel.refresh_pressure();
 
         events.extend(reference_complex_boundary(vessel, &cached.speciation));
+        events.extend(silver_ammine_inventory_boundary(vessel, &cached.speciation));
         // Composed BEFORE the record it goes into, because a reader has
         // to be told about it and the telling is an event.
         //
@@ -3684,6 +3720,8 @@ impl PhreeqcEquilibrator {
         // (the ion-interaction model is built for them: halite saturates at
         // the textbook 6.13 mol/kgw where wateq4f gives 6.50); wateq4f
         // otherwise.
+        // Silver ammines are a separate ligand capability: Ag and N(-3)
+        // exist in wateq4f, but their complexes are present only in minteq.
         // "Extended": any element wateq4f does not know (derived — e.g.
         // Acetate), plus phosphate as a documented exception (wateq4f has
         // the P element but no free H3PO4 species).
@@ -3696,7 +3734,15 @@ impl PhreeqcEquilibrator {
             .elements
             .iter()
             .all(|el| derived::index_for("pitzer").has_element(el));
-        let (db_tag, mut routing) = if needs_extended {
+        let (db_tag, mut routing) = if needs_silver_ammine(&problem.elements) {
+            (
+                "minteq.v4",
+                Phrase::bare(
+                    "routing.silver-ammine",
+                    "chosen because silver and reduced nitrogen require the silver-ammonia complexes present in minteq.v4.dat (NIST46.4 entries 204901 and 204902); elemental coverage in the default dataset does not include these ligand species",
+                ),
+            )
+        } else if needs_extended {
             (
                 "minteq.v4",
                 Phrase::bare(
@@ -5312,6 +5358,7 @@ impl PhreeqcEquilibrator {
         });
 
         events.extend(reference_complex_boundary(vessel, &speciation));
+        events.extend(silver_ammine_inventory_boundary(vessel, &speciation));
         events.extend(reactive_gas_boundary(vessel, problem));
         // A pe nothing constrains is not a small pe, it is a number the
         // solver happened to leave behind.
