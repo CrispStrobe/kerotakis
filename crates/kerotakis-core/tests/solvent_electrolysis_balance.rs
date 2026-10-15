@@ -207,6 +207,26 @@ fn solvent_electrolysis_refuses_overdraw_and_dry_endpoint_without_partial_mutati
     }
 }
 
+fn resolve_copper_activity(bench: &mut Bench, water_moles: f64) {
+    // Existing electrode admission requires a measured aqueous activity.
+    // This fixture supplies that admission state, not a new activity model.
+    bench.vessels[0].solution = Some(kerotakis_core::vessel::SolutionInfo {
+        scope: Default::default(),
+        solvent_kg: Some(water_moles * 18.015 / 1000.0),
+        ph: 4.0,
+        pe: None,
+        redox: vec![],
+        ionic_strength: 0.01,
+        provenance: None,
+        solvent_activity: None,
+        species: vec![kerotakis_core::vessel::SpeciesDetail {
+            name: "Cu+2".into(),
+            molality: 0.01,
+            activity: 0.01,
+        }],
+    });
+}
+
 #[test]
 fn metal_half_cell_refuses_water_overdraw_before_plating_or_changing_its_measurements() {
     for available in [ELECTRONS / 20.0, ELECTRONS / 2.0] {
@@ -215,27 +235,44 @@ fn metal_half_cell_refuses_water_overdraw_before_plating_or_changing_its_measure
         deposit(&mut bench, "Cu", 0.001, Phase::Solid);
         deposit(&mut bench, "Cu+2", 0.001, Phase::Aqueous);
         deposit(&mut bench, "SO4-2", 0.001, Phase::Aqueous);
-        // Existing electrode admission requires a measured aqueous activity.
-        // This fixture supplies that admission state, not a new activity model.
-        bench.vessels[0].solution = Some(kerotakis_core::vessel::SolutionInfo {
-            scope: Default::default(),
-            solvent_kg: Some(available * 18.015 / 1000.0),
-            ph: 4.0,
-            pe: None,
-            redox: vec![],
-            ionic_strength: 0.01,
-            provenance: None,
-            solvent_activity: None,
-            species: vec![kerotakis_core::vessel::SpeciesDetail {
-                name: "Cu+2".into(),
-                molality: 0.01,
-                activity: 0.01,
-            }],
-        });
+        resolve_copper_activity(&mut bench, available);
         assert!(
             displacement::electrode(bench.vessel(VesselId(0)).unwrap()).is_some(),
             "positive admission control for the metal-half-cell branch"
         );
         assert_water_dose_rejected(&mut bench);
+    }
+}
+
+#[test]
+fn admitted_metal_half_cells_book_only_the_uncancelled_anodic_protons() {
+    for copper in [0.00025, 0.002] {
+        let mut bench = water();
+        deposit(&mut bench, "Cu", 0.001, Phase::Solid);
+        deposit(&mut bench, "Cu+2", copper, Phase::Aqueous);
+        deposit(&mut bench, "SO4-2", copper, Phase::Aqueous);
+        resolve_copper_activity(&mut bench, 1.0);
+        let prediction = displacement::electrolyse(
+            bench.vessel(VesselId(0)).unwrap(),
+            AMPS,
+            ELECTRONS * displacement::FARADAY / AMPS,
+        )
+        .expect("actual metal half-cell admission");
+        let metal_electrons = (2.0 * copper).min(ELECTRONS);
+        close(prediction.electrons_to_metal, metal_electrons);
+        close(
+            prediction.electrons_to_hydrogen,
+            ELECTRONS - metal_electrons,
+        );
+        let events = run_and_close(&mut bench);
+        let vessel = bench.vessel(VesselId(0)).unwrap();
+        close(amount(vessel, "Cu"), 0.001 + metal_electrons / 2.0);
+        close(amount(vessel, "Cu+2"), copper - metal_electrons / 2.0);
+        close(amount(vessel, "SO4-2"), copper);
+        close(amount(vessel, "H+"), metal_electrons);
+        close(amount(vessel, "OH-"), 0.0);
+        close(amount(vessel, "water"), 1.0 - ELECTRONS / 2.0);
+        close(evolved(&events, "O2"), ELECTRONS / 4.0);
+        close(evolved(&events, "H2"), (ELECTRONS - metal_electrons) / 2.0);
     }
 }

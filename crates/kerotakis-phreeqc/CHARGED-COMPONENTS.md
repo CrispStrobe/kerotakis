@@ -69,11 +69,19 @@ and a real chloralkali bookkeeping defect: the no-metal hydrogen cathode was
 counted as zero water-reduction electrons when deriving water and hydroxide.
 The correction preserves original question forecasts and coverage classification.
 New controls exercise the actual standard stack, retained charge, water use and
-both sides of the diagnostic resolution. Five additional core regression groups
+both sides of the diagnostic resolution. Six additional core regression groups
 cover chloralkali, sulfate water splitting, absent/partial/full metal plating,
 and finite-water admission. Both electrode routes reject a dose before mutation
 if it would consume the last observable liquid water; dry-cell chemistry is
 outside this aqueous model. Corrected-source execution is pending.
+
+Reviewing successful doses in the separate existing-metal half-cell found a
+second defect: metal-ion withdrawal and oxygen evolution omitted the remaining
+anodic proton inventory. That route now books H+ equal to the metal-deposition
+electron share, with hydrogen co-evolution cancelling only its own share.
+Successful full-plating and metal-depletion controls include the pre-existing
+solid electrode and close hydrogen, oxygen and formal charge before any native
+aqueous tail. A pH adjustment is not a substitute for those missing atoms.
 
 The carbonated-water residual remains a separate element/readback accuracy
 gap. Its diagnostic allowance does not reconcile dissolved carbon with retained

@@ -4632,6 +4632,17 @@ impl Bench {
                             let v = self.vessel_mut(*vessel)?;
                             v.deposit(species.clone(), moles, Phase::Solid);
                             v.withdraw(&taken.0, taken.1);
+                            // Oxygen evolution supplies one proton per
+                            // electron, but cathodic hydrogen cancels its
+                            // share. Only the metal's electron share remains
+                            // acidic. Book it as matter before speciation;
+                            // a pH charge-balance adjustment cannot restore
+                            // missing hydrogen atoms or formal charge.
+                            v.deposit(
+                                SpeciesId::new("H+"),
+                                Moles(run.electrons_to_metal),
+                                Phase::Aqueous,
+                            );
                             events.push(Event::Electrolysed {
                                 vessel: *vessel,
                                 species: species.clone(),
@@ -4648,22 +4659,10 @@ impl Bench {
                                 cathode_moles: Some(moles),
                                 current_efficiency: run.current_efficiency,
                             });
-                            // The other electrode has to be somewhere.
-                            //
-                            // Taking copper out of solution leaves its
-                            // charge behind, and the solve balances that
-                            // with acid: the beaker goes from pH 4.27 to
-                            // 1.84 on 0.01 mol of electrons. That is the
-                            // right chemistry for an *inert* anode —
-                            // 2 H₂O → O₂ + 4 H⁺ + 4 e⁻, carbon rods, the
-                            // school cell — but the acid was appearing
-                            // without the oxygen that pays for it.
-                            //
-                            // Booked here so the ledger closes. A copper
-                            // anode instead dissolves to replace what
-                            // plates out, holds Cu²⁺ constant and makes no
-                            // acid at all; that is electrorefining and it
-                            // is a different cell, which the register says.
+                            // This route uses an inert anode: water supplies
+                            // oxygen and the net acid booked above. A copper
+                            // anode replacing the plated ions is a different
+                            // electrorefining model and is not inferred here.
                             if anode_evolves {
                                 let v = self.vessel_mut(*vessel)?;
                                 v.withdraw(&SpeciesId::new("water"), Moles(oxygen.0 * 2.0));
