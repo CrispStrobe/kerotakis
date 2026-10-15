@@ -1,5 +1,23 @@
 # Simulation API proposal — 2026-10-15
 
+The intended interface is a conventional FastAPI REST service, following
+[`stc-compiler`](https://github.com/CrispStrobe/stc-compiler/tree/a043daa58c2437f936f94971b3b0695c9c2510cb):
+its `app.py` serves FastAPI on Vercel, and `docs/index.html` on GitHub Pages
+calls that service. GitHub Pages hosts the client and documentation, not the
+Python execution service. Both Kerotakis web hosts can use one REST backend.
+
+Start with authenticated `POST /run` accepting `{ "script": "..." }` and
+returning bounded JSON observations, diagnostics, exit status and engine identity.
+Provide `GET /health` with deployed revision/engine identity, and generated
+OpenAPI `/docs`. Run one isolated CLI process per request with strict admission
+and execution limits. A synchronous single-script endpoint is sufficient to
+start; the asynchronous job routes below are an extension for larger batches,
+not a prerequisite. API clients should send credentials at runtime; shared
+credentials must not be embedded in either static site's assets. Restrict
+browser origins explicitly while enforcing authorization independently of CORS.
+Do not copy the reference service's permissive CORS or per-instance rate guard
+as a substitute for authenticated, fleet-wide admission control.
+
 The current web deployment is a static payload. `web/app/src/lib/host/WorkerHost.ts`
 starts a browser worker; `engineWorker.ts` loads the bench WebAssembly and
 IPhreeQC there. No server simulation route exists in the inspected source.
