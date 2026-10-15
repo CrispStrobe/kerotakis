@@ -245,7 +245,7 @@ The corrected head `077cb067` fixes electrode accounting, refuses finite-water
 overdraw before mutation and declares the charge diagnostic's reporting allowance.
 Eleven aqueous and five core regression groups await fresh hosted execution;
 formatting, diff checks and independent source review passed. See the
-[first failure, contracts and remaining limits](../crates/kerotakis-phreeqc/CHARGED-COMPONENTS.md).
+[first failure, contracts and remaining limits](https://github.com/CrispStrobe/kerotakis/blob/077cb067bf0ab81e0cde6b277e3a149e2bd5ba4b/crates/kerotakis-phreeqc/CHARGED-COMPONENTS.md).
 No frozen forecast or conservation tolerance changed. Carbon/gas elemental
 reconciliation remains a separate accuracy gap.
 
