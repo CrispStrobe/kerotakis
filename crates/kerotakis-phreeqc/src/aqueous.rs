@@ -6157,7 +6157,7 @@ fn build_mix_input(
     let temp_a_c = vessel_a.temperature.to_celsius();
     writeln!(input, "SOLUTION 1").unwrap();
     writeln!(input, "    units     mol/kgw").unwrap();
-    writeln!(input, "    temp      {temp_a_c:.4}").unwrap();
+    writeln!(input, "    temp      {temp_a_c:.12e}").unwrap();
     writeln!(input, "    pH        7  charge").unwrap();
     writeln!(input, "    water     {:.9}", problem_a.kgw).unwrap();
     if vessel_a.uses_atmospheric_reservoir()
@@ -6178,7 +6178,7 @@ fn build_mix_input(
     let temp_b_c = vessel_b.temperature.to_celsius();
     writeln!(input, "SOLUTION 2").unwrap();
     writeln!(input, "    units     mol/kgw").unwrap();
-    writeln!(input, "    temp      {temp_b_c:.4}").unwrap();
+    writeln!(input, "    temp      {temp_b_c:.12e}").unwrap();
     writeln!(input, "    pH        7  charge").unwrap();
     writeln!(input, "    water     {:.9}", problem_b.kgw).unwrap();
     if vessel_b.uses_atmospheric_reservoir()
@@ -6376,7 +6376,7 @@ fn build_input_at(
     let temp_c = vessel.temperature.to_celsius();
     writeln!(input, "SOLUTION 1").unwrap();
     writeln!(input, "    units     mol/kgw").unwrap();
-    writeln!(input, "    temp      {temp_c:.4}").unwrap();
+    writeln!(input, "    temp      {temp_c:.12e}").unwrap();
     writeln!(input, "    pH        7  charge").unwrap();
     writeln!(input, "    water     {:.9}", problem.kgw).unwrap();
     match couple {
@@ -6449,7 +6449,12 @@ fn build_input_at(
         // of carbon simply gone, and the sealed-mass lesson drifted 0.04 g
         // away from the conservation it teaches. Invisible for as long as
         // nothing moved a sealed vessel's temperature.
-        writeln!(input, "    -temperature {temp_c:.4}").unwrap();
+        // partition() converts owned moles to partial pressure at the
+        // vessel's unrounded temperature. Four decimal Celsius places here
+        // changed the initializer's moles by T_raw/T_written (1.26e-7 in the
+        // frozen carbonated-water opening); use the same precision as the
+        // solution temperature so this conversion does not create carbon.
+        writeln!(input, "    -temperature {temp_c:.12e}").unwrap();
         match vessel.headspace {
             Headspace::Sealed { volume } => {
                 writeln!(input, "    -fixed_volume").unwrap();
@@ -7049,3 +7054,81 @@ mod solid_solution_raw_readback_contracts_external_raw;
 #[cfg(test)]
 #[path = "../tests/solid_solution_phase_budget/refusal_atomicity.rs"]
 mod solid_solution_raw_readback_contracts_refusal_atomicity;
+
+#[cfg(test)]
+mod finite_gas_temperature_serialization_tests {
+    use super::*;
+
+    #[test]
+    fn mixed_solutions_keep_each_fractional_input_temperature() {
+        let mut a = Vessel::new(kerotakis_core::VesselId(0), "solution A");
+        a.temperature = Kelvin(298.1500375477956);
+        a.deposit(SpeciesId::new("water"), Moles(5.55), Phase::Liquid);
+        let mut b = a.clone();
+        b.temperature = Kelvin(298.5820854655798);
+        let problem_a = partition(&a).unwrap();
+        let problem_b = partition(&b).unwrap();
+        let input = build_mix_input(
+            &a, &problem_a, &b, &problem_b, 1.0, 1.0, "wateq4f", &problem_a,
+        );
+        let temperatures: Vec<f64> = input
+            .lines()
+            .filter_map(|line| line.trim().strip_prefix("temp "))
+            .map(|value| value.trim().parse().unwrap())
+            .collect();
+        assert_eq!(temperatures.len(), 2);
+        for (written, vessel) in temperatures.iter().zip([a, b]) {
+            assert!((written + 273.15 - vessel.temperature.0).abs() < 1e-11);
+        }
+    }
+
+    #[test]
+    fn gas_initializer_round_trips_owned_moles_at_recorded_fractional_temperatures() {
+        for temperature in [298.1500375477956, 298.5820854655798, 298.14965445166615] {
+            let mut vessel = Vessel::new(kerotakis_core::VesselId(0), "finite gas input");
+            vessel.temperature = Kelvin(temperature);
+            vessel.headspace = Headspace::Sealed {
+                volume: kerotakis_core::Liters(0.1),
+            };
+            vessel.contents.push(Portion {
+                species: SpeciesId::new("water"),
+                moles: Moles(5.55),
+                phase: Phase::Liquid,
+            });
+            vessel.contents.push(Portion {
+                species: SpeciesId::new("CO2"),
+                moles: Moles(0.02),
+                phase: Phase::Gas,
+            });
+            let problem = partition(&vessel).unwrap();
+            let input = build_input(&vessel, &problem, "wateq4f");
+            let written_celsius: f64 = input
+                .lines()
+                .find_map(|line| line.trim().strip_prefix("-temperature "))
+                .unwrap()
+                .trim()
+                .parse()
+                .unwrap();
+            let written_solution: f64 = input
+                .lines()
+                .find_map(|line| line.trim().strip_prefix("temp "))
+                .unwrap()
+                .trim()
+                .parse()
+                .unwrap();
+            assert_eq!(written_celsius, written_solution);
+            let partial_pressure: f64 = input
+                .lines()
+                .find_map(|line| line.trim().strip_prefix("CO2(g) "))
+                .unwrap()
+                .trim()
+                .parse()
+                .unwrap();
+            let initialized = partial_pressure * 0.1 / (0.082_059_7 * (written_celsius + 273.15));
+            assert!(
+                (initialized - 0.02).abs() < 1e-14,
+                "T={temperature}: {initialized}"
+            );
+        }
+    }
+}
