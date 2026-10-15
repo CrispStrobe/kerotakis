@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "scope": "Four source-informed paired CLI naming/identity engineering controls (eight executions); not new blind chemistry or calibration.",
+  "candidate_head": "7f7d1f37df1cf0e1e53025b3660bb69afd62e28b",
+  "source_binding_status": "Execution prohibited until a separate artifact/binary/lock binding is frozen and verified for this candidate or an explicitly reviewed descendant.",
+  "no_execution_claim": true,
+  "pairs": [
+    {
+      "id": "01",
+      "name": "oxygen",
+      "canonical_key": "O2",
+      "expected_phase": "gas",
+      "scripts": {
+        "canonical": "scripts/01-canonical.lab",
+        "named": "scripts/01-named.lab"
+      },
+      "expectations": {
+        "fresh_sealed_vessel": "Both variants retain the sealed 1 L headspace throughout; compare retained species against the initial inspect after sealing, including trapped ambient gas.",
+        "canonical_identity": "Stock/add operators, relevant events and saved portions use only the canonical key.",
+        "finite_stock": "Stock exactly 0.01 mol; first dose consumes 0.0025 mol. The 0.01 mol request reports stock_exhausted with remaining 0.0075 mol and requested 0.01 mol, without changing the inspected vessel.",
+        "final_retained_increment_mol": 0.005,
+        "increment_absolute_tolerance_mol": 1e-10,
+        "final_phase": "gas",
+        "pair_equivalence": "Compare semantic operators, events and final physical vessel snapshots; ignore only documented nonphysical timestamps/sequence metadata. Never ignore divergent amounts, identities, phases, pressure, boundary or temperature.",
+        "process": "Both scripts exit zero, produce complete resolved observations, and do not time out. Process success alone does not satisfy the inventory controls."
+      }
+    },
+    {
+      "id": "02",
+      "name": "nitrogen",
+      "canonical_key": "N2",
+      "expected_phase": "gas",
+      "scripts": {
+        "canonical": "scripts/02-canonical.lab",
+        "named": "scripts/02-named.lab"
+      },
+      "expectations": {
+        "fresh_sealed_vessel": "Both variants retain the sealed 1 L headspace throughout; compare retained species against the initial inspect after sealing, including trapped ambient gas.",
+        "canonical_identity": "Stock/add operators, relevant events and saved portions use only the canonical key.",
+        "finite_stock": "Stock exactly 0.01 mol; first dose consumes 0.0025 mol. The 0.01 mol request reports stock_exhausted with remaining 0.0075 mol and requested 0.01 mol, without changing the inspected vessel.",
+        "final_retained_increment_mol": 0.005,
+        "increment_absolute_tolerance_mol": 1e-10,
+        "final_phase": "gas",
+        "pair_equivalence": "Compare semantic operators, events and final physical vessel snapshots; ignore only documented nonphysical timestamps/sequence metadata. Never ignore divergent amounts, identities, phases, pressure, boundary or temperature.",
+        "process": "Both scripts exit zero, produce complete resolved observations, and do not time out. Process success alone does not satisfy the inventory controls."
+      }
+    },
+    {
+      "id": "03",
+      "name": "carbon dioxide",
+      "canonical_key": "CO2",
+      "expected_phase": "gas",
+      "scripts": {
+        "canonical": "scripts/03-canonical.lab",
+        "named": "scripts/03-named.lab"
+      },
+      "expectations": {
+        "fresh_sealed_vessel": "Both variants retain the sealed 1 L headspace throughout; compare retained species against the initial inspect after sealing, including trapped ambient gas.",
+        "canonical_identity": "Stock/add operators, relevant events and saved portions use only the canonical key.",
+        "finite_stock": "Stock exactly 0.01 mol; first dose consumes 0.0025 mol. The 0.01 mol request reports stock_exhausted with remaining 0.0075 mol and requested 0.01 mol, without changing the inspected vessel.",
+        "final_retained_increment_mol": 0.005,
+        "increment_absolute_tolerance_mol": 1e-10,
+        "final_phase": "gas",
+        "pair_equivalence": "Compare semantic operators, events and final physical vessel snapshots; ignore only documented nonphysical timestamps/sequence metadata. Never ignore divergent amounts, identities, phases, pressure, boundary or temperature.",
+        "process": "Both scripts exit zero, produce complete resolved observations, and do not time out. Process success alone does not satisfy the inventory controls."
+      }
+    },
+    {
+      "id": "04",
+      "name": "sodium chloride",
+      "canonical_key": "NaCl",
+      "expected_phase": "solid",
+      "scripts": {
+        "canonical": "scripts/04-canonical.lab",
+        "named": "scripts/04-named.lab"
+      },
+      "expectations": {
+        "fresh_sealed_vessel": "Both variants retain the sealed 1 L headspace throughout; compare retained species against the initial inspect after sealing, including trapped ambient gas.",
+        "canonical_identity": "Stock/add operators, relevant events and saved portions use only the canonical key.",
+        "finite_stock": "Stock exactly 0.01 mol; first dose consumes 0.0025 mol. The 0.01 mol request reports stock_exhausted with remaining 0.0075 mol and requested 0.01 mol, without changing the inspected vessel.",
+        "final_retained_increment_mol": 0.005,
+        "increment_absolute_tolerance_mol": 1e-10,
+        "final_phase": "solid",
+        "pair_equivalence": "Compare semantic operators, events and final physical vessel snapshots; ignore only documented nonphysical timestamps/sequence metadata. Never ignore divergent amounts, identities, phases, pressure, boundary or temperature.",
+        "process": "Both scripts exit zero, produce complete resolved observations, and do not time out. Process success alone does not satisfy the inventory controls."
+      }
+    }
+  ],
+  "limits": [
+    "Preserve first failures and partial outputs.",
+    "CLI bench JSON need not expose the stock ledger; use actual shelf/exhaustion events and retained vessel increments, not an invented stock projection.",
+    "A supported alias that parses differently or bypasses a finite bottle fails this engineering contract; do not relabel it a scientific pass.",
+    "This candidate does not add new reaction support; original fifty and original normalized forty outcomes remain separate."
+  ]
+}

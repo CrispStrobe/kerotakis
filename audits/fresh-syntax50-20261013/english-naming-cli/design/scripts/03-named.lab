@@ -1,0 +1,10 @@
+# Reviewed English name control: named, CO2
+seal v1 1L
+inspect v1
+stock carbon dioxide 0.01mol
+add v1 carbon dioxide 0.0025mol @25C
+inspect v1
+add v1 CO2 0.01mol @25C
+inspect v1
+add v1 CO2 0.0025mol @25C
+inspect v1

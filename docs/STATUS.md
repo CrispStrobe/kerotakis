@@ -53,7 +53,10 @@ Detailed deliverables and prerequisites are in the
 
 A [bounded naming-alias lane](naming-alias-lane.md) is scoped from integrated
 source: begin with reviewed English names, preserve canonical identity, and
-reject material/grammar/phase ambiguities. No new aliases are implemented yet.
+reject material/grammar/phase ambiguities. [PR789](https://github.com/CrispStrobe/kerotakis/pull/789)
+now contains the four-name candidate and parser-derived Story kits. Eleven native
+test groups and fifteen app cases are prepared; actual CI/fleet/CLI acceptance
+remains pending. The candidate is a draft and is not integrated.
 
 ## PR delivery and resources
 

@@ -1,9 +1,15 @@
 # Naming aliases: bounded next lane
 
-Status: source review complete; runtime implementation and acceptance pending.
-This usability lane is queued alongside the boundary/help work after the active
-forty-case assessment and its demonstrated physics repairs. It does not replace
-the approved order in [the agenda](improvement-agenda-20261014.md).
+Status: [PR789](https://github.com/CrispStrobe/kerotakis/pull/789) is a draft
+candidate at `7f7d1f37`, prepared while the original forty wait for a runner.
+The approved physical assessment/repair order is unchanged. Rust formatting and
+diff checks pass; independent source review closed the input-pack collision and
+truncated mission-kit grant findings. Eleven native test groups and fifteen app
+cases are prepared but have not executed. CI and the applicable own fleet are
+queued. Four separately frozen CLI pairs await a verified candidate executable.
+See [candidate binding](../audits/fresh-syntax50-20261013/english-naming-candidate-preparation.json)
+and [CLI acceptance forecasts](../audits/fresh-syntax50-20261013/english-naming-cli/design/expectations.json).
+Do not integrate before source-bound acceptance. Use auto-merge once review-ready.
 
 ## Current behavior and benefit
 
@@ -38,7 +44,7 @@ placeholders. Preserve these distinctions and existing canonical key precedence.
    A recipe name must not silently become a pure species. Preserve formula case,
    charge, hydrate, phase and concentration distinctions. Do not auto-admit all
    display names/formulas or use fuzzy matching to execute a command.
-3. Start with the four candidate mappings above. Freeze expected canonical
+3. The current candidate starts with the four mappings above. Freeze expected canonical
    operators and amounts before execution. Support English multiword species
    names in the species argument position without rewriting vessel IDs, filenames,
    comments, labels or unrelated grammar. Preserve German/French behavior and
