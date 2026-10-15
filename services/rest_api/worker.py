@@ -23,10 +23,16 @@ if direct:
     module = types.ModuleType("kero_runtime_sandbox")
     importlib.machinery.SourceFileLoader(module.__name__, str(sandbox_path)).exec_module(module)
     restrict = module.restrict
-    binary, script, libraries = sys.argv[2:]
+    binary, script, libraries, loader = sys.argv[2:]
     try:
-        restrict(binary, script, (libraries,) if libraries else ())
-        os.execv(binary, [binary, "run", script, "--json"])
+        restrict(binary, script, (libraries,) if libraries else (), loader or None)
+        if loader:
+            os.execv(loader, [loader, "--library-path", libraries, binary, "run", script, "--json"])
+        else:
+            environment = dict(os.environ)
+            if libraries:
+                environment["LD_LIBRARY_PATH"] = libraries
+            os.execve(binary, [binary, "run", script, "--json"], environment)
     except Exception:
         os.write(2, b"sandbox: direct execution restrictions unavailable\n")
         os._exit(125)

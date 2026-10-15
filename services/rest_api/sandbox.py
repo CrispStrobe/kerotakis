@@ -9,7 +9,7 @@ from pathlib import Path
 import platform
 
 
-def restrict(binary, script, libraries=()):
+def restrict(binary, script, libraries=(), loader=None):
     if platform.machine() != "x86_64":
         raise RuntimeError("Unsupported sandbox architecture")
     libc = ctypes.CDLL(None, use_errno=True)
@@ -45,6 +45,8 @@ def restrict(binary, script, libraries=()):
         raise RuntimeError("Cannot create filesystem restrictions")
     try:
         paths = [(binary, 5), (script, 4)]  # EXECUTE|READ_FILE, READ_FILE.
+        if loader:
+            paths.append((loader, 5))
         paths += [(p, 12) for p in ("/lib", "/lib64", "/usr/lib", *libraries) if Path(p).exists()]
         for loader in ("/lib64/ld-linux-x86-64.so.2", "/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2"):
             if Path(loader).exists():

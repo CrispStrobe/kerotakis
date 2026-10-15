@@ -357,6 +357,15 @@ int main(int argc,char **argv) {
         result = await api.run_engine(cfg, "wait 998s")
         self.assertEqual(result["execution_status"], "output_limit")
 
+    async def test_direct_engine_with_explicit_matching_elf_loader(self):
+        cfg = self.cfg()
+        cfg.mode = "vercel"
+        cfg.loader = "/lib64/ld-linux-x86-64.so.2"
+        cfg.libraries = "/lib/x86_64-linux-gnu"
+        result = await api.run_engine(cfg, "inspect v1")
+        self.assertEqual(result["execution_status"], "completed")
+        self.assertFalse(result["observations"][0]["host_passwd_visible"])
+
 
 if __name__ == "__main__":
     unittest.main()

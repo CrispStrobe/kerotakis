@@ -71,6 +71,7 @@ class Settings:
     engine: dict = field(default_factory=dict)
     binary: str = ""
     libraries: str = ""
+    loader: str = ""
     state: str = ""
     upstream: str = ""
     redis_url: str = ""
@@ -118,6 +119,9 @@ class Settings:
                     for name, digest in manifest.get("libraries", {}).items():
                         require(isinstance(name, str) and Path(name).name == name)
                         require(hashlib.sha256((assets / "lib" / name).read_bytes()).hexdigest() == digest)
+                    if manifest.get("loader"):
+                        require(manifest["loader"] in manifest.get("libraries", {}))
+                        cfg.loader = str(assets / "lib" / manifest["loader"])
             elif cfg.mode == "gateway":
                 url = urlsplit(cfg.upstream)
                 require(url.scheme == "https" and url.hostname and not url.username and not url.password)
@@ -310,9 +314,7 @@ async def run_engine(cfg: Settings, script: str) -> dict:
         arguments = [cfg.binary, str(path)]
         environment = {"PATH": "/usr/bin:/bin", "LANG": "C.UTF-8", "RAYON_NUM_THREADS": "1"}
         if cfg.mode == "vercel":
-            arguments = ["--vercel", *arguments, cfg.libraries]
-            if cfg.libraries:
-                environment["LD_LIBRARY_PATH"] = cfg.libraries
+            arguments = ["--vercel", *arguments, cfg.libraries, cfg.loader]
         spawning = asyncio.create_task(asyncio.create_subprocess_exec(sys.executable, "-I", str(wrapper), *arguments,
             stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE,
             stdin=asyncio.subprocess.DEVNULL, cwd=directory, env=environment, start_new_session=True))

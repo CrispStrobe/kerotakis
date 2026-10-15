@@ -45,6 +45,12 @@ container digest and Rust version. The source mount is read-only and the build
 uses two CPU jobs, four GiB container memory and a separate target directory.
 This is a hosted build; do not run it locally without the approved headroom.
 
+For a deployment without rebuilding, `tools/bundle-rest-native.py` packages an
+already authenticated executable with its matching ELF loader and shared
+libraries. The original source/binary/lock identity is retained; it is not
+relabelled as the API service commit. The Python worker uses the bundled loader
+only after installing restrictions, leaving its own runtime unchanged.
+
 `tools/package-rest-api.py` adds one Python function at `api/index.py` and
 immutable native/runtime assets. Only `/api/*` is rewritten to the function;
 existing static routes and caching headers remain. The packaged API revision

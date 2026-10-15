@@ -52,6 +52,10 @@ if len(sys.argv) > 2:
         if Path(name).name != name or hashlib.sha256((artifacts / "lib" / name).read_bytes()).hexdigest() != digest:
             raise SystemExit("Invalid native library")
         shutil.copyfile(artifacts / "lib" / name, assets / "lib" / name)
+    if manifest.get("loader"):
+        if manifest["loader"] not in manifest.get("libraries", {}):
+            raise SystemExit("Unverified native loader")
+        (assets / "lib" / manifest["loader"]).chmod(0o755)
     shutil.copyfile(artifacts / "kero", assets / "kero")
     (assets / "kero").chmod(0o755)
     shutil.copyfile(artifacts / "manifest.json", assets / "manifest.json")
