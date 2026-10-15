@@ -524,9 +524,20 @@ fn loaded_index(
 pub fn register_loaded(list: Vec<SpeciesData>) -> (usize, usize) {
     let mut added = 0;
     let mut skipped = 0;
+    // Check material reservations before taking the species write lock.
+    let candidates = list
+        .into_iter()
+        .filter(|s| {
+            let reserved = s.key.contains('@') || crate::material::name_is_reserved(s.key);
+            if reserved {
+                skipped += 1;
+            }
+            !reserved
+        })
+        .collect::<Vec<_>>();
     let mut map = loaded_index().write().expect("loaded-species lock");
-    for s in list {
-        if s.key.contains('@') || lookup_index().contains_key(s.key) || map.contains_key(s.key) {
+    for s in candidates {
+        if lookup_index().contains_key(s.key) || map.contains_key(s.key) {
             skipped += 1;
             continue;
         }

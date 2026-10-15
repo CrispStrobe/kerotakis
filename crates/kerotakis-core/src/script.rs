@@ -645,6 +645,15 @@ pub fn parse_legacy_command(line: &str, locale: Locale) -> Result<Command, Parse
         _ => None,
     };
     if let Some(index) = ingredient.filter(|index| words.len() > *index + 1) {
+        // Migration must retain the normal parser's pure-species priority.
+        // This also protects a future archive from names claimed before it existed.
+        if !words[index].contains('@')
+            && (species::lookup_key(words[index]).is_some()
+                || (words.first() == Some(&"add")
+                    && crate::nuclide::lookup_notation(words[index]).is_some()))
+        {
+            return parse_command(line, locale);
+        }
         if !words[index].contains('@') {
             for end in (index + 1..words.len()).rev() {
                 if let Some(recipe) = material::lookup_legacy(&words[index..end].join(" "), None) {

@@ -64,8 +64,12 @@ fn pinned_material_alias_uses_the_canonical_bottle_and_finite_stock() {
 }
 
 #[test]
-fn loaded_species_cannot_hijack_material_revision_tokens() {
+fn loaded_species_cannot_hijack_material_names_or_revision_tokens() {
     for key in [
+        "whole_milk",
+        "watercolour_blue",
+        "blue_watercolor",
+        "watercolour_yellow",
         "whole_milk@1",
         "watercolour_blue@1",
         "watercolour_blue@2",

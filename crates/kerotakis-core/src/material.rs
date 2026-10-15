@@ -66,6 +66,21 @@ fn loaded() -> &'static RwLock<Vec<MaterialRecipe>> {
     RECIPES.get_or_init(|| RwLock::new(Vec::new()))
 }
 
+/// Names retained by material recipes cannot become pure-species pack keys.
+/// Include archived names so loading a pack cannot reinterpret saved commands.
+pub(crate) fn name_is_reserved(query: &str) -> bool {
+    builtins()
+        .iter()
+        .chain(historical())
+        .chain(
+            loaded()
+                .read()
+                .unwrap_or_else(|poisoned| poisoned.into_inner())
+                .iter(),
+        )
+        .any(|recipe| recipe.matches(query, None))
+}
+
 pub fn lookup(query: &str, language: Option<&str>) -> Option<MaterialRecipe> {
     builtins()
         .iter()

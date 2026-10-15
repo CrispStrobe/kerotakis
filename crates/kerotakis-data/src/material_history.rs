@@ -105,6 +105,14 @@ impl MaterialRecipeHistory {
                 );
             }
         }
+        for recipe in &self.recipes {
+            if !defaults.contains(recipe.id.as_str()) {
+                issue(
+                    "legacy_defaults",
+                    "missing legacy default for archived identity",
+                );
+            }
+        }
         if issues.is_empty() {
             Ok(())
         } else {
@@ -223,6 +231,23 @@ mod tests {
                 history.legacy_defaults[0].version = 99;
             }
             assert!(history.validate_against(&registry).is_err());
+        }
+    }
+
+    #[test]
+    fn history_rejects_incomplete_legacy_defaults() {
+        for clear_all in [false, true] {
+            let (registry, mut history) = fixtures();
+            if clear_all {
+                history.legacy_defaults.clear();
+            } else {
+                history.legacy_defaults.remove(0);
+            }
+            let error = history.validate_against(&registry).unwrap_err();
+            assert!(error.issues.iter().any(|issue| {
+                issue.path.ends_with("legacy_defaults")
+                    && issue.detail == "missing legacy default for archived identity"
+            }));
         }
     }
 
