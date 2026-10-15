@@ -96,6 +96,20 @@ describe("the pour hands off exactly what it emits", () => {
     expect(p.deposited).toBeCloseTo(1.5, 6);
   });
 
+  it("even a large integration step deposits within the liquid rather than below its floor", () => {
+    const v = sim();
+    const p = startPour(0, 1, 0.5, 1);
+    const before = fieldTotal(v.grid, 0);
+    const rand = mulberry32(19);
+    for (let guard = 0; guard < 100 && !pourDone(p); guard++) stepPour(p, v, 1, rand);
+    expect(pourDone(p)).toBe(true);
+    expect(fieldTotal(v.grid, 0) - before).toBeCloseTo(1, 5);
+    for (let y = 0; y < v.grid.h; y++) {
+      if (y >= v.liquidTopRow && y <= v.liquidBottomRow) continue;
+      expect(v.grid.fields[0]!.slice(y * v.grid.w, (y + 1) * v.grid.w).every((amount) => amount === 0)).toBe(true);
+    }
+  });
+
   it("mass never lands in a wall cell", () => {
     const v = sim();
     // Wall off the left third BEFORE seeding would matter: rebuild the
