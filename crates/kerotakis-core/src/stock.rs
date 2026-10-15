@@ -20,6 +20,7 @@
 //! opaque snapshot token serialises — so undo, redo and scrub restore the
 //! bottle level with the same round-trip that restores the vessels.
 
+use std::borrow::Cow;
 use std::collections::BTreeMap;
 
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
@@ -103,11 +104,15 @@ pub fn stock_unit(key: &str) -> Option<StockUnit> {
     })
 }
 
-fn canonical_stock_key(key: &str) -> String {
+fn canonical_stock_key(key: &str) -> Cow<'_, str> {
     let key = species::canonical_input_key(key);
+    // Pure-species bottle operations retain their borrowed identity fast path.
+    if !key.contains('@') && species::lookup_key(key).is_some() {
+        return Cow::Borrowed(key);
+    }
     material::lookup_input(key, None)
-        .map(|recipe| material::revision_key(&recipe))
-        .unwrap_or_else(|| key.to_string())
+        .map(|recipe| Cow::Owned(material::revision_key(&recipe)))
+        .unwrap_or(Cow::Borrowed(key))
 }
 
 /// Old stored operators and ledgers predate explicit material recipe pins.
@@ -117,7 +122,7 @@ pub(crate) fn legacy_stock_key(key: &str) -> String {
             return material::revision_key(&recipe);
         }
     }
-    canonical_stock_key(key)
+    canonical_stock_key(key).into_owned()
 }
 
 /// The authoritative balance; the public StockAmount is only its scalar view.
@@ -176,12 +181,13 @@ impl StockLedger {
     pub fn stock(&mut self, key: &str, amount: f64, unit: StockUnit) {
         let key = canonical_stock_key(key);
         let amount = Amount::new(amount).unwrap_or_else(|_| Amount::new(0.0).unwrap());
-        self.bottles.insert(key, OwnedStockAmount { amount, unit });
+        self.bottles
+            .insert(key.into_owned(), OwnedStockAmount { amount, unit });
     }
 
     pub fn unlimit(&mut self, key: &str) {
         let key = canonical_stock_key(key);
-        self.bottles.remove(&key);
+        self.bottles.remove(key.as_ref());
     }
 
     /// Rounded display value. In compensated mode a debit can change the
@@ -189,7 +195,7 @@ impl StockLedger {
     pub fn remaining(&self, key: &str) -> Option<StockAmount> {
         let key = canonical_stock_key(key);
         self.bottles
-            .get(&key)
+            .get(key.as_ref())
             .copied()
             .map(OwnedStockAmount::projected)
     }
@@ -197,7 +203,7 @@ impl StockLedger {
     /// Complete authoritative amount, including its signed low component.
     pub fn remaining_exact(&self, key: &str) -> Option<Amount> {
         let key = canonical_stock_key(key);
-        self.bottles.get(&key).map(|bottle| bottle.amount)
+        self.bottles.get(key.as_ref()).map(|bottle| bottle.amount)
     }
 
     pub fn entries(&self) -> impl Iterator<Item = (&str, StockAmount)> + '_ {
@@ -218,7 +224,7 @@ impl StockLedger {
         if amount == 0.0 {
             return Ok(());
         }
-        let Some(bottle) = self.bottles.get_mut(&key) else {
+        let Some(bottle) = self.bottles.get_mut(key.as_ref()) else {
             return Ok(());
         };
         let before = bottle.amount;
