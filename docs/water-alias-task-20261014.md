@@ -1,19 +1,27 @@
 # Canonical water input alias — implementation lane
 
 Active after thermal boundary PR786 integrated. Draft PR787 now contains the
-core and app follow-up at `98051f7b` on main `8a6aa68e`. The
-[application receipt](../audits/fresh-syntax50-20261013/water-alias-app-followup-application.json)
-records eleven files and new exact-source CI `38627469049` / own fleet
-`38627469041`. [Current macOS native validation passed](../audits/fresh-syntax50-20261013/water-alias-app-candidate-native-validation.json),
-including all nine alias regressions, workspace/CODEX/coverage. The
-[new own build is source-associated](../audits/fresh-syntax50-20261013/water-alias-app-candidate-own-build-metadata.json);
-[archive/binary bytes are verified](../audits/fresh-syntax50-20261013/water-alias-app-candidate-artifact-review.json).
-The executable and captured lock match the earlier verified CLI byte for byte.
-Remaining CI and full fleet are pending.
-The [first app suite](../audits/fresh-syntax50-20261013/water-alias-app-first-failure.json)
-ran 1,637 tests: 1,636 passed and one visualization coverage guard failed.
-The seven new regressions were included; individual passing names are not printed
-by the dot reporter. A correction at `d5c6cecf` is staged and unexecuted.
+corrected core and app follow-up at `d5c6cecf` on main `8a6aa68e`. The
+[guarded application](../audits/fresh-syntax50-20261013/water-alias-accounting-followup-application.json)
+records eleven files and fresh exact-source CI `38673902939` / own fleet
+`38673902811`. Eight new app regressions and full corrected-source acceptance
+remain pending.
+
+Previous source `98051f7b` [completed all 33 own-fleet jobs](../audits/fresh-syntax50-20261013/water-alias-app-candidate-completion.json).
+Its CI completed with 23 passes, two failures and one skip. Both failures were
+the same visualization guard scanning non-visual stock accounting as drawing.
+The first all-app suite had 1,636 passes and one failure, with the seven original
+new regressions included. Passing names are not printed by the dot reporter.
+The applied correction moves the predicate into `storyStock.ts`, keeps the
+original guard and scene classifications, and adds one direct predicate test.
+Preserve the [first failure](../audits/fresh-syntax50-20261013/water-alias-app-first-failure.json)
+and both original CI job logs.
+
+The previous source's [nine native regressions and workspace/CODEX/coverage passed](../audits/fresh-syntax50-20261013/water-alias-app-candidate-native-validation.json).
+Its [own archive and binary are verified](../audits/fresh-syntax50-20261013/water-alias-app-candidate-artifact-review.json),
+and executable/lock bytes equal the earlier verified CLI. Core/CLI/WASM source
+is unchanged by the app accounting correction. Keep each receipt's actual source
+binding; this supports kernel evidence without claiming corrected app acceptance.
 
 The previous core candidate `e4fb5e33` passed all nine native regressions,
 workspace/CODEX/coverage checks, full CI and all 33 own-fleet jobs. Its corrected
@@ -102,20 +110,17 @@ staged predicate; the correction now uses the engine's `titrated.total_volume`
 and the fake emits the real event shape. Positive, zero-volume and unsuccessful
 responses have separate controls.
 
-1. The previous-source CI and own fleet completed successfully, and PR787 was
-   fast-forwarded to `98051f7b` after exact head/base/main guards. Keep those
-   receipts and the [application record](../audits/fresh-syntax50-20261013/water-alias-app-followup-application.json);
-   do not repeat that completed transition.
-2. Preserve the [first app failure](../audits/fresh-syntax50-20261013/water-alias-app-first-failure.json)
-   at `98051f7b`. Its visualization guard scanned non-visual stock event comparisons
-   as drawing handlers. Correction `d5c6cecf` moves the predicate to `storyStock.ts`
-   and adds a direct predicate test without changing the original guard or the
-   seven prior regressions. The combined scope stays eleven files.
-3. Let CI `38627469049` and own fleet `38627469041` finish. Then refresh
-   head/base/main, fast-forward PR787 to the reviewed staged descendant and
-   require fresh all-app/type/browser/native/full-fleet acceptance. The added
-   eighth app regression is unexecuted. Do not cancel or duplicate active runs;
-   do not merge the known-failing `98051f7b` candidate.
+1. Both previous runs finished, and PR787 was normally fast-forwarded from
+   `98051f7b` to `d5c6cecf` after fresh head/base/main guards. Keep the
+   [application record](../audits/fresh-syntax50-20261013/water-alias-accounting-followup-application.json)
+   and previous completion/failure receipts; do not repeat that transition.
+2. Monitor fresh CI `38673902939` and own fleet `38673902811`. Preserve any
+   first failure and its exact source/log before fixing it. Do not cancel or
+   duplicate active candidate runs.
+3. Require actual corrected-source all-app Vitest, including all eight new app
+   regressions and the unchanged visualization guard, plus type/browser/native
+   checks and complete own-fleet acceptance. Confirm source/tree associations;
+   previous native/CLI passes do not establish current app acceptance.
 4. Review the [two corrected CLI passes](../audits/fresh-syntax50-20261013/water-alias-cli-followup-outcomes.json)
    and retain their raw stream/report bindings. These controls are complete;
    do not repeat them on unchanged source. Their source remains `e4fb5e33`;

@@ -60,19 +60,21 @@ recorded separately. [All 25 CI jobs now passed](pr786-current-ci-completion.jso
 including Ubuntu and browser validation. All 33 own-fleet jobs also passed; the repair is merged.
 
 [Draft PR787](https://github.com/CrispStrobe/kerotakis/pull/787) now contains
-the core and app follow-up at `98051f7b` on integrated main `8a6aa68e`.
-[The application receipt](water-alias-app-followup-application.json) records its
-eleven-file scope and fresh CI `38627469049` / own fleet `38627469041`.
-[Current macOS native validation passed](water-alias-app-candidate-native-validation.json)
-with all nine regressions and zero coverage gaps/drift. The
-[new own build's source association is verified](water-alias-app-candidate-own-build-metadata.json);
-[archive/binary bytes are verified](water-alias-app-candidate-artifact-review.json)
-and equal the earlier verified executable/lock. Other CI and full fleet are pending. The
-[first app suite failed](water-alias-app-first-failure.json) with 1,636 passes and
-one visualization-guard failure from scanning stock accounting as drawing.
-The seven new regressions were included. A staged correction at `d5c6cecf`
-separates that predicate into stock accounting and adds a direct test, preserving
-the drawing guard. It remains unapplied/unexecuted; PR787 is not integrated.
+the corrected stock predicate at `d5c6cecf` on integrated main `8a6aa68e`.
+[The guarded application](water-alias-accounting-followup-application.json)
+records eleven files and fresh CI `38673902939` / own fleet `38673902811`.
+Eight new app regressions and corrected-source acceptance remain pending.
+
+Previous source `98051f7b` [completed all 33 own-fleet jobs](water-alias-app-candidate-completion.json).
+Its CI had 23 passes and two failures on the same visualization guard, plus one
+skip. The [first app suite](water-alias-app-first-failure.json) had 1,636 passes
+and one failure because the guard scanned non-visual stock accounting as drawing.
+The seven new regressions were included. The applied correction moves that
+predicate into stock accounting, preserves the guard and adds a direct test.
+Its [native regressions passed](water-alias-app-candidate-native-validation.json)
+and [own archive/binary bytes are verified](water-alias-app-candidate-artifact-review.json),
+equal to the earlier executable/lock. Those source bindings remain unchanged;
+PR787 is not integrated and new app acceptance is not yet established.
 
 Previous core source `e4fb5e33` passed [full CI](water-alias-core-ci-validation.json)
 and [all 33 own-fleet jobs](water-alias-core-fleet-validation.json), including

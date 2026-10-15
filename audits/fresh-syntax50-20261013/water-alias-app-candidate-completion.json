@@ -1,0 +1,379 @@
+{
+  "utc": "2026-10-15T02:59:50.107742+00:00",
+  "source_head": "98051f7b4e09eeebce31c5eee64a5da47450626f",
+  "runs": {
+    "38627469049": {
+      "conclusion": "failure",
+      "jobs": [
+        {
+          "id": 116070175820,
+          "name": "GPU release tools (deterministic)",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070175820"
+        },
+        {
+          "id": 116070175919,
+          "name": "Core and data schemas compile to wasm32",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070175919"
+        },
+        {
+          "id": 116070176076,
+          "name": "feos adapter (aarch64-linux-android)",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176076"
+        },
+        {
+          "id": 116070176118,
+          "name": "Theme contrast tokens",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176118"
+        },
+        {
+          "id": 116070176170,
+          "name": "Presentation authority adapters",
+          "conclusion": "failure",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176170"
+        },
+        {
+          "id": 116070176187,
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176187"
+        },
+        {
+          "id": 116070176213,
+          "name": "The demo page, in a real browser",
+          "conclusion": "failure",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176213"
+        },
+        {
+          "id": 116070176224,
+          "name": "The two wasm halves, together",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176224"
+        },
+        {
+          "id": 116070176230,
+          "name": "IPhreeqc under MSVC",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176230"
+        },
+        {
+          "id": 116070176233,
+          "name": "Shell payload (ubuntu-22.04)",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176233"
+        },
+        {
+          "id": 116070176252,
+          "name": "The native host still compiles",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176252"
+        },
+        {
+          "id": 116070176260,
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176260"
+        },
+        {
+          "id": 116070176261,
+          "name": "IPhreeqc wasm gate",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176261"
+        },
+        {
+          "id": 116070176273,
+          "name": "Legacy BASIC oracle (development only)",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176273"
+        },
+        {
+          "id": 116070176279,
+          "name": "MY-BASIC preview (ubuntu-latest)",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176279"
+        },
+        {
+          "id": 116070176284,
+          "name": "Full preflight gate",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176284"
+        },
+        {
+          "id": 116070176295,
+          "name": "feos adapter (aarch64-apple-darwin)",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176295"
+        },
+        {
+          "id": 116070176347,
+          "name": "BRD-080 viewer decision spike",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176347"
+        },
+        {
+          "id": 116070176372,
+          "name": "Shell payload (windows-latest)",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176372"
+        },
+        {
+          "id": 116070176373,
+          "name": "MY-BASIC preview (macos-latest)",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176373"
+        },
+        {
+          "id": 116070176376,
+          "name": "feos adapter (wasm32-unknown-unknown)",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176376"
+        },
+        {
+          "id": 116070176378,
+          "name": "The bench in WebAssembly",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176378"
+        },
+        {
+          "id": 116070176437,
+          "name": "feos adapter (aarch64-apple-ios)",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176437"
+        },
+        {
+          "id": 116070176451,
+          "name": "Current registry source export",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176451"
+        },
+        {
+          "id": 116070176538,
+          "name": "feos adapter (x86_64-pc-windows-msvc)",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116070176538"
+        },
+        {
+          "id": 116092288290,
+          "name": "Publish the demo",
+          "conclusion": "skipped",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469049/job/116092288290"
+        }
+      ]
+    },
+    "38627469041": {
+      "conclusion": "success",
+      "jobs": [
+        {
+          "id": 116070175886,
+          "name": "Build audited CLI once",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116070175886"
+        },
+        {
+          "id": 116077402703,
+          "name": "Frozen fleet 195-218",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077402703"
+        },
+        {
+          "id": 116077402787,
+          "name": "Frozen fleet 459-488",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077402787"
+        },
+        {
+          "id": 116077402950,
+          "name": "Source fleet v3 water-energy",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077402950"
+        },
+        {
+          "id": 116077402974,
+          "name": "Source fleet v3 ionic-conductivity",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077402974"
+        },
+        {
+          "id": 116077402986,
+          "name": "Source fleet v3 organic-equilibrium",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077402986"
+        },
+        {
+          "id": 116077403039,
+          "name": "Source fleet v3 metal-ligand",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403039"
+        },
+        {
+          "id": 116077403071,
+          "name": "Source fleet v3 aqueous-selectivity",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403071"
+        },
+        {
+          "id": 116077403086,
+          "name": "Source fleet mixing-transfer",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403086"
+        },
+        {
+          "id": 116077403118,
+          "name": "Source fleet observables-negative-controls",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403118"
+        },
+        {
+          "id": 116077403126,
+          "name": "Source fleet gas-boundaries",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403126"
+        },
+        {
+          "id": 116077403143,
+          "name": "Source fleet electrochemistry",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403143"
+        },
+        {
+          "id": 116077403151,
+          "name": "Source fleet solubility-precipitation",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403151"
+        },
+        {
+          "id": 116077403161,
+          "name": "Source fleet v2 crystallisation-boundaries",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403161"
+        },
+        {
+          "id": 116077403216,
+          "name": "Source fleet filtration-evaporation",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403216"
+        },
+        {
+          "id": 116077403232,
+          "name": "Source fleet v2 household-biochemistry",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403232"
+        },
+        {
+          "id": 116077403241,
+          "name": "Source fleet distillation",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403241"
+        },
+        {
+          "id": 116077403243,
+          "name": "Source fleet v2 analytical-observables",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403243"
+        },
+        {
+          "id": 116077403246,
+          "name": "Source fleet v2 redox-cells",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403246"
+        },
+        {
+          "id": 116077403338,
+          "name": "Source fleet v2 separation-trains",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403338"
+        },
+        {
+          "id": 116077403347,
+          "name": "Source fleet v2 phase-colligative",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403347"
+        },
+        {
+          "id": 116077403368,
+          "name": "Source fleet acid-base-buffers",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403368"
+        },
+        {
+          "id": 116077403406,
+          "name": "Source fleet thermal-phase-paths",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403406"
+        },
+        {
+          "id": 116077403445,
+          "name": "Source fleet v2 kinetics-boundaries",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403445"
+        },
+        {
+          "id": 116077403484,
+          "name": "Source fleet organic-equilibria",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403484"
+        },
+        {
+          "id": 116077403539,
+          "name": "Source fleet v2 thermochemical-paths",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403539"
+        },
+        {
+          "id": 116077403583,
+          "name": "Source fleet v2 materials-transport",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403583"
+        },
+        {
+          "id": 116077403660,
+          "name": "Source fleet v2 gas-production-transfer",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403660"
+        },
+        {
+          "id": 116077403727,
+          "name": "Source fleet v2 quantitative-solutions",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403727"
+        },
+        {
+          "id": 116077403912,
+          "name": "Source fleet v2 polyprotic-carbonate",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116077403912"
+        },
+        {
+          "id": 116113769993,
+          "name": "All 240 source-informed cases",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116113769993"
+        },
+        {
+          "id": 116115838771,
+          "name": "All 120 source-informed v3 cases",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116115838771"
+        },
+        {
+          "id": 116134767651,
+          "name": "All 288 source-informed v2 cases",
+          "conclusion": "success",
+          "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38627469041/job/116134767651"
+        }
+      ]
+    }
+  },
+  "both_ci_failures_share_same_visual_guard": [
+    "Presentation authority adapters",
+    "The demo page, in a real browser"
+  ],
+  "browser_failure_log_sha256": "9afd3ac3f7c8ffae7029c99c9892cc237aee81dc95af5a4ea26ef06ba0ea7cc0",
+  "browser_failure": "effectVisibility.test.ts duplicate classification: added, material_added",
+  "first_app_failure_preserved": "water-alias-app-first-failure.json",
+  "candidate_integrated": false,
+  "correction": "Separately staged d5c6cecf moves stock predicate into storyStock.ts without changing the guard; requires fresh exact-source acceptance."
+}

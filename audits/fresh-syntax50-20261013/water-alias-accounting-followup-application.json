@@ -1,0 +1,43 @@
+{
+  "utc": "2026-10-15T03:00:20.576469+00:00",
+  "pr": 787,
+  "previous_head": "98051f7b4e09eeebce31c5eee64a5da47450626f",
+  "current_head": "d5c6cecfc5815f88bd9c5e4ace3e62e656909258",
+  "base": "8a6aa68eeec234d8cfde7b092b70c30a5c13411c",
+  "candidate_tree": "858854f9c0af595529a85697c24936e595285d4a",
+  "transition": "normal fast-forward after previous-source CI and own fleet completed; both original CI failures preserved before applying correction",
+  "files": [
+    "crates/kerotakis-core/src/bench.rs",
+    "crates/kerotakis-core/src/ops.rs",
+    "crates/kerotakis-core/src/script.rs",
+    "crates/kerotakis-core/src/species.rs",
+    "crates/kerotakis-core/src/stock.rs",
+    "crates/kerotakis-core/src/vessel.rs",
+    "crates/kerotakis-core/tests/water_input_alias.rs",
+    "web/app/src/lib/session.svelte.ts",
+    "web/app/src/lib/session.test.ts",
+    "web/app/src/lib/storyStock.test.ts",
+    "web/app/src/lib/storyStock.ts"
+  ],
+  "file_count": 11,
+  "fresh_runs": [
+    {
+      "conclusion": "",
+      "headSha": "d5c6cecfc5815f88bd9c5e4ace3e62e656909258",
+      "name": "CI",
+      "status": "queued",
+      "id": 38673902939
+    },
+    {
+      "conclusion": "",
+      "headSha": "d5c6cecfc5815f88bd9c5e4ace3e62e656909258",
+      "name": "Chemistry audit fleets",
+      "status": "in_progress",
+      "id": 38673902811
+    }
+  ],
+  "new_direct_predicate_test_executed": false,
+  "previous_seven_app_regressions_unchanged": true,
+  "drawing_guard_unchanged": true,
+  "candidate_integrated": false
+}

@@ -21,46 +21,42 @@ in the private handoff. Heavy local work and delegation require resource gates.
    and [native acceptance](../audits/fresh-syntax50-20261013/pr786-current-native-validation.json).
    Do not repeat this completed lane on unchanged source.
 2. **Canonical water alias — active.** [Draft PR787](https://github.com/CrispStrobe/kerotakis/pull/787)
-   now contains the reviewed core and app follow-up at `98051f7b` on integrated
-   main `8a6aa68e`: seven core files and four app files. The [guarded application
-   receipt](../audits/fresh-syntax50-20261013/water-alias-app-followup-application.json)
-   records the normal fast-forward after the previous source's
-   [full CI](../audits/fresh-syntax50-20261013/water-alias-core-ci-validation.json)
-   and [all 33 own-fleet jobs](../audits/fresh-syntax50-20261013/water-alias-core-fleet-validation.json)
-   passed. Its nine native regressions, workspace tests, CODEX and coverage passed;
-   those receipts retain their original `e4fb5e33` source binding.
-   The first two [CLI controls](../audits/fresh-syntax50-20261013/water-alias-cli/README.md)
-   remain failed due to the invalid final command. Two separately frozen
+   now contains the corrected app accounting predicate at `d5c6cecf` on integrated
+   main `8a6aa68e`: seven core files and four app files. The
+   [guarded application](../audits/fresh-syntax50-20261013/water-alias-accounting-followup-application.json)
+   records the normal fast-forward after the previous runs completed.
+   Fresh CI `38673902939` and own fleet `38673902811` are active on this head.
+   Require actual execution of eight new app regressions, all-app Vitest,
+   type/browser/native checks and the complete candidate fleet before integration.
+   Preserve any first failure and do not cancel or duplicate active runs.
+
+   Previous source `98051f7b` [completed its own fleet with 33 passes](../audits/fresh-syntax50-20261013/water-alias-app-candidate-completion.json).
+   CI had 23 passes, two failures and one skip. Both failures were the same
+   visualization guard: it classified non-visual stock comparisons in Session as
+   drawing handlers. The [first app suite](../audits/fresh-syntax50-20261013/water-alias-app-first-failure.json)
+   had 1,636 passes and one failure; its seven new regressions were included.
+   The applied correction moves the predicate into `storyStock.ts`, preserves
+   the guard and scene classifications, and adds a direct accounting test.
+   That eighth regression and corrected-source acceptance are still pending.
+
+   The previous source's [native regressions](../audits/fresh-syntax50-20261013/water-alias-app-candidate-native-validation.json)
+   and workspace/CODEX/coverage passed, with zero gaps or drift. Its
+   [verified own CLI archive](../audits/fresh-syntax50-20261013/water-alias-app-candidate-artifact-review.json)
+   has exactly the earlier executable/lock bytes. The first two
+   [CLI controls remain failed](../audits/fresh-syntax50-20261013/water-alias-cli/README.md)
+   due to an invalid final command; two separately frozen
    [corrected controls passed](../audits/fresh-syntax50-20261013/water-alias-cli-followup-outcomes.json)
-   with unchanged quantitative forecasts and verified saved stream/report hashes.
-   The new candidate's core/CLI/WASM source is unchanged, but those CLI passes
-   do not establish app acceptance.
-   Fresh CI `38627469049` and own fleet `38627469041` run on `98051f7b`.
-   [Current macOS native validation passed](../audits/fresh-syntax50-20261013/water-alias-app-candidate-native-validation.json),
-   including all nine alias regressions, workspace/CODEX/coverage with zero gaps
-   or drift. The [current own build succeeded](../audits/fresh-syntax50-20261013/water-alias-app-candidate-own-build-metadata.json)
-   and is tied to the actual merge parents and candidate tree. The
-   [full archive and binary are verified](../audits/fresh-syntax50-20261013/water-alias-app-candidate-artifact-review.json);
-   executable and captured lock bytes equal the earlier verified CLI, so the
-   corrected controls need no duplicate execution. Other CI and full fleet
-   checks remain pending. The [first app suite failed](../audits/fresh-syntax50-20261013/water-alias-app-first-failure.json):
-   1,636 tests passed, with one visualization-guard failure. The seven new app
-   regressions were included; the failure is in another file. Stock accounting
-   comparisons were mistaken for drawing handlers. A correction at `d5c6cecf`
-   moves that predicate into `storyStock.ts`, preserves the guard and adds one
-   direct accounting test. This descendant is staged, not applied or executed.
-   Let current runs finish, then refresh head/base/main and apply the descendant
-   by normal fast-forward. Require fresh all-app/type/browser/native/fleet
-   acceptance before integration. Preserve first failures and do not duplicate
-   the queued candidate runs.
-   Follow the [entry-point review and implementation task](water-alias-task-20261014.md).
-   Accept `H2O` as an input alias for `water`, resolve at a
-   shared boundary, and persist canonical identities. Inventory additions,
-   stock, transfers, extracts, formula lookup and save/replay must not create
-   duplicate water species or separate stock balances. Inventory every input
-   writer before implementation; preserve canonical `water` behavior and unknown
-   key refusals. Verify equivalent quantities, snapshots and saved identities
-   across accepted forms. Avoid an unreviewed general formula-alias expansion.
+   with unchanged forecasts. Core/CLI/WASM is unchanged in the app descendant;
+   retain those source bindings and do not duplicate unchanged CLI controls.
+   These receipts do not establish corrected app acceptance.
+
+   Follow the [implementation and acceptance lane](water-alias-task-20261014.md).
+   Accept exact `H2O` as input for canonical `water`, persist canonical identities,
+   and share one finite stock balance across text/direct/JSON inputs, inventory,
+   transfers, extracts and save/replay. Story access and dispense gates must use
+   engine-parsed identities. Charge only actual additions or positive-volume
+   titration, preserving refused and zero-dose requests. Avoid broadening formula
+   aliasing without a separate reviewed contract.
 3. **Execute and assess the forty naming follow-ups.** The
    [forty controls](../audits/fresh-syntax50-20261013/normalized40/design/README.md)
    already freeze `H2O`→`water` substitutions and unchanged physical forecasts
