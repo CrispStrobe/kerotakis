@@ -46,6 +46,10 @@ if direct:
             "Cannot restrict system calls": "seccomp",
         }
         code = reasons.get(str(exc), "exec") if isinstance(exc, RuntimeError) else "exec"
+        if isinstance(exc, RuntimeError) and str(exc).startswith("Landlock ABI3 unavailable:"):
+            parts = str(exc).split(":")
+            if len(parts) == 3 and all(p.lstrip("-").isdigit() and len(p) <= 5 for p in parts[1:]):
+                code = "landlock_abi=" + parts[1] + "_errno=" + parts[2]
         os.write(2, ("sandbox: " + code + "\n").encode())
         os._exit(125)
 binary, script = sys.argv[1:]

@@ -16,7 +16,7 @@ def restrict(binary, script, libraries=(), loader=None):
     libc.syscall.restype = ctypes.c_long
     abi = libc.syscall(444, 0, 0, 1)
     if abi < 3:
-        raise RuntimeError("Landlock ABI3 unavailable")
+        raise RuntimeError("Landlock ABI3 unavailable:%d:%d" % (abi, ctypes.get_errno()))
     if libc.prctl(38, 1, 0, 0, 0):  # PR_SET_NO_NEW_PRIVS
         raise RuntimeError("Cannot restrict process privileges")
 

@@ -389,7 +389,8 @@ async def run_engine(cfg: Settings, script: str) -> dict:
                     "filesystem_create", "filesystem_rule", "filesystem_install", "seccomp", "exec")}
                 logging.getLogger("kerotakis.api").warning(
                     "Engine startup failed: exit=%s restriction=%s", code,
-                    reason if reason in permitted else "unclassified")
+                    reason if reason in permitted or re.fullmatch(
+                        r"sandbox: landlock_abi=-?\d{1,5}_errno=\d{1,5}", reason) else "unclassified")
                 raise HTTPException(503, "Engine or sandbox failed to execute")
             status = "refused"
         result = {"execution_status": status, "exit_status": code,
