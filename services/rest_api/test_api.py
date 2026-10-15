@@ -157,13 +157,70 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(seen[0].headers["Authorization"], AUTH["Authorization"])
 
 
+class RedisTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = tempfile.TemporaryDirectory()
+        cls.socket = str(Path(cls.tmp.name) / "redis.sock")
+        cls.server = subprocess.Popen(["redis-server", "--port", "0", "--unixsocket", cls.socket,
+            "--save", "", "--appendonly", "no", "--maxmemory", "32mb", "--maxmemory-policy", "noeviction"],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        for _ in range(100):
+            if Path(cls.socket).exists():
+                return
+            time.sleep(.02)
+        cls.server.terminate()
+        raise RuntimeError("Redis fixture did not start")
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.server.terminate()
+        cls.server.wait(timeout=5)
+        cls.tmp.cleanup()
+
+    def cli(self, *args):
+        return subprocess.check_output(["redis-cli", "-s", self.socket, "--raw", *map(str, args)], text=True).strip()
+
+    def test_atomic_shared_slots_and_principal_quota(self):
+        self.cli("FLUSHDB")
+        def acquire(n):
+            return self.cli("EVAL", api.REDIS_ACQUIRE, 3, "{test}:leases", "{test}:user:minute",
+                "{test}:user:day", "lease-" + str(n), 1, 2, 5, 90)
+        with ThreadPoolExecutor(max_workers=8) as pool:
+            results = list(pool.map(acquire, range(8)))
+        self.assertEqual(results.count("1"), 1)
+        self.assertEqual(results.count("2"), 7)
+        self.cli("DEL", "{test}:leases")
+        self.assertEqual(acquire(9), "1")
+        self.cli("DEL", "{test}:leases")
+        self.assertEqual(acquire(10), "3")
+        self.assertEqual(self.cli("ZCARD", "{test}:leases"), "0")
+
+    def test_shared_rest_outage_and_redirect_fail_closed(self):
+        cfg = api.Settings(redis_url="https://redis.example", redis_token="private-test-token")
+        original = httpx.AsyncClient
+        async def handle(request):
+            self.assertEqual(str(request.url), cfg.redis_url)
+            return httpx.Response(302, headers={"Location": "https://evil.example"})
+        with patch.object(api.httpx, "AsyncClient", side_effect=lambda **kwargs: original(transport=httpx.MockTransport(handle), **kwargs)):
+            with self.assertRaises(HTTPException) as err:
+                asyncio.run(api.RedisAdmission(cfg).acquire("test"))
+        self.assertEqual(err.exception.status_code, 503)
+
+
 class PackagingTests(unittest.TestCase):
     def test_same_project_gateway_mount_and_static_payload_preservation(self):
         import importlib.util
         with tempfile.TemporaryDirectory() as directory:
             payload = Path(directory)
             (payload / "index.html").write_text("preserved static app")
-            subprocess.run([sys.executable, "tools/package-rest-api.py", directory], check=True)
+            artifacts = payload / "native"
+            artifacts.mkdir()
+            binary = Path("/usr/bin/true").read_bytes()
+            (artifacts / "kero").write_bytes(binary)
+            (artifacts / "manifest.json").write_text(json.dumps({"source_head": "a" * 40,
+                "binary_sha256": hashlib.sha256(binary).hexdigest(), "cargo_lock_sha256": "b" * 64}))
+            subprocess.run([sys.executable, "tools/package-rest-api.py", directory, str(artifacts)], check=True)
             self.assertEqual((payload / "index.html").read_text(), "preserved static app")
             config = json.loads((payload / "vercel.json").read_text())
             self.assertEqual(config["rewrites"][0]["source"], "/api/:path*")
@@ -172,12 +229,13 @@ class PackagingTests(unittest.TestCase):
             module = importlib.util.module_from_spec(spec)
             sys.modules[spec.name] = module
             self.addCleanup(sys.modules.pop, spec.name, None)
-            settings = {"KERO_API_MODE": "gateway", "KERO_API_UPSTREAM": "https://worker.example",
+            settings = {"KERO_API_MODE": "vercel", "VERCEL": "1", "KERO_API_REDIS_URL": "https://redis.example",
+                        "KERO_API_REDIS_TOKEN": "test-only-redis-credential",
                         "KERO_API_KEYS": json.dumps({"test": hashlib.sha256(TOKEN.encode()).hexdigest()})}
             with patch.dict(os.environ, settings, clear=True):
                 spec.loader.exec_module(module)
             client = TestClient(module.app)
-            self.assertEqual(client.get("/api/health").json()["mode"], "gateway")
+            self.assertEqual(client.get("/api/health").json()["mode"], "vercel")
             self.assertRegex(client.get("/api/health").json()["revision"], r"^[a-f0-9]{40}(-dirty)?$")
             schema = client.get("/api/openapi.json").json()
             self.assertEqual(schema["servers"][0]["url"], "/api")
@@ -195,17 +253,22 @@ class SandboxTests(unittest.IsolatedAsyncioTestCase):
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <sys/socket.h>
+#include <signal.h>
 int main(int argc,char **argv) {
-  if(argc!=4 || strcmp(argv[1],"run") || strcmp(argv[2],"/job/input.lab") || strcmp(argv[3],"--json")) return 4;
+  if(argc!=4 || strcmp(argv[1],"run") || !strstr(argv[2],"/input.lab") || strcmp(argv[3],"--json")) return 4;
   FILE *f=fopen(argv[2],"r"); char text[2000]={0}; fread(text,1,sizeof(text)-1,f); fclose(f);
   if(strstr(text,"999s")){ if(fork()==0) sleep(10); sleep(10); return 0; }
   if(strstr(text,"998s")){ for(;;) puts("{\"large\":\"abcdefghijklmnopqrstuvwxyz\"}"); }
   if(strstr(text,"997s")){ fputs("kero: fixture refusal\n",stderr); return 1; }
   if(strstr(text,"996s")){ puts("{\"bad\":NaN}"); return 0; }
   if(strstr(text,"995s")){ fputs("bwrap: fixture startup failure\n",stderr); return 1; }
+  if(strstr(text,"994s")){ printf("{\"network_denied\":%s,\"fork_denied\":%s,\"parent_signal_denied\":%s}\n",
+     socket(AF_INET,SOCK_STREAM,0)<0?"true":"false",fork()<0?"true":"false",kill(getppid(),0)<0?"true":"false"); return 0; }
   char net[200]={0}; readlink("/proc/self/ns/net",net,sizeof(net)-1);
+  FILE *host=fopen("/etc/passwd","r"); int readable=host!=NULL; if(host) fclose(host);
   printf("{\"host_passwd_visible\":%s,\"credential_present\":%s,\"network_namespace\":\"%s\"}\n",
-    access("/etc/passwd",F_OK)==0?"true":"false",getenv("KERO_API_KEYS")?"true":"false",net);
+    readable?"true":"false",getenv("KERO_API_KEYS")?"true":"false",net);
   return 0;
 }''')
         subprocess.run(["cc", "-O0", str(source), "-o", str(cls.binary)], check=True)
@@ -275,6 +338,24 @@ int main(int argc,char **argv) {
         with self.assertRaises(HTTPException) as err:
             await api.run_engine(cfg, "inspect v1")
         self.assertEqual(err.exception.status_code, 503)
+
+    async def test_direct_serverless_sandbox_denies_host_reads_network_fork_and_parent_signals(self):
+        cfg = self.cfg()
+        cfg.mode = "vercel"
+        result = await api.run_engine(cfg, "inspect v1")
+        self.assertFalse(result["observations"][0]["host_passwd_visible"])
+        self.assertFalse(result["observations"][0]["credential_present"])
+        result = await api.run_engine(cfg, "wait 994s")
+        self.assertTrue(all(result["observations"][0].values()))
+
+    async def test_direct_serverless_deadline_and_output_limit(self):
+        cfg = self.cfg()
+        cfg.mode = "vercel"
+        with patch.object(api, "WALL_SECONDS", .2):
+            result = await api.run_engine(cfg, "wait 999s")
+        self.assertEqual(result["execution_status"], "timeout")
+        result = await api.run_engine(cfg, "wait 998s")
+        self.assertEqual(result["execution_status"], "output_limit")
 
 
 if __name__ == "__main__":

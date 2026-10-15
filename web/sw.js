@@ -97,6 +97,12 @@ self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
+  // Remote execution and its client must keep HTTP/auth/cache semantics. The
+  // offline shell must not answer API docs/health or the REST client navigation.
+  const base = new URL("./", self.location.href);
+  const api = new URL("api", base).pathname;
+  if (url.pathname === new URL("rest.html", base).pathname ||
+      url.pathname === api || url.pathname.startsWith(api + "/")) return;
   event.respondWith(
     caches.match(event.request, { ignoreSearch: true }).then(async (hit) => {
       if (hit) return hit;

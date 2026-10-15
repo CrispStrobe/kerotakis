@@ -1,159 +1,156 @@
 # Kerotakis REST API
 
-A FastAPI interface to the native CLI, following the
-[`stc-compiler` service pattern](https://github.com/CrispStrobe/stc-compiler).
-Every request gets a fresh lab and a bounded process. Exit success does not
-establish chemical validity. The response reports `physical_verdict: not_assigned`.
+FastAPI and the native engine run directly in the **existing Vercel project**.
+No VPS backend or separate compute hostname is required. GitHub Pages and the
+Vercel app can both call this API. Each request starts a fresh lab. Execution
+success is not scientific validation: responses retain `physical_verdict:
+not_assigned`.
 
-## Endpoints
+## Interface
 
-- `GET /health`: service configuration, API revision, native engine identity
-  when running in worker mode. `configured` is not a live readiness probe.
-  Gateway health describes the gateway; `/run` returns the actual worker engine.
-- `POST /run`: authenticated JSON `{ "script": "add v1 water 100mL @ 25C\ninspect v1" }`.
-  Returns JSON observations, diagnostics, exit status, elapsed time, script hash
-  and engine source/binary/lock hashes.
-- `/docs` and `/openapi.json`: interactive documentation and machine schema.
-  Swagger authorization is not persisted across reloads.
+- `GET /api/health`: API revision, configuration state and native source/binary/
+  lock identity. `configured` is not proof of runtime readiness.
+- `POST /api/run`: authenticated JSON containing a `script` string.
+- `/api/docs` and `/api/openapi.json`: interactive OpenAPI documentation/schema.
+  Authorization is not persisted across page reloads.
+
+Example `request.json`:
+
+```json
+{"script":"add v1 water 100mL @ 25C\ninspect v1"}
+```
 
 ```sh
-curl --fail-with-body "$KERO_API_URL/run" \
+curl --fail-with-body "$KERO_API_URL/api/run" \
   -H "Authorization: Bearer $KERO_API_KEY" \
   -H 'Content-Type: application/json' \
   --data-binary @request.json
 ```
 
-`execution_status` is `completed`, `refused`, `timeout` or `output_limit`.
-Refusals may have partial observations: the CLI stops at its first refused
-command. Sandbox/bootstrap failures use HTTP 503, malformed engine output 502,
-authentication failure 401, body limit 413, schema/subset refusal 422, admission
-limit 429, and resource/store outage 503. Respect `Retry-After` and do not blindly
-retry requests after network failure: execution may already have happened.
-This initial synchronous service does not provide idempotency or durable jobs.
+The result contains JSON observations, diagnostics, exit status, elapsed time,
+script SHA256 and engine identity. Execution statuses are `completed`, `refused`,
+`timeout` and `output_limit`. A refused CLI script may have partial observations.
+Sandbox/bootstrap failures return HTTP 503, malformed engine output 502,
+authentication failure 401, excessive body size 413, invalid schema/subset 422,
+and admission limit 429. Resource/store outages refuse execution. Respect
+`Retry-After`; do not blindly retry after network failure because execution
+may already have occurred. Durable jobs and idempotency are separate extensions.
 
-## Linux execution worker
+## Same-project Vercel deployment
 
-Requires Python 3.12+, an unprivileged Linux service account, Bubblewrap with
-unprivileged user/network/PID namespaces, and a reviewed native `kero` executable.
-Install the pinned dependencies from `services/rest_api/requirements.txt` into
-an isolated virtual environment. The API service itself must not run as root.
+The normal dispatch-only Vercel workflow builds the shared static web payload,
+then `tools/build-rest-native.sh` builds an x86_64 native engine in an Amazon
+Linux 2023 container. It records source/tree/lock/binary/library hashes, actual
+container digest and Rust version. The source mount is read-only and the build
+uses two CPU jobs, four GiB container memory and a separate target directory.
+This is a hosted build; do not run it locally without the approved headroom.
 
-Set these server-side environment variables:
+`tools/package-rest-api.py` adds one Python function at `api/index.py` and
+immutable native/runtime assets. Only `/api/*` is rewritten to the function;
+existing static routes and caching headers remain. The packaged API revision
+is stamped from Git, including a dirty marker when relevant source differs.
+The function is configured for 2 GiB memory and a 30-second platform deadline;
+its engine has a stricter independent deadline. Actual Vercel native loading,
+function routing and kernel support must pass preview acceptance.
 
-| Variable | Value |
+Configure these privately in the existing project's server environment:
+
+| Variable | Purpose |
 | --- | --- |
-| `KERO_API_MODE` | `worker` |
-| `KERO_API_BINARY` | Absolute path to the immutable reviewed native executable |
-| `KERO_API_ENGINE_MANIFEST` | Absolute path to its verified JSON build manifest |
-| `KERO_API_STATE` | Absolute path to SQLite admission state on local persistent disk |
-| `KERO_API_KEYS` | JSON object mapping principal names to SHA256 digests of bearer keys |
-| `KERO_API_ORIGINS` | JSON array of exact HTTPS browser origins; default none |
-| `KERO_API_REVISION` | Full API service Git commit |
-| `KERO_API_MIN_MEMORY_MIB` | Deployment's approved available-memory floor, at least 1024 MiB |
-| `KERO_API_MIN_DISK_MIB` | Deployment's approved free-space floor for scratch and state, at least 1024 MiB |
+| `KERO_API_KEYS` | JSON object mapping principal names to SHA256 digests of personal bearer keys |
+| `KERO_API_REDIS_URL` | HTTPS Redis REST endpoint for shared admission |
+| `KERO_API_REDIS_TOKEN` | Its private REST credential |
+| `KERO_API_ORIGINS` | JSON array of exact HTTPS frontend origins, or no cross-origin access by default |
 
-The manifest must contain `source_head` (40 lowercase hex characters),
-`binary_sha256` and `cargo_lock_sha256` (64 each). Obtain it from an authenticated
-build receipt; declaring a source hash alone does not authenticate a build.
-The service verifies executable bytes at configuration and before every run.
-Keep the executable, manifest, Python code and runtime libraries non-writable
-by the service account. Update them atomically when the service is stopped.
+Standard `UPSTASH_REDIS_REST_*` or `KV_REST_API_*` URL/token pairs are also
+recognized. The packaged function selects direct `vercel` mode; missing or
+invalid authentication, native assets or shared-admission configuration disables
+execution. No upstream URL or VPS address is involved.
 
-Generate separate keys with at least 256 random bits, distribute them privately,
-and store only their SHA256 digests in configuration. Removing a principal and
-restarting the worker and gateways revokes that key; already running requests
-are not retroactively cancelled. Use one unique digest per principal. Never
-commit bearer keys, put them in query strings or bake them into static assets.
+Use personal bearer keys with at least 256 random bits. Store their SHA256
+digests in configuration and distribute raw keys privately. Removing a principal
+and redeploying revokes its key; requests already running are not retroactively
+cancelled. Never put raw keys in source, query strings, static assets or logs.
+The engine subprocess receives neither API nor Redis credentials.
 
-The service defaults to disabled on missing/invalid configuration. The portable
-memory default is not permission to lower an existing host's operating floor:
-set the approved floor explicitly before starting this on an existing host.
-One worker host is authoritative. SQLite atomically coordinates all its API
-processes: one execution slot, 30 requests/principal/minute and 1,000/day.
-Leases expire after 90 seconds, beyond the 10-second execution deadline. Keep
-the state directory private and local, never on a shared/network filesystem or
-ephemeral Vercel instance. A state-store outage refuses execution. Use a shared
-transactional admission service before adding multiple execution hosts.
+Redis holds **admission counters and expiring execution leases**, not scripts or
+chemistry results. Atomic Lua uses Redis server time to enforce one global
+execution slot, 30 requests/principal/minute and 1,000/day across replicas. A
+store error refuses execution; it never falls back to per-instance SQLite or
+memory. A lost release conservatively occupies its lease until expiry. Frontend
+CORS is independent of authentication. Configure Vercel deployment protection,
+WAF/request limits and project spending controls before public activation, so
+unauthenticated traffic cannot produce unbounded invocation costs.
 
-Start from the repository root:
+## Native process restrictions
 
-```sh
-uvicorn services.rest_api.app:app --host 127.0.0.1 --port 8081 --workers 1 --no-access-log
-```
+Every request uses a new CLI process with fixed arguments, private input,
+empty credential environment and no shell. The native executable and bundled
+libraries are verified against their build manifest. The child runs without
+root privileges or Linux capabilities, with `no_new_privs` set.
 
-`kerotakis-api.service` is an installation template with generic deployment
-paths. Install an HTTPS reverse proxy, disable body/credential logging, impose
-request-size, connection and rate limits there, and restrict service ingress.
-Do not expose the loopback HTTP listener directly. Public Vercel gateway access
-also needs deployment protection/WAF limits so unauthenticated traffic cannot
-consume unlimited gateway invocations. Application authentication remains
-required even when deployment protection is enabled.
+Direct execution requires Landlock ABI3+ and seccomp in the **actual function
+runtime**. Landlock permits reads only for the input, engine and runtime
+libraries, and executable access only for the engine/ELF loader. File metadata
+visibility is not equivalent to permission to read file contents. The seccomp
+allowlist validates the architecture/x32 bit and denies networking, separate
+process creation, cross-process memory/inspection, IPC and namespace changes.
+Signals and resource-limit changes are restricted to the child itself; threads
+are bounded by its per-user task ceiling. Unsupported restriction installation
+returns 503; there is no unsandboxed fallback.
 
-## Sandbox and admitted syntax
+Limits: eight CPU seconds, ten wall seconds, one GiB child address space,
+64 file descriptors/tasks, one MB combined process output and two MB serialized
+response. Cancellation, timeout and output exhaustion kill/reap the process group
+and drain residual pipe buffers. Vercel's function allocation governs the parent;
+VPS host-memory readings are not used as serverless admission measurements.
 
-Each CLI child receives only a fixed `run /job/input.lab --json` invocation;
-no shell is involved. Bubblewrap hides the host filesystem except the executable
-and runtime libraries, disables external networking, provides a private PID
-namespace, clears credentials/environment and mounts the input read-only.
-The service kills/reaps the process group on cancellation, timeout and output
-exhaustion. CPU is limited to 8 seconds, address space to 1 GiB, wall time to
-10 seconds, combined output to 1 MB, and sandbox scratch space to 16 MiB.
-Deploy with the supplied service's aggregate memory/task limits too.
+Input limits: 20 KB JSON body, 16 KB UTF-8 script, 128 commands, 32 tokens/command,
+16 explicit vessel creations and one hour aggregate explicit duration. Only the
+English verbs in `app.py:VERBS` are accepted. Language/session directives,
+explanations, quests, transport, extraction, titration and distillation are
+excluded pending separate work budgets. The CLI still validates quantities,
+identities and chemistry. No scientific support is invented by the wrapper.
 
-Requests are limited to 20 KB JSON bodies, 16 KB UTF-8 scripts, 128 commands,
-32 tokens per command, 16 explicit vessel creations, and one hour aggregate
-explicit duration. Only the English verbs in `app.py:VERBS` are admitted.
-Language/session directives, explanations, quests, transport, extraction,
-titration and distillation are excluded pending separate work budgets.
-Canonical Kero parsing still validates each allowed command; invalid quantities
-or unknown substances are not automatically corrected by the service.
+## Browser clients
 
-## Vercel and GitHub Pages
+`web/rest.html` is included in the same static payload served by GitHub Pages
+and Vercel. Enter the app's HTTPS API base ending in `/api` and a personal key.
+The client saves neither key nor script, uses no cookies, refuses redirects,
+and renders results as text. Both frontend origins must be allowed explicitly;
+project paths are not part of a CORS origin. The existing local WebAssembly lab
+continues to run independently in the browser.
 
-Use the **existing Vercel app project**. The deployment workflow calls
-`tools/package-rest-api.py` after building its static payload. This adds one
-Python function and rewrites only `/api/*` to it, preserving the app and caching
-headers. Routes are `/api/run`, `/api/health`, `/api/docs` and `/api/openapi.json`.
-The mounted gateway cannot enable worker mode. Configure the existing project:
+## Optional Linux deployment
 
-- `KERO_API_MODE=gateway`
-- `KERO_API_UPSTREAM` as the fixed HTTPS origin of the execution worker
-- the same `KERO_API_KEYS` mapping, plus the required `KERO_API_ORIGINS`
+The same service can run on a VPS with `KERO_API_MODE=worker`, a reviewed native
+`KERO_API_BINARY`, verified `KERO_API_ENGINE_MANIFEST`, local persistent
+`KERO_API_STATE` SQLite file, keys and origins. Set approved memory/disk floors
+using `KERO_API_MIN_MEMORY_MIB` and `KERO_API_MIN_DISK_MIB` rather than lowering
+existing host policy to the portable defaults. `KERO_API_REVISION` identifies
+the service commit. This optional mode uses Bubblewrap namespaces and atomic
+single-host SQLite admission. `kerotakis-api.service` is an installation template.
+It is not a dependency of Vercel execution. Standalone deployments serve `/run`,
+`/health` and `/docs` at their origin root.
 
-The gateway authenticates locally, then forwards the caller's bearer key to
-that fixed origin. The worker independently authenticates and enforces the
-authoritative quotas. It accepts no caller-selected upstream, follows no
-redirects, uses no proxy settings from the environment, and bounds both request
-and response bytes. Do not point the upstream back at this gateway.
+## Acceptance and current limitations
 
-`web/rest.html` is a standalone client included by `tools/build-web.sh` in the
-same payload both GitHub Pages and Vercel serve, at `rest.html`. Enter the API
-HTTPS origin and a personal key at runtime. It saves neither key nor script,
-uses no cookies, refuses redirects and renders responses as text. Existing
-local WebAssembly lab execution remains unchanged. Allow both actual frontend
-origins in API CORS configuration; project paths are not part of an origin.
-For the same-project deployment, enter the app origin followed by `/api`.
-The page itself supplies no production URL or credential automatically.
-A separate standalone service deployment remains available through
-`services/rest_api/vercel.json`, with routes at the origin root.
-
-## Acceptance and deployment
+Requires Python 3.12+, pinned `requirements.txt`, a C compiler, Redis and, for
+optional Linux-mode tests, Bubblewrap/user namespaces:
 
 ```sh
 python -B -m unittest services.rest_api.test_api -v
+node tools/test-rest-client.mjs
 ```
 
-Tests use a small native fixture in the real sandbox. They exercise credential
-refusal, body/schema/subset limits, CORS/OpenAPI, concurrent quota admission,
-store outage, release after failure, fixed-origin gateway redirects, filesystem/
-network isolation, output exhaustion, timeout, cancellation and engine identity.
-Bubblewrap, a C compiler and namespace support are required; sandbox failures
-must not be skipped to obtain a passing suite.
+Acceptance covers auth, bounded bodies, CORS/OpenAPI, actual concurrent SQLite
+and Redis Lua admission, store outage, redirects, packaged route mounting,
+filesystem/network/process restrictions, timeout, output exhaustion, cancellation
+and native identity. Sandbox failures must not be skipped to obtain a pass.
 
-Before production, record the API source, native source/binary/lock binding and
-the actual HTTPS `/run` smoke result. Check both frontend origins and invalid
-credentials, validate proxy limits, and confirm key revocation on every replica.
-The implementation's local native smoke used preserved engine source
-`d791d306`; it does not claim that a new native build or remote deployment exists.
-Deployment requires an operator-provisioned worker HTTPS origin and privately
-configured credentials. No public production API is enabled by this commit.
+The direct sandbox and preserved native engine have executed locally. That
+engine is bound to source `d791d306`, not a new AL2023 build. Hosted native build,
+actual Vercel kernel/native-loading probes, live auth/quota controls, both real
+browser origins and production delivery remain pending. No public compute
+endpoint is enabled by merely pushing this code. The initial VPS-gateway design
+was superseded by the user's direct-Vercel requirement.

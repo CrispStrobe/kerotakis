@@ -70,8 +70,11 @@ class Settings:
     revision: str = "unknown"
     engine: dict = field(default_factory=dict)
     binary: str = ""
+    libraries: str = ""
     state: str = ""
     upstream: str = ""
+    redis_url: str = ""
+    redis_token: str = ""
     slots: int = 1
     minute: int = 30
     daily: int = 1000
@@ -88,18 +91,33 @@ class Settings:
                       revision=os.getenv("VERCEL_GIT_COMMIT_SHA", "unknown"),
                       state=os.getenv("KERO_API_STATE", ""),
                       upstream=os.getenv("KERO_API_UPSTREAM", ""),
+                      redis_url=os.getenv("KERO_API_REDIS_URL", os.getenv("UPSTASH_REDIS_REST_URL", os.getenv("KV_REST_API_URL", ""))),
+                      redis_token=os.getenv("KERO_API_REDIS_TOKEN", os.getenv("UPSTASH_REDIS_REST_TOKEN", os.getenv("KV_REST_API_TOKEN", ""))),
                       min_memory_mib=int(os.getenv("KERO_API_MIN_MEMORY_MIB", "1024")),
                       min_disk_mib=int(os.getenv("KERO_API_MIN_DISK_MIB", "1024")))
-            if cfg.mode == "worker":
-                manifest = json.loads(Path(os.environ["KERO_API_ENGINE_MANIFEST"]).read_text())
-                cfg.binary = str(Path(os.environ["KERO_API_BINARY"]).resolve(strict=True))
+            if cfg.mode in ("worker", "vercel"):
+                assets = Path(__file__).parent / "assets"
+                manifest = json.loads(Path(os.getenv("KERO_API_ENGINE_MANIFEST", str(assets / "manifest.json"))).read_text())
+                cfg.binary = str(Path(os.getenv("KERO_API_BINARY", str(assets / "kero"))).resolve(strict=True))
                 require(hashlib.sha256(Path(cfg.binary).read_bytes()).hexdigest() == manifest["binary_sha256"])
                 require(all(re.fullmatch(r"[a-f0-9]{64}", manifest[k]) for k in ("binary_sha256", "cargo_lock_sha256")))
                 require(re.fullmatch(r"[a-f0-9]{40}", manifest["source_head"]))
                 cfg.engine = {k: manifest[k] for k in ("source_head", "binary_sha256", "cargo_lock_sha256")}
                 cfg.revision = os.getenv("KERO_API_REVISION", "unknown")
-                require(Path(cfg.state).is_absolute() and os.access(cfg.binary, os.X_OK))
-                require(Path("/usr/bin/bwrap").is_file() and sys.platform == "linux" and os.geteuid() != 0)
+                require(os.access(cfg.binary, os.X_OK) and sys.platform == "linux")
+                if cfg.mode == "worker":
+                    require(Path(cfg.state).is_absolute())
+                    require(Path("/usr/bin/bwrap").is_file() and os.geteuid() != 0)
+                else:
+                    require(os.getenv("VERCEL") == "1" and os.geteuid() != 0)
+                    url = urlsplit(cfg.redis_url)
+                    require(url.scheme == "https" and url.hostname and not url.username and not url.password)
+                    require(url.path in ("", "/") and not url.query and not url.fragment)
+                    require(16 <= len(cfg.redis_token) <= 1024)
+                    cfg.libraries = str(assets / "lib")
+                    for name, digest in manifest.get("libraries", {}).items():
+                        require(isinstance(name, str) and Path(name).name == name)
+                        require(hashlib.sha256((assets / "lib" / name).read_bytes()).hexdigest() == digest)
             elif cfg.mode == "gateway":
                 url = urlsplit(cfg.upstream)
                 require(url.scheme == "https" and url.hostname and not url.username and not url.password)
@@ -200,6 +218,73 @@ class Admission:
             pass  # Lease remains occupied until expiry; never grants extra work.
 
 
+REDIS_ACQUIRE = '''
+local now = tonumber(redis.call('TIME')[1])
+redis.call('ZREMRANGEBYSCORE', KEYS[1], '-inf', now)
+if redis.call('ZCARD', KEYS[1]) >= tonumber(ARGV[2]) then return 2 end
+local windows = {60, 86400}
+for i=1,2 do
+  local bucket = math.floor(now/windows[i])
+  local saved = tonumber(redis.call('HGET', KEYS[i+1], 'bucket') or '-1')
+  local count = tonumber(redis.call('HGET', KEYS[i+1], 'count') or '0')
+  if saved == bucket and count >= tonumber(ARGV[i+2]) then return 3 end
+end
+for i=1,2 do
+  local bucket = math.floor(now/windows[i])
+  local saved = tonumber(redis.call('HGET', KEYS[i+1], 'bucket') or '-1')
+  if saved ~= bucket then redis.call('HSET', KEYS[i+1], 'bucket', bucket, 'count', 0) end
+  redis.call('HINCRBY', KEYS[i+1], 'count', 1)
+  redis.call('EXPIRE', KEYS[i+1], windows[i]*2)
+end
+redis.call('ZADD', KEYS[1], now+tonumber(ARGV[5]), ARGV[1])
+redis.call('EXPIRE', KEYS[1], tonumber(ARGV[5])*2)
+return 1
+'''
+
+
+class RedisAdmission:
+    """Authoritative atomic admission shared by every Vercel function replica."""
+    def __init__(self, cfg):
+        self.cfg = cfg
+
+    async def command(self, command):
+        try:
+            async with httpx.AsyncClient(timeout=3, follow_redirects=False, trust_env=False) as client:
+                async with client.stream("POST", self.cfg.redis_url, json=command,
+                        headers={"Authorization": "Bearer " + self.cfg.redis_token}) as response:
+                    if response.status_code != 200:
+                        raise ValueError
+                    data = bytearray()
+                    async for chunk in response.aiter_bytes():
+                        if len(data) + len(chunk) > 8192:
+                            raise ValueError
+                        data.extend(chunk)
+                    result = json.loads(data)
+                    if not isinstance(result, dict) or "error" in result or type(result.get("result")) is not int:
+                        raise ValueError
+                    return result["result"]
+        except (httpx.HTTPError, ValueError, KeyError):
+            raise HTTPException(503, "Shared admission unavailable") from None
+
+    async def acquire(self, principal):
+        lease = uuid.uuid4().hex
+        prefix = "{kerotakis-api-v1}"
+        code = await self.command(["EVAL", REDIS_ACQUIRE, "3", prefix + ":leases",
+            prefix + ":" + principal + ":minute", prefix + ":" + principal + ":day",
+            lease, str(self.cfg.slots), str(self.cfg.minute), str(self.cfg.daily), str(LEASE_SECONDS)])
+        if code in (2, 3):
+            raise HTTPException(429, "Shared execution or request limit reached", headers={"Retry-After": "60"})
+        if code != 1:
+            raise HTTPException(503, "Shared admission rejected the request")
+        return lease
+
+    async def release(self, lease):
+        try:
+            await self.command(["ZREM", "{kerotakis-api-v1}:leases", lease])
+        except HTTPException:
+            pass  # Expiring lease remains occupied; never fall back to local state.
+
+
 def check_resources(cfg: Settings):
     try:
         memory = dict(line.split(":", 1) for line in Path("/proc/meminfo").read_text().splitlines())
@@ -220,9 +305,17 @@ async def run_engine(cfg: Settings, script: str) -> dict:
         path = Path(directory) / "input.lab"
         path.write_text(script, encoding="utf-8")
         wrapper = Path(__file__).with_name("worker.py")
-        spawning = asyncio.create_task(asyncio.create_subprocess_exec(sys.executable, "-I", str(wrapper), cfg.binary, str(path),
+        if not wrapper.is_file():
+            wrapper = Path(__file__).parent / "assets/worker.runtime"
+        arguments = [cfg.binary, str(path)]
+        environment = {"PATH": "/usr/bin:/bin", "LANG": "C.UTF-8", "RAYON_NUM_THREADS": "1"}
+        if cfg.mode == "vercel":
+            arguments = ["--vercel", *arguments, cfg.libraries]
+            if cfg.libraries:
+                environment["LD_LIBRARY_PATH"] = cfg.libraries
+        spawning = asyncio.create_task(asyncio.create_subprocess_exec(sys.executable, "-I", str(wrapper), *arguments,
             stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE,
-            env={"PATH": "/usr/bin:/bin", "LANG": "C.UTF-8"}, start_new_session=True))
+            stdin=asyncio.subprocess.DEVNULL, cwd=directory, env=environment, start_new_session=True))
         try:
             proc = await asyncio.shield(spawning)
         except asyncio.CancelledError:
@@ -290,7 +383,7 @@ async def run_engine(cfg: Settings, script: str) -> dict:
                 raise HTTPException(503, "Engine or sandbox failed to execute")
             status = "refused"
         result = {"execution_status": status, "exit_status": code,
-                "observations": observations, "diagnostics": stderr.decode("utf-8", "replace").replace("/job/input.lab", "<script>"),
+                "observations": observations, "diagnostics": stderr.decode("utf-8", "replace").replace("/job/input.lab", "<script>").replace(str(path), "<script>"),
                 "elapsed_seconds": time.monotonic() - started,
                 "script_sha256": hashlib.sha256(script.encode()).hexdigest(), "engine": cfg.engine,
                 "physical_verdict": "not_assigned"}
@@ -326,6 +419,7 @@ def create_app(cfg: Settings | None = None):
     app.add_middleware(CORSMiddleware, allow_origins=cfg.origins,
                        allow_methods=["POST", "GET"], allow_headers=["Authorization", "Content-Type"])
     admission = Admission(cfg)
+    shared_admission = RedisAdmission(cfg)
 
     @app.middleware("http")
     async def headers(request, call_next):
@@ -378,12 +472,18 @@ def create_app(cfg: Settings | None = None):
         principal, token = identity
         if cfg.mode == "gateway":
             return await forward(cfg, token, payload.script)
-        check_resources(cfg)
-        lease = admission.acquire(principal)
+        if cfg.mode == "vercel":
+            lease = await shared_admission.acquire(principal)
+        else:
+            check_resources(cfg)
+            lease = admission.acquire(principal)
         try:
             return await run_engine(cfg, payload.script)
         finally:
-            admission.release(lease)
+            if cfg.mode == "vercel":
+                await shared_admission.release(lease)
+            else:
+                admission.release(lease)
 
     return app
 

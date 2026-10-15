@@ -42,3 +42,24 @@ assert.equal(elements.result.textContent, '');
 assert.doesNotMatch(code, /localStorage|sessionStorage|innerHTML|document\.cookie/);
 assert.match(readFileSync('tools/build-web.sh', 'utf8'), /\$ROOT\/web\/rest\.html/);
 console.log('REST client: destination, credentials, safe rendering, clearing and payload controls passed');
+
+for (const prefix of ['/', '/kerotakis/']) {
+  const listeners = {};
+  const origin = 'https://site.example';
+  vm.runInNewContext(readFileSync('web/sw.js', 'utf8'), {
+    URL, self: { location: { origin, href: origin + prefix + 'sw.js' },
+      addEventListener: (event, callback) => { listeners[event] = callback; } },
+    caches: { match: async () => ({ cached: true }) },
+  });
+  for (const path of ['api/run', 'api/health', 'api/docs', 'api/openapi.json', 'rest.html']) {
+    let intercepted = false;
+    listeners.fetch({ request: { method: 'GET', url: origin + prefix + path, mode: 'navigate' },
+      respondWith: () => { intercepted = true; } });
+    assert.equal(intercepted, false, 'service worker intercepted ' + path);
+  }
+  let intercepted = false;
+  listeners.fetch({ request: { method: 'GET', url: origin + prefix + 'engine.wasm' },
+    respondWith: () => { intercepted = true; } });
+  assert.equal(intercepted, true, 'static engine caching changed');
+}
+console.log('Service worker: API/client bypass and static caching controls passed at root and project scope');

@@ -4,8 +4,10 @@ on:
     paths:
       - 'services/rest_api/**'
       - 'web/rest.html'
+      - 'web/sw.js'
       - 'tools/build-web.sh'
       - 'tools/package-rest-api.py'
+      - 'tools/build-rest-native.sh'
       - 'tools/test-rest-client.mjs'
       - '.github/workflows/rest-api.yml'
   push:
@@ -13,8 +15,10 @@ on:
     paths:
       - 'services/rest_api/**'
       - 'web/rest.html'
+      - 'web/sw.js'
       - 'tools/build-web.sh'
       - 'tools/package-rest-api.py'
+      - 'tools/build-rest-native.sh'
       - 'tools/test-rest-client.mjs'
       - '.github/workflows/rest-api.yml'
 permissions:
@@ -31,11 +35,12 @@ jobs:
       - name: Install sandbox and dependencies
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y bubblewrap
+          sudo apt-get install -y bubblewrap redis-server
           python -m pip install -r services/rest_api/requirements.txt
-      - name: Exercise auth, admission, gateway and actual sandbox
+      - name: Exercise auth, shared admission and both native sandboxes
         run: python -B -m unittest services.rest_api.test_api -v
       - name: Validate standalone client and payload wiring
         run: |
           node tools/test-rest-client.mjs
           bash -n tools/build-web.sh
+          bash -n tools/build-rest-native.sh

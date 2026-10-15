@@ -150,12 +150,16 @@ incomplete and must preserve unique commits, modifications and evidence.
 
 `services/rest_api` adds FastAPI `/run`, `/health` and OpenAPI documentation,
 with bearer authentication, bounded English scripts, atomic single-host quotas,
-and isolated native execution. The same-project Vercel package mounts a gateway
+and isolated native execution. The same-project Vercel package runs FastAPI and a native engine directly
 at `/api/*`; `web/rest.html` is included in the shared Pages/Vercel static payload.
 The existing browser WebAssembly lab is unchanged. See the
 [service contract and deployment instructions](../services/rest_api/README.md).
 Local acceptance covers the real process sandbox, auth/admission failure paths,
-gateway mounting and the standalone client. A native HTTP smoke used preserved
-engine source `d791d306`, not a newly built engine. HTTPS worker routing,
-private deployment configuration and deployed acceptance remain pending; no
+service mounting and the standalone client. Twenty-two local tests passed,
+including direct Landlock/seccomp restrictions and actual atomic Redis Lua
+admission. The direct sandbox also ran the native engine locally. Earlier HTTP
+controls used preserved
+engine source `d791d306`, not a newly built engine. An AL2023 native build,
+actual Vercel kernel/native-loading checks, private authentication/shared-admission
+configuration and deployed acceptance remain pending; no
 public production API is enabled. Missing configuration refuses execution.
