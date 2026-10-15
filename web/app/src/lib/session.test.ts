@@ -88,6 +88,9 @@ class FakeHost implements EngineHost {
       : words[0] === "titrate" ? { op: "titrate", titrant: key } : null;
     return { ok: true, operator };
   }
+  async parseLegacy(line: string): Promise<{ ok: boolean; canonical?: string; operator?: unknown; error?: string }> {
+    return { ok: true, canonical: line };
+  }
   async runScript(script: string): Promise<ScriptResult> {
     this.calls.push(`run:${script}`);
     return {
@@ -1592,6 +1595,149 @@ describe("Session", () => {
     expect(host.calls).toContain("run:add v1 water 100mL");
     expect(s.position).toBe(1);
     expect(s.feed.some((f) => f.text.includes("replayed"))).toBe(true);
+  });
+
+  describe("engine-owned historical recipe migration", () => {
+    const oldBlue = "add v1 watercolour_blue 100g";
+    const pinnedBlue = "add v1 watercolour_blue@1 100g";
+    const oldYellow = "add v1 legacy-yellow-alias 10g";
+    const pinnedYellow = "add v1 watercolour_yellow@1 10g";
+
+    function migrationHost() {
+      const host = new FakeHost();
+      host.parseLegacy = async (line) => {
+        // Transport fixture only: native controls establish the archive's
+        // actual names, historical defaults and unit conversions.
+        host.calls.push(`legacy:${line}`);
+        const canonical = line === oldBlue ? pinnedBlue : line === oldYellow ? pinnedYellow : line;
+        return { ok: true, canonical };
+      };
+      return host;
+    }
+
+    function saved(storage: FakeStorage, log: string[], position = log.length, snapshot?: string) {
+      const raw = JSON.stringify({ log, position, register: "lv1", snapshot });
+      storage.setItem("kero.session.v1", raw);
+      return raw;
+    }
+
+    it("migrates replay, export and undo without migrating newly typed commands", async () => {
+      const storage = new FakeStorage();
+      saved(storage, [oldBlue, "add v1 NaCl 1g", "add v1 H2O 10mL"]);
+      const host = migrationHost();
+      host.parse = async () => ({ ok: false, error: "the current default cannot parse this old input" });
+      const session = new Session(host, storage);
+      await session.connect();
+      const expected = [pinnedBlue, "add v1 NaCl 1g", "add v1 H2O 10mL"];
+      expect(session.commandLog).toEqual(expected);
+      expect(session.exportLab()).toBe(expected.join("\n") + "\n");
+      expect(host.calls).toContain(`run:${expected.join("\n")}`);
+      expect(JSON.parse(storage.getItem("kero.session.v1")!).log).toEqual(expected);
+      await session.undo();
+      expect(host.calls).toContain(`run:${expected.slice(0, 2).join("\n")}`);
+      await session.redo();
+      const migrations = host.calls.filter((call) => call.startsWith("legacy:")).length;
+      expect(await session.submit("add v1 watercolour_blue 1g")).toBe(true);
+      expect(host.calls).toContain("run:add v1 watercolour_blue 1g");
+      expect(host.calls.filter((call) => call.startsWith("legacy:"))).toHaveLength(migrations);
+    });
+
+    it("preflights and persists undone future commands before an instant snapshot restore", async () => {
+      const storage = new FakeStorage();
+      saved(storage, [oldBlue, oldYellow, pinnedYellow], 1, "historical-snapshot");
+      const host = migrationHost();
+      const session = new Session(host, storage);
+      await session.connect();
+      expect(session.commandLog).toEqual([pinnedBlue, pinnedYellow, pinnedYellow]);
+      expect(session.position).toBe(1);
+      expect(host.calls).toContain("restore:historical-snapshot");
+      expect(host.calls.some((call) => call.startsWith("run:"))).toBe(false);
+      expect(host.calls.indexOf(`legacy:${pinnedYellow}`)).toBeLessThan(host.calls.indexOf("restore:historical-snapshot"));
+      expect(JSON.parse(storage.getItem("kero.session.v1")!).log).toEqual(session.commandLog);
+      await session.redo();
+      expect(host.calls).toContain(`run:${pinnedBlue}\n${pinnedYellow}`);
+    });
+
+    it("replays migrated commands when an old snapshot is incompatible", async () => {
+      const storage = new FakeStorage();
+      saved(storage, [oldBlue, oldYellow], 2, "stale-snapshot");
+      const host = migrationHost();
+      host.restore = async (snapshot) => {
+        host.calls.push(`restore:${snapshot}`);
+        throw new Error("old snapshot");
+      };
+      const session = new Session(host, storage);
+      await session.connect();
+      expect(host.calls).toContain(`run:${pinnedBlue}\n${pinnedYellow}`);
+      expect(session.commandLog).toEqual([pinnedBlue, pinnedYellow]);
+    });
+
+    it("preserves the entire raw save when an undone future command refuses migration", async () => {
+      const storage = new FakeStorage();
+      const raw = saved(storage, [oldBlue, "unknown historical recipe"], 1, "valid-snapshot");
+      const host = migrationHost();
+      const parse = host.parseLegacy.bind(host);
+      host.parseLegacy = async (line) => line.startsWith("unknown")
+        ? { ok: false, error: "historical recipe unavailable" } : parse(line);
+      const session = new Session(host, storage);
+      await session.connect();
+      expect(host.calls.some((call) => /^(run:|restore:|reset$)/.test(call))).toBe(false);
+      expect(session.commandLog).toEqual([]);
+      expect(session.position).toBe(0);
+      expect(storage.getItem("kero.session.v1")).toBe(raw);
+      session.addUserNote("new observations must not overwrite the original save");
+      expect(storage.getItem("kero.session.v1")).toBe(raw);
+      expect(session.feed.some((entry) => entry.status === "restore-failed")).toBe(true);
+    });
+
+    it("fails closed on a host without historical parsing", async () => {
+      const storage = new FakeStorage();
+      const raw = saved(storage, [oldBlue], 1, "valid-snapshot");
+      const host = new FakeHost();
+      Object.defineProperty(host, "parseLegacy", { value: undefined });
+      const session = new Session(host, storage);
+      await session.connect();
+      expect(host.calls.some((call) => /^(run:|restore:|reset$)/.test(call))).toBe(false);
+      expect(session.commandLog).toEqual([]);
+      expect(storage.getItem("kero.session.v1")).toBe(raw);
+    });
+
+    it.each([undefined, "", "\n", "add v1 water 1g\ninspect", "\0", 42])(
+      "preserves the save when the engine returns invalid canonical history (%s)", async (canonical) => {
+        const storage = new FakeStorage();
+        const raw = saved(storage, [oldBlue]);
+        const host = new FakeHost();
+        // Simulate a malformed wire response despite the static host type.
+        host.parseLegacy = async () => ({ ok: true, canonical: canonical as string });
+        const session = new Session(host, storage);
+        await session.connect();
+        expect(host.calls.some((call) => /^(run:|restore:|reset$)/.test(call))).toBe(false);
+        expect(storage.getItem("kero.session.v1")).toBe(raw);
+      },
+    );
+
+    it.each([null, 42, "", "add v1 water 1g\ninspect"])(
+      "preserves malformed historical command entries (%s)", async (entry) => {
+        const storage = new FakeStorage();
+        const raw = saved(storage, [entry as string], 1, "valid-snapshot");
+        const host = new FakeHost();
+        const session = new Session(host, storage);
+        await session.connect();
+        expect(host.calls.some((call) => /^(run:|restore:|reset$)/.test(call))).toBe(false);
+        expect(storage.getItem("kero.session.v1")).toBe(raw);
+      },
+    );
+
+    it("preserves the save when the historical parser throws", async () => {
+      const storage = new FakeStorage();
+      const raw = saved(storage, [oldBlue]);
+      const host = new FakeHost();
+      host.parseLegacy = async () => { throw new Error("legacy endpoint unavailable"); };
+      const session = new Session(host, storage);
+      await session.connect();
+      expect(host.calls.some((call) => /^(run:|restore:|reset$)/.test(call))).toBe(false);
+      expect(storage.getItem("kero.session.v1")).toBe(raw);
+    });
   });
 
   it("a corrupt save is dropped, never wedging the bench", async () => {
