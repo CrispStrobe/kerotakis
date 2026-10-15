@@ -280,3 +280,16 @@ checks passed, with one unrelated job skipped.
 PR795's REST acceptance and both native jobs passed; remaining applicable fleet
 checks still precede integration. The deployed API retains its original pinned
 engine; none of these pending runtime repairs is claimed deployed.
+
+The proven finite-gas residual now has a narrow causal repair in draft
+[PR801](https://github.com/CrispStrobe/kerotakis/pull/801), `727966a5`.
+Pressure was calculated at the full vessel temperature, but the native gas
+initializer used a temperature rounded to four decimal Celsius places. The
+saved temperature ratios match both carbon discrepancies. Four temperature
+serialization sites now retain consistent precision; no carbon projection,
+gas constant or conservation tolerance changes. Two deterministic and two native
+regression groups are prepared; corrected-source execution and cache regeneration
+remain pending. The [source contract and original bindings](https://github.com/CrispStrobe/kerotakis/blob/727966a5ae917a0ce5b9d16f845ebfa4488f437e/crates/kerotakis-phreeqc/FINITE-CARBON.md)
+retain the first evidence. [PR800](https://github.com/CrispStrobe/kerotakis/pull/800)
+selectively publishes the accepted native receipt and current status on a narrow
+main-based documentation branch; normal auto-merge is enabled.
