@@ -62,6 +62,10 @@ Configure these privately in the existing project's server environment:
 | `KERO_API_REDIS_TOKEN` | Its private REST credential |
 | `KERO_API_ORIGINS` | JSON array of exact HTTPS frontend origins, or no cross-origin access by default |
 
+The deployment workflow also accepts `KERO_API_KEYS` from an encrypted GitHub
+Actions secret and passes only those key digests to the function environment.
+Raw client keys stay outside the repository and deployment artifacts.
+
 Standard `UPSTASH_REDIS_REST_*` or `KV_REST_API_*` URL/token pairs are also
 recognized. The packaged function selects direct `vercel` mode; missing or
 invalid authentication, native assets or shared-admission configuration disables
