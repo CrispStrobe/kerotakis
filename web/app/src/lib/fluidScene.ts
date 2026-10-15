@@ -8,6 +8,7 @@
  * per-species concentrations become pixels.
  */
 
+import { fillHeight, KINDS } from "./glassware";
 import type { SceneLayer, SceneVessel } from "./host/EngineHost";
 import { layerTarget, makeGrid, type FluidGrid } from "./fluid";
 
@@ -70,6 +71,8 @@ export interface VesselSim {
   targets: Float32Array[];
   /** Rows (top, bottom) the whole liquid occupies in the grid. */
   liquidTopRow: number;
+  /** Last row occupied by liquid, above the SVG vessel bottom. */
+  liquidBottomRow: number;
 }
 
 /**
@@ -112,25 +115,38 @@ export function simFromScene(
   lookup: (species: string) => FluidSpecies,
   solidMask?: Uint8Array,
 ): VesselSim | null {
-  if (!v.liquid || !v.layers || v.layers.length === 0) return null;
+  if (!v.liquid || !Number.isFinite(v.liquid.volume_l) || v.liquid.volume_l <= 0
+    || !v.layers || v.layers.length === 0) return null;
   const grid = makeGrid(w, h, dx, v.layers.length);
   if (solidMask) grid.solid.set(solidMask);
 
-  // The liquid's share of the vessel height mirrors the SVG's fill
-  // fraction: volume relative to the drawn-full volume is the caller's
-  // business; here the liquid simply owns the bottom `fillRows`.
-  const fillFraction = Math.min(1, Math.max(0.1, v.liquid.volume_l > 0 ? 1 : 0));
-  const liquidTopRow = Math.max(0, h - Math.round(h * fillFraction));
+  // This grid spans the same 0..140 SVG viewBox as Vessel.svelte and
+  // glassMask. Seed only the rows inside the actual static liquid body.
+  const geometry = KINDS[v.label] ?? KINDS.beaker!;
+  const topY = geometry.by - fillHeight(geometry, v.liquid.volume_l);
+  const liquidTopRow = Math.max(0, Math.ceil(topY * h / 140 - 0.5));
+  const liquidBottomRow = Math.min(h - 1, Math.ceil(geometry.by * h / 140 - 0.5) - 1);
+  if (liquidTopRow > liquidBottomRow) return null;
+  // Air and the region below the vessel are outside this fixed liquid
+  // domain. In-flight droplets are rendered separately above its surface.
+  for (let y = 0; y < h; y++) {
+    if (y < liquidTopRow || y > liquidBottomRow) grid.solid.fill(1, y * w, (y + 1) * w);
+  }
 
-  const bands = layerBands(v.layers, liquidTopRow, h);
-  const species = v.layers.map((l) => lookup(l.species));
+  if (!grid.solid.some((cell) => cell === 0)) return null;
+  const bands = layerBands(v.layers, liquidTopRow, liquidBottomRow + 1);
+  // A layer can be a computed mixture named "solution", not a shelf item.
+  // Keep lookup transport properties, but colour belongs to the scene.
+  const species = v.layers.map((layer) => ({
+    ...lookup(layer.species), key: layer.species, srgb: [...layer.srgb] as [number, number, number],
+  }));
   const targets = v.layers.map((_, s) =>
     layerTarget(grid, s, bands[s]!.top, bands[s]!.bottom),
   );
   for (let s = 0; s < targets.length; s++) {
     grid.fields[s]!.set(targets[s]!);
   }
-  return { grid, species, targets, liquidTopRow };
+  return { grid, species, targets, liquidTopRow, liquidBottomRow };
 }
 
 /**
@@ -189,9 +205,9 @@ export function injectAt(
 ): void {
   const { grid } = sim;
   const cx = Math.round(xFrac * (grid.w - 1));
-  const cy = Math.max(sim.liquidTopRow, 1);
+  const cy = sim.liquidTopRow;
   const radius = 2;
-  for (let y = cy; y <= Math.min(grid.h - 1, cy + radius); y++) {
+  for (let y = cy; y <= Math.min(sim.liquidBottomRow, cy + radius); y++) {
     for (let x = Math.max(0, cx - radius); x <= Math.min(grid.w - 1, cx + radius); x++) {
       const i = y * grid.w + x;
       if (!grid.solid[i]) grid.fields[s]![i] = grid.fields[s]![i]! + amount;
@@ -206,9 +222,9 @@ export function injectAt(
  * projection turns into a vortex. */
 export function injectStir(sim: VesselSim, strength: number): void {
   const { grid } = sim;
-  const midTop = sim.liquidTopRow + Math.floor((grid.h - sim.liquidTopRow) / 3);
-  const midBottom = sim.liquidTopRow + Math.floor((2 * (grid.h - sim.liquidTopRow)) / 3);
-  for (let y = sim.liquidTopRow; y < grid.h; y++) {
+  const midTop = sim.liquidTopRow + Math.floor((sim.liquidBottomRow - sim.liquidTopRow + 1) / 3);
+  const midBottom = sim.liquidTopRow + Math.floor((2 * (sim.liquidBottomRow - sim.liquidTopRow + 1)) / 3);
+  for (let y = sim.liquidTopRow; y <= sim.liquidBottomRow; y++) {
     const dir = y < midTop ? 1 : y > midBottom ? -1 : 0;
     if (dir === 0) continue;
     for (let x = 0; x <= grid.w; x++) {

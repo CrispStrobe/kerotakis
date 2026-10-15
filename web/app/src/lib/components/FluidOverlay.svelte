@@ -57,6 +57,7 @@
   let governor = 0;
   let frameTimes: number[] = [];
   let raf = 0;
+  let fadeTimer: ReturnType<typeof setTimeout> | undefined;
   let ranEffects = new Set<number>();
   // Seeded per run from the effect timestamp: deterministic, replayable.
   let rand: () => number = mulberry32(1);
@@ -70,6 +71,11 @@
   }
 
   function startRun(fresh: Effect[]) {
+    cancelAnimationFrame(raf);
+    clearTimeout(fadeTimer);
+    sim = null;
+    visible = false;
+    fading = false;
     if (reducedMotion || !canvas) return;
     // The fluid lives inside the ACTUAL glass: the kind's inner path
     // rasterized as the wall mask (cached per kind+resolution).
@@ -162,13 +168,14 @@
         }
         if (!fading && elapsed > RUN_MS + 400) {
           fading = true;
-          setTimeout(() => {
+          fadeTimer = setTimeout(() => {
             visible = false;
             sim = null;
           }, FADE_MS);
         }
       }
-      if (image.width !== sim.grid.w || image.height !== sim.grid.h) {
+      if (canvas!.width !== sim.grid.w || canvas!.height !== sim.grid.h ||
+          image.width !== sim.grid.w || image.height !== sim.grid.h) {
         canvas!.width = sim.grid.w;
         canvas!.height = sim.grid.h;
         image = ctx.createImageData(sim.grid.w, sim.grid.h);
@@ -204,26 +211,28 @@
     startRun(fresh);
   });
 
-  $effect(() => () => cancelAnimationFrame(raf));
+  $effect(() => () => {
+    cancelAnimationFrame(raf);
+    clearTimeout(fadeTimer);
+  });
 </script>
 
-{#if visible}
-  <foreignObject x="0" y="0" width="100" height="140" class:fading>
-    <canvas bind:this={canvas} width={GRID_W} height={GRID_H}></canvas>
-  </foreignObject>
-{:else}
-  <!-- The canvas must exist before a run can start. -->
-  <foreignObject x="0" y="0" width="100" height="140" style="opacity:0">
-    <canvas bind:this={canvas} width={GRID_W} height={GRID_H}></canvas>
-  </foreignObject>
-{/if}
+<!-- Keep the canvas mounted: replacing it when visible changes would leave
+     a running frame callback painting the detached hidden canvas. -->
+<foreignObject x="0" y="0" width="100" height="140" class:visible class:fading aria-hidden="true">
+  <canvas bind:this={canvas} width={GRID_W} height={GRID_H}></canvas>
+</foreignObject>
 
 <style>
   foreignObject {
+    opacity: 0;
     transition: opacity 0.7s ease-out;
     pointer-events: none;
   }
-  foreignObject.fading {
+  foreignObject.visible {
+    opacity: 1;
+  }
+  foreignObject.visible.fading {
     opacity: 0;
   }
   canvas {

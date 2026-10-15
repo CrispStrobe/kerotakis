@@ -113,15 +113,15 @@ export function stepPour(
     // Handoff: resolve ONE fluid target cell — used for the deposit,
     // the splash sliver, and the momentum — so no path can touch a wall.
     let tx = Math.min(grid.w - 1, Math.max(0, Math.round(d.x)));
-    let ty = Math.min(grid.h - 1, Math.max(0, Math.round(d.y)));
-    while (ty > 0 && grid.solid[ty * grid.w + tx]) ty--;
+    let ty = Math.min(sim.liquidBottomRow, Math.max(surfaceY, Math.round(d.y)));
+    while (ty > surfaceY && grid.solid[ty * grid.w + tx]) ty--;
     if (grid.solid[ty * grid.w + tx]) {
       // A column of wall (outside the glass): fall back to the surface
       // centre, walking down to fluid if even that is masked —
       // conservation beats geometry for a stray.
       tx = Math.floor(grid.w / 2);
       ty = surfaceY;
-      while (ty < grid.h - 1 && grid.solid[ty * grid.w + tx]) ty++;
+      while (ty < sim.liquidBottomRow && grid.solid[ty * grid.w + tx]) ty++;
     }
     const ti = ty * grid.w + tx;
     grid.fields[d.s]![ti] = grid.fields[d.s]![ti]! + d.mass;
