@@ -105,7 +105,7 @@ jobs:
           # is exactly the non-prebuilt upload this wants.
           set -euo pipefail
           python3 tools/package-rest-api.py "$RUNNER_TEMP/site" "$RUNNER_TEMP/rest-native" "$RUNNER_TEMP/rest-snapshot.json"
-          rest_snapshot="$(python3 -c 'import json,os; print(json.load(open(os.environ["RUNNER_TEMP"] + "/rest-snapshot.json"))["snapshot_id"])')"
+          rest_snapshot="$(python3 -c 'import json,os; print(json.load(open(os.environ["RUNNER_TEMP"] + "/rest-snapshot.json", encoding="utf-8"))["snapshot_id"])')"
           rest_env=(--env KERO_API_EXECUTOR=microvm --env "KERO_API_SNAPSHOT=$rest_snapshot")
           if [ -n "$KERO_API_KEYS" ]; then
             rest_env+=(--env "KERO_API_KEYS=$KERO_API_KEYS")

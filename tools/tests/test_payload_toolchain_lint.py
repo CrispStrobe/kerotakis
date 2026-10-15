@@ -3,7 +3,9 @@ about the three ways it was wrong while being written.
 """
 import importlib.util
 import pathlib
+import tempfile
 import unittest
+from unittest.mock import patch
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -69,6 +71,33 @@ class WasmToolchainTests(unittest.TestCase):
 
     def test_build_web_is_recognised_as_a_wasm_builder(self):
         self.assertIn("tools/build-web.sh", MODULE.wasm_building_scripts())
+
+    def test_trigger_paths_and_syntax_checks_are_not_wasm_execution(self):
+        text = """on:
+  pull_request:
+    paths: ['tools/build-web.sh']
+jobs:
+  check:
+    steps:
+      - run: |
+          bash -n tools/build-web.sh
+          python -m unittest example
+"""
+        self.assertNotIn("build-web.sh", MODULE.workflow_execution(text))
+        self.assertIn("unittest example", MODULE.workflow_execution(text))
+        with tempfile.TemporaryDirectory() as directory:
+            path = pathlib.Path(directory)
+            (path / "check.yml").write_text(text, encoding="utf-8")
+            with patch.object(MODULE, "WORKFLOWS", path), patch.object(
+                    MODULE, "wasm_building_scripts", return_value=["tools/build-web.sh"]):
+                self.assertEqual(MODULE.wasm_offenders(), [])
+                for command in ["bash tools/build-web.sh", "bash -n tools/build-web.sh && bash tools/build-web.sh"]:
+                    (path / "check.yml").write_text(text + "      - run: " + command + "\n", encoding="utf-8")
+                    self.assertTrue(MODULE.wasm_offenders(), command)
+
+    def test_inline_and_folded_actual_builds_remain_visible(self):
+        for body in ["run: bash tools/build-web.sh", "run: >-\n    bash tools/build-web.sh"]:
+            self.assertIn("tools/build-web.sh", MODULE.workflow_execution(body))
 
     def test_every_workflow_that_builds_wasm_installs_the_target(self):
         self.assertEqual(MODULE.wasm_offenders(), [])

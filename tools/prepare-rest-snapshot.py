@@ -18,7 +18,7 @@ artifacts = Path(sys.argv[1]).resolve(strict=True)
 receipt = Path(sys.argv[2])
 if receipt.exists():
     raise SystemExit("Refusing to overwrite a snapshot receipt")
-manifest = json.loads((artifacts / "manifest.json").read_text())
+manifest = json.loads((artifacts / "manifest.json").read_text(encoding="utf-8"))
 if manifest.get("loader") != "ld-linux-x86-64.so.2":
     raise SystemExit("The reviewed x86_64 loader is required")
 files = {"kero": (artifacts / "kero").read_bytes(), "manifest.json": (artifacts / "manifest.json").read_bytes(),
@@ -45,7 +45,7 @@ async def main():
                 await box.fs.write_bytes("/vercel/sandbox/engine/" + name, content,
                     mode=0o755 if name in ("kero", "lib/ld-linux-x86-64.so.2") else 0o644)
             await box.fs.write_bytes("/vercel/sandbox/engine-job.py", job, mode=0o644)
-            await box.fs.write_text("/vercel/sandbox/engine/input.lab", "add v1 water 100mL @ 25C\ninspect v1", mode=0o644)
+            await box.fs.write_bytes("/vercel/sandbox/engine/input.lab", ("add v1 water 100mL @ 25C\ninspect v1").encode("utf-8"), mode=0o644)
             result = await box.run_process("python3", ["-I", "/vercel/sandbox/engine-job.py"],
                 sudo=True, capture_output=True, kill_after=15)
             if result.returncode:
@@ -63,7 +63,7 @@ async def main():
                 sandbox_sha256=hashlib.sha256(files["sandbox.runtime"]).hexdigest(),
                 network="deny-all", vcpus=1, memory_mib=2048,
                 smoke=response, physical_verdict="not_assigned")
-            receipt.write_text(json.dumps(record, indent=2) + "\n")
+            receipt.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
             print("Prepared snapshot", snapshot.id, "native observations", len(rows))
         finally:
             await box.destroy(delete_orphan_snapshots=False)

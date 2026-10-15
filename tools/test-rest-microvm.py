@@ -9,7 +9,7 @@ from pathlib import Path
 from vercel import sandbox
 from vercel.api import session
 root=Path(__file__).resolve().parent.parent
-binding=json.loads(Path(sys.argv[1]).read_text()); output=Path(sys.argv[2])
+binding=json.loads(Path(sys.argv[1]).read_text(encoding="utf-8")); output=Path(sys.argv[2])
 if output.exists(): raise SystemExit("Refusing to replace previous evidence")
 async def main(binary):
  async with session():
@@ -18,13 +18,13 @@ async def main(binary):
       network_policy=sandbox.NetworkPolicy.deny_all(),env={},ports=[],persistent=False,region='iad1') as box:
    await box.fs.write_bytes('/vercel/sandbox/engine/kero',binary,mode=0o755)
    manifest=dict(binding['engine']);manifest['binary_sha256']=hashlib.sha256(binary).hexdigest()
-   await box.fs.write_text('/vercel/sandbox/engine/manifest.json',json.dumps(manifest),mode=0o644)
-   await box.fs.write_text('/vercel/sandbox/engine/input.lab','immutable sentinel',mode=0o666)
+   await box.fs.write_bytes('/vercel/sandbox/engine/manifest.json',(json.dumps(manifest)).encode("utf-8"),mode=0o644)
+   await box.fs.write_bytes('/vercel/sandbox/engine/input.lab',('immutable sentinel').encode("utf-8"),mode=0o666)
    process=await box.run_process('python3',['-I','/vercel/sandbox/engine-job.py'],sudo=True,capture_output=True,kill_after=15)
    result=json.loads(process.stdout)
    observation=json.loads(base64.b64decode(result['stdout']))
    output.write_text(json.dumps(dict(snapshot_id=binding['snapshot_id'],result=result,observation=observation,
-      probe_sha256=hashlib.sha256((root/'services/rest_api/probe.c').read_bytes()).hexdigest()),indent=2)+'\n')
+      probe_sha256=hashlib.sha256((root/'services/rest_api/probe.c').read_bytes()).hexdigest()),indent=2)+'\n', encoding="utf-8")
    assert process.returncode==0 and result['code']==0 and observation=={'isolation_controls_pass':True},result
    print('Actual Vercel microVM isolation controls passed')
 with tempfile.TemporaryDirectory() as temp:

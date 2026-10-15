@@ -28,7 +28,7 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
   acceptance:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v6
@@ -38,8 +38,18 @@ jobs:
       - name: Install sandbox and dependencies
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y bubblewrap redis-server
+          sudo apt-get install -y bubblewrap redis-server apparmor-profiles
           python -m pip install -r services/rest_api/requirements.txt
+      - name: Load the vendor Bubblewrap namespace policy and verify startup
+        run: |
+          # Ubuntu's scoped profile permits bwrap's namespace setup and
+          # strips capabilities from its children. Keep global userns
+          # restrictions enabled; never relax the sandbox's --unshare-all.
+          sudo install -m 0644 /usr/share/apparmor/extra-profiles/bwrap-userns-restrict /etc/apparmor.d/kero-rest-bwrap
+          sudo apparmor_parser -r /etc/apparmor.d/kero-rest-bwrap
+          /usr/bin/bwrap --unshare-all --die-with-parent --cap-drop ALL \
+            --clearenv --ro-bind /usr /usr --ro-bind /lib /lib \
+            --ro-bind /lib64 /lib64 --proc /proc --dev /dev -- /usr/bin/true
       - name: Exercise auth, shared admission and both native sandboxes
         run: python -B -m unittest services.rest_api.test_api -v
       - name: Validate standalone client and payload wiring

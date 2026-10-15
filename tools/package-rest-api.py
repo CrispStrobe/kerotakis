@@ -15,7 +15,7 @@ payload = Path(sys.argv[1]).resolve(strict=True)
 if not (payload / "index.html").is_file() or (payload / "api").exists():
     raise SystemExit("Expected an existing static payload without API files")
 service = root / "services/rest_api"
-source = (service / "app.py").read_text()
+source = (service / "app.py").read_text(encoding="utf-8")
 revision = subprocess.check_output(["git", "-C", str(root), "rev-parse", "HEAD"], text=True).strip()
 for relative in ("services/rest_api/app.py", "services/rest_api/worker.py",
                  "services/rest_api/sandbox.py", "services/rest_api/vm_job.py",
@@ -36,14 +36,14 @@ app.mount("/api", _api)
 if source.count("app = create_app()\n") != 1:
     raise SystemExit("Service entrypoint changed; review packaging")
 (payload / "api").mkdir()
-(payload / "api/index.py").write_text(source.replace("app = create_app()\n", entry))
+(payload / "api/index.py").write_text(source.replace("app = create_app()\n", entry), encoding="utf-8")
 assets = payload / "api/assets"
 assets.mkdir()
 for filename in ("worker", "sandbox", "vm_job"):
     (assets / (filename + ".runtime")).write_bytes((service / (filename + ".py")).read_bytes())
 if len(sys.argv) > 2:
     artifacts = Path(sys.argv[2]).resolve(strict=True)
-    manifest = json.loads((artifacts / "manifest.json").read_text())
+    manifest = json.loads((artifacts / "manifest.json").read_text(encoding="utf-8"))
     binary = (artifacts / "kero").read_bytes()
     if (hashlib.sha256(binary).hexdigest() != manifest["binary_sha256"]
             or binary[:6] != b"\x7fELF\x02\x01" or binary[18:20] != b"\x3e\x00"):
@@ -61,17 +61,17 @@ if len(sys.argv) > 2:
     (assets / "kero").chmod(0o755)
     shutil.copyfile(artifacts / "manifest.json", assets / "manifest.json")
 if len(sys.argv) > 3:
-    receipt = json.loads(Path(sys.argv[3]).read_text())
+    receipt = json.loads(Path(sys.argv[3]).read_text(encoding="utf-8"))
     for name in ("vm_job", "sandbox"):
         if hashlib.sha256((service / (name + ".py")).read_bytes()).hexdigest() != receipt[name + "_sha256"]:
             raise SystemExit("Snapshot policy differs from current source")
     if receipt["engine"] != manifest:
         raise SystemExit("Snapshot engine differs from native bundle")
     binding = {key: receipt[key] for key in ("snapshot_id", "vm_job_sha256", "sandbox_sha256", "engine")}
-    (assets / "microvm.json").write_text(json.dumps(binding, indent=2) + "\n")
+    (assets / "microvm.json").write_text(json.dumps(binding, indent=2) + "\n", encoding="utf-8")
 (payload / "requirements.txt").write_bytes((service / "requirements.txt").read_bytes())
-config = json.loads((root / "web/vercel.json").read_text())
+config = json.loads((root / "web/vercel.json").read_text(encoding="utf-8"))
 config["rewrites"] = [{"source": "/api/:path*", "destination": "/api/index.py"}]
 config["functions"] = {"api/index.py": {"maxDuration": 60, "memory": 2048,
     "includeFiles": "api/assets/**"}}
-(payload / "vercel.json").write_text(json.dumps(config, indent=2) + "\n")
+(payload / "vercel.json").write_text(json.dumps(config, indent=2) + "\n", encoding="utf-8")

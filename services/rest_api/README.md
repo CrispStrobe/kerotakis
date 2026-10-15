@@ -169,6 +169,17 @@ single-host SQLite admission. `kerotakis-api.service` is an installation templat
 It is not a dependency of Vercel execution. Standalone deployments serve `/run`,
 `/health` and `/docs` at their origin root.
 
+Ubuntu 24.04 restricts unprivileged user namespaces through AppArmor. Its
+`apparmor-profiles` package ships a purpose-built Bubblewrap profile at
+`/usr/share/apparmor/extra-profiles/bwrap-userns-restrict`. An administrator can
+install and load that vendor profile for this worker. It permits Bubblewrap's
+namespace setup and strips capabilities from its children. The REST acceptance
+workflow loads that scoped profile and runs a fixed startup probe before all
+positive isolation controls. Keep system-wide user-namespace restrictions and
+`--unshare-all` enabled; disabling AppArmor or sharing the host network is not
+an acceptable repair. See Ubuntu's
+[namespace restriction guidance](https://discourse.ubuntu.com/t/understanding-apparmor-user-namespace-restriction/58007).
+
 ## Acceptance and current limitations
 
 Requires Python 3.12+, pinned `requirements.txt`, a C compiler, Redis and, for

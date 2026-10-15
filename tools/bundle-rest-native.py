@@ -12,7 +12,7 @@ import subprocess
 import sys
 
 binary, binding_path, output = map(Path, sys.argv[1:])
-binding = json.loads(binding_path.read_text())
+binding = json.loads(binding_path.read_text(encoding="utf-8"))
 sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
 if sha(binary) != binding["binary_sha256"]:
     raise SystemExit("Executable does not match the verified build receipt")
@@ -40,4 +40,4 @@ for key in ("source_tree", "artifact_id", "source_run_id", "artifact_sha256"):
 manifest.update(loader=loaders[0].name, target="x86_64-unknown-linux-gnu",
     packaging="Existing verified executable; bundled matching ELF loader and shared runtime; no rebuild",
     libraries={path.name: sha(path) for path in sorted((output / "lib").iterdir())})
-(output / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
+(output / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
