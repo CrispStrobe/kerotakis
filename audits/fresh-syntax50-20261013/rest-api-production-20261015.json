@@ -1,0 +1,164 @@
+{
+  "recorded_utc": "2026-10-15T18:08:28.107771+00:00",
+  "status": "production_live",
+  "origin": "https://kerotakis-web-payload.vercel.app",
+  "routes": [
+    "/api/health",
+    "/api/run",
+    "/api/docs",
+    "/api/openapi.json",
+    "/rest.html"
+  ],
+  "deployment_id": "dpl_BMfdaZVCPoDSynF3Weu7A9F7Su18",
+  "api_revision": "9bee95d9282919c435692f3b961cdaa2823d76bf",
+  "implementation_pr": "https://github.com/CrispStrobe/kerotakis/pull/795",
+  "current_source_head": "71c663e4c6c1257ec3d9df29e850f104caea8f64",
+  "engine": {
+    "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+    "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+    "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+  },
+  "backend": {
+    "kind": "fresh Vercel Sandbox microVM per admitted request",
+    "network": "deny-all",
+    "vcpus": 1,
+    "memory_mib": 2048,
+    "vm_lifetime_seconds": 30,
+    "native_cpu_seconds": 8,
+    "native_wall_seconds": 10,
+    "child_address_space_bytes": 1073741824,
+    "output_limit_bytes": 1000000,
+    "isolation": "Private chroot; no supplementary groups; uid/gid65534; zero capabilities; no_new_privs; seccomp read-only file opens, no network, separate processes or parent signals."
+  },
+  "shared_admission": {
+    "store": "Dedicated free-plan Upstash Redis, auto-upgrade disabled",
+    "global_slots": 1,
+    "minute_per_principal": 30,
+    "daily_per_principal": 1000,
+    "observed_concurrent_http_statuses": [
+      200,
+      429
+    ],
+    "minute_and_daily_thresholds": "Local atomic Lua tests; live thresholds were not exhausted."
+  },
+  "checks": [
+    {
+      "case": "health",
+      "http_status": 200,
+      "raw_response_sha256": "d7dc0d63b9fdf522611f7903240e87b5d2cffde26edcda1adae6966750791971"
+    },
+    {
+      "case": "unauthorized",
+      "http_status": 401,
+      "raw_response_sha256": "c04c9efad7598773b920f945efb9160f2cdf83d08a2702acd1225c2ad25ab770"
+    },
+    {
+      "case": "invalid-key",
+      "http_status": 401,
+      "raw_response_sha256": "fcaa47a9f4a87076c3fcff4c5bbc449805f88561fd78348473f72b26c76b62fb"
+    },
+    {
+      "case": "invalid-subset",
+      "http_status": 422,
+      "raw_response_sha256": "10a45976d2c36f6ea8d63e86a34c7ac391a62db8f7a47cd057c54a4bac7dd381"
+    },
+    {
+      "case": "oversize",
+      "http_status": 413,
+      "raw_response_sha256": "a41f32d913ae783f31b17ef51e716433d04d8d6379626ffc4bc633f2c7dd2bfc"
+    },
+    {
+      "case": "pages-cors",
+      "http_status": 200,
+      "raw_response_sha256": "7d0eb5f952bc2112d26d971590e0dddada307ca00468bb369eeae64185ca6591"
+    },
+    {
+      "case": "vercel-cors",
+      "http_status": 200,
+      "raw_response_sha256": "145ecdab697efd4ace5142854a69b379a1f4a62092c7dd50984e21fc7921f174"
+    },
+    {
+      "case": "unapproved-cors",
+      "http_status": 400,
+      "raw_response_sha256": "f4c757a408e30030db12a027ab9a6c3aeca3f6d3532869534b94066204a03cb2"
+    },
+    {
+      "case": "docs",
+      "http_status": 200,
+      "raw_response_sha256": "95d7f89da6710d4c12f7571b65d8fa77be3740b671d1731acb7b30a2c791fd89"
+    },
+    {
+      "case": "schema",
+      "http_status": 200,
+      "raw_response_sha256": "c5ddf2afacf6affeffa5f4765dcbc1820b91c4b713564ee6e71de7005f2824d0"
+    },
+    {
+      "case": "client",
+      "http_status": 200,
+      "raw_response_sha256": "a0bffc480ab82387ce93a386f5a6186a8c9912ffcca6ad945c5e242a4db425d9"
+    },
+    {
+      "case": "static",
+      "http_status": 200,
+      "raw_response_sha256": "ac55be3dcc8ed95500bc3fe684ef34229b688a509bd0f562f3f6da8b1b4b30a0"
+    },
+    {
+      "case": "acid",
+      "http_status": 200,
+      "raw_response_sha256": "75897d2ab5122c600fd19190b02d6e3e3b2f1399cb4a617325a14bc369809b20",
+      "interpretation": "Preserved first syntax refusal: mmol is unsupported. HTTP200 is an execution envelope, not a successful chemistry run."
+    },
+    {
+      "case": "concurrent-0",
+      "http_status": 429,
+      "raw_response_sha256": "32534ceffa0fbff49699e2d73ed9f70ccbda9691626813c65023af7030b15cca"
+    },
+    {
+      "case": "concurrent-1",
+      "http_status": 200,
+      "raw_response_sha256": "e2ac797eb47e0fd0832b50a5092ccd2663a99c31d9e4c2ad5e1c0952b520cb98"
+    }
+  ],
+  "native_followup": {
+    "script": "add v1 water 100mL @ 25C\nadd v1 HCl 0.001mol\ninspect v1",
+    "http_status": 200,
+    "execution_status": "completed",
+    "exit_status": 0,
+    "observations": 3,
+    "reported_ph": 2.038105470481,
+    "elapsed_seconds": 2.092260410999998,
+    "raw_response_sha256": "086a19edf1b9f857fc3946c25b087739b2cf65cac816132e25bb8664d16fd831",
+    "physical_verdict": "not_assigned"
+  },
+  "acceptance": {
+    "focused_tests": 25,
+    "focused_log_sha256": "b6f2b86b49bb4e1e25996d506bf5637a97bf8ded516f6b2c3f207d8df8dcfe85",
+    "actual_vm_isolation_controls_sha256": "224e87d0c731e403500879bf8ddcc4f84b2b554d52a2d12c2d916b5e442ce769",
+    "snapshot_preparation_sha256": "41df3d572c4867d7ce527696f595e603dcdf3aa0dbefd0863ee677643e9125d5",
+    "source_review": "Independent review identified snapshot binding, lifecycle deadline and fcntl signal restrictions; all addressed before production."
+  },
+  "preserved_first_failures": [
+    {
+      "reason": "Existing Redis database archived for inactivity; replaced only the new project connection with a dedicated free store."
+    },
+    {
+      "reason": "Actual function Landlock syscall unavailable: ABI=-1 errno=38; direct path refused. Adopted isolated Vercel microVM plus chroot/seccomp."
+    },
+    {
+      "reason": "Python lazy ctypes layout import after chroot; preloaded trusted layout before isolation."
+    },
+    {
+      "reason": "Old hosted AL2023 build selected lib64 but Cargo searched lib; source fix and container cleanup ownership fix pushed; new hosted preview pending.",
+      "run": "https://github.com/CrispStrobe/kerotakis/actions/runs/38777249799",
+      "log_sha256": "32979518b21d53ff461c720de74c0a702505cef3daa50e0a78af332f16b511d0"
+    }
+  ],
+  "remaining": [
+    "Normal protected CI/integration of PR795; actual AL2023 rebuild and fresh snapshot acceptance in run38783017261.",
+    "Both CORS preflights and client controls passed; manual real-browser client acceptance remains separate.",
+    "Frontend assets preserved from prior production; no claim that all latest frontend fixes were redeployed.",
+    "Scientific assessment of the completed200 probes remains separate from API execution success."
+  ],
+  "hosted_followup": "https://github.com/CrispStrobe/kerotakis/actions/runs/38783017261",
+  "physical_verdict": "not_assigned"
+}

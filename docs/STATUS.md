@@ -181,21 +181,30 @@ A separate VPS run of the frozen 200 generated probes attempted ranks 1–13
 in 3.61 seconds combined case time: twelve zero exits and one `Na` identity
 refusal. The memory gate stopped it before rank 14; all thirteen saved stream
 hashes were verified. [Partial execution receipt](../audits/reaction-dataset-200-20261015/vps-partial-execution.json).
-The remaining 187 require a separately bound continuation without repeating the
-completed prefix. The independent hosted run remains queued. No physical passes
+The remaining 187 were not executed locally. The independent hosted batch has
+completed all 200; do not repeat it merely to finish the local prefix. No physical passes
 are assigned and the generated screens are not individually validated procedures.
 
-The inspected Vercel payload runs chemistry in browser WebAssembly and has no
-server simulation API. A protected deployment URL redirected to authentication;
-its engine version was not verified. The [API implementation lanes](simulation-api-lane.md)
-scope bounded workers, authenticated job admission, deployment and cross-runtime
-comparison. [PR795](https://github.com/CrispStrobe/kerotakis/pull/795) now implements the
-initial service and same-project gateway. Eighteen local tests and actual native
-HTTP controls passed; [preparation evidence](../audits/fresh-syntax50-20261013/rest-api-preparation-20261015.json)
-records source and pending hosted CI/preview. The design now runs FastAPI and the native engine directly on Vercel: no VPS
-backend or worker hostname is required. Twenty-two local tests, direct native
-sandbox execution and client/service-worker controls passed.
-[Current direct-service evidence](../audits/fresh-syntax50-20261013/rest-api-direct-vercel-20261015.json)
-records the exact source and pending AL2023/actual-platform acceptance. The
-key-digest mapping and both client origins are configured; shared admission
-credentials still need verification in Vercel. No public execution is activated.
+The REST API is now **live in the existing Vercel project**:
+[API docs](https://kerotakis-web-payload.vercel.app/api/docs),
+[health/version](https://kerotakis-web-payload.vercel.app/api/health) and
+[browser client](https://kerotakis-web-payload.vercel.app/rest.html).
+Authenticated native execution, invalid-key/body/subset rejection, both approved
+CORS preflights and shared concurrency saturation are verified in production.
+Twenty-five focused tests and actual Vercel microVM isolation controls passed.
+
+Actual Vercel Landlock support was unavailable. Execution now uses fresh,
+network-denied Vercel microVMs with a bound engine/security snapshot, private
+root, dropped privileges and seccomp; no VPS worker is needed. Shared admission
+uses a dedicated free Redis store. Production API revision `9bee95d9` retains
+verified engine `d791d306`; the existing frontend assets were preserved.
+[Deployment evidence](../audits/fresh-syntax50-20261013/rest-api-production-20261015.json)
+records first failures, exact bindings, controls and limits. Execution success
+continues to carry `physical_verdict: not_assigned`.
+
+[PR795](https://github.com/CrispStrobe/kerotakis/pull/795) still requires normal
+source integration and fresh hosted rebuild acceptance. The first AL2023 build
+failed on IPhreeqc's `lib64`/Cargo `lib` mismatch and cleanup ownership; fixes are
+pushed, with [a new preview run](https://github.com/CrispStrobe/kerotakis/actions/runs/38783017261).
+Manual browser acceptance and Pages-client publication remain separate from
+passed HTTP/client controls. Follow the [remaining API lanes](simulation-api-lane.md).
