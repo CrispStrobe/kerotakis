@@ -22,3 +22,9 @@ Current execution: [corrected dispatch](../normalized40-hosted-retry-dispatch.js
 run 38699207052. No completed cases yet verified. Do not duplicate
 this run. Review saved observations against the unchanged physical forecasts
 before classifying. A current-main replay needs its own new source binding.
+
+The [saved-evidence reader](../normalized40-review/README.md) is prepared and
+passes fifteen bounded ingestion tests. It preserves the original experiment
+IDs despite filtered runner ordinals and creates a review queue without assigning
+physical verdicts. Verify producer/artifact receipts before consuming actual
+outputs. No completed forty-case execution is yet verified.
