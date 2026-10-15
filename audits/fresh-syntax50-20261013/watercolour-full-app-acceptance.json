@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-15T11:28:19.616129+00:00",
+  "executed_source": "bc4591de9191270e3ad27c29cbb025e3368d3643",
+  "executed_web_app_tree": "2fa1bcc6075123dc506d10e0e8f3b6480cb61e55",
+  "fixture": "Complete tracked-source archive; exact pinned IPhreeqc notice added; existing cached dependencies, lock byte match",
+  "tests": 1655,
+  "passed": 1655,
+  "failed": 0,
+  "files": 123,
+  "seconds": 95.85,
+  "focused_mode_tests": {
+    "passed": 3,
+    "seconds": 3.03
+  },
+  "logs": {
+    "full-app-first.log": "49acd5bc855003e0dbdd89b098abba1b462affffa9f326123a2d01d7be8ae494",
+    "mode-correction.log": "4348173a14f59c0efd6a7413e52a7751aaa2a301df5d68929175c9b96ca043ea",
+    "full-app-corrected.log": "118fe57a254ec5eb77eca0c2211259848b0ba77a60efc3a8e7ea2b589742e980",
+    "full-app-complete-fixture.log": "d92ef539f16d70ec1be5727403124abdee11a49b55800fbb3c52cd90f1c11e52",
+    "registry-export-first-failure/job.log": "571515ba620adf07043b62597d7c4c46ecb4dd4a80da3a4314750fbbf1a89ead"
+  },
+  "first_failures_preserved": [
+    "Incomplete web/app-only fixture plus two mock-host capability omissions",
+    "Pinned submodule notice missing from complete git archive",
+    "Hosted exporter still generated v1 blue/yellow; one existing byte-for-byte contract failed"
+  ],
+  "native_export_correction": "Independently reviewed source correction; hosted export/native/browser/fleet acceptance still pending.",
+  "scope": "Actual full app unit suite; not native parser, native optics, actual browser pixels or chemical calibration.",
+  "candidate_head": "a14962a8afc6a4d90e5232bf2c20ce078666e949",
+  "candidate_app_tree": "2fa1bcc6075123dc506d10e0e8f3b6480cb61e55"
+}

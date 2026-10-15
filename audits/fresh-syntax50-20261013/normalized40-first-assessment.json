@@ -1,0 +1,826 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-15T11:18:08.260748+00:00",
+  "kind": "manual first physical assessment of forty saved spelling-normalized controls",
+  "source_binding": {
+    "schema_version": 1,
+    "frozen_utc": "2026-10-14T05:07:34.420834+00:00",
+    "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+    "integrated_tree": "25d1dd490acc080a59f2a02e5b9399a22bd0f4bc",
+    "artifact_id": 11811008023,
+    "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+    "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93",
+    "artifact_review_receipt": "audits/release-performance-20261013/candidate-artifact-independent-review-v2.json",
+    "artifact_review_receipt_sha256": "8ec124715750fbb0b316d7354f5b924ff9517ec6ff92ad7cdf59c879e0995c9c",
+    "source_tree_equivalence": true,
+    "postmerge_main_artifact_claim": false,
+    "design_files": {
+      "README.md": "932019480ef2626a75c1ed4230c4a6a5fd9494f975621a9423e2e077eefd4ace",
+      "expectations.json": "e68847d2681d55fb8055d4c914ef85da6b86dfe221ea43acdcfe22a9dc555915",
+      "scripts/01.lab": "c112205635392bb2a3e0a88407606f2ebce389c27fbbf98068d6ba24607da2d5",
+      "scripts/02.lab": "639f6f819fd2875a8fa2a844fba9e94b7068331e718d88ea3fbe35a8b9016b9f",
+      "scripts/03.lab": "2392c9999ee4c1609f7867244a6046e1522f8136f49c1232b7647c9e84a0060c",
+      "scripts/04.lab": "5967ee434121431d517a58d73096076e3d401b4b46fd54d6f6a5e24a12c98f2a",
+      "scripts/05.lab": "de67f361213026c370a07be04b156e01ad2657b4df4e8e7dba682f5879566732",
+      "scripts/06.lab": "d635e3de3c475e5e17010130f74e7640e70bba7004658be095a6e5e80d7c63c4",
+      "scripts/07.lab": "e9952f608ef7b5364b82b5c0aea6dcb813f9c5324308a10e84b7f4fe9206d404",
+      "scripts/08.lab": "67e5afad930d2338adf191bdf112f362acfccc6667919e81e7dac50d562ec561",
+      "scripts/09.lab": "b3195db36f0e0a38d34dc09eb99a3e4326f1cbd943337eb4054cc46f88c3d1c7",
+      "scripts/10.lab": "a314045ef2869f579415287f53a0e4ac1df9155bf3cef59313228203aaa758a1",
+      "scripts/11.lab": "01a29a34e5e0191a7464fd50a618874b4cd18952691f51d6de0227dfcf5aa6ae",
+      "scripts/12.lab": "6617f59f512e5b130f8e4cd44d040178be2bdcc4e6dd8edd9a5060d74e38cc22",
+      "scripts/13.lab": "1a6bdac536741a267726a94440cac7ed9d2511580e3f67586e67a547d111ed64",
+      "scripts/14.lab": "6dea1838a68b6983dd5b79c709a453cddbb55a719b6266a9285209c3f8bdcf90",
+      "scripts/15.lab": "bbeb7962924baabe4afa1d5d352be4c10e17228c53bd08ed355866969c2eaf75",
+      "scripts/16.lab": "ac36011bfb8afc4be0d1e25cbd35e369c6c54d2194d5d06db88a22949bbfcb3f",
+      "scripts/17.lab": "0560971911da215e84d1be21190e783443bb7a60dfca97268618f8d69664da5e",
+      "scripts/18.lab": "6e2f61b81710aadbd85bf7adaed9d07755a8e724f3e9a650bde4ae68897f62db",
+      "scripts/19.lab": "487855c8b6c38d5ab88513a5ad35eef2b8f287a00038af4bfb17105cd4aeba75",
+      "scripts/20.lab": "b9ec4e0f0ba49199808e9110aa430313618b893a3d6f6349528d429a8d89d7f9",
+      "scripts/21.lab": "273155d6c22c513e6e61805eec9e307a4677dfac7168706841c78c370db10657",
+      "scripts/22.lab": "c46b36f854be90033a14d74957b47d1d26d3553cfa8141ab12e20fef7f359478",
+      "scripts/24.lab": "d3fc2c7e2f38473b8af492d407e26ab65eb88d7bc2286a8a9b5eac921d664993",
+      "scripts/25.lab": "a22e74407d8a964873723e08095f9cbf5ce42446bdce57161aca0db1333d9d03",
+      "scripts/26.lab": "6d2b81c9e70a235a7fc0d5ab504bf626dd97d859d42466b4abfa9af8e79ba836",
+      "scripts/27.lab": "9ae7b63dd97f467eb967b5aafb9f2f289785ebfa75609969c51169297260a861",
+      "scripts/33.lab": "cd0bacc4da1fe09ce015a358803a5826f919b9305f562256d87aa500f53b3950",
+      "scripts/34.lab": "57e4ff87517b0d35a28222f33c03984bb36cf52c38b4e81f6672560dbb57de64",
+      "scripts/35.lab": "0d606eb1f8ae539d5066175b8b2434c061e4a9a1904c90e93bb4479d12117d58",
+      "scripts/36.lab": "131dbfd2a6c47463f4193eb12e3b9aafd43162e23890188ead0b0b619ac5c94b",
+      "scripts/37.lab": "34645b8ce658b96cd5c8abd77d87640be50231afcc10ff9c019666d531bbad75",
+      "scripts/38.lab": "c7a56adba59bc2a863cf22ea8a777147a5feda1369ffb985fd111e25340ae734",
+      "scripts/40.lab": "dfef8618ff04bd155b70150dd8c228b26bd117456fc3a149a7f501168fce111f",
+      "scripts/41.lab": "5594c3e5b2095e5cc0311b6c51b9ba6ef3fba13bf25824aac5f92e6ec9a1f0fa",
+      "scripts/42.lab": "8ffdd61e5bb26e4fdf694d76e78ab22b0395bfe380baa52c66d875a95a7a1fd1",
+      "scripts/43.lab": "31ca3bbdad7cd818281ccd01aef173879f0eca61f16d4d597f3e87769b9294ed",
+      "scripts/44.lab": "0e76c13726b387072918f3486d90a417fc01e5b8540e4ce20fc43de968baac83",
+      "scripts/45.lab": "530d8bd82938f4225b31f1baca7c3ea3385e6fbe9d999f2367c8b2926ecbbd6f",
+      "scripts/46.lab": "39ef52b43606944fb0b9a3871934e4e915ef4cbf73777c2fbe2063a172b57a18",
+      "scripts/48.lab": "1555e0b8d3e4e5f09f4ffc2997158b9a62295ba0d47644a34925420823764c6d"
+    },
+    "design_freeze_sha256": "d7b97632d675c15c3aa81955dc1c948709a5b26b2344fa0692ea8450886a5bac",
+    "syntax_reference_sha256": "91b164917a10a4e42bda6dc4afa622f0f11291ec6072d9ea3d61dcd30791dd82",
+    "runner_sha256": "0e0afba181c2c63bcd128ba48f54debe67c1d529d0fd7da35a7886a66f47184a",
+    "resource_thresholds": {
+      "load1_max": 3.5,
+      "memory_available_mib_min": 3200,
+      "fast_free_mib_min": 4224,
+      "storage_free_mib_min": 8192
+    },
+    "timeout_per_case_seconds": 60,
+    "preserve_first_outcomes": true,
+    "classifications": [
+      "pass",
+      "fail",
+      "unsupported",
+      "inconclusive"
+    ],
+    "no_forecast_rewrites": true,
+    "experiment_count": 40,
+    "scope": "source-informed key-normalized forty; not original blind first outcomes",
+    "original_fifty_freeze_sha256": "b064cd21c3364c6b5cad9bfc69dad4c3cb54dbc86d1d663bddef7313b07708cd",
+    "changes_sha256": "bccc0d9f28af575acad00bff963b333bd9a39cfce2c13673b1e1aef2a0335c45",
+    "original_first_outcome_review_sha256": "a2162a137ac7ba04ab6196c2a733a4770e4a7201e11e1877e44e879fb6eb0a39"
+  },
+  "review_queue_sha256": "13cf307f660444c1a7135d93d2e5c400229e5b5399c33c19e031a12d82532246",
+  "run": 38699207052,
+  "artifact_id": 11957908414,
+  "counts": {
+    "pass": 28,
+    "unsupported": 9,
+    "fail": 1,
+    "inconclusive": 2
+  },
+  "cases": [
+    {
+      "experiment_id": "01",
+      "ordinal": 1,
+      "script": "scripts/01.lab",
+      "title": "Water sensible heating",
+      "verdict": "pass",
+      "output_sequences": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "reason": "20.000\u219222.3912 \u00b0C after 1 kJ; 100 g liquid water retained.",
+      "stderr_is_evidence": false,
+      "record_sha256": "c32da5f65f963b1d1ee7a70667c748aaf81ef43af1b71f5d86f66570d5ada77f",
+      "stdout_sha256": "fc53fba64325d47277a59ac866c60da709b0f417d8d718132af52b9d08a33aff",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "02",
+      "ordinal": 2,
+      "script": "scripts/02.lab",
+      "title": "Water sensible cooling",
+      "verdict": "pass",
+      "output_sequences": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "reason": "30.000\u219227.6094 \u00b0C after removing 1 kJ; liquid water retained.",
+      "stderr_is_evidence": false,
+      "record_sha256": "6442a1ce21138bbcf0ff4b437de80d7ad24f7d5733ee28c468ab27028fdf38ac",
+      "stdout_sha256": "fe358c69af46afb174e49339e3ee15aa887ecbf9d2c20ea37ce29b073ec5b977",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "03",
+      "ordinal": 3,
+      "script": "scripts/03.lab",
+      "title": "Mass dependence of heating",
+      "verdict": "pass",
+      "output_sequences": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "reason": "50 g and 100 g warm 4.78215 and 2.39120 \u00b0C; ratio 1.99990, inside frozen 1.4\u20132.6 bound.",
+      "stderr_is_evidence": false,
+      "record_sha256": "587e510a10b0e1f9a56b8bd77af3d03ffc094fe5e538daa8af977c466e3e270c",
+      "stdout_sha256": "db7302e68e3abba6d191134977fa75745174e1cde40615af8b631445fd11c3e0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "04",
+      "ordinal": 4,
+      "script": "scripts/04.lab",
+      "title": "Hot and cold water mixing",
+      "verdict": "pass",
+      "output_sequences": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "reason": "Equal 50 g portions at20/60 \u00b0C yield39.9967 \u00b0C and100 g.",
+      "stderr_is_evidence": false,
+      "record_sha256": "328cbdbcbb9b3df3bc96747ac3f6e82642ad51d51002e83ff08b7f0d5b4ae39c",
+      "stdout_sha256": "0de104e62647a6c72fc5c534c65c60c06b2f2270b5d0adeb9262127fc0c72a8d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "05",
+      "ordinal": 5,
+      "script": "scripts/05.lab",
+      "title": "Salt solution density",
+      "verdict": "unsupported",
+      "output_sequences": [
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "reason": "Salt dissolves, but density0.997273 g/mL carries explicit no-reviewed-datum notice for dissolved-ion density; expected1.05\u20131.10 unavailable. Water control0.997.",
+      "stderr_is_evidence": false,
+      "record_sha256": "f2e2d1f79f3fc6fc3fd9a3a3e347e260e3610130bffcb183e7bb3d0e08977e5e",
+      "stdout_sha256": "73969fa268a077bb5faaf42e6c0380a5fb18103d4b668cd987255f6906309295",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "06",
+      "ordinal": 6,
+      "script": "scripts/06.lab",
+      "title": "Electrolyte conductivity",
+      "verdict": "pass",
+      "output_sequences": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "reason": "NaCl conducts10904.797 \u00b5S/cm=10.9048 mS/cm vs water0.05509 \u00b5S/cm; within5\u201315 mS/cm forecast. Empirical correction/domain note retained.",
+      "stderr_is_evidence": false,
+      "record_sha256": "4e21dc1930ee33c3258b2139e408185c0239d99e093e296c3f28bd930cf5dab8",
+      "stdout_sha256": "0d0004b7a2e8fbf5eed5320380b425f316458b721be311e420a7a0fdfcd86555",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "07",
+      "ordinal": 7,
+      "script": "scripts/07.lab",
+      "title": "Nonelectrolyte sugar",
+      "verdict": "unsupported",
+      "output_sequences": [
+        0,
+        1
+      ],
+      "reason": "stderr rejects C12H22O11 before sucrose addition or conductivity comparison. Formula alone is also isomer-ambiguous; catalog has explicit sucrose identity.",
+      "stderr_is_evidence": true,
+      "record_sha256": "f1ba1638eb2006c2031c5ff11ac7c6ab16c8b5bc8a07be95aebdd6e203b2dabf",
+      "stdout_sha256": "13fbdf119961384846fbdeb1c3aabec50cf72ef2c2ab0ec6094313cd264a8549",
+      "stderr_sha256": "e6235c5748ed06c2b00be0359213794ef359dfd0a8d71f533ec6fb402d450a1a"
+    },
+    {
+      "experiment_id": "08",
+      "ordinal": 8,
+      "script": "scripts/08.lab",
+      "title": "Strong acid dilution",
+      "verdict": "pass",
+      "output_sequences": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "reason": "pH2.038105\u21923.054227 (increase1.016121); HCl equivalents retained. dilute adds1 L solvent, giving1.1 L, not a1 L target. Frozen target-volume condition is conditional and does not apply; old-source Operator::Dilute docs explicitly say add solvent by volume.",
+      "stderr_is_evidence": false,
+      "record_sha256": "29d80db811897e3b59ba6e29110bea26cc993d34c9186bb6b7f942eaba94b922",
+      "stdout_sha256": "13008c466ccdadcb37db4fffd005f290ccfc6d0bed5f546ca85b3220a4e85f27",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "09",
+      "ordinal": 9,
+      "script": "scripts/09.lab",
+      "title": "Strong base dilution",
+      "verdict": "pass",
+      "output_sequences": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "reason": "pH11.951669\u219210.944255 (fall1.007414); dilute adds1 L water to initial0.1 L.",
+      "stderr_is_evidence": false,
+      "record_sha256": "d191fbf3c8b61e1fd4ec8c2afff787a352a9af96cb92009eeb4770b70ca00d95",
+      "stdout_sha256": "33462bc92b729ae6fb6c4589a05a8cfa455209ad50495dd82e9c5da7d32eaa18",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "10",
+      "ordinal": 10,
+      "script": "scripts/10.lab",
+      "title": "Stoichiometric neutralization",
+      "verdict": "pass",
+      "output_sequences": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "reason": "pH2.038105\u21926.992695; 0.001mol each Na/Cl retained, no persistent acid/base-equivalent excess.",
+      "stderr_is_evidence": false,
+      "record_sha256": "280d396af0ea20685bc1775ac13ac3c6d3fcc67ad86660baeeac8b32cd158f86",
+      "stdout_sha256": "2b49e426b915a98716d4c201f07a1c054ae3380a5e2b0dd1f0096cae46840718",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "11",
+      "ordinal": 11,
+      "script": "scripts/11.lab",
+      "title": "Acid excess after neutralization",
+      "verdict": "pass",
+      "output_sequences": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "reason": "pH2.049706 and0.001mol remaining H+ after0.002mol HCl/0.001mol NaOH.",
+      "stderr_is_evidence": false,
+      "record_sha256": "f95e76d0fad8e125fe365f998b0ed2e9cd20d1edcd26a1d1c1b9bdb9a10c3b25",
+      "stdout_sha256": "d649d372bd282cff868b17ff58f115a750653c530b09e290042da86e0dcecd87",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "12",
+      "ordinal": 12,
+      "script": "scripts/12.lab",
+      "title": "Weak versus strong acid",
+      "verdict": "pass",
+      "output_sequences": [
+        2,
+        4,
+        5,
+        6
+      ],
+      "reason": "Acetic pH3.387132 vs HCl2.038105; difference1.349026 and weak-acid pH inside3.1\u20133.7.",
+      "stderr_is_evidence": false,
+      "record_sha256": "abf90b607e1233a82252d93dc5bc85cf9852f2e8fb728e4a2d43323fb8b6bd83",
+      "stdout_sha256": "a0aac9628636bb803f3402bbede2be3ba8f6734203c1278284718d4bdea1ffed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "13",
+      "ordinal": 13,
+      "script": "scripts/13.lab",
+      "title": "Acetate buffer response",
+      "verdict": "unsupported",
+      "output_sequences": [
+        0,
+        1
+      ],
+      "reason": "stderr rejects CH3COONa, suggests NaOAc; buffer stage never formed.",
+      "stderr_is_evidence": true,
+      "record_sha256": "18b8548508650e144423493474bbc90e1adf53c7055a17b8ab44471e7764762d",
+      "stdout_sha256": "796bea97660b23f8755a4574c776e87cd6f86c7dea5655272690909363c98d7e",
+      "stderr_sha256": "1a4d998fd4f707d7f9cc6bf0f81128495242e5338edec9f9980e2a038c330588"
+    },
+    {
+      "experiment_id": "14",
+      "ordinal": 14,
+      "script": "scripts/14.lab",
+      "title": "Salt saturation",
+      "verdict": "pass",
+      "output_sequences": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "reason": "0.610207489mol dissolved Na/Cl and0.245326963mol solid NaCl correspond35.6633g dissolved/14.3367g solid, conserving50g. Final14.6492 \u00b0C records dissolution cooling; amounts remain within frozen34\u201338/12\u201316g bounds.",
+      "stderr_is_evidence": false,
+      "record_sha256": "01a660efa3a39eced822e6102967cae0b39b23c0515e5db044b98f24ea439b07",
+      "stdout_sha256": "84e179fba420eac5c4d0ab3115d5a5bf7cdb027375cae2e2ef63cf941cc5294c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "15",
+      "ordinal": 15,
+      "script": "scripts/15.lab",
+      "title": "Temperature dependent nitrate solubility",
+      "verdict": "fail",
+      "output_sequences": [
+        2,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "reason": "Cold sample at293.154140K (20.0041 \u00b0C) contains all0.197817675mol=20g KNO3 as K+/NO3\u2212, no solid. Hot sample at79.9546 \u00b0C also fully dissolved. Explicit frozen failure condition: all20g dissolved at confirmed near20 \u00b0C.",
+      "stderr_is_evidence": false,
+      "record_sha256": "765a9f1675b5d4015f4fe2ac97e03aeeebef847b2ae6d0841f1ebd3a97bc6d76",
+      "stdout_sha256": "8f5632a4378ee27c3fa022f8e4151bdef42e381aa92f1cff80dc714c54076505",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "16",
+      "ordinal": 16,
+      "script": "scripts/16.lab",
+      "title": "Silver chloride precipitation",
+      "verdict": "pass",
+      "output_sequences": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "reason": "White AgCl observed;0.000998481805mol solid\u22480.1431g, residual Ag+1.5182e-6mol (0.152% input).",
+      "stderr_is_evidence": false,
+      "record_sha256": "7c92f8f0c16dc130b28fb771de0942620cfd01a5022df4e0a46a99d3bd87c89a",
+      "stdout_sha256": "4d38d058a5e4d80b82c5eff578c03587d4205c6d8ee477797ef478ae98c7ac45",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "17",
+      "ordinal": 17,
+      "script": "scripts/17.lab",
+      "title": "Barium sulfate precipitation",
+      "verdict": "pass",
+      "output_sequences": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "reason": "White BaSO4 observed;0.000998170786mol solid\u22480.233g, below0.001mol input ceiling; residual dissolved Ba1.8292e-6mol.",
+      "stderr_is_evidence": false,
+      "record_sha256": "020454034b90bc8983f14abf0093bcd42e1b37aae95527747db775a61266e59d",
+      "stdout_sha256": "43a8954095d6216afc6ae68066123509edb0ae20b89c69d80163d2c0aa09b7f3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "18",
+      "ordinal": 18,
+      "script": "scripts/18.lab",
+      "title": "Calcium carbonate precipitation",
+      "verdict": "pass",
+      "output_sequences": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "reason": "White CaCO3 observed;0.000982636581mol\u22480.09835g, inside0.07\u20130.11g; calcium equivalents conserved.",
+      "stderr_is_evidence": false,
+      "record_sha256": "c863b8df0fd8540f7904480d8a0bb8d8a59187285c5564e8ae4a8b91ba993997",
+      "stdout_sha256": "07ea7918d05441d958972739e75c8de4166a1677daafd39e613b6e40e062a9a5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "19",
+      "ordinal": 19,
+      "script": "scripts/19.lab",
+      "title": "Copper hydroxide precipitation",
+      "verdict": "pass",
+      "output_sequences": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "reason": "Blue-green Cu(OH)2 deposit0.000998474414mol\u22480.0974g; aqueous Cu+2 declines to8.76966e-7mol. Qualified by withheld-tenorite metastability, trace brochantite and explicit spectral gaps; not full optical calibration.",
+      "stderr_is_evidence": false,
+      "record_sha256": "8232616f1035e4deda7ad94e7a703a7d4d1606d2e5736d1c031bf5fe1e897edc",
+      "stdout_sha256": "a25644fc04d16cec241886b28a9453369a0a954998e4b2777bdcaaf9e8485ab9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "20",
+      "ordinal": 20,
+      "script": "scripts/20.lab",
+      "title": "Amphoteric aluminum hydroxide",
+      "verdict": "unsupported",
+      "output_sequences": [
+        0
+      ],
+      "reason": "stderr rejects AlCl3 before amphoteric sequence. No AlCl3 identity found in current registry; do not treat as a proven alias-only defect.",
+      "stderr_is_evidence": true,
+      "record_sha256": "ad391c18cadc7ab70b02c6219a8ad80326e85fdf4acefed63b0f089dc240116a",
+      "stdout_sha256": "ee09928e72b19c99214a523c2d6746c15177c8158fc85ac9e956ab0be216cbf2",
+      "stderr_sha256": "6fce84858f0ab6cd97563318d9dbb60a37e6e833b5e7cf5d1aededf16a7fbdf4"
+    },
+    {
+      "experiment_id": "21",
+      "ordinal": 21,
+      "script": "scripts/21.lab",
+      "title": "Zinc with acid",
+      "verdict": "inconclusive",
+      "output_sequences": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "reason": "Explicit kinetic overpotential blocking, no H2 and negative pop after1s. Frozen fail criterion needs excess yield/incompatible gas/explicit equilibrium without reaction; one-second blocked kinetics proves none of those.",
+      "stderr_is_evidence": false,
+      "record_sha256": "ea9501900c88e1c437766a43d9f2588a98a130cbfe48fd3ee28fe0776fc03935",
+      "stdout_sha256": "821400d9961d8f827d4f7c244ea6e6db4ca33829acfc09679f2ac42830b80405",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "22",
+      "ordinal": 22,
+      "script": "scripts/22.lab",
+      "title": "Carbonate acid gas",
+      "verdict": "pass",
+      "output_sequences": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "reason": "Before assay, inorganic C0.001016349504614mol less initial trapped C0.000016349617810=0.000999999886804mol. CO2 gas/dissolved pools form, positive limewater, final pH2.057255. Use pre-assay row5; assay consumes CO2.",
+      "stderr_is_evidence": false,
+      "record_sha256": "84df0f5e2b0796e9bddd2ffe376fbe9235a8bf3a2aae335518f054e576a3ff07",
+      "stdout_sha256": "45180169a5966fb8ff6ca25a1bdebf47a7a2a09259c1e8999ef09d59f837f82e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "24",
+      "ordinal": 23,
+      "script": "scripts/24.lab",
+      "title": "Copper resists nonoxidizing acid",
+      "verdict": "pass",
+      "output_sequences": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "reason": "Metallic Cu remains0.001mol, no H2, negative pop. Trace trapped atmospheric CO2 is not generated hydrogen; unrelated hazard prose not a physical pass criterion.",
+      "stderr_is_evidence": false,
+      "record_sha256": "37dbf9e294b0c49b3c27b9b276b0675f18ca8257e9f360b398d73955ba79b499",
+      "stdout_sha256": "f91fcb46e032dc26807da4bccaa4c218645a11a8a4c803f58dac77b66dd55c2e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "25",
+      "ordinal": 24,
+      "script": "scripts/25.lab",
+      "title": "Iron displaces copper",
+      "verdict": "pass",
+      "output_sequences": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "reason": "Cu metal0.000999750233mol with matching FeII/Fe consumption; remaining Fe0.001000249767mol. Qualified spectral/excluded-phase warnings retained.",
+      "stderr_is_evidence": false,
+      "record_sha256": "c62e51b69d9515b7a3a0aec9d081b9151b647f6df4845fc6499374c9ac3a63f0",
+      "stdout_sha256": "3d1348af106cfaf5b2b9201fd8c7fe1602cbaa20dd3ac0fad9075ff7a8ee021b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "26",
+      "ordinal": 25,
+      "script": "scripts/26.lab",
+      "title": "Copper displaces silver",
+      "verdict": "pass",
+      "output_sequences": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "reason": "Ag metal0.001999999790mol; Cu consumed and CuII produced0.000999999895mol, satisfying2Ag:1Cu; spectral gaps retained.",
+      "stderr_is_evidence": false,
+      "record_sha256": "2ac3489e0a729138e33b24a97d248fe463d7a1bb402c2d7de373a2bd834052de",
+      "stdout_sha256": "61b9fa8b9d13e2f8e6fbf3b68b7a9cec5b5b75cca96067d8afe37b96809f578e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "27",
+      "ordinal": 26,
+      "script": "scripts/27.lab",
+      "title": "Peroxide oxidizes ferrous iron",
+      "verdict": "inconclusive",
+      "output_sequences": [
+        3,
+        4,
+        5
+      ],
+      "reason": "FeII0.002mol unchanged and no FeIII after1s; peroxide0.000999991876mol remains. Frozen kinetics/partial-conversion rule prevents a physical failure verdict; mechanism coverage needs separate source review.",
+      "stderr_is_evidence": false,
+      "record_sha256": "4680788be136bf3bfdf1dc299b261804231dbad4ca7e747f36d6797b88109b41",
+      "stdout_sha256": "e6250d11c3e8cf3e97195a742100123968fb6631ab866ad318f7180cb19da0bd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "33",
+      "ordinal": 27,
+      "script": "scripts/33.lab",
+      "title": "Carbon dioxide acidifies water",
+      "verdict": "pass",
+      "output_sequences": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "reason": "pH falls5.628921\u21924.232803 within3.5\u20135.5 target; dissolved CO2(aq)0.000766958687mol, plus headspace/dissociated pools.",
+      "stderr_is_evidence": false,
+      "record_sha256": "e3505f81adc3ae79f4a8ff8a9896c7c8684a6a88fda86b227e3219d474b14683",
+      "stdout_sha256": "3a24f9a27ac8e5a744ba8c9f393fa366970e8ffd56f9f04fd0cefbacd21e6cc0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "34",
+      "ordinal": 28,
+      "script": "scripts/34.lab",
+      "title": "Ammonia basifies water",
+      "verdict": "pass",
+      "output_sequences": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "reason": "pH rises5.628921\u219210.470637 within9\u201311.5; dissolved NH3/NH4+ plus retained gas conserve approximately0.001mol nitrogen input.",
+      "stderr_is_evidence": false,
+      "record_sha256": "56f080dc1fae2d652a27bd8b8fda6ad73165b5c9c147de9f53474e7e8763bee0",
+      "stdout_sha256": "63b3aecd2538861ca4203fd5be4f4d840f0755c9c9a357ab5ba3159fcb7d5868",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "35",
+      "ordinal": 29,
+      "script": "scripts/35.lab",
+      "title": "Ethanol water mixing",
+      "verdict": "unsupported",
+      "output_sequences": [
+        0,
+        1
+      ],
+      "reason": "stderr rejects C2H5OH, suggesting ethanol; no mixture or density comparison.",
+      "stderr_is_evidence": true,
+      "record_sha256": "fbe09ed3f942867a14363eab0ca64b0d6385712fd10faa79659657f999b627df",
+      "stdout_sha256": "a3dc374e5ee6e90af38064093979e559e864682a0d606f5edca6c7d9d95e8af5",
+      "stderr_sha256": "239606fe46de81b2803273bc46ded45825600b6fed7708a4210dcb945656b169"
+    },
+    {
+      "experiment_id": "36",
+      "ordinal": 30,
+      "script": "scripts/36.lab",
+      "title": "Hexane water immiscibility",
+      "verdict": "unsupported",
+      "output_sequences": [
+        0
+      ],
+      "reason": "stderr rejects C6H14, suggesting hexane; no two-phase mixture. Follow-up must explicitly choose n-hexane identity, not auto-alias all C6H14 isomers.",
+      "stderr_is_evidence": true,
+      "record_sha256": "4971c1c1def24fa69b0b8fd66b4f0c874c35ecf58aaa36e41e0567801ab55332",
+      "stdout_sha256": "9fe3f6f2a5f8cbe6bb180037b5a5ce9871a294f3c585d6ef2ac5f98989c14159",
+      "stderr_sha256": "f683b8fdc414c6524b440486b82684ddb64f0435510bc979720167c72099b30d"
+    },
+    {
+      "experiment_id": "37",
+      "ordinal": 31,
+      "script": "scripts/37.lab",
+      "title": "Iodine solvent extraction",
+      "verdict": "unsupported",
+      "output_sequences": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reason": "Iodine/water created, but extraction rejects C6H14. No solvent receiver or extraction result to assess.",
+      "stderr_is_evidence": true,
+      "record_sha256": "a4f5cc1449ad3149f5259dbe5209073a40bed9bae26419ab169c1729b47d3146",
+      "stdout_sha256": "15961a266309b38bfc2acdd0a6b8cccaded91dffc4838379d903379662f09a67",
+      "stderr_sha256": "87a133e56e11ce749956130b1bcbe9b96c609a0d2b62f6ec0c6960649641d8d9"
+    },
+    {
+      "experiment_id": "38",
+      "ordinal": 32,
+      "script": "scripts/38.lab",
+      "title": "Filtration of sand suspension",
+      "verdict": "pass",
+      "output_sequences": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "reason": "Filter retains0.016623393915mol solid SiO2 in source; receiver has water plus1.997203915e-5mol dissolved SiO2 (0.12% initial silica), exceeding90% exclusion target.",
+      "stderr_is_evidence": false,
+      "record_sha256": "395996aa8cf59cdcf8c74ab06c5c210198effcc08f95fac33e209515de152176",
+      "stdout_sha256": "f52aad50b17c9ca9c1fa5a93ef09b04be6b89f1b7e54fba80940fc6cffcbdea2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "40",
+      "ordinal": 33,
+      "script": "scripts/40.lab",
+      "title": "Decanting supernatant",
+      "verdict": "pass",
+      "output_sequences": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "reason": "Half water transferred:2.767138496mol\u224850mL each. All0.016623393915mol solid silica remains source; only trace dissolved silica splits. Assumed particle size/settling scope retained.",
+      "stderr_is_evidence": false,
+      "record_sha256": "89cf316f3186cf596deac5f2ce92938054d3e55959af8fe2e39d284f81d4cc7b",
+      "stdout_sha256": "243ebc661d4e8bda9ba445008677c179fe8c46b602c8db281f2a0f76732d95af",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "41",
+      "ordinal": 34,
+      "script": "scripts/41.lab",
+      "title": "Draining a salt solution",
+      "verdict": "unsupported",
+      "output_sequences": [
+        4,
+        5,
+        6
+      ],
+      "reason": "Explicit nothing-to-act-on notice: drain separates liquid layers and refuses single-phase brine. Receiver remains empty; this is a command-semantics coverage mismatch, not accepted transfer.",
+      "stderr_is_evidence": false,
+      "record_sha256": "bce0b940f20aa2fab63bee1532a6d4cb56455f3391b6424c48dcbd02ff0402ca",
+      "stdout_sha256": "94a5079817a92d553d79253800f8e72486878552c8e1144a0dd53a205e62cdad",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "42",
+      "ordinal": 35,
+      "script": "scripts/42.lab",
+      "title": "Partial evaporation concentrates salt",
+      "verdict": "pass",
+      "output_sequences": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "reason": "Water halves5.534276991\u21922.767138496mol; Na/Cl stay0.017110689047mol each, so salt/water ratio doubles. Final conductivity33598.382\u00b5S/cm; no new solid.",
+      "stderr_is_evidence": false,
+      "record_sha256": "9a77a5c6dbd4aa05d9f7a656a37576fe30bf1d29ad99265bddefd651c79354de",
+      "stdout_sha256": "dd2764bd787c8bf7bbce0b96f3edfd2d9855f1608cd119fc944463131bc43875",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "43",
+      "ordinal": 36,
+      "script": "scripts/43.lab",
+      "title": "Distilling salt water",
+      "verdict": "pass",
+      "output_sequences": [
+        4,
+        5,
+        6
+      ],
+      "reason": "Receiver contains1.106855398mol water\u224820mL and no Na/Cl; all salt remains source. Conductivity0.054754\u00b5S/cm. Forecast concerns separation; distillation energy/thermal representation is not validated by this pass.",
+      "stderr_is_evidence": false,
+      "record_sha256": "a1085fae68961c49dd0d0426d89df2680931261750664e44378e25853e0e1cd7",
+      "stdout_sha256": "b6fc06f0cf5027f4eeec6add3243e4461ca6d3dd504532869e5cf05893c2d1dc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "44",
+      "ordinal": 37,
+      "script": "scripts/44.lab",
+      "title": "Ethanol enrichment by distillation",
+      "verdict": "unsupported",
+      "output_sequences": [
+        0,
+        1
+      ],
+      "reason": "stderr rejects C2H5OH, suggesting ethanol, before enrichment sequence.",
+      "stderr_is_evidence": true,
+      "record_sha256": "1fde7f2cba41420a0a0413bd9c9eb0fd296cbbf27fc1c43d391d9942aa87afab",
+      "stdout_sha256": "b4c6e5ccd25c9d20aa9d59d8f076f49f5ebdab480e5a56063b4b3ac9d83fdc13",
+      "stderr_sha256": "d6da53a1dcbeaf2e05466173a4b2fdf351678322a96bad53da0f325999245b12"
+    },
+    {
+      "experiment_id": "45",
+      "ordinal": 38,
+      "script": "scripts/45.lab",
+      "title": "Charge bounded aqueous electrolysis",
+      "verdict": "pass",
+      "output_sequences": [
+        2,
+        3,
+        4
+      ],
+      "reason": "Q1C gives H2 increment5.182134828e-6mol and O2 increment2.591067414e-6mol after subtracting initial atmospheric O2;2:1 and Faraday maxima agree. Water consumption tiny; do not use total O2 including trapped air.",
+      "stderr_is_evidence": false,
+      "record_sha256": "dcde363f124a9fb0eb6a4e876413cbd84dca133b560abf0e5c94e44cade454d9",
+      "stdout_sha256": "7d4f936eb9b0cf3fd050346e6fe86f743a97f301b8f73a2035a526fbf756ad3b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "46",
+      "ordinal": 39,
+      "script": "scripts/46.lab",
+      "title": "Bounded acid base titration",
+      "verdict": "pass",
+      "output_sequences": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "reason": "Root-refined endpoint10.000003755mL and final pH6.999995856; Na0.0010000003755mol. Meets near10mL/near7 forecast, but does not establish strict crossing above7; frozen crossing requirement is conditional.",
+      "stderr_is_evidence": false,
+      "record_sha256": "f9baadebe631129dcd0a4428b83e5a177099205699414e548daeb606b73ac565",
+      "stdout_sha256": "5297fc9c0bae5db5665a6275fefecfffc8d68735f905477433dd271caa742ded",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "experiment_id": "48",
+      "ordinal": 40,
+      "script": "scripts/48.lab",
+      "title": "Bicarbonate vinegar effervescence",
+      "verdict": "pass",
+      "output_sequences": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "reason": "Pre-assay inorganic C0.001016349790955mol minus trapped C0.000016349617810=0.001000000173145mol (1.73e-10mol numerical residual above nominal1mmol). Positive limewater, acetate/acid\u22481mmol each, final pH4.711569. Bound holds to sub-ppm numerical precision; not empirical calibration.",
+      "stderr_is_evidence": false,
+      "record_sha256": "51b70660477bf8100830561406f311cc7e7ee0b46ca60d69978ec8021fd06930",
+      "stdout_sha256": "1ae76a8ff3e0db8fac992ffa20d2b9b52682ccdefebcd146138d0d3ac0d4bceb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "limits": [
+    "Original independent fifty stay7pass/2fail/40unsupported/1inconclusive.",
+    "No chemistry rerun; no current-main execution claim.",
+    "No forecasts edited; manual comparison is not empirical calibration.",
+    "Use output_sequence and operator, not bench step alone.",
+    "Assay consumption and initially trapped atmospheric gas accounted before gas-budget judgments."
+  ],
+  "independent_review": {
+    "scope": "All forty preserved cases compared against frozen forecasts and raw rows; no discrepancy found",
+    "tests_or_chemistry_executed": false
+  }
+}

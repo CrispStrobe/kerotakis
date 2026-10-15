@@ -35,13 +35,14 @@ in the private handoff. Heavy local work and delegation require resource gates.
    [forty controls](../audits/fresh-syntax50-20261013/normalized40/design/README.md)
    are dispatched in [hosted run 38699207052](https://github.com/CrispStrobe/kerotakis/actions/runs/38699207052).
    The producer reports all 40 executed (33 zero exits, seven nonzero exits); raw
-   stream verification is complete for all forty cases; physical assessment
-   remains pending. The [raw-integrity receipt](../audits/fresh-syntax50-20261013/normalized40-raw-integrity.json)
+   stream verification and the first physical assessment are complete: **28 pass,
+   1 fail, 9 unsupported, 2 inconclusive**. Read the [case-level assessment and
+   follow-up lanes](../audits/fresh-syntax50-20261013/normalized40-first-assessment.md). The [raw-integrity receipt](../audits/fresh-syntax50-20261013/normalized40-raw-integrity.json)
    records artifact/source authentication, checksums and the verified review queue. There was no app
    rebuild. Do not duplicate this execution. The controls
    already freeze `H2O`→`water` substitutions and unchanged physical forecasts
-   on original main `30fd09eb`/binary `b290`. Run that source-bound control set
-   when resources permit, preserving it separately from any alias/fix replay.
+   on original main `30fd09eb`/binary `b290`. That execution is complete; preserve it
+   separately from any alias/fix replay.
    For actual integrated source, freeze a new replay binding rather than change
    the original one. Compare physical observations and classify pass, fail,
    unsupported and inconclusive. These controls do not supersede the forty

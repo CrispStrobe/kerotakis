@@ -21,13 +21,13 @@ Do not change frozen experiments to agree with a candidate.
    the black static watercolor mixture is fixed by this renderer change.
 
 2. **Recipe identity and historical replay — prerequisite for new defaults.**
-   PR792 now contains the complete candidate at `1c037058`: archive, migration,
+   PR792 now contains the complete candidate at `a14962a8`: archive, migration,
    revision-specific bottles and version-2 blue/yellow defaults. Source review
    passed after closing material/species name collisions and incomplete legacy
-   selector tables. Focused mocked app Session controls passed 125/125 on an
-   identical app tree; native/protocol/optical and full app/browser/fleet
-   acceptance remain pending. The tested app source was `b094f969`, not a native
-   execution of the corrected candidate.
+   selector tables. Full app unit controls passed 1,655/1,655 on `bc4591de`, whose app tree equals
+   `a14962a8`. The reviewed exporter correction follows its preserved byte-diff
+   failure. Actual corrected-source export, native/protocol/optical, browser and
+   fleet acceptance remain pending. App unit tests do not execute native optics.
    Inspect `crates/kerotakis-core/src/material.rs` version lookup and the
    `Operator::AddMaterial` branch in `bench.rs`. Verify requested revision lookup and its canonical identity/basis guards;
    current and archived versions must both resolve without sharing bottle balances. Inspect `web/app/src/lib/session.svelte.ts` save,
@@ -42,7 +42,7 @@ Do not change frozen experiments to agree with a candidate.
 
 3. **Transparent teaching wash optics — reproduction and versioned remedy.**
    The staged revision-2 blue/yellow recipes and seven native control groups are
-   on PR792 at `1c037058`; native and full browser/CLI outcomes remain unexecuted.
+   on PR792 at `a14962a8`; native and full browser/CLI outcomes remain unexecuted.
    Review [the frozen candidate expectations](https://github.com/CrispStrobe/kerotakis/blob/b094f969/docs/watercolour-v2-controls.md)
    and retain their initial outcomes before any correction.
    Reproduce an empty vessel followed by `add v1 watercolour_blue 100g` and

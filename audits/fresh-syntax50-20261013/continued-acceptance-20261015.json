@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-15T11:30:07.212433+00:00",
+  "prs": {
+    "789": {
+      "headRefOid": "30d84ed58b7a3ca6680046ba577632ec3dee553d",
+      "isDraft": true,
+      "mergeStateStatus": "BLOCKED",
+      "number": 789,
+      "state": "OPEN",
+      "check_counts": {
+        "QUEUED:": 39,
+        "COMPLETED:SUCCESS": 15,
+        "IN_PROGRESS:": 1,
+        "COMPLETED:SKIPPED": 1
+      }
+    },
+    "790": {
+      "headRefOid": "35a10ec334fa22b46b9acb2bfe3ed997e6330ba9",
+      "isDraft": true,
+      "mergeStateStatus": "BLOCKED",
+      "number": 790,
+      "state": "OPEN",
+      "check_counts": {
+        "COMPLETED:SUCCESS": 16,
+        "QUEUED:": 8,
+        "IN_PROGRESS:": 1
+      }
+    },
+    "791": {
+      "headRefOid": "a5ad70a8b9400d968341b7c74acd40bf34fd3e35",
+      "isDraft": true,
+      "mergeStateStatus": "BLOCKED",
+      "number": 791,
+      "state": "OPEN",
+      "check_counts": {
+        "COMPLETED:SUCCESS": 31,
+        "QUEUED:": 24,
+        "COMPLETED:SKIPPED": 1
+      }
+    },
+    "792": {
+      "headRefOid": "a14962a8afc6a4d90e5232bf2c20ce078666e949",
+      "isDraft": true,
+      "mergeStateStatus": "BLOCKED",
+      "number": 792,
+      "state": "OPEN",
+      "check_counts": {
+        "QUEUED:": 25
+      }
+    }
+  },
+  "pr792_ci": 38727666954,
+  "pr792_fleet": 38727666987,
+  "merged_product_prs": [],
+  "full_app_acceptance": "watercolour-full-app-acceptance.json",
+  "first_full_app_failure": "watercolour-full-app-first-result.json",
+  "saved_forty_assessment": "normalized40-first-assessment.json",
+  "preserved_registry_failure": {
+    "run": 38723360126,
+    "job": 116383136797,
+    "log_sha256": "571515ba620adf07043b62597d7c4c46ecb4dd4a80da3a4314750fbbf1a89ead",
+    "cause": "Exporter still emitted revision1 blue/yellow definitions, violating existing byte-for-byte source contract.",
+    "reviewed_correction": "a14962a8afc6a4d90e5232bf2c20ce078666e949",
+    "actual_corrected_export_test": "pending"
+  },
+  "superseded_1c_fleet_cancel_requested": 38723360148,
+  "scope": "No native optics or browser acceptance inferred from app unit tests; no merge or calibration claim."
+}

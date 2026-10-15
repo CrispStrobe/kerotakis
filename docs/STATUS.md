@@ -34,16 +34,18 @@ that failure is preserved and only the lookup was corrected. See the
 They retain their original old-source binding and physical forecasts. Execution
 is complete: the producer reports 40 executions, 33 zero exits and seven nonzero
 exits. Raw case integrity is now verified for all forty saved cases, with no missing
-cases or stdout parse errors; physical verdicts remain pending. Process exits
-are not scientific verdicts. See the [raw-integrity receipt](../audits/fresh-syntax50-20261013/normalized40-raw-integrity.json). Do not duplicate the execution. See the
+cases or stdout parse errors. The first manual physical assessment is now
+**28 pass, 1 fail, 9 unsupported and 2 inconclusive**. This is a separate old-source
+control set; the original fifty remain unchanged. Process exits are not scientific
+verdicts. See the [case assessment and scoped next steps](../audits/fresh-syntax50-20261013/normalized40-first-assessment.md). See the [raw-integrity receipt](../audits/fresh-syntax50-20261013/normalized40-raw-integrity.json). Do not duplicate the execution. See the
 [completion receipt](../audits/fresh-syntax50-20261013/normalized40-hosted-completion.json).
 
 The [saved-evidence reader](../audits/fresh-syntax50-20261013/normalized40-review/README.md)
 is ready with seventeen ingestion tests; it produces a review queue and assigns no
 physical verdicts.
 
-1. Consume the forty first outcomes and classify actual observations.
-2. Freeze a separate current-main replay, preserving old-source controls.
+1. First assessment of the forty saved controls is complete; preserve its source binding.
+2. Freeze a separate current-main replay, prioritizing demonstrated KNO3 solubility failure and six explicit identity follow-ups.
 3. Repair demonstrated recurring conservation, pressure, energy and observable gaps.
 4. Extend one validated finite closed-gas chemistry domain.
 5. Explain boundary semantics consistently in CLI/app and English/German.
@@ -93,7 +95,7 @@ review passed; four new native test groups and full applicable acceptance remain
 pending.
 
 [PR792](https://github.com/CrispStrobe/kerotakis/pull/792) now contains the full
-versioned watercolor candidate at `1c037058`: exact revision-1 archive,
+versioned watercolor candidate at `a14962a8`: exact revision-1 archive,
 independent historical parsing, whole-history saved-session migration across
 browser/native hosts, revision-specific finite bottles, and blue/yellow revision-2
 washes at one-tenth the former dye concentration. Original recipes, spectra and
@@ -104,16 +106,23 @@ Independent review found and closed two further replay gaps: pack species could
 claim a material name, and incomplete legacy-default tables could silently fall
 back to today's recipe. Admission now reserves material names, historical parsing
 retains pure-species priority, and archive validation requires complete default
-coverage. Source review passed. The focused app Session suite passed **125/125**
-on `b094f969`; its entire app tree equals `1c037058`. This is mocked app acceptance,
-not native parser, optical, full-app or actual-browser acceptance.
+coverage. Source review passed. The focused app Session suite passed **125/125**, and the corrected full app
+suite passed **1,655/1,655** across 123 files on `bc4591de`, whose complete app tree
+matches current `a14962a8`. The mode-isolation mock now supports historical parsing;
+production older-host refusal remains covered. Two incomplete fixture attempts
+are preserved separately from product failures. Hosted registry-export validation
+then caught its old v1 blue/yellow generator definitions; the independently
+reviewed correction now emits the reviewed v2 concentrations and evidence.
+Actual corrected-source export, native optics/protocol, browser and fleet acceptance
+remain pending. [App results and preserved first failures](../audits/fresh-syntax50-20261013/watercolour-full-app-acceptance.json)
+retain exact sources and log hashes.
 
-All four PRs remain drafts pending their named acceptance. Updated PR789/790
-heads are active; the full corrected PR792 candidate has replaced its earlier
+All four PRs remain drafts pending their named acceptance. CI has resumed and its first registry-export failure is preserved and corrected.
+Updated PR789/790 heads are active; the full corrected PR792 candidate has replaced its earlier
 incomplete head. Superseded run metadata and first failures are preserved. Two
 stuck obsolete fleets were cancelled after ordinary cancellation failed to finish;
 current candidate runs remain untouched. Follow
-[the current merge checkpoint](../audits/fresh-syntax50-20261013/merge-followup-20261015.json)
+[the current merge checkpoint](../audits/fresh-syntax50-20261013/continued-acceptance-20261015.json)
 for exact source and run bindings. Do not transfer earlier checks to changed
 source, merge the broad audit branch, or weaken acceptance to obtain a merge.
 

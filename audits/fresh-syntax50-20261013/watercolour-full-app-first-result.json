@@ -1,0 +1,25 @@
+{
+  "source": "b094f9696ac02290ead0d2032cc5f80a7ddb3411",
+  "fixture": "web/app-only archive missing repository-level tool/data/lesson/test dependencies",
+  "log_sha256": "49acd5bc855003e0dbdd89b098abba1b462affffa9f326123a2d01d7be8ae494",
+  "test_files_passed": 108,
+  "test_files_failed": 15,
+  "tests_passed": 1263,
+  "tests_failed": 18,
+  "seconds": 93.63,
+  "product_acceptance": false,
+  "recorded_utc": "2026-10-15T11:20:02.622981+00:00",
+  "current_pr_head": "1c037058b9069fe80df67960b115d627683ed857",
+  "additional_fixture_protocol_failures": {
+    "file": "web/app/src/lib/modeSessionConformance.test.ts",
+    "tests": [
+      "keeps divergent logs, undo, reset and reopen isolated by mode",
+      "falls back to deterministic replay when a persisted snapshot is stale"
+    ],
+    "cause": "DeterministicHost lacks parseLegacy. Production migration correctly fails closed before restoring saves.",
+    "staged_correction": "bc4591de9191270e3ad27c29cbb025e3368d3643",
+    "change": "Add canonical pass-through parseLegacy to the isolation mock, retaining assertions. Actual recipe migration is covered separately.",
+    "validation": "pending; no test yet on this correction"
+  },
+  "fixture_source_correction": "Complete tracked-source fixture extraction is pending load headroom. First run/log preserved; no product acceptance inferred."
+}
