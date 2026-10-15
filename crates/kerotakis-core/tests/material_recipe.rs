@@ -5,6 +5,277 @@ use kerotakis_core::species::SpeciesId;
 use kerotakis_core::Bench;
 
 #[test]
+fn canonical_material_commands_pin_revision_and_replay_the_same_expansion() {
+    use kerotakis_core::script::parse_command;
+    use kerotakis_core::Locale;
+
+    for (line, locale, expected) in [
+        (
+            "add v1 watercolour_blue 100g",
+            Locale::EN,
+            "add v1 watercolour_blue@2 100g",
+        ),
+        (
+            "add v1 watercolour_yellow 100mL @ 30C",
+            Locale::EN,
+            "add v1 watercolour_yellow@2 100mL @ 30C",
+        ),
+        (
+            "zugeben v1 Milch 100mL",
+            Locale::parse("de"),
+            "add v1 whole_milk@1 100mL",
+        ),
+    ] {
+        let command = parse_command(line, locale).expect("parse material");
+        assert_eq!(command.canonical, expected);
+        let replay = parse_command(&command.canonical, Locale::EN).expect("replay pin");
+        assert_eq!(replay.canonical, command.canonical);
+        assert_eq!(replay.operator, command.operator);
+        let mut original_bench = Bench::new();
+        let mut replay_bench = Bench::new();
+        let original_events = original_bench
+            .step(command.operator.unwrap())
+            .expect("original addition");
+        let replay_events = replay_bench
+            .step(replay.operator.unwrap())
+            .expect("replayed addition");
+        assert_eq!(original_events, replay_events);
+        assert_eq!(
+            serde_json::to_value(&original_bench).unwrap(),
+            serde_json::to_value(&replay_bench).unwrap()
+        );
+    }
+}
+
+#[test]
+fn pinned_material_alias_uses_the_canonical_bottle_and_finite_stock() {
+    use kerotakis_core::script::parse_command;
+    use kerotakis_core::Locale;
+
+    let mut bench = Bench::new();
+    bench
+        .step(parse_op("stock whole_milk 20g").unwrap().unwrap())
+        .unwrap();
+    let command = parse_command("add v1 Milch@1 5g", Locale::EN).unwrap();
+    assert_eq!(command.canonical, "add v1 whole_milk@1 5g");
+    bench.step(command.operator.unwrap()).unwrap();
+    assert_eq!(bench.stock.remaining("whole_milk").unwrap().amount, 15.0);
+    assert_eq!(bench.stock.remaining("Milch@1").unwrap().amount, 15.0);
+}
+
+#[test]
+fn loaded_species_cannot_hijack_material_names_or_revision_tokens() {
+    for key in [
+        "whole_milk",
+        "watercolour_blue",
+        "blue_watercolor",
+        "watercolour_yellow",
+        "whole_milk@1",
+        "watercolour_blue@1",
+        "watercolour_blue@2",
+        "watercolour_blue@invalid",
+    ] {
+        let mut candidate = kerotakis_core::species::lookup_key("NaCl").unwrap().clone();
+        candidate.key = key;
+        assert_eq!(
+            kerotakis_core::species::register_loaded(vec![candidate]),
+            (0, 1)
+        );
+        assert!(kerotakis_core::species::lookup_key(key).is_none());
+    }
+    assert!(matches!(
+        parse_op("add v1 whole_milk@1 100mL @ 30C"),
+        Ok(Some(Operator::AddMaterial { .. }))
+    ));
+    assert!(parse_op("add v1 watercolour_blue@invalid 1g").is_err());
+    assert!(matches!(
+        parse_op("add v1 watercolour_blue@2 1g"),
+        Ok(Some(Operator::AddMaterial { .. }))
+    ));
+    assert!(matches!(
+        parse_op("add v1 water 10mL @ 30C"),
+        Ok(Some(Operator::Add { .. }))
+    ));
+}
+
+#[test]
+fn legacy_material_parser_uses_archived_aliases_and_pins_stock_and_additions() {
+    use kerotakis_core::script::{parse_command, parse_legacy_command};
+    use kerotakis_core::Locale;
+
+    let old = "add v1 blue watercolour 100g";
+    assert!(
+        parse_command(old, Locale::EN).is_err(),
+        "legacy resolver is independent of current single-token grammar"
+    );
+    assert_eq!(
+        parse_legacy_command(old, Locale::EN).unwrap().canonical,
+        "add v1 watercolour_blue@1 100g"
+    );
+    let mut bench = Bench::new();
+    for (line, expected) in [
+        (
+            "stock watercolor_blue 100g",
+            "stock watercolour_blue@1 100g",
+        ),
+        (
+            "add v1 blue_watercolor 25g",
+            "add v1 watercolour_blue@1 25g",
+        ),
+    ] {
+        let command = parse_legacy_command(line, Locale::EN).unwrap();
+        assert_eq!(command.canonical, expected);
+        bench.step(command.operator.unwrap()).unwrap();
+    }
+    assert_eq!(
+        bench.stock.remaining("watercolour_blue@1").unwrap().amount,
+        75.0
+    );
+    let blue = kerotakis_core::material::lookup_legacy("watercolour_blue", None).unwrap();
+    let expansion = blue.expand(100.0, 0).unwrap();
+    assert_eq!(
+        expansion.components[0].amount, 0.02,
+        "old dye mass stays pinned"
+    );
+    assert_eq!(expansion.components[1].amount, 99.98);
+    for line in [
+        "add v1 water 10mL",
+        "add v1 NaCl 1g",
+        "add v1 watercolour_blue@1 1g",
+    ] {
+        assert_eq!(
+            parse_legacy_command(line, Locale::EN).unwrap(),
+            parse_command(line, Locale::EN).unwrap()
+        );
+    }
+}
+
+#[test]
+fn recipe_history_is_hidden_from_default_catalogue_and_retains_original_composition() {
+    use kerotakis_core::material;
+    for key in ["watercolour_blue", "watercolour_yellow"] {
+        let old = material::lookup_legacy(key, None).unwrap();
+        assert_eq!(old.version, 1);
+        assert_eq!(material::lookup_versioned(&old.id, 1).unwrap(), old);
+        assert_eq!(
+            material::all()
+                .iter()
+                .filter(|recipe| recipe.canonical_key == key)
+                .count(),
+            1
+        );
+        assert_eq!(old.components[0].fraction.lower, 0.0002);
+        assert_eq!(old.components[1].fraction.lower, 0.9998);
+    }
+}
+
+#[test]
+fn historical_bottles_keep_revision_identity_across_legacy_snapshot_and_typed_operator() {
+    use kerotakis_core::stock::StockLedger;
+    let raw = r#"{"watercolour_blue":{"amount":100.0,"unit":"gram"}}"#;
+    let stock: StockLedger = serde_json::from_str(raw).unwrap();
+    assert_eq!(stock.entries().next().unwrap().0, "watercolour_blue@1");
+    let encoded = serde_json::to_string(&stock).unwrap();
+    assert_eq!(
+        serde_json::from_str::<StockLedger>(&encoded).unwrap(),
+        stock
+    );
+    let mut bench = Bench::new();
+    bench.stock = stock;
+    bench
+        .step(parse_op("add v1 watercolour_blue@1 25g").unwrap().unwrap())
+        .unwrap();
+    assert_eq!(
+        bench.stock.remaining("watercolour_blue@1").unwrap().amount,
+        75.0
+    );
+    bench
+        .step(Operator::StockShelf {
+            key: "watercolor_blue".to_string(),
+            amount: 20.0,
+        })
+        .unwrap();
+    assert_eq!(
+        bench.stock.remaining("watercolour_blue@1").unwrap().amount,
+        20.0
+    );
+    let before = serde_json::to_value(&bench.vessels).unwrap();
+    let events = bench
+        .step(parse_op("add v1 watercolour_blue@1 25g").unwrap().unwrap())
+        .unwrap();
+    assert!(events.iter().any(
+        |event| matches!(event, Event::StockExhausted { key, .. } if key == "watercolour_blue@1")
+    ));
+    assert_eq!(serde_json::to_value(&bench.vessels).unwrap(), before);
+    assert_eq!(
+        bench.stock.remaining("watercolour_blue@1").unwrap().amount,
+        20.0
+    );
+}
+
+#[test]
+fn stock_revision_keys_do_not_share_balances_and_legacy_alias_collisions_are_rejected() {
+    use kerotakis_core::stock::{StockLedger, StockUnit};
+    let mut stock = StockLedger::default();
+    stock.stock("watercolour_blue@1", 20.0, StockUnit::Gram);
+    // The ledger can retain an opaque key from a newer producer; admission of
+    // that recipe remains a separate, currently refused parser operation.
+    stock.stock("watercolour_blue@2", 50.0, StockUnit::Gram);
+    stock.draw("watercolour_blue@1", 5.0).unwrap();
+    assert_eq!(stock.remaining("watercolour_blue@1").unwrap().amount, 15.0);
+    assert_eq!(stock.remaining("watercolour_blue@2").unwrap().amount, 50.0);
+    let duplicate = r#"{"watercolour_blue":{"amount":20.0,"unit":"gram"},"blue_watercolor@1":{"amount":30.0,"unit":"gram"}}"#;
+    assert!(serde_json::from_str::<StockLedger>(duplicate).is_err());
+}
+
+#[test]
+fn unavailable_or_invalid_material_revision_never_selects_current_default() {
+    for revision in ["", "0", "-1", "+1", "1.0", "999", "4294967296", "1@1"] {
+        assert!(
+            parse_op(&format!("add v1 watercolour_blue@{revision} 100g")).is_err(),
+            "revision {revision:?} must not become the current recipe"
+        );
+    }
+}
+
+#[test]
+fn direct_material_replay_refuses_mismatched_identity_or_revision_without_mutation() {
+    let original = parse_op("add v1 watercolour_blue 100g").unwrap().unwrap();
+    for wrong_identity in [false, true] {
+        let mut forged = original.clone();
+        if let Operator::AddMaterial {
+            recipe_id,
+            recipe_version,
+            ..
+        } = &mut forged
+        {
+            if wrong_identity {
+                *recipe_id = kerotakis_core::material::lookup("watercolour_yellow", None)
+                    .unwrap()
+                    .id;
+            } else {
+                *recipe_version += 1;
+            }
+        }
+        let mut bench = Bench::new();
+        let before = serde_json::to_value(&bench).unwrap();
+        assert!(bench.step(forged).is_err());
+        assert_eq!(serde_json::to_value(&bench).unwrap(), before);
+    }
+}
+
+#[test]
+fn material_revision_pins_do_not_change_pure_species_or_session_commands() {
+    use kerotakis_core::script::parse_command;
+    use kerotakis_core::Locale;
+
+    for line in ["add v1 water 100mL", "add v1 NaCl 1g", "inspect v1"] {
+        assert_eq!(parse_command(line, Locale::EN).unwrap().canonical, line);
+    }
+    assert!(parse_op("add v1 NaCl@1 1g").is_err());
+}
+
+#[test]
 fn household_peroxide_volume_expands_and_pins_recipe() {
     let op = parse_op("add v1 Wasserstoffperoxid_3% 100mL")
         .expect("valid material command")

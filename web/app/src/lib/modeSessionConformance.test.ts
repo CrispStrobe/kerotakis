@@ -39,6 +39,9 @@ class DeterministicHost {
         return { schema: 1, elements: Array.from({ length: 118 }, (_, index) => ({ symbol: `E${index}`, capability: "identity_only", examples: [], routes: [] })) };
       },
       async parse() { return { ok: true }; },
+      // This host models log isolation, not recipe migration chemistry.
+      // Current hosts support the preflight needed before saved-state restore.
+      async parseLegacy(line: string) { return { ok: true, canonical: line }; },
       async runScript(script: string): Promise<ScriptResult> {
         self.calls.push(`run:${script}`);
         const lines = script.split("\n").filter(Boolean);

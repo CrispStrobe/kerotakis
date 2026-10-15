@@ -67047,7 +67047,7 @@
     },
     {
       "id": "school/watercolor-yellow-curcumin",
-      "version": 1,
+      "version": 2,
       "canonical_key": "watercolour_yellow",
       "name": "yellow watercolor",
       "aliases": {
@@ -67094,8 +67094,8 @@
         {
           "species_id": "curcumin",
           "fraction": {
-            "lower": 0.0002,
-            "upper": 0.0002
+            "lower": 0.00002,
+            "upper": 0.00002
           },
           "evidence": {
             "source_id": "kerotakis/material-recipes-v1",
@@ -67108,8 +67108,8 @@
         {
           "species_id": "water",
           "fraction": {
-            "lower": 0.9998,
-            "upper": 0.9998
+            "lower": 0.99998,
+            "upper": 0.99998
           },
           "evidence": {
             "source_id": "kerotakis/material-recipes-v1",
@@ -67125,7 +67125,7 @@
         "kind": "homogeneous_liquid"
       },
       "roles": [],
-      "preparation": "0.02% w/w curcumin aqueous wash; unbranded transparent optical teaching surrogate",
+      "preparation": "0.002% w/w curcumin aqueous wash; unbranded transparent optical teaching surrogate",
       "lot_assumptions": [
         "the named chromophore and concentration define this surrogate; it is not a claim about a retail product's ingredients"
       ],
@@ -67138,13 +67138,13 @@
         "source_id": "kerotakis/material-recipes-v1",
         "method": {
           "kind": "editorial",
-          "detail": "unbranded household teaching surrogate with an explicit concentration"
+          "detail": "editorial tenfold dilution of revision 1 for a transparent 4 cm-path teaching wash; not a measured retail formulation"
         }
       }
     },
     {
       "id": "school/watercolor-blue-indigo-carmine",
-      "version": 1,
+      "version": 2,
       "canonical_key": "watercolour_blue",
       "name": "blue watercolor",
       "aliases": {
@@ -67191,8 +67191,8 @@
         {
           "species_id": "indigo_carmine",
           "fraction": {
-            "lower": 0.0002,
-            "upper": 0.0002
+            "lower": 0.00002,
+            "upper": 0.00002
           },
           "evidence": {
             "source_id": "kerotakis/material-recipes-v1",
@@ -67205,8 +67205,8 @@
         {
           "species_id": "water",
           "fraction": {
-            "lower": 0.9998,
-            "upper": 0.9998
+            "lower": 0.99998,
+            "upper": 0.99998
           },
           "evidence": {
             "source_id": "kerotakis/material-recipes-v1",
@@ -67222,7 +67222,7 @@
         "kind": "homogeneous_liquid"
       },
       "roles": [],
-      "preparation": "0.02% w/w indigo_carmine aqueous wash; unbranded transparent optical teaching surrogate",
+      "preparation": "0.002% w/w indigo_carmine aqueous wash; unbranded transparent optical teaching surrogate",
       "lot_assumptions": [
         "the named chromophore and concentration define this surrogate; it is not a claim about a retail product's ingredients"
       ],
@@ -67235,7 +67235,7 @@
         "source_id": "kerotakis/material-recipes-v1",
         "method": {
           "kind": "editorial",
-          "detail": "unbranded household teaching surrogate with an explicit concentration"
+          "detail": "editorial tenfold dilution of revision 1 for a transparent 4 cm-path teaching wash; not a measured retail formulation"
         }
       }
     },

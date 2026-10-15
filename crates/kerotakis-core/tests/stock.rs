@@ -240,13 +240,15 @@ fn the_stock_line_parses_and_pins_the_canonical_key() {
 
     // A material stated in millilitres is converted by the same reviewed
     // bulk density `add` uses, and stored in the recipe's own basis.
+    // Canonical material stock pins the revision so later recipe updates do
+    // not reinterpret a saved finite bottle. Pure-species keys stay unchanged.
     let op = parse_op("stock white_vinegar_5_percent 100mL")
         .unwrap()
         .expect("an operator");
     let Operator::StockShelf { key, amount } = op else {
         panic!("stock parses to StockShelf");
     };
-    assert_eq!(key, "white_vinegar_5_percent");
+    assert_eq!(key, "white_vinegar_5_percent@1");
     assert!(
         amount > 90.0 && amount < 120.0,
         "100 mL of a watery liquid is ~100 g, got {amount}"

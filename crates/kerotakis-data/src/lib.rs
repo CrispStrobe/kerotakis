@@ -9,6 +9,7 @@
 mod adapter;
 pub mod chebi;
 pub mod fluid_parameters;
+mod material_history;
 pub mod model_pack;
 mod pack;
 mod property_bounds;
@@ -22,6 +23,7 @@ pub mod usda;
 mod validate;
 
 pub use adapter::*;
+pub use material_history::*;
 pub use model_pack::{ModelPackManifest, PackContents, PackLane, PackRejectReason};
 pub use pack::{
     build_pack, load_pack, serialize_pack_payload, PackError, PACK_MAGIC, PACK_VERSION,

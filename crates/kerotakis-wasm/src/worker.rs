@@ -19,6 +19,8 @@ pub enum WorkerCommand {
     LoadCache { url: String },
     /// Validate a single line without executing it.
     Parse { line: String },
+    /// Preflight old saved text against reviewed historical recipe defaults.
+    ParseLegacy { line: String },
     /// Cancel the current operation.
     Cancel,
     /// Reset the bench.
