@@ -174,7 +174,8 @@
           }, FADE_MS);
         }
       }
-      if (image.width !== sim.grid.w || image.height !== sim.grid.h) {
+      if (canvas!.width !== sim.grid.w || canvas!.height !== sim.grid.h ||
+          image.width !== sim.grid.w || image.height !== sim.grid.h) {
         canvas!.width = sim.grid.w;
         canvas!.height = sim.grid.h;
         image = ctx.createImageData(sim.grid.w, sim.grid.h);
