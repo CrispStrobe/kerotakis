@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "source_exact_or_overall_balance_checks": 186,
+  "schematic_records_not_assigned_balance_pass": 14,
+  "errors": [],
+  "scope": "Independent atom and net-charge arithmetic for stated equations only; no reaction feasibility, mechanism, yield or CLI outcome claim"
+}

@@ -2,6 +2,8 @@
 
 Both supplied JSON files were read. The 200-record dataset validates against
 its supplied JSON Schema; the schema itself is not a chemical reaction.
+An independent [atom/charge check](input-balance-check.json) confirms 186 exact
+or overall equations; the 14 schematic records remain outside that balance claim.
 [Input hashes](input-inventory.json), [the frozen manifest](design/manifest.json)
 and [all 200 scripts](design/scripts) retain exact record accounting.
 

@@ -120,7 +120,7 @@ verifies actual parents and expected merge tree. Equilibrium readback churn
 remains a separate task.
 
 [PR792](https://github.com/CrispStrobe/kerotakis/pull/792) contains the full
-versioned watercolor candidate at `3196a8d6`: exact revision-1 archive,
+versioned watercolor candidate at `3574752f`: exact revision-1 archive,
 historical parsing, whole-history saved-session migration across browser/native
 hosts, revision-specific finite bottles, and blue/yellow revision-2 washes with
 one-tenth the former dye concentration. Spectra and optical paths are unchanged.
@@ -140,7 +140,11 @@ retain their own source bindings. Later native checks exposed an old unversioned
 browser exposed a pre-migration Story baseline in its isolation probe. Both
 controls are corrected without changing the replay contract; [first failures and
 new source bindings](../audits/fresh-syntax50-20261013/watercolour-af788-first-failures.json)
-remain preserved. Current head includes accepted PR791 and PR793 main changes.
+remain preserved. Current head includes accepted naming PR789 and main through PR791/PR793.
+Three merge conflicts were resolved while preserving aliases, canonical Story
+stock, recipe pins, historical parsing and namespace guards; [combined-source
+preparation](../audits/fresh-syntax50-20261013/material-naming-integration-preparation.json)
+records the actual new CI/fleet bindings.
 Fresh native export, optics/protocol, actual-browser and own-fleet acceptance
 remain pending. The earlier app suite does not establish those.
 

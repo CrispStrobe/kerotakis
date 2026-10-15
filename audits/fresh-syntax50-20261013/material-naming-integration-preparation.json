@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/792",
+  "current_head": "3574752ff1b233f9dbcf76447665733ead111931",
+  "merge_parents": [
+    "3196a8d618568bde088b290c82fdebe8be0493ff",
+    "b21599ab834d48801622802a80f17a589dd65b96"
+  ],
+  "scope": "Required integration after accepted PR789 naming merge; previous candidate had three merge conflicts",
+  "resolved_files": [
+    "crates/kerotakis-core/src/material.rs",
+    "crates/kerotakis-core/src/script.rs",
+    "crates/kerotakis-core/src/species.rs"
+  ],
+  "preserved_contracts": [
+    "English aliases and canonical parsed Story stock",
+    "Archived identities, recipe revision pins, historical defaults and legacy parser",
+    "Combined species/material namespace and reserved @ guards",
+    "Material reservations checked before species write lock",
+    "Auto-merged session current-kit parser remains separate from historical replay migration"
+  ],
+  "review": "Independent source resolution/review, root combined-diff and Session/namespace review",
+  "static_checks": [
+    "rustfmt on three resolved files",
+    "git diff --check",
+    "Merge parents and file modes verified"
+  ],
+  "execution_acceptance": "Pending on combined head; no native/app/browser/optical pass transferred from prior heads",
+  "current_ci_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618",
+  "current_fleet_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516",
+  "previous_runs": {
+    "ci": 38759200030,
+    "ci_final": "completed/cancelled",
+    "fleet": 38759199731,
+    "fleet_final": "completed/cancelled; verified after metadata preservation and cancellation"
+  },
+  "limits": [
+    "PR remains draft",
+    "Does not close recipe optics, chemical coverage or physical calibration"
+  ]
+}
