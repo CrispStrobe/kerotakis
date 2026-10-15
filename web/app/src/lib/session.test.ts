@@ -80,16 +80,23 @@ class FakeHost implements EngineHost {
   }
   async parse(line: string) {
     this.calls.push(`parse:${line}`);
-    return line.startsWith("boom")
-      ? { ok: false, error: "no such verb" }
-      : { ok: true };
+    if (line.startsWith("boom")) return { ok: false, error: "no such verb" };
+    const words = line.trim().split(/\s+/);
+    // Match the engine's typed parse contract; aliases are resolved in core.
+    const key = words[2] === "H2O" ? "water" : words[2];
+    const operator = words[0] === "add" ? { op: "add", species: key }
+      : words[0] === "titrate" ? { op: "titrate", titrant: key } : null;
+    return { ok: true, operator };
   }
   async runScript(script: string): Promise<ScriptResult> {
     this.calls.push(`run:${script}`);
     return {
       steps: script.split("\n").map((line) => ({
         operator: {},
-        events: [],
+        events: /^add\s/.test(line) ? [{ event: "added" }]
+          : /^titrate\s/.test(line) ? [{ event: "titrated", vessel: 0,
+            titrant: line.split(/\s+/)[2], concentration: 0.1, steps: 1,
+            total_volume: 0.001, final_ph: 7, curve: [[1, 7]] }] : [],
         rendered: [`did: ${line}`],
       })),
       scene: this.nextScene(),
@@ -276,6 +283,110 @@ describe("Session", () => {
 
     const restored = new Session(new FakeHost(), storage, "story");
     expect(restored.storyStockUsed).toEqual({ NaCl: 1 });
+  });
+
+  it("charges aliases to the canonical Story bottle and refuses either spelling when empty", async () => {
+    const host = new FakeHost();
+    host.species = async () => [{ key: "water", name: "water", formula: "H2O", phase: "liquid" }];
+    const storage = new FakeStorage();
+    const s = new Session(host, storage, "story");
+    await s.connect();
+    for (let i = 0; i < 10; i += 1) {
+      expect(await s.submit(`add v1 ${i % 2 ? "water" : "H2O"} 1mol`)).toBe(true);
+    }
+    expect(s.storyStockUsed).toEqual({ water: 10 });
+    for (const key of ["H2O", "water"]) {
+      const runs = host.calls.filter((call) => call.startsWith("run:")).length;
+      expect(await s.submit(`add v1 ${key} 1mol`)).toBe(false);
+      expect(host.calls.filter((call) => call.startsWith("run:"))).toHaveLength(runs);
+    }
+    const restored = new Session(new FakeHost(), storage, "story");
+    expect(restored.storyStockUsed).toEqual({ water: 10 });
+    // A mission spelling the same ingredient as an alias loans that one bottle.
+    s.startLesson("water-kit", "add v1 H2O 1mol\nmeasure v1 balance");
+    expect(await s.submit("add v1 water 1mol")).toBe(true);
+    expect(s.lesson?.kit).toContain("water");
+    expect(s.storyStockUsed).toEqual({ water: 10 });
+  });
+
+  it("applies Story access gates before executing an aliased ingredient", async () => {
+    const host = new FakeHost();
+    host.species = async () => [{ key: "water", name: "water", formula: "H2O", phase: "liquid" }];
+    const catalog = host.catalog.bind(host);
+    host.catalog = async (request) => {
+      const result = await catalog(request);
+      return { ...result, items: result.items.map((item) => item.id === "water"
+        ? { ...item, available: false, reason: { reason: "locked" as const, minimum_completed: 3 } } : item) };
+    };
+    const s = new Session(host, new FakeStorage(), "story");
+    await s.connect();
+    expect(await s.submit("add v1 H2O 1mol")).toBe(false);
+    expect(host.calls).not.toContain("run:add v1 H2O 1mol");
+    expect(s.storyStockUsed).toEqual({});
+    s.startLesson("canonical-kit", "add v1 water 1mol\nmeasure v1 balance");
+    expect(await s.submit("add v1 H2O 1mol")).toBe(true);
+    expect(s.storyStockUsed).toEqual({});
+  });
+
+  it("does not charge Story stock for vetoed or exhausted alias requests", async () => {
+    for (const event of ["safety_veto", "stock_exhausted"]) {
+      const host = new FakeHost();
+      host.species = async () => [{ key: "water", name: "water", formula: "H2O", phase: "liquid" }];
+      const run = host.runScript.bind(host);
+      host.runScript = async (line) => {
+        const result = await run(line);
+        return { ...result, steps: result.steps.map((step) => ({ ...step, events: [{ event }] })) };
+      };
+      const s = new Session(host, new FakeStorage(), "story");
+      await s.connect();
+      await s.submit("add v1 H2O 1mol");
+      expect(s.storyStockUsed).toEqual({});
+    }
+  });
+
+  it("charges Story titrant only when the engine reports a positive delivered volume", async () => {
+    for (const total_volume of [0.003, 0]) {
+      const host = new FakeHost();
+      host.species = async () => [{ key: "water", name: "water", formula: "H2O", phase: "liquid" }];
+      const run = host.runScript.bind(host);
+      host.runScript = async (line) => {
+        const result = await run(line);
+        return { ...result, steps: result.steps.map((step) => ({ ...step, events: [{
+          event: "titrated", vessel: 0, titrant: "water", concentration: 0.1,
+          steps: total_volume > 0 ? 3 : 0, total_volume, final_ph: 7,
+          curve: [[0, 7]], pe_curve: [], endpoint_reached: true,
+        }] })) };
+      };
+      const s = new Session(host, new FakeStorage(), "story");
+      await s.connect();
+      expect(await s.submit("titrate v1 H2O 0.1M 1mL until ph 7")).toBe(true);
+      expect(s.storyStockUsed).toEqual(total_volume > 0 ? { water: 1 } : {});
+    }
+  });
+
+  it("does not charge Story titrant when no dose succeeds", async () => {
+    for (const events of [[], [{ event: "safety_veto" }], [{ event: "stock_exhausted" }]]) {
+      const host = new FakeHost();
+      host.species = async () => [{ key: "water", name: "water", formula: "H2O", phase: "liquid" }];
+      const run = host.runScript.bind(host);
+      host.runScript = async (line) => {
+        const result = await run(line);
+        return { ...result, steps: result.steps.map((step) => ({ ...step, events })) };
+      };
+      const s = new Session(host, new FakeStorage(), "story");
+      await s.connect();
+      await s.submit("titrate v1 H2O 0.1M 1mL until ph 7");
+      expect(s.storyStockUsed).toEqual({});
+    }
+  });
+
+  it("does not execute a Story command that the parser rejected", async () => {
+    const host = new FakeHost();
+    const s = new Session(host, new FakeStorage(), "story");
+    await s.connect();
+    expect(await s.submit("boom v1")).toBe(false);
+    expect(host.calls).not.toContain("run:boom v1");
+    expect(s.storyStockUsed).toEqual({});
   });
 
   it("does not consume Story stock when the engine rejects a dispense", async () => {

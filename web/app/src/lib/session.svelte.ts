@@ -44,7 +44,7 @@ import { missionTitle } from "./storyProgress";
 import { caseAwardedTools, contaminatedSampleComplete } from "./storyChapter";
 import { access as catalogAccess, catalogMap, type CabinetStatus, type CatalogMap } from "./catalogProgress";
 import type { GrammarRow } from "./completions";
-import { persistStockUsed, restoreStockUsed, stockRemaining, suppliedSpecies, STORY_STOCK_KEY } from "./storyStock";
+import { isStoryDispenseEvent, persistStockUsed, restoreStockUsed, stockRemaining, suppliedSpecies, suppliedSpeciesFromOperator, STORY_STOCK_KEY } from "./storyStock";
 import type { LabMode } from "./worldState";
 import { parseElementCoverage, type ElementCoverageReport } from "./elements";
 import {
@@ -1081,7 +1081,27 @@ export class Session {
       if (trimmed.startsWith("register ")) {
         return await this.applyRegister(trimmed.slice("register ".length).trim());
       }
-      const supplied = suppliedSpecies(trimmed);
+      // Availability and stock must use the same identities the engine applies.
+      // Raw spellings can be aliases or localized ingredient/verb names.
+      const parsed = this.mode === "story" ? await this.host.parse(trimmed) : null;
+      if (parsed && !parsed.ok) {
+        throw new EngineError(parsed.error ?? t("the bench refused this operation"), "refused");
+      }
+      const supplied = parsed?.ok ? suppliedSpeciesFromOperator(parsed.operator) : suppliedSpecies(trimmed);
+      const lesson = this.lesson;
+      if (this.mode === "story" && supplied && lesson && !lesson.kit.includes(supplied)) {
+        for (const key of lesson.kit) {
+          // Canonical shelf keys need no lookup. Resolve unknown kit spellings
+          // through the non-mutating engine parser, without duplicating aliases.
+          if (this.shelf.some((item) => item.key === key)) continue;
+          const candidate = await this.host.parse(`add v1 ${key} 1g`);
+          if (this.lesson !== lesson) break;
+          if (candidate.ok && suppliedSpeciesFromOperator(candidate.operator) === supplied) {
+            lesson.kit = [...new Set(lesson.kit.map((item) => item === key ? supplied : item))];
+            break;
+          }
+        }
+      }
       const stockItem = supplied ? this.shelf.find((item) => item.key === supplied) : undefined;
       const missionSupply = Boolean(supplied && this.lesson?.kit.includes(supplied));
       if (this.mode === "story" && stockItem) {
@@ -1282,7 +1302,9 @@ export class Session {
       if (canonical !== trimmed) this.feed[echo] = { kind: "command", text: canonical };
       this.commandLog.push(canonical);
       this.position = this.commandLog.length;
-      if (this.mode === "story" && stockItem && !missionSupply) {
+      const dispensed = result.steps.some((step) =>
+        (step.events as Array<Record<string, unknown>>).some(isStoryDispenseEvent));
+      if (this.mode === "story" && stockItem && !missionSupply && dispensed) {
         this.storyStockUsed = {
           ...this.storyStockUsed,
           [stockItem.key]: (this.storyStockUsed[stockItem.key] ?? 0) + 1,

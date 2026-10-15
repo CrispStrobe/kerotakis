@@ -31,6 +31,24 @@ export function suppliedSpecies(line: string): string | null {
   return null;
 }
 
+/** Use engine-parsed identities for gates that run before command execution. */
+export function suppliedSpeciesFromOperator(operator: unknown): string | null {
+  if (!operator || typeof operator !== "object" || Array.isArray(operator)) return null;
+  const op = operator as Record<string, unknown>;
+  const key = op.op === "add" ? op.species
+    : op.op === "add_material" ? op.material
+      : op.op === "titrate" ? op.titrant : null;
+  return typeof key === "string" ? key : null;
+}
+
+/** Actual cabinet use is bookkeeping, independent of drawing an event.
+ * A titration at an already-reached endpoint can deliver no solution. */
+export function isStoryDispenseEvent(event: Readonly<Record<string, unknown>>): boolean {
+  return event.event === "added" || event.event === "material_added" ||
+    (event.event === "titrated" && typeof event.total_volume === "number" &&
+      Number.isFinite(event.total_volume) && event.total_volume > 0);
+}
+
 export function restoreStockUsed(storage: StockStorage | null): Record<string, number> {
   try {
     const parsed = JSON.parse(storage?.getItem(STORY_STOCK_KEY) ?? "{}");

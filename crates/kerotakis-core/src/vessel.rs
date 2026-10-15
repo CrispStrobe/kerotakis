@@ -1234,6 +1234,8 @@ impl StepStart {
 
     /// Book an outward gas transfer (negative moles for gas taken back in).
     pub fn note_gas_out(&mut self, species: &SpeciesId, moles: f64) {
+        let canonical = species.canonical();
+        let species = canonical.as_ref();
         match self.gas_out.iter_mut().find(|(s, _)| s == species) {
             Some((_, total)) => total.0 += moles,
             None => self.gas_out.push((species.clone(), Moles(moles))),
@@ -1584,6 +1586,8 @@ impl Vessel {
     /// Moles of `species` held on a sorbent surface in this vessel — the
     /// part of it that is present and is not in solution.
     pub fn adsorbed_moles(&self, species: &SpeciesId) -> Moles {
+        let canonical = species.canonical();
+        let species = canonical.as_ref();
         Moles(
             self.adsorbed
                 .iter()
@@ -1594,6 +1598,8 @@ impl Vessel {
     }
 
     pub fn moles_of(&self, species: &SpeciesId) -> Moles {
+        let canonical = species.canonical();
+        let species = canonical.as_ref();
         Moles(
             self.contents
                 .iter()
@@ -1607,6 +1613,8 @@ impl Vessel {
     /// species. No concentration fallback is made here: kinetic parameter
     /// domains that require activity must refuse unresolved vessels.
     pub fn resolved_aqueous_activity(&self, species_id: &SpeciesId) -> Option<f64> {
+        let canonical = species_id.canonical();
+        let species_id = canonical.as_ref();
         let solution = self.solution.as_ref()?;
         if species_id.0 == "H+" {
             let activity = 10f64.powf(-solution.ph);
@@ -1626,6 +1634,8 @@ impl Vessel {
     /// Add matter, merging with an existing portion of the same species and
     /// phase.
     pub fn deposit(&mut self, species: SpeciesId, moles: Moles, phase: Phase) {
+        let mut species = species;
+        species.canonicalize();
         if moles.0 <= 0.0 {
             return;
         }
@@ -1653,6 +1663,8 @@ impl Vessel {
         source: Option<String>,
         particle_size_um: Option<f64>,
     ) {
+        let mut species = species;
+        species.canonicalize();
         let suspended_fraction = (phase == Phase::Solid).then(|| {
             if self.liquid_volume().0 > 0.0 && !crate::displacement::is_elemental_metal(&species.0)
             {
@@ -1692,6 +1704,8 @@ impl Vessel {
     /// Mole-weighted suspended fraction for explicitly tracked solid lots.
     /// `None` means this is legacy/solver-created solid state with no split.
     pub fn suspended_fraction_of(&self, species: &SpeciesId) -> Option<f64> {
+        let canonical = species.canonical();
+        let species = canonical.as_ref();
         let mut tracked_moles = 0.0;
         let mut suspended_moles = 0.0;
         for lot in self
@@ -1711,6 +1725,8 @@ impl Vessel {
     /// Remove up to `moles` of a species across its portions (any phase).
     /// Returns the amount actually removed.
     pub fn withdraw(&mut self, species: &SpeciesId, moles: Moles) -> Moles {
+        let canonical = species.canonical();
+        let species = canonical.as_ref();
         let mut remaining = moles.0;
         for p in self.contents.iter_mut() {
             if &p.species == species && remaining > 0.0 {
@@ -1733,6 +1749,8 @@ impl Vessel {
     /// solid one, and taking the shortfall out of the solid it is trying to
     /// grow would be exactly backwards.
     pub fn withdraw_phase(&mut self, species: &SpeciesId, moles: Moles, phase: Phase) -> Moles {
+        let canonical = species.canonical();
+        let species = canonical.as_ref();
         let mut remaining = moles.0;
         for p in self.contents.iter_mut() {
             if &p.species == species && p.phase == phase && remaining > 0.0 {
@@ -2049,6 +2067,8 @@ impl Vessel {
     /// an owned headspace. Open and swept boundaries have no finite stored
     /// composition and therefore return `None` rather than assuming room air.
     pub fn ideal_gas_activity(&self, species_id: &SpeciesId) -> Option<f64> {
+        let canonical = species_id.canonical();
+        let species_id = canonical.as_ref();
         let volume_m3 = self.headspace_volume()?.0 * 1e-3;
         let moles = self
             .contents

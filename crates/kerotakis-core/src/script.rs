@@ -1073,7 +1073,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
             if let Some(data) = species::lookup_key(words[2]) {
                 Operator::Add {
                     vessel,
-                    species: SpeciesId::new(words[2]),
+                    species: SpeciesId::new(data.key),
                     moles: parse_amount(words[3], data)?,
                     at: parse_at(&words[4..])?,
                 }

@@ -12,13 +12,68 @@ use crate::units::{Grams, Liters, Moles};
 
 /// Stable species identifier. Currently a registry key; becomes the InChIKey
 /// once L1 identity is wired through Indigo.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize)]
-#[serde(transparent)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct SpeciesId(pub String);
+
+/// Resolve the one accepted formula spelling at input boundaries.
+/// Other registry keys and unknown-key refusals retain their exact spelling.
+pub(crate) fn canonical_input_key(key: &str) -> &str {
+    match key {
+        "H2O" => "water",
+        _ => key,
+    }
+}
+
+pub(crate) fn serialize_input_key<S: serde::Serializer>(
+    key: &str,
+    serializer: S,
+) -> Result<S::Ok, S::Error> {
+    serializer.serialize_str(canonical_input_key(key))
+}
+
+pub(crate) fn deserialize_input_key<'de, D: serde::Deserializer<'de>>(
+    deserializer: D,
+) -> Result<String, D::Error> {
+    String::deserialize(deserializer).map(|key| {
+        let canonical = canonical_input_key(&key);
+        if canonical != key.as_str() {
+            canonical.to_string()
+        } else {
+            key
+        }
+    })
+}
+
+impl Serialize for SpeciesId {
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+        serialize_input_key(&self.0, serializer)
+    }
+}
+
+impl<'de> Deserialize<'de> for SpeciesId {
+    fn deserialize<D: serde::Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+        deserialize_input_key(deserializer).map(Self)
+    }
+}
 
 impl SpeciesId {
     pub fn new(key: &str) -> Self {
-        SpeciesId(key.to_string())
+        SpeciesId(canonical_input_key(key).to_string())
+    }
+
+    pub(crate) fn canonicalize(&mut self) {
+        let canonical = canonical_input_key(&self.0);
+        if canonical != self.0.as_str() {
+            self.0 = canonical.to_string();
+        }
+    }
+
+    pub(crate) fn canonical(&self) -> std::borrow::Cow<'_, Self> {
+        if canonical_input_key(&self.0) != self.0.as_str() {
+            std::borrow::Cow::Owned(Self::new(&self.0))
+        } else {
+            std::borrow::Cow::Borrowed(self)
+        }
     }
 }
 
@@ -597,6 +652,7 @@ pub fn lookup(id: &SpeciesId) -> Option<&'static SpeciesData> {
 }
 
 pub fn lookup_key(key: &str) -> Option<&'static SpeciesData> {
+    let key = canonical_input_key(key);
     if let Some(s) = lookup_index().get(key).copied() {
         return Some(s);
     }

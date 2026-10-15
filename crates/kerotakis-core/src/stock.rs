@@ -157,18 +157,21 @@ impl StockLedger {
     /// Replace a bottle. Invalid or negative input retains the established
     /// stock API policy of creating an empty bottle rather than a debt.
     pub fn stock(&mut self, key: &str, amount: f64, unit: StockUnit) {
+        let key = species::canonical_input_key(key);
         let amount = Amount::new(amount).unwrap_or_else(|_| Amount::new(0.0).unwrap());
         self.bottles
             .insert(key.to_string(), OwnedStockAmount { amount, unit });
     }
 
     pub fn unlimit(&mut self, key: &str) {
+        let key = species::canonical_input_key(key);
         self.bottles.remove(key);
     }
 
     /// Rounded display value. In compensated mode a debit can change the
     /// authoritative low component while leaving this projection unchanged.
     pub fn remaining(&self, key: &str) -> Option<StockAmount> {
+        let key = species::canonical_input_key(key);
         self.bottles
             .get(key)
             .copied()
@@ -177,6 +180,7 @@ impl StockLedger {
 
     /// Complete authoritative amount, including its signed low component.
     pub fn remaining_exact(&self, key: &str) -> Option<Amount> {
+        let key = species::canonical_input_key(key);
         self.bottles.get(key).map(|bottle| bottle.amount)
     }
 
@@ -191,6 +195,7 @@ impl StockLedger {
     /// mode instead certifies the change in both authoritative components and
     /// refuses genuine overdraw without that allowance.
     pub fn draw(&mut self, key: &str, amount: f64) -> Result<(), StockRefusal> {
+        let key = species::canonical_input_key(key);
         if !amount.is_finite() || amount < 0.0 {
             return Err(StockRefusal::InvalidRequest { requested: amount });
         }
@@ -265,6 +270,21 @@ impl Serialize for StockLedger {
     }
 }
 
+// Renaming a bottle must not overwrite another finite balance or round its
+// authoritative compensated amount. Reject collisions in either stored format.
+fn canonical_bottles<T>(bottles: BTreeMap<String, T>) -> Result<BTreeMap<String, T>, String> {
+    let mut canonical = BTreeMap::new();
+    for (key, value) in bottles {
+        let key = species::canonical_input_key(&key).to_string();
+        if canonical.insert(key.clone(), value).is_some() {
+            return Err(format!(
+                "duplicate stock identity after input normalization: {key}"
+            ));
+        }
+    }
+    Ok(canonical)
+}
+
 impl<'de> Deserialize<'de> for StockLedger {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -288,12 +308,13 @@ impl<'de> Deserialize<'de> for StockLedger {
                     return Err(serde::de::Error::custom("unsupported stock ledger schema"));
                 }
                 Ok(Self {
-                    bottles: value.bottles,
+                    bottles: canonical_bottles(value.bottles).map_err(serde::de::Error::custom)?,
                     compensated: true,
                 })
             }
             Stored::Legacy(value) => {
-                let bottles = value
+                let bottles = canonical_bottles(value)
+                    .map_err(serde::de::Error::custom)?
                     .into_iter()
                     .map(|(key, entry)| {
                         Amount::new(entry.amount).map(|amount| {
