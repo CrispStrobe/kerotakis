@@ -66,3 +66,22 @@ hashes were verified. See the [partial receipt](vps-partial-execution.json).
 Ranks 14–200 remain unexecuted locally; resume only unfinished cases under fresh
 resource headroom. The independent hosted run subsequently completed all 200 attempts. These execution
 results assign no physical passes and do not validate the generated procedures.
+
+## Explicitly requested production API comparison
+
+The user subsequently requested all 200 protocols through the deployed API.
+`run_api.py PRIVATE_KEY_JSON NEW_OUTPUT_DIRECTORY VERIFIED_CLI_EXECUTIONS`
+submits the exact frozen script bytes to the public production endpoint. This is
+a separately bound transport/runtime comparison, not a repeat native CLI batch.
+The initial health identity must match the earlier CLI binary; later health and
+response checks reject version drift. Both current source JSON hashes match the
+frozen input inventory. No protocol or physical forecast is rewritten.
+
+Requests are serial, at least 3.1 seconds apart, respecting both API admission
+and the initial Vercel Sandbox allocation quota. Only explicit 429 admission
+refusals may retry; ambiguous failures retain their evidence without blind
+re-execution. Every attempt preserves its body, selected non-secret headers,
+status, timing and hashes. Credentials never enter output or Git. Large evidence
+belongs in private storage; the client performs no native chemistry locally.
+The final report compares execution status and full parsed observations with the
+already verified CLI streams. API completion is not a scientific pass.
