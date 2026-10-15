@@ -68,7 +68,10 @@ probe in place or count a warning as implemented chemistry.
    predictions, inventory, typed interfaces and counterion recovery. Eight
    regression groups are prepared; hosted execution is pending. A future physical
    ion-input convention needs separate versioning, water and energy accounting.
-2. **Select silver–ammonia capability.** Inspect
+2. **Select silver–ammonia capability.** The source candidate is
+   [PR798](https://github.com/CrispStrobe/kerotakis/pull/798), with four focused
+   groups awaiting hosted execution. Its named limitation preserves the distinction
+   between equilibrium speciation and canonical free-ligand availability. Inspect
    `crates/kerotakis-phreeqc/src/aqueous.rs` database selection. The default dataset
    lacks silver ammines; vendored `minteq.v4.dat` already contains sourced
    AgNH3+ and Ag(NH3)2+ equilibria. Select that capability for silver with reduced
@@ -76,7 +79,12 @@ probe in place or count a warning as implemented chemistry.
    finite-ligand dissolution enhancement, acid-protonation suppression, complete
    Ag/N/Cl and charge accounting, and repeat stability. Do not require complete
    dissolution at the declared finite ammonia dose.
-3. **Add bounded acidified permanganate/peroxide chemistry.** Freeze an endpoint
+3. **Establish shared post-speciation and thermal ownership, then add the endpoint.**
+   The [implementation lanes](../../docs/acid-permanganate-peroxide-lane.md)
+   explain why a fresh-pH reaction cannot run before the aqueous tail and why a
+   temporary thermal snapshot swap can reprice unknown reaction heat on a later
+   phase pass. Implement the shared native/browser transaction and rollback first.
+   Freeze an endpoint
    contract for `2MnO4− + 5H2O2 + 6H+ → 2Mn2+ + 5O2 + 8H2O`. Require actual acidic
    conditions, finite acid/reactant limits, spectator conservation, molecular and
    dissolved input agreement, and open/sealed oxygen accounting. Do not globally

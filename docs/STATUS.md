@@ -213,8 +213,13 @@ The original 200 outcomes and all previous blind forecasts are unchanged.
 
 [PR796](https://github.com/CrispStrobe/kerotakis/pull/796) contains the first
 charged-input reporting repair and eight regression groups; hosted native/full
-fleet acceptance is pending. Next implement the sourced silver–ammonia capability
-route, then bounded acidified permanganate/peroxide chemistry. Follow the
+fleet acceptance is pending. [PR798](https://github.com/CrispStrobe/kerotakis/pull/798)
+contains sourced silver–ammonia routing, four focused groups and an explicit
+canonical ligand-ownership limitation; hosted execution remains pending.
+Before adding acidified permanganate/peroxide, implement the
+[shared continuation and thermal-ownership prerequisites](acid-permanganate-peroxide-lane.md).
+Fresh acidity and unmodeled reaction heat must survive native/browser continuation
+and repeated phase-tail solves correctly. Follow the
 [ordered repair contracts](../audits/reaction-dataset-200-20261015/CHEMISTRY-RESULTS.md#ordered-repairs)
 for identities, protocol completion, conservation, phase and observable gaps.
 
@@ -223,3 +228,10 @@ The PR795 native AL2023 preview build now passed in
 Its first API acceptance failure, encoding offences and workflow-lint failure
 are preserved; fixes are in progress. Production API execution remains on its
 explicitly reported pinned engine; no newer chemistry is claimed deployed.
+
+PR795's CI repair is now pushed at `21dcb14c`, including integrated main through
+PR792. On that exact source, 25 API controls, 15 workflow-toolchain controls,
+UTF-8 and payload lint, and client/service-worker checks passed locally. The
+Ubuntu vendor Bubblewrap profile and complete native/fleet/browser acceptance
+remain subject to fresh hosted checks; no engine or browser build ran locally.
+The first sandbox/build/lint failures remain preserved.
