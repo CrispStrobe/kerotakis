@@ -105,12 +105,18 @@ All 25 CI jobs passed. The merged runtime subtrees match the reviewed candidate;
 the complete tree matches the expected merge with main's inherited documentation.
 See [integration evidence](../audits/fresh-syntax50-20261013/fluid-rendering-integration.json).
 
-The separate blue/yellow watercolor report remains open. Source-only calculation
-with integrated revision-1 recipe strengths and the beaker optical path predicts a nearly black
-mixture. This is not an executed CLI reproduction or an optical calibration.
-Recipe changes must address versioned operator and text-session replay first;
-changing a version-1 concentration in place would reinterpret old experiments.
-See the [actionable follow-up lanes](colour-and-mixture-followups.md).
+The blue/yellow watercolor repair is now integrated through
+[PR792](https://github.com/CrispStrobe/kerotakis/pull/792) as `b22f3da5`.
+Revision-2 blue/yellow washes use one-tenth the former dye concentration and
+produce visible green at the declared dose. Revision-1 recipes, historical
+scripts, saved sessions and finite bottles remain separately replayable.
+All 25 CI and 33 own-fleet jobs passed, including seven native recipe/optics
+groups, current registry export and actual-browser rendering controls. The actual
+merge parents and complete tree match the reviewed merge candidate.
+[Integration evidence](../audits/fresh-syntax50-20261013/watercolour-integration-20261015.json).
+This is regression acceptance, not empirical spectral calibration or proof that
+every deployed frontend already uses this revision. Remaining mixture and
+readback work is scoped in the [follow-up lanes](colour-and-mixture-followups.md).
 
 [PR791](https://github.com/CrispStrobe/kerotakis/pull/791) merged as `f471b628`:
 step-local narration collapses exact repeated model-limit events in CLI/app,
@@ -120,37 +126,9 @@ preserving raw events, distinct causes and later-step warnings. All 25 CI and
 verifies actual parents and expected merge tree. Equilibrium readback churn
 remains a separate task.
 
-[PR792](https://github.com/CrispStrobe/kerotakis/pull/792) contains the full
-versioned watercolor candidate at `3574752f`: exact revision-1 archive,
-historical parsing, whole-history saved-session migration across browser/native
-hosts, revision-specific finite bottles, and blue/yellow revision-2 washes with
-one-tenth the former dye concentration. Spectra and optical paths are unchanged.
-Seven frozen optical groups forecast green at the declared new dose and a dark
-old-recipe mixture; native outcomes are still pending.
-
-Source review closed material/species name collisions and missing legacy-default
-selectors. CI then exposed stale exporter definitions and an incorrect Rust enum
-constructor. Both corrections are pushed; [the native correction checkpoint](../audits/fresh-syntax50-20261013/watercolour-native-first-failure.json)
-preserves the first failure and exact corrected source/run bindings.
-
-The combined app suite on `af788ba6`, including accepted PR790 changes, passes
-**1,666/1,666** across 123 files in 110.67 seconds.
-[Combined-head app acceptance](../audits/fresh-syntax50-20261013/watercolour-merged-app-acceptance.json)
-and [earlier app results and failures](../audits/fresh-syntax50-20261013/watercolour-full-app-acceptance.json)
-retain their own source bindings. Later native checks exposed an old unversioned stock-key assertion; the actual
-browser exposed a pre-migration Story baseline in its isolation probe. Both
-controls are corrected without changing the replay contract; [first failures and
-new source bindings](../audits/fresh-syntax50-20261013/watercolour-af788-first-failures.json)
-remain preserved. Current head includes accepted naming PR789 and main through PR791/PR793.
-Three merge conflicts were resolved while preserving aliases, canonical Story
-stock, recipe pins, historical parsing and namespace guards; [combined-source
-preparation](../audits/fresh-syntax50-20261013/material-naming-integration-preparation.json)
-records the actual new CI/fleet bindings.
-Fresh native export, optics/protocol, actual-browser and own-fleet acceptance
-remain pending. The earlier app suite does not establish those.
-
-PR789, PR790 and PR791 are integrated. PR792 remains a draft pending named
-acceptance. [Documentation PR793](https://github.com/CrispStrobe/kerotakis/pull/793)
+PR789, PR790, PR791 and PR792 are integrated. Original source-review and CI
+failures remain in their dated receipts; later acceptance does not erase them.
+[Documentation PR793](https://github.com/CrispStrobe/kerotakis/pull/793)
 merged as `208f9a72` after all 25 CI jobs passed; its [integration receipt](../audits/fresh-syntax50-20261013/assessment-documentation-integration-20261015.json)
 verifies actual parents and expected merge tree. First failures remain preserved.
 Do not transfer checks across changed source or merge broad audit/infrastructure
@@ -214,5 +192,34 @@ continues to carry `physical_verdict: not_assigned`.
 source integration and fresh hosted rebuild acceptance. The first AL2023 build
 failed on IPhreeqc's `lib64`/Cargo `lib` mismatch and cleanup ownership; fixes are
 pushed, with [a new preview run](https://github.com/CrispStrobe/kerotakis/actions/runs/38783017261).
-Manual browser acceptance and Pages-client publication remain separate from
-passed HTTP/client controls. Follow the [remaining API lanes](simulation-api-lane.md).
+The hosted native preview now passed; API sandbox acceptance and encoding/workflow
+lint corrections remain before source integration. Manual browser acceptance and
+Pages-client publication remain separate from passed HTTP/client controls. Follow the [remaining API lanes](simulation-api-lane.md).
+
+## Chemical review of the supplied 200 probes
+
+The [retrospective chemical screen](../audits/reaction-dataset-200-20261015/CHEMISTRY-RESULTS.md)
+reviews every saved result: 13 principal observations align, 11 are partial,
+16 do not demonstrate their target, 20 name a model limit, 32 remain inconclusive,
+and 108 stop at unknown identities (80 distinct first tokens). These are routing
+categories, not empirically validated scientific passes.
+
+Twelve separately frozen complete-reagent API controls distinguish incomplete
+bare-ion protocols from physical-stock defects. Nine principal responses align,
+including HCl/NaOH neutralisation, acidic NH4Cl, alkaline Na2CO3, acid-driven
+CaCO3/CuO dissolution and CO2 capture by NaOH. Zinc/acid reaches an explicit model
+limit; silver ammines and acidified permanganate/peroxide remain missing.
+The original 200 outcomes and all previous blind forecasts are unchanged.
+
+[PR796](https://github.com/CrispStrobe/kerotakis/pull/796) contains the first
+charged-input reporting repair and eight regression groups; hosted native/full
+fleet acceptance is pending. Next implement the sourced silver–ammonia capability
+route, then bounded acidified permanganate/peroxide chemistry. Follow the
+[ordered repair contracts](../audits/reaction-dataset-200-20261015/CHEMISTRY-RESULTS.md#ordered-repairs)
+for identities, protocol completion, conservation, phase and observable gaps.
+
+The PR795 native AL2023 preview build now passed in
+[run 38783017261](https://github.com/CrispStrobe/kerotakis/actions/runs/38783017261).
+Its first API acceptance failure, encoding offences and workflow-lint failure
+are preserved; fixes are in progress. Production API execution remains on its
+explicitly reported pinned engine; no newer chemistry is claimed deployed.

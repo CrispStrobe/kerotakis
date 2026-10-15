@@ -44,8 +44,11 @@ Physical validation remains separate; do not duplicate this finished API batch.
    head. Preserve the first hosted build failure: Amazon Linux installed
    IPhreeqc into `lib64`, while Cargo searched `lib`; container cleanup also
    lacked ownership. Both source fixes are pushed. Follow
-   [the new hosted preview](https://github.com/CrispStrobe/kerotakis/actions/runs/38783017261)
-   through native build, snapshot preparation, isolation controls and deployment.
+   [hosted preview 38783017261](https://github.com/CrispStrobe/kerotakis/actions/runs/38783017261)
+   now passed its native build and deployment. Separately repair the saved API
+   sandbox acceptance failures, explicit UTF-8 encoding omissions and workflow
+   lint false positive; rerun their exact-head controls. Keep the draft until
+   native sandbox and all applicable acceptance pass.
    Authenticate its new engine/source/lock binding and repeat the production
    controls before replacing the retained engine. Complete applicable CI and
    normal protected auto-merge; never merge the broad audit branch.
@@ -61,8 +64,11 @@ Physical validation remains separate; do not duplicate this finished API batch.
    bundle. Verify auth, shared saturation and bounded cleanup after deployment.
    Snapshots expire after thirty days without use. Keep credentials private and
    preserve the configured quotas; do not add an unsandboxed fallback.
-4. **Assess existing chemistry evidence.** Reuse the completed 200-record CLI
-   batch before executing more. Its 92 completed and 108 nonzero runs are process
+4. **Close demonstrated chemistry gaps.** The
+   [chemical review and complete-stock controls](../audits/reaction-dataset-200-20261015/CHEMISTRY-RESULTS.md)
+   are complete. Implement charged-input reporting, sourced silver ammine routing
+   and bounded acidified permanganate/peroxide chemistry in that order. Reuse the
+   saved 200-record CLI/API evidence. Its 92 completed and 108 nonzero runs are process
    outcomes. The source supplies no procedures; generated contact probes are
    not 200 individually validated protocols. Freeze valid condition-specific
    follow-ups and compare native/API/WebAssembly observations with independent

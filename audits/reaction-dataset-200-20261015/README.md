@@ -1,5 +1,9 @@
 # CLI probes for all 200 supplied reaction records
 
+The [chemistry results and ordered repair lanes](CHEMISTRY-RESULTS.md) now review
+all 200 saved responses and twelve separately frozen complete-reagent controls.
+Execution success and expected chemical behavior are reported separately.
+
 Both supplied JSON files were read. The 200-record dataset validates against
 its supplied JSON Schema; the schema itself is not a chemical reaction.
 An independent [atom/charge check](input-balance-check.json) confirms 186 exact

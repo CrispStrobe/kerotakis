@@ -1,0 +1,567 @@
+{
+  "schema_version": 1,
+  "reviewed_utc": "2026-10-15T19:59:37.737245+00:00",
+  "design_sha256": "0c8bcf514ecbab9049e91cca84de313e999240c13632918ba47b7f0f2a61c1fd",
+  "records": 12,
+  "http_completed": 12,
+  "screening_counts": {
+    "principal_observation_aligned": 9,
+    "explicit_model_limit": 1,
+    "target_outcome_not_demonstrated": 2
+  },
+  "method": "Separately frozen complete-reagent qualitative controls; no original protocol or verdict rewritten; no calibrated yield/rate/thermal claim.",
+  "cases": [
+    {
+      "id": "F01-water",
+      "http_status": 200,
+      "execution_status": "completed",
+      "script_sha256": "3d6b4583f484cf30b18e8c70a341d5cc5d00cf41f68190b397a1b088153dbe8a",
+      "body_sha256": "84e97e017009013d2a7a5a2d801820eddad33b3b51c96be1c7b9521b4f43856c",
+      "engine": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+        "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+        "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+      },
+      "diagnostics": "",
+      "screening_outcome": "principal_observation_aligned",
+      "expected_before_execution": "Neutral solvent baseline; no added acid/base or reaction product.",
+      "evidence_and_limits": "Neutral water baseline; pH 6.9974.",
+      "final_ph": 6.997375771104036,
+      "final_temperature_k": 298.15,
+      "final_contents": [
+        {
+          "moles": 5.534276991396059,
+          "phase": "liquid",
+          "species": "water"
+        }
+      ],
+      "physical_validation": "not_assigned"
+    },
+    {
+      "id": "F02-HCl",
+      "http_status": 200,
+      "execution_status": "completed",
+      "script_sha256": "e58df8b44b4d9ca90471df5e65d96e7069500acecb668a9bc96a09957aff72c6",
+      "body_sha256": "af7c335ac04563b322670cf57f7abf2866b9786d15a2a2636f4e4e95b35f2957",
+      "engine": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+        "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+        "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+      },
+      "diagnostics": "",
+      "screening_outcome": "principal_observation_aligned",
+      "expected_before_execution": "Acidic pH compared with water baseline.",
+      "evidence_and_limits": "Complete HCl stock produces acidic pH 2.0381.",
+      "final_ph": 2.038105470481,
+      "final_temperature_k": 298.1500013447139,
+      "final_contents": [
+        {
+          "moles": 0.001,
+          "phase": "aqueous",
+          "species": "Cl-"
+        },
+        {
+          "moles": 5.534276991396059,
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": 0.001,
+          "phase": "aqueous",
+          "species": "H+"
+        }
+      ],
+      "physical_validation": "not_assigned"
+    },
+    {
+      "id": "F03-NaOH",
+      "http_status": 200,
+      "execution_status": "completed",
+      "script_sha256": "32d365881b1cbf03dd262181ac6959d04c0b623d1add621582d9a8c847ca7224",
+      "body_sha256": "3e3df7236ab4320553480775d06449007cf6ba14cc2488a0e6c8478a9b75ebd4",
+      "engine": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+        "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+        "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+      },
+      "diagnostics": "",
+      "screening_outcome": "principal_observation_aligned",
+      "expected_before_execution": "Alkaline pH compared with water baseline.",
+      "evidence_and_limits": "Complete NaOH stock produces alkaline pH 11.9517.",
+      "final_ph": 11.95168259098,
+      "final_temperature_k": 298.2562707533358,
+      "final_contents": [
+        {
+          "moles": 0.001,
+          "phase": "aqueous",
+          "species": "Na+"
+        },
+        {
+          "moles": 5.534276991396059,
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": 0.001,
+          "phase": "aqueous",
+          "species": "base_equivalents"
+        }
+      ],
+      "physical_validation": "not_assigned"
+    },
+    {
+      "id": "F04-neutralisation",
+      "http_status": 200,
+      "execution_status": "completed",
+      "script_sha256": "a4e2a4c3f27aa790a4843e644b4ba647ff71d5515a945bf7fe6304bb8925b1c1",
+      "body_sha256": "9dec944947690095547dba5dcbc503973eb867f49b0a1590173f6523b32f7245",
+      "engine": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+        "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+        "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+      },
+      "diagnostics": "",
+      "screening_outcome": "principal_observation_aligned",
+      "expected_before_execution": "Equal strong acid/base returns toward neutral pH; inspect heating separately, no empirical heat calibration.",
+      "evidence_and_limits": "Equal complete acid/base doses return pH from 2.0381 to 6.9927; temperature rises to 298.3897 K. Heat is not empirically calibrated.",
+      "final_ph": 6.992709843471,
+      "final_temperature_k": 298.3897348799912,
+      "final_contents": [
+        {
+          "moles": 0.001,
+          "phase": "aqueous",
+          "species": "Cl-"
+        },
+        {
+          "moles": 0.001,
+          "phase": "aqueous",
+          "species": "Na+"
+        },
+        {
+          "moles": 5.535276991396059,
+          "phase": "liquid",
+          "species": "water"
+        }
+      ],
+      "physical_validation": "not_assigned"
+    },
+    {
+      "id": "F05-NH4Cl",
+      "http_status": 200,
+      "execution_status": "completed",
+      "script_sha256": "8a0acd127c65fe3f7e8192714ee1415d9decc1b1c442ce319746b64308feb19a",
+      "body_sha256": "992b32057aabee0eb3642b79dc803ee9a7eb1213501ef82a82b3c4c0ad501474",
+      "engine": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+        "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+        "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+      },
+      "diagnostics": "",
+      "screening_outcome": "principal_observation_aligned",
+      "expected_before_execution": "Ammonium-salt solution acidic, rather than ammonia-like alkalinity.",
+      "evidence_and_limits": "Complete NH4Cl stock is acidic, pH 5.6637; original bare NH4+ was an incomplete physical protocol.",
+      "final_ph": 5.663739701127,
+      "final_temperature_k": 298.1142337454747,
+      "final_contents": [
+        {
+          "moles": 0.001,
+          "phase": "aqueous",
+          "species": "Cl-"
+        },
+        {
+          "moles": 2.3628030813192933e-07,
+          "phase": "aqueous",
+          "species": "NH3"
+        },
+        {
+          "moles": 0.0009997637196918683,
+          "phase": "aqueous",
+          "species": "NH4+"
+        },
+        {
+          "moles": 5.534276991396059,
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": 2.3628030813155343e-07,
+          "phase": "aqueous",
+          "species": "H+"
+        }
+      ],
+      "physical_validation": "not_assigned"
+    },
+    {
+      "id": "F06-Na2CO3",
+      "http_status": 200,
+      "execution_status": "completed",
+      "script_sha256": "9caf9e77d41fed161c53aa1820bfabe57d5ce307c1f4b37babfa1c5981d4f064",
+      "body_sha256": "0d70148738f7dfcb4608aeda0ce03cbf46a88f91caa8851355029ed3fcc6e0a9",
+      "engine": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+        "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+        "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+      },
+      "diagnostics": "",
+      "screening_outcome": "principal_observation_aligned",
+      "expected_before_execution": "Carbonate-salt solution alkaline; carbonate/hydrocarbonate solution species available.",
+      "evidence_and_limits": "Complete Na2CO3 stock is alkaline, pH 10.9725; carbonate and bicarbonate are present in computed speciation.",
+      "final_ph": 10.97251176838,
+      "final_temperature_k": 298.15,
+      "final_contents": [
+        {
+          "moles": 0.002000000007012475,
+          "phase": "aqueous",
+          "species": "Na+"
+        },
+        {
+          "moles": 2.617692575874269e-09,
+          "phase": "aqueous",
+          "species": "CO2(aq)"
+        },
+        {
+          "moles": 0.00012735376240934125,
+          "phase": "aqueous",
+          "species": "HCO3-"
+        },
+        {
+          "moles": 0.0008726436234043202,
+          "phase": "aqueous",
+          "species": "CO3-2"
+        },
+        {
+          "moles": 5.534149635026476,
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": 0.00012735897675706948,
+          "phase": "aqueous",
+          "species": "base_equivalents"
+        }
+      ],
+      "physical_validation": "not_assigned"
+    },
+    {
+      "id": "F07-Zn-HCl",
+      "http_status": 200,
+      "execution_status": "completed",
+      "script_sha256": "a928236870e71e068610d10a44ebe60167c4aeddbedd8b20166b41ff68342650",
+      "body_sha256": "fc975d4b77fb0c0d8c3f4531aafdd52cef1896399928496c280296480f17681e",
+      "engine": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+        "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+        "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+      },
+      "diagnostics": "",
+      "screening_outcome": "explicit_model_limit",
+      "expected_before_execution": "Acid is represented; zinc consumption and hydrogen generation if supported at the declared timescale.",
+      "evidence_and_limits": "Zinc remains at 0.001 mol despite acidic pH 1.7486; explicit hydrogen-overpotential and metal-model limits are emitted. No hydrogen generation established on this timescale.",
+      "final_ph": 1.74858175066,
+      "final_temperature_k": 298.1500013446396,
+      "final_contents": [
+        {
+          "moles": 0.001,
+          "phase": "solid",
+          "species": "Zn"
+        },
+        {
+          "moles": 0.002,
+          "phase": "aqueous",
+          "species": "Cl-"
+        },
+        {
+          "moles": 5.534276991396059,
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": 0.002,
+          "phase": "aqueous",
+          "species": "H+"
+        }
+      ],
+      "physical_validation": "not_assigned"
+    },
+    {
+      "id": "F08-CaCO3-HCl",
+      "http_status": 200,
+      "execution_status": "completed",
+      "script_sha256": "af7f49bea5c4030829dfafc66f4f92743f4c176afcf4d8b25558e77635fd3e1e",
+      "body_sha256": "44d86ceacb289e5c3fdfe1b33371703ff940e0e6fcf1f4f32f3ce8806f8b2ddc",
+      "engine": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+        "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+        "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+      },
+      "diagnostics": "",
+      "screening_outcome": "principal_observation_aligned",
+      "expected_before_execution": "Acid-driven carbonate dissolution and CO2 generation; distinguish vented gas from retained inventory.",
+      "evidence_and_limits": "Carbonate solid is consumed; 0.00099839 mol CO2 gas-evolution event, with dissolved calcium. Bare H+ source probe did not specify complete acid.",
+      "final_ph": 5.594630433884,
+      "final_temperature_k": 298.15,
+      "final_contents": [
+        {
+          "moles": 0.0009999999993021704,
+          "phase": "aqueous",
+          "species": "Ca+2"
+        },
+        {
+          "moles": 0.001999999991268087,
+          "phase": "aqueous",
+          "species": "Cl-"
+        },
+        {
+          "moles": 1.3331124923963883e-06,
+          "phase": "aqueous",
+          "species": "CO2(aq)"
+        },
+        {
+          "moles": 2.7420122630246017e-07,
+          "phase": "aqueous",
+          "species": "HCO3-"
+        },
+        {
+          "moles": 8.068652219907512e-12,
+          "phase": "aqueous",
+          "species": "CO3-2"
+        },
+        {
+          "moles": 5.535276717186953,
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": 2.7421698541085074e-07,
+          "phase": "aqueous",
+          "species": "H+"
+        }
+      ],
+      "physical_validation": "not_assigned"
+    },
+    {
+      "id": "F09-CuO-HCl",
+      "http_status": 200,
+      "execution_status": "completed",
+      "script_sha256": "5d498fc94ef205d39d002f793abe3b38144fae921dbafa7877bd26a690adcc0c",
+      "body_sha256": "1fb7384da08293742f447ae0e68c38fbc5bb160c1cdf0452e3ef1999d11e407f",
+      "engine": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+        "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+        "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+      },
+      "diagnostics": "",
+      "screening_outcome": "principal_observation_aligned",
+      "expected_before_execution": "Acid promotes CuO dissolution and dissolved copper; compare with pre-acid inspection.",
+      "evidence_and_limits": "Acid consumes CuO and leaves about 0.00099846 mol aqueous copper inventory; minor atacamite is retained. This does not calibrate colour or trace phase yields.",
+      "final_ph": 4.555218193718,
+      "final_temperature_k": 298.15,
+      "final_contents": [
+        {
+          "moles": 0.0019992287362977502,
+          "phase": "aqueous",
+          "species": "Cl-"
+        },
+        {
+          "moles": 0.0009984574923910937,
+          "phase": "aqueous",
+          "species": "Cu+2"
+        },
+        {
+          "moles": 7.712522140678e-07,
+          "phase": "solid",
+          "species": "atacamite"
+        },
+        {
+          "moles": 5.535274677639417,
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": 2.3137566422034e-06,
+          "phase": "aqueous",
+          "species": "H+"
+        }
+      ],
+      "physical_validation": "not_assigned"
+    },
+    {
+      "id": "F10-CO2-NaOH",
+      "http_status": 200,
+      "execution_status": "completed",
+      "script_sha256": "d773a7a785d12f7391b94ca62361237525b01bc5d18d8c3d9221bc79aa793e5f",
+      "body_sha256": "8c1c74ee11f5c93bec96b173d2040f371a9c5d70cfda733eb0d75a2eb6bce83e",
+      "engine": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+        "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+        "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+      },
+      "diagnostics": "",
+      "screening_outcome": "principal_observation_aligned",
+      "expected_before_execution": "Base captures CO2 into carbonate/bicarbonate; inspect pH and distinguish initial-air carbon.",
+      "evidence_and_limits": "Carbonate/bicarbonate capture added CO2 and pH remains alkaline at 10.8980. Initial sealed air contributes carbon; total retained carbon must include that baseline.",
+      "final_ph": 10.89801411035,
+      "final_temperature_k": 298.611272563082,
+      "final_contents": [
+        {
+          "moles": 0.032294582578672695,
+          "phase": "gas",
+          "species": "N2"
+        },
+        {
+          "moles": 0.008563112327847018,
+          "phase": "gas",
+          "species": "O2"
+        },
+        {
+          "moles": 0.00200000000375554,
+          "phase": "aqueous",
+          "species": "Na+"
+        },
+        {
+          "moles": 3.613464238574584e-09,
+          "phase": "aqueous",
+          "species": "CO2(aq)"
+        },
+        {
+          "moles": 0.00014891408791776017,
+          "phase": "aqueous",
+          "species": "HCO3-"
+        },
+        {
+          "moles": 0.0008673939939765094,
+          "phase": "aqueous",
+          "species": "CO3-2"
+        },
+        {
+          "moles": 3.78800508732e-08,
+          "phase": "gas",
+          "species": "CO2"
+        },
+        {
+          "moles": 5.535144385305236,
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": 0.00011629809373062822,
+          "phase": "aqueous",
+          "species": "base_equivalents"
+        }
+      ],
+      "physical_validation": "not_assigned"
+    },
+    {
+      "id": "F11-AgCl-NH3",
+      "http_status": 200,
+      "execution_status": "completed",
+      "script_sha256": "2dd3f23cb71206af2ae5d13e22223603e50610ae12526175c18be3e118cfbdc2",
+      "body_sha256": "de058cf161537abd08c1802ac79bb9bad44ab1fce1ff5d6dc78f1a5cc8765b9b",
+      "engine": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+        "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+        "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+      },
+      "diagnostics": "",
+      "screening_outcome": "target_outcome_not_demonstrated",
+      "expected_before_execution": "Ammonia increases AgCl dissolution through ammine complexation if represented; no full-dissolution forecast at this dose.",
+      "evidence_and_limits": "No silver ammine complexes are reported; 0.00099855 mol AgCl remains. Ammonia decreases rather than enhances dissolved silver in this selected dataset. Full dissolution was never required by the finite-ligand forecast.",
+      "final_ph": 10.76264129499,
+      "final_temperature_k": 298.2613601245549,
+      "final_contents": [
+        {
+          "moles": 1.4480965847260087e-06,
+          "phase": "aqueous",
+          "species": "Ag+"
+        },
+        {
+          "moles": 1.4480965847260087e-06,
+          "phase": "aqueous",
+          "species": "Cl-"
+        },
+        {
+          "moles": 0.0019399911788596483,
+          "phase": "aqueous",
+          "species": "NH3"
+        },
+        {
+          "moles": 6.000882245757557e-05,
+          "phase": "aqueous",
+          "species": "NH4+"
+        },
+        {
+          "moles": 0.0009985519034162,
+          "phase": "solid",
+          "species": "AgCl"
+        },
+        {
+          "moles": 5.5342169825696494,
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": 6.000882640924774e-05,
+          "phase": "aqueous",
+          "species": "base_equivalents"
+        }
+      ],
+      "physical_validation": "not_assigned"
+    },
+    {
+      "id": "F12-permanganate-peroxide-acid",
+      "http_status": 200,
+      "execution_status": "completed",
+      "script_sha256": "c05c88f1e1406d7c0bcade6e9f9c31aadb6d2af9a2c0ad5f8bbe896c72d27ab4",
+      "body_sha256": "9401d743de965634dd642491c805cdd03842a5ae035455a2efdc754c99d5eb9c",
+      "engine": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+        "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+        "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+      },
+      "diagnostics": "",
+      "screening_outcome": "target_outcome_not_demonstrated",
+      "expected_before_execution": "Acidic permanganate/peroxide target consumes permanganate and yields MnII/O2 if supported; distinguish background peroxide decomposition.",
+      "evidence_and_limits": "Acidic pH 1.4592 is established, but 0.002 mol permanganate remains and 0.0049996 mol peroxide remains. No coupled target redox reaction is demonstrated; tiny oxygen formation is background peroxide decomposition.",
+      "final_ph": 1.45918055247,
+      "final_temperature_k": 298.07275684417266,
+      "final_contents": [
+        {
+          "moles": 0.004999596988203948,
+          "phase": "liquid",
+          "species": "H2O2"
+        },
+        {
+          "moles": 2.0150589802601977e-07,
+          "phase": "gas",
+          "species": "O2"
+        },
+        {
+          "moles": 0.002,
+          "phase": "aqueous",
+          "species": "K+"
+        },
+        {
+          "moles": 0.002,
+          "phase": "aqueous",
+          "species": "MnO4-"
+        },
+        {
+          "moles": 0.003,
+          "phase": "aqueous",
+          "species": "SO4-2"
+        },
+        {
+          "moles": 5.534277394407854,
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": 0.006000000000000005,
+          "phase": "aqueous",
+          "species": "H+"
+        }
+      ],
+      "physical_validation": "not_assigned"
+    }
+  ]
+}
