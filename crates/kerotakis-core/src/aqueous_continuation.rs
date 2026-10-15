@@ -94,8 +94,6 @@ fn validate_change(before: &Vessel, after: &Vessel, events: &[Event]) -> Result<
     if before.thermal_mode != after.thermal_mode
         || before.heat_input != after.heat_input
         || before.headspace != after.headspace
-        || before.ignition_trial != after.ignition_trial
-        || before.ignition_feed_temperature != after.ignition_feed_temperature
         || before.pending_co2_transfer_mol != after.pending_co2_transfer_mol
     {
         return Err(refused(

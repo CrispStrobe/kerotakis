@@ -94,6 +94,14 @@ of an in-progress candidate is not a supported continuation mechanism.
 
 ## Acceptance and limits
 
+The first hosted build at `75acd4072f94c3814aa17a73667a1bbfab30e521`
+[failed before execution](https://github.com/CrispStrobe/kerotakis/actions/runs/38807342410/job/116671491406):
+the metadata guard referenced `ignition_trial` and `ignition_feed_temperature`,
+which are not fields of the integrated `Vessel` type. Those invalid references
+are removed; the actual thermal mode, operator heat input, headspace and pending
+CO2 transfer guards remain. Source field-name and formatting checks pass, but
+the corrected build and all runtime controls still require hosted execution.
+
 The core controls use an artificial conservative callback, not an installed
 reaction model. They cover released/contained gas, original snapshot retention,
 actual phase-tail entry points, repeated passes, snapshot recapture, failed and
