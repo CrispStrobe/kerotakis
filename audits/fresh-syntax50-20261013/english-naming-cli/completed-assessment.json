@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "scope": "Four source-informed naming/identity engineering pairs, eight executions; no new blind chemistry or calibration",
+  "candidate_head": "30d84ed58b7a3ca6680046ba577632ec3dee553d",
+  "built_merge_commit": "fe87a07cae8e55e958b3162b2a3631ea7c9080ac",
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38759958516",
+  "audit_head": "4e61a264052d56b8777c0eb33b42379fc1bbaf7f",
+  "artifact_id": 11985809779,
+  "artifact_sha256": "583f58239a2715a9cd07285cd92471af81a2c49739ae0926ced4d4a0eece73a6",
+  "binary_sha256": "7868fcedf3b51b0f84a6e51f0476e03c6966d4c7a155efd06f81c428db492677",
+  "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc",
+  "executed_count": 8,
+  "pair_counts": {
+    "pass": 4,
+    "fail": 0
+  },
+  "pairs": [
+    {
+      "id": "01",
+      "canonical_key": "O2",
+      "phase": "gas",
+      "verdict": "pass",
+      "stdout_pair_byte_identical": true,
+      "stdout_sha256": "a55aa23c60899d1602072f81a24c111463079429a22d3b94c45b45d9baf8e009",
+      "baseline_mol": 0.008563112327847018,
+      "first_increment_mol": 0.0025000000000000005,
+      "final_increment_mol": 0.005000000000000001,
+      "refused_bench_unchanged": true,
+      "stock_exhausted_remaining_mol": 0.0075,
+      "stock_exhausted_requested_mol": 0.01,
+      "observation_sequences": {
+        "baseline": 1,
+        "first": 4,
+        "after_refusal": 6,
+        "final": 8
+      }
+    },
+    {
+      "id": "02",
+      "canonical_key": "N2",
+      "phase": "gas",
+      "verdict": "pass",
+      "stdout_pair_byte_identical": true,
+      "stdout_sha256": "28539ef28adf4b86dce044e39df677bcba308cda97d2ca1b270ad55adb82a425",
+      "baseline_mol": 0.032294582578672695,
+      "first_increment_mol": 0.0025000000000000022,
+      "final_increment_mol": 0.0050000000000000044,
+      "refused_bench_unchanged": true,
+      "stock_exhausted_remaining_mol": 0.0075,
+      "stock_exhausted_requested_mol": 0.01,
+      "observation_sequences": {
+        "baseline": 1,
+        "first": 4,
+        "after_refusal": 6,
+        "final": 8
+      }
+    },
+    {
+      "id": "03",
+      "canonical_key": "CO2",
+      "phase": "gas",
+      "verdict": "pass",
+      "stdout_pair_byte_identical": true,
+      "stdout_sha256": "4ded1f0633ab7d2fc83c5772e286bdf12aa94aba21788e43b311ead26a8ae74d",
+      "baseline_mol": 1.6349617809731778e-05,
+      "first_increment_mol": 0.0025,
+      "final_increment_mol": 0.005,
+      "refused_bench_unchanged": true,
+      "stock_exhausted_remaining_mol": 0.0075,
+      "stock_exhausted_requested_mol": 0.01,
+      "observation_sequences": {
+        "baseline": 1,
+        "first": 4,
+        "after_refusal": 6,
+        "final": 8
+      }
+    },
+    {
+      "id": "04",
+      "canonical_key": "NaCl",
+      "phase": "solid",
+      "verdict": "pass",
+      "stdout_pair_byte_identical": true,
+      "stdout_sha256": "d2ee6a71ac6ae5fd172b7a3571ba7551357da18fa13678b817f67006a395ebc5",
+      "baseline_mol": 0,
+      "first_increment_mol": 0.0025,
+      "final_increment_mol": 0.005,
+      "refused_bench_unchanged": true,
+      "stock_exhausted_remaining_mol": 0.0075,
+      "stock_exhausted_requested_mol": 0.01,
+      "observation_sequences": {
+        "baseline": 1,
+        "first": 4,
+        "after_refusal": 6,
+        "final": 8
+      }
+    }
+  ],
+  "assessed_requirements": [
+    "Every original quantitative forecast retained",
+    "Complete nine-row JSON streams and verified hashes; exit zero, no timeout",
+    "Named/canonical operators, events and full physical snapshots byte-identical without removing any fields",
+    "Canonical shelf/add identities; finite overdraw leaves entire bench unchanged",
+    "Retained final increment 0.005mol within 1e-10 after subtracting actual initial ambient baseline",
+    "Sealed 1 L boundary retained; expected gas or solid phase preserved"
+  ],
+  "limits": [
+    "No fabricated stock-map projection; remaining amounts read from actual exhaustion events",
+    "Original syntax failure retained separately",
+    "No new reaction domain or scientific calibration established"
+  ]
+}

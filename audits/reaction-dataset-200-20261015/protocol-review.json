@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "kind": "source_review_of_frozen_probe_interpretation",
+  "reviewed_audit_head": "f4da8338fea4d00ac08c26117e783b699087cda4",
+  "reviewed_product_source": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+  "execution_run_id": 38763662200,
+  "review_method": "Read frozen adapter, runner, manifest, scripts and CLI/parser source; no CLI execution or physical assay performed by this review",
+  "accounting": {
+    "manifest_records": 200,
+    "unique_ids": 200,
+    "unique_ranks": 200,
+    "rank_range": [1, 200],
+    "tracked_scripts": 200,
+    "manifest_script_set_matches_tracked_scripts": true,
+    "source_records_without_supplied_procedure": 200
+  },
+  "physical_verdict": "not_assigned",
+  "scope_limits": [
+    "Every source record states procedure_provided=false. Frozen amounts, order, solvent, boundary, activation and elapsed time are declared screening assumptions, not source-validated procedures.",
+    "Execution success is not a scientific pass. Negative outcomes require review of identity admission, procedure compatibility, model boundaries and observation coverage before attributing a chemistry defect.",
+    "The CLI exits at the first failed command in each script. Attempting all 200 scripts does not establish that every reactant, activation or final inspection was reached.",
+    "The outer runner continues after individual nonzero exits and timeouts, but a resource-gate stop leaves later records unexecuted. Any continuation must identify unfinished records and preserve completed evidence.",
+    "Added ingredients use registry phases; dataset phase labels cannot override them. Symbolic coefficients normalized to one are finite contact probes, not polymer stoichiometry or molecular-weight validation.",
+    "Sealed headspaces include initial air. Oxygen, nitrogen and carbon dioxide already present must be distinguished from reaction products; initial oxygen can also introduce a reagent.",
+    "Catalysts, auxiliary reagents, electrode systems and multistage work-ups absent from the frozen setup are not implicitly supplied by the CLI. A short wait does not establish a predicted reaction rate."
+  ],
+  "water_setup_review": {
+    "adapter_rule": "Add 100 mL water if any reactant OR product has an aqueous phase label",
+    "reason_for_followup": "An aqueous product label alone does not establish a compatible reaction medium. The listed organic probes have incomplete conditions, and bulk water can quench reactive species or change the intended pathway.",
+    "cases_requiring_reviewed_followup": [
+      {
+        "rank": 167,
+        "id": "williamson_ether",
+        "source_condition": "Alkoxide and a suitable primary alkyl halide.",
+        "limitation": "Added bulk water introduces proton transfer and competing aqueous substitution; the source does not specify this solvent or an alkoxide-compatible medium."
+      },
+      {
+        "rank": 168,
+        "id": "e2_elimination",
+        "source_condition": "Basic conditions favouring elimination.",
+        "limitation": "Base identity, concentration and medium determine elimination versus substitution. The added water is a screening assumption and does not establish the stated elimination-favouring conditions."
+      },
+      {
+        "rank": 180,
+        "id": "acetylide_alkylation",
+        "source_condition": "Appropriate primary/methyl electrophile.",
+        "limitation": "Bulk water can protonate the acetylide. The frozen aqueous contact does not establish a compatible alkylation protocol."
+      },
+      {
+        "rank": 182,
+        "id": "enolate_alkylation",
+        "source_condition": "Conditions favouring C- rather than O-alkylation.",
+        "limitation": "Water can protonate the enolate and changes competing pathways; the frozen setup does not establish the required selectivity conditions."
+      },
+      {
+        "rank": 195,
+        "id": "buchwald_hartwig",
+        "source_condition": "Ligand-controlled, base-assisted catalytic coupling.",
+        "limitation": "The named palladium catalyst/ligand system and base conditions are not supplied. Added water is unvalidated for this example; aqueous variants existing in principle would not validate this catalyst-free contact probe."
+      }
+    ],
+    "classification": "protocol_incomplete_or_potentially_incompatible; not_demonstrated_chemistry_failure",
+    "list_is_exhaustive": false
+  },
+  "starch_identity_review": {
+    "cases": [
+      {"rank": 41, "id": "starch_iodine_test"},
+      {"rank": 74, "id": "starch_hydrolysis"}
+    ],
+    "finding": "The adapter labels starch unresolved because the source leaves formula and charge unspecified, then submits the original starch token. That token is an admitted registry identity using C6H10O5 repeat-unit composition.",
+    "quantity_interpretation": "The submitted 0.001 mol is a registry repeat-unit surrogate, not a measured quantity of polymer molecules or a defined chain-length distribution.",
+    "limits": [
+      "An unresolved mapping label does not guarantee a CLI unknown-identity refusal.",
+      "Successful admission does not validate polymer molecular weight, chain count or quantitative hydrolysis yield."
+    ]
+  },
+  "preservation": "This sidecar annotates interpretation only. Frozen forecasts, scripts, adapter, runner, bindings and the already dispatched execution remain unchanged."
+}

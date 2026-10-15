@@ -1,0 +1,8 @@
+# nitrogen_dioxide_photolysis
+seal v1 1L
+inspect v1
+add v1 NO2 0.001mol
+inspect v1
+irradiate v1 254nm 10W/m2
+wait 10s
+inspect v1

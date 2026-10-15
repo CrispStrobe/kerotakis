@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "preflight": "passed",
+  "checks": [
+    "All supplied JSON parsed and dataset schema validated",
+    "200 unique IDs and continuous ranks",
+    "201 frozen manifest/script hashes verified",
+    "Molecular/group/hydrate atom accounting",
+    "Calcium hydroxide, acetic acid and copper ion mappings",
+    "Hydronium retains associated water",
+    "Electron representation is not dropped",
+    "Isomer-ambiguous molecular formula is not used as an alias"
+  ],
+  "executed_reactions": 0
+}

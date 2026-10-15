@@ -1,0 +1,8 @@
+# grignard_carbonyl_addition
+inspect v1
+add v1 propanone 0.001mol
+add v1 MeMgBr 0.001mol
+add v1 water 0.001mol
+inspect v1
+wait 10s
+inspect v1

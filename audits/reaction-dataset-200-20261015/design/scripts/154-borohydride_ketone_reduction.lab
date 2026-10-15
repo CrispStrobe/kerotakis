@@ -1,0 +1,9 @@
+# borohydride_ketone_reduction
+add v1 water 100mL @ 25C
+inspect v1
+add v1 propanone 0.004mol
+add v1 BH4- 0.001mol
+add v1 water 0.004mol
+inspect v1
+wait 10s
+inspect v1

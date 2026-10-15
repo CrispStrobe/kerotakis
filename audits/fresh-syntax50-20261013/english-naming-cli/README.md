@@ -25,3 +25,11 @@ Fresh resource gates
 apply before preparation and every case. Preserve first outputs and failures;
 never invent a stock-map projection absent from CLI JSON. The original fifty,
 old-source forty and later current-main replay remain separate evidence sets.
+
+The corrected hosted execution is now complete: **eight executions, four pairs
+passed**. Canonical/named complete streams match byte-for-byte; stock exhaustion,
+mutation-free refusal, retained inventory above initial ambient gas and expected
+phases satisfy the frozen quantitative assertions. See [actual assessment](completed-assessment.json).
+PR789 is [integrated](../english-naming-integration.json); preserve earlier syntax
+and resource failures separately. These are identity engineering controls, not
+new physical calibration.

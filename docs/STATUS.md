@@ -69,24 +69,30 @@ Detailed deliverables and prerequisites are in the
 [broader roadmap](ordered-work-roadmap-20261013.md) and
 [lane catalog](chemistry-audit-next-lanes.md).
 
-A [bounded naming-alias lane](naming-alias-lane.md) is scoped from integrated
-source: begin with reviewed English names, preserve canonical identity, and
-reject material/grammar/phase ambiguities. [PR789](https://github.com/CrispStrobe/kerotakis/pull/789)
-now contains the four-name candidate and parser-derived Story kits. Eleven native
-test groups and fifteen app cases are prepared; actual CI/fleet/CLI acceptance
-remains pending. The first full app run passed 1,652 cases and failed one
-existing catalog-refresh test that assumed a single microtask. Its reviewed
-correction now on PR789 at `30d84ed5` waits for the automatic parsed-kit answer; the
-corrected focused session suite passed 121/121. Full corrected-source acceptance
-is still pending. The candidate is a draft and is not integrated.
-The first [paired CLI attempt](../audits/fresh-syntax50-20261013/english-naming-cli/first-outcomes.json)
-stopped before dispensing because the frozen control used `@25C` instead of
-the documented `@ 25C`. The original failure is preserved. Eight spacing-only
-follow-ups and their verified candidate binary/lock binding are frozen separately;
-memory gates stopped local execution before the first case. A [bounded hosted
-run](../audits/fresh-syntax50-20261013/english-naming-cli-hosted-dispatch.json) now
-reuses the verified existing CLI artifact, with no build and all ordinary fleet
-jobs skipped. Follow that run; do not duplicate it locally. No verdict is assigned yet.
+[PR789](https://github.com/CrispStrobe/kerotakis/pull/789) is integrated as
+`b21599ab`: reviewed English oxygen, nitrogen, carbon dioxide and sodium chloride
+names retain canonical identities and finite bottles, including parsed Story kits.
+All 25 CI and 33 own-fleet checks passed. The separately frozen eight CLI controls
+passed all four named/canonical pairs: complete streams are byte-identical,
+overdraw leaves the entire bench unchanged, and final retained increments match
+0.005 mol after subtracting initial trapped gas. [CLI assessment](../audits/fresh-syntax50-20261013/english-naming-cli/completed-assessment.json)
+and [actual merge evidence](../audits/fresh-syntax50-20261013/english-naming-integration.json)
+preserve source/artifact/lock/parents/tree bindings. The original control syntax
+failure remains preserved; these engineering passes establish no new reaction domain.
+
+## Supplied 200-reaction dataset
+
+Both supplied JSON files have been read, and all 200 reaction records validate
+against the accompanying schema. All have separate frozen CLI scripts in the
+[200-record audit](../audits/reaction-dataset-200-20261015/README.md), dispatched
+in [run 38763662200](https://github.com/CrispStrobe/kerotakis/actions/runs/38763662200).
+The runner reuses the verified pinned-main CLI without rebuilding, and continues
+after individual refusals/timeouts. It is queued; no executed count or scientific
+pass is assigned yet. Every source record lacks a procedure: solvent, gas
+boundary, activation, symbolic/electron and catalyst limitations are explicit.
+Read the [independent protocol review](../audits/reaction-dataset-200-20261015/protocol-review.json),
+including organic water-setup and starch-surrogate limits. Keep this supplied
+reference screen separate from the original blind fifty and old-source forty.
 
 ## Reported colour and rendering defects
 
@@ -138,7 +144,7 @@ remain preserved. Current head includes accepted PR791 and PR793 main changes.
 Fresh native export, optics/protocol, actual-browser and own-fleet acceptance
 remain pending. The earlier app suite does not establish those.
 
-PR790 and PR791 are integrated. PR789 and PR792 remain drafts pending named
+PR789, PR790 and PR791 are integrated. PR792 remains a draft pending named
 acceptance. [Documentation PR793](https://github.com/CrispStrobe/kerotakis/pull/793)
 merged as `208f9a72` after all 25 CI jobs passed; its [integration receipt](../audits/fresh-syntax50-20261013/assessment-documentation-integration-20261015.json)
 verifies actual parents and expected merge tree. First failures remain preserved.

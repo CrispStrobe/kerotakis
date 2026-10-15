@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "request": "Read all supplied JSON and run every reaction record through Kerotakis CLI",
+  "input_inventory": "input-inventory.json",
+  "reaction_count": 200,
+  "all_input_json_read": true,
+  "dataset_schema_validation": "passed",
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38763662200",
+  "audit_head": "f4da8338fea4d00ac08c26117e783b699087cda4",
+  "eligible_job_id": 116521183664,
+  "isolated_branch": "audit/reaction-dataset-200-20261015",
+  "must_not_merge_branch": true,
+  "ordinary_fleet_jobs_verified_skipped": 9,
+  "current_status": "queued",
+  "execution_count_verified": 0,
+  "physical_verdict": "not_assigned",
+  "binding": "execution-binding.json",
+  "frozen_script_count": 200,
+  "protocol_review": "protocol-review.json",
+  "next_action": "Follow existing run, authenticate artifact and assess all 200 saved streams. Do not duplicate batch or equate 200 attempts to all additions/activations reached."
+}

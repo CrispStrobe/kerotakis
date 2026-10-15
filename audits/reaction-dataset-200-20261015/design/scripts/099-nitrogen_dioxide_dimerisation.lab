@@ -1,0 +1,7 @@
+# nitrogen_dioxide_dimerisation
+seal v1 1L
+inspect v1
+add v1 NO2 0.002mol
+inspect v1
+wait 10s
+inspect v1

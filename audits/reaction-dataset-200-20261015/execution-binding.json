@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "frozen_utc": "2026-10-15T15:47:53.580823+00:00",
+  "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+  "source_tree": "651096a6f71630b7985934e7338071e926b1b38e",
+  "source_run_id": 38739278904,
+  "source_run_audit_head": "4c3840129e53debcd68455bfc4b6935cefe018e4",
+  "artifact_id": 11977961282,
+  "artifact_sha256": "d57005d92784fa833b7095468558d97c76ebf1003a7244d418a2a7ee2ea7f7a4",
+  "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+  "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc",
+  "design_freeze_sha256": "f0f1ef81ac4861493eb96256144b78f371d00ee21d86188dcdf5e66ed2d2ecc2",
+  "runner_sha256": "3fe00891838a00da4c44eb28d7b8e4f20db6b383773fcafb3b729ad48bf525c4",
+  "scope": "All 200 supplied reaction records; declared contact/activation screens, no scientific pass inferred from exit status",
+  "initial_unexecuted_design_freeze_sha256": "1c0a642b206e5a6f172f0d3f46d5d0bb20ce250b0617f88bfcbca97a3e0dc67d",
+  "execution_count_at_freeze": 0
+}

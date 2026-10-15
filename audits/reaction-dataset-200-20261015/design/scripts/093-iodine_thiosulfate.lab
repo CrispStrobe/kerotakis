@@ -1,0 +1,8 @@
+# iodine_thiosulfate
+add v1 water 100mL @ 25C
+inspect v1
+add v1 I2 0.001mol
+add v1 S2O3-2 0.002mol
+inspect v1
+wait 10s
+inspect v1

@@ -1,0 +1,10 @@
+# hydroboration_oxidation
+add v1 water 100mL @ 25C
+seal v1 1L
+inspect v1
+add v1 propene 0.003mol
+add v1 BH3 0.001mol
+add v1 H2O2 0.003mol
+inspect v1
+wait 10s
+inspect v1

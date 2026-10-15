@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/789",
+  "state": "MERGED",
+  "merged_at": "2026-10-15T15:52:59Z",
+  "head": "30d84ed58b7a3ca6680046ba577632ec3dee553d",
+  "merge_commit": "b21599ab834d48801622802a80f17a589dd65b96",
+  "merge_parents": [
+    "f471b628e99b4ccb78a5ca97ec93d04cdfad0dbf",
+    "30d84ed58b7a3ca6680046ba577632ec3dee553d"
+  ],
+  "merge_tree": "ca51e2ec2ea170efebee0f4c22dabdc5fc699a7b",
+  "expected_merge_tree_matches": true,
+  "ci_successes": 25,
+  "own_fleet_successes": 33,
+  "naming_cli_executions": 8,
+  "naming_pair_passes": 4,
+  "cli_acceptance": "english-naming-cli/completed-assessment.json",
+  "merge_policy": "Exact-head normal auto-merge enabled; normal protected merge completed after all acceptance was green; no bypass",
+  "limits": [
+    "Expected combined merge tree verified; complete tree is not claimed identical to pre-rendering candidate",
+    "No scientific calibration or new reaction domain claimed"
+  ]
+}

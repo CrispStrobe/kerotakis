@@ -1,0 +1,8 @@
+# ethene_hydrogenation
+seal v1 1L
+inspect v1
+add v1 ethene 0.001mol
+add v1 H2 0.001mol
+inspect v1
+wait 10s
+inspect v1

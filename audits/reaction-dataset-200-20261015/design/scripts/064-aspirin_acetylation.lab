@@ -1,0 +1,7 @@
+# aspirin_acetylation
+inspect v1
+add v1 salicylic_acid 0.001mol
+add v1 acetic_anhydride 0.001mol
+inspect v1
+wait 10s
+inspect v1

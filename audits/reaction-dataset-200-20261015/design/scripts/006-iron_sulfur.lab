@@ -1,0 +1,8 @@
+# iron_sulfur
+inspect v1
+add v1 Fe 0.001mol
+add v1 S 0.001mol
+inspect v1
+heat v1 1kJ
+wait 10s
+inspect v1

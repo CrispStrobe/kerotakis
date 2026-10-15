@@ -1,0 +1,8 @@
+# ostwald_ammonia_oxidation
+seal v1 1L
+inspect v1
+add v1 NH3 0.004mol
+add v1 O2 0.005mol
+inspect v1
+wait 10s
+inspect v1
