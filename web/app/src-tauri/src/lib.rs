@@ -271,8 +271,12 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
                 .collect();
             Ok(Value::Array(list).to_string())
         }
-        "parse" => Ok(
-            match kerotakis_core::script::parse_command(field("line")?, lab.locale) {
+        "parse" | "parse_legacy" => Ok(
+            match if cmd == "parse_legacy" {
+                kerotakis_core::script::parse_legacy_command(field("line")?, lab.locale)
+            } else {
+                kerotakis_core::script::parse_command(field("line")?, lab.locale)
+            } {
                 Ok(kerotakis_core::script::Command {
                     canonical,
                     operator,
@@ -731,6 +735,40 @@ mod protocol_conformance {
         let bad = ask(
             &mut lab,
             json!({"cmd": "parse", "line": "utter nonsense &&&"}),
+        );
+        assert_eq!(bad["ok"], false);
+        assert_eq!(
+            dispatch(&mut lab, &json!({"cmd": "state"})).unwrap(),
+            before
+        );
+    }
+
+    #[test]
+    fn historical_parsing_pins_archived_aliases_without_mutating_the_native_bench() {
+        let mut lab = NativeLab::new();
+        let before = dispatch(&mut lab, &json!({"cmd": "state"})).unwrap();
+        for (line, canonical) in [
+            (
+                "add v1 blue watercolour 100g",
+                "add v1 watercolour_blue@1 100g",
+            ),
+            (
+                "stock watercolor_blue 100g",
+                "stock watercolour_blue@1 100g",
+            ),
+            (
+                "add v1 watercolour_yellow@1 1g",
+                "add v1 watercolour_yellow@1 1g",
+            ),
+            ("add v1 NaCl 1g", "add v1 NaCl 1g"),
+        ] {
+            let parsed = ask(&mut lab, json!({"cmd": "parse_legacy", "line": line}));
+            assert_eq!(parsed["ok"], true);
+            assert_eq!(parsed["canonical"], canonical);
+        }
+        let bad = ask(
+            &mut lab,
+            json!({"cmd": "parse_legacy", "line": "add v1 watercolour_blue@999 1g"}),
         );
         assert_eq!(bad["ok"], false);
         assert_eq!(

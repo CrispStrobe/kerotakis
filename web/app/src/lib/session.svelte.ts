@@ -587,6 +587,8 @@ export class Session {
   }
   /** Successful chemistry commands, in order — the session's .lab script. */
   commandLog = $state<string[]>([]);
+  /** Preserve an unconverted save even if the fresh bench later autosaves. */
+  private saveMigrationBlocked = false;
   /**
    * How many of those commands are applied to the bench right now. Undo,
    * redo, and the timeline scrubber all move this one cursor; a new
@@ -862,11 +864,35 @@ export class Session {
     }
   }
 
+  /** Preflight the entire history, including commands beyond the current cursor.
+   * Recipe names and revisions belong to the engine, never a client alias table. */
+  private async migrateSavedLog(log: unknown[]): Promise<string[]> {
+    if (log.length === 0) return [];
+    const parseLegacy = this.host.parseLegacy;
+    if (typeof parseLegacy !== "function") {
+      throw new Error(t("the engine cannot safely migrate saved commands"));
+    }
+    const canonical: string[] = [];
+    for (const line of log) {
+      if (typeof line !== "string" || !line.trim() || /[\r\n\0]/.test(line)) {
+        throw new Error(t("the saved history contains an invalid command"));
+      }
+      const parsed = await parseLegacy.call(this.host, line);
+      if (!parsed || parsed.ok !== true || typeof parsed.canonical !== "string"
+        || !parsed.canonical.trim() || /[\r\n\0]/.test(parsed.canonical)) {
+        throw new Error(parsed?.error || t("the engine could not migrate a saved command"));
+      }
+      canonical.push(parsed.canonical);
+    }
+    return canonical;
+  }
+
   /** Rebuild the bench from the autosaved log — a reloaded tab comes back
    * exactly where it was, by replay, never by trusting a cached scene. */
   private async restore(): Promise<void> {
     const raw = this.storage?.getItem(SAVE_KEY);
     if (!raw) return;
+    let validHistory = false;
     try {
       const saved = JSON.parse(raw) as {
         log: string[];
@@ -879,10 +905,27 @@ export class Session {
         snapshot?: string;
       };
       if (!Array.isArray(saved.log)) return;
+      validHistory = true;
       const notes = Array.isArray(saved.notes)
         ? saved.notes.filter((note) => typeof note?.text === "string" && typeof note?.createdAt === "string")
         : [];
       if (saved.log.length === 0 && notes.length === 0) return;
+      let migratedLog: string[];
+      try {
+        migratedLog = await this.migrateSavedLog(saved.log);
+      } catch (error) {
+        // A historical command refusal is not a corrupt JSON save. Keep its
+        // original bytes and prevent later automatic saves from replacing it.
+        this.saveMigrationBlocked = true;
+        this.feed.push({
+          kind: "error",
+          status: "restore-failed",
+          text: t("saved session migration failed; the original save is preserved: {reason}. Clear the bench to start a new saved session.", {
+            reason: error instanceof Error ? error.message : String(error),
+          }),
+        });
+        return;
+      }
       if (saved.register && saved.register !== this.register) {
         await this.host.setRegister(saved.register);
         this.register = saved.register;
@@ -916,10 +959,11 @@ export class Session {
           }
         }
         if (!instant) {
-          await this.host.runScript(saved.log.slice(0, position).join("\n"));
+          await this.host.runScript(migratedLog.slice(0, position).join("\n"));
         }
       }
-      this.commandLog = saved.log;
+      this.commandLog = migratedLog;
+      this.saveMigrationBlocked = false;
       this.position = position;
       this.feed.push({
         kind: "note",
@@ -927,7 +971,24 @@ export class Session {
         text: t("restored your last session: {count} step(s) {how}", { count: position, how }),
       });
       this.feed.push(...notes.map((note) => ({ kind: "user-note" as const, ...note })));
-    } catch {
+      this.persist();
+    } catch (error) {
+      if (validHistory) {
+        // A runtime refusal after successful parse preflight must not erase a
+        // recoverable experiment or leave a partially replayed bench as success.
+        this.saveMigrationBlocked = true;
+        try { await this.host.reset(); } catch { /* keep the original save */ }
+        this.snapshots.clear();
+        this.commandLog = [];
+        this.position = 0;
+        this.feed.push({
+          kind: "error", status: "restore-failed",
+          text: t("saved session could not be restored; the original save is preserved: {reason}. Clear the bench to start a new saved session.", {
+            reason: error instanceof Error ? error.message : String(error),
+          }),
+        });
+        return;
+      }
       // A corrupt save must never wedge the bench: drop it and start clean.
       this.storage?.removeItem(SAVE_KEY);
       this.feed.push({
@@ -939,6 +1000,7 @@ export class Session {
   }
 
   private persist(): void {
+    if (this.saveMigrationBlocked) return;
     try {
       this.storage?.setItem(
         SAVE_KEY,
@@ -1042,6 +1104,7 @@ export class Session {
       this.position = 0;
       this.snapshots.clear();
       this.storage?.removeItem(SAVE_KEY);
+      this.saveMigrationBlocked = false;
       this.scene = await this.host.scene();
       this.inspector = null;
       this.latestResult = null;

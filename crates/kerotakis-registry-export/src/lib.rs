@@ -980,6 +980,15 @@ fn export_material_recipes(document: &mut RegistryDocument) {
         evidence: evidence(),
     }
     };
+    // Keep regenerated defaults identical to the reviewed current registry;
+    // exact revision-1 records live in the separate replay archive.
+    let reviewed_wash_v2 = |mut recipe: MaterialRecipe| {
+        recipe.version = 2;
+        recipe.evidence.method = Method::Editorial(
+            "editorial tenfold dilution of revision 1 for a transparent 4 cm-path teaching wash; not a measured retail formulation".to_string(),
+        );
+        recipe
+    };
     // These Gaussian bands are illustrative optical surrogates, not measured
     // spectra. Quantize them before export so their JSON representation remains
     // byte-stable after parse/serialize pack round trips on every platform.
@@ -1963,26 +1972,26 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             &["rote Wasserfarbe", "Wasserfarbe_rot"],
             &["red watercolour", "watercolor_red", "red_watercolor", "red_watercolour"],
         ),
-        transparent_colour(
+        reviewed_wash_v2(transparent_colour(
             "school/watercolor-yellow-curcumin",
             "watercolour_yellow",
             "yellow watercolor",
             "curcumin",
-            0.0002,
+            0.00002,
             "wash",
             &["gelbe Wasserfarbe", "Wasserfarbe_gelb"],
             &["yellow watercolour", "watercolor_yellow", "yellow_watercolor", "yellow_watercolour"],
-        ),
-        transparent_colour(
+        )),
+        reviewed_wash_v2(transparent_colour(
             "school/watercolor-blue-indigo-carmine",
             "watercolour_blue",
             "blue watercolor",
             "indigo_carmine",
-            0.0002,
+            0.00002,
             "wash",
             &["blaue Wasserfarbe", "Wasserfarbe_blau"],
             &["blue watercolour", "watercolor_blue", "blue_watercolor", "blue_watercolour"],
-        ),
+        )),
         acrylic_colour(
             "school/acrylic-red-surrogate",
             "acrylic_red",
