@@ -52,6 +52,8 @@ try {
   await requirePage(`document.querySelector("form.bar input") && document.querySelector('[data-vessel-id="0"] foreignObject canvas')`, "bench did not boot", 60000);
   await page.evaluate(`window.fluidCanvasBefore = document.querySelector('[data-vessel-id="0"] foreignObject canvas')`);
   await command("add v1 food_colour_blue 100mL");
+  await requirePage(`document.querySelector('[data-vessel-id="0"] .scene-liquid-layer')`, "the material did not produce a liquid layer");
+  await command("stir v1 100rpm 1s");
   await requirePage(`(() => {
     const vessel = document.querySelector('[data-vessel-id="0"]');
     const layer = vessel?.querySelector('.scene-liquid-layer');
@@ -69,7 +71,7 @@ try {
   console.log("Fluid rendering: live canvas, accepted scene colour and fill boundaries pass");
 
   await requirePage(`document.querySelector('[data-vessel-id="0"] foreignObject.visible.fading')`, "first animation never began fading");
-  await command("add v1 water 20mL");
+  await command("stir v1 120rpm 1s");
   await requirePage(`document.querySelector('[data-vessel-id="0"] foreignObject.visible:not(.fading)')`, "replacement activity never started");
   await new Promise((resolve) => setTimeout(resolve, 850));
   assert(await page.evaluate(`Boolean(document.querySelector('[data-vessel-id="0"] foreignObject.visible:not(.fading)'))`),
