@@ -192,8 +192,8 @@ continues to carry `physical_verdict: not_assigned`.
 source integration and fresh hosted rebuild acceptance. The first AL2023 build
 failed on IPhreeqc's `lib64`/Cargo `lib` mismatch and cleanup ownership; fixes are
 pushed, with [a new preview run](https://github.com/CrispStrobe/kerotakis/actions/runs/38783017261).
-The hosted native preview now passed; API sandbox acceptance and encoding/workflow
-lint corrections remain before source integration. Manual browser acceptance and
+The hosted native preview and subsequent REST acceptance passed; the earlier
+encoding/workflow corrections are pushed. Full fleet acceptance remains before source integration. Manual browser acceptance and
 Pages-client publication remain separate from passed HTTP/client controls. Follow the [remaining API lanes](simulation-api-lane.md).
 
 ## Chemical review of the supplied 200 probes
@@ -211,9 +211,8 @@ CaCO3/CuO dissolution and CO2 capture by NaOH. Zinc/acid reaches an explicit mod
 limit; silver ammines and acidified permanganate/peroxide remain missing.
 The original 200 outcomes and all previous blind forecasts are unchanged.
 
-[PR796](https://github.com/CrispStrobe/kerotakis/pull/796) contains the first
-charged-input reporting repair and eight regression groups; hosted native/full
-fleet acceptance is pending. [PR798](https://github.com/CrispStrobe/kerotakis/pull/798)
+[PR796](https://github.com/CrispStrobe/kerotakis/pull/796) contains charged-input reporting and electrode-balance repairs. All 17 focused
+groups passed on Linux and macOS; full own-fleet acceptance remains pending. [PR798](https://github.com/CrispStrobe/kerotakis/pull/798)
 contains sourced silver–ammonia routing, four focused groups and an explicit
 canonical ligand-ownership limitation; hosted execution remains pending.
 Before adding acidified permanganate/peroxide, implement the
