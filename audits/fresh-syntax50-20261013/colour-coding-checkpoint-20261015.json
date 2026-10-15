@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "naming": {
+    "pr": 789,
+    "tested_original_head": "7f7d1f37df1cf0e1e53025b3660bb69afd62e28b",
+    "first_failure_job": 116323110449,
+    "first_failure_run": 38705297500,
+    "first_failure_log_sha256": "2a19428ad420c714bacb03115a34a7a6ba4adc9959378ee492099b0280d08db9",
+    "first_failure_job_metadata_sha256": "8f2b7939fec7a20c070bd35dd81d313455b024ea36e4a897d9250c3192df8b0b",
+    "first_failure": "session.test.ts catalog refresh test assumed one microtask despite asynchronous mission-kit parsing",
+    "first_suite": {
+      "passed": 1652,
+      "failed": 1
+    },
+    "corrected_head": "30d84ed58b7a3ca6680046ba577632ec3dee553d",
+    "corrected_branch": "fix/naming-catalog-async-check-20261015",
+    "actual_local_test": {
+      "command": "vitest run src/lib/session.test.ts --maxWorkers=1 --minWorkers=1 --reporter=dot",
+      "files_passed": 1,
+      "tests_passed": 121,
+      "tests_failed": 0,
+      "log_sha256": "a53f84c2cdba61cde99ccae98efa2fe112f44042ee858a0fa943d32ce300054e",
+      "node": "v20.20.2",
+      "source": "git archive of corrected head; shared cached node_modules; source and cached-checkout lockfiles match",
+      "limit": "Focused session suite only; not corrected-head full app or browser acceptance."
+    },
+    "independent_review": "Source review accepted automatic-refresh wait and added canonical-kit/availability assertions; reviewer did not execute tests.",
+    "promotion_pending": "Do not cancel original CI/fleet for optional edits; preserve completion before advancing PR to corrected descendant."
+  },
+  "duplicate_diagnostics": {
+    "pr": 791,
+    "head": "a5ad70a8b9400d968341b7c74acd40bf34fd3e35",
+    "files": 1,
+    "new_native_test_groups": 4,
+    "independent_source_review": "No blocker found",
+    "native_tests_executed": false,
+    "raw_events_preserved": true,
+    "scientific_coverage_changed": false
+  },
+  "recipe_replay": {
+    "pr": 792,
+    "head": "6e85484be6516b7f0d40befdfddc1790f10fc63b",
+    "files": 5,
+    "new_native_test_groups": 6,
+    "independent_source_review_pending": true,
+    "native_tests_executed": false,
+    "recipe_defaults_changed": false,
+    "historical_unversioned_session_migration_pending": true,
+    "archive_and_versioned_stock_controls_pending": true
+  },
+  "renderer": {
+    "pr": 790,
+    "pr_head": "c45133572dfa7efdf42c126f37daffed183d13e8",
+    "reviewed_correction_head": "35a10ec334fa22b46b9acb2bfe3ed997e6330ba9",
+    "current_ci_preserved": true,
+    "actual_browser_validation_pending": true
+  }
+}

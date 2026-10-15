@@ -59,7 +59,11 @@ source: begin with reviewed English names, preserve canonical identity, and
 reject material/grammar/phase ambiguities. [PR789](https://github.com/CrispStrobe/kerotakis/pull/789)
 now contains the four-name candidate and parser-derived Story kits. Eleven native
 test groups and fifteen app cases are prepared; actual CI/fleet/CLI acceptance
-remains pending. The candidate is a draft and is not integrated.
+remains pending. The first full app run passed 1,652 cases and failed one
+existing catalog-refresh test that assumed a single microtask. Its reviewed
+correction on staging `30d84ed5` waits for the automatic parsed-kit answer; the
+corrected focused session suite passed 121/121. Full corrected-source acceptance
+is still pending. The candidate is a draft and is not integrated.
 
 ## Reported colour and rendering defects
 
@@ -81,6 +85,19 @@ mixture. This is not an executed CLI reproduction or an optical calibration.
 Recipe changes must address versioned operator and text-session replay first;
 changing a version-1 concentration in place would reinterpret old experiments.
 See the [actionable follow-up lanes](colour-and-mixture-followups.md).
+
+[PR791](https://github.com/CrispStrobe/kerotakis/pull/791), head `a5ad70a8`,
+implements step-local narration of exact repeated model-limit events in CLI/app,
+preserving raw events, distinct causes and later-step warnings. Independent source
+review passed; four new native test groups and full applicable acceptance remain
+pending. [PR792](https://github.com/CrispStrobe/kerotakis/pull/792), head `6e85484b`,
+adds recipe revision pins to canonical material scripts and refuses unavailable
+revisions. It also avoids cloning the full recipe catalogue for version lookup.
+Six new native test groups, independent review and actual acceptance are pending;
+recipe defaults are unchanged. Unversioned historical-session migration, recipe
+archives and cross-version bottle semantics still precede new watercolor defaults.
+The [coding checkpoint](../audits/fresh-syntax50-20261013/colour-coding-checkpoint-20261015.json)
+separates executed tests, source review and prepared candidates.
 
 Documentation portability/current-state PR788 merged as `5af0be7f` after all 25
 CI jobs passed. Its reviewed candidate and actual integrated tree match; this is

@@ -20,6 +20,9 @@ Do not change frozen experiments to agree with a candidate.
    the black static watercolor mixture is fixed by this renderer change.
 
 2. **Recipe identity and historical replay — prerequisite for new defaults.**
+   PR792 is the first candidate: explicit revision selectors and canonical script
+   pins, with no default recipe changes. Native/protocol acceptance and independent
+   review are pending; migration/archive/bottle semantics remain unfinished.
    Inspect `crates/kerotakis-core/src/material.rs` version lookup and the
    `Operator::AddMaterial` branch in `bench.rs`. Current admission compares the
    requested version against the current recipe. A version archive alone is
@@ -50,6 +53,9 @@ Do not change frozen experiments to agree with a candidate.
    empirical calibration or a claim about retail watercolor paint.
 
 4. **Duplicate diagnostics and equilibrium readback — establish event causes.**
+   PR791 implements exact model-limit prose deduplication per step; raw events
+   and chemistry are unchanged. Source review passed, actual native/fleet checks
+   are pending. This does not fix equilibrium readback churn.
    Preserve a minimal blue-color addition showing repeated indigo unsupported
    notes, then a bounded saline/alkaline case showing equal magnesium hydroxide
    dissolution/precipitation on repeated waits. Trace `aqueous.rs` through the
