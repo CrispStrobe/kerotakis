@@ -1,5 +1,8 @@
 # The fermentation magnitude, and the buffer it must not be confused with
 
+Current integration state and ordered next work: [STATUS](STATUS.md).
+Dated historical entries retain their original evidence scope.
+
 **Status:** the rates are **calibrated** as of 2026-09-16 (PR #621, following
 #618). Two of the four are fitted to published fermentations; two are carried
 across from the lactic fit and remain editorial. Milk's buffer is **not**

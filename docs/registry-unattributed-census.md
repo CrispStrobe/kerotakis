@@ -1,5 +1,8 @@
 # The 105 unjudged registry citations, separated
 
+Current integration state and ordered next work: [STATUS](STATUS.md).
+Dated historical entries retain their original evidence scope.
+
 Status: 2026-09-15. A measurement, not a repair. Nothing in this pass changes
 the engine, the data, `provenance/upstreams.toml` or any gate. Defects found
 while measuring are written down here rather than fixed.

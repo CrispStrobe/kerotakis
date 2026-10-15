@@ -1,5 +1,8 @@
 # One value for the solvent, and where it comes from
 
+Current integration state and ordered next work: [STATUS](STATUS.md).
+Dated historical entries retain their original evidence scope.
+
 Status: 2026-09-15. The follow-up to
 [`registry-uncertainty-and-measurement.md`](registry-uncertainty-and-measurement.md),
 whose section 2 found that the bench does not read the records whose bands it

@@ -1,5 +1,8 @@
 # Kerotakis — Optimization tasks
 
+Current integration state and ordered next work: [STATUS](docs/STATUS.md).
+Dated historical entries retain their original evidence scope.
+
 The latest correctness audit and performance limitations are summarized in [the checkpoint](docs/chemistry-audit-status-20261005.md). [PERF-01](docs/chemistry-audit-next-lanes.md#perf-01--measure-release-behavior-then-optimize-one-verified-hot-path) scopes a release measurement lane; existing OPT task numbers remain unchanged.
 
 > Finished work is not listed here. What landed, and what it taught us, is in

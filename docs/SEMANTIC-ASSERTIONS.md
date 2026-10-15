@@ -1,5 +1,8 @@
 # Semantic catalog assertions
 
+Current integration state and ordered next work: [STATUS](STATUS.md).
+Dated historical entries retain their original evidence scope.
+
 An event check proves that something happened. A semantic assertion proves
 the relationship an experiment advertises. Authors may add zero or more
 assertions below a reaction's `[expect]` table; old entries remain valid.

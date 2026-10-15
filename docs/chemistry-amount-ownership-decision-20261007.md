@@ -1,5 +1,8 @@
 # Authoritative amount ownership decision, 2026-10-07
 
+Current integration state and ordered next work: [STATUS](STATUS.md).
+Dated historical entries retain their original evidence scope.
+
 Status: implementation decision for the narrow stock port; proposed vessel API
 migration, not a completed vessel migration. Prerequisite:
 [Amount foundation PR #756](https://github.com/CrispStrobe/kerotakis/pull/756).

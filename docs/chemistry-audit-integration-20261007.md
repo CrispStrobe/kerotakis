@@ -1,5 +1,8 @@
 # Audit integration manifest, 2026-10-07
 
+Current integration state and ordered next work: [STATUS](STATUS.md).
+Dated historical entries retain their original evidence scope.
+
 Documentation delivery [PR #755](https://github.com/CrispStrobe/kerotakis/pull/755)
 merged as `e9b2c842e8c8c41275c88baa5f3063bf6b499da9`. That merge contains
 documentation only. Accepted engine source remains

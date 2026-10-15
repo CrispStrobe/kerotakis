@@ -1,0 +1,323 @@
+# Chemistry work agenda — 2026-10-12
+
+Current checkpoint, 2026-10-15: PR787 is merged as `4d3203a3`; all 25 CI jobs,
+33 fleet jobs and 1,638 app tests passed. The forty original spelling follow-ups
+are dispatched. Read [STATUS](STATUS.md), [the current ordered agenda](improvement-agenda-20261014.md)
+and [auto-merge policy](PR-WORKFLOW.md) for current next actions. Older dated
+checkpoint/priority sections below retain historical pending statements.
+
+Current update, 2026-10-13: [PR782 is integrated](https://github.com/CrispStrobe/kerotakis/pull/782)
+as main `7337bb58ce48285c54be5885dbe07afca1adbb7e`.
+[Actual integration](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/production-final-rule-matrix-20261012/integration-accepted-2bf9c771.json)
+and [independent postmerge review](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/production-final-rule-matrix-20261012/integration-accepted-independent-review-2bf9c771.json)
+verify final guards, parents and reviewed tree. Both native517/40 inventories,
+complete CI and fleet702/991, all33 jobs and eight CLI presence controls are
+accepted. Original partial outcomes and resource rejections remain preserved.
+No postmerge execution or empirical accuracy is inferred. Next: tagged ignored
+annotation contract, coherent historical regression bindings, then measured
+release optimization. Earlier pending paragraphs below are historical.
+
+The mandatory context-free fallback applicability repair is **integrated** as
+[PR781](https://github.com/CrispStrobe/kerotakis/pull/781), merge `a125c88d`.
+[Acceptance evidence](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/registry-loader-applicability-20261012/README.md)
+binds revised-head50/50, both native404/37 inventories, complete CI/libraries,
+registry admission, full 33 fleet and actual merge parents/tree. Original failures
+and freezes remain preserved. Optional/contextful/polynomial/multiple-anchor
+and scientific-data gaps are still separate.
+
+## 0. Completed: remove the parser dependency blocking preflight
+
+[PR783](https://github.com/CrispStrobe/kerotakis/pull/783) is integrated as
+`b246408b8156f12594ab18e71cc9c3edee3c7623`.
+[Actual acceptance](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/integration-accepted-1acdda46.json)
+binds final readiness, expected merge parents and exact tested tree. All 33 own
+fleet jobs/steps and 702 saved cases/991 checks passed. The dependency lane is
+complete; continue with the narrow nested-key repair below. The preceding
+validation work is retained here for provenance.
+
+Follow the [YAML parser migration lane](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/README.md).
+PR782's native/regression controls pass, but cargo-deny refuses archived
+unsafe-libyaml via serde_yaml_ng. Keep the advisory policy unchanged. Verify the
+fifty frozen compatibility controls pass on accepted main in a separately locked
+local leaf-package baseline. The original hosted baseline also verifies50/50
+and complete core604/safety28 with its own fresh captured workspace lock. The first facade candidate passed49/50 and rejected
+an existing complex-key annotation; its failure is preserved. The maintained
+YAML Organization fork and unchanged controls are now
+[merged PR783](https://github.com/CrispStrobe/kerotakis/pull/783), head `1acdda46`,
+with local50/50. It retains an unsafe backend; this is a maintenance replacement.
+All 652 affected library tests, all 15 unchanged mechanism-pack tests, and all
+four dependency-policy checks now pass with the actual candidate workspace lock.
+Its own macOS native job now verifies all fifty YAML controls, 454 focused
+controls and the full workspace (3,345 pass, four ignored); its completed demo
+and IPhreeqc WASM jobs are source-bound and accepted in those job scopes.
+CI and the complete fleet were subsequently accepted. The local core/data/scene WASM compile check and all fifteen separately frozen
+CLI controls now pass at the candidate source. The CLI includes an inert bounded
+simulation, not active chemical integration accuracy. Inspect complete own
+hosted results and the complete required fleet before integration.
+[Own source-bound core WASM and bridge jobs](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/own-wasm-core-bridge-review-1acdda46.json)
+also pass; the bridge includes native/browser solution agreement.
+[Own full preflight](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/own-preflight-review-1acdda46.json)
+now passes, including unchanged dependency policy. [Own Linux native](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/native-linux-review-1acdda46.json)
+now also verifies 454 focused passes and 3,345 workspace passes, with four ignored.
+The own WASM bench now passes 32 runtime controls and 8,105 protocol checks
+across 113 lessons. Complete fleet acceptance remains pending; the ordinary native
+lock is uncaptured. The independently reviewed own fleet CLI artifact has its
+own captured lock, binary and ZIP checksums; it has not been executed locally. The
+separate twenty-case supplement gives identical 18 pass / 2 fail on both parsers:
+custom tags in ignored annotations remain an explicit follow-up, with first
+failures and forecasts preserved. Resolve that support contract separately. Source-specific
+PR782 results need fresh binding after integrating a parser change.
+
+[Remaining own-source CI controls](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/own-final-ci-controls-review-1acdda46.json)
+now verify presentation1,630 passes across 123 files and the exact26-job workflow
+inventory. Legacy BASIC is explicitly skipped because its feature is absent:
+zero oracle tests execute, so no legacy comparison is accepted.
+[The own CI aggregate](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/own-ci-gate-aggregate-1acdda46.json)
+now accepts all five required gates and complete 26-job inventory. The
+[reviewed integration preparation](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/integration-preparation-1acdda46.json)
+binds both native platforms and CI to exact head `1acdda46` and base `a125c88d`.
+Its [first read-only check](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/integration-awaiting-fleet-1acdda46.json)
+was not ready because the fleet was incomplete. The
+[final check](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/integration-final-premerge-1acdda46.json)
+subsequently accepted all 33 jobs, every declared step, and fresh
+head/base/main/merge-tree guards. Only the narrow dependency branch was merged;
+never merge the audit branch. Preserve all original source-bound receipts and
+outcomes.
+
+The [completed own fleet aggregates](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/own-fleet-completed-aggregates-review-1acdda46.json)
+now accept 360 saved cases/488 checks, and the [two frozen fleets](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/own-frozen-fleet-independent-review-1acdda46.json)
+accept 54 cases/135 checks, all against exact-source inputs and the own release
+artifact. [All twelve own v2 artifacts](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/own-fleet-v2-output-review-1acdda46.json)
+now accept another 288 saved cases/368 checks: total **702 cases/991 checks**, zero
+unmet expectations. Exact-source reanalysis and actual family download logs
+bind these outcomes to the own binary and captured fleet lock. The
+[20:41 UTC checkpoint](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/own-fleet-progress-20261012-2041.json)
+remains historical. The [actual 288-case aggregate](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/own-fleet-v2-aggregate-independent-review-1acdda46.json)
+and [all 33 declared jobs/steps](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/own-fleet-gate-review-1acdda46.json)
+are now independently accepted. Fresh guards passed, draft status was removed,
+and an ordinary merge with the exact head guard completed. Actual parents and
+tree were verified afterward. Preserve partial receipts and original first
+outcomes; this dependency integration is complete.
+
+## 0a. Fix confirmed nested rate-key admission loss
+
+The [twelve prospective controls](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/nested-rate-controls/README.md)
+were committed before execution: three complete-JSON positives, eight unsupported
+model-key refusals and one unchanged missing-`Ea` refusal. Their first execution
+on the unchanged candidate gives **4 pass / 8 fail**. The
+[independent review](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/nested-rate-first-independent-review-1acdda46.json)
+verifies all twelve raw captures and source/build/lock binding. All eight
+unsupported-key witnesses exit zero and produce the valid counterpart's full
+summary; `B: 1` is lost to default `b=0`. Troe `t2` loss is source-inferred
+because inspect does not expose that parameter. Missing `Ea` remains refused.
+
+The separate narrow admission repair is now
+[draft PR784](https://github.com/CrispStrobe/kerotakis/pull/784), head `51e99750`,
+stacked on PR783. [Preparation evidence](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/nested-rate-repair-preparation-51e99750.json)
+binds the two changed files, thirteen regression functions and its own queued
+CI/fleet. Formatting and static checks pass. Repaired-source leaf execution now
+passes all 50 original controls and all 13 repair functions, independently
+reviewed. The unchanged supplement remains 18 pass / 2 historical failures.
+Review and validate `crates/kerotakis-core/src/kinetics/mechanism.rs`: it captures unmatched keys on
+ordinary/high/low/PLOG rates and Troe, then uses typed `UnsupportedField`
+owner/key refusals. Validate every supplied nested owner, including fields
+unused by the selected reaction type. Explicitly preserve `P` on flattened
+PLOG entries, required fields, known duplicates, numeric classification,
+unit normalization, default `b`, optional `T2` and existing annotations.
+The new fixture supplies typed regressions for all eight failures plus third-body ownership,
+unused nested fields, valid PLOG, duplicate known fields and required/default
+controls. Keep the dependency PR narrow and preserve first outcomes.
+The [reviewed rebinding helper](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/cli-rebinding-preparation.md)
+now has an actual repair-source application. Its own release artifact and exact
+source association are independently reviewed; original collectors and all
+expectations remain fixed. [Repaired CLI results](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/repaired-cli-controls-review-51e99750.json)
+pass **15 general controls and all 12 nested-rate controls**, including the eight
+formerly silent unsupported-key cases. Separate original and repaired outcomes
+are preserved. [Independent runtime review](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/repaired-cli-independent-review-51e99750.json)
+checks actual outputs, exits, diagnostics, source/binary/lock and unchanged
+expectation lineage.
+
+[Own repaired-source macOS native review](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/native-macos-independent-review-51e99750.json)
+now accepts full workspace 3,358 passes/four ignored, 467 focused passes across
+39 fixtures, all thirteen library binaries (935 passes) and all fifteen pack
+controls at exact head `51e99750`. Formatting and all-target workspace Clippy
+with warnings denied also pass. The ordinary native lock remains uncaptured;
+no release-fleet lock is borrowed for this scope.
+
+[Own completed-gate reviews](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/own-completed-gates-review-51e99750.json)
+now also accept full preflight under unchanged four-category dependency policy,
+WASM bench 32 controls plus 8,105 protocol checks/113 lessons, and bridge 10
+controls. Ordinary hosted locks, WASM binaries and execution-time advisory
+revision remain uncaptured; no release-fleet lock is borrowed.
+
+[Own Linux native review](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/native-linux-independent-review-51e99750.json)
+now also accepts actual focused 467/39, workspace 3,358/four ignored, all 13
+libraries 935 and pack 15 outcomes at exact repair source. All native job steps,
+including formatting and workspace Clippy with warnings denied, pass; ordinary
+native lock remains uncaptured. These Linux outcomes are derived independently
+from Linux logs and are not borrowed from macOS.
+
+[Own core/data/scene WASM compilation](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/own-core-wasm-independent-review-51e99750.json)
+now passes at the repair source. It verifies the three-package target check with
+cache reuse qualified; it does not establish a clean rebuild or runtime result.
+
+[Own browser and standalone IPhreeqc checks](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/own-browser-runtime-independent-review-51e99750.json)
+now pass: 35 demo controls, five unchanged DOM snapshots, PWA 49, German 38 and
+UX 285, plus standalone solution/AgCl/OH/MY-BASIC checks. Svelte has zero errors
+and two warnings. [The own complete CI aggregate](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/own-ci-gate-aggregate-51e99750.json)
+accepts all five required gates: 25 successful jobs and publication skipped.
+Auxiliary adapter success is qualified as job/step metadata where raw output
+inventories were not parsed; legacy oracle ran zero tests.
+
+[Native guard inputs](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/native-guard-inputs-preparation-51e99750.json)
+and [independent review](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/native-guard-inputs-independent-review-51e99750.json)
+prepare both accepted native receipts with exact-source 39/467 inventory. They
+remain unchanged. The new [full integration preparation](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/integration-preparation-51e99750.json)
+and [validation](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/integration-preparation-validation-51e99750.json)
+bind these receipts and own complete CI to actual main `b246408b`.
+[Independent preparation review](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/integration-preparation-independent-review-51e99750.json)
+accepts all seventeen receipt pins and both native validators. The
+[actual read-only preflight](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/integration-awaiting-fleet-51e99750.json)
+returns not ready because the own fleet remains incomplete. This is a pending
+checkpoint, not merge acceptance.
+GitHub automatically retargeted the unchanged head. The
+[base compatibility review](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/pr784-base-compatibility-review-51e99750.json)
+confirms old tested base `1acdda46` and current main have identical tracked trees;
+the plan pins `native_tested_base` explicitly. Tests remain associated with
+their original checkout and are not described as rerun after retargeting.
+
+[PR784 is integrated](https://github.com/CrispStrobe/kerotakis/pull/784) as
+`668220add3c81adf9d86ca551f4a0278ba3969f5`.
+[Final guards](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/integration-final-premerge-51e99750.json)
+and [actual acceptance](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/integration-accepted-51e99750.json)
+verify fresh readiness, exact head, immediate base, actual parents and reviewed tree.
+[Independent fleet review](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/own-fleet-gate-review-51e99750.json)
+accepts all 33 jobs and declared steps. The
+[25-family review](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/own-fleet-available-output-review-51e99750.json),
+[final two-family review](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/own-fleet-final-48-output-review-51e99750.json)
+and [frozen outputs](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/own-frozen-fleet-independent-review-51e99750.json)
+cover **702 saved cases and 991 checks**, zero unmet expectations.
+[Actual hosted v2 aggregation](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/own-fleet-v2-aggregate-independent-review-51e99750.json)
+exactly matches the separate offline aggregation. No accepted controls were rerun.
+Preserve partial checkpoints and original outcomes. No postmerge test execution
+or empirical chemistry accuracy is inferred. Continue with the safety replay,
+then the separate annotation contract lane below.
+
+
+## 0b. Adjudicate tagged ignored annotations as a separate admission lane
+
+Start with the [actual-main owner plan](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/annotation-owner-contract-plan-7337bb58.md)
+and its source bindings at `7337bb58`. Six annotation owners are distinct from
+strict modeled flattening. The main documentation does not promise arbitrary
+custom tags; treat expanded support as a deliberate contract change rather than
+a demonstrated parser migration regression. Scope and freeze the prospective
+fifty-control matrix before running it, with the original 18/2 outcomes intact.
+Known field types, duplicate keys, merge/complex keys and strict nested model
+refusals need their own coverage before any implementation is accepted.
+
+Read the [preserved twenty-case forecasts and first paired outcomes](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/yaml-parser-migration-20261012/supplement-20/README.md).
+Both parsers refuse custom-tagged scalar and sequence annotations; the original
+positive forecasts remain unmet. First establish the documented support contract
+and all flattened annotation owners in
+`crates/kerotakis-core/src/kinetics/mechanism.rs`. If support is intended, freeze
+an owner-by-owner matrix covering tagged scalar/sequence/mapping metadata,
+complex keys, duplicate known fields and annotations, merge behavior and tagged
+model-bearing scalars before changing code. Keep existing refusal semantics and
+all original freezes intact. Validate the resulting source with the original
+fifty controls, complete affected libraries and all fifteen pack tests. The
+supplement README gives the concrete implementation constraints and acceptance
+criteria. This follows the dependency maintenance gate; it does not block that
+repair on a newly inferred syntax expansion.
+
+## 1. Completed: integrate the four reviewed final-safety rules
+
+The four-rule repair is now integrated as PR782. Its
+[complete safety evidence](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/production-final-rule-matrix-20261012/README.md)
+closes the original callback omissions. Do not repeat its accepted source-bound
+checks. The replay and original baseline notes below remain provenance history.
+
+PR783 and PR784 are integrated. The [actual narrow replay](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/production-final-rule-matrix-20261012/source-replay-preparation.json)
+now carries the original safety change onto accepted main `668220ad`, at new
+head `2bf9c771975f24b9e5b933728ef440cbca9a8ec6` and tree `8613e464`.
+Only the two original safety files change; all fifty frozen controls and both
+old-head safety blobs are unchanged. The [actual source-derived native plan](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/production-final-rule-matrix-20261012/native-plan-replay.json)
+binds 40 fixtures/517 functions, preserving prior 39/467 identities and hashes.
+Inventory is separate from executed acceptance.
+
+Next capture this head's own CI, both native inventories, affected library
+outcomes and full 33-job fleet. Establish supported production CLI witnesses
+with actual surviving final inventories before freezing positive and benign
+controls. Preserve unsupported domains explicitly. Integrate only after these
+new-head results and fresh guards are independently accepted. Large local
+builds remain subject to the operating resource gate; hosted checks can proceed.
+
+The [published replay](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/production-final-rule-matrix-20261012/replay-validation-dispatch-2bf9c771.json)
+is PR782's draft head; own CI38315281854 and fleet38315281856 were queued at
+publication. [Independent source review](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/production-final-rule-matrix-20261012/source-replay-independent-review-2bf9c771.json)
+accepts the narrow replay structure. The [CLI witness plan](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/production-final-rule-matrix-20261012/cli-witness-plan-2bf9c771.md)
+prepares eight positive/benign discovery scripts and explains supported-domain
+and final-callback attribution checks. No new-head tests or CLI outcomes are
+accepted yet. Start with own artifact provenance, then freeze the admitted
+scripts and checks before one bounded execution.
+
+Old head `24dda97b` passed the original fifty controls after the original
+24-pass/26-fail baseline, with both native inventories and library results,
+but failed preflight on the archived parser dependency. Those results and the
+[source feasibility history](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/production-final-rule-matrix-20261012/source-carry-forward-independent-review-24dda97b.json)
+remain preserved; they do not certify the new replay. See the
+[detailed safety lane](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/production-final-rule-matrix-20261012/README.md)
+for source bindings and acceptance limits.
+
+Follow [SAF-01](chemistry-audit-next-lanes.md#saf-01--integrate-one-production-final-safety-exposure-slice)
+on exact accepted main. Snapshot `crates/kerotakis-safety/src/lib.rs` rule metadata
+and groups, then specify controls for `bleach-weak-acid-chlorine`,
+`oxidizer-flammable-gas`, `oxidizer-reducer` and `water-reactive-base`, currently
+outside the six-rule final callback allowlist. Review these together as one
+bounded matrix if their domains permit it; static absence is not an executed
+failure. Freeze positive/unchanged/benign/distinct-pair/location/priority/cutoff/
+alias/refinement expectations before testing, with original freezes untouched.
+
+The [original fifty controls](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/production-final-rule-matrix-20261012/README.md)
+are now frozen on main `a125c88d`; the dedicated
+[hosted baseline](https://github.com/CrispStrobe/kerotakis/actions/runs/38252519107)
+was dispatched at audit revision `2deeb4d2` and independently reviewed.
+Its original 24-pass/26-fail outcome and actual captured lock remain preserved;
+that baseline is complete and must not be redispatched. The fixed callback location and
+synthetic gas/pH domains limit the identity and physical claims explicitly.
+
+Collect an unchanged-source baseline and complete affected libraries. Establish
+actual surviving species, phase and backend support before claiming CLI JSON/text
+coverage. Repair only demonstrated gaps and preserve all six accepted final
+rules, severity, wording and priority. Require new own native/CI/fullfleet and
+actual guarded integration. Intermediate hazardous products remain a separate
+observation contract. Unsupported routes stay explicit model boundaries.
+
+## 2. Restore historical regression bindings in coherent groups
+
+Follow [AUD-00](chemistry-audit-next-lanes.md#aud-00--integrate-the-accepted-audit-branch-without-losing-evidence)
+and the [current-main presence inventory](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/integration-20261008/full-audit-port-inventory-pr781-merged.json).
+There are50 missing named tests and129 missing bound paths: coverage/integration
+gaps, not179 demonstrated defects. Map one prerequisite-complete behavior group
+to current main, preserve original controls and four legacy exclusions, then
+submit a narrow independently validated port. Refresh the inventory after
+integration; only then schedule source-bound full-audit replay. The broad audit
+branch must not be merged as implementation.
+
+## 3. Measure one performance cost after correctness is stable
+
+Follow [PERF-01](chemistry-audit-next-lanes.md#perf-01--measure-release-behavior-then-optimize-one-verified-hot-path).
+Measure release exposure-scan/private-trial clone cost on an accepted source,
+with representative workloads and correctness checks. Optimize only a measured
+hot path and compare paired runs. Large local builds/profiling or worktree
+consolidation require load, available memory and disk headroom. Preserve evidence
+and protected worktree contents; use hosted runners when the shared host is busy.
+
+## 4. Scope broader data and ownership work independently
+
+Use [DATA-06](chemistry-audit-next-lanes.md#data-06--specify-mandatory-fallback-property-applicability)
+for contextful intervals/alternatives, unknown conditions, optional properties,
+polynomials and multiple anchors. Each needs an independent policy and frozen
+baseline before code changes. DATA-01 requires reviewed licensed MgCl2 properties;
+NUM ownership and solver reconstruction need complete mutation/accounting domains.
+Do not invent datasets or treat50 engineering passes as empirical chemical accuracy.
+Completed PR781 acceptance runs need no redispatch.

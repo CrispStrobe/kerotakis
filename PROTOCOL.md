@@ -1,5 +1,8 @@
 # EngineHost protocol v1 (GUI-001)
 
+Current integration state and ordered next work: [STATUS](docs/STATUS.md).
+Dated historical entries retain their original evidence scope.
+
 The contract between any Kerotakis UI and any engine transport. Two hosts
 implement it:
 

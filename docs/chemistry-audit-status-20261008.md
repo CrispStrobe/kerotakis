@@ -1,5 +1,8 @@
 # Chemistry audit checkpoint — 2026-10-08
 
+Current integration state and ordered next work: [STATUS](STATUS.md).
+Dated historical entries retain their original evidence scope.
+
 This checkpoint updates [the accepted audit report](chemistry-audit-status-20261005.md). The most recent full-audit accepted source remains [8cdab1f6](https://github.com/CrispStrobe/kerotakis/commit/8cdab1f6ecd0b1132c4008014a5a0c5476429d17). The bounded native donor repair and merged stock/thermo/native main ports have separate acceptance below; the remaining diagnostic/transaction ports and combined-source audit are pending. Queued checks are not successful validation.
 
 ## Delivered and pending

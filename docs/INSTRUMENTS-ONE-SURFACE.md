@@ -1,5 +1,8 @@
 # One instrument surface
 
+Current integration state and ordered next work: [STATUS](STATUS.md).
+Dated historical entries retain their original evidence scope.
+
 Design note for GUI-100 … GUI-103. The app offered instruments in three places
 with three different mental models. This says what each was, why that hurt,
 what replaced them, and in what order it happened. Sections 1–3 are written in
