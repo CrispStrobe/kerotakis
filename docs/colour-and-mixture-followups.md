@@ -17,10 +17,10 @@ Do not change frozen experiments to agree with a candidate.
    in lanes 2–3; no deployment claim follows from this merge.
 
 2. **Recipe identity and historical replay — candidate PR792.** Current head
-   `af788ba6` contains archive/migration/revision-specific bottles and v2 defaults,
+   `3196a8d6` contains archive/migration/revision-specific bottles and v2 defaults,
    plus accepted rendering changes from main. Source review passed after closing
    namespace and archive-selector gaps. Both exporter definition and constructor
-   failures are preserved and corrected. The combined app unit suite passes
+   failures are preserved and corrected. The earlier combined app unit suite at `af788ba6` passed
    **1,666/1,666**; native export/protocol/optical, browser and fleet acceptance
    remain pending. Follow their actual current-head results before normal merge.
 
@@ -38,7 +38,7 @@ Do not change frozen experiments to agree with a candidate.
 
 3. **Transparent teaching wash optics — reproduction and versioned remedy.**
    The staged revision-2 blue/yellow recipes and seven native control groups are
-   on PR792 at `af788ba6`; native and full browser/CLI outcomes remain unexecuted.
+   on PR792 at `3196a8d6`; native and full browser/CLI outcomes remain unexecuted.
    Review [the frozen candidate expectations](https://github.com/CrispStrobe/kerotakis/blob/b094f969/docs/watercolour-v2-controls.md)
    and retain their initial outcomes before any correction.
    Reproduce an empty vessel followed by `add v1 watercolour_blue 100g` and
@@ -58,9 +58,10 @@ Do not change frozen experiments to agree with a candidate.
 
 4. **Duplicate diagnostics and equilibrium readback — establish event causes.**
    PR791 implements exact model-limit prose deduplication per step; raw events
-   and chemistry are unchanged. Source review and the four new native test groups
-   passed; [actual native evidence](../audits/fresh-syntax50-20261013/coverage-prose-native-acceptance.json)
-   is preserved. Own-fleet checks remain pending. This does not fix equilibrium readback churn.
+   and chemistry are unchanged. PR791 is integrated as `f471b628` after all 25 CI
+   and 33 fleet jobs passed, including four new native groups. The
+   [integration receipt](../audits/fresh-syntax50-20261013/coverage-prose-integration.json)
+   verifies the merged tree. This does not fix equilibrium readback churn.
    Preserve a minimal blue-color addition showing repeated indigo unsupported
    notes, then a bounded saline/alkaline case showing equal magnesium hydroxide
    dissolution/precipitation on repeated waits. Trace `aqueous.rs` through the

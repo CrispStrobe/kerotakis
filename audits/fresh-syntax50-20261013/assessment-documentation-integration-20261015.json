@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/793",
+  "state": "MERGED",
+  "merged_at": "2026-10-15T14:00:22Z",
+  "reviewed_head": "6335e2aeeaaf2cf622e8e37af6b75f487a7df84b",
+  "merge_commit": "208f9a72fb0dce951baf86c01013192fd64645aa",
+  "merge_parents": [
+    "d791d3062886e4a06dbc7c9d1635383da3e05359",
+    "6335e2aeeaaf2cf622e8e37af6b75f487a7df84b"
+  ],
+  "merge_tree": "84a7baaaa0699c02261daf744ca5e8786330d6fc",
+  "expected_merge_tree_matches": true,
+  "checks": [
+    {
+      "workflow": "CI",
+      "conclusion": "SKIPPED",
+      "count": 1
+    },
+    {
+      "workflow": "CI",
+      "conclusion": "SUCCESS",
+      "count": 25
+    }
+  ],
+  "merge_method": "Normal exact-head auto-merge; no bypass",
+  "acceptance_scope": "Documentation-only publication; no runtime/workflow/data changes and no new chemistry fleet required",
+  "limits": "No deployment, new chemical domain or scientific calibration claim"
+}

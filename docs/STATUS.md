@@ -14,6 +14,7 @@ calibration claim follows from a merge or green engineering tests.
 | CLI performance | PR785 merged: deferred optional explanation engine. Controlled startup median improved about 21%; this is host/protocol-specific, not a general app-memory claim. |
 | Thermal inventory | PR786 merged: finite-boundary thermal refusals retain inventory; modeled rupture vents explicitly. Closed combustion remains unsupported. |
 | Water identity and Story stock | PR787 merged as `4d3203a3`: canonical `H2O`/`water` identity, shared finite bottle, parsed Story gates, positive-dose accounting. All 25 CI and 33 fleet jobs passed; app suite 1,638/1,638, Svelte zero errors/two warnings. Integrated tree equals the validated candidate. |
+| Model-limit narration | PR791 merged as `f471b628`: exact duplicate warnings appear once per step, while raw events, distinct causes and later-step warnings remain. All 25 CI and 33 fleet jobs passed, including four new native groups. |
 | Liquid animation | PR790 merged as `d791d306`: accepted liquid fill geometry and computed colours, persistent canvas/fade cancellation and economy-mode resize. All 25 CI jobs passed, including the actual-browser probe; focused controls passed 36/36. This does not validate the separate watercolor recipe change or establish deployment. |
 
 [PR787 integration evidence](https://github.com/CrispStrobe/kerotakis/blob/audit/systematic-chemistry-20261002/audits/fresh-syntax50-20261013/water-alias-integration.json)
@@ -53,12 +54,15 @@ physical verdicts.
 6. Resume annotation policy, coherent historical regression ports, broader safety,
    authoritative amount ownership/reconstruction and independent calibration.
 
-The unchanged KNO3 control is now dispatched against pinned merged source
-`d791d306` in [run 38739278904](https://github.com/CrispStrobe/kerotakis/actions/runs/38739278904).
-The [dispatch receipt](../audits/fresh-syntax50-20261013/kno3-current-main-dispatch.json)
-binds a single hosted build, generated dependency lock, binary and raw evidence.
-It is queued; no new physical verdict is assigned. The isolated workflow branch
-must not merge into main.
+The unchanged KNO3 control completed against pinned merged source `d791d306` in
+[run 38739278904](https://github.com/CrispStrobe/kerotakis/actions/runs/38739278904).
+The [authenticated assessment and raw observations](../audits/fresh-syntax50-20261013/kno3-current-main/assessment.json)
+reproduce the failure: all 20 g dissolves in 50 g water at 20.004 °C, with no
+solid left. This is a separate current-main replay; original counts are unchanged.
+The [finite-solubility repair lanes](kno3-finite-solubility-lane.md) trace the
+missing active mineral phase and nitrate activity-model gap. No chemistry repair
+or quantitative calibration is claimed. The isolated workflow branch must not
+merge into main.
 
 Detailed deliverables and prerequisites are in the
 [ordered agenda](improvement-agenda-20261014.md),
@@ -79,7 +83,10 @@ The first [paired CLI attempt](../audits/fresh-syntax50-20261013/english-naming-
 stopped before dispensing because the frozen control used `@25C` instead of
 the documented `@ 25C`. The original failure is preserved. Eight spacing-only
 follow-ups and their verified candidate binary/lock binding are frozen separately;
-memory gates stopped their execution before the first case. They have no verdict yet.
+memory gates stopped local execution before the first case. A [bounded hosted
+run](../audits/fresh-syntax50-20261013/english-naming-cli-hosted-dispatch.json) now
+reuses the verified existing CLI artifact, with no build and all ordinary fleet
+jobs skipped. Follow that run; do not duplicate it locally. No verdict is assigned yet.
 
 ## Reported colour and rendering defects
 
@@ -98,14 +105,16 @@ Recipe changes must address versioned operator and text-session replay first;
 changing a version-1 concentration in place would reinterpret old experiments.
 See the [actionable follow-up lanes](colour-and-mixture-followups.md).
 
-[PR791](https://github.com/CrispStrobe/kerotakis/pull/791), head `a5ad70a8`,
-implements step-local narration of exact repeated model-limit events in CLI/app,
-preserving raw events, distinct causes and later-step warnings. Independent source
-review passed, and all [four new native test groups passed in actual CI](../audits/fresh-syntax50-20261013/coverage-prose-native-acceptance.json).
-The own-fleet acceptance is still pending; the PR remains a draft.
+[PR791](https://github.com/CrispStrobe/kerotakis/pull/791) merged as `f471b628`:
+step-local narration collapses exact repeated model-limit events in CLI/app,
+preserving raw events, distinct causes and later-step warnings. All 25 CI and
+33 own-fleet checks passed, including the four new native groups. The
+[integration receipt](../audits/fresh-syntax50-20261013/coverage-prose-integration.json)
+verifies actual parents and expected merge tree. Equilibrium readback churn
+remains a separate task.
 
 [PR792](https://github.com/CrispStrobe/kerotakis/pull/792) contains the full
-versioned watercolor candidate at `af788ba6`: exact revision-1 archive,
+versioned watercolor candidate at `3196a8d6`: exact revision-1 archive,
 historical parsing, whole-history saved-session migration across browser/native
 hosts, revision-specific finite bottles, and blue/yellow revision-2 washes with
 one-tenth the former dye concentration. Spectra and optical paths are unchanged.
@@ -121,14 +130,20 @@ The combined app suite on `af788ba6`, including accepted PR790 changes, passes
 **1,666/1,666** across 123 files in 110.67 seconds.
 [Combined-head app acceptance](../audits/fresh-syntax50-20261013/watercolour-merged-app-acceptance.json)
 and [earlier app results and failures](../audits/fresh-syntax50-20261013/watercolour-full-app-acceptance.json)
-retain their own source bindings. Native export, optics/protocol, actual-browser
-and own-fleet acceptance remain pending. App unit tests do not establish those.
+retain their own source bindings. Later native checks exposed an old unversioned stock-key assertion; the actual
+browser exposed a pre-migration Story baseline in its isolation probe. Both
+controls are corrected without changing the replay contract; [first failures and
+new source bindings](../audits/fresh-syntax50-20261013/watercolour-af788-first-failures.json)
+remain preserved. Current head includes accepted PR791 and PR793 main changes.
+Fresh native export, optics/protocol, actual-browser and own-fleet acceptance
+remain pending. The earlier app suite does not establish those.
 
-PR790 is integrated. PR789/791/792 remain drafts pending named acceptance;
-[documentation PR793](https://github.com/CrispStrobe/kerotakis/pull/793) is ready
-with normal auto-merge enabled and required CI pending. Superseded checks and
-first failures remain preserved; current runs are untouched. Do not transfer
-checks across changed source or merge the broad audit/infrastructure branches.
+PR790 and PR791 are integrated. PR789 and PR792 remain drafts pending named
+acceptance. [Documentation PR793](https://github.com/CrispStrobe/kerotakis/pull/793)
+merged as `208f9a72` after all 25 CI jobs passed; its [integration receipt](../audits/fresh-syntax50-20261013/assessment-documentation-integration-20261015.json)
+verifies actual parents and expected merge tree. First failures remain preserved.
+Do not transfer checks across changed source or merge broad audit/infrastructure
+branches.
 
 
 Documentation portability/current-state PR788 merged as `5af0be7f` after all 25

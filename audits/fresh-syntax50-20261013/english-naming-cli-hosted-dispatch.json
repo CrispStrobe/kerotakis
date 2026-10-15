@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "scope": "Eight unchanged-forecast syntax-normalized PR789 naming controls; hosted artifact reuse only",
+  "audit_head": "4e61a264052d56b8777c0eb33b42379fc1bbaf7f",
+  "branch": "audit/english-naming-controls-20261015",
+  "merge_policy": "Isolated infrastructure; must never merge into main",
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38759958516",
+  "eligible_job_id": 116508306685,
+  "current_status": "queued",
+  "ordinary_fleet_jobs_verified_skipped": 9,
+  "source_run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38721945844",
+  "source_artifact_id": 11967894898,
+  "candidate_head": "30d84ed58b7a3ca6680046ba577632ec3dee553d",
+  "execution_binding": "english-naming-cli/syntax-normalized-binding.json",
+  "build_count": 0,
+  "execution_count_verified": 0,
+  "physical_verdict": "not_assigned",
+  "first_dispatch_failure": {
+    "audit_head": "f6da75af",
+    "http_status": 422,
+    "message": "Unexpected inputs provided: [lane]",
+    "cause": "Sparse index excluded modified tracked caller; working-file validation did not validate committed bytes",
+    "repair": "Explicitly clear caller skip-worktree bit, commit caller, then validate actual Git object",
+    "experiment_count": 0
+  },
+  "files_sha256": {
+    ".github/workflows/chemistry-audit.yml": "cf3ee6a383461533325074c4e9b8c021867e8462057ff987baf3dd17d9b6a0b3",
+    ".github/workflows/english-naming-controls.yml": "bfdda0999a8387670b35be4bc3444b95cd2940f59a614d41d807c0da896f2a69",
+    "audits/fresh-syntax50-20261013/english-naming-cli/hosted.py": "caeadd0b737f0d9255f7453ed9226973f1de43d1b5d81b38c1bcec9f79558f3c"
+  },
+  "next_action": "Follow this existing run; preserve and authenticate artifact, then assess eight raw streams against frozen stock/identity/inventory/pair assertions. Do not duplicate local execution."
+}

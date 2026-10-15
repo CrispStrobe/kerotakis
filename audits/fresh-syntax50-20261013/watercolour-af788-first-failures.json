@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "candidate_head": "af788ba6df3aaa67fc21f9c44c8ea70059bb0359",
+  "ci_run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38737923435",
+  "first_failures": [
+    {
+      "job_id": 116431865702,
+      "name": "Full preflight gate",
+      "conclusion": "failure",
+      "raw_log_sha256": "471f55cdb1bded554c11ddfe6b9dd98c90b56ec1b4fdeb87ed9cba1a15f0dfd0",
+      "cause": "Stock assertion expected old unversioned material key; actual canonical key pins revision 1"
+    },
+    {
+      "job_id": 116431865952,
+      "name": "Test (native) (ubuntu-latest)",
+      "conclusion": "failure",
+      "raw_log_sha256": "3716ac9a88dacd627ab3dd89b9b8971f4aaaadee28450289303d2a67def809e8",
+      "cause": "Stock assertion expected old unversioned material key; actual canonical key pins revision 1"
+    },
+    {
+      "job_id": 116431865930,
+      "name": "Test (native) (macos-latest)",
+      "conclusion": "failure",
+      "raw_log_sha256": "7638ecdbf34cbf8e099b289327a1bfbf08a8ca4a3e5c72ae15a1343a3e628cbf",
+      "cause": "Stock assertion expected old unversioned material key; actual canonical key pins revision 1"
+    },
+    {
+      "job_id": 116431866390,
+      "name": "The demo page, in a real browser",
+      "conclusion": "failure",
+      "raw_log_sha256": "440cb2f57ecf8916d413fc4bf221debf27b77f308bb050eb4e4d3fa4e00668de",
+      "cause": "Pre-migration raw Story fixture compared against legitimately migrated Story bytes"
+    }
+  ],
+  "correction_commit": "09dcc68c",
+  "corrected_head": "3196a8d618568bde088b290c82fdebe8be0493ff",
+  "integrated_main": "f471b628e99b4ccb78a5ca97ec93d04cdfad0dbf",
+  "corrections": [
+    "Stock parser assertion now requires white_vinegar_5_percent@1, retaining pure NaCl identity and material quantity bounds",
+    "Browser isolation probe captures Story save after legitimate restore migration, before Sandbox mutation; requires nonnull baseline and retains exact byte isolation and semantic reload checks"
+  ],
+  "review": "Browser source diagnosis/correction independently reviewed; root reviewed both corrections and Session restore/persist behavior",
+  "validation": "Source diff checks only for corrections; fresh exact-head CI and own fleet pending",
+  "new_ci_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38759200030",
+  "new_fleet_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38759199731",
+  "limits": [
+    "First failure logs retained; no weakened runtime contract or altered forecast",
+    "No native, optical or browser pass assigned to corrected head yet"
+  ],
+  "superseded_fleet": {
+    "run_id": 38737923170,
+    "metadata_preserved": true,
+    "ordinary_cancel_requested": true,
+    "force_cancel_requested_after_queued_did_not_stop": true,
+    "new_current_fleet_status": "queued; previously pending",
+    "completion_status": "Verify final cancellation separately; API acknowledgement is not completion"
+  }
+}

@@ -48,10 +48,14 @@ in the private handoff. Heavy local work and delegation require resource gates.
    unsupported and inconclusive. These controls do not supersede the forty
    original unsupported results or count as forty new blind designs.
 4. **Repair demonstrated shared causes — active.** The KNO3 cold/hot failure is
-   being replayed against pinned merged main in
+   reproduced against pinned merged main in
    [run 38739278904](https://github.com/CrispStrobe/kerotakis/actions/runs/38739278904),
-   with a separate source/binary/lock binding and unchanged forecasts. No new
-   result is assigned while that run is queued. Rank the step-3 findings by user
+   with a separate source/binary/lock binding and unchanged forecasts: all 20 g
+   dissolves at 20.004 °C with no solid. See the [authenticated result](../audits/fresh-syntax50-20261013/kno3-current-main/assessment.json)
+   and [finite-phase/activity-model repair lanes](kno3-finite-solubility-lane.md).
+   The missing active mineral phase currently implies unrestricted dissolution;
+   nitrate activity parameters are also absent from the concentrated route.
+   Rank the step-3 findings by user
    impact and recurrence. Inventory all affected solver routes and writers.
    Add targeted conservation, retained gas, pressure, energy and observable
    consistency controls, including rejected/unsupported paths. Reported products
