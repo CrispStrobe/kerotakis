@@ -178,6 +178,7 @@ class PackagingTests(unittest.TestCase):
                 spec.loader.exec_module(module)
             client = TestClient(module.app)
             self.assertEqual(client.get("/api/health").json()["mode"], "gateway")
+            self.assertRegex(client.get("/api/health").json()["revision"], r"^[a-f0-9]{40}(-dirty)?$")
             schema = client.get("/api/openapi.json").json()
             self.assertEqual(schema["servers"][0]["url"], "/api")
             self.assertEqual(client.post("/api/run", json={"script": "inspect v1"}).status_code, 401)
