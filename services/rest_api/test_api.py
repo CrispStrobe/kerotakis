@@ -339,6 +339,15 @@ int main(int argc,char **argv) {
             await api.run_engine(cfg, "inspect v1")
         self.assertEqual(err.exception.status_code, 503)
 
+    async def test_bootstrap_diagnostics_do_not_log_engine_output_or_script(self):
+        with self.assertLogs("kerotakis.api", level="WARNING") as logs:
+            with self.assertRaises(HTTPException) as err:
+                await api.run_engine(self.cfg(), "wait 995s")
+        self.assertEqual(err.exception.status_code, 503)
+        self.assertEqual(len(logs.output), 1)
+        self.assertTrue(logs.output[0].endswith("restriction=unclassified"))
+        self.assertNotIn("995", logs.output[0])
+
     async def test_direct_serverless_sandbox_denies_host_reads_network_fork_and_parent_signals(self):
         cfg = self.cfg()
         cfg.mode = "vercel"

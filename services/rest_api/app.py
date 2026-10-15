@@ -7,6 +7,7 @@ from dataclasses import dataclass, field
 import hashlib
 import hmac
 import json
+import logging
 import math
 import os
 from pathlib import Path
@@ -382,6 +383,13 @@ async def run_engine(cfg: Settings, script: str) -> dict:
             raise HTTPException(502, "Engine returned invalid observations") from None
         if status == "completed" and code:
             if not stderr.startswith(b"kero:"):
+                reason = stderr.strip().decode("ascii", "ignore")
+                permitted = {"sandbox: " + value for value in (
+                    "architecture", "landlock", "privileges", "capabilities",
+                    "filesystem_create", "filesystem_rule", "filesystem_install", "seccomp", "exec")}
+                logging.getLogger("kerotakis.api").warning(
+                    "Engine startup failed: exit=%s restriction=%s", code,
+                    reason if reason in permitted else "unclassified")
                 raise HTTPException(503, "Engine or sandbox failed to execute")
             status = "refused"
         result = {"execution_status": status, "exit_status": code,

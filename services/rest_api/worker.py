@@ -33,8 +33,20 @@ if direct:
             if libraries:
                 environment["LD_LIBRARY_PATH"] = libraries
             os.execve(binary, [binary, "run", script, "--json"], environment)
-    except Exception:
-        os.write(2, b"sandbox: direct execution restrictions unavailable\n")
+    except Exception as exc:
+        # Fixed diagnostic codes only: never echo paths, scripts or environment.
+        reasons = {
+            "Unsupported sandbox architecture": "architecture",
+            "Landlock ABI3 unavailable": "landlock",
+            "Cannot restrict process privileges": "privileges",
+            "Cannot remove process capabilities": "capabilities",
+            "Cannot create filesystem restrictions": "filesystem_create",
+            "Cannot add filesystem restriction": "filesystem_rule",
+            "Cannot restrict filesystem": "filesystem_install",
+            "Cannot restrict system calls": "seccomp",
+        }
+        code = reasons.get(str(exc), "exec") if isinstance(exc, RuntimeError) else "exec"
+        os.write(2, ("sandbox: " + code + "\n").encode())
         os._exit(125)
 binary, script = sys.argv[1:]
 args = ["/usr/bin/bwrap", "--unshare-all", "--die-with-parent", "--cap-drop", "ALL",
