@@ -1,0 +1,22 @@
+{
+  "recorded_utc": "2026-10-16T14:14:00.157864+00:00",
+  "state": "running",
+  "api_origin": "https://kerotakis-web-payload-czrv2du5n-crispstrobes-projects.vercel.app",
+  "api_revision": "c96c821a54c53b3167ede3a2b5cb6000253d5ae2",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "input_commit": "cc16fcccb76f695d4823f3dd4b2d52dd6570b4c5",
+  "design_sha256": "2c565f6e252e3674f178dd999fd42749f3ad56e11207dc7f857883f5d97608df",
+  "runner_sha256": "abbb186c6c60ccd651237a03442543901d37d04a1f0309d4fbe82dbcbef12753",
+  "requests_with_verified_response_at_checkpoint": 115,
+  "execution_counts_at_checkpoint": {
+    "completed": 115
+  },
+  "script_adaptations": 0,
+  "production_changed": false,
+  "physical_verdict": "not_assigned",
+  "remaining_acceptance": "Complete all668 API attempts, authenticate results and assess original physical forecasts; PR814 integration/production gates remain separate."
+}

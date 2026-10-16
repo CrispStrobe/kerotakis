@@ -253,3 +253,11 @@ the previous policy. Sixteen API/Redis/packaging tests pass; the
 [review receipt](../audits/target468-20261016/rest-admission-candidate-review.json)
 retains scope and outstanding native/fleet/platform acceptance. Direct Vercel
 preview delivery is in progress; production and chemical pass counts are unchanged.
+
+The [direct Vercel all668 batch](../audits/target468-20261016/rest-api-all668/README.md)
+is now running on gatewayc96c821a with verified c446/670 microVM execution.
+All scripts remain unchanged; source/hash/credential checks precede counting.
+The [curriculum200 native follow-up](../audits/target468-20261016/curriculum200-common-engine/results/README.md)
+completed and is authenticated:92 zero exits,108 nonzero,0 parse errors/retries.
+These are execution results; physical verdicts and PR814 production acceptance
+remain separate. The remaining267 native completion job is still queued.
