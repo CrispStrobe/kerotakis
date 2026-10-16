@@ -197,6 +197,9 @@ fn fixture(sealed: bool) -> Vessel {
         vessel.headspace = Headspace::Sealed {
             volume: Liters(1.0),
         };
+        // This no-boiling fixture needs an occupied headspace. Otherwise
+        // independent phase equilibrium legitimately cools the near-vacuum.
+        assert!(vessel.retain_gas(SpeciesId::new("N2"), Moles(0.04)));
     }
     solution(&mut vessel);
     let mut start = StepStart::capture(&vessel);

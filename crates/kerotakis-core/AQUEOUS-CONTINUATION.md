@@ -98,6 +98,21 @@ of an in-progress candidate is not a supported continuation mechanism.
 
 ## Acceptance and limits
 
+The [run at `bc5f46b5`](https://github.com/CrispStrobe/kerotakis/actions/runs/38850237630/job/116809626791)
+passed all three focused native PHREEQC continuation tests, but the core
+phase-tail control still failed: its separate fixture had not received the
+inert headspace gas added to the shared native fixtures. The independently
+computed phase cooling reached 294.15876266736905 K instead of the asserted
+298.15 K. That core no-boiling fixture now also explicitly contains 0.04 mol N2;
+the strict temperature assertion and separate conservative vacuum-boiling
+control remain unchanged.
+
+The same run's composed-locale gate identified `aqueous_continuation.rs` as
+an undeclared phrase composer. It is now registered in both the Rust gate and
+Python locale lint, with actual German and French translations of the heat
+coverage limit. These source repairs require a fresh hosted run; the earlier
+failures and the successful native subset do not establish full acceptance.
+
 The subsequent [native run at `a45c6f45`](https://github.com/CrispStrobe/kerotakis/actions/runs/38817273479/job/116705372463)
 passed cache replay but failed the sealed no-temperature-change controls.
 Their one-litre headspace contained only about 0.001 mol oxygen after the

@@ -1666,6 +1666,7 @@ PVA = "PVA"
 # falls back to `[refusal]`; `tools/engine-locale-lint.py` counts how many
 # of each there are, with the denominator read out of the Rust.
 [not-modeled]
+"aqueous-continuation-heat" = "Für diese Umwandlung nach der Speziation liegt keine geprüfte Reaktionswärme vor. Die zugehörige erneute Charakterisierung der wässrigen Lösung und alle weiteren Berechnungen der Wärme wässriger Reaktionen in diesem Arbeitsschritt bleiben aus; die angegebene Temperatur ist keine vollständige thermische Vorhersage für diese Umwandlung. Stoff- und Gasbilanz bleiben ausdrücklich erfasst"
 "cea-open-atmosphere-required" = "Der thermische Gleichgewichtspfad für offene Luft modelliert diese geschlossene, druckgeregelte oder gespülte Randbedingung nicht; der Stoffbestand bleibt erhalten und es wurde keine thermische Reaktion übernommen."
 
 # Ideal-liquid still checked refusal categories.

@@ -56,6 +56,7 @@ BENCH = ROOT / "crates/kerotakis-core/src/bench.rs"
 # called orphans.
 COMPOSERS = [
     ROOT / "crates/kerotakis-core/src/appearance.rs",
+    ROOT / "crates/kerotakis-core/src/aqueous_continuation.rs",
     ROOT / "crates/kerotakis-core/src/displacement.rs",
     ROOT / "crates/kerotakis-core/src/solve.rs",
     ROOT / "crates/kerotakis-core/src/nonaqueous.rs",
