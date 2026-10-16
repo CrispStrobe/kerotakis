@@ -1,0 +1,59 @@
+{
+  "recorded_utc": "2026-10-16T14:46:28.742568+00:00",
+  "candidate_head": "735c523d415e1e8ab1dddf58efbbf6d7bc53266e",
+  "pr": 815,
+  "prerequisite_pr": 814,
+  "prerequisite_head": "c96c821a54c53b3167ede3a2b5cb6000253d5ae2",
+  "engine_grammar_sha256": "279036582bf9270055ab8b96f2ef3f5c9644ce3a58916bef8daf584a3e22bca2",
+  "gateway_sha256": "5e7b415900d577f30cc4f1299c8945785eb66391325f5457f9710cebd88c5dbc",
+  "canonical_verbs": 35,
+  "synonyms_and_spellings": [
+    "look",
+    "observe",
+    "waft",
+    "zoom",
+    "mix",
+    "voltmeter",
+    "distill",
+    "electrolyze"
+  ],
+  "missing_bench_verbs": [],
+  "added_commands": [
+    "remove",
+    "discard",
+    "stock",
+    "smell",
+    "waft",
+    "zoom",
+    "voltmeter"
+  ],
+  "multiword_aliases": [
+    "carbon dioxide",
+    "sodium chloride"
+  ],
+  "local_validation": {
+    "groups": 19,
+    "result": "passed",
+    "scope": "API/Redis/packaging, no native engine execution",
+    "first_failure": "Packaging fixture could not read tracked web/vercel.json omitted by sparse checkout; restore tracked web prerequisite, no product repair required."
+  },
+  "public_capabilities": "/api/capabilities",
+  "unavailable_session_commands": [
+    "coverage",
+    "exit",
+    "find",
+    "help",
+    "identify",
+    "lang",
+    "load",
+    "materials",
+    "quest",
+    "quit",
+    "save",
+    "species",
+    "structure"
+  ],
+  "native_ci_and_own_fleet": "pending",
+  "production_changed": false,
+  "physical_verdict": "not_assigned"
+}
