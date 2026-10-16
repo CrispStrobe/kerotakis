@@ -1,0 +1,21 @@
+{
+  "frozen_utc": "2026-10-16T04:30:50.424690+00:00",
+  "kind": "unchanged-protocol source-bound replay, not blind experiment",
+  "source_head": "54d4091626ed7a15957fee80ca49e30d26d689db",
+  "tested_merge": "240f36a21dffc6dcf30beb0834baceaecc04eae2",
+  "producer_run": 38815305189,
+  "artifact_id": 12013170456,
+  "artifact_sha256": "3fcca29da77f0e0bdf8e65f858c6a26fbdc0aa5cf4eeebf5f25fa5d4e2dd944f",
+  "binary_sha256": "8f81a6ff9ea092e7720b0c89a4507473af9a171dfd4563f8e8047b73887f3929",
+  "lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc",
+  "original_design_sha256": "0c8bcf514ecbab9049e91cca84de313e999240c13632918ba47b7f0f2a61c1fd",
+  "case": {
+    "id": "F11-AgCl-NH3",
+    "source_ranks": [
+      124
+    ],
+    "script": "add v1 water 100mL @ 25C\nadd v1 AgCl 0.001mol\ninspect v1\nadd v1 NH3 0.002mol\ninspect v1\nwait 10s\ninspect v1\n",
+    "script_sha256": "2dd3f23cb71206af2ae5d13e22223603e50610ae12526175c18be3e118cfbdc2",
+    "expected_before_execution": "Ammonia increases AgCl dissolution through ammine complexation if represented; no full-dissolution forecast at this dose."
+  }
+}

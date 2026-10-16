@@ -1,0 +1,49 @@
+{
+  "kind": "source-bound unchanged stock protocol replay",
+  "verdict": "principal response aligns; canonical ligand ownership remains unsupported",
+  "physical_calibration": false,
+  "before_dissolved_silver_mol": 1.3683167746747614e-06,
+  "after_dissolved_silver_mol": 9.827158932981992e-05,
+  "dissolution_ratio": 71.81932659794977,
+  "solid_after_mol": 0.0009017284106702,
+  "solid_after_wait_mol": 0.0009017223975237,
+  "inventory_after": {
+    "silver_mol": 0.00100000000000002,
+    "chloride_mol": 0.00100000000000002,
+    "nitrogen_mol": 0.001999999999999236
+  },
+  "inventory_after_wait": {
+    "silver_mol": 0.0010000000000999136,
+    "chloride_mol": 0.0010000000000999036,
+    "nitrogen_mol": 0.002000000002033042
+  },
+  "model_limits": [
+    {
+      "cause": "model-boundary",
+      "event": "not_yet_modeled",
+      "reason": {
+        "en": "Silver-ammonia equilibrium complexes and free ligand are represented in the solution speciation. The canonical NH3/NH4 portions remain analytical total-nitrogen carriers, including complex-bound ammonia; they are not measured free NH3 amounts. Their use for downstream ammonia volatilisation or curated reaction availability is not yet reconciled with bound ligand. This limitation does not withdraw the reported equilibrium complex distribution",
+        "key": "not-modeled.silver-ammine-ligand-inventory"
+      },
+      "vessel": 0,
+      "what": "Silver-ammonia equilibrium complexes and free ligand are represented in the solution speciation. The canonical NH3/NH4 portions remain analytical total-nitrogen carriers, including complex-bound ammonia; they are not measured free NH3 amounts. Their use for downstream ammonia volatilisation or curated reaction availability is not yet reconciled with bound ligand. This limitation does not withdraw the reported equilibrium complex distribution"
+    },
+    {
+      "cause": "model-boundary",
+      "event": "not_yet_modeled",
+      "reason": {
+        "en": "Silver-ammonia equilibrium complexes and free ligand are represented in the solution speciation. The canonical NH3/NH4 portions remain analytical total-nitrogen carriers, including complex-bound ammonia; they are not measured free NH3 amounts. Their use for downstream ammonia volatilisation or curated reaction availability is not yet reconciled with bound ligand. This limitation does not withdraw the reported equilibrium complex distribution",
+        "key": "not-modeled.silver-ammine-ligand-inventory"
+      },
+      "vessel": 0,
+      "what": "Silver-ammonia equilibrium complexes and free ligand are represented in the solution speciation. The canonical NH3/NH4 portions remain analytical total-nitrogen carriers, including complex-bound ammonia; they are not measured free NH3 amounts. Their use for downstream ammonia volatilisation or curated reaction availability is not yet reconciled with bound ligand. This limitation does not withdraw the reported equilibrium complex distribution"
+    }
+  ],
+  "limits": [
+    "Canonical Ag+ inventory is the aqueous elemental pool, not measured free-ion activity.",
+    "Resolved silver ammines appear, but canonical free/complex-bound ammonia ownership is not repaired.",
+    "The ten-second wait retains the principal response; small thermal/equilibrium changes remain.",
+    "Original 200 screens and twelve first stock-control results are unchanged.",
+    "The replay is bound to accepted silver head 54d40916, not refreshed combined-source head 50ff7a84 or deployed production."
+  ]
+}
