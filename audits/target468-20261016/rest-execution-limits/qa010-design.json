@@ -1,0 +1,42 @@
+{
+  "schema": "kerotakis.isolated-resource-diagnostic.v1",
+  "created_utc": "2026-10-16T15:02:01.285455+00:00",
+  "case": {
+    "id": "batch2:qa-010",
+    "script": "# QA-010: An arbitrary pH-seven endpoint underestimates weak-acid equivalence\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 CH3COOH 0.001mol\nnew\nadd v2 water 100mL\nadd v2 CH3COOH 0.001mol\ntitrate v1 NaOH 0.01M 0.1mL until ph 7 max 1200\ntitrate v2 NaOH 0.01M 0.1mL until ph 8.7 max 1200\ninspect\n",
+    "script_sha256": "9e1ac21325599a7f5c26beff5f18e97c72f654981f09fbd999886f153dfb21fc",
+    "source_design": "audits/new-experiments-201-20261016/native-screen-design.json"
+  },
+  "first_failure": "../rest-api-all668/api-results.json#batch2:qa-010",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "build_image": "public.ecr.aws/amazonlinux/amazonlinux@sha256:18c71e6a20f8b0834b002b6002156a84eea76162d5adea72d2ea8b86800eaf91",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+    "libraries": {
+      "ld-linux-x86-64.so.2": "5022436ff15df9e54e79ee0a0ca8b3422a0dcb0c11920d9901ded30eccbf8638",
+      "libc.so.6": "fdf84d7d72db18bb3996a7b24f3eb473e7efbc8f994af7b159f76d61d1b4c978",
+      "libgcc_s.so.1": "9460b5f230d3f66554ec259e8e0890b0946dfde7cc83f95d1ac8d4dca3d3f9bb",
+      "libm.so.6": "f7cb1097b97353d994fe191e5fafc81f0171935792311a157c3082213fc704e0",
+      "libstdc++.so.6": "846b43f9f1429cc67ae7ffd24f4ccdd7a17d652765aaf3e6f9d2ca54178b369d"
+    },
+    "loader": "ld-linux-x86-64.so.2",
+    "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+    "target": "x86_64-unknown-linux-gnu"
+  },
+  "snapshot_receipt_sha256": "b9442ddbf0644897a26cc770d8ab4d07ceec559160e70746613b2d8cca385b97",
+  "original_vm_job_sha256": "bb00548fb24e62192fc39a4f633981dceabea17d8542a8f5f3244b6c7e7b429f",
+  "observer_sha256": "5c69bebda4de5775848a1afcb2b72575e51e7e0c6e31b400585c1e5cd6b82016",
+  "change": "Only add reaped-child CPU user/system time and maximum RSS to the trusted observer result; engine/input/limits/network/isolation unchanged. This is a changed-observer diagnostic, not a retry or scientific pass.",
+  "limits": {
+    "cpu_seconds": 8,
+    "wall_seconds": 10,
+    "address_space_bytes": 1073741824,
+    "microvm_vcpus": 1,
+    "microvm_memory_mib": 2048,
+    "microvm_lifetime_seconds": 30
+  },
+  "forecast": "Same changed-observer diagnostic for the second first API503: collect child CPU and RSS under unchanged8CPU/10wall/1GiB limits. SIGKILL near8CPU would support CPU exhaustion in this reproduction; completion or another result must remain distinct from the first API failure.",
+  "physical_verdict": "not_assigned"
+}

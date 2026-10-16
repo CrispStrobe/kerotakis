@@ -17,9 +17,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--snapshot-receipt', type=Path, required=True)
     parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--design', type=Path, default=Path(__file__).with_name('design.json'))
     args = parser.parse_args()
     root = Path(__file__).resolve().parent
-    raw = (root / 'design.json').read_bytes()
+    raw = args.design.read_bytes()
     design = json.loads(raw)
     receipt = args.snapshot_receipt.read_bytes()
     assert sha(receipt) == design['snapshot_receipt_sha256']

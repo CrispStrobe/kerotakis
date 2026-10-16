@@ -1,0 +1,18 @@
+{
+  "case": "new120:pr-005",
+  "design_sha256": "92a59e58f727b04bb8337eeefed8fb141290d7f1cbfcb09842739a2fbe3bd728",
+  "observer_sha256": "5c69bebda4de5775848a1afcb2b72575e51e7e0c6e31b400585c1e5cd6b82016",
+  "raw_result_sha256": "acd0e7378f3153e3241e081f25f5341909ea8a2ee883f974b643309fd500a75a",
+  "execution_status": "completed",
+  "exit_status": 0,
+  "elapsed_seconds": 6.446066051,
+  "resource_usage": {
+    "user_cpu_seconds": 6.271279,
+    "system_cpu_seconds": 0.099941,
+    "max_rss_kib": 99024
+  },
+  "native_json_observations_equal": true,
+  "conclusion": "Changed-observer diagnostic completed under unchanged limits. Original SIGKILL cause remains unconfirmed; this is not a repair or scientific pass.",
+  "preflight_qualification": "First launcher used an interpreter lacking Vercel SDK, failed before creating a VM/issued marker. Existing SDK environment used for first actual diagnostic. Original captured stderr was not retained; separately confirmed import failure is recorded privately.",
+  "physical_verdict": "not_assigned"
+}
