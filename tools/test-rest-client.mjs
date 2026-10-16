@@ -8,8 +8,9 @@ const elements = Object.fromEntries(['run', 'result', 'submit', 'key', 'endpoint
   id => [id, { value: '', textContent: '', addEventListener: (_event, callback) => { elements[id].handler = callback; } }],
 ));
 let requests = [];
+let requestedTimeout;
 const context = { document: { querySelector: selector => elements[selector.slice(1)] },
-  URL, AbortSignal, Error, fetch: async (...args) => {
+  URL, AbortSignal: { timeout: ms => { requestedTimeout = ms; return AbortSignal.timeout(ms); } }, Error, fetch: async (...args) => {
     requests.push(args);
     return { status: 200, json: async () => ({ diagnostics: '<script>never execute</script>' }) };
   },
@@ -21,6 +22,7 @@ elements.endpoint.value = 'https://api.example';
 elements.script.value = 'inspect v1';
 await submit();
 assert.equal(requests.length, 1);
+assert.equal(requestedTimeout, 65000);
 assert.equal(String(requests[0][0]), 'https://api.example/run');
 assert.equal(requests[0][1].redirect, 'error');
 assert.equal(requests[0][1].credentials, 'omit');

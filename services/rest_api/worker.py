@@ -5,7 +5,7 @@ import resource
 import sys
 
 resource.setrlimit(resource.RLIMIT_AS, (1024 ** 3, 1024 ** 3))
-resource.setrlimit(resource.RLIMIT_CPU, (8, 8))
+resource.setrlimit(resource.RLIMIT_CPU, (12, 12))
 resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
 resource.setrlimit(resource.RLIMIT_FSIZE, (1024 ** 2, 1024 ** 2))
 resource.setrlimit(resource.RLIMIT_NOFILE, (64, 64))

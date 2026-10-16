@@ -44,7 +44,7 @@ form.addEventListener('submit', async (event) => {
       method: 'POST', redirect: 'error', credentials: 'omit', cache: 'no-store',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key.value}` },
       body: JSON.stringify({ script: document.querySelector('#script').value }),
-      signal: AbortSignal.timeout(30000),
+      signal: AbortSignal.timeout(65000),
     });
     const body = await response.json();
     result.textContent = `HTTP ${response.status}\n${JSON.stringify(body, null, 2)}`;

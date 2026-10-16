@@ -146,6 +146,7 @@ class ApiTests(unittest.TestCase):
             self.assertEqual(set(policy["commands"]), api.VERBS)
             self.assertEqual(policy["limits"]["aggregate_loop_work"], api.MAX_LOOP_WORK)
             self.assertEqual(policy["limits"]["child_wall_seconds"], api.WALL_SECONDS)
+            self.assertEqual(policy["limits"]["child_cpu_seconds"], api.CPU_SECONDS)
             self.assertEqual(response.headers["cache-control"], "no-store")
             for verb in api.UNAVAILABLE_SESSION_WORDS:
                 response = self.client.post("/run", headers=AUTH, json={"script": verb + " SECRET"})
@@ -284,6 +285,28 @@ class ApiTests(unittest.TestCase):
             self.assertEqual(self.client.post("/run", headers=AUTH, json={"script": "inspect v1"}).status_code, 503)
             engine.assert_not_called()
 
+    def test_gateway_deadline_bounds_total_drip_response_and_closes_stream(self):
+        self.cfg.mode, self.cfg.upstream = "gateway", "https://worker.example"
+        closed = []
+        class Drip(httpx.AsyncByteStream):
+            async def __aiter__(self):
+                yield b'{'
+                await asyncio.sleep(10)
+                yield b'}'
+            async def aclose(self):
+                closed.append(True)
+        async def handle(request):
+            return httpx.Response(200, stream=Drip())
+        original_client, original_timeout = httpx.AsyncClient, asyncio.timeout
+        with patch.object(api.httpx, "AsyncClient", side_effect=lambda **kwargs:
+                original_client(transport=httpx.MockTransport(handle), **kwargs)), \
+             patch.object(api.asyncio, "timeout", side_effect=lambda seconds:
+                original_timeout(.01 if seconds == 50 else seconds)):
+            with self.assertRaises(HTTPException) as error:
+                asyncio.run(api.forward(self.cfg, TOKEN, "inspect v1"))
+        self.assertEqual(error.exception.status_code, 502)
+        self.assertTrue(closed)
+
     def test_gateway_passes_token_only_to_fixed_destination_and_refuses_redirects(self):
         self.cfg.mode, self.cfg.upstream = "gateway", "https://worker.example"
         seen = []
@@ -337,6 +360,29 @@ class RedisTests(unittest.TestCase):
         self.cli("DEL", "{test}:leases")
         self.assertEqual(acquire(10), "3")
         self.assertEqual(self.cli("ZCARD", "{test}:leases"), "0")
+
+    def test_shared_store_total_deadline_bounds_drip_and_release(self):
+        cfg = api.Settings(redis_url="https://redis.example", redis_token="private-test-token")
+        closed = []
+        class Drip(httpx.AsyncByteStream):
+            async def __aiter__(self):
+                yield b'{"result":'
+                await asyncio.sleep(10)
+                yield b'1}'
+            async def aclose(self):
+                closed.append(True)
+        async def handle(request):
+            return httpx.Response(200, stream=Drip())
+        original_client, original_timeout = httpx.AsyncClient, asyncio.timeout
+        with patch.object(api.httpx, "AsyncClient", side_effect=lambda **kwargs:
+                original_client(transport=httpx.MockTransport(handle), **kwargs)), \
+             patch.object(api.asyncio, "timeout", side_effect=lambda seconds:
+                original_timeout(.01 if seconds == 3 else seconds)):
+            with self.assertRaises(HTTPException) as error:
+                asyncio.run(api.RedisAdmission(cfg).acquire("test"))
+            self.assertEqual(error.exception.status_code, 503)
+            asyncio.run(api.RedisAdmission(cfg).release("expired-lease"))
+        self.assertEqual(len(closed), 2)
 
     def test_shared_rest_outage_and_redirect_fail_closed(self):
         cfg = api.Settings(redis_url="https://redis.example", redis_token="private-test-token")
@@ -396,6 +442,23 @@ class PackagingTests(unittest.TestCase):
                     self.assertEqual(module.Settings.from_env().mode, "disabled", field)
 
 
+class VmJobUnitTests(unittest.TestCase):
+    def test_cpu_limit_requires_trusted_usage_and_matching_signal(self):
+        job = importlib.import_module("services.rest_api.vm_job")
+        self.assertEqual((job.CPU_SECONDS, job.WALL_SECONDS), (api.CPU_SECONDS, api.WALL_SECONDS))
+        self.assertEqual((job.CPU_SECONDS, job.WALL_SECONDS), (12, 18))
+        for status, code, user, system, expected in (
+                ("completed", -9, 11.95, .07, True),
+                ("completed", -9, 11.90, .01, False),
+                ("completed", -11, 12.1, .1, False),
+                ("completed", 0, 12.1, .1, False),
+                ("output_limit", -9, 12.1, .1, False),
+                ("timeout", None, 12.1, .1, False)):
+            with self.subTest(status=status, code=code, user=user):
+                usage = SimpleNamespace(ru_utime=user, ru_stime=system)
+                self.assertEqual(job.cpu_limit_reached(status, code, usage), expected)
+
+
 class SandboxTests(unittest.IsolatedAsyncioTestCase):
     @classmethod
     def setUpClass(cls):
@@ -409,6 +472,7 @@ class SandboxTests(unittest.IsolatedAsyncioTestCase):
 #include <stdlib.h>
 #include <sys/socket.h>
 #include <signal.h>
+#include <sys/resource.h>
 int main(int argc,char **argv) {
   if(argc!=4 || strcmp(argv[1],"run") || !strstr(argv[2],"/input.lab") || strcmp(argv[3],"--json")) return 4;
   FILE *f=fopen(argv[2],"r"); char text[2000]={0}; fread(text,1,sizeof(text)-1,f); fclose(f);
@@ -417,6 +481,10 @@ int main(int argc,char **argv) {
   if(strstr(text,"997s")){ fputs("kero: fixture refusal\n",stderr); return 1; }
   if(strstr(text,"996s")){ puts("{\"bad\":NaN}"); return 0; }
   if(strstr(text,"995s")){ fputs("bwrap: fixture startup failure\n",stderr); return 1; }
+  if(strstr(text,"993s")){ fputs("{\"partial\":",stdout); fflush(stdout); raise(SIGKILL); }
+  if(strstr(text,"992s")){ struct rlimit cpu,mem; getrlimit(RLIMIT_CPU,&cpu); getrlimit(RLIMIT_AS,&mem);
+    printf("{\"cpu_soft\":%llu,\"cpu_hard\":%llu,\"address_space\":%llu}\n",
+      (unsigned long long)cpu.rlim_cur,(unsigned long long)cpu.rlim_max,(unsigned long long)mem.rlim_max); return 0; }
   if(strstr(text,"994s")){ printf("{\"network_denied\":%s,\"fork_denied\":%s,\"parent_signal_denied\":%s}\n",
      socket(AF_INET,SOCK_STREAM,0)<0?"true":"false",fork()<0?"true":"false",kill(getppid(),0)<0?"true":"false"); return 0; }
   char net[200]={0}; readlink("/proc/self/ns/net",net,sizeof(net)-1);
@@ -528,6 +596,24 @@ int main(int argc,char **argv) {
         result = await api.run_engine(cfg, "inspect v1")
         self.assertEqual(result["execution_status"], "completed")
         self.assertFalse(result["observations"][0]["host_passwd_visible"])
+
+    async def test_actual_child_limits_and_signal_termination(self):
+        for mode in ("worker", "vercel"):
+            cfg = self.cfg()
+            cfg.mode = mode
+            with self.subTest(mode=mode):
+                result = await api.run_engine(cfg, "wait 992s")
+                self.assertEqual(result["observations"], [{"cpu_soft": 12, "cpu_hard": 12,
+                                                          "address_space": 1024 ** 3}])
+        # Direct execution (also used inside the Vercel VM) preserves the
+        # native signal code; Bubblewrap is a separate supervising process.
+        cfg = self.cfg()
+        cfg.mode = "vercel"
+        with self.assertRaises(HTTPException) as error:
+            await api.run_engine(cfg, "wait 993s")
+        self.assertEqual(error.exception.status_code, 503)
+        self.assertEqual(error.exception.detail,
+            {"code": "engine_terminated", "signal": 9, "cause": "not_determined"})
 
     async def test_microvm_refusal_and_deadline_destroy_the_isolated_job(self):
         from vercel import sandbox

@@ -20,6 +20,8 @@ import types
 
 ROOT = "/vercel/sandbox/engine"
 LIMIT = 1_000_000
+CPU_SECONDS = 12
+WALL_SECONDS = 18
 
 
 def child():
@@ -35,7 +37,7 @@ def child():
     class PreloadLayout(ctypes.Structure):
         _fields_ = [("value", ctypes.c_uint64)]
     resource.setrlimit(resource.RLIMIT_AS, (1024 ** 3, 1024 ** 3))
-    resource.setrlimit(resource.RLIMIT_CPU, (8, 8))
+    resource.setrlimit(resource.RLIMIT_CPU, (CPU_SECONDS, CPU_SECONDS))
     resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
     resource.setrlimit(resource.RLIMIT_FSIZE, (1024 ** 2, 1024 ** 2))
     resource.setrlimit(resource.RLIMIT_NOFILE, (64, 64))
@@ -52,6 +54,14 @@ def child():
     os.execve("/lib/ld-linux-x86-64.so.2",
         ["/lib/ld-linux-x86-64.so.2", "--library-path", "/lib", "/kero", "run", "/input.lab", "--json"],
         {"LANG": "C.UTF-8", "KERO_LANG": "en", "RAYON_NUM_THREADS": "1"})
+
+
+def cpu_limit_reached(status, code, usage):
+    # SIGKILL alone cannot distinguish CPU exhaustion from another kill. Only
+    # the reaped child's trusted usage at the configured hard ceiling supports
+    # this classification. Preserve all other signal/failure distinctions.
+    return (status == "completed" and code == -signal.SIGKILL
+            and usage.ru_utime + usage.ru_stime >= CPU_SECONDS)
 
 
 async def supervise():
@@ -79,7 +89,7 @@ async def supervise():
     tasks = [asyncio.create_task(read(proc.stdout)), asyncio.create_task(read(proc.stderr)), asyncio.create_task(proc.wait())]
     status = "completed"
     try:
-        stdout, stderr, code = await asyncio.wait_for(asyncio.gather(*tasks), 10)
+        stdout, stderr, code = await asyncio.wait_for(asyncio.gather(*tasks), WALL_SECONDS)
     except (TimeoutError, OverflowError) as exc:
         status = "timeout" if isinstance(exc, TimeoutError) else "output_limit"
         stdout, stderr, code = b"", b"Execution limit reached", None
@@ -93,7 +103,11 @@ async def supervise():
                 task.cancel()
         await asyncio.gather(*tasks, return_exceptions=True)
         await proc.communicate()
-    return dict(binary_sha256=manifest["binary_sha256"], status=status, code=code, stdout=base64.b64encode(stdout).decode(),
+    usage = resource.getrusage(resource.RUSAGE_CHILDREN)
+    if cpu_limit_reached(status, code, usage):
+        status, stdout, stderr = "timeout", b"", b"CPU time limit reached"
+    return dict(resource_usage=dict(user_cpu_seconds=usage.ru_utime,
+                    system_cpu_seconds=usage.ru_stime, max_rss_kib=usage.ru_maxrss), binary_sha256=manifest["binary_sha256"], status=status, code=code, stdout=base64.b64encode(stdout).decode(),
                 stderr=base64.b64encode(stderr).decode(), elapsed=time.monotonic()-started)
 
 
