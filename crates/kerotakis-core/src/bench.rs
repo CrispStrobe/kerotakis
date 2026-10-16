@@ -5017,7 +5017,7 @@ impl Bench {
                 for portion in v
                     .contents
                     .iter()
-                    .filter(|portion| portion.phase == Phase::Solid)
+                    .filter(|portion| portion.is_physical_solid())
                 {
                     let data = species::lookup(&portion.species)
                         .ok_or_else(|| BenchError::UnknownSpecies(portion.species.clone()))?;

@@ -1553,9 +1553,22 @@ pub(crate) fn settle_vessel_under_gravity(
     };
     let dynamic_viscosity_pa_s = viscosity.value / 1000.0;
     let mut separations = Vec::new();
+    // Lots retain what was added even after dissolution, reaction or transfer.
+    // Only current same-species solid inventory can support particle motion.
+    let physical_solids: std::collections::HashSet<_> = vessel
+        .contents
+        .iter()
+        .filter(|portion| portion.is_physical_solid())
+        .map(|portion| portion.species.clone())
+        .collect();
 
     for lot in &mut vessel.lots {
-        if lot.phase != Phase::Solid || lot.suspended_fraction.unwrap_or(0.0) <= 0.0 {
+        if lot.phase != Phase::Solid
+            || !lot.moles.0.is_finite()
+            || lot.moles.0 <= 0.0
+            || !physical_solids.contains(&lot.species)
+            || lot.suspended_fraction.unwrap_or(0.0) <= 0.0
+        {
             continue;
         }
         let Some(data) = species::lookup(&lot.species) else {
