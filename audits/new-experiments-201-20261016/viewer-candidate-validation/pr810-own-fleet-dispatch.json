@@ -1,0 +1,13 @@
+{
+  "recorded_utc": "2026-10-16T09:22:43.213952+00:00",
+  "pr": 810,
+  "head": "3a61b1f1e656fb0e3aa1003932ce671d4e3b3790",
+  "run": 38880000860,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38880000860",
+  "workflow": "chemistry-audit.yml",
+  "dispatch_count": 1,
+  "reason": "Spikes-only paths do not trigger the chemistry workflow naturally. Explicitly dispatch the existing full own fleet to retain product-delivery acceptance outside protected CI.",
+  "acceptance": "pending; draft retained",
+  "duplicates": 0,
+  "local_native_or_browser_execution": false
+}
