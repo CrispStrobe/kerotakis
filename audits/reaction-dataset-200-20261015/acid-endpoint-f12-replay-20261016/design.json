@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "kind": "isolated validation-only unchanged original F12 replay; never merge",
+  "producer": {
+    "repository": "CrispStrobe/kerotakis",
+    "run_id": 38863384507,
+    "run_attempt": 1,
+    "source_head": "a03113a201f4bd838b476f6cc3cf2b563ed2482e",
+    "source_tree": "81a79c3cefa85e2a256ce556a6eec4f1492589a7",
+    "event": "pull_request",
+    "workflow_path": ".github/workflows/chemistry-audit.yml",
+    "workflow_sha256": "57252f0fb26ac203b5420e82a3e1355a20ec0ea6ac925d7078b95bcaf75e1304",
+    "job_name": "Build audited CLI once",
+    "artifact_prefix": "chemistry-audit-cli-"
+  },
+  "original": {
+    "path": "audits/reaction-dataset-200-20261015/stock-followups-20261015/design.json",
+    "retained_copy": "original-design.json",
+    "sha256": "0c8bcf514ecbab9049e91cca84de313e999240c13632918ba47b7f0f2a61c1fd",
+    "frozen_utc": "2026-10-15T19:52:21.419139+00:00",
+    "case": {
+      "id": "F12-permanganate-peroxide-acid",
+      "source_ranks": [
+        119
+      ],
+      "script": "add v1 water 100mL @ 25C\nadd v1 H2SO4 0.003mol\nadd v1 KMnO4 0.002mol\ninspect v1\nadd v1 H2O2 0.005mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "c05c88f1e1406d7c0bcade6e9f9c31aadb6d2af9a2c0ad5f8bbe896c72d27ab4",
+      "expected_before_execution": "Acidic permanganate/peroxide target consumes permanganate and yields MnII/O2 if supported; distinguish background peroxide decomposition."
+    }
+  },
+  "execution": {
+    "script": "input.lab",
+    "script_sha256": "c05c88f1e1406d7c0bcade6e9f9c31aadb6d2af9a2c0ad5f8bbe896c72d27ab4",
+    "command": [
+      "kero",
+      "run",
+      "input.lab",
+      "--json"
+    ],
+    "processes": 1,
+    "cpu_seconds": 60,
+    "address_space_bytes": 1073741824,
+    "wall_seconds": 90,
+    "workers": 1,
+    "minimal_child_env_keys": [
+      "PATH",
+      "HOME",
+      "TMPDIR",
+      "LANG",
+      "LC_ALL",
+      "KERO_WORKERS",
+      "RAYON_NUM_THREADS",
+      "OMP_NUM_THREADS"
+    ],
+    "retries": 0
+  },
+  "assessment": {
+    "physical_verdict": "not_assigned",
+    "expected_before_execution": "Acidic permanganate/peroxide target consumes permanganate and yields MnII/O2 if supported; distinguish background peroxide decomposition.",
+    "scope": "Unchanged source-informed physical-stock follow-up, not a new blind experiment. Collection/process status is not chemical agreement or empirical calibration. Original first failure remains unchanged."
+  },
+  "runner_sha256": "f0dd00c219a96f9d835a045dc935318893687d875e88f12d02649bb5d51cb46b",
+  "isolated_workflow_sha256": "09a9a37f9107a44695ac036db67f438a6cf0a72aa5c96208856dc4463a83167c"
+}
