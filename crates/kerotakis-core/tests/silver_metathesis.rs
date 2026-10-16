@@ -203,13 +203,38 @@ fn no_apology_for_covered_species() {
     add(&mut bench, &mut s, "ethanol", 5.0);
     add(&mut bench, &mut s, "AgNO3", 0.01);
     let events = add(&mut bench, &mut s, "NaCl", 0.1);
-    let apologies: Vec<_> = events
+    // Legacy amounts remain regression controls; withdrawn support must be
+    // disclosed for exactly these pairs, without unrelated model-gap claims.
+    let warned: std::collections::BTreeSet<_> = events
         .iter()
-        .filter(|e| matches!(e, Event::NotYetModeled { .. }))
+        .filter_map(|event| {
+            let Event::NotYetModeled {
+                vessel,
+                cause,
+                reason,
+                ..
+            } = event
+            else {
+                return None;
+            };
+            assert_eq!(*vessel, VesselId(0));
+            assert!(matches!(
+                cause,
+                kerotakis_core::ops::NotModelledCause::ModelBoundary
+            ));
+            let reason = reason.as_ref().expect("structured provenance boundary");
+            assert_eq!(reason.key, "not-modeled.withdrawn-organic-solubility");
+            assert_eq!(reason.text_slot("solvent"), Some("ethanol"));
+            Some(
+                reason
+                    .text_slot("solute")
+                    .expect("affected solute identity"),
+            )
+        })
         .collect();
-    assert!(
-        apologies.is_empty(),
-        "no apology expected for covered species: {apologies:?}"
+    assert_eq!(
+        warned,
+        std::collections::BTreeSet::from(["AgCl", "AgNO3", "NaCl"])
     );
 }
 
