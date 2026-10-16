@@ -1,0 +1,20 @@
+{
+  "id": 12050244858,
+  "node_id": "MDg6QXJ0aWZhY3QxMjA1MDI0NDg1OA==",
+  "name": "curriculum200-native-38909739140",
+  "size_in_bytes": 673933,
+  "url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/artifacts/12050244858",
+  "archive_download_url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/artifacts/12050244858/zip",
+  "expired": false,
+  "digest": "sha256:918fde8fa17b89b131a58712381d86ee8b336a0990d411789549b13c15d57f73",
+  "created_at": "2026-10-16T14:05:53Z",
+  "updated_at": "2026-10-16T14:05:53Z",
+  "expires_at": "2027-01-14T13:41:01Z",
+  "workflow_run": {
+    "id": 38909739140,
+    "repository_id": 1338831929,
+    "head_repository_id": 1338831929,
+    "head_branch": "validation/curriculum200-common-engine-20261016",
+    "head_sha": "6a568679113e76467e9907a97ea502a6999a799b"
+  }
+}
