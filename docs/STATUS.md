@@ -242,3 +242,14 @@ closure, selecting three unchanged scripts:155 catalog entries,153 within468,
 and six of101 batch2 selected. Original triage/raw evidence remains unchanged.
 The [all668 offline API audit](../audits/target468-20261016/api-admission-all668.json)
 admits603 after presentation/eyes adaptation;65 still hit command/duration policy.
+
+## REST experiment admission repair
+
+Draft [PR814](https://github.com/CrispStrobe/kerotakis/pull/814) at `c96c821a`
+closes the measured command/duration admission gap with per-command and aggregate
+loop budgets. [Candidate admission](../audits/target468-20261016/api-admission-candidate-all668.json)
+accepts all668 frozen scripts unchanged, compared with603 after adaptation in
+the previous policy. Sixteen API/Redis/packaging tests pass; the
+[review receipt](../audits/target468-20261016/rest-admission-candidate-review.json)
+retains scope and outstanding native/fleet/platform acceptance. Direct Vercel
+preview delivery is in progress; production and chemical pass counts are unchanged.

@@ -1,0 +1,35 @@
+{
+  "created_utc": "2026-10-16T14:01:19.681328+00:00",
+  "pr": 814,
+  "url": "https://github.com/CrispStrobe/kerotakis/pull/814",
+  "head": "c96c821a54c53b3167ede3a2b5cb6000253d5ae2",
+  "files": {
+    "services/rest_api/app.py": "875077a08b858aa6c8fb13097ff178b110a0ada1ff760dc14bb9323c633a4ecd",
+    "services/rest_api/test_api.py": "7dd8944725930cb407801e921d6ba7636b1a8c1d4398f4d4f40813e1f85b4eb6",
+    "services/rest_api/README.md": "dc9c89c4d323a67675815b9789d14de726604e627a875a8ef6b9b1fab7fad133"
+  },
+  "accepted_checks": {
+    "ApiTests_RedisTests_PackagingTests": {
+      "passed": 16,
+      "seconds": 0.832
+    },
+    "actual_candidate_admission_all668": {
+      "admitted": 668,
+      "refused": 0,
+      "script_adaptations": 0,
+      "engine_executions": 0
+    }
+  },
+  "security_source": {
+    "sandbox_py": "unchanged and SHA matches accepted c446 snapshot",
+    "vm_job_py": "unchanged and SHA matches accepted c446 snapshot",
+    "native_engine": "unchanged c446/670 bundle",
+    "authentication_quotas_and_child_resource_caps": "unchanged"
+  },
+  "remaining_acceptance": [
+    "Maintained native sandbox suite and normal CI/full own fleet",
+    "Source-bound Vercel preview execution with corrected exact snapshot environment binding",
+    "Normal exact-head integration and separate production activation"
+  ],
+  "physical_verdict": "not_assigned"
+}
