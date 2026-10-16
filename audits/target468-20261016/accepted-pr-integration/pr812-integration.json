@@ -1,0 +1,15 @@
+{
+  "recorded_utc": "2026-10-16T15:25:38.003937+00:00",
+  "pr": 812,
+  "reviewed_head": "d62037170c984620abfff2b089adf4130f1c4835",
+  "merge_commit": "1d24a43a8636e4cd1cf857e2834d74425b945b33",
+  "actual_parents": [
+    "1b03d8dd3ddc4cd2aedf42b8aa7b1ce6e32a81a9",
+    "d62037170c984620abfff2b089adf4130f1c4835"
+  ],
+  "actual_tree": "49737e8997e519e9934a476ab029029659416c66",
+  "reconstructed_merge_tree": "49737e8997e519e9934a476ab029029659416c66",
+  "tree_matches": true,
+  "acceptance_receipt": "pr812-accepted-checks.json",
+  "integration": "Normal exact-head auto-merge was enabled after acceptance; GitHub remainedCLEAN/open, so ordinary exact-head protected merge completed. Noadmin/force/bypass."
+}

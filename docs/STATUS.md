@@ -7,6 +7,14 @@ lanes can proceed in parallel where prerequisites permit. Frozen forecasts,
 first failures and versioned evidence remain unchanged; older checkpoints can
 contain obsolete pending notes. A process exit is not a scientific verdict.
 
+Latest delivery checkpoint: all668 first API requests are authenticated; the two
+infrastructure failures now complete in separately frozen changed-budget
+follow-ups with exact native JSON agreement. PR810/812/813 are integrated with
+verified merge trees. API PR814–817 remain gated by exact-head full acceptance;
+production remainsc446. PR809 needs its separately bound CLI replay. The working
+catalog remains155 (153 within fixed468);34 independently reviewed saved-case
+proposals await final selection. Details and next gates are below.
+
 ## Integrated behavior
 
 | Front | Accepted integration and remaining scope |
@@ -212,9 +220,9 @@ Partial answers keep no complete-answer receipt, and generic/ambiguous stacks
 refuse. This is characterization-only plumbing; the full hydroxide reaction
 proposal is still uncommitted with solver-scope and real-test blockers.
 
-PR812 now uses test-only corrected head `d6203717`; its first Clippy failure
+PR812 integrated as `1d24a43a` from test-only corrected head `d6203717`; its first Clippy failure
 and [unchanged-runtime correction](../audits/new-experiments-201-20261016/transport-effluent-followup/first-clippy-correction.json)
-are preserved. Hosted acceptance remains pending. PR810 CI and its separately dispatched full own fleet pass; it is integrated as40ffb253.
+are preserved. All applicable hosted acceptance passes. PR810 CI and its separately dispatched full own fleet pass; it is integrated as40ffb253.
 
 ## Fixed target: more than400 of468
 
@@ -323,5 +331,7 @@ acceptance; do not repeat the668-case corpus unchanged.
 The [accepted PR810/813 integration receipts](../audits/target468-20261016/accepted-pr-integration/pr810-integration.json)
 verify reviewed heads and reconstructed actual merge trees. PR813 has its
 [separate receipt](../audits/target468-20261016/accepted-pr-integration/pr813-integration.json).
-PR812's58 successful checks/one skip are accepted and normal exact-head auto-merge
-is enabled; refresh actual integration state rather than repeating its controls.
+PR812 integrated as `1d24a43a` after58 successful checks/one skip; its
+[actual merge receipt](../audits/target468-20261016/accepted-pr-integration/pr812-integration.json)
+verifies the reviewed head and reconstructed tree. No accepted product remains
+waiting for confirmation;809 retains its named CLI replay gate.
