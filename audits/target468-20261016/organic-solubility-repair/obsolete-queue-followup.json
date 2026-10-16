@@ -1,0 +1,30 @@
+{
+  "recorded_utc": "2026-10-16T16:21:46.396042+00:00",
+  "pr": 819,
+  "obsolete_run": 38929749360,
+  "obsolete_head": "173115fbbb02c48578dd315e3b243e84cf4a9a43",
+  "replacement_run": 38930003227,
+  "reviewed_head": "c4b85d2d88f03f7e9cc67c9367bda75051cb37e8",
+  "reason": "Required source-review correction superseded an uncompilable first head. Its build was already cancelled, no jobs were running, and three always-conditioned aggregate jobs remained queued, leaving replacement workflow pending.",
+  "actions": [
+    "Recorded exact old head, cancelled build and no active jobs before normal cancellation.",
+    "Normal cancellation accepted but queued aggregate jobs persisted.",
+    "After rechecking no active jobs, used documented force-cancel endpoint on obsolete run only."
+  ],
+  "official_endpoint_reference": "https://docs.github.com/en/rest/actions/workflow-runs#force-cancel-a-workflow-run",
+  "old_run_final_status": "completed",
+  "old_run_final_conclusion": "cancelled",
+  "replacement_status_after_action": "queued",
+  "valid_acceptance_runs_cancelled": 0,
+  "new_experiment_executions": 0,
+  "changed_product_head": false,
+  "raw_receipt_sha256": {
+    "organic-obsolete-run-before.json": "0bfd716d66a1c9c05cf41aa58793420d0014573296fabb90a15b3ef05e16e2fa",
+    "organic-obsolete-jobs-before.json": "4b888b8afeea14a67e923a4d0699f360d8b8c304cc98df0d3ff29c52ca833016",
+    "organic-obsolete-jobs-after-normal-cancel.json": "4b888b8afeea14a67e923a4d0699f360d8b8c304cc98df0d3ff29c52ca833016",
+    "organic-obsolete-force-cancel-response.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "organic-obsolete-run-final.json": "6df62eb2f2c56df4a6b9f5fd6b0a11494aa8d6755b5e989b1e203d87ab4d6e3b",
+    "organic-corrected-run-after-unblock.json": "3500c8e7f218a1a76d28aea120a0859483b26b1f14350d287041ca7a2314cfbe"
+  },
+  "remaining_gate": "Exact reviewed-head CI, both native platforms and full applicable own fleet must finish successfully before integration."
+}
