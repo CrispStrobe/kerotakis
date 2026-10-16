@@ -1,5 +1,8 @@
 # Kerotakis current state — 2026-10-16
 
+Read the [portable reaction-repair checkpoint](reaction-repair-checkpoint-20261016.md)
+for the integrated prerequisites and concrete remaining lanes.
+
 This is the current entry point. Older dated checkpoints retain historical
 outcomes and may describe PRs that have since merged. No deployment or scientific
 calibration claim follows from a merge or green engineering tests.
@@ -404,3 +407,14 @@ now contains 149 source-bound demonstrations: two separately verified complete-s
 protocols were added for supplied ranks 7 and 14, with complete CLI commands,
 expectations, REST evidence and explicit original-protocol/deployment limitations.
 This adds no blind experiments and does not rewrite the original 200 outcomes.
+
+
+Selected documentation [PR804](https://github.com/CrispStrobe/kerotakis/pull/804)
+publishes 59 documentation/evidence files from actual main `92e14021`, with normal
+protected exact-head auto-merge enabled. Scope, actual-secret/public-path scans,
+JSON integrity and repository-object Markdown link checks passed. It changes no
+runtime, workflow, harness, registry or original forecast. Required documentation
+CI remains pending; the broad audit and isolated validation branches must never
+merge. Endpoint source review additionally requires unsupported partial answers
+to retain ordinary behavior, post-reaction acidic-domain limits and full shared
+rollback when the initial answer changes state before a later readback fails.

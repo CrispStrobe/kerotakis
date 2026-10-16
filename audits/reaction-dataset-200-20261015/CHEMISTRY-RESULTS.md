@@ -67,9 +67,9 @@ probe in place or count a warning as implemented chemistry.
    discloses uncompensated analytical-component charge. Preserve complete-stock
    predictions, inventory, typed interfaces and counterion recovery. Seventeen focused core/aqueous groups and full native/own-fleet acceptance passed; PR796 integrated as `21d2cca8`. A future physical
    ion-input convention needs separate versioning, water and energy accounting.
-2. **Select silver–ammonia capability.** The source candidate is
-   [PR798](https://github.com/CrispStrobe/kerotakis/pull/798), with four focused
-   groups accepted on its earlier source and fresh combined-source validation in progress. Its named limitation preserves the distinction
+2. **Select silver–ammonia capability — routing integrated.**
+   [PR798](https://github.com/CrispStrobe/kerotakis/pull/798) integrated as `5b7cc5ee`
+   after all 58 applicable checks passed (one skip). Its named limitation preserves the distinction
    between equilibrium speciation and canonical free-ligand availability. Inspect
    `crates/kerotakis-phreeqc/src/aqueous.rs` database selection. The default dataset
    lacks silver ammines; vendored `minteq.v4.dat` already contains sourced
@@ -134,19 +134,17 @@ neutralisation remains unimplemented, and no empirical heat calibration or
 production-deployment claim follows. Both scripts, frozen forecasts, executable
 binding and raw streams are saved separately from the original experiment.
 
-The acidified permanganate/peroxide endpoint remains gated on PR799. Its three
-focused native continuation groups now passed, but full acceptance exposed one
-remaining core near-vacuum fixture and an undeclared phrase composer. Repair
-`a7b9016a` supplies inert gas for that no-boiling fixture and registers actual
-German/French translation coverage. Strict assertions and the independent
-vacuum-boiling control remain. Fresh hosted validation is pending.
+The shared continuation prerequisite PR799 integrated as `79f9e5f8` after
+all 58 applicable checks passed (one skip), including native, actual browser,
+Wasm, bridge and complete own fleets. Initial near-vacuum fixture and translation
+failures remain preserved. The bounded rank-119 endpoint is now in source
+implementation and independent review; no endpoint runtime pass is claimed.
 
-PR801's `c0dfe45f` macOS native run passed both strict finite-gas controls, the
-previously failing filtration assertion, the full Rust suite and the unchanged
-500-prompt gate with zero unmet requirements, runtime failures or baseline
-drift. The remaining platform/fleet checks still precede integration. PR798's
-combined-source acceptance is also pending; canonical free/complex-bound
-ammonia ownership remains a separate gap after the demonstrated speciation fix.
+PR801 integrated as `6fffb455` after both strict finite-gas controls, the old
+filtration assertion, full native suites and unchanged curiosity gate passed on
+both platforms, alongside the complete applicable fleets. PR798 routing is also
+integrated; canonical free/complex-bound ammonia ownership remains a separate
+gap after the demonstrated speciation fix. No production deployment follows.
 
 The [first fifteen distinct identity refusals](identity-first15-review-20261016.json)
 now have an exact-main registry/parser review and per-token acceptance tasks.
