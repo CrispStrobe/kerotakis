@@ -227,7 +227,7 @@ Current source and acceptance (older failures below remain historical evidence):
 | [798](https://github.com/CrispStrobe/kerotakis/pull/798), merged `5b7cc5ee` | All 58 applicable checks succeeded, one skip; silver ammine equilibrium routing integrated with verified parents/tree. | Canonical free/complex-bound ammonia ownership and deployment remain separate gaps. |
 | [799](https://github.com/CrispStrobe/kerotakis/pull/799), merged `79f9e5f8` | All 58 applicable checks succeeded, one skip; native, actual browser, Wasm, bridge and full own fleets passed. Shared continuation and thermal ownership integrated with verified parents/tree. | Bounded acidic endpoint implementation and its separate acceptance; no new endpoint follows from this prerequisite. |
 | [801](https://github.com/CrispStrobe/kerotakis/pull/801), merged `6fffb455` | All 58 applicable checks succeeded, one skip; strict finite-gas/filtration controls, full suites and fleets passed. Exact accepted patch retained on silver main; actual parents/tree verified. | Deployment and broader unsupported gas/chemistry domains remain separate. |
-| [803](https://github.com/CrispStrobe/kerotakis/pull/803), `7d229066` | Seven core and two native solid-admission controls, both native suites and actual-browser CI passed. Separate rebuilt REST preview passed all four declared controls. | Full applicable own fleets before protected integration; historical grain-size allocation and untracked precipitate metadata remain separate. |
+| [803](https://github.com/CrispStrobe/kerotakis/pull/803), merged `92e14021` | All 58 applicable checks succeeded, one skip; core/native/browser and full fleets passed. Separate rebuilt REST preview passed all four declared controls. Actual parents/tree verified. | Historical grain-size allocation, untracked precipitate metadata and production deployment remain separate. |
 
 The unchanged original F11 AgCl/ammonia stock protocol has a separately frozen
 [CLI replay and assessment](../audits/reaction-dataset-200-20261015/silver-followup-replay-20261016/assessment.json)
@@ -298,9 +298,10 @@ verifies downloaded binary/library/source/snapshot bindings and qualifies the
 producer-reported lock hash, whose bytes are absent from that artifact. Source
 integration, gateway/browser delivery and production acceptance remain separate;
 production is unchanged. The standalone
-[working-script JSON](../audits/working-experiments-20261016.json) contains 147
-previously demonstrated experiments, including 13 original supplied-200 cases
-and nine complete-stock follow-ups; it is not a fresh current-engine batch.
+[working-script JSON](../audits/working-experiments-20261016.json) contains 149
+previously demonstrated experiments, including 13 original supplied-200 cases,
+nine original complete-stock follow-ups and two repaired complete-stock protocols;
+it is not a fresh current-engine batch.
 
 
 Rank 7's [conducting-stock follow-up](../audits/reaction-dataset-200-20261015/case007-repair-20261016/assessment.json)
@@ -392,3 +393,14 @@ PR795 is refreshed as `74a030ec` onto main `79f9e5f8`, resolving only a STATUS
 conflict. Fresh CI/fleets and serverless preview run 38862025694 are pending.
 The client bytes are unchanged; these UI checks still use retained production
 engine `d791d306`, not the new preview engine. Production remains unchanged.
+
+
+PR803 integrated as `92e14021` after all 58 applicable checks succeeded and one
+publication check skipped. The [actual merge receipt](../audits/reaction-dataset-200-20261015/pr803-integration.json)
+verifies the reviewed patch, parents and tree on accepted shared-continuation
+main. Historical additions no longer authorize settling absent solid inventory.
+The maintained [working-script catalog](../audits/working-experiments-20261016.json)
+now contains 149 source-bound demonstrations: two separately verified complete-stock
+protocols were added for supplied ranks 7 and 14, with complete CLI commands,
+expectations, REST evidence and explicit original-protocol/deployment limitations.
+This adds no blind experiments and does not rewrite the original 200 outcomes.

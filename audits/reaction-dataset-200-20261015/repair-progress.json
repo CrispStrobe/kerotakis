@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-10-16T06:15:11.554617+00:00",
+  "updated_utc": "2026-10-16T06:39:53.312565+00:00",
   "kind": "maintained per-record repair queue; no original verdicts rewritten",
   "original_screening": "chemistry-screening.json",
   "records": [
@@ -172,12 +172,14 @@
       "original_script": "design/scripts/014-daniell_cell.lab",
       "original_script_sha256": "c6041a540026ef409cf64cbe234baa8d9a2d8268b24c21ecc969ccff25fd2fd1",
       "original_expected_observation": "Zinc dissolves and copper is deposited.",
-      "status": "complete_stock_displacement_verified; repaired_settling_passes_real_REST_controls; product_fleet_pending",
-      "next_action": "Finish PR803 applicable native/browser/full-fleet acceptance and protected exact-head integration. The isolated REST build already passed absentCuSO4/NaCl and realresidualAgCl controls; preserve source binding and original bogus event. Grain-size lot allocation remains separate.",
+      "status": "complete_stock_displacement_verified; stale_solid_settling_repair_integrated",
+      "next_action": "Retain exact source-bound complete-stock displacement and four REST acceptance controls; PR803 integrated as92e14021 after all58 applicable checks passed. Keep broader historical grain-size allocation and new-precipitate metadata separate.",
       "evidence": "case014-repair-20261016/assessment.json",
       "repair_pr": "https://github.com/CrispStrobe/kerotakis/pull/803",
       "repair_head": "7d229066dc0039c62939dfd0dd04004e94b932be",
-      "rest_acceptance": "solid-settling-rest-acceptance-20261016/completion.json"
+      "rest_acceptance": "solid-settling-rest-acceptance-20261016/completion.json",
+      "integration_evidence": "pr803-integration.json",
+      "repaired_rest_evidence": "solid-settling-rest-acceptance-20261016/results.json"
     },
     {
       "rank": 15,

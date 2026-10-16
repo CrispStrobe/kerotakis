@@ -14,7 +14,7 @@
     "The recent silver/ammonia replay is excluded because canonical free/complex-bound ligand ownership remains a material gap.",
     "Original experiment designs, forecasts and first results remain unchanged."
   ],
-  "count": 147,
+  "count": 149,
   "counts_by_group": {
     "independent-first50": 38,
     "independent-second50": 25,
@@ -22,7 +22,8 @@
     "fresh50-original": 7,
     "fresh50-normalized": 28,
     "supplied200": 13,
-    "complete-reagent-followups": 9
+    "complete-reagent-followups": 9,
+    "supplied200-repaired-protocols": 2
   },
   "experiments": [
     {
@@ -2849,6 +2850,60 @@
         "assessment": "audits/reaction-dataset-200-20261015/stock-followups-20261015/assessment.json",
         "tested_script": "audits/reaction-dataset-200-20261015/stock-followups-20261015/design.json"
       }
+    },
+    {
+      "id": "supplied200-repaired-protocols:014-zinc-copper",
+      "group": "supplied200-repaired-protocols",
+      "title": "Complete-stock zinc/copper displacement",
+      "script": "add v1 water 100mL @ 25C\nadd v1 CuSO4 0.001mol\ninspect v1\nadd v1 Zn 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "ec4e8d639ef8b85b06b2545cc0582c7cbca1236289c4429f41529ec3d6849544",
+      "expected_result": "Direct-contact copper deposition and aqueous zinc remain about1mmol each after the10s wait. SolidCuSO4 is absent before the wait and must not produce a gravity_settled separation. The original bogus event remains in the earlier replay.",
+      "observed_result": "1 mmol solid copper and aqueous zinc remain; absent CuSO4 produces no false settling after waiting.",
+      "validated_on": {
+        "source_head": "4abb4d7982b1c661473a53f08732a49103878595",
+        "binary_sha256": "2d83c77b18684aaffddde61f2ec8339f5d33d89c7d628bc1297b7babc4b56d25",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "limitations": [
+        "Separate complete-stock protocol; does not rewrite the original supplied experiment or its first outcome.",
+        "Source-bound rebuilt REST observation; production remains on its older engine.",
+        "Cargo.lock identity is producer-reported; its bytes were absent from the downloaded artifact.",
+        "No empirical yield, heat or settling calibration."
+      ],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/solid-settling-rest-acceptance-20261016/results.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/solid-settling-rest-acceptance-20261016/design.json",
+        "engine_binding": "audits/reaction-dataset-200-20261015/solid-settling-rest-acceptance-20261016/execution-binding.json",
+        "response": "audits/reaction-dataset-200-20261015/solid-settling-rest-acceptance-20261016/014-zinc-copper.response.json"
+      }
+    },
+    {
+      "id": "supplied200-repaired-protocols:007-water-electrolysis",
+      "group": "supplied200-repaired-protocols",
+      "title": "Conducting-stock water electrolysis",
+      "script": "add v1 water 100mL @ 25C\nadd v1 H2SO4 0.001mol\ninspect v1\nelectrolyse v1 0.1A 100s\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "e7593076038d1cd491bde9313e4599cea55102afefb7313baf0f068e6afb1e40",
+      "expected_result": "The supporting-acid10C electrolysis still reports positive exportedH2/O2in2:1molar ratio, approximate amounts5.18e-5/2.59e-5mol; waterconsumption matchesH2 and1mmolsulfate remains.",
+      "observed_result": "Positive H2/O2 export in 2:1 molar ratio; water consumption matches hydrogen, with 1 mmol sulfate retained.",
+      "validated_on": {
+        "source_head": "4abb4d7982b1c661473a53f08732a49103878595",
+        "binary_sha256": "2d83c77b18684aaffddde61f2ec8339f5d33d89c7d628bc1297b7babc4b56d25",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "limitations": [
+        "Separate complete-stock protocol; does not rewrite the original supplied experiment or its first outcome.",
+        "Source-bound rebuilt REST observation; production remains on its older engine.",
+        "Cargo.lock identity is producer-reported; its bytes were absent from the downloaded artifact.",
+        "No empirical yield, heat or settling calibration.",
+        "Supporting sulfuric acid is explicit; the original pure-water electrode domain remains unsupported."
+      ],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/solid-settling-rest-acceptance-20261016/results.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/solid-settling-rest-acceptance-20261016/design.json",
+        "engine_binding": "audits/reaction-dataset-200-20261015/solid-settling-rest-acceptance-20261016/execution-binding.json",
+        "response": "audits/reaction-dataset-200-20261015/solid-settling-rest-acceptance-20261016/007-water-electrolysis.response.json"
+      }
     }
-  ]
+  ],
+  "updated_utc": "2026-10-16T06:39:53.303119+00:00"
 }

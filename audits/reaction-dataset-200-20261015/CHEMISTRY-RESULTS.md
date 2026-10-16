@@ -192,3 +192,13 @@ Wasm, bridge and full own fleets passed; [actual parents/tree and accepted patch
 are verified. This closes the shared continuation prerequisite, not rank 119.
 The bounded acidic endpoint is now in source implementation with separate
 positive/negative, material, charge, gas, rollback and thermal acceptance.
+
+
+PR803 integrated as `92e14021` after all 58 applicable checks succeeded (one
+publication skip), including the full own fleets. [Actual integration evidence](pr803-integration.json)
+verifies parents/tree and the accepted patch on shared-continuation main. The
+four separately frozen rebuilt-engine REST controls remain source-bound and
+passed. Rank 14's complete-stock target and stale-solid settling repair are now
+verified; broader grain provenance and new-precipitate metadata remain separate.
+The working-script catalog adds the two demonstrated complete-stock protocols
+for ranks 7/14 without changing their original procedures or first outcomes.
