@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "review": "PR805 acceptance-helper operation-boundary correction",
+  "base_head": "3f84e59f38098c4e4e995c885659544c54eb47c2",
+  "reviewed_dirty_file": "crates/kerotakis-phreeqc/src/acid_endpoint_acceptance.rs",
+  "reviewed_sha256": "0344c9e58f06d80be0897abee6f61845706d38eed18eef2180847cca743c4a62",
+  "changed_paths": [],
+  "accepted_source_only": true,
+  "checks": {
+    "original_molecular_fixture_doses_unchanged": true,
+    "ordinary_preparation_is_distinct_prior_operation": true,
+    "tested_step_start_captures_prepared_inventory": true,
+    "actual_wrapper_acquires_fresh_current_receipt": true,
+    "old_preparation_receipt_not_reused": true,
+    "original_thermal_tolerance_unchanged": true,
+    "all_ten_checks_preserved_and_named": true,
+    "missing_prewarm_mirrors_operation_boundary": true,
+    "missing_transformed_question_not_warmed": true,
+    "chemical_runtime_unchanged": true
+  },
+  "runtime_acceptance": false,
+  "execution_performed": false,
+  "scope": "No weakening of the relative fresh-answer thermal claim found; this is a new correctly delimited harness operation, not a production snapshot change. Original raw harness failure and original F12 outcomes remain immutable.",
+  "corrected_head": "3f84e59f38098c4e4e995c885659544c54eb47c2",
+  "corrected_tree": "06f7cb96a9dc46edfc6293f101cc18eaa4342094",
+  "worktree_clean": true,
+  "unchanged_production_blobs": {
+    "crates/kerotakis-core/src/acid_endpoint.rs": "a911a7561ed57bc77380b4156a37931c99d18369",
+    "crates/kerotakis-core/src/displacement.rs": "e72262a5a7bb6863aca63756a44479d9f498ac6f",
+    "crates/kerotakis-core/src/aqueous_continuation.rs": "c7f1d651ad89cbcd88a80f6dcc826af2bd3808d5",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "a7f9f5e0c632fdcfffcf2e8a71146b87d5abd4b2",
+    "crates/kerotakis-wasm/src/lib.rs": "e1ad3cea56b9a57a4a8e502bacdb73dd3a0bf302"
+  },
+  "pending_exact_source_runs": {
+    "ci": 38865460559,
+    "fleet": 38865460634
+  },
+  "prior_source_head": "a03113a201f4bd838b476f6cc3cf2b563ed2482e",
+  "commit_diff_from_prior_head": [
+    "crates/kerotakis-core/ACID-ENDPOINT-ACCEPTANCE-REV2.md",
+    "crates/kerotakis-phreeqc/src/acid_endpoint_acceptance.rs"
+  ]
+}

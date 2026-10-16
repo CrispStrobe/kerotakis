@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "reviewed_utc": "2026-10-16T07:10:27.136132+00:00",
+  "kind": "retrospective physical-observation assessment of unchanged original F12; no new blind forecast",
+  "source_head": "a03113a201f4bd838b476f6cc3cf2b563ed2482e",
+  "tested_source": "8e92f37cc0e460e8deeb180cd87984c66f4e63dc",
+  "binary_sha256": "6b2e490a1164b6c75f1b4c6266e8bd6024c5b5383646952a02ee0a83ec71f2ac",
+  "actual_generated_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+  "replay_workflow": "https://github.com/CrispStrobe/kerotakis/actions/runs/38864486610",
+  "replay_artifact": 12030895964,
+  "replay_archive_sha256": "a443e13f7eeca3a58460bf748a82d406cbfc5b799270ade579364d882f6b6756",
+  "checks": {
+    "one_exact_target_reaction": true,
+    "permanganate_consumed": true,
+    "peroxide_consumed": true,
+    "mn_ii_2_mmol": true,
+    "oxygen_export_5_mmol": true,
+    "water_increment_8_mmol": true,
+    "potassium_retained": true,
+    "sulfate_retained": true,
+    "stoichiometric_material_charge_closure": true,
+    "retained_inventory_stable_after_wait": true,
+    "explicit_unknown_heat": true
+  },
+  "principal_forecast_supported_on_this_source": true,
+  "before_ph": 1.45917985372,
+  "after_ph": 6.547428063697,
+  "after_wait_ph": 6.547423679533,
+  "oxygen_export_mol": 0.005,
+  "retained_mn_ii_mol": 0.002,
+  "water_increment_mol": 0.007999999999999119,
+  "element_residual_mol": {
+    "K": 0.0,
+    "Mn": 0.0,
+    "O": -8.881784197001252e-16,
+    "S": -4.336808689942018e-19,
+    "H": -1.7763568394002505e-15
+  },
+  "charge_residual_mol": 2.6020852139652106e-18,
+  "limits": [
+    "No empirical yield, rate, heat or spectral calibration; temperature is explicitly incomplete.",
+    "Final solution reports supersaturated manganese-oxide phases that are absent from or not offered by the active phase model. This is a remaining precipitation/product-domain limit.",
+    "Candidate a03113a2 remains unmerged; its separate prewarm acceptance probe failed by including a repeated ordinary preparation solve in a temperature comparison. Harness correction and fresh full CI/fleets/native/Wasm/browser acceptance remain required.",
+    "No production/API endpoint119 or current-main acceptance is established by this source-bound CLI replay. Original failing F12/200 outcomes remain unchanged."
+  ],
+  "catalog_selection": "Not added to the working catalog while product acceptance and declared final phase-domain limits remain unresolved.",
+  "assessment_numeric_bound": "Retrospective residual diagnostics use1e-12mol absolute; no product tolerance or original physical forecast is changed."
+}

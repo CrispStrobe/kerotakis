@@ -1,0 +1,7 @@
+{
+  "schema": 1,
+  "stage": "raw process collection complete",
+  "process_sha256": "9211d5b6e46b6bf3bd6248a416a8cadb9605f2dd651c0c275c95326eef001b4a",
+  "physical_verdict": "not_assigned",
+  "workflow_success_means": "zero process exit and intact collection; no chemical verdict"
+}

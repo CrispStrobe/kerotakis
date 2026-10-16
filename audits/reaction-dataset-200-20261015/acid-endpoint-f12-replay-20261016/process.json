@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "case_id": "F12-permanganate-peroxide-acid",
+  "process_started": true,
+  "started_utc": "2026-10-16T07:04:13.655411+00:00",
+  "finished_utc": "2026-10-16T07:04:13.771232+00:00",
+  "command": [
+    "kero",
+    "run",
+    "input.lab",
+    "--json"
+  ],
+  "exit_code": 0,
+  "timeout": false,
+  "wall_seconds": 0.1157223209999998,
+  "stdout_sha256": "5223f58d62f4b44179a2a3d56e88b20bc5af35ec99e3fc7f0ee6e22f30c53042",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "input_sha256": "c05c88f1e1406d7c0bcade6e9f9c31aadb6d2af9a2c0ad5f8bbe896c72d27ab4",
+  "binding_sha256": "eca5d0f8ef031bd381d1a91be34d66fe265acb44a30400667c3b937d267ad9cb",
+  "limits": {
+    "script": "input.lab",
+    "script_sha256": "c05c88f1e1406d7c0bcade6e9f9c31aadb6d2af9a2c0ad5f8bbe896c72d27ab4",
+    "command": [
+      "kero",
+      "run",
+      "input.lab",
+      "--json"
+    ],
+    "processes": 1,
+    "cpu_seconds": 60,
+    "address_space_bytes": 1073741824,
+    "wall_seconds": 90,
+    "workers": 1,
+    "minimal_child_env_keys": [
+      "PATH",
+      "HOME",
+      "TMPDIR",
+      "LANG",
+      "LC_ALL",
+      "KERO_WORKERS",
+      "RAYON_NUM_THREADS",
+      "OMP_NUM_THREADS"
+    ],
+    "retries": 0
+  },
+  "execution_status": "exited",
+  "expected_before_execution": "Acidic permanganate/peroxide target consumes permanganate and yields MnII/O2 if supported; distinguish background peroxide decomposition.",
+  "physical_verdict": "not_assigned",
+  "original_first_outcome": "preserved unchanged"
+}

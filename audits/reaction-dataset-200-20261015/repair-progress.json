@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-10-16T06:52:50.212724+00:00",
+  "updated_utc": "2026-10-16T07:12:46.336681+00:00",
   "kind": "maintained per-record repair queue; no original verdicts rewritten",
   "original_screening": "chemistry-screening.json",
   "records": [
@@ -1388,13 +1388,15 @@
       "original_script": "design/scripts/119-permanganate_peroxide.lab",
       "original_script_sha256": "1f8bd42b5ce0044dfdfd0803c1bd0cad3a5199e8eeb44cf426fa6d58ceec32d7",
       "original_expected_observation": "Oxygen evolves and permanganate is consumed.",
-      "status": "bounded_endpoint_source_implemented_and_reviewed; exact_head_runtime_acceptance_pending",
-      "next_action": "PR799 prerequisite integrated79f9e5f8; draftPR805 a03113a2 includes actualmain92e14021 and source-reviewed endpoint. Await native/cache-only/NodeWasm/livehook/Chromium/full own-fleet runs, then source/binary/actual-lock-bound unchangedF12 replay before normal protected exact-head integration. Preserve incomplete-input reporting, shared rollback and acid-depleted competing-product boundary.",
+      "status": "principal_complete_stock_forecast_verified_on_candidate; product_acceptance_and_final_phase_limits_pending",
+      "next_action": "UnchangedF12 on a03113a2 yields2mmolMnII/5mmolO2 withreactantsconsumed andmaterial/chargeclosure. Corrected3f84e59f changesonlyacceptancehelper/newrev2note; chemicalruntimeblobsunchanged. Complete freshnative/Wasm/browser/fullfleets, then normal exact-head protected integration. Keep finalMnoxidephase exclusions andunknownheat explicit; do not relabel asfullchemistrycoverage.",
       "separate_stock_followups": [
         "F12-permanganate-peroxide-acid"
       ],
       "source_review": "pr805-source-review.json",
-      "candidate_pr": "https://github.com/CrispStrobe/kerotakis/pull/805"
+      "candidate_pr": "https://github.com/CrispStrobe/kerotakis/pull/805",
+      "cli_replay": "acid-endpoint-f12-replay-20261016/assessment.json",
+      "harness_correction": "pr805-harness-correction-review.json"
     },
     {
       "rank": 120,

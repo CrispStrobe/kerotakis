@@ -444,3 +444,24 @@ separate audited CLI build succeeded; unchanged F12 collection is dispatched in
 [run 38864486610](https://github.com/CrispStrobe/kerotakis/actions/runs/38864486610)
 from an isolated validation-only ref that must never merge. Its chemical result
 and remaining PR805 runtime acceptance are still pending.
+
+
+The unchanged [F12 stock replay](../audits/reaction-dataset-200-20261015/acid-endpoint-f12-replay-20261016/assessment.json)
+now demonstrates the principal target on candidate `a03113a2`: 2 mmol
+permanganate and 5 mmol peroxide are consumed, producing 2 mmol Mn(II),
+5 mmol exported oxygen and 8 mmol water. K/sulfate remain and inventory survives
+the ten-second wait. Element/charge residuals are recorded. Supersaturated
+manganese-oxide phases remain excluded and reaction heat is unknown; full
+coverage is not claimed and the working catalog stays at 149. Actual generated
+[lock bytes](../audits/reaction-dataset-200-20261015/generated-lock-recovery-20261016.json)
+are now independently available, matching earlier producer-reported preview
+hashes without rewriting their original missing-byte qualifications.
+
+PR805's first prewarm failure is preserved: ordinary setup changed
+298.0726066 K to 297.9952131 K before the reaction. Corrected `3f84e59f` finishes
+preparation before capturing the tested operator snapshot; all checks/tolerances
+remain. The [review](../audits/reaction-dataset-200-20261015/pr805-harness-correction-review.json)
+verifies only the acceptance helper/revision note changed, with chemical/thermal
+policy blobs unchanged. Fresh CI 38865460559 and fleets 38865460634 are pending.
+The old replay is not relabelled as execution of the new head, main or production.
+No local engine process ran.

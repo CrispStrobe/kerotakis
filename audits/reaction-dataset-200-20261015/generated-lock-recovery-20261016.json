@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-10-16T07:12:46.331711+00:00",
+  "recovered_bytes": "audits/reaction-dataset-200-20261015/acid-endpoint-f12-replay-20261016/producer-Cargo.lock",
+  "sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+  "source_producer_run": 38863384507,
+  "source_cli_artifact_id": 12030014848,
+  "source_cli_archive_sha256": "5cf298f05fbc226c3c4bf1b8bfc24a1f230cc6b5e17b544878af28f5402708b6",
+  "raw_lock_bytes_authenticated": true,
+  "matching_previous_preview_reports": [
+    "api74-preview-20261016/binding.json",
+    "solid-settling-rest-acceptance-20261016/execution-binding.json"
+  ],
+  "qualification": "Earlier preview archives did not contain raw Cargo.lock bytes. Their producer-reported hash now matches independently authenticated bytes from the separate CLI producer. Earlier frozen receipts remain unchanged; this does not claim extraction of the preview build lock from those archives."
+}
