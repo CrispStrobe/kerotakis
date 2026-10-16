@@ -1,0 +1,2854 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-16T04:38:37.949395+00:00",
+  "selection": "Demonstrated substantive expectation agreement from independently assessed experiment suites, plus principal-observation-aligned original supplied-200 cases and complete-reagent follow-ups. Successful exit alone does not qualify.",
+  "run_instructions": {
+    "command": "kero run experiment.lab --json",
+    "procedure": "Write one experiment script verbatim to experiment.lab and run it in its own fresh CLI process. Do not concatenate scripts or reuse a populated interactive bench.",
+    "script_field": "script"
+  },
+  "scope": [
+    "These are saved, source-bound demonstrations, not a fresh run against current main or the deployed API. Each entry retains its tested commands and engine binding or evidence reference.",
+    "Qualitative principal-response agreement is not empirical calibration or a claim of complete chemical coverage. Read each observed_result and limitations.",
+    "Known physical failures, partial/inconclusive/unsupported assessments, identity refusals, adapted-but-unselected fixtures and expected command-rejection controls are excluded.",
+    "The recent silver/ammonia replay is excluded because canonical free/complex-bound ligand ownership remains a material gap.",
+    "Original experiment designs, forecasts and first results remain unchanged."
+  ],
+  "count": 147,
+  "counts_by_group": {
+    "independent-first50": 38,
+    "independent-second50": 25,
+    "independent-third50": 27,
+    "fresh50-original": 7,
+    "fresh50-normalized": 28,
+    "supplied200": 13,
+    "complete-reagent-followups": 9
+  },
+  "experiments": [
+    {
+      "id": "independent-first50:01",
+      "group": "independent-first50",
+      "title": "A measured joule becomes warm water",
+      "script": "# A measured joule becomes warm water\n# Expectation: 10 kJ into 100 g water should raise temperature roughly 24 K, without mass loss below boiling.\nregister lv3\nadd v1 water 100g\nheat v1 10kJ\ninspect v1\nmeasure v1 thermometer\nmeasure v1 balance\n",
+      "script_sha256": "cc40a1b5f35cf942e0199f20a17a152a1d7380d0fbe0da63b81fc4dc1f5ff19a",
+      "expected_result": "10 kJ into 100 g water should raise temperature roughly 24 K, without mass loss below boiling.",
+      "observed_result": "48.9117 C and 100.0000 g after the pulse; temperature rose 23.9117 K.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/01.lab"
+      }
+    },
+    {
+      "id": "independent-first50:02",
+      "group": "independent-first50",
+      "title": "Undo a thermal pulse",
+      "script": "# Undo a thermal pulse\n# Expectation: Heating then removing the same 10 kJ should return 100 g water close to its initial temperature and mass.\nregister lv3\nadd v1 water 100g\nheat v1 10kJ\ncool v1 10kJ\ninspect v1\n",
+      "script_sha256": "7f8fc43b53fb7448819a72678e20dddd0115a2d67dccad41424f4f8646db1a92",
+      "expected_result": "Heating then removing the same 10 kJ should return 100 g water close to its initial temperature and mass.",
+      "observed_result": "Returned to 25.0000 C with the original water inventory.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/02.lab"
+      }
+    },
+    {
+      "id": "independent-first50:03",
+      "group": "independent-first50",
+      "title": "Mix unequal hot and cold portions",
+      "script": "# Mix unequal hot and cold portions\n# Expectation: 75 g at 20 C plus 25 g at 80 C should equilibrate near 35 C; mass should be 100 g.\nregister lv3\nadd v1 water 75g @ 20C\nadd v1 water 25g @ 80C\ninspect v1\n",
+      "script_sha256": "00b7981f9d56eaebeeaf7afec0d9f863a51f7801bf26b82adf5bb6229361b1ca",
+      "expected_result": "75 g at 20 C plus 25 g at 80 C should equilibrate near 35 C; mass should be 100 g.",
+      "observed_result": "35.0000 C and 100 g, matching the weighted mean.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/03.lab"
+      }
+    },
+    {
+      "id": "independent-first50:04",
+      "group": "independent-first50",
+      "title": "A double dose is not a double temperature rise",
+      "script": "# A double dose is not a double temperature rise\n# Expectation: Equal 10 kJ pulses into 100 g and 200 g water should produce approximately 2:1 temperature rises.\nregister lv3\nadd v1 water 100g\nnew\nadd v2 water 200g\nheat v1 10kJ\nheat v2 10kJ\ninspect\n",
+      "script_sha256": "76e1dac8bdc421db0e5dbbee4ae6e87df79fbe0d87bfc7c27c3dababbbae6c57",
+      "expected_result": "Equal 10 kJ pulses into 100 g and 200 g water should produce approximately 2:1 temperature rises.",
+      "observed_result": "Temperature rises were 23.9117 K and 11.9559 K, giving a 2.000 ratio.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/04.lab"
+      }
+    },
+    {
+      "id": "independent-first50:05",
+      "group": "independent-first50",
+      "title": "Latent heat intercepts the cooling pulse",
+      "script": "# Latent heat intercepts the cooling pulse\n# Expectation: Removing 20 kJ from 100 g water initially at 5 C should give an ice/water mixture near 0 C, not liquid at -43 C.\nregister lv3\nadd v1 water 100g @ 5C\ncool v1 20kJ\ninspect v1\nmeasure v1 ph\n",
+      "script_sha256": "60a2ad2b14e4c9c81731e5c1598f7e8b623f7f8b0e55b8d3845473542f6de573",
+      "expected_result": "Removing 20 kJ from 100 g water initially at 5 C should give an ice/water mixture near 0 C, not liquid at -43 C.",
+      "observed_result": "Ice and liquid coexist at approximately 0 C. Aqueous pH is explicitly withdrawn.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/05.lab"
+      }
+    },
+    {
+      "id": "independent-first50:06",
+      "group": "independent-first50",
+      "title": "Boiling spends energy on disappearing liquid",
+      "script": "# Boiling spends energy on disappearing liquid\n# Expectation: 40 kJ into 100 g water at 95 C should approach 100 C and evaporate roughly 17 g rather than heat all liquid to 190 C.\nregister lv3\nadd v1 water 100g @ 95C\nheat v1 40kJ\ninspect v1\nmeasure v1 ph\n",
+      "script_sha256": "e644ac03d2e26af9e74ea60451f3cdf9ff55fc7d2c02be843676b6c2477822d8",
+      "expected_result": "40 kJ into 100 g water at 95 C should approach 100 C and evaporate roughly 17 g rather than heat all liquid to 190 C.",
+      "observed_result": "100 C plateau with 83.2 g remaining, approximately 16.8 g evaporated. Settled pH is withdrawn.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/06.lab"
+      }
+    },
+    {
+      "id": "independent-first50:08",
+      "group": "independent-first50",
+      "title": "Heat dilution cannot invent energy",
+      "script": "# Heat dilution cannot invent energy\n# Expectation: Mixing two equal water portions at 60 C should keep them near 60 C, not reset the second dose to room temperature.\nregister lv3\nadd v1 water 50g @ 60C\nadd v1 water 50g @ 60C\ninspect v1\n",
+      "script_sha256": "92ba0e77995cb111415a01db287ea7c61c3ffb9e294b5e8d355f44f705826b60",
+      "expected_result": "Mixing two equal water portions at 60 C should keep them near 60 C, not reset the second dose to room temperature.",
+      "observed_result": "60.0000 C after both additions, with 100 g water.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/08.lab"
+      }
+    },
+    {
+      "id": "independent-first50:09",
+      "group": "independent-first50",
+      "title": "A tenfold acid dilution",
+      "script": "# A tenfold acid dilution\n# Expectation: Diluting 0.001 mol HCl in 100 mL water with another 900 mL should raise pH by about one unit (roughly 2 to 3).\nregister lv3\nadd v1 water 100mL\nadd v1 HCl 0.001mol\nmeasure v1 ph\ndilute v1 900mL\nmeasure v1 ph\ninspect v1\n",
+      "script_sha256": "14886047143ffefcd1ff2a894769029851a44af6edee3e9a8d452af01a8bd1af",
+      "expected_result": "Diluting 0.001 mol HCl in 100 mL water with another 900 mL should raise pH by about one unit (roughly 2 to 3).",
+      "observed_result": "pH changed from 2.0381 to 3.0135, a rise of 0.9754.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/09.lab"
+      }
+    },
+    {
+      "id": "independent-first50:10",
+      "group": "independent-first50",
+      "title": "Acid/base cancellation and overshoot",
+      "script": "# Acid/base cancellation and overshoot\n# Expectation: 0.001 mol HCl followed by equal NaOH should reach near-neutral pH; another 0.001 mol NaOH should make it alkaline.\nregister lv3\nadd v1 water 100mL\nadd v1 HCl 0.001mol\nadd v1 NaOH 0.001mol\nmeasure v1 ph\nadd v1 NaOH 0.001mol\nmeasure v1 ph\ninspect v1\n",
+      "script_sha256": "1f7b5fb0bdb86ba47d12c65bbcdc66df1f73257c7a17a9ea149bf098dfe51f48",
+      "expected_result": "0.001 mol HCl followed by equal NaOH should reach near-neutral pH; another 0.001 mol NaOH should make it alkaline.",
+      "observed_result": "Equal acid/base doses gave pH 6.9927; excess base gave 11.9275.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/10.lab"
+      }
+    },
+    {
+      "id": "independent-first50:11",
+      "group": "independent-first50",
+      "title": "Weak acid versus strong acid",
+      "script": "# Weak acid versus strong acid\n# Expectation: Equal 0.001 mol doses in 100 mL should give acetic acid a higher pH than HCl, by at least one unit.\nregister lv3\nadd v1 water 100mL\nadd v1 HCl 0.001mol\nnew\nadd v2 water 100mL\nadd v2 CH3COOH 0.001mol\nmeasure v1 ph\nmeasure v2 ph\ninspect\n",
+      "script_sha256": "f0a94cd75985efda0c842432c86c9c60c474765355c468632b129388d6f54152",
+      "expected_result": "Equal 0.001 mol doses in 100 mL should give acetic acid a higher pH than HCl, by at least one unit.",
+      "observed_result": "HCl pH 2.0381 versus acetic acid 3.3871, a difference of 1.3490.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/11.lab"
+      }
+    },
+    {
+      "id": "independent-first50:12",
+      "group": "independent-first50",
+      "title": "Half-neutralisation exposes a pKa",
+      "script": "# Half-neutralisation exposes a pKa\n# Expectation: 0.01 mol acetic acid and 0.005 mol NaOH in 100 mL should form a buffer around pH 4.5-5.0.\nregister lv3\nadd v1 water 100mL\nadd v1 CH3COOH 0.01mol\nadd v1 NaOH 0.005mol\nmeasure v1 ph\ninspect v1\n",
+      "script_sha256": "ed323846c6288d30fec79c579a9efdcf9e54cc432d7b34efa463e7b6eb7c994f",
+      "expected_result": "0.01 mol acetic acid and 0.005 mol NaOH in 100 mL should form a buffer around pH 4.5-5.0.",
+      "observed_result": "pH 4.6630, within the frozen expected interval.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/12.lab"
+      }
+    },
+    {
+      "id": "independent-first50:13",
+      "group": "independent-first50",
+      "title": "A buffer survives a small acid pulse",
+      "script": "# A buffer survives a small acid pulse\n# Expectation: A half-neutralised acetate buffer should change pH far less than plain water after the same 0.0001 mol HCl pulse.\nregister lv3\nadd v1 water 100mL\nadd v1 CH3COOH 0.01mol\nadd v1 NaOH 0.005mol\nmeasure v1 ph\nnew\nadd v2 water 100mL\nmeasure v2 ph\nadd v1 HCl 0.0001mol\nadd v2 HCl 0.0001mol\nmeasure v1 ph\nmeasure v2 ph\n",
+      "script_sha256": "4d50a9209ec2f01aa00240f033f3596a93479fe03eed8652aa40cfe4b22241eb",
+      "expected_result": "A half-neutralised acetate buffer should change pH far less than plain water after the same 0.0001 mol HCl pulse.",
+      "observed_result": "Buffer pH changed by 0.0173; water changed by 3.9839 under the same acid pulse.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/13.lab"
+      }
+    },
+    {
+      "id": "independent-first50:14",
+      "group": "independent-first50",
+      "title": "Neutral salt is an ionic conductor",
+      "script": "# Neutral salt is an ionic conductor\n# Expectation: Adding 0.001 mol NaCl to 100 mL water should increase conductivity substantially while leaving pH approximately neutral.\nregister lv3\nadd v1 water 100mL\nmeasure v1 conductivity\nadd v1 NaCl 0.001mol\nmeasure v1 conductivity\nmeasure v1 ph\n",
+      "script_sha256": "abf67f09a698339a47881f8842969d24fd8621adfa0c5e13ba8905946f4dc344",
+      "expected_result": "Adding 0.001 mol NaCl to 100 mL water should increase conductivity substantially while leaving pH approximately neutral.",
+      "observed_result": "Conductivity rose from 0.0551 to 1204.2742 microS/cm; pH remained 6.9968.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/14.lab"
+      }
+    },
+    {
+      "id": "independent-first50:16",
+      "group": "independent-first50",
+      "title": "Common ions make a silver cloud",
+      "script": "# Common ions make a silver cloud\n# Expectation: 0.001 mol each of NaCl and AgNO3 in 100 mL should produce close to 0.001 mol solid AgCl, with conserved silver and chloride.\nregister lv3\nadd v1 water 100mL\nadd v1 NaCl 0.001mol\nadd v1 AgNO3 0.001mol\ninspect v1\n",
+      "script_sha256": "ff1765dee8d40b84c0d4d620dc5b09a07cbdbb08c5a0774d67b3304fb6e34093",
+      "expected_result": "0.001 mol each of NaCl and AgNO3 in 100 mL should produce close to 0.001 mol solid AgCl, with conserved silver and chloride.",
+      "observed_result": "Approximately 0.998 mmol AgCl formed from 1 mmol feeds.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/16.lab"
+      }
+    },
+    {
+      "id": "independent-first50:17",
+      "group": "independent-first50",
+      "title": "Precipitation cannot depend on bottle order",
+      "script": "# Precipitation cannot depend on bottle order\n# Expectation: Reversing the equal silver/chloride additions should leave essentially equal AgCl solid amounts and pH in the two vessels.\nregister lv3\nadd v1 water 100mL\nadd v1 NaCl 0.001mol\nadd v1 AgNO3 0.001mol\nnew\nadd v2 water 100mL\nadd v2 AgNO3 0.001mol\nadd v2 NaCl 0.001mol\ninspect\n",
+      "script_sha256": "530bea5753dfe3ba4ce2ff7259f1f70fd7d105a971a039165d0123f084b591a2",
+      "expected_result": "Reversing the equal silver/chloride additions should leave essentially equal AgCl solid amounts and pH in the two vessels.",
+      "observed_result": "Both orders gave the same solid yield, pH, temperature, and final inventories within the checked tolerances.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/17.lab"
+      }
+    },
+    {
+      "id": "independent-first50:18",
+      "group": "independent-first50",
+      "title": "Remove the cloud without removing the salt water",
+      "script": "# Remove the cloud without removing the salt water\n# Expectation: Filtering an AgCl suspension should retain its solid in v1 and move aqueous material to v2; total inventory should be conserved.\nregister lv3\nadd v1 water 100mL\nadd v1 NaCl 0.002mol\nadd v1 AgNO3 0.001mol\nnew\nfilter v1 v2\ninspect\n",
+      "script_sha256": "3fa8a9ddc9f3b68a1dd3785f8b920cc9694af3b4929f1b32bd4ec2159147a566",
+      "expected_result": "Filtering an AgCl suspension should retain its solid in v1 and move aqueous material to v2; total inventory should be conserved.",
+      "observed_result": "Approximately 1 mmol AgCl remained in v1. Water and dissolved Na/Cl/nitrate transferred to v2.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/18.lab"
+      }
+    },
+    {
+      "id": "independent-first50:19",
+      "group": "independent-first50",
+      "title": "Barium and sulfate meet",
+      "script": "# Barium and sulfate meet\n# Expectation: Equal 0.001 mol BaCl2 and Na2SO4 in 100 mL should form very insoluble BaSO4, or explicitly identify unavailable chemistry.\nregister lv3\nadd v1 water 100mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2SO4 0.001mol\ninspect v1\n",
+      "script_sha256": "94450d15824365a1ff1db9d56cdc3abbde84c53f440c861aae8f7c0c204c9be3",
+      "expected_result": "Equal 0.001 mol BaCl2 and Na2SO4 in 100 mL should form very insoluble BaSO4, or explicitly identify unavailable chemistry.",
+      "observed_result": "Approximately 0.998 mmol BaSO4 formed.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/19.lab"
+      }
+    },
+    {
+      "id": "independent-first50:20",
+      "group": "independent-first50",
+      "title": "Chalk dissolves in acid",
+      "script": "# Chalk dissolves in acid\n# Expectation: 0.001 mol CaCO3 should be consumed by 0.003 mol HCl in 100 mL; carbon dioxide should be accounted for and excess acid remain.\nregister lv3\nadd v1 water 100mL\nadd v1 CaCO3 0.001mol\nadd v1 HCl 0.003mol\ninspect v1\nmeasure v1 ph\n",
+      "script_sha256": "36a113cff1bacc66db121e3d0eb87b6fc0cca687abdfaa1e429dc4bd7354518c",
+      "expected_result": "0.001 mol CaCO3 should be consumed by 0.003 mol HCl in 100 mL; carbon dioxide should be accounted for and excess acid remain.",
+      "observed_result": "Chalk was consumed; about 0.999 mmol CO2 vented, with trace dissolved carbon retained. Excess acid gave pH 2.0629.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/20.lab"
+      }
+    },
+    {
+      "id": "independent-first50:21",
+      "group": "independent-first50",
+      "title": "Finite solvent leaves salt behind",
+      "script": "# Finite solvent leaves salt behind\n# Expectation: 100 g NaCl in 100 g water should leave substantial undissolved solid instead of an unlimited solution.\nregister lv3\nadd v1 water 100g\nadd v1 NaCl 100g\ninspect v1\n",
+      "script_sha256": "39b0aec0249d71022aab774747660c863ecb04d94244276c692b0fdbff55aa85",
+      "expected_result": "100 g NaCl in 100 g water should leave substantial undissolved solid instead of an unlimited solution.",
+      "observed_result": "About 1.100 mol NaCl remained solid alongside 0.611 mol dissolved sodium and chloride. Total mass was 200 g.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/21.lab"
+      }
+    },
+    {
+      "id": "independent-first50:22",
+      "group": "independent-first50",
+      "title": "Extra solvent rescues leftover salt",
+      "script": "# Extra solvent rescues leftover salt\n# Expectation: Adding another 500 mL water to 50 g NaCl in 100 g water should dissolve the residual solid.\nregister lv3\nadd v1 water 100g\nadd v1 NaCl 50g\ninspect v1\ndilute v1 500mL\ninspect v1\n",
+      "script_sha256": "d7e16bf23e3a751d6a82013a008f43d5297bad502650dfa65828bce1f4902506",
+      "expected_result": "Adding another 500 mL water to 50 g NaCl in 100 g water should dissolve the residual solid.",
+      "observed_result": "Residual 0.244 mol solid disappeared after dilution. Final dissolved sodium and chloride were approximately 0.856 mol each.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/22.lab"
+      }
+    },
+    {
+      "id": "independent-first50:23",
+      "group": "independent-first50",
+      "title": "Drying a dilute salt solution",
+      "script": "# Drying a dilute salt solution\n# Expectation: Evaporating 90% of the solvent from 0.001 mol NaCl in 100 g water should conserve sodium/chloride while increasing concentration roughly tenfold.\nregister lv3\nadd v1 water 100g\nadd v1 NaCl 0.001mol\nevaporate v1 0.9\ninspect v1\nmeasure v1 balance\n",
+      "script_sha256": "27cbb907cbe125e11b3f08682c90e1991d941bbe4b08d624ec8e263035852e31",
+      "expected_result": "Evaporating 90% of the solvent from 0.001 mol NaCl in 100 g water should conserve sodium/chloride while increasing concentration roughly tenfold.",
+      "observed_result": "Water fell to 10 g while 1 mmol sodium/chloride remained. Vaporisation enthalpy is explicitly outside this operator's balance.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/23.lab"
+      }
+    },
+    {
+      "id": "independent-first50:24",
+      "group": "independent-first50",
+      "title": "A quarter of a solution carries a quarter of its salt",
+      "script": "# A quarter of a solution carries a quarter of its salt\n# Expectation: Decanting fraction 0.25 should send about 25% of dissolved NaCl and water to v2 and conserve combined mass.\nregister lv3\nadd v1 water 100g\nadd v1 NaCl 0.01mol\nnew\ndecant v1 v2 0.25\ninspect\n",
+      "script_sha256": "7e986bc9281b5af20d2aa22f63ee2734388a8186fd3bb63105a0b1d9f944c505",
+      "expected_result": "Decanting fraction 0.25 should send about 25% of dissolved NaCl and water to v2 and conserve combined mass.",
+      "observed_result": "v2 received 2.50 mmol sodium/chloride and one quarter of the water; combined inventory was conserved.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/24.lab"
+      }
+    },
+    {
+      "id": "independent-first50:25",
+      "group": "independent-first50",
+      "title": "Splitting and reuniting a solution",
+      "script": "# Splitting and reuniting a solution\n# Expectation: Decant 0.4 into v2 then all of v2 back to v1 should restore initial inventory, temperature, and pH within numerical tolerance.\nregister lv3\nadd v1 water 100g\nadd v1 NaCl 0.01mol\ninspect v1\nnew\ndecant v1 v2 0.4\ndecant v2 v1 1\ninspect\n",
+      "script_sha256": "e2d5d6b8f26a77a41a3150298df26315d3577378deaadd81c9217061b5969fec",
+      "expected_result": "Decant 0.4 into v2 then all of v2 back to v1 should restore initial inventory, temperature, and pH within numerical tolerance.",
+      "observed_result": "The reunited contents and temperature match the initial solution; v2 was empty.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/25.lab"
+      }
+    },
+    {
+      "id": "independent-first50:28",
+      "group": "independent-first50",
+      "title": "A small sealed headspace makes fizz push back",
+      "script": "# A small sealed headspace makes fizz push back\n# Expectation: Acidifying 0.001 mol NaHCO3 with 0.002 mol HCl over a sealed 10 mL headspace should raise pressure above ambient and retain carbon.\nregister lv3\nadd v1 water 100mL\nseal v1 10mL\nadd v1 NaHCO3 0.001mol\nadd v1 HCl 0.002mol\nmeasure v1 pressure\ninspect v1\n",
+      "script_sha256": "788dda7d8538e511dcc56c332ef60a00ecaa91870ed96e4d1fda7758bf8839df",
+      "expected_result": "Acidifying 0.001 mol NaHCO3 with 0.002 mol HCl over a sealed 10 mL headspace should raise pressure above ambient and retain carbon.",
+      "observed_result": "Pressure reached 128.016 kPa in the sealed 10 mL headspace; carbon was partitioned between liquid and gas.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/28.lab"
+      }
+    },
+    {
+      "id": "independent-first50:29",
+      "group": "independent-first50",
+      "title": "Headspace size controls pressure",
+      "script": "# Headspace size controls pressure\n# Expectation: The same acid/carbonate doses should produce higher final pressure over 10 mL than 100 mL sealed headspace.\nregister lv3\nadd v1 water 100mL\nseal v1 10mL\nadd v1 NaHCO3 0.001mol\nadd v1 HCl 0.002mol\nnew\nadd v2 water 100mL\nseal v2 100mL\nadd v2 NaHCO3 0.001mol\nadd v2 HCl 0.002mol\nmeasure v1 pressure\nmeasure v2 pressure\ninspect\n",
+      "script_sha256": "b0a18de6c3ff478f33a0d8cf707c91b35021707d5ac54ef2b73954d795050873",
+      "expected_result": "The same acid/carbonate doses should produce higher final pressure over 10 mL than 100 mL sealed headspace.",
+      "observed_result": "Pressures were 128.016 kPa for 10 mL and 114.854 kPa for 100 mL.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/29.lab"
+      }
+    },
+    {
+      "id": "independent-first50:30",
+      "group": "independent-first50",
+      "title": "Uncorking releases the compressed gas",
+      "script": "# Uncorking releases the compressed gas\n# Expectation: Opening an acid/carbonate vessel should restore ambient gas pressure and account for vented gas without losing sodium/chloride.\nregister lv3\nadd v1 water 100mL\nseal v1 10mL\nadd v1 NaHCO3 0.001mol\nadd v1 HCl 0.002mol\nopen v1\nmeasure v1 pressure\ninspect v1\n",
+      "script_sha256": "82a22e77974645a4c66edc458441595f5da0be7a996c9259126067d483b70e76",
+      "expected_result": "Opening an acid/carbonate vessel should restore ambient gas pressure and account for vented gas without losing sodium/chloride.",
+      "observed_result": "Opening restored 101.325 kPa, vented gas explicitly, and retained 1 mmol sodium and 2 mmol chloride.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/30.lab"
+      }
+    },
+    {
+      "id": "independent-first50:31",
+      "group": "independent-first50",
+      "title": "Fixed pressure trades pressure rise for expansion",
+      "script": "# Fixed pressure trades pressure rise for expansion\n# Expectation: Acid/carbonate under 1 bar regulation should stay near 1 bar and increase gas volume or explicitly state the unsupported constraint.\nregister lv3\nadd v1 water 100mL\nregulate v1 1bar 10mL\nadd v1 NaHCO3 0.001mol\nadd v1 HCl 0.002mol\nmeasure v1 pressure\ninspect v1\n",
+      "script_sha256": "92841f3ac32e7a9cd2d9afc623f7737d4c3360d02a1e9805693d7205a7dbe8e7",
+      "expected_result": "Acid/carbonate under 1 bar regulation should stay near 1 bar and increase gas volume or explicitly state the unsupported constraint.",
+      "observed_result": "Pressure stayed at 100.000 kPa while gas volume expanded from 10 to 13.466 mL.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/31.lab"
+      }
+    },
+    {
+      "id": "independent-first50:32",
+      "group": "independent-first50",
+      "title": "Sweeping carbon dioxide out",
+      "script": "# Sweeping carbon dioxide out\n# Expectation: A nitrogen sweep after a finite CO2 dose should lower retained carbon and raise pH relative to the carbonated state, with a gas-transfer account.\nregister lv3\nadd v1 water 100mL\nseal v1 100mL\nadd v1 CO2 0.001mol\nmeasure v1 ph\nsweep v1 1bar\nwait 60s\nmeasure v1 ph\ninspect v1\n",
+      "script_sha256": "17f2a7f3bc774c003f4890ca69105fadc37a85530966ce84502bcb5a0b931a75",
+      "expected_result": "A nitrogen sweep after a finite CO2 dose should lower retained carbon and raise pH relative to the carbonated state, with a gas-transfer account.",
+      "observed_result": "pH rose from 4.3475 to 6.9974 and represented carbon was removed with explicit outward gas events.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/32.lab"
+      }
+    },
+    {
+      "id": "independent-first50:33",
+      "group": "independent-first50",
+      "title": "A sacrificial zinc strip plates copper",
+      "script": "# A sacrificial zinc strip plates copper\n# Expectation: Zinc in 0.001 mol CuSO4 solution should produce copper metal and consume zinc; mass/inventory should show the exchange.\nregister lv3\nadd v1 water 100mL\nadd v1 CuSO4 0.001mol\nadd v1 Zn 0.002mol\ninspect v1\n",
+      "script_sha256": "bb680fe876c6fdb5d09f6d3c5d7c2f0392df057324e8219446608603ea372977",
+      "expected_result": "Zinc in 0.001 mol CuSO4 solution should produce copper metal and consume zinc; mass/inventory should show the exchange.",
+      "observed_result": "Approximately 0.99646 mmol copper plated while the same amount of zinc was consumed. Both metal totals were conserved.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/33.lab"
+      }
+    },
+    {
+      "id": "independent-first50:34",
+      "group": "independent-first50",
+      "title": "Copper refuses the reverse displacement",
+      "script": "# Copper refuses the reverse displacement\n# Expectation: Copper in ZnSO4 should not plate zinc; an explicit no-reaction result should be chemically distinguished from missing chemistry.\nregister lv3\nadd v1 water 100mL\nadd v1 ZnSO4 0.001mol\nadd v1 Cu 0.002mol\ninspect v1\n",
+      "script_sha256": "331ce2e23100af8aad8e8a20ac38718c4a9f1ce5a62e0f99d3558466e9372dda",
+      "expected_result": "Copper in ZnSO4 should not plate zinc; an explicit no-reaction result should be chemically distinguished from missing chemistry.",
+      "observed_result": "Copper remained as 2 mmol metal. Zinc metal did not form, and the refusal explained the thermodynamic direction.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/34.lab"
+      }
+    },
+    {
+      "id": "independent-first50:37",
+      "group": "independent-first50",
+      "title": "A concentration cell vanishes at equality",
+      "script": "# A concentration cell vanishes at equality\n# Expectation: Identical copper half-cells should give near-zero voltage; diluting one tenfold should produce a nonzero voltage of order tens of mV.\nregister lv3\nadd v1 water 100mL\nadd v1 CuSO4 0.001mol\nadd v1 Cu 0.001mol\nnew\nadd v2 water 100mL\nadd v2 CuSO4 0.001mol\nadd v2 Cu 0.001mol\ncell v1 v2\ndilute v2 900mL\ncell v1 v2\n",
+      "script_sha256": "c015ae6a9a45135b8eebf5a21c5db440dd244420722e55f3c4005af760345966",
+      "expected_result": "Identical copper half-cells should give near-zero voltage; diluting one tenfold should produce a nonzero voltage of order tens of mV.",
+      "observed_result": "Equal half-cells explicitly gave zero potential; tenfold dilution produced a 22.0 mV concentration cell.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/37.lab"
+      }
+    },
+    {
+      "id": "independent-first50:40",
+      "group": "independent-first50",
+      "title": "Purple colour follows concentration",
+      "script": "# Purple colour follows concentration\n# Expectation: Tenfold dilution of dilute KMnO4 should reduce absorbance and fade purple toward pink without losing permanganate inventory.\nregister lv3\nadd v1 water 100mL\nadd v1 KMnO4 0.0001mol\nlook v1\nmeasure v1 uvvis\ndilute v1 900mL\nlook v1\nmeasure v1 uvvis\ninspect v1\n",
+      "script_sha256": "a932b3ce2bfdbe2c40b2efe9a4f6024a634f8d109e6a79214dc274d5be397f85",
+      "expected_result": "Tenfold dilution of dilute KMnO4 should reduce absorbance and fade purple toward pink without losing permanganate inventory.",
+      "observed_result": "Absorbance changed from 2.4000 to 0.2400 at 525 nm; purple became pink and permanganate inventory was retained.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/40.lab"
+      }
+    },
+    {
+      "id": "independent-first50:41",
+      "group": "independent-first50",
+      "title": "A salt flame is not fuel",
+      "script": "# A salt flame is not fuel\n# Expectation: Igniting NaCl should report a yellow sodium flame signature or a boundary, without consuming salt as combustible fuel.\nregister lv3\nadd v1 NaCl 1g\nignite v1\ninspect v1\n",
+      "script_sha256": "a2cb08a73028e04a04ce7d9caec714654727be4cbc61dbde855db681e4353fee",
+      "expected_result": "Igniting NaCl should report a yellow sodium flame signature or a boundary, without consuming salt as combustible fuel.",
+      "observed_result": "Sodium yellow emission was reported and all NaCl remained. A temporary melting event is emitted even though the committed state returns to solid at 25 C.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/41.lab"
+      }
+    },
+    {
+      "id": "independent-first50:42",
+      "group": "independent-first50",
+      "title": "Magnesium gains oxygen mass",
+      "script": "# Magnesium gains oxygen mass\n# Expectation: Igniting 0.001 mol Mg should create MgO and gain about 0.016 g from atmospheric oxygen, with the external mass source explained.\nregister lv3\nadd v1 Mg 0.001mol\nignite v1\ninspect v1\nmeasure v1 balance\n",
+      "script_sha256": "6e0dfaa2032c0ec8889bb6b6ade12813c31257f2809fe84b45891b1f5c37f32d",
+      "expected_result": "Igniting 0.001 mol Mg should create MgO and gain about 0.016 g from atmospheric oxygen, with the external mass source explained.",
+      "observed_result": "1 mmol Mg became 1 mmol MgO; the balance read 0.0403 g, consistent with approximately 0.016 g oxygen uptake.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/42.lab"
+      }
+    },
+    {
+      "id": "independent-first50:44",
+      "group": "independent-first50",
+      "title": "Distillation enriches a volatile component",
+      "script": "# Distillation enriches a volatile component\n# Expectation: Distilling 10% of an ethanol/water mixture should enrich ethanol in the receiver and conserve both components across vessels plus declared losses.\nregister lv3\nadd v1 water 80g\nadd v1 ethanol 20g\nnew\ndistil v1 v2 0.1\ninspect\n",
+      "script_sha256": "f8856578af44d209dbeb3d3c1d6e84c93e533a3736e78ee6f1ed0e9885028033",
+      "expected_result": "Distilling 10% of an ethanol/water mixture should enrich ethanol in the receiver and conserve both components across vessels plus declared losses.",
+      "observed_result": "The receiver was enriched to approximately 63.4% ethanol by mass versus 20% initially; combined water and ethanol were conserved. The 0.1 cut refers to moles, so receiver mass was 14.3 g.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/44.lab"
+      }
+    },
+    {
+      "id": "independent-first50:48",
+      "group": "independent-first50",
+      "title": "Acid curdles milk without inventing protein molecules",
+      "script": "# Acid curdles milk without inventing protein molecules\n# Expectation: Acidifying milk should show aggregation/curdling or a clear protein-model boundary, and retain unresolved milk mass.\nregister lv3\nadd v1 whole_milk 100g\nadd v1 CH3COOH 0.01mol\nlook v1\ninspect v1\n",
+      "script_sha256": "54d46833a3ac355a4682e7418aa06d7a8c928c464469dce725befe356d5c1719",
+      "expected_result": "Acidifying milk should show aggregation/curdling or a clear protein-model boundary, and retain unresolved milk mass.",
+      "observed_result": "Acid produced a bounded curd response and approximately 3.416 g aggregate. The 12.20149 g unresolved material was retained; missing casein buffering was explicitly disclosed.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/48.lab"
+      }
+    },
+    {
+      "id": "independent-first50:49",
+      "group": "independent-first50",
+      "title": "A peroxide catalyst has an explicit model boundary",
+      "script": "# A peroxide catalyst has an explicit model boundary\n# Expectation: MnO2 added to dilute hydrogen peroxide should yield oxygen and catalytic turnover or explicitly say kinetics/catalysis is unavailable; silence would fail.\nregister lv3\nadd v1 water 100mL\nadd v1 H2O2 0.01mol\nadd v1 MnO2 0.001mol\nwait 60s\nlook v1\ninspect v1\n",
+      "script_sha256": "20c51810a0329b0526ec7c6a2ba3fb56aef23336b3b6d103e378365f9724f4ae",
+      "expected_result": "MnO2 added to dilute hydrogen peroxide should yield oxygen and catalytic turnover or explicitly say kinetics/catalysis is unavailable; silence would fail.",
+      "observed_result": "After 60 s, 0.77449 mmol O2 formed and 1.54898 mmol peroxide was consumed; MnO2 stayed at 1 mmol. The numerical kinetic rate was not independently validated in this audit.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/49.lab"
+      }
+    },
+    {
+      "id": "independent-first50:50",
+      "group": "independent-first50",
+      "title": "Waiting is not permission to teleport matter",
+      "script": "# Waiting is not permission to teleport matter\n# Expectation: Waiting one hour with dilute NaCl at room temperature should conserve dissolved salt and avoid spontaneous precipitation or chemical conversion; any evaporation must be accounted.\nregister lv3\nadd v1 water 100g\nadd v1 NaCl 0.001mol\ninspect v1\nwait 1h\ninspect v1\n",
+      "script_sha256": "f3155da7733f5b7abacce56556042f9aa339cadbd1b8be818669415241100038",
+      "expected_result": "Waiting one hour with dilute NaCl at room temperature should conserve dissolved salt and avoid spontaneous precipitation or chemical conversion; any evaporation must be accounted.",
+      "observed_result": "One hour preserved the salt and water inventory exactly; no spontaneous conversion or unaccounted evaporation occurred.",
+      "validated_on": {
+        "commit": "f7d45f6fefacc0a53312356f8b801f7e371b8042",
+        "binary_sha256": "d54352f08fde1b4e19349bd0d21cde1be976d6f341e1a3f75b716cd0a4399c77"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-50-20261002/verdicts.json",
+        "tested_script": "audits/independent-50-20261002/scripts/50.lab"
+      }
+    },
+    {
+      "id": "independent-second50:051",
+      "group": "independent-second50",
+      "title": "Boyle syringe comparison",
+      "script": "new\nadd v1 N2 0.01mol @ 25C\nadd v2 N2 0.01mol @ 25C\nseal v1 100mL\nseal v2 200mL\nmeasure v1 pressure\nmeasure v2 pressure\ninspect\n",
+      "script_sha256": "232b27eda88ff48097a934a51d34af6e2fc33d2c9d201593f76c93ac0e17f2c6",
+      "expected_result": "Equal gas doses at equal temperature produce twice the absolute pressure in half the headspace.",
+      "observed_result": "Pressure349.220703kPa versus225.272851kPa; subtracting trapped room-air101.325kPa gives exactly2:1. Measuring leaves inventory unchanged.",
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/051.lab"
+      }
+    },
+    {
+      "id": "independent-second50:056",
+      "group": "independent-second50",
+      "title": "Venting releases compression",
+      "script": "add v1 N2 0.01mol\nseal v1 100mL\nmeasure v1 pressure\nopen v1\nmeasure v1 pressure\ninspect\n",
+      "script_sha256": "17bbe81bb31fedc3c38f0f23317d0ad81d8d22e98fcd88238314e97904c35e9e",
+      "expected_result": "Opening removes imposed compression and exchanges gas with the environment.",
+      "observed_result": "Opening changes pressure349.220703→101.325kPa and explicitly vents the owned gases.",
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/056.lab"
+      }
+    },
+    {
+      "id": "independent-second50:057",
+      "group": "independent-second50",
+      "title": "Hydrogen pop positive",
+      "script": "add v1 H2 0.001mol\nseal v1 100mL\ntest v1 pop\ninspect\n",
+      "script_sha256": "43530ad90955f611ad8bc7131c935d974cc651c8cfd43ed6ed775080a8c574a9",
+      "expected_result": "Hydrogen headspace gives a positive pop test; test should not produce oxygen spontaneously.",
+      "observed_result": "Positive hydrogen pop test;1mmolH2 reacts with0.5mmolO2 from trapped air and produces1mmolwater.",
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/057.lab"
+      }
+    },
+    {
+      "id": "independent-second50:059",
+      "group": "independent-second50",
+      "title": "Oxygen glowing splint positive",
+      "script": "add v1 O2 0.001mol\nseal v1 100mL\ntest v1 splint\ninspect\n",
+      "script_sha256": "43040bc28b300996ce7dea05cb2a532256ac8185cb0a3fd9f6cf8b253634b747",
+      "expected_result": "Oxygen supports combustion and relights a glowing splint.",
+      "observed_result": "Added oxygen gives a positive glowing-splint response.",
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/059.lab"
+      }
+    },
+    {
+      "id": "independent-second50:060",
+      "group": "independent-second50",
+      "title": "Nitrogen glowing splint negative",
+      "script": "add v1 N2 0.001mol\nseal v1 100mL\ntest v1 splint\ninspect\n",
+      "script_sha256": "b8f4d01c6d071ccf9a01c959f0f66e41fe5fd5b24dea36d8a07945178c2dbaf9",
+      "expected_result": "Nitrogen cannot relight a glowing splint.",
+      "observed_result": "Nitrogen-enriched trapped air gives a negative glowing-splint response.",
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/060.lab"
+      }
+    },
+    {
+      "id": "independent-second50:061",
+      "group": "independent-second50",
+      "title": "Carbon dioxide limewater positive",
+      "script": "add v1 CO2 0.001mol\nseal v1 100mL\ntest v1 limewater\ninspect\n",
+      "script_sha256": "6e8b306774cee4de141efe83810c55c8c5d7903c6f7a6cc1dc6120f36c8c0812",
+      "expected_result": "Carbon dioxide clouds limewater via carbonate formation.",
+      "observed_result": "AddedCO2 gives positive limewater response. The probe consumes the1mmolgas sample; this audit does not certify inventory of the external limewater apparatus.",
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/061.lab"
+      }
+    },
+    {
+      "id": "independent-second50:063",
+      "group": "independent-second50",
+      "title": "Ammonia damp litmus basic",
+      "script": "add v1 NH3 0.001mol\nseal v1 100mL\ntest v1 litmus\ninspect\n",
+      "script_sha256": "50619cee043aeffd7655f97eb765743ef105a5d9edb313fee80aca74c61ca220",
+      "expected_result": "Ammonia gas dissolves on damp litmus and gives an alkaline response.",
+      "observed_result": "gas_tested notes explicitly say damp red litmus turns blue; NH3 molefraction19.7%.",
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/063.lab"
+      }
+    },
+    {
+      "id": "independent-second50:067",
+      "group": "independent-second50",
+      "title": "Cooling inert solid without phase crossing",
+      "script": "add v1 Fe 1mol @ 100C\nmeasure v1 thermometer\ncool v1 1kJ\nmeasure v1 thermometer\nmeasure v1 balance\ninspect\n",
+      "script_sha256": "4382f656b5bc9e02077ef7b24c522b6a54f448e8bbac03790fb8049664494b1d",
+      "expected_result": "One kJ removed from one mole iron lowers its temperature tens of kelvin without changing material mass.",
+      "observed_result": "Iron cools100→62.089503C for1kJ; final mass55.845g and Fe1mol.",
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/067.lab"
+      }
+    },
+    {
+      "id": "independent-second50:068",
+      "group": "independent-second50",
+      "title": "Two-stage sensible heat cycle",
+      "script": "add v1 Cu 1mol @ 25C\nmeasure v1 thermometer\nheat v1 500J\ncool v1 500J\nmeasure v1 thermometer\nmeasure v1 balance\ninspect\n",
+      "script_sha256": "4523c75630868e2ec9d80ec4828febb21f945fe5da79896b6fd58cc6b4cc7310",
+      "expected_result": "Adding then removing equal heat below any phase transition returns copper to its starting state.",
+      "observed_result": "Copper returns25C after+500J/−500J; mass63.546g and1mol retained.",
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/068.lab"
+      }
+    },
+    {
+      "id": "independent-second50:069",
+      "group": "independent-second50",
+      "title": "Energy split invariance for copper",
+      "script": "new\nadd v1 Cu 1mol @ 25C\nadd v2 Cu 1mol @ 25C\nheat v1 600J\nheat v2 200J\nheat v2 400J\nmeasure v1 thermometer\nmeasure v2 thermometer\ninspect\n",
+      "script_sha256": "8ccb912befe63e11629597b17870f3981c2ace96cd4e83e4a4f333d341a8fd88",
+      "expected_result": "Without a phase crossing or reactions, splitting the same total input energy leaves the same final state.",
+      "observed_result": "One600J dose and200J+400J both yield49.42 C; copper inventory unchanged.",
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/069.lab"
+      }
+    },
+    {
+      "id": "independent-second50:070",
+      "group": "independent-second50",
+      "title": "Equivalent molar and gram dose",
+      "script": "new\nadd v1 Fe 1mol\nadd v2 Fe 55.845g\nmeasure v1 balance\nmeasure v2 balance\nparticles v1\nparticles v2\ninspect\n",
+      "script_sha256": "5529d3943ae3be9a879f95284fc9d7e70b914709c05b79328907fcbe51c3d77d",
+      "expected_result": "Mass and mole input units describe the same iron inventory within atomic-weight rounding.",
+      "observed_result": "1mol and55.845g input both report55.845g and1mol; identical particle census.",
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/070.lab"
+      }
+    },
+    {
+      "id": "independent-second50:071",
+      "group": "independent-second50",
+      "title": "Daniell cell responds to copper-ion activity",
+      "script": "new\nadd v1 water 100mL\nadd v1 ZnSO4 0.001mol\nadd v1 Zn 0.01mol\nadd v2 water 100mL\nadd v2 CuSO4 0.001mol\nadd v2 Cu 0.01mol\ncell v1 v2\ninspect v1\ninspect v2\nadd v2 CuSO4 0.009mol\ncell v1 v2\nmeasure v1 thermometer\nmeasure v2 thermometer\ninspect v1\ninspect v2\nexplain v2\ninspect\n",
+      "script_sha256": "93cb0d631cd3e4c4dac437bc5986634ae6f1b72ffc6271b6b08f19e3aa86a1ab",
+      "expected_result": "Increasing Cu(II) activity tenfold at fixed Zn(II) activity increases the Daniell emf by about 29.6mV at 298K. Absolute ideal-standard voltage is around1.10V; sulfate complexation and activity corrections can shift it.",
+      "observed_result": [
+        "Daniell emf increased from1.1041118059295403V to1.122548438518327V after added CuSO4.",
+        "Independent Nernst reconstruction using serialized Zn/Cu activities and each half-cell temperature matches both readings exactly; Cu activity rose0.0038794→0.0166375 rather than tenfold."
+      ],
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [
+        "Antlerite precipitation heat is explicitly unpriced; concentration-only29.6mV estimate is inappropriate for these computed nonideal activities."
+      ],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/071.lab"
+      }
+    },
+    {
+      "id": "independent-second50:072",
+      "group": "independent-second50",
+      "title": "Identical copper half-cells cancel their standard potential",
+      "script": "new\nadd v1 water 100mL\nadd v1 CuSO4 0.001mol\nadd v1 Cu 0.005mol\nadd v2 water 100mL\nadd v2 CuSO4 0.001mol\nadd v2 Cu 0.005mol\ncell v1 v2\ninspect v1\ninspect v2\nexplain v1\ninspect\n",
+      "script_sha256": "fb13e5fad27b196b75848e431c61c57d448830f4c4e68b5323d8ea559e9fa2d3",
+      "expected_result": "Two identical Cu/Cu(II) half-cells at the same temperature have zero emf. Choosing a nonzero standard copper potential twice must cancel.",
+      "observed_result": [
+        "no_cell explicitly states identical Cu/Cu2+ activities read0V.",
+        "Both vessels have identical inventories, temperatures and speciation."
+      ],
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [
+        "The zero result is textual rather than a numeric cell_voltage event; a structured zero-potential result would improve machine comparability."
+      ],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/072.lab"
+      }
+    },
+    {
+      "id": "independent-second50:073",
+      "group": "independent-second50",
+      "title": "A concentration cell works without two different metals",
+      "script": "new\nadd v1 water 100mL\nadd v1 CuSO4 0.0001mol\nadd v1 Cu 0.005mol\nadd v2 water 100mL\nadd v2 CuSO4 0.001mol\nadd v2 Cu 0.005mol\ncell v1 v2\ninspect v1\ninspect v2\nmeasure v1 thermometer\nexplain v2\ninspect\n",
+      "script_sha256": "0a41148c513789b44658f7daaa78448e678c1fd776734aa62d87040d9d2395fb",
+      "expected_result": "Cu/Cu(II) electrodes with a tenfold Cu(II) activity difference form a concentration cell: ideal emf magnitude29.6mV at298K, despite identical electrode metals.",
+      "observed_result": [
+        "Cu concentration cell reports0.022001217779681836V with standard_volts0.",
+        "Independent Nernst from Cu activities0.000697811 and0.003879401 and the recorded temperatures gives0.02200121777968181V."
+      ],
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [
+        "Brochantite/antlerite heat remains explicitly unpriced; concentration ratios differ from free-ion activity ratios."
+      ],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/073.lab"
+      }
+    },
+    {
+      "id": "independent-second50:078",
+      "group": "independent-second50",
+      "title": "Reading a galvanic voltage is not an arbitrary discharge",
+      "script": "new\nadd v1 water 100mL\nadd v1 ZnSO4 0.001mol\nadd v1 Zn 0.01mol\nadd v2 water 100mL\nadd v2 CuSO4 0.001mol\nadd v2 Cu 0.01mol\ninspect v1\ninspect v2\ncell v1 v2\ncell v1 v2\ncell v1 v2\ninspect v1\ninspect v2\nexplain v1\ninspect\n",
+      "script_sha256": "3d4e4fa027c5747758155c247515f0c0136fdb33ebe8a306416810ccd04e487a",
+      "expected_result": "A potential measurement alone has no specified load or discharge duration. Repeated readings should not prescribe arbitrary zinc consumption/copper deposition; a real current-transfer model would require an explicit circuit and electron ledger.",
+      "observed_result": [
+        "Three repeated readings are exactly1.1041118059295403V.",
+        "Cell output explicitly says open-circuit/no current; inspections show no Zn loss or Cu deposition from reading voltage."
+      ],
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [
+        "Loaded discharge, ion transport and resistance remain outside this open-circuit measurement."
+      ],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/078.lab"
+      }
+    },
+    {
+      "id": "independent-second50:083",
+      "group": "independent-second50",
+      "title": "Manganese dioxide accelerates peroxide decomposition without being spent as fuel",
+      "script": "new\nadd v1 water 100mL\nadd v1 H2O2 0.001mol\nadd v1 MnO2 0.00001mol\nseal v1 100mL\nadd v2 water 100mL\nadd v2 H2O2 0.001mol\nseal v2 100mL\nwait 60s\ninspect v1\ninspect v2\nlook v1\nmeasure v1 pressure\nmeasure v2 pressure\nexplain v1\ninspect\n",
+      "script_sha256": "2fb0d0bc4d3bcbc6c3d1580201aed1bb47f887f53a3a7384f468f06f163b1c0c",
+      "expected_result": "MnO2 can catalyze H2O2 decomposition:2H2O2→2H2O+O2. It should accelerate the finite-time oxygen release relative to the catalyst-free control without being consumed stoichiometrically.",
+      "observed_result": [
+        "Catalyzed peroxide loss is1.681572922483e-6mol versus4.873416692252e-7mol without catalyst after60s.",
+        "O2 increments equal half the respective peroxide losses; MnO2 remains exactly1e-5mol."
+      ],
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [
+        "The rate is an explicitly editorial teaching correlation with surface activity and calibration limitations; this supports direction/conservation, not a measured universal catalyst rate."
+      ],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/083.lab"
+      }
+    },
+    {
+      "id": "independent-second50:086",
+      "group": "independent-second50",
+      "title": "Filter a dissolved electrolyte away from an inert mineral suspension",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 NaCl 0.01mol\nadd v1 SiO2 1g\ninspect v1\nnew\nfilter v1 v2\ninspect v1\ninspect v2\nmeasure v2 conductivity\n",
+      "script_sha256": "f9bd21c5661792b7ef722976030e93bd7c9e5f5d39a4ce043c1e26c6832e2b38",
+      "expected_result": "Ordinary filtration retains particulate silica and passes water with dissolved sodium chloride. It must not treat all initially added solids as permanently filterable.",
+      "observed_result": "Filtration leaves 0.016623393915mol solid silica in source and passes 0.000019972039mol dissolved silica plus 0.010000mol each Na+/Cl- and 5.534276991396mol water. Total silica equals its added0.016643365954mol. Receiver conductivity10904.8954µS/cm is explicitly estimated.",
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [
+        "Quartz dissolution heat is explicitly unpriced; this is a thermal capability gap, not a separation inventory failure."
+      ],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/086.lab"
+      }
+    },
+    {
+      "id": "independent-second50:088",
+      "group": "independent-second50",
+      "title": "A colorless metal salt should not acquire a fabricated visible spectrum",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 ZnSO4 0.001mol\ninspect v1\nmeasure v1 uvvis\nlook v1\n",
+      "script_sha256": "2801c6bb748746e539b1bab287646cc57bcb1d6361c1e1d3b178bb116726c4b0",
+      "expected_result": "A dilute zinc sulfate solution is colorless in the visible range because Zn(II) has no visible d-d transition. This does not establish that its complete UV spectrum is zero.",
+      "observed_result": "Zinc sulfate dissolves and gives a colorless clear solution. Instrument reports estimated0.0000 absorbance specifically at405nm, a visible wavelength, rather than a complete UV spectrum.",
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [
+        "The frozen full-UV caution is not directly probed by the single405nm instrument. Its zero has estimated confidence, no displayed wavelength-domain/provenance evidence; a complete UV spectrum remains unverified."
+      ],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/088.lab"
+      }
+    },
+    {
+      "id": "independent-second50:089",
+      "group": "independent-second50",
+      "title": "Evaporative concentration eventually leaves a conserved salt residue",
+      "script": "register lv3\nadd v1 water 20mL\nadd v1 NaCl 0.05mol\ninspect v1\nevaporate v1 0.9\ninspect v1\nmeasure v1 balance\nlook v1\n",
+      "script_sha256": "c5c8a9f4d8d7ce1cb7bf14c7563a952bd625457c58d20498610afba698f82efd",
+      "expected_result": "Removing 90% of solvent can make the remaining brine supersaturated and leave NaCl crystals. Sodium and chloride remain in the vessel; lost mass is attributable to escaped water, not salt.",
+      "observed_result": "Water falls from 1.106855398279mol to 0.110685539828mol, with0.996169858451mol evaporation reported. Final Na+/Cl-0.012350323966mol each plus 0.037649676034mol NaCl solid close the original0.050000mol salt stock. Balance4.9161g matches retained brine/crystals.",
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [
+        "Evaporation vaporization enthalpy is explicitly excluded, so final37.36C is not a complete evaporation calorimetry prediction."
+      ],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/089.lab"
+      }
+    },
+    {
+      "id": "independent-second50:090",
+      "group": "independent-second50",
+      "title": "Magnetic separation distinguishes iron filings from copper particles",
+      "script": "register lv3\nadd v1 Fe 0.01mol\nadd v1 Cu 0.01mol\ninspect v1\nnew\nmagnet v1 v2\ninspect v1\ninspect v2\nmeasure v1 balance\nmeasure v2 balance\n",
+      "script_sha256": "6c792cc5bda59e0ea49db3e50c2ec850c034fa99cf2d414641051039a98015e9",
+      "expected_result": "A magnet attracts iron much more strongly than ordinary copper. The separation moves iron inventory while copper remains behind, without a chemical reaction.",
+      "observed_result": "Magnet moves exactly0.010000mol Fe to receiver and leaves 0.010000mol Cu in source. Balance0.5585g+0.6355g closes the initial metal mass; no reaction is reported.",
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/090.lab"
+      }
+    },
+    {
+      "id": "independent-second50:091",
+      "group": "independent-second50",
+      "title": "Distillation should reject a nonvolatile electrolyte from the condensate",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 NaCl 0.005mol\ninspect v1\nmeasure v1 conductivity\nnew\ndistil v1 v2 0.3\ninspect v1\ninspect v2\nmeasure v2 conductivity\n",
+      "script_sha256": "c1200afe74206347c3f9f5f3934eda385e42fd490695afe3951fa7a902d755c6",
+      "expected_result": "An ideal still carries volatile water into the receiver while sodium chloride stays in the pot. Salt concentration in the residue rises; entrainment is a separate mechanism, not implied by distillation.",
+      "observed_result": "Distillation transfers1.660283097419mol water and retains3.873993893977mol in pot; Na+/Cl- remain0.005000mol each in source with none in receiver. Conductivity falls from5678.8254 to 0.0550µS/cm; receiver reading explicitly says incomplete.",
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [
+        "Pure-water conductivity is flagged incomplete, including a strict25C calibration boundary. Distillation thermal/reflux idealizations are explicitly described."
+      ],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/091.lab"
+      }
+    },
+    {
+      "id": "independent-second50:092",
+      "group": "independent-second50",
+      "title": "Fresh small solvent portions outperform one extraction with the same total solvent",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 I2 0.0001mol\nnew\nadd v2 water 100mL\nadd v2 I2 0.0001mol\nnew\nnew\ninspect v1\ninspect v2\nextract v1 v3 hexane 0.1mol stages 1\nextract v2 v4 hexane 0.1mol stages 4\ninspect v1\ninspect v2\ninspect v3\ninspect v4\n",
+      "script_sha256": "d5e408b2e6a3326cfcaa5fe756027c87530d7c0ab5768570b8280e72da86696e",
+      "expected_result": "At the same distribution coefficient and total organic volume, several fresh equilibrium extractions remove more dissolved iodine than a single contact. Iodine conservation must hold separately for the two independent preparations.",
+      "observed_result": "Single-stage receiver gets 0.000091727744364mol I2, four-stage gets 0.000099506094302mol; source residues8.272255636e-6 and4.939056985e-7mol. Both pairs close0.000100mol. Reported efficiencies91.7% versus99.5% agree with fresh-stage advantage.",
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/092.lab"
+      }
+    },
+    {
+      "id": "independent-second50:094",
+      "group": "independent-second50",
+      "title": "An acid-base indicator should reverse color after stoichiometric neutralization",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 phenolphthalein 0.000001mol\nadd v1 NaOH 0.001mol\nmeasure v1 ph\nlook v1\ninspect v1\nadd v1 HCl 0.001mol\nmeasure v1 ph\nlook v1\ninspect v1\n",
+      "script_sha256": "ff147c8451b013326765f697b11a05f35322792d2b1bb7c683e9270dff6e55da",
+      "expected_result": "Phenolphthalein is pink in a moderately alkaline solution and loses that color when an equal strong-acid dose removes the excess hydroxide. Indicator dye is not irreversibly destroyed by this ordinary pH cycle.",
+      "observed_result": "Initial pH 11.9517 gives pink phenolphthalein. Equal HCl dose gives pH 6.9927 and a colorless appearance. Indicator stock stays1.000000e-6mol; Na+/Cl- each 0.001000mol.",
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/094.lab"
+      }
+    },
+    {
+      "id": "independent-second50:096",
+      "group": "independent-second50",
+      "title": "Carbonate acidification distinguishes bicarbonate storage from escaped carbon dioxide",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 CaCO3 0.001mol\ninspect v1\nadd v1 HCl 0.001mol\ninspect v1\nlook v1\nadd v1 HCl 0.001mol\ninspect v1\nlook v1\nmeasure v1 ph\n",
+      "script_sha256": "1080fe22e12ac5bc8608b6b0c9e95b520f52c4ce89e332a3d0929ab65eb2d613",
+      "expected_result": "Carbonate needs two strong-acid equivalents per mole for complete conversion to neutral carbon dioxide, but a one-equivalent dose may instead leave dissolved bicarbonate. A mineral disappearing is therefore not by itself proof that all carbon escaped as CO2. The second acid dose drives the carbon balance toward CO2 while conserving calcium.",
+      "observed_result": "Two CO2 boundary events total 0.000998392685384mol; retained CO2(aq)+HCO3-+CO3-2 total1.607314399e-6mol, closing the initial0.001000mol carbon. Final calcium0.000999999999mol is retained; final pH 5.5946 and clear solution agree with full acidification.",
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [
+        "Carbonate dissolution heat remains explicitly unpriced. Assessment counts dissolved carbon separately from escaped gas; mineral disappearance alone was not treated as gas conversion."
+      ],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/096.lab"
+      }
+    },
+    {
+      "id": "independent-second50:100",
+      "group": "independent-second50",
+      "title": "Half-neutralized acetic acid should reveal a buffer before equivalence",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 CH3COOH 0.01mol\nmeasure v1 ph\ninspect v1\nadd v1 NaOH 0.005mol\nmeasure v1 ph\ninspect v1\nadd v1 NaOH 0.005mol\nmeasure v1 ph\ninspect v1\n",
+      "script_sha256": "6f59a857b850bd7d513a43617f4db54c39669c48858674f25a51d6c0adb562ed",
+      "expected_result": "At half equivalence, an acetic-acid/acetate buffer has pH near pKa, about 4.76 at 25C. At complete neutralization, sodium acetate is mildly alkaline rather than exactly neutral; the conserved analytical acetate pool is 0.01mol.",
+      "observed_result": "pH advances 2.880837→4.663025 at half equivalence→8.718723 at equivalence. Final acid8.553718833e-7mol plusacetate0.009999144628mol equals 0.010000mol, within roundoff.",
+      "validated_on": {
+        "binary_source_commit": "b131444248625737a1edd5c02559fa50f1e83203",
+        "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66",
+        "binary_validation_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794"
+      },
+      "limitations": [
+        "Temperature rises to27.41C and activity corrections are present; the half-equivalence result appropriately differs somewhat from a bare25C infinite-dilution pKa."
+      ],
+      "evidence": {
+        "assessment": "audits/independent-next-50-20261002/assessment.json",
+        "tested_script": "audits/independent-next-50-20261002/scripts/100.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E103",
+      "group": "independent-third50",
+      "title": "Filtration retains chalk but passes dissolved salt",
+      "script": "register lv3\nnew\nnew\nadd v1 water 100mL\nadd v1 NaCl 0.01mol\nadd v1 CaCO3 1g\nstir v1 300rpm 10s\ninspect\nfilter v1 v2\nlook v1\nlook v2\nmeasure v1 balance\nmeasure v2 conductivity\nfilter v2 v1\ninspect\n",
+      "script_sha256": "97b740d2d8540210253a0430614dfe9a329019f17c1f4f8fb94f82a91636a33e",
+      "expected_result": "Chalk is poorly soluble near neutral pH while dilute sodium chloride dissolves. Filtration should collect chalk in the source and brine in the receiver. Filtering the clear filtrate back should return liquid and salt without manufacturing a second chalk cake.",
+      "observed_result": "After first filter chalk residue mass=0.9974g and filtrate conductivity=10955.6233uS/cm. After reverse filter final v1 has water5.534262511362439mol, Na/Cl0.009999999956984721mol each, CaCO3solid0.00996511418337mol and dissolved Ca2.619336930614102e-5mol. v2 residual chalk9.595791103894e-12mol is negligible and not a duplicated macroscopic cake.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [
+        "Missing chalk reaction enthalpy explicitly disclosed; conductivity incomplete."
+      ],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E103.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E104",
+      "group": "independent-third50",
+      "title": "Precipitate filtration versus homogeneous neutralization",
+      "script": "register lv3\nnew\nnew\nnew\nadd v1 water 100mL\nadd v1 CuSO4 0.005mol\nadd v1 NaOH 0.01mol\ninspect\nfilter v1 v2\nlook v1\nlook v2\nmeasure v2 conductivity\nadd v3 water 100mL\nadd v3 HCl 0.01mol\nadd v3 NaOH 0.01mol\ninspect\nfilter v3 v2\nmeasure v3 balance\nmeasure v2 ph\ninspect\n",
+      "script_sha256": "92687af8238d189fed40222428cd17df81c6edf09dc9ea01c57e1eeafeebf320",
+      "expected_result": "Copper sulfate plus two hydroxide equivalents forms insoluble copper hydroxide and an aqueous sodium sulfate phase; matched acid/base neutralization instead yields dissolved sodium chloride. A filter discriminates physical phase rather than calling all reaction products solids.",
+      "observed_result": "Final retained Cu(OH)2=0.004998161509432mol, brochantite=2.723558004319e-7mol (four Cu each), dissolved Cu=7.490823891615414e-7mol: total Cu approximately0.005mol. Receiver Na=0.020000000030137195mol, Cl=0.010000000000000002mol, sulfate=0.0049997276592554304mol plus solid brochantite sulfate approximately closes0.005mol. Neutralization vessel balance0g after filtration.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [
+        "Trace alternative copper solid allowed; missing reaction heats, spectra and deliberately withheld tenorite are disclosed boundaries."
+      ],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E104.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E111",
+      "group": "independent-third50",
+      "title": "Evaporation and captured distillation differ in bench ownership",
+      "script": "register lv3\nnew\nnew\nnew\nadd v1 water 100mL\nadd v1 NaCl 0.01mol\nadd v2 water 100mL\nadd v2 NaCl 0.01mol\ninspect\nevaporate v1 0.5\ndistil v2 v3 0.5\nmeasure v1 conductivity\nmeasure v2 conductivity\nmeasure v3 conductivity\nmeasure v1 balance\nmeasure v2 balance\nmeasure v3 balance\ninspect\n",
+      "script_sha256": "b078679b88c22b38739d3e267338f668b28555524f04cc8eb3bb85d4f6e734e3",
+      "expected_result": "Equal water removal should leave similar concentrated brines. Distillation transfers condensate into a bench vessel; open evaporation removes water to surroundings, so the two bench material budgets differ even when pot states match.",
+      "observed_result": "Both pots water2.767138495698mol (50mL), Na/Cl0.01mol; both conductivities20676.0206uS/cm and balance50.4344g. Receiver water2.7671384956980383mol (49.85g), no salt. Evaporation reports2.767138mol water leaving environment; distillation pair conserves initialwater5.534276991396059mol.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [
+        "Evaporation enthalpy omission disclosed; prediction concerns inventory, not complete thermal agreement."
+      ],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E111.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E116",
+      "group": "independent-third50",
+      "title": "Sub-boiling sealed-water heat/cool cycle",
+      "script": "register lv3\nnew\nadd v1 water 100mL @ 25C\nseal v1 100mL\nmeasure v1 thermometer\nmeasure v1 balance\ninspect\nheat v1 1kJ\nmeasure v1 thermometer\ncool v1 1kJ\nmeasure v1 thermometer\nmeasure v1 balance\ninspect\n",
+      "script_sha256": "313d27940db3b8ea5793f51b975300d54bcd552d6e23fe89bb512566201bd61c",
+      "expected_result": "A small positive energy raises the temperature of sealed liquid water. Removing the same energy reverses this single-phase excursion, with unchanged water inventory and total mass.",
+      "observed_result": "25→27.3975→25 C; mass99.8179g unchanged. Trapped-air aqueous speciation restores on return.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E116.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E117",
+      "group": "independent-third50",
+      "title": "One heat pulse versus four equal pulses",
+      "script": "register lv3\nnew\nnew\nadd v1 water 100mL @ 25C\nadd v2 water 100mL @ 25C\nseal v1 100mL\nseal v2 100mL\ninspect\nheat v1 2kJ\nheat v2 500J\nheat v2 500J\nheat v2 500J\nheat v2 500J\nmeasure v1 thermometer\nmeasure v2 thermometer\nmeasure v1 balance\nmeasure v2 balance\ninspect\n",
+      "script_sha256": "b90d1d8f818a95af3521967807a8e5ea2128a024b28476ee740d8db5969f8211",
+      "expected_result": "At unchanged composition below boiling, equal total supplied heat should give the same final state irrespective of splitting the energy into pulses, when commands introduce no additional elapsed cooling time.",
+      "observed_result": "Both final29.7948C,99.8179g. Pressure difference0.001Pa across pulse protocols negligible.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E117.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E118",
+      "group": "independent-third50",
+      "title": "Water amount and heating energy doubled together",
+      "script": "register lv3\nnew\nnew\nadd v1 water 50mL @ 25C\nadd v2 water 100mL @ 25C\nseal v1 50mL\nseal v2 100mL\ninspect\nheat v1 500J\nheat v2 1kJ\nmeasure v1 thermometer\nmeasure v2 thermometer\nmeasure v1 balance\nmeasure v2 balance\ninspect\n",
+      "script_sha256": "c8b69bc2f4067a2073b1878996218dd43cfa891106d1974c0daac165927714d6",
+      "expected_result": "For water-dominated heat storage, doubling water amount and supplied energy preserves the temperature rise. The second sample has twice the water inventory and sample mass. Fixed vessel heat capacity can break exact thermal scaling and must be visible as a separate energy sink.",
+      "observed_result": "Both final27.3975C; masses49.9090/99.8179g, fullprecision ratio2.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E118.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E119",
+      "group": "independent-third50",
+      "title": "Equal hot/cold water mixing versus direct midpoint preparation",
+      "script": "register lv3\nnew\nnew\nnew\nnew\nadd v1 water 50mL @ 20C\nadd v2 water 50mL @ 40C\nadd v4 water 100mL @ 30C\nmeasure v1 thermometer\nmeasure v2 thermometer\ninspect\nmix v1 1 v2 1 into v3\nmeasure v3 thermometer\nmeasure v4 thermometer\nmeasure v3 balance\nmeasure v4 balance\ninspect\n",
+      "script_sha256": "4f3f70e038e5333431a97e53acc246c0e84ebb67f1dc78592109325d81e7ef8b",
+      "expected_result": "Mixing equal amounts of the same liquid at 20 C and 40 C gives approximately 30 C and the same composition and mass as a directly prepared 100 mL sample at 30 C. Thermal expansion and weak heat-capacity variation allow small departures from the exact midpoint.",
+      "observed_result": "20/40C sources mix to30C; mixed/direct masses99.7g, source contents empty.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E119.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E120",
+      "group": "independent-third50",
+      "title": "Added inert gas pressure increment halves with doubled headspace",
+      "script": "register lv3\nnew\nnew\nseal v1 1L\nseal v2 2L\nmeasure v1 pressure\nmeasure v2 pressure\nmeasure v1 thermometer\nmeasure v2 thermometer\ninspect\nadd v1 N2 0.001mol @ 25C\nadd v2 N2 0.001mol @ 25C\nmeasure v1 pressure\nmeasure v2 pressure\nmeasure v1 thermometer\nmeasure v2 thermometer\ninspect\n",
+      "script_sha256": "a39b57c937153442b3b8fbcfdbddbf382b09ee7255a94037eee0188d32b0ee66",
+      "expected_result": "For an ideal inert gas at low density, equal added gas amounts produce pressure increments inversely proportional to headspace volume. Normalize pressure by measured absolute temperature and subtract each vessel baseline to remove initially trapped air.",
+      "observed_result": "101.325kPa baselines; finals103.8040/102.5645kPa, added pressure ratio2; ideal-gas increments agree.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E120.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E121",
+      "group": "independent-third50",
+      "title": "Gas amount and headspace scale together",
+      "script": "register lv3\nnew\nnew\nseal v1 500mL\nseal v2 1L\nmeasure v1 pressure\nmeasure v2 pressure\nmeasure v1 thermometer\nmeasure v2 thermometer\ninspect\nadd v1 N2 0.001mol @ 25C\nadd v2 N2 0.002mol @ 25C\nmeasure v1 pressure\nmeasure v2 pressure\nmeasure v1 thermometer\nmeasure v2 thermometer\nmeasure v1 balance\nmeasure v2 balance\ninspect\n",
+      "script_sha256": "64dddd1b9a4276d0c5d93009602a0d2d7077f9dba25fdbd7da9f9326d192afa0",
+      "expected_result": "Doubling gas amount and headspace preserves number density and the temperature-normalized added pressure. The added nitrogen mass doubles even if the pressure is unchanged.",
+      "observed_result": "Both106.2829kPa at25C; added nitrogen1/2mmol; total mass0.6177/1.2355g.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E121.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E122",
+      "group": "independent-third50",
+      "title": "Sealed inert-gas temperature-pressure reversibility",
+      "script": "register lv3\nnew\nseal v1 1L\nadd v1 N2 0.01mol @ 25C\nmeasure v1 thermometer\nmeasure v1 pressure\nmeasure v1 balance\ninspect\nheat v1 10J\nmeasure v1 thermometer\nmeasure v1 pressure\ncool v1 10J\nmeasure v1 thermometer\nmeasure v1 pressure\nmeasure v1 balance\ninspect\n",
+      "script_sha256": "5385488aa125b3fb1afc8cd4a9b05ce6d9ecc49b8a9e6ad6ee3f80625b15d4ba",
+      "expected_result": "At fixed headspace and fixed gas amount, pressure is proportional to absolute temperature. An equal heat/cool cycle restores the original gas state if no external loss or phase change occurs.",
+      "observed_result": "25→34.4226→25C;126.1146→130.1002→126.1146kPa;1.4596g unchanged.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E122.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E124",
+      "group": "independent-third50",
+      "title": "Repeated gas measurements must not consume or heat the sample",
+      "script": "register lv3\nnew\nseal v1 1L\nadd v1 N2 0.001mol @ 25C\nmeasure v1 pressure\nmeasure v1 thermometer\nmeasure v1 balance\ninspect\nmeasure v1 pressure\nmeasure v1 pressure\nmeasure v1 thermometer\nmeasure v1 balance\nmeasure v1 pressure\nmeasure v1 thermometer\ninspect\ninspect\n",
+      "script_sha256": "728cc59e900f928d061010bd0e47f88a1d8409ffa337d6bff4df1ac4b5db1917",
+      "expected_result": "Pressure, temperature and balance observations of a sealed inert sample are non-destructive and should commute without changing the material or energy ledger.",
+      "observed_result": "All repeated pressure103.8040kPa,temperature25C,mass1.2074g; full bench snapshots identical.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E124.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E131",
+      "group": "independent-third50",
+      "title": "Acid/base order equivalence",
+      "script": "register lv3\nnew\nadd v1 water 100mL\nadd v2 water 100mL\nadd v1 HCl 0.001mol\nadd v1 NaOH 0.001mol\nadd v2 NaOH 0.001mol\nadd v2 HCl 0.001mol\ninspect\nmeasure v1 ph\nmeasure v2 ph\n",
+      "script_sha256": "2a2f2fe86b97ec6998d2401fc507f64b98654308db58994931043204fcdc1549",
+      "expected_result": "Equal acid and base inventories end near neutral in either order; order must not create different salt inventories. Thermal uncertainty must remain explicit.",
+      "observed_result": "Both final pH6.99269345; Na/Cl each0.002mol overall.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E131.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E132",
+      "group": "independent-third50",
+      "title": "Tenfold strong-acid dilution",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 HCl 0.001mol\ninspect\nmeasure v1 ph\nadd v1 water 900mL\ninspect\nmeasure v1 ph\n",
+      "script_sha256": "bf5285f0331e765e948e7ea7805e4dc42d83dabd705d0dc2db991fa8f20fcd0d",
+      "expected_result": "Adding nine initial solvent volumes raises dilute strong-acid pH by roughly1 without removing acid or chloride.",
+      "observed_result": "pH increases from2.038 to3.013; chloride0.001mol remains; water increases tenfold.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [
+        "Activity corrections explain departure from exactly1pH unit."
+      ],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E132.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E133",
+      "group": "independent-third50",
+      "title": "Tenfold strong-base dilution",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 NaOH 0.001mol\ninspect\nmeasure v1 ph\nadd v1 water 900mL\ninspect\nmeasure v1 ph\n",
+      "script_sha256": "93c31fbf340508ba52618d64f913f91c90258a79426907206adc5257af92ff5c",
+      "expected_result": "Tenfold dilution lowers dilute strong-base pH by roughly1 without neutralising or removing sodium.",
+      "observed_result": "pH decreases from11.952 to10.9849; sodium0.001mol remains.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [
+        "Dissolution heat changes temperature slightly."
+      ],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E133.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E134",
+      "group": "independent-third50",
+      "title": "Pouring dilution versus direct water addition",
+      "script": "register lv3\nnew\nnew\nadd v1 water 100mL\nadd v1 HCl 0.001mol\nadd v2 water 100mL\nadd v2 HCl 0.001mol\nadd v3 water 100mL\nadd v1 water 100mL\ndecant v3 v2 1\ninspect\nmeasure v1 ph\nmeasure v2 ph\n",
+      "script_sha256": "ccfcd849a107e65e8340eeb9dff289be05c9341df0a8f7a1a303b6cf5044155a",
+      "expected_result": "The same acid and total water reached by a pour or direct addition give equivalent dilute pH and solvent/solute inventories.",
+      "observed_result": "Both protocols pH2.32959077 and equal water/chloride inventories.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E134.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E135",
+      "group": "independent-third50",
+      "title": "Silver chloride precipitation order",
+      "script": "register lv3\nnew\nadd v1 water 100mL\nadd v2 water 100mL\nadd v1 AgNO3 0.001mol\nadd v1 NaCl 0.001mol\nadd v2 NaCl 0.001mol\nadd v2 AgNO3 0.001mol\ninspect\nlook v1\nlook v2\n",
+      "script_sha256": "5bcd156a8280eb3cb1066969e386c7f25f3e87c30b03e0ec9a83219d8301b33a",
+      "expected_result": "Both orders make predominantly solid silver chloride with equal final elemental inventories.",
+      "observed_result": "Both orders produce0.0009984818molAgClsolid with conservedAg/Cl/Na/N.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E135.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E136",
+      "group": "independent-third50",
+      "title": "Chloride limits silver chloride yield",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 AgNO3 0.002mol\nadd v1 NaCl 0.001mol\ninspect\nlook v1\n",
+      "script_sha256": "7fb67600d1439e5dad2c012f7a1ba87748c0cce304d303f5dd0de5aa2258d175",
+      "expected_result": "One chloride equivalent limits AgCl to roughly0.001mol and leaves substantial dissolved excess silver.",
+      "observed_result": "AgCl0.0009999647mol; dissolvedAg0.0010000353mol.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E136.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E137",
+      "group": "independent-third50",
+      "title": "Common chloride ion suppresses silver chloride dissolution",
+      "script": "register lv3\nnew\nadd v1 water 100mL\nadd v2 water 100mL\nadd v2 NaCl 0.001mol\nadd v1 AgCl 0.001mol\nadd v2 AgCl 0.001mol\ninspect\n",
+      "script_sha256": "2dfd88682168ad2d3caf6e973c64f77d1b8682d75e8166276c4c4e1e02bb2c7d",
+      "expected_result": "Added chloride suppresses dissolved silver fromAgCl compared with purewater; remaining solid is not absent chemistry.",
+      "observed_result": "DissolvedAg1.3683e-6mol in purewater versus6.86e-8mol with chloride; >19fold suppression, solids remain.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E137.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E138",
+      "group": "independent-third50",
+      "title": "Repeated filtration cannot duplicate precipitate",
+      "script": "register lv3\nnew\nnew\nadd v1 water 100mL\nadd v1 AgNO3 0.001mol\nadd v1 NaCl 0.001mol\ninspect\nfilter v1 v2\ninspect\nfilter v2 v3\ninspect\n",
+      "script_sha256": "7ddd7c9cf44c7f7948a1110e9b3c8220558089798ee76bba29ca82fa996c5836",
+      "expected_result": "A second filtration of the first filtrate cannot reproduce the first solid dose. Dissolved material and solvent follow the filtrate while precipitate remains separated.",
+      "observed_result": "SolidAgCl retained first source; final third vessel only receives solution; Ag/Cl conserved at all inspections.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E138.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E139",
+      "group": "independent-third50",
+      "title": "Barium sulfate precipitation",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2SO4 0.001mol\ninspect\nlook v1\n",
+      "script_sha256": "182f94f803dc6b502af4dccffa2d335e90cb2064bb1cb8b5344a77e7e662af6a",
+      "expected_result": "Equimolar barium and sulfate produce almost quantitative white BaSO4 precipitate. Unsupported ingredient/phase must be distinguished from soluble product.",
+      "observed_result": "BaSO4solid0.0009981708mol, >99.8percent barium; all Ba/S/Na/Cl conserved.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E139.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E142",
+      "group": "independent-third50",
+      "title": "Carbonate acid-dose ladder",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 Na2CO3 0.001mol\nseal v1 100mL\ninspect\nadd v1 HCl 0.0005mol\ninspect\nadd v1 HCl 0.0005mol\ninspect\nadd v1 HCl 0.0005mol\ninspect\nadd v1 HCl 0.0005mol\ninspect\nmeasure v1 ph\n",
+      "script_sha256": "97f3fcb24306de5eb0992c646ff2a0ac6cb48864f1cd56a13f5a63b7987e6961",
+      "expected_result": "Sequential acid cannot exceed its proton budget or erase carbon; later equivalents shift bicarbonate towardCO2 without duplicate doses.",
+      "observed_result": "Carbon0.001001635mol conserved at every inspection; chloride increments0.0005mol each; final molecularCO2 exceeds initial.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E142.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E143",
+      "group": "independent-third50",
+      "title": "Acid dissolves calcite with retained carbon",
+      "script": "register lv3\nadd v1 water 100mL\nseal v1 100mL\nadd v1 CaCO3 0.001mol\ninspect\nadd v1 HCl 0.002mol\ninspect\nmeasure v1 ph\n",
+      "script_sha256": "e4a90e59c227f7edce86666717bd000705125b0903c7a171723a5dfe6714b8a6",
+      "expected_result": "Enough acid dissolves most calcite intoCa2+ and carbon dioxide/carbonic species in a sealed vessel.",
+      "observed_result": "Allcalcite dissolves afteracid; Ca0.001mol andC0.001001635mol retained withCl0.002mol.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E143.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E144",
+      "group": "independent-third50",
+      "title": "Too little acid cannot erase a calcite stock",
+      "script": "register lv3\nadd v1 water 100mL\nseal v1 100mL\nadd v1 CaCO3 0.001mol\ninspect\nadd v1 HCl 0.0002mol\ninspect\n",
+      "script_sha256": "43ea2a612be17be6fb04d903ae4935eb2b39f0d5c6fae8e8a76f62e6a1e28537",
+      "expected_result": "A tenth of the two-equivalent acid requirement dissolves only part of the calcite; it cannot vanish wholesale.",
+      "observed_result": "Calcitesolid0.0008178163mol retained; Ca/C conserved andCl0.0002mol.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E144.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E145",
+      "group": "independent-third50",
+      "title": "Copper hydroxide consumes two hydroxide equivalents",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 CuSO4 0.001mol\nadd v1 NaOH 0.002mol\ninspect\nlook v1\nmeasure v1 ph\n",
+      "script_sha256": "21b8f12b30c010ef7fc7b34c16485f345554b007327398fcc5dc71cb67fa6474",
+      "expected_result": "Copper(II) plustwohydroxides forms a blue hydroxide solid; leftover sulfate and sodium remain accounted.",
+      "observed_result": "CuOH2solid0.0009984744mol, majoritycopper; Cu/S/Na conserved including minorbrochantite.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [
+        "Equilibrium secondary mineral present; thermal model lacks some reaction heats, explicitly qualified."
+      ],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E145.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E146",
+      "group": "independent-third50",
+      "title": "Ferric hydroxide consumes three hydroxide equivalents",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 FeCl3 0.001mol\nadd v1 NaOH 0.003mol\ninspect\nlook v1\n",
+      "script_sha256": "dd21f7248f7f5a8786ea6b5d2564d291292ccb9cddd57aec7492d8b23f7639c5",
+      "expected_result": "Ferric iron precipitates a hydroxide/oxyhydroxide with three hydroxide equivalents without spontaneous Fe metal production.",
+      "observed_result": "FeOH3solid0.0009999959mol; Fe/Na/Cl conserved, no elementalFe.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E146.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E148",
+      "group": "independent-third50",
+      "title": "Magnet separates iron from silica",
+      "script": "register lv3\nnew\nadd v1 water 100mL\nadd v1 Fe 0.01mol\nadd v1 SiO2 0.01mol\ninspect\nmagnet v1 v2\ninspect\n",
+      "script_sha256": "ac314dacf765c02605f65f9d46b668266163b2c06c5ab9b5b145dda7841132dd",
+      "expected_result": "An ordinary magnetic separation moves magnetic solid iron but leaves silica in its original vessel and cannot create material.",
+      "observed_result": "Fe0.01mol transferred magnetically; silica0.01mol stays source including small dissolved amount; water unchanged.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E148.lab"
+      }
+    },
+    {
+      "id": "independent-third50:E149",
+      "group": "independent-third50",
+      "title": "Magnet cannot convert ferric solution into iron metal",
+      "script": "register lv3\nnew\nadd v1 water 100mL\nadd v1 FeCl3 0.001mol\ninspect\nmagnet v1 v2\ninspect\n",
+      "script_sha256": "2d392e1d81e2ef4653396cc74ffa23d4e310b220bb1b668ecede039dad26a062",
+      "expected_result": "Dissolved ferric ions are not a ferromagnetic metal grain; magnetic separation must not reduce ions toFe or remove arbitrary solutionstock.",
+      "observed_result": "FeIII0.001mol remains aqueous; receiverempty; no metallicFecreated.",
+      "validated_on": {
+        "binary_source_commit": "59c75fcd7ca40f64c93c8112a1912afd6764bb78",
+        "binary_sha256": "3a02f4779346fbed8a5f2db8516250c061d96b744a06d26f84c56f888a185292",
+        "binary_validation_run": null
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/independent-third-50-20261003/assessment.json",
+        "tested_script": "audits/independent-third-50-20261003/scripts/E149.lab"
+      }
+    },
+    {
+      "id": "fresh50-original:28",
+      "group": "fresh50-original",
+      "title": "Gas pressure versus volume",
+      "script": "# Fresh independent syntax-only experiment 28\n# Gas pressure versus volume\nnew\nseal v1 1L\nseal v2 500mL\nadd v1 N2 0.01mol @ 25C\nadd v2 N2 0.01mol @ 25C\nmeasure v1 pressure\nmeasure v2 pressure\ninspect\n",
+      "script_sha256": "4e1f8c5655637df2164254a1dd1ce43f116d8345f02c47b6c48bc096b4441f77",
+      "expected_result": "For equal final gas amount and temperature, pressure in 500 mL should be about twice that in 1 L. For a fresh seal that includes ambient air, compare nitrogen partial pressures or added-pressure increments; added N2 contributions are about 24.8 and 49.6 kPa.",
+      "observed_result": "After subtracting ambient 101.325 kPa, added-pressure increments are 24.7896 and 49.5791 kPa; ratio 2.",
+      "validated_on": {
+        "source": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/first-outcome-review.json",
+        "tested_script": "audits/fresh-syntax50-20261013/design/scripts/28.lab"
+      }
+    },
+    {
+      "id": "fresh50-original:29",
+      "group": "fresh50-original",
+      "title": "Heating sealed gas",
+      "script": "# Fresh independent syntax-only experiment 29\n# Heating sealed gas\nseal v1 1L\nadd v1 N2 0.02mol @ 25C\nmeasure v1 thermometer\nmeasure v1 pressure\nheat v1 10J\nmeasure v1 thermometer\nmeasure v1 pressure\ninspect v1\n",
+      "script_sha256": "7fae3a8c382206a2f6a7ada4482ca141af9d457659b00fbfbefe683170fbb5ca",
+      "expected_result": "If heat raises reported gas temperature and volume/inventory stay fixed, pressure should rise in the same ratio as absolute temperature: Pafter/Pbefore=(Tafter+273.15)/(Tbefore+273.15), within 10%. No exact temperature rise is assumed because vessel heat capacity is unspecified.",
+      "observed_result": "Pressure ratio equals absolute-temperature ratio after heating at fixed volume and gas inventory.",
+      "validated_on": {
+        "source": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/first-outcome-review.json",
+        "tested_script": "audits/fresh-syntax50-20261013/design/scripts/29.lab"
+      }
+    },
+    {
+      "id": "fresh50-original:30",
+      "group": "fresh50-original",
+      "title": "Gas pressure versus amount",
+      "script": "# Fresh independent syntax-only experiment 30\n# Gas pressure versus amount\nseal v1 1L\nmeasure v1 pressure\nadd v1 N2 0.005mol @ 25C\nmeasure v1 pressure\nadd v1 N2 0.005mol @ 25C\nmeasure v1 pressure\ninspect v1\n",
+      "script_sha256": "879ce114654385fc20de66dbe1b0b3be0a61f01e69441aa6cdd55980fc750995",
+      "expected_result": "At stable temperature, each dose adds approximately 12.4 kPa to pressure; allow 10–15 kPa. The two increments should agree within 15%, accounting for reported temperature shifts.",
+      "observed_result": "Both nitrogen doses add 12.3948 kPa, within the frozen 10–15 kPa range.",
+      "validated_on": {
+        "source": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/first-outcome-review.json",
+        "tested_script": "audits/fresh-syntax50-20261013/design/scripts/30.lab"
+      }
+    },
+    {
+      "id": "fresh50-original:32",
+      "group": "fresh50-original",
+      "title": "Opening a pressurized vessel",
+      "script": "# Fresh independent syntax-only experiment 32\n# Opening a pressurized vessel\nseal v1 1L\nadd v1 N2 0.1mol @ 25C\nmeasure v1 pressure\nopen v1\nmeasure v1 pressure\ninspect v1\n",
+      "script_sha256": "edd78e19be78d1cb4d331c94f69a2b949f6c753676fd85d10a376f0e4187df34",
+      "expected_result": "Initial pressure should exceed ambient substantially; after opening, overpressure should disappear and any reported pressure should be about ambient (90–110 kPa at a standard bench). Gas inventory may fall or be treated as exchanged with atmosphere.",
+      "observed_result": "Opening changes measured pressure from 349.221 to 101.325 kPa and vents owned gas.",
+      "validated_on": {
+        "source": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/first-outcome-review.json",
+        "tested_script": "audits/fresh-syntax50-20261013/design/scripts/32.lab"
+      }
+    },
+    {
+      "id": "fresh50-original:39",
+      "group": "fresh50-original",
+      "title": "Magnetic iron sulfur separation",
+      "script": "# Fresh independent syntax-only experiment 39\n# Magnetic iron sulfur separation\nnew\nadd v1 Fe 1g\nadd v1 S 1g\nmagnet v1 v2\ninspect\n",
+      "script_sha256": "2bed48f4f7481c822863109a6237ce2163eb46e2cd6c49ef276e18f24fb32e93",
+      "expected_result": "Receiver v2 should be enriched in Fe relative to the original 1:1 mass ratio. Most Fe should transfer and most sulfur remain; a receiver Fe:S mass ratio above 5 is a useful pass target when amounts are available.",
+      "observed_result": "All iron transfers to receiver; sulfur remains in donor. Fe and S totals are conserved.",
+      "validated_on": {
+        "source": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/first-outcome-review.json",
+        "tested_script": "audits/fresh-syntax50-20261013/design/scripts/39.lab"
+      }
+    },
+    {
+      "id": "fresh50-original:49",
+      "group": "fresh50-original",
+      "title": "Oxygen splint test",
+      "script": "# Fresh independent syntax-only experiment 49\n# Oxygen splint test\nnew\nseal v1 500mL\nseal v2 500mL\nadd v1 O2 0.02mol\nadd v2 N2 0.02mol\ntest v1 splint\ntest v2 splint\ninspect\n",
+      "script_sha256": "d3a9fa0f97ea96ec07589d5397a737f8013c5dcd1ca8169a41d4083a2856def1",
+      "expected_result": "An oxygen-enriched sample should give a positive glowing-splint/reignition response; the nitrogen-enriched control should not. Trapped ambient air may weaken a strict negative control; evaluate final composition from inspect.",
+      "observed_result": "Oxygen enrichment 60% gives a positive splint; nitrogen control at 10.6% O2 gives negative.",
+      "validated_on": {
+        "source": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/first-outcome-review.json",
+        "tested_script": "audits/fresh-syntax50-20261013/design/scripts/49.lab"
+      }
+    },
+    {
+      "id": "fresh50-original:50",
+      "group": "fresh50-original",
+      "title": "Hydrogen pop test specificity",
+      "script": "# Fresh independent syntax-only experiment 50\n# Hydrogen pop test specificity\nnew\nseal v1 500mL\nseal v2 500mL\nadd v1 H2 0.002mol\nadd v2 CO2 0.002mol\ntest v1 pop\ntest v2 pop\ninspect\n",
+      "script_sha256": "2f69bd8aa69c4bceeabea021cd4a05ea471e93b74e611e3586be8e13374997f5",
+      "expected_result": "Hydrogen should give a positive pop identification when the test introduces suitable air/oxygen; CO2 should give a negative pop. No sustained CO2 combustion is expected. If the test requires preexisting oxygen and sealed vessels contain none, hydrogen negativity is inconclusive.",
+      "observed_result": "Hydrogen gives a positive pop, consumes 0.001 mol oxygen and forms 0.002 mol water; carbon dioxide control is negative.",
+      "validated_on": {
+        "source": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/first-outcome-review.json",
+        "tested_script": "audits/fresh-syntax50-20261013/design/scripts/50.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:01",
+      "group": "fresh50-normalized",
+      "title": "Water sensible heating",
+      "script": "# Fresh independent syntax-only experiment 01\n# Water sensible heating\nadd v1 water 100g @ 20C\nmeasure v1 thermometer\nheat v1 1kJ\nmeasure v1 thermometer\ninspect v1\n",
+      "script_sha256": "c112205635392bb2a3e0a88407606f2ebce389c27fbbf98068d6ba24607da2d5",
+      "expected_result": "The final water temperature should rise by approximately 2.4 C; allow 1.5–3.5 C for ordinary vessel heat capacity. Water remains liquid, with essentially unchanged inventory.",
+      "observed_result": "20.000→22.3912 °C after 1 kJ; 100 g liquid water retained.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/01.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:02",
+      "group": "fresh50-normalized",
+      "title": "Water sensible cooling",
+      "script": "# Fresh independent syntax-only experiment 02\n# Water sensible cooling\nadd v1 water 100g @ 30C\nmeasure v1 thermometer\ncool v1 1kJ\nmeasure v1 thermometer\ninspect v1\n",
+      "script_sha256": "639f6f819fd2875a8fa2a844fba9e94b7068331e718d88ea3fbe35a8b9016b9f",
+      "expected_result": "Temperature falls about 2.4 C; allow a fall of 1.5–3.5 C. Water remains liquid.",
+      "observed_result": "30.000→27.6094 °C after removing 1 kJ; liquid water retained.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/02.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:03",
+      "group": "fresh50-normalized",
+      "title": "Mass dependence of heating",
+      "script": "# Fresh independent syntax-only experiment 03\n# Mass dependence of heating\nnew\nadd v1 water 50g @ 20C\nadd v2 water 100g @ 20C\nmeasure v1 thermometer\nmeasure v2 thermometer\nheat v1 1kJ\nheat v2 1kJ\nmeasure v1 thermometer\nmeasure v2 thermometer\n",
+      "script_sha256": "2392c9999ee4c1609f7867244a6046e1522f8136f49c1232b7647c9e84a0060c",
+      "expected_result": "Both warm; the 50 g sample warms more. Ideal rises are 4.8 and 2.4 C. The ratio of temperature rises should be approximately 2, with 1.4–2.6 acceptable if equal vessel heat capacities contribute.",
+      "observed_result": "50 g and 100 g warm 4.78215 and 2.39120 °C; ratio 1.99990, inside frozen 1.4–2.6 bound.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/03.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:04",
+      "group": "fresh50-normalized",
+      "title": "Hot and cold water mixing",
+      "script": "# Fresh independent syntax-only experiment 04\n# Hot and cold water mixing\nadd v1 water 50g @ 20C\nadd v1 water 50g @ 60C\nmeasure v1 thermometer\nmeasure v1 balance\ninspect v1\n",
+      "script_sha256": "5967ee434121431d517a58d73096076e3d401b4b46fd54d6f6a5e24a12c98f2a",
+      "expected_result": "A mixed temperature near 40 C, broadly 35–45 C allowing a vessel initially near ambient, and approximately 100 g of water.",
+      "observed_result": "Equal 50 g portions at20/60 °C yield39.9967 °C and100 g.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/04.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:06",
+      "group": "fresh50-normalized",
+      "title": "Electrolyte conductivity",
+      "script": "# Fresh independent syntax-only experiment 06\n# Electrolyte conductivity\nnew\nadd v1 water 100mL\nadd v2 water 100mL\nadd v2 NaCl 0.01mol\nstir v2 200rpm 1s\nmeasure v1 conductivity\nmeasure v2 conductivity\n",
+      "script_sha256": "d635e3de3c475e5e17010130f74e7640e70bba7004658be095a6e5e80d7c63c4",
+      "expected_result": "Approximately 0.1 M NaCl should conduct far better than the water control; ideally around 5–15 mS/cm at room temperature if absolute units are reported. The sign and substantial increase are the primary observations.",
+      "observed_result": "NaCl conducts10904.797 µS/cm=10.9048 mS/cm vs water0.05509 µS/cm; within5–15 mS/cm forecast. Empirical correction/domain note retained.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/06.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:08",
+      "group": "fresh50-normalized",
+      "title": "Strong acid dilution",
+      "script": "# Fresh independent syntax-only experiment 08\n# Strong acid dilution\nadd v1 water 100mL\nadd v1 HCl 0.001mol\nmeasure v1 ph\ndilute v1 1L\nmeasure v1 ph\ninspect v1\n",
+      "script_sha256": "67e5afad930d2338adf191bdf112f362acfccc6667919e81e7dac50d562ec561",
+      "expected_result": "Initial pH approximately 2 and diluted pH approximately 3. The pH increase should be 0.8–1.2; final liquid volume should be approximately 1 L if dilute specifies a target volume.",
+      "observed_result": "pH2.038105→3.054227 (increase1.016121); HCl equivalents retained. dilute adds1 L solvent, giving1.1 L, not a1 L target. Frozen target-volume condition is conditional and does not apply; old-source Operator::Dilute docs explicitly say add solvent by volume.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/08.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:09",
+      "group": "fresh50-normalized",
+      "title": "Strong base dilution",
+      "script": "# Fresh independent syntax-only experiment 09\n# Strong base dilution\nadd v1 water 100mL\nadd v1 NaOH 0.001mol\nmeasure v1 ph\ndilute v1 1L\nmeasure v1 ph\n",
+      "script_sha256": "b3195db36f0e0a38d34dc09eb99a3e4326f1cbd943337eb4054cc46f88c3d1c7",
+      "expected_result": "At approximately 25 C, pH starts near 12 and ends near 11; the drop should be 0.8–1.2.",
+      "observed_result": "pH11.951669→10.944255 (fall1.007414); dilute adds1 L water to initial0.1 L.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/09.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:10",
+      "group": "fresh50-normalized",
+      "title": "Stoichiometric neutralization",
+      "script": "# Fresh independent syntax-only experiment 10\n# Stoichiometric neutralization\nadd v1 water 100mL\nadd v1 HCl 0.001mol\nmeasure v1 ph\nadd v1 NaOH 0.001mol\nstir v1 200rpm 1s\nmeasure v1 ph\ninspect v1\n",
+      "script_sha256": "a314045ef2869f579415287f53a0e4ac1df9155bf3cef59313228203aaa758a1",
+      "expected_result": "Initial pH near 2; final pH approximately 6–8 at room temperature. No persistent free HCl/NaOH excess should remain; Na+ and Cl- may be reported as ions or NaCl.",
+      "observed_result": "pH2.038105→6.992695; 0.001mol each Na/Cl retained, no persistent acid/base-equivalent excess.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/10.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:11",
+      "group": "fresh50-normalized",
+      "title": "Acid excess after neutralization",
+      "script": "# Fresh independent syntax-only experiment 11\n# Acid excess after neutralization\nadd v1 water 100mL\nadd v1 HCl 0.002mol\nadd v1 NaOH 0.001mol\nstir v1 200rpm 1s\nmeasure v1 ph\ninspect v1\n",
+      "script_sha256": "01a29a34e5e0191a7464fd50a618874b4cd18952691f51d6de0227dfcf5aa6ae",
+      "expected_result": "Approximately 0.001 mol acid equivalents remain in about 0.1 L, giving pH 1.7–2.3. The final solution remains acidic.",
+      "observed_result": "pH2.049706 and0.001mol remaining H+ after0.002mol HCl/0.001mol NaOH.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/11.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:12",
+      "group": "fresh50-normalized",
+      "title": "Weak versus strong acid",
+      "script": "# Fresh independent syntax-only experiment 12\n# Weak versus strong acid\nnew\nadd v1 water 100mL\nadd v1 CH3COOH 0.001mol\nadd v2 water 100mL\nadd v2 HCl 0.001mol\nmeasure v1 ph\nmeasure v2 ph\n",
+      "script_sha256": "6617f59f512e5b130f8e4cd44d040178be2bdcc4e6dd8edd9a5060d74e38cc22",
+      "expected_result": "For approximately 0.01 M solutions, HCl pH is near 2 while acetic acid is near 3.4 (allow 3.1–3.7). Acetic acid should be at least 0.8 pH unit higher.",
+      "observed_result": "Acetic pH3.387132 vs HCl2.038105; difference1.349026 and weak-acid pH inside3.1–3.7.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/12.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:14",
+      "group": "fresh50-normalized",
+      "title": "Salt saturation",
+      "script": "# Fresh independent syntax-only experiment 14\n# Salt saturation\nadd v1 water 100g @ 20C\nadd v1 NaCl 50g\nstir v1 200rpm 1s\ninspect v1\nparticles v1\n",
+      "script_sha256": "6dea1838a68b6983dd5b79c709a453cddbb55a719b6266a9285209c3f8bdcf90",
+      "expected_result": "Liquid brine and undissolved solid NaCl should coexist. Roughly 34–38 g dissolves per 100 g water, leaving approximately 12–16 g solid.",
+      "observed_result": "0.610207489mol dissolved Na/Cl and0.245326963mol solid NaCl correspond35.6633g dissolved/14.3367g solid, conserving50g. Final14.6492 °C records dissolution cooling; amounts remain within frozen34–38/12–16g bounds.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/14.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:16",
+      "group": "fresh50-normalized",
+      "title": "Silver chloride precipitation",
+      "script": "# Fresh independent syntax-only experiment 16\n# Silver chloride precipitation\nadd v1 water 100mL\nadd v1 AgNO3 0.001mol\nadd v1 NaCl 0.001mol\nstir v1 200rpm 1s\ninspect v1\nlook v1\n",
+      "script_sha256": "ac36011bfb8afc4be0d1e25cbd35e369c6c54d2194d5d06db88a22949bbfcb3f",
+      "expected_result": "A white AgCl precipitate should appear, amount close to 0.001 mol (0.143 g; allow 0.12–0.15 g if quantified). Residual dissolved silver should be a small fraction of the input.",
+      "observed_result": "White AgCl observed;0.000998481805mol solid≈0.1431g, residual Ag+1.5182e-6mol (0.152% input).",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/16.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:17",
+      "group": "fresh50-normalized",
+      "title": "Barium sulfate precipitation",
+      "script": "# Fresh independent syntax-only experiment 17\n# Barium sulfate precipitation\nadd v1 water 100mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2SO4 0.001mol\nstir v1 200rpm 1s\ninspect v1\nlook v1\n",
+      "script_sha256": "0560971911da215e84d1be21190e783443bb7a60dfca97268618f8d69664da5e",
+      "expected_result": "White BaSO4 solid close to 0.001 mol (0.233 g; allow 0.21–0.24 g) should form.",
+      "observed_result": "White BaSO4 observed;0.000998170786mol solid≈0.233g, below0.001mol input ceiling; residual dissolved Ba1.8292e-6mol.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/17.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:18",
+      "group": "fresh50-normalized",
+      "title": "Calcium carbonate precipitation",
+      "script": "# Fresh independent syntax-only experiment 18\n# Calcium carbonate precipitation\nadd v1 water 100mL\nadd v1 CaCl2 0.001mol\nadd v1 Na2CO3 0.001mol\nstir v1 200rpm 1s\ninspect v1\nlook v1\n",
+      "script_sha256": "6e2f61b81710aadbd85bf7adaed9d07755a8e724f3e9a650bde4ae68897f62db",
+      "expected_result": "White calcium carbonate precipitate should form, approaching 0.001 mol (0.100 g) if equilibrium is modeled. A broadly 0.07–0.11 g solid amount is acceptable.",
+      "observed_result": "White CaCO3 observed;0.000982636581mol≈0.09835g, inside0.07–0.11g; calcium equivalents conserved.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/18.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:19",
+      "group": "fresh50-normalized",
+      "title": "Copper hydroxide precipitation",
+      "script": "# Fresh independent syntax-only experiment 19\n# Copper hydroxide precipitation\nadd v1 water 100mL\nadd v1 CuSO4 0.001mol\nadd v1 NaOH 0.002mol\nstir v1 200rpm 1s\ninspect v1\nlook v1\n",
+      "script_sha256": "487855c8b6c38d5ab88513a5ad35eef2b8f287a00038af4bfb17105cd4aeba75",
+      "expected_result": "Blue Cu(OH)2 precipitate should form, close to 0.001 mol (0.098 g). Dissolved Cu(II) should decline substantially.",
+      "observed_result": "Blue-green Cu(OH)2 deposit0.000998474414mol≈0.0974g; aqueous Cu+2 declines to8.76966e-7mol. Qualified by withheld-tenorite metastability, trace brochantite and explicit spectral gaps; not full optical calibration.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/19.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:22",
+      "group": "fresh50-normalized",
+      "title": "Carbonate acid gas",
+      "script": "# Fresh independent syntax-only experiment 22\n# Carbonate acid gas\nseal v1 1L\nadd v1 water 100mL\nadd v1 Na2CO3 0.001mol\nadd v1 HCl 0.003mol\nstir v1 200rpm 1s\ninspect v1\ntest v1 limewater\nmeasure v1 ph\n",
+      "script_sha256": "c46b36f854be90033a14d74957b47d1d26d3553cfa8141ab12e20fef7f359478",
+      "expected_result": "CO2 generation and a positive limewater test are expected when the assay samples generated gas. Total generated CO2 across gas and dissolved pools is at most 0.001 mol. Remaining strong acid is about 0.001 mol, so pH should be roughly 2.",
+      "observed_result": "Before assay, inorganic C0.001016349504614mol less initial trapped C0.000016349617810=0.000999999886804mol. CO2 gas/dissolved pools form, positive limewater, final pH2.057255. Use pre-assay row5; assay consumes CO2.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/22.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:24",
+      "group": "fresh50-normalized",
+      "title": "Copper resists nonoxidizing acid",
+      "script": "# Fresh independent syntax-only experiment 24\n# Copper resists nonoxidizing acid\nseal v1 500mL\nadd v1 water 100mL\nadd v1 Cu 0.001mol\nadd v1 HCl 0.002mol\nwait 1s\ninspect v1\ntest v1 pop\n",
+      "script_sha256": "d3fc2c7e2f38473b8af492d407e26ab65eb88d7bc2286a8a9b5eac921d664993",
+      "expected_result": "Copper should remain overwhelmingly metallic and no substantial H2 should be generated. No positive hydrogen pop attributable to this mixture is expected.",
+      "observed_result": "Metallic Cu remains0.001mol, no H2, negative pop. Trace trapped atmospheric CO2 is not generated hydrogen; unrelated hazard prose not a physical pass criterion.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/24.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:25",
+      "group": "fresh50-normalized",
+      "title": "Iron displaces copper",
+      "script": "# Fresh independent syntax-only experiment 25\n# Iron displaces copper\nadd v1 water 100mL\nadd v1 CuSO4 0.001mol\nadd v1 Fe 0.002mol\nstir v1 200rpm 1s\ninspect v1\nlook v1\n",
+      "script_sha256": "a22e74407d8a964873723e08095f9cbf5ce42446bdce57161aca0db1333d9d03",
+      "expected_result": "Copper metal should appear, the dissolved blue Cu(II) pool should decline, and some Fe(II) should appear. Cu production cannot exceed 0.001 mol; complete reaction consumes 0.001 mol Fe.",
+      "observed_result": "Cu metal0.000999750233mol with matching FeII/Fe consumption; remaining Fe0.001000249767mol. Qualified spectral/excluded-phase warnings retained.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/25.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:26",
+      "group": "fresh50-normalized",
+      "title": "Copper displaces silver",
+      "script": "# Fresh independent syntax-only experiment 26\n# Copper displaces silver\nadd v1 water 100mL\nadd v1 AgNO3 0.002mol\nadd v1 Cu 0.002mol\nstir v1 200rpm 1s\ninspect v1\nlook v1\n",
+      "script_sha256": "6d2b81c9e70a235a7fc0d5ab504bf626dd97d859d42466b4abfa9af8e79ba836",
+      "expected_result": "Silver metal should appear and dissolved Cu(II) should increase. Complete conversion gives 0.002 mol Ag (0.216 g) while consuming 0.001 mol Cu.",
+      "observed_result": "Ag metal0.001999999790mol; Cu consumed and CuII produced0.000999999895mol, satisfying2Ag:1Cu; spectral gaps retained.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/26.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:33",
+      "group": "fresh50-normalized",
+      "title": "Carbon dioxide acidifies water",
+      "script": "# Fresh independent syntax-only experiment 33\n# Carbon dioxide acidifies water\nseal v1 1L\nadd v1 water 100mL\nmeasure v1 ph\nadd v1 CO2 0.01mol\nstir v1 200rpm 1s\nmeasure v1 ph\ninspect v1\n",
+      "script_sha256": "cd0bacc4da1fe09ce015a358803a5826f919b9305f562256d87aa500f53b3950",
+      "expected_result": "Water pH should decline and become acidic, ordinarily around 3.5–5.5 at this CO2 loading. Some CO2 should be dissolved if gas-liquid equilibrium is supported.",
+      "observed_result": "pH falls5.628921→4.232803 within3.5–5.5 target; dissolved CO2(aq)0.000766958687mol, plus headspace/dissociated pools.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/33.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:34",
+      "group": "fresh50-normalized",
+      "title": "Ammonia basifies water",
+      "script": "# Fresh independent syntax-only experiment 34\n# Ammonia basifies water\nseal v1 1L\nadd v1 water 100mL\nmeasure v1 ph\nadd v1 NH3 0.001mol\nstir v1 200rpm 1s\nmeasure v1 ph\ninspect v1\n",
+      "script_sha256": "57e4ff87517b0d35a28222f33c03984bb36cf52c38b4e81f6672560dbb57de64",
+      "expected_result": "Water should become alkaline. If most ammonia dissolves, about 0.01 M total ammonia gives pH near 10.6; broadly pH 9–11.5 is reasonable given partitioning.",
+      "observed_result": "pH rises5.628921→10.470637 within9–11.5; dissolved NH3/NH4+ plus retained gas conserve approximately0.001mol nitrogen input.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/34.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:38",
+      "group": "fresh50-normalized",
+      "title": "Filtration of sand suspension",
+      "script": "# Fresh independent syntax-only experiment 38\n# Filtration of sand suspension\nnew\nadd v1 water 100mL\nadd v1 SiO2 1g\nstir v1 200rpm 1s\nfilter v1 v2\ninspect\nparticles v2\n",
+      "script_sha256": "c7a56adba59bc2a863cf22ea8a777147a5feda1369ffb985fd111e25340ae734",
+      "expected_result": "Receiver v2 should contain liquid water and little insoluble SiO2; at least 90% of the initial silica should be excluded from filtrate if the filter represents an ordinary solid/liquid separator. Silica may remain in v1 or be separately recorded as filter residue.",
+      "observed_result": "Filter retains0.016623393915mol solid SiO2 in source; receiver has water plus1.997203915e-5mol dissolved SiO2 (0.12% initial silica), exceeding90% exclusion target.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/38.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:40",
+      "group": "fresh50-normalized",
+      "title": "Decanting supernatant",
+      "script": "# Fresh independent syntax-only experiment 40\n# Decanting supernatant\nnew\nadd v1 water 100mL\nadd v1 SiO2 1g\nwait 2s\ndecant v1 v2 0.5\ninspect\n",
+      "script_sha256": "dfef8618ff04bd155b70150dd8c228b26bd117456fc3a149a7f501168fce111f",
+      "expected_result": "Approximately half the available supernatant liquid should transfer, broadly 40–60 mL, with most settled silica remaining in v1 if settling and decanting are represented. Receiver should be depleted in solid relative to source.",
+      "observed_result": "Half water transferred:2.767138496mol≈50mL each. All0.016623393915mol solid silica remains source; only trace dissolved silica splits. Assumed particle size/settling scope retained.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/40.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:42",
+      "group": "fresh50-normalized",
+      "title": "Partial evaporation concentrates salt",
+      "script": "# Fresh independent syntax-only experiment 42\n# Partial evaporation concentrates salt\nadd v1 water 100mL\nadd v1 NaCl 1g\nstir v1 200rpm 1s\ninspect v1\nevaporate v1 0.5\ninspect v1\nmeasure v1 conductivity\n",
+      "script_sha256": "8ffdd61e5bb26e4fdf694d76e78ab22b0395bfe380baa52c66d875a95a7a1fd1",
+      "expected_result": "Water should decline roughly by half if the fraction denotes liquid evaporation; NaCl should remain near 1 g. Concentration should rise to approximately twice its initial value while remaining far below saturation. Evaluate concentration from reported inventories if fraction semantics differ.",
+      "observed_result": "Water halves5.534276991→2.767138496mol; Na/Cl stay0.017110689047mol each, so salt/water ratio doubles. Final conductivity33598.382µS/cm; no new solid.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/42.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:43",
+      "group": "fresh50-normalized",
+      "title": "Distilling salt water",
+      "script": "# Fresh independent syntax-only experiment 43\n# Distilling salt water\nnew\nadd v1 water 100mL\nadd v1 NaCl 1g\nstir v1 200rpm 1s\ndistil v1 v2 0.2 stages 1\ninspect\nmeasure v2 conductivity\n",
+      "script_sha256": "31ca3bbdad7cd818281ccd01aef173879f0eca61f16d4d597f3e87769b9294ed",
+      "expected_result": "Receiver should gain water and be strongly depleted in NaCl, normally with less than 1% of the initial salt. Receiver conductivity should be low compared with brine; roughly 10–30 mL collected is expected if fraction is initial liquid fraction.",
+      "observed_result": "Receiver contains1.106855398mol water≈20mL and no Na/Cl; all salt remains source. Conductivity0.054754µS/cm. Forecast concerns separation; distillation energy/thermal representation is not validated by this pass.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/43.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:45",
+      "group": "fresh50-normalized",
+      "title": "Charge bounded aqueous electrolysis",
+      "script": "# Fresh independent syntax-only experiment 45\n# Charge bounded aqueous electrolysis\nseal v1 1L\nadd v1 water 100mL\nadd v1 Na2SO4 0.001mol\nelectrolyse v1 0.1A 10s\ninspect v1\n",
+      "script_sha256": "530d8bd82938f4225b31f1baca7c3ea3385e6fbe9d999f2367c8b2926ecbbd6f",
+      "expected_result": "If inert-electrode water electrolysis is supported, H2 and O2 should be produced in approximately 2:1 molar ratio. With Q=1 C, maxima are 5.18e-6 mol H2 and 2.59e-6 mol O2 at 100% current efficiency; dissolved gas and headspace gas must be summed. Water consumption is tiny.",
+      "observed_result": "Q1C gives H2 increment5.182134828e-6mol and O2 increment2.591067414e-6mol after subtracting initial atmospheric O2;2:1 and Faraday maxima agree. Water consumption tiny; do not use total O2 including trapped air.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/45.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:46",
+      "group": "fresh50-normalized",
+      "title": "Bounded acid base titration",
+      "script": "# Fresh independent syntax-only experiment 46\n# Bounded acid base titration\nadd v1 water 100mL\nadd v1 HCl 0.001mol\nmeasure v1 ph\ntitrate v1 NaOH 0.1M 1mL until ph 7 max 15\nmeasure v1 ph\ninspect v1\n",
+      "script_sha256": "39ef52b43606944fb0b9a3871934e4e915ef4cbf73777c2fbe2063a172b57a18",
+      "expected_result": "If 1 mL means aliquot size and max means number of aliquots, the endpoint should occur at about 10 mL of 0.1 M NaOH, within one 1 mL increment. If until ph 7 uses a crossing condition, final pH should be at least 7 and may overshoot; inventories should show about 0.001–0.0011 mol added hydroxide.",
+      "observed_result": "Root-refined endpoint10.000003755mL and final pH6.999995856; Na0.0010000003755mol. Meets near10mL/near7 forecast, but does not establish strict crossing above7; frozen crossing requirement is conditional.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/46.lab"
+      }
+    },
+    {
+      "id": "fresh50-normalized:48",
+      "group": "fresh50-normalized",
+      "title": "Bicarbonate vinegar effervescence",
+      "script": "# Fresh independent syntax-only experiment 48\n# Bicarbonate vinegar effervescence\nseal v1 1L\nadd v1 water 100mL\nadd v1 NaHCO3 0.001mol\nadd v1 CH3COOH 0.002mol\nstir v1 200rpm 1s\ninspect v1\ntest v1 limewater\nmeasure v1 ph\n",
+      "script_sha256": "1555e0b8d3e4e5f09f4ffc2997158b9a62295ba0d47644a34925420823764c6d",
+      "expected_result": "CO2 should form, up to 0.001 mol across phases, and residual mixture should contain acetate plus unconsumed acetic acid. After CO2 loss the equal acetate/acid buffer would have pH near 4.76; dissolved CO2 can lower it. Broad final pH 4–6 is expected.",
+      "observed_result": "Pre-assay inorganic C0.001016349790955mol minus trapped C0.000016349617810=0.001000000173145mol (1.73e-10mol numerical residual above nominal1mmol). Positive limewater, acetate/acid≈1mmol each, final pH4.711569. Bound holds to sub-ppm numerical precision; not empirical calibration.",
+      "validated_on": {
+        "run": 38699207052,
+        "integrated_main": "30fd09ebaba0e1c8e4f9ccf1ccbd3110a9e6f3a6",
+        "binary_sha256": "b290b436f63dc026d3c9b1134cc6362eb501008a7a0c9ad46a4a0567378e9853",
+        "lock_sha256": "5135e2cca3fa785a2d109409c0540eb1265cf7f6670637ab87e3d8af1b836a93"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/fresh-syntax50-20261013/normalized40-first-assessment.json",
+        "tested_script": "audits/fresh-syntax50-20261013/normalized40/design/scripts/48.lab"
+      }
+    },
+    {
+      "id": "supplied200:009-limewater_test",
+      "group": "supplied200",
+      "title": "Limewater test for carbon dioxide",
+      "script": "# limewater_test\nadd v1 water 100mL @ 25C\nseal v1 1L\ninspect v1\nadd v1 CO2 0.001mol\nadd v1 Ca(OH)2 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "80be498c350d057668ecd591e3d94fe5cad5ae4705a692263965ea6fa0ba8d79",
+      "expected_result": "White cloudiness from calcium carbonate.",
+      "observed_result": "CaCO3 solid0.000980319mol forms with white precipitate/cloudiness.",
+      "validated_on": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359"
+      },
+      "limitations": [
+        "Only the principal observation listed here is demonstrated; no claim of every mechanism, yield, rate or untested reverse arm."
+      ],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/chemistry-screening.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/design/scripts/009-limewater_test.lab"
+      }
+    },
+    {
+      "id": "supplied200:012-hydrogen_chloride_protolysis",
+      "group": "supplied200",
+      "title": "Protolysis of hydrogen chloride in water",
+      "script": "# hydrogen_chloride_protolysis\nadd v1 water 100mL @ 25C\nseal v1 1L\ninspect v1\nadd v1 HCl 0.001mol\nadd v1 water 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "e9663c1571b404197618e35ed64e914672e2b1fd04b9659488e43dd4063244bf",
+      "expected_result": "An acidic, ion-containing solution forms.",
+      "observed_result": "Acidic ion-containing solution: pH2.038183; computed H+ and Cl- each0.01003molal.",
+      "validated_on": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359"
+      },
+      "limitations": [
+        "Only the principal observation listed here is demonstrated; no claim of every mechanism, yield, rate or untested reverse arm."
+      ],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/chemistry-screening.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/design/scripts/012-hydrogen_chloride_protolysis.lab"
+      }
+    },
+    {
+      "id": "supplied200:013-ammonia_protolysis",
+      "group": "supplied200",
+      "title": "Ammonia as a base in water",
+      "script": "# ammonia_protolysis\nadd v1 water 100mL @ 25C\ninspect v1\nadd v1 NH3 0.001mol\nadd v1 water 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "953860bb58353e662ba52055de47e85287912cd18fb35963e92005753fa7cc4a",
+      "expected_result": "The solution is alkaline.",
+      "observed_result": "Alkaline solution: pH10.610731; computed NH4+ and OH- each0.0004206molal.",
+      "validated_on": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359"
+      },
+      "limitations": [
+        "Only the principal observation listed here is demonstrated; no claim of every mechanism, yield, rate or untested reverse arm."
+      ],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/chemistry-screening.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/design/scripts/013-ammonia_protolysis.lab"
+      }
+    },
+    {
+      "id": "supplied200:033-silver_chloride_precipitation",
+      "group": "supplied200",
+      "title": "Chloride test by silver chloride precipitation",
+      "script": "# silver_chloride_precipitation\nadd v1 water 100mL @ 25C\ninspect v1\nadd v1 Ag+ 0.001mol\nadd v1 Cl- 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "c81d93f07964775768deec6fd17f84781d195ccc4b17a514dbf155672718a7fd",
+      "expected_result": "A white precipitate forms.",
+      "observed_result": "White AgCl solid0.000998622mol and cloudiness; separate warnings concern other excluded silver phases.",
+      "validated_on": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359"
+      },
+      "limitations": [
+        "Only the principal observation listed here is demonstrated; no claim of every mechanism, yield, rate or untested reverse arm."
+      ],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/chemistry-screening.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/design/scripts/033-silver_chloride_precipitation.lab"
+      }
+    },
+    {
+      "id": "supplied200:034-barium_sulfate_precipitation",
+      "group": "supplied200",
+      "title": "Sulfate test by barium sulfate precipitation",
+      "script": "# barium_sulfate_precipitation\nadd v1 water 100mL @ 25C\ninspect v1\nadd v1 Ba+2 0.001mol\nadd v1 SO4-2 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "abc05524403ca4684b9ad86ebac63b23162fa860082fe059d4b24d0020bc87e1",
+      "expected_result": "A white precipitate forms.",
+      "observed_result": "White BaSO4 solid0.000998931mol and cloudiness.",
+      "validated_on": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359"
+      },
+      "limitations": [
+        "Only the principal observation listed here is demonstrated; no claim of every mechanism, yield, rate or untested reverse arm."
+      ],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/chemistry-screening.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/design/scripts/034-barium_sulfate_precipitation.lab"
+      }
+    },
+    {
+      "id": "supplied200:035-acetic_acid_protolysis",
+      "group": "supplied200",
+      "title": "Acetic-acid protolysis / acetate buffer",
+      "script": "# acetic_acid_protolysis\nadd v1 water 100mL @ 25C\ninspect v1\nadd v1 CH3COOH 0.001mol\nadd v1 water 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "e30c010a2e4c8db79b7e45efd3ed57a5989cedfefa3af27b0a4eb1fa4dfb8905",
+      "expected_result": "Only part of the acid is deprotonated.",
+      "observed_result": "Partial acid deprotonation about4.19%; pH3.38717 and acetate/H+ each0.0004198molal.",
+      "validated_on": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359"
+      },
+      "limitations": [
+        "Only the principal observation listed here is demonstrated; no claim of every mechanism, yield, rate or untested reverse arm."
+      ],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/chemistry-screening.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/design/scripts/035-acetic_acid_protolysis.lab"
+      }
+    },
+    {
+      "id": "supplied200:036-water_autoprotolysis",
+      "group": "supplied200",
+      "title": "Autoprotolysis of water",
+      "script": "# water_autoprotolysis\nadd v1 water 100mL @ 25C\ninspect v1\nadd v1 water 0.002mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "e5e717ffb5b64f22e778f04157a53a8292390c6781a8a39e65b3fc3450e02a69",
+      "expected_result": "A small equilibrium population of hydronium and hydroxide exists.",
+      "observed_result": "Small computed H+/OH- populations each1.0060608e-7molal; pH6.99738.",
+      "validated_on": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359"
+      },
+      "limitations": [
+        "Only the principal observation listed here is demonstrated; no claim of every mechanism, yield, rate or untested reverse arm."
+      ],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/chemistry-screening.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/design/scripts/036-water_autoprotolysis.lab"
+      }
+    },
+    {
+      "id": "supplied200:048-bicarbonate_acid",
+      "group": "supplied200",
+      "title": "Hydrogencarbonate with acid: effervescence and leavening",
+      "script": "# bicarbonate_acid\nadd v1 water 100mL @ 25C\nseal v1 1L\ninspect v1\nadd v1 HCO3- 0.001mol\nadd v1 H+ 0.001mol\nadd v1 water 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "614416991f39c14b590ca6209f7aa19bd0b0a542e829ba3c31edbc98ba755143",
+      "expected_result": "Carbon dioxide bubbles form.",
+      "observed_result": "CO2 gas about0.0009366mol exceeds initial-air baseline about0.00001635mol; bicarbonate mostly consumed; bubbling appears.",
+      "validated_on": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359"
+      },
+      "limitations": [
+        "Only the principal observation listed here is demonstrated; no claim of every mechanism, yield, rate or untested reverse arm."
+      ],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/chemistry-screening.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/design/scripts/048-bicarbonate_acid.lab"
+      }
+    },
+    {
+      "id": "supplied200:052-ammonium_test",
+      "group": "supplied200",
+      "title": "Ammonium test with hydroxide",
+      "script": "# ammonium_test\nadd v1 water 100mL @ 25C\nseal v1 1L\ninspect v1\nadd v1 NH4+ 0.001mol\nadd v1 OH- 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "e37d54c0909e04e3cf4eff29a240c3728737d4a120de47954a2541d5313ed7d8",
+      "expected_result": "Ammonia is released and can be detected without direct smelling.",
+      "observed_result": "Ammonia released: gas about6.2e-6mol plus aqueous NH3 about0.0009369mol.",
+      "validated_on": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359"
+      },
+      "limitations": [
+        "Only the principal observation listed here is demonstrated; no claim of every mechanism, yield, rate or untested reverse arm."
+      ],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/chemistry-screening.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/design/scripts/052-ammonium_test.lab"
+      }
+    },
+    {
+      "id": "supplied200:062-sulfuric_acid_first_protolysis",
+      "group": "supplied200",
+      "title": "First protolysis of sulfuric acid",
+      "script": "# sulfuric_acid_first_protolysis\nadd v1 water 100mL @ 25C\ninspect v1\nadd v1 H2SO4 0.001mol\nadd v1 water 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "36611bac3bdb481c75f4f571a7b5653a66c8b52c94d1b1acb92f9333522c518e",
+      "expected_result": "Hydrogensulfate and hydronium form.",
+      "observed_result": "Computed HSO4-0.004697molal and H+0.01536molal at pH1.86509 demonstrate first protolysis.",
+      "validated_on": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359"
+      },
+      "limitations": [
+        "Only the principal observation listed here is demonstrated; no claim of every mechanism, yield, rate or untested reverse arm."
+      ],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/chemistry-screening.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/design/scripts/062-sulfuric_acid_first_protolysis.lab"
+      }
+    },
+    {
+      "id": "supplied200:125-calcium_carbonate_precipitation",
+      "group": "supplied200",
+      "title": "Calcium carbonate precipitation from ions",
+      "script": "# calcium_carbonate_precipitation\nadd v1 water 100mL @ 25C\ninspect v1\nadd v1 Ca+2 0.001mol\nadd v1 CO3-2 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "7d6f9867cc3ba125c9448e4c54922a95e57f76f6c66a635de550036265d7d073",
+      "expected_result": "Calcium carbonate precipitates.",
+      "observed_result": "CaCO3 solid0.000987766193mol forms from0.001mol each Ca/carbonate, with white cloudiness.",
+      "validated_on": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359"
+      },
+      "limitations": [
+        "Only the principal observation listed here is demonstrated; no claim of every mechanism, yield, rate or untested reverse arm."
+      ],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/chemistry-screening.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/design/scripts/125-calcium_carbonate_precipitation.lab"
+      }
+    },
+    {
+      "id": "supplied200:131-limestone_dissolution",
+      "group": "supplied200",
+      "title": "Limestone–carbon dioxide equilibrium",
+      "script": "# limestone_dissolution\nadd v1 water 100mL @ 25C\nseal v1 1L\ninspect v1\nadd v1 CaCO3 0.001mol\nadd v1 CO2 0.001mol\nadd v1 water 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "630c544cb93358cfd351206e24c616358cc44672a90eecf57a1cea228390888f",
+      "expected_result": "Limestone can dissolve; CO2 loss favours reverse precipitation.",
+      "observed_result": "CO2-assisted limestone dissolution produces aqueous Ca0.000204529906mol and bicarbonate0.000406803532mol; reverse CO2-loss arm untested.",
+      "validated_on": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359"
+      },
+      "limitations": [
+        "Only the principal observation listed here is demonstrated; no claim of every mechanism, yield, rate or untested reverse arm."
+      ],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/chemistry-screening.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/design/scripts/131-limestone_dissolution.lab"
+      }
+    },
+    {
+      "id": "supplied200:139-thiosulfate_acid_decomposition",
+      "group": "supplied200",
+      "title": "Acid decomposition of thiosulfate",
+      "script": "# thiosulfate_acid_decomposition\nadd v1 water 100mL @ 25C\nseal v1 1L\ninspect v1\nadd v1 S2O3-2 0.001mol\nadd v1 H+ 0.002mol\nadd v1 water 0.002mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "07ad77716040a3eaa6b00187e688a2d95ecb8d74374dd37c5a74f86436787228",
+      "expected_result": "Sulfur particles cause cloudiness; sulfur dioxide can be released.",
+      "observed_result": "Sulfur particles/cloudiness and SO2 form after10s; finite-acid integration approximation is disclosed; no rate calibration claim.",
+      "validated_on": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359"
+      },
+      "limitations": [
+        "Only the principal observation listed here is demonstrated; no claim of every mechanism, yield, rate or untested reverse arm."
+      ],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/chemistry-screening.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/design/scripts/139-thiosulfate_acid_decomposition.lab"
+      }
+    },
+    {
+      "id": "complete-reagent-followups:F01-water",
+      "group": "complete-reagent-followups",
+      "title": "F01-water",
+      "script": "add v1 water 100mL @ 25C\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "3d6b4583f484cf30b18e8c70a341d5cc5d00cf41f68190b397a1b088153dbe8a",
+      "expected_result": "Neutral solvent baseline; no added acid/base or reaction product.",
+      "observed_result": "Neutral water baseline; pH 6.9974.",
+      "validated_on": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+        "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+        "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/stock-followups-20261015/assessment.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/stock-followups-20261015/design.json"
+      }
+    },
+    {
+      "id": "complete-reagent-followups:F02-HCl",
+      "group": "complete-reagent-followups",
+      "title": "F02-HCl",
+      "script": "add v1 water 100mL @ 25C\nadd v1 HCl 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "e58df8b44b4d9ca90471df5e65d96e7069500acecb668a9bc96a09957aff72c6",
+      "expected_result": "Acidic pH compared with water baseline.",
+      "observed_result": "Complete HCl stock produces acidic pH 2.0381.",
+      "validated_on": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+        "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+        "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/stock-followups-20261015/assessment.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/stock-followups-20261015/design.json"
+      }
+    },
+    {
+      "id": "complete-reagent-followups:F03-NaOH",
+      "group": "complete-reagent-followups",
+      "title": "F03-NaOH",
+      "script": "add v1 water 100mL @ 25C\nadd v1 NaOH 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "32d365881b1cbf03dd262181ac6959d04c0b623d1add621582d9a8c847ca7224",
+      "expected_result": "Alkaline pH compared with water baseline.",
+      "observed_result": "Complete NaOH stock produces alkaline pH 11.9517.",
+      "validated_on": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+        "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+        "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/stock-followups-20261015/assessment.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/stock-followups-20261015/design.json"
+      }
+    },
+    {
+      "id": "complete-reagent-followups:F04-neutralisation",
+      "group": "complete-reagent-followups",
+      "title": "F04-neutralisation",
+      "script": "add v1 water 100mL @ 25C\nadd v1 HCl 0.001mol\ninspect v1\nadd v1 NaOH 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "a4e2a4c3f27aa790a4843e644b4ba647ff71d5515a945bf7fe6304bb8925b1c1",
+      "expected_result": "Equal strong acid/base returns toward neutral pH; inspect heating separately, no empirical heat calibration.",
+      "observed_result": "Equal complete acid/base doses return pH from 2.0381 to 6.9927; temperature rises to 298.3897 K. Heat is not empirically calibrated.",
+      "validated_on": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+        "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+        "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/stock-followups-20261015/assessment.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/stock-followups-20261015/design.json"
+      }
+    },
+    {
+      "id": "complete-reagent-followups:F05-NH4Cl",
+      "group": "complete-reagent-followups",
+      "title": "F05-NH4Cl",
+      "script": "add v1 water 100mL @ 25C\nadd v1 NH4Cl 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "8a0acd127c65fe3f7e8192714ee1415d9decc1b1c442ce319746b64308feb19a",
+      "expected_result": "Ammonium-salt solution acidic, rather than ammonia-like alkalinity.",
+      "observed_result": "Complete NH4Cl stock is acidic, pH 5.6637; original bare NH4+ was an incomplete physical protocol.",
+      "validated_on": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+        "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+        "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/stock-followups-20261015/assessment.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/stock-followups-20261015/design.json"
+      }
+    },
+    {
+      "id": "complete-reagent-followups:F06-Na2CO3",
+      "group": "complete-reagent-followups",
+      "title": "F06-Na2CO3",
+      "script": "add v1 water 100mL @ 25C\nadd v1 Na2CO3 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "9caf9e77d41fed161c53aa1820bfabe57d5ce307c1f4b37babfa1c5981d4f064",
+      "expected_result": "Carbonate-salt solution alkaline; carbonate/hydrocarbonate solution species available.",
+      "observed_result": "Complete Na2CO3 stock is alkaline, pH 10.9725; carbonate and bicarbonate are present in computed speciation.",
+      "validated_on": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+        "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+        "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/stock-followups-20261015/assessment.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/stock-followups-20261015/design.json"
+      }
+    },
+    {
+      "id": "complete-reagent-followups:F08-CaCO3-HCl",
+      "group": "complete-reagent-followups",
+      "title": "F08-CaCO3-HCl",
+      "script": "add v1 water 100mL @ 25C\nadd v1 CaCO3 0.001mol\ninspect v1\nadd v1 HCl 0.002mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "af7f49bea5c4030829dfafc66f4f92743f4c176afcf4d8b25558e77635fd3e1e",
+      "expected_result": "Acid-driven carbonate dissolution and CO2 generation; distinguish vented gas from retained inventory.",
+      "observed_result": "Carbonate solid is consumed; 0.00099839 mol CO2 gas-evolution event, with dissolved calcium. Bare H+ source probe did not specify complete acid.",
+      "validated_on": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+        "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+        "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/stock-followups-20261015/assessment.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/stock-followups-20261015/design.json"
+      }
+    },
+    {
+      "id": "complete-reagent-followups:F09-CuO-HCl",
+      "group": "complete-reagent-followups",
+      "title": "F09-CuO-HCl",
+      "script": "add v1 water 100mL @ 25C\nadd v1 CuO 0.001mol\ninspect v1\nadd v1 HCl 0.002mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "5d498fc94ef205d39d002f793abe3b38144fae921dbafa7877bd26a690adcc0c",
+      "expected_result": "Acid promotes CuO dissolution and dissolved copper; compare with pre-acid inspection.",
+      "observed_result": "Acid consumes CuO and leaves about 0.00099846 mol aqueous copper inventory; minor atacamite is retained. This does not calibrate colour or trace phase yields.",
+      "validated_on": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+        "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+        "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/stock-followups-20261015/assessment.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/stock-followups-20261015/design.json"
+      }
+    },
+    {
+      "id": "complete-reagent-followups:F10-CO2-NaOH",
+      "group": "complete-reagent-followups",
+      "title": "F10-CO2-NaOH",
+      "script": "add v1 water 100mL @ 25C\nseal v1 1L\nadd v1 NaOH 0.002mol\ninspect v1\nadd v1 CO2 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "d773a7a785d12f7391b94ca62361237525b01bc5d18d8c3d9221bc79aa793e5f",
+      "expected_result": "Base captures CO2 into carbonate/bicarbonate; inspect pH and distinguish initial-air carbon.",
+      "observed_result": "Carbonate/bicarbonate capture added CO2 and pH remains alkaline at 10.8980. Initial sealed air contributes carbon; total retained carbon must include that baseline.",
+      "validated_on": {
+        "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+        "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+        "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+      },
+      "limitations": [],
+      "evidence": {
+        "assessment": "audits/reaction-dataset-200-20261015/stock-followups-20261015/assessment.json",
+        "tested_script": "audits/reaction-dataset-200-20261015/stock-followups-20261015/design.json"
+      }
+    }
+  ]
+}
