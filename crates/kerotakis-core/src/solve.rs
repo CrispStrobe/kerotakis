@@ -337,6 +337,21 @@ impl SolverStack {
 }
 
 impl Equilibrator for SolverStack {
+    fn trusted_aqueous_readback(
+        &mut self,
+    ) -> Option<&mut dyn crate::aqueous_continuation::TrustedAqueousReadback> {
+        // This exposes an explicitly trusted aqueous adapter, not a stack
+        // equilibrium or a receipt manufactured from a cached solution. An
+        // ambiguous stack has no selected aqueous authority.
+        let mut selected = None;
+        for (index, solver) in self.solvers.iter_mut().enumerate() {
+            if solver.trusted_aqueous_readback().is_some() && selected.replace(index).is_some() {
+                return None;
+            }
+        }
+        self.solvers[selected?].trusted_aqueous_readback()
+    }
+
     fn record_route(&mut self, route: SolverRoute) {
         self.last_routes.push(route);
     }
@@ -2322,6 +2337,14 @@ impl PhaseEquilibrator {
 }
 
 impl Equilibrator for PhaseEquilibrator {
+    fn trusted_aqueous_readback(
+        &mut self,
+    ) -> Option<&mut dyn crate::aqueous_continuation::TrustedAqueousReadback> {
+        // Characterization-only bridge: solvent phase settlement still belongs
+        // to equilibrate(), and is not implied by a current aqueous receipt.
+        self.chemistry.trusted_aqueous_readback()
+    }
+
     fn name(&self) -> &'static str {
         "phase-coupled"
     }
