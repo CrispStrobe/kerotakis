@@ -23,6 +23,24 @@ fn real_native_wrapper_exposes_shared_mechanical_acceptance() {
     );
 }
 
+#[test]
+fn native_cli_stack_exposes_the_same_aqueous_mechanical_acceptance() {
+    // Match the production CLI's Phase(Displacement(PHREEQC)) aqueous tail.
+    // Readback still characterizes only the aqueous state; it does not claim
+    // that the wrapper's other chemistry or phase operations have run.
+    let tail: Vec<Box<dyn Equilibrator>> = vec![Box::new(PhaseEquilibrator::wrapping(Box::new(
+        DisplacementEquilibrator::wrapping(Box::new(PhreeqcEquilibrator::new().unwrap())),
+    )))];
+    let mut stack = SolverStack::new(kerotakis_stack::standard_solvers(tail));
+    let report =
+        kerotakis_phreeqc::continuation_acceptance::run_continuation_acceptance(&mut stack, false);
+    assert!(
+        report.passed(),
+        "{}",
+        serde_json::to_string_pretty(&report).unwrap()
+    );
+}
+
 fn release_peroxide(candidate: &mut Vessel) -> Result<Vec<Event>, SolveError> {
     let peroxide = candidate.moles_of(&SpeciesId::new("H2O2")).0;
     candidate.withdraw(&SpeciesId::new("H2O2"), Moles(peroxide));

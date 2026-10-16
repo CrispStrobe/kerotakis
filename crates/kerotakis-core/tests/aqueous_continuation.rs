@@ -155,6 +155,156 @@ fn erased_wrapper_forwards_only_an_explicit_trusted_adapter() {
     assert!(!whole_step_heat_available(&vessel));
 }
 
+#[test]
+fn stack_and_phase_wrappers_forward_the_unique_trusted_adapter() {
+    use kerotakis_core::aqueous_continuation::{characterize_via, continue_via};
+    for sealed in [false, true] {
+        let mut vessel = fixture(sealed);
+        let snapshot = vessel.step_start.clone();
+        let mut stack = SolverStack::new(vec![
+            Box::new(MixingEquilibrator),
+            Box::new(PhaseEquilibrator::wrapping(Box::new(
+                DisplacementEquilibrator::wrapping(Box::new(Aqueous::new(Answer::Complete))),
+            ))),
+            Box::new(HonestyEquilibrator),
+        ]);
+        let (_, receipt) = characterize_via(&mut stack, &mut vessel).unwrap();
+        let temperature = vessel.temperature;
+        let events = continue_via(&mut vessel, &receipt, &mut stack, transform).unwrap();
+        assert_eq!(vessel.step_start, snapshot);
+        assert_eq!(vessel.temperature, temperature);
+        assert!(!whole_step_heat_available(&vessel));
+        assert!(vessel.moles_of(&SpeciesId::new("H2O2")).0.abs() < 1e-12);
+        assert_eq!(
+            events
+                .iter()
+                .filter(|event| matches!(
+                    event,
+                    Event::GasContained { .. } | Event::GasEvolved { .. }
+                ))
+                .count(),
+            1
+        );
+    }
+}
+
+#[test]
+fn plain_and_ambiguous_stacks_do_not_authorize_cached_answers() {
+    use kerotakis_core::aqueous_continuation::{characterize_via, continue_via};
+    // This generic engine can return a complete-looking cached solution but
+    // explicitly does not opt into the current-input readback contract.
+    struct Cached;
+    impl Equilibrator for Cached {
+        fn name(&self) -> &'static str {
+            "cached-test-answer"
+        }
+        fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+            solution(vessel);
+            Ok(vec![])
+        }
+    }
+    let stacks = [
+        SolverStack::new(vec![]),
+        SolverStack::new(vec![Box::new(PhaseEquilibrator::wrapping(Box::new(
+            Cached,
+        )))]),
+        SolverStack::new(vec![
+            Box::new(Aqueous::new(Answer::Complete)),
+            Box::new(PhaseEquilibrator::wrapping(Box::new(Aqueous::new(
+                Answer::Complete,
+            )))),
+        ]),
+    ];
+    for mut stack in stacks {
+        let mut vessel = fixture(false);
+        let receipt = CurrentAqueousAnswer::attest_computed(&vessel, &vessel).unwrap();
+        let before = format!("{vessel:?}");
+        assert!(characterize_via(&mut stack, &mut vessel).is_err());
+        assert!(continue_via(&mut vessel, &receipt, &mut stack, |_| {
+            panic!("missing or ambiguous adapter must not invoke a transformation")
+        })
+        .is_err());
+        assert_eq!(format!("{vessel:?}"), before);
+    }
+}
+
+#[test]
+fn nested_stack_preserves_unique_authority_and_failed_readback_rollback() {
+    use kerotakis_core::aqueous_continuation::{characterize_via, continue_via};
+    let mut stack = SolverStack::new(vec![Box::new(SolverStack::new(vec![Box::new(
+        Aqueous::new(Answer::Complete),
+    )]))]);
+    let mut vessel = fixture(false);
+    let (_, receipt) = characterize_via(&mut stack, &mut vessel).unwrap();
+    // The outer stack must expose the actual trusted adapter, so the existing
+    // receipt freshness check still refuses a later mutation before transform.
+    vessel.deposit(SpeciesId::new("NaCl"), Moles(0.001), Phase::Solid);
+    let before = format!("{vessel:?}");
+    assert!(continue_via(&mut vessel, &receipt, &mut stack, |_| {
+        panic!("stale receipt must not invoke transform")
+    })
+    .is_err());
+    assert_eq!(format!("{vessel:?}"), before);
+
+    let mut stack = SolverStack::new(vec![Box::new(PhaseEquilibrator::wrapping(Box::new(
+        Aqueous::new(Answer::Error),
+    )))]);
+    let mut vessel = fixture(false);
+    let receipt = CurrentAqueousAnswer::attest_computed(&vessel, &vessel).unwrap();
+    let before = format!("{vessel:?}");
+    assert!(continue_via(&mut vessel, &receipt, &mut stack, transform).is_err());
+    assert_eq!(format!("{vessel:?}"), before);
+}
+
+#[test]
+fn stack_forwarding_preserves_an_optional_partial_answer_without_a_receipt() {
+    use kerotakis_core::aqueous_continuation::{characterize_optional_via, characterize_via};
+    struct Partial;
+    impl Equilibrator for Partial {
+        fn name(&self) -> &'static str {
+            "partial-test-answer"
+        }
+        fn trusted_aqueous_readback(&mut self) -> Option<&mut dyn TrustedAqueousReadback> {
+            Some(self)
+        }
+        fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+            solution(vessel);
+            vessel.solution.as_mut().unwrap().scope = SolutionScope::SolventOnly;
+            Ok(vec![])
+        }
+    }
+    impl TrustedAqueousReadback for Partial {
+        fn characterize_optional_current(
+            &mut self,
+            vessel: &mut Vessel,
+        ) -> Result<(Vec<Event>, Option<CurrentAqueousAnswer>), SolveError> {
+            self.equilibrate(vessel).map(|events| (events, None))
+        }
+        fn characterize_current(
+            &mut self,
+            _: &mut Vessel,
+        ) -> Result<(Vec<Event>, CurrentAqueousAnswer), SolveError> {
+            Err(SolveError::NotConverged {
+                solver: "partial-test-answer".into(),
+                detail: "complete answer unavailable".into(),
+            })
+        }
+    }
+    let mut stack = SolverStack::new(vec![Box::new(PhaseEquilibrator::wrapping(Box::new(
+        Partial,
+    )))]);
+    let mut vessel = fixture(false);
+    let (_, receipt) = characterize_optional_via(&mut stack, &mut vessel).unwrap();
+    assert!(receipt.is_none());
+    assert_eq!(
+        vessel.solution.as_ref().unwrap().scope,
+        SolutionScope::SolventOnly
+    );
+    let before = format!("{vessel:?}");
+    assert!(characterize_via(&mut stack, &mut vessel).is_err());
+    assert_eq!(format!("{vessel:?}"), before);
+}
+
 // Explicit trusted test-double contract: fixture answers are synthetic. This
 // is not a native PHREEQC receipt or evidence of chemical correctness.
 impl TrustedAqueousReadback for Aqueous {
