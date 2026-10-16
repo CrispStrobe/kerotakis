@@ -1,0 +1,9 @@
+# Targeted effluent ownership control; not a blind design.
+register lv3
+add v1 water 20mL @ 20C
+new
+add v2 water 20mL @ 60C
+new
+inspect
+transport v1 from v2 to v3 steps 1 courant 1
+inspect
