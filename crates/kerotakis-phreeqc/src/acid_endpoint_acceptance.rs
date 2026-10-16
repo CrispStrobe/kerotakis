@@ -37,6 +37,20 @@ fn fixture(sealed: bool, missing: bool) -> Vessel {
     v.step_start = Some(StepStart::capture(&v));
     v
 }
+// Preparation is an earlier operation, not the snapshot of the operation
+// whose unknown-heat endpoint is being tested. Keep the original molecular
+// fixture unchanged; start the tested operator from its prepared inventory.
+fn prepared_operator(
+    solver: &mut dyn Equilibrator,
+    sealed: bool,
+    missing: bool,
+) -> Result<Vessel, String> {
+    let mut vessel = fixture(sealed, missing);
+    characterize_via(solver, &mut vessel).map_err(|e| format!("initial real answer: {e}"))?;
+    vessel.step_start = Some(StepStart::capture(&vessel));
+    Ok(vessel)
+}
+
 fn amount(v: &Vessel, key: &str) -> f64 {
     v.moles_of(&SpeciesId::new(key)).0
 }
@@ -50,8 +64,7 @@ fn scenario(
     missing: bool,
     wrapper: bool,
 ) -> Result<String, String> {
-    let mut v = fixture(sealed, missing);
-    characterize_via(solver, &mut v).map_err(|e| format!("initial real answer: {e}"))?;
+    let mut v = prepared_operator(solver, sealed, missing)?;
     let row = REACTIONS
         .iter()
         .find(|r| r.post_aqueous == Some(PostAqueousEndpoint::AcidicPermanganatePeroxide))
@@ -108,21 +121,48 @@ fn scenario(
             _ => None,
         })
         .sum();
-    if reactions != 1
-        || !close(amount(&v, "MnO4-"), mn - 2.0 * x)
-        || !close(amount(&v, "H2O2"), per - 5.0 * x)
-        || !close(amount(&v, "Mn+2") - amount(&before, "Mn+2"), 2.0 * x)
-        || !close(oxygen, 5.0 * x)
-        || !close(amount(&v, "K+"), amount(&before, "K+"))
-        || !close(amount(&v, "SO4-2"), amount(&before, "SO4-2"))
-        || !close(v.temperature.0, before.temperature.0)
-        || v.solution.as_ref().is_none_or(|s| !s.ph.is_finite())
-        || kerotakis_core::aqueous_continuation::whole_step_heat_available(&v)
-    {
-        return Err(format!("endpoint balance/reading contract failed: extent={x}, O2={oxygen}, vessel={v:?}, events={events:?}"));
+    let checks = [
+        ("one_exact_endpoint", reactions == 1),
+        (
+            "permanganate_debit",
+            close(amount(&v, "MnO4-"), mn - 2.0 * x),
+        ),
+        ("peroxide_debit", close(amount(&v, "H2O2"), per - 5.0 * x)),
+        (
+            "manganese_ii_increment",
+            close(amount(&v, "Mn+2") - amount(&before, "Mn+2"), 2.0 * x),
+        ),
+        ("oxygen_increment", close(oxygen, 5.0 * x)),
+        (
+            "potassium_retained",
+            close(amount(&v, "K+"), amount(&before, "K+")),
+        ),
+        (
+            "sulfate_retained",
+            close(amount(&v, "SO4-2"), amount(&before, "SO4-2")),
+        ),
+        (
+            "temperature_unchanged",
+            close(v.temperature.0, before.temperature.0),
+        ),
+        (
+            "finite_final_ph",
+            v.solution.as_ref().is_some_and(|s| s.ph.is_finite()),
+        ),
+        (
+            "unknown_heat_ownership",
+            !kerotakis_core::aqueous_continuation::whole_step_heat_available(&v),
+        ),
+    ];
+    if checks.iter().any(|(_, passed)| !passed) {
+        return Err(format!(
+            "endpoint balance/reading contract failed: checks={checks:?}, extent={x}, O2={oxygen}, before_T_K={}, after_T_K={}, before={before:?}, after={v:?}, events={events:?}",
+            before.temperature.0, v.temperature.0,
+        ));
     }
     Ok(format!(
-        "bounded endpoint: extent={x:.12e} mol, O2={oxygen:.12e} mol; no rate/heat calibration"
+        "bounded endpoint: extent={x:.12e} mol, O2={oxygen:.12e} mol, before_T_K={}, after_T_K={}, checks={checks:?}; no rate/heat calibration",
+        before.temperature.0, v.temperature.0,
     ))
 }
 fn report(solver: &mut dyn Equilibrator, missing: bool, wrapper: bool) -> AcidEndpointReport {
@@ -164,10 +204,9 @@ pub fn run_aqueous(solver: &mut dyn Equilibrator) -> AcidEndpointReport {
 /// hosts must decline it atomically, rather than borrow another endpoint.
 pub fn warm_missing_initials(solver: &mut dyn Equilibrator) -> Result<(), String> {
     for sealed in [false, true] {
-        let mut v = fixture(sealed, true);
-        characterize_via(solver, &mut v).map_err(|e| format!("missing fixture initial: {e}"))?;
+        let mut v = prepared_operator(solver, sealed, true)?;
         characterize_via(solver, &mut v)
-            .map_err(|e| format!("missing fixture current initial: {e}"))?;
+            .map_err(|e| format!("missing fixture new-operator initial: {e}"))?;
     }
     Ok(())
 }
