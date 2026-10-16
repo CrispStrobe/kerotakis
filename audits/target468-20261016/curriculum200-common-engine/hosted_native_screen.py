@@ -49,9 +49,14 @@ def main():
         if Path(name).name != name or sha(bundle / 'lib' / name) != expected:
             raise ValueError('Runtime library checksum mismatch')
     paths = []
+    artifact_names = set()
     for case in design['cases']:
-        if not re.fullmatch('[a-zA-Z0-9:-]{1,100}', case['id']):
+        if not re.fullmatch('[a-zA-Z0-9_:-]{1,100}', case['id']):
             raise ValueError('Unexpected case identifier')
+        name = case['id'].replace(':', '_')
+        if name in artifact_names:
+            raise ValueError('Colliding artifact directory name')
+        artifact_names.add(name)
         script = (HERE / case['selected_script']).resolve()
         if not script.is_relative_to(HERE) or sha(script) != case['selected_script_sha256']:
             raise ValueError('Selected protocol path/hash mismatch')

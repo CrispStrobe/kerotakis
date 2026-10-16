@@ -1,0 +1,12 @@
+{
+  "recorded_utc": "2026-10-16T13:40:29.650675+00:00",
+  "first_run": 38909046228,
+  "first_run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38909046228",
+  "first_log_sha256": "4be261c4eab8a17e197e9c8a8c4d53ffd186a8ee38a95de415c27e8a5b16afa9",
+  "engine_executions": 0,
+  "failure": "Preflight rejected existing underscore-bearing case IDs before creating output or launching a process. Artifact upload consequently found no output.",
+  "old_runner_sha256": "c1a1e689b70143c393dfcaca8a5efeefb11294d3d02d3e608284027b274a39c3",
+  "corrected_runner_sha256": "8b8a771d9bc87cfd231b99f2d903936750c20a4ac679d28ca6eb8a31b6277b41",
+  "correction": "Allow ASCII underscore in bounded identifier; retain path containment and exact script/source/binary/library hashes; reject normalized artifact-name collisions. No script, physical forecast, engine, process limit or scientific acceptance changed.",
+  "all_ids_and_script_hashes_verified": 200
+}
