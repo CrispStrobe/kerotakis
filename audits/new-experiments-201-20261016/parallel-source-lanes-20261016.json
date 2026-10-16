@@ -1,0 +1,54 @@
+{
+  "recorded_utc": "2026-10-16T10:23:16.121511+00:00",
+  "documentation_pr": 811,
+  "documentation_head": "ca4b4cf6bbb17d19114fddd43ba6c2d9a3dbc39d",
+  "documentation_scope": [
+    "docs/STATUS.md"
+  ],
+  "documentation_delivery": "normal protected auto-merge enabled after scope and pinned-link review",
+  "working_catalog_count": 152,
+  "newly_selected_original_new201_cases": [
+    "batch2:qa-001",
+    "batch2:qa-002"
+  ],
+  "transport_baseline_run": 38884179479,
+  "transport_baseline_verdict": "two receiver-temperature failures: -40 K and +40 K; cell temperature and represented material pass",
+  "repair_lanes": [
+    {
+      "lane": "transport-effluent",
+      "state": "in-progress source patch; no compile/native/replay acceptance yet",
+      "review_requirements": [
+        "bounded receiver proposal",
+        "temperature and phase preservation",
+        "charge and measured free-ion ownership",
+        "distinct boundary roles and atomic rollback",
+        "exact source-bound hosted controls/full applicable fleet"
+      ]
+    },
+    {
+      "lane": "canonical-hydroxide",
+      "state": "in-progress source patch; important solver-scope and fresh-receipt issues under review",
+      "review_requirements": [
+        "safe unambiguous trusted adapter selection",
+        "same cloned state for initial readback and continuation",
+        "no weak-route fallback on failed trusted readback",
+        "explicit simple-domain admission and finite conservative debit",
+        "full rollback, unknown heat and cross-host acceptance"
+      ]
+    },
+    {
+      "lane": "NaBr-optics-CEA",
+      "state": "source diagnostic awaiting correction; no product patch approved",
+      "review_requirements": [
+        "independent compatible optical provenance",
+        "actual budget-filtered candidate and matrix analysis",
+        "retain solver failure and rollback",
+        "no new gases or phase deletion solely to avoid singularity"
+      ]
+    }
+  ],
+  "local_engine_executions": 0,
+  "local_builds": 0,
+  "resource_policy": "source work only under private resource gates; heavy validation hosted",
+  "immutable_prior_evidence_preserved": true
+}
