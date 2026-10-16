@@ -16,7 +16,7 @@ The [scoreboard](scoreboard.json) now has all468 actual case records. The first1
 file is present and authenticated against the exact SHA declared by batch2. The
 [previous checkpoint](scoreboard-before-first120-arrival.json) preserves the earlier
 missing-file state; it is superseded by this inventory.
-The working catalog has189 entries, but its zinc/copper and conducting-stock
+The working catalog has191 entries, but its zinc/copper and conducting-stock
 water-electrolysis repairs come from the separate200-reaction corpus and are
 outside these four batches. Original147 entries match their frozen export.
 
@@ -108,4 +108,6 @@ was required for these selections.
 Three separately frozen prepared-protocol API follow-ups also completed and met
 their bounded checks; see [analytical controls](prepared-basis-first2/README.md)
 and [complete-stock oxalate](oxalate-physical-stock-followup/README.md).
-They do not yet add catalog entries or close the original missing identities.
+A [separate reviewed selection](prepared-protocol-selection.json) adds the copper
+prepared-ion and complete-stock oxalate protocols, bringing the catalog to191.
+They do not close the original missing identities or increase the fixed468 selection.

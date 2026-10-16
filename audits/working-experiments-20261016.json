@@ -14,7 +14,7 @@
     "The recent silver/ammonia replay is excluded because canonical free/complex-bound ligand ownership remains a material gap.",
     "Original experiment designs, forecasts and first results remain unchanged."
   ],
-  "count": 189,
+  "count": 191,
   "counts_by_group": {
     "independent-first50": 38,
     "independent-second50": 25,
@@ -23,7 +23,7 @@
     "fresh50-normalized": 28,
     "supplied200": 13,
     "complete-reagent-followups": 9,
-    "supplied200-repaired-protocols": 2,
+    "supplied200-repaired-protocols": 4,
     "new201-original-assessed": 6,
     "first120-original-assessed": 34
   },
@@ -4003,7 +4003,71 @@
         "selection": "audits/target468-20261016/saved-first120-selection.json",
         "case_id": "new120:pr-010"
       }
+    },
+    {
+      "id": "supplied200-repaired-protocols:084-copper-chloride-prepared-ions",
+      "group": "supplied200-repaired-protocols",
+      "title": "Finite copper-chloride electrolysis on explicit aqueous components",
+      "script": "# Rank084 separate aqueous copper-chloride analytical-basis control\nadd v1 water 100mL @ 25C\nseal v1 1L\ninspect v1\nadd v1 Cu+2 0.001mol\nadd v1 Cl- 0.002mol\ninspect v1\nelectrolyse v1 0.1A 10s\nwait 10s\ninspect v1\n",
+      "script_sha256": "026252c876919b8d0fb6c1ae540c807a08768f9ad3631f1ee8bb97cd39f192db",
+      "expected_result": "Finite copper deposition with chloride oxidation under the existing ideal-current aqueous electrolysis model.",
+      "observed_result": "At1C,5.182134828µmolCu plates and5.182134828µmolCl2 forms. Retained Cu/Cl close including atacamite. Intermediate charge/Tenorite boundaries remain explicit.",
+      "validated_on": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "api_revision": "266121dd5605a439a495c85f2401fbeacd6272f4",
+        "binding_qualification": "Saved engine source/binary/lock identities agree with frozen designs. Git source blobs and saved manifests are authenticated here. Workspace Cargo.lock is not tracked at this source; this review does not independently rehash the producer lock bytes or binary artifact and does not re-attest deployment."
+      },
+      "limitations": [
+        "No empirical rate, electrode kinetics, overpotential, initiation threshold, quantitative empirical yield or full thermal calibration.",
+        "Oxalate curated rows lack acid/temperature gating and shipped oxalate equilibrium speciation; warm acidic preparation narrows the demonstrated protocol, not the implementation domain.",
+        "84 sequential prepared analytical ions emit intermediate charge and withheld-Tenorite notices; this is not a CuCl2 stock or dissolution-enthalpy repair.",
+        "Whole-protocol contents ownership includes all phases. solution species distributions, measured proton fields and lots are not additional matter.",
+        "Separate prepared protocol; original rank84 first refusal and missing identity remain unchanged."
+      ],
+      "evidence": {
+        "original_rank": 84,
+        "original_script_sha256": "0743f1f2fe92fdf4a787b74ca58a2c9aca7d9dcb62973f2c6304f8cbdb712ee8",
+        "design": "audits/target468-20261016/prepared-basis-first2/design.json",
+        "assessment": "audits/target468-20261016/prepared-basis-first2/results/assessment.json",
+        "raw_response": "audits/target468-20261016/prepared-basis-first2/results/84-prepared-basis/response.body",
+        "independent_review": "audits/target468-20261016/prepared-basis-first2/independent-review.json",
+        "selection": "audits/target468-20261016/prepared-protocol-selection.json"
+      }
+    },
+    {
+      "id": "supplied200-repaired-protocols:118-acidic-oxalate-complete-stocks",
+      "group": "supplied200-repaired-protocols",
+      "title": "Warm acidic permanganate and oxalic acid from complete stocks",
+      "script": "# Rank118 separate complete-stock, warm acidic oxalate control\nadd v1 water 100mL @ 60C\nseal v1 1L\ninspect v1\nadd v1 H2SO4 0.01mol @ 60C\nadd v1 H2C2O4 0.005mol @ 60C\nadd v1 KMnO4 0.002mol @ 60C\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "27540d70f170e04ccf09d70383a96d10c8d57dd700efe576db37307a1d83f49d",
+      "expected_result": "Acidic warm complete stocks support the curated permanganate/oxalic-acid conversion, consuming2mmol permanganate and forming10mmolCO2.",
+      "observed_result": "Permanganate is consumed;10mmolCO2 forms, with2mmolMn,2mmolK and10mmolS retained. FinalpH1.292; no solver or model-boundary warnings; all element/formal-charge balances close.",
+      "validated_on": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "api_revision": "266121dd5605a439a495c85f2401fbeacd6272f4",
+        "binding_qualification": "Saved engine source/binary/lock identities agree with frozen designs. Git source blobs and saved manifests are authenticated here. Workspace Cargo.lock is not tracked at this source; this review does not independently rehash the producer lock bytes or binary artifact and does not re-attest deployment."
+      },
+      "limitations": [
+        "No empirical rate, electrode kinetics, overpotential, initiation threshold, quantitative empirical yield or full thermal calibration.",
+        "Oxalate curated rows lack acid/temperature gating and shipped oxalate equilibrium speciation; warm acidic preparation narrows the demonstrated protocol, not the implementation domain.",
+        "84 sequential prepared analytical ions emit intermediate charge and withheld-Tenorite notices; this is not a CuCl2 stock or dissolution-enthalpy repair.",
+        "Whole-protocol contents ownership includes all phases. solution species distributions, measured proton fields and lots are not additional matter.",
+        "Separate prepared protocol; original rank118 first refusal and missing identity remain unchanged."
+      ],
+      "evidence": {
+        "original_rank": 118,
+        "original_script_sha256": "778c52a7b6720d3138fa553b5dd0ab8fbd3ae7a60565fe058cd84603cc641c26",
+        "design": "audits/target468-20261016/oxalate-physical-stock-followup/design.json",
+        "assessment": "audits/target468-20261016/oxalate-physical-stock-followup/results/assessment.json",
+        "raw_response": "audits/target468-20261016/oxalate-physical-stock-followup/results/118-complete-stocks/response.body",
+        "independent_review": "audits/target468-20261016/prepared-basis-first2/independent-review.json",
+        "selection": "audits/target468-20261016/prepared-protocol-selection.json"
+      }
     }
   ],
-  "updated_utc": "2026-10-16T18:23:53.238549+00:00"
+  "updated_utc": "2026-10-16T18:28:55.025423+00:00"
 }

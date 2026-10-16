@@ -1,0 +1,18 @@
+{
+  "recorded_utc": "2026-10-16T18:28:55.025423+00:00",
+  "selected_ids": [
+    "supplied200-repaired-protocols:084-copper-chloride-prepared-ions",
+    "supplied200-repaired-protocols:118-acidic-oxalate-complete-stocks"
+  ],
+  "catalog_before_count": 189,
+  "catalog_after_count": 191,
+  "catalog_before_sha256": "8034c00008dd2b1f44398fa0ebaebac5f59ba5fb43d8979a0dde2e5901d56db4",
+  "catalog_after_sha256": "22b373d2c51e28269c5e1e16ef4f83ba4e37ad8754afa54c6c9b555b7d601a38",
+  "previous189_entries_unchanged": true,
+  "fixed_target_selection_delta": 0,
+  "fixed_target_selected": 187,
+  "independent_review_sha256": "d2cf49ea419ce58bcfad63b8d810358bf50bdde7e93161e976ea8b065ba71d25",
+  "original_cases_closed": false,
+  "excluded_analytical_control": "118-prepared-basis retains uncompensated charge and missing rhodochrosite phases.",
+  "qualification": "Bounded source-qualified prepared protocol evidence, not aliases, empirical calibration or closure of original first refusals."
+}

@@ -24,3 +24,8 @@ registry compositions, baseline observation2 and reaction observation5; it does
 not count trapped-CO2 repartition as newly produced carbon. No engine or network
 request is made. Catalog selection remains separate; original refusals, missing
 identities, empirical rates and heat calibration remain unchanged.
+
+The subsequent [independent review](../prepared-basis-first2/independent-review.md)
+and [selection receipt](../prepared-protocol-selection.json) accept the copper
+prepared-ion and complete-stock oxalate variants as bounded catalog entries.
+Original missing identities and first refusals remain open.

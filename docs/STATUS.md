@@ -9,7 +9,7 @@ contain obsolete pending notes. A process exit is not a scientific verdict.
 
 Latest checkpoint: the [separate saved-evidence selection](../audits/target468-20261016/saved-first120-selection.json)
 adds34 unchanged protocols (21acid-base,13precipitation), with independent reviews
-and explicit limitations. The working catalog now contains**189 entries**, of
+and explicit limitations. The working catalog now contains**191 entries**, of
 which**187 belong to the fixed468 target**;214 further selections are needed for401.
 Previous155 entries, original predictions and first outputs remain unchanged.
 Historical dated counts below retain their original scope.
@@ -28,8 +28,10 @@ retains the original oxalate charge/phase limits and the copper control's
 intermediate boundaries. The separately frozen
 [complete-stock oxalate assessment](../audits/target468-20261016/oxalate-physical-stock-followup/results/assessment.json)
 forms10mmolCO2, retains2mmolMn and finishes atpH1.292 without solver or model
-warnings. These follow-ups await separate catalog review; no missing original
-identity, empirical rate or heat calibration is claimed closed.
+warnings. Independent review now selects the copper prepared-ion and complete-stock
+oxalate protocols via the [separate receipt](../audits/target468-20261016/prepared-protocol-selection.json).
+The analytical oxalate control stays excluded; no missing original identity,
+empirical rate or heat calibration is claimed closed.
 
 ## Integrated behavior
 

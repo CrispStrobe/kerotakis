@@ -18,3 +18,8 @@ changed gateway266121dd bindings. Use the sibling
 No calibrated initiation temperature, reaction rate, heat or empirical yield is
 established. Original missing C2O4-- identity and first refusal remain open;
 catalog selection requires separate review.
+
+The subsequent [independent review](../prepared-basis-first2/independent-review.md)
+and [selection receipt](../prepared-protocol-selection.json) accept the copper
+prepared-ion and complete-stock oxalate variants as bounded catalog entries.
+Original missing identities and first refusals remain open.

@@ -1,16 +1,18 @@
 {
   "schema": "kerotakis.fixed-target468.v1",
-  "recorded_utc": "2026-10-16T18:23:53.238549+00:00",
+  "recorded_utc": "2026-10-16T18:28:55.025423+00:00",
   "declared_target_total": 468,
   "minimum_selected_goal": 401,
   "baseline147_commit": "159fa6e08fa4ebea3105ac7e17d5b8350bc91189",
   "available_case_records": 468,
   "missing_first_batch": null,
-  "current_working_catalog_entries": 189,
+  "current_working_catalog_entries": 191,
   "source_qualified_selected_in_target": 187,
   "out_of_target_catalog_entries": [
     "supplied200-repaired-protocols:014-zinc-copper",
-    "supplied200-repaired-protocols:007-water-electrolysis"
+    "supplied200-repaired-protocols:007-water-electrolysis",
+    "supplied200-repaired-protocols:084-copper-chloride-prepared-ions",
+    "supplied200-repaired-protocols:118-acidic-oxalate-complete-stocks"
   ],
   "additional_selections_needed_for_401": 214,
   "latest_combined_release_pass_count": null,
