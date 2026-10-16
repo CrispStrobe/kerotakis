@@ -7,16 +7,16 @@ new designs, variants and engineering checks do not increase this count.
 | Batch | Declared cases | Selected working evidence on recorded versions |
 | --- | ---: | ---: |
 | Original catalog | 147 | 147 retained unchanged from159fa6e0 |
-| First additional batch | 120 | All120 executed; physical assessment pending |
+| First additional batch | 120 | 34 selected:21acid-base and13precipitation;86 remain unselected |
 | Batch2 | 101 | 6: QA001, QA002, QA009, QA010, QA011, QA012 |
 | Batch3 | 100 | 0 selected so far |
-| Total | 468 | 153 accounted for; no unified latest-release count yet |
+| Total | 468 | 187 accounted for; no unified latest-release count yet |
 
 The [scoreboard](scoreboard.json) now has all468 actual case records. The first120
 file is present and authenticated against the exact SHA declared by batch2. The
 [previous checkpoint](scoreboard-before-first120-arrival.json) preserves the earlier
 missing-file state; it is superseded by this inventory.
-The working catalog has155 entries, but its zinc/copper and conducting-stock
+The working catalog has189 entries, but its zinc/copper and conducting-stock
 water-electrolysis repairs come from the separate200-reaction corpus and are
 outside these four batches. Original147 entries match their frozen export.
 
@@ -45,10 +45,10 @@ is assigned new experiment passes before source-bound follow-up acceptance.
    release and qualify actual deployment separately. Update the scoreboard from
    per-case physical outcomes, preserving previous versions and first failures.
 
-There are248 further selections needed to reach401 from153. Even if all105
-clean candidates and the first120 eventually work, the total would be378;
+There are214 further selections needed to reach401 from187. The prior optimistic
+bound of378 after all clean candidates and first120 still applies;
 at least23 additional limited/failing/refused cases must then be repaired.
-This is an optimistic planning bound, not a prediction that all225 will pass.
+This is an optimistic planning bound, not a prediction that all remaining candidates will pass.
 No empirical calibration or latest-release certification is claimed here.
 
 ## Separate curriculum corpus:668 records in all
@@ -93,3 +93,19 @@ remaining original147/first120 protocols completed in
 These results establish execution and preserve raw evidence, not557 physical
 passes. The repaired-gateway [REST batch](rest-api-all668/README.md) is continuing
 on the same native engine.
+
+
+## Latest saved selection
+
+The [root selection receipt](saved-first120-selection.json) accepts34 unchanged
+first120 protocols after independent reviews:21acid-base and13precipitation.
+The first assessments and scripts remain byte-identical. PR-001 shows only2.49%
+partial redissolution. PR-016 remains held because unsupported solubility values
+control its ethanol yield; excluded phases and incomplete spectra remain attached
+to their bounded entries. Catalog189, fixedtarget187/468; no new engine execution
+was required for these selections.
+
+Three separately frozen prepared-protocol API follow-ups also completed and met
+their bounded checks; see [analytical controls](prepared-basis-first2/README.md)
+and [complete-stock oxalate](oxalate-physical-stock-followup/README.md).
+They do not yet add catalog entries or close the original missing identities.

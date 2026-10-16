@@ -1,0 +1,1 @@
+{"script": "# Rank118 separate complete-stock, warm acidic oxalate control\nadd v1 water 100mL @ 60C\nseal v1 1L\ninspect v1\nadd v1 H2SO4 0.01mol @ 60C\nadd v1 H2C2O4 0.005mol @ 60C\nadd v1 KMnO4 0.002mol @ 60C\ninspect v1\nwait 10s\ninspect v1\n"}

@@ -7,13 +7,29 @@ lanes can proceed in parallel where prerequisites permit. Frozen forecasts,
 first failures and versioned evidence remain unchanged; older checkpoints can
 contain obsolete pending notes. A process exit is not a scientific verdict.
 
-Latest delivery checkpoint: all668 first API requests are authenticated; the two
-infrastructure failures now complete in separately frozen changed-budget
-follow-ups with exact native JSON agreement. PR810/812/813 are integrated with
-verified merge trees. API PR814–817 remain gated by exact-head full acceptance;
-production remainsc446. PR809 needs its separately bound CLI replay. The working
-catalog remains155 (153 within fixed468);34 independently reviewed saved-case
-proposals await final selection. Details and next gates are below.
+Latest checkpoint: the [separate saved-evidence selection](../audits/target468-20261016/saved-first120-selection.json)
+adds34 unchanged protocols (21acid-base,13precipitation), with independent reviews
+and explicit limitations. The working catalog now contains**189 entries**, of
+which**187 belong to the fixed468 target**;214 further selections are needed for401.
+Previous155 entries, original predictions and first outputs remain unchanged.
+Historical dated counts below retain their original scope.
+
+PR814 and815 are integrated with verified merge trees;816/817 await their
+exact-head full acceptance. Production remainsc446. PR819's reviewed
+`0d61f582` preserves the corrected runtime/tests and normally merges accepted
+main; freshCI and full own fleet remain pending. Its obsolete failed-head
+queue is cancelled with no running jobs interrupted. PR809 retains its separate
+source-bound CLI replay requirement.
+
+Three changed prepared protocols completed once through the API, meeting their
+frozen bounded checks and represented material/charge balances. The
+[analytical-basis assessment](../audits/target468-20261016/prepared-basis-first2/results/assessment.json)
+retains the original oxalate charge/phase limits and the copper control's
+intermediate boundaries. The separately frozen
+[complete-stock oxalate assessment](../audits/target468-20261016/oxalate-physical-stock-followup/results/assessment.json)
+forms10mmolCO2, retains2mmolMn and finishes atpH1.292 without solver or model
+warnings. These follow-ups await separate catalog review; no missing original
+identity, empirical rate or heat calibration is claimed closed.
 
 ## Integrated behavior
 

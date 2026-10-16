@@ -1,0 +1,1 @@
+{"script": "# Rank084 separate aqueous copper-chloride analytical-basis control\nadd v1 water 100mL @ 25C\nseal v1 1L\ninspect v1\nadd v1 Cu+2 0.001mol\nadd v1 Cl- 0.002mol\ninspect v1\nelectrolyse v1 0.1A 10s\nwait 10s\ninspect v1\n"}

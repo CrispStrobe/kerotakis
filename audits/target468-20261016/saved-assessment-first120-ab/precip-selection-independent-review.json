@@ -1,0 +1,2106 @@
+{
+  "scope": "Independent review of sibling14 proposed first120 precipitation selections. Retrospective source/saved JSON only, no engines/network/builds/catalog changes.",
+  "sibling_snapshot_sha256": {
+    "README.md": "980eaadb48a88649a5036060f82ed7c72a265c40235932f9e1a242722feeb4af",
+    "assessment.json": "168030b87eac0978b7644f40d54e96cb158db654b0f1ae735804b67e89528b0d",
+    "assess.py": "f2b7194ed3a0865a1dddd740709ebb9a17d35f8e368a097847d3488259f1c990"
+  },
+  "shared_AB_reader_sha256": "941aca6d60bb0e5c8741047fa6ba6f52483c5d10a1d6fb7b1acad7342032aef5",
+  "original_sha256": "8e9fb7a92c20ad4de747d43540e417684ba398ff3896ab9d3de270e5a99b1fdd",
+  "archive_sha256": "9c33ddf3893ab32e0309dc1ef5c65b3b2c4e2967c8a3468c2808b0de1074201f",
+  "design": {
+    "original_byte_sha256": "e89c2f91b07ecb639436d75bae7417b5af9d3febfecb977519a2742fde692ea0",
+    "archived_byte_sha256": "8809b1558840709aed6f046087727a3d8b0a37fe031be1cf3a1e472c532ed05c",
+    "full_json_value_equal": true
+  },
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "source_file_sha256_at_engine_commit": {
+    "crates/kerotakis-core/src/nonaqueous.rs": "df2dc81f729cafd5312df546e868f9b0ff950818bcb2f84e332c8a9b022b4d3d",
+    "crates/kerotakis-core/src/curated.rs": "20db49d2b0679fb77e1df7205f6a4ae8878f8becccf7c30cebb1c9796bcd27a5"
+  },
+  "lock_binary_qualification": "Source/binary/lock identities are bound to the authenticated producer receipt; raw executable and Cargo.lock bytes absent from the case archive.",
+  "proposed_supported_ids": [
+    "new120:pr-001",
+    "new120:pr-002",
+    "new120:pr-003",
+    "new120:pr-004",
+    "new120:pr-006",
+    "new120:pr-007",
+    "new120:pr-009",
+    "new120:pr-010",
+    "new120:pr-011",
+    "new120:pr-012",
+    "new120:pr-013",
+    "new120:pr-014",
+    "new120:pr-015"
+  ],
+  "held_ids": [
+    "new120:pr-016"
+  ],
+  "selection_qualification": "Root owns final selections. PR003/004/012/015 require the exact named phase/spectrum/reference-temperature limitations below; matching literal honesty guards alone never earns selection. These13 have positive phase/equilibrium evidence beyond honesty guards.",
+  "material_qualification": "Final whole-script represented H/O/C/N/P/S/Na/Cl/Ca/Mg/Fe/Zn/Cu/Ag/Ba/Si and charge ledger, with neutral chemical formulae and actual trapped-air/exports. Diagnostic H/OH, ligand-distribution tables and lots are not extra owned matter. Not per-step, full physical-phase or energy closure.",
+  "new_engine_executions": 0,
+  "catalog_additions": 0,
+  "cases": [
+    {
+      "id": "new120:pr-001",
+      "original_forecast": "A moderate hydroxide dose gives Zn(OH)2; sufficiently strong excess hydroxide can redissolve it into soluble hydroxo-zinc species.",
+      "original_criteria": [
+        {
+          "id": "PR-001-C1",
+          "criterion": "A zinc-bearing hydroxide solid appears at the intermediate snapshot.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "PR-001-C2",
+          "criterion": "Its amount decreases after excess base while total zinc remains constant; unsupported hydroxo-complex coverage is not a chemical pass.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "verified_hashes": {
+        "script": "8ac28f75cbf98404ed60f57e29a9a6ae4dd0b87b5dd322851288e8b9fca77a2f",
+        "stdout": "eb5c91d929e46014101710843c8af119ef499997352bfe773e06800fa5959a93",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "execution_receipt": "af901f3e6061769e607fe594ef8d23d109da8a4af86dece779f36a9a17bb7b38"
+      },
+      "named_limits": [],
+      "independent_positive_numeric_checks": {},
+      "final_whole_script_material_charge_residual_mol": {
+        "H": -3.552713678800501e-15,
+        "O": 0.0,
+        "C": 0.0,
+        "N": 0.0,
+        "P": 0.0,
+        "S": 7.539541907464198e-16,
+        "Na": -2.4303475898435067e-15,
+        "Cl": 0.0,
+        "Ca": 0.0,
+        "Mg": 0.0,
+        "Fe": 0.0,
+        "charge": 1.0633854907737827e-15,
+        "Zn": 8.033938098117588e-16,
+        "Cu": 0.0,
+        "Ag": 0.0,
+        "Ba": 0.0,
+        "Si": 0.0
+      },
+      "max_abs_residual_mol": 3.552713678800501e-15,
+      "phase_ownership": [
+        {
+          "vessel": 0,
+          "contents": [
+            {
+              "moles": 0.00999999999999757,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 2.566086516730344e-05,
+              "phase": "aqueous",
+              "species": "Zn+2"
+            },
+            {
+              "moles": 0.001000000000000754,
+              "phase": "aqueous",
+              "species": "SO4-2"
+            },
+            {
+              "moles": 0.0009743391348335,
+              "phase": "solid",
+              "species": "Zn(OH)2"
+            },
+            {
+              "moles": 5.534276991396059,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.008051321730329606,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ]
+        }
+      ],
+      "independent_disposition": "bounded_criteria_supported_for_root_consideration",
+      "scope": "Represented positive phases/metal ownership only; all original limitations retained. No full phase/heat/empirical validation.",
+      "partial_redissolution": {
+        "solid_before_mol": 0.0009992239623547,
+        "solid_after_mol": 0.0009743391348335,
+        "decrease_mol": 2.4884827521200084e-05,
+        "decrease_fraction": 0.024904154082292292,
+        "total_owned_zinc_mol": [
+          0.0010000000000007449,
+          0.0010000000000008034
+        ],
+        "reported_hydroxo_complex_molality": {
+          "Zn(OH)4-2": 0.0001647,
+          "Zn(OH)3-": 8.884e-05
+        }
+      },
+      "reason": "Original C2 requires a decrease, not clearing or a minimum fraction. A 2.4904% decrease with supported hydroxo-complex distribution and zinc retention is substantive bounded partial redissolution. Neither the original forecast nor checks require complete clearing; do not rename this result complete dissolution."
+    },
+    {
+      "id": "new120:pr-002",
+      "original_forecast": "Acid dissolves the initial hydroxide; restoring alkalinity produces a magnesium hydroxide solid again without inventing a magnesium-chloride bottle key.",
+      "original_criteria": [
+        {
+          "id": "PR-002-C1",
+          "criterion": "The solid inventory falls on acidification and rises again after base addition.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "PR-002-C2",
+          "criterion": "Total magnesium stays at 0.001 mol across the cycle.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "verified_hashes": {
+        "script": "5d2782a7fbf09e3e87e342e33c3c34ed42262be6a9616fa0d0ebd69213a9d00f",
+        "stdout": "c3b5ecc36f38f2ff5df4fed05cc49db884da7b1232a6edcfb9ad150553c82526",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "execution_receipt": "046c975176ba13fb1838ab02a44e11ded3cd74813377c1634a7ce0d4e09783ac"
+      },
+      "named_limits": [],
+      "independent_positive_numeric_checks": {
+        "MgOH_solid_cycle_mol": [
+          0.0009867943730932,
+          0,
+          0.0009835919635217
+        ]
+      },
+      "final_whole_script_material_charge_residual_mol": {
+        "H": -1.7763568394002505e-15,
+        "O": 8.881784197001252e-16,
+        "C": 0.0,
+        "N": 0.0,
+        "P": 0.0,
+        "S": 0.0,
+        "Na": -8.925152283900673e-16,
+        "Cl": -8.925152283900673e-16,
+        "Ca": 0.0,
+        "Mg": 6.630980486921345e-16,
+        "Fe": 0.0,
+        "charge": 1.326196097384269e-15,
+        "Zn": 0.0,
+        "Cu": 0.0,
+        "Ag": 0.0,
+        "Ba": 0.0,
+        "Si": 0.0
+      },
+      "max_abs_residual_mol": 1.7763568394002505e-15,
+      "phase_ownership": [
+        {
+          "vessel": 0,
+          "contents": [
+            {
+              "moles": 0.0019999999999991075,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 1.6408036478963214e-05,
+              "phase": "aqueous",
+              "species": "Mg+2"
+            },
+            {
+              "moles": 0.0019999999999991075,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 0.0009835919635217,
+              "phase": "solid",
+              "species": "Mg(OH)2"
+            },
+            {
+              "moles": 5.536276991396059,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 3.2816072956600145e-05,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ]
+        }
+      ],
+      "independent_disposition": "bounded_criteria_supported_for_root_consideration",
+      "scope": "Represented positive phases/metal ownership only; all original limitations retained. No full phase/heat/empirical validation."
+    },
+    {
+      "id": "new120:pr-003",
+      "original_forecast": "Brown ferric hydroxide formed by base addition is substantially removed by a deliberate excess of acid.",
+      "original_criteria": [
+        {
+          "id": "PR-003-C1",
+          "criterion": "Ferric solid decreases after the acid challenge.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "PR-003-C2",
+          "criterion": "Iron remains in the vessel in dissolved forms; disappearance of turbidity is not disappearance of iron.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "verified_hashes": {
+        "script": "96ed93cbc122da57dd5c9b06140ad641da5505d6a3fb03e913847a892d49f341",
+        "stdout": "4812d0262aba364b9356cfa4b6cbb212a085460e533f226cbf89ec95df85fb3e",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "execution_receipt": "cb0c89ef5c82492cc417c8546bb09433e0fe2e6a9dec1fd07585aa352c0e09ef"
+      },
+      "named_limits": [
+        {
+          "row": 1,
+          "cause": "phase-not-in-registry",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+            "key": "not-modeled.supersaturated-no-registry-solid",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Goethite (SI +5.0)"
+                  }
+                }
+              ],
+              [
+                "database",
+                {
+                  "text": {
+                    "text": "wateq4f"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Goethite (SI +5.0). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+        },
+        {
+          "row": 1,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+            "key": "not-modeled.supersaturated-solid-not-offered",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Hematite (SI +12.1), Maghemite (SI +1.7)"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Hematite (SI +12.1), Maghemite (SI +1.7). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+        },
+        {
+          "row": 1,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{phases} have reported saturation indices but no phase definition in the selected {database} diagnostic index; their phase type and exclusion reason cannot be classified",
+            "key": "not-modeled.saturation-index-unclassified",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Fe(OH)2.7Cl.3 (SI +5.9)"
+                  }
+                }
+              ],
+              [
+                "database",
+                {
+                  "text": {
+                    "text": "wateq4f"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "Fe(OH)2.7Cl.3 (SI +5.9) have reported saturation indices but no phase definition in the selected wateq4f diagnostic index; their phase type and exclusion reason cannot be classified"
+        },
+        {
+          "row": 2,
+          "cause": "phase-not-in-registry",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+            "key": "not-modeled.supersaturated-no-registry-solid",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Goethite (SI +5.9)"
+                  }
+                }
+              ],
+              [
+                "database",
+                {
+                  "text": {
+                    "text": "wateq4f"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Goethite (SI +5.9). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+        },
+        {
+          "row": 2,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+            "key": "not-modeled.supersaturated-solid-not-offered",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Hematite (SI +13.8), Maghemite (SI +3.4)"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Hematite (SI +13.8), Maghemite (SI +3.4). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+        },
+        {
+          "row": 2,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{phases} have reported saturation indices but no phase definition in the selected {database} diagnostic index; their phase type and exclusion reason cannot be classified",
+            "key": "not-modeled.saturation-index-unclassified",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Fe(OH)2.7Cl.3 (SI +5.3)"
+                  }
+                }
+              ],
+              [
+                "database",
+                {
+                  "text": {
+                    "text": "wateq4f"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "Fe(OH)2.7Cl.3 (SI +5.3) have reported saturation indices but no phase definition in the selected wateq4f diagnostic index; their phase type and exclusion reason cannot be classified"
+        },
+        {
+          "row": 4,
+          "cause": "phase-not-in-registry",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+            "key": "not-modeled.supersaturated-no-registry-solid",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Goethite (SI +2.6)"
+                  }
+                }
+              ],
+              [
+                "database",
+                {
+                  "text": {
+                    "text": "wateq4f"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Goethite (SI +2.6). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+        },
+        {
+          "row": 4,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+            "key": "not-modeled.supersaturated-solid-not-offered",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Hematite (SI +7.2)"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Hematite (SI +7.2). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+        },
+        {
+          "row": 4,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{phases} have reported saturation indices but no phase definition in the selected {database} diagnostic index; their phase type and exclusion reason cannot be classified",
+            "key": "not-modeled.saturation-index-unclassified",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Fe(OH)2.7Cl.3 (SI +3.8)"
+                  }
+                }
+              ],
+              [
+                "database",
+                {
+                  "text": {
+                    "text": "wateq4f"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "Fe(OH)2.7Cl.3 (SI +3.8) have reported saturation indices but no phase definition in the selected wateq4f diagnostic index; their phase type and exclusion reason cannot be classified"
+        }
+      ],
+      "independent_positive_numeric_checks": {
+        "FeOH_solid_before_after_mol": [
+          0.0009999958514623,
+          0
+        ]
+      },
+      "final_whole_script_material_charge_residual_mol": {
+        "H": 0.0,
+        "O": 0.0,
+        "C": 0.0,
+        "N": 0.0,
+        "P": 0.0,
+        "S": 0.0,
+        "Na": 6.071532165918825e-16,
+        "Cl": 6.071532165918825e-16,
+        "Ca": 0.0,
+        "Mg": 0.0,
+        "Fe": -2.2724877535296173e-16,
+        "charge": -6.83481049534862e-16,
+        "Zn": 0.0,
+        "Cu": 0.0,
+        "Ag": 0.0,
+        "Ba": 0.0,
+        "Si": 0.0
+      },
+      "max_abs_residual_mol": 6.83481049534862e-16,
+      "phase_ownership": [
+        {
+          "vessel": 0,
+          "contents": [
+            {
+              "moles": 0.009000000000000608,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 0.003000000000000607,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 0.0009999999999997728,
+              "phase": "aqueous",
+              "species": "Fe+3"
+            },
+            {
+              "moles": 5.537276991396059,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.002999999999999999,
+              "phase": "aqueous",
+              "species": "H+"
+            }
+          ]
+        }
+      ],
+      "independent_disposition": "bounded_criteria_supported_for_root_consideration",
+      "scope": "Criterion-scoped represented equilibrium/phase trajectory only. All listed phase exclusions remain; no complete physical phase assemblage, missing spectra, kinetic or thermal claim."
+    },
+    {
+      "id": "new120:pr-006",
+      "original_forecast": "Without prior acid, carbonate precipitates calcium. With excess proton capacity, carbonate is protonated and the calcium mostly remains dissolved.",
+      "original_criteria": [
+        {
+          "id": "PR-006-C1",
+          "criterion": "The unacidified vessel has more calcium-carbonate solid.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "PR-006-C2",
+          "criterion": "Account for acid consumption and carbon leaving the open acidified vessel as CO2.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "verified_hashes": {
+        "script": "9270bff2d342b8b602973f8b4f9f5d6725aeb08fc5759066325ef354b83fab49",
+        "stdout": "fb1ef9a4f36d1a49c6b2da9f23f89d20b3cf2523c97280f157441fc960581c35",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "execution_receipt": "f9544a2c209ad8c661ea1477768e6b0ef106ece3dabe6aa8fe75698f228c2d0b"
+      },
+      "named_limits": [],
+      "independent_positive_numeric_checks": {
+        "CaCO3_solid_mol_by_vessel": [
+          0.0009826363956095,
+          0
+        ],
+        "acidified_residual_H_mol": 0.0010000000846051426,
+        "exported_C_mol": 0.0009986985126323
+      },
+      "final_whole_script_material_charge_residual_mol": {
+        "H": 3.552713678800501e-15,
+        "O": 1.7763568394002505e-15,
+        "C": -3.478120569333498e-16,
+        "N": 0.0,
+        "P": 0.0,
+        "S": 0.0,
+        "Na": -3.660266534311063e-16,
+        "Cl": 1.2663481374630692e-16,
+        "Ca": -7.559057546568937e-16,
+        "Mg": 0.0,
+        "Fe": 0.0,
+        "charge": -3.396371725528091e-15,
+        "Zn": 0.0,
+        "Cu": 0.0,
+        "Ag": 0.0,
+        "Ba": 0.0,
+        "Si": 0.0
+      },
+      "max_abs_residual_mol": 3.552713678800501e-15,
+      "phase_ownership": [
+        {
+          "vessel": 0,
+          "contents": [
+            {
+              "moles": 1.7363604390244737e-05,
+              "phase": "aqueous",
+              "species": "Ca+2"
+            },
+            {
+              "moles": 0.0019999999999996384,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 0.0019999999999996384,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 2.544774706545194e-09,
+              "phase": "aqueous",
+              "species": "CO2(aq)"
+            },
+            {
+              "moles": 1.091647384341765e-05,
+              "phase": "aqueous",
+              "species": "HCO3-"
+            },
+            {
+              "moles": 6.444585772190334e-06,
+              "phase": "aqueous",
+              "species": "CO3-2"
+            },
+            {
+              "moles": 0.0009826363956095,
+              "phase": "solid",
+              "species": "CaCO3"
+            },
+            {
+              "moles": 5.53426607237744,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 1.0921563393943151e-05,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ]
+        },
+        {
+          "vessel": 1,
+          "contents": [
+            {
+              "moles": 0.0009999999999994993,
+              "phase": "aqueous",
+              "species": "Ca+2"
+            },
+            {
+              "moles": 0.005000000000000488,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 0.0019999999999999957,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 1.3014027617445173e-06,
+              "phase": "aqueous",
+              "species": "CO2(aq)"
+            },
+            {
+              "moles": 8.4605792900628e-11,
+              "phase": "aqueous",
+              "species": "HCO3-"
+            },
+            {
+              "moles": 5.535276991311454,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.0010000000846051426,
+              "phase": "aqueous",
+              "species": "H+"
+            }
+          ]
+        }
+      ],
+      "independent_disposition": "bounded_criteria_supported_for_root_consideration",
+      "scope": "Represented positive phases/metal ownership only; all original limitations retained. No full phase/heat/empirical validation."
+    },
+    {
+      "id": "new120:pr-007",
+      "original_forecast": "Initial CO2 converts hydroxide into calcium carbonate; excess retained CO2 lowers pH and favours dissolved calcium/bicarbonate.",
+      "original_criteria": [
+        {
+          "id": "PR-007-C1",
+          "criterion": "A calcium-carbonate maximum occurs at the intermediate stage.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "PR-007-C2",
+          "criterion": "The final solid fraction is lower, with carbon and calcium accounted for across all phases.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "verified_hashes": {
+        "script": "b15b2cdabe149c716d1ffccbdb9e775486a3d7302968232885934352e51a17e6",
+        "stdout": "a2435436a8e5b16ef3f5fc07dc9463097b5d3a8ef9020bcd99300ccbbb5f0c02",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "execution_receipt": "6319caf825093eea20f2323e192a37f6d80d4bda964bd10a537b586b0e824dbe"
+      },
+      "named_limits": [],
+      "independent_positive_numeric_checks": {
+        "CaCO3_solid_before_after_mol": [
+          0.0004854705420399,
+          1.193221963683e-05
+        ],
+        "sealed_final_C_mol": 0.005508174808824631,
+        "sealed_final_Ca_mol": 0.0005000000000000768
+      },
+      "final_whole_script_material_charge_residual_mol": {
+        "H": 1.7763568394002505e-15,
+        "O": 8.881784197001252e-16,
+        "C": -8.023529757261727e-14,
+        "N": 0.0,
+        "P": 0.0,
+        "S": 0.0,
+        "Na": 0.0,
+        "Cl": 0.0,
+        "Ca": 7.676151381197371e-17,
+        "Mg": 0.0,
+        "Fe": 0.0,
+        "charge": -3.207817160093577e-13,
+        "Zn": 0.0,
+        "Cu": 0.0,
+        "Ag": 0.0,
+        "Ba": 0.0,
+        "Si": 0.0
+      },
+      "max_abs_residual_mol": 3.207817160093577e-13,
+      "phase_ownership": [
+        {
+          "vessel": 0,
+          "contents": [
+            {
+              "moles": 0.016147291289336348,
+              "phase": "gas",
+              "species": "N2"
+            },
+            {
+              "moles": 0.004281556163923509,
+              "phase": "gas",
+              "species": "O2"
+            },
+            {
+              "moles": 0.00048806778036324675,
+              "phase": "aqueous",
+              "species": "Ca+2"
+            },
+            {
+              "moles": 0.0006563049161366564,
+              "phase": "aqueous",
+              "species": "CO2(aq)"
+            },
+            {
+              "moles": 0.0009610910970491802,
+              "phase": "aqueous",
+              "species": "HCO3-"
+            },
+            {
+              "moles": 1.8616504296432816e-07,
+              "phase": "aqueous",
+              "species": "CO3-2"
+            },
+            {
+              "moles": 0.003878660410959,
+              "phase": "gas",
+              "species": "CO2"
+            },
+            {
+              "moles": 1.193221963683e-05,
+              "phase": "solid",
+              "species": "CaCO3"
+            },
+            {
+              "moles": 5.5342891097805795,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 1.4672133912166374e-05,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ]
+        }
+      ],
+      "independent_disposition": "bounded_criteria_supported_for_root_consideration",
+      "scope": "Represented positive phases/metal ownership only; all original limitations retained. No full phase/heat/empirical validation."
+    },
+    {
+      "id": "new120:pr-014",
+      "original_forecast": "Acid dissolves the calcium carbonate, filtration rejects sand, and carbonate addition recovers a calcium-rich precipitate in the receiver.",
+      "original_criteria": [
+        {
+          "id": "PR-014-C1",
+          "criterion": "Most SiO2 remains in v1 during filtration.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "PR-014-C2",
+          "criterion": "A calcium-carbonate solid reappears in v2; compare recovered calcium, not total crude solid mass.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "verified_hashes": {
+        "script": "3779f26b3eface23819de7ed533a7f97177ec573f99514e6189e8b3376afdee6",
+        "stdout": "a3a58e01953b4b8ebc229c6d74cea5bbf2272ae636c2e012bf9268072ecb0229",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "execution_receipt": "fa893f44cfbd5a02781099b572e3b7786051d24663000063f161bcf7714cf0e9"
+      },
+      "named_limits": [],
+      "independent_positive_numeric_checks": {
+        "Si_source_receiver_mol": [
+          0.0016443645876631585,
+          1.9972007769901877e-05
+        ],
+        "receiver_CaCO3_mol": 0.0009825806052537
+      },
+      "final_whole_script_material_charge_residual_mol": {
+        "H": 1.7763568394002505e-15,
+        "O": 0.0,
+        "C": -7.934243539953201e-13,
+        "N": 0.0,
+        "P": 0.0,
+        "S": 0.0,
+        "Na": -1.205998842457312e-12,
+        "Cl": -9.940395728769147e-12,
+        "Ca": -1.3959144170433424e-12,
+        "Mg": 0.0,
+        "Fe": 0.0,
+        "charge": 2.768869028575336e-12,
+        "Zn": 0.0,
+        "Cu": 0.0,
+        "Ag": 0.0,
+        "Ba": 0.0,
+        "Si": 0.0
+      },
+      "max_abs_residual_mol": 9.940395728769147e-12,
+      "phase_ownership": [
+        {
+          "vessel": 0,
+          "contents": [
+            {
+              "moles": 0.0016443645876631585,
+              "phase": "solid",
+              "species": "SiO2"
+            }
+          ]
+        },
+        {
+          "vessel": 1,
+          "contents": [
+            {
+              "moles": 1.9972007769901877e-05,
+              "phase": "aqueous",
+              "species": "SiO2"
+            },
+            {
+              "moles": 1.7419393350385562e-05,
+              "phase": "aqueous",
+              "species": "Ca+2"
+            },
+            {
+              "moles": 0.0019999999900596043,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 0.001999999998794001,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 3.4515754965547774e-09,
+              "phase": "aqueous",
+              "species": "CO2(aq)"
+            },
+            {
+              "moles": 1.265172960556245e-05,
+              "phase": "aqueous",
+              "species": "HCO3-"
+            },
+            {
+              "moles": 6.3715346554166664e-06,
+              "phase": "aqueous",
+              "species": "CO3-2"
+            },
+            {
+              "moles": 0.0009825806052537,
+              "phase": "solid",
+              "species": "CaCO3"
+            },
+            {
+              "moles": 5.535265943534382,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 9.443993749903151e-06,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ]
+        }
+      ],
+      "independent_disposition": "bounded_criteria_supported_for_root_consideration",
+      "scope": "Represented positive phases/metal ownership only; all original limitations retained. No full phase/heat/empirical validation."
+    },
+    {
+      "id": "new120:pr-015",
+      "original_forecast": "Acid dissolves black copper oxide; subsequent base addition forms a copper hydroxide-rich solid while preserving copper inventory.",
+      "original_criteria": [
+        {
+          "id": "PR-015-C1",
+          "criterion": "The initial oxide decreases after acid addition.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "PR-015-C2",
+          "criterion": "The final precipitate is identified by composition, not assumed to be unchanged CuO simply because copper stayed in the vessel.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "verified_hashes": {
+        "script": "d7e41b5daac1bf82aaa71cdfbec5cacfaa06aa731518dd001b153786b43b6fd0",
+        "stdout": "74d2c6c92a244334046a6a2abd3adffa0f5339b2722e8b4a0c9405a10443397b",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "execution_receipt": "36df49cda9f10d5990ece556cf703c32c8036ddd90c67561fccc5dc9070142e6"
+      },
+      "named_limits": [
+        {
+          "row": 4,
+          "beside_a_visible_change": true,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}, deliberately withheld below the registry's formation-temperature threshold at {temperature} \u00b0C. This is a curated metastability boundary, not a computed nucleation or growth rate",
+            "key": "not-modeled.supersaturated-below-formation-temperature",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Tenorite (SI +1.0)"
+                  }
+                }
+              ],
+              [
+                "temperature",
+                {
+                  "number": {
+                    "text": "25"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Tenorite (SI +1.0), deliberately withheld below the registry's formation-temperature threshold at 25 \u00b0C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+        }
+      ],
+      "independent_positive_numeric_checks": {
+        "CuO_before_after_acid_mol": [
+          0.00099990314562,
+          0
+        ],
+        "final_CuOH_solid_mol": 0.0009987765154622
+      },
+      "final_whole_script_material_charge_residual_mol": {
+        "H": 0.0,
+        "O": 0.0,
+        "C": 0.0,
+        "N": 0.0,
+        "P": 0.0,
+        "S": 0.0,
+        "Na": -6.371438099339599e-12,
+        "Cl": -1.1488315073554523e-11,
+        "Ca": 0.0,
+        "Mg": 0.0,
+        "Fe": 0.0,
+        "charge": -1.2458013589883418e-12,
+        "Zn": 0.0,
+        "Cu": -3.181339306573827e-12,
+        "Ag": 0.0,
+        "Ba": 0.0,
+        "Si": 0.0
+      },
+      "max_abs_residual_mol": 1.1488315073554523e-11,
+      "phase_ownership": [
+        {
+          "vessel": 0,
+          "contents": [
+            {
+              "moles": 0.0019998359988382605,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 0.001999999993628562,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 8.955020096118605e-07,
+              "phase": "aqueous",
+              "species": "Cu+2"
+            },
+            {
+              "moles": 1.639896734244e-07,
+              "phase": "solid",
+              "species": "atacamite"
+            },
+            {
+              "moles": 0.0009987765154622,
+              "phase": "solid",
+              "species": "Cu(OH)2"
+            },
+            {
+              "moles": 5.535276991396059,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 1.955000055326502e-06,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ]
+        }
+      ],
+      "independent_disposition": "bounded_criteria_supported_for_root_consideration",
+      "scope": "Criterion-scoped represented equilibrium/phase trajectory only. All listed phase exclusions remain; no complete physical phase assemblage, missing spectra, kinetic or thermal claim."
+    },
+    {
+      "id": "new120:pr-004",
+      "original_forecast": "Chemical expectation: excess ammonia stabilises dissolved copper ammine species and can remove the hydroxide precipitate, with a changed copper colour.",
+      "original_criteria": [
+        {
+          "id": "PR-004-C1",
+          "criterion": "Require a decrease of copper-bearing solid together with a copper-ammine increase; colour alone does not establish complex formation.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "PR-004-C2",
+          "criterion": "Check copper and total nitrogen ownership, including headspace ammonia.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "verified_hashes": {
+        "script": "76a1ddbdfb006ed96709ee3410215431cde7d14283d08e1d6b752e8695ee4fb1",
+        "stdout": "702b1bc6f6e27e8f730bfe96cfd0d3c7f73b710288d1036a8bd7781fd3a18e5f",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "execution_receipt": "e04f94491163f795637fff10d1b58d9d8fb26e1b92acce643acd3d7c763a8647"
+      },
+      "named_limits": [
+        {
+          "row": 3,
+          "beside_a_visible_change": true,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}, deliberately withheld below the registry's formation-temperature threshold at {temperature} \u00b0C. This is a curated metastability boundary, not a computed nucleation or growth rate",
+            "key": "not-modeled.supersaturated-below-formation-temperature",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Tenorite (SI +1.0)"
+                  }
+                }
+              ],
+              [
+                "temperature",
+                {
+                  "number": {
+                    "text": "25"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Tenorite (SI +1.0), deliberately withheld below the registry's formation-temperature threshold at 25 \u00b0C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+        },
+        {
+          "row": 5,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "Copper\u2013ammine / iron\u2013thiocyanate speciation uses public-domain USBM IC 9429 cumulative constants at 25 \u00b0C and zero ionic strength, with the selected database's activity corrections. {temperature} Complex-formation enthalpies, rate laws, and complex spectra are not supplied by this data slice; reaction heat and colour are incomplete where those contributions matter.",
+            "key": "not-modeled.usbm-reference-complexes",
+            "slots": [
+              [
+                "temperature",
+                {
+                  "phrase": {
+                    "phrase": {
+                      "en": "At this vessel temperature these are reference-temperature approximations, not validated temperature-dependent constants.",
+                      "key": "not-modeled.away-from-the-reference-temperature"
+                    }
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "Copper\u2013ammine / iron\u2013thiocyanate speciation uses public-domain USBM IC 9429 cumulative constants at 25 \u00b0C and zero ionic strength, with the selected database's activity corrections. At this vessel temperature these are reference-temperature approximations, not validated temperature-dependent constants. Complex-formation enthalpies, rate laws, and complex spectra are not supplied by this data slice; reaction heat and colour are incomplete where those contributions matter."
+        },
+        {
+          "row": 5,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}, deliberately withheld below the registry's formation-temperature threshold at {temperature} \u00b0C. This is a curated metastability boundary, not a computed nucleation or growth rate",
+            "key": "not-modeled.supersaturated-below-formation-temperature",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Tenorite (SI +1.0)"
+                  }
+                }
+              ],
+              [
+                "temperature",
+                {
+                  "number": {
+                    "text": "25"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Tenorite (SI +1.0), deliberately withheld below the registry's formation-temperature threshold at 25 \u00b0C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+        },
+        {
+          "row": 7,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "complete absorbance is unavailable: no absorption spectrum for {species}",
+            "key": "not-modeled.incomplete-absorbance",
+            "slots": [
+              [
+                "species",
+                {
+                  "list": {
+                    "items": [
+                      {
+                        "term": {
+                          "en": "Cu(NH3)4+2",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "Cu(NH3)3+2",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "Cu(OH)2",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "Cu(OH)3-",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "Cu(NH3)2+2",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "Cu(OH)4-2",
+                          "section": "species"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "complete absorbance is unavailable: no absorption spectrum for Cu(NH3)4+2, Cu(NH3)3+2, Cu(OH)2, Cu(OH)3-, Cu(NH3)2+2 and Cu(OH)4-2"
+        }
+      ],
+      "independent_positive_numeric_checks": {
+        "solid_Cu_before_after_mol": [
+          0.000499101123819708,
+          0.0004689092011069
+        ],
+        "reported_ammine_molalities": [
+          {},
+          {
+            "Cu(NH3)4+2": 0.0002845,
+            "Cu(NH3)3+2": 1.816e-05,
+            "Cu(NH3)2+2": 5.812e-08
+          }
+        ],
+        "reagent_nitrogen_all_phases_mol": 0.05000000000000062
+      },
+      "final_whole_script_material_charge_residual_mol": {
+        "H": 1.7763568394002505e-15,
+        "O": 0.0,
+        "C": -9.77386726918163e-14,
+        "N": 6.245004513516506e-16,
+        "P": 0.0,
+        "S": -3.404394821604484e-17,
+        "Na": 3.3068166260807885e-16,
+        "Cl": 0.0,
+        "Ca": 0.0,
+        "Mg": 0.0,
+        "Fe": 0.0,
+        "charge": -4.0609204367270113e-13,
+        "Zn": 0.0,
+        "Cu": -6.716307197895954e-15,
+        "Ag": 0.0,
+        "Ba": 0.0,
+        "Si": 0.0
+      },
+      "max_abs_residual_mol": 4.0609204367270113e-13,
+      "phase_ownership": [
+        {
+          "vessel": 0,
+          "contents": [
+            {
+              "moles": 0.016147291289336348,
+              "phase": "gas",
+              "species": "N2"
+            },
+            {
+              "moles": 0.004281556163923509,
+              "phase": "gas",
+              "species": "O2"
+            },
+            {
+              "moles": 0.00017848156646861624,
+              "phase": "gas",
+              "species": "NH3"
+            },
+            {
+              "moles": 0.0010000000000003307,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 2.2297207762305543e-12,
+              "phase": "aqueous",
+              "species": "CO2(aq)"
+            },
+            {
+              "moles": 3.561976329891036e-07,
+              "phase": "aqueous",
+              "species": "HCO3-"
+            },
+            {
+              "moles": 7.818596695478006e-06,
+              "phase": "aqueous",
+              "species": "CO3-2"
+            },
+            {
+              "moles": 3.109079888638372e-05,
+              "phase": "aqueous",
+              "species": "Cu+2"
+            },
+            {
+              "moles": 0.04951140521332448,
+              "phase": "aqueous",
+              "species": "NH3"
+            },
+            {
+              "moles": 0.0003101132202075299,
+              "phase": "aqueous",
+              "species": "NH4+"
+            },
+            {
+              "moles": 0.000499999999999966,
+              "phase": "aqueous",
+              "species": "SO4-2"
+            },
+            {
+              "moles": 1.224893932984e-11,
+              "phase": "gas",
+              "species": "CO2"
+            },
+            {
+              "moles": 0.0004689092011069,
+              "phase": "solid",
+              "species": "Cu(OH)2"
+            },
+            {
+              "moles": 5.53397469677235,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.00035630142736284287,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ]
+        }
+      ],
+      "independent_disposition": "bounded_criteria_supported_for_root_consideration",
+      "scope": "Criterion-scoped represented equilibrium/phase trajectory only. All listed phase exclusions remain; no complete physical phase assemblage, missing spectra, kinetic or thermal claim."
+    },
+    {
+      "id": "new120:pr-009",
+      "original_forecast": "At these dilute analytical loadings, calcium sulfate is expected to remain mostly dissolved whereas barium sulfate precipitates strongly.",
+      "original_criteria": [
+        {
+          "id": "PR-009-C1",
+          "criterion": "The barium vessel has a much larger fraction of its alkaline-earth metal in a sulfate solid.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "PR-009-C2",
+          "criterion": "A clear calcium solution is not evidence that calcium and sulfate were omitted from its dissolved inventory.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "verified_hashes": {
+        "script": "ae3a3e5fe634a8375122c32dc07397d490e4dcd3035d630011618b3da150a10a",
+        "stdout": "b4666f1bcf4121dfe2b323c0559f0431d2c4881884aa91e7ff41844709fb627d",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "execution_receipt": "165a8f0d55ea49f734b8f25f3df88a224fff55b1f7f47c33a2604969a38d21b4"
+      },
+      "named_limits": [],
+      "independent_positive_numeric_checks": {
+        "CaSO4_solid_mol": 0,
+        "BaSO4_solid_mol": 0.0009873155095215,
+        "dissolved_Ca_mol": 0.001,
+        "dissolved_sulfate_mol": 0.0010000000000000707
+      },
+      "final_whole_script_material_charge_residual_mol": {
+        "H": 0.0,
+        "O": -1.4210854715202004e-14,
+        "C": 0.0,
+        "N": 0.0,
+        "P": 0.0,
+        "S": 3.2959746043559335e-17,
+        "Na": 8.500145032286355e-17,
+        "Cl": -5.724587470723463e-17,
+        "Ca": 0.0,
+        "Mg": 0.0,
+        "Fe": 0.0,
+        "charge": -4.786752591523502e-16,
+        "Zn": 0.0,
+        "Cu": 0.0,
+        "Ag": 0.0,
+        "Ba": -2.7712207528729493e-16,
+        "Si": 0.0
+      },
+      "max_abs_residual_mol": 1.4210854715202004e-14,
+      "phase_ownership": [
+        {
+          "vessel": 0,
+          "contents": [
+            {
+              "moles": 0.001,
+              "phase": "aqueous",
+              "species": "Ca+2"
+            },
+            {
+              "moles": 0.002,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 0.0020000000000001414,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 0.0010000000000000707,
+              "phase": "aqueous",
+              "species": "SO4-2"
+            },
+            {
+              "moles": 55.34276991396059,
+              "phase": "liquid",
+              "species": "water"
+            }
+          ]
+        },
+        {
+          "vessel": 1,
+          "contents": [
+            {
+              "moles": 1.2684490478222984e-05,
+              "phase": "aqueous",
+              "species": "Ba+2"
+            },
+            {
+              "moles": 0.0019999999999999432,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 0.0019999999999999432,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 1.2684490478462264e-05,
+              "phase": "aqueous",
+              "species": "SO4-2"
+            },
+            {
+              "moles": 0.0009873155095215,
+              "phase": "solid",
+              "species": "BaSO4"
+            },
+            {
+              "moles": 55.34276991396059,
+              "phase": "liquid",
+              "species": "water"
+            }
+          ]
+        }
+      ],
+      "independent_disposition": "bounded_criteria_supported_for_root_consideration",
+      "scope": "Represented positive phases/metal ownership only; all original limitations retained. No full phase/heat/empirical validation."
+    },
+    {
+      "id": "new120:pr-011",
+      "original_forecast": "The first trace additions are below the precipitation threshold; increasing both ion inventories crosses the solubility-product boundary.",
+      "original_criteria": [
+        {
+          "id": "PR-011-C1",
+          "criterion": "There is no substantial AgCl solid at the trace-loading snapshot.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "PR-011-C2",
+          "criterion": "The later snapshot contains AgCl solid while dissolved silver and chloride remain finite.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "verified_hashes": {
+        "script": "8bd5ea547bd7d0a0babe0c4d769ef5dca96ad9492cd46d7d705bd22a3004e1e5",
+        "stdout": "b930fe45e1244a3451dfcae2c241ee819f185bfdb04b15a384cc39560635ed5b",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "execution_receipt": "d2d58925b666c936a89715d83b19c9469b6ccb3d5538df08a59af8d8f90c1878"
+      },
+      "named_limits": [],
+      "independent_positive_numeric_checks": {
+        "AgCl_solid_trace_later_mol": [
+          0,
+          8.720695372956e-06
+        ]
+      },
+      "final_whole_script_material_charge_residual_mol": {
+        "H": 0.0,
+        "O": 0.0,
+        "C": 0.0,
+        "N": -1.5161889755851976e-18,
+        "P": 0.0,
+        "S": 0.0,
+        "Na": -1.5161889755851976e-18,
+        "Cl": -4.37069000783219e-19,
+        "Ca": 0.0,
+        "Mg": 0.0,
+        "Fe": 0.0,
+        "charge": 0.0,
+        "Zn": 0.0,
+        "Cu": 0.0,
+        "Ag": -4.37069000783219e-19,
+        "Ba": 0.0,
+        "Si": 0.0
+      },
+      "max_abs_residual_mol": 1.5161889755851976e-18,
+      "phase_ownership": [
+        {
+          "vessel": 0,
+          "contents": [
+            {
+              "moles": 1.3793046270435638e-06,
+              "phase": "aqueous",
+              "species": "Ag+"
+            },
+            {
+              "moles": 1.3793046270435638e-06,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 1.0099999999998485e-05,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 1.0099999999998485e-05,
+              "phase": "aqueous",
+              "species": "NO3-"
+            },
+            {
+              "moles": 8.720695372956e-06,
+              "phase": "solid",
+              "species": "AgCl"
+            },
+            {
+              "moles": 5.534276991396059,
+              "phase": "liquid",
+              "species": "water"
+            }
+          ]
+        }
+      ],
+      "independent_disposition": "bounded_criteria_supported_for_root_consideration",
+      "scope": "Represented positive phases/metal ownership only; all original limitations retained. No full phase/heat/empirical validation."
+    },
+    {
+      "id": "new120:pr-012",
+      "original_forecast": "Acid removes calcium carbonate from a mixture containing barium sulfate, after which filtration retains the sulfate-rich residue.",
+      "original_criteria": [
+        {
+          "id": "PR-012-C1",
+          "criterion": "Calcium transfers mainly to the filtrate, while barium remains mainly in retained sulfate solid.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "PR-012-C2",
+          "criterion": "Track gaseous carbon separately; the mass loss is not solely a filtration loss.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "verified_hashes": {
+        "script": "10905f13e184ed0885a99b8352f8a2e1bde4c7a04a1d20dd20d2998275b0842a",
+        "stdout": "0dff64fb5c0de1680fed9dcf327a12a334f4971605e405c6f27e562ca1e03424",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "execution_receipt": "f6a95b7d490a1272f88f1efa3633c9cdceea03329c3a4542200680c83d2306b4"
+      },
+      "named_limits": [
+        {
+          "row": 2,
+          "cause": "phase-not-in-registry",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+            "key": "not-modeled.supersaturated-no-registry-solid",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Witherite (SI +1.5)"
+                  }
+                }
+              ],
+              [
+                "database",
+                {
+                  "text": {
+                    "text": "wateq4f"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Witherite (SI +1.5). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+        }
+      ],
+      "independent_positive_numeric_checks": {
+        "filtrate_Ca_mol": 0.0010000000000921214,
+        "retained_BaSO4_mol": 0.0004968793854139,
+        "exported_C_mol": 0.0009986883928653
+      },
+      "final_whole_script_material_charge_residual_mol": {
+        "H": 1.7763568394002505e-15,
+        "O": 8.881784197001252e-16,
+        "C": 7.724463430003325e-14,
+        "N": 0.0,
+        "P": 0.0,
+        "S": 9.475276466219817e-15,
+        "Na": 3.4885167671250272e-12,
+        "Cl": 1.2478240662971984e-11,
+        "Ca": 9.212140598957586e-14,
+        "Mg": 0.0,
+        "Fe": 0.0,
+        "charge": -9.895050924468851e-12,
+        "Zn": 0.0,
+        "Cu": 0.0,
+        "Ag": 0.0,
+        "Ba": -7.277012109216385e-13,
+        "Si": 0.0
+      },
+      "max_abs_residual_mol": 1.2478240662971984e-11,
+      "phase_ownership": [
+        {
+          "vessel": 0,
+          "contents": [
+            {
+              "moles": 0.0004968793854139,
+              "phase": "solid",
+              "species": "BaSO4"
+            }
+          ]
+        },
+        {
+          "vessel": 1,
+          "contents": [
+            {
+              "moles": 3.1206138583988537e-06,
+              "phase": "aqueous",
+              "species": "Ba+2"
+            },
+            {
+              "moles": 0.0010000000000921214,
+              "phase": "aqueous",
+              "species": "Ca+2"
+            },
+            {
+              "moles": 0.004000000012478241,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 0.0010000000034885168,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 1.311524020138828e-06,
+              "phase": "aqueous",
+              "species": "CO2(aq)"
+            },
+            {
+              "moles": 8.319180589337018e-11,
+              "phase": "aqueous",
+              "species": "HCO3-"
+            },
+            {
+              "moles": 3.120614595575249e-06,
+              "phase": "aqueous",
+              "species": "SO4-2"
+            },
+            {
+              "moles": 5.535276991312675,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.0010000000835765888,
+              "phase": "aqueous",
+              "species": "H+"
+            }
+          ]
+        }
+      ],
+      "independent_disposition": "bounded_criteria_supported_for_root_consideration",
+      "scope": "Criterion-scoped represented equilibrium/phase trajectory only. All listed phase exclusions remain; no complete physical phase assemblage, missing spectra, kinetic or thermal claim."
+    },
+    {
+      "id": "new120:pr-013",
+      "original_forecast": "Barium chloride supplies barium for sulfate precipitation and chloride for silver precipitation, yielding a mixed solid fraction.",
+      "original_criteria": [
+        {
+          "id": "PR-013-C1",
+          "criterion": "Require phase-resolved evidence for both AgCl and BaSO4, not just an undifferentiated white solid.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "PR-013-C2",
+          "criterion": "The filtrate should retain spectator ions and any stoichiometric chloride excess.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "verified_hashes": {
+        "script": "d1abb7055f1f32626dcda48695ea661023d36634da36aa70ee9dd26dba1a3689",
+        "stdout": "95210a53d4848a45cc6f2ed2a586556ec64bafd52286fb48a916792d918c0ac8",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "execution_receipt": "db92e0cf6c820e5eb12b3d0013886fb7253c3909569e26e9024a33c146ae224f"
+      },
+      "named_limits": [],
+      "independent_positive_numeric_checks": {
+        "source_AgCl_mol": 0.0009999307984009,
+        "source_BaSO4_mol": 0.0009981671829673,
+        "filtrate_spectators_mol": {
+          "Na+": 0.0020000000000003886,
+          "NO3-": 0.0010000000000001943,
+          "Cl-": 0.0010000692015987407
+        }
+      },
+      "final_whole_script_material_charge_residual_mol": {
+        "H": -3.552713678800501e-15,
+        "O": -1.7763568394002505e-15,
+        "C": 0.0,
+        "N": 1.942890293094024e-16,
+        "P": 0.0,
+        "S": -2.64328489651966e-16,
+        "Na": 3.885780586188048e-16,
+        "Cl": -3.5908775952719907e-16,
+        "Ca": 0.0,
+        "Mg": 0.0,
+        "Fe": 0.0,
+        "charge": 2.8939431214358886e-16,
+        "Zn": 0.0,
+        "Cu": 0.0,
+        "Ag": -2.6216008530699497e-16,
+        "Ba": -2.651958513899544e-16,
+        "Si": 0.0
+      },
+      "max_abs_residual_mol": 3.552713678800501e-15,
+      "phase_ownership": [
+        {
+          "vessel": 0,
+          "contents": [
+            {
+              "moles": 0.0009981671829673,
+              "phase": "solid",
+              "species": "BaSO4"
+            },
+            {
+              "moles": 0.0009999307984009,
+              "phase": "solid",
+              "species": "AgCl"
+            }
+          ]
+        },
+        {
+          "vessel": 1,
+          "contents": [
+            {
+              "moles": 6.920159883773096e-08,
+              "phase": "aqueous",
+              "species": "Ag+"
+            },
+            {
+              "moles": 1.8328170324346827e-06,
+              "phase": "aqueous",
+              "species": "Ba+2"
+            },
+            {
+              "moles": 0.0010000692015987407,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 0.0020000000000003886,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 0.0010000000000001943,
+              "phase": "aqueous",
+              "species": "NO3-"
+            },
+            {
+              "moles": 1.83281703243568e-06,
+              "phase": "aqueous",
+              "species": "SO4-2"
+            },
+            {
+              "moles": 5.534276991396057,
+              "phase": "liquid",
+              "species": "water"
+            }
+          ]
+        }
+      ],
+      "independent_disposition": "bounded_criteria_supported_for_root_consideration",
+      "scope": "Represented positive phases/metal ownership only; all original limitations retained. No full phase/heat/empirical validation."
+    },
+    {
+      "id": "new120:pr-010",
+      "original_forecast": "Chloride changes silver-chloride equilibrium through common-ion and complexation effects; nitrate mainly changes the ionic medium. Equal salt amounts do not make the effects equivalent.",
+      "original_criteria": [
+        {
+          "id": "PR-010-C1",
+          "criterion": "Compare total dissolved silver and free silver activity separately in all three vessels.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "PR-010-C2",
+          "criterion": "In this modest-chloride range, common-ion suppression should exceed the nitrate-only change; note any competing soluble complexes.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "verified_hashes": {
+        "script": "b88c00172ec675ec0746dcf3681d48d78b8123285674215afd9ad9b04c9d87a9",
+        "stdout": "1709031cb6553b53671000a2bce7f567aaacc643e39fcbc48dfc68ee48a1f13d",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "execution_receipt": "4619435318e9360b3ec78a9461e94c8fe6f4ad660a2600bdf69580b20481c920"
+      },
+      "named_limits": [],
+      "independent_positive_numeric_checks": {
+        "dissolved_Ag_water_nitrate_chloride_mol": [
+          1.3683167746747614e-06,
+          1.511772569629759e-06,
+          6.85610819366632e-08
+        ],
+        "reported_free_Ag_activity": [
+          1.334e-05,
+          1.332e-05,
+          1.968e-08
+        ]
+      },
+      "final_whole_script_material_charge_residual_mol": {
+        "H": 0.0,
+        "O": 0.0,
+        "C": 0.0,
+        "N": 5.789639601072594e-17,
+        "P": 0.0,
+        "S": 0.0,
+        "Na": -1.8518173106052416e-16,
+        "Cl": -3.406563225949455e-16,
+        "Ca": 0.0,
+        "Mg": 0.0,
+        "Fe": 0.0,
+        "charge": 8.868773770931426e-17,
+        "Zn": 0.0,
+        "Cu": 0.0,
+        "Ag": -8.836247705756861e-18,
+        "Ba": 0.0,
+        "Si": 0.0
+      },
+      "max_abs_residual_mol": 3.406563225949455e-16,
+      "phase_ownership": [
+        {
+          "vessel": 0,
+          "contents": [
+            {
+              "moles": 1.3683167746747614e-06,
+              "phase": "aqueous",
+              "species": "Ag+"
+            },
+            {
+              "moles": 1.3683167746747614e-06,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 9.863168322532e-05,
+              "phase": "solid",
+              "species": "AgCl"
+            },
+            {
+              "moles": 5.534276991396059,
+              "phase": "liquid",
+              "species": "water"
+            }
+          ]
+        },
+        {
+          "vessel": 1,
+          "contents": [
+            {
+              "moles": 1.511772569629759e-06,
+              "phase": "aqueous",
+              "species": "Ag+"
+            },
+            {
+              "moles": 1.511772569629759e-06,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 0.001000000000000058,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 0.001000000000000058,
+              "phase": "aqueous",
+              "species": "NO3-"
+            },
+            {
+              "moles": 9.848822743037e-05,
+              "phase": "solid",
+              "species": "AgCl"
+            },
+            {
+              "moles": 5.534276991396059,
+              "phase": "liquid",
+              "species": "water"
+            }
+          ]
+        },
+        {
+          "vessel": 2,
+          "contents": [
+            {
+              "moles": 6.85610819366632e-08,
+              "phase": "aqueous",
+              "species": "Ag+"
+            },
+            {
+              "moles": 0.001000068561081605,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 0.000999999999999757,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 9.993143891806e-05,
+              "phase": "solid",
+              "species": "AgCl"
+            },
+            {
+              "moles": 5.534276991396059,
+              "phase": "liquid",
+              "species": "water"
+            }
+          ]
+        }
+      ],
+      "independent_disposition": "bounded_criteria_supported_for_root_consideration",
+      "scope": "Represented positive phases/metal ownership only; all original limitations retained. No full phase/heat/empirical validation."
+    },
+    {
+      "id": "new120:pr-016",
+      "original_forecast": "AgCl formation in water uses aqueous speciation, whereas the documented pure-ethanol route is constrained by dissolved reagent fractions and a curated metathesis rule.",
+      "original_criteria": [
+        {
+          "id": "PR-016-C1",
+          "criterion": "Check for AgCl in both systems and explicitly distinguish undissolved starting salt from precipitated product.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "PR-016-C2",
+          "criterion": "Report actual conversion instead of assuming equal yields merely because equal formula amounts were added.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "verified_hashes": {
+        "script": "3dcc1ae6bec0f994324b4a0770b8bc1c851f402c36500cf7957e823d38dffc66",
+        "stdout": "a8a2cebdfe5bc5a8680fb44717abccfb97baafb2ac09d05d8cd11e6084370f2a",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "execution_receipt": "d8ab77d45a82c913dc0250ce05b869bd07e5ad00d424f2f7e9af81f579e4da47"
+      },
+      "named_limits": [],
+      "independent_positive_numeric_checks": {},
+      "final_whole_script_material_charge_residual_mol": {
+        "H": 0.0,
+        "O": -1.3322676295501878e-15,
+        "C": 0.0,
+        "N": -1.7607443281164592e-16,
+        "P": 0.0,
+        "S": 0.0,
+        "Na": -1.7607443281164592e-16,
+        "Cl": -2.0166160408230382e-16,
+        "Ca": 0.0,
+        "Mg": 0.0,
+        "Fe": 0.0,
+        "charge": 0.0,
+        "Zn": 0.0,
+        "Cu": 0.0,
+        "Ag": -2.0166160408230382e-16,
+        "Ba": 0.0,
+        "Si": 0.0
+      },
+      "max_abs_residual_mol": 1.3322676295501878e-15,
+      "phase_ownership": [
+        {
+          "vessel": 0,
+          "contents": [
+            {
+              "moles": 7.911525462982945e-07,
+              "phase": "aqueous",
+              "species": "Ag+"
+            },
+            {
+              "moles": 7.911525462982945e-07,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 0.0009999999999998242,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 0.0009999999999998242,
+              "phase": "aqueous",
+              "species": "NO3-"
+            },
+            {
+              "moles": 0.0009992088474535,
+              "phase": "solid",
+              "species": "AgCl"
+            },
+            {
+              "moles": 2.767138495698029,
+              "phase": "liquid",
+              "species": "water"
+            }
+          ]
+        },
+        {
+          "vessel": 1,
+          "contents": [
+            {
+              "moles": 0.8563242093381667,
+              "phase": "liquid",
+              "species": "ethanol"
+            },
+            {
+              "moles": 0.00044390260595794195,
+              "phase": "liquid",
+              "species": "AgNO3"
+            },
+            {
+              "moles": 0.0005560973940420581,
+              "phase": "solid",
+              "species": "AgCl"
+            },
+            {
+              "moles": 0.0005560973940420581,
+              "phase": "solid",
+              "species": "NaNO3"
+            },
+            {
+              "moles": 0.00044390260595794195,
+              "phase": "liquid",
+              "species": "NaCl"
+            }
+          ]
+        }
+      ],
+      "independent_disposition": "hold_original_C1_inconclusive_and_nonaqueous_provenance_unsupported",
+      "scope": "Represented positive phases/metal ownership only; all original limitations retained. No full phase/heat/empirical validation.",
+      "reason": "AgCl products and unequal represented conversion are positive, but C1 cannot establish a separately owned undissolved-salt fraction from residual liquid-labelled salts. Source c446 nonaqueous.rs36-65 explicitly withdraws all historical handbook citations; NaCl/ethanol.065g/100mL and AgNO3/ethanol2.1g/100mL rows77-99 claim NO SOURCE. curated.rs682-722 still uses those magnitudes in available_dissolved to cap the metathesis extent. No named raw limit is emitted here. This is unearned quantitative-solubility support, not absence of all chemistry or a conservation defect; do not select a working chemistry case from honesty/reporting alone.",
+      "actual_ethanol_conversion_fraction": 0.556097394042058,
+      "residual_starting_salts": [
+        {
+          "moles": 0.00044390260595794195,
+          "phase": "liquid",
+          "species": "AgNO3"
+        },
+        {
+          "moles": 0.00044390260595794195,
+          "phase": "liquid",
+          "species": "NaCl"
+        }
+      ],
+      "next_action": "Keep first output. Separately review nonaqueous solubility provenance admission and phase-resolved residual ownership; no new experiment or numerical tolerance is authorised by this review."
+    }
+  ]
+}

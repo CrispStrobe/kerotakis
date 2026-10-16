@@ -1,0 +1,323 @@
+{
+  "design_sha256": "3926103dad7eab8eddeaf0b66cf1b10afe092f98f00551d98af83e8ed34930be",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "cases": [
+    {
+      "id": "118-prepared-basis",
+      "original_rank": 118,
+      "script_sha256": "adfb3c6f726f2a9a15f9bb5f83fd6a6e940f6af24ee7251d6b936b14fee770ed",
+      "response_sha256": "5475f769ad0770cca47d845ff0c24682b9a3bb38fbc191d9b89e2913820d3611",
+      "checks": [
+        {
+          "quantity": "retained permanganate mol",
+          "actual": 0,
+          "expected": 0,
+          "absolute_tolerance": 1e-08,
+          "met": true
+        },
+        {
+          "quantity": "reaction CO2 event mol",
+          "actual": 0.01,
+          "expected": 0.01,
+          "absolute_tolerance": 1e-08,
+          "met": true
+        },
+        {
+          "quantity": "retained added carbon mol atoms",
+          "actual": 0.009999999999996522,
+          "expected": 0.01,
+          "absolute_tolerance": 1e-08,
+          "met": true
+        },
+        {
+          "quantity": "solver_failed count",
+          "actual": 0,
+          "expected": 0,
+          "absolute_tolerance": 0,
+          "met": true
+        }
+      ],
+      "all_bounded_checks_met": true,
+      "baseline_observation": 2,
+      "final_observation": 8,
+      "baseline_mol_atoms_and_charge": {
+        "N": 0.06458916515734539,
+        "formal_charge": -1.5651395390026157e-17,
+        "O": 5.551435915287373,
+        "C": 1.6349617809728915e-05,
+        "H": 11.068553982792118
+      },
+      "final_mol_atoms_and_charge": {
+        "N": 0.06458916515734539,
+        "formal_charge": 0.003999999999983973,
+        "O": 5.579435915287372,
+        "C": 0.010016349617806251,
+        "H": 11.08455398279212,
+        "Mn": 0.001999999999998958
+      },
+      "feed_balance_residuals_mol": {
+        "C": -3.4781205693334982e-15,
+        "H": 1.790234627208065e-15,
+        "Mn": -1.0421351281930669e-15,
+        "N": 0.0,
+        "O": -4.198030811863873e-16,
+        "formal_charge": -1.601149768326593e-14
+      },
+      "all_material_and_formal_charge_residuals_below_1e-8": true,
+      "model_boundaries": [
+        {
+          "observation": 3,
+          "event": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred",
+              "key": "not-modeled.analytical-component-charge"
+            },
+            "vessel": 0,
+            "what": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred"
+          }
+        },
+        {
+          "observation": 4,
+          "event": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred",
+              "key": "not-modeled.analytical-component-charge"
+            },
+            "vessel": 0,
+            "what": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred"
+          }
+        },
+        {
+          "observation": 5,
+          "event": {
+            "cause": "phase-not-in-registry",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+              "key": "not-modeled.supersaturated-no-registry-solid",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Rhodochrosite (SI +3.7), Rhodochrosite(d) (SI +3.0)"
+                    }
+                  }
+                ],
+                [
+                  "database",
+                  {
+                    "text": {
+                      "text": "wateq4f"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against Rhodochrosite (SI +3.7), Rhodochrosite(d) (SI +3.0). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+          }
+        },
+        {
+          "observation": 5,
+          "event": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred",
+              "key": "not-modeled.analytical-component-charge"
+            },
+            "vessel": 0,
+            "what": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred"
+          }
+        },
+        {
+          "observation": 7,
+          "event": {
+            "cause": "phase-not-in-registry",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+              "key": "not-modeled.supersaturated-no-registry-solid",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Rhodochrosite (SI +3.7), Rhodochrosite(d) (SI +3.0)"
+                    }
+                  }
+                ],
+                [
+                  "database",
+                  {
+                    "text": {
+                      "text": "wateq4f"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against Rhodochrosite (SI +3.7), Rhodochrosite(d) (SI +3.0). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+          }
+        },
+        {
+          "observation": 7,
+          "event": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred",
+              "key": "not-modeled.analytical-component-charge"
+            },
+            "vessel": 0,
+            "what": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred"
+          }
+        }
+      ],
+      "verdict": "bounded_forecast_met_with_declared_model_limits",
+      "catalog_selection": "pending_separate_review",
+      "original_case_closed": false
+    },
+    {
+      "id": "84-prepared-basis",
+      "original_rank": 84,
+      "script_sha256": "026252c876919b8d0fb6c1ae540c807a08768f9ad3631f1ee8bb97cd39f192db",
+      "response_sha256": "547c622b532f65067b35aea9a7d2a2f1cf507e97d0e6f6f57d7b185d22c4c156",
+      "checks": [
+        {
+          "quantity": "electrons mol",
+          "actual": 1.0364269656617728e-05,
+          "expected": 1.0364269656617728e-05,
+          "absolute_tolerance": 1e-10,
+          "met": true
+        },
+        {
+          "quantity": "cathode Cu mol",
+          "actual": 5.182134828308864e-06,
+          "expected": 5.182134828308864e-06,
+          "absolute_tolerance": 1e-09,
+          "met": true
+        },
+        {
+          "quantity": "anode Cl2 mol",
+          "actual": 5.182134828308864e-06,
+          "expected": 5.182134828308864e-06,
+          "absolute_tolerance": 1e-09,
+          "met": true
+        },
+        {
+          "quantity": "retained Cu mol atoms including atacamite",
+          "actual": 0.000999999999999188,
+          "expected": 0.001,
+          "absolute_tolerance": 1e-08,
+          "met": true
+        },
+        {
+          "quantity": "retained Cl mol atoms including atacamite",
+          "actual": 0.0020000000000005794,
+          "expected": 0.002,
+          "absolute_tolerance": 1e-08,
+          "met": true
+        },
+        {
+          "quantity": "solver_failed count",
+          "actual": 0,
+          "expected": 0,
+          "absolute_tolerance": 0,
+          "met": true
+        }
+      ],
+      "all_bounded_checks_met": true,
+      "baseline_observation": 2,
+      "final_observation": 8,
+      "baseline_mol_atoms_and_charge": {
+        "N": 0.06458916515734539,
+        "formal_charge": -1.5651395390026157e-17,
+        "O": 5.551435915287373,
+        "C": 1.6349617809728915e-05,
+        "H": 11.068553982792118
+      },
+      "final_mol_atoms_and_charge": {
+        "N": 0.06458916515734539,
+        "formal_charge": -7.903027191002998e-13,
+        "O": 5.551435915287373,
+        "Cu": 0.000999999999999188,
+        "Cl": 0.0020000000000005794,
+        "C": 1.634961761270498e-05,
+        "H": 11.068553982792118
+      },
+      "feed_balance_residuals_mol": {
+        "C": -1.9702393606576066e-13,
+        "Cl": 5.793976409762536e-16,
+        "Cu": -8.120674271916428e-16,
+        "H": 0.0,
+        "N": 0.0,
+        "O": 0.0,
+        "formal_charge": -7.902870677049098e-13
+      },
+      "all_material_and_formal_charge_residuals_below_1e-8": true,
+      "model_boundaries": [
+        {
+          "observation": 3,
+          "event": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}, deliberately withheld below the registry's formation-temperature threshold at {temperature} \u00b0C. This is a curated metastability boundary, not a computed nucleation or growth rate",
+              "key": "not-modeled.supersaturated-below-formation-temperature",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Tenorite (SI +1.0)"
+                    }
+                  }
+                ],
+                [
+                  "temperature",
+                  {
+                    "number": {
+                      "text": "25"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against Tenorite (SI +1.0), deliberately withheld below the registry's formation-temperature threshold at 25 \u00b0C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+          }
+        },
+        {
+          "observation": 3,
+          "event": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred",
+              "key": "not-modeled.analytical-component-charge"
+            },
+            "vessel": 0,
+            "what": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred"
+          }
+        }
+      ],
+      "verdict": "bounded_forecast_met_with_declared_model_limits",
+      "catalog_selection": "pending_separate_review",
+      "original_case_closed": false
+    }
+  ],
+  "method": "Saved JSON only; exact-source registry composition, all retained phases; no engine execution.",
+  "qualification": "Bounded model consistency, not empirical kinetics, heat, yield or closure of missing original identities."
+}

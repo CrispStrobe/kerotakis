@@ -1,0 +1,35 @@
+{
+  "pr": 819,
+  "reviewed_head": "0d61f582c0f9b65c5afb9cad942c4bd5274a2057",
+  "parents": [
+    "77c5488ec996464123eb7aa26e568446ff4721a7",
+    "8dbb05aa2ba58c3e9fbf478b3626ae3f400190c5"
+  ],
+  "main_refresh": "Normal signed merge; only STATUS conflict resolved, keeping all accepted main status plus organic lane.",
+  "runtime_and_tests_unchanged_from_reviewed_77c": true,
+  "relative_main_files": [
+    "crates/kerotakis-core/i18n/de.toml",
+    "crates/kerotakis-core/i18n/fr.toml",
+    "crates/kerotakis-core/src/curated.rs",
+    "crates/kerotakis-core/src/nonaqueous.rs",
+    "crates/kerotakis-core/tests/nonaqueous.rs",
+    "crates/kerotakis-core/tests/silver_metathesis.rs",
+    "crates/kerotakis-phreeqc/tests/equilibrator.rs",
+    "docs/STATUS.md",
+    "docs/organic-solubility-repair-lane.md"
+  ],
+  "exact_head_acceptance": {
+    "ci": 38944326110,
+    "full_fleet": 38944326223,
+    "state": "pending"
+  },
+  "obsolete_failed_head_queue": {
+    "run": 38930003227,
+    "head": "c4b85d2d88f03f7e9cc67c9367bda75051cb37e8",
+    "running_jobs_before_cancellation": 0,
+    "normal_cancel_left_three_queued_aggregators": true,
+    "force_cancel_completed": true,
+    "new_head_jobs_cancelled": false
+  },
+  "scientific_selection_delta": 0
+}

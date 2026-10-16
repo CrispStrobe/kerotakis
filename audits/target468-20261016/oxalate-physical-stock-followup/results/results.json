@@ -1,0 +1,14 @@
+[
+  {
+    "id": "118-complete-stocks",
+    "http_status": 200,
+    "elapsed_seconds": 4.737920835614204,
+    "response_sha256": "6b3263b0dcb88433b1c5f616276fcf858983845e5f0c27c8489b98ef037fa47d",
+    "script_sha256": "27540d70f170e04ccf09d70383a96d10c8d57dd700efe576db37307a1d83f49d",
+    "attempts": 1,
+    "physical_verdict": "not_assigned",
+    "execution_status": "completed",
+    "exit_status": 0,
+    "observations": 9
+  }
+]

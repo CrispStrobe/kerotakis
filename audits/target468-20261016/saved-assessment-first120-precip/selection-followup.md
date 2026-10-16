@@ -1,0 +1,25 @@
+# Precipitation selection follow-up: partial yield and ethanol provenance
+
+This separately frozen source follow-up qualifies the first saved assessment. It does not modify its original 18 case records, forecasts or observations. No new experiment or engine execution occurred.
+
+The first assessment JSON SHA-256 is `168030b87eac0978b7644f40d54e96cb158db654b0f1ae735804b67e89528b0d`; its 14 `met` case statuses describe literal criterion correspondence, not approved catalogue selection. **Recommend 13 bounded working-selection candidates, holding PR-016 in addition to the four already unsupported cases.** The 13 candidates are PR-001, PR-002, PR-003, PR-004, PR-006, PR-007, PR-009, PR-010, PR-011, PR-012, PR-013, PR-014 and PR-015, subject to the recorded model and measurement qualifications and independent review.
+
+## PR-001: partial redissolution only
+
+The original C2 says: “Its amount decreases after excess base while total zinc remains constant; unsupported hydroxo-complex coverage is not a chemical pass.” It sets no clearing or minimum percentage condition. Saved solid Zn(OH)2 changes from 0.0009992239623547 to 0.0009743391348335 mol, a decrease of 0.000024884827521200084 mol, or **2.490415408% of the intermediate solid**. The remaining solid is about 97.43% of the original zinc dose. Hydroxo-zinc complexes are explicitly present in the final solution distribution and the zinc phase sum remains 0.001 mol within its recorded floating-point residual.
+
+This meets the literal bounded decrease criterion. It does not show a clear final solution or complete hydroxide dissolution. The original forecast says sufficiently strong excess hydroxide “can redissolve” the hydroxide, without specifying complete clearing at this dose. Catalogue wording must retain “partial redissolution” and the actual small yield; any stronger clearing target needs a separately frozen protocol rather than a relaxed interpretation of this result.
+
+## PR-016: hold working selection despite literal output checks
+
+The original C1 asks to check AgCl in both solvents and distinguish undissolved starting salt from precipitated product. The final water snapshot contains 0.0009992088474535 mol AgCl solid. The final ethanol snapshot contains 0.0005560973940420581 mol AgCl solid and the same amount of NaNO3 solid; residual AgNO3 and NaCl are each 0.00044390260595794195 mol, **labelled liquid**, not undissolved solid. The original C2 asks to report actual conversion rather than assume equal yields; those reported yields are 99.92088475% and 55.60973940%. These literal distinctions remain valid descriptions of the saved output.
+
+However, source review at the executed commit `c44692053a94c59dcf62e7fb67549f84c7d18f83` identifies an unresolved provenance/model limit:
+
+- `crates/kerotakis-core/src/nonaqueous.rs`, Git blob `78d04d134c9bd34287f1bfe06fe30dd4586768b1`, documents that every `OrganicSolubility` source line was withdrawn on 2026-09-13. It expressly says no open replacement was found. The NaCl/ethanol 0.065 g/100 mL and AgNO3/ethanol 2.1 g/100 mL entries are retained magnitudes prefixed “NO SOURCE IS CLAIMED”. The same limitation applies to the AgCl/ethanol insolubility magnitude.
+- `crates/kerotakis-core/src/curated.rs`, Git blob `03c8384a871c16c14c7d07dd8a7afd544349bb12`, has an ethanol-only metathesis row producing solid AgCl and NaNO3. Its `available_dissolved` function reads the live `OrganicSolubility` limit. With 50 mL ethanol, the NaCl value permits 0.0325 g, giving precisely the reported 0.0005560973940420581 mol reaction extent at the registered molar mass. The limiting value therefore directly determines the reported conversion.
+- None of PR-016's saved events is `not_yet_modeled` or `solver_failed`. Absence of a named runtime warning does not repair the expressly withdrawn source claim. The organic model uses undissociated dissolved solute at curated limits, with no electrolyte speciation/activity model. The code's fallback when a table row is absent is also explicitly documented as a separate unresolved decision; no claim is made that this fallback fired for the present known NaCl/AgNO3 entries.
+
+**Selection disposition: hold PR-016 as unsupported quantitative nonaqueous phase/conversion evidence.** Preserve its reported model output and both literal criterion results, but do not promote that output to a working chemistry selection on the strength of zero exit, correct stoichiometric identity or warning absence. This does not establish that real AgCl formation in ethanol is absent. It establishes that this saved yield depends on a live value without a supported source claim.
+
+A feasible next lane is to inventory the exact organic solubility values used by this route, resolve their allowed primary-source provenance or explicitly disable/qualify unsupported numerical use, and verify runtime propagation of that coverage limitation. Preserve finite dissolved/undissolved ownership and avoid an all-dissolved fallback. Any replacement data or changed behavior requires a separately frozen follow-up design and later hosted acceptance; none is executed or accepted here.

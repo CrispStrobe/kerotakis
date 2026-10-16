@@ -1,0 +1,9 @@
+{
+  "id": "84-prepared-basis",
+  "http_status": 200,
+  "elapsed_seconds": 4.636227771639824,
+  "response_sha256": "547c622b532f65067b35aea9a7d2a2f1cf507e97d0e6f6f57d7b185d22c4c156",
+  "script_sha256": "026252c876919b8d0fb6c1ae540c807a08768f9ad3631f1ee8bb97cd39f192db",
+  "attempts": 1,
+  "physical_verdict": "not_assigned"
+}

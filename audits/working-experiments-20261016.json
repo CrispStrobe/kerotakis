@@ -14,7 +14,7 @@
     "The recent silver/ammonia replay is excluded because canonical free/complex-bound ligand ownership remains a material gap.",
     "Original experiment designs, forecasts and first results remain unchanged."
   ],
-  "count": 155,
+  "count": 189,
   "counts_by_group": {
     "independent-first50": 38,
     "independent-second50": 25,
@@ -24,7 +24,8 @@
     "supplied200": 13,
     "complete-reagent-followups": 9,
     "supplied200-repaired-protocols": 2,
-    "new201-original-assessed": 6
+    "new201-original-assessed": 6,
+    "first120-original-assessed": 34
   },
   "experiments": [
     {
@@ -3067,7 +3068,942 @@
         "raw_archive": "audits/new-experiments-201-20261016/native-screen-results/raw-artifact.zip",
         "case": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_qa-012.json"
       }
+    },
+    {
+      "id": "new120:ab-001",
+      "group": "first120-original-assessed",
+      "title": "Conductometric strong-acid titration: a minimum, not only an endpoint",
+      "script": "# AB-001: Conductometric strong-acid titration: a minimum, not only an endpoint\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 HCl 0.001mol\nmeasure v1 conductivity\nmeasure v1 ph\nadd v1 NaOH 0.0005mol\nmeasure v1 conductivity\nadd v1 NaOH 0.0005mol\nmeasure v1 conductivity\nmeasure v1 ph\nadd v1 NaOH 0.0005mol\nmeasure v1 conductivity\nmeasure v1 ph\ninspect\n",
+      "script_sha256": "eaa0305223f969b4bae2087d1e52faeb0b222f29c5a8efce3b12faba8d6ad700",
+      "expected_result": "Conductivity falls as highly mobile hydrogen ions are replaced by sodium ions, reaches a minimum near equivalence, and rises with excess hydroxide.",
+      "observed_result": "Equivalence conductivity 1204.28016648 < initial 4058.45669281 and excess-base 2359.45573764 uS/cm. Measured pH [2.038105470481, 6.992693453276, 11.63545549958]; equivalence near neutral, subsequent base alkaline; all conductivities positive.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-precip/ab-independent-review.md",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:ab-001"
+      }
+    },
+    {
+      "id": "new120:ab-003",
+      "group": "first120-original-assessed",
+      "title": "Resolve the first two phosphoric-acid equivalence regions",
+      "script": "# AB-003: Resolve the first two phosphoric-acid equivalence regions\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 H3PO4 0.001mol\nmeasure v1 ph\nadd v1 NaOH 0.0005mol\nmeasure v1 ph\nadd v1 NaOH 0.0005mol\nmeasure v1 ph\nadd v1 NaOH 0.0005mol\nmeasure v1 ph\nadd v1 NaOH 0.0005mol\nmeasure v1 ph\ninspect\n",
+      "script_sha256": "27641b01df1b851065e2346f16ab783723dcdcca86c3deb41a2cdb9c3fba0dd5",
+      "expected_result": "The pH curve contains separate first- and second-proton neutralisation regions; half-equivalent mixtures reveal two different buffers.",
+      "observed_result": "pH increases [2.265723726753, 2.618256008344, 4.705253300499, 6.982119872535, 9.312823496919]; half-equivalent states 2.618256008344 and 6.982119872535 differ by 4.36386386. Phosphorus amounts [0.000999999999999999, 0.0009999999999999916, 0.0009999999998418518, 0.0009999999998418518, 0.0009999999995592927]; canonical HPO4-2/PO4-3 counted once.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-precip/ab-independent-review.md",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:ab-003"
+      }
+    },
+    {
+      "id": "new120:ab-004",
+      "group": "first120-original-assessed",
+      "title": "Sulfuric acid needs two base equivalents per formula unit",
+      "script": "# AB-004: Sulfuric acid needs two base equivalents per formula unit\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 H2SO4 0.001mol\nadd v1 NaOH 0.001mol\nmeasure v1 ph\ninspect v1\nadd v1 NaOH 0.001mol\nmeasure v1 ph\ninspect v1\n",
+      "script_sha256": "74917bc4182f2f972df822c1de525e3723189a24d4a1352306a95bd4a83e6cfa",
+      "expected_result": "One equivalent leaves bisulfate acidity; two equivalents give a sulfate-dominated solution without a large strong-acid reserve.",
+      "observed_result": "One-equivalent pH 2.196555848514, two-equivalent 7.074414988918, rise 4.87785914. Sulfur retained as sulfate 0.001 mol; final pH 7.074414988918 is not forced to seven.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-precip/ab-independent-review.md",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:ab-004"
+      }
+    },
+    {
+      "id": "new120:ab-005",
+      "group": "first120-original-assessed",
+      "title": "Bicarbonate is amphiprotic, unlike strongly basic carbonate",
+      "script": "# AB-005: Bicarbonate is amphiprotic, unlike strongly basic carbonate\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 NaHCO3 0.001mol\nmeasure v1 ph\nnew\nadd v2 water 100mL\nadd v2 Na2CO3 0.001mol\nmeasure v2 ph\ninspect\n",
+      "script_sha256": "fb63fd7f45acbf6366e45c30389feee933d5ba4bf829efe59f20952ad4df42f6",
+      "expected_result": "At equal analytical carbon loading, bicarbonate is moderately basic and carbonate is appreciably more alkaline.",
+      "observed_result": "Carbonate pH 10.97251176786 > bicarbonate 9.109065272315. Retained carbon [0.0009227233772508094, 0.000999999999999757], exported CO2 [7.727662274915e-05, 0]; each closes to 1 mmol. Sodium is 1 vs 2 mmol, not matched.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-precip/ab-independent-review.md",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:ab-005"
+      }
+    },
+    {
+      "id": "new120:ab-006",
+      "group": "first120-original-assessed",
+      "title": "Build an ammonium–ammonia buffer by half-neutralisation",
+      "script": "# AB-006: Build an ammonium–ammonia buffer by half-neutralisation\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nseal v1 500mL\nadd v1 NH4Cl 0.002mol\nadd v1 NaOH 0.001mol\nmeasure v1 ph\ninspect v1\nadd v1 HCl 0.0002mol\nmeasure v1 ph\ninspect v1\n",
+      "script_sha256": "7d813366603aaa2daa21eab6ba30a1cde8a83f4d8ef2a7d53057d484d7443f0d",
+      "expected_result": "Half-neutralisation creates an NH4+/NH3 buffer. A small acid challenge changes its ratio rather than causing an unbuffered pH collapse.",
+      "observed_result": "Half-neutralisation retains {'NH3': 0.0009884707208801969, 'NH4+': 0.0010115292791193593}, including all-phase NH3. pH 9.350148867554 -> 9.162887840183; NH3 gas 3.2606934579e-06 mol included; reagent nitrogen 0.00200000000000017 plus separately trapped N2.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-precip/ab-independent-review.md",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:ab-006"
+      }
+    },
+    {
+      "id": "new120:ab-007",
+      "group": "first120-original-assessed",
+      "title": "A common ammonium ion suppresses ammonia ionisation",
+      "script": "# AB-007: A common ammonium ion suppresses ammonia ionisation\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nseal v1 500mL\nadd v1 NH3 0.001mol\nmeasure v1 ph\nnew\nadd v2 water 100mL\nseal v2 500mL\nadd v2 NH3 0.001mol\nadd v2 NH4Cl 0.001mol\nmeasure v2 ph\ninspect\n",
+      "script_sha256": "710e50a8e7ff0db147f2dc6b9ee8a371ad46a1db5ee730363379ae98ac2e0675",
+      "expected_result": "Adding ammonium chloride lowers the pH of an otherwise equal ammonia dose by shifting its base equilibrium.",
+      "observed_result": "NH3/NH4Cl pH 9.27862577475 < NH3-only 10.53868264893. NH3 + NH4+ including gas: [0.0010000000000000857, 0.002000000000000178] mol; trapped N2 is separate in ledger.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-precip/ab-independent-review.md",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:ab-007"
+      }
+    },
+    {
+      "id": "new120:ab-008",
+      "group": "first120-original-assessed",
+      "title": "A basic buffer absorbs an alkali challenge",
+      "script": "# AB-008: A basic buffer absorbs an alkali challenge\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nseal v1 500mL\nadd v1 NH3 0.001mol\nadd v1 NH4Cl 0.001mol\nmeasure v1 ph\nnew\nadd v2 water 100mL\nmeasure v2 ph\nadd v1 NaOH 0.0001mol\nadd v2 NaOH 0.0001mol\nmeasure v1 ph\nmeasure v2 ph\ninspect\n",
+      "script_sha256": "19d719cd072f6d104dc7a1500606836cb6a575c89663d91ece47dd4e65429772",
+      "expected_result": "The buffered vessel shows a much smaller pH change than water receiving the same hydroxide dose.",
+      "observed_result": "Own-baseline shifts buffered 0.0919354615420005 vs water 3.987539665495964. NH4+ remaining 0.000911758881888 mol.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-precip/ab-independent-review.md",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:ab-008"
+      }
+    },
+    {
+      "id": "new120:ab-009",
+      "group": "first120-original-assessed",
+      "title": "An acetate buffer absorbs hydroxide by spending its acid component",
+      "script": "# AB-009: An acetate buffer absorbs hydroxide by spending its acid component\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 CH3COOH 0.001mol\nadd v1 NaOAc 0.001mol\nmeasure v1 ph\nadd v1 NaOH 0.0002mol\nmeasure v1 ph\ninspect v1\n",
+      "script_sha256": "a183e0c0611556493a7cc6d6f69354f150f1a0406a6b484367d561f374599a31",
+      "expected_result": "Hydroxide consumes acetic acid and raises the acetate/acid ratio, causing only a moderate pH increase.",
+      "observed_result": "Before/after [{'CH3COOH': 0.0010005286469711686, 'CH3COO-': 0.0009994713530288313}, {'CH3COOH': 0.0008015703254464604, 'CH3COO-': 0.00119842967455354}]; total family 2 mmol, carbon 4 mmol. pH 4.711715754087 -> 4.883211256489, remains acidic.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-precip/ab-independent-review.md",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:ab-009"
+      }
+    },
+    {
+      "id": "new120:ab-010",
+      "group": "first120-original-assessed",
+      "title": "Reverse a buffer ratio while holding its total pool constant",
+      "script": "# AB-010: Reverse a buffer ratio while holding its total pool constant\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 CH3COOH 0.0018mol\nadd v1 NaOAc 0.0002mol\nmeasure v1 ph\nnew\nadd v2 water 100mL\nadd v2 CH3COOH 0.0002mol\nadd v2 NaOAc 0.0018mol\nmeasure v2 ph\ninspect\n",
+      "script_sha256": "d5ce35c12b4726dd52f07ec98a8b0bde1073b63404da372eaec70dcd4298900b",
+      "expected_result": "Reversing an approximately 1:9 base/acid ratio to 9:1 raises pH by roughly 1.9 units in the ideal approximation.",
+      "observed_result": "Acetate-rich pH 5.65050088122 > acid-rich 3.817180923479. Difference 1.83331995774 vs ideal log10(81)=1.90848501888, deviation -0.0751650611; qualified approximate comparison, no exact calibration or newly imposed tolerance.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-precip/ab-independent-review.md",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:ab-010"
+      }
+    },
+    {
+      "id": "new120:ab-011",
+      "group": "first120-original-assessed",
+      "title": "Equal buffer pH does not mean equal buffer capacity",
+      "script": "# AB-011: Equal buffer pH does not mean equal buffer capacity\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 CH3COOH 0.0002mol\nadd v1 NaOAc 0.0002mol\nmeasure v1 ph\nnew\nadd v2 water 100mL\nadd v2 CH3COOH 0.002mol\nadd v2 NaOAc 0.002mol\nmeasure v2 ph\nadd v1 HCl 0.0001mol\nadd v2 HCl 0.0001mol\nmeasure v1 ph\nmeasure v2 ph\ninspect\n",
+      "script_sha256": "572d8ed78c5383825138742556a3d82bc854cc1bd1120eb87f8bdb7821eca784",
+      "expected_result": "The buffers start at similar pH, but the ten-times larger acid/base pool resists the same acid challenge more effectively.",
+      "observed_result": "Initial pH [4.743064256916, 4.693720120321], difference 0.0493441366; similar, not identical. Dilute/concentrated shifts [-0.45480694342299977, -0.04337418488400058]; concentrated buffer smaller.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-precip/ab-independent-review.md",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:ab-011"
+      }
+    },
+    {
+      "id": "new120:ab-012",
+      "group": "first120-original-assessed",
+      "title": "Diluting a buffer preserves its ratio but weakens capacity per volume",
+      "script": "# AB-012: Diluting a buffer preserves its ratio but weakens capacity per volume\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 CH3COOH 0.001mol\nadd v1 NaOAc 0.001mol\nnew\ndecant v1 v2 0.5\ndilute v1 50mL\ndilute v2 450mL\nmeasure v1 ph\nmeasure v2 ph\nadd v1 HCl 0.00005mol\nadd v2 HCl 0.00025mol\nmeasure v1 ph\nmeasure v2 ph\ninspect\n",
+      "script_sha256": "16e08acf281a4877cae488a82dea16fe0a7b3f5648a1e36913b38fbe1acb50e9",
+      "expected_result": "After splitting equal buffer inventories, dilution alone changes pH little. An equal acid challenge per approximate final litre consumes more of the buffer in the larger, dilute vessel.",
+      "observed_result": "Postdilution pH [4.726301282628, 4.75681733167], difference 0.030516049. 0.05/0.25 mmol acid challenges; concentrated/dilute shifts [-0.08635462507200042, -0.437428338188]. Approximate concentration-normalised protocol retained.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-precip/ab-independent-review.md",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:ab-012"
+      }
+    },
+    {
+      "id": "new120:ab-013",
+      "group": "first120-original-assessed",
+      "title": "An extremely dilute strong acid never becomes a base",
+      "script": "# AB-013: An extremely dilute strong acid never becomes a base\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nmeasure v1 ph\nadd v1 HCl 0.000000001mol\nmeasure v1 ph\ninspect v1\n",
+      "script_sha256": "5a3de892593266665abd7d5e96f7da7369a6894533a2f324419ebbdfcb218534",
+      "expected_result": "Water autoionisation prevents the naive pH = -log10(c_acid) calculation from predicting pH 8 for a 10^-8 M acid addition.",
+      "observed_result": "1 nmol HCl: pH 6.997375771104036 -> 6.978015332218, not alkaline. Actual water temperature 298.15 K; open model boundary, initial pH 6.997375771104036 is the measured neutral reference. No atmospheric calibration claimed.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-precip/ab-independent-review.md",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:ab-013"
+      }
+    },
+    {
+      "id": "new120:ab-014",
+      "group": "first120-original-assessed",
+      "title": "Similar initial pH can conceal very different acid reserves",
+      "script": "# AB-014: Similar initial pH can conceal very different acid reserves\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 HCl 0.00001mol\nmeasure v1 ph\nnew\nadd v2 water 100mL\nadd v2 CH3COOH 0.000066mol\nmeasure v2 ph\nadd v1 NaOH 0.00002mol\nadd v2 NaOH 0.00002mol\nmeasure v1 ph\nmeasure v2 ph\ninspect\n",
+      "script_sha256": "8e57b07325b5924b23334ec74e7d72f894200589f2a047e303d70638d7148c81",
+      "expected_result": "These doses give roughly similar initial pH in an ideal calculation. The base challenge exhausts the strong-acid dose while leaving acetic acid in a buffer.",
+      "observed_result": "After equal20 umol base: HCl pH 9.993617215583, weak acid 4.486515492999. Initial pH [4.003655744991, 4.003751966531] difference 9.622154e-05; match reported only as approximate.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-precip/ab-independent-review.md",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:ab-014"
+      }
+    },
+    {
+      "id": "new120:ab-015",
+      "group": "first120-original-assessed",
+      "title": "Weak-acid dilution increases the fraction ionised",
+      "script": "# AB-015: Weak-acid dilution increases the fraction ionised\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 CH3COOH 0.001mol\nmeasure v1 ph\ninspect v1\ndilute v1 900mL\nmeasure v1 ph\ninspect v1\n",
+      "script_sha256": "07c136705409476cf0072f13ad296e0c4cf3595e2649dafa01ddb807fd9d3df5",
+      "expected_result": "On tenfold dilution the pH rises less than a full unit in the ordinary weak-acid regime while the ionised fraction of the acid increases.",
+      "observed_result": "Ionised fraction [0.04185421951390937, 0.12515408869212752]; pH rise 0.519749883, less than one. Family amounts [0.001, 0.001] mol after added900mL water.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-precip/ab-independent-review.md",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:ab-015"
+      }
+    },
+    {
+      "id": "new120:ab-016",
+      "group": "first120-original-assessed",
+      "title": "A conjugate-base salt hydrolyses even with no added alkali",
+      "script": "# AB-016: A conjugate-base salt hydrolyses even with no added alkali\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 NaOAc 0.001mol\nmeasure v1 ph\nnew\nadd v2 water 100mL\nadd v2 NaCl 0.001mol\nmeasure v2 ph\ninspect\n",
+      "script_sha256": "10ad4eab699e6f1a28c57c547b9ba3da8bdb1ecdd25d794045acf2f5858ad77e",
+      "expected_result": "Sodium acetate solution is more alkaline than a sodium chloride control because acetate accepts protons from water.",
+      "observed_result": "Acetate pH 8.331059712513 > saltcontrol 6.99679587879. CH3COOH 2.40465441636e-07; canonical base_equivalents 2.40465441636e-07; measured freeOH 2.39697927996e-07 mol. No NaOH bottle species created.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-precip/ab-independent-review.md",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:ab-016"
+      }
+    },
+    {
+      "id": "new120:ab-019",
+      "group": "first120-original-assessed",
+      "title": "A phosphate buffer protects near-neutral pH",
+      "script": "# AB-019: A phosphate buffer protects near-neutral pH\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 H3PO4 0.002mol\nadd v1 NaOH 0.003mol\nmeasure v1 ph\nnew\nadd v2 water 100mL\nmeasure v2 ph\nadd v1 HCl 0.0002mol\nadd v2 HCl 0.0002mol\nmeasure v1 ph\nmeasure v2 ph\ninspect\n",
+      "script_sha256": "84077a26af45e9bee25ab2e51e6f58593efcad839dea703e7cafbaf35100f83e",
+      "expected_result": "A phosphate mixture between its first and second neutralisation equivalents resists an acid pulse that strongly acidifies water.",
+      "observed_result": "Postpulse species {'H2PO4-': 0.0012753659715547187, 'HPO4-2': 0.0007246014021059567}. Buffered/water ownbaseline shifts [-0.17390054262400056, -4.279538394578036].",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-precip/ab-independent-review.md",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:ab-019"
+      }
+    },
+    {
+      "id": "new120:ab-020",
+      "group": "first120-original-assessed",
+      "title": "A carbonate–bicarbonate buffer absorbs an acid pulse",
+      "script": "# AB-020: A carbonate–bicarbonate buffer absorbs an acid pulse\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nseal v1 500mL\nadd v1 Na2CO3 0.001mol\nadd v1 NaHCO3 0.001mol\nmeasure v1 ph\nadd v1 HCl 0.0002mol\nmeasure v1 ph\ninspect v1\n",
+      "script_sha256": "a847c967dcbe423b332857f98a0536f86cc8a11f30a2f7df5ba06d95b2c5f9af",
+      "expected_result": "A small proton dose mainly converts carbonate to bicarbonate, leaving an alkaline buffer rather than releasing all carbon as gas.",
+      "observed_result": "Bicarbonate/carbonate ratio [1.3078889153263689, 1.9499084025948248]; pH [9.996019221424, 9.82531149639]. Total carbon 0.00200817480890444 vs .002 + initial air 8.17480890486589e-06; no explicit exports.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-precip/ab-independent-review.md",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:ab-020"
+      }
+    },
+    {
+      "id": "new120:ab-021",
+      "group": "first120-original-assessed",
+      "title": "Neutral water need not have pH seven when warm",
+      "script": "# AB-021: Neutral water need not have pH seven when warm\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL @ 25C\nmeasure v1 ph\nmeasure v1 thermometer\nnew\nadd v2 water 100mL @ 60C\nmeasure v2 ph\nmeasure v2 thermometer\ninspect\n",
+      "script_sha256": "2601efd736b08e53163f58ff183803c93e2fcba897418dc8c0d34ea071078940",
+      "expected_result": "For a temperature-dependent water equilibrium, warmer pure water has a lower neutral pH while hydrogen and hydroxide activities remain matched.",
+      "observed_result": "H/O measured inventories match in both states [{'vessel': 0, 'temperature_K': 298.15, 'free_proton_mol': 1.0030426207188841e-08, 'free_hydroxide_mol': 1.0030426207188841e-08}, {'vessel': 1, 'temperature_K': 333.15, 'free_proton_mol': 3.0978143718880876e-08, 'free_hydroxide_mol': 3.0978143718880876e-08}]; these fields are diagnostics, not extra portions. Actual25/60C pure-water pH [6.997375771104036, 6.507639768025985]; thermal effect present, fixed-Kw premise false. No empirical pKw calibration claimed.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-precip/ab-independent-review.md",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:ab-021"
+      }
+    },
+    {
+      "id": "new120:ab-022",
+      "group": "first120-original-assessed",
+      "title": "Mixing pH values is not taking their arithmetic mean",
+      "script": "# AB-022: Mixing pH values is not taking their arithmetic mean\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 50mL\nadd v1 HCl 0.0005mol\nmeasure v1 ph\nnew\nadd v2 water 50mL\nadd v2 HCl 0.000005mol\nmeasure v2 ph\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 ph\ninspect\n",
+      "script_sha256": "2506feb68242087ac05397174a0248acdbcff1ee4602f399710f250b1f2f1ef8",
+      "expected_result": "Equal volumes of approximately pH 2 and pH 4 strong acid mix to about pH 2.3 in the ideal approximation, not pH 3.",
+      "observed_result": "Initial pH [2.038105470481, 4.003655744991], mixed 2.325392461583; distances [0.28728699110199996, 1.6782632834079996], arithmetic mean 3.02088060774. Mixed H+/Cl- each 0.000505/0.000505 mol; parents empty after fullmix; ideal estimate 2.29670862188 qualified by activity.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-precip/ab-independent-review.md",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:ab-022"
+      }
+    },
+    {
+      "id": "new120:ab-023",
+      "group": "first120-original-assessed",
+      "title": "Hydroxide equivalents depend on formula stoichiometry",
+      "script": "# AB-023: Hydroxide equivalents depend on formula stoichiometry\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 HCl 0.002mol\nadd v1 NaOH 0.001mol\nmeasure v1 ph\nnew\nadd v2 water 100mL\nadd v2 HCl 0.002mol\nadd v2 Ca(OH)2 0.001mol\nmeasure v2 ph\ninspect\n",
+      "script_sha256": "ba864f496c4366b8e551593f35e092f5911a1ef3e6eb92d97779701a0b420395",
+      "expected_result": "Equal formula-unit amounts of NaOH and Ca(OH)2 consume different proton amounts: one and two equivalents respectively.",
+      "observed_result": "NaOH pH 2.04970626498 with H+ 0.001 mol; calciumhydroxide pH 6.969358656633. Calcium 0.001 mol aqueous; no remaining Ca(OH)2. Formula unit supplies2OH; chloride2mmol, no new reagent.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-precip/ab-independent-review.md",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:ab-023"
+      }
+    },
+    {
+      "id": "new120:ab-024",
+      "group": "first120-original-assessed",
+      "title": "Compare antacid capacity per gram without confusing fizz with neutralisation",
+      "script": "# AB-024: Compare antacid capacity per gram without confusing fizz with neutralisation\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 HCl 0.004mol\nadd v1 Mg(OH)2 0.1g\nmeasure v1 ph\ninspect v1\nnew\nadd v2 water 100mL\nadd v2 HCl 0.004mol\nadd v2 CaCO3 0.1g\nmeasure v2 ph\ninspect v2\n",
+      "script_sha256": "c6a494193ed3397fbee3d4eca88b233fbd9609c387601fb871b34dc1bbeed2cb",
+      "expected_result": "Both solids consume two protons per formula unit, but the smaller molar mass of Mg(OH)2 gives greater acid capacity per gram. Only carbonate produces CO2.",
+      "observed_result": "MgOH residual H+ 0.000570644718793 mol vs carbonate 0.00200173852904; pH [2.314084625884, 1.766078350027]. Explicit CO2 exports Mg/Ca vessels [0, 0.0009978190579808]; carbonate retained aqueous carbon also counted in ledger.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-precip/ab-independent-review.md",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:ab-024"
+      }
+    },
+    {
+      "id": "new120:pr-001",
+      "group": "first120-original-assessed",
+      "title": "Zinc hydroxide precipitates, then dissolves in excess base",
+      "script": "# PR-001: Zinc hydroxide precipitates, then dissolves in excess base\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 ZnSO4 0.001mol\nadd v1 NaOH 0.002mol\ninspect v1\nadd v1 NaOH 0.008mol\ninspect v1\nmeasure v1 ph\ninspect\n",
+      "script_sha256": "8ac28f75cbf98404ed60f57e29a9a6ae4dd0b87b5dd322851288e8b9fca77a2f",
+      "expected_result": "A moderate hydroxide dose gives Zn(OH)2; sufficiently strong excess hydroxide can redissolve it into soluble hydroxo-zinc species.",
+      "observed_result": "Rows 3/5: Zn(OH)2 solid falls from 0.0009992239624 to 0.0009743391348 mol. Aqueous Zn rises from 7.76037646e-7 to 2.566086517e-5 mol; total Zn is 0.001 mol to floating-point residual. Final Zn(OH)4-2 and Zn(OH)3- molalities are 0.0001647 and 0.00008884. This supports a small decrease (about 2.49% of intermediate solid), not complete clearing.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive.",
+        "No unsupported-hydroxo escape is used. No full dissolution yield, calibrated spectrum or complete heat claim."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-precip/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-ab/precip-selection-independent-review.json",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:pr-001"
+      }
+    },
+    {
+      "id": "new120:pr-002",
+      "group": "first120-original-assessed",
+      "title": "Dissolve magnesium hydroxide and reprecipitate it",
+      "script": "# PR-002: Dissolve magnesium hydroxide and reprecipitate it\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 Mg(OH)2 0.001mol\ninspect v1\nadd v1 HCl 0.002mol\ninspect v1\nadd v1 NaOH 0.002mol\ninspect v1\n",
+      "script_sha256": "5d2782a7fbf09e3e87e342e33c3c34ed42262be6a9616fa0d0ebd69213a9d00f",
+      "expected_result": "Acid dissolves the initial hydroxide; restoring alkalinity produces a magnesium hydroxide solid again without inventing a magnesium-chloride bottle key.",
+      "observed_result": "Rows 2/4/6: Mg(OH)2 solid 0.0009867943731 -> 0 -> 0.0009835919635 mol. Aqueous Mg 0.00001320562691 -> 0.001 -> 0.00001640803648 mol. The phase sums retain the original 0.001 mol magnesium within recorded floating-point residual.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive.",
+        "Exact numerical residuals remain in the snapshots; no new acceptance tolerance is introduced."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-precip/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-ab/precip-selection-independent-review.json",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:pr-002"
+      }
+    },
+    {
+      "id": "new120:pr-003",
+      "group": "first120-original-assessed",
+      "title": "Ferric hydroxide redissolves when its pH support is removed",
+      "script": "# PR-003: Ferric hydroxide redissolves when its pH support is removed\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 FeCl3 0.001mol\nadd v1 NaOH 0.003mol\ninspect v1\nadd v1 HCl 0.006mol\ninspect v1\nmeasure v1 ph\ninspect\n",
+      "script_sha256": "96ed93cbc122da57dd5c9b06140ad641da5505d6a3fb03e913847a892d49f341",
+      "expected_result": "Brown ferric hydroxide formed by base addition is substantially removed by a deliberate excess of acid.",
+      "observed_result": "Rows 3/5: Fe(OH)3 solid 0.0009999958515 -> 0 mol; final aqueous Fe+3 analytical total 0.001 mol and pH 1.59949280306. Initial dissolved Fe 4.148537473e-9 mol. Dissolved ownership, rather than appearance, establishes iron retention.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive.",
+        "No claim of a new pure iron salt bottle or free Fe3+ concentration from the analytical carrier.",
+        "Named model limits are retained verbatim in the linked assessment; selection does not close excluded phases, complex heat or spectra."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-precip/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-ab/precip-selection-independent-review.json",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:pr-003"
+      }
+    },
+    {
+      "id": "new120:pr-006",
+      "group": "first120-original-assessed",
+      "title": "An acid reserve can prevent calcium carbonate precipitation",
+      "script": "# PR-006: An acid reserve can prevent calcium carbonate precipitation\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 CaCl2 0.001mol\nadd v1 Na2CO3 0.001mol\ninspect v1\nnew\nadd v2 water 100mL\nadd v2 HCl 0.003mol\nadd v2 CaCl2 0.001mol\nadd v2 Na2CO3 0.001mol\ninspect v2\n",
+      "script_sha256": "9270bff2d342b8b602973f8b4f9f5d6725aeb08fc5759066325ef354b83fab49",
+      "expected_result": "Without prior acid, carbonate precipitates calcium. With excess proton capacity, carbonate is protonated and the calcium mostly remains dissolved.",
+      "observed_result": "Rows 3/9: neutral CaCO3 solid 0.0009826363956 mol versus acidified solid 0. Final acidified dissolved Ca 0.001 mol. Added HCl 0.003 mol; final analytical H+ 0.0010000000846 mol, consistent with approximately 0.002 mol proton consumption. Row 8 CO2 gas_evolved exports 0.0009986985126323 mol; remaining aqueous carbon plus this export is 0.0010000000000000002 mol.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive.",
+        "Gas_evolved in the open boundary is an export, not retained headspace inventory; count the event once, not at every later inspect. Carbon quantities are explicitly partitioned, not inferred from lost vessel mass."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-precip/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-ab/precip-selection-independent-review.json",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:pr-006"
+      }
+    },
+    {
+      "id": "new120:pr-007",
+      "group": "first120-original-assessed",
+      "title": "Limewater clouds and then clears under excess carbon dioxide",
+      "script": "# PR-007: Limewater clouds and then clears under excess carbon dioxide\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nseal v1 500mL\nadd v1 Ca(OH)2 0.0005mol\nadd v1 CO2 0.0005mol\ninspect v1\nadd v1 CO2 0.005mol\ninspect v1\nmeasure v1 ph\ninspect\n",
+      "script_sha256": "b15b2cdabe149c716d1ffccbdb9e775486a3d7302968232885934352e51a17e6",
+      "expected_result": "Initial CO2 converts hydroxide into calcium carbonate; excess retained CO2 lowers pH and favours dissolved calcium/bicarbonate.",
+      "observed_result": "Rows 4/6: CaCO3 solid 0.0004854705420399 -> 0.00001193221964 mol; final pH 6.466422829211. Ca all-phase sum stays approximately 0.0005 mol. Sealing row 1 initially incorporates 0.00000817480890486671 mol atmospheric carbon; after initial CO2 dose total C is 0.0005081748088250311 and after final dose 0.005508174808824631 mol. Final retained gas CO2 0.003878660411 mol belongs inside the sealed boundary.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive.",
+        "The initial atmospheric carbon must be included: comparing final C only to the 0.0055 mol explicit dose creates a false imbalance. Recorded C residual against row1 + doses is about -8.02e-14 mol; no empirical gas-equilibrium or kinetic validation."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-precip/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-ab/precip-selection-independent-review.json",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:pr-007"
+      }
+    },
+    {
+      "id": "new120:pr-014",
+      "group": "first120-original-assessed",
+      "title": "Purify impure limestone by dissolution and reprecipitation",
+      "script": "# PR-014: Purify impure limestone by dissolution and reprecipitation\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 CaCO3 0.001mol\nadd v1 SiO2 0.1g\nadd v1 HCl 0.002mol\nnew\nfilter v1 v2\ninspect\nadd v2 Na2CO3 0.001mol\ninspect v2\n",
+      "script_sha256": "3779f26b3eface23819de7ed533a7f97177ec573f99514e6189e8b3376afdee6",
+      "expected_result": "Acid dissolves the calcium carbonate, filtration rejects sand, and carbonate addition recovers a calcium-rich precipitate in the receiver.",
+      "observed_result": "Filter row 5: v1 solid SiO2 0.001644364588 mol, v2 dissolved SiO2 0.00001997200777 mol; about 98.8000% of represented Si remains in source. Receiver initially has approximately 0.001 mol dissolved Ca; final row 8 has CaCO3 solid 0.0009825806053 mol and dissolved Ca 0.00001741939335 mol, about 98.2581% calcium recovery into the precipitate.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive.",
+        "The receiver has dissolved silica impurity: do not label the recovered material analytically pure or equate gross mass to calcium recovery. Both vessel boundaries are retained."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-precip/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-ab/precip-selection-independent-review.json",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:pr-014"
+      }
+    },
+    {
+      "id": "new120:pr-015",
+      "group": "first120-original-assessed",
+      "title": "Convert copper oxide through a soluble salt to a hydroxide",
+      "script": "# PR-015: Convert copper oxide through a soluble salt to a hydroxide\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 CuO 0.001mol\nadd v1 HCl 0.002mol\ninspect v1\nadd v1 NaOH 0.002mol\ninspect v1\n",
+      "script_sha256": "d7e41b5daac1bf82aaa71cdfbec5cacfaa06aa731518dd001b153786b43b6fd0",
+      "expected_result": "Acid dissolves black copper oxide; subsequent base addition forms a copper hydroxide-rich solid while preserving copper inventory.",
+      "observed_result": "Addition row 1 establishes CuO solid 0.00099990314562 mol before acid; row 2 and inspect row 3 show CuO absent, dissolved Cu 0.0009984574955 mol plus atacamite 7.712522298e-7 mol (two Cu per formula) retain approximately 0.001 mol Cu. Final row 5 identifies Cu(OH)2 0.0009987765155 mol plus atacamite 1.639896734e-7 mol and dissolved Cu 8.955020096e-7 mol.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive.",
+        "The automatic add-row snapshot supplies the pre-acid baseline even though no explicit inspect was authored there. C2 composition is explicit and copper closure needs the two-Cu atacamite coefficient.",
+        "Named model limits are retained verbatim in the linked assessment; selection does not close excluded phases, complex heat or spectra."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-precip/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-ab/precip-selection-independent-review.json",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:pr-015"
+      }
+    },
+    {
+      "id": "new120:pr-004",
+      "group": "first120-original-assessed",
+      "title": "Excess ammonia can dissolve a copper hydroxide precipitate",
+      "script": "# PR-004: Excess ammonia can dissolve a copper hydroxide precipitate\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nseal v1 500mL\nadd v1 CuSO4 0.0005mol\nadd v1 NaOH 0.001mol\ninspect v1\nadd v1 NH3 0.05mol\ninspect v1\nmeasure v1 uvvis\ninspect\n",
+      "script_sha256": "76a1ddbdfb006ed96709ee3410215431cde7d14283d08e1d6b752e8695ee4fb1",
+      "expected_result": "Chemical expectation: excess ammonia stabilises dissolved copper ammine species and can remove the hydroxide precipitate, with a changed copper colour.",
+      "observed_result": "Rows 4/6: copper solid counted with stoichiometry is 0.0004991011238 -> 0.0004689092011 mol (initial brochantite contributes four Cu per formula). Final Cu(NH3)4+2 and Cu(NH3)3+2 molalities 0.0002845 and 0.00001816 are positive; no ammines in the initial reported distribution. All-phase Cu totals 0.0004999999999932997 -> 0.0004999999999932837 mol. Final aqueous analytical NH3 + NH4+ plus gas NH3 = 0.05000000000000062 mol; the gas share is 0.0001784815665 mol. Initial headspace N2 is retained separately and was not added as ammonia.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive.",
+        "Equilibrium ligand carriers already include bound ammonia: do not add ammine ligand moles again. UV/visible measurement explicitly unsupported; reference-temperature complex constants, incomplete complex heat and spectra are disclosed. Only criterion-scoped equilibrium inventory behavior is met, not quantitative colour or full heat.",
+        "Named model limits are retained verbatim in the linked assessment; selection does not close excluded phases, complex heat or spectra."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-precip/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-ab/precip-selection-independent-review.json",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:pr-004"
+      }
+    },
+    {
+      "id": "new120:pr-009",
+      "group": "first120-original-assessed",
+      "title": "Not every alkaline-earth sulfate precipitates at the same concentration",
+      "script": "# PR-009: Not every alkaline-earth sulfate precipitates at the same concentration\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 1000mL\nadd v1 CaCl2 0.001mol\nadd v1 Na2SO4 0.001mol\ninspect v1\nnew\nadd v2 water 1000mL\nadd v2 BaCl2 0.001mol\nadd v2 Na2SO4 0.001mol\ninspect v2\n",
+      "script_sha256": "ae3a3e5fe634a8375122c32dc07397d490e4dcd3035d630011618b3da150a10a",
+      "expected_result": "At these dilute analytical loadings, calcium sulfate is expected to remain mostly dissolved whereas barium sulfate precipitates strongly.",
+      "observed_result": "Rows 3/8: CaSO4 solid absent, dissolved Ca and sulfate each 0.001 mol. BaSO4 solid 0.0009873155095 mol, about 98.73155% of added barium, with 0.00001268449048 mol dissolved Ba and sulfate each. Dissolved calcium and sulfate ownership is explicit.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive.",
+        "Comparison concerns these specified dilute loadings and represented phases, not all alkaline-earth salts or a kinetic crystallization prediction."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-precip/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-ab/precip-selection-independent-review.json",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:pr-009"
+      }
+    },
+    {
+      "id": "new120:pr-011",
+      "group": "first120-original-assessed",
+      "title": "Cross the silver-chloride ion-product threshold",
+      "script": "# PR-011: Cross the silver-chloride ion-product threshold\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 AgNO3 0.0000001mol\nadd v1 NaCl 0.0000001mol\ninspect v1\nadd v1 AgNO3 0.00001mol\nadd v1 NaCl 0.00001mol\ninspect v1\n",
+      "script_sha256": "8bd5ea547bd7d0a0babe0c4d769ef5dca96ad9492cd46d7d705bd22a3004e1e5",
+      "expected_result": "The first trace additions are below the precipitation threshold; increasing both ion inventories crosses the solubility-product boundary.",
+      "observed_result": "Rows 3/6: no trace-stage AgCl solid; dissolved Ag and Cl are each 1e-7 mol. Final AgCl solid 8.720695373e-6 mol and aqueous Ag/Cl each 1.379304627e-6 mol. Their phase sum is 1.01e-5 mol, consistent with the cumulative dose.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive.",
+        "This brackets the boundary at two specified loadings; it does not measure a solubility constant independently."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-precip/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-ab/precip-selection-independent-review.json",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:pr-011"
+      }
+    },
+    {
+      "id": "new120:pr-012",
+      "group": "first120-original-assessed",
+      "title": "Selectively dissolve carbonate from a mixed mineral precipitate",
+      "script": "# PR-012: Selectively dissolve carbonate from a mixed mineral precipitate\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 CaCO3 0.001mol\nadd v1 BaCl2 0.0005mol\nadd v1 Na2SO4 0.0005mol\ninspect v1\nadd v1 HCl 0.003mol\nnew\nfilter v1 v2\ninspect\n",
+      "script_sha256": "10905f13e184ed0885a99b8352f8a2e1bde4c7a04a1d20dd20d2998275b0842a",
+      "expected_result": "Acid removes calcium carbonate from a mixture containing barium sulfate, after which filtration retains the sulfate-rich residue.",
+      "observed_result": "Rows 4/8: initial CaCO3 0.000984452378 mol and BaSO4 0.0004983887231 mol. Final v1 retains 0.0004968793854 mol BaSO4 (about 99.3759% of total Ba); v2 contains approximately 0.001 mol dissolved Ca and 3.120613858e-6 mol Ba. Row 5 exports CO2 0.0009986883928653 mol; final aqueous carbon 1.3116072119447213e-6 mol, total with export approximately 0.0010000000000772447 mol.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive.",
+        "Retained solid and filtrate are separate owners; CO2 export precedes filtration and is not filtration loss. Incidental missing Witherite phase is disclosed but does not remove observed calcium-carbonate and sulfate evidence.",
+        "Named model limits are retained verbatim in the linked assessment; selection does not close excluded phases, complex heat or spectra."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-precip/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-ab/precip-selection-independent-review.json",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:pr-012"
+      }
+    },
+    {
+      "id": "new120:pr-013",
+      "group": "first120-original-assessed",
+      "title": "One mixture can contain two distinct precipitates",
+      "script": "# PR-013: One mixture can contain two distinct precipitates\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 AgNO3 0.001mol\nadd v1 Na2SO4 0.001mol\nadd v1 BaCl2 0.001mol\ninspect v1\nnew\nfilter v1 v2\ninspect\n",
+      "script_sha256": "d1abb7055f1f32626dcda48695ea661023d36634da36aa70ee9dd26dba1a3689",
+      "expected_result": "Barium chloride supplies barium for sulfate precipitation and chloride for silver precipitation, yielding a mixed solid fraction.",
+      "observed_result": "Row 4 identifies separate BaSO4 0.000998167183 mol and AgCl 0.0009999307984 mol. Rows 6/7 retain both in v1. v2 dissolved Na 0.002 mol, nitrate 0.001 mol, chloride 0.001000069202 mol, plus finite dissolved Ba and Ag. Excess chloride is approximately 0.001 mol, as required by the formula doses.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive.",
+        "Spectator inventory is analytical ownership; aqueous AgCl complexes are not additional precipitate or additional Ag ownership."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-precip/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-ab/precip-selection-independent-review.json",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:pr-013"
+      }
+    },
+    {
+      "id": "new120:pr-010",
+      "group": "first120-original-assessed",
+      "title": "Distinguish a common-ion effect from a background-electrolyte effect",
+      "script": "# PR-010: Distinguish a common-ion effect from a background-electrolyte effect\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 AgCl 0.0001mol\nnew\nadd v2 water 100mL\nadd v2 NaNO3 0.001mol\nadd v2 AgCl 0.0001mol\nnew\nadd v3 water 100mL\nadd v3 NaCl 0.001mol\nadd v3 AgCl 0.0001mol\ninspect\n",
+      "script_sha256": "b88c00172ec675ec0746dcf3681d48d78b8123285674215afd9ad9b04c9d87a9",
+      "expected_result": "Chloride changes silver-chloride equilibrium through common-ion and complexation effects; nitrate mainly changes the ionic medium. Equal salt amounts do not make the effects equivalent.",
+      "observed_result": "Row 10, water/nitrate/chloride: analytical dissolved Ag 1.368316775e-6 / 1.511772570e-6 / 6.856108194e-8 mol; free Ag activity 1.334e-5 / 1.332e-5 / 1.968e-8 respectively. Chloride suppresses total dissolved Ag about 95.0% relative to water, whereas nitrate increases it about 10.48%. Chloride solution includes AgCl2-, AgCl and AgCl3-2 complexes at 3.313e-7, 3.301e-7 and 4.271e-9 mol/kgw.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock absent from producer artifact."
+      },
+      "limitations": [
+        "Source-bound represented model and original bounded criteria only; no empirical calibration, full phase/heat/rate or latest-release certification.",
+        "Final whole-script material/charge closure is not per-step or energy conservation.",
+        "Binary and lock hashes are producer-attested; their raw bytes are absent from the case archive.",
+        "Do not confuse aqueous AgCl complex with solid AgCl; solution activities are dimensionless reported values and species molalities have report rounding. No new equality tolerance or calibration."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-precip/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-ab/precip-selection-independent-review.json",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-first120-selection.json",
+        "case_id": "new120:pr-010"
+      }
     }
   ],
-  "updated_utc": "2026-10-16T10:20:19.388913+00:00"
+  "updated_utc": "2026-10-16T18:23:53.238549+00:00"
 }

@@ -1,0 +1,1 @@
+{"script": "# Rank118 separate oxalic-acid analytical-basis control\nadd v1 water 100mL @ 25C\nseal v1 1L\ninspect v1\nadd v1 H+ 0.006mol\nadd v1 H2C2O4 0.005mol\nadd v1 MnO4- 0.002mol\ninspect v1\nwait 10s\ninspect v1\n"}

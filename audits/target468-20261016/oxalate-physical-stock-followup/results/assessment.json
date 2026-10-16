@@ -1,0 +1,110 @@
+{
+  "design_sha256": "7197b28c3d699ce0e5bf0b0ab08c6f182e30db3fe2316ec31ac2c79b6452169b",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "cases": [
+    {
+      "id": "118-complete-stocks",
+      "original_rank": 118,
+      "script_sha256": "27540d70f170e04ccf09d70383a96d10c8d57dd700efe576db37307a1d83f49d",
+      "response_sha256": "6b3263b0dcb88433b1c5f616276fcf858983845e5f0c27c8489b98ef037fa47d",
+      "checks": [
+        {
+          "quantity": "retained permanganate mol",
+          "actual": 0,
+          "expected": 0,
+          "absolute_tolerance": 1e-08,
+          "met": true
+        },
+        {
+          "quantity": "reaction CO2 event mol",
+          "actual": 0.01,
+          "expected": 0.01,
+          "absolute_tolerance": 1e-08,
+          "met": true
+        },
+        {
+          "quantity": "retained added carbon mol atoms",
+          "actual": 0.009999999999999658,
+          "expected": 0.01,
+          "absolute_tolerance": 1e-08,
+          "met": true
+        },
+        {
+          "quantity": "retained Mn mol atoms",
+          "actual": 0.00200000000000553,
+          "expected": 0.002,
+          "absolute_tolerance": 1e-08,
+          "met": true
+        },
+        {
+          "quantity": "retained K mol atoms",
+          "actual": 0.0019999999999995395,
+          "expected": 0.002,
+          "absolute_tolerance": 1e-08,
+          "met": true
+        },
+        {
+          "quantity": "retained S mol atoms",
+          "actual": 0.009999999999997696,
+          "expected": 0.01,
+          "absolute_tolerance": 1e-08,
+          "met": true
+        },
+        {
+          "quantity": "final pH < 2",
+          "actual": 1.292038849365,
+          "met": true
+        },
+        {
+          "quantity": "solver_failed count",
+          "actual": 0,
+          "expected": 0,
+          "absolute_tolerance": 0,
+          "met": true
+        }
+      ],
+      "all_bounded_checks_met": true,
+      "baseline_observation": 2,
+      "final_observation": 8,
+      "baseline_mol_atoms_and_charge": {
+        "N": 0.05780357073889397,
+        "formal_charge": 1.6487681606762168e-17,
+        "O": 5.549633236805619,
+        "C": 1.4631963229694866e-05,
+        "H": 11.068553982792116
+      },
+      "final_mol_atoms_and_charge": {
+        "N": 0.05780357073889397,
+        "formal_charge": -4.565792188770956e-15,
+        "O": 5.617633236805618,
+        "K": 0.0019999999999995395,
+        "C": 0.010014631963229353,
+        "H": 11.098553982792115,
+        "Mn": 0.00200000000000553,
+        "S": 0.009999999999997696
+      },
+      "feed_balance_residuals_mol": {
+        "C": -3.41740524767431e-16,
+        "H": -6.38378239159465e-16,
+        "K": -4.605690828718423e-16,
+        "Mn": 5.529864760545067e-15,
+        "N": 0.0,
+        "O": -3.885780586188048e-16,
+        "S": -2.3037127760972e-15,
+        "formal_charge": -4.5822798703777184e-15
+      },
+      "all_material_and_formal_charge_residuals_below_1e-8": true,
+      "model_boundaries": [],
+      "verdict": "bounded_forecast_met_with_declared_model_limits",
+      "catalog_selection": "pending_separate_review",
+      "original_case_closed": false
+    }
+  ],
+  "method": "Saved JSON only; exact-source registry composition, all retained phases; no engine execution.",
+  "qualification": "Bounded model consistency, not empirical kinetics, heat, yield or closure of missing original identities."
+}
