@@ -34,12 +34,21 @@ SCRIPT_LIMIT = 16_000
 OUTPUT_LIMIT = 1_000_000
 WALL_SECONDS = 10
 LEASE_SECONDS = 90
-# English only. Deliberately excludes language/session directives and commands
-# whose user-supplied loop bounds require a separate admission policy.
+# English-only simulation commands. Filesystem, language and game/session
+# controls remain excluded; register selects presentation only. Explicit loop
+# budgets complement the independent child CPU/wall/output/memory limits.
 VERBS = frozenset("new add heat cool wait stir seal open "
                   "ignite filter decant drain measure "
                   "chromatograph electrolyse electrolyze cell grind centrifuge "
-                  "irradiate dilute magnet react test inspect particles sweep".split())
+                  "irradiate dilute magnet react test inspect particles sweep "
+                  "register look observe explain evaporate regulate mix "
+                  "extract distil distill titrate transport".split())
+MAX_TITRATION_STEPS = 2000
+MAX_STAGES = 16
+MAX_TRANSPORT_STEPS = 256
+MAX_LOOP_WORK = 4096
+MAX_COMMAND_SECONDS = 30 * 86400
+MAX_SCRIPT_SECONDS = 90 * 86400
 bearer = HTTPBearer(auto_error=False)
 
 
@@ -170,13 +179,75 @@ def validate_script(script: str):
     if sum(line.split()[0] == "new" for line in lines) > 16:
         raise HTTPException(422, "At most 16 vessel creation commands")
     duration = 0.0
+    loop_work = 0
     for line in lines:
         words = line.split()
-        index = {"wait": 1, "stir": 3, "electrolyse": 3, "electrolyze": 3, "centrifuge": 3}.get(words[0])
+        verb = words[0]
+        if verb == "register" and (len(words) != 2 or words[1] not in ("lv1", "lv2", "lv3")):
+            raise HTTPException(422, "Use register lv1, lv2 or lv3")
+        if verb in ("look", "observe", "explain") and (
+                len(words) > 2 or len(words) == 2 and not re.fullmatch(r"v[1-9][0-9]*", words[1])):
+            raise HTTPException(422, "Observation expects an optional vessel")
+        if verb == "evaporate" and len(words) != 3:
+            raise HTTPException(422, "Evaporation expects vessel and fraction")
+        if verb == "regulate" and len(words) != 4:
+            raise HTTPException(422, "Regulation expects vessel, pressure and initial volume")
+        if verb == "mix" and (len(words) != 7 or words[5] != "into"):
+            raise HTTPException(422, "Mix expects two vessel fractions and a target")
+        if verb in ("extract", "distil", "distill"):
+            base = 5 if verb == "extract" else 4
+            if len(words) == base:
+                count = 1
+            elif len(words) == base + 2 and words[base] == "stages":
+                count = bounded_count(words[base + 1], MAX_STAGES)
+            else:
+                raise HTTPException(422, "Only a bounded stages count may follow the amount")
+            loop_work += count
+        if verb == "titrate":
+            if len(words) < 7:
+                raise HTTPException(422, "Titration needs an increment and endpoint")
+            rest = words[4:] if words[3].endswith(("M", "m")) else words[3:]
+            if len(rest) < 4 or rest[1] != "until":
+                raise HTTPException(422, "Titration needs an increment and endpoint")
+            if rest[2] == "ph":
+                tail = rest[4:]
+            elif rest[2] in ("colour", "color") and rest[3] == "persists":
+                tail = rest[4:]
+            elif rest[2] == "pe" and len(rest) >= 5 and rest[3] in (">", ">=", "<", "<=", "above", "below"):
+                tail = rest[5:]
+            else:
+                raise HTTPException(422, "Unsupported titration endpoint")
+            if not tail:
+                count = 100  # The CLI's actual default, not an unbounded loop.
+            elif len(tail) == 2 and tail[0] == "max":
+                count = bounded_count(tail[1], MAX_TITRATION_STEPS)
+            else:
+                raise HTTPException(422, "Only a bounded max count may follow the endpoint")
+            loop_work += count
+        if verb == "transport":
+            # Match the canonical form, including the entire suffix: duplicate
+            # or reordered keywords must not bypass the charged loop count.
+            match = re.fullmatch(
+                r"transport((?: v[1-9][0-9]*){1,16}) from v[1-9][0-9]* to v[1-9][0-9]* steps ([0-9]+)(?: courant ([^ ]+))?",
+                " ".join(words))
+            if not match:
+                raise HTTPException(422, "Use a bounded canonical transport chain")
+            count = bounded_count(match[2], MAX_TRANSPORT_STEPS)
+            if match[3] is not None:
+                try:
+                    courant = float(match[3])
+                except ValueError:
+                    raise HTTPException(422, "Use a finite Courant fraction") from None
+                if not math.isfinite(courant) or not 0 <= courant <= 1:
+                    raise HTTPException(422, "Use a finite Courant fraction")
+            loop_work += count * len(match[1].split())
+        if loop_work > MAX_LOOP_WORK:
+            raise HTTPException(422, "Aggregate solver loop budget exceeded")
+        index = {"wait": 1, "stir": 3, "electrolyse": 3, "electrolyze": 3, "centrifuge": 3}.get(verb)
         if index is None:
             continue
         if len(words) <= index:
-            if words[0] == "stir":
+            if verb == "stir":
                 duration += 10  # The CLI's default stir duration.
                 continue
             raise HTTPException(422, "Duration required")
@@ -185,11 +256,24 @@ def validate_script(script: str):
             raise HTTPException(422, "Use a finite Kero duration")
         unit = match[2]
         value = float(match[1]) * (3600 if unit in ("h", "hr", "hours") else 60 if unit.startswith("min") else 1)
-        if not 0 <= value <= 3600:
+        if not math.isfinite(value) or not 0 <= value <= MAX_COMMAND_SECONDS:
             raise HTTPException(422, "Duration outside API limit")
         duration += value
-    if duration > 3600:
-        raise HTTPException(422, "Aggregate simulated duration exceeds one hour")
+        if duration > MAX_SCRIPT_SECONDS:
+            raise HTTPException(422, "Aggregate simulated duration exceeds API limit")
+
+    if duration > MAX_SCRIPT_SECONDS:
+        raise HTTPException(422, "Aggregate simulated duration exceeds API limit")
+
+
+def bounded_count(raw: str, maximum: int) -> int:
+    # Reject before int conversion; no huge integer or signed/float spelling.
+    if not re.fullmatch(r"[0-9]{1,10}", raw):
+        raise HTTPException(422, "Use a bounded positive integer loop count")
+    count = int(raw)
+    if not 1 <= count <= maximum:
+        raise HTTPException(422, "Loop count outside API limit")
+    return count
 
 
 class Admission:

@@ -141,12 +141,24 @@ response. Cancellation, timeout and output exhaustion kill/reap the process grou
 and drain residual pipe buffers. Vercel's function allocation governs the parent;
 VPS host-memory readings are not used as serverless admission measurements.
 
-Input limits: 20 KB JSON body, 16 KB UTF-8 script, 128 commands, 32 tokens/command,
-16 explicit vessel creations and one hour aggregate explicit duration. Only the
-English verbs in `app.py:VERBS` are accepted. Language/session directives,
-explanations, quests, transport, extraction, titration and distillation are
-excluded pending separate work budgets. The CLI still validates quantities,
-identities and chemistry. No scientific support is invented by the wrapper.
+Input limits: 20 KB JSON body, 16 KB UTF-8 script, 128 commands, 32 tokens/command
+and 16 explicit vessel creations. The English simulation verbs in `app.py:VERBS`
+include `look`/`observe`, vessel explanations, evaporation, pressure regulation,
+mixture transfer, extraction, distillation, titration and reactive transport.
+`register lv1|lv2|lv3` changes presentation only. Filesystem commands, language
+changes, quests and other session controls remain excluded.
+
+Loop admission is explicit: titration defaults to the CLI's100 steps and accepts
+at most2,000; extraction/distillation accept at most16 stages; transport accepts
+at most256 steps and16 cells, charging steps × cells. The aggregate loop-work
+budget is4,096 per request. Duplicate keywords, extra suffixes, noninteger/zero
+counts and nonfinite Courant fractions refuse before execution.
+
+Explicit simulated duration is bounded at30 days per command and90 days per
+request. These are simulation horizons, independent of the unchanged eight CPU
+and ten wall seconds allowed to the child. Long or costly chemistry may still
+reach the execution deadline. The CLI validates quantities, identities and
+chemistry; gateway admission does not claim chemical support or success.
 
 ## Browser clients
 
