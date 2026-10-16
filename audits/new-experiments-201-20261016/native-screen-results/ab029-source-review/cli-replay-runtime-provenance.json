@@ -1,0 +1,43 @@
+{
+  "source": "Installed Ubuntu24.04 distribution runtime; bytes copied without executing engine. Not a new chemical parameter dataset.",
+  "package_inventory": [
+    "libc6:amd64 2.39-0ubuntu8.8 amd64",
+    "libgcc-s1:amd64 14.2.0-4ubuntu2~24.04.1 amd64",
+    "libstdc++6:amd64 14.2.0-4ubuntu2~24.04.1 amd64"
+  ],
+  "needed_libraries": {
+    "libm.so.6": [
+      "libc.so.6",
+      "ld-linux-x86-64.so.2"
+    ],
+    "libgcc_s.so.1": [
+      "libc.so.6",
+      "ld-linux-x86-64.so.2"
+    ],
+    "libstdc++.so.6": [
+      "libm.so.6",
+      "libc.so.6",
+      "ld-linux-x86-64.so.2",
+      "libgcc_s.so.1"
+    ],
+    "libc.so.6": [
+      "ld-linux-x86-64.so.2"
+    ],
+    "ld-linux-x86-64.so.2": [],
+    "kero": [
+      "libstdc++.so.6",
+      "libgcc_s.so.1",
+      "libm.so.6",
+      "libc.so.6"
+    ]
+  },
+  "full_transitive_dependency_set_resolves": true,
+  "libraries_sha256": {
+    "libm.so.6": "e9c4b28d340e415b8137480ec442662f981e1399386c5931dae0e886e3639e91",
+    "libgcc_s.so.1": "d93224d2b0dab4247598be683adca02f5cf00586f99c187579cd7e92058fb7cb",
+    "libstdc++.so.6": "1fd75fe70354a416d75aef22bcae68c47bd25d20e2d0568c30b1a9838cf62f11",
+    "libc.so.6": "8db37cf3f2169f59a0f07ef1fea308c35656668c64c8ff294e1860f4121eb161",
+    "ld-linux-x86-64.so.2": "cd4df4f3c7b83673d61189bf2eaebd33ca4f2853ab9772b8a25e025ef99b1e81"
+  },
+  "elf_version_definition_inspection": "libc defines GLIBC_2.38 and GLIBC_2.39; readelf used without executing target binary."
+}
