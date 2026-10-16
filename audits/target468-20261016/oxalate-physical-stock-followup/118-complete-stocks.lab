@@ -1,0 +1,10 @@
+# Rank118 separate complete-stock, warm acidic oxalate control
+add v1 water 100mL @ 60C
+seal v1 1L
+inspect v1
+add v1 H2SO4 0.01mol @ 60C
+add v1 H2C2O4 0.005mol @ 60C
+add v1 KMnO4 0.002mol @ 60C
+inspect v1
+wait 10s
+inspect v1

@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "frozen_utc": "2026-10-16T18:16:07.198901+00:00",
+  "api_revision": "266121dd5605a439a495c85f2401fbeacd6272f4",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "engine_source_files_sha256": {
+    "crates/kerotakis-core/src/curated.rs": "20db49d2b0679fb77e1df7205f6a4ae8878f8becccf7c30cebb1c9796bcd27a5",
+    "crates/kerotakis-core/src/displacement.rs": "546e8bcdceca3f7d18301bbc0b8f6f2cefbded8303d435df6d06f7f403d6bfd7",
+    "crates/kerotakis-core/src/species.rs": "2f7cf2e683c3bb1f0718e5e8e9d75f3cad58621df256f115686fc279be17850f",
+    "crates/kerotakis-core/src/script.rs": "279036582bf9270055ab8b96f2ef3f5c9644ce3a58916bef8daf584a3e22bca2"
+  },
+  "cases": [
+    {
+      "id": "118-complete-stocks",
+      "original_rank": 118,
+      "original_id": "permanganate_oxalate",
+      "original_script_sha256": "778c52a7b6720d3138fa553b5dd0ab8fbd3ae7a60565fe058cd84603cc641c26",
+      "script": "# Rank118 separate complete-stock, warm acidic oxalate control\nadd v1 water 100mL @ 60C\nseal v1 1L\ninspect v1\nadd v1 H2SO4 0.01mol @ 60C\nadd v1 H2C2O4 0.005mol @ 60C\nadd v1 KMnO4 0.002mol @ 60C\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "27540d70f170e04ccf09d70383a96d10c8d57dd700efe576db37307a1d83f49d",
+      "forecast": {
+        "principal": "Acidic warm complete stocks support the curated permanganate/oxalic-acid conversion, consuming2mmol permanganate and forming10mmolCO2.",
+        "checks": [
+          {
+            "quantity": "retained KMnO4 plus MnO4- after reaction",
+            "max_mol": 1e-08
+          },
+          {
+            "quantity": "CO2 formed, contained/evolved event",
+            "expected_mol": 0.01,
+            "absolute_tolerance_mol": 1e-08
+          },
+          {
+            "quantity": "retained carbon increment over sealed baseline",
+            "expected_mol": 0.01,
+            "absolute_tolerance_mol": 1e-08
+          },
+          {
+            "quantity": "retained Mn",
+            "expected_mol": 0.002,
+            "absolute_tolerance_mol": 1e-08
+          },
+          {
+            "quantity": "retained K",
+            "expected_mol": 0.002,
+            "absolute_tolerance_mol": 1e-08
+          },
+          {
+            "quantity": "retained S",
+            "expected_mol": 0.01,
+            "absolute_tolerance_mol": 1e-08
+          },
+          {
+            "quantity": "final pH in explicitly acidic domain",
+            "max": 2.0
+          },
+          {
+            "quantity": "solver_failed events",
+            "expected_count": 0
+          }
+        ],
+        "unearned_claims_excluded": [
+          "No empirical rate, initiation threshold, calibrated heat or yield claim. The curated model itself still lacks acid/temperature gating.",
+          "No alias for C2O4-- and no replacement of original first failure.",
+          "Unmodeled oxalate acid speciation or any unexpected phase/charge boundary must be retained and assessed, not ignored."
+        ]
+      },
+      "changes_from_original": [
+        "Use molecular oxalic acid and potassium permanganate as complete stocks.",
+        "Use excess0.01mol sulfuric acid; original16mmol bareH+ is not treated as a physical stock.",
+        "Explicit60C dispenses instead of25C; preparation changed prospectively, not a replay of the original.",
+        "Retain100mL water and1L finite sealed headspace."
+      ],
+      "feed_mol_atoms_excluding_original_carrier_and_trapped_air": {
+        "C": 0.01,
+        "H": 0.03,
+        "K": 0.002,
+        "Mn": 0.002,
+        "O": 0.068,
+        "S": 0.01
+      },
+      "feed_net_formal_charge_mol": 0,
+      "original_case_closed": false,
+      "catalog_selection": "not_assigned"
+    }
+  ],
+  "motivating_previous_followup": "prepared-basis-first2 rank118 retained uncompensated analytical charge and excluded Rhodochrosite phase limits. These original results remain immutable.",
+  "execution_policy": "Exactly one request for this separately frozen changed-stock/temperature script; no ambiguous retry.",
+  "qualification": "Prepared physical-stock followup with prospective checks, not empirical calibration or closure of the original ion-identity gap."
+}
