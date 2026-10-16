@@ -23,6 +23,9 @@ pub(crate) const INPUT_ALIASES: &[(&str, &str)] = &[
     ("nitrogen", "N2"),
     ("carbon dioxide", "CO2"),
     ("sodium chloride", "NaCl"),
+    // Exact reviewed identities: anhydrous salt and the explicitly -1 acetate ion.
+    ("CuSO4_anhydrous", "CuSO4"),
+    ("acetate", "CH3COO-"),
 ];
 
 /// Resolve accepted spellings at every species identity boundary.
