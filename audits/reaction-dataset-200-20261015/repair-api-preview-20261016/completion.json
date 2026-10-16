@@ -1,0 +1,8 @@
+{
+  "completed_utc": "2026-10-16T05:27:03.604222+00:00",
+  "cases": 4,
+  "http200": 4,
+  "exact_cli_matches": 4,
+  "physical_verdict": "not_assigned",
+  "production_unchanged": true
+}

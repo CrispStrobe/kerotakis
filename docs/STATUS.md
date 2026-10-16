@@ -315,3 +315,14 @@ acceptance remains pending. Historical lots remain provenance, not current solid
 ownership. PR801's strict finite-gas and old filtration controls now pass on
 both native platforms, alongside each full Rust suite and unchanged curiosity
 gate; full applicable fleet acceptance still precedes integration.
+
+
+The [four repair-protocol REST replays](../audits/reaction-dataset-200-20261015/repair-api-preview-20261016/completion.json)
+completed on preview engine `efd79bf8`: original rank-1 bare input, its complete
+stock counterpart, conducting-stock electrolysis and complete-stock zinc/copper
+displacement. All four returned HTTP200 and their complete parsed observations
+match the same-binary CLI streams exactly. This verifies source-bound API
+execution and preserves the reproduced stale CuSO4 settling defect; it does not
+validate the pending PR803 fix or change original scientific verdicts. The
+protected preview used normal owner authentication and deployment access; no
+protection was disabled. Production remains on its previously reported engine.
