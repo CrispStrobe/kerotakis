@@ -1,0 +1,17 @@
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+age: 0
+cache-control: public, max-age=0, must-revalidate
+content-disposition: inline; filename="rest.html"
+content-type: text/html; charset=utf-8
+date: Fri, 16 Oct 2026 07:58:58 GMT
+etag: "7f42116b93e288a37d80fd5fa4b7c1e7"
+last-modified: Fri, 16 Oct 2026 07:58:58 GMT
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+x-content-type-options: nosniff
+x-vercel-cache: MISS
+x-vercel-id: fra1::qbmxp-1792137538664-53ef9e93c388
+content-length: 2970
+

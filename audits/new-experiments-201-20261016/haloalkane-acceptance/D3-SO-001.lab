@@ -1,0 +1,21 @@
+# D3-SO-001: Primary haloalkane: substitution and elimination give different product classes
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 water 40mL @ 25C
+add v1 NaOH 0.0003mol
+add v2 water 40mL @ 90C
+add v2 NaOH 0.0003mol
+seal v1 500mL
+seal v2 500mL
+add v1 bromoethane 0.0002mol
+add v2 bromoethane 0.0002mol
+react v1 haloalkane
+react v2 haloalkane
+measure v1 thermometer
+measure v2 thermometer
+particles v1
+particles v2
+chromatograph v1
+chromatograph v2
+inspect

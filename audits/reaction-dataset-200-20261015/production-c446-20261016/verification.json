@@ -1,0 +1,82 @@
+{
+  "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "source_files": [
+    {
+      "path": "services/rest_api/app.py",
+      "sha256": "ab2ea99e5370ed86d6cc91a1d79f6780dfe1610bf49f0be0fae2f2668d469f7a"
+    },
+    {
+      "path": "services/rest_api/sandbox.py",
+      "sha256": "4e4425da74b0b451c3ee6f51204db7bae395c3d6538cea81afe0fc207f355ef7"
+    },
+    {
+      "path": "services/rest_api/vm_job.py",
+      "sha256": "bb00548fb24e62192fc39a4f633981dceabea17d8542a8f5f3244b6c7e7b429f"
+    },
+    {
+      "path": "services/rest_api/probe.c",
+      "sha256": "0e101c7f0d9d47cc2df5e2706227ff8aaf1e043cbae8c06f93ee54ea44103694"
+    },
+    {
+      "path": "tools/test-rest-microvm.py",
+      "sha256": "657a48f8d0fade4b25f1d39e4f8f65a2fdee7a0dc88955590593e04158e4e817"
+    },
+    {
+      "path": "tools/prepare-rest-snapshot.py",
+      "sha256": "f8a9c6c624c38fb593aef2f0ba7eae11cf6e6b6b97fa414b5ae685d4c18f9446"
+    },
+    {
+      "path": "web/rest.html",
+      "sha256": "f8ccf3dfb62ceafb104db6daad69d67886823f4a20a2bd9d3989ee7b0dcdff80"
+    }
+  ],
+  "actual_producer_receipts": {
+    "smoke_completed_exit0": true,
+    "smoke_binary_matches": true,
+    "smoke_stdout_sha256": "7d48853908b7c8e638f81adbaff0a7457c16996ea4b57cb049d7b473c78b6265",
+    "isolation_completed_exit0": true,
+    "same_snapshot_as_engine": true,
+    "isolation_observation": {
+      "isolation_controls_pass": true
+    },
+    "probe_source_hash_matches": true
+  },
+  "probe_controls_from_exact_source": [
+    "Input sentinel readable, preserved and cannot be truncated via open/openat or opened for write",
+    "Creating /created is denied",
+    "Reading /etc/passwd is denied",
+    "KERO_API_KEYS and KV_REST_API_TOKEN absent from child environment",
+    "Unprivileged uid/gid 65534",
+    "Socket, fork, parent signaling, setuid(0) and chroot denied",
+    "Descriptor owner, owner-ex, signal and async-notification mutation denied"
+  ],
+  "live_http_controls": {
+    "missing_bearer_body": {
+      "detail": "Bearer credential required"
+    },
+    "bad_bearer_body": {
+      "detail": "Invalid bearer credential"
+    },
+    "subset_refusal_body": {
+      "detail": "Command 1 is outside the API command subset"
+    },
+    "cors_denied_body": "Disallowed CORS origin",
+    "cors_allowed_origin": "https://crispstrobe.github.io",
+    "cors_allowed_headers": {
+      "access-control-allow-headers": "Accept, Accept-Language, Authorization, Content-Language, Content-Type",
+      "access-control-allow-methods": "POST, GET",
+      "access-control-allow-origin": "https://crispstrobe.github.io",
+      "access-control-max-age": "600"
+    }
+  },
+  "cleanup_evidence": {
+    "producer_isolation_context_returned_success": true,
+    "both_live_requests_completed": true,
+    "request_admission_release_source": "services/rest_api/app.py finally releases Redis admission lease",
+    "microvm_context_source": "services/rest_api/app.py run_microvm_engine uses async sandbox context with persistent=False, boundedexecution and emptyenv/ports; tools/test-rest-microvm.py uses same context contract",
+    "independent_vm_deletion_receipt": false,
+    "owner_config_cleanup": "Both temporary owner and bad-key configs removed in client finally; no owner key inargv/env/output.",
+    "claim_limit": "Context completion and isolation do not independently establish postrequest VM deletion. No VM management call was made in this acceptance."
+  },
+  "probe_scope_limit": "These are the exact probe operations, not exhaustive filesystem tests or separate attempted engine/manifest modifications. Source sandbox policy provides the broader restriction contract."
+}

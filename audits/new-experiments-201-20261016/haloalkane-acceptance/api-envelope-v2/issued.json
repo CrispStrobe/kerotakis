@@ -1,0 +1,5 @@
+{
+  "first_issued_utc": "2026-10-16T07:53:06.178034+00:00",
+  "prospective_design_sha256": "70f39746ba0a5d67b5c2c8662ae68af8b8a1cd2a2f1699340a80a62ec7b1df18",
+  "policy": "four serial one-attempt requests; no retries"
+}

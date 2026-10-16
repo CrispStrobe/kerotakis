@@ -1,0 +1,12 @@
+HTTP/2 200 
+cache-control: no-store
+content-type: application/json
+date: Fri, 16 Oct 2026 07:59:21 GMT
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: Origin
+x-content-type-options: nosniff
+x-vercel-cache: MISS
+x-vercel-id: fra1::iad1::5grl9-1792137562560-ee6620839bd9
+content-length: 25982
+

@@ -1,0 +1,28 @@
+{
+  "source": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+  "engine": {
+    "source_head": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+    "binary_sha256": "30f32713fb01a4564b986f0c7a99ac0dd2089a3cceaabcc382d00f63e88922d6",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "results": [
+    {
+      "id": "D3-SO-001",
+      "issued_utc": "2026-10-16T07:51:44.981300+00:00",
+      "one_attempt_only": true,
+      "request_body_sha256": "5caca3c84aff7565648fc5b62273deedb9631eabf46a5209b5ef85e4f51a156f",
+      "script_sha256": "cc9f17f4146e7d4289a5bb99e46092e298010944505e549416c07661d64310c4",
+      "http_status": 422,
+      "client_exit": 0,
+      "elapsed_seconds": 3.6231059841811657,
+      "response_sha256": "d9a11cc612747678667f60547fb28a1de244374c4629cfdec5dea0d7cda8ebd1",
+      "client_stderr_sha256": "db8ffa0a9277122b29588940111312a9e36e64a79f5b8d50ae31f27fc2f9ece8",
+      "physical_verdict": "not_assigned"
+    }
+  ],
+  "retries": 0,
+  "serial": true,
+  "minimum_seconds_between_starts": 3.1,
+  "production_changed": false,
+  "physical_verdict": "not_assigned"
+}

@@ -1,0 +1,21 @@
+{
+  "checked_before_posts_utc": "2026-10-16T07:51:44.980502+00:00",
+  "http_status": 200,
+  "client_exit": 0,
+  "health_sha256": "7055c395b42c196643f50ad43d83e347d301d2f687eb63a9cc4f71ceb540ed38",
+  "source_and_binary_and_producer_lock_match": true,
+  "engine": {
+    "source_head": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+    "binary_sha256": "30f32713fb01a4564b986f0c7a99ac0dd2089a3cceaabcc382d00f63e88922d6",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "producer_lock_qualification": {
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+    "raw_lock_bytes_uploaded": false,
+    "independently_rehashed_build_lock": false,
+    "qualification": "Producer-reported build-lock hash is bound through manifest, snapshot and health; raw build lock is absent from artifact and has not been independently rehashed."
+  },
+  "api_binding_sha256": "208f958890947110d7969d8837cf0c6dc6dc25d397f849fa5a3fbdbf73863637",
+  "prospective_design_sha256": "1d35daab253ce33ccedf6d21cf633a66739348f0c04792f5b3a5f16d1b27d41d",
+  "physical_verdict": "not_assigned"
+}

@@ -1,0 +1,230 @@
+{
+  "schema": "kerotakis.haloalkane-acceptance.v1",
+  "frozen_utc": "2026-10-16",
+  "status": "prospective_before_requests",
+  "engine": {
+    "source_head": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+    "binary_sha256": "30f32713fb01a4564b986f0c7a99ac0dd2089a3cceaabcc382d00f63e88922d6",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "api_binding_sha256": "208f958890947110d7969d8837cf0c6dc6dc25d397f849fa5a3fbdbf73863637",
+  "compatibility": [
+    {
+      "path": "crates/kerotakis-core/src/selectivity.rs",
+      "sha256": "7c181ff4915e8e9febc39c2f6ecc972269d70c72aa6ce428277c2c075fa03a37",
+      "byte_identical_between_source74_and_intake_c446": true
+    },
+    {
+      "path": "crates/kerotakis-core/src/script.rs",
+      "sha256": "279036582bf9270055ab8b96f2ef3f5c9644ce3a58916bef8daf584a3e22bca2",
+      "byte_identical_between_source74_and_intake_c446": true
+    }
+  ],
+  "cases": [
+    {
+      "id": "D3-SO-001",
+      "original_id": "batch3-diverse:so-001",
+      "original_script_path": "../scripts/D3-SO-001.lab",
+      "original_script_sha256": "244e2a02ec5db7293a614cc69573144bb3dea65d778dacdca3894a723f73cc6c",
+      "script": "# D3-SO-001: Primary haloalkane: substitution and elimination give different product classes\n# Simulation candidate; no runtime observations are claimed.\nregister lv3\nnew\nadd v1 water 40mL @ 25C\nadd v1 NaOH 0.0003mol\nadd v2 water 40mL @ 90C\nadd v2 NaOH 0.0003mol\nseal v1 500mL\nseal v2 500mL\nadd v1 bromoethane 0.0002mol\nadd v2 bromoethane 0.0002mol\nreact v1 haloalkane\nreact v2 haloalkane\nmeasure v1 thermometer\nmeasure v2 thermometer\nparticles v1\nparticles v2\nchromatograph v1\nchromatograph v2\ninspect\n",
+      "script_sha256": "cc9f17f4146e7d4289a5bb99e46092e298010944505e549416c07661d64310c4",
+      "request_body_sha256": "5caca3c84aff7565648fc5b62273deedb9631eabf46a5209b5ef85e4f51a156f",
+      "original_physical_forecast": "The installed table selects substitution in the cooler branch and elimination in the hotter branch: ethanol versus ethene, both with bromide-containing products. Establish product identity from inventory, not simply a pressure difference between hot and cool vessels.",
+      "desired_per_vessel": [
+        {
+          "vessel": 0,
+          "mechanism": "haloalkane:SN2",
+          "substrate": "bromoethane",
+          "substrate_debit_mol": 0.0002,
+          "desired_remaining_substrate_mol": 0,
+          "principal_product": "ethanol",
+          "product_increment_mol": 0.0002,
+          "coproduct": "NaBr",
+          "coproduct_equivalent_increment_mol": 0.0002,
+          "water_increment_mol": 0,
+          "hydroxide_equivalent_debit_mol": 0.0002,
+          "desired_excess_base_equivalents_mol": 0.0001,
+          "gas_policy": "no new organic gas expected",
+          "temperature_policy": "record actual immediately-before/after React temperatures; select mechanism from actual table threshold353.15K; original hot/cool forecast must also be assessed",
+          "boundary_policy": "record actual pre-React headspace and gas pools; subtract trapped baseline, never assume evacuated",
+          "negative_controls": "No transformation of untreated solvent blank (SO002 v2); no substrate overdraft, wrong principal product, hidden new atoms, duplicate reaction or invented kinetic/heat claim."
+        },
+        {
+          "vessel": 1,
+          "mechanism": "haloalkane:E2",
+          "substrate": "bromoethane",
+          "substrate_debit_mol": 0.0002,
+          "desired_remaining_substrate_mol": 0,
+          "principal_product": "ethene",
+          "product_increment_mol": 0.0002,
+          "coproduct": "NaBr",
+          "coproduct_equivalent_increment_mol": 0.0002,
+          "water_increment_mol": 0.0002,
+          "hydroxide_equivalent_debit_mol": 0.0002,
+          "desired_excess_base_equivalents_mol": 0.0001,
+          "gas_policy": "sealed retain counted increment in gas/solution/headspace ledger; no unaccounted export",
+          "temperature_policy": "record actual immediately-before/after React temperatures; select mechanism from actual table threshold353.15K; original hot/cool forecast must also be assessed",
+          "boundary_policy": "record actual pre-React headspace and gas pools; subtract trapped baseline, never assume evacuated",
+          "negative_controls": "No transformation of untreated solvent blank (SO002 v2); no substrate overdraft, wrong principal product, hidden new atoms, duplicate reaction or invented kinetic/heat claim."
+        }
+      ],
+      "assessment_policy": "Judge original forecast independently from source-informed explanation; explicit unsupported/refusal never counts as expected chemistry pass."
+    },
+    {
+      "id": "D3-SO-002",
+      "original_id": "batch3-diverse:so-002",
+      "original_script_path": "../scripts/D3-SO-002.lab",
+      "original_script_sha256": "384b6af81abe73232bb2eab869b818facb56bb323f5f9d3b89c943d276bfcd41",
+      "script": "# D3-SO-002: Tertiary solvolysis produces an acidic coproduct\n# Simulation candidate; no runtime observations are claimed.\nregister lv3\nnew\nadd v1 water 50mL @ 25C\nadd v2 water 50mL @ 25C\nadd v1 tert_butyl_bromide 0.0002mol\nreact v1 haloalkane\nmeasure v1 ph\nmeasure v2 ph\nmeasure v1 conductivity\nmeasure v2 conductivity\nchromatograph v1\nparticles v1\ninspect\n",
+      "script_sha256": "4519e3309ba8ad56e7c9457df2c4a48907b1a52dc0c9a3592799a3b9737f3326",
+      "request_body_sha256": "d65e0f725264843fe239611eefec5e0e2eda9c34afe3b2897794bc2db3251e3f",
+      "original_physical_forecast": "The supported solvolysis branch can form tert-butanol and HBr-derived aqueous species. The solvent blank separates coproduct acidity from a nominal starting-water property.",
+      "desired_per_vessel": [
+        {
+          "vessel": 0,
+          "mechanism": "haloalkane:SN1",
+          "substrate": "tert_butyl_bromide",
+          "substrate_debit_mol": 0.0002,
+          "desired_remaining_substrate_mol": 0,
+          "principal_product": "tert_butanol",
+          "product_increment_mol": 0.0002,
+          "coproduct": "HBr",
+          "coproduct_equivalent_increment_mol": 0.0002,
+          "water_increment_mol": -0.0002,
+          "hydroxide_equivalent_debit_mol": 0,
+          "desired_excess_base_equivalents_mol": null,
+          "gas_policy": "no new organic gas expected",
+          "temperature_policy": "record actual immediately-before/after React temperatures; select mechanism from actual table threshold353.15K; original hot/cool forecast must also be assessed",
+          "boundary_policy": "record actual pre-React headspace and gas pools; subtract trapped baseline, never assume evacuated",
+          "negative_controls": "No transformation of untreated solvent blank (SO002 v2); no substrate overdraft, wrong principal product, hidden new atoms, duplicate reaction or invented kinetic/heat claim."
+        }
+      ],
+      "assessment_policy": "Judge original forecast independently from source-informed explanation; explicit unsupported/refusal never counts as expected chemistry pass."
+    },
+    {
+      "id": "D3-SO-003",
+      "original_id": "batch3-diverse:so-003",
+      "original_script_path": "../scripts/D3-SO-003.lab",
+      "original_script_sha256": "f3fc3301492333fcb468a031dfc3a70be73e9e7c7b9f366bee1d8a417b3df22f",
+      "script": "# D3-SO-003: Tertiary substrate plus strong base is not automatically an SN2 example\n# Simulation candidate; no runtime observations are claimed.\nregister lv3\nnew\nadd v1 water 40mL @ 25C\nadd v1 NaOH 0.0003mol\nadd v2 water 40mL @ 25C\nadd v2 NaOH 0.0003mol\nseal v1 500mL\nseal v2 500mL\nadd v1 bromoethane 0.0002mol\nadd v2 tert_butyl_bromide 0.0002mol\nreact v1 haloalkane\nreact v2 haloalkane\nparticles v1\nparticles v2\nmeasure v1 pressure\nmeasure v2 pressure\ninspect\n",
+      "script_sha256": "5b393fd75f270a4ae2cc434bb779209cdabae92b78bed4ecdb80bf9d950b3a0a",
+      "request_body_sha256": "65bf2a97680aecb87eff786a1e28e6515164c89ca2e03b3507288d9ee6b8c449",
+      "original_physical_forecast": "The table can select primary substitution but tertiary elimination under strong-base conditions. Use the product inventories to identify structural selectivity rather than treating all haloalkanes as interchangeable.",
+      "desired_per_vessel": [
+        {
+          "vessel": 0,
+          "mechanism": "haloalkane:SN2",
+          "substrate": "bromoethane",
+          "substrate_debit_mol": 0.0002,
+          "desired_remaining_substrate_mol": 0,
+          "principal_product": "ethanol",
+          "product_increment_mol": 0.0002,
+          "coproduct": "NaBr",
+          "coproduct_equivalent_increment_mol": 0.0002,
+          "water_increment_mol": 0,
+          "hydroxide_equivalent_debit_mol": 0.0002,
+          "desired_excess_base_equivalents_mol": 0.0001,
+          "gas_policy": "no new organic gas expected",
+          "temperature_policy": "record actual immediately-before/after React temperatures; select mechanism from actual table threshold353.15K; original hot/cool forecast must also be assessed",
+          "boundary_policy": "record actual pre-React headspace and gas pools; subtract trapped baseline, never assume evacuated",
+          "negative_controls": "No transformation of untreated solvent blank (SO002 v2); no substrate overdraft, wrong principal product, hidden new atoms, duplicate reaction or invented kinetic/heat claim."
+        },
+        {
+          "vessel": 1,
+          "mechanism": "haloalkane:E2",
+          "substrate": "tert_butyl_bromide",
+          "substrate_debit_mol": 0.0002,
+          "desired_remaining_substrate_mol": 0,
+          "principal_product": "isobutylene",
+          "product_increment_mol": 0.0002,
+          "coproduct": "NaBr",
+          "coproduct_equivalent_increment_mol": 0.0002,
+          "water_increment_mol": 0.0002,
+          "hydroxide_equivalent_debit_mol": 0.0002,
+          "desired_excess_base_equivalents_mol": 0.0001,
+          "gas_policy": "sealed retain counted increment in gas/solution/headspace ledger; no unaccounted export",
+          "temperature_policy": "record actual immediately-before/after React temperatures; select mechanism from actual table threshold353.15K; original hot/cool forecast must also be assessed",
+          "boundary_policy": "record actual pre-React headspace and gas pools; subtract trapped baseline, never assume evacuated",
+          "negative_controls": "No transformation of untreated solvent blank (SO002 v2); no substrate overdraft, wrong principal product, hidden new atoms, duplicate reaction or invented kinetic/heat claim."
+        }
+      ],
+      "assessment_policy": "Judge original forecast independently from source-informed explanation; explicit unsupported/refusal never counts as expected chemistry pass."
+    },
+    {
+      "id": "D3-SO-004",
+      "original_id": "batch3-diverse:so-004",
+      "original_script_path": "../scripts/D3-SO-004.lab",
+      "original_script_sha256": "cbc2f7a212128a6033a34903b5f9337effc793ed02f04bd995bbd52e7336e4c0",
+      "script": "# D3-SO-004: Solvolysis and thermal elimination share a leaving group, not a product\n# Simulation candidate; no runtime observations are claimed.\nregister lv3\nnew\nadd v1 water 40mL @ 25C\nadd v2 water 40mL @ 90C\nseal v1 500mL\nseal v2 500mL\nadd v1 tert_butyl_bromide 0.0002mol\nadd v2 tert_butyl_bromide 0.0002mol\nreact v1 haloalkane\nreact v2 haloalkane\nmeasure v1 ph\nmeasure v2 ph\nparticles v1\nparticles v2\nmeasure v2 thermometer\ninspect\n",
+      "script_sha256": "44d1610991a0413606d52a90f3bafee230066a8c8c70236cba480c277f06c26c",
+      "request_body_sha256": "680dd5c7b0d4c88c2359e8345ff257d758f24ea5f32136c3ce2e8291a6475208",
+      "original_physical_forecast": "The cool branch can give tert-butanol; the hot branch can give isobutylene. Both can release an acidic bromide coproduct, so pH alone cannot identify the organic mechanism.",
+      "desired_per_vessel": [
+        {
+          "vessel": 0,
+          "mechanism": "haloalkane:SN1",
+          "substrate": "tert_butyl_bromide",
+          "substrate_debit_mol": 0.0002,
+          "desired_remaining_substrate_mol": 0,
+          "principal_product": "tert_butanol",
+          "product_increment_mol": 0.0002,
+          "coproduct": "HBr",
+          "coproduct_equivalent_increment_mol": 0.0002,
+          "water_increment_mol": -0.0002,
+          "hydroxide_equivalent_debit_mol": 0,
+          "desired_excess_base_equivalents_mol": null,
+          "gas_policy": "no new organic gas expected",
+          "temperature_policy": "record actual immediately-before/after React temperatures; select mechanism from actual table threshold353.15K; original hot/cool forecast must also be assessed",
+          "boundary_policy": "record actual pre-React headspace and gas pools; subtract trapped baseline, never assume evacuated",
+          "negative_controls": "No transformation of untreated solvent blank (SO002 v2); no substrate overdraft, wrong principal product, hidden new atoms, duplicate reaction or invented kinetic/heat claim."
+        },
+        {
+          "vessel": 1,
+          "mechanism": "haloalkane:E1",
+          "substrate": "tert_butyl_bromide",
+          "substrate_debit_mol": 0.0002,
+          "desired_remaining_substrate_mol": 0,
+          "principal_product": "isobutylene",
+          "product_increment_mol": 0.0002,
+          "coproduct": "HBr",
+          "coproduct_equivalent_increment_mol": 0.0002,
+          "water_increment_mol": 0.0,
+          "hydroxide_equivalent_debit_mol": 0,
+          "desired_excess_base_equivalents_mol": null,
+          "gas_policy": "sealed retain counted increment in gas/solution/headspace ledger; no unaccounted export",
+          "temperature_policy": "record actual immediately-before/after React temperatures; select mechanism from actual table threshold353.15K; original hot/cool forecast must also be assessed",
+          "boundary_policy": "record actual pre-React headspace and gas pools; subtract trapped baseline, never assume evacuated",
+          "negative_controls": "No transformation of untreated solvent blank (SO002 v2); no substrate overdraft, wrong principal product, hidden new atoms, duplicate reaction or invented kinetic/heat claim."
+        }
+      ],
+      "assessment_policy": "Judge original forecast independently from source-informed explanation; explicit unsupported/refusal never counts as expected chemistry pass."
+    }
+  ],
+  "acceptance": {
+    "extent_tolerance_mol": 1e-09,
+    "atom_charge_absolute_tolerance_mol": 1e-08,
+    "elements": [
+      "H",
+      "C",
+      "O",
+      "Na",
+      "Br"
+    ],
+    "ledger": "For each React compare immediately preceding complete vessel contents with post-state plus all externally transferred material events; include all gas and trapped headspace baseline, ionic portions with their charges, free proton/hydroxide only where separately owned. Count solution diagnostics only as diagnostic, never double-count solution and authoritative contents. Preserve unknown species as unevaluated ledger, not zero.",
+    "coproduct_policy": "NaBr/HBr can be represented as canonical dissociated ionic equivalents; do not demand molecular salt where solver owns ions. Reconcile Na,Br,H and charge rather than adding counterions.",
+    "temperature_threshold_k": 353.15,
+    "no_empirical_rate_heat_or_yield_claim": true,
+    "refusal": "Preserve named absence/admission/refusal. Mechanism absent or source-owned base missed is unsupported/model investigation, never silently rewrite identity or physical forecast."
+  },
+  "execution_policy": {
+    "requests": 4,
+    "serial": true,
+    "minimum_seconds_between_starts": 3.1,
+    "attempts_per_case": 1,
+    "retry": false,
+    "stop_on_ambiguity_or_binding_or_transport_failure": true,
+    "ordinary_completed_nonzero_refusal": "Preserve and continue remaining cases only if authenticated complete response is unambiguous.",
+    "production_changed": false,
+    "local_build_or_cli": false
+  }
+}

@@ -41,6 +41,14 @@
       "ranks": [
         32
       ]
+    },
+    {
+      "id": "MODEL-006",
+      "record": "MODEL-006.json",
+      "new_design_ids": [
+        "batch3-diverse:so-001",
+        "batch3-diverse:so-003"
+      ]
     }
   ],
   "protocol_owner": "separate protocol agent; see docs/reaction-repair-lane-contract.md"

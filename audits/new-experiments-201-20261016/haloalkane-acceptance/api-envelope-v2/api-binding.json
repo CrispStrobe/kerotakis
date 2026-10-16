@@ -1,0 +1,27 @@
+{
+  "harness_source": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+  "source_tree": "244fa59920ac0530a76c9e4ff2833d6a7e9ad4bd",
+  "artifact": {
+    "id": 12029562826,
+    "name": "rest-native-38862025694",
+    "api_digest": "sha256:f0e9ebb1e41e2b17a47b48ecf4d079ef20a816d26925cf0e1cf61ec2aa03dbdd",
+    "downloaded_archive_sha256": "f0e9ebb1e41e2b17a47b48ecf4d079ef20a816d26925cf0e1cf61ec2aa03dbdd",
+    "not_expired": true
+  },
+  "preview_url": "https://kerotakis-web-payload-3j5wmq8y7-crispstrobes-projects.vercel.app",
+  "engine": {
+    "source_head": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+    "binary_sha256": "30f32713fb01a4564b986f0c7a99ac0dd2089a3cceaabcc382d00f63e88922d6",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "producer_lock_binding": {
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+    "raw_lock_bytes_uploaded": false,
+    "independently_rehashed_build_lock": false,
+    "qualification": "Producer-reported build-lock hash is bound through manifest, snapshot and health; raw build lock is absent from artifact and has not been independently rehashed."
+  },
+  "accepted_artifact_deployment_binding": true,
+  "scope": "Previously independently authenticated preview artifact/snapshot/health binding reused; fresh health must match before these case requests. No deployment, VM management or local CLI execution.",
+  "producer_run": 38862025694,
+  "producer_job": 116846250747
+}

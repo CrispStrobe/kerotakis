@@ -1,0 +1,69 @@
+{
+  "schema": "kerotakis.production-delivery.v1",
+  "status": "prospective_before_requests",
+  "binding_sha256": "4b13c682745bc44d60297508829f8602b465ef77f6b8674890575c56eb730abd",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "alias": "https://kerotakis-web-payload.vercel.app",
+  "cases": [
+    {
+      "id": "water-baseline",
+      "script": "add v1 water 100mL\ninspect v1\n",
+      "script_sha256": "4a1a51c276252f5f738f3a257666a992a091ef4c4410f3d7caceaa03c466ffe3",
+      "request_sha256": "524de4a5753af70faf188c2f31ffc176ba0b06f93d426def7fa6520e55019229",
+      "forecast": "Single finite100mLwater inventory near298.15K, no acid/base dose or newreactants; solvent-only pH response scope honest."
+    },
+    {
+      "id": "complete-stock-001",
+      "script": "add v1 water 100mL @ 25C\nadd v1 HCl 0.001mol\ninspect v1\nadd v1 NaOH 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "a4e2a4c3f27aa790a4843e644b4ba647ff71d5515a945bf7fe6304bb8925b1c1",
+      "request_sha256": "f522198a17676b59e7116fa42c46750b925e6dd7d32b9afdcab741c868083590",
+      "forecast": "CompleteHCl.001mol+NaOH.001mol yields canonicalNa/Cl.001mol each andwater+.001mol; acidpH1.8\u20132.3, neutralizedpH6.5\u20137.5 stableafter10s; positive modeled temperature response0.1\u20130.5K. No empirical heat calibration or exactoldbinary stream equality."
+    }
+  ],
+  "checks": {
+    "water_amount_tolerance_mol": 1e-08,
+    "water_temperature_tolerance_k": 1e-06,
+    "neutralisation_inventory_tolerance_mol": 1e-08,
+    "neutralisation_final_water_increment_mol": 0.001,
+    "acid_ph_range": [
+      1.8,
+      2.3
+    ],
+    "neutral_ph_range": [
+      6.5,
+      7.5
+    ],
+    "base_add_temperature_gain_range_k": [
+      0.1,
+      0.5
+    ],
+    "wait_ph_drift_max": 0.01,
+    "http_checks": [
+      "missing bearer401",
+      "incorrect bearer401",
+      "validowner register subset422",
+      "disallowedOrigin preflight400",
+      "allowedOrigin preflight200 with allow-origin"
+    ],
+    "allowed_origin": "https://crispstrobe.github.io",
+    "client": "GET /rest.html bytes equal source web/rest.html",
+    "pages": "Root separately observed404; no newPagesrequest authorized/needed"
+  },
+  "policy": {
+    "chemistry_requests": 2,
+    "one_attempt_each": true,
+    "serial_minimum_seconds": 3.1,
+    "no_retries": true,
+    "stop_on_ambiguity_auth_or5xx": true,
+    "secrets": "Ownerkey read privatefile, only0600curlconfig; neverargv/env/output; no deploymenttoken needed.",
+    "no_cli_or_build": true,
+    "no_new_deployment": true,
+    "cleanup_scope": "Preserve authenticated producer isolation test + runtimecleanup source and completedrequest evidence; do not assertactualVMdeletion withoutreceipt."
+  },
+  "original_control": "audits/reaction-dataset-200-20261015/case001-repair-20261016/complete-stock.lab",
+  "original_forecast_evidence": "audits/reaction-dataset-200-20261015/case001-repair-20261016/assessment.json"
+}

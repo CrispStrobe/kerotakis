@@ -1,0 +1,112 @@
+{
+  "design_sha256": "7e155cef0d87e703e78c0371d4e6475019893d02f3e15c1d54a2e3828f491f6f",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "requests": [
+    {
+      "id": "health-before",
+      "issued_utc": "2026-10-16T07:58:55.415324+00:00",
+      "http_status": 200,
+      "expected_http_status": 200,
+      "client_exit": 0,
+      "elapsed_seconds": 0.507877117022872,
+      "body_sha256": "493e0bb20364ea784fad704f223dc8a8abe399180cccbd990b9d54614989336d",
+      "headers_sha256": "fdbc021304e7868e9f7e9c75e4383d1a9ed9d4044c6c8cd43165ef074f578192",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "rest-client",
+      "issued_utc": "2026-10-16T07:58:58.515431+00:00",
+      "http_status": 200,
+      "expected_http_status": 200,
+      "client_exit": 0,
+      "elapsed_seconds": 0.4413502737879753,
+      "body_sha256": "f8ccf3dfb62ceafb104db6daad69d67886823f4a20a2bd9d3989ee7b0dcdff80",
+      "headers_sha256": "402e499fbd404ac4021fdbcac49ba0299e432d4a3c21ddba8aaa946407e3503a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "auth-missing",
+      "issued_utc": "2026-10-16T07:59:01.615569+00:00",
+      "http_status": 401,
+      "expected_http_status": 401,
+      "client_exit": 0,
+      "elapsed_seconds": 0.47894685342907906,
+      "body_sha256": "370184e0b2b404611d135ab27d53b40c56d8f98e42afea63a72523c67d2c47b8",
+      "headers_sha256": "4760f4dec1242ed9a09a94985e903586c0c0afac20ce47d942d251585b905b25",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "auth-bad",
+      "issued_utc": "2026-10-16T07:59:04.715734+00:00",
+      "http_status": 401,
+      "expected_http_status": 401,
+      "client_exit": 0,
+      "elapsed_seconds": 0.4881521537899971,
+      "body_sha256": "1994468f256bc2a622e543cd9bb4f68d04a733639bd417f54c6f09a0ce418872",
+      "headers_sha256": "29f874780ea2af0f129c2b5d5a63d90ba682002096251f84a1285bee2a8e5681",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "subset-refusal",
+      "issued_utc": "2026-10-16T07:59:07.815948+00:00",
+      "http_status": 422,
+      "expected_http_status": 422,
+      "client_exit": 0,
+      "elapsed_seconds": 0.6658154409378767,
+      "body_sha256": "d9a11cc612747678667f60547fb28a1de244374c4629cfdec5dea0d7cda8ebd1",
+      "headers_sha256": "ec660e6ba01f0048a763f19d80d1cb6b91f72bbc6561064f342f018bfafe8dc7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "cors-denied",
+      "issued_utc": "2026-10-16T07:59:10.916103+00:00",
+      "http_status": 400,
+      "expected_http_status": 400,
+      "client_exit": 0,
+      "elapsed_seconds": 0.3348739054054022,
+      "body_sha256": "f80399859bbd7b2cb1cac34d88e0f01461619f351b476926e2465eea789098d4",
+      "headers_sha256": "8db6450dc10b5d641e2b964f6f2fc7ff10702340ba8dd083cb622a4cd4499daf",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "cors-allowed",
+      "issued_utc": "2026-10-16T07:59:14.016194+00:00",
+      "http_status": 200,
+      "expected_http_status": 200,
+      "client_exit": 0,
+      "elapsed_seconds": 0.30052920058369637,
+      "body_sha256": "565339bc4d33d72817b583024112eb7f5cdf3e5eef0252d6ec1b9c9a94e12bb3",
+      "headers_sha256": "ce2f6151ad8169d3cc416fb30992cc46fa44dc60c2678a3950ab9d030db9d0fe",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "water-baseline",
+      "issued_utc": "2026-10-16T07:59:17.116309+00:00",
+      "http_status": 200,
+      "expected_http_status": 200,
+      "client_exit": 0,
+      "elapsed_seconds": 5.234111171215773,
+      "body_sha256": "441316f29328d62c423bea1f2b99ec8e1b977ef0bb0e5508ea02444ffc2cbea5",
+      "headers_sha256": "3e772291b65695af219113b9420acc0d300be126f2de1a0bdf9a477ee5d08b7e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "complete-stock-001",
+      "issued_utc": "2026-10-16T07:59:22.353233+00:00",
+      "http_status": 200,
+      "expected_http_status": 200,
+      "client_exit": 0,
+      "elapsed_seconds": 3.4722811337560415,
+      "body_sha256": "2b7cb8ee1485ab7639f2d6714103967801f2306e17e8ab859b6222345be0df12",
+      "headers_sha256": "e1528f43c2881e0a8dc5e2680c9b183ab5a935d10abf21a901dcf3c87c046c71",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "retries": 0,
+  "minimum_seconds_between_starts": 3.1,
+  "production_changed": false
+}

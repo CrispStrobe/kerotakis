@@ -1,0 +1,11 @@
+{
+  "completed_utc": "2026-10-16T07:53:35.641232+00:00",
+  "requests": 4,
+  "all_http200_completed": true,
+  "source_and_binary_and_script_bindings": true,
+  "reflection_scan": "no owner or deployment credential reflected in returned streams",
+  "local_cli_executed": false,
+  "model_changed": false,
+  "production_changed": false,
+  "physical_verdict": "not_assigned"
+}

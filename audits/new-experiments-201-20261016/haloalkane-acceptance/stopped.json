@@ -1,0 +1,10 @@
+{
+  "recorded_utc": "2026-10-16T07:51:48.605138+00:00",
+  "reason_type": "AssertionError",
+  "reason": "HTTP/auth/redirect/quota/transport stop; no retry",
+  "attempted_cases": [
+    "D3-SO-001"
+  ],
+  "policy": "preserve first evidence and stop; no retry",
+  "physical_verdict": "not_assigned"
+}

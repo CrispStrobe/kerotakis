@@ -1,9 +1,11 @@
-# Additional 201 experiment designs: source-only intake
+# Additional 201 experiment designs: intake and follow-ups
 
-The supplied batches contain **101 batch-2 and 100 batch-3 designs**. All remain
-unexecuted. This intake preserves their original scripts and forecasts; it adds
-four narrowly corrected haloalkane procedure candidates. No chemistry pass,
-novelty certification, model repair or official-parser execution is claimed.
+The supplied batches contain **101 batch-2 and 100 batch-3 designs**. The
+initial source-only intake preserves their original scripts and forecasts.
+Four corrected haloalkane protocols now have separately bound API-envelope
+[execution and assessment](haloalkane-acceptance/README.md): two bounded principal
+forecasts match and two expose a model gap. No catalogue closure, empirical
+chemistry validation or novelty certification is claimed.
 
 Read [the manifest](manifest.json), [all 201 records](intake.json),
 [the priority queue](rewrite-queue.json) and [four proposed corrections](protocol-rewrites.json).
@@ -88,6 +90,35 @@ For peroxide cases, retain total closure including bulk gas and distinguish
 asks whether persistent open-vessel gas is an intentional residence/accounting
 contract. Do not assume missing mass or silently require export before that review.
 
+## API admission is a separate acceptance layer
+
+Offline execution of the actual pinned gateway `validate_script` function finds
+that **all201 original scripts are rejected** because they begin with the CLI
+presentation directive `register lv3`. This is an intentional API subset limit,
+not a chemical result. The CLI handles this directive by changing rendering
+register; it does not perform a bench operation. Removing only that exact line
+produces **115 admission-compatible scripts and86 refusals**:80 retain unsupported
+verbs and six exceed the one-hour simulated-duration limit. Unsupported verb
+case counts overlap: look58, titrate12, transport8, extract4, and one each for
+distil/regulate. Do not drop those physical or observational commands to obtain
+an execution, shorten incubation, or weaken quotas.
+
+The [preview-source report](api-subset-source74.json) and
+[integrated-main report](api-subset-integrated-main.json) preserve each original
+hash, register-only adaptation hash, actual admission result and remaining
+unsupported verbs. The [saved-source audit tool](audit_api_subset.py) executes
+only the pinned validator and its two constants, with positive/negative admission
+controls; it sends no requests and executes no Kero parser or chemistry engine.
+These115 admissions are not115 experiment passes. A second source-proven
+adaptation replaces exact `look [vN]` aliases with `measure vN eyes`; both parser
+paths produce the same Eyes measurement. It retains every observation and raises
+admission-compatible originals to **163**, with26 command-subset and12 duration
+refusals remaining. The [canonical-observation report](api-canonical-observations.json)
+contains per-case adapted scripts and hashes. This admission inventory does not
+incorporate the four separate procedure corrections and cannot establish valid
+chemistry. Keep all original `.lab` files intact and bind actual adapted runs
+separately. No API quota or command allowlist changed.
+
 ## Next steps
 
 Follow the ranked lanes in `rewrite-queue.json`: review the four proposed calls,
@@ -95,4 +126,17 @@ then freeze small source-bound acceptance batches with explicit ledgers/toleranc
 then composed transport and known coverage/provenance investigations. Each future
 run needs its own exact source/binary/lock binding, original raw output and physical
 assessment. Keep parser refusal, unsupported domain, inconclusive observable and
-failed physical forecast distinct. No runtime or model work was performed here.
+failed physical forecast distinct. The initial intake performed no runtime or model work; later execution is recorded separately above.
+
+## Frozen hosted native screen
+
+The [201-case native design](native-screen-design.json) selects197 unchanged
+originals and the four separately corrected haloalkane protocols, retaining each
+original forecast and script association. It reuses the authenticated production
+c446 native artifact; no compiler or VPS engine execution is needed. The
+[runner](hosted_native_screen.py) verifies the producer binary, all libraries and
+every selected script before executing serially, once each, with process CPU,
+address-space, wall-time and output limits. It retains original session directives,
+observations and incubation times. CLI exits and JSON ingestion remain engineering
+outcomes until the saved physical forecasts are assessed. Dispatch/completion
+will be recorded separately; this frozen design is not an execution claim.

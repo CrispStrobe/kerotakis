@@ -8,11 +8,13 @@ The API is live in the existing project:
 starts a fresh lab. Both approved frontend CORS preflights passed. The API runs
 on Vercel and requires no VPS service or additional hostname.
 
-Production deployment `dpl_BMfdaZVCPoDSynF3Weu7A9F7Su18` serves API revision
-`9bee95d9` with native engine `d791d306`. The engine's binary and lock identities
-are returned by health and execution responses. This is a preserved verified
-engine, not a claim that current main or all recent frontend fixes were rebuilt.
-Three public static asset hashes match the prior production files.
+Production now serves integrated API/engine revision `c4469205`, native binary
+`670bd3d8`, from [run38868092504](https://github.com/CrispStrobe/kerotakis/actions/runs/38868092504).
+The [authenticated production receipt](../audits/reaction-dataset-200-20261015/production-c446-20261016/README.md)
+verifies artifact/source/tree/native/libraries, fresh isolated snapshot and live
+health. Raw build-lock bytes remain producer-qualified for this artifact. The
+previous production `9bee95d9`/`d791d306` evidence below is retained historical
+acceptance, rather than relabelled as new-engine execution.
 
 Actual Vercel execution revealed unavailable Landlock support. The native child
 therefore runs in a fresh Vercel Sandbox microVM with denied outbound networking,
@@ -37,47 +39,54 @@ scripts. Median request time was 3.27 seconds. See the
 [verified comparison](../audits/reaction-dataset-200-20261015/api-comparison/completion.json).
 Physical validation remains separate; do not duplicate this finished API batch.
 
+## Current integration and delivery checkpoint — 2026-10-16
+
+[PR795](https://github.com/CrispStrobe/kerotakis/pull/795) is integrated as
+`c4469205`, with all59 successful checks and one skip. The
+[integration receipt](../audits/reaction-dataset-200-20261015/pr795-integration.json)
+records reviewed source, actual merge parents/tree and applicable acceptance.
+The old source-build, native sandbox and UTF-8/lint failures remain preserved;
+they are no longer pending integration work.
+
+The source-pinned [production run38868092504](https://github.com/CrispStrobe/kerotakis/actions/runs/38868092504)
+completed successfully. The independently rereviewed production receipt accepts
+nine once-only requests: two finite chemistry controls, auth/subset/CORS checks,
+fresh health and exact client bytes. The same-snapshot isolation probe passed.
+No independent VM-deletion receipt or raw producer-lock rehash is claimed.
+
+[Fifteen actual-browser controls](../audits/reaction-dataset-200-20261015/rest-browser-acceptance-20261016/README.md)
+already accept the unchanged client UI/privacy and actual browser CORS behavior.
+Its controlled Pages-origin check does not establish publication. Actual
+`/kerotakis/rest.html` still returned404 at this checkpoint; the integrated-main
+Pages pipeline must publish it before testing the served client.
+
 ## Doable next lanes
 
-1. **Finish source integration and rebuild acceptance.** Continue
-   [PR795](https://github.com/CrispStrobe/kerotakis/pull/795) at its actual current
-   head. Preserve the first hosted build failure: Amazon Linux installed
-   IPhreeqc into `lib64`, while Cargo searched `lib`; container cleanup also
-   lacked ownership. Both source fixes are pushed. Follow
-   [hosted preview 38783017261](https://github.com/CrispStrobe/kerotakis/actions/runs/38783017261)
-   now passed its native build and deployment. Separately repair the saved API
-   sandbox acceptance failures, explicit UTF-8 encoding omissions and workflow
-   lint false positive; rerun their exact-head controls. Keep the draft until
-   native sandbox and all applicable acceptance pass.
-   Authenticate its new engine/source/lock binding and repeat the production
-   controls before replacing the retained engine. Complete applicable CI and
-   normal protected auto-merge; never merge the broad audit branch.
-2. **Complete browser delivery.** Use `web/rest.html` and the existing personal
-   bearer key to exercise execution from both actual browser origins. Confirm
-   that keys/scripts are cleared and never persisted, output renders as text,
-   and service workers bypass API/client routes. HTTP CORS controls and the Node
-   client tests are already complete; real-browser acceptance is separate.
-   Publish the client through the normal Pages payload if it is not there yet.
-3. **Maintain the deployed security binding.** Changed supervisor/seccomp code
-   requires a new snapshot using `tools/prepare-rest-snapshot.py`, followed by
-   `tools/test-rest-microvm.py`. Package its receipt with the matching native
-   bundle. Verify auth, shared saturation and bounded cleanup after deployment.
-   Snapshots expire after thirty days without use. Keep credentials private and
-   preserve the configured quotas; do not add an unsandboxed fallback.
-4. **Close demonstrated chemistry gaps.** The
-   [chemical review and complete-stock controls](../audits/reaction-dataset-200-20261015/CHEMISTRY-RESULTS.md)
-   are complete. Implement charged-input reporting, sourced silver ammine routing
-   and bounded acidified permanganate/peroxide chemistry in that order. Reuse the
-   saved 200-record CLI/API evidence. Its 92 completed and 108 nonzero runs are process
-   outcomes. The source supplies no procedures; generated contact probes are
-   not 200 individually validated protocols. Freeze valid condition-specific
-   follow-ups and compare native/API/WebAssembly observations with independent
-   physical expectations, distinguishing rendering from chemistry defects.
-5. **Add durable jobs only when needed.** If measured synchronous limits block
-   real protocols, add bounded submission/status, principal ownership,
-   cancellation, idempotency and retained provenance. The conventional REST
-   interface is already deployed; this extension is not required to activate it.
+1. **Maintain verified production delivery.** The current c446 delivery is
+   accepted for the recorded controls. Rebuild and repeat narrowly scoped
+   acceptance when an accepted source change warrants a new engine. Preserve
+   source/tree/native/lock/snapshot bindings and first failures; do not repeat
+   unchanged200-case transport checks.
+2. **Verify Pages publication.** Follow the existing integrated-main demo/publish
+   pipeline, then confirm the actual served client bytes. Reuse accepted
+   unchanged-client browser evidence where applicable; complete any outstanding
+   actual-origin acceptance after publication. Do not repeat the entire200 batch.
+3. **Repair protocols and underlying chemistry independently.** Use the
+   [lane contract](reaction-repair-lane-contract.md) and
+   [model intake](../audits/reaction-dataset-200-20261015/model-issues-20261016/index.json).
+   The protocol lane owns procedures, syntax and proven aliases; Hermes owns
+   model repairs and PR805 acceptance. All process outcomes remain separate
+   from scientific verdicts. Freeze source-bound follow-ups before execution.
+   The [201 new designs](../audits/new-experiments-201-20261016/README.md) have
+   separate originals, four proposed procedure corrections and acceptance lanes.
+4. **Maintain the security binding.** Changed supervisor/seccomp code requires
+   a rebuilt snapshot, actual isolation tests and the matching native bundle.
+   Preserve authentication, shared rate limits, quotas, bounded cleanup and
+   denial of untrusted network access. No unsandboxed fallback is permitted.
+5. **Add durable jobs only when measured limits require them.** A bounded
+   submission/status extension needs principal ownership, cancellation,
+   idempotency and retained provenance. It is not an activation prerequisite.
 
-The implementation/deployment contract is `services/rest_api/README.md` on PR795.
-[Vercel Sandbox](https://vercel.com/docs/sandbox) documents the isolated compute
-boundary; actual platform controls are preserved in the deployment receipt.
+The implementation/deployment contract is `services/rest_api/README.md` on
+integrated main. Actual platform receipts, rather than configuration alone,
+establish the accepted isolation boundary.

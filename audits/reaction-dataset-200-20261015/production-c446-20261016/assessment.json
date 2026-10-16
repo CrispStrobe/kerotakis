@@ -1,0 +1,88 @@
+{
+  "schema": "kerotakis.production-assessment.v1",
+  "design_sha256": "7e155cef0d87e703e78c0371d4e6475019893d02f3e15c1d54a2e3828f491f6f",
+  "binding_sha256": "4b13c682745bc44d60297508829f8602b465ef77f6b8674890575c56eb730abd",
+  "execution_sha256": "9efa6b93442593e128294eb2e8aebf90a8ba5318b04022ee7415e0b61ef5573c",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "all_frozen_delivery_and_control_checks_pass": true,
+  "checks": {
+    "health-before_http_status": true,
+    "rest-client_http_status": true,
+    "auth-missing_http_status": true,
+    "auth-bad_http_status": true,
+    "subset-refusal_http_status": true,
+    "cors-denied_http_status": true,
+    "cors-allowed_http_status": true,
+    "water-baseline_http_status": true,
+    "complete-stock-001_http_status": true,
+    "water-baseline_completed": true,
+    "complete-stock-001_completed": true,
+    "water_finite_input_retained": true,
+    "water_temperature": true,
+    "water_solvent_scope": true,
+    "acid_ph": true,
+    "neutral_ph": true,
+    "wait_ph_stable": true,
+    "positive_modeled_heat_response": true,
+    "sodium_retained": true,
+    "chloride_retained": true,
+    "water_stoichiometry": true,
+    "final_canonical_inventory": true,
+    "element_charge_closure": true,
+    "no_solver_failed_or_safety_veto": true
+  },
+  "observations": {
+    "water_mol": 5.534276991396059,
+    "water_temperature_k": 298.15,
+    "water_ph": 6.997375771104036,
+    "acid_ph": 2.038105470481,
+    "neutral_ph": 6.992693453276,
+    "after_wait_ph": 6.992709843471,
+    "temperature_before_base_k": 298.1500013447139,
+    "temperature_after_base_k": 298.3907323556392,
+    "base_step_temperature_gain_k": 0.2407310109252876,
+    "after_wait_temperature_k": 298.3897348799912,
+    "water_increment_mol": 0.001000000000000334,
+    "final_contents": [
+      {
+        "moles": 0.001,
+        "phase": "aqueous",
+        "species": "Cl-"
+      },
+      {
+        "moles": 0.001,
+        "phase": "aqueous",
+        "species": "Na+"
+      },
+      {
+        "moles": 5.535276991396059,
+        "phase": "liquid",
+        "species": "water"
+      }
+    ],
+    "element_residual_mol": {
+      "H": 0.0,
+      "O": 0.0,
+      "Na": 0.0,
+      "Cl": 0.0
+    },
+    "charge_residual_mol": 0.0
+  },
+  "limits": [
+    "Production c446 delivery acceptance of these two finite controls only; not the entire200 or new201.",
+    "The old source/binary responses are reference context, not a required byte-equality oracle.",
+    "Modeled heat response and conservation do not establish empirical thermal calibration.",
+    "Producer-reported Cargo.lock hash is bound; raw producer lock bytes were not independently rehashed.",
+    "Actual producer isolation and completed requests plus source context/lease cleanup do not independently prove VM deletion.",
+    "Pages remains separately reported404; served production rest.html bytes match web/rest.html without a new browser test."
+  ],
+  "requests_retried": 0,
+  "chemistry_requests": 2,
+  "catalog_cases_closed": 0,
+  "local_cli_or_build": false,
+  "production_configuration_changed": false
+}

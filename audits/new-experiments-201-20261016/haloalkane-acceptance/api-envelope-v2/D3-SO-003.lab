@@ -1,0 +1,18 @@
+# D3-SO-003: Tertiary substrate plus strong base is not automatically an SN2 example
+# Simulation candidate; no runtime observations are claimed.
+new
+add v1 water 40mL @ 25C
+add v1 NaOH 0.0003mol
+add v2 water 40mL @ 25C
+add v2 NaOH 0.0003mol
+seal v1 500mL
+seal v2 500mL
+add v1 bromoethane 0.0002mol
+add v2 tert_butyl_bromide 0.0002mol
+react v1 haloalkane
+react v2 haloalkane
+particles v1
+particles v2
+measure v1 pressure
+measure v2 pressure
+inspect

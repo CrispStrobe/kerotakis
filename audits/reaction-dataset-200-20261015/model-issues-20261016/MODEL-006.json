@@ -1,0 +1,195 @@
+{
+  "id": "MODEL-006",
+  "status": "unrepaired_intake",
+  "owner": "independent-model-agent",
+  "title": "Selectivity strong-nucleophile lookup misses solved aqueous base inventory",
+  "source": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+  "engine": {
+    "source_head": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+    "binary_sha256": "30f32713fb01a4564b986f0c7a99ac0dd2089a3cceaabcc382d00f63e88922d6",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "source_pins": [
+    {
+      "path": "crates/kerotakis-core/src/selectivity.rs",
+      "sha256": "7c181ff4915e8e9febc39c2f6ecc972269d70c72aa6ce428277c2c075fa03a37"
+    },
+    {
+      "path": "crates/kerotakis-core/src/bench.rs",
+      "sha256": "3eb25ec99a6e58d15d269248cf679187ada0b73105f1142fad3f347fed508aeb"
+    },
+    {
+      "path": "crates/kerotakis-core/src/species.rs",
+      "sha256": "2f7cf2e683c3bb1f0718e5e8e9d75f3cad58621df256f115686fc279be17850f"
+    },
+    {
+      "path": "crates/kerotakis-phreeqc/src/inventory.rs",
+      "sha256": "569c07cb83e584d0292a0128a5071ed6bffdfa689b924078b1619507724a1da2"
+    },
+    {
+      "path": "services/rest_api/app.py",
+      "sha256": "ab2ea99e5370ed86d6cc91a1d79f6780dfe1610bf49f0be0fae2f2668d469f7a"
+    },
+    {
+      "path": "crates/kerotakis-cli/src/main.rs",
+      "sha256": "c53398d67cc58c2b3110fb99b2480a400c74ce6a9f16a649de1764a548e4eccb"
+    }
+  ],
+  "design": "audits/new-experiments-201-20261016/haloalkane-acceptance/api-envelope-v2/design.json",
+  "design_sha256": "70f39746ba0a5d67b5c2c8662ae68af8b8a1cd2a2f1699340a80a62ec7b1df18",
+  "assessment": "audits/new-experiments-201-20261016/haloalkane-acceptance/api-envelope-v2/assessment.json",
+  "assessment_sha256": "e2a0357676ca4e66cb81cd07f8aea16b2afe589d52234caacd4d3ef02250be35",
+  "first_api_refusal": {
+    "path": "audits/new-experiments-201-20261016/haloalkane-acceptance/D3-SO-001.response.json",
+    "classification": "register session directive excluded by API; no chemistry executed; preserved independently"
+  },
+  "witnesses": [
+    {
+      "id": "D3-SO-001",
+      "original_id": "batch3-diverse:so-001",
+      "script_sha256": "7bb79295e499b9bf3dd59bbc0f255f4b7e2a2e5139b0c2d13264caad5b36064e",
+      "native_candidate_sha256": "cc9f17f4146e7d4289a5bb99e46092e298010944505e549416c07661d64310c4",
+      "raw_path": "audits/new-experiments-201-20261016/haloalkane-acceptance/api-envelope-v2/D3-SO-001.response.json",
+      "raw_sha256": "80f8982bfb48086aa0dd2f7e09596a660c93c482586ef84b8725fd3785d6a3a7",
+      "forecast_met": false,
+      "vessels": [
+        {
+          "vessel": 0,
+          "desired_mechanism": "haloalkane:SN2",
+          "actual_mechanisms": [],
+          "temperature_before_k": 298.2352484827662,
+          "preexisting_base_equivalents_mol": 0.0002838566153233017,
+          "literal_NaOH_mol": 0,
+          "ledger_pass": true
+        },
+        {
+          "vessel": 1,
+          "desired_mechanism": "haloalkane:E2",
+          "actual_mechanisms": [],
+          "temperature_before_k": 363.22587923557296,
+          "preexisting_base_equivalents_mol": 0.0002890489502412625,
+          "literal_NaOH_mol": 0,
+          "ledger_pass": true
+        }
+      ]
+    },
+    {
+      "id": "D3-SO-002",
+      "original_id": "batch3-diverse:so-002",
+      "script_sha256": "53821a2f69b5ac828be153a88ca782931cb5333684864104ba120027b7cdfb47",
+      "native_candidate_sha256": "4519e3309ba8ad56e7c9457df2c4a48907b1a52dc0c9a3592799a3b9737f3326",
+      "raw_path": "audits/new-experiments-201-20261016/haloalkane-acceptance/api-envelope-v2/D3-SO-002.response.json",
+      "raw_sha256": "54e7f3129015661632a89b9586ee474a00122a5384c6532b0ffa6626889f8e37",
+      "forecast_met": true,
+      "vessels": [
+        {
+          "vessel": 0,
+          "desired_mechanism": "haloalkane:SN1",
+          "actual_mechanisms": [
+            "haloalkane:SN1"
+          ],
+          "temperature_before_k": 298.15,
+          "preexisting_base_equivalents_mol": 0,
+          "literal_NaOH_mol": 0,
+          "ledger_pass": true
+        }
+      ]
+    },
+    {
+      "id": "D3-SO-003",
+      "original_id": "batch3-diverse:so-003",
+      "script_sha256": "dbf9bc9b52ff2488eba67014d1fe0a751a71fce502a3222ef66ed6ae052f5510",
+      "native_candidate_sha256": "5b393fd75f270a4ae2cc434bb779209cdabae92b78bed4ecdb80bf9d950b3a0a",
+      "raw_path": "audits/new-experiments-201-20261016/haloalkane-acceptance/api-envelope-v2/D3-SO-003.response.json",
+      "raw_sha256": "49cdc0e262108540274fa5aa9174574576919f17b54171a381cd2b38d6b4a877",
+      "forecast_met": false,
+      "vessels": [
+        {
+          "vessel": 0,
+          "desired_mechanism": "haloalkane:SN2",
+          "actual_mechanisms": [],
+          "temperature_before_k": 298.2352484827662,
+          "preexisting_base_equivalents_mol": 0.0002838566153233017,
+          "literal_NaOH_mol": 0,
+          "ledger_pass": true
+        },
+        {
+          "vessel": 1,
+          "desired_mechanism": "haloalkane:E2",
+          "actual_mechanisms": [
+            "haloalkane:SN1"
+          ],
+          "temperature_before_k": 298.23524550621164,
+          "preexisting_base_equivalents_mol": 0.00028385661532330346,
+          "literal_NaOH_mol": 0,
+          "ledger_pass": true
+        }
+      ]
+    },
+    {
+      "id": "D3-SO-004",
+      "original_id": "batch3-diverse:so-004",
+      "script_sha256": "62e476cf22e0a48367031c5e6f39f82155929ad5af1f69827a8591902a064e72",
+      "native_candidate_sha256": "44d1610991a0413606d52a90f3bafee230066a8c8c70236cba480c277f06c26c",
+      "raw_path": "audits/new-experiments-201-20261016/haloalkane-acceptance/api-envelope-v2/D3-SO-004.response.json",
+      "raw_sha256": "31043dc17115ee861a700484d709e63281185ffd9a63ff9fcae36500b2e17c20",
+      "forecast_met": true,
+      "vessels": [
+        {
+          "vessel": 0,
+          "desired_mechanism": "haloalkane:SN1",
+          "actual_mechanisms": [
+            "haloalkane:SN1"
+          ],
+          "temperature_before_k": 298.15006757456536,
+          "preexisting_base_equivalents_mol": 0,
+          "literal_NaOH_mol": 0,
+          "ledger_pass": true
+        },
+        {
+          "vessel": 1,
+          "desired_mechanism": "haloalkane:E1",
+          "actual_mechanisms": [
+            "haloalkane:E1"
+          ],
+          "temperature_before_k": 363.139973274706,
+          "preexisting_base_equivalents_mol": 0,
+          "literal_NaOH_mol": 0,
+          "ledger_pass": true
+        }
+      ]
+    }
+  ],
+  "observations": {
+    "primary": "SO-001 cool/hot and SO-003 primary retain all 0.0002 mol substrate and emit the named primary + weak nucleophile refusal; no solver_failed event occurs.",
+    "tertiary": "SO-003 tertiary strong-base forecast E2 instead selects SN1 and yields 0.0002 mol tert-butanol. It consumes water and forms bromide/acid, subsequently neutralized by existing analytical base.",
+    "controls": "SO-002 neutral tertiary SN1 and SO-004 neutral cool SN1 / hot E1 principal forecasts are met; no physical calibration claim.",
+    "closure": "All seven explicit React comparisons close H/C/O/Na/Br/charge (plus atmospheric N) within the frozen 1e-8 mol tolerance when authoritative analytical basis and gas transfers are counted. No missing mass is demonstrated."
+  },
+  "source_diagnosis": {
+    "entry": "bench.rs Operator::React -> selectivity::dispatch",
+    "lookup": "selectivity.rs NUCLEOPHILES lists literal NaOH then water; find_nucleophile tests vessel.moles_of(key) > 1e-12. Before React, NaOH is zero while Na+ and base_equivalents remain, so lookup falls back to water and chooses the weak class.",
+    "ownership_limit": "Analytical base_equivalents is an OH stoichiometric inventory coordinate, not measured free hydroxide. A fix must prove eligible finite hydroxide/reaction ownership and debit conservative pools; it cannot relabel arbitrary alkalinity or sodium as NaOH.",
+    "not_allowed": "Do not inject raw NaOH, reorder React before solving, change counterions, relax the physical forecast, invent rate/heat or silently make general salts strongly nucleophilic."
+  },
+  "required_acceptance_lanes": [
+    {
+      "lane": "positive_source_canonical_parity",
+      "tasks": "Compare the same finite NaOH dose before and after authoritative aqueous solving: primary cool SN2 / hot E2 and tertiary strong-base E2. Require matching product/debit/Na/Br/H/O/charge and interpretation of the threshold from actual temperature; no duplicate endpoint."
+    },
+    {
+      "lane": "negative_identity_and_base_ownership",
+      "tasks": "NaBr/NaCl/sodium-only waters must not become strong base; neutral/sour water must retain the appropriate tertiary SN1/E1 behavior. Carbonate and weak-base analytical alkalinity must not silently become hydroxide. Test finite base exhaustion, partial neutralization and no eligible base."
+    },
+    {
+      "lane": "limits_and_rollback",
+      "tasks": "Insufficient owned base constrains extent. Refused, unsupported and failed transformed-readback paths preserve initial matter/events atomically. Preserve named partial scope; do not mutate global thermal policy."
+    },
+    {
+      "lane": "full_ledgers_and_consumers",
+      "tasks": "Canonical ionic coproducts must be available to the next operation. Closure includes actual gas export/retention and initial trapped air. Require equivalent native/core/Wasm/API behavior, exact source/binary/lock bindings and no empirical rate/heat claim."
+    }
+  ],
+  "execution_policy": "No new runs in this intake; four adapted requests completed once, original 422 preserved. Model source unchanged; no shared index edits.",
+  "catalog_cases_closed": 0
+}

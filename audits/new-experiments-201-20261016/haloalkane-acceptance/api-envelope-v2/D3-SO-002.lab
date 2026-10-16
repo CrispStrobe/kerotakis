@@ -1,0 +1,14 @@
+# D3-SO-002: Tertiary solvolysis produces an acidic coproduct
+# Simulation candidate; no runtime observations are claimed.
+new
+add v1 water 50mL @ 25C
+add v2 water 50mL @ 25C
+add v1 tert_butyl_bromide 0.0002mol
+react v1 haloalkane
+measure v1 ph
+measure v2 ph
+measure v1 conductivity
+measure v2 conductivity
+chromatograph v1
+particles v1
+inspect

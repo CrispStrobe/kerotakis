@@ -1,0 +1,33 @@
+{
+  "schema": "kerotakis.haloalkane-assessment.v1",
+  "scope": "First unambiguous API protocol refusal; no chemistry execution or physical verdict.",
+  "design_sha256": "1d35daab253ce33ccedf6d21cf633a66739348f0c04792f5b3a5f16d1b27d41d",
+  "execution_sha256": "a6e3e0a793ecd1d19c61b911829f09080fc85d4f33e0b44cf3e36f6d83475dde",
+  "health_validation_sha256": "2ce56813618b9e26418a90c7e071b49ba1b9d5a1c924114b3319cf44f558a1a9",
+  "original_scripts_and_forecasts_unchanged": true,
+  "requests_attempted": 1,
+  "retries": 0,
+  "attempted_case": {
+    "id": "D3-SO-001",
+    "http_status": 422,
+    "client_exit": 0,
+    "response_sha256": "d9a11cc612747678667f60547fb28a1de244374c4629cfdec5dea0d7cda8ebd1",
+    "response": {
+      "detail": "Command 1 is outside the API command subset"
+    },
+    "classification": "api_command_subset_refusal",
+    "first_command": "register lv3",
+    "engine_observations": null,
+    "physical_verdict": "not_assigned"
+  },
+  "unissued_cases": [
+    "D3-SO-002",
+    "D3-SO-003",
+    "D3-SO-004"
+  ],
+  "next_step": "Inspect pinned API subset before separately freezing any transport-specific envelope revision. Preserve this first refusal; do not overwrite or retry this frozen batch. No model defect is established.",
+  "catalog_cases_closed": 0,
+  "local_cli_executed": false,
+  "model_changed": false,
+  "production_changed": false
+}

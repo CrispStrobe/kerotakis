@@ -476,7 +476,7 @@ acceptance/delivery requirements and collision rules. The
 [lane contract](reaction-repair-lane-contract.md) reserves corrected Kero commands,
 procedures and proven aliases for the protocol agent; the independent model
 agent owns solver/mechanism/data fixes and its own evidence/status files.
-Shared counts and original evidence remain centrally maintained. Five
+Shared counts and original evidence remain centrally maintained. Six
 [model intake records](../audits/reaction-dataset-200-20261015/model-issues-20261016/index.json)
 distinguish reproduced source-bound findings from pending corrected reproducers.
 The independent Hermes model agent is now running with Together.ai /
@@ -494,23 +494,33 @@ bubble residence or a boundary ownership defect; it does not establish missing
 mass. No original case is closed and the working catalog remains149. This
 user-directed split supersedes earlier serialized ordering where independent.
 
-The newly supplied batches contain **201 designed, unexecuted experiments**
+The newly supplied batches contain **201 original experiment designs**
 (100 plus101). The [separate source-only intake](../audits/new-experiments-201-20261016/README.md)
 preserves supplied bytes and all201 original script hashes, forecasts and IDs.
 All3,002 command lines have been screened against source. Four SO-001–SO-004
 [corrected candidates](../audits/new-experiments-201-20261016/protocol-rewrites.json)
 add the missing explicit `react … haloalkane` calls; no identity, dose or original
-physical forecast changed. The prioritized queue separately covers titration,
-time, boundary/energy and transport acceptance. Official parser/runtime checks
-remain pending. These201 are separate from the200 reference screen and are not
-new scientific passes.
+physical forecast changed. Four separately adapted
+[API follow-ups](../audits/new-experiments-201-20261016/haloalkane-acceptance/README.md)
+now completed once: two bounded principal forecasts match and two expose a
+strong-base inventory lookup defect (MODEL-006). All seven reaction-step
+material/charge ledgers close; no catalogue case is closed. The original API
+refusal is preserved separately. The [offline admission audit](../audits/new-experiments-201-20261016/api-canonical-observations.json)
+executes the actual gateway validator:163 originals can enter the API after
+rendering-only register removal and parser-equivalent Eyes alias spelling;
+38 still refuse under command/duration policy. Admission is not scientific
+acceptance. The prioritized queue covers further titration, time, boundary/energy
+and transport work. These201 remain separate from the200 reference screen.
 
 [PR795 gateway](../audits/reaction-dataset-200-20261015/pr795-integration.json)
 merged as `c4469205` after all59 successful checks and one skip, with applicable
 preview/browser/API acceptance. [PR804 documentation](../audits/reaction-dataset-200-20261015/pr804-integration.json)
-merged as `f1592a96`. The source-pinned production build is already dispatched
-in [run38868092504](https://github.com/CrispStrobe/kerotakis/actions/runs/38868092504);
-actual deployment and Pages publication still require verification. PR806's
+merged as `f1592a96`. The source-pinned production
+[run38868092504](https://github.com/CrispStrobe/kerotakis/actions/runs/38868092504)
+completed successfully. [Production acceptance](../audits/reaction-dataset-200-20261015/production-c446-20261016/README.md)
+verifies live c446/670bd3 engine identity, artifact and same-snapshot isolation,
+two finite controls and auth/subset/CORS/client checks, with explicit lock/VM
+cleanup limits. Actual Pages publication remains pending. PR806's
 portable handover documentation is in protected CI with normal auto-merge.
 PR805's current `3f84e59f` has native/preflight and viewer failures requiring
 diagnosis; it is not ready to merge. No failed acceptance is waived.

@@ -1,0 +1,13 @@
+{
+  "completed_utc": "2026-10-16T07:59:25.830875+00:00",
+  "chemistry_requests": 2,
+  "delivery_requests": 9,
+  "all_expected_http_statuses": true,
+  "all_chemistry_completed_exit0": true,
+  "source_binary_producer_lock_match": true,
+  "no_credential_reflection": true,
+  "owner_credentials_only_private0600config": true,
+  "no_cli_or_build": true,
+  "physical_verdict": "not_assigned",
+  "vm_deletion_independently_observed": false
+}

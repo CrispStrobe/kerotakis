@@ -1,0 +1,46 @@
+[
+  {
+    "id": "D3-SO-001",
+    "original_id": "batch3-diverse:so-001",
+    "original_script_path": "audits/new-experiments-201-20261016/scripts/D3-SO-001.lab",
+    "original_script_sha256": "244e2a02ec5db7293a614cc69573144bb3dea65d778dacdca3894a723f73cc6c",
+    "native_candidate_path": "audits/new-experiments-201-20261016/corrected/D3-SO-001.lab",
+    "native_candidate_sha256": "cc9f17f4146e7d4289a5bb99e46092e298010944505e549416c07661d64310c4",
+    "api_adapted_path": "audits/new-experiments-201-20261016/haloalkane-acceptance/api-envelope-v2/D3-SO-001.lab",
+    "api_adapted_sha256": "7bb79295e499b9bf3dd59bbc0f255f4b7e2a2e5139b0c2d13264caad5b36064e",
+    "association_only": "Original path inherited in v2 design is relative to its parent first design. These repository-relative paths remove that directory ambiguity without changing either frozen design."
+  },
+  {
+    "id": "D3-SO-002",
+    "original_id": "batch3-diverse:so-002",
+    "original_script_path": "audits/new-experiments-201-20261016/scripts/D3-SO-002.lab",
+    "original_script_sha256": "384b6af81abe73232bb2eab869b818facb56bb323f5f9d3b89c943d276bfcd41",
+    "native_candidate_path": "audits/new-experiments-201-20261016/corrected/D3-SO-002.lab",
+    "native_candidate_sha256": "4519e3309ba8ad56e7c9457df2c4a48907b1a52dc0c9a3592799a3b9737f3326",
+    "api_adapted_path": "audits/new-experiments-201-20261016/haloalkane-acceptance/api-envelope-v2/D3-SO-002.lab",
+    "api_adapted_sha256": "53821a2f69b5ac828be153a88ca782931cb5333684864104ba120027b7cdfb47",
+    "association_only": "Original path inherited in v2 design is relative to its parent first design. These repository-relative paths remove that directory ambiguity without changing either frozen design."
+  },
+  {
+    "id": "D3-SO-003",
+    "original_id": "batch3-diverse:so-003",
+    "original_script_path": "audits/new-experiments-201-20261016/scripts/D3-SO-003.lab",
+    "original_script_sha256": "f3fc3301492333fcb468a031dfc3a70be73e9e7c7b9f366bee1d8a417b3df22f",
+    "native_candidate_path": "audits/new-experiments-201-20261016/corrected/D3-SO-003.lab",
+    "native_candidate_sha256": "5b393fd75f270a4ae2cc434bb779209cdabae92b78bed4ecdb80bf9d950b3a0a",
+    "api_adapted_path": "audits/new-experiments-201-20261016/haloalkane-acceptance/api-envelope-v2/D3-SO-003.lab",
+    "api_adapted_sha256": "dbf9bc9b52ff2488eba67014d1fe0a751a71fce502a3222ef66ed6ae052f5510",
+    "association_only": "Original path inherited in v2 design is relative to its parent first design. These repository-relative paths remove that directory ambiguity without changing either frozen design."
+  },
+  {
+    "id": "D3-SO-004",
+    "original_id": "batch3-diverse:so-004",
+    "original_script_path": "audits/new-experiments-201-20261016/scripts/D3-SO-004.lab",
+    "original_script_sha256": "cbc2f7a212128a6033a34903b5f9337effc793ed02f04bd995bbd52e7336e4c0",
+    "native_candidate_path": "audits/new-experiments-201-20261016/corrected/D3-SO-004.lab",
+    "native_candidate_sha256": "44d1610991a0413606d52a90f3bafee230066a8c8c70236cba480c277f06c26c",
+    "api_adapted_path": "audits/new-experiments-201-20261016/haloalkane-acceptance/api-envelope-v2/D3-SO-004.lab",
+    "api_adapted_sha256": "62e476cf22e0a48367031c5e6f39f82155929ad5af1f69827a8591902a064e72",
+    "association_only": "Original path inherited in v2 design is relative to its parent first design. These repository-relative paths remove that directory ambiguity without changing either frozen design."
+  }
+]
