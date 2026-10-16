@@ -326,3 +326,12 @@ execution and preserves the reproduced stale CuSO4 settling defect; it does not
 validate the pending PR803 fix or change original scientific verdicts. The
 protected preview used normal owner authentication and deployment access; no
 protection was disabled. Production remains on its previously reported engine.
+
+
+The separate [PR803 REST acceptance design](../audits/reaction-dataset-200-20261015/solid-settling-rest-acceptance-20261016/design.json)
+freezes absent-stock, real-residual-solid and electrolysis controls before a new
+execution. An isolated validation source combines only the reviewed REST gateway
+and six PR803 files; [its binding](../audits/reaction-dataset-200-20261015/solid-settling-api-preview-source.json)
+records both parents and the expected tree. Hosted preview run38856027175 is
+queued. This validation branch must never merge into main, and no successful
+execution or product acceptance is claimed before its build and checks finish.

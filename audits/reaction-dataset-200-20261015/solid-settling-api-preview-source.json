@@ -1,0 +1,20 @@
+{
+  "created_utc": "2026-10-16T05:29:17.196528+00:00",
+  "branch": "validation/solid-settling-api-20261016",
+  "head": "4abb4d7982b1c661473a53f08732a49103878595",
+  "tree": "695e734c5fa354f6563c0d01f526ba5dc5bec928",
+  "api_parent": "efd79bf88eb1514bb87506171c39e808c3b544e1",
+  "fix_parent": "7d229066dc0039c62939dfd0dd04004e94b932be",
+  "only_changes_relative_to_api_parent": [
+    "crates/kerotakis-core/src/bench.rs",
+    "crates/kerotakis-core/src/clock.rs",
+    "crates/kerotakis-core/src/vessel.rs",
+    "crates/kerotakis-core/tests/physical_solid_settling.rs",
+    "crates/kerotakis-phreeqc/tests/physical_solid_settling.rs",
+    "docs/physical-solid-settling.md"
+  ],
+  "main_integration_allowed": false,
+  "purpose": "Separate hosted AL2023/native security snapshot and REST acceptance of PR803; does not replace product CI/fleets.",
+  "preview_workflow": "https://github.com/CrispStrobe/kerotakis/actions/runs/38856027175",
+  "status": "hosted_build_pending"
+}
