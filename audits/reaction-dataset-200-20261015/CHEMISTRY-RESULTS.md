@@ -177,3 +177,18 @@ The canonical free/complex-bound ligand limitation remains open. The rebuilt
 settling repair also [passed four actual REST controls](solid-settling-rest-acceptance-20261016/completion.json),
 including both absent-stock negatives and the real AgCl particulate positive.
 Its product CI/full-fleet acceptance remains before integration.
+
+The finite-gas temperature/solvent precision prerequisite is now integrated via
+PR801 as `6fffb455`, with [actual parents/tree evidence](pr801-integration.json),
+all 58 successful applicable checks and unchanged strict assertions. Do not
+reinterpret earlier carbon/filtration failures as passes; they remain separate
+source-bound evidence. The current reaction queue still retains unsupported
+physical domains and canonical ligand ownership explicitly.
+
+
+PR799 subsequently integrated as `79f9e5f8` after all 58 applicable checks
+succeeded and one unrelated publication check skipped. Native, actual browser,
+Wasm, bridge and full own fleets passed; [actual parents/tree and accepted patch](pr799-integration.json)
+are verified. This closes the shared continuation prerequisite, not rank 119.
+The bounded acidic endpoint is now in source implementation with separate
+positive/negative, material, charge, gas, rollback and thermal acceptance.

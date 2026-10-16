@@ -219,15 +219,15 @@ verifies the actual candidate tree. Earlier documentation PR797 merged as
 `e027e964`; its [receipt](../audits/reaction-dataset-200-20261015/pr797-integration.json)
 remains preserved.
 
-The following draft PRs now include accepted PR796. Their earlier green checks
-are preserved but do not establish acceptance for the refreshed combined source:
+Current source and acceptance (older failures below remain historical evidence):
 
-| PR / current head | Completed evidence | Remaining acceptance |
+| PR / source | Accepted result | Remaining work |
 | --- | --- | --- |
-| [795](https://github.com/CrispStrobe/kerotakis/pull/795), `efd79bf8` — REST delivery | Previous `21dcb14c` had 59 successful checks and one skip; AL2023 preview 38783017261 passed. | Fresh combined CI/fleets and exact-source [Vercel preview 38850693661](https://github.com/CrispStrobe/kerotakis/actions/runs/38850693661); manual browser-client acceptance and Pages publication remain separate delivery work. |
-| [798](https://github.com/CrispStrobe/kerotakis/pull/798), `50ff7a84` — silver ammines | Previous `54d40916` had 58 successful checks and one skip, including native and own-fleet acceptance. Four focused groups retain native mass action and finite balances. | Fresh combined-source checks, then protected exact-head integration. Canonical free/complex-bound ammonia ownership remains an explicit separate gap. |
-| [799](https://github.com/CrispStrobe/kerotakis/pull/799), `bc5f46b5` — unknown-heat continuation | First build field-reference failure and subsequent native/Wasm-prewarm failures preserved. Static formatting, JS syntax and diff checks pass. | Eighteen Rust controls and actual Node Wasm cache/hook controls need successful execution on this source, plus full applicable fleets/browser acceptance. |
-| [801](https://github.com/CrispStrobe/kerotakis/pull/801), `c0dfe45f` — finite-gas input precision | Earlier sealed/open/repeated-wait control and all chemistry fleets passed; strict regulated-volume carbon and existing filtration assertions failed. Deterministic serialization proofs and static checks support a narrower repair. | Fresh native controls and full fleets. Both failed assertions remain unchanged, with richer diagnostics. No analytical projection or tolerance relaxation. |
+| [795](https://github.com/CrispStrobe/kerotakis/pull/795), `efd79bf8` | All 59 applicable checks succeeded, one skip; exact-source AL2023/Vercel preview, isolation and four full CLI/API observation comparisons passed. | Manual REST browser-client acceptance and Pages delivery remain separate; keep production's engine binding explicit. |
+| [798](https://github.com/CrispStrobe/kerotakis/pull/798), merged `5b7cc5ee` | All 58 applicable checks succeeded, one skip; silver ammine equilibrium routing integrated with verified parents/tree. | Canonical free/complex-bound ammonia ownership and deployment remain separate gaps. |
+| [799](https://github.com/CrispStrobe/kerotakis/pull/799), merged `79f9e5f8` | All 58 applicable checks succeeded, one skip; native, actual browser, Wasm, bridge and full own fleets passed. Shared continuation and thermal ownership integrated with verified parents/tree. | Bounded acidic endpoint implementation and its separate acceptance; no new endpoint follows from this prerequisite. |
+| [801](https://github.com/CrispStrobe/kerotakis/pull/801), merged `6fffb455` | All 58 applicable checks succeeded, one skip; strict finite-gas/filtration controls, full suites and fleets passed. Exact accepted patch retained on silver main; actual parents/tree verified. | Deployment and broader unsupported gas/chemistry domains remain separate. |
+| [803](https://github.com/CrispStrobe/kerotakis/pull/803), `7d229066` | Seven core and two native solid-admission controls, both native suites and actual-browser CI passed. Separate rebuilt REST preview passed all four declared controls. | Full applicable own fleets before protected integration; historical grain-size allocation and untracked precipitate metadata remain separate. |
 
 The unchanged original F11 AgCl/ammonia stock protocol has a separately frozen
 [CLI replay and assessment](../audits/reaction-dataset-200-20261015/silver-followup-replay-20261016/assessment.json)
@@ -258,9 +258,9 @@ water mass in gas-owning native inputs. Molal concentrations were derived from
 unrounded solvent mass, while rounded written water mass introduced a second
 picomole-scale carbon error. An actual serialized-input control demonstrates
 that discrepancy. Open/MIX solution temperature and water formatting retain
-established values, avoiding unrelated equilibrium perturbations. The strict
-regulated carbon and filtration failures remain unresolved until fresh execution
-confirms the repair; no gas constant, forecast or conservation allowance changed.
+established values, avoiding unrelated equilibrium perturbations. Fresh execution subsequently passed the strict regulated carbon and filtration
+assertions on both platforms and all applicable fleets; PR801 is integrated as
+`6fffb455`. No gas constant, forecast or conservation allowance changed.
 
 The ordered next steps are to follow these exact-source runs through failures,
 accept and integrate the prerequisite repairs, then implement the bounded
@@ -288,10 +288,9 @@ unsupported; original outcomes are unchanged.
 PR799 is now `a7b9016a`: its previous source passed all three focused native
 groups, but full acceptance exposed a remaining core fixture near vacuum and
 missing translation-composer registration. Both are repaired, with strict
-assertions and independent vacuum cooling preserved. Fresh execution is pending.
-PR801's `c0dfe45f` macOS native run now passed both finite-gas controls, the old
-filtration assertion, the full Rust suite and the unchanged 500-prompt gate.
-Remaining applicable checks still precede integration.
+assertions and independent vacuum cooling preserved. The corrected exact head subsequently passed all applicable checks and integrated as `79f9e5f8`.
+PR801 likewise completed both native platforms, strict controls and all fleets,
+and integrated as `6fffb455`. Earlier failures remain preserved.
 
 The new API preview's AL2023 build, microVM smoke and isolation controls passed.
 Its [receipt](../audits/reaction-dataset-200-20261015/api-preview-20261016.json)
@@ -310,11 +309,11 @@ water consumption and retained sulfate. The pure-water electrode-domain limit
 remains. Rank 14's [complete-stock displacement](../audits/reaction-dataset-200-20261015/case014-repair-20261016/assessment.json)
 produces 1 mmol copper and aqueous zinc but exposes a real stale-lot bug: a wait
 reports settling of absent CuSO4 solid. A narrow core gravity/centrifuge admission
-repair is now [PR803](https://github.com/CrispStrobe/kerotakis/pull/803), `7d229066`, with seven core controls and two native controls; runtime
-acceptance remains pending. Historical lots remain provenance, not current solid
-ownership. PR801's strict finite-gas and old filtration controls now pass on
+repair is now [PR803](https://github.com/CrispStrobe/kerotakis/pull/803), `7d229066`, with seven core controls and two native controls; native/core/browser and real REST acceptance passed; remaining full-fleet checks
+still precede integration. Historical lots remain provenance, not current solid
+ownership. PR801's strict finite-gas and old filtration controls passed on
 both native platforms, alongside each full Rust suite and unchanged curiosity
-gate; full applicable fleet acceptance still precedes integration.
+gate; that repair is integrated as `6fffb455`.
 
 
 The [four repair-protocol REST replays](../audits/reaction-dataset-200-20261015/repair-api-preview-20261016/completion.json)
@@ -332,9 +331,9 @@ The separate [PR803 REST acceptance design](../audits/reaction-dataset-200-20261
 freezes absent-stock, real-residual-solid and electrolysis controls before a new
 execution. An isolated validation source combines only the reviewed REST gateway
 and six PR803 files; [its binding](../audits/reaction-dataset-200-20261015/solid-settling-api-preview-source.json)
-records both parents and the expected tree. Hosted preview run38856027175 is
-queued. This validation branch must never merge into main, and no successful
-execution or product acceptance is claimed before its build and checks finish.
+records both parents and the expected tree. Hosted preview run 38856027175 completed successfully; its four declared REST
+controls passed on the separately bound rebuilt engine. This validation branch
+must never merge into main; product integration still requires its own full fleets.
 
 
 ### Integrated silver route and actual repaired-engine REST acceptance
@@ -361,3 +360,21 @@ Its three changed runtime blobs equal PR803 exactly; the separately frozen
 and raw responses are preserved. PR803's product native/core/browser and full
 fleet checks still govern integration. The isolated validation branch must
 never merge into main. Production remains unchanged.
+
+
+PR801 is now integrated as `6fffb455` through normal protected exact-head merge.
+All 58 applicable checks succeeded, with one unrelated skip. The
+[integration receipt](../audits/reaction-dataset-200-20261015/pr801-integration.json)
+verifies actual parents/tree and proves the accepted finite-gas patch remains
+unchanged when combined with the already integrated silver route. No original
+forecast, gas constant or conservation allowance changed. Production remains
+unchanged; source integration is not deployment or empirical calibration.
+
+
+PR799 integrated as `79f9e5f8` after all 58 applicable checks succeeded and one
+publication check skipped. Both workflows completed; actual browser, Wasm,
+bridge, native and full own-fleet acceptance passed. The
+[integration receipt](../audits/reaction-dataset-200-20261015/pr799-integration.json)
+verifies actual parents/tree and preservation of the accepted patch on main
+containing the silver and finite-gas repairs. The next bounded rank-119 endpoint
+is now in source implementation; its chemistry and acceptance remain separate.

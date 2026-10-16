@@ -158,3 +158,16 @@ enable normal exact-head auto-merge when non-protected acceptance is complete,
 verify integration, and only then update deployment and current-state summaries.
 API/CLI agreement and successful execution are separate from physical endpoint
 assessment; neither establishes empirical calibration.
+
+
+## Current implementation checkpoint — 2026-10-16
+
+Lane 1 integrated through PR799 as `79f9e5f8`, after all 58 applicable checks
+succeeded (one publication skip), including native, actual browser, Wasm, bridge
+and complete own fleets. [Integration receipt](../audits/reaction-dataset-200-20261015/pr799-integration.json)
+verifies parents/tree. Lane 2 is now in source implementation from that actual
+main. No new endpoint execution or acceptance is claimed. Require genuinely
+owned aqueous H+ in addition to fresh complete acidic readback; a charge proxy
+alone cannot supply reaction matter. Retain the sulfate/potassium bounded domain,
+explicit unsupported competitors, open/fixed-sealed gas ownership and unknown
+heat disclosure. Original observations and forecasts above remain unchanged.
