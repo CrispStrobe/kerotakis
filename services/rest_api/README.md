@@ -11,6 +11,9 @@ not_assigned`.
 
 - `GET /api/health`: API revision, configuration state and native source/binary/
   lock identity. `configured` is not proof of runtime readiness.
+- `GET /api/capabilities`: supported English commands, unavailable session commands
+  and enforced request, loop and simulation-duration limits. This is admission
+  policy, not a claim that every chemical model is available.
 - `POST /api/run`: authenticated JSON containing a `script` string.
 - `/api/docs` and `/api/openapi.json`: interactive OpenAPI documentation/schema.
   Authorization is not persisted across page reloads.
@@ -142,11 +145,23 @@ and drain residual pipe buffers. Vercel's function allocation governs the parent
 VPS host-memory readings are not used as serverless admission measurements.
 
 Input limits: 20 KB JSON body, 16 KB UTF-8 script, 128 commands, 32 tokens/command
-and 16 explicit vessel creations. The English simulation verbs in `app.py:VERBS`
+and 16 explicit vessel creations. All canonical English bench verbs and their
+English synonyms/spellings are admitted; a test checks the engine inventory.
+This includes finite `stock`, `remove`/`discard`, `smell`/`waft`,
+`particles`/`zoom` and `cell`/`voltmeter`. The simulation verbs in `app.py:VERBS`
 include `look`/`observe`, vessel explanations, evaporation, pressure regulation,
 mixture transfer, extraction, distillation, titration and reactive transport.
 `register lv1|lv2|lv3` changes presentation only. Filesystem commands, language
-changes, quests and other session controls remain excluded.
+changes, quests and other session controls remain excluded. `help`, `species`,
+`structure`, `identify` and `coverage` have no JSON batch observation handler;
+`find` and `materials` are interactive shell facilities. These requests receive
+an explicit batch-JSON refusal rather than silently doing nothing. Localization
+is not enabled: admitting a language directive without canonicalizing its later
+commands would let loop accounting disagree with execution.
+
+Multiword ingredient spellings use the same reviewed identity aliases as the
+engine before parameter-position accounting; submitted scripts remain unchanged.
+Tests keep this small policy view aligned with the engine alias inventory.
 
 Loop admission is explicit: titration defaults to the CLI's100 steps and accepts
 at most2,000; extraction/distillation accept at most16 stages; transport accepts

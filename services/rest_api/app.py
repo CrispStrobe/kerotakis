@@ -42,7 +42,15 @@ VERBS = frozenset("new add heat cool wait stir seal open "
                   "chromatograph electrolyse electrolyze cell grind centrifuge "
                   "irradiate dilute magnet react test inspect particles sweep "
                   "register look observe explain evaporate regulate mix "
-                  "extract distil distill titrate transport".split())
+                  "extract distil distill titrate transport "
+                  "remove discard stock smell waft zoom voltmeter".split())
+# These shell words either emit plain text or are no-ops in `kero run --json`.
+# Admitting them as if they were observations would silently mislead clients.
+UNAVAILABLE_SESSION_WORDS = frozenset(
+    "species help structure identify coverage materials find lang quest save load quit exit".split())
+# Only multiword identity aliases affect parameter positions. Keep this small
+# policy view aligned with the engine inventory; the submitted script is intact.
+MULTIWORD_INGREDIENT_ALIASES = {("carbon", "dioxide"): "CO2", ("sodium", "chloride"): "NaCl"}
 MAX_TITRATION_STEPS = 2000
 MAX_STAGES = 16
 MAX_TRANSPORT_STEPS = 256
@@ -174,6 +182,8 @@ def validate_script(script: str):
         raise HTTPException(422, "Supply 1–128 commands")
     for n, line in enumerate(lines, 1):
         words = line.split()
+        if words[0] in UNAVAILABLE_SESSION_WORDS:
+            raise HTTPException(422, f"Command {n} is unavailable in batch JSON execution")
         if len(words) > 32 or words[0] not in VERBS:
             raise HTTPException(422, f"Command {n} is outside the API command subset")
     if sum(line.split()[0] == "new" for line in lines) > 16:
@@ -183,9 +193,23 @@ def validate_script(script: str):
     for line in lines:
         words = line.split()
         verb = words[0]
+        position = {"stock": 1, "add": 2, "grind": 2, "titrate": 2, "extract": 3}.get(verb)
+        if position is not None:
+            for alias, canonical in sorted(MULTIWORD_INGREDIENT_ALIASES.items(), key=lambda row: -len(row[0])):
+                if tuple(words[position:position + len(alias)]) == alias:
+                    words[position:position + len(alias)] = [canonical]
+                    break
         if verb == "register" and (len(words) != 2 or words[1] not in ("lv1", "lv2", "lv3")):
             raise HTTPException(422, "Use register lv1, lv2 or lv3")
-        if verb in ("look", "observe", "explain") and (
+        if verb in ("remove", "discard") and (
+                len(words) != 2 or not re.fullmatch(r"v[1-9][0-9]*", words[1])):
+            raise HTTPException(422, "Vessel lifecycle command expects one vessel")
+        if verb == "stock" and len(words) != 3:
+            raise HTTPException(422, "Stock expects an ingredient and amount")
+        if verb in ("cell", "voltmeter") and (
+                len(words) != 3 or any(not re.fullmatch(r"v[1-9][0-9]*", word) for word in words[1:])):
+            raise HTTPException(422, "Cell measurement expects two vessels")
+        if verb in ("look", "observe", "explain", "smell", "waft", "particles", "zoom", "inspect") and (
                 len(words) > 2 or len(words) == 2 and not re.fullmatch(r"v[1-9][0-9]*", words[1])):
             raise HTTPException(422, "Observation expects an optional vessel")
         if verb == "evaporate" and len(words) != 3:
@@ -597,6 +621,22 @@ def create_app(cfg: Settings | None = None):
                 "configured": cfg.mode != "disabled", "revision": cfg.revision,
                 "execution_backend": cfg.executor if cfg.mode == "vercel" else cfg.mode,
                 "engine": cfg.engine or None}
+
+    @app.get("/capabilities")
+    async def capabilities():
+        # Public, static policy only: no principal, key, host path or snapshot.
+        return {"api_version": 1, "revision": cfg.revision,
+                "language": "en", "commands": sorted(VERBS),
+                "unavailable_session_commands": sorted(UNAVAILABLE_SESSION_WORDS),
+                "limits": {"body_bytes": BODY_LIMIT, "script_bytes": SCRIPT_LIMIT,
+                    "commands": 128, "tokens_per_command": 32, "vessel_creations": 16,
+                    "titration_steps": MAX_TITRATION_STEPS, "stages": MAX_STAGES,
+                    "transport_steps": MAX_TRANSPORT_STEPS, "transport_cells": 16,
+                    "aggregate_loop_work": MAX_LOOP_WORK,
+                    "simulated_seconds_per_command": MAX_COMMAND_SECONDS,
+                    "aggregate_simulated_seconds": MAX_SCRIPT_SECONDS,
+                    "child_cpu_seconds": 8, "child_wall_seconds": WALL_SECONDS},
+                "physical_verdict": "not_assigned"}
 
     @app.post("/run", response_model=RunOutput, openapi_extra={"requestBody": {
         "required": True, "content": {"application/json": {"schema": RunInput.model_json_schema()}}}})
