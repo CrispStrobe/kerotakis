@@ -476,12 +476,35 @@ acceptance/delivery requirements and collision rules. The
 [lane contract](reaction-repair-lane-contract.md) reserves corrected Kero commands,
 procedures and proven aliases for the protocol agent; the independent model
 agent owns solver/mechanism/data fixes and its own evidence/status files.
-Shared counts and original evidence remain centrally maintained. Four initial
+Shared counts and original evidence remain centrally maintained. Five
 [model intake records](../audits/reaction-dataset-200-20261015/model-issues-20261016/index.json)
 distinguish reproduced source-bound findings from pending corrected reproducers.
-The independent model agent has not been started by this session.
+The independent Hermes model agent is now running with Together.ai /
+`meta-models/Muse-Spark-Open-816B-A42B-promo`, using the handover and lane contract.
+It owns the current PR805 failure diagnosis and subsequent model follow-ups.
 
-Protocol work has begun on the two proven input aliases and separately frozen
-rank17/rank32 command/procedure controls. No new outcomes or repaired-case counts
-are assigned before source-bound execution and assessment. This user-directed
-split supersedes earlier serialized ordering where the lanes are independent.
+The two proven input aliases are isolated in [PR807](https://github.com/CrispStrobe/kerotakis/pull/807)
+(`352e1c48`), pending hosted acceptance. The separately frozen
+[first three protocol controls](../audits/reaction-dataset-200-20261015/protocol-followups-20261016/batch-first3/README.md)
+completed once on the existing source-bound preview: explicit ideal esterification
+matches that narrow implemented exercise; the peroxide pair demonstrates a
+modeled catalyst response but fails the original open-gas export forecast.
+Retained-gas material closure passes. MODEL-005 asks whether this is intentional
+bubble residence or a boundary ownership defect; it does not establish missing
+mass. No original case is closed and the working catalog remains149. This
+user-directed split supersedes earlier serialized ordering where independent.
+
+The newly supplied batches contain **201 designed, unexecuted experiments**
+(100 plus101). The protocol lane is preserving original scripts/forecasts and
+preparing a separate syntax/procedure intake. These are separate from the200
+reference screen and are not new scientific passes.
+
+[PR795 gateway](../audits/reaction-dataset-200-20261015/pr795-integration.json)
+merged as `c4469205` after all59 successful checks and one skip, with applicable
+preview/browser/API acceptance. [PR804 documentation](../audits/reaction-dataset-200-20261015/pr804-integration.json)
+merged as `f1592a96`. The source-pinned production build is already dispatched
+in [run38868092504](https://github.com/CrispStrobe/kerotakis/actions/runs/38868092504);
+actual deployment and Pages publication still require verification. PR806's
+portable handover documentation is in protected CI with normal auto-merge.
+PR805's current `3f84e59f` has native/preflight and viewer failures requiring
+diagnosis; it is not ready to merge. No failed acceptance is waived.

@@ -1,0 +1,203 @@
+{
+  "schema": 1,
+  "reviewed_utc": "2026-10-16T07:37:52.495636+00:00",
+  "kind": "Independent saved-state/formula/event review of prospectively frozen protocol-only followups",
+  "source": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+  "engine": {
+    "source_head": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+    "binary_sha256": "30f32713fb01a4564b986f0c7a99ac0dd2089a3cceaabcc382d00f63e88922d6",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "design_sha256": "04f823845b0b4dd1232c3ef857e2349bd66389ba364911dd4663b6c3b34f362d",
+  "execution_sha256": "d4de1af776a7290bf57b613094c977d68877814d5a6224493155f5f1f2e7bc94",
+  "health_validation_sha256": "22f00c3af4c4b61a50037e1cd65e5aca37bbd4358f0f20ae0166e0f56801ae2d",
+  "cases": [
+    {
+      "id": "017-explicit-ideal-esterification",
+      "rank": 17,
+      "classification": "explicit_ideal_equilibrium_exercise_demonstrated_with_scope_limits",
+      "all_frozen_engineering_expectations_met": true,
+      "checks": {
+        "bound_engine_script_raw_stream": true,
+        "http200_completed_zero_exit": true,
+        "exact_operator_sequence": true,
+        "finite_nonnegative_inventory": true,
+        "no_solver_failure_or_veto": true,
+        "one_explicit_org_reacted": true,
+        "neat_initial_reactants": true,
+        "ideal_k4_extent": true,
+        "matched_acid_debit": true,
+        "matched_ethanol_debit": true,
+        "matched_ester_product": true,
+        "matched_water_product": true,
+        "no_applied_heat": true,
+        "explicit_model_limits": true,
+        "material_charge_closure": true
+      },
+      "observed": {
+        "extent_mol": 0.0006666666666666663,
+        "acid_remaining_mol": 0.0003333333333333337,
+        "ethanol_remaining_mol": 0.0003333333333333337,
+        "ethyl_acetate_mol": 0.0006666666666666663,
+        "water_mol": 0.0006666666666666663,
+        "temperature_before_kelvin": 298.15,
+        "temperature_after_kelvin": 298.15,
+        "closure": {
+          "element_residual_mol": {
+            "C": 0.0,
+            "H": 0.0,
+            "O": 0.0
+          },
+          "charge_residual_mol": 0.0,
+          "accepted": true
+        },
+        "org_reacted": [
+          {
+            "boundary": "Ideal-mixture equilibrium with K ≈ 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": 0.0006666666666666663,
+            "name": "esterification",
+            "vessel": 0
+          }
+        ],
+        "named_model_limits": [
+          "not-modeled.mostly-organic-solvent"
+        ]
+      },
+      "response_sha256": "2b4ba3ff3be6ad8f0b71942c1fd3855f8706216347897548195241ddbe026872",
+      "catalog_case_closed": false,
+      "physical_verdict": "not_assigned"
+    },
+    {
+      "id": "032-peroxide-with-mno2",
+      "rank": 32,
+      "classification": "reaction_response_demonstrated_but_frozen_boundary_forecast_not_met",
+      "all_frozen_engineering_expectations_met": false,
+      "checks": {
+        "bound_engine_script_raw_stream": true,
+        "http200_completed_zero_exit": true,
+        "exact_operator_sequence": true,
+        "finite_nonnegative_inventory": true,
+        "no_solver_failure_or_veto": true,
+        "wait_10s": true,
+        "matched_water_gain": true,
+        "target_oxygen_ratio": true,
+        "catalyst_inventory_unchanged": true,
+        "material_charge_closure_including_retained_gas": true,
+        "declared_open_boundary": true,
+        "frozen_open_export_expectation": false,
+        "no_reported_contained_gas_in_open_vessel": true,
+        "reported_positive_catalyst_response": true
+      },
+      "observed": {
+        "peroxide_loss_mol": 2.8010421088975074e-06,
+        "water_gain_mol": 2.8010421084800896e-06,
+        "target_oxygen_total_mol": 1.4005210544488067e-06,
+        "oxygen_retained_in_bulk_gas_mol": 1.4005210544488067e-06,
+        "oxygen_export_event_mol": 0,
+        "mno2_retained_mol": 0.0001,
+        "final_headspace": {
+          "boundary": "open"
+        },
+        "gas_produced_events": [
+          {
+            "event": "gas_produced",
+            "moles": 1.4005210544488067e-06,
+            "rate_moles_per_second": 1.4005210544488066e-07,
+            "reaction": "peroxide-decomposition",
+            "species": "O2",
+            "vessel": 0
+          }
+        ],
+        "reacted_events": [
+          {
+            "activation_energy": 58000.0,
+            "catalyst": "manganese dioxide",
+            "equation": "2 H₂O₂ → 2 H₂O + O₂↑",
+            "event": "reacted",
+            "moles": 1.4005210544488067e-06,
+            "reaction": "peroxide-decomposition",
+            "seconds": 10.0,
+            "vessel": 0
+          }
+        ],
+        "gas_evolved_events": [],
+        "gas_contained_events": [],
+        "closure": {
+          "element_residual_mol": {
+            "H": -1.7763568394002505e-15,
+            "Mn": 0.0,
+            "O": -8.881784197001252e-16
+          },
+          "charge_residual_mol": 0.0,
+          "accepted": true
+        }
+      },
+      "response_sha256": "e7d74213790f2c503bad1d1bafca3cf48a435b965b1cd31f669a1837ea2e70ce",
+      "catalog_case_closed": false,
+      "physical_verdict": "not_assigned"
+    },
+    {
+      "id": "032-peroxide-without-catalyst",
+      "rank": 32,
+      "classification": "reaction_response_demonstrated_but_frozen_boundary_forecast_not_met",
+      "all_frozen_engineering_expectations_met": false,
+      "checks": {
+        "bound_engine_script_raw_stream": true,
+        "http200_completed_zero_exit": true,
+        "exact_operator_sequence": true,
+        "finite_nonnegative_inventory": true,
+        "no_solver_failure_or_veto": true,
+        "wait_10s": true,
+        "matched_water_gain": true,
+        "target_oxygen_ratio": true,
+        "catalyst_inventory_unchanged": true,
+        "material_charge_closure_including_retained_gas": true,
+        "declared_open_boundary": true,
+        "frozen_open_export_expectation": false,
+        "no_reported_contained_gas_in_open_vessel": true,
+        "no_silent_catalyst": true
+      },
+      "observed": {
+        "peroxide_loss_mol": 8.123979085760888e-08,
+        "water_gain_mol": 8.123979089447175e-08,
+        "target_oxygen_total_mol": 4.0619895428817714e-08,
+        "oxygen_retained_in_bulk_gas_mol": 4.0619895428817714e-08,
+        "oxygen_export_event_mol": 0,
+        "mno2_retained_mol": 0,
+        "final_headspace": {
+          "boundary": "open"
+        },
+        "gas_produced_events": [],
+        "reacted_events": [],
+        "gas_evolved_events": [],
+        "gas_contained_events": [],
+        "closure": {
+          "element_residual_mol": {
+            "H": 0.0,
+            "O": 0.0
+          },
+          "charge_residual_mol": 0.0,
+          "accepted": true
+        }
+      },
+      "response_sha256": "5e70ef786ab2d4303a30af46d2ee77ada5d68d0d6ffdccc23405cf6a3ba9b0b0",
+      "catalog_case_closed": false,
+      "physical_verdict": "not_assigned"
+    }
+  ],
+  "matched_catalyst_pair": {
+    "more_peroxide_loss_with_mno2": true,
+    "more_target_oxygen_with_mno2": true,
+    "virtual_oxygen_ratio_with_to_without": 34.47869669933245,
+    "empirical_rate_agreement": "not_assigned"
+  },
+  "model_issue": "MODEL-005",
+  "model_issue_scope": "Open-vessel retained bulk gas versus external-transfer/bubble-residence contract; closure with retained gas passes, so missing mass is not established.",
+  "original_outcomes_changed": false,
+  "catalog_cases_closed": 0,
+  "local_cli_executed": false,
+  "production_changed": false,
+  "physical_verdict": "not_assigned"
+}

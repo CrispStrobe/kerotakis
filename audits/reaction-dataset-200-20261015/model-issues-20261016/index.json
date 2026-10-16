@@ -34,6 +34,13 @@
         138,
         116
       ]
+    },
+    {
+      "id": "MODEL-005",
+      "record": "MODEL-005.json",
+      "ranks": [
+        32
+      ]
     }
   ],
   "protocol_owner": "separate protocol agent; see docs/reaction-repair-lane-contract.md"

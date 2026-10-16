@@ -1,0 +1,66 @@
+{
+  "source": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+  "engine": {
+    "source_head": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+    "binary_sha256": "30f32713fb01a4564b986f0c7a99ac0dd2089a3cceaabcc382d00f63e88922d6",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "results": [
+    {
+      "id": "017-explicit-ideal-esterification",
+      "issued_utc": "2026-10-16T07:34:39.727628+00:00",
+      "one_attempt_only": true,
+      "request_body_sha256": "a2a3e0a7b43a8d160787b158e298eb0dc0324a4ebf1cc642396192265ce3a016",
+      "script_sha256": "6892c1c9a6b690485457eb79c86be54d8c7a576dedfa9216774c584cbeb57367",
+      "http_status": 200,
+      "client_exit": 0,
+      "elapsed_seconds": 8.684916423633695,
+      "response_sha256": "2b4ba3ff3be6ad8f0b71942c1fd3855f8706216347897548195241ddbe026872",
+      "client_stderr_sha256": "db8ffa0a9277122b29588940111312a9e36e64a79f5b8d50ae31f27fc2f9ece8",
+      "physical_verdict": "not_assigned",
+      "execution_status": "completed",
+      "exit_status": 0,
+      "observations": 5,
+      "source_and_binary_and_script_match": true
+    },
+    {
+      "id": "032-peroxide-with-mno2",
+      "issued_utc": "2026-10-16T07:34:48.413886+00:00",
+      "one_attempt_only": true,
+      "request_body_sha256": "b8d54146b34898efe95242c41fb8ecf1a77b4847be18dce02c1642c4f792211a",
+      "script_sha256": "b8517df691af2d99e017571cd89c5a2bf99a7620194dc331fe13c0a7544776ec",
+      "http_status": 200,
+      "client_exit": 0,
+      "elapsed_seconds": 7.024833796545863,
+      "response_sha256": "e7d74213790f2c503bad1d1bafca3cf48a435b965b1cd31f669a1837ea2e70ce",
+      "client_stderr_sha256": "db8ffa0a9277122b29588940111312a9e36e64a79f5b8d50ae31f27fc2f9ece8",
+      "physical_verdict": "not_assigned",
+      "execution_status": "completed",
+      "exit_status": 0,
+      "observations": 6,
+      "source_and_binary_and_script_match": true
+    },
+    {
+      "id": "032-peroxide-without-catalyst",
+      "issued_utc": "2026-10-16T07:34:55.445409+00:00",
+      "one_attempt_only": true,
+      "request_body_sha256": "d31a4106242577c10e9232efddda87dc86d8a52a80677fc90018171c62cf35ca",
+      "script_sha256": "4fd815ea4afef64ec1579d985050bbfc51c18e31929927afe11cf28ee3d230f7",
+      "http_status": 200,
+      "client_exit": 0,
+      "elapsed_seconds": 7.175477685406804,
+      "response_sha256": "5e70ef786ab2d4303a30af46d2ee77ada5d68d0d6ffdccc23405cf6a3ba9b0b0",
+      "client_stderr_sha256": "db8ffa0a9277122b29588940111312a9e36e64a79f5b8d50ae31f27fc2f9ece8",
+      "physical_verdict": "not_assigned",
+      "execution_status": "completed",
+      "exit_status": 0,
+      "observations": 5,
+      "source_and_binary_and_script_match": true
+    }
+  ],
+  "retries": 0,
+  "serial": true,
+  "minimum_seconds_between_starts": 3.1,
+  "production_changed": false,
+  "physical_verdict": "not_assigned"
+}

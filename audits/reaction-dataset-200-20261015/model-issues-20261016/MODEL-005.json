@@ -1,0 +1,147 @@
+{
+  "schema": 1,
+  "id": "MODEL-005",
+  "owner_lane": "independent-model-agent",
+  "created_utc": "2026-10-16T07:39:30.088084+00:00",
+  "title": "Open-vessel kinetic oxygen: bulk gas, bubble residence and external-transfer accounting contract",
+  "source_cases": [
+    {
+      "rank": 32,
+      "id": "hydrogen_peroxide_decomposition",
+      "original_script": "design/scripts/032-hydrogen_peroxide_decomposition.lab",
+      "original_script_sha256": "4643a75be1157e562455824e6a5beba511c357d05145551cfdcf95d6e17873c3"
+    }
+  ],
+  "source_binding": {
+    "source_head": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+    "engine": {
+      "source_head": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+      "binary_sha256": "30f32713fb01a4564b986f0c7a99ac0dd2089a3cceaabcc382d00f63e88922d6",
+      "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+    },
+    "preview_source_only": true,
+    "producer_lock_qualification": "Build-lock hash is producer-reported through artifact/snapshot/health; raw build lock bytes were absent from reused artifact."
+  },
+  "observed_evidence": {
+    "prospective_design": "audits/reaction-dataset-200-20261015/protocol-followups-20261016/batch-first3/design.json",
+    "assessment": "audits/reaction-dataset-200-20261015/protocol-followups-20261016/batch-first3/assessment.json",
+    "design_sha256": "04f823845b0b4dd1232c3ef857e2349bd66389ba364911dd4663b6c3b34f362d",
+    "assessment_sha256": "46a4c9a9ddfb1009fff3c7db70bafc90f04d1fa5e0e29ad5d1037b893241bcfe",
+    "execution": "audits/reaction-dataset-200-20261015/protocol-followups-20261016/batch-first3/execution.json",
+    "requests": 3,
+    "all_http200_completed": true,
+    "retries": 0,
+    "controls": [
+      {
+        "id": "032-peroxide-with-mno2",
+        "script": "audits/reaction-dataset-200-20261015/protocol-followups-20261016/batch-first3/032-peroxide-with-mno2.lab",
+        "script_sha256": "b8517df691af2d99e017571cd89c5a2bf99a7620194dc331fe13c0a7544776ec",
+        "response": "audits/reaction-dataset-200-20261015/protocol-followups-20261016/batch-first3/032-peroxide-with-mno2.response.json",
+        "response_sha256": "e7d74213790f2c503bad1d1bafca3cf48a435b965b1cd31f669a1837ea2e70ce",
+        "final_headspace": {
+          "boundary": "open"
+        },
+        "retained_bulk_o2_mol": 1.4005210544488067e-06,
+        "gas_produced_events": [
+          {
+            "event": "gas_produced",
+            "moles": 1.4005210544488067e-06,
+            "rate_moles_per_second": 1.4005210544488066e-07,
+            "reaction": "peroxide-decomposition",
+            "species": "O2",
+            "vessel": 0
+          }
+        ],
+        "kinetic_progress_event_name": "reacted",
+        "kinetic_progress_events": [
+          {
+            "activation_energy": 58000.0,
+            "catalyst": "manganese dioxide",
+            "equation": "2 H₂O₂ → 2 H₂O + O₂↑",
+            "event": "reacted",
+            "moles": 1.4005210544488067e-06,
+            "reaction": "peroxide-decomposition",
+            "seconds": 10.0,
+            "vessel": 0
+          }
+        ],
+        "gas_evolved_events": [],
+        "gas_contained_events": [],
+        "closure_with_retained_gas": {
+          "element_residual_mol": {
+            "H": -1.7763568394002505e-15,
+            "Mn": 0.0,
+            "O": -8.881784197001252e-16
+          },
+          "charge_residual_mol": 0.0,
+          "accepted": true
+        },
+        "failed_frozen_check": "frozen_open_export_expectation"
+      },
+      {
+        "id": "032-peroxide-without-catalyst",
+        "script": "audits/reaction-dataset-200-20261015/protocol-followups-20261016/batch-first3/032-peroxide-without-catalyst.lab",
+        "script_sha256": "4fd815ea4afef64ec1579d985050bbfc51c18e31929927afe11cf28ee3d230f7",
+        "response": "audits/reaction-dataset-200-20261015/protocol-followups-20261016/batch-first3/032-peroxide-without-catalyst.response.json",
+        "response_sha256": "5e70ef786ab2d4303a30af46d2ee77ada5d68d0d6ffdccc23405cf6a3ba9b0b0",
+        "final_headspace": {
+          "boundary": "open"
+        },
+        "retained_bulk_o2_mol": 4.0619895428817714e-08,
+        "gas_produced_events": [],
+        "kinetic_progress_event_name": "reacted",
+        "kinetic_progress_events": [],
+        "gas_evolved_events": [],
+        "gas_contained_events": [],
+        "closure_with_retained_gas": {
+          "element_residual_mol": {
+            "H": 0.0,
+            "O": 0.0
+          },
+          "charge_residual_mol": 0.0,
+          "accepted": true
+        },
+        "failed_frozen_check": "frozen_open_export_expectation"
+      }
+    ]
+  },
+  "gap": "The prospectively frozen open-gas export expectation failed: both controlled open vessels retain newly generated O2 as Phase::Gas bulk inventory without GasEvolved or GasContained. The catalyzed case DOES emit GasProduced and Reacted kinetic progress; the uncatalyzed amount is below the visible narration threshold. Atom/charge closure passes when retained gas is included. This establishes a boundary-contract/accounting investigation, not missing mass and not by itself proof that the intended bubble-residence semantics are wrong.",
+  "principal_response": "MnO2 remains0.0001mol, peroxide loss and generated oxygen exceed the matched no-catalyst values by about34.48fold within the existing teaching model. This is not empirical rate calibration and does not close the original rank32 case.",
+  "source_owner_paths": [
+    {
+      "path": "crates/kerotakis-core/src/kinetics.rs",
+      "source_sha256": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+      "role": "apply_coupled_extents deposits stoichiometric products in their declared phase"
+    },
+    {
+      "path": "crates/kerotakis-core/src/clock.rs",
+      "source_sha256": "0fde6928ea191902519d51ea8904255c3c87a21c49c3a242628ca009264c388d",
+      "role": "CuratedKineticsClock emits GasProduced and Reacted, with observable thresholds"
+    },
+    {
+      "path": "crates/kerotakis-core/src/vessel.rs",
+      "source_sha256": "e7508f297688c71deb99b83e0b4cc8c1b9387c6e0b7edd1537c7da7a0c052a44",
+      "role": "Open/owned-headspace and retain_gas boundary definitions"
+    },
+    {
+      "path": "crates/kerotakis-core/src/bench.rs",
+      "source_sha256": "3eb25ec99a6e58d15d269248cf679187ada0b73105f1142fad3f347fed508aeb",
+      "role": "Wait progression and subsequent operator/solver ownership"
+    }
+  ],
+  "required_acceptance": [
+    "Read current integrated source and refresh exact source/binary/lock prerequisites; retain these first source74 observations unchanged.",
+    "Determine the intended ownership/residence contract for open-vessel Phase::Gas kinetic products, including whether they represent finite transient bubbles rather than headspace or escaped gas.",
+    "Freeze separate open versus fixed-sealed controls, initial-gas baselines, catalyst/no-catalyst inputs, repeated waits, and subsequent oxygen-consuming reaction/measurement controls before execution.",
+    "Check H/O/Mn/charge and material balances including retained gas and every external transfer exactly once; preserve positive trace inventory and avoid double-counting GasProduced narration as a second transfer.",
+    "Check pressure/volume, visual gas/bubble narration, event quantities and finite oxygen availability across subsequent operators; investigate how/when open bubble inventory leaves.",
+    "If implementation changes are justified, use shared core ownership paths and prove native/browser/API consistency plus rollback, relevant full suites and fleets. No rate, heat, calibration or broader chemistry change is authorized merely by this intake.",
+    "If the retained amount is an intentional supported residence model, document and validate that contract with separately frozen followups; never rewrite this original failed export forecast into a pass."
+  ],
+  "reproduction_state": "two source-bound prospective controls executed once on existing preview; first raw outcomes preserved",
+  "status": "immutable intake; boundary/accounting intent requires independent model investigation",
+  "followups": "append under model-followups/MODEL-005/; do not rewrite this intake",
+  "model_changed": false,
+  "catalog_case_closed": false,
+  "physical_verdict": "not_assigned"
+}

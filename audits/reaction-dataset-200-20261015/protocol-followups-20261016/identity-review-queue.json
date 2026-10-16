@@ -1,0 +1,1738 @@
+{
+  "schema": 1,
+  "created_utc": "2026-10-16T07:35:15.001503+00:00",
+  "kind": "protocol-lane review queue, not new chemistry execution",
+  "original_screen_sha256": "924f03620d5b14920588dce94c5d5af90d5165a833ab6477db07a4f3705f687b",
+  "distinct_first_tokens": 80,
+  "affected_first_refusals": 108,
+  "reviewed_tokens": 15,
+  "unreviewed_tokens": 65,
+  "alias_candidate_pr": "https://github.com/CrispStrobe/kerotakis/pull/807",
+  "records": [
+    {
+      "token": "bromobenzene",
+      "first_refusal_count": 7,
+      "cases": [
+        {
+          "rank": 191,
+          "id": "suzuki_miyaura",
+          "original_script_sha256": "516262512eeba1d6fb429bfbb53d1af621d7764aee636a3d786c8c20598b9c21"
+        },
+        {
+          "rank": 192,
+          "id": "heck",
+          "original_script_sha256": "51bb6112a3c2027dea645e7d2a2d35415535c3bc94f18a11e82e7332f173b5d1"
+        },
+        {
+          "rank": 193,
+          "id": "sonogashira",
+          "original_script_sha256": "7c0677b7f87d392c84f922e04bd6867891963f5381a068f936638c52e25cec07"
+        },
+        {
+          "rank": 194,
+          "id": "negishi",
+          "original_script_sha256": "baa0856740a57f68f028c5bc9ea5e82803599536476c30d78314cd274ee57d66"
+        },
+        {
+          "rank": 195,
+          "id": "buchwald_hartwig",
+          "original_script_sha256": "272cb9cf846de0ac8292c7e47e11276233380e1cc6af5b1c87634893ddd8ca68"
+        },
+        {
+          "rank": 198,
+          "id": "stille",
+          "original_script_sha256": "039ce434f4eca4e48a9a16cf89ac35d3d56c388353dba97efeefbcbaf72245c7"
+        },
+        {
+          "rank": 199,
+          "id": "kumada",
+          "original_script_sha256": "eff844dbbab3dfb6b528db8bbb166e6d2cff3a5bf7d24da1c6d413c53865bd72"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "ethanal",
+      "first_refusal_count": 6,
+      "cases": [
+        {
+          "rank": 21,
+          "id": "tollens_test",
+          "original_script_sha256": "be469017c8a3ce108bcc098a2daea7461686f32c556e1a00c5a78f2c1b5e7652"
+        },
+        {
+          "rank": 66,
+          "id": "aldehyde_oxidation_to_acid",
+          "original_script_sha256": "afb174b83ce9743d83fb0dd23c1195339e6174b90d9a741ae08264741ecb4e17"
+        },
+        {
+          "rank": 156,
+          "id": "acetal_formation",
+          "original_script_sha256": "dbde67fa0a9862020e0396b7ab8aee47f82fcb0a1e0d0eda439b8663b3a23b07"
+        },
+        {
+          "rank": 157,
+          "id": "imine_formation",
+          "original_script_sha256": "5bb2b539a85072fb2aa9e92d9fceee9a029f60c6bfe7d724594150625dd92456"
+        },
+        {
+          "rank": 159,
+          "id": "aldol_addition",
+          "original_script_sha256": "dbc5d8015007ffcfab0877f761d3819a4f379b7d8e68f55d3fc51e2b82146e6b"
+        },
+        {
+          "rank": 160,
+          "id": "aldol_condensation",
+          "original_script_sha256": "1ba1fa3d617f1ccd1268c3b2188bead17e196a85eb4324279b79bda5fc3b8da3"
+        }
+      ],
+      "classification": "missing_specific_species_and_organic_transformation",
+      "canonical_target": null,
+      "source_review": "identity-first15-review-20261016.json",
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Add a structure-bound ethanal identity and sourced properties before proposing acetaldehyde naming aliases.",
+        "Prepare Tollens reagent and aldehyde oxidation only after silver-complex/free-ligand ownership and reaction conditions are supported."
+      ]
+    },
+    {
+      "token": "propene",
+      "first_refusal_count": 5,
+      "cases": [
+        {
+          "rank": 70,
+          "id": "propene_hydrobromination",
+          "original_script_sha256": "f366cd436539b7b221c542d93ea930a8678f8669cf69cca0eee799d076691578"
+        },
+        {
+          "rank": 80,
+          "id": "polypropene_formation",
+          "original_script_sha256": "77096e629a766ca1e4eafd5f85b4a556dddfda3a01ed03f69a5a203d1577cb77"
+        },
+        {
+          "rank": 176,
+          "id": "alkene_epoxidation",
+          "original_script_sha256": "8ce1974beeffed565847d2d6b1e0dae6cd40a9ac471ef964c73f77a60612d794"
+        },
+        {
+          "rank": 177,
+          "id": "hydroboration_oxidation",
+          "original_script_sha256": "4331f13dbbb30012e89f4e5d2baf245d673d8409d2d04d6074c7247508c06805"
+        },
+        {
+          "rank": 196,
+          "id": "olefin_metathesis",
+          "original_script_sha256": "08ee8fdadbe35d7576662f9b17b1ed88efc4d0f60c935817f297d7fa2b8f3099"
+        }
+      ],
+      "classification": "missing_specific_alkene_and_regioselective_addition_domain",
+      "canonical_target": null,
+      "source_review": "identity-first15-review-20261016.json",
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Add sourced propene/propylene structure and gas properties first.",
+        "Prepare 2-bromopropane and condition-gated ionic HBr addition/regioselectivity, preserving radical-condition limits."
+      ]
+    },
+    {
+      "token": "benzene",
+      "first_refusal_count": 4,
+      "cases": [
+        {
+          "rank": 71,
+          "id": "benzene_bromination",
+          "original_script_sha256": "b1394cf5c3fefd934320be297dc26a8227c9cfbf654881f6f5f14371127e5210"
+        },
+        {
+          "rank": 72,
+          "id": "benzene_nitration",
+          "original_script_sha256": "e3a62e24427dd550513770631e6816f5456d1b4a8ecd955da70e20736bf00643"
+        },
+        {
+          "rank": 165,
+          "id": "friedel_crafts_alkylation",
+          "original_script_sha256": "06f925b5755b9645915fe6ddd021d9cc6ff11a667cf60108b28272a6495c049c"
+        },
+        {
+          "rank": 166,
+          "id": "friedel_crafts_acylation",
+          "original_script_sha256": "b6f03095ec09a7a5bc5f47eacc3ff8f8b579ff6478c1a1d2f2bdb784740286c7"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "NO2",
+      "first_refusal_count": 3,
+      "cases": [
+        {
+          "rank": 99,
+          "id": "nitrogen_dioxide_dimerisation",
+          "original_script_sha256": "5158b5030dfcd930e1d514632634dff7e4a1f80738c6cb97fc256784d7cf3d10"
+        },
+        {
+          "rank": 103,
+          "id": "nitric_acid_absorption",
+          "original_script_sha256": "c08717720c77c48e490f3232cceef23627ffcc7746c88864249ea5ed7f98d160"
+        },
+        {
+          "rank": 135,
+          "id": "nitrogen_dioxide_photolysis",
+          "original_script_sha256": "288c2d5793f49177207f6c289443d39f8393f64e429cf5fd8c3048ddd4912447"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "Br2",
+      "first_refusal_count": 2,
+      "cases": [
+        {
+          "rank": 22,
+          "id": "ethene_bromination",
+          "original_script_sha256": "210f0e2f09ea166596b5c266e7771241efe55dc34dd306e124652a0a224c8716"
+        },
+        {
+          "rank": 117,
+          "id": "bromine_iodide_displacement",
+          "original_script_sha256": "699ada5a1253c808044de707a7381ff796071c153527972ac27114264a290908"
+        }
+      ],
+      "classification": "missing_molecular_species_and_solution_phase_definition",
+      "canonical_target": null,
+      "source_review": "identity-first15-review-20261016.json",
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Add molecular Br2 with sourced phase/properties and a declared finite dissolved-bromine preparation.",
+        "Specify solvent, dose and light/radical conditions for a separate ethene bromination replay."
+      ]
+    },
+    {
+      "token": "I-",
+      "first_refusal_count": 2,
+      "cases": [
+        {
+          "rank": 120,
+          "id": "peroxide_iodide",
+          "original_script_sha256": "3f6b955c646701e7df6898feba999f230e50151b9602dfb7c19011475116fa35"
+        },
+        {
+          "rank": 122,
+          "id": "copper_iodide_redox_precipitation",
+          "original_script_sha256": "01ef5f203591edebdf25295cfa2ac6a30c8af14870765f6b4cc57643999a1dd8"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "NO",
+      "first_refusal_count": 2,
+      "cases": [
+        {
+          "rank": 102,
+          "id": "nitric_oxide_oxidation",
+          "original_script_sha256": "eeb1534ede8670d5df0a2b4429683518db33dec75e6ccf44b12f75b27add63f6"
+        },
+        {
+          "rank": 105,
+          "id": "catalytic_converter_no_co",
+          "original_script_sha256": "e6099f25870cbb894bfa7bd160876983f3b0413d7068d1d9c82d0d1fd31710dd"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "Na",
+      "first_refusal_count": 2,
+      "cases": [
+        {
+          "rank": 11,
+          "id": "sodium_water",
+          "original_script_sha256": "50e2271a2b873806d03fdd4a741ff84978a6bf4f38e0f42bb9c995b7a97dc897"
+        },
+        {
+          "rank": 31,
+          "id": "sodium_chloride_synthesis",
+          "original_script_sha256": "0114894a33f9fa5275c0135e36b870ab55642fd29e309f3a59031fb4102581b8"
+        }
+      ],
+      "classification": "missing_elemental_species_and_reaction",
+      "canonical_target": null,
+      "source_review": "identity-first15-review-20261016.json",
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Admit a sourced Na(0) solid identity, mandatory thermophysical properties and finite water-reaction scope.",
+        "Test actual Na/water hydrogen, hydroxide, matter and energy budgets separately from input admission."
+      ]
+    },
+    {
+      "token": "acetonitrile",
+      "first_refusal_count": 2,
+      "cases": [
+        {
+          "rank": 173,
+          "id": "nitrile_hydrolysis",
+          "original_script_sha256": "dff2b757dce13ae6164f39f4babe46f0bca06958b0f5fb461bce37cf4109ab4f"
+        },
+        {
+          "rank": 174,
+          "id": "nitrile_reduction",
+          "original_script_sha256": "d289bef300c767eed78f3e1946abb437de83eaa8412f989c89ad2792554c8f37"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "acetyl_chloride",
+      "first_refusal_count": 2,
+      "cases": [
+        {
+          "rank": 171,
+          "id": "acyl_chloride_amidation",
+          "original_script_sha256": "c2e55aec7142069f5642cdf8a7a39617082b024cb4d9b3f827e3d94e57b23822"
+        },
+        {
+          "rank": 172,
+          "id": "acyl_chloride_hydrolysis",
+          "original_script_sha256": "4535d7f64b9237ebc80bb225d959317dc680dea90284a76da48447c28c770f04"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "benzenediazonium",
+      "first_refusal_count": 2,
+      "cases": [
+        {
+          "rank": 148,
+          "id": "azo_coupling",
+          "original_script_sha256": "043c54bac4b34a3dc8600eb2a590401d6d594269b4c00dd75f95566f241e900f"
+        },
+        {
+          "rank": 186,
+          "id": "sandmeyer",
+          "original_script_sha256": "b27e6b5b8021a3100d01c6b67dd09f736761ebcb3bea1ffc503d9a985925f079"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "triolein",
+      "first_refusal_count": 2,
+      "cases": [
+        {
+          "rank": 76,
+          "id": "fat_hydrogenation",
+          "original_script_sha256": "661d734353c8a75ad296de6a17d31f8edededb0c5f87de79728c833bd74c36f7"
+        },
+        {
+          "rank": 77,
+          "id": "biodiesel_transesterification",
+          "original_script_sha256": "a4a3276e3cc94f28ac09f756a0f7aca25c65a6ca6ef1957d67aff099a168f3e1"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "Al2O3",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 87,
+          "id": "aluminium_electrolysis",
+          "original_script_sha256": "304edf270513374d3c0e29525c3c965fa3da9185d740c74aa78a4e890a787a83"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "Al3+",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 127,
+          "id": "aluminium_hydroxide_precipitation",
+          "original_script_sha256": "862e27de3c52e5a6f48ba54e9c96e2de90a7c0e084bdd5e4fe1194d080bfc103"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "AlOH3",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 128,
+          "id": "aluminium_hydroxide_amphoterism",
+          "original_script_sha256": "8f490dfc3b763c11e7f34e3fdb903f47fd9c3209da85997e10d2131794a152d7"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "BH4-",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 154,
+          "id": "borohydride_ketone_reduction",
+          "original_script_sha256": "4fb6bcdbd5a68f59029879ff4ec9bf5f854400c378b1a016cb809f67d4faf6b4"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "C2O4--",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 118,
+          "id": "permanganate_oxalate",
+          "original_script_sha256": "778c52a7b6720d3138fa553b5dd0ab8fbd3ae7a60565fe058cd84603cc641c26"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "Coaqua",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 98,
+          "id": "cobalt_chloride_equilibrium",
+          "original_script_sha256": "7ae87cb766c3857b7103689916ad696eb6457993a363e9a84dcfeae366108477"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "Cr2O7--",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 92,
+          "id": "dichromate_ethanol",
+          "original_script_sha256": "38a4691786abdb1474494a02fb0d0bfc7165c9f52272b89e1965e38b98f2dadf"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "CuCl2",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 84,
+          "id": "copper_chloride_electrolysis",
+          "original_script_sha256": "0743f1f2fe92fdf4a787b74ca58a2c9aca7d9dcb62973f2c6304f8cbdb712ee8"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "CuSO4_anhydrous",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 50,
+          "id": "copper_sulfate_hydration",
+          "original_script_sha256": "be70317bd918b63dba1e47bb4ceedc6814921e577e13fc48afa46599a9c73d73"
+        }
+      ],
+      "classification": "proven_alias_candidate",
+      "canonical_target": "CuSO4",
+      "source_review": "identity-first15-review-20261016.json",
+      "status": "proven_alias_source_candidate_in_PR807; runtime_and_target_chemistry_pending",
+      "next_action": [
+        "Add only the exact anhydrous naming alias through the shared species identity boundary after endpoint prerequisite acceptance.",
+        "Keep hydration/chalcanthite reaction and observable acceptance separate from successful naming."
+      ]
+    },
+    {
+      "token": "Cuaqua",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 97,
+          "id": "copper_ammonia_complex",
+          "original_script_sha256": "7478c56539f086dc922e9c23a2df9a37df104ac5b07ce88dc4e462b06cae2ae9"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "EDTA",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 130,
+          "id": "calcium_edta",
+          "original_script_sha256": "abe762a9eab8ab406c46050c8dedf1af4cc9cf1b6fafa8f49e1abaa99d103f45"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "H2CO3",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 55,
+          "id": "carbonic_acid_first_protolysis",
+          "original_script_sha256": "6e819f416fac443258149de6d6fd3ac50e5f39c64ca5a511e5b7ab5ba955dd26"
+        }
+      ],
+      "classification": "missing_explicit_hydrated_identity_with_existing_analytical_basis_convention",
+      "canonical_target": null,
+      "source_review": "identity-first15-review-20261016.json",
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "First declare whether input means molecular H2CO3 or the existing dissolved-neutral-carbon analytical convention.",
+        "If an explicit hydrated species is added, preserve its extra H2O stoichiometry and sourced hydration/protonation model."
+      ]
+    },
+    {
+      "token": "HCN",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 158,
+          "id": "cyanohydrin_formation",
+          "original_script_sha256": "533021e407afe58ab79f3f77fa04e0c80c1a3cb4ac6df5564fa0bfbb0841a280"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "HSO4-",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 63,
+          "id": "bisulfate_protolysis",
+          "original_script_sha256": "b684dcbad45105c8da81f0c60fdb10b58dafb079426e92f6f043290c07fd7e6e"
+        }
+      ],
+      "classification": "missing_charged_protonation_identity_with_native_thermodynamic_support",
+      "canonical_target": null,
+      "source_review": "identity-first15-review-20261016.json",
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Add a source-bound HSO4- aqueous identity and verify adapter master/protonation/readback accounting.",
+        "Use native thermodynamic support only after checking explicit H/O/charge and avoiding double-counted proton equivalents."
+      ]
+    },
+    {
+      "token": "H_equiv",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 155,
+          "id": "ester_hydride_reduction",
+          "original_script_sha256": "30633818079fbc7c227b7dbfcdc6c3316e412ba61896a94f869a6061c0e101cc"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "I3-",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 41,
+          "id": "starch_iodine_test",
+          "original_script_sha256": "58a89f9a1277e44e560209e6be494639b8dfb0989e9fcac2733ae8eac46fdfb9"
+        }
+      ],
+      "classification": "missing_charged_complex_and_equilibrium_domain",
+      "canonical_target": null,
+      "source_review": "identity-first15-review-20261016.json",
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Add charge-correct I3- and its iodide/iodine equilibrium only with sourced constants and analytical ownership.",
+        "Define the starch/polyiodide observable separately from finite molecule/charge balances."
+      ]
+    },
+    {
+      "token": "LDA",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 181,
+          "id": "enolate_formation",
+          "original_script_sha256": "e19c3f19ec685dd5322b674f520ca4bc34dab9e9c59cb679a3d0c62b7d0a2736"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "LiC6",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 89,
+          "id": "lithium_ion_cell",
+          "original_script_sha256": "7fad3b28780ae05520829f3ea77e922323decc9d85ac559dee3f21d467665084"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "MeMgBr",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 151,
+          "id": "grignard_carbonyl_addition",
+          "original_script_sha256": "9d7f51a9355f847940e1cd37ea03ddc4a81cefc837ed1091e090fdcd6e9860e8"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "NaCl_aq",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 86,
+          "id": "chlor_alkali",
+          "original_script_sha256": "345849f17365496b9e515a95f4a4d246460c2402fc24400929c1a393e1cc28af"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "NaCl_melt",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 85,
+          "id": "molten_salt_electrolysis",
+          "original_script_sha256": "361ff99f744e1bdb72be810edf4a0b2ad4a24d24d43830dc0e8164568d232e87"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "O3",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 137,
+          "id": "ozone_decomposition",
+          "original_script_sha256": "5e43833e6227ccfbfe738a7fcb85c7b0ad17fb1b0eaef2f38d1ed2394877436c"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "O_atom",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 136,
+          "id": "ozone_formation",
+          "original_script_sha256": "55bbc3cf572519b28ae8aafa9e5445b33fccb4eb3006dd32ef4621512ae2103e"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "PbO2",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 44,
+          "id": "lead_acid_battery",
+          "original_script_sha256": "5c62457ca1e665f452fca152d392502f6b7523c42e7db820ce0112b5e814526f"
+        }
+      ],
+      "classification": "missing_oxidation_state_specific_solid_and_electrode_domain",
+      "canonical_target": null,
+      "source_review": "identity-first15-review-20261016.json",
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Add phase-specific sourced PbO2 and PbSO4 identities/properties before a lead-acid cell domain.",
+        "Define both electrodes, acid/sulfate inventory and finite current/discharge boundary; contact alone is not an electrical protocol."
+      ]
+    },
+    {
+      "token": "PhMgBr",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 152,
+          "id": "grignard_carboxylation",
+          "original_script_sha256": "a75bf17fdb6c46b12d38cf7649b56a38527c3228333ad3c649d5c002479bc0e5"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "SO3",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 104,
+          "id": "sulfur_trioxide_hydration",
+          "original_script_sha256": "756772ff44cc5f681788886f904f9e31f8ea0e4fb7e93fbcef48a8802a6816ed"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "acetamide",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 187,
+          "id": "hofmann_amide_rearrangement",
+          "original_script_sha256": "1057217a561be9aac2073599e34df25cea3967fc9a3fcaed4e928c1cd2e1596e"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "acetate",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 59,
+          "id": "acetate_hydrolysis",
+          "original_script_sha256": "3f13fc5f39ade5e48324b488c4990145870f24240472073e0ed44e9d6289a294"
+        }
+      ],
+      "classification": "proven_alias_candidate",
+      "canonical_target": "CH3COO-",
+      "source_review": "identity-first15-review-20261016.json",
+      "status": "proven_alias_source_candidate_in_PR807; runtime_and_target_chemistry_pending",
+      "next_action": [
+        "Add an exact acetate -> CH3COO- alias through all shared identity boundaries after endpoint prerequisites.",
+        "Keep complete-stock acetate hydrolysis controls separate: bare anion input remains an analytical component with its charge limitation."
+      ]
+    },
+    {
+      "token": "acetone_enolate",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 182,
+          "id": "enolate_alkylation",
+          "original_script_sha256": "fa3a0c153e71327045788c1eef02138c698f389727822d32a95dff70df4b370d"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "acetylide",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 180,
+          "id": "acetylide_alkylation",
+          "original_script_sha256": "dc066feac8649d9c4e40ef2b2395c408afa61d21c86c8cb4e675faf12554f589"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "adipic_acid",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 79,
+          "id": "nylon66_polycondensation",
+          "original_script_sha256": "4a20dc89158c5e8c6e532871b5f27720ffafc6432b421e57b5c687b521a0610a"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "allyl_alcohol",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 197,
+          "id": "sharpless_epoxidation",
+          "original_script_sha256": "3803e969793754fbf56cfb54b097e9133005992d4cbaef2bff38cb672fdd6ff7"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "allyl_vinyl_ether",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 190,
+          "id": "claisen_rearrangement",
+          "original_script_sha256": "eb6570ad115e847f34cf8701c722d4d6589f3df0e117dc50a2ea8e1a814d6043"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "aniline",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 149,
+          "id": "aniline_diazotisation",
+          "original_script_sha256": "e2bc60a12b20166e6e1eebd49eafcb4f03261bd06575605b0b0aa4a113f4f55f"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "aromatic_aminoacid",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 146,
+          "id": "xanthoproteic_test",
+          "original_script_sha256": "8e449bd894a38df197589783fbe4d0438eca374605267d766919baaa5518b5c9"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "benzaldehyde",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 184,
+          "id": "cannizzaro",
+          "original_script_sha256": "6b1ec5b09f5c0d3778bf06a881e2949dc93d2ff928c255d9fec7e735100e1065"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "bromomethane",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 153,
+          "id": "grignard_reagent_formation",
+          "original_script_sha256": "bb582262cf6ddf1770746034be44599b40ece8e77a0e06bb507400360e56fea6"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "bromopropane2",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 168,
+          "id": "e2_elimination",
+          "original_script_sha256": "a150c2f45f76afe11cc36539141a02dbac0d13284479a1dc6e1f8ed857ea41bf"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "butadiene",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 164,
+          "id": "diels_alder",
+          "original_script_sha256": "308d25569aa90d2aabd4e705a11bdccf5b63df658bdb938d1ec733b1fadd5749"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "butene2",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 178,
+          "id": "reductive_ozonolysis",
+          "original_script_sha256": "7cca57005911a5564cc47f1c2cef9889d80a74ca125288b6b8950268865e3ca3"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "chloroethane",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 68,
+          "id": "chloroethane_hydrolysis",
+          "original_script_sha256": "5706e0f88fa4c78e4a7baccb7c6a46ba0f55e576a6cba7f701f428bcf3fa6b20"
+        }
+      ],
+      "classification": "missing_specific_haloalkane_and_phase_sensitive_reaction",
+      "canonical_target": null,
+      "source_review": "identity-first15-review-20261016.json",
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Add structure-bound C2H5Cl with sourced gas/phase properties and finite gas/liquid handling.",
+        "Scope hydrolysis conditions and chloride/ethanol products separately; do not infer kinetics from a wait command."
+      ]
+    },
+    {
+      "token": "cope_start",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 200,
+          "id": "cope_rearrangement",
+          "original_script_sha256": "cc4b8469f3fd442702ccf31f694e1e90108e87581c7111b1f13f7e8d5f19cb1b"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "cyclohexanone_oxime",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 188,
+          "id": "beckmann",
+          "original_script_sha256": "d0f1e5a9d15903cadd0df561e57cd665b86a0747be73e54ca28dcd2704ca9f29"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "decane",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 107,
+          "id": "alkane_cracking",
+          "original_script_sha256": "4d35e9fe089ccb3738d389147ca4f7f61a835d66de59d105f28fd9155af332f4"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "diethyl_malonate",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 162,
+          "id": "michael_addition",
+          "original_script_sha256": "dbd96ed8c2f51174b942c66902c0535ced2de99954e4794f38fbdc1d39fbca68"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "diisocyanate",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 83,
+          "id": "polyurethane_formation",
+          "original_script_sha256": "012ad9c00e85400675468bede623f3fff258f6406d14abccac8630b6296e1dcb"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "e-",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 91,
+          "id": "oxygen_reduction_cathode",
+          "original_script_sha256": "8581927392ade17a56ef921e04ac81163995b4cbbb5ebc62799634dbf137e799"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "ethoxide",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 167,
+          "id": "williamson_ether",
+          "original_script_sha256": "eb044ffa5e14b85ac15d3b675410154579a851c4e73d43aa74b15b4c92d66fff"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "ethyne",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 179,
+          "id": "terminal_alkyne_deprotonation",
+          "original_script_sha256": "143988ec478147eb7d40593cac2c94cde257c00954ae4bdbd5a476cc4b53aa7b"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "glucose_open",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 143,
+          "id": "glucose_ring_chain",
+          "original_script_sha256": "17a3ff4e12a73c881b3963d495ee3e7f167dac3b137a32f86a04a860b0e80355"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "glycine",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 43,
+          "id": "peptide_bond_formation",
+          "original_script_sha256": "1a317ebcb6b2e3f03ac3874fcd24addb1ccc32586e903438ab5da52ed132a148"
+        }
+      ],
+      "classification": "missing_amino_acid_identity_microstates_and_condensation",
+      "canonical_target": null,
+      "source_review": "identity-first15-review-20261016.json",
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Add structure-bound glycine with sourced phase/properties and explicit acid/base microstate ownership.",
+        "Separate peptide bond formation conditions, product identity and water balance from simple aqueous glycine admission."
+      ]
+    },
+    {
+      "token": "glycine_cation",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 141,
+          "id": "glycine_first_protolysis",
+          "original_script_sha256": "93514e608de142404a51c18cf57e9bd6b1fb3651e77d314227adc12a0a79e7a8"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "glycine_zwitterion",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 142,
+          "id": "glycine_second_protolysis",
+          "original_script_sha256": "628c0387f1d4621c1ef3d0db3fb0759cebdf9e1961f3f9b63bd6aa5daa938141"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "hemihydrate",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 132,
+          "id": "plaster_setting",
+          "original_script_sha256": "10dbe5ac2e0a06c7fba85a5b5661c582f0e87a066971d206254cd829b63dd0f0"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "indigo",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 150,
+          "id": "indigo_reduction",
+          "original_script_sha256": "be8918bcb3461044379f8e25ef991d1c2628321d71d7aeb3e7ad38907ddb0893"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "methyl_acetate",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 170,
+          "id": "small_ester_transesterification",
+          "original_script_sha256": "cf83c23b7d698fc8b21b3906059bad001a3ab98f25faf48440d59bfe2c58e7b4"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "ninhydrin",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 147,
+          "id": "ninhydrin_test",
+          "original_script_sha256": "4abb8dd467764cfbe896e0c878fa0b1bd15ece439df4c49f88e11f43b00da383"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "nitrobenzene",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 175,
+          "id": "nitro_group_reduction",
+          "original_script_sha256": "ca4a0c455948d2225867cc0d4aeeac2cb4a09955503bab38e397426720a65074"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "peptide",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 42,
+          "id": "biuret_test",
+          "original_script_sha256": "2cbe317a0dd6a20837c2daf5134cccb0202838633ad9d8ce9740b51f6d458c1c"
+        }
+      ],
+      "classification": "schematic_entity_without_unique_identity",
+      "canonical_target": null,
+      "source_review": "identity-first15-review-20261016.json",
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Choose and source a concrete peptide/sequence or explicitly version a non-stoichiometric teaching material before defining amounts.",
+        "Scope copper-peptide complexation and the biuret observable for that declared entity."
+      ]
+    },
+    {
+      "token": "peracetic_acid",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 185,
+          "id": "baeyer_villiger",
+          "original_script_sha256": "845f58482efa718770ea579caba420e1e1b3aba9c72e89d862a6ef5d7b28065f"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "phenylhydrazine",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 189,
+          "id": "fischer_indole",
+          "original_script_sha256": "af57eab8c8bae3a4da833b3f05e77d544191a27eb162106f25ee2a7517e364ae"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "salicylic_acid",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 64,
+          "id": "aspirin_acetylation",
+          "original_script_sha256": "170ff0273995dc6df5386f2b960ea46e4f997022d24a54e1cf39cd3f4560325e"
+        }
+      ],
+      "classification": "missing_position_specific_organic_identity_and_acetylation",
+      "canonical_target": null,
+      "source_review": "identity-first15-review-20261016.json",
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Add structure/position-specific salicylic acid with sourced properties; do not infer identity from gross formula.",
+        "Prepare acetic anhydride/aspirin identities and a condition-complete acetylation endpoint as separate acceptance."
+      ]
+    },
+    {
+      "token": "styrene",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 81,
+          "id": "polystyrene_formation",
+          "original_script_sha256": "c97abdb6efa3b7c44b7f4903141ac10ed08904975242fc8bfb5adf8fb2b233b9"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "terephthalic_acid",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 78,
+          "id": "pet_polycondensation",
+          "original_script_sha256": "531412695b1ff8f39d29fed647f2372ce0d9bf94ea7fa630a895a1d490cb71cb"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "tristearin",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 39,
+          "id": "fat_saponification",
+          "original_script_sha256": "bbc455e43eb782bdf3413a865f7b2b40033de8ded832b43443bdd8f49d51cbb2"
+        }
+      ],
+      "classification": "missing_specific_triglyceride_and_hydrolysis_domain",
+      "canonical_target": null,
+      "source_review": "identity-first15-review-20261016.json",
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Admit the specified C57H110O6 triglyceride with sourced identity, phase and properties.",
+        "Extend finite multi-ester hydrolysis and glycerol/stearate product ownership with defined aqueous/base conditions."
+      ]
+    },
+    {
+      "token": "vinyl_chloride",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 82,
+          "id": "pvc_formation",
+          "original_script_sha256": "4612cbd472f0bb65cb29bd2c06f1a1658f53b89d6d9211c8bf547e9c00279bde"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    },
+    {
+      "token": "wittig_ylide",
+      "first_refusal_count": 1,
+      "cases": [
+        {
+          "rank": 163,
+          "id": "wittig_olefination",
+          "original_script_sha256": "44497325183ece4786b37c3cd44d34beb0b34fd9ffd87fe66f21ecee8cb710b8"
+        }
+      ],
+      "classification": "identity_review_pending",
+      "canonical_target": null,
+      "source_review": null,
+      "status": "prospective_identity_or_domain_review; not_an_alias_by_default",
+      "next_action": [
+        "Read exact source record formula, charge, structure and phase, then current registry/parser.",
+        "Classify exact alias vs missing identity/data/domain/schematic entity; do not substitute a nearby substance.",
+        "For real model additions, submit a uniquely identified intake/follow-up for the model agent."
+      ]
+    }
+  ]
+}

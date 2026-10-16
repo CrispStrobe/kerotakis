@@ -1,0 +1,143 @@
+{
+  "schema": 1,
+  "frozen_utc": "2026-10-16T07:32:39.016540+00:00",
+  "kind": "Prospective protocol-only batch: one explicit ideal-equilibrium exercise and matched catalyst/no-catalyst teaching controls; three requests, two original ranks",
+  "source": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+  "engine": {
+    "source_head": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+    "binary_sha256": "30f32713fb01a4564b986f0c7a99ac0dd2089a3cceaabcc382d00f63e88922d6",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "preview_url": "https://kerotakis-web-payload-3j5wmq8y7-crispstrobes-projects.vercel.app",
+  "api_binding_sha256": "208f958890947110d7969d8837cf0c6dc6dc25d397f849fa5a3fbdbf73863637",
+  "originals_sha256": "bbb17e094e114293f2ff42e901397859e7536c42a767c583255ddd77968850d9",
+  "source_sha256": {
+    "crates/kerotakis-core/src/curated.rs": "20db49d2b0679fb77e1df7205f6a4ae8878f8becccf7c30cebb1c9796bcd27a5",
+    "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+    "crates/kerotakis-core/src/script.rs": "279036582bf9270055ab8b96f2ef3f5c9644ce3a58916bef8daf584a3e22bca2",
+    "crates/kerotakis-core/src/bench.rs": "3eb25ec99a6e58d15d269248cf679187ada0b73105f1142fad3f347fed508aeb"
+  },
+  "cases": [
+    {
+      "id": "017-explicit-ideal-esterification",
+      "rank": 17,
+      "kind": "explicit ideal-equilibrium exercise; not a timed Fischer experiment",
+      "script": "add v1 CH3COOH 0.001mol\nadd v1 ethanol 0.001mol\ninspect v1\nreact v1 esterification\ninspect v1\n",
+      "operator_sequence": [
+        "add",
+        "add",
+        "inspect",
+        "react",
+        "inspect"
+      ],
+      "positive_expectations": [
+        "Before react, both neat reactants remain near0.001mol; no ethyl acetate/water product is assumed from waiting.",
+        "Explicit org_reacted esterification event has finite positive extent approximately0.0006666666666667mol for the implemented ideal K4 model.",
+        "Ethyl acetate and water each increase by extent; acetic acid and ethanol each decrease by the same extent; carbon/hydrogen/oxygen/charge close.",
+        "The event states ideal-mixture equilibrium and explicitly withholds catalyst, activity corrections, temperature dependence and reaction heat."
+      ],
+      "negative_expectations": [
+        "No acid catalyst, timed Fischer kinetics, empirical yield or modeled reaction-heat claim is supplied.",
+        "No unrequested complete conversion; no solver_failed, safety_veto or unsupported react-command outcome."
+      ],
+      "quantitative_expectations": {
+        "initial_acid_mol": 0.001,
+        "initial_ethanol_mol": 0.001,
+        "ideal_equilibrium_k": 4,
+        "ideal_extent_mol": 0.0006666666666666666,
+        "extent_abs_tolerance_mol": 1e-08,
+        "element_abs_tolerance_mol": 1e-08,
+        "charge_abs_tolerance_mol": 1e-09
+      },
+      "script_sha256": "6892c1c9a6b690485457eb79c86be54d8c7a576dedfa9216774c584cbeb57367",
+      "original_script_sha256": "bb737309a9d2f6283ffbbeb36238b9a5f8aec5b0f79099ae2c93471fc186a74d",
+      "request_body_sha256": "a2a3e0a7b43a8d160787b158e298eb0dc0324a4ebf1cc642396192265ce3a016"
+    },
+    {
+      "id": "032-peroxide-with-mno2",
+      "rank": 32,
+      "kind": "source-informed catalyst teaching-model positive control",
+      "script": "add v1 water 100mL @ 25C\nadd v1 H2O2 0.001mol\nadd v1 MnO2 0.0001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "operator_sequence": [
+        "add",
+        "add",
+        "add",
+        "inspect",
+        "wait",
+        "inspect"
+      ],
+      "positive_expectations": [
+        "The implemented peroxide-decomposition clock advances during the explicit10second wait.",
+        "Compared with the matched no-catalyst control, more peroxide is consumed and more target oxygen is produced.",
+        "Peroxide loss equals water gain and twice generated O2; open-boundary exported gas is included once in H/O/Mn/charge closure.",
+        "MnO2 inventory remains0.0001mol rather than being consumed as a stoichiometric reagent."
+      ],
+      "negative_expectations": [
+        "No catalysis calibration, measured absolute rate, complete empirical mechanism or newly fitted constant is claimed.",
+        "No missing-water-product, oxygen-from-background-air-as-target, catalyst disappearance, solver_failed or safety_veto is accepted."
+      ],
+      "quantitative_expectations": {
+        "peroxide_dose_mol": 0.001,
+        "mno2_dose_mol": 0.0001,
+        "wait_seconds": 10,
+        "element_abs_tolerance_mol": 1e-08,
+        "charge_abs_tolerance_mol": 1e-09,
+        "catalyst_abs_tolerance_mol": 1e-10,
+        "pair_difference_min_mol": 1e-12
+      },
+      "script_sha256": "b8517df691af2d99e017571cd89c5a2bf99a7620194dc331fe13c0a7544776ec",
+      "original_script_sha256": "4643a75be1157e562455824e6a5beba511c357d05145551cfdcf95d6e17873c3",
+      "request_body_sha256": "b8d54146b34898efe95242c41fb8ecf1a77b4847be18dce02c1642c4f792211a"
+    },
+    {
+      "id": "032-peroxide-without-catalyst",
+      "rank": 32,
+      "kind": "matched source-informed no-catalyst negative control",
+      "script": "add v1 water 100mL @ 25C\nadd v1 H2O2 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "operator_sequence": [
+        "add",
+        "add",
+        "inspect",
+        "wait",
+        "inspect"
+      ],
+      "positive_expectations": [
+        "Same water,25C preparation, peroxide dose and10second wait as the catalyst control.",
+        "Finite background peroxide decomposition may occur; it must remain less than the catalyst control under this existing teaching law.",
+        "Any actual peroxide loss closes against water gain and generated/exported oxygen; no Mn inventory is present."
+      ],
+      "negative_expectations": [
+        "No MnO2 catalyst is silently inferred or reported; no absolute zero-rate forecast is imposed.",
+        "No empirical rate agreement is assigned from a zero process exit or this matched comparison."
+      ],
+      "quantitative_expectations": {
+        "peroxide_dose_mol": 0.001,
+        "mno2_dose_mol": 0,
+        "wait_seconds": 10,
+        "element_abs_tolerance_mol": 1e-08,
+        "charge_abs_tolerance_mol": 1e-09
+      },
+      "script_sha256": "4fd815ea4afef64ec1579d985050bbfc51c18e31929927afe11cf28ee3d230f7",
+      "original_script_sha256": "4643a75be1157e562455824e6a5beba511c357d05145551cfdcf95d6e17873c3",
+      "request_body_sha256": "d31a4106242577c10e9232efddda87dc86d8a52a80677fc90018171c62cf35ca"
+    }
+  ],
+  "scope": {
+    "protocol_changes": "Rank17 adds implemented explicit react operation to a neat mixture. Rank32 separately declares lower peroxide dose, open gas boundary and a catalyst/no-catalyst comparison; original sealed0.002mol screen remains unchanged.",
+    "not_blind": true,
+    "physical_verdict": "not_assigned",
+    "empirical_calibration": false,
+    "model_changes": false,
+    "original_outcomes_immutable": true
+  },
+  "execution_policy": {
+    "requests": 3,
+    "minimum_seconds_between_starts": 3.1,
+    "one_attempt_each": true,
+    "serial": true,
+    "retries": 0,
+    "fresh_health_before_posts": true,
+    "stop_on": "auth, redirect, quota, transport ambiguity, uncompleted execution, nonzero exit, or engine/script binding mismatch",
+    "secrets": "Owner authorization only via0600private curl config; deployment token only environment; reflection-scan all returned streams before publishing."
+  }
+}

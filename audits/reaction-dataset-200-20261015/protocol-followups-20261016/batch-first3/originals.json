@@ -1,0 +1,225 @@
+{
+  "manifest_path": "audits/reaction-dataset-200-20261015/design/manifest.json",
+  "manifest_sha256": "de87f5cc37f42a4b9785d442588a7f5d00f4507dd59bb003defdbc3eeac411a4",
+  "frozen_source": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+  "records": [
+    {
+      "rank": 17,
+      "record": {
+        "rank": 17,
+        "id": "fischer_esterification",
+        "script": "scripts/017-fischer_esterification.lab",
+        "name": {
+          "de": "Veresterung von Ethansäure mit Ethanol",
+          "en": "Esterification of ethanoic acid with ethanol"
+        },
+        "equation": {
+          "text": "CH3COOH + CH3CH2OH ⇌ CH3COOCH2CH3 + H2O",
+          "formula_text": "C2H4O2 + C2H6O ⇌ C4H8O2 + H2O",
+          "representation": "molecular",
+          "reversible_under_suitable_conditions": true,
+          "balance_validation": {
+            "status": "passed",
+            "atoms_balanced": true,
+            "charge_balanced": true,
+            "reason": "Element counts and net electric charge checked for the stated equation only; this does not validate mechanism, yield, speciation, safety or curriculum prevalence.",
+            "reactant_atoms": {
+              "C": 4,
+              "H": 10,
+              "O": 3
+            },
+            "product_atoms": {
+              "C": 4,
+              "H": 10,
+              "O": 3
+            },
+            "reactant_charge": 0,
+            "product_charge": 0
+          }
+        },
+        "reactants": [
+          {
+            "species_id": "acetic_acid",
+            "name_de": "Ethansäure (Essigsäure)",
+            "name_en": "ethanoic acid (acetic acid)",
+            "formula": "C2H4O2",
+            "display_formula": "CH3COOH",
+            "charge": 0,
+            "phase": "unspecified",
+            "stoichiometric_coefficient": 1
+          },
+          {
+            "species_id": "ethanol",
+            "name_de": "Ethanol",
+            "name_en": "ethanol",
+            "formula": "C2H6O",
+            "display_formula": "CH3CH2OH",
+            "charge": 0,
+            "phase": "unspecified",
+            "stoichiometric_coefficient": 1
+          }
+        ],
+        "products": [
+          {
+            "species_id": "ethyl_acetate",
+            "name_de": "Ethansäureethylester (Ethylacetat)",
+            "name_en": "ethyl ethanoate (ethyl acetate)",
+            "formula": "C4H8O2",
+            "display_formula": "CH3COOCH2CH3",
+            "charge": 0,
+            "phase": "unspecified",
+            "stoichiometric_coefficient": 1
+          },
+          {
+            "species_id": "H2O",
+            "name_de": "Wasser",
+            "name_en": "water",
+            "formula": "H2O",
+            "display_formula": "H2O",
+            "charge": 0,
+            "phase": "l",
+            "stoichiometric_coefficient": 1
+          }
+        ],
+        "expected_observations_from_source": "An ester is formed; its identity requires appropriate analysis.",
+        "conditions": {
+          "summary": "Acid-catalysed equilibrium; water/alcohol activity affects the position.",
+          "catalysts_or_initiators": [
+            "Acid catalyst."
+          ],
+          "auxiliary_reagents": [],
+          "procedure_provided": false
+        },
+        "aqueous_solvent_added": false,
+        "sealed_headspace": false,
+        "activation_commands": [],
+        "identity_mappings": [
+          {
+            "source_id": "acetic_acid",
+            "method": "exact registry name or parenthetical name, composition/charge verified",
+            "components": [
+              "CH3COOH"
+            ],
+            "limitations": [],
+            "amount_mol_per_component": 0.001
+          },
+          {
+            "source_id": "ethanol",
+            "method": "exact species ID",
+            "components": [
+              "ethanol"
+            ],
+            "limitations": [],
+            "amount_mol_per_component": 0.001
+          }
+        ],
+        "limitations": [
+          "No source procedure supplied; this is a declared contact/activation screen, not reaction validation",
+          "Add uses the registry phase; dataset phase labels cannot override it",
+          "Unspecified catalysts/auxiliary procedures are recorded but not invented or silently supplied"
+        ]
+      },
+      "script": "# fischer_esterification\ninspect v1\nadd v1 CH3COOH 0.001mol\nadd v1 ethanol 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "bb737309a9d2f6283ffbbeb36238b9a5f8aec5b0f79099ae2c93471fc186a74d"
+    },
+    {
+      "rank": 32,
+      "record": {
+        "rank": 32,
+        "id": "hydrogen_peroxide_decomposition",
+        "script": "scripts/032-hydrogen_peroxide_decomposition.lab",
+        "name": {
+          "de": "Zersetzung von Wasserstoffperoxid",
+          "en": "Decomposition of hydrogen peroxide"
+        },
+        "equation": {
+          "text": "2 H2O2 → 2 H2O + O2",
+          "formula_text": "2 H2O2 → 2 H2O + O2",
+          "representation": "molecular",
+          "reversible_under_suitable_conditions": false,
+          "balance_validation": {
+            "status": "passed",
+            "atoms_balanced": true,
+            "charge_balanced": true,
+            "reason": "Element counts and net electric charge checked for the stated equation only; this does not validate mechanism, yield, speciation, safety or curriculum prevalence.",
+            "reactant_atoms": {
+              "H": 4,
+              "O": 4
+            },
+            "product_atoms": {
+              "H": 4,
+              "O": 4
+            },
+            "reactant_charge": 0,
+            "product_charge": 0
+          }
+        },
+        "reactants": [
+          {
+            "species_id": "H2O2",
+            "name_de": "Wasserstoffperoxid",
+            "name_en": "hydrogen peroxide",
+            "formula": "H2O2",
+            "display_formula": "H2O2",
+            "charge": 0,
+            "phase": "aq",
+            "stoichiometric_coefficient": 2
+          }
+        ],
+        "products": [
+          {
+            "species_id": "H2O",
+            "name_de": "Wasser",
+            "name_en": "water",
+            "formula": "H2O",
+            "display_formula": "H2O",
+            "charge": 0,
+            "phase": "l",
+            "stoichiometric_coefficient": 2
+          },
+          {
+            "species_id": "O2",
+            "name_de": "Sauerstoff",
+            "name_en": "oxygen",
+            "formula": "O2",
+            "display_formula": "O2",
+            "charge": 0,
+            "phase": "g",
+            "stoichiometric_coefficient": 1
+          }
+        ],
+        "expected_observations_from_source": "Oxygen bubbles form.",
+        "conditions": {
+          "summary": "Rate depends on temperature and catalysts.",
+          "catalysts_or_initiators": [
+            "For example manganese dioxide or catalase, depending on context."
+          ],
+          "auxiliary_reagents": [],
+          "procedure_provided": false
+        },
+        "aqueous_solvent_added": true,
+        "sealed_headspace": true,
+        "activation_commands": [],
+        "identity_mappings": [
+          {
+            "source_id": "H2O2",
+            "method": "exact species ID",
+            "components": [
+              "H2O2"
+            ],
+            "limitations": [],
+            "amount_mol_per_component": 0.002
+          }
+        ],
+        "limitations": [
+          "No source procedure supplied; this is a declared contact/activation screen, not reaction validation",
+          "Add uses the registry phase; dataset phase labels cannot override it",
+          "Declared sealed 1 L headspace includes initial air; baseline gases are not reaction products",
+          "Unspecified catalysts/auxiliary procedures are recorded but not invented or silently supplied"
+        ]
+      },
+      "script": "# hydrogen_peroxide_decomposition\nadd v1 water 100mL @ 25C\nseal v1 1L\ninspect v1\nadd v1 H2O2 0.002mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "4643a75be1157e562455824e6a5beba511c357d05145551cfdcf95d6e17873c3"
+    }
+  ]
+}
