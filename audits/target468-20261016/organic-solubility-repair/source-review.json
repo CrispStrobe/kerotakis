@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-16T16:12:57.499310+00:00",
+  "pr": "https://github.com/CrispStrobe/kerotakis/pull/819",
+  "head": "c4b85d2d88f03f7e9cc67c9367bda75051cb37e8",
+  "base": "1d24a43a8636e4cd1cf857e2834d74425b945b33",
+  "first_head_preserved": "173115fbbb02c48578dd315e3b243e84cf4a9a43",
+  "first_source_review": {
+    "verdict": "changes_required",
+    "findings": [
+      "Missing required provenance field on additional chlorophyll initializer; source would not compile.",
+      "Incorrect test inventory of65 total; actual table has66 entries."
+    ]
+  },
+  "final_independent_source_review": {
+    "reviewer": "acid_route_contract_review",
+    "verdict": "accepted_source_only",
+    "total_rows": 66,
+    "withdrawn_rows": 65,
+    "editorial_estimates": 1,
+    "remaining_source_blockers": []
+  },
+  "changes": [
+    "Unknown organic-solubility row exposes only already-liquid inventory to solvent-gated reactions.",
+    "Both consumers emit explicit support boundaries before consumed identities disappear and for liquid-only residues.",
+    "Editorial chlorophyll estimate is distinguished from withdrawn provenance."
+  ],
+  "completed_lightweight_checks": [
+    "rustfmt syntax/format",
+    "git diff --check",
+    "engine locale lint --check",
+    "independent enumeration of all66 initializer fields and statuses",
+    "German/French TOML and both placeholder shapes"
+  ],
+  "native_regression_groups_added": 4,
+  "native_regression_groups_executed_locally": 0,
+  "hosted_acceptance": {
+    "ci": 38930003346,
+    "chemistry_fleet": 38930003227,
+    "status_at_recording": "queued_or_pending",
+    "must_pass_exact_head": true
+  },
+  "scientific_selection_delta": 0,
+  "remaining_limits": [
+    "Legacy numerical solubility values remain provisional, including dependent yields.",
+    "Phase ownership needs its separately scoped repair.",
+    "Compatible primary solubility measurements are not supplied by this patch."
+  ],
+  "sha256": {
+    "crates/kerotakis-core/src/nonaqueous.rs": "c6e17339339ee2b393ff32aa22d19994630f3875da72309be909e481e2aee421",
+    "crates/kerotakis-core/src/curated.rs": "eaa1e5b21641f28498da5464de248c193b024bb8f5896a4af3678ab7d250b113",
+    "crates/kerotakis-core/i18n/de.toml": "a28399a0fecdd95408ae7716e86b5226af4fe61cb924d65a2fe09fe286a158f6",
+    "crates/kerotakis-core/i18n/fr.toml": "6565ebde669b3987aaeb0799f86914a930dd1b7c5b5cc84bbae86e52be882353",
+    "docs/organic-solubility-repair-lane.md": "9d34096c147ccab40bd15f9139a0bd551efe18961b4b897ff4b29c1493b7164b"
+  }
+}
