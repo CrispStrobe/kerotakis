@@ -1,0 +1,7 @@
+# michael_addition
+inspect v1
+add v1 diethyl_malonate 0.001mol
+add v1 methyl_vinyl_ketone 0.001mol
+inspect v1
+wait 10s
+inspect v1

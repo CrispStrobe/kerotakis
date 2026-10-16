@@ -1,0 +1,8 @@
+# wittig_olefination
+seal v1 1L
+inspect v1
+add v1 propanone 0.001mol
+add v1 wittig_ylide 0.001mol
+inspect v1
+wait 10s
+inspect v1

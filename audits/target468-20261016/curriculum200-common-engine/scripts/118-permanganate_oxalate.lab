@@ -1,0 +1,10 @@
+# permanganate_oxalate
+add v1 water 100mL @ 25C
+seal v1 1L
+inspect v1
+add v1 MnO4- 0.002mol
+add v1 C2O4-- 0.005mol
+add v1 H+ 0.016mol
+inspect v1
+wait 10s
+inspect v1

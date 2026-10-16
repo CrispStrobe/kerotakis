@@ -1,0 +1,8 @@
+# hydrogen_peroxide_decomposition
+add v1 water 100mL @ 25C
+seal v1 1L
+inspect v1
+add v1 H2O2 0.002mol
+inspect v1
+wait 10s
+inspect v1

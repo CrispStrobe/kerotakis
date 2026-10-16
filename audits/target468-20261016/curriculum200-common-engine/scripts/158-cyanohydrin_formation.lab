@@ -1,0 +1,7 @@
+# cyanohydrin_formation
+inspect v1
+add v1 propanone 0.001mol
+add v1 HCN 0.001mol
+inspect v1
+wait 10s
+inspect v1

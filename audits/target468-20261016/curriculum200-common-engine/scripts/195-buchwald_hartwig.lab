@@ -1,0 +1,9 @@
+# buchwald_hartwig
+add v1 water 100mL @ 25C
+inspect v1
+add v1 bromobenzene 0.001mol
+add v1 methylamine 0.001mol
+add v1 tBuO- 0.001mol
+inspect v1
+wait 10s
+inspect v1

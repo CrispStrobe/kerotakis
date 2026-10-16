@@ -1,0 +1,8 @@
+# water_electrolysis
+seal v1 1L
+inspect v1
+add v1 water 0.002mol
+inspect v1
+electrolyse v1 0.1A 10s
+wait 10s
+inspect v1

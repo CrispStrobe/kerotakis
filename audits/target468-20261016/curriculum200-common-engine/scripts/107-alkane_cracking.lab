@@ -1,0 +1,8 @@
+# alkane_cracking
+seal v1 1L
+inspect v1
+add v1 decane 0.001mol
+inspect v1
+heat v1 1kJ
+wait 10s
+inspect v1

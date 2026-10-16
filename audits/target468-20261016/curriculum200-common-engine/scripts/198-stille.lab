@@ -1,0 +1,7 @@
+# stille
+inspect v1
+add v1 bromobenzene 0.001mol
+add v1 MeSnBu3 0.001mol
+inspect v1
+wait 10s
+inspect v1

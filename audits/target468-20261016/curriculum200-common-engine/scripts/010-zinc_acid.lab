@@ -1,0 +1,10 @@
+# zinc_acid
+add v1 water 100mL @ 25C
+seal v1 1L
+inspect v1
+add v1 Zn 0.001mol
+add v1 H+ 0.002mol
+add v1 water 0.002mol
+inspect v1
+wait 10s
+inspect v1

@@ -1,0 +1,8 @@
+# azo_coupling
+add v1 water 100mL @ 25C
+inspect v1
+add v1 benzenediazonium 0.001mol
+add v1 phenol 0.001mol
+inspect v1
+wait 10s
+inspect v1

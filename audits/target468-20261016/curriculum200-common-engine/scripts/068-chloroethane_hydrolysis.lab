@@ -1,0 +1,9 @@
+# chloroethane_hydrolysis
+add v1 water 100mL @ 25C
+seal v1 1L
+inspect v1
+add v1 chloroethane 0.001mol
+add v1 OH- 0.001mol
+inspect v1
+wait 10s
+inspect v1
