@@ -1,0 +1,35 @@
+{
+  "source": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "run": 38871207777,
+  "cases": [
+    {
+      "id": "batch2:qa-004",
+      "raw_stdout_sha256": "ac545f153de8b7eeda31653ee870ae65b93264907f64f357a5205c86d083a103",
+      "before_carbon_mol": 0.0006999999999089178,
+      "after_first_endpoint_carbon_mol": 0.0001447052764354006,
+      "first_endpoint_net_CO2_export_mol": 0.000555294715444884,
+      "carbon_residual_mol": -8.028633205307834e-12,
+      "actual_first_endpoint_acid_mol": 0.0008545312500000005,
+      "actual_first_endpoint_ph": 8.299925813254,
+      "boundary": {
+        "boundary": "open"
+      },
+      "interpretation": "Original open run lost carbon through explicit gas exchange; first-endpoint forecast not met. This is not missing mass. A finite-headspace followup is separately frozen; no chemical/numerical fix claimed."
+    },
+    {
+      "id": "batch2:qa-005",
+      "raw_stdout_sha256": "889d699c81eba999aedc528912db2653b45716ce182209b27f2bf03ad10a3627",
+      "before_carbon_mol": 0.0003000000000003259,
+      "after_first_endpoint_carbon_mol": 0.00014453882809464807,
+      "first_endpoint_net_CO2_export_mol": 0.000155461173997809,
+      "carbon_residual_mol": 2.0921312100276312e-12,
+      "actual_first_endpoint_acid_mol": 0.0008546875000000004,
+      "actual_first_endpoint_ph": 8.300094871832,
+      "boundary": {
+        "boundary": "open"
+      },
+      "interpretation": "Original open run lost carbon through explicit gas exchange; first-endpoint forecast not met. This is not missing mass. A finite-headspace followup is separately frozen; no chemical/numerical fix claimed."
+    }
+  ],
+  "new_executions": 0
+}

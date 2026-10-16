@@ -1,0 +1,11 @@
+# QA-004: Resolve carbonate and bicarbonate with two alkalinity endpoints
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 Na2CO3 0.0003mol
+add v1 NaHCO3 0.0004mol
+seal v1 1mL
+titrate v1 HCl 0.1M 0.1mL until ph 8.3 max 100
+inspect v1
+titrate v1 HCl 0.1M 0.1mL until ph 4.5 max 150
+inspect

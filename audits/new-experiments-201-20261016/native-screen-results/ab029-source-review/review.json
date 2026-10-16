@@ -1,0 +1,110 @@
+{
+  "schema": "kerotakis.ab029-source-review.v1",
+  "engine_source": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "documentation_checkpoint": "503ca002c0424df12b7bec936e2fe9ecc670abea",
+  "documentation_tree_warning": "The broad audit documentation tree is not an integrated runtime baseline. Do not port its numerical bracket or other unintegrated source mechanics.",
+  "source_pins": [
+    {
+      "path": "crates/kerotakis-core/src/bench.rs",
+      "sha256": "44b3fa4190093c3dfa3d0a1ddd676dcaecabd997bbd6a9fc89b191402e282f80"
+    },
+    {
+      "path": "crates/kerotakis-core/src/vessel.rs",
+      "sha256": "c6fb8f02fc04a6d7bae8d65955e97145398e61ebc04d302851bddf33bc4203fd"
+    },
+    {
+      "path": "crates/kerotakis-core/src/solve.rs",
+      "sha256": "4f8b9786e8a04ae4d869ae56e9821225151ad068643fe71cac078409a81a82ad"
+    },
+    {
+      "path": "crates/kerotakis-phreeqc/src/aqueous.rs",
+      "sha256": "eb75a5ddea5818a929d7e37468fddf320f9336ece01d1119ee7962db88b2785d"
+    },
+    {
+      "path": "crates/kerotakis-phreeqc/src/enthalpy.rs",
+      "sha256": "7c1629e72cfa634e96b85bf0fdcd5961814c079dcc54977133bf98e3834833a6"
+    },
+    {
+      "path": "crates/kerotakis-phreeqc/src/inventory.rs",
+      "sha256": "569c07cb83e584d0292a0128a5071ed6bffdfa689b924078b1619507724a1da2"
+    }
+  ],
+  "saved_witness": "audits/new-experiments-201-20261016/native-screen-results/diagnostics/MODEL-008-before-after.json",
+  "saved_witness_sha256": "0530a1230bc142a6ff886ce6b9a7992c8c49e4c2713f0938be2641cd89e22b07",
+  "no_new_engine_execution": true,
+  "proved_field_ownership_defect": {
+    "operator": "Filter from v2 to initially empty v3",
+    "source_before": {
+      "free_hydroxide": 2.5382005404967627e-05,
+      "free_proton": 4.096130781432941e-12,
+      "solute_charge": 2.6411253813642492e-05,
+      "temperature": 298.15
+    },
+    "destination_after_failed_solve": {
+      "free_hydroxide": 0.0,
+      "free_proton": 0.0,
+      "solute_charge": 0.0,
+      "temperature": 298.15
+    },
+    "source_path": "bench.rs Operator::Filter transfers contents but never subtracts or deposits persisted measured hydroxide/proton or solute_charge metadata. The source retains stale measurements and the destination receives zero baseline.",
+    "downstream_path": "Bench captures StepStart after apply. StepStart::capture copies persisted measured fields. aqueous::solve_once uses step_start.free_hydroxide as before_oh; enthalpy::heat_released_j excludes analytical H/O basis portions and prices measured OH separately. Thus transferred pre-existing OH can be priced as newly created rather than transported.",
+    "matter_scope": "Measured OH/H fields are diagnostic thermal/gating coordinates, not additional portions or permission to infer free OH from analytical base_equivalents. Transfer no ions and create no extra water."
+  },
+  "diagnostic_scale_not_causality": {
+    "OH_reference_kj_per_mol": 55.81,
+    "carried_measured_OH_mol": 2.5382005404967627e-05,
+    "missing_reference_enthalpy_j": 1.4165697216512432,
+    "local_water_cp_approx_j_per_k": 416.7310574521232,
+    "corresponding_local_temperature_scale_k": 0.0033992420202902398,
+    "observed_final_fixed_point_residual_k": 0.003402842,
+    "qualification": "Only scalar bookkeeping from saved measurements and source constants; no thermal map was run. Close scales do not prove the exact64-pass trajectory, its cycle or exclusive cause. Per-iteration T/q/OH/route/native-input trace is absent."
+  },
+  "unsupported_domain_review": {
+    "input": "Dilute water/Mg(OH)2 suspension; full aqueous filtrate into empty vessel, no changed gas boundary, no hot model limit or missing element mapping in the witness.",
+    "evidence": "Combined H/O/Mg/charge is conserved through filtering; target pH is withheld after solve failure, then later acid obtains a fresh answer. Not a demonstrated material-loss bug or a generic unsupported-Mg chemistry domain.",
+    "numerical_scope": "c446 iterates guess=next with existing1e-6K residual and5e-5K narrow quantized-cycle policy. Do not change either tolerance or iteration ceiling to hide wrong before-state ownership."
+  },
+  "transfer_writer_map": [
+    {
+      "operator": "Filter",
+      "semantics": "All liquid/aqueous portions move; solids/interfaces remain. Full measured aqueous snapshot should move once.",
+      "scope": "Repair demonstrated route. Source retains onlySolid today; retaining all nontransferred phases also prevents dropping gas."
+    },
+    {
+      "operator": "Decant",
+      "semantics": "Known fraction of every liquid/aqueous portion moves; proportionally move diagnostic aqueous snapshot once.",
+      "scope": "Shared helper is semantically identical for this ownership operation; test0/partial/full and nonempty targets."
+    },
+    {
+      "operator": "Mix",
+      "semantics": "Two proportional aqueous withdrawals plus optional native mixing path.",
+      "scope": "Same suspect writer; review native mixing, duplicated source/target identities and sensitive enthalpy baseline before extending helper. Do not assume accepted by Filter fix."
+    },
+    {
+      "operator": "Drain",
+      "semantics": "Layer-dependent solvent/aqueous movement with neutral-solute partitioning.",
+      "scope": "Needs phase eligibility proof, not total-volume scaling; separate follow-up."
+    },
+    {
+      "operator": "Extract",
+      "semantics": "Solvent addition and selected neutral-solute extraction rather than a proportional ionic aliquot.",
+      "scope": "Do not scale measured aqueous OH/H/charge by extracted organic volume."
+    },
+    {
+      "operator": "Transport",
+      "semantics": "Uses typed mobile parcels and explicit charge/enthalpy/interface ownership; geometric admission is MODEL007.",
+      "scope": "Do not replace with a generic decant helper."
+    }
+  ],
+  "next_action": "Implement narrow Filter + same-semantics Decant ownership helper on a fresh branch from actualmain; preserve current numerical policy. Source/static checks only locally; hosted native AB029 and regression acceptance pending.",
+  "acceptance_matrix": [
+    "Pure transport of pre-solved basic aliquot to empty same-boundary receiver must conserve carried OH/H/solute_charge and material separately; no extra neutralisation or duplicate water.",
+    "Partial/full transfers to nonempty receivers add carried snapshot exactly once, source retains complement;0fraction/safety veto preserve metadata and matter.",
+    "Acid, base and neutral controls distinguish signed solute charge from nonnegative measuredOH/H; analytical base is never equated to measuredOH.",
+    "Retained solids, surfaces and sealed gas remain on source; only explicitly mobile phase and appropriate diagnostic snapshot move.",
+    "A deliberate failed target readback retains the committed physical pour and honest missing pH, without leaking solver trial changes; no claim of full-operation rollback if policy is solver-local.",
+    "Native unchanged AB029 must obtain fresh filtrate pH without source-specific convergence relaxation; same-state filtration must not manufacture the missing1.41657J baseline change.",
+    "Compare direct equilibrated aliquot vs filtered aliquot at matched state and bath/adiabatic boundaries, repeated transfers and next acid dose; state-function closure and source-bound freshness required.",
+    "Host exact source/native/core/Wasm controls; preserve original first failure, physical forecast, source/binary/lock and engineering-vs-scientific scope."
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "recorded_utc": "2026-10-16T08:43:12.745598+00:00",
+  "pr": 806,
+  "head": "491e4e238825d45d478b303b9ea20e9d5881e2ab",
+  "base_actual_main": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "merge_commit": "4f0112f6cc1330572369429c7ae2e0ca94494205",
+  "merge_parents": [
+    "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "491e4e238825d45d478b303b9ea20e9d5881e2ab"
+  ],
+  "reviewed_candidate_tree": "b4bf53fab589431380a2db80d77d4fed16fac0ea",
+  "actual_merged_tree": "b4bf53fab589431380a2db80d77d4fed16fac0ea",
+  "tree_matches": true,
+  "checks": {
+    "success": 25,
+    "skipped": 1
+  },
+  "scope": "documentation/intake only; no runtime/harness/source/forecast modification",
+  "changed_paths": [
+    "audits/reaction-dataset-200-20261015/model-issues-20261016/MODEL-001.json",
+    "audits/reaction-dataset-200-20261015/model-issues-20261016/MODEL-002.json",
+    "audits/reaction-dataset-200-20261015/model-issues-20261016/MODEL-003.json",
+    "audits/reaction-dataset-200-20261015/model-issues-20261016/MODEL-004.json",
+    "audits/reaction-dataset-200-20261015/model-issues-20261016/index.json",
+    "docs/independent-model-agent-handover.md",
+    "docs/reaction-repair-lane-contract.md"
+  ],
+  "production_redeploy_required": false
+}

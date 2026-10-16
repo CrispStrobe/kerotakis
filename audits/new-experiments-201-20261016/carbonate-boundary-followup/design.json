@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "frozen_utc": "2026-10-16T08:41:35.712214+00:00",
+  "kind": "Two prospective finite-headspace protocol controls for original failed open-system alkalinity forecasts; not blind experiments or a numerical repair.",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "producer_run": 38868092504,
+  "artifact_id": 12033256299,
+  "artifact_zip_sha256": "14abc84c3b0f4ec6647582c4ed951ec77ef82c7a16b4d4aae29cc6bc6152dc9c",
+  "expected_controls": 2,
+  "cases": [
+    {
+      "id": "batch2:qa-004-finite-headspace",
+      "original_id": "batch2:qa-004",
+      "original_script": "audits/new-experiments-201-20261016/scripts/QA-004.lab",
+      "original_script_sha256": "4bfa372dd30a109deade24a8d9a1ce7289d22eb7aaac6365ac37a100daecbb06",
+      "selected_script": "QA-004-finite-headspace.lab",
+      "selected_script_sha256": "3229425f2eb7641f614e6277523b7b2b63b18f3f6138cdd6c06fe29c405efcb9",
+      "only_change": "Add seal v1 1mL before first titration; retain identity, stock, concentration, steps, temperature and both original endpoint targets.",
+      "original_forecast": "The first endpoint requires roughly 0.3 mmol acid and cumulative acid near the second roughly 1.0 mmol. Ideal reconstruction gives n(carbonate)=P and n(bicarbonate)=T\u22122P.",
+      "expected_first_endpoint_acid_mol": 0.0003,
+      "expected_cumulative_second_endpoint_acid_mol": 0.001,
+      "endpoint_amount_tolerance_mol": 2e-05,
+      "major_element_tolerance_mol": 1e-08,
+      "original_open_control": {
+        "source_receipt": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_qa-004.json",
+        "stdout_sha256": "ac545f153de8b7eeda31653ee870ae65b93264907f64f357a5205c86d083a103",
+        "first_endpoint_acid_mol": 0.0008545312500000005,
+        "cumulative_second_acid_mol": 0.0010037646484375006
+      },
+      "physical_verdict": "not_assigned"
+    },
+    {
+      "id": "batch2:qa-005-finite-headspace",
+      "original_id": "batch2:qa-005",
+      "original_script": "audits/new-experiments-201-20261016/scripts/QA-005.lab",
+      "original_script_sha256": "f7dde9dc362fc2baf13a672385ceff67426eeb23f0e5c7f3e5dbc3bbedf60963",
+      "selected_script": "QA-005-finite-headspace.lab",
+      "selected_script_sha256": "a57b5c24fc641e6b85af5072f1bb5a0d5fcddeedae992b2ac0c67a562f0eb8af",
+      "only_change": "Add seal v1 1mL before first titration; retain identity, stock, concentration, steps, temperature and both original endpoint targets.",
+      "original_forecast": "First-endpoint demand P should be near 0.7 mmol and total T near 1.0 mmol. Ideal reconstruction gives n(OH)=2P\u2212T and n(CO3)=T\u2212P.",
+      "expected_first_endpoint_acid_mol": 0.0007,
+      "expected_cumulative_second_endpoint_acid_mol": 0.001,
+      "endpoint_amount_tolerance_mol": 2e-05,
+      "major_element_tolerance_mol": 1e-08,
+      "original_open_control": {
+        "source_receipt": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_qa-005.json",
+        "stdout_sha256": "889d699c81eba999aedc528912db2653b45716ce182209b27f2bf03ad10a3627",
+        "first_endpoint_acid_mol": 0.0008546875000000004,
+        "cumulative_second_acid_mol": 0.0010037646484375004
+      },
+      "physical_verdict": "not_assigned"
+    }
+  ],
+  "expectations": [
+    "The existing finite fixed-headspace model retains carbon including initial trapped atmosphere and aqueous species. Do not assume sealing evacuates air.",
+    "At the first endpoint the ideal dose should match the retained original carbonate/hydroxide forecast within two original0.1mL burette increments; retain the original conditional scope rather than replace the forecast after observing.",
+    "Both declared endpoints reached; actual delivered HCl and water must match the titration event/retained inventory.",
+    "No gas export/rupture, missing carbon, duplicate analytical species or solver_failed accepted in a supported finite-headspace control.",
+    "Both modeled pressure and actual liquid/headspace state reported; no new physical vessel geometry, reaction-rate or empirical heat calibration claim."
+  ],
+  "constraints": [
+    "Use same accepted c446 native binary, one serial execution per script, unchanged30s/15CPU/1GiB/1MiB budgets.",
+    "Reuse original open results; do not execute those controls again.",
+    "If the small finite headspace is outside solver support, report coverage/refusal instead of weakening tolerances or inventing air removal.",
+    "Preserve every first output and unchanged original physical forecast; source/runtime artifacts stay separately bound."
+  ]
+}
