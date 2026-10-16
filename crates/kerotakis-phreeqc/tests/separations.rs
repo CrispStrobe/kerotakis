@@ -47,6 +47,7 @@ fn filtering_separates_the_precipitate_from_the_filtrate() {
     add(&mut bench, &mut stack, a, "AgNO3", 0.01);
     let total_before = bench.vessel(a).unwrap().mass().0 + bench.vessel(b).unwrap().mass().0;
 
+    let before_filter = bench.vessel(a).unwrap().clone();
     let events = step(&mut bench, &mut stack, Operator::Filter { from: a, to: b });
     assert!(events.iter().any(|e| matches!(e, Event::Filtered { .. })));
 
@@ -56,7 +57,15 @@ fn filtering_separates_the_precipitate_from_the_filtrate() {
     assert!(residue.contents.iter().all(|p| p.phase == Phase::Solid));
     assert!(residue.moles_of(&SpeciesId::new("AgCl")).0 > 0.0098);
     // Filtrate: water + spectator ions, no solid.
-    assert!(filtrate.contents.iter().all(|p| p.phase != Phase::Solid));
+    assert!(
+        filtrate.contents.iter().all(|p| p.phase != Phase::Solid),
+        "filtrate solids retained/reformed: {:?}; before T={} contents={:?}; filtrate T={} residue T={}; before ledger={:?}; filtrate ledger={:?}; residue ledger={:?}; events={:?}",
+        filtrate.contents, before_filter.temperature.0, before_filter.contents,
+        filtrate.temperature.0, residue.temperature.0,
+        kerotakis_core::ledger::ConservedLedger::from_vessel(&before_filter),
+        kerotakis_core::ledger::ConservedLedger::from_vessel(filtrate),
+        kerotakis_core::ledger::ConservedLedger::from_vessel(residue), events
+    );
     assert!(filtrate.moles_of(&SpeciesId::new("Na+")).0 > 0.0098);
     assert!(filtrate.moles_of(&SpeciesId::new("NO3-")).0 > 0.0098);
     // Mass conserved across the pair.

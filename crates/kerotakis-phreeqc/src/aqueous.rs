@@ -6157,7 +6157,7 @@ fn build_mix_input(
     let temp_a_c = vessel_a.temperature.to_celsius();
     writeln!(input, "SOLUTION 1").unwrap();
     writeln!(input, "    units     mol/kgw").unwrap();
-    writeln!(input, "    temp      {temp_a_c:.12e}").unwrap();
+    writeln!(input, "    temp      {temp_a_c:.4}").unwrap();
     writeln!(input, "    pH        7  charge").unwrap();
     writeln!(input, "    water     {:.9}", problem_a.kgw).unwrap();
     if vessel_a.uses_atmospheric_reservoir()
@@ -6178,7 +6178,7 @@ fn build_mix_input(
     let temp_b_c = vessel_b.temperature.to_celsius();
     writeln!(input, "SOLUTION 2").unwrap();
     writeln!(input, "    units     mol/kgw").unwrap();
-    writeln!(input, "    temp      {temp_b_c:.12e}").unwrap();
+    writeln!(input, "    temp      {temp_b_c:.4}").unwrap();
     writeln!(input, "    pH        7  charge").unwrap();
     writeln!(input, "    water     {:.9}", problem_b.kgw).unwrap();
     if vessel_b.uses_atmospheric_reservoir()
@@ -6376,9 +6376,17 @@ fn build_input_at(
     let temp_c = vessel.temperature.to_celsius();
     writeln!(input, "SOLUTION 1").unwrap();
     writeln!(input, "    units     mol/kgw").unwrap();
-    writeln!(input, "    temp      {temp_c:.12e}").unwrap();
+    writeln!(input, "    temp      {temp_c:.4}").unwrap();
     writeln!(input, "    pH        7  charge").unwrap();
-    writeln!(input, "    water     {:.9}", problem.kgw).unwrap();
+    if vessel.owns_headspace_gas() && !problem.gases.is_empty() {
+        // Totals below are n/kgw. Quantizing only kgw changes the native
+        // supplied element amounts before equilibrium even begins. Preserve
+        // finite gas/solution ownership with matching input precision; open
+        // aqueous and MIX problems retain their established serialization.
+        writeln!(input, "    water     {:.12e}", problem.kgw).unwrap();
+    } else {
+        writeln!(input, "    water     {:.9}", problem.kgw).unwrap();
+    }
     match couple {
         // Solving for the electron balance: pe is the unknown being
         // bisected, so it is stated outright.
@@ -6452,8 +6460,8 @@ fn build_input_at(
         // partition() converts owned moles to partial pressure at the
         // vessel's unrounded temperature. Four decimal Celsius places here
         // changed the initializer's moles by T_raw/T_written (1.26e-7 in the
-        // frozen carbonated-water opening); use the same precision as the
-        // solution temperature so this conversion does not create carbon.
+        // frozen carbonated-water opening). Preserve the initializer's own
+        // temperature without changing SOLUTION's established precision.
         writeln!(input, "    -temperature {temp_c:.12e}").unwrap();
         match vessel.headspace {
             Headspace::Sealed { volume } => {
@@ -7060,26 +7068,63 @@ mod finite_gas_temperature_serialization_tests {
     use super::*;
 
     #[test]
-    fn mixed_solutions_keep_each_fractional_input_temperature() {
-        let mut a = Vessel::new(kerotakis_core::VesselId(0), "solution A");
-        a.temperature = Kelvin(298.1500375477956);
-        a.deposit(SpeciesId::new("water"), Moles(5.55), Phase::Liquid);
-        let mut b = a.clone();
-        b.temperature = Kelvin(298.5820854655798);
-        let problem_a = partition(&a).unwrap();
-        let problem_b = partition(&b).unwrap();
-        let input = build_mix_input(
-            &a, &problem_a, &b, &problem_b, 1.0, 1.0, "wateq4f", &problem_a,
+    fn finite_gas_input_round_trips_fractional_solvent_and_aqueous_carbon() {
+        let kgw = 0.099699987654321;
+        let aqueous_carbon = 0.00123456789;
+        let gas_carbon = 0.02;
+        let mut vessel = Vessel::new(kerotakis_core::VesselId(0), "finite carbon input");
+        vessel.temperature = Kelvin(298.1500375477956);
+        vessel.headspace = Headspace::Sealed {
+            volume: kerotakis_core::Liters(0.1),
+        };
+        vessel.deposit(
+            SpeciesId::new("water"),
+            Moles(kgw * 1000.0 / WATER_MOLAR_MASS),
+            Phase::Liquid,
         );
-        let temperatures: Vec<f64> = input
-            .lines()
-            .filter_map(|line| line.trim().strip_prefix("temp "))
-            .map(|value| value.trim().parse().unwrap())
-            .collect();
-        assert_eq!(temperatures.len(), 2);
-        for (written, vessel) in temperatures.iter().zip([a, b]) {
-            assert!((written + 273.15 - vessel.temperature.0).abs() < 1e-11);
-        }
+        vessel.deposit(
+            SpeciesId::new("CO2(aq)"),
+            Moles(aqueous_carbon),
+            Phase::Aqueous,
+        );
+        vessel.deposit(SpeciesId::new("CO2"), Moles(gas_carbon), Phase::Gas);
+        let problem = partition(&vessel).unwrap();
+        assert!((problem.kgw - kgw).abs() < 1e-16);
+        let input = build_input(&vessel, &problem, "wateq4f");
+        let written = |prefix: &str| -> f64 {
+            input
+                .lines()
+                .find_map(|line| line.trim().strip_prefix(prefix))
+                .unwrap()
+                .trim()
+                .parse()
+                .unwrap()
+        };
+        let input_aqueous = written("C ") * written("water ");
+        let input_gas = written("CO2(g) ") * written("-volume ")
+            / (0.082_059_7 * (written("-temperature ") + 273.15));
+        let target = aqueous_carbon + gas_carbon;
+        // Each twelve-decimal scientific field has <=5e-13 relative
+        // quantization. This bound covers both native initialization paths.
+        let bound = 5e-12 * target;
+        assert!((input_aqueous + input_gas - target).abs() < bound);
+        let legacy_water: f64 = format!("{:.9}", problem.kgw).parse().unwrap();
+        let legacy_error = written("C ") * legacy_water - aqueous_carbon;
+        let predicted_error = aqueous_carbon * (legacy_water / problem.kgw - 1.0);
+        assert!(
+            legacy_error.abs() > 1e-12,
+            "fixture must expose the old picomole-scale input error"
+        );
+        assert!((legacy_error - predicted_error).abs() < 1e-15);
+
+        // A separate open input keeps the old format and does not acquire
+        // a new equilibrium problem because this finite-owner repair exists.
+        let mut open = vessel.clone();
+        open.headspace = Headspace::Open;
+        open.contents.retain(|portion| portion.phase != Phase::Gas);
+        let open_problem = partition(&open).unwrap();
+        let open_input = build_input(&open, &open_problem, "wateq4f");
+        assert!(open_input.contains(&format!("    water     {:.9}\n", open_problem.kgw)));
     }
 
     #[test]
@@ -7109,14 +7154,6 @@ mod finite_gas_temperature_serialization_tests {
                 .trim()
                 .parse()
                 .unwrap();
-            let written_solution: f64 = input
-                .lines()
-                .find_map(|line| line.trim().strip_prefix("temp "))
-                .unwrap()
-                .trim()
-                .parse()
-                .unwrap();
-            assert_eq!(written_celsius, written_solution);
             let partial_pressure: f64 = input
                 .lines()
                 .find_map(|line| line.trim().strip_prefix("CO2(g) "))

@@ -48,9 +48,10 @@ fn assert_closed(expected: &Vessel, actual: &Vessel) {
     );
     assert!(
         (carbon(expected) - carbon(actual)).abs() < 1e-12,
-        "owned carbon {} -> {}",
-        carbon(expected),
-        carbon(actual)
+        "owned carbon {} -> {}; expected T={} headspace={:?} contents={:?}; actual elapsed={} T={} headspace={:?} contents={:?}; native solvent_kg={:?}; ledger before={:?} after={:?}",
+        carbon(expected), carbon(actual), expected.temperature.0, expected.headspace, expected.contents,
+        actual.elapsed_seconds, actual.temperature.0, actual.headspace, actual.contents,
+        actual.solution.as_ref().and_then(|solution| solution.solvent_kg), a, b
     );
     let elements: std::collections::BTreeSet<_> =
         a.elements.keys().chain(b.elements.keys()).collect();
