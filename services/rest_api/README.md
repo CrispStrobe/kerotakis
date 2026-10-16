@@ -145,7 +145,7 @@ Signals and resource-limit changes are restricted to the child itself; threads
 are bounded by its per-user task ceiling. Unsupported restriction installation
 returns 503; there is no unsandboxed fallback.
 
-Limits: eight CPU seconds, ten wall seconds, one GiB child address space,
+Limits: twelve CPU seconds, eighteen wall seconds, one GiB child address space,
 64 file descriptors/tasks, one MB combined process output and two MB serialized
 response. Cancellation, timeout and output exhaustion kill/reap the process group
 and drain residual pipe buffers. Vercel's function allocation governs the parent;
@@ -177,10 +177,18 @@ budget is4,096 per request. Duplicate keywords, extra suffixes, noninteger/zero
 counts and nonfinite Courant fractions refuse before execution.
 
 Explicit simulated duration is bounded at30 days per command and90 days per
-request. These are simulation horizons, independent of the unchanged eight CPU
-and ten wall seconds allowed to the child. Long or costly chemistry may still
-reach the execution deadline. The CLI validates quantities, identities and
-chemistry; gateway admission does not claim chemical support or success.
+request. These are simulation horizons, independent of the twelve CPU
+and eighteen wall seconds allowed to the child. Long or costly chemistry may still
+reach the execution deadline. The microVM supervisor records reaped-child CPU
+usage and peak RSS. SIGKILL at its configured CPU ceiling becomes a `timeout`
+with `CPU time limit reached`; other signals retain the undetermined-cause
+HTTP503 diagnostic. The 12/18-second budget follows a recorded eight-second CPU
+exhaustion; it is finite and does not remove loop or admission limits.
+
+Deadline ordering reserves room for cleanup: child 18s wall, supervisor process
+kill 21s, SDK process deadline 23s, VM lifetime 30s, complete VM lifecycle 35s,
+optional forwarding 40s and browser 45s, under the 60s Vercel function deadline.
+The CLI validates quantities, identities and chemistry; gateway admission does not claim chemical support or success.
 
 ## Browser clients
 

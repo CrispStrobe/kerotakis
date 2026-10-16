@@ -32,7 +32,8 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError
 BODY_LIMIT = 20_000
 SCRIPT_LIMIT = 16_000
 OUTPUT_LIMIT = 1_000_000
-WALL_SECONDS = 10
+CPU_SECONDS = 12
+WALL_SECONDS = 18
 LEASE_SECONDS = 90
 # English-only simulation commands. Filesystem, language and game/session
 # controls remain excluded; register selects presentation only. Explicit loop
@@ -552,9 +553,9 @@ async def run_microvm_engine(cfg: Settings, script: str):
                         execution_time_limit=30, network_policy=sandbox.NetworkPolicy.deny_all(),
                         env={}, ports=[], persistent=False, region="iad1") as box:
                     await box.fs.write_text("/vercel/sandbox/engine/input.lab", script, mode=0o644)
-                    async with asyncio.timeout(20):
+                    async with asyncio.timeout(23):
                         completed = await box.run_process("python3", ["-I", "/vercel/sandbox/engine-job.py"],
-                            sudo=True, capture_output=True, kill_after=15)
+                            sudo=True, capture_output=True, kill_after=21)
                     require(completed.returncode == 0 and len(completed.stdout.encode()) <= OUTPUT_LIMIT * 2)
                     raw = json.loads(completed.stdout)
                     require(raw["binary_sha256"] == cfg.engine["binary_sha256"])
@@ -574,7 +575,7 @@ async def run_microvm_engine(cfg: Settings, script: str):
 
 async def forward(cfg: Settings, token: str, script: str):
     try:
-        async with httpx.AsyncClient(timeout=20, follow_redirects=False, trust_env=False) as client:
+        async with httpx.AsyncClient(timeout=40, follow_redirects=False, trust_env=False) as client:
             async with client.stream("POST", cfg.upstream + "/run", json={"script": script},
                     headers={"Authorization": "Bearer " + token}) as response:
                 data = bytearray()
@@ -642,7 +643,7 @@ def create_app(cfg: Settings | None = None):
                     "aggregate_loop_work": MAX_LOOP_WORK,
                     "simulated_seconds_per_command": MAX_COMMAND_SECONDS,
                     "aggregate_simulated_seconds": MAX_SCRIPT_SECONDS,
-                    "child_cpu_seconds": 8, "child_wall_seconds": WALL_SECONDS},
+                    "child_cpu_seconds": CPU_SECONDS, "child_wall_seconds": WALL_SECONDS},
                 "physical_verdict": "not_assigned"}
 
     @app.post("/run", response_model=RunOutput, openapi_extra={"requestBody": {
