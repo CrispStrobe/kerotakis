@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - 'services/rest_api/**'
+      - 'crates/kerotakis-core/src/script.rs'
+      - 'crates/kerotakis-core/src/species.rs'
       - 'web/rest.html'
       - 'web/sw.js'
       - 'tools/build-web.sh'
@@ -14,6 +16,8 @@ on:
     branches: [main]
     paths:
       - 'services/rest_api/**'
+      - 'crates/kerotakis-core/src/script.rs'
+      - 'crates/kerotakis-core/src/species.rs'
       - 'web/rest.html'
       - 'web/sw.js'
       - 'tools/build-web.sh'
