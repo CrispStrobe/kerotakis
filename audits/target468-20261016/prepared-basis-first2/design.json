@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "frozen_utc": "2026-10-16T18:10:07.956103+00:00",
+  "api_revision": "266121dd5605a439a495c85f2401fbeacd6272f4",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "engine_source_files_sha256": {
+    "crates/kerotakis-core/src/curated.rs": "20db49d2b0679fb77e1df7205f6a4ae8878f8becccf7c30cebb1c9796bcd27a5",
+    "crates/kerotakis-core/src/displacement.rs": "546e8bcdceca3f7d18301bbc0b8f6f2cefbded8303d435df6d06f7f403d6bfd7",
+    "crates/kerotakis-core/src/species.rs": "2f7cf2e683c3bb1f0718e5e8e9d75f3cad58621df256f115686fc279be17850f",
+    "crates/kerotakis-core/src/script.rs": "279036582bf9270055ab8b96f2ef3f5c9644ce3a58916bef8daf584a3e22bca2"
+  },
+  "cases": [
+    {
+      "id": "118-prepared-basis",
+      "original_rank": 118,
+      "original_id": "permanganate_oxalate",
+      "original_script_sha256": "778c52a7b6720d3138fa553b5dd0ab8fbd3ae7a60565fe058cd84603cc641c26",
+      "original_forecast": "Permanganate is consumed and carbon dioxide forms.",
+      "original_first_refusal": "unknown species or material 'C2O4--' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)",
+      "script": "# Rank118 separate oxalic-acid analytical-basis control\nadd v1 water 100mL @ 25C\nseal v1 1L\ninspect v1\nadd v1 H+ 0.006mol\nadd v1 H2C2O4 0.005mol\nadd v1 MnO4- 0.002mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_path": "118-prepared-basis.lab",
+      "script_sha256": "adfb3c6f726f2a9a15f9bb5f83fd6a6e940f6af24ee7251d6b936b14fee770ed",
+      "changes": {
+        "priority": 1,
+        "case": 118,
+        "class": "same_elemental_and_formal_charge_feed_in_existing_curated_basis",
+        "replacement_commands": [
+          "add v1 H+ 0.006mol",
+          "add v1 H2C2O4 0.005mol",
+          "add v1 MnO4- 0.002mol"
+        ],
+        "reason": "Original5mmolC2O4(2-)+16mmolH+ is atom/formal-charge equivalent to5mmolH2C2O4+6mmolH+. H2C2O4 is registered and curated.rs325-395 explicitly implements this feed basis. Mn feed unchanged. Prefer acid first in a separately frozen protocol; do not replace only the anion while leaving16mmol acid.",
+        "limitations": "This is not an oxalate-ion alias. The existing curated row explicitly does not gate acid or the practical approximately60C initiation, and supplies no real rate/heat calibration. Original order and inputs remain frozen; no physical pass from source."
+      },
+      "feed_equivalence": {
+        "original_mol_atoms": {
+          "C": 0.01,
+          "H": 0.016,
+          "Mn": 0.002,
+          "O": 0.028
+        },
+        "new_mol_atoms": {
+          "C": 0.01,
+          "H": 0.016,
+          "Mn": 0.002,
+          "O": 0.028
+        },
+        "original_mol_formal_charge": 0.004,
+        "new_mol_formal_charge": 0.004
+      },
+      "initial_water": "Original100mL water at25C retained, no additional carrier water; sealed1L headspace retained.",
+      "forecast": {
+        "principal": "Permanganate is consumed and carbon dioxide forms on the explicitly declared existing curated oxalic-acid basis.",
+        "checks": [
+          {
+            "quantity": "MnO4- retained after reaction",
+            "max_mol": 1e-08
+          },
+          {
+            "quantity": "CO2 reaction formation reported by contained/evolved event",
+            "expected_mol": 0.01,
+            "absolute_tolerance_mol": 1e-08
+          },
+          {
+            "quantity": "whole-vessel added carbon across retained phases, excluding trapped initial inventory",
+            "expected_mol": 0.01,
+            "absolute_tolerance_mol": 1e-08
+          }
+        ],
+        "scope": "Analytical-basis stoichiometry only. Bare H+ is not a physical acid stock. Existing row lacks acid/temperature initiation gating and validated rate/heat; no original reaction or physical-stock closure."
+      },
+      "original_case_closed": false,
+      "catalog_selection": "not_assigned"
+    },
+    {
+      "id": "84-prepared-basis",
+      "original_rank": 84,
+      "original_id": "copper_chloride_electrolysis",
+      "original_script_sha256": "0743f1f2fe92fdf4a787b74ca58a2c9aca7d9dcb62973f2c6304f8cbdb712ee8",
+      "original_forecast": "Copper is deposited and chlorine can form at the anode.",
+      "original_first_refusal": "unknown species or material 'CuCl2' \u2014 did you mean 'CaCl2'? ('species' lists the pure substances, 'materials' the household and school bottles, 'find CuCl2' searches both)",
+      "script": "# Rank084 separate aqueous copper-chloride analytical-basis control\nadd v1 water 100mL @ 25C\nseal v1 1L\ninspect v1\nadd v1 Cu+2 0.001mol\nadd v1 Cl- 0.002mol\ninspect v1\nelectrolyse v1 0.1A 10s\nwait 10s\ninspect v1\n",
+      "script_path": "84-prepared-basis.lab",
+      "script_sha256": "026252c876919b8d0fb6c1ae540c807a08768f9ad3631f1ee8bb97cd39f192db",
+      "changes": {
+        "priority": 2,
+        "case": 84,
+        "class": "explicit_aqueous_analytical_components_control",
+        "replacement_commands": [
+          "add v1 Cu+2 0.001mol",
+          "add v1 Cl- 0.002mol"
+        ],
+        "reason": "Original specifies CuCl2(aq), already in100mL water. Existing Cu+2 and Cl- represent the same Cu/Cl count and netzero charge; retain original0.1A10s finite electrolysis. displacement.rs defines aqueous chloride oxidation and copper plating, including finite water and current bookkeeping.",
+        "limitations": "Separate prepared-ion control, not a CuCl2 solid/solution stock alias or a dissolution-enthalpy repair. Source coverage does not prove output yields, electrode kinetics or final gas speciation."
+      },
+      "feed_equivalence": {
+        "original_mol_atoms": {
+          "Cu": 0.001,
+          "Cl": 0.002
+        },
+        "new_mol_atoms": {
+          "Cu": 0.001,
+          "Cl": 0.002
+        },
+        "original_mol_formal_charge": 0,
+        "new_mol_formal_charge": 0
+      },
+      "initial_water": "Original100mL water at25C retained, no additional carrier water; sealed1L headspace retained.",
+      "forecast": {
+        "principal": "Finite copper deposition with chloride oxidation under the existing ideal-current aqueous electrolysis model.",
+        "checks": [
+          {
+            "quantity": "electrons passed",
+            "expected_mol": 1.0364269656617728e-05,
+            "absolute_tolerance_mol": 1e-10
+          },
+          {
+            "quantity": "Cu electrodeposition increment at electrolysis step",
+            "expected_mol": 5.182134828308864e-06,
+            "absolute_tolerance_mol": 1e-09
+          },
+          {
+            "quantity": "Cl2 anode production at electrolysis step",
+            "expected_mol": 5.182134828308864e-06,
+            "absolute_tolerance_mol": 1e-09
+          },
+          {
+            "quantity": "retained total Cu",
+            "expected_mol": 0.001,
+            "absolute_tolerance_mol": 1e-08
+          },
+          {
+            "quantity": "retained total Cl atoms",
+            "expected_mol": 0.002,
+            "absolute_tolerance_mol": 1e-08
+          }
+        ],
+        "scope": "Prepared aqueous analytical components, not a CuCl2 stock alias or dissolution-heat claim. Ideal charge transfer is not electrode kinetics, overpotential, quantitative empirical calibration or guaranteed final chlorine speciation."
+      },
+      "original_case_closed": false,
+      "catalog_selection": "not_assigned"
+    }
+  ],
+  "execution_policy": "Exactly one API request per changed script; preserve issued markers/raw receipts. No retry on ambiguous transport failure. Refusal, model boundary and physical-criterion outcomes remain distinct.",
+  "qualification": "Two separately prepared analytical-basis followups, not global aliases, blind experiments, empirical calibration or closure of original200 cases. Original scripts and first failures remain immutable."
+}

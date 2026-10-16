@@ -1,0 +1,10 @@
+# Rank084 separate aqueous copper-chloride analytical-basis control
+add v1 water 100mL @ 25C
+seal v1 1L
+inspect v1
+add v1 Cu+2 0.001mol
+add v1 Cl- 0.002mol
+inspect v1
+electrolyse v1 0.1A 10s
+wait 10s
+inspect v1
