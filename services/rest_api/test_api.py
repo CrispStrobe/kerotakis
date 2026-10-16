@@ -361,6 +361,29 @@ class RedisTests(unittest.TestCase):
         self.assertEqual(acquire(10), "3")
         self.assertEqual(self.cli("ZCARD", "{test}:leases"), "0")
 
+    def test_shared_store_total_deadline_bounds_drip_and_release(self):
+        cfg = api.Settings(redis_url="https://redis.example", redis_token="private-test-token")
+        closed = []
+        class Drip(httpx.AsyncByteStream):
+            async def __aiter__(self):
+                yield b'{"result":'
+                await asyncio.sleep(10)
+                yield b'1}'
+            async def aclose(self):
+                closed.append(True)
+        async def handle(request):
+            return httpx.Response(200, stream=Drip())
+        original_client, original_timeout = httpx.AsyncClient, asyncio.timeout
+        with patch.object(api.httpx, "AsyncClient", side_effect=lambda **kwargs:
+                original_client(transport=httpx.MockTransport(handle), **kwargs)), \
+             patch.object(api.asyncio, "timeout", side_effect=lambda seconds:
+                original_timeout(.01 if seconds == 3 else seconds)):
+            with self.assertRaises(HTTPException) as error:
+                asyncio.run(api.RedisAdmission(cfg).acquire("test"))
+            self.assertEqual(error.exception.status_code, 503)
+            asyncio.run(api.RedisAdmission(cfg).release("expired-lease"))
+        self.assertEqual(len(closed), 2)
+
     def test_shared_rest_outage_and_redirect_fail_closed(self):
         cfg = api.Settings(redis_url="https://redis.example", redis_token="private-test-token")
         original = httpx.AsyncClient

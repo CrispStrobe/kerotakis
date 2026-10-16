@@ -376,21 +376,22 @@ class RedisAdmission:
 
     async def command(self, command):
         try:
-            async with httpx.AsyncClient(timeout=3, follow_redirects=False, trust_env=False) as client:
-                async with client.stream("POST", self.cfg.redis_url, json=command,
-                        headers={"Authorization": "Bearer " + self.cfg.redis_token}) as response:
-                    if response.status_code != 200:
-                        raise ValueError
-                    data = bytearray()
-                    async for chunk in response.aiter_bytes():
-                        if len(data) + len(chunk) > 8192:
+            async with asyncio.timeout(3):
+                async with httpx.AsyncClient(timeout=3, follow_redirects=False, trust_env=False) as client:
+                    async with client.stream("POST", self.cfg.redis_url, json=command,
+                            headers={"Authorization": "Bearer " + self.cfg.redis_token}) as response:
+                        if response.status_code != 200:
                             raise ValueError
-                        data.extend(chunk)
-                    result = json.loads(data)
-                    if not isinstance(result, dict) or "error" in result or type(result.get("result")) is not int:
-                        raise ValueError
-                    return result["result"]
-        except (httpx.HTTPError, ValueError, KeyError):
+                        data = bytearray()
+                        async for chunk in response.aiter_bytes():
+                            if len(data) + len(chunk) > 8192:
+                                raise ValueError
+                            data.extend(chunk)
+                        result = json.loads(data)
+                        if not isinstance(result, dict) or "error" in result or type(result.get("result")) is not int:
+                            raise ValueError
+                        return result["result"]
+        except (TimeoutError, httpx.HTTPError, ValueError, KeyError):
             raise HTTPException(503, "Shared admission unavailable") from None
 
     async def acquire(self, principal):
