@@ -1,0 +1,72 @@
+{
+  "frozen_utc": "2026-10-16T18:46:58.737606+00:00",
+  "pr": 809,
+  "reviewed_pr_head": "673233df07deda6f311c474e913e9733a971853d",
+  "producer_run": 38881455757,
+  "producer_event": "pull_request",
+  "tested_merge_commit": "7fca297b73ed888e154c40c83811a57d4995e861",
+  "actual_merge_parents": [
+    "4f0112f6cc1330572369429c7ae2e0ca94494205",
+    "673233df07deda6f311c474e913e9733a971853d"
+  ],
+  "actual_merge_tree": "9f12cf9ec52a9929b92febf273d1d33639649861",
+  "reconstructed_merge_tree": "9f12cf9ec52a9929b92febf273d1d33639649861",
+  "engine": {
+    "source_head": "7fca297b73ed888e154c40c83811a57d4995e861",
+    "source_tree": "9f12cf9ec52a9929b92febf273d1d33639649861",
+    "binary_sha256": "ccb09303ed954df3f07490cc4502efb5669eed27b30f8972df464741b315aec7",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "script": "# AB-029: A hydroxide suspension and its clear filtrate hide different reserves\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 Mg(OH)2 0.002mol\nnew\nadd v2 water 100mL\nadd v2 Mg(OH)2 0.002mol\nnew\nfilter v2 v3\nmeasure v1 ph\nmeasure v3 ph\nadd v1 HCl 0.001mol\nadd v3 HCl 0.001mol\nmeasure v1 ph\nmeasure v3 ph\ninspect\n",
+  "script_sha256": "cf7a5085df974af447178e328821b2ec41c883e27092929b790d25d670e12c9c",
+  "original_forecast": "The suspension can replenish dissolved hydroxide by consuming solid Mg(OH)2. Its filtrate lacks that reserve and should acidify much more under the same acid dose.",
+  "original_acceptance_checks": [
+    {
+      "id": "AB-029-C1",
+      "criterion": "Initial dissolved-state pH values are compared before the challenge.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "AB-029-C2",
+      "criterion": "Acid causes loss of hydroxide solid in v1 while the isolated filtrate becomes substantially more acidic.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "additional_preexisting_native_regression_checks": {
+    "no_solver_failed_events": true,
+    "fresh_filtrate_solution_after_filter": true,
+    "same_state_filter_temperature_max_difference_K": 1e-06,
+    "same_state_filter_ph_max_difference": 0.0001,
+    "filtrate_retained_water_difference_max_mol": 1e-09,
+    "filtrate_MgOH2_max_mol": 1e-09,
+    "donor_residual_MgOH2_min_mol": 0.001,
+    "final_suspension_ph_min": 8,
+    "final_filtrate_ph_max": 3,
+    "final_ph_difference_min": 5
+  },
+  "snapshot_receipt_sha256": "d2ee619542b36309db044e0b346517aed7941e491ecc7cd3fefaeece1a4f371e",
+  "supervisor_sha256": "299e61560ed46b465b666a276a78a3664e6d1dbed1e681382544419e1b2cab70",
+  "sandbox_sha256": "4e4425da74b0b451c3ee6f51204db7bae395c3d6538cea81afe0fc207f355ef7",
+  "runtime_libraries_sha256": {
+    "ld-linux-x86-64.so.2": "5022436ff15df9e54e79ee0a0ca8b3422a0dcb0c11920d9901ded30eccbf8638",
+    "libc.so.6": "fdf84d7d72db18bb3996a7b24f3eb473e7efbc8f994af7b159f76d61d1b4c978",
+    "libgcc_s.so.1": "9460b5f230d3f66554ec259e8e0890b0946dfde7cc83f95d1ac8d4dca3d3f9bb",
+    "libm.so.6": "f7cb1097b97353d994fe191e5fafc81f0171935792311a157c3082213fc704e0",
+    "libstdc++.so.6": "846b43f9f1429cc67ae7ffd24f4ccdd7a17d652765aaf3e6f9d2ca54178b369d"
+  },
+  "runner_sha256": "3406e8d50c211ee92f4d3fdbafa3e40d371bc606cb605ed058c06d2bbb9eac4b",
+  "isolation": {
+    "network": "deny-all",
+    "environment": {},
+    "vcpus": 1,
+    "memory_mib": 2048,
+    "cpu_seconds": 12,
+    "wall_seconds": 18,
+    "credentials_enter_vm": false,
+    "production_snapshot_modified": false
+  },
+  "execution_policy": "Exactly one unchanged script invocation on changed reviewed-source artifact; no retry after issued marker. Preserve raw failure as well as success. No local native/build execution.",
+  "qualification": "Native CLI replay in disposable remote microVM, not a REST gateway or production deployment acceptance; empirical heat/rate calibration remains separate."
+}
