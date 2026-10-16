@@ -65,12 +65,11 @@ probe in place or count a warning as implemented chemistry.
 1. **Explain incomplete ionic inputs.** [PR796](https://github.com/CrispStrobe/kerotakis/pull/796)
    withholds solvent-only readings for explicit bare acid/base coordinates and
    discloses uncompensated analytical-component charge. Preserve complete-stock
-   predictions, inventory, typed interfaces and counterion recovery. Eight
-   regression groups are prepared; hosted execution is pending. A future physical
+   predictions, inventory, typed interfaces and counterion recovery. Seventeen focused core/aqueous groups and full native/own-fleet acceptance passed; PR796 integrated as `21d2cca8`. A future physical
    ion-input convention needs separate versioning, water and energy accounting.
 2. **Select silver–ammonia capability.** The source candidate is
    [PR798](https://github.com/CrispStrobe/kerotakis/pull/798), with four focused
-   groups awaiting hosted execution. Its named limitation preserves the distinction
+   groups accepted on its earlier source and fresh combined-source validation in progress. Its named limitation preserves the distinction
    between equilibrium speciation and canonical free-ligand availability. Inspect
    `crates/kerotakis-phreeqc/src/aqueous.rs` database selection. The default dataset
    lacks silver ammines; vendored `minteq.v4.dat` already contains sourced
@@ -116,3 +115,45 @@ The watercolor and vessel-animation work has its own accepted implementation;
 its acceptance does not close these chemical coverage lanes. The production API
 still reports its pinned engine revision, so later merges do not silently change
 these saved results.
+
+## Per-record repair checkpoint — 2026-10-16
+
+The [maintained repair queue](repair-progress.json) tracks all 200 records by
+original rank, script hash, current disposition and concrete next action. It does
+not rewrite the original screening or treat honest refusals as implemented
+chemistry. Shared prerequisites retain the order above; newly unblocked records
+are handled in rank order within their lane.
+
+Rank 1 now has a [paired repair-source replay](case001-repair-20261016/assessment.json).
+On engine `efd79bf8`, the unchanged bare-H+/OH− protocol withholds solution
+readings and names its unsupported analytical-coordinate interpretation. The
+separate complete HCl/NaOH protocol moves from pH 2.0381 to 6.9927 and warms by
+0.2407 K; a ten-second wait retains the near-neutral endpoint. This demonstrates
+the target with supported stocks and verifies the reporting repair. Bare-ion
+neutralisation remains unimplemented, and no empirical heat calibration or
+production-deployment claim follows. Both scripts, frozen forecasts, executable
+binding and raw streams are saved separately from the original experiment.
+
+The acidified permanganate/peroxide endpoint remains gated on PR799. Its three
+focused native continuation groups now passed, but full acceptance exposed one
+remaining core near-vacuum fixture and an undeclared phrase composer. Repair
+`a7b9016a` supplies inert gas for that no-boiling fixture and registers actual
+German/French translation coverage. Strict assertions and the independent
+vacuum-boiling control remain. Fresh hosted validation is pending.
+
+PR801's `c0dfe45f` macOS native run passed both strict finite-gas controls, the
+previously failing filtration assertion, the full Rust suite and the unchanged
+500-prompt gate with zero unmet requirements, runtime failures or baseline
+drift. The remaining platform/fleet checks still precede integration. PR798's
+combined-source acceptance is also pending; canonical free/complex-bound
+ammonia ownership remains a separate gap after the demonstrated speciation fix.
+
+The [first fifteen distinct identity refusals](identity-first15-review-20261016.json)
+now have an exact-main registry/parser review and per-token acceptance tasks.
+Two are proven alias candidates: `CuSO4_anhydrous` → `CuSO4`, and the explicitly
+singly charged `acetate` → `CH3COO-`. The other thirteen need new identities,
+physical domains or clearer schematic definitions. This source review adds no
+aliases and executes no chemistry. Charged, hydrated, phase-specific and isomer
+identities must remain distinct. Continue implementation after the earlier
+endpoint prerequisites; a resolved first token can reveal further missing
+reactants in the same protocol.

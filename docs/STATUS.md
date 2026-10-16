@@ -273,3 +273,32 @@ Production remains explicitly pinned to API `9bee95d9` / engine `d791d306` until
 an accepted exact-source deployment and its platform checks complete. No local
 Rust or browser build ran for this checkpoint; one resource-gated prebuilt CLI
 replay completed.
+
+
+### Dataset repair continuation — 2026-10-16
+
+All 200 supplied records now have a maintained
+[per-record repair queue](../audits/reaction-dataset-200-20261015/repair-progress.json).
+Rank 1's [paired replay](../audits/reaction-dataset-200-20261015/case001-repair-20261016/assessment.json)
+verifies the integrated bare-input reporting boundary and the supported
+complete-stock neutralisation target on source `efd79bf8`: pH 2.0381 → 6.9927,
+with a 0.2407 K temperature increase. The original bare-ion chemistry remains
+unsupported; original outcomes are unchanged.
+
+PR799 is now `a7b9016a`: its previous source passed all three focused native
+groups, but full acceptance exposed a remaining core fixture near vacuum and
+missing translation-composer registration. Both are repaired, with strict
+assertions and independent vacuum cooling preserved. Fresh execution is pending.
+PR801's `c0dfe45f` macOS native run now passed both finite-gas controls, the old
+filtration assertion, the full Rust suite and the unchanged 500-prompt gate.
+Remaining applicable checks still precede integration.
+
+The new API preview's AL2023 build, microVM smoke and isolation controls passed.
+Its [receipt](../audits/reaction-dataset-200-20261015/api-preview-20261016.json)
+verifies downloaded binary/library/source/snapshot bindings and qualifies the
+producer-reported lock hash, whose bytes are absent from that artifact. Source
+integration, gateway/browser delivery and production acceptance remain separate;
+production is unchanged. The standalone
+[working-script JSON](../audits/working-experiments-20261016.json) contains 147
+previously demonstrated experiments, including 13 original supplied-200 cases
+and nine complete-stock follow-ups; it is not a fresh current-engine batch.

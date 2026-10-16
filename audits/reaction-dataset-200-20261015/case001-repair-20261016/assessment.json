@@ -1,0 +1,28 @@
+{
+  "rank": 1,
+  "original_protocol": "Unsupported analytical H/O input remains unsupported; corrected engine withholds stale solvent-only pH and explains the model boundary. This is reporting repair, not implemented bare-ion neutralisation.",
+  "complete_stock_protocol": "The separate complete HCl/NaOH protocol demonstrates the target principal response.",
+  "observations": {
+    "acid_ph": 2.038105470481,
+    "neutralized_ph": 6.992693453276,
+    "after_wait_ph": 6.992709843471,
+    "temperature_before_base_k": 298.1500013447139,
+    "temperature_after_base_k": 298.3907323556392,
+    "temperature_change_k": 0.2407310109252876,
+    "canonical_final_inventory_mol": {
+      "Cl-": 0.001,
+      "Na+": 0.001,
+      "water": 5.535276991396059
+    },
+    "neutralisation_water_increment_mol": 0.001000000000000334
+  },
+  "original_results_modified": false,
+  "source_head": "efd79bf88eb1514bb87506171c39e808c3b544e1",
+  "deployment_claim": false,
+  "calibration_claim": false,
+  "remaining": [
+    "Bare-ion physical-input semantics require separately versioned water/energy/counterion ownership; the coverage boundary is not a scientific pass.",
+    "This targeted source-bound replay is not a rerun of the entire200."
+  ],
+  "additional_saved_evidence_check": "The canonical inventory closes H/O/Na/Cl for the complete1mmolHCl+1mmolNaOH input:1mmolwater formed,1mmolNa andCl retained, zero net charge. This is a saved-output balance check, not empirical calibration."
+}

@@ -1,0 +1,470 @@
+{
+  "schema_version": 1,
+  "reviewed_utc": "2026-10-16T05:10:09.202823+00:00",
+  "source_head": "21d2cca85649dc9bbbb5558e146bb13cf06ce9f9",
+  "registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "screening_path": "audits/reaction-dataset-200-20261015/chemistry-screening.json",
+  "screening_sha256": "924f03620d5b14920588dce94c5d5af90d5165a833ab6477db07a4f3705f687b",
+  "selection": "first 15 distinct blocked_identity tokens encountered in rank order; first refusals only, not all missing reactants",
+  "method": "Read-only exact-source registry/parser/material/adapter review; no CLI/API execution, builds, alias additions or chemistry implementation",
+  "summary": {
+    "reviewed": 15,
+    "proven_alias_candidates": 2,
+    "not_alias_repairs": 13,
+    "counts": {
+      "missing_elemental_species_and_reaction": 1,
+      "missing_specific_species_and_organic_transformation": 1,
+      "missing_molecular_species_and_solution_phase_definition": 1,
+      "missing_specific_triglyceride_and_hydrolysis_domain": 1,
+      "missing_charged_complex_and_equilibrium_domain": 1,
+      "schematic_entity_without_unique_identity": 1,
+      "missing_amino_acid_identity_microstates_and_condensation": 1,
+      "missing_oxidation_state_specific_solid_and_electrode_domain": 1,
+      "proven_alias_candidate": 2,
+      "missing_explicit_hydrated_identity_with_existing_analytical_basis_convention": 1,
+      "missing_charged_protonation_identity_with_native_thermodynamic_support": 1,
+      "missing_position_specific_organic_identity_and_acetylation": 1,
+      "missing_specific_haloalkane_and_phase_sensitive_reaction": 1,
+      "missing_specific_alkene_and_regioselective_addition_domain": 1
+    }
+  },
+  "common_alias_acceptance_paths": [
+    "crates/kerotakis-core/tests/english_input_alias.rs",
+    "crates/kerotakis-core/tests/water_input_alias.rs",
+    "crates/kerotakis-core/tests/registry_unit_alias_equivalence_contracts.rs",
+    "crates/kerotakis-core/tests/registry_snapshot.rs"
+  ],
+  "common_requirements": [
+    "Endpoint/chemistry prerequisite work precedes identity implementation as ordered by the current task.",
+    "Preserve original frozen scripts, first refusals and expectations; corrected protocols and source bindings are separate.",
+    "Alias admission must preserve exact composition, charge, phase, canonical serialization, registry collision protection, recipe revisions and finite stock accounting.",
+    "A successful parser/identity repair does not establish a reaction, product identity, rate, energy, yield or physical validation.",
+    "Never silently supply a counterion, solvent, catalyst, pressure, isomer, hydrate or substitute stock."
+  ],
+  "records": [
+    {
+      "order": 1,
+      "first_rank": 11,
+      "first_case": "sodium_water",
+      "token": "Na",
+      "classification": "missing_elemental_species_and_reaction",
+      "existing_canonical_target": null,
+      "existing_target_identity": null,
+      "evidence": "The registry admits Na+ aqueous ion, NaCl and NaOH, but no elemental Na. Dataset requires neutral solid Na, not a sodium-containing reagent.",
+      "next_lane": [
+        "Admit a sourced Na(0) solid identity, mandatory thermophysical properties and finite water-reaction scope.",
+        "Test actual Na/water hydrogen, hydroxide, matter and energy budgets separately from input admission."
+      ],
+      "paired_acceptance": [
+        "Na must stay distinct from Na+, NaCl and NaOH; no charge-changing alias.",
+        "After species admission, compare matched neutral Na feeds across text/direct/JSON; retain missing reaction limits until validated."
+      ],
+      "other_unadmitted_reactant_tokens": [],
+      "source_paths": [
+        "data/registry/registry-source-v1.json",
+        "crates/kerotakis-core/src/species.rs",
+        "crates/kerotakis-core/src/script.rs"
+      ],
+      "status": "prospective_only_not_implemented_or_executed"
+    },
+    {
+      "order": 2,
+      "first_rank": 21,
+      "first_case": "tollens_test",
+      "token": "ethanal",
+      "classification": "missing_specific_species_and_organic_transformation",
+      "existing_canonical_target": null,
+      "existing_target_identity": null,
+      "evidence": "Neither ethanal nor acetaldehyde/CH3CHO is a registered identity. Existing ethanol and propanone differ in structure/composition.",
+      "next_lane": [
+        "Add a structure-bound ethanal identity and sourced properties before proposing acetaldehyde naming aliases.",
+        "Prepare Tollens reagent and aldehyde oxidation only after silver-complex/free-ligand ownership and reaction conditions are supported."
+      ],
+      "paired_acceptance": [
+        "Ethanal/acetaldehyde may be paired only after their same molecular identity is sourced.",
+        "Reject ethanol, ethylene oxide and other C2H4O isomer substitutions; formula equality alone is insufficient."
+      ],
+      "other_unadmitted_reactant_tokens": [
+        "Agammine"
+      ],
+      "source_paths": [
+        "data/registry/registry-source-v1.json",
+        "crates/kerotakis-core/src/species.rs",
+        "crates/kerotakis-core/src/script.rs",
+        "crates/kerotakis-core/src/curated.rs"
+      ],
+      "status": "prospective_only_not_implemented_or_executed"
+    },
+    {
+      "order": 3,
+      "first_rank": 22,
+      "first_case": "ethene_bromination",
+      "token": "Br2",
+      "classification": "missing_molecular_species_and_solution_phase_definition",
+      "existing_canonical_target": null,
+      "existing_target_identity": null,
+      "evidence": "Br- and HBr exist; neutral molecular Br2 does not. Source phase is solution without a solvent/concentration specification.",
+      "next_lane": [
+        "Add molecular Br2 with sourced phase/properties and a declared finite dissolved-bromine preparation.",
+        "Specify solvent, dose and light/radical conditions for a separate ethene bromination replay."
+      ],
+      "paired_acceptance": [
+        "Br2 must remain distinct from Br- and HBr.",
+        "Paired pure/dissolved feeds require explicit solvent and conservation accounting, not an automatic phase alias."
+      ],
+      "other_unadmitted_reactant_tokens": [],
+      "source_paths": [
+        "data/registry/registry-source-v1.json",
+        "crates/kerotakis-core/src/species.rs",
+        "crates/kerotakis-core/src/script.rs"
+      ],
+      "status": "prospective_only_not_implemented_or_executed"
+    },
+    {
+      "order": 4,
+      "first_rank": 39,
+      "first_case": "fat_saponification",
+      "token": "tristearin",
+      "classification": "missing_specific_triglyceride_and_hydrolysis_domain",
+      "existing_canonical_target": null,
+      "existing_target_identity": null,
+      "evidence": "No tristearin identity exists. Vegetable oil and coconut fat are unresolved material surrogates; fatty_soap is a role-based equivalent, not a molecular triglyceride.",
+      "next_lane": [
+        "Admit the specified C57H110O6 triglyceride with sourced identity, phase and properties.",
+        "Extend finite multi-ester hydrolysis and glycerol/stearate product ownership with defined aqueous/base conditions."
+      ],
+      "paired_acceptance": [
+        "Do not alias tristearin to vegetable_oil, coconut_fat, triolein or ethyl_acetate.",
+        "A named pure triglyceride and a recipe containing it must preserve the same molecular dose; unresolved oil is a separate negative control."
+      ],
+      "other_unadmitted_reactant_tokens": [],
+      "source_paths": [
+        "data/registry/registry-source-v1.json",
+        "crates/kerotakis-core/src/species.rs",
+        "crates/kerotakis-core/src/script.rs",
+        "crates/kerotakis-core/src/material.rs",
+        "crates/kerotakis-core/src/curated.rs"
+      ],
+      "status": "prospective_only_not_implemented_or_executed"
+    },
+    {
+      "order": 5,
+      "first_rank": 41,
+      "first_case": "starch_iodine_test",
+      "token": "I3-",
+      "classification": "missing_charged_complex_and_equilibrium_domain",
+      "existing_canonical_target": null,
+      "existing_target_identity": null,
+      "evidence": "I2 and KI are registered; Lugol solution is an explicit I2/KI/water material recipe. No triiodide ion or iodide/polyiodide speciation identity is admitted.",
+      "next_lane": [
+        "Add charge-correct I3- and its iodide/iodine equilibrium only with sourced constants and analytical ownership.",
+        "Define the starch/polyiodide observable separately from finite molecule/charge balances."
+      ],
+      "paired_acceptance": [
+        "Do not alias I3- to I2, KI or lugol_solution_1_percent.",
+        "Any declared Lugol follow-up must preserve its actual I2/KI/water composition and remain separate from the frozen I3- protocol."
+      ],
+      "other_unadmitted_reactant_tokens": [],
+      "source_paths": [
+        "data/registry/registry-source-v1.json",
+        "crates/kerotakis-core/src/species.rs",
+        "crates/kerotakis-core/src/script.rs",
+        "crates/kerotakis-core/src/material.rs"
+      ],
+      "status": "prospective_only_not_implemented_or_executed"
+    },
+    {
+      "order": 6,
+      "first_rank": 42,
+      "first_case": "biuret_test",
+      "token": "peptide",
+      "classification": "schematic_entity_without_unique_identity",
+      "existing_canonical_target": null,
+      "existing_target_identity": null,
+      "evidence": "The source specifies no formula, charge, sequence or chain length. Gelatin and albumin are material surrogates with unresolved protein content, not molar peptide species.",
+      "next_lane": [
+        "Choose and source a concrete peptide/sequence or explicitly version a non-stoichiometric teaching material before defining amounts.",
+        "Scope copper-peptide complexation and the biuret observable for that declared entity."
+      ],
+      "paired_acceptance": [
+        "Do not silently turn 0.001 mol peptide into gelatin/albumin grams or glycine.",
+        "Require identity/chain-length-sensitive positives and a declared non-peptide negative control; no generic pseudo-formula."
+      ],
+      "other_unadmitted_reactant_tokens": [],
+      "source_paths": [
+        "data/registry/registry-source-v1.json",
+        "crates/kerotakis-core/src/species.rs",
+        "crates/kerotakis-core/src/script.rs",
+        "crates/kerotakis-core/src/material.rs"
+      ],
+      "status": "prospective_only_not_implemented_or_executed"
+    },
+    {
+      "order": 7,
+      "first_rank": 43,
+      "first_case": "peptide_bond_formation",
+      "token": "glycine",
+      "classification": "missing_amino_acid_identity_microstates_and_condensation",
+      "existing_canonical_target": null,
+      "existing_target_identity": null,
+      "evidence": "No glycine identity exists in the registry. Source C2H5NO2 neutral formula alone does not supply amino-acid microstates or dehydration conditions.",
+      "next_lane": [
+        "Add structure-bound glycine with sourced phase/properties and explicit acid/base microstate ownership.",
+        "Separate peptide bond formation conditions, product identity and water balance from simple aqueous glycine admission."
+      ],
+      "paired_acceptance": [
+        "Do not alias to a glycine cation, an unrelated C2H5NO2 isomer, gelatin or a generic peptide.",
+        "After admission compare same-identity glycine spellings; charge-state inputs must remain independently balanced."
+      ],
+      "other_unadmitted_reactant_tokens": [],
+      "source_paths": [
+        "data/registry/registry-source-v1.json",
+        "crates/kerotakis-core/src/species.rs",
+        "crates/kerotakis-core/src/script.rs"
+      ],
+      "status": "prospective_only_not_implemented_or_executed"
+    },
+    {
+      "order": 8,
+      "first_rank": 44,
+      "first_case": "lead_acid_battery",
+      "token": "PbO2",
+      "classification": "missing_oxidation_state_specific_solid_and_electrode_domain",
+      "existing_canonical_target": null,
+      "existing_target_identity": null,
+      "evidence": "Pb metal and Pb+2 exist, but no PbO2 solid identity is admitted. Those existing identities do not represent Pb(IV) oxide.",
+      "next_lane": [
+        "Add phase-specific sourced PbO2 and PbSO4 identities/properties before a lead-acid cell domain.",
+        "Define both electrodes, acid/sulfate inventory and finite current/discharge boundary; contact alone is not an electrical protocol."
+      ],
+      "paired_acceptance": [
+        "PbO2 must not alias Pb, Pb+2 or an arbitrary lead salt.",
+        "Positive/negative electrode controls must conserve Pb/S/O/H/charge and distinguish lead oxidation states."
+      ],
+      "other_unadmitted_reactant_tokens": [],
+      "source_paths": [
+        "data/registry/registry-source-v1.json",
+        "crates/kerotakis-core/src/species.rs",
+        "crates/kerotakis-core/src/script.rs"
+      ],
+      "status": "prospective_only_not_implemented_or_executed"
+    },
+    {
+      "order": 9,
+      "first_rank": 50,
+      "first_case": "copper_sulfate_hydration",
+      "token": "CuSO4_anhydrous",
+      "classification": "proven_alias_candidate",
+      "existing_canonical_target": "CuSO4",
+      "existing_target_identity": {
+        "id": "CuSO4",
+        "canonical_key": "ARUVKPQLZAKDPS-UHFFFAOYSA-L",
+        "name": "copper sulfate",
+        "identifiers": {
+          "inchikey": "ARUVKPQLZAKDPS-UHFFFAOYSA-L"
+        },
+        "synonyms": [],
+        "evidence": {
+          "source_id": "legacy/CuSO4",
+          "method": {
+            "kind": "imported",
+            "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+          }
+        }
+      },
+      "evidence": "Existing CuSO4 is solid CuSO4, M=159.609 g/mol, with white-when-dry optical data. Chalcanthite is separately registered CuSO4·5H2O, M=249.684 g/mol.",
+      "next_lane": [
+        "Add only the exact anhydrous naming alias through the shared species identity boundary after endpoint prerequisite acceptance.",
+        "Keep hydration/chalcanthite reaction and observable acceptance separate from successful naming."
+      ],
+      "paired_acceptance": [
+        "add v1 CuSO4_anhydrous 0.001mol must canonicalize identically to add v1 CuSO4 0.001mol across text/direct/JSON/save-replay.",
+        "Negative: chalcanthite must retain distinct hydrate formula, molar mass and blue-crystal identity; no recipe/stock duplication or dry/hydrated collapse."
+      ],
+      "other_unadmitted_reactant_tokens": [],
+      "source_paths": [
+        "data/registry/registry-source-v1.json",
+        "crates/kerotakis-core/src/species.rs",
+        "crates/kerotakis-core/src/script.rs"
+      ],
+      "status": "prospective_only_not_implemented_or_executed"
+    },
+    {
+      "order": 10,
+      "first_rank": 55,
+      "first_case": "carbonic_acid_first_protolysis",
+      "token": "H2CO3",
+      "classification": "missing_explicit_hydrated_identity_with_existing_analytical_basis_convention",
+      "existing_canonical_target": null,
+      "existing_target_identity": null,
+      "evidence": "The registry has CO2(aq) with formula CO2, not H2CO3. PROTONATION_SPLITS maps native MINTEQ H2CO3 onto CO2(aq) with solvent completion; that readback basis conversion is not an input synonym.",
+      "next_lane": [
+        "First declare whether input means molecular H2CO3 or the existing dissolved-neutral-carbon analytical convention.",
+        "If an explicit hydrated species is added, preserve its extra H2O stoichiometry and sourced hydration/protonation model."
+      ],
+      "paired_acceptance": [
+        "Never directly alias H2CO3 to CO2(aq) or CO2 gas: their formulas/phase and water coordinates differ.",
+        "A separately declared analytical mapping must account for one water per hydrated molecule and compare C/H/O/charge; physical molecular fractions remain a separate claim."
+      ],
+      "other_unadmitted_reactant_tokens": [],
+      "source_paths": [
+        "data/registry/registry-source-v1.json",
+        "crates/kerotakis-core/src/species.rs",
+        "crates/kerotakis-core/src/script.rs",
+        "crates/kerotakis-phreeqc/src/derived.rs",
+        "crates/kerotakis-phreeqc/src/inventory.rs"
+      ],
+      "status": "prospective_only_not_implemented_or_executed"
+    },
+    {
+      "order": 11,
+      "first_rank": 59,
+      "first_case": "acetate_hydrolysis",
+      "token": "acetate",
+      "classification": "proven_alias_candidate",
+      "existing_canonical_target": "CH3COO-",
+      "existing_target_identity": {
+        "id": "CH3COO-",
+        "canonical_key": "QTBSBXVTEAMEQO-UHFFFAOYSA-M",
+        "name": "acetate ion",
+        "identifiers": {
+          "inchikey": "QTBSBXVTEAMEQO-UHFFFAOYSA-M"
+        },
+        "synonyms": [],
+        "evidence": {
+          "source_id": "legacy/CH3COO-",
+          "method": {
+            "kind": "imported",
+            "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+          }
+        }
+      },
+      "evidence": "The dataset explicitly requires C2H3O2 charge -1. Existing CH3COO- is the aqueous acetate ion with that formula/charge and M=59.045 g/mol.",
+      "next_lane": [
+        "Add an exact acetate -> CH3COO- alias through all shared identity boundaries after endpoint prerequisites.",
+        "Keep complete-stock acetate hydrolysis controls separate: bare anion input remains an analytical component with its charge limitation."
+      ],
+      "paired_acceptance": [
+        "add v1 acetate 0.001mol must match add v1 CH3COO- 0.001mol in canonical identity, inventory and warnings across text/direct/JSON/save-replay.",
+        "Negative: CH3COOH, NaOAc and ethyl_acetate remain distinct; NaOAc supplies an actual sodium counterion and cannot be inferred."
+      ],
+      "other_unadmitted_reactant_tokens": [],
+      "source_paths": [
+        "data/registry/registry-source-v1.json",
+        "crates/kerotakis-core/src/species.rs",
+        "crates/kerotakis-core/src/script.rs",
+        "crates/kerotakis-phreeqc/src/derived.rs",
+        "crates/kerotakis-phreeqc/src/inventory.rs"
+      ],
+      "status": "prospective_only_not_implemented_or_executed"
+    },
+    {
+      "order": 12,
+      "first_rank": 63,
+      "first_case": "bisulfate_protolysis",
+      "token": "HSO4-",
+      "classification": "missing_charged_protonation_identity_with_native_thermodynamic_support",
+      "existing_canonical_target": null,
+      "existing_target_identity": null,
+      "evidence": "NaHSO4 and SO4-2 are registered, but HSO4- is not. The existing sulfate/proton analytical convention does not admit an explicit bisulfate feed. Vendored wateq4f explicitly defines H+ + SO4-2 = HSO4-; native availability alone does not create a runtime registry identity.",
+      "next_lane": [
+        "Add a source-bound HSO4- aqueous identity and verify adapter master/protonation/readback accounting.",
+        "Use native thermodynamic support only after checking explicit H/O/charge and avoiding double-counted proton equivalents."
+      ],
+      "paired_acceptance": [
+        "HSO4- must not alias SO4-2, NaHSO4 or H2SO4.",
+        "Once admitted, explicit Na+ plus HSO4- should agree with complete NaHSO4 under identical conditions; standalone ion retains incomplete-charge disclosure."
+      ],
+      "other_unadmitted_reactant_tokens": [],
+      "source_paths": [
+        "data/registry/registry-source-v1.json",
+        "crates/kerotakis-core/src/species.rs",
+        "crates/kerotakis-core/src/script.rs",
+        "crates/kerotakis-phreeqc/src/derived.rs",
+        "crates/kerotakis-phreeqc/src/inventory.rs",
+        "vendor/iphreeqc/database/wateq4f.dat"
+      ],
+      "status": "prospective_only_not_implemented_or_executed"
+    },
+    {
+      "order": 13,
+      "first_rank": 64,
+      "first_case": "aspirin_acetylation",
+      "token": "salicylic_acid",
+      "classification": "missing_position_specific_organic_identity_and_acetylation",
+      "existing_canonical_target": null,
+      "existing_target_identity": null,
+      "evidence": "No salicylic_acid identity exists; source specifies ortho-hydroxybenzoic acid, C7H6O3. Acetic anhydride is a further unresolved reactant in the same frozen protocol.",
+      "next_lane": [
+        "Add structure/position-specific salicylic acid with sourced properties; do not infer identity from gross formula.",
+        "Prepare acetic anhydride/aspirin identities and a condition-complete acetylation endpoint as separate acceptance."
+      ],
+      "paired_acceptance": [
+        "Positive salicylic acid naming pairs need a verified ortho structure.",
+        "Reject 3-/4-hydroxybenzoic acid or other C7H6O3 isomers as aliases; acetic acid is not acetic anhydride."
+      ],
+      "other_unadmitted_reactant_tokens": [
+        "acetic_anhydride"
+      ],
+      "source_paths": [
+        "data/registry/registry-source-v1.json",
+        "crates/kerotakis-core/src/species.rs",
+        "crates/kerotakis-core/src/script.rs"
+      ],
+      "status": "prospective_only_not_implemented_or_executed"
+    },
+    {
+      "order": 14,
+      "first_rank": 68,
+      "first_case": "chloroethane_hydrolysis",
+      "token": "chloroethane",
+      "classification": "missing_specific_haloalkane_and_phase_sensitive_reaction",
+      "existing_canonical_target": null,
+      "existing_target_identity": null,
+      "evidence": "No chloroethane identity exists. Bromoethane is registered C2H5Br, not C2H5Cl; source chloroethane phase is gas.",
+      "next_lane": [
+        "Add structure-bound C2H5Cl with sourced gas/phase properties and finite gas/liquid handling.",
+        "Scope hydrolysis conditions and chloride/ethanol products separately; do not infer kinetics from a wait command."
+      ],
+      "paired_acceptance": [
+        "Chloroethane/ethyl chloride names may be paired only after source-backed identity admission.",
+        "Bromoethane, ethanol and ethene are negative identity controls; gas feeds cannot be silently replaced with liquid moles at an invented density."
+      ],
+      "other_unadmitted_reactant_tokens": [],
+      "source_paths": [
+        "data/registry/registry-source-v1.json",
+        "crates/kerotakis-core/src/species.rs",
+        "crates/kerotakis-core/src/script.rs",
+        "crates/kerotakis-core/src/curated.rs"
+      ],
+      "status": "prospective_only_not_implemented_or_executed"
+    },
+    {
+      "order": 15,
+      "first_rank": 70,
+      "first_case": "propene_hydrobromination",
+      "token": "propene",
+      "classification": "missing_specific_alkene_and_regioselective_addition_domain",
+      "existing_canonical_target": null,
+      "existing_target_identity": null,
+      "evidence": "No propene identity exists. Existing propane is C3H8; ethene is C2H4; isobutylene is 2-methylpropene C4H8. None is C3H6 propene.",
+      "next_lane": [
+        "Add sourced propene/propylene structure and gas properties first.",
+        "Prepare 2-bromopropane and condition-gated ionic HBr addition/regioselectivity, preserving radical-condition limits."
+      ],
+      "paired_acceptance": [
+        "Verified propene/propylene naming may later be paired; reject propane, ethene and isobutylene aliases.",
+        "Products/conditions must distinguish 2-bromopropane from 1-bromopropane rather than matching a gross formula."
+      ],
+      "other_unadmitted_reactant_tokens": [],
+      "source_paths": [
+        "data/registry/registry-source-v1.json",
+        "crates/kerotakis-core/src/species.rs",
+        "crates/kerotakis-core/src/script.rs",
+        "crates/kerotakis-core/src/curated.rs"
+      ],
+      "status": "prospective_only_not_implemented_or_executed"
+    }
+  ],
+  "thermodynamic_gitlink": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+}

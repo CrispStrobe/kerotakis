@@ -1,0 +1,24 @@
+{
+  "recorded_utc": "2026-10-16T05:10:12.272975+00:00",
+  "kind": "partial native acceptance; other platform/full-fleet checks remain pending",
+  "source_head": "c0dfe45fe12ef6df93c3b203b9149327c752f844",
+  "tested_merge_reported_in_log": "5305ce82dca9c22ba8d85254a078c256b82c252d",
+  "run": "https://github.com/CrispStrobe/kerotakis/actions/runs/38850751252",
+  "job": "https://github.com/CrispStrobe/kerotakis/actions/runs/38850751252/job/116811192574",
+  "job_conclusion": "success",
+  "raw_log_sha256": "982ce4b4d8679a5711deacc8a0a136ea71bc1adce7ee93c9a20a1835a2357249",
+  "accepted_on_macos": [
+    "finite_gas_input_round_trips_fractional_solvent_and_aqueous_carbon",
+    "gas_initializer_round_trips_owned_moles_at_recorded_fractional_temperatures",
+    "pressure_controlled_carbon_uses_finite_matter_while_volume_changes",
+    "sealed_carbonated_water_keeps_owned_carbon_and_charge_through_repeated_solves_and_opening",
+    "filtering_separates_the_precipitate_from_the_filtrate",
+    "Full Rust suite",
+    "Unchanged500-prompt curiosity gate: zero unmet requirements, runtime failures and baseline drift"
+  ],
+  "remaining": [
+    "Linux native and full applicable own fleets before protected integration.",
+    "This is not current production chemistry or physical calibration."
+  ],
+  "original_failed_assertions_relaxed": false
+}
