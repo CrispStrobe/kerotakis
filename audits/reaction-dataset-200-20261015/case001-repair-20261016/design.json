@@ -1,0 +1,38 @@
+{
+  "frozen_utc": "2026-10-16T05:08:21.105862+00:00",
+  "kind": "rank001 current-repair paired replay; not a new blind experiment",
+  "rank": 1,
+  "engine": {
+    "source_head": "efd79bf88eb1514bb87506171c39e808c3b544e1",
+    "source_tree": "b85fca52e02c5a879cf47ae05cf546129f12b8fb",
+    "build_image": "public.ecr.aws/amazonlinux/amazonlinux@sha256:18c71e6a20f8b0834b002b6002156a84eea76162d5adea72d2ea8b86800eaf91",
+    "binary_sha256": "75cb9b3ca1a38c05dcde7faad1efdd4cb69ec89f7df29f4d91468baa3d0b00fa",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+    "libraries": {
+      "ld-linux-x86-64.so.2": "5022436ff15df9e54e79ee0a0ca8b3422a0dcb0c11920d9901ded30eccbf8638",
+      "libc.so.6": "fdf84d7d72db18bb3996a7b24f3eb473e7efbc8f994af7b159f76d61d1b4c978",
+      "libgcc_s.so.1": "9460b5f230d3f66554ec259e8e0890b0946dfde7cc83f95d1ac8d4dca3d3f9bb",
+      "libm.so.6": "f7cb1097b97353d994fe191e5fafc81f0171935792311a157c3082213fc704e0",
+      "libstdc++.so.6": "846b43f9f1429cc67ae7ffd24f4ccdd7a17d652765aaf3e6f9d2ca54178b369d"
+    },
+    "loader": "ld-linux-x86-64.so.2",
+    "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+    "target": "x86_64-unknown-linux-gnu"
+  },
+  "lock_binding": "Producer-reported; Cargo.lock bytes absent from hosted artifact.",
+  "original_assessment_unchanged": true,
+  "forecasts": {
+    "original-bare-input": "Incomplete H/O analytical coordinates must disclose their unsupported aqueous interpretation; do not claim this demonstrates physical-stock neutralisation.",
+    "complete-stock": "Equal strong acid/base returns toward neutral pH; inspect heating separately, no empirical heat calibration."
+  },
+  "scripts": {
+    "original-bare-input": {
+      "script": "# neutralisation\nadd v1 water 100mL @ 25C\ninspect v1\nadd v1 H+ 0.001mol\nadd v1 water 0.001mol\nadd v1 OH- 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "sha256": "d0037d6c1f5b3c49967c14b2cae84b6088001793bb5f72b054f3765f51d62294"
+    },
+    "complete-stock": {
+      "script": "add v1 water 100mL @ 25C\nadd v1 HCl 0.001mol\ninspect v1\nadd v1 NaOH 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "sha256": "a4e2a4c3f27aa790a4843e644b4ba647ff71d5515a945bf7fe6304bb8925b1c1"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "rank": 7,
+  "classification": "principal response demonstrated in separate supporting-electrolyte protocol",
+  "observations": {
+    "charge_c": 10,
+    "hydrogen_export_mol": 5.1821348283088646e-05,
+    "oxygen_export_mol": 2.5910674141544323e-05,
+    "water_consumed_mol": 5.182134828274343e-05,
+    "sulfate_retained_mol": 0.001,
+    "wait_changes_inventory": false
+  },
+  "original_pure_water_protocol": "Remains an explicit conductivity/electrode-domain refusal, not a physical pass.",
+  "limits": [
+    "Ideal electrolysis product accounting is demonstrated; empirical current efficiency, timescale and complete electrical-work/thermal balance are not calibrated.",
+    "This does not implement an unmodeled pure-water electrode domain."
+  ],
+  "source_head": "efd79bf88eb1514bb87506171c39e808c3b544e1",
+  "original_results_modified": false,
+  "physical_calibration": false,
+  "deployed_current_engine": false
+}

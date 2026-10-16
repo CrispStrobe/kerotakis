@@ -1,0 +1,55 @@
+{
+  "frozen_utc": "2026-10-16T05:26:34.146790+00:00",
+  "kind": "source-bound REST replay of four saved repair CLI scripts; not a new scientific experiment",
+  "origin": "https://kerotakis-web-payload-8s1sh8z7t-crispstrobes-projects.vercel.app",
+  "health": {
+    "service": "kerotakis",
+    "api_version": 1,
+    "mode": "vercel",
+    "configured": true,
+    "revision": "efd79bf88eb1514bb87506171c39e808c3b544e1",
+    "execution_backend": "microvm",
+    "engine": {
+      "source_head": "efd79bf88eb1514bb87506171c39e808c3b544e1",
+      "binary_sha256": "75cb9b3ca1a38c05dcde7faad1efdd4cb69ec89f7df29f4d91468baa3d0b00fa",
+      "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+    }
+  },
+  "cases": [
+    {
+      "id": "001-original",
+      "script": "# neutralisation\nadd v1 water 100mL @ 25C\ninspect v1\nadd v1 H+ 0.001mol\nadd v1 water 0.001mol\nadd v1 OH- 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "d0037d6c1f5b3c49967c14b2cae84b6088001793bb5f72b054f3765f51d62294",
+      "request_body_sha256": "05dfbe303d98fc4f0573146e05c5691793f2b0fb31446e7a4f4b732c5189809a",
+      "cli_stdout_sha256": "6480f432dc17e1cad14585ec396c71f88a232005b60d24a7ea0c16772154dadd",
+      "cli_reference": "audits/reaction-dataset-200-20261015/case001-repair-20261016/original-bare-input.stdout.jsonl"
+    },
+    {
+      "id": "001-complete-stock",
+      "script": "add v1 water 100mL @ 25C\nadd v1 HCl 0.001mol\ninspect v1\nadd v1 NaOH 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "a4e2a4c3f27aa790a4843e644b4ba647ff71d5515a945bf7fe6304bb8925b1c1",
+      "request_body_sha256": "f81d52df27a6cda5bfe27f2a9c9ce7588f5a8ee0e9c987ac8acf9cbe7256e4db",
+      "cli_stdout_sha256": "ef4baa9986be9fafc89d2a43d8ed607014fc4106c999705a1b0f2dfd5c0926ca",
+      "cli_reference": "audits/reaction-dataset-200-20261015/case001-repair-20261016/complete-stock.stdout.jsonl"
+    },
+    {
+      "id": "007-complete-stock",
+      "script": "add v1 water 100mL @ 25C\nadd v1 H2SO4 0.001mol\ninspect v1\nelectrolyse v1 0.1A 100s\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "e7593076038d1cd491bde9313e4599cea55102afefb7313baf0f068e6afb1e40",
+      "request_body_sha256": "113784f29b390611813f6fc933444cfbecb0a63d6ff280b393be8d52ac1f7991",
+      "cli_stdout_sha256": "0974d672917b27997d60705e621094a6a0bf99e4d397b0b9ffa2f58cd5f2863e",
+      "cli_reference": "audits/reaction-dataset-200-20261015/case007-repair-20261016/stdout.jsonl"
+    },
+    {
+      "id": "014-complete-stock",
+      "script": "add v1 water 100mL @ 25C\nadd v1 CuSO4 0.001mol\ninspect v1\nadd v1 Zn 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "ec4e8d639ef8b85b06b2545cc0582c7cbca1236289c4429f41529ec3d6849544",
+      "request_body_sha256": "ee78e9a7b6d67bb8aee05171059e1e1451638e94b16baaa1628179d6241ad877",
+      "cli_stdout_sha256": "5b81a657bba2ee12a30bd52a0f5cffe0e3b0605e91af09914b6ed46f044f4bf5",
+      "cli_reference": "audits/reaction-dataset-200-20261015/case014-repair-20261016/stdout.jsonl"
+    }
+  ],
+  "expectation": "HTTP200, completed execution and exact parsed CLI-observation equality for the identical binary/script. Chemical limitations and the reproduced case14 stale-lot settling defect must remain visible; transport equality is not physical validation.",
+  "retry_policy": "One attempt per script; stop on auth, redirect, quota, transport or engine mismatch. Never silently retry ambiguous execution.",
+  "physical_verdict": "not_assigned"
+}

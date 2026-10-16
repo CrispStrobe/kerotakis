@@ -1,0 +1,8 @@
+{
+  "exit_code": 0,
+  "stdout_sha256": "5b81a657bba2ee12a30bd52a0f5cffe0e3b0605e91af09914b6ed46f044f4bf5",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "available_mib": 4540.48046875,
+  "load1": 0.5087890625,
+  "finished_utc": "2026-10-16T05:13:42.980382+00:00"
+}

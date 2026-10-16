@@ -1,0 +1,46 @@
+{
+  "frozen_utc": "2026-10-16T05:31:36.896449+00:00",
+  "kind": "prospective REST acceptance controls, not a new blind chemistry batch",
+  "preview_source_head": "4abb4d7982b1c661473a53f08732a49103878595",
+  "product_fix_head": "7d229066dc0039c62939dfd0dd04004e94b932be",
+  "api_parent": "efd79bf88eb1514bb87506171c39e808c3b544e1",
+  "workflow_run": 38856027175,
+  "cases": [
+    {
+      "id": "014-zinc-copper",
+      "script": "add v1 water 100mL @ 25C\nadd v1 CuSO4 0.001mol\ninspect v1\nadd v1 Zn 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "expectation": "Direct-contact copper deposition and aqueous zinc remain about1mmol each after the10s wait. SolidCuSO4 is absent before the wait and must not produce a gravity_settled separation. The original bogus event remains in the earlier replay.",
+      "script_sha256": "ec4e8d639ef8b85b06b2545cc0582c7cbca1236289c4429f41529ec3d6849544"
+    },
+    {
+      "id": "dissolved-sodium-chloride",
+      "script": "add v1 water 100mL @ 25C\nadd v1 NaCl 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "expectation": "DiluteNaCl dissolves completely. The subsequent wait must not settle absentNaClsolid; dissolvedNa/Cl remain eachabout1mmol.",
+      "script_sha256": "145037c2164fd3afbdd192af4d0bf720f577c33fc47e6134894e6e204253f7f8"
+    },
+    {
+      "id": "residual-silver-chloride",
+      "script": "add v1 water 100mL @ 25C\nadd v1 AgCl 0.007mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "expectation": "SubstantialAgClsolid remains (above6mmol) before and after waiting. A positive gravity_settled separation for actually presentAgCl must still occur. Grain size is an explicit model assumption, not a measured settling calibration.",
+      "script_sha256": "671b8e4ee0d1de8426a0cdfa1822b9651691366b6f3e39946603a0175992e466"
+    },
+    {
+      "id": "007-water-electrolysis",
+      "script": "add v1 water 100mL @ 25C\nadd v1 H2SO4 0.001mol\ninspect v1\nelectrolyse v1 0.1A 100s\ninspect v1\nwait 10s\ninspect v1\n",
+      "expectation": "The supporting-acid10C electrolysis still reports positive exportedH2/O2in2:1molar ratio, approximate amounts5.18e-5/2.59e-5mol; waterconsumption matchesH2 and1mmolsulfate remains.",
+      "script_sha256": "e7593076038d1cd491bde9313e4599cea55102afefb7313baf0f068e6afb1e40"
+    }
+  ],
+  "execution_prerequisites": [
+    "Successful hosted exact-source AL2023 native build and actual microVM isolation/smoke checks.",
+    "Downloaded artifact/native/library hashes checked; actual healthengine source/binary/producerlock must match the artifact manifest before anyscript POST.",
+    "Freeze a separate observed engine/artifact binding before execution; no production deployment or branchintegration."
+  ],
+  "numerical_assessment_scope": "For retained1mmolmetal/salt principals use1e-9mol absolute comparison, report raw values. This is a new saved-output assessment bound and does not change product conservation tolerances. Compare2:1gas ratio within1e-10relative and waterconsumption within1e-12mol.",
+  "limits": [
+    "These controls assess the declared bug and positive particle behavior, not empirical grain/settling kinetics, yield, current efficiency or heat calibration.",
+    "Passing REST does not replace all product native/core/browser/full-fleet acceptance.",
+    "Validation-only combined branch must never merge into main."
+  ],
+  "execution_status": "not_executed"
+}
