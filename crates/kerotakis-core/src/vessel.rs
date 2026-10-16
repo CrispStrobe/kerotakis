@@ -213,6 +213,14 @@ pub struct Portion {
     pub phase: Phase,
 }
 
+impl Portion {
+    /// Current physical solid inventory, independent of historical lot intent.
+    /// This is material admission, so there is no display/detection cutoff.
+    pub(crate) fn is_physical_solid(&self) -> bool {
+        self.phase == Phase::Solid && self.moles.0.is_finite() && self.moles.0 > 0.0
+    }
+}
+
 /// The approved thermodynamic model for a finite population of surface sites.
 ///
 /// The first slice deliberately names one model rather than accepting an
