@@ -183,6 +183,33 @@ class ApiTests(unittest.TestCase):
                     self.assertNotIn(script, response.text)
             engine.assert_not_called()
 
+    def test_signal_termination_is_neither_startup_nor_chemistry_refusal(self):
+        for code in (-9, -11, -24):
+            with self.subTest(code=code), self.assertLogs("kerotakis.api", level="WARNING") as logs:
+                with self.assertRaises(HTTPException) as error:
+                    api.build_result(self.cfg, "add v1 SECRET 1mol", time.monotonic(),
+                                     "completed", b'{"partial":', b"SECRET private/path", code, "/private/input.lab")
+                self.assertEqual(error.exception.status_code, 503)
+                self.assertEqual(error.exception.detail,
+                    {"code": "engine_terminated", "signal": -code, "cause": "not_determined"})
+                self.assertEqual(len(logs.output), 1)
+                self.assertTrue(logs.output[0].endswith("Engine terminated: signal=" + str(-code)))
+                self.assertNotIn("SECRET", logs.output[0])
+        # Ordinary engine refusals, malformed output, bootstrap errors and
+        # supervisor-enforced timeouts retain distinct existing contracts.
+        result = api.build_result(self.cfg, "inspect", time.monotonic(), "completed",
+                                  b'{"partial":true}\n', b"kero: fixture refusal", 1, "/input.lab")
+        self.assertEqual(result["execution_status"], "refused")
+        for stdout, stderr, code, expected in ((b'bad json', b'', 0, 502),
+                                               (b'', b'sandbox: seccomp', 1, 503)):
+            with self.assertRaises(HTTPException) as error:
+                api.build_result(self.cfg, "inspect", time.monotonic(), "completed", stdout, stderr, code, "/input.lab")
+            self.assertEqual(error.exception.status_code, expected)
+        result = api.build_result(self.cfg, "inspect", time.monotonic(), "timeout", b'',
+                                  b'Execution limit reached', None, "/input.lab")
+        self.assertEqual(result["execution_status"], "timeout")
+        self.assertEqual(result["physical_verdict"], "not_assigned")
+
     def test_openapi_health_and_cors(self):
         schema = self.client.get("/openapi.json").json()
         self.assertIn("HTTPBearer", schema["components"]["securitySchemes"])

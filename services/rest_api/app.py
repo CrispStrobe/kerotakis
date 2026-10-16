@@ -490,6 +490,13 @@ async def run_engine(cfg: Settings, script: str) -> dict:
 
 
 def build_result(cfg, script, started, status, stdout, stderr, code, path):
+    # A process killed during execution may leave a partial JSON line. Classify
+    # the signal before decoding observations, and never call it a CLI refusal
+    # or invent which resource (if any) caused SIGKILL.
+    if status == "completed" and code is not None and code < 0:
+        logging.getLogger("kerotakis.api").warning("Engine terminated: signal=%s", -code)
+        raise HTTPException(503, {"code": "engine_terminated", "signal": -code,
+                                  "cause": "not_determined"})
     observations = []
     def finite_float(value):
         number = float(value)

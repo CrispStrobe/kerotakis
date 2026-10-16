@@ -34,6 +34,13 @@ curl --fail-with-body "$KERO_API_URL/api/run" \
 The result contains JSON observations, diagnostics, exit status, elapsed time,
 script SHA256 and engine identity. Execution statuses are `completed`, `refused`,
 `timeout` and `output_limit`. A refused CLI script may have partial observations.
+A native process killed by a signal returns HTTP503 with structured `detail`:
+`{"code":"engine_terminated","signal":9,"cause":"not_determined"}` for SIGKILL.
+This preserves the distinction from a CLI refusal and a sandbox startup error;
+the signal alone does not identify CPU exhaustion, OOM or another cause. A
+partial final JSON line after signal termination does not mask this diagnosis.
+Do not retry an issued script blindly after this response.
+
 Sandbox/bootstrap failures return HTTP 503, malformed engine output 502,
 authentication failure 401, excessive body size 413, invalid schema/subset 422,
 and admission limit 429. Resource/store outages refuse execution. Respect
