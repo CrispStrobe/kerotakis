@@ -560,11 +560,15 @@ int main(int argc,char **argv) {
                 result = await api.run_engine(cfg, "wait 992s")
                 self.assertEqual(result["observations"], [{"cpu_soft": 12, "cpu_hard": 12,
                                                           "address_space": 1024 ** 3}])
-                with self.assertRaises(HTTPException) as error:
-                    await api.run_engine(cfg, "wait 993s")
-                self.assertEqual(error.exception.status_code, 503)
-                self.assertEqual(error.exception.detail,
-                    {"code": "engine_terminated", "signal": 9, "cause": "not_determined"})
+        # Direct execution (also used inside the Vercel VM) preserves the
+        # native signal code; Bubblewrap is a separate supervising process.
+        cfg = self.cfg()
+        cfg.mode = "vercel"
+        with self.assertRaises(HTTPException) as error:
+            await api.run_engine(cfg, "wait 993s")
+        self.assertEqual(error.exception.status_code, 503)
+        self.assertEqual(error.exception.detail,
+            {"code": "engine_terminated", "signal": 9, "cause": "not_determined"})
 
     async def test_microvm_refusal_and_deadline_destroy_the_isolated_job(self):
         from vercel import sandbox
