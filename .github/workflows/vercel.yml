@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: 123ee1ef7083bacadda509a3401904e3caec6b54
+          ref: 2a2027e9ae4223e40cdc460c9a93a162cf85c69a
           persist-credentials: false
           sparse-checkout: audits/target468-20261016/common-engine-completion
       - uses: actions/setup-python@v5
