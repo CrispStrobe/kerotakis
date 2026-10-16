@@ -18,11 +18,16 @@ contract gaps; ideal electrode and curated endpoint limitations remain attached.
 These are recorded-source results, not empirical calibration or a unified latest
 release/deployment claim. Earlier dated counts below retain historical scope.
 
-PR814 and815 are integrated with verified merge trees;816/817 await their
-exact-head full acceptance. Production remainsc446. PR819's reviewed
-`0d61f582` preserves the corrected runtime/tests and normally merges accepted
-main; freshCI and full own fleet remain pending. Its obsolete failed-head
-queue is cancelled with no running jobs interrupted. [PR809](https://github.com/CrispStrobe/kerotakis/pull/809) is now integrated as
+PR814–817 are integrated. PR816 merged as `238b5dc3` and PR817 as
+`30566ab4` after their exact-head CI, REST and all33 own-fleet jobs passed;
+[PR816](../audits/target468-20261016/accepted-pr-integration/pr816-integration.json)
+and [PR817 receipts](../audits/target468-20261016/accepted-pr-integration/pr817-integration.json)
+verify the actual merge trees. The [PR820 documentation checkpoint](../audits/target468-20261016/accepted-pr-integration/pr820-integration.json)
+also integrated. Production remainsc446; delivery of the accepted full frontend/native
+snapshot is a separate pending lane. PR819's reviewed `0d61f582` passed normalCI;
+its full own fleet remains the integration gate at this checkpoint. The existing
+watcher will request normal exact-head auto-merge only after that gate passes.
+[PR809](https://github.com/CrispStrobe/kerotakis/pull/809) is integrated as
 `fa5a75fa` after independent unchanged-CLI acceptance; its actual merge tree is verified.
 The [separate AB029 selection](../audits/new-experiments-201-20261016/native-screen-results/ab029-source-review/catalog-selection.json) adds one
 unchanged protocol with its original failure retained.
@@ -78,9 +83,11 @@ candidate. The [receipt](../audits/reaction-dataset-200-20261015/pr808-integrati
 retains the check snapshot, including three nonprotected jobs still queued at
 collection. Runtime is unchanged.
 
-The actual Pages REST client still returned404 at its last check. Follow the
-existing integrated-main demo/publish pipeline, then verify actual served bytes;
-the accepted controlled Pages-origin browser test does not establish publication.
+The actual Pages REST client is now published: HTTP200, exact source-byte
+identity at `fa5a75fa`, successful Pages deployment and production CORS preflight
+are recorded in the [publication receipt](../audits/target468-20261016/pages-publication-20261016/receipt.json).
+This adds publication evidence to the earlier controlled Pages-origin browser test;
+it does not claim a new browser run or deployment of the newer API/native engine.
 See the [REST delivery lane](simulation-api-lane.md). Do not duplicate deployment
 or completed200-case transport jobs.
 
@@ -330,7 +337,7 @@ Session facilities without JSON batch handlers refuse explicitly.
 [PR816](https://github.com/CrispStrobe/kerotakis/pull/816) at828c09b9 separates
 native signal termination from startup and CLI refusal, and runs REST parity
 tests when engine command/identity inventories change. Independent source review
-finds no material blocker; exact-head CI/full own fleet still gate integration.
+finds no material blocker; exact-head CI and full own fleet passed before integration as `238b5dc3`.
 
 [PR817](https://github.com/CrispStrobe/kerotakis/pull/817) at266121dd gives jobs a
 finite12CPU/18wall budget, retains memory/isolation/quotas, classifies trusted
@@ -344,10 +351,10 @@ Both original failed scripts now
 and exactly match saved native JSON. Original first outcomes stay unchanged.
 
 The [independent budget review](../audits/target468-20261016/rest-execution-limits/budget-independent-review.md)
-retains two demonstrated total-timeout gaps and their corrections. The four
-narrow API PRs remain drafts while named full native/CI/fleet gates are pending;
-retarget stacked branches after predecessor integration, then normal exact-head
-auto-merge. Production staysc446; direct previews and snapshot changes do not
+retains two demonstrated total-timeout gaps and their corrections. All four
+narrow API PRs are integrated after their named full native/CI/fleet acceptance
+and normal exact-head integration. PR816/817 actual parents and reconstructed
+merge trees are recorded above. Production staysc446; direct previews and snapshot changes do not
 claim a full frontend rebuild or a latest-main chemical pass count. Continue
 physical assessment and the separately scoped111 CLI refusals after API delivery
 acceptance; do not repeat the668-case corpus unchanged.
@@ -358,4 +365,4 @@ verify reviewed heads and reconstructed actual merge trees. PR813 has its
 PR812 integrated as `1d24a43a` after58 successful checks/one skip; its
 [actual merge receipt](../audits/target468-20261016/accepted-pr-integration/pr812-integration.json)
 verifies the reviewed head and reconstructed tree. No accepted product remains
-waiting for confirmation;809 retains its named CLI replay gate.
+waiting for confirmation; PR809 completed its independent CLI replay and integrated as recorded above.

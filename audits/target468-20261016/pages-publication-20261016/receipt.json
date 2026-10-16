@@ -1,0 +1,40 @@
+{
+  "checked_at": "2026-10-16T21:08:41Z",
+  "scope": "Actual Pages publication and production CORS preflight only; no new browser execution or chemical pass.",
+  "url": "https://crispstrobe.github.io/kerotakis/rest.html",
+  "status": 200,
+  "source_commit": "fa5a75faedfe3b2c2ca6cb4b9c65058bf87ee80b",
+  "source_path": "web/rest.html",
+  "served_and_source_sha256": "f8ccf3dfb62ceafb104db6daad69d67886823f4a20a2bd9d3989ee7b0dcdff80",
+  "byte_count": 2970,
+  "deployment_id": 7128545421,
+  "deployment_status": "success",
+  "producer_run": 38950922056,
+  "cors": {
+    "endpoint": "https://kerotakis-web-payload.vercel.app/api/run",
+    "method": "OPTIONS",
+    "origin": "https://crispstrobe.github.io",
+    "requested_method": "POST",
+    "requested_headers": "authorization,content-type",
+    "status": 200,
+    "allow_origin": "https://crispstrobe.github.io"
+  },
+  "production_health": {
+    "service": "kerotakis",
+    "api_version": 1,
+    "mode": "vercel",
+    "configured": true,
+    "revision": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "execution_backend": "microvm",
+    "engine": {
+      "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+      "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+      "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+    }
+  },
+  "limitations": [
+    "Production still serves c446/670; integrated API and chemistry repairs are not deployed by this publication.",
+    "No new actual-origin browser execution is claimed; existing controlled browser evidence remains separately bound.",
+    "Later source/client changes need their own served-byte verification."
+  ]
+}

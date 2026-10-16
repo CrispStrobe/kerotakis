@@ -1,0 +1,14 @@
+{
+  "pr": 820,
+  "reviewed_head": "4bc64cd647b1faa97ae2dc5c3895dbb7d7b00685",
+  "merge_commit": "4c306a53e550281d4baa0403eb7fd5b7914488ba",
+  "actual_parents": [
+    "fa5a75faedfe3b2c2ca6cb4b9c65058bf87ee80b",
+    "4bc64cd647b1faa97ae2dc5c3895dbb7d7b00685"
+  ],
+  "actual_tree": "d029713d68a88efd624d294a482c0ccb66823acb",
+  "reconstructed_merge_tree": "d029713d68a88efd624d294a482c0ccb66823acb",
+  "tree_matches": true,
+  "normal_protected_integration": true,
+  "scope": "Maintained STATUS documentation only; no new chemistry fleet required."
+}

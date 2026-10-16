@@ -56,9 +56,11 @@ No independent VM-deletion receipt or raw producer-lock rehash is claimed.
 
 [Fifteen actual-browser controls](../audits/reaction-dataset-200-20261015/rest-browser-acceptance-20261016/README.md)
 already accept the unchanged client UI/privacy and actual browser CORS behavior.
-Its controlled Pages-origin check does not establish publication. Actual
-`/kerotakis/rest.html` still returned404 at this checkpoint; the integrated-main
-Pages pipeline must publish it before testing the served client.
+Its controlled Pages-origin check remains separately bound. Actual
+`/kerotakis/rest.html` now returns200 and exactly matches `web/rest.html` at
+`fa5a75fa`; the Pages deployment and live production CORS preflight both pass.
+The [publication receipt](../audits/target468-20261016/pages-publication-20261016/receipt.json)
+closes the old404 publication gap without claiming a new browser execution.
 
 ## Doable next lanes
 
@@ -67,8 +69,8 @@ Pages pipeline must publish it before testing the served client.
    acceptance when an accepted source change warrants a new engine. Preserve
    source/tree/native/lock/snapshot bindings and first failures; do not repeat
    unchanged200-case transport checks.
-2. **Verify Pages publication.** Follow the existing integrated-main demo/publish
-   pipeline, then confirm the actual served client bytes. Reuse accepted
+2. **Maintain verified Pages publication.** Actual served bytes and deployment
+   provenance now pass at `fa5a75fa`. Recheck only when the published client changes. Reuse accepted
    unchanged-client browser evidence where applicable; complete any outstanding
    actual-origin acceptance after publication. Do not repeat the entire200 batch.
 3. **Repair protocols and underlying chemistry independently.** Use the
@@ -107,8 +109,9 @@ finite12CPU/18wall budget, trusted CPU accounting, total Redis/forwarding deadli
 and browser/platform cleanup allowance. New source-bound snapshot smoke and
 actual strengthened isolation pass; the old snapshot is not relabelled.
 
-Acceptance remains exact-head full CI/native sandbox/fleet, then integration in
-prerequisite order and source-bound production delivery. Current preview proofs
+All four API PRs814–817 have completed exact-head CI/native sandbox/fleet
+acceptance and integration in prerequisite order. Source-bound full frontend/native
+production delivery remains pending; production is stillc446/670. Current preview proofs
 use the acceptedc446/670 native engine; they are not a rebuilt latest-main engine
 or full frontend acceptance. Preserve first failures, immutable designs, raw
 request/response evidence and changed-policy associations. Use the

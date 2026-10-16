@@ -1,0 +1,13 @@
+{
+  "pr": 817,
+  "reviewed_head": "266121dd5605a439a495c85f2401fbeacd6272f4",
+  "merge_commit": "30566ab41c247f996fb6dc9fb142a401db086513",
+  "actual_parents": [
+    "238b5dc31bfff956bf3def12d08c16cb7e3625b0",
+    "266121dd5605a439a495c85f2401fbeacd6272f4"
+  ],
+  "actual_tree": "5395df4f44e2a181c69c2ddafd28df7e49613b2d",
+  "reconstructed_merge_tree": "5395df4f44e2a181c69c2ddafd28df7e49613b2d",
+  "tree_matches": true,
+  "normal_protected_integration": true
+}
