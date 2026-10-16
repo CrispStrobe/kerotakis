@@ -9,8 +9,8 @@ contain obsolete pending notes. A process exit is not a scientific verdict.
 
 Latest checkpoint: the [separate saved-evidence selection](../audits/target468-20261016/saved-first120-selection.json)
 adds34 unchanged protocols (21acid-base,13precipitation), with independent reviews
-and explicit limitations. The working catalog now contains**191 entries**, of
-which**187 belong to the fixed468 target**;214 further selections are needed for401.
+and explicit limitations. The working catalog now contains**192 entries**, of
+which**188 belong to the fixed468 target**;213 further selections are needed for401.
 Previous155 entries, original predictions and first outputs remain unchanged.
 Historical dated counts below retain their original scope.
 
@@ -18,8 +18,10 @@ PR814 and815 are integrated with verified merge trees;816/817 await their
 exact-head full acceptance. Production remainsc446. PR819's reviewed
 `0d61f582` preserves the corrected runtime/tests and normally merges accepted
 main; freshCI and full own fleet remain pending. Its obsolete failed-head
-queue is cancelled with no running jobs interrupted. PR809 retains its separate
-source-bound CLI replay requirement.
+queue is cancelled with no running jobs interrupted. [PR809](https://github.com/CrispStrobe/kerotakis/pull/809) is now integrated as
+`fa5a75fa` after independent unchanged-CLI acceptance; its actual merge tree is verified.
+The [separate AB029 selection](../audits/new-experiments-201-20261016/native-screen-results/ab029-source-review/catalog-selection.json) adds one
+unchanged protocol with its original failure retained.
 
 Three changed prepared protocols completed once through the API, meeting their
 frozen bounded checks and represented material/charge balances. The
@@ -82,7 +84,7 @@ or completed200-case transport jobs.
 | --- | --- |
 | PR805 acidified permanganate/peroxide | Integrated as `adef8be6` after58 successful checks and one skip: both native platforms, cache/Wasm/live-hook, online/offline Chromium and full own fleet pass. Unknown heat and competing manganese-oxide phase exclusions remain limits; viewer repair stays separate. |
 | PR807 proven input aliases | Integrated as `f441cf6e` after58 successful checks and one skip, including both native platforms and the full own fleet. Only CuSO4_anhydrous→CuSO4 and acetate→CH3COO- are admitted; no new scientific pass or production acceptance is assigned. |
-| [PR809 aqueous transfer ownership](https://github.com/CrispStrobe/kerotakis/pull/809) | Draft `673233df` carries measured proton/hydroxide and charge baselines with Filter/Decant liquid, preserves nontransferred gas, and adds ten core plus two native regression groups. The first preflight found private fixture-method calls; a test-only correction preserves all assertions. Hosted compile/native/core and fleet acceptance remain pending. |
+| [PR809 aqueous transfer ownership](https://github.com/CrispStrobe/kerotakis/pull/809) | Integrated as `fa5a75fa` after25 successful CI checks, one expected skip,33 fleet jobs and independently reviewed unchanged CLI replay. Filter/Decant carries measured proton/hydroxide and charge baselines with liquid and preserves nontransferred gas. Ten core/two native regression groups pass. Actual merge parents/tree verified; original preflight and runtime-startup failures remain recorded. |
 | [PR810 viewer ownership](https://github.com/CrispStrobe/kerotakis/pull/810) | Integrated as `40ffb253` after25 successful CI checks, one skip and all33 manually bound own-fleet jobs. Ten targeted, fifteen maintained controller and six adapter groups remain qualified by their original evidence. Actual merged parents/tree match the reviewed head. |
 
 Use normal exact-head auto-merge when all applicable acceptance passes. Never
@@ -151,8 +153,8 @@ proven aliases and shared reconciliation for the protocol agent. Hermes runs
 Together.ai `meta-models/Muse-Spark-Open-816B-A42B-promo` for underlying models
 and its own status/evidence. Keep private operating details out of public files.
 
-1. Finish809 separately bound hosted CLI acceptance; follow812 normal protected
-   auto-merge and814–817 exact-head CI/native/fleet gates. PR810/813 are integrated
+1. Finish816/817/819 exact-head CI/native/fleet acceptance and normal auto-merge.
+   PR809 CLI acceptance and integration are complete; PR810/813 are integrated
    with verified trees. Verify Pages publication and deliver accepted production
    source without rerunning unchanged corpus batches.
 2. Repair [viewer generation ownership](../audits/new-experiments-201-20261016/viewer-followup-review.json)

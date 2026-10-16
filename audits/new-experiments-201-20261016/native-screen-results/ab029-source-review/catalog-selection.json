@@ -1,0 +1,16 @@
+{
+  "recorded_utc": "2026-10-16T18:59:55.531685+00:00",
+  "selected_id": "new201-original-assessed:batch2:ab-029",
+  "fixed_target_case_id": "batch2:ab-029",
+  "catalog_before_count": 191,
+  "catalog_after_count": 192,
+  "fixed_target_before": 187,
+  "fixed_target_after": 188,
+  "catalog_before_sha256": "22b373d2c51e28269c5e1e16ef4f83ba4e37ad8754afa54c6c9b555b7d601a38",
+  "catalog_after_sha256": "0677afa1334afd766bf0f7dfcb06df9d3f2a4d1918552d6d5fe23d2f56d90792",
+  "previous191_entries_unchanged": true,
+  "script_unchanged": true,
+  "independent_review_sha256": "a4a54a15f2f728f5eef3f0ac58e6df4532c4b54faa75914be69e870480a3a002",
+  "old_c446_failure_preserved": true,
+  "qualification": "Recorded tested-merge CLI acceptance with separately frozen compatible runtime; not latest release/deployment or empirical calibration."
+}

@@ -1,0 +1,13 @@
+{
+  "scope": "Exact source/tree/binary/rawlock/runtime hashes and unchanged forecast verified; inherited descriptive compiler/build-image fields not re-attested.",
+  "raw_manifest_fields_inherited_from_base_snapshot": [
+    "build_image",
+    "rustc"
+  ],
+  "interpretation": "These describe the old snapshot producer, not the new CLI artifact or replacement libraries. They are not used as new-source build provenance.",
+  "actual_cli_producer": "GitHub Actions run38881455757 pull_request tested merge7fca297b73ed888e154c40c83811a57d4995e861; artifactbinaryccb09303 and rawlock82f3196 verified.",
+  "actual_runtime": "Ubuntu24.04 package/library hashes separately frozen in cli-replay-runtime-provenance.json.",
+  "raw_manifest_modified_after_execution": false,
+  "new_invocation_for_metadata_only": false,
+  "future_harness_repair": "Construct replacement manifests from reviewed runtime fields and new engine binding, rather than inheriting unrelated build descriptions."
+}

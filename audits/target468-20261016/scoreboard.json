@@ -1,30 +1,30 @@
 {
   "schema": "kerotakis.fixed-target468.v1",
-  "recorded_utc": "2026-10-16T18:28:55.025423+00:00",
+  "recorded_utc": "2026-10-16T18:59:55.531685+00:00",
   "declared_target_total": 468,
   "minimum_selected_goal": 401,
   "baseline147_commit": "159fa6e08fa4ebea3105ac7e17d5b8350bc91189",
   "available_case_records": 468,
   "missing_first_batch": null,
-  "current_working_catalog_entries": 191,
-  "source_qualified_selected_in_target": 187,
+  "current_working_catalog_entries": 192,
+  "source_qualified_selected_in_target": 188,
   "out_of_target_catalog_entries": [
     "supplied200-repaired-protocols:014-zinc-copper",
     "supplied200-repaired-protocols:007-water-electrolysis",
     "supplied200-repaired-protocols:084-copper-chloride-prepared-ions",
     "supplied200-repaired-protocols:118-acidic-oxalate-complete-stocks"
   ],
-  "additional_selections_needed_for_401": 214,
+  "additional_selections_needed_for_401": 213,
   "latest_combined_release_pass_count": null,
   "latest_release_qualification": "No unified latest-release execution and physical assessment of all468; selected means evidence on each recorded version, not current deployment certification.",
   "available201_unselected_states": {
     "completed_with_named_model_limits": 85,
     "completed_requires_physical_assessment": 105,
-    "completed_with_solver_failure": 2,
+    "completed_with_solver_failure": 1,
     "process_admission_refusal": 3
   },
-  "optimistic_baseline_plus_all_clean_candidates_and_missing120": 378,
-  "minimum_additional_model_or_admission_cases_after_that_optimistic_step": 23,
+  "optimistic_baseline_plus_all_clean_candidates_and_missing120": 379,
+  "minimum_additional_model_or_admission_cases_after_that_optimistic_step": 22,
   "counting_policy": [
     "One fixed original ID per target case; corrected protocols remain associated with their original case and do not increase denominator.",
     "A zero exit, successful HTTP response or passed engineering CI is not physical expectation agreement.",
@@ -2740,8 +2740,8 @@
       "title": "A hydroxide suspension and its clear filtrate hide different reserves",
       "original_intake_script_sha256": "cf7a5085df974af447178e328821b2ec41c883e27092929b790d25d670e12c9c",
       "original_forecast": "The suspension can replenish dissolved hydroxide by consuming solid Mg(OH)2. Its filtrate lacks that reserve and should acidify much more under the same acid dose.",
-      "state": "completed_with_solver_failure",
-      "catalog_id": null,
+      "state": "source_qualified_selected_on_recorded_version",
+      "catalog_id": "new201-original-assessed:batch2:ab-029",
       "recorded_screen_engine": {
         "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
         "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
@@ -2757,6 +2757,19 @@
         "script_sha256": "cf7a5085df974af447178e328821b2ec41c883e27092929b790d25d670e12c9c",
         "stdout_sha256": "369df51d9533ccea8a2d74b38c8899462a0758ea478f87d0f94ea14123196735",
         "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "selection_evidence": "audits/new-experiments-201-20261016/native-screen-results/ab029-source-review/catalog-selection.json",
+      "followup_execution": {
+        "engine": {
+          "source_head": "7fca297b73ed888e154c40c83811a57d4995e861",
+          "source_tree": "9f12cf9ec52a9929b92febf273d1d33639649861",
+          "binary_sha256": "ccb09303ed954df3f07490cc4502efb5669eed27b30f8972df464741b315aec7",
+          "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+          "raw_lock_rehashed": true,
+          "runtime_provenance": "audits/new-experiments-201-20261016/native-screen-results/ab029-source-review/cli-replay-runtime-provenance.json"
+        },
+        "script_unchanged": true,
+        "original_c446_solver_failure_preserved": true
       }
     },
     {
@@ -9689,5 +9702,6 @@
       "nonzero_exit": 3
     },
     "receipt": "common-engine-all668.json"
-  }
+  },
+  "optimistic_bound_qualification": "Selected188 + remaining105clean201 + remaining86first120 =379; an optimistic planning bound, not assigned scientific passes."
 }

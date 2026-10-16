@@ -1,0 +1,231 @@
+{
+  "schema_version": 1,
+  "method": "Independent saved-only source/raw/runtime ELF review; no chemistry execution, API, build or installation. readelf inspects bytes only.",
+  "reviewed_pr_head": "673233df07deda6f311c474e913e9733a971853d",
+  "tested_merge": "7fca297b73ed888e154c40c83811a57d4995e861",
+  "tested_tree": "9f12cf9ec52a9929b92febf273d1d33639649861",
+  "design_sha256": "0195e83b9215202eda20585622d282c7bbf2e0206648466dcbd3b5c708d38b73",
+  "raw_execution_hashes": {
+    "execution.json": "8c711bb39bc3d58123ba9f6f06d8875dbadb11886c4f1d76a58b3efa716b998c",
+    "stdout.jsonl": "2d3fe03dce14c93b3b7c154444f2a788cba20eca1c9e099b3bf26b9d8ea2fb17",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "supervisor.stdout": "a3fafcece07de9afd8a451728d690b17ce614c580a4de6126b3fe4c7ae6130aa",
+    "issued.json": "fe734aee25c2e5ff12695c7843c4e370ad01c2d2d4abb62e7a37fb3023bd61fc",
+    "destroy-returned.json": "649134e5425b635e05c658c69b31990fd29eb8f0996e13369ffab74aa9e14dcd",
+    "manifest.json": "b4df6390099aa84eefdf0c977e94c4f3be998fd92d01daf8c91e2d544fd0d745"
+  },
+  "root_assessment_sha256": "6e5fcdf30961d0d1abc55c8eaea892b9919b68fee0527f6933f9250fb8c0d298",
+  "root_reader_sha256": "522fb53fd9b802077ad60b2169d094bbc60bd64d903947bf48e6348345a99ee8",
+  "root_assessment_reproduces_exactly": true,
+  "source_registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "script_sha256": "cf7a5085df974af447178e328821b2ec41c883e27092929b790d25d670e12c9c",
+  "binary_sha256": "ccb09303ed954df3f07490cc4502efb5669eed27b30f8972df464741b315aec7",
+  "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+  "runtime_provenance_sha256": "dae9297f938d8ded739cac83786448f430fc8d90a5728754fdfaf02408f883a7",
+  "runtime_library_actual_bytes_sha256": {
+    "ld-linux-x86-64.so.2": "cd4df4f3c7b83673d61189bf2eaebd33ca4f2853ab9772b8a25e025ef99b1e81",
+    "libstdc++.so.6": "1fd75fe70354a416d75aef22bcae68c47bd25d20e2d0568c30b1a9838cf62f11",
+    "libgcc_s.so.1": "d93224d2b0dab4247598be683adca02f5cf00586f99c187579cd7e92058fb7cb",
+    "libm.so.6": "e9c4b28d340e415b8137480ec442662f981e1399386c5931dae0e886e3639e91",
+    "libc.so.6": "8db37cf3f2169f59a0f07ef1fea308c35656668c64c8ff294e1860f4121eb161"
+  },
+  "elf_needed_dependencies_verified": {
+    "ld-linux-x86-64.so.2": [],
+    "libstdc++.so.6": [
+      "libm.so.6",
+      "libc.so.6",
+      "ld-linux-x86-64.so.2",
+      "libgcc_s.so.1"
+    ],
+    "libgcc_s.so.1": [
+      "libc.so.6",
+      "ld-linux-x86-64.so.2"
+    ],
+    "libm.so.6": [
+      "libc.so.6",
+      "ld-linux-x86-64.so.2"
+    ],
+    "libc.so.6": [
+      "ld-linux-x86-64.so.2"
+    ],
+    "kero": [
+      "libstdc++.so.6",
+      "libgcc_s.so.1",
+      "libm.so.6",
+      "libc.so.6"
+    ]
+  },
+  "all_transitive_needed_names_resolve_within_five_file_bundle": true,
+  "freeze_precedes_single_issued_runtime_followup": true,
+  "observations": 14,
+  "initial_ph_measurements": [
+    10.39568327534,
+    10.39568327534
+  ],
+  "final_ph_measurements": [
+    9.671205408243,
+    2.049931955107
+  ],
+  "final_ph_contrast": 7.621273453136,
+  "suspension_solid_loss_mol": 0.0004924444329620001,
+  "filter_temperature_difference_k": 0.0,
+  "filter_ph_difference": 0.0,
+  "all_frozen_regression_checks_met": true,
+  "original_criteria": [
+    {
+      "id": "AB-029-C1",
+      "verdict": "met",
+      "evidence": "Both original requested initial pH measurements exist and equal10.39568327534."
+    },
+    {
+      "id": "AB-029-C2",
+      "verdict": "met",
+      "evidence": "Same1mmol acid challenge reduces suspension solid by0.492444432962mmol; final suspension9.671205408243 versus filtrate2.049931955107."
+    }
+  ],
+  "model_boundary_events": 0,
+  "solver_failed_events": 0,
+  "inventory_method": "Cumulative incoming operator doses versus whole-bench retained contents plus actual gas exports at every observation. base_equivalents uses exact-source OH-derived H/O/charge composition; measured proton fields, solution distributions and lots are not additional matter. No surface/unresolved inventory in this script.",
+  "per_observation_ledgers": [
+    {
+      "observation": 0,
+      "cumulative_whole_bench_residuals_mol": {
+        "H": 0.0,
+        "O": 0.0,
+        "formal_charge": 0.0
+      }
+    },
+    {
+      "observation": 1,
+      "cumulative_whole_bench_residuals_mol": {
+        "H": -1.8e-19,
+        "Mg": -1.78754e-16,
+        "O": -1.8e-19,
+        "formal_charge": -3.57328e-16
+      }
+    },
+    {
+      "observation": 2,
+      "cumulative_whole_bench_residuals_mol": {
+        "H": -1.8e-19,
+        "Mg": -1.78754e-16,
+        "O": -1.8e-19,
+        "formal_charge": -3.57328e-16
+      }
+    },
+    {
+      "observation": 3,
+      "cumulative_whole_bench_residuals_mol": {
+        "H": -1.8e-19,
+        "Mg": -1.78754e-16,
+        "O": -1.8e-19,
+        "formal_charge": -3.57328e-16
+      }
+    },
+    {
+      "observation": 4,
+      "cumulative_whole_bench_residuals_mol": {
+        "H": -3.6e-19,
+        "Mg": -3.57508e-16,
+        "O": -3.6e-19,
+        "formal_charge": -7.14656e-16
+      }
+    },
+    {
+      "observation": 5,
+      "cumulative_whole_bench_residuals_mol": {
+        "H": -3.6e-19,
+        "Mg": -3.57508e-16,
+        "O": -3.6e-19,
+        "formal_charge": -7.14656e-16
+      }
+    },
+    {
+      "observation": 6,
+      "cumulative_whole_bench_residuals_mol": {
+        "H": -3.6e-19,
+        "Mg": -3.57508e-16,
+        "O": -3.6e-19,
+        "formal_charge": -7.14656e-16
+      }
+    },
+    {
+      "observation": 7,
+      "cumulative_whole_bench_residuals_mol": {
+        "H": -3.6e-19,
+        "Mg": -3.57508e-16,
+        "O": -3.6e-19,
+        "formal_charge": -7.14656e-16
+      }
+    },
+    {
+      "observation": 8,
+      "cumulative_whole_bench_residuals_mol": {
+        "H": -3.6e-19,
+        "Mg": -3.57508e-16,
+        "O": -3.6e-19,
+        "formal_charge": -7.14656e-16
+      }
+    },
+    {
+      "observation": 9,
+      "cumulative_whole_bench_residuals_mol": {
+        "Cl": 1.338e-16,
+        "H": -1.7e-19,
+        "Mg": -1.58254e-16,
+        "O": -1.7e-19,
+        "formal_charge": -4.50138e-16
+      }
+    },
+    {
+      "observation": 10,
+      "cumulative_whole_bench_residuals_mol": {
+        "Cl": 1.338e-16,
+        "H": 2.1e-19,
+        "Mg": -1.58254e-16,
+        "O": 1e-20,
+        "formal_charge": -4.50118e-16
+      }
+    },
+    {
+      "observation": 11,
+      "cumulative_whole_bench_residuals_mol": {
+        "Cl": 1.338e-16,
+        "H": 2.1e-19,
+        "Mg": -1.58254e-16,
+        "O": 1e-20,
+        "formal_charge": -4.50118e-16
+      }
+    },
+    {
+      "observation": 12,
+      "cumulative_whole_bench_residuals_mol": {
+        "Cl": 1.338e-16,
+        "H": 2.1e-19,
+        "Mg": -1.58254e-16,
+        "O": 1e-20,
+        "formal_charge": -4.50118e-16
+      }
+    },
+    {
+      "observation": 13,
+      "cumulative_whole_bench_residuals_mol": {
+        "Cl": 1.338e-16,
+        "H": 2.1e-19,
+        "Mg": -1.58254e-16,
+        "O": 1e-20,
+        "formal_charge": -4.50118e-16
+      }
+    }
+  ],
+  "max_absolute_inventory_residual_mol": 7.14656e-16,
+  "manifest_qualification": "Raw manifest retains base-snapshot build_image/rustc metadata; those fields do not attest this separately hosted Ubuntu CLI producer or replacement Ubuntu24.04 runtime. Actual binary/lock and five-library hashes, producer/run and explicit runtime-provenance/design are authoritative. Preserve raw manifest rather than retroactively rewriting it.",
+  "delivery_recommendation": "PR809 reviewed673233df may proceed through normal exact-head readiness/auto-merge after root refreshes current head/base/protected checks. No additional nonprotected acceptance requirement remains for narrow Filter/Decant repair.",
+  "catalog_recommendation": "Select unchanged AB029 as a source-bound working protocol on tested merge7fca/tree9f12 with recorded compatible runtime; retain old c446 failure and all unsuccessful setup/loader attempts separately.",
+  "limits": [
+    "No empirical heat/rate/solubility calibration, complete energy proof, exact64-step-causality claim or production deployment acceptance.",
+    "Runtime correction changes only matching loader/fourlibraries; it does not convert the old failed invocation into a pass.",
+    "SDK destroy return is not independent VM deletion attestation.",
+    "Separate source-review remains immutable."
+  ]
+}

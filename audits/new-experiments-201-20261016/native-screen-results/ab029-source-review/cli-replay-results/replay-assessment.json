@@ -1,0 +1,291 @@
+{
+  "design_sha256": "0195e83b9215202eda20585622d282c7bbf2e0206648466dcbd3b5c708d38b73",
+  "engine": {
+    "source_head": "7fca297b73ed888e154c40c83811a57d4995e861",
+    "source_tree": "9f12cf9ec52a9929b92febf273d1d33639649861",
+    "binary_sha256": "ccb09303ed954df3f07490cc4502efb5669eed27b30f8972df464741b315aec7",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "execution_receipt": {
+    "engine": {
+      "source_head": "7fca297b73ed888e154c40c83811a57d4995e861",
+      "source_tree": "9f12cf9ec52a9929b92febf273d1d33639649861",
+      "binary_sha256": "ccb09303ed954df3f07490cc4502efb5669eed27b30f8972df464741b315aec7",
+      "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+    },
+    "status": "completed",
+    "exit_code": 0,
+    "script_sha256": "cf7a5085df974af447178e328821b2ec41c883e27092929b790d25d670e12c9c",
+    "stdout_sha256": "2d3fe03dce14c93b3b7c154444f2a788cba20eca1c9e099b3bf26b9d8ea2fb17",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "observations": 14,
+    "elapsed_seconds": 0.21704789500000032,
+    "resource_usage": {
+      "user_cpu_seconds": 0.160761,
+      "system_cpu_seconds": 0.012057,
+      "max_rss_kib": 40524
+    },
+    "attempts": 1,
+    "physical_verdict": "not_assigned"
+  },
+  "checks": [
+    {
+      "quantity": "fresh complete filtrate solution",
+      "actual": true,
+      "met": true
+    },
+    {
+      "quantity": "same-state filter temperature difference K",
+      "actual": 0.0,
+      "met": true
+    },
+    {
+      "quantity": "same-state filter pH difference",
+      "actual": 0.0,
+      "met": true
+    },
+    {
+      "quantity": "filtrate water difference mol",
+      "actual": 0.0,
+      "met": true
+    },
+    {
+      "quantity": "filtrate Mg(OH)2 mol",
+      "actual": 0,
+      "met": true
+    },
+    {
+      "quantity": "donor solid reserve mol",
+      "actual": 0.001986794373093,
+      "met": true
+    },
+    {
+      "quantity": "solver_failed events",
+      "actual": 0,
+      "met": true
+    },
+    {
+      "quantity": "all four requested pH readings",
+      "actual": 4,
+      "met": true
+    },
+    {
+      "quantity": "final suspension pH",
+      "actual": 9.671205408243,
+      "met": true
+    },
+    {
+      "quantity": "final filtrate pH",
+      "actual": 2.049931955107,
+      "met": true
+    },
+    {
+      "quantity": "final pH contrast",
+      "actual": 7.621273453136,
+      "met": true
+    },
+    {
+      "quantity": "acid consumes suspension solid reserve mol",
+      "actual": 0.0004924444329620001,
+      "met": true
+    }
+  ],
+  "all_frozen_checks_met": true,
+  "original_acceptance_checks": [
+    {
+      "id": "AB-029-C1",
+      "criterion": "Initial dissolved-state pH values are compared before the challenge.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "AB-029-C2",
+      "criterion": "Acid causes loss of hydroxide solid in v1 while the isolated filtrate becomes substantially more acidic.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "initial_ph_measurements": [
+    {
+      "event": "measured",
+      "instrument": "ph_meter",
+      "unit": "pH",
+      "value": 10.39568327534,
+      "vessel": 0
+    },
+    {
+      "event": "measured",
+      "instrument": "ph_meter",
+      "unit": "pH",
+      "value": 10.39568327534,
+      "vessel": 2
+    }
+  ],
+  "final_ph_measurements": [
+    {
+      "event": "measured",
+      "instrument": "ph_meter",
+      "unit": "pH",
+      "value": 9.671205408243,
+      "vessel": 0
+    },
+    {
+      "event": "measured",
+      "instrument": "ph_meter",
+      "unit": "pH",
+      "value": 2.049931955107,
+      "vessel": 2
+    }
+  ],
+  "model_boundaries": [],
+  "per_observation_whole_bench_ledgers": [
+    {
+      "observation": 0,
+      "residuals_mol": {
+        "H": 0.0,
+        "O": 0.0,
+        "formal_charge": 0.0
+      },
+      "within_existing_1e-8_inventory_audit_resolution": true
+    },
+    {
+      "observation": 1,
+      "residuals_mol": {
+        "H": 0.0,
+        "Mg": -1.7867651802561113e-16,
+        "O": 8.881784197001252e-16,
+        "formal_charge": -3.5732931912869914e-16
+      },
+      "within_existing_1e-8_inventory_audit_resolution": true
+    },
+    {
+      "observation": 2,
+      "residuals_mol": {
+        "H": 0.0,
+        "Mg": -1.7867651802561113e-16,
+        "O": 8.881784197001252e-16,
+        "formal_charge": -3.5732931912869914e-16
+      },
+      "within_existing_1e-8_inventory_audit_resolution": true
+    },
+    {
+      "observation": 3,
+      "residuals_mol": {
+        "H": 0.0,
+        "Mg": -1.7867651802561113e-16,
+        "O": 1.7763568394002505e-15,
+        "formal_charge": -3.5732931912869914e-16
+      },
+      "within_existing_1e-8_inventory_audit_resolution": true
+    },
+    {
+      "observation": 4,
+      "residuals_mol": {
+        "H": 0.0,
+        "Mg": -3.5735303605122226e-16,
+        "O": 0.0,
+        "formal_charge": -7.146586382573983e-16
+      },
+      "within_existing_1e-8_inventory_audit_resolution": true
+    },
+    {
+      "observation": 5,
+      "residuals_mol": {
+        "H": 0.0,
+        "Mg": -3.5735303605122226e-16,
+        "O": 0.0,
+        "formal_charge": -7.146586382573983e-16
+      },
+      "within_existing_1e-8_inventory_audit_resolution": true
+    },
+    {
+      "observation": 6,
+      "residuals_mol": {
+        "H": 0.0,
+        "Mg": -3.5735303605122226e-16,
+        "O": 0.0,
+        "formal_charge": -7.146586382573983e-16
+      },
+      "within_existing_1e-8_inventory_audit_resolution": true
+    },
+    {
+      "observation": 7,
+      "residuals_mol": {
+        "H": 0.0,
+        "Mg": -3.5735303605122226e-16,
+        "O": 0.0,
+        "formal_charge": -7.146586382573983e-16
+      },
+      "within_existing_1e-8_inventory_audit_resolution": true
+    },
+    {
+      "observation": 8,
+      "residuals_mol": {
+        "H": 0.0,
+        "Mg": -3.5735303605122226e-16,
+        "O": 0.0,
+        "formal_charge": -7.146586382573983e-16
+      },
+      "within_existing_1e-8_inventory_audit_resolution": true
+    },
+    {
+      "observation": 9,
+      "residuals_mol": {
+        "Cl": 1.3379054808471125e-16,
+        "H": 0.0,
+        "Mg": -1.5872719805187785e-16,
+        "O": 0.0,
+        "formal_charge": -4.501370250934583e-16
+      },
+      "within_existing_1e-8_inventory_audit_resolution": true
+    },
+    {
+      "observation": 10,
+      "residuals_mol": {
+        "Cl": 1.3357370765021415e-16,
+        "H": -3.552713678800501e-15,
+        "Mg": -1.5872719805187785e-16,
+        "O": 1.7763568394002505e-15,
+        "formal_charge": -4.501607420159814e-16
+      },
+      "within_existing_1e-8_inventory_audit_resolution": true
+    },
+    {
+      "observation": 11,
+      "residuals_mol": {
+        "Cl": 1.3357370765021415e-16,
+        "H": -3.552713678800501e-15,
+        "Mg": -1.5872719805187785e-16,
+        "O": 1.7763568394002505e-15,
+        "formal_charge": -4.501607420159814e-16
+      },
+      "within_existing_1e-8_inventory_audit_resolution": true
+    },
+    {
+      "observation": 12,
+      "residuals_mol": {
+        "Cl": 1.3357370765021415e-16,
+        "H": -3.552713678800501e-15,
+        "Mg": -1.5872719805187785e-16,
+        "O": 1.7763568394002505e-15,
+        "formal_charge": -4.501607420159814e-16
+      },
+      "within_existing_1e-8_inventory_audit_resolution": true
+    },
+    {
+      "observation": 13,
+      "residuals_mol": {
+        "Cl": 1.3357370765021415e-16,
+        "H": -3.552713678800501e-15,
+        "Mg": -1.5872719805187785e-16,
+        "O": 1.7763568394002505e-15,
+        "formal_charge": -4.501607420159814e-16
+      },
+      "within_existing_1e-8_inventory_audit_resolution": true
+    }
+  ],
+  "registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "basis_species_source_sha256": "2f7cf2e683c3bb1f0718e5e8e9d75f3cad58621df256f115686fc279be17850f",
+  "qualification": "Changed-runtime CLI acceptance on recorded tested merge; no empirical thermal calibration, REST production acceptance or original failure replacement.",
+  "catalog_selection": "pending_separate_review"
+}

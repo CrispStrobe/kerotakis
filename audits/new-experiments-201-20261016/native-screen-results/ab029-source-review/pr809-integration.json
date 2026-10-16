@@ -1,0 +1,20 @@
+{
+  "recorded_utc": "2026-10-16T18:59:19.878455+00:00",
+  "pr": 809,
+  "reviewed_head": "673233df07deda6f311c474e913e9733a971853d",
+  "merge_commit": "fa5a75faedfe3b2c2ca6cb4b9c65058bf87ee80b",
+  "actual_parents": [
+    "8dbb05aa2ba58c3e9fbf478b3626ae3f400190c5",
+    "673233df07deda6f311c474e913e9733a971853d"
+  ],
+  "actual_tree": "559efc511d09cc50ae72d12c3c3e2d0b79ed34cd",
+  "reconstructed_merge_tree": "559efc511d09cc50ae72d12c3c3e2d0b79ed34cd",
+  "tree_matches": true,
+  "normal_protected_integration": true,
+  "cli_tested_source": "7fca297b73ed888e154c40c83811a57d4995e861",
+  "cli_tested_source_is_previous_reviewed_merge_candidate": true,
+  "cli_replay_assessment": "audits/new-experiments-201-20261016/native-screen-results/ab029-source-review/cli-replay-results/replay-assessment.json",
+  "independent_acceptance_review": "audits/new-experiments-201-20261016/native-screen-results/ab029-source-review/cli-replay-independent-review.json",
+  "review_sha256": "a4a54a15f2f728f5eef3f0ac58e6df4532c4b54faa75914be69e870480a3a002",
+  "production_deployment_changed": false
+}

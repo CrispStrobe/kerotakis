@@ -8,15 +8,15 @@ new designs, variants and engineering checks do not increase this count.
 | --- | ---: | ---: |
 | Original catalog | 147 | 147 retained unchanged from159fa6e0 |
 | First additional batch | 120 | 34 selected:21acid-base and13precipitation;86 remain unselected |
-| Batch2 | 101 | 6: QA001, QA002, QA009, QA010, QA011, QA012 |
+| Batch2 | 101 | 7: QA001, QA002, QA009, QA010, QA011, QA012, repaired AB029 |
 | Batch3 | 100 | 0 selected so far |
-| Total | 468 | 187 accounted for; no unified latest-release count yet |
+| Total | 468 | 188 accounted for; no unified latest-release count yet |
 
 The [scoreboard](scoreboard.json) now has all468 actual case records. The first120
 file is present and authenticated against the exact SHA declared by batch2. The
 [previous checkpoint](scoreboard-before-first120-arrival.json) preserves the earlier
 missing-file state; it is superseded by this inventory.
-The working catalog has191 entries, but its zinc/copper and conducting-stock
+The working catalog has192 entries, but its zinc/copper and conducting-stock
 water-electrolysis repairs come from the separate200-reaction corpus and are
 outside these four batches. Original147 entries match their frozen export.
 
@@ -45,9 +45,9 @@ is assigned new experiment passes before source-bound follow-up acceptance.
    release and qualify actual deployment separately. Update the scoreboard from
    per-case physical outcomes, preserving previous versions and first failures.
 
-There are214 further selections needed to reach401 from187. The prior optimistic
-bound of378 after all clean candidates and first120 still applies;
-at least23 additional limited/failing/refused cases must then be repaired.
+There are213 further selections needed to reach401 from188. The current optimistic
+bound is379 after all remaining clean candidates and unselected first120;
+at least22 additional limited/failing/refused cases must then be repaired.
 This is an optimistic planning bound, not a prediction that all remaining candidates will pass.
 No empirical calibration or latest-release certification is claimed here.
 
@@ -111,3 +111,11 @@ and [complete-stock oxalate](oxalate-physical-stock-followup/README.md).
 A [separate reviewed selection](prepared-protocol-selection.json) adds the copper
 prepared-ion and complete-stock oxalate protocols, bringing the catalog to191.
 They do not close the original missing identities or increase the fixed468 selection.
+
+
+[Unchanged AB029 replay](../new-experiments-201-20261016/native-screen-results/ab029-source-review/catalog-selection.json)
+now meets both original criteria after the integrated aqueous-transfer repair.
+Catalog192, fixedtarget188; old c446 failure remains. InitialpH10.3957 in both
+arms becomes9.6712 versus2.0499 after equal acid challenges. All14material/charge
+ledgers close; no solver/model warnings occur. Runtime startup failures and their
+separately frozen compatible-library follow-up remain distinct from chemistry.

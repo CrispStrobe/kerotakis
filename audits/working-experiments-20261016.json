@@ -14,7 +14,7 @@
     "The recent silver/ammonia replay is excluded because canonical free/complex-bound ligand ownership remains a material gap.",
     "Original experiment designs, forecasts and first results remain unchanged."
   ],
-  "count": 191,
+  "count": 192,
   "counts_by_group": {
     "independent-first50": 38,
     "independent-second50": 25,
@@ -24,7 +24,7 @@
     "supplied200": 13,
     "complete-reagent-followups": 9,
     "supplied200-repaired-protocols": 4,
-    "new201-original-assessed": 6,
+    "new201-original-assessed": 7,
     "first120-original-assessed": 34
   },
   "experiments": [
@@ -4067,7 +4067,38 @@
         "independent_review": "audits/target468-20261016/prepared-basis-first2/independent-review.json",
         "selection": "audits/target468-20261016/prepared-protocol-selection.json"
       }
+    },
+    {
+      "id": "new201-original-assessed:batch2:ab-029",
+      "group": "new201-original-assessed",
+      "title": "A hydroxide suspension and its clear filtrate hide different reserves",
+      "script": "# AB-029: A hydroxide suspension and its clear filtrate hide different reserves\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 Mg(OH)2 0.002mol\nnew\nadd v2 water 100mL\nadd v2 Mg(OH)2 0.002mol\nnew\nfilter v2 v3\nmeasure v1 ph\nmeasure v3 ph\nadd v1 HCl 0.001mol\nadd v3 HCl 0.001mol\nmeasure v1 ph\nmeasure v3 ph\ninspect\n",
+      "script_sha256": "cf7a5085df974af447178e328821b2ec41c883e27092929b790d25d670e12c9c",
+      "expected_result": "The suspension can replenish dissolved hydroxide by consuming solid Mg(OH)2. Its filtrate lacks that reserve and should acidify much more under the same acid dose.",
+      "observed_result": "Initial suspension/filtrate pH both10.39568327534. Equal1mmolHCl challenges consume0.492444432962mmol suspension solid and leave suspensionpH9.671205408243 versus filtrate2.049931955107. FilterΔT=0K/ΔpH=0; all14material/charge ledgers close; no solver/model warnings.",
+      "validated_on": {
+        "source_head": "7fca297b73ed888e154c40c83811a57d4995e861",
+        "source_tree": "9f12cf9ec52a9929b92febf273d1d33639649861",
+        "binary_sha256": "ccb09303ed954df3f07490cc4502efb5669eed27b30f8972df464741b315aec7",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "raw_lock_rehashed": true,
+        "runtime_provenance": "audits/new-experiments-201-20261016/native-screen-results/ab029-source-review/cli-replay-runtime-provenance.json"
+      },
+      "limitations": [
+        "No empirical heat/rate/solubility calibration, complete energy proof, exact64-step-causality claim or production deployment acceptance.",
+        "Runtime correction changes only matching loader/fourlibraries; it does not convert the old failed invocation into a pass.",
+        "SDK destroy return is not independent VM deletion attestation.",
+        "Separate source-review remains immutable.",
+        "Inherited manifest build_image/rustc are qualified separately; they do not attest the replacement binary/runtime. Original c446 solver failure and all setup/loader failures remain unchanged."
+      ],
+      "evidence": {
+        "assessment": "audits/new-experiments-201-20261016/native-screen-results/ab029-source-review/cli-replay-results/replay-assessment.json",
+        "independent_review": "audits/new-experiments-201-20261016/native-screen-results/ab029-source-review/cli-replay-independent-review.json",
+        "raw_stdout": "audits/new-experiments-201-20261016/native-screen-results/ab029-source-review/cli-replay-results/execution-runtime-correction/stdout.jsonl",
+        "original_first_case": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_ab-029.json",
+        "selection": "audits/new-experiments-201-20261016/native-screen-results/ab029-source-review/catalog-selection.json"
+      }
     }
   ],
-  "updated_utc": "2026-10-16T18:28:55.025423+00:00"
+  "updated_utc": "2026-10-16T18:59:55.531685+00:00"
 }
