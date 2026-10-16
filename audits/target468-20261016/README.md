@@ -48,7 +48,7 @@ is assigned new experiment passes before source-bound follow-up acceptance.
 There are248 further selections needed to reach401 from153. Even if all105
 clean candidates and the first120 eventually work, the total would be378;
 at least23 additional limited/failing/refused cases must then be repaired.
-This is an optimistic planning bound, not a prediction that all228 will pass.
+This is an optimistic planning bound, not a prediction that all225 will pass.
 No empirical calibration or latest-release certification is claimed here.
 
 ## Separate curriculum corpus:668 records in all

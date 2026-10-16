@@ -22,3 +22,10 @@ current resource constraints. The isolated validation workflow must never merge.
 A successful process is not a physical pass. Assess each original criterion;
 preserve refusals, unsupported domains and failed forecasts. Corrected protocols
 remain associated with their original IDs and do not enlarge the denominator.
+
+The first hosted launch failed at identifier preflight before any engine process.
+[First failure](first-setup-failure.json) preserves the source/log hashes. The
+[corrected dispatch](corrected-dispatch.json) permits existing underscore IDs and
+rejects normalized directory collisions; actual-bundle verification now passes
+for every case without executing the engine. No experiment command or physical
+criterion changed. Follow that run rather than duplicating it.

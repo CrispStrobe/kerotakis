@@ -1,0 +1,21 @@
+{
+  "recorded_utc": "2026-10-16T13:41:32.255039+00:00",
+  "url": "https://kerotakis-web-payload.vercel.app/api/health",
+  "status": 200,
+  "elapsed_seconds": 1.8834086004644632,
+  "body": {
+    "service": "kerotakis",
+    "api_version": 1,
+    "mode": "vercel",
+    "configured": true,
+    "revision": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "execution_backend": "microvm",
+    "engine": {
+      "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+      "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+      "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+    }
+  },
+  "engine_executions": 0,
+  "purpose": "Current production version check; not a run-latency benchmark."
+}

@@ -1,0 +1,18 @@
+{
+  "created_utc": "2026-10-16T13:43:52.289790+00:00",
+  "run_id": 38909751180,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38909751180",
+  "workflow_head": "e6ee9e053cd628087a902ba285627a4a75689c39",
+  "input_checkout_commit": "2a2027e9ae4223e40cdc460c9a93a162cf85c69a",
+  "design_sha256": "e89c2f91b07ecb639436d75bae7417b5af9d3febfecb977519a2742fde692ea0",
+  "runner_sha256": "400535de9b01b75b7d38ea37ab3dfacd10b65916d3910ec3d4fc687d1933c272",
+  "preflight_against_actual_accepted_bundle": "passed locally with --verify-only; no engine process executed",
+  "setup_launches": 2,
+  "previous_launch_engine_executions": 0,
+  "corrected_launch_dispatch_count": 1,
+  "last_observed_status": "queued",
+  "previous_failure": "first-setup-failure.json",
+  "integration_allowed": false,
+  "new_local_engine_executions": 0,
+  "physical_verdict": "not_assigned"
+}

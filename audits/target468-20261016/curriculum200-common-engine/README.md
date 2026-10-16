@@ -16,3 +16,10 @@ passes. A first refusal may prevent later commands from being reached.
 Execution is bounded, hosted, serial and once-only, using the same authenticated
 prebuilt bundle and runner limits as the remaining267. No new local simulator
 or production API request is required. The isolated validation ref never merges.
+
+The first hosted launch failed at identifier preflight before any engine process.
+[First failure](first-setup-failure.json) preserves the source/log hashes. The
+[corrected dispatch](corrected-dispatch.json) permits existing underscore IDs and
+rejects normalized directory collisions; actual-bundle verification now passes
+for every case without executing the engine. No experiment command or physical
+criterion changed. Follow that run rather than duplicating it.

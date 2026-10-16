@@ -153,3 +153,12 @@ concurrency defects using pinned actual controller/adapter source. This is a
 separate UI acceptance investigation, not201 chemistry results or proof of the
 exact historical browser failure. Raw output and execution hashes are retained;
 Hermes owns the separately scoped product repair.
+
+## First-batch file now available
+
+The separately delivered first120 JSON is now authenticated against the exact
+SHA declared by batch2 and preserved in the
+[fixed468 completion intake](../target468-20261016/common-engine-completion/README.md).
+The initial201 intake scope above is unchanged; the earlier missing-source note
+is historical. All468 original case IDs are now indexed. Together with the
+separate curriculum200, the combined record total is668.
