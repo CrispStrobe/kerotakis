@@ -90,3 +90,9 @@ it does not validate milk-scattering removal. No original native result changed.
 Summed serial CLI process wall time was47.94s, with median0.118s and maximum8.59s
 in this hosted run. These figures exclude CI queue/artifact setup and do not
 measure VPS or API performance. They establish no chemical calibration.
+
+The [separate QA-001–003 saved assessment](quantitative-saved-review/README.md)
+checks original quantitative criteria without rerunning cases. Limestone and
+acid-spike checks are met; the aliquot dose ratio is met but its requested
+liquid-volume measurement remains unsupported by the selected gas instrument.
+Original screen classifications and the working catalog remain unchanged.

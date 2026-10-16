@@ -85,6 +85,11 @@ cancel active checks for optional edits. Refresh actual heads before work.
 - Saved201 triage is **111 completed awaiting physical assessment,85 completed
   with named limits,2 completed with solver failures,3 admission refusals**.
   These categories assign no scientific passes. All original forecasts remain.
+- A [separate saved quantitative review](../audits/new-experiments-201-20261016/native-screen-results/quantitative-saved-review/README.md)
+  finds both original bounded checks met for QA-001 limestone back-titration and
+  QA-002 acid-spike recovery. QA-003 meets its3:1 endpoint-dose check, but its
+  gas-volume instrument cannot supply the required liquid-volume measurement.
+  No new execution or working-catalog addition is assigned.
 - Four corrected haloalkane controls match only two bounded principal forecasts,
   both on the separately bound source74 preview and current c446 native run.
   Strong-base lookup loses solved NaOH identity in the other two. All seven

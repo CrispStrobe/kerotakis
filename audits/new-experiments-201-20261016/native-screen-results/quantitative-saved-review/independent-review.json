@@ -1,0 +1,28 @@
+{
+  "reviewed_utc": "2026-10-16T08:59:41.068163+00:00",
+  "independent_review": "acid_route_contract_review; read-only saved-evidence assessment",
+  "files": [
+    {
+      "path": "review_saved.py",
+      "sha256": "fffeaf7634f0aa433b04fcb6e100d8b4f90ca172fa36c21821966b99a16053e0"
+    },
+    {
+      "path": "assessment.json",
+      "sha256": "0702bbe3f41ea96a59860ced08d5bc5079086103be1ec56b9236fd708fcf0eef"
+    },
+    {
+      "path": "README.md",
+      "sha256": "9a3c4e654801c798c0180170f3e6113bbd8d51934ed8c0a5825876004a09232f"
+    }
+  ],
+  "reader_reproduced_assessment_exactly": true,
+  "verified": [
+    "Authenticated raw artifact and exact original script/stdout hashes",
+    "Original bounded criteria and two-increment dose arithmetic",
+    "Finite retained calcium/silica/acetate and explicit sample CO2 export",
+    "QA003 gas-meter refusals do not become liquid-volume observations"
+  ],
+  "new_engine_executions": 0,
+  "catalog_additions": 0,
+  "full_energy_or_empirical_calibration_claim": false
+}

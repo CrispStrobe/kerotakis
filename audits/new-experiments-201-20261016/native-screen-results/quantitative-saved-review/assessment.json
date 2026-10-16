@@ -1,0 +1,120 @@
+{
+  "raw_artifact_sha256": "7e3102c8ba72746974b0595de3f525041064e1641d55b2bcc11f546646a2f3f3",
+  "new_executions": 0,
+  "scope": "Saved evidence assessment of original criteria; no new forecasts, empirical calibration or full atom/energy certification.",
+  "cases": [
+    {
+      "id": "batch2:qa-001",
+      "source_engine": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "e2d63fa51a39124096cafeba94709a05bba34ee41df2d1dfd64898c21e48c14a",
+      "stdout_sha256": "dc6428b77deea6bc92a2c25095a02a28fe94611318307690eccf2af6795a99be",
+      "original_forecast": "The sample consumes about 2 mmol more acid than the blank, corresponding to 1 mmol CaCO3; silica is excluded from neutralising capacity.",
+      "criteria": [
+        {
+          "id": "QA-001-C1",
+          "criterion": "Blank minus sample base demand is close to 2 mmol, allowing two burette increments and residual dissolved CO2.",
+          "result": "met"
+        },
+        {
+          "id": "QA-001-C2",
+          "criterion": "Recovered carbonate amount agrees with the introduced amount; silica remains a separate inventory.",
+          "result": "met"
+        }
+      ],
+      "observations": {
+        "endpoint_base_mol": [
+          0.0030000010776519703,
+          0.0010000016117095948
+        ],
+        "recovered_CaCO3_mol": 0.0009999997329711878,
+        "retained_SiO2_mol": 0.001664336595433056,
+        "retained_Ca_mol": 0.0009999999998244662,
+        "exported_CO2_mol": 0.000999999999807037,
+        "introduced_SiO2_mol": 0.0016643365954330605,
+        "dose_tolerance_mol": 4e-05
+      },
+      "verdict": "original_bounded_checks_met",
+      "catalog_case_closed": false
+    },
+    {
+      "id": "batch2:qa-002",
+      "source_engine": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "8111bf66617f0a7544d898822d156ab1d005665966f0f95aa8b865d85303b091",
+      "stdout_sha256": "da9bddfdaf6799b51a243b59d6d6c8fcf0e5b1275dafd80f47317d8b5ec244a5",
+      "original_forecast": "The spiked aliquot should require approximately 0.5 mmol more hydroxide, despite a disproportionate change in its starting pH.",
+      "criteria": [
+        {
+          "id": "QA-002-C1",
+          "criterion": "Subtracting endpoint doses recovers the 0.5 mmol spike within step-size and endpoint corrections.",
+          "result": "met"
+        },
+        {
+          "id": "QA-002-C2",
+          "criterion": "Total acetate is conserved in both aliquots.",
+          "result": "met"
+        }
+      ],
+      "observations": {
+        "endpoint_base_mol": [
+          0.0010005194091796872,
+          0.0015005657958984341
+        ],
+        "recovered_spike_mol": 0.000500046386718747,
+        "retained_acetate_mol": [
+          0.0009999999999999998,
+          0.0009999999999999994
+        ],
+        "dose_tolerance_mol": 2e-05
+      },
+      "verdict": "original_bounded_checks_met",
+      "catalog_case_closed": false
+    },
+    {
+      "id": "batch2:qa-003",
+      "source_engine": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "06ff160b761f71e03495726cc45fe9bc0fa02e2fc7d560228059686386719448",
+      "stdout_sha256": "7d02848f1d8eb8d37319a7110694f2768a7844501309584c3a04d91eb5d6177c",
+      "original_forecast": "The remaining stock and withdrawn aliquot contain approximately 1.5 and 0.5 mmol acid. Their pre-titration concentrations should agree.",
+      "criteria": [
+        {
+          "id": "QA-003-C1",
+          "criterion": "Endpoint base demands are approximately 3:1.",
+          "result": "met"
+        },
+        {
+          "id": "QA-003-C2",
+          "criterion": "Base demand divided by each measured pre-titration volume agrees within dosing resolution.",
+          "result": "unsupported_measurement"
+        }
+      ],
+      "observations": {
+        "endpoint_base_mol": [
+          0.0015000005626678433,
+          0.0005000001859664917
+        ],
+        "endpoint_dose_ratio": 3.000000009536733,
+        "liquid_volume_measurement_available": false,
+        "gas_meter_refusals": 2,
+        "dose_tolerance_mol": 2e-05
+      },
+      "verdict": "partial_checks_with_coverage_limit",
+      "catalog_case_closed": false
+    }
+  ],
+  "catalog_additions": 0
+}
