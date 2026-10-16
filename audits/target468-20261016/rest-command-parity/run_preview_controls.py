@@ -22,6 +22,7 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--origin', required=True)
+    parser.add_argument('--design', type=Path, default=Path(__file__).with_name('preview-controls-design.json'))
     parser.add_argument('--out', type=Path, required=True)
     parser.add_argument('--owner-key-file', type=Path, required=True)
     parser.add_argument('--cookie-file', type=Path, required=True)
@@ -29,7 +30,7 @@ def main():
     args = parser.parse_args()
     assert json.loads(args.corpus_completion.read_text())['records'] == 441
     root = Path(__file__).resolve().parent
-    design_raw = (root / 'preview-controls-design.json').read_bytes()
+    design_raw = args.design.read_bytes()
     design = json.loads(design_raw)
     origin = urllib.parse.urlsplit(args.origin)
     assert origin.scheme == 'https' and origin.hostname and not origin.path

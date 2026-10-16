@@ -1,0 +1,16 @@
+{
+  "case": "batch2:qa-010",
+  "design_sha256": "d77ea38e72cc89824407eec7d137a8fd0d8dd124ea2b2add19e5783667ce0727",
+  "observer_sha256": "5c69bebda4de5775848a1afcb2b72575e51e7e0c6e31b400585c1e5cd6b82016",
+  "raw_result_sha256": "ee26e3fa4a768fb31bf11284587f8876bc087ad95914c19a5cbc1ded8b470087",
+  "execution_status": "completed",
+  "exit_status": -9,
+  "elapsed_seconds": 8.172050244000001,
+  "resource_usage": {
+    "user_cpu_seconds": 7.928582,
+    "system_cpu_seconds": 0.084094,
+    "max_rss_kib": 38152
+  },
+  "conclusion": "SIGKILL at8.012676 CPU seconds under8second hardRLIMIT_CPU; low RSS38152KiB. Supports CPU exhaustion for this changed-observer reproduction. Original firstHTTP503 remains separately preserved.",
+  "physical_verdict": "not_assigned"
+}

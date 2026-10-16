@@ -1,0 +1,19 @@
+{
+  "case": "lifecycle-stock-observation",
+  "api_revision": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "gateway_revision": "735c523d415e1e8ab1dddf58efbbf6d7bc53266e",
+  "response_sha256": "2966ea2f5caceccf182a8c05f8b401d7a218ba1e52b9c702f62dc83111d259f8",
+  "http_status": 200,
+  "execution_status": "refused",
+  "exit_status": 1,
+  "diagnostics": "kero: <script>:13: the last vessel must stay on the bench\n",
+  "first_forecast": "HTTP200 completed exit0",
+  "assessment": "Protocol error: attempting to remove the last vessel violates the existing bench invariant. All preceding newly exposed stock/smell/waft/zoom/discard commands execute; do not weaken remove guard.",
+  "next": "Freeze separate correction creating another vessel before removing the empty one. Voltmeter control was not yet issued.",
+  "retries": 0,
+  "physical_verdict": "not_assigned"
+}
