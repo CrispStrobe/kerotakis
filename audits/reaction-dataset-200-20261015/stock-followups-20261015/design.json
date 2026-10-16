@@ -1,0 +1,120 @@
+{
+  "frozen_utc": "2026-10-15T19:52:21.419139+00:00",
+  "kind": "separate physical-stock followups frozen before API execution",
+  "assumptions": [
+    "Explicit neutral stocks replace incomplete bare-ion inputs; spectator ions are declared by stock formula.",
+    "Amounts, order, medium and10s are specified screening assumptions, not source-provided procedures.",
+    "No original protocol or observation is overwritten.",
+    "Qualitative expectations are not calibrated yield/rate or full mechanism validation."
+  ],
+  "cases": [
+    {
+      "id": "F01-water",
+      "source_ranks": [],
+      "script": "add v1 water 100mL @ 25C\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "3d6b4583f484cf30b18e8c70a341d5cc5d00cf41f68190b397a1b088153dbe8a",
+      "expected_before_execution": "Neutral solvent baseline; no added acid/base or reaction product."
+    },
+    {
+      "id": "F02-HCl",
+      "source_ranks": [
+        1,
+        12
+      ],
+      "script": "add v1 water 100mL @ 25C\nadd v1 HCl 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "e58df8b44b4d9ca90471df5e65d96e7069500acecb668a9bc96a09957aff72c6",
+      "expected_before_execution": "Acidic pH compared with water baseline."
+    },
+    {
+      "id": "F03-NaOH",
+      "source_ranks": [
+        1,
+        140
+      ],
+      "script": "add v1 water 100mL @ 25C\nadd v1 NaOH 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "32d365881b1cbf03dd262181ac6959d04c0b623d1add621582d9a8c847ca7224",
+      "expected_before_execution": "Alkaline pH compared with water baseline."
+    },
+    {
+      "id": "F04-neutralisation",
+      "source_ranks": [
+        1
+      ],
+      "script": "add v1 water 100mL @ 25C\nadd v1 HCl 0.001mol\ninspect v1\nadd v1 NaOH 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "a4e2a4c3f27aa790a4843e644b4ba647ff71d5515a945bf7fe6304bb8925b1c1",
+      "expected_before_execution": "Equal strong acid/base returns toward neutral pH; inspect heating separately, no empirical heat calibration."
+    },
+    {
+      "id": "F05-NH4Cl",
+      "source_ranks": [
+        58
+      ],
+      "script": "add v1 water 100mL @ 25C\nadd v1 NH4Cl 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "8a0acd127c65fe3f7e8192714ee1415d9decc1b1c442ce319746b64308feb19a",
+      "expected_before_execution": "Ammonium-salt solution acidic, rather than ammonia-like alkalinity."
+    },
+    {
+      "id": "F06-Na2CO3",
+      "source_ranks": [
+        57
+      ],
+      "script": "add v1 water 100mL @ 25C\nadd v1 Na2CO3 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "9caf9e77d41fed161c53aa1820bfabe57d5ce307c1f4b37babfa1c5981d4f064",
+      "expected_before_execution": "Carbonate-salt solution alkaline; carbonate/hydrocarbonate solution species available."
+    },
+    {
+      "id": "F07-Zn-HCl",
+      "source_ranks": [
+        10
+      ],
+      "script": "add v1 water 100mL @ 25C\nadd v1 Zn 0.001mol\nadd v1 HCl 0.002mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "a928236870e71e068610d10a44ebe60167c4aeddbedd8b20166b41ff68342650",
+      "expected_before_execution": "Acid is represented; zinc consumption and hydrogen generation if supported at the declared timescale."
+    },
+    {
+      "id": "F08-CaCO3-HCl",
+      "source_ranks": [
+        8
+      ],
+      "script": "add v1 water 100mL @ 25C\nadd v1 CaCO3 0.001mol\ninspect v1\nadd v1 HCl 0.002mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "af7f49bea5c4030829dfafc66f4f92743f4c176afcf4d8b25558e77635fd3e1e",
+      "expected_before_execution": "Acid-driven carbonate dissolution and CO2 generation; distinguish vented gas from retained inventory."
+    },
+    {
+      "id": "F09-CuO-HCl",
+      "source_ranks": [
+        61
+      ],
+      "script": "add v1 water 100mL @ 25C\nadd v1 CuO 0.001mol\ninspect v1\nadd v1 HCl 0.002mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "5d498fc94ef205d39d002f793abe3b38144fae921dbafa7877bd26a690adcc0c",
+      "expected_before_execution": "Acid promotes CuO dissolution and dissolved copper; compare with pre-acid inspection."
+    },
+    {
+      "id": "F10-CO2-NaOH",
+      "source_ranks": [
+        140
+      ],
+      "script": "add v1 water 100mL @ 25C\nseal v1 1L\nadd v1 NaOH 0.002mol\ninspect v1\nadd v1 CO2 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "d773a7a785d12f7391b94ca62361237525b01bc5d18d8c3d9221bc79aa793e5f",
+      "expected_before_execution": "Base captures CO2 into carbonate/bicarbonate; inspect pH and distinguish initial-air carbon."
+    },
+    {
+      "id": "F11-AgCl-NH3",
+      "source_ranks": [
+        124
+      ],
+      "script": "add v1 water 100mL @ 25C\nadd v1 AgCl 0.001mol\ninspect v1\nadd v1 NH3 0.002mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "2dd3f23cb71206af2ae5d13e22223603e50610ae12526175c18be3e118cfbdc2",
+      "expected_before_execution": "Ammonia increases AgCl dissolution through ammine complexation if represented; no full-dissolution forecast at this dose."
+    },
+    {
+      "id": "F12-permanganate-peroxide-acid",
+      "source_ranks": [
+        119
+      ],
+      "script": "add v1 water 100mL @ 25C\nadd v1 H2SO4 0.003mol\nadd v1 KMnO4 0.002mol\ninspect v1\nadd v1 H2O2 0.005mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "c05c88f1e1406d7c0bcade6e9f9c31aadb6d2af9a2c0ad5f8bbe896c72d27ab4",
+      "expected_before_execution": "Acidic permanganate/peroxide target consumes permanganate and yields MnII/O2 if supported; distinguish background peroxide decomposition."
+    }
+  ]
+}

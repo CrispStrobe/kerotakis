@@ -1266,6 +1266,64 @@ fn water_autoionisation_log_k(temperature_k: f64) -> Option<f64> {
     log_k.is_finite().then_some(log_k)
 }
 
+/// A homogeneous analytical component input is not necessarily a complete
+/// physical reagent. The legacy adapter charge-balances its non-H/O totals
+/// through pH; never describe that convention as supplied counterions.
+// Reporting resolution of the existing canonical readback, in mol of charge.
+// Finite native gas/element convergence leaves nanomole-scale residuals; a
+// neutral gas leaving can retain that residual after most ions have gone.
+// This allowance changes neither inventory nor conservation acceptance.
+const ANALYTICAL_CHARGE_READBACK_ALLOWANCE: f64 = 1e-8;
+
+fn analytical_charge_note(vessel: &Vessel) -> Option<Event> {
+    // These models own fixed/interfacial charge outside the bulk ledger.
+    // Their admission and countercharge remain with their reviewed routes.
+    if !vessel.surfaces.is_empty()
+        || !vessel.exchanges.is_empty()
+        || !vessel.electrodes.is_empty()
+        || !vessel.contents.iter().any(|portion| {
+            portion.species.0 == "water" && portion.phase == Phase::Liquid && portion.moles.0 > 0.0
+        })
+    {
+        return None;
+    }
+    let mut charge = 0.0;
+    let mut absolute_charge = 0.0;
+    for portion in &vessel.contents {
+        let Some(formula) = species::lookup(&portion.species)
+            .and_then(|data| kerotakis_core::stoich::parse_formula(data.formula).ok())
+        else {
+            continue;
+        };
+        let contribution = formula.charge * portion.moles.0;
+        charge += contribution;
+        absolute_charge += contribution.abs();
+    }
+    // Current ionic magnitude alone is not a numerical error budget: opening
+    // carbonated water vents neutral CO2 while retaining its earlier native
+    // element/readback residual. Do not call that an uncompensated user dose.
+    // Bare H/O input refusal remains separate and has no dose floor.
+    if charge.abs() <= ANALYTICAL_CHARGE_READBACK_ALLOWANCE + absolute_charge * 1e-7 {
+        return None;
+    }
+    Some(Event::not_modeled(
+        vessel.id,
+        kerotakis_core::ops::NotModelledCause::ModelBoundary,
+        Phrase::bare(
+            "not-modeled.analytical-component-charge",
+            "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred",
+        ),
+    ))
+}
+
+fn has_solvent_only_basis(vessel: &Vessel) -> bool {
+    vessel.contents.iter().any(|portion| {
+        portion.phase == Phase::Aqueous
+            && species::is_acid_base_basis(&portion.species.0)
+            && portion.moles.0 > 0.0
+    }) && partition(vessel).is_some_and(|problem| problem.solvent_only)
+}
+
 fn characterize_solvent_only(vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
     let Some(log_k) = water_autoionisation_log_k(vessel.temperature.0) else {
         return Err(SolveError::NotConverged {
@@ -2468,7 +2526,8 @@ impl Equilibrator for PhreeqcEquilibrator {
         // route: coverage must not call an unrelated experiment "computed"
         // merely because its setup included water.
         self.applies(vessel)
-            && (partition(vessel).is_some_and(|problem| !problem.solvent_only)
+            && (has_solvent_only_basis(vessel)
+                || partition(vessel).is_some_and(|problem| !problem.solvent_only)
                 || holds_unspeciated_acid(vessel)
                 || holds_unspeciated_solute(vessel))
     }
@@ -2492,9 +2551,27 @@ impl Equilibrator for PhreeqcEquilibrator {
         // different vessel is a guess, not a memory. The warm start exists
         // for the temperature fixed point *inside* this call.
         self.warm_pe = None;
+        if has_solvent_only_basis(vessel) {
+            // The water relation cannot price a finite H+/OH- reaction or
+            // normalize its water inventory. A neutral reading would hide
+            // that missing chemistry, even for a charge-balanced pair.
+            vessel.solution = None;
+            vessel.free_proton = 0.0;
+            vessel.free_hydroxide = 0.0;
+            vessel.resolved.invalidate();
+            return Ok(vec![Event::not_modeled(
+                vessel.id,
+                kerotakis_core::ops::NotModelledCause::ModelBoundary,
+                Phrase::bare(
+                    "not-modeled.bare-acid-base-basis",
+                    "this solvent-only inventory contains explicit acid/base equivalents. Their neutralisation, water balance and reaction heat are not implemented by the solvent autoionisation path. The inventory is retained and no solution reading is assigned; use complete acid/base reagents for a supported neutralisation experiment",
+                ),
+            )]);
+        }
         if partition(vessel).is_some_and(|problem| problem.solvent_only) {
             return characterize_solvent_only(vessel);
         }
+        let component_charge_note = analytical_charge_note(vessel);
         if let Some(surface) = vessel
             .surfaces
             .iter()
@@ -2665,6 +2742,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         let Some((solved, mut events, t_final)) = settled else {
             let mut notes = unspeciated_acid_notes(&start);
             notes.extend(unspeciated_solute_notes(&start));
+            notes.extend(component_charge_note);
             return Ok(notes);
         };
         *vessel = solved;
@@ -2672,6 +2750,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         self.recharacterise_canonically(vessel, &mut events);
         events.extend(unspeciated_acid_notes(vessel));
         events.extend(unspeciated_solute_notes(vessel));
+        events.extend(component_charge_note);
         let ph_now = vessel.solution.as_ref().map(|s| s.ph);
         events.extend(milk_buffer_notes(vessel, ph_now));
         // Observability gates narration, never the physical state. Dropping
@@ -2747,6 +2826,13 @@ impl Equilibrator for PhreeqcEquilibrator {
         // Native MIX has its own whole-step thermal bookkeeping. An active
         // unknown-heat continuation must use the ordinary guarded readback.
         if !kerotakis_core::aqueous_continuation::whole_step_heat_available(vessel) {
+            return None;
+        }
+        // Neither source nor target may bypass the ordinary analytical
+        // component/basis reporting boundary through the MIX optimization.
+        if [vessel as &Vessel, soln_a, soln_b].iter().any(|source| {
+            has_solvent_only_basis(source) || analytical_charge_note(source).is_some()
+        }) {
             return None;
         }
         // Both source vessels must be solvable aqueous problems.

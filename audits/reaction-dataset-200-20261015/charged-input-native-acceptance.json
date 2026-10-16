@@ -1,0 +1,45 @@
+{
+  "recorded_at": "2026-10-15T22:12:33.605986+00:00",
+  "pr": 796,
+  "head": "f253fc21d4641fbb88f4a9cb7a953c7566d393ae",
+  "tested_merge": "01a679299098ee64f2a9b7f71793cf6d0caf5bc8",
+  "tested_main": "b22f3da5655614ae37e8874fefc023becccd1dcf",
+  "checks": [
+    {
+      "platform": "linux",
+      "job": 116668718317,
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718317",
+      "raw_log_sha256": "6718ce87bdd65b00211a61034aad439f6f67f5afdce9c2b72a0ed4ae467ed8ef",
+      "focused_core_groups_passed": 6,
+      "focused_aqueous_groups_passed": 11,
+      "full_workspace_tests_passed": true,
+      "curiosity": {
+        "prompts": 500,
+        "unmet_requirements": 0,
+        "runtime_failures": 0,
+        "baseline_drift": 0
+      }
+    },
+    {
+      "platform": "macos",
+      "job": 116668718519,
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718519",
+      "raw_log_sha256": "0dfc05dd8db0a36645ec4e83f24509085c07af2a6dea3959312eec4ac33a7f4f",
+      "focused_core_groups_passed": 6,
+      "focused_aqueous_groups_passed": 11,
+      "full_workspace_tests_passed": true,
+      "curiosity": {
+        "prompts": 500,
+        "unmet_requirements": 0,
+        "runtime_failures": 0,
+        "baseline_drift": 0
+      }
+    }
+  ],
+  "first_failed_source": "9f0ba203247cc15a120b8ef9c620fa6e5dbe5ae1",
+  "forecasts_and_baseline_changed": false,
+  "full_own_fleet_acceptance": "pending",
+  "integrated": false,
+  "deployed": false,
+  "scientific_calibration_claim": false
+}
