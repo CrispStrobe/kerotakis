@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "id": "MODEL-001",
+  "owner_lane": "independent-model-agent",
+  "title": "Finish PR805 acceptance and qualify final manganese phase domain",
+  "source_cases": [
+    {
+      "rank": 119,
+      "id": "permanganate_peroxide",
+      "original_script": "design/scripts/119-permanganate_peroxide.lab",
+      "original_script_sha256": "1f8bd42b5ce0044dfdfd0803c1bd0cad3a5199e8eeb44cf426fa6d58ceec32d7"
+    }
+  ],
+  "observed_evidence": "acid-endpoint-f12-replay-20261016/assessment.json",
+  "gap": "Existing source-bound F12 target replay succeeded; corrected-head product acceptance remains pending, including a viewer check failure.",
+  "reproduction_state": "existing_source_bound_replay",
+  "status": "intake; refresh source and prerequisites before implementation",
+  "required_acceptance": [
+    "Separate physical protocol from model defect",
+    "Preserve source/binary/lock/script bindings and first failures",
+    "Positive, limiting-reactant and excluded-domain controls",
+    "Relevant material/charge/gas/energy closure and native/browser parity"
+  ],
+  "followups": "append under model-followups/MODEL-001/; do not rewrite this intake"
+}
