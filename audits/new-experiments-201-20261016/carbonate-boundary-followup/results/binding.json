@@ -1,0 +1,16 @@
+{
+  "started_utc": "2026-10-16T09:10:04.050326+00:00",
+  "design_sha256": "ae1ee959b97f8b0c01a0ab869b48032310ea0cdc88caac958dca402f59cbce0f",
+  "runner_sha256": "2df495e673ea507c668b832a5745b05abbc6d08616f3c3ddac086ad982bff64b",
+  "workflow_commit": "e4cc782e08180286fe5bdb1c6aa6ec36f904cab9",
+  "run_id": "38875794689",
+  "input_checkout_commit": "d847a0b112ffd0e85dd655ce98bf5448c9538008",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "local_vps_engine_execution": false,
+  "lock_qualification": "Producer-reported manifest hash; artifact omits raw Cargo.lock bytes."
+}

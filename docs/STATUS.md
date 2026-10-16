@@ -55,7 +55,7 @@ or completed200-case transport jobs.
 | PR805 acidified permanganate/peroxide | `d66b0811` pushed; exact-head CI/fleets pending. Root reviewed the locale-composer admission. Earlier native endpoint controls passed before the locale gate; the separate viewer failure still needs diagnosis/repair. No merge or full-domain pass is claimed. |
 | PR807 proven input aliases | `352e1c48`; all six focused macOS native groups passed. Linux/remaining applicable checks still gate readiness. Only CuSO4_anhydrous→CuSO4 and acetate→CH3COO- are admitted. |
 | [PR809 aqueous transfer ownership](https://github.com/CrispStrobe/kerotakis/pull/809) | Draft `25956e61` carries measured proton/hydroxide and charge baselines with Filter/Decant liquid, preserves nontransferred gas, and adds ten core plus two native regression groups. Static checks passed; hosted native/core and fleet acceptance remain pending. |
-| Independent viewer repair | Three original-source lifecycle defects remain preserved. The [revised candidate](../audits/new-experiments-201-20261016/viewer-candidate-validation/README.md) passes ten actual-module ownership/setup-failure checks using a synthetic DOM/renderer. Maintained test-harness review, exact-head CI and browser acceptance remain; no integration claim. |
+| [PR810 viewer ownership](https://github.com/CrispStrobe/kerotakis/pull/810) | Draft `3a61b1f1` passes ten targeted actual-module checks, fifteen maintained controller tests in bounded Vitest and six adapter groups with a transpile-only loader. Source/test review is complete; normal exact-head CI, Vite-loader/browser and the full applicable viewer suite remain. |
 
 Use normal exact-head auto-merge when all applicable acceptance passes. Never
 merge broad audit/isolated validation refs, bypass protection, waive failures or
@@ -150,8 +150,12 @@ and keep first failures plus exact source/binary/lock/script associations.
 
 The original open QA-004/005 carbonate titrations miss their first-endpoint
 forecasts while explicitly exporting CO2; retained plus exported carbon closes.
-Two separately frozen finite-headspace controls are dispatched once in
+Two separately frozen finite-headspace controls completed once in
 [run38875794689](https://github.com/CrispStrobe/kerotakis/actions/runs/38875794689).
-Their [design and open diagnostics](../audits/new-experiments-201-20261016/carbonate-boundary-followup/README.md)
-retain the original forecasts and count trapped atmosphere. No tolerance or
-chemical implementation changed; physical outcomes remain pending.
+Their [authenticated independent assessment](../audits/new-experiments-201-20261016/carbonate-boundary-followup/results/README.md)
+meets both original bounded forecasts: first endpoints0.297/0.699mmol HCl,
+cumulative second endpoints0.993/0.999mmol, within frozen0.02mmol tolerance.
+Trapped air, titrant carrier water, retained carbon and other material/charge
+ledgers close; no post-seal export or solver failure occurs. Original open
+failures remain unchanged. No chemical implementation, tolerance, empirical
+calibration or working-catalog count changed.

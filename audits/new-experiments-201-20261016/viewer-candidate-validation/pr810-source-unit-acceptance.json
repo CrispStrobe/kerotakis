@@ -1,0 +1,57 @@
+{
+  "recorded_utc": "2026-10-16T09:16:02.718608+00:00",
+  "head": "3a61b1f1e656fb0e3aa1003932ce671d4e3b3790",
+  "pr": 810,
+  "pr_state": "draft pending applicable acceptance",
+  "actual_focused_vitest": {
+    "tests": 15,
+    "passed": 15,
+    "execution": {
+      "exit_code": 0,
+      "available_memory_mib": 4123,
+      "load1": 2.13525390625,
+      "node_heap_limit_each_mib": 128,
+      "workers": 1,
+      "cpu_seconds_limit": 40,
+      "wall_seconds_limit": 60,
+      "scope": "Focused source-unit Vitest; no browser, native engine or application build. FAST source copy; existing pinned dependencies, no install.",
+      "source_pins": [
+        {
+          "path": "spikes/brd080/src/comparison.ts",
+          "sha256": "d4903650bd7f8540f343d732acc6edd6c468077dc9da20ef4e5928baedba2367"
+        },
+        {
+          "path": "spikes/brd080/src/comparison.test.ts",
+          "sha256": "85a48dbbf8ca077f84740725ba33ea3e8699f9139a4270a4ea5a5f75dc4e9b03"
+        },
+        {
+          "path": "spikes/brd080/src/adapter.ts",
+          "sha256": "b958c729dbe5207e3566ec48c33d19bac226a10fd115f8da77450332bb57b847"
+        },
+        {
+          "path": "spikes/brd080/src/3dmolAdapter.ts",
+          "sha256": "15a4311a4a764993ad1905772f95d5b6d83e563468e8292cf497cb2cace2fe33"
+        }
+      ],
+      "stdout_sha256": "0d734fdf955cc36e1967b8330f454e96874609b7c805755594649402b76482ee",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw_log_location": "Private operating handoff; raw digests retained in execution receipt."
+  },
+  "adapter_test_groups": {
+    "passed": 6,
+    "loader": "Pinned TypeScript transpile-only module loading; normal Vite-based setup not exercised.",
+    "stdout_sha256": "e8d2955e6962b9d210f142a3a9f30be0a60f5bae8bd9b12fad666355ea6e627f",
+    "test_source_sha256": "1c7c4c3b71a978f6e66d10c72f7b6eb76458f95a5200935d2265a413ce61184d"
+  },
+  "source_review": "Independent read-only review found no remaining runtime blocker; final root test-only corrections retain all original selection/labels/DPR/disposal assertions.",
+  "pending": [
+    "Normal exact-head CI and strict source check",
+    "Maintained adapter tests with normal Vite loader",
+    "Real-browser one-canvas/interaction acceptance",
+    "Complete applicable viewer suite in normal CI"
+  ],
+  "no_local_browser_or_chemistry_engine_execution": true,
+  "no_application_build": true,
+  "chemistry_fleet_applicability": "Existing workflow selects crates/data/Cargo/audit tooling paths, excluding this four-file spikes-only repair. No chemistry engine or data changed; no duplicate chemistry-fleet dispatch."
+}

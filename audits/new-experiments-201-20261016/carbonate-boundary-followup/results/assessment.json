@@ -1,0 +1,91 @@
+{
+  "run": 38875794689,
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "raw_artifact_sha256": "5af230e0ddaac281170af17824a8a1cc80447ee90b9d0ec9566c20c05aaa9105",
+  "cases": [
+    {
+      "id": "batch2:qa-004-finite-headspace",
+      "script_sha256": "3229425f2eb7641f614e6277523b7b2b63b18f3f6138cdd6c06fe29c405efcb9",
+      "stdout_sha256": "b3881a6abb7f64d91df2c778391dba99e301fd8522c0d559fd2093ebf4006996",
+      "endpoint_acid_mol": [
+        0.0002971679687499999,
+        0.0006959960937500005
+      ],
+      "cumulative_acid_mol": 0.0009931640625000003,
+      "original_open_first_endpoint_acid_mol": 0.0008545312500000005,
+      "titrant_carrier_water_mol": 0.5496445019775189,
+      "initial_sealed_carbon_mol_including_air": 0.0007000163500975222,
+      "final_carbon_mol_including_gas": 0.0007000163501053928,
+      "element_charge_residual_mol": {
+        "H": -1.4210854715202004e-14,
+        "O": -8.881784197001252e-15,
+        "C": 7.870657250941271e-15,
+        "Na": 2.783797498073781e-15,
+        "Cl": 2.428829706802027e-15,
+        "N": 0.0,
+        "charge": 3.183900159917986e-14
+      },
+      "excluded_events_after_seal": [],
+      "headspace_l": 0.001,
+      "reported_liquid_volume_l": 0.10994409796299368,
+      "reported_pressure_pa": 119853.08759481479,
+      "inventory_ideal_pressure_pa": 119853.08759481476,
+      "pressure_difference_pa": 2.9103830456733704e-11,
+      "checks": {
+        "first_endpoint_forecast": true,
+        "cumulative_endpoint_forecast": true,
+        "both_endpoints_reached": true,
+        "no_solver_coverage_or_export_events_after_seal": true,
+        "retained_sealed_headspace": true,
+        "material_charge_with_carrier_and_trapped_air": true
+      },
+      "verdict": "bounded_forecasts_met"
+    },
+    {
+      "id": "batch2:qa-005-finite-headspace",
+      "script_sha256": "a57b5c24fc641e6b85af5072f1bb5a0d5fcddeedae992b2ac0c67a562f0eb8af",
+      "stdout_sha256": "3461143df50bbbd96c0db07b08c55a31e39f848d09318133adba687bb5981c08",
+      "endpoint_acid_mol": [
+        0.0006986596679687505,
+        0.0003005664062499999
+      ],
+      "cumulative_acid_mol": 0.0009992260742187505,
+      "original_open_first_endpoint_acid_mol": 0.0008546875000000004,
+      "titrant_carrier_water_mol": 0.552999387175184,
+      "initial_sealed_carbon_mol_including_air": 0.00030001634655507105,
+      "final_carbon_mol_including_gas": 0.00030001634136741725,
+      "element_charge_residual_mol": {
+        "H": -1.9539925233402755e-14,
+        "O": -8.881784197001252e-15,
+        "C": -5.187653800454994e-12,
+        "Na": 2.5099280293039428e-15,
+        "Cl": 1.4157511968315717e-15,
+        "N": 0.0,
+        "charge": -2.0749521780117378e-11
+      },
+      "excluded_events_after_seal": [],
+      "headspace_l": 0.001,
+      "reported_liquid_volume_l": 0.1100048271550738,
+      "reported_pressure_pa": 109274.54859073713,
+      "inventory_ideal_pressure_pa": 109274.54859073713,
+      "pressure_difference_pa": 0.0,
+      "checks": {
+        "first_endpoint_forecast": true,
+        "cumulative_endpoint_forecast": true,
+        "both_endpoints_reached": true,
+        "no_solver_coverage_or_export_events_after_seal": true,
+        "retained_sealed_headspace": true,
+        "material_charge_with_carrier_and_trapped_air": true
+      },
+      "verdict": "bounded_forecasts_met"
+    }
+  ],
+  "new_review_executions": 0,
+  "catalog_additions": 0,
+  "scope": "Finite existing model boundary controls; no general open-system titration, empirical or thermal calibration claim."
+}

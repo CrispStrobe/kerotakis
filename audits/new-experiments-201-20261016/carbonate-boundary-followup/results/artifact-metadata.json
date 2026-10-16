@@ -1,0 +1,20 @@
+{
+  "id": 12036083341,
+  "node_id": "MDg6QXJ0aWZhY3QxMjAzNjA4MzM0MQ==",
+  "name": "carbonate-native-38875794689",
+  "size_in_bytes": 32568,
+  "url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/artifacts/12036083341",
+  "archive_download_url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/artifacts/12036083341/zip",
+  "expired": false,
+  "digest": "sha256:5af230e0ddaac281170af17824a8a1cc80447ee90b9d0ec9566c20c05aaa9105",
+  "created_at": "2026-10-16T09:10:07Z",
+  "updated_at": "2026-10-16T09:10:07Z",
+  "expires_at": "2027-01-14T08:45:18Z",
+  "workflow_run": {
+    "id": 38875794689,
+    "repository_id": 1338831929,
+    "head_repository_id": 1338831929,
+    "head_branch": "validation/carbonate-boundary-20261016",
+    "head_sha": "e4cc782e08180286fe5bdb1c6aa6ec36f904cab9"
+  }
+}

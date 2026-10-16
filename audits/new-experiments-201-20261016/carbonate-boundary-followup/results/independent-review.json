@@ -1,0 +1,32 @@
+{
+  "reviewed_utc": "2026-10-16T09:21:24.256423+00:00",
+  "reviewer": "acid_route_contract_review; independent saved-only review",
+  "reader_reproduces_assessment_exactly": true,
+  "files": [
+    {
+      "path": "review_saved.py",
+      "sha256": "b47e8e0ca820cbcd5a131378fd01e7bd3e6933b8f247c4a42109b82e850dcf3c"
+    },
+    {
+      "path": "assessment.json",
+      "sha256": "2a3f81face79c1e2b926681a5d57b7042d444be486e9e233f03156623c783b59"
+    },
+    {
+      "path": "README.md",
+      "sha256": "11f82707ee4d3762fa636b03f3601ae328757062ee1ca285c9d4f03c051ef526"
+    }
+  ],
+  "bindings_verified": [
+    "RawZIP/source/input/producer/engine/design/runner",
+    "Both selected protocol and stdout/stderr hashes",
+    "Each candidate differs from its original only by seal v1 1mL"
+  ],
+  "maximum_element_residual_mol": 5.187653800454994e-12,
+  "maximum_residual_including_charge_mol": 2.0749521780117378e-11,
+  "frozen_material_tolerance_mol": 1e-08,
+  "bounded_forecasts_met": 2,
+  "empirical_or_full_thermal_calibration": false,
+  "new_engine_executions_by_review": 0,
+  "original_open_failures_preserved": true,
+  "catalog_additions": 0
+}
