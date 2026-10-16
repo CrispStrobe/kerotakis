@@ -151,6 +151,32 @@ def wasm_building_scripts() -> list[str]:
             return found
 
 
+def workflow_execution(text: str) -> str:
+    """Run bodies, excluding syntax-only shell checks and trigger path lists.
+
+    Read standard inline/literal/folded Actions run forms without adding a
+    YAML dependency to the fresh-runner preflight environment.
+    """
+    commands = []
+    block_indent = None
+    for line in uncommented(text).splitlines():
+        indent = len(line) - len(line.lstrip())
+        if block_indent is not None and (not line.strip() or indent > block_indent):
+            commands.append(line)
+            continue
+        block_indent = None
+        match = re.match(r"^\s*(?:-\s+)?run:\s*(.*)$", line)
+        if not match:
+            continue
+        body = match[1].strip()
+        if body in ("|", "|-", "|+", ">", ">-", ">+"):
+            block_indent = line.index("run:")
+        else:
+            commands.append(body)
+    return "\n".join(line for line in commands if not re.fullmatch(
+        r"\s*(?:bash|sh|dash|zsh)\s+-n\s+[^;&|]*", line))
+
+
 def wasm_offenders() -> list[str]:
     """Workflows that build wasm without installing the target or bindgen.
 
@@ -163,8 +189,9 @@ def wasm_offenders() -> list[str]:
     bad = []
     for wf in sorted(WORKFLOWS.glob("*.yml")):
         text = uncommented(wf.read_text(encoding="utf-8"))
-        builds_wasm = ("wasm32-unknown-unknown" in text
-                       or any(s in text for s in scripts))
+        execution = workflow_execution(text)
+        builds_wasm = ("wasm32-unknown-unknown" in execution
+                       or any(s in execution for s in scripts))
         if not builds_wasm:
             continue
         missing = []
@@ -174,7 +201,7 @@ def wasm_offenders() -> list[str]:
         # that merely `cargo build`s for the target does not.
         needs_bindgen = any(
             "wasm-bindgen" in uncommented((ROOT / s).read_text(encoding="utf-8"))
-            for s in scripts if s in text and (ROOT / s).exists()
+            for s in scripts if s in execution and (ROOT / s).exists()
         )
         if needs_bindgen and "wasm-bindgen-cli" not in text:
             missing.append("cargo install wasm-bindgen-cli")

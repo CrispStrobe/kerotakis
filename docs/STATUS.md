@@ -278,3 +278,16 @@ Production remains explicitly pinned to API `9bee95d9` / engine `d791d306` until
 an accepted exact-source deployment and its platform checks complete. No local
 Rust or browser build ran for this checkpoint; one resource-gated prebuilt CLI
 replay completed.
+
+
+PR795 is refreshed onto integrated main `79f9e5f8`, retaining the accepted
+silver, finite-gas and shared continuation repairs. Its prior source passed all
+59 applicable checks (one skip), exact-source AL2023/Vercel isolation and four
+full CLI/API observation comparisons. Actual remote Chromium REST-client
+acceptance also passed, including authentication, input rejection, text-only
+results, no credential persistence and approved/disallowed-origin controls.
+The unchanged HTML is bound to that browser evidence; production-engine UI
+checks do not establish a new preview-engine result. Actual Pages publication
+remains a post-integration delivery check. Fresh combined-source native,
+Wasm/browser, full fleets and serverless preview acceptance are pending.
+Production remains on its separately reported retained engine.

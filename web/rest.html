@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Kerotakis REST client</title>
+<style>
+body { font: 1rem system-ui; max-width: 58rem; margin: 2rem auto; padding: 1rem; }
+label { display: block; margin-top: 1rem; } input, textarea { box-sizing: border-box; width: 100%; padding: .6rem; }
+textarea, pre { font-family: monospace; } button { padding: .6rem 1rem; margin-top: 1rem; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; } textarea { min-height: 12rem; }
+</style>
+<h1>Kerotakis REST client</h1>
+<p>Run a bounded Kero script on an authenticated remote engine. Each request starts
+a fresh lab. Execution success does not establish scientific validity.</p>
+<form id="run">
+<label>API URL <input id="endpoint" type="url" required placeholder="https://your-app.vercel.app/api"></label>
+<label>Bearer key <input id="key" type="password" required autocomplete="off" spellcheck="false"></label>
+<p>The key stays in this page's memory and is sent only to the API URL you enter.
+No key or script is saved by this client. Verify the destination before running.</p>
+<label>Kero script <textarea id="script" maxlength="16000" spellcheck="false">add v1 water 100mL @ 25C
+inspect v1</textarea></label>
+<button id="submit">Run script</button>
+<button id="clear" type="button">Clear key and results</button>
+</form>
+<pre id="result" aria-live="polite"></pre>
+<script type="module">
+const form = document.querySelector('#run');
+const result = document.querySelector('#result');
+const button = document.querySelector('#submit');
+const key = document.querySelector('#key');
+document.querySelector('#clear').onclick = () => { key.value = ''; result.textContent = ''; };
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  button.disabled = true;
+  result.textContent = 'Running…';
+  try {
+    const url = new URL(document.querySelector('#endpoint').value);
+    if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash || !['/', '/api', '/api/'].includes(url.pathname)) {
+      throw new Error('Use an HTTPS API URL with an optional /api path and no credentials, query or fragment.');
+    }
+    url.pathname = url.pathname.replace(/\/$/, '') + '/run';
+    const response = await fetch(url, {
+      method: 'POST', redirect: 'error', credentials: 'omit', cache: 'no-store',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key.value}` },
+      body: JSON.stringify({ script: document.querySelector('#script').value }),
+      signal: AbortSignal.timeout(30000),
+    });
+    const body = await response.json();
+    result.textContent = `HTTP ${response.status}\n${JSON.stringify(body, null, 2)}`;
+  } catch (error) {
+    result.textContent = error instanceof Error ? error.message : 'Request failed';
+  } finally { button.disabled = false; }
+});
+</script>
+</html>

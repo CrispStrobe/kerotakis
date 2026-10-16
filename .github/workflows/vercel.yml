@@ -5,9 +5,9 @@
 # always been here — immutable caching for the hashed assets, nosniff for
 # everything else — but nothing ever sent Vercel a build.
 #
-# Dispatch-only, and it uploads a PREBUILT payload: the same
-# `tools/build-web.sh` output Pages serves, so the two hosts cannot drift
-# into being two different builds. Vercel runs nothing.
+# Dispatch-only: uploads the same static `tools/build-web.sh` payload Pages
+# serves, plus a FastAPI service and native engine under /api. The service
+# refuses execution until authentication and shared admission are configured.
 name: Vercel
 
 on:
@@ -23,6 +23,7 @@ jobs:
   deploy:
     name: Deploy the web payload (${{ inputs.target }})
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     # Without a token this job cannot do anything, and saying so here is
     # better than a 401 forty lines into a build.
     steps:
@@ -63,11 +64,33 @@ jobs:
           python-version: "3.12"
       - name: Build the same payload Pages serves
         run: bash tools/build-web.sh "$RUNNER_TEMP/site"
+      - name: Build the native engine for the serverless runtime
+        run: bash tools/build-rest-native.sh "$RUNNER_TEMP/rest-native"
+      - name: Prepare and verify the isolated native image
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_TEAM_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          python -m pip install -r services/rest_api/requirements.txt
+          python tools/prepare-rest-snapshot.py "$RUNNER_TEMP/rest-native" "$RUNNER_TEMP/rest-snapshot.json"
+          python tools/test-rest-microvm.py "$RUNNER_TEMP/rest-snapshot.json" "$RUNNER_TEMP/rest-isolation.json"
+      - name: Preserve the native build binding
+        uses: actions/upload-artifact@v4
+        with:
+          name: rest-native-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/rest-native
+            ${{ runner.temp }}/rest-snapshot.json
+            ${{ runner.temp }}/rest-isolation.json
+          retention-days: 14
       - name: Deploy
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          KERO_API_KEYS: ${{ secrets.KERO_API_KEYS }}
+          KERO_API_ORIGINS: ${{ vars.KERO_API_ORIGINS }}
         run: |
           # pipefail is not optional here. Piping the CLI into `tee` hands the
           # step tee's exit status, and this deploy has already failed once
@@ -81,9 +104,18 @@ jobs:
           # never writes .vercel/output. Dropping it is the fix; the default
           # is exactly the non-prebuilt upload this wants.
           set -euo pipefail
-          cp web/vercel.json "$RUNNER_TEMP/site/vercel.json"
+          python3 tools/package-rest-api.py "$RUNNER_TEMP/site" "$RUNNER_TEMP/rest-native" "$RUNNER_TEMP/rest-snapshot.json"
+          rest_snapshot="$(python3 -c 'import json,os; print(json.load(open(os.environ["RUNNER_TEMP"] + "/rest-snapshot.json", encoding="utf-8"))["snapshot_id"])')"
+          rest_env=(--env KERO_API_EXECUTOR=microvm --env "KERO_API_SNAPSHOT=$rest_snapshot")
+          if [ -n "$KERO_API_KEYS" ]; then
+            rest_env+=(--env "KERO_API_KEYS=$KERO_API_KEYS")
+          fi
+          if [ -n "$KERO_API_ORIGINS" ]; then
+            rest_env+=(--env "KERO_API_ORIGINS=$KERO_API_ORIGINS")
+          fi
           npx --yes vercel@latest deploy "$RUNNER_TEMP/site" \
             --yes --token "$VERCEL_TOKEN" \
+            "${rest_env[@]}" \
             ${{ inputs.target == 'production' && '--prod' || '' }} \
             | tee "$RUNNER_TEMP/url.txt"
           # Belt and braces, for the same reason tools/deploy-vercel.sh does

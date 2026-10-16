@@ -38,7 +38,7 @@ else
 fi
 
 echo "== the page"
-cp "$ROOT/web/index.html" "$ROOT/web/privacy.html" "$ROOT/web/kerotakis.mjs" \
+cp "$ROOT/web/index.html" "$ROOT/web/privacy.html" "$ROOT/web/rest.html" "$ROOT/web/kerotakis.mjs" \
    "$ROOT/web/manifest.webmanifest" \
    "$ROOT/web/icon.svg" \
    "$ROOT/web/icon-192.png" "$ROOT/web/icon-512.png" \
@@ -152,8 +152,8 @@ sed -e "s|__KERO_CACHE__|$STAMP|" \
     -e "s|\"__KERO_APP_ASSETS__\"|${APP_ASSETS:-\"__no_app__\"}|" \
     "$ROOT/web/sw.js" > "$OUT/sw.js"
 
-# Vercel serves the same payload; the config only tightens caching for the
-# app's content-hashed assets.
+# Vercel starts from this static payload; its deployment step adds the native
+# REST function and routing configuration.
 cp "$ROOT/web/vercel.json" "$OUT/vercel.json"
 
 # Pages serves what it is given; without this it would try to run the

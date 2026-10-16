@@ -1,0 +1,25 @@
+[Unit]
+Description=Kerotakis authenticated simulation worker
+After=network.target
+
+[Service]
+Type=simple
+User=kerotakis-api
+Group=kerotakis-api
+WorkingDirectory=/opt/kerotakis
+EnvironmentFile=/etc/kerotakis-api.env
+ExecStart=/opt/kerotakis-venv/bin/uvicorn services.rest_api.app:app --host 127.0.0.1 --port 8081 --workers 1 --no-access-log
+Restart=on-failure
+UMask=0077
+StateDirectory=kerotakis-api
+PrivateTmp=yes
+ProtectHome=yes
+ProtectSystem=strict
+ReadWritePaths=/var/lib/kerotakis-api
+NoNewPrivileges=yes
+MemoryMax=1536M
+TasksMax=64
+LimitNOFILE=256
+
+[Install]
+WantedBy=multi-user.target
