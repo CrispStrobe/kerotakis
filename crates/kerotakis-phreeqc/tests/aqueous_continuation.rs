@@ -91,6 +91,9 @@ fn native_readback_and_reentry_preserve_unknown_heat_ownership_and_temperature()
             vessel.headspace = Headspace::Sealed {
                 volume: Liters(1.0),
             };
+            // Explicit inert atmosphere keeps this repeated-aqueous-heat
+            // control away from legitimate near-vacuum boiling.
+            assert!(vessel.retain_gas(SpeciesId::new("N2"), Moles(0.04)));
         }
         vessel.step_start = Some(StepStart::capture(&vessel));
         let (_, initial_answer) = aqueous.characterize_current(&mut vessel).unwrap();

@@ -98,6 +98,17 @@ of an in-progress candidate is not a supported continuation mechanism.
 
 ## Acceptance and limits
 
+The subsequent [native run at `a45c6f45`](https://github.com/CrispStrobe/kerotakis/actions/runs/38817273479/job/116705372463)
+passed cache replay but failed the sealed no-temperature-change controls.
+Their one-litre headspace contained only about 0.001 mol oxygen after the
+callback: roughly 2.5 kPa. The independent phase solver legitimately boiled
+water and cooled it to about 294.21 K. This was not duplicated aqueous reaction
+heat. The no-boiling controls now explicitly contain 0.04 mol inert N2;
+a separate core control requires conservative vacuum boiling to remain active
+under unknown aqueous heat ownership. The thermal policy and numerical
+assertions are retained; original failed logs remain preserved. CLI prewarm
+stopped on the same sealed fixture, before the new Wasm controls executed.
+
 The first hosted build at `75acd4072f94c3814aa17a73667a1bbfab30e521`
 [failed before execution](https://github.com/CrispStrobe/kerotakis/actions/runs/38807342410/job/116671491406):
 the metadata guard referenced `ignition_trial` and `ignition_feed_temperature`,

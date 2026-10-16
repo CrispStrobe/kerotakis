@@ -77,6 +77,10 @@ fn scenario(
         vessel.headspace = Headspace::Sealed {
             volume: Liters(1.0),
         };
+        // This control isolates aqueous heat ownership from physical boiling.
+        // An empty one-litre headspace plus only the callback's O2 is a
+        // near-vacuum; StateEquilibrator legitimately cools it by vaporisation.
+        vessel.retain_gas(SpeciesId::new("N2"), Moles(0.04));
     }
     vessel.step_start = Some(StepStart::capture(&vessel));
     let (_, receipt) =

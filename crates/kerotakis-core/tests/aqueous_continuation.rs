@@ -590,3 +590,42 @@ fn ordinary_stack_books_only_released_gas_once_after_transaction_commit() {
         assert!((outward - expected).abs() < 1e-15);
     }
 }
+
+#[test]
+fn unknown_aqueous_heat_does_not_disable_conservative_vacuum_boiling() {
+    use kerotakis_core::ledger::ConservedLedger;
+    let mut vessel = Vessel::new(VesselId(0), "independent phase cooling");
+    vessel.headspace = Headspace::Sealed {
+        volume: Liters(1.0),
+    };
+    vessel.deposit(SpeciesId::new("water"), Moles(5.55), Phase::Liquid);
+    assert!(vessel.retain_gas(SpeciesId::new("O2"), Moles(0.001)));
+    vessel.aqueous_heat = AqueousHeatOwnership::UnmodeledContinuation;
+    let before = ConservedLedger::from_vessel(&vessel);
+    let temperature = vessel.temperature;
+    let events = StateEquilibrator.equilibrate(&mut vessel).unwrap();
+    assert!(vessel.temperature.0 < temperature.0);
+    assert!(!whole_step_heat_available(&vessel));
+    assert!(events.iter().any(|event| matches!(event,
+        Event::StateChanged { species, from: Phase::Liquid, to: Phase::Gas, .. }
+            if species.0 == "water"
+    )));
+    assert!(!events
+        .iter()
+        .any(|event| matches!(event, Event::GasEvolved { .. })));
+    let after = ConservedLedger::from_vessel(&vessel);
+    assert_eq!(before.charge, after.charge);
+    let elements: std::collections::BTreeSet<_> = before
+        .elements
+        .keys()
+        .chain(after.elements.keys())
+        .collect();
+    for element in elements {
+        assert!(
+            (before.elements.get(element).copied().unwrap_or(0.0)
+                - after.elements.get(element).copied().unwrap_or(0.0))
+            .abs()
+                < 1e-10
+        );
+    }
+}
