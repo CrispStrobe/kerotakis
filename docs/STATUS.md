@@ -7,6 +7,14 @@ lanes can proceed in parallel where prerequisites permit. Frozen forecasts,
 first failures and versioned evidence remain unchanged; older checkpoints can
 contain obsolete pending notes. A process exit is not a scientific verdict.
 
+Latest delivery checkpoint: all668 first API requests are authenticated; the two
+infrastructure failures now complete in separately frozen changed-budget
+follow-ups with exact native JSON agreement. PR810/812/813 are integrated with
+verified merge trees. API PR814–817 remain gated by exact-head full acceptance;
+production remainsc446. PR809 needs its separately bound CLI replay. The working
+catalog remains155 (153 within fixed468);34 independently reviewed saved-case
+proposals await final selection. Details and next gates are below.
+
 ## Integrated behavior
 
 | Front | Accepted integration and remaining scope |
@@ -22,7 +30,7 @@ contain obsolete pending notes. A process exit is not a scientific verdict.
 | REST gateway | PR795 integrates as `c4469205` after59 successful checks and one skip, plus applicable platform/browser/API acceptance. No VPS worker is required. |
 
 The [portable repair checkpoint](reaction-repair-checkpoint-20261016.md) and
-[200-record audit](https://github.com/CrispStrobe/kerotakis/blob/d3b7cf5088a9001cce0e75ebdf6651943142e8f7/audits/reaction-dataset-200-20261015/README.md) retain detailed
+[200-record audit](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/reaction-dataset-200-20261015/README.md) retain detailed
 source/acceptance references. Integrated work is not empirical calibration or
 unlimited chemistry coverage.
 
@@ -30,19 +38,19 @@ unlimited chemistry coverage.
 
 Production now serves API/engine `c4469205`, native binary `670bd3d8`, from
 [run38868092504](https://github.com/CrispStrobe/kerotakis/actions/runs/38868092504).
-[Production acceptance](https://github.com/CrispStrobe/kerotakis/blob/d3b7cf5088a9001cce0e75ebdf6651943142e8f7/audits/reaction-dataset-200-20261015/production-c446-20261016/README.md)
+[Production acceptance](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/reaction-dataset-200-20261015/production-c446-20261016/README.md)
 verifies artifact/source/tree/native/libraries, same-snapshot isolation and nine
 once-only delivery requests. Both finite controls and auth/subset/CORS/client
 checks passed. Raw producer-lock bytes and independent VM-deletion receipts are
 not supplied by this artifact. Previous production evidence retains its old binding.
 
-[PR806 documentation](https://github.com/CrispStrobe/kerotakis/blob/d3b7cf5088a9001cce0e75ebdf6651943142e8f7/audits/reaction-dataset-200-20261015/pr806-integration.json)
+[PR806 documentation](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/reaction-dataset-200-20261015/pr806-integration.json)
 integrated as `4f0112f6` after25 successful checks and one skip; actual parents/tree
 match the reviewed merge candidate. Runtime is unchanged, so this documentation
 merge requires no production rebuild.
 The maintained current-results refresh [PR808](https://github.com/CrispStrobe/kerotakis/pull/808)
 integrated as `dd892b68`; actual parents/tree match the reviewed documentation
-candidate. The [receipt](https://github.com/CrispStrobe/kerotakis/blob/d3b7cf5088a9001cce0e75ebdf6651943142e8f7/audits/reaction-dataset-200-20261015/pr808-integration.json)
+candidate. The [receipt](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/reaction-dataset-200-20261015/pr808-integration.json)
 retains the check snapshot, including three nonprotected jobs still queued at
 collection. Runtime is unchanged.
 
@@ -54,10 +62,10 @@ or completed200-case transport jobs.
 
 | PR/lane | Actual state and next acceptance |
 | --- | --- |
-| PR805 acidified permanganate/peroxide | `d66b0811` pushed; exact-head CI/fleets pending. Root reviewed the locale-composer admission. Earlier native endpoint controls passed before the locale gate; the separate viewer failure still needs diagnosis/repair. No merge or full-domain pass is claimed. |
-| PR807 proven input aliases | `352e1c48`; all six focused macOS native groups passed. Linux/remaining applicable checks still gate readiness. Only CuSO4_anhydrous→CuSO4 and acetate→CH3COO- are admitted. |
+| PR805 acidified permanganate/peroxide | Integrated as `adef8be6` after58 successful checks and one skip: both native platforms, cache/Wasm/live-hook, online/offline Chromium and full own fleet pass. Unknown heat and competing manganese-oxide phase exclusions remain limits; viewer repair stays separate. |
+| PR807 proven input aliases | Integrated as `f441cf6e` after58 successful checks and one skip, including both native platforms and the full own fleet. Only CuSO4_anhydrous→CuSO4 and acetate→CH3COO- are admitted; no new scientific pass or production acceptance is assigned. |
 | [PR809 aqueous transfer ownership](https://github.com/CrispStrobe/kerotakis/pull/809) | Draft `673233df` carries measured proton/hydroxide and charge baselines with Filter/Decant liquid, preserves nontransferred gas, and adds ten core plus two native regression groups. The first preflight found private fixture-method calls; a test-only correction preserves all assertions. Hosted compile/native/core and fleet acceptance remain pending. |
-| [PR810 viewer ownership](https://github.com/CrispStrobe/kerotakis/pull/810) | Draft `3a61b1f1` passes ten targeted actual-module checks, fifteen maintained controller tests in bounded Vitest and six adapter groups with a transpile-only loader. Source/test review is complete; normal exact-head CI, Vite-loader/browser and the full viewer/own-fleet checks remain (fleet run38880000860 dispatched once). |
+| [PR810 viewer ownership](https://github.com/CrispStrobe/kerotakis/pull/810) | Integrated as `40ffb253` after25 successful CI checks, one skip and all33 manually bound own-fleet jobs. Ten targeted, fifteen maintained controller and six adapter groups remain qualified by their original evidence. Actual merged parents/tree match the reviewed head. |
 
 Use normal exact-head auto-merge when all applicable acceptance passes. Never
 merge broad audit/isolated validation refs, bypass protection, waive failures or
@@ -74,28 +82,28 @@ cancel active checks for optional edits. Refresh actual heads before work.
   108 CLI refusals**, with exact old-source API/CLI agreement. Their records supply
   no procedures. Separate complete-stock/procedure repairs must retain their
   original first outcomes. Do not call the92 scientific passes or repeat the batch
-  unchanged. See [chemical assessment](https://github.com/CrispStrobe/kerotakis/blob/d3b7cf5088a9001cce0e75ebdf6651943142e8f7/audits/reaction-dataset-200-20261015/CHEMISTRY-RESULTS.md).
-- The [working catalog](https://github.com/CrispStrobe/kerotakis/blob/d3b7cf5088a9001cce0e75ebdf6651943142e8f7/audits/working-experiments-20261016.json) retains152
+  unchanged. See [chemical assessment](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/reaction-dataset-200-20261015/CHEMISTRY-RESULTS.md).
+- The [working catalog](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/working-experiments-20261016.json) retains155
   source-qualified entries across corpora; this is not152 repaired original200
-  reactions. One separately [assessed original QA-011 protocol](https://github.com/CrispStrobe/kerotakis/blob/d3b7cf5088a9001cce0e75ebdf6651943142e8f7/audits/new-experiments-201-20261016/native-screen-results/endpoint-dose-review/README.md)
+  reactions. One separately [assessed original QA-011 protocol](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/new-experiments-201-20261016/native-screen-results/endpoint-dose-review/README.md)
   is newly selected: actual fractional endpoint doses and retained material agree
   with both original conditional checks. Previous149 entries remain unchanged at that selection. A separate
-  [per-step quantitative supplement](https://github.com/CrispStrobe/kerotakis/blob/d3b7cf5088a9001cce0e75ebdf6651943142e8f7/audits/new-experiments-201-20261016/native-screen-results/quantitative-saved-review/material-catalog-selection.json)
+  [per-step quantitative supplement](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/new-experiments-201-20261016/native-screen-results/quantitative-saved-review/material-catalog-selection.json)
   selects unchanged QA001/002 after independent review (150→152), preserving
   previous150 entries.
-- The [new201 intake](https://github.com/CrispStrobe/kerotakis/blob/d3b7cf5088a9001cce0e75ebdf6651943142e8f7/audits/new-experiments-201-20261016/README.md) preserves100
+- The [new201 intake](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/new-experiments-201-20261016/README.md) preserves100
   batch-3 and101 batch-2 designs. The hosted native screen selects197 originals
   and four separate explicit-React corrections. **All201 executed once:198 zero
   exits,3 nonzero exits,0 JSON parse errors,0 retries.** The authenticated
-  [raw artifact and receipts](https://github.com/CrispStrobe/kerotakis/blob/d3b7cf5088a9001cce0e75ebdf6651943142e8f7/audits/new-experiments-201-20261016/native-screen-results/README.md)
+  [raw artifact and receipts](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/new-experiments-201-20261016/native-screen-results/README.md)
   bind c446/670bd3, every script and first stdout/stderr. No local engine ran.
 - Saved201 triage is **111 completed awaiting physical assessment,85 completed
   with named limits,2 completed with solver failures,3 admission refusals**.
   These categories assign no scientific passes. All original forecasts remain.
-- A [separate saved quantitative review](https://github.com/CrispStrobe/kerotakis/blob/d3b7cf5088a9001cce0e75ebdf6651943142e8f7/audits/new-experiments-201-20261016/native-screen-results/quantitative-saved-review/README.md)
+- A [separate saved quantitative review](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/new-experiments-201-20261016/native-screen-results/quantitative-saved-review/README.md)
   finds both original bounded checks met for QA-001 limestone back-titration and
   QA-002 acid-spike recovery. QA-003 meets its3:1 endpoint-dose check; a
-  [separate scene-volume supplement](https://github.com/CrispStrobe/kerotakis/blob/d3b7cf5088a9001cce0e75ebdf6651943142e8f7/audits/new-experiments-201-20261016/native-screen-results/quantitative-saved-review/scene-volume-followup.md)
+  [separate scene-volume supplement](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/new-experiments-201-20261016/native-screen-results/quantitative-saved-review/scene-volume-followup.md)
   also verifies the concentration forecast using already reported0.15/0.05L
   liquid volumes. Requested gas-meter readings still refuse; computed scene
   volumes are not independent instrument readings. First assessments are
@@ -125,20 +133,22 @@ proven aliases and shared reconciliation for the protocol agent. Hermes runs
 Together.ai `meta-models/Muse-Spark-Open-816B-A42B-promo` for underlying models
 and its own status/evidence. Keep private operating details out of public files.
 
-1. Finish805 and807 applicable acceptance; diagnose actual failures, integrate
-   accepted reviewed heads and verify actual merge trees. Verify Pages publication.
-2. Repair [viewer generation ownership](https://github.com/CrispStrobe/kerotakis/blob/d3b7cf5088a9001cce0e75ebdf6651943142e8f7/audits/new-experiments-201-20261016/viewer-followup-review.json)
+1. Finish809 separately bound hosted CLI acceptance; follow812 normal protected
+   auto-merge and814–817 exact-head CI/native/fleet gates. PR810/813 are integrated
+   with verified trees. Verify Pages publication and deliver accepted production
+   source without rerunning unchanged corpus batches.
+2. Repair [viewer generation ownership](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/new-experiments-201-20261016/viewer-followup-review.json)
    on its separate narrow branch. Actual pinned modules reproduce stale cleanup
    deleting a newer canvas, late disposal clearing current content and late resize
    publishing stale readiness. Exact historical browser causality is still separate.
    Preserve the existing one-canvas assertion and supported interactions.
-3. The [counterbalance correction](https://github.com/CrispStrobe/kerotakis/blob/d3b7cf5088a9001cce0e75ebdf6651943142e8f7/audits/new-experiments-201-20261016/native-screen-results/counterbalance-followup/README.md)
+3. The [counterbalance correction](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/new-experiments-201-20261016/native-screen-results/counterbalance-followup/README.md)
    now reaches centrifugation on productionc446:39.91g versus39.9105504g sample.
    The original refusal remains. Pigment/unresolved dairy inventory remains;
    milk-scattering removal is not established. Continue optical/domain assessment
    from saved evidence. Investigate transport volume admission separately,
    without tolerance relaxation or removing chemistry.
-4. Work through [nine model intake records](https://github.com/CrispStrobe/kerotakis/blob/d3b7cf5088a9001cce0e75ebdf6651943142e8f7/audits/reaction-dataset-200-20261015/model-issues-20261016/index.json):
+4. Work through [nine model intake records](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/reaction-dataset-200-20261015/model-issues-20261016/index.json):
    endpoint/phase scope, canonical ligand ownership, coupled inventory, gas
    boundaries, kinetic oxygen residence, strong-base selectivity, reactive
    transport volume, PHREEQC thermal iteration and NaBr optical/CEA diagnostics.
@@ -160,7 +170,7 @@ The original open QA-004/005 carbonate titrations miss their first-endpoint
 forecasts while explicitly exporting CO2; retained plus exported carbon closes.
 Two separately frozen finite-headspace controls completed once in
 [run38875794689](https://github.com/CrispStrobe/kerotakis/actions/runs/38875794689).
-Their [authenticated independent assessment](https://github.com/CrispStrobe/kerotakis/blob/d3b7cf5088a9001cce0e75ebdf6651943142e8f7/audits/new-experiments-201-20261016/carbonate-boundary-followup/results/README.md)
+Their [authenticated independent assessment](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/new-experiments-201-20261016/carbonate-boundary-followup/results/README.md)
 meets both original bounded forecasts: first endpoints0.297/0.699mmol HCl,
 cumulative second endpoints0.993/0.999mmol, within frozen0.02mmol tolerance.
 Trapped air, titrant carrier water, retained carbon and other material/charge
@@ -174,10 +184,13 @@ Two additional supervised Hermes/Muse Spark lanes review transport ownership and
 optical provenance alongside the existing hydroxide-route review. Source-only
 work continues under resource gates; heavy validation stays hosted. The transport
 adapter loses effluent temperature, phase and charge on receiver deposition; a
-narrow repair is assigned, with two separately frozen
-[baseline controls](https://github.com/CrispStrobe/kerotakis/blob/d3b7cf5088a9001cce0e75ebdf6651943142e8f7/audits/new-experiments-201-20261016/transport-effluent-followup/README.md)
+narrow repair is pushed as draft [PR812](https://github.com/CrispStrobe/kerotakis/pull/812)
+at `2df4107c` with ten core and two exact-script native regression groups.
+Source/format review passes; hosted compile/native/Wasm/fleet acceptance remains.
+Two separately frozen
+[baseline controls](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/new-experiments-201-20261016/transport-effluent-followup/README.md)
 executed once in [run38884179479](https://github.com/CrispStrobe/kerotakis/actions/runs/38884179479).
-The [collected first baseline](https://github.com/CrispStrobe/kerotakis/blob/d3b7cf5088a9001cce0e75ebdf6651943142e8f7/audits/new-experiments-201-20261016/transport-effluent-followup/baseline-results/README.md)
+The [collected first baseline](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/new-experiments-201-20261016/transport-effluent-followup/baseline-results/README.md)
 confirms both receiver errors of−40K/+40K while material/cell temperature checks
 pass. A repaired-source replay remains pending. Hydraulic
 domain expansion and the optical CEA convergence failure remain separate gaps.
@@ -187,3 +200,138 @@ domain expansion and the optical CEA convergence failure remain separate gaps.
 | Transport effluent | In `crates/kerotakis-core/src/bench.rs` and `transport.rs`, preserve actual parcel temperature/phase and charge/free-ion ownership using one bounded transactional receiver. Refuse aliased inlet/cell/receiver roles before mutation. Add exact hot/cold, nonempty/multistep, fractional/zero-flow and rollback controls; obtain hosted compile/native/fleet acceptance and a separately bound replay of the two frozen failures. |
 | Canonical hydroxide selectivity | In `selectivity.rs`, `bench.rs` and `solve.rs`, admit only a fresh trusted aqueous answer for the explicit simple-hydroxide domain; retain conservative sodium/bromide bookkeeping. Intercept where the solver is in scope, never trust cached solutions or fall through on failed readback. Check carbonate exclusion, deficient/neutralized base, failed readback rollback, unknown heat and native/Wasm exposure. |
 | NaBr optics and CEA | Keep metadata provenance and minimizer convergence separate. Resolve compatible primary provenance before curating hue. For CEA, inspect the actual element-filtered candidate pool and first failed matrix; distinguish structural rank loss from missing data. Preserve the original failure and rollback; no invented species, phase deduplication, relaxed tolerance or failure suppression. |
+
+[PR807 integration receipt](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/reaction-dataset-200-20261015/pr807-integration.json)
+verifies actual merge parents and reconstructed parent-merge tree against the
+reviewed head. The earlier production binding remains separate.
+
+[PR805 integration receipt](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/reaction-dataset-200-20261015/pr805-integration.json)
+records accepted bounded endpoint and actual merge-tree checks. The previous
+F12 replay and production receipts retain their original source bindings.
+
+## Trusted readback prerequisite
+
+[PR813](https://github.com/CrispStrobe/kerotakis/pull/813), integrated as `1b03d8dd` from reviewed `387f539f`,
+exposes a unique explicitly trusted aqueous adapter through the actual standard
+stack and phase wrapper. Four core groups and one native mechanical group are
+added. [Independent source review](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/new-experiments-201-20261016/trusted-stack-bridge-source-review.json)
+and formatting pass;58 successful checks and one skip now include hosted compile/native/cache/Wasm/full own-fleet acceptance. Actual merge parents/tree are verified.
+Partial answers keep no complete-answer receipt, and generic/ambiguous stacks
+refuse. This is characterization-only plumbing; the full hydroxide reaction
+proposal is still uncommitted with solver-scope and real-test blockers.
+
+PR812 integrated as `1d24a43a` from test-only corrected head `d6203717`; its first Clippy failure
+and [unchanged-runtime correction](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/new-experiments-201-20261016/transport-effluent-followup/first-clippy-correction.json)
+are preserved. All applicable hosted acceptance passes. PR810 CI and its separately dispatched full own fleet pass; it is integrated as40ffb253.
+
+## Fixed target: more than400 of468
+
+The [reconciled scoreboard](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/target468-20261016/README.md) fixes the
+denominator at147+120+101+100. Current selected evidence covers153 of those
+cases on recorded versions, while the155-entry catalog contains two additional
+repairs from the separate200-reaction corpus. The first120 JSON is now present and matches the exact declared
+SHA; all468 original case records are indexed. A unified latest-release pass count is not established.
+
+The next outcome target is401 selected original IDs:248 more than the accounted
+153. All468 have now executed on the common c446/670 baseline:465 zero exits and
+3 CLI refusals. Assess saved physical forecasts and repair shared model causes;
+additional executions or zero exits alone do not count toward401. The completed
+first120 includes81 clean-run triage cases,38 with named limits and1 solver
+failure. Two independent saved-review lanes propose21 bounded acid/base and13
+precipitation selections; final root selection/publication remains pending, so
+these34 do not yet change the catalog. Hold PR016 for withdrawn organic-solubility
+provenance and phase ownership; its modeled numerical yield is not a working
+chemistry selection.
+
+The [remaining267 protocols](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/target468-20261016/common-engine-completion/README.md)
+completed and are authenticated, alongside the previously completed201. The
+separate curriculum200 brings total records to668; its native contact probes
+retain92 completed and108 refused. There is no missing120, unexecuted468 or new
+668-pass claim. Batch2 execution is101/101, while six selected entries reflect
+completed physical assessment only.
+
+The [QA009/010/012 saved assessment](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/target468-20261016/saved-assessment-next3/README.md)
+checks six original physical criteria and represented per-operation material/charge
+closure, selecting three unchanged scripts:155 catalog entries,153 within468,
+and six of101 batch2 selected. Original triage/raw evidence remains unchanged.
+The [all668 offline API audit](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/target468-20261016/api-admission-all668.json)
+admits603 after presentation/eyes adaptation;65 still hit command/duration policy.
+
+## REST experiment admission repair
+
+Draft [PR814](https://github.com/CrispStrobe/kerotakis/pull/814) at `c96c821a`
+closes the measured command/duration admission gap with per-command and aggregate
+loop budgets. [Candidate admission](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/target468-20261016/api-admission-candidate-all668.json)
+accepts all668 frozen scripts unchanged, compared with603 after adaptation in
+the previous policy. Sixteen API/Redis/packaging tests pass; the
+[review receipt](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/target468-20261016/rest-admission-candidate-review.json)
+retains scope and outstanding native/fleet/platform acceptance. Direct Vercel
+preview delivery is in progress; production and chemical pass counts are unchanged.
+
+The [direct Vercel all668 batch](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/target468-20261016/rest-api-all668/README.md)
+is now running on gatewayc96c821a with verified c446/670 microVM execution.
+All scripts remain unchanged; source/hash/credential checks precede counting.
+The [curriculum200 native follow-up](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/target468-20261016/curriculum200-common-engine/results/README.md)
+completed and is authenticated:92 zero exits,108 nonzero,0 parse errors/retries.
+These are execution results; physical verdicts and PR814 production acceptance
+remain separate. The267 native completion is authenticated below; the earlier queued state is superseded.
+
+## Complete668 native execution baseline
+
+[All668 native executions](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/target468-20261016/common-engine-all668.json)
+are now authenticated on c446/670:557 zero exits,111 nonzero,0 JSON parsing
+errors/retries. The fixed468 split is465/3; curriculum200 is92/108. All120 first
+batch cases completed. The earlier267 queued note is superseded by its
+[verified completion](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/target468-20261016/common-engine-completion/results/README.md).
+Physical selection remains153 of fixed468 on recorded evidence; the REST batch
+continues on gatewayc96. No557-pass or latest-main certification is claimed.
+
+## REST command parity and completed668 delivery audit
+
+The [authenticated first API outcomes](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/target468-20261016/rest-api-all668/api-results.json)
+are **555 completed,111 CLI refusals and2 infrastructure failures**, with668
+HTTP attempts and no ambiguous retries. All666 engine-bearing responses have
+exact saved CLI exit/JSON agreement. Median request latency is2.83s; summed
+request time excludes pacing, the diagnostic pause and storage waits. These are
+execution outcomes, not scientific passes; the catalog remains155/target153.
+
+[PR815](https://github.com/CrispStrobe/kerotakis/pull/815) at735c523d closes the
+remaining seven verb omissions and covers all35 canonical English bench verbs
+plus eight synonyms/spellings. It aligns multiword ingredient accounting and
+publishes `/api/capabilities`. Native
+[command controls](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/target468-20261016/rest-command-parity/preview-followup-results.json)
+pass; the first last-vessel protocol refusal remains preserved separately.
+Session facilities without JSON batch handlers refuse explicitly.
+
+[PR816](https://github.com/CrispStrobe/kerotakis/pull/816) at828c09b9 separates
+native signal termination from startup and CLI refusal, and runs REST parity
+tests when engine command/identity inventories change. Independent source review
+finds no material blocker; exact-head CI/full own fleet still gate integration.
+
+[PR817](https://github.com/CrispStrobe/kerotakis/pull/817) at266121dd gives jobs a
+finite12CPU/18wall budget, retains memory/isolation/quotas, classifies trusted
+CPU exhaustion and bounds total Redis/forwarding time with cleanup allowance.
+The original QA010 diagnostic reached8.012676CPU seconds before SIGKILL; PR005's
+separate diagnostic completed under the old budget, leaving its original cause
+unconfirmed. Twenty-three lightweight groups and maintained client controls pass.
+A new immutable snapshot passes native smoke and strengthened actual isolation.
+Both original failed scripts now
+[complete through the changed-policy API](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/target468-20261016/rest-execution-limits/budget-api-followup-results.json)
+and exactly match saved native JSON. Original first outcomes stay unchanged.
+
+The [independent budget review](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/target468-20261016/rest-execution-limits/budget-independent-review.md)
+retains two demonstrated total-timeout gaps and their corrections. The four
+narrow API PRs remain drafts while named full native/CI/fleet gates are pending;
+retarget stacked branches after predecessor integration, then normal exact-head
+auto-merge. Production staysc446; direct previews and snapshot changes do not
+claim a full frontend rebuild or a latest-main chemical pass count. Continue
+physical assessment and the separately scoped111 CLI refusals after API delivery
+acceptance; do not repeat the668-case corpus unchanged.
+
+The [accepted PR810/813 integration receipts](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/target468-20261016/accepted-pr-integration/pr810-integration.json)
+verify reviewed heads and reconstructed actual merge trees. PR813 has its
+[separate receipt](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/target468-20261016/accepted-pr-integration/pr813-integration.json).
+PR812 integrated as `1d24a43a` after58 successful checks/one skip; its
+[actual merge receipt](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/target468-20261016/accepted-pr-integration/pr812-integration.json)
+verifies the reviewed head and reconstructed tree. No accepted product remains
+waiting for confirmation;809 retains its named CLI replay gate.
