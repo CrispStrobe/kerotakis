@@ -20,10 +20,18 @@ impl Equilibrator for Capture {
     }
 }
 
+fn fixture_vessel_mut(bench: &mut Bench, id: VesselId) -> &mut Vessel {
+    bench
+        .vessels
+        .iter_mut()
+        .find(|vessel| vessel.id == id)
+        .expect("fixture vessel exists")
+}
+
 fn fixture() -> Bench {
     let mut bench = Bench::new();
     bench.vessels.push(Vessel::new(VesselId(1), "receiver"));
-    let source = bench.vessel_mut(VesselId(0)).unwrap();
+    let source = fixture_vessel_mut(&mut bench, VesselId(0));
     source.deposit(SpeciesId::new("water"), Moles(5.0), Phase::Liquid);
     source.deposit(SpeciesId::new("Mg+2"), Moles(1e-5), Phase::Aqueous);
     source.deposit(
@@ -95,7 +103,7 @@ fn full_filter_moves_measured_baseline_once_and_not_extra_ions() {
 fn proportional_decants_to_nonempty_receivers_keep_complement_and_add_once() {
     for fraction in [0.0, 0.25, 1.0] {
         let mut bench = fixture();
-        let receiver = bench.vessel_mut(VesselId(1)).unwrap();
+        let receiver = fixture_vessel_mut(&mut bench, VesselId(1));
         receiver.deposit(SpeciesId::new("water"), Moles(1.0), Phase::Liquid);
         receiver.deposit(SpeciesId::new("Cl-"), Moles(1e-4), Phase::Aqueous);
         receiver.deposit(SpeciesId::new("H+"), Moles(1e-4), Phase::Aqueous);
@@ -140,7 +148,7 @@ fn proportional_decants_to_nonempty_receivers_keep_complement_and_add_once() {
 fn acid_and_neutral_filtrates_do_not_become_analytical_free_base() {
     for (oh, h, charge) in [(1e-12, 1e-4, -1e-4), (1e-8, 1e-8, 0.0)] {
         let mut bench = fixture();
-        let source = bench.vessel_mut(VesselId(0)).unwrap();
+        let source = fixture_vessel_mut(&mut bench, VesselId(0));
         source
             .contents
             .retain(|p| p.species.0 == "water" || p.phase == Phase::Solid);
@@ -173,7 +181,7 @@ fn acid_and_neutral_filtrates_do_not_become_analytical_free_base() {
 #[test]
 fn filter_preserves_nontransferred_owned_gas_and_stationary_surface() {
     let mut bench = fixture();
-    let source = bench.vessel_mut(VesselId(0)).unwrap();
+    let source = fixture_vessel_mut(&mut bench, VesselId(0));
     source.headspace = Headspace::Sealed {
         volume: Liters(0.1),
     };
@@ -315,8 +323,8 @@ fn solver_failure_rolls_back_trial_but_preserves_committed_transfer_baseline() {
 #[test]
 fn metadata_overflow_refuses_and_restores_both_vessels() {
     let mut bench = fixture();
-    bench.vessel_mut(VesselId(0)).unwrap().free_hydroxide = f64::MAX;
-    bench.vessel_mut(VesselId(1)).unwrap().free_hydroxide = f64::MAX;
+    fixture_vessel_mut(&mut bench, VesselId(0)).free_hydroxide = f64::MAX;
+    fixture_vessel_mut(&mut bench, VesselId(1)).free_hydroxide = f64::MAX;
     let before = serde_json::to_value(&bench.vessels).unwrap();
     let mut capture = Capture::default();
     assert!(bench
@@ -336,8 +344,8 @@ fn metadata_overflow_refuses_and_restores_both_vessels() {
 #[test]
 fn negative_measured_source_cannot_be_hidden_by_cancellation_in_receiver() {
     let mut bench = fixture();
-    bench.vessel_mut(VesselId(0)).unwrap().free_hydroxide = -1.0;
-    bench.vessel_mut(VesselId(1)).unwrap().free_hydroxide = 2.0;
+    fixture_vessel_mut(&mut bench, VesselId(0)).free_hydroxide = -1.0;
+    fixture_vessel_mut(&mut bench, VesselId(1)).free_hydroxide = 2.0;
     let before = serde_json::to_value(&bench.vessels).unwrap();
     let mut capture = Capture::default();
     assert!(bench
@@ -358,7 +366,7 @@ fn negative_measured_source_cannot_be_hidden_by_cancellation_in_receiver() {
 fn no_water_carrier_does_not_migrate_old_aqueous_measurements() {
     for keep_dry_ions in [false, true] {
         let mut bench = fixture();
-        let source = bench.vessel_mut(VesselId(0)).unwrap();
+        let source = fixture_vessel_mut(&mut bench, VesselId(0));
         source
             .contents
             .retain(|p| p.phase == Phase::Solid || (keep_dry_ions && p.phase == Phase::Aqueous));
