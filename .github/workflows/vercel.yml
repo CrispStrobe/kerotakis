@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: a7ebedd4163c8b233b2db89dc0417feb41f5e2b3
+          ref: 2a2027e9ae4223e40cdc460c9a93a162cf85c69a
           persist-credentials: false
           sparse-checkout: audits/target468-20261016/curriculum200-common-engine
       - uses: actions/setup-python@v5
