@@ -1,0 +1,55 @@
+{
+  "api_revision": "735c523d415e1e8ab1dddf58efbbf6d7bc53266e",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "design_sha256": "4bce653a4e9e6312b77bcbe9b3ccc74f92e50660d2ab5ee51d801fa9109f1957",
+  "runner_sha256": "fe87176b50b7c54db7f7d6123970e94969c9f9f46318ec008c0c67e28c69e940",
+  "cases": [
+    {
+      "id": "lifecycle-stock-observation-keep-last-vessel",
+      "http_status": 200,
+      "execution_status": "completed",
+      "exit_status": 0,
+      "observations": 14,
+      "script_sha256": "c13384379dc484317b38eec0523314a53ed55f8b188a133d7ff878ce7aabbcdc",
+      "response_sha256": "2cfa003f0b26745436606c61a696e3460193218d8d88b05f6892022ce54191e0"
+    },
+    {
+      "id": "voltmeter-alias",
+      "http_status": 200,
+      "execution_status": "completed",
+      "exit_status": 0,
+      "observations": 10,
+      "script_sha256": "75868d29245da1ac1808cc17be562fec632221bf4f828d614872775bd3097c1b",
+      "response_sha256": "2d371ad8b41ba45c7a687e17e252f22921100e7f5f232718b2b4de7232519088"
+    }
+  ],
+  "admission_refusals": [
+    {
+      "script_sha256": "4005d37a7119ec4ee2a331518460941d2d4bfd7b92c6d50c716ad2e330d48fb2",
+      "http_status": 422,
+      "response_sha256": "474361a427733842e228f59e9c0c12ea83a7c1b62400f1aeab48c70b7adbe9a7"
+    },
+    {
+      "script_sha256": "3fce1ab67cfc43852748e2ad4d99bda8dbd3384ee2a1c2eae63350dda7e713db",
+      "http_status": 422,
+      "response_sha256": "474361a427733842e228f59e9c0c12ea83a7c1b62400f1aeab48c70b7adbe9a7"
+    },
+    {
+      "script_sha256": "106a5842fc5fce6f663176285ed1516dbb1e3d15c05abab12fdca46d60b539b7",
+      "http_status": 422,
+      "response_sha256": "cff20b9b465b30f436322ee668d120d5ddc18022fd5fea6f48ddc8a52c203620"
+    },
+    {
+      "script_sha256": "e59d5dcff38a8928f057b846370b6620a7c72d23db86ea1f28174dfb9e09266e",
+      "http_status": 422,
+      "response_sha256": "cff20b9b465b30f436322ee668d120d5ddc18022fd5fea6f48ddc8a52c203620"
+    }
+  ],
+  "ambiguous_retries": 0,
+  "physical_verdict": "not_assigned",
+  "qualification": "Command exposure and refusal controls only; no empirical calibration."
+}

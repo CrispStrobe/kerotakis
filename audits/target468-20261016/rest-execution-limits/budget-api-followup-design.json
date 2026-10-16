@@ -1,0 +1,32 @@
+{
+  "created_utc": "2026-10-16T15:15:36.211876+00:00",
+  "api_revision": "266121dd5605a439a495c85f2401fbeacd6272f4",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "expected_limits": {
+    "child_cpu_seconds": 12,
+    "child_wall_seconds": 18
+  },
+  "cases": [
+    {
+      "id": "new120:pr-005",
+      "script": "# PR-005: Selective hydroxide precipitation separates ferric and cupric ions\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 HCl 0.002mol\nadd v1 FeCl3 0.0002mol\nadd v1 CuSO4 0.0002mol\ntitrate v1 NaOH 0.1M 0.1mL until ph 4 max 400\ninspect v1\nnew\nfilter v1 v2\ninspect\n",
+      "script_sha256": "f5a6b08641709d92815ff6544ed3150abbe2cc1cedad3495c669ccc0f4c0f3d9",
+      "source_design": "audits/target468-20261016/common-engine-completion/native-screen-design.json",
+      "forecast": "HTTP200 completed exit0 with exact savednativeJSON underchanged12CPU/18wall policy. OriginalAPI503 remainsimmutable."
+    },
+    {
+      "id": "batch2:qa-010",
+      "script": "# QA-010: An arbitrary pH-seven endpoint underestimates weak-acid equivalence\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 CH3COOH 0.001mol\nnew\nadd v2 water 100mL\nadd v2 CH3COOH 0.001mol\ntitrate v1 NaOH 0.01M 0.1mL until ph 7 max 1200\ntitrate v2 NaOH 0.01M 0.1mL until ph 8.7 max 1200\ninspect\n",
+      "script_sha256": "9e1ac21325599a7f5c26beff5f18e97c72f654981f09fbd999886f153dfb21fc",
+      "source_design": "audits/new-experiments-201-20261016/native-screen-design.json",
+      "forecast": "HTTP200 completed exit0 with exact savednativeJSON underchanged12CPU/18wall policy. OriginalAPI503 remainsimmutable."
+    }
+  ],
+  "policy": "Exactly one requestpercase, noambiguousretry. This is a separately frozen changed-policy followup, not reclassification of originalfirstfailure.",
+  "qualification": "Two original API503 cases, unchangedscripts/nativeengine and changedboundedresourcepolicy. Check delivery and exact savedCLIobservations only; no scientific pass or668casecurrent-gateway rerun claim.",
+  "physical_verdict": "not_assigned"
+}

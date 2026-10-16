@@ -60,6 +60,12 @@ def main():
     health = json.loads(raw)
     assert status == 200 and health['configured'] and health['revision'] == design['api_revision']
     assert health['engine'] == design['engine'] and health['execution_backend'] == 'microvm'
+    status, raw = request('capabilities')
+    (args.out / 'capabilities.json').write_bytes(raw)
+    capabilities = json.loads(raw)
+    assert status == 200 and capabilities['revision'] == design['api_revision']
+    for name, value in design.get('expected_limits', {}).items():
+        assert capabilities['limits'][name] == value
     rows = []
     for case in design['cases']:
         assert sha(case['script'].encode()) == case['script_sha256']
@@ -88,7 +94,7 @@ def main():
     receipt = {'api_revision': design['api_revision'], 'engine': design['engine'],
         'design_sha256': sha(design_raw), 'runner_sha256': sha(Path(__file__).read_bytes()),
         'cases': rows, 'admission_refusals': refusals, 'ambiguous_retries': 0,
-        'physical_verdict': 'not_assigned', 'qualification': 'Command exposure and refusal controls only; no empirical calibration.'}
+        'physical_verdict': 'not_assigned', 'qualification': design.get('qualification', 'Command exposure and refusal controls only; no empirical calibration.')}
     (args.out / 'completion.json').write_text(json.dumps(receipt, indent=2) + '\n')
     print(json.dumps(receipt, indent=2))
 
