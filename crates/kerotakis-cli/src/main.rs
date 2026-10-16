@@ -537,6 +537,21 @@ fn main() {
                 );
                 std::process::exit(1);
             }
+            let acid_endpoint =
+                kerotakis_phreeqc::acid_endpoint_acceptance::run_aqueous(&mut engine);
+            if !acid_endpoint.passed() {
+                eprintln!(
+                    "kero prewarm: bounded acid endpoint acceptance failed:\n{}",
+                    serde_json::to_string_pretty(&acid_endpoint)
+                        .expect("serialise endpoint report")
+                );
+                std::process::exit(1);
+            }
+            kerotakis_phreeqc::acid_endpoint_acceptance::warm_missing_initials(&mut engine)
+                .unwrap_or_else(|error| {
+                    eprintln!("kero prewarm: {error}");
+                    std::process::exit(1);
+                });
             let data = engine.export_cache();
             let bytes = postcard::to_allocvec(&data).expect("serialise cache");
             std::fs::write(&out, &bytes).unwrap_or_else(|e| {

@@ -71,7 +71,15 @@ fn stack() -> SolverStack {
 /// question was.
 fn fires_when_added_in(order: &[(&str, f64)], reaction: &CuratedReaction) -> bool {
     let mut bench = Bench::new();
-    let mut stack = stack();
+    let mut stack = if reaction.post_aqueous.is_some() {
+        SolverStack::new(kerotakis_stack::standard_solvers(vec![Box::new(
+            DisplacementEquilibrator::wrapping(Box::new(
+                PhreeqcEquilibrator::new().expect("engine"),
+            )),
+        )]))
+    } else {
+        stack()
+    };
     let v = VesselId(0);
     let step = |bench: &mut Bench, stack: &mut SolverStack, key: &str, moles: f64| {
         bench
@@ -88,15 +96,26 @@ fn fires_when_added_in(order: &[(&str, f64)], reaction: &CuratedReaction) -> boo
             .unwrap_or_default()
     };
     step(&mut bench, &mut stack, "water", 5.5);
+    if reaction.post_aqueous.is_some() {
+        // This row explicitly owns six proton equivalents per extent and a
+        // sulfate medium. Its ionic reactant list alone is not a complete kit.
+        step(&mut bench, &mut stack, "H2SO4", 0.08);
+    }
     if let Some(catalyst) = reaction.catalyst {
         step(&mut bench, &mut stack, catalyst, 0.01);
     }
     order.iter().fold(false, |fired, (key, moles)| {
-        let events = step(&mut bench, &mut stack, key, *moles);
+        let stock = if reaction.post_aqueous.is_some() && *key == "MnO4-" {
+            "KMnO4" // complete potassium counterion, same ionic reactant
+        } else {
+            key
+        };
+        let events = step(&mut bench, &mut stack, stock, *moles);
         fired
-            || events
-                .iter()
-                .any(|e| matches!(e, Event::ReactionOccurred { .. }))
+            || events.iter().any(|e| {
+                matches!(e, Event::ReactionOccurred { equation, .. }
+                    if reaction.post_aqueous.is_none() || equation == reaction.equation)
+            })
     })
 }
 

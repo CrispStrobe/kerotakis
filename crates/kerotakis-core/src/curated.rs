@@ -15,6 +15,13 @@ use crate::units::Moles;
 use crate::vessel::Vessel;
 use crate::SpeciesId;
 
+/// Typed ownership of chemistry that requires a trusted post-speciation answer.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum PostAqueousEndpoint {
+    /// Sulfate/potassium medium only; the pH ceiling is an implementation domain.
+    AcidicPermanganatePeroxide,
+}
+
 pub struct CuratedReaction {
     /// Shown at student register and above.
     pub equation: &'static str,
@@ -46,6 +53,8 @@ pub struct CuratedReaction {
     /// charge balance, because the products carry `n` more positive charge
     /// than the reactants and that difference IS the acid consumed.
     pub acid_protons: Option<f64>,
+    /// These rows are never applied by the pre-aqueous curated stage.
+    pub post_aqueous: Option<PostAqueousEndpoint>,
 }
 
 /// Hand-verified seed set. Grows into the codex (P4).
@@ -68,6 +77,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: None,
+        post_aqueous: None,
     },
     // ── familiar carbonate fizz (BRD-014) ─────────────────────────
     // Molecular bookkeeping for the observable household reaction. Sodium
@@ -86,6 +96,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: None,
+        post_aqueous: None,
     },
     // The same fizz, written in the names the beaker holds once the soda
     // has dissolved — the `MnO₄⁻`-for-`KMnO4` pattern, one row down.
@@ -124,6 +135,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: None,
+        post_aqueous: None,
     },
     // The same hazard, written in the names the beaker holds once the acid
     // has been through a solve.
@@ -159,6 +171,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: Some(2.0),
+        post_aqueous: None,
     },
     CuratedReaction {
         equation: "NH3 + NaOCl → NH2Cl↑ + NaOH",
@@ -168,6 +181,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: None,
+        post_aqueous: None,
     },
     CuratedReaction {
         equation: "NaOCl + 2 HCl → Cl2↑ + NaCl + H2O",
@@ -181,6 +195,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: None,
+        post_aqueous: None,
     },
     // The same hazard a third and a fourth time, written in the names a
     // beaker holds once the bleach has been through a solve.
@@ -212,6 +227,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: None,
+        post_aqueous: None,
     },
     // And this one is both of them solved: the acid is gone into chloride
     // and a charge imbalance, the bleach into hypochlorite. Written on the
@@ -227,6 +243,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: Some(2.0),
+        post_aqueous: None,
     },
     // ...and the same two again on the UNDISSOCIATED acid, which is not
     // pedantry: it is where the reaction actually goes.
@@ -248,6 +265,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: None,
+        post_aqueous: None,
     },
     CuratedReaction {
         equation: "HClO + Cl⁻ + H⁺ → Cl2↑ + H₂O",
@@ -257,6 +275,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: Some(1.0),
+        post_aqueous: None,
     },
     // Chloramine, on the ion, for the same reason: `NH3 + NaOCl` above
     // cannot fire in a solved beaker. The sodium is absent from both sides
@@ -271,6 +290,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: None,
+        post_aqueous: None,
     },
     CuratedReaction {
         equation: "4 KMnO4 + 3 C₂H₅OH → 4 MnO₂↓ + 3 CH₃COOH + 4 KOH + H₂O",
@@ -285,6 +305,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: None,
+        post_aqueous: None,
     },
     CuratedReaction {
         equation: "4 MnO₄⁻ + 3 C₂H₅OH → 4 MnO₂↓ + 3 CH₃COOH + 4 OH⁻ + H₂O",
@@ -299,6 +320,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: None,
+        post_aqueous: None,
     },
     // ── EXP-39: the permanganate–oxalate standardisation ──────────
     //
@@ -346,6 +368,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: None,
+        post_aqueous: None,
     },
     // The same reaction reached from the solid in the burette: the
     // titrant is dosed as KMnO4 and the curated stage runs before the
@@ -366,6 +389,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: None,
+        post_aqueous: None,
     },
     // ── silver metathesis in ethanol (CAP-23 rung 2b) ────────────
     // PHREEQC handles these in water; the curated entries fire only
@@ -378,6 +402,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: None,
+        post_aqueous: None,
     },
     CuratedReaction {
         equation: "AgNO₃ + KCl → AgCl↓ + KNO₃",
@@ -387,6 +412,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: None,
+        post_aqueous: None,
     },
     // ── iodine decolorisation (EXP-13: Vitamin C) ─────────────
     // Ascorbic acid reduces molecular iodine to iodide; this is
@@ -402,6 +428,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: None,
+        post_aqueous: None,
     },
     // ── thermal decomposition (EXP-2: Backpulver) ───────────────
     // Onset ~50 °C, classroom-observable above ~80 °C (CRC Handbook
@@ -420,6 +447,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: Some(353.0),
         catalyst: None,
         acid_protons: None,
+        post_aqueous: None,
     },
     // ── enzymatic hydrolysis (EXP-14: Das süße Brot) ────────────
     // Amylase catalyses starch hydrolysis to maltose. The enzyme
@@ -432,6 +460,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: Some("amylase"),
         acid_protons: None,
+        post_aqueous: None,
     },
     // ── EXP-5: hypochlorite bleaching of dyes ──────────────────────
     CuratedReaction {
@@ -445,6 +474,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: None,
+        post_aqueous: None,
     },
     CuratedReaction {
         equation: "curcumin + NaOCl → curcumin(ox) + NaCl",
@@ -457,6 +487,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: None,
+        post_aqueous: None,
     },
     CuratedReaction {
         equation: "indigo carmine + NaOCl → isatin sulfonate + NaCl",
@@ -469,6 +500,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: None,
+        post_aqueous: None,
     },
     // The same three bleachings on the ion the vessel holds after a solve.
     //
@@ -497,6 +529,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: None,
+        post_aqueous: None,
     },
     CuratedReaction {
         equation: "curcumin + ClO⁻ → curcumin(ox) + Cl⁻",
@@ -509,6 +542,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: None,
+        post_aqueous: None,
     },
     CuratedReaction {
         equation: "indigo carmine + ClO⁻ → isatin sulfonate + Cl⁻",
@@ -521,6 +555,26 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
         acid_protons: None,
+        post_aqueous: None,
+    },
+    // Net ionic stoichiometry: UCSB Science Line key 164 and Alonso de la
+    // Peña et al., Dental Materials Journal 32 (2013), p.655. Independently
+    // authored factual equation, CC BY 4.0 curated data under CONTRIBUTING;
+    // no source prose/table imported. Reviewed 2026-10-16. These sources do
+    // not provide our pH ceiling, a rate law or an adopted reaction enthalpy.
+    CuratedReaction {
+        equation: "2 MnO₄⁻ + 5 H₂O₂ + 6 H⁺ → 2 Mn²⁺ + 5 O₂↑ + 8 H₂O",
+        reactants: &[("MnO4-", 2.0), ("H2O2", 5.0)],
+        products: &[
+            ("Mn+2", 2.0, Phase::Aqueous),
+            ("O2", 5.0, Phase::Gas),
+            ("water", 8.0, Phase::Liquid),
+        ],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: None,
+        acid_protons: Some(6.0),
+        post_aqueous: Some(PostAqueousEndpoint::AcidicPermanganatePeroxide),
     },
 ];
 
@@ -644,6 +698,9 @@ fn extent(vessel: &Vessel, reaction: &CuratedReaction) -> f64 {
 /// outside the solver can ask the same question of a single reaction
 /// instead of re-deriving a subtly different version of it.
 pub fn fires(vessel: &Vessel, reaction: &CuratedReaction) -> bool {
+    if reaction.post_aqueous.is_some() {
+        return crate::acid_endpoint::admitted_extent(vessel, reaction).is_some();
+    }
     if let Some(min_t) = reaction.min_temp_k {
         if vessel.temperature.0 < min_t {
             return false;
@@ -765,7 +822,9 @@ impl Equilibrator for CuratedEquilibrator {
     }
 
     fn applies(&self, vessel: &Vessel) -> bool {
-        REACTIONS.iter().any(|r| fires(vessel, r))
+        REACTIONS
+            .iter()
+            .any(|r| r.post_aqueous.is_none() && fires(vessel, r))
     }
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
@@ -779,6 +838,9 @@ impl Equilibrator for CuratedEquilibrator {
             let mut progressed = false;
             let solvent = crate::nonaqueous::single_organic_solvent(vessel);
             for (i, reaction) in REACTIONS.iter().enumerate() {
+                if reaction.post_aqueous.is_some() {
+                    continue;
+                }
                 if let Some(min_t) = reaction.min_temp_k {
                     if vessel.temperature.0 < min_t {
                         continue;

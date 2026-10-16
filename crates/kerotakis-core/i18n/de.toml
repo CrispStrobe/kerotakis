@@ -1666,6 +1666,8 @@ PVA = "PVA"
 # falls back to `[refusal]`; `tools/engine-locale-lint.py` counts how many
 # of each there are, with the denominator read out of the Rust.
 [not-modeled]
+acid-permanganate-endpoint = "Diese Berechnung von Permanganat und Peroxid im sulfatsauren Medium ist ein begrenzter stöchiometrischer Endpunkt. Es werden weder Reaktionsdauer noch Reaktionswärme angesetzt; Chlorid, konkurrierende Reagenzien und andere Produktbereiche liegen außerhalb dieses Modells"
+acid-permanganate-domain = "Es wurde kein saurer Permanganat-Peroxid-Endpunkt angewendet: Dieser Weg benötigt eine vertrauenswürdige aktuelle vollständige wässrige Antwort bei pH höchstens 3, einen eigenen wässrigen Protonenvorrat, ein vollständiges Sulfat-Kalium-Medium und eine offene oder fest verschlossene Gasgrenze; nicht unterstützte Gemische und unzugängliche Reaktanten bleiben ihren bestehenden Modellen überlassen"
 "aqueous-continuation-heat" = "Für diese Umwandlung nach der Speziation liegt keine geprüfte Reaktionswärme vor. Die zugehörige erneute Charakterisierung der wässrigen Lösung und alle weiteren Berechnungen der Wärme wässriger Reaktionen in diesem Arbeitsschritt bleiben aus; die angegebene Temperatur ist keine vollständige thermische Vorhersage für diese Umwandlung. Stoff- und Gasbilanz bleiben ausdrücklich erfasst"
 "cea-open-atmosphere-required" = "Der thermische Gleichgewichtspfad für offene Luft modelliert diese geschlossene, druckgeregelte oder gespülte Randbedingung nicht; der Stoffbestand bleibt erhalten und es wurde keine thermische Reaktion übernommen."
 

@@ -121,10 +121,14 @@ check("mechanical continuation uses the actual Wasm/Emscripten hook through the 
     continuation.schema === 1 && continuation.mechanical_fixture === true &&
     continuation.cases.length === 2 && continuation.cases.every((test) => test.passed),
     JSON.stringify(continuation));
+const acidEndpoint = JSON.parse(lab.acidEndpointAcceptance(false));
+check("bounded acid endpoint uses the actual Wasm hook and browser wrapper",
+    acidEndpoint.schema === 1 && acidEndpoint.cases.length === 2 && acidEndpoint.cases.every((test) => test.passed),
+    JSON.stringify(acidEndpoint));
 let failedHookCalls = 0;
 lab.setSolver(() => {
     failedHookCalls++;
-    throw new Error("controlled continuation current-question failure");
+    throw new Error("controlled continuation current-question failure; controlled acidic endpoint current-question failure");
 });
 const rollback = JSON.parse(lab.continuationAcceptance(true));
 check("changed-input hook failure restores the complete continuation vessel",
@@ -133,4 +137,8 @@ check("changed-input hook failure restores the complete continuation vessel",
         test.detail.includes("controlled continuation current-question failure")),
     JSON.stringify(rollback));
 
+const acidRollback = JSON.parse(lab.acidEndpointAcceptance(true));
+check("bounded acid endpoint failed current-question hook rolls back",
+    acidRollback.cases.length === 2 && acidRollback.cases.every((test) => test.passed),
+    JSON.stringify(acidRollback));
 process.exit(failures === 0 ? 0 : 1);

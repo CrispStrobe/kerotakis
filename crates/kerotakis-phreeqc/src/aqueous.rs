@@ -2484,6 +2484,40 @@ fn checked_crystal_reconciliation(
 }
 
 impl kerotakis_core::aqueous_continuation::TrustedAqueousReadback for PhreeqcEquilibrator {
+    fn characterize_optional_current(
+        &mut self,
+        vessel: &mut Vessel,
+    ) -> Result<
+        (
+            Vec<Event>,
+            Option<kerotakis_core::aqueous_continuation::CurrentAqueousAnswer>,
+        ),
+        SolveError,
+    > {
+        let input = vessel.clone();
+        let mut candidate = input.clone();
+        candidate.solution = None;
+        candidate.resolved.invalidate();
+        candidate.free_proton = 0.0;
+        candidate.free_hydroxide = 0.0;
+        let events = self.equilibrate(&mut candidate)?;
+        let answer = if candidate
+            .solution
+            .as_ref()
+            .is_some_and(|s| s.scope == kerotakis_core::vessel::SolutionScope::Complete)
+        {
+            Some(
+                kerotakis_core::aqueous_continuation::CurrentAqueousAnswer::attest_computed(
+                    &input, &candidate,
+                )?,
+            )
+        } else {
+            None
+        };
+        *vessel = candidate;
+        Ok((events, answer))
+    }
+
     fn characterize_current(
         &mut self,
         vessel: &mut Vessel,

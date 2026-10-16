@@ -183,6 +183,11 @@ if (cachePath) {
         JSON.stringify(r1.cases.filter((test) => !test.passed)),
     );
     for (const missing of [false, true]) {
+        const endpoint = JSON.parse(lab5.acidEndpointAcceptance(missing));
+        check(missing ? "bounded acid endpoint missing current answer rolls back in cached Wasm"
+            : "bounded acid endpoint uses the actual cached browser wrapper",
+            endpoint.schema === 1 && endpoint.cases.length === 2 && endpoint.cases.every((test) => test.passed),
+            JSON.stringify(endpoint));
         const continuation = JSON.parse(lab5.continuationAcceptance(missing));
         check(
             missing ? "changed-input continuation cache miss rolls back in WebAssembly"

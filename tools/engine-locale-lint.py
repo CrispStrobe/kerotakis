@@ -55,6 +55,7 @@ BENCH = ROOT / "crates/kerotakis-core/src/bench.rs"
 # unreachable prose it did not count, and catalogue keys it would have
 # called orphans.
 COMPOSERS = [
+    ROOT / "crates/kerotakis-core/src/acid_endpoint.rs",
     ROOT / "crates/kerotakis-core/src/appearance.rs",
     ROOT / "crates/kerotakis-core/src/aqueous_continuation.rs",
     ROOT / "crates/kerotakis-core/src/displacement.rs",

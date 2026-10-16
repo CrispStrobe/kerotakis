@@ -74,7 +74,7 @@ const SCRIPT = [
     "cool v1 40kJ",
     "inspect v1",
 ].join(";");
-const url = `http://127.0.0.1:${PORT}/index.html?r1=1#run=${encodeURIComponent(SCRIPT)}`;
+const url = `http://127.0.0.1:${PORT}/index.html?r1=1&acid-endpoint=1#run=${encodeURIComponent(SCRIPT)}`;
 
 // A persistent profile carries the service-worker registration between
 // the two renders: first load online (the worker installs and precaches),
@@ -254,6 +254,10 @@ check(
     R1_CASES.every((id) => transcript.includes(`R1 ${id}: PASS`)),
 );
 
+const ACID_CASES = ["open-endpoint", "sealed-endpoint"];
+check("bounded acidic endpoint passes through the real Chromium wrapper and hook",
+    ACID_CASES.every((id) => transcript.includes(`ACID ${id}: PASS`)));
+
 // Offline-first is the premise, so it gets its own assertions: with the
 // server dead, the service worker's cache must still boot the page, start
 // the engine, and solve the same experiment.
@@ -268,4 +272,6 @@ check(
     R1_CASES.every((id) => offTranscript.includes(`R1 ${id}: PASS`)),
 );
 
+check("offline: bounded acidic endpoint passes through the real browser",
+    ACID_CASES.every((id) => offTranscript.includes(`ACID ${id}: PASS`)));
 process.exit(failures === 0 ? 0 : 1);

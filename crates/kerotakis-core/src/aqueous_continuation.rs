@@ -59,6 +59,17 @@ impl CurrentAqueousAnswer {
 /// merely restores an old SolutionInfo is insufficient. Receipt construction
 /// is an explicit trusted assertion; it is not an engine correctness proof.
 pub trait TrustedAqueousReadback {
+    /// One ordinary aqueous pass for optional endpoint admission. A concrete
+    /// adapter may retain an honest partial result without issuing a receipt.
+    /// The strict continuation readback below still requires a complete answer.
+    fn characterize_optional_current(
+        &mut self,
+        vessel: &mut Vessel,
+    ) -> Result<(Vec<Event>, Option<CurrentAqueousAnswer>), SolveError> {
+        self.characterize_current(vessel)
+            .map(|(events, answer)| (events, Some(answer)))
+    }
+
     fn characterize_current(
         &mut self,
         vessel: &mut Vessel,
@@ -76,6 +87,17 @@ pub fn characterize_via(
         .trusted_aqueous_readback()
         .ok_or_else(|| refused("equilibrator has no trusted aqueous readback adapter"))?
         .characterize_current(vessel)
+}
+
+/// Ask once without upgrading a concrete adapter's partial answer to complete.
+pub fn characterize_optional_via(
+    aqueous: &mut dyn crate::Equilibrator,
+    vessel: &mut Vessel,
+) -> Result<(Vec<Event>, Option<CurrentAqueousAnswer>), SolveError> {
+    aqueous
+        .trusted_aqueous_readback()
+        .ok_or_else(|| refused("equilibrator has no trusted aqueous readback adapter"))?
+        .characterize_optional_current(vessel)
 }
 
 /// Shared host bridge for the atomic primitive. A wrapper that does not

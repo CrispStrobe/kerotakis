@@ -1457,6 +1457,8 @@ PVA = "PVA"
 "muscle protein" = "protéine musculaire"
 
 [not-modeled]
+acid-permanganate-endpoint = "Ce calcul du permanganate et du peroxyde en milieu sulfurique est un point final stœchiométrique limité. Aucune durée de réaction ni chaleur de réaction n’est adoptée ; le chlorure, les réactifs concurrents et les autres domaines de produits sont hors de ce modèle"
+acid-permanganate-domain = "Aucun point final acide permanganate-peroxyde n’a été appliqué : cette voie exige une réponse aqueuse complète actuelle et fiable à un pH au plus égal à 3, un stock propre de protons aqueux, un milieu sulfate-potassium complet et une enceinte ouverte ou fermée à volume fixe ; les mélanges non pris en charge et les réactifs inaccessibles restent soumis à leurs modèles existants"
 "aqueous-continuation-heat" = "Cette transformation après spéciation ne dispose d’aucune chaleur de réaction vérifiée. La nouvelle caractérisation aqueuse associée et tous les calculs ultérieurs de chaleur des réactions aqueuses dans cette opération ne sont pas effectués ; la température indiquée ne constitue pas une prévision thermique complète pour cette transformation. Les bilans de matière et de gaz restent explicites"
 
 # Ideal-liquid still checked refusal categories.
