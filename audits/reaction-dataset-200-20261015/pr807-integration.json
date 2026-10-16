@@ -1,0 +1,23 @@
+{
+  "recorded_utc": "2026-10-16T10:59:38.715954+00:00",
+  "pr": 807,
+  "head": "352e1c489b0b3c36f2c949217e96fe8fa51f6b91",
+  "merge_commit": "f441cf6eb8c42c5a558a50ca7b7e88e59c1034f8",
+  "merge_parents": [
+    "dd892b6877dd95abf37fdf0a56b1fa6c785f43d0",
+    "352e1c489b0b3c36f2c949217e96fe8fa51f6b91"
+  ],
+  "expected_parent_merge_tree": "3102474a43ff1c898c3d0bfa2918a97165d7fb83",
+  "actual_tree": "3102474a43ff1c898c3d0bfa2918a97165d7fb83",
+  "tree_matches": true,
+  "checks": {
+    "success": 58,
+    "skipped": 1
+  },
+  "ci_run": 38867814858,
+  "full_own_fleet_run": 38867814842,
+  "delivery": "normal protected auto-merge with exact reviewed head; no bypass",
+  "runtime_scope": "Only exact CuSO4_anhydrous -> CuSO4 and acetate -> CH3COO- input spellings; hydrate/counterion/charge negatives and finite bottle behavior retained.",
+  "new_scientific_passes_assigned": 0,
+  "production_acceptance_for_merge": "not yet established; prior c446 production evidence retains its binding"
+}
