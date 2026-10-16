@@ -9,9 +9,11 @@ Scope: Independent model-repair lane — solver routing, chemical/phase mechanis
 ## Claimed issue: MODEL-001 — acid permanganate endpoint PR805
 
 - Branch: fix/acid-permanganate-endpoint-20261016
-- Head: 3f84e59f38098c4e4e995c885659544c54eb47c2 (merge candidate e7e0c4e05a0907e4c3c5b4136160c7d094605bca)
-- CI: https://github.com/CrispStrobe/kerotakis/actions/runs/38865460559
-- Fleet: https://github.com/CrispStrobe/kerotakis/actions/runs/38865460634
+- Head: d66b08119c75b0b30e22550c5951f85c7801fe93 (previous 3f84e59f38098c4e4e995c885659544c54eb47c2, merge candidate e7e0c4e05a0907e4c3c5b4136160c7d094605bca)
+- Previous CI: https://github.com/CrispStrobe/kerotakis/actions/runs/38865460559 (failed, preserved)
+- Current CI: https://github.com/CrispStrobe/kerotakis/actions/runs/38870449486 (queued, includes locale fix)
+- Fleet: https://github.com/CrispStrobe/kerotakis/actions/runs/38870449501 (queued)
+- Status: Open, not merged; awaiting exact-head acceptance
 
 ## Current actual failures (CI 38865460559) — preserved before source edits
 
@@ -23,6 +25,7 @@ Scope: Independent model-repair lane — solver routing, chemical/phase mechanis
 - Viewer spike BRD-080 https://github.com/CrispStrobe/kerotakis/actions/runs/38865460559/job/116857537402 : FAILED — 3dmol/water: expected semantic rows and exactly one canvas, got 3/0 (hash c6f57451f9031401e3028eb64d3cc1fa6cb5fbc787dacaa36875e9e4af31af1c)
 
 All four first-failure raw logs preserved with hashes; original failure evidence retained before any retry.
+New head d66b0811 pushed with one-line COMPOSERS admission; previous CI cancelled, new CI queued.
 
 Diagnosis:
 - Native/preflight failures are production localization acceptance coverage defects, NOT runtime chemistry defects.
@@ -35,8 +38,12 @@ Diagnosis:
   composed_locale gate (610 passed before the one failure). The pre-existing F12 replay on
   source a03113a2 remains valid; no new runtime chemistry failure is shown in these logs. The 10
   strict endpoint fixtures stay intact.
-- Viewer: separate decision-spike failure; diagnosis deferred per supervisor priority to
-  strict endpoint. Will diagnose after native fix.
+- Viewer: separate decision-spike failure; concrete evidence shows same spike passed on
+  2026-08-31 commit 5d123880 (BRD-080 success), but fails on 2026-10-16 runner image
+  20261012.334 with 3dmol/water 3/0 canvases. Likely environment WebGL/SwiftShader
+  regression, not application change from acid branch (spike code unchanged, build
+  identical). No canvas assertion weakened; awaiting new CI 38870449486 viewer job
+  116873033113 to confirm before any flag change. Preserved first log c6f57451.
 
 ## Next fix (pending push)
 
