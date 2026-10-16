@@ -1322,6 +1322,15 @@ pub fn electrolyse_solvent(
     // uses. Reusing it rather than inventing a second one is deliberate.
     let electrons_to_hydrogen = (electrons - electrons_to_cathode).max(0.0);
     let cathode_hydrogen_moles = electrons_to_hydrogen / 2.0;
+    // The remainder above names only hydrogen co-evolved after metal
+    // depletion. When hydrogen IS the named cathode product, all delivered
+    // electrons reduce water; a zero remainder does not mean zero water
+    // reduction. Keep the public co-evolution fields specific to plating.
+    let water_reduction_electrons = if cathode_plates {
+        electrons_to_hydrogen
+    } else {
+        electrons
+    };
     let current_efficiency = if electrons > 0.0 {
         (electrons_to_cathode / electrons).clamp(0.0, 1.0)
     } else {
@@ -1348,7 +1357,7 @@ pub fn electrolyse_solvent(
     //
     // Anode, oxygen: 2 H₂O → O₂ + 4 H⁺ + 4 e⁻ spends e/2 water and makes e
     // protons. Cathode, hydrogen: 2 H₂O + 2 e⁻ → H₂ + 2 OH⁻ spends
-    // `electrons_to_hydrogen` water and makes that much hydroxide. The cell
+    // `water_reduction_electrons` water and makes that much hydroxide. The cell
     // is undivided, so those protons and that hydroxide neutralise and give
     // the water straight back: net water stays e/2 and the acid left over
     // is what the plating half did not cancel.
@@ -1358,11 +1367,11 @@ pub fn electrolyse_solvent(
     let (water_spent, protons_made, hydroxide_made) = if anode.0 == "O2" {
         (
             electrons / 2.0,
-            (electrons - electrons_to_hydrogen).max(0.0),
+            (electrons - water_reduction_electrons).max(0.0),
             0.0,
         )
     } else {
-        (electrons_to_hydrogen, 0.0, electrons_to_hydrogen)
+        (water_reduction_electrons, 0.0, water_reduction_electrons)
     };
 
     Some(SolventElectrolysis {
