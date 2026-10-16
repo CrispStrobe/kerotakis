@@ -1,0 +1,36 @@
+{
+  "id": "batch2:qa-003",
+  "source_engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "stdout_sha256": "7d02848f1d8eb8d37319a7110694f2768a7844501309584c3a04d91eb5d6177c",
+  "original_script_sha256": "06ff160b761f71e03495726cc45fe9bc0fa02e2fc7d560228059686386719448",
+  "original_criterion": {
+    "id": "QA-003-C2",
+    "criterion": "Base demand divided by each measured pre-titration volume agrees within dosing resolution.",
+    "evaluation": "manual_review_of_saved_runtime_observations",
+    "result": null
+  },
+  "reported_pre_titration_scene_liquid_volume_l": {
+    "0": 0.15,
+    "1": 0.05
+  },
+  "base_demand_mol": {
+    "0": 0.0015000005626678433,
+    "1": 0.0005000001859664917
+  },
+  "reconstructed_acid_concentration_mol_l": {
+    "0": 0.010000003751118956,
+    "1": 0.010000003719329832
+  },
+  "concentration_difference_mol_l": 3.178912341694762e-11,
+  "two_increment_resolution_mol_l": 0.0004,
+  "physical_concentration_forecast": "met_using_existing_reported_liquid_volumes",
+  "requested_gas_meter_readings": "both still unsupported; no liquid instrument reading fabricated",
+  "qualification": "Scene liquid volumes are computed model observables, not independent instrument readings or empirical calibration. The first reader omitted scene payloads; its result remains preserved separately.",
+  "new_engine_executions": 0,
+  "catalog_additions": 0
+}

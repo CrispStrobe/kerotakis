@@ -1,0 +1,23 @@
+{
+  "reviewed_utc": "2026-10-16T09:05:05.071764+00:00",
+  "independent_review": "acid_route_contract_review; saved raw scene sequence and arithmetic",
+  "files": [
+    {
+      "path": "review_scene_volume.py",
+      "sha256": "af7093884d9229a49a4d0114bb0caf0fb779833f7b54e6286d483b33d1797fba"
+    },
+    {
+      "path": "scene-volume-assessment.json",
+      "sha256": "b1df44a98931ab61c0a11827c75bd245279a00003ded7f76724aeedd5e54d26e"
+    },
+    {
+      "path": "scene-volume-followup.md",
+      "sha256": "5de96e2bb5c0a3cf7923f411624781522c41015225acc7ff3c6ac5fe02c12f8c"
+    }
+  ],
+  "reader_reproduced_supplement_exactly": true,
+  "verified_sequence": "Decant row3; refused meter measurement rows4/5 with reported .15/.05L liquid scene; titrations only rows6/7",
+  "scope": "Supports qualified concentration forecast from computed scene observables. Requested gas-meter readings and original instrument-criterion status are not relabeled. First reader/assessment/review preserved unchanged.",
+  "engine_executions": 0,
+  "catalog_additions": 0
+}

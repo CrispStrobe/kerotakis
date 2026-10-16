@@ -96,3 +96,8 @@ checks original quantitative criteria without rerunning cases. Limestone and
 acid-spike checks are met; the aliquot dose ratio is met but its requested
 liquid-volume measurement remains unsupported by the selected gas instrument.
 Original screen classifications and the working catalog remain unchanged.
+
+A [separate QA-003 scene-volume supplement](quantitative-saved-review/scene-volume-followup.md)
+checks liquid volumes already present in the raw measurement-step scene. They
+support the concentration forecast; the original gas-meter refusals still stand.
+The first reader and assessment omitted those scene values and remain preserved.

@@ -87,9 +87,12 @@ cancel active checks for optional edits. Refresh actual heads before work.
   These categories assign no scientific passes. All original forecasts remain.
 - A [separate saved quantitative review](../audits/new-experiments-201-20261016/native-screen-results/quantitative-saved-review/README.md)
   finds both original bounded checks met for QA-001 limestone back-titration and
-  QA-002 acid-spike recovery. QA-003 meets its3:1 endpoint-dose check, but its
-  gas-volume instrument cannot supply the required liquid-volume measurement.
-  No new execution or working-catalog addition is assigned.
+  QA-002 acid-spike recovery. QA-003 meets its3:1 endpoint-dose check; a
+  [separate scene-volume supplement](../audits/new-experiments-201-20261016/native-screen-results/quantitative-saved-review/scene-volume-followup.md)
+  also verifies the concentration forecast using already reported0.15/0.05L
+  liquid volumes. Requested gas-meter readings still refuse; computed scene
+  volumes are not independent instrument readings. First assessments are
+  preserved, with no new execution or working-catalog addition.
 - Four corrected haloalkane controls match only two bounded principal forecasts,
   both on the separately bound source74 preview and current c446 native run.
   Strong-base lookup loses solved NaOH identity in the other two. All seven
