@@ -53,7 +53,7 @@ async def run(args):
             network_policy=sandbox.NetworkPolicy.deny_all(), env={}, ports=[],
             persistent=False, region='iad1')
         try:
-            save(args.out / 'private-vm.json', {'id': box.id})
+            save(args.out / 'private-vm.json', {'name': box.name})
             for name, expected in [('engine-job.py', design['supervisor_sha256']),
                                    ('engine/sandbox.runtime', design['sandbox_sha256'])]:
                 assert sha(await box.fs.read_bytes('/vercel/sandbox/' + name)) == expected

@@ -1,0 +1,314 @@
+{
+  "schema_version": 1,
+  "review_type": "Independent source and saved engineering evidence only; no engine/build/API/browser/agents.",
+  "reviewed_head": "673233df07deda6f311c474e913e9733a971853d",
+  "tested_merge": "7fca297b73ed888e154c40c83811a57d4995e861",
+  "tested_merge_tree": "9f12cf9ec52a9929b92febf273d1d33639649861",
+  "tested_merge_parents": [
+    "4f0112f6cc1330572369429c7ae2e0ca94494205",
+    "673233df07deda6f311c474e913e9733a971853d"
+  ],
+  "reviewed_files_sha256": {
+    "crates/kerotakis-core/src/bench.rs": "574b63c8d8d00af91a4f2927c4d2c3427cf9aafecb8f3753ac15f51025ba4141",
+    "crates/kerotakis-core/tests/aqueous_transfer_snapshot.rs": "81ad4a773ba2846fce29cd037ce12eb4ec39f37d2b70b69c8a1f3eb6788380d0",
+    "crates/kerotakis-phreeqc/tests/aqueous_transfer_snapshot.rs": "0d7907ab84945a3864439d89e52ac58d868704c8c548c05ded2552a86f5e7db5",
+    "crates/kerotakis-phreeqc/tests/fixtures/ab029-filter-suspension.lab": "cf7a5085df974af447178e328821b2ec41c883e27092929b790d25d670e12c9c",
+    "crates/kerotakis-core/AQUEOUS-TRANSFER-ACCEPTANCE.md": "e3f239419882fd194a0c066fed78fe66b836e8eb6c0df7961ef951d80553c33b"
+  },
+  "earlier_source_review_sha256": "822cb3d2ddbc99d3e0fcbacfe55433f591061f2e121c4be3693c02e1909a2863",
+  "first_saved_diagnostic_sha256": "0530a1230bc142a6ff886ce6b9a7992c8c49e4c2713f0938be2641cd89e22b07",
+  "saved_hosted_checks": [
+    {
+      "run": 38881455722,
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38881455722",
+      "saved_summary_sha256": "ff3ca9c84870284686bb36d5bb580b4480947882de58ca165c25edf6961c90e8",
+      "head": "673233df07deda6f311c474e913e9733a971853d",
+      "conclusions": {
+        "success": 25,
+        "skipped": 1
+      },
+      "jobs": [
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Presentation authority adapters",
+          "conclusion": "success"
+        },
+        {
+          "name": "Full preflight gate",
+          "conclusion": "success"
+        },
+        {
+          "name": "The native host still compiles",
+          "conclusion": "success"
+        },
+        {
+          "name": "GPU release tools (deterministic)",
+          "conclusion": "success"
+        },
+        {
+          "name": "BRD-080 viewer decision spike",
+          "conclusion": "success"
+        },
+        {
+          "name": "Shell payload (windows-latest)",
+          "conclusion": "success"
+        },
+        {
+          "name": "The two wasm halves, together",
+          "conclusion": "success"
+        },
+        {
+          "name": "MY-BASIC preview (ubuntu-latest)",
+          "conclusion": "success"
+        },
+        {
+          "name": "feos adapter (aarch64-linux-android)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Core and data schemas compile to wasm32",
+          "conclusion": "success"
+        },
+        {
+          "name": "feos adapter (aarch64-apple-ios)",
+          "conclusion": "success"
+        },
+        {
+          "name": "IPhreeqc wasm gate",
+          "conclusion": "success"
+        },
+        {
+          "name": "feos adapter (wasm32-unknown-unknown)",
+          "conclusion": "success"
+        },
+        {
+          "name": "IPhreeqc under MSVC",
+          "conclusion": "success"
+        },
+        {
+          "name": "feos adapter (aarch64-apple-darwin)",
+          "conclusion": "success"
+        },
+        {
+          "name": "feos adapter (x86_64-pc-windows-msvc)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "success"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "success"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "success"
+        },
+        {
+          "name": "Theme contrast tokens",
+          "conclusion": "success"
+        },
+        {
+          "name": "Current registry source export",
+          "conclusion": "success"
+        },
+        {
+          "name": "MY-BASIC preview (macos-latest)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Legacy BASIC oracle (development only)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Shell payload (ubuntu-22.04)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Publish the demo",
+          "conclusion": "skipped"
+        }
+      ]
+    },
+    {
+      "run": 38881455757,
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38881455757",
+      "saved_summary_sha256": "0f4a20ac65506ca7b0059bea196314d12e0570d4689b2079b3e3c40265d240c2",
+      "head": "673233df07deda6f311c474e913e9733a971853d",
+      "conclusions": {
+        "success": 33
+      },
+      "jobs": [
+        {
+          "name": "Build audited CLI once",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet v3 water-energy",
+          "conclusion": "success"
+        },
+        {
+          "name": "Frozen fleet 459-488",
+          "conclusion": "success"
+        },
+        {
+          "name": "Frozen fleet 195-218",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet v3 metal-ligand",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet v3 ionic-conductivity",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet gas-boundaries",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet solubility-precipitation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet v3 organic-equilibrium",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet acid-base-buffers",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet filtration-evaporation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet mixing-transfer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet v3 aqueous-selectivity",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet thermal-phase-paths",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet electrochemistry",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet v2 analytical-observables",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet distillation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet v2 phase-colligative",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet v2 household-biochemistry",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet organic-equilibria",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet observables-negative-controls",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet v2 quantitative-solutions",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet v2 materials-transport",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet v2 separation-trains",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet v2 polyprotic-carbonate",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet v2 crystallisation-boundaries",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet v2 thermochemical-paths",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet v2 redox-cells",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet v2 kinetics-boundaries",
+          "conclusion": "success"
+        },
+        {
+          "name": "Source fleet v2 gas-production-transfer",
+          "conclusion": "success"
+        },
+        {
+          "name": "All 240 source-informed cases",
+          "conclusion": "success"
+        },
+        {
+          "name": "All 120 source-informed v3 cases",
+          "conclusion": "success"
+        },
+        {
+          "name": "All 288 source-informed v2 cases",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ],
+  "artifact_actual_bytes": {
+    "binary_sha256": "ccb09303ed954df3f07490cc4502efb5669eed27b30f8972df464741b315aec7",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "producer_metadata_sha256": "d1c8120d58dfb75bdbe8e23a60483f325438e969e603d2edb2a2ae54d9a0f1dc",
+  "source_findings": [],
+  "source_verdict": "No material blocker found in the narrow Filter/Decant ownership repair.",
+  "acceptance_coverage": {
+    "core_test_groups": 10,
+    "native_test_groups": 2,
+    "cli_fixture_unchanged": true,
+    "runtime_scope": "Only Filter/Decant measured aqueous snapshot ownership, cache invalidation and Filter nonselected-phase retention. No numerical convergence policy change.",
+    "hosted_scope": "Full workspace native/preflight, cache-only adapter, Wasm build/runtime/protocol/native bridge, real-browser demo and applicable full33-job chemistry fleet all green in saved check metadata."
+  },
+  "cli_replay": {
+    "status": "pending_saved_raw_and_physical_assessment",
+    "runner_sha256": "3406e8d50c211ee92f4d3fdbafa3e40d371bc606cb605ed058c06d2bbb9eac4b",
+    "requirements": [
+      "Unchanged17-line AB029 script SHA cf7a5085df974af447178e328821b2ec41c883e27092929b790d25d670e12c9c, exact producer artifact and raw Cargo.lock binding before execution.",
+      "One bounded network-denied microVM invocation with empty supplied VM environment and trusted supervisor/runtime digest checks before issued marker.",
+      "Preserve first raw stdout/stderr/exit/resource receipts; require fresh filtrate pH, original capacity contrast and no solver_failed rather than exit0 alone.",
+      "Compare unchanged aliquot thermal/pH behavior under the existing native acceptance assertions; do not relax thresholds or infer empirical heat from convergence."
+    ]
+  },
+  "remaining_nonprotected_after_successful_bound_replay": [],
+  "conditional_delivery_recommendation": "If exact saved CLI replay meets its unchanged frozen physical forecast and bindings, no additional nonprotected run is required by this narrowly scoped change. Root must refresh live head/base/protected checks before normal readiness/auto-merge; this review performs no readiness or integration action.",
+  "qualifications": [
+    "First c446 solver failure and25956e61 E0624 test-access failure remain preserved; the correction only uses public fixture vessel collection.",
+    "Missing OH reference-energy scale resembles the old residual but does not prove exact64-step fixed-point causality.",
+    "Mix/Drain/Extract/transport and broader open-gas residence/closed-flow models remain separate contracts; this patch does not certify them.",
+    "Error/refusal rollback restores physical transfer state; a later solver-local failure preserves committed pour while rolling back the failed trial and withholding a fresh answer.",
+    "No empirical heat/solubility/rate calibration, whole-system energy proof, production deployment or independent VM deletion attestation."
+  ]
+}

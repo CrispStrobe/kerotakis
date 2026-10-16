@@ -1,0 +1,8 @@
+{
+  "failure": "Installed Sandbox has name/current_session_id, not id. AttributeError occurred before issued marker and native process invocation.",
+  "script_invocations": 0,
+  "destroy_returned": true,
+  "first_design_sha256": "f026588cffc95d6c8d73f41a458a57e9f138b564501187109b752c51c013857c",
+  "private_first_stderr_sha256": "ffe2dc0c8bae02dece92e18378641e5ca1cf17622a2939febb11b3e98ed11d7e",
+  "correction": "New separately frozen harness design, same unchanged script and candidate bindings; first setup outcome preserved."
+}
