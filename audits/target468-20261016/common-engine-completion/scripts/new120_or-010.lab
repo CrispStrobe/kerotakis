@@ -1,0 +1,16 @@
+# OR-010: Explicit alcohol oxidation is a requested model, not spontaneous vinegar formation
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 20mL
+seal v1 500mL
+add v1 ethanol 0.001mol
+add v1 O2 0.01mol
+new
+add v2 water 20mL
+seal v2 500mL
+add v2 ethanol 0.001mol
+add v2 O2 0.01mol
+wait 60s
+inspect
+react v1 alcohol-oxidation
+inspect

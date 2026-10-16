@@ -1,0 +1,10 @@
+# Fresh independent syntax-only experiment 50
+# Hydrogen pop test specificity
+new
+seal v1 500mL
+seal v2 500mL
+add v1 H2 0.002mol
+add v2 CO2 0.002mol
+test v1 pop
+test v2 pop
+inspect

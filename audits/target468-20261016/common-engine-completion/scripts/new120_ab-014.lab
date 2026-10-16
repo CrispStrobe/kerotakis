@@ -1,0 +1,15 @@
+# AB-014: Similar initial pH can conceal very different acid reserves
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 HCl 0.00001mol
+measure v1 ph
+new
+add v2 water 100mL
+add v2 CH3COOH 0.000066mol
+measure v2 ph
+add v1 NaOH 0.00002mol
+add v2 NaOH 0.00002mol
+measure v1 ph
+measure v2 ph
+inspect

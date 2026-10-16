@@ -1,0 +1,13 @@
+# PR-006: An acid reserve can prevent calcium carbonate precipitation
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 CaCl2 0.001mol
+add v1 Na2CO3 0.001mol
+inspect v1
+new
+add v2 water 100mL
+add v2 HCl 0.003mol
+add v2 CaCl2 0.001mol
+add v2 Na2CO3 0.001mol
+inspect v2

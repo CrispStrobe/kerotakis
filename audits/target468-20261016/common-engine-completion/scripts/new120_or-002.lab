@@ -1,0 +1,11 @@
+# OR-002: Alcohol excess shifts esterification at fixed acid loading
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 CH3COOH 0.1mol
+add v1 ethanol 0.1mol
+react v1 esterification
+new
+add v2 CH3COOH 0.1mol
+add v2 ethanol 0.3mol
+react v2 esterification
+inspect

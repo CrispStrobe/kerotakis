@@ -1,0 +1,8 @@
+# TH-002: Hot copper and cold water equilibrate by heat capacity, not mass alone
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100g @ 20C
+add v1 Cu 50g @ 100C
+inspect v1
+measure v1 thermometer
+inspect

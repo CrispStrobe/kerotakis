@@ -1,0 +1,8 @@
+# Drying a dilute salt solution
+# Expectation: Evaporating 90% of the solvent from 0.001 mol NaCl in 100 g water should conserve sodium/chloride while increasing concentration roughly tenfold.
+register lv3
+add v1 water 100g
+add v1 NaCl 0.001mol
+evaporate v1 0.9
+inspect v1
+measure v1 balance

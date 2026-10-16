@@ -1,0 +1,11 @@
+# TH-007: Cooling a hot potassium-nitrate solution recovers crystals
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 50g @ 90C
+add v1 KNO3 30g @ 90C
+inspect v1
+cool v1 12kJ
+inspect v1
+new
+filter v1 v2
+inspect

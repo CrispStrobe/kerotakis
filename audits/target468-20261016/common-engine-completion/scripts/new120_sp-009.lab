@@ -1,0 +1,11 @@
+# SP-009: A separating funnel drains the lower liquid layer, not every liquid
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 50mL
+add v1 NaCl 0.001mol
+add v1 hexane 50mL
+add v1 I2 0.0001mol
+inspect v1
+new
+drain v1 v2
+inspect

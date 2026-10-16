@@ -1,0 +1,10 @@
+# OR-012: Finite oxygen limits the requested respiration extent
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 20mL
+seal v1 50mL
+add v1 glucose 0.001mol
+add v1 O2 0.001mol
+inspect v1
+react v1 respiration
+inspect v1

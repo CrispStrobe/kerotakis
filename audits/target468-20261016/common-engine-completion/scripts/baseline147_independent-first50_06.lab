@@ -1,0 +1,7 @@
+# Boiling spends energy on disappearing liquid
+# Expectation: 40 kJ into 100 g water at 95 C should approach 100 C and evaporate roughly 17 g rather than heat all liquid to 190 C.
+register lv3
+add v1 water 100g @ 95C
+heat v1 40kJ
+inspect v1
+measure v1 ph

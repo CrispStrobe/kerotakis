@@ -1,0 +1,9 @@
+# RX-013: Electrolysis connects charge to the hydrogen–oxygen gas ratio
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 Na2SO4 0.001mol
+seal v1 1000mL
+inspect v1
+electrolyse v1 0.1A 100s
+inspect v1

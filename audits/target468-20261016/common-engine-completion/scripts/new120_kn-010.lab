@@ -1,0 +1,20 @@
+# KN-010: An iodine clock separates production from visible accumulation
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 HCl 0.004mol
+add v1 KI 0.005mol
+add v1 Na2S2O3 0.00002mol
+add v1 H2O2 0.005mol
+new
+add v2 water 100mL
+add v2 HCl 0.004mol
+add v2 KI 0.005mol
+add v2 Na2S2O3 0.0001mol
+add v2 H2O2 0.005mol
+wait 5s
+inspect
+wait 10s
+inspect
+wait 30s
+inspect

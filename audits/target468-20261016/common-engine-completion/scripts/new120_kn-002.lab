@@ -1,0 +1,13 @@
+# KN-002: Stirring gives a bounded heterogeneous-catalyst rate enhancement
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 MnO2 0.001mol
+add v1 H2O2 0.001mol
+new
+add v2 water 100mL
+add v2 MnO2 0.001mol
+add v2 H2O2 0.001mol
+stir v1 600rpm 5s
+stir v2 1rpm 5s
+inspect

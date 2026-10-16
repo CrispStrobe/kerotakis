@@ -1,0 +1,6 @@
+register lv3
+add v1 water 100mL
+add v1 FeCl3 0.001mol
+add v1 NaOH 0.003mol
+inspect
+look v1

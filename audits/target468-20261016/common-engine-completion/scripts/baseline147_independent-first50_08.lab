@@ -1,0 +1,6 @@
+# Heat dilution cannot invent energy
+# Expectation: Mixing two equal water portions at 60 C should keep them near 60 C, not reset the second dose to room temperature.
+register lv3
+add v1 water 50g @ 60C
+add v1 water 50g @ 60C
+inspect v1

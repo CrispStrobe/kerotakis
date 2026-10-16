@@ -1,0 +1,8 @@
+# TH-011: A molecular solid shows a melting plateau
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 naphthalene 50g @ 75C
+heat v1 1kJ
+inspect v1
+measure v1 thermometer
+inspect

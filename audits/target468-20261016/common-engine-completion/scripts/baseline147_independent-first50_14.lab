@@ -1,0 +1,8 @@
+# Neutral salt is an ionic conductor
+# Expectation: Adding 0.001 mol NaCl to 100 mL water should increase conductivity substantially while leaving pH approximately neutral.
+register lv3
+add v1 water 100mL
+measure v1 conductivity
+add v1 NaCl 0.001mol
+measure v1 conductivity
+measure v1 ph

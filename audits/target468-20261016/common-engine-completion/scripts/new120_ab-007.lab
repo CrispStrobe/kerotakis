@@ -1,0 +1,14 @@
+# AB-007: A common ammonium ion suppresses ammonia ionisation
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+seal v1 500mL
+add v1 NH3 0.001mol
+measure v1 ph
+new
+add v2 water 100mL
+seal v2 500mL
+add v2 NH3 0.001mol
+add v2 NH4Cl 0.001mol
+measure v2 ph
+inspect

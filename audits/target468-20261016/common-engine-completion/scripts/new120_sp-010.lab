@@ -1,0 +1,10 @@
+# SP-010: Distillation simultaneously enriches ethanol and rejects salt
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100g
+add v1 ethanol 10g
+add v1 NaCl 1g
+inspect v1
+new
+distil v1 v2 0.1
+inspect

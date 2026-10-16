@@ -1,0 +1,13 @@
+# GS-006: Capture carbon dioxide and release the same carbon again
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 NaOH 0.002mol
+seal v1 500mL
+add v1 CO2 0.001mol
+inspect v1
+measure v1 pressure
+add v1 HCl 0.003mol
+inspect v1
+measure v1 pressure
+inspect

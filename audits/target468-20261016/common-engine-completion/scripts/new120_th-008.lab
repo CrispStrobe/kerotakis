@@ -1,0 +1,12 @@
+# TH-008: Hydration state changes dissolution heat and water bookkeeping
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 CuSO4 0.01mol
+measure v1 thermometer
+inspect v1
+new
+add v2 water 100mL
+add v2 chalcanthite 0.01mol
+measure v2 thermometer
+inspect v2

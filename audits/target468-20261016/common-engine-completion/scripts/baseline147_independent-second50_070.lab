@@ -1,0 +1,8 @@
+new
+add v1 Fe 1mol
+add v2 Fe 55.845g
+measure v1 balance
+measure v2 balance
+particles v1
+particles v2
+inspect

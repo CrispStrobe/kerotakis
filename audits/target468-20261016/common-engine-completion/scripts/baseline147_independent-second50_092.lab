@@ -1,0 +1,16 @@
+register lv3
+add v1 water 100mL
+add v1 I2 0.0001mol
+new
+add v2 water 100mL
+add v2 I2 0.0001mol
+new
+new
+inspect v1
+inspect v2
+extract v1 v3 hexane 0.1mol stages 1
+extract v2 v4 hexane 0.1mol stages 4
+inspect v1
+inspect v2
+inspect v3
+inspect v4

@@ -1,0 +1,15 @@
+# GS-003: Chemical absorption lowers carbon-dioxide headspace pressure
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+seal v1 500mL
+add v1 CO2 0.001mol
+measure v1 pressure
+inspect v1
+new
+add v2 water 100mL
+add v2 NaOH 0.002mol
+seal v2 500mL
+add v2 CO2 0.001mol
+measure v2 pressure
+inspect v2

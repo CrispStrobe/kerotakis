@@ -1,0 +1,14 @@
+# KN-013: A sulfur clock can become acid-limited before all substrate is consumed
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 Na2S2O3 0.001mol
+add v1 HCl 0.0005mol
+wait 30s
+inspect v1
+measure v1 ph
+wait 300s
+inspect v1
+add v1 HCl 0.002mol
+wait 30s
+inspect v1

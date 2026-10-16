@@ -1,0 +1,17 @@
+# SP-011: Reduction changes whether iodine can be extracted into hexane
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 KI 0.001mol
+add v1 I2 0.0001mol
+add v1 Na2S2O3 0.0002mol
+new
+add v2 water 100mL
+add v2 KI 0.001mol
+add v2 I2 0.0001mol
+wait 1s
+new
+new
+extract v1 v3 hexane 0.1mol stages 1
+extract v2 v4 hexane 0.1mol stages 1
+inspect

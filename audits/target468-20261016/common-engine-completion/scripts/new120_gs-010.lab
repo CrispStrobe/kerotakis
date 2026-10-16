@@ -1,0 +1,13 @@
+# GS-010: Salt can alter gas solubility without consuming the gas
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+seal v1 500mL
+add v1 CO2 0.001mol
+inspect v1
+new
+add v2 water 100mL
+add v2 NaCl 0.1mol
+seal v2 500mL
+add v2 CO2 0.001mol
+inspect v2

@@ -1,0 +1,13 @@
+# KN-008: Equal time intervals consume progressively less substrate
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 MnO2 0.001mol
+add v1 H2O2 0.001mol
+inspect v1
+wait 20s
+inspect v1
+wait 20s
+inspect v1
+wait 20s
+inspect v1

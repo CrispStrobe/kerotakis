@@ -1,0 +1,7 @@
+# Acid curdles milk without inventing protein molecules
+# Expectation: Acidifying milk should show aggregation/curdling or a clear protein-model boundary, and retain unresolved milk mass.
+register lv3
+add v1 whole_milk 100g
+add v1 CH3COOH 0.01mol
+look v1
+inspect v1

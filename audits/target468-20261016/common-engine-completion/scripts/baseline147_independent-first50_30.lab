@@ -1,0 +1,10 @@
+# Uncorking releases the compressed gas
+# Expectation: Opening an acid/carbonate vessel should restore ambient gas pressure and account for vented gas without losing sodium/chloride.
+register lv3
+add v1 water 100mL
+seal v1 10mL
+add v1 NaHCO3 0.001mol
+add v1 HCl 0.002mol
+open v1
+measure v1 pressure
+inspect v1

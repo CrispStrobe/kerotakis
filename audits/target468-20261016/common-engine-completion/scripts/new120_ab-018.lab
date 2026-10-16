@@ -1,0 +1,11 @@
+# AB-018: Metal-ion hydrolysis acidifies ferric chloride
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 FeCl3 0.0001mol
+measure v1 ph
+new
+add v2 water 100mL
+add v2 CaCl2 0.0001mol
+measure v2 ph
+inspect

@@ -1,0 +1,12 @@
+# RX-011: A copper–silver cell links two different electron stoichiometries
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 CuSO4 0.001mol
+add v1 Cu 1g
+new
+add v2 water 100mL
+add v2 AgNO3 0.001mol
+add v2 Ag 1g
+cell v1 v2
+inspect

@@ -1,0 +1,16 @@
+# KN-005: The enzyme temperature response has an activity envelope
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL @ 25C
+add v1 catalase 0.000000000004mol
+add v1 H2O2 0.01mol
+new
+add v2 water 100mL @ 35C
+add v2 catalase 0.000000000004mol
+add v2 H2O2 0.01mol
+new
+add v3 water 100mL @ 70C
+add v3 catalase 0.000000000004mol
+add v3 H2O2 0.01mol
+wait 0.00001s
+inspect

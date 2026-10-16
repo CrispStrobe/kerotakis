@@ -1,0 +1,6 @@
+# A salt flame is not fuel
+# Expectation: Igniting NaCl should report a yellow sodium flame signature or a boundary, without consuming salt as combustible fuel.
+register lv3
+add v1 NaCl 1g
+ignite v1
+inspect v1

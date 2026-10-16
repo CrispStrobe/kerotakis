@@ -1,0 +1,9 @@
+# Fresh independent syntax-only experiment 24
+# Copper resists nonoxidizing acid
+seal v1 500mL
+add v1 water 100mL
+add v1 Cu 0.001mol
+add v1 HCl 0.002mol
+wait 1s
+inspect v1
+test v1 pop

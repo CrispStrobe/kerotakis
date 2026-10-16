@@ -1,0 +1,12 @@
+# KN-004: Enzyme loading affects the early peroxide-decomposition rate
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 catalase 0.000000000002mol
+add v1 H2O2 0.01mol
+new
+add v2 water 100mL
+add v2 catalase 0.000000000004mol
+add v2 H2O2 0.01mol
+wait 0.00001s
+inspect

@@ -1,0 +1,9 @@
+# TH-013: Ethanol’s boiling plateau is different from water’s
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 ethanol 50g @ 75C
+heat v1 5kJ
+inspect v1
+measure v1 thermometer
+measure v1 balance
+inspect

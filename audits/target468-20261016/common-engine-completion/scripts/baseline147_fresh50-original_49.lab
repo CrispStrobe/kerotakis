@@ -1,0 +1,10 @@
+# Fresh independent syntax-only experiment 49
+# Oxygen splint test
+new
+seal v1 500mL
+seal v2 500mL
+add v1 O2 0.02mol
+add v2 N2 0.02mol
+test v1 splint
+test v2 splint
+inspect

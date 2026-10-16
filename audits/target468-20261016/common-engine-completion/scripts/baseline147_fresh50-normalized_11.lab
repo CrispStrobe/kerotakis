@@ -1,0 +1,8 @@
+# Fresh independent syntax-only experiment 11
+# Acid excess after neutralization
+add v1 water 100mL
+add v1 HCl 0.002mol
+add v1 NaOH 0.001mol
+stir v1 200rpm 1s
+measure v1 ph
+inspect v1

@@ -1,0 +1,9 @@
+# SP-005: A filter cannot separate two miscible liquids
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100g
+add v1 ethanol 10g
+inspect v1
+new
+filter v1 v2
+inspect

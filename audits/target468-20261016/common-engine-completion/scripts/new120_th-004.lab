@@ -1,0 +1,11 @@
+# TH-004: Equal solute molality does not mean equal freezing-point depression
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100g @ 5C
+add v1 sucrose 0.005mol
+new
+add v2 water 100g @ 5C
+add v2 NaCl 0.005mol
+cool v1 5kJ
+cool v2 5kJ
+inspect

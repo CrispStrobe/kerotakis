@@ -1,0 +1,7 @@
+# Fresh independent syntax-only experiment 14
+# Salt saturation
+add v1 water 100g @ 20C
+add v1 NaCl 50g
+stir v1 200rpm 1s
+inspect v1
+particles v1

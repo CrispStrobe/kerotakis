@@ -1,0 +1,9 @@
+# OR-005: Requesting the same ester equilibrium twice must not create more matter
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 CH3COOH 0.1mol
+add v1 ethanol 0.1mol
+react v1 esterification
+inspect v1
+react v1 esterification
+inspect v1

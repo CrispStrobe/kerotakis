@@ -1,0 +1,10 @@
+# RX-008: Acidified permanganate oxidises oxalic acid to carbon dioxide
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL @ 60C
+add v1 H2SO4 0.001mol
+add v1 H2C2O4 0.0005mol
+add v1 KMnO4 0.0002mol
+inspect v1
+measure v1 uvvis
+inspect

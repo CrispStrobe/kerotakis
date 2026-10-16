@@ -1,0 +1,8 @@
+register lv3
+new
+add v1 water 100mL
+add v1 Fe 0.01mol
+add v1 SiO2 0.01mol
+inspect
+magnet v1 v2
+inspect

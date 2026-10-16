@@ -1,0 +1,8 @@
+# A quarter of a solution carries a quarter of its salt
+# Expectation: Decanting fraction 0.25 should send about 25% of dissolved NaCl and water to v2 and conserve combined mass.
+register lv3
+add v1 water 100g
+add v1 NaCl 0.01mol
+new
+decant v1 v2 0.25
+inspect

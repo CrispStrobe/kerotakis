@@ -1,0 +1,11 @@
+register lv3
+add v1 water 100mL
+add v1 CH3COOH 0.01mol
+measure v1 ph
+inspect v1
+add v1 NaOH 0.005mol
+measure v1 ph
+inspect v1
+add v1 NaOH 0.005mol
+measure v1 ph
+inspect v1

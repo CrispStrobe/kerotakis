@@ -1,0 +1,83 @@
+{
+  "recorded_utc": "2026-10-16T13:32:06.187558+00:00",
+  "files": [
+    {
+      "file": "README(7).md",
+      "bytes": 12872,
+      "sha256": "1c221fa2aaf7b589671c11574659538ddc1be6fc7016d2299529b73acd75dd38"
+    },
+    {
+      "file": "experiment_index.csv",
+      "bytes": 30010,
+      "sha256": "90cab4a8fcf31642ca6a3d659a3dfca857dfda140af3d91a8d27975c0a4e8cc6"
+    },
+    {
+      "file": "german_chemistry_reactions_200.json",
+      "bytes": 956948,
+      "sha256": "83059bc0de52f1be882128941d5e45fe9ea2122309dd75b3bce904e9fd89c97a",
+      "experiment_records": 0,
+      "reaction_records": 200
+    },
+    {
+      "file": "new-experiments-20261016.json",
+      "bytes": 918755,
+      "sha256": "8e9fb7a92c20ad4de747d43540e417684ba398ff3896ab9d3de270e5a99b1fdd",
+      "experiment_records": 120,
+      "reaction_records": 0
+    },
+    {
+      "file": "new-experiments-batch2-20261016.json",
+      "bytes": 1042716,
+      "sha256": "247da5c494b3923d590eeda42ccd1002b23fc35d7c36eabf3fcd2697615a9ab5",
+      "experiment_records": 101,
+      "reaction_records": 0
+    },
+    {
+      "file": "new-experiments-diverse-100-20261016.json",
+      "bytes": 1212051,
+      "sha256": "10b61170cd901f039c2414c47309d116ad79c090fdf77db785b63971ef7fbde7",
+      "experiment_records": 100,
+      "reaction_records": 0
+    },
+    {
+      "file": "novelty_comparison(1).json",
+      "bytes": 332,
+      "sha256": "8b817cfd35a7cd0a8bafb12474c529c94b9fa5b046db7390ff923ebe17e92428",
+      "experiment_records": 0,
+      "reaction_records": 0
+    },
+    {
+      "file": "novelty_comparison.json",
+      "bytes": 3188,
+      "sha256": "912ee9386c45013316415a9ba6b2a39f69430848f18a9e86f54e2f5dadef8831",
+      "experiment_records": 0,
+      "reaction_records": 0
+    },
+    {
+      "file": "reaction_dataset.schema.json",
+      "bytes": 19486,
+      "sha256": "a6959300af5347d3f53488f0b565455077d0e57caf77198a1cab318e5884c577",
+      "experiment_records": 0,
+      "reaction_records": 0
+    },
+    {
+      "file": "validation_report(1).json",
+      "bytes": 39719,
+      "sha256": "d3ce97e1b485bf9e78635a2f2c9bc5f8d4abfaabe1ecaa622e3bb046476f723c",
+      "experiment_records": 101,
+      "reaction_records": 0
+    },
+    {
+      "file": "validation_report.json",
+      "bytes": 49351,
+      "sha256": "b21254ce310eff2128281641ded94c62afc4c3bd57c59a1079f64321acd74ae8",
+      "experiment_records": 100,
+      "reaction_records": 0
+    }
+  ],
+  "fixed_experiment_count": 468,
+  "separate_curriculum_reaction_count": 200,
+  "combined_record_count": 668,
+  "distinct_chemistry_or_working_count": null,
+  "curriculum_copy_matches_previously_audited_dataset": true
+}

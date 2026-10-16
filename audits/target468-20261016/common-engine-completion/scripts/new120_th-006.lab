@@ -1,0 +1,10 @@
+# TH-006: A nonvolatile solute elevates a boiling plateau
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100g @ 95C
+new
+add v2 water 100g @ 95C
+add v2 NaCl 0.05mol
+heat v1 10kJ
+heat v2 10kJ
+inspect

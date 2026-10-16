@@ -1,0 +1,17 @@
+# AB-012: Diluting a buffer preserves its ratio but weakens capacity per volume
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 CH3COOH 0.001mol
+add v1 NaOAc 0.001mol
+new
+decant v1 v2 0.5
+dilute v1 50mL
+dilute v2 450mL
+measure v1 ph
+measure v2 ph
+add v1 HCl 0.00005mol
+add v2 HCl 0.00025mol
+measure v1 ph
+measure v2 ph
+inspect

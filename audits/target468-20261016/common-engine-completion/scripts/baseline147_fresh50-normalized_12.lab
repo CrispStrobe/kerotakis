@@ -1,0 +1,9 @@
+# Fresh independent syntax-only experiment 12
+# Weak versus strong acid
+new
+add v1 water 100mL
+add v1 CH3COOH 0.001mol
+add v2 water 100mL
+add v2 HCl 0.001mol
+measure v1 ph
+measure v2 ph

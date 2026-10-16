@@ -1,0 +1,12 @@
+# PR-014: Purify impure limestone by dissolution and reprecipitation
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 CaCO3 0.001mol
+add v1 SiO2 0.1g
+add v1 HCl 0.002mol
+new
+filter v1 v2
+inspect
+add v2 Na2CO3 0.001mol
+inspect v2

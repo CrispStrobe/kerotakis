@@ -1,0 +1,7 @@
+# Barium and sulfate meet
+# Expectation: Equal 0.001 mol BaCl2 and Na2SO4 in 100 mL should form very insoluble BaSO4, or explicitly identify unavailable chemistry.
+register lv3
+add v1 water 100mL
+add v1 BaCl2 0.001mol
+add v1 Na2SO4 0.001mol
+inspect v1

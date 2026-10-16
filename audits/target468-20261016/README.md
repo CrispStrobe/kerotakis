@@ -7,13 +7,15 @@ new designs, variants and engineering checks do not increase this count.
 | Batch | Declared cases | Selected working evidence on recorded versions |
 | --- | ---: | ---: |
 | Original catalog | 147 | 147 retained unchanged from159fa6e0 |
-| First additional batch | 120 | Unknown: original JSON absent from delivered package |
+| First additional batch | 120 | Authenticated120; first execution pending |
 | Batch2 | 101 | 3: QA001, QA002, QA011 |
 | Batch3 | 100 | 0 selected so far |
 | Total | 468 | 150 accounted for; no unified latest-release count yet |
 
-The [scoreboard](scoreboard.json) has348 actual case records and explicitly
-reserves the missing120 as an unavailable batch; it invents no missing IDs.
+The [scoreboard](scoreboard.json) now has all468 actual case records. The first120
+file is present and authenticated against the exact SHA declared by batch2. The
+[previous checkpoint](scoreboard-before-first120-arrival.json) preserves the earlier
+missing-file state; it is superseded by this inventory.
 The working catalog has152 entries, but its zinc/copper and conducting-stock
 water-electrolysis repairs come from the separate200-reaction corpus and are
 outside these four batches. Original147 entries match their frozen export.
@@ -26,9 +28,10 @@ is assigned new experiment passes before source-bound follow-up acceptance.
 
 ## Ordered closure lanes
 
-1. Locate and authenticate the first120 JSON against its declared SHA; preserve
-   its exact scripts/forecasts and assign stable IDs. This does not block work
-   on the available201. Reconcile any semantic overlap without inventing novelty.
+1. Execute the [frozen remaining267 protocols](common-engine-completion/README.md):
+   the original147 plus the now-authenticated120, unchanged, using the same
+   c446/670 engine as the completed201. Preserve first outcomes and then assess
+   all468 on that common source. This does not certify latest main or deployment.
 2. Assess the108 remaining clean-exit candidates against their original criteria,
    using saved raw evidence and represented material/charge/gas ledgers. Record
    explicit pass, failure, unsupported or inconclusive outcomes per original ID.
@@ -43,7 +46,22 @@ is assigned new experiment passes before source-bound follow-up acceptance.
    per-case physical outcomes, preserving previous versions and first failures.
 
 There are251 further selections needed to reach401 from150. Even if all108
-clean candidates and the missing120 eventually work, the total would be378;
+clean candidates and the first120 eventually work, the total would be378;
 at least23 additional limited/failing/refused cases must then be repaired.
 This is an optimistic planning bound, not a prediction that all228 will pass.
 No empirical calibration or latest-release certification is claimed here.
+
+## Separate curriculum corpus:668 records in all
+
+The200 curriculum reaction descriptions are an additional corpus, bringing the
+combined record total to668. The newly supplied copy is byte-identical to the
+already audited dataset; it is not another200 new cases. Existing CLI/API
+contact-probe evidence covers all200:92 completed and108 refused. Complete
+protocol repairs and physical assessment remain separate. See the
+[200-record assessment](../reaction-dataset-200-20261015/CHEMISTRY-RESULTS.md).
+Semantic overlap across the corpora is not yet exhaustively assessed.
+
+All101 batch2 protocols have executed:101 zero exits, including61 requiring
+physical review,39 with named limits and one with a solver failure. Only three
+have completed the catalog-selection review; this is not a claim that98 failed.
+Batch3 has97 zero exits and three process refusals.

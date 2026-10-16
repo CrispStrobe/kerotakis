@@ -1,0 +1,9 @@
+# A double dose is not a double temperature rise
+# Expectation: Equal 10 kJ pulses into 100 g and 200 g water should produce approximately 2:1 temperature rises.
+register lv3
+add v1 water 100g
+new
+add v2 water 200g
+heat v1 10kJ
+heat v2 10kJ
+inspect

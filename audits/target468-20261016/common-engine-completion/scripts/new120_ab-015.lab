@@ -1,0 +1,10 @@
+# AB-015: Weak-acid dilution increases the fraction ionised
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 CH3COOH 0.001mol
+measure v1 ph
+inspect v1
+dilute v1 900mL
+measure v1 ph
+inspect v1

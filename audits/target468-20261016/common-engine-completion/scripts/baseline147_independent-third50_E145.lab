@@ -1,0 +1,7 @@
+register lv3
+add v1 water 100mL
+add v1 CuSO4 0.001mol
+add v1 NaOH 0.002mol
+inspect
+look v1
+measure v1 ph

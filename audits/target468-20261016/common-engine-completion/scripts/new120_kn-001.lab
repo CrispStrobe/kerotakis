@@ -1,0 +1,14 @@
+# KN-001: Catalyst particle size changes surface-controlled peroxide decomposition
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 MnO2 0.001mol
+grind v1 MnO2 500um
+add v1 H2O2 0.001mol
+new
+add v2 water 100mL
+add v2 MnO2 0.001mol
+grind v2 MnO2 50um
+add v2 H2O2 0.001mol
+wait 10s
+inspect

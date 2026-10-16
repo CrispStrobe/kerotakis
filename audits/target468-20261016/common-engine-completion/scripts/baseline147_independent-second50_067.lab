@@ -1,0 +1,6 @@
+add v1 Fe 1mol @ 100C
+measure v1 thermometer
+cool v1 1kJ
+measure v1 thermometer
+measure v1 balance
+inspect

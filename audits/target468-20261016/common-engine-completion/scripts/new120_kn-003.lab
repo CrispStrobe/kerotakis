@@ -1,0 +1,12 @@
+# KN-003: Moderate warming accelerates the same manganese-dioxide reaction
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL @ 20C
+add v1 MnO2 0.001mol
+add v1 H2O2 0.001mol
+new
+add v2 water 100mL @ 40C
+add v2 MnO2 0.001mol
+add v2 H2O2 0.001mol
+wait 10s
+inspect

@@ -1,0 +1,13 @@
+# GS-005: An acid trap captures ammonia as ammonium
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+seal v1 500mL
+add v1 NH3 0.001mol
+inspect v1
+new
+add v2 water 100mL
+add v2 HCl 0.002mol
+seal v2 500mL
+add v2 NH3 0.001mol
+inspect v2

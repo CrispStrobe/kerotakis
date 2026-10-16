@@ -1,0 +1,12 @@
+# KN-009: Enzyme saturation makes the substrate response sublinear
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 catalase 0.000000000004mol
+add v1 H2O2 0.01mol
+new
+add v2 water 100mL
+add v2 catalase 0.000000000004mol
+add v2 H2O2 0.2mol
+wait 0.000001s
+inspect

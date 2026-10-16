@@ -1,0 +1,11 @@
+# Weak acid versus strong acid
+# Expectation: Equal 0.001 mol doses in 100 mL should give acetic acid a higher pH than HCl, by at least one unit.
+register lv3
+add v1 water 100mL
+add v1 HCl 0.001mol
+new
+add v2 water 100mL
+add v2 CH3COOH 0.001mol
+measure v1 ph
+measure v2 ph
+inspect

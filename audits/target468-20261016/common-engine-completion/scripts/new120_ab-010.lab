@@ -1,0 +1,13 @@
+# AB-010: Reverse a buffer ratio while holding its total pool constant
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 CH3COOH 0.0018mol
+add v1 NaOAc 0.0002mol
+measure v1 ph
+new
+add v2 water 100mL
+add v2 CH3COOH 0.0002mol
+add v2 NaOAc 0.0018mol
+measure v2 ph
+inspect

@@ -1,0 +1,9 @@
+# TH-001: Equal masses of water and ethanol have different heat capacities
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100g @ 25C
+new
+add v2 ethanol 100g @ 25C
+heat v1 5kJ
+heat v2 5kJ
+inspect

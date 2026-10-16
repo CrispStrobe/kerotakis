@@ -1,0 +1,7 @@
+# Fresh independent syntax-only experiment 01
+# Water sensible heating
+add v1 water 100g @ 20C
+measure v1 thermometer
+heat v1 1kJ
+measure v1 thermometer
+inspect v1

@@ -1,0 +1,14 @@
+# GS-004: Warm water retains a smaller fraction of a finite CO2 dose
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL @ 20C
+seal v1 500mL
+add v1 CO2 0.002mol
+measure v1 pressure
+inspect v1
+new
+add v2 water 100mL @ 50C
+seal v2 500mL
+add v2 CO2 0.002mol
+measure v2 pressure
+inspect v2

@@ -1,0 +1,14 @@
+# AB-024: Compare antacid capacity per gram without confusing fizz with neutralisation
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 HCl 0.004mol
+add v1 Mg(OH)2 0.1g
+measure v1 ph
+inspect v1
+new
+add v2 water 100mL
+add v2 HCl 0.004mol
+add v2 CaCO3 0.1g
+measure v2 ph
+inspect v2

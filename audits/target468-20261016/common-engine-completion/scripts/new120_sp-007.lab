@@ -1,0 +1,10 @@
+# SP-007: Determine chloride gravimetrically from a calcium-chloride sample
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 CaCl2 0.001mol
+add v1 AgNO3 0.0022mol
+new
+filter v1 v2
+measure v1 balance
+inspect

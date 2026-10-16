@@ -1,0 +1,9 @@
+# A peroxide catalyst has an explicit model boundary
+# Expectation: MnO2 added to dilute hydrogen peroxide should yield oxygen and catalytic turnover or explicitly say kinetics/catalysis is unavailable; silence would fail.
+register lv3
+add v1 water 100mL
+add v1 H2O2 0.01mol
+add v1 MnO2 0.001mol
+wait 60s
+look v1
+inspect v1

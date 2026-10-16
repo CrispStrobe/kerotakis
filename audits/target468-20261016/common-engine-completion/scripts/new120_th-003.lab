@@ -1,0 +1,10 @@
+# TH-003: Partial thawing spends heat without raising temperature
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100g @ 0C
+cool v1 10kJ
+inspect v1
+heat v1 5kJ
+inspect v1
+measure v1 thermometer
+inspect

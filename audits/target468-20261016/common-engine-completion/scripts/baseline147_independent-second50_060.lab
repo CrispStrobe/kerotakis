@@ -1,0 +1,4 @@
+add v1 N2 0.001mol
+seal v1 100mL
+test v1 splint
+inspect

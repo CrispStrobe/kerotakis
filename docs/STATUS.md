@@ -220,11 +220,18 @@ its separately dispatched full own fleet still gates readiness.
 The [reconciled scoreboard](../audits/target468-20261016/README.md) fixes the
 denominator at147+120+101+100. Current selected evidence covers150 of those
 cases on recorded versions, while the152-entry catalog contains two additional
-repairs from the separate200-reaction corpus. The first120 JSON is absent from
-the delivered package. A unified latest-release pass count is not established.
+repairs from the separate200-reaction corpus. The first120 JSON is now present and matches the exact declared
+SHA; all468 original case records are indexed. A unified latest-release pass count is not established.
 
 The next outcome target is401 selected original IDs:251 more than the accounted
-150. Assess the108 remaining clean-run candidates, obtain the missing120 and
+150. Assess the108 remaining clean-run candidates, execute the authenticated120 and
 repair shared coverage/model causes. Even the optimistic addition of all228
 would give378, requiring at least23 further repaired cases. New experiments,
 protocol variants and successful exits alone do not count toward this target.
+
+The [remaining267 common-engine protocols](../audits/target468-20261016/common-engine-completion/README.md)
+freeze unchanged original147 and first120 scripts. Reusing the completed201
+will establish one common c446/670 baseline without duplicating that run.
+The separate curriculum200 brings total records to668; its CLI/API contact
+probes already ran, with92 completed and108 refused. Batch2 execution is101/101,
+while three selected working entries reflect completed assessment only.

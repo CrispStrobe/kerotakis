@@ -1,0 +1,8 @@
+# Fresh independent syntax-only experiment 32
+# Opening a pressurized vessel
+seal v1 1L
+add v1 N2 0.1mol @ 25C
+measure v1 pressure
+open v1
+measure v1 pressure
+inspect v1

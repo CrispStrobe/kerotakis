@@ -1,0 +1,9 @@
+# TH-010: Heating bicarbonate generates carbonate, water and carbon dioxide
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 NaHCO3 1g
+inspect v1
+heat v1 100J
+inspect v1
+measure v1 balance
+inspect

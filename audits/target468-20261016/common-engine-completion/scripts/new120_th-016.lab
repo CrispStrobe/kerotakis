@@ -1,0 +1,8 @@
+# TH-016: A metal absorbs latent heat while melting without being oxidised
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 Zn 50g @ 400C
+heat v1 1kJ
+inspect v1
+measure v1 thermometer
+inspect

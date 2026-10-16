@@ -1,0 +1,16 @@
+# KN-006: Filtration distinguishes a soluble enzyme from a solid catalyst
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 MnO2 0.001mol
+new
+filter v1 v2
+new
+add v3 water 100mL
+add v3 catalase 0.000000000004mol
+new
+filter v3 v4
+add v2 H2O2 0.001mol
+add v4 H2O2 0.001mol
+wait 0.001s
+inspect

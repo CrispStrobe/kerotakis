@@ -1,0 +1,6 @@
+add v1 N2 0.01mol
+seal v1 100mL
+measure v1 pressure
+open v1
+measure v1 pressure
+inspect

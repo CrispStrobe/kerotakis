@@ -1,0 +1,6 @@
+# Finite solvent leaves salt behind
+# Expectation: 100 g NaCl in 100 g water should leave substantial undissolved solid instead of an unlimited solution.
+register lv3
+add v1 water 100g
+add v1 NaCl 100g
+inspect v1

@@ -1,0 +1,8 @@
+# AB-013: An extremely dilute strong acid never becomes a base
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+measure v1 ph
+add v1 HCl 0.000000001mol
+measure v1 ph
+inspect v1

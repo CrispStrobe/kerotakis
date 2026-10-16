@@ -1,0 +1,10 @@
+# RX-006: Ascorbic acid reduces iodine with a one-to-one molecular budget
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 KI 0.001mol
+add v1 I2 0.0001mol
+add v1 ascorbic_acid 0.0001mol
+inspect v1
+measure v1 uvvis
+inspect

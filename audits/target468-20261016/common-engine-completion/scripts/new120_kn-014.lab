@@ -1,0 +1,11 @@
+# KN-014: A second substrate pulse restarts an enzyme without adding new enzyme
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 catalase 0.000000000004mol
+add v1 H2O2 0.001mol
+wait 1s
+inspect v1
+add v1 H2O2 0.001mol
+wait 1s
+inspect v1

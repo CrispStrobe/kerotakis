@@ -1,0 +1,15 @@
+# PR-008: Carbonate and sulfate precipitates respond differently to acid
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 BaCl2 0.0005mol
+add v1 Na2CO3 0.0005mol
+inspect v1
+new
+add v2 water 100mL
+add v2 BaCl2 0.0005mol
+add v2 Na2SO4 0.0005mol
+inspect v2
+add v1 HCl 0.002mol
+add v2 HCl 0.002mol
+inspect

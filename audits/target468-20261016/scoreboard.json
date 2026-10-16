@@ -1,16 +1,11 @@
 {
   "schema": "kerotakis.fixed-target468.v1",
-  "recorded_utc": "2026-10-16T13:22:56.172659+00:00",
+  "recorded_utc": "2026-10-16T13:32:06.090693+00:00",
   "declared_target_total": 468,
   "minimum_selected_goal": 401,
   "baseline147_commit": "159fa6e08fa4ebea3105ac7e17d5b8350bc91189",
-  "available_case_records": 348,
-  "missing_first_batch": {
-    "count": 120,
-    "referenced_file": "reference/previous-120.json",
-    "declared_sha256": "8e9fb7a92c20ad4de747d43540e417684ba398ff3896ab9d3de270e5a99b1fdd",
-    "state": "not supplied in the delivered package; location requested; not classified as failed"
-  },
+  "available_case_records": 468,
+  "missing_first_batch": null,
   "current_working_catalog_entries": 152,
   "source_qualified_selected_in_target": 150,
   "out_of_target_catalog_entries": [
@@ -4775,6 +4770,1093 @@
       },
       "latest_combined_release_revalidated": false,
       "evidence": "audits/new-experiments-201-20261016/native-screen-results/cases/batch3-diverse_bd-004.json"
+    },
+    {
+      "id": "new120:ab-001",
+      "batch": "first120",
+      "title": "Conductometric strong-acid titration: a minimum, not only an endpoint",
+      "script_sha256": "eaa0305223f969b4bae2087d1e52faeb0b222f29c5a8efce3b12faba8d6ad700",
+      "original_physical_forecast": "Conductivity falls as highly mobile hydrogen ions are replaced by sodium ions, reaches a minimum near equivalence, and rises with excess hydroxide.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-002",
+      "batch": "first120",
+      "title": "Weak-acid conductometric titration distinguishes neutralisation from dilution",
+      "script_sha256": "740f1116ec90cac8965d36d5fb7565d836f8fb54b21bc1cfb80268276530e80c",
+      "original_physical_forecast": "Formation of sodium acetate increases the mobile-ion inventory; after equivalence, excess hydroxide gives a steeper conductivity rise.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-003",
+      "batch": "first120",
+      "title": "Resolve the first two phosphoric-acid equivalence regions",
+      "script_sha256": "27641b01df1b851065e2346f16ab783723dcdcca86c3deb41a2cdb9c3fba0dd5",
+      "original_physical_forecast": "The pH curve contains separate first- and second-proton neutralisation regions; half-equivalent mixtures reveal two different buffers.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-004",
+      "batch": "first120",
+      "title": "Sulfuric acid needs two base equivalents per formula unit",
+      "script_sha256": "74917bc4182f2f972df822c1de525e3723189a24d4a1352306a95bd4a83e6cfa",
+      "original_physical_forecast": "One equivalent leaves bisulfate acidity; two equivalents give a sulfate-dominated solution without a large strong-acid reserve.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-005",
+      "batch": "first120",
+      "title": "Bicarbonate is amphiprotic, unlike strongly basic carbonate",
+      "script_sha256": "fb63fd7f45acbf6366e45c30389feee933d5ba4bf829efe59f20952ad4df42f6",
+      "original_physical_forecast": "At equal analytical carbon loading, bicarbonate is moderately basic and carbonate is appreciably more alkaline.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-006",
+      "batch": "first120",
+      "title": "Build an ammonium–ammonia buffer by half-neutralisation",
+      "script_sha256": "7d813366603aaa2daa21eab6ba30a1cde8a83f4d8ef2a7d53057d484d7443f0d",
+      "original_physical_forecast": "Half-neutralisation creates an NH4+/NH3 buffer. A small acid challenge changes its ratio rather than causing an unbuffered pH collapse.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-009",
+      "batch": "first120",
+      "title": "An acetate buffer absorbs hydroxide by spending its acid component",
+      "script_sha256": "a183e0c0611556493a7cc6d6f69354f150f1a0406a6b484367d561f374599a31",
+      "original_physical_forecast": "Hydroxide consumes acetic acid and raises the acetate/acid ratio, causing only a moderate pH increase.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-011",
+      "batch": "first120",
+      "title": "Equal buffer pH does not mean equal buffer capacity",
+      "script_sha256": "572d8ed78c5383825138742556a3d82bc854cc1bd1120eb87f8bdb7821eca784",
+      "original_physical_forecast": "The buffers start at similar pH, but the ten-times larger acid/base pool resists the same acid challenge more effectively.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-014",
+      "batch": "first120",
+      "title": "Similar initial pH can conceal very different acid reserves",
+      "script_sha256": "8e57b07325b5924b23334ec74e7d72f894200589f2a047e303d70638d7148c81",
+      "original_physical_forecast": "These doses give roughly similar initial pH in an ideal calculation. The base challenge exhausts the strong-acid dose while leaving acetic acid in a buffer.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-016",
+      "batch": "first120",
+      "title": "A conjugate-base salt hydrolyses even with no added alkali",
+      "script_sha256": "10ad4eab699e6f1a28c57c547b9ba3da8bdb1ecdd25d794045acf2f5858ad77e",
+      "original_physical_forecast": "Sodium acetate solution is more alkaline than a sodium chloride control because acetate accepts protons from water.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-019",
+      "batch": "first120",
+      "title": "A phosphate buffer protects near-neutral pH",
+      "script_sha256": "84077a26af45e9bee25ab2e51e6f58593efcad839dea703e7cafbaf35100f83e",
+      "original_physical_forecast": "A phosphate mixture between its first and second neutralisation equivalents resists an acid pulse that strongly acidifies water.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-022",
+      "batch": "first120",
+      "title": "Mixing pH values is not taking their arithmetic mean",
+      "script_sha256": "2506feb68242087ac05397174a0248acdbcff1ee4602f399710f250b1f2f1ef8",
+      "original_physical_forecast": "Equal volumes of approximately pH 2 and pH 4 strong acid mix to about pH 2.3 in the ideal approximation, not pH 3.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-023",
+      "batch": "first120",
+      "title": "Hydroxide equivalents depend on formula stoichiometry",
+      "script_sha256": "ba864f496c4366b8e551593f35e092f5911a1ef3e6eb92d97779701a0b420395",
+      "original_physical_forecast": "Equal formula-unit amounts of NaOH and Ca(OH)2 consume different proton amounts: one and two equivalents respectively.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-024",
+      "batch": "first120",
+      "title": "Compare antacid capacity per gram without confusing fizz with neutralisation",
+      "script_sha256": "c6a494193ed3397fbee3d4eca88b233fbd9609c387601fb871b34dc1bbeed2cb",
+      "original_physical_forecast": "Both solids consume two protons per formula unit, but the smaller molar mass of Mg(OH)2 gives greater acid capacity per gram. Only carbonate produces CO2.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:pr-001",
+      "batch": "first120",
+      "title": "Zinc hydroxide precipitates, then dissolves in excess base",
+      "script_sha256": "8ac28f75cbf98404ed60f57e29a9a6ae4dd0b87b5dd322851288e8b9fca77a2f",
+      "original_physical_forecast": "A moderate hydroxide dose gives Zn(OH)2; sufficiently strong excess hydroxide can redissolve it into soluble hydroxo-zinc species.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:pr-002",
+      "batch": "first120",
+      "title": "Dissolve magnesium hydroxide and reprecipitate it",
+      "script_sha256": "5d2782a7fbf09e3e87e342e33c3c34ed42262be6a9616fa0d0ebd69213a9d00f",
+      "original_physical_forecast": "Acid dissolves the initial hydroxide; restoring alkalinity produces a magnesium hydroxide solid again without inventing a magnesium-chloride bottle key.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:pr-003",
+      "batch": "first120",
+      "title": "Ferric hydroxide redissolves when its pH support is removed",
+      "script_sha256": "96ed93cbc122da57dd5c9b06140ad641da5505d6a3fb03e913847a892d49f341",
+      "original_physical_forecast": "Brown ferric hydroxide formed by base addition is substantially removed by a deliberate excess of acid.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:pr-006",
+      "batch": "first120",
+      "title": "An acid reserve can prevent calcium carbonate precipitation",
+      "script_sha256": "9270bff2d342b8b602973f8b4f9f5d6725aeb08fc5759066325ef354b83fab49",
+      "original_physical_forecast": "Without prior acid, carbonate precipitates calcium. With excess proton capacity, carbonate is protonated and the calcium mostly remains dissolved.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:pr-007",
+      "batch": "first120",
+      "title": "Limewater clouds and then clears under excess carbon dioxide",
+      "script_sha256": "b15b2cdabe149c716d1ffccbdb9e775486a3d7302968232885934352e51a17e6",
+      "original_physical_forecast": "Initial CO2 converts hydroxide into calcium carbonate; excess retained CO2 lowers pH and favours dissolved calcium/bicarbonate.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:pr-014",
+      "batch": "first120",
+      "title": "Purify impure limestone by dissolution and reprecipitation",
+      "script_sha256": "3779f26b3eface23819de7ed533a7f97177ec573f99514e6189e8b3376afdee6",
+      "original_physical_forecast": "Acid dissolves the calcium carbonate, filtration rejects sand, and carbonate addition recovers a calcium-rich precipitate in the receiver.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:pr-015",
+      "batch": "first120",
+      "title": "Convert copper oxide through a soluble salt to a hydroxide",
+      "script_sha256": "d7e41b5daac1bf82aaa71cdfbec5cacfaa06aa731518dd001b153786b43b6fd0",
+      "original_physical_forecast": "Acid dissolves black copper oxide; subsequent base addition forms a copper hydroxide-rich solid while preserving copper inventory.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:rx-001",
+      "batch": "first120",
+      "title": "Zinc reduces two silver ions per atom oxidised",
+      "script_sha256": "c74be1bfbecf34e73d61f1beda00b2a258fb25079ee74ba9c43ec36ee203e4df",
+      "original_physical_forecast": "Zinc oxidation supplies two electrons per zinc atom, so the stoichiometric ceiling is two silver atoms deposited per zinc atom consumed.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:rx-003",
+      "batch": "first120",
+      "title": "An active metal releases hydrogen from acid; copper is the control",
+      "script_sha256": "f9ca357de8bc8df077aebbc74718275c6dfd3c4d1166ac352875bc941323daab",
+      "original_physical_forecast": "Magnesium can reduce protons to hydrogen. Copper does not evolve hydrogen through the same proton-displacement reaction under ordinary non-oxidising conditions.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:rx-005",
+      "batch": "first120",
+      "title": "Iodometric stoichiometry uses two thiosulfates per iodine",
+      "script_sha256": "1ae1155e84e151beff558f6a139bd417f2d20d5acf57b594925ae4572ec72174",
+      "original_physical_forecast": "Thiosulfate reduces iodine to iodide; half the required dose should leave an oxidised-iodine pool, while the full nominal dose removes most of it.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:rx-006",
+      "batch": "first120",
+      "title": "Ascorbic acid reduces iodine with a one-to-one molecular budget",
+      "script_sha256": "010e1623b1592f9c6b445a103098d7db62d2c59457c4f9215c46ffdfd6016777",
+      "original_physical_forecast": "Ascorbic acid is oxidised to dehydroascorbic acid as the oxidised iodine pool is reduced.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:rx-007",
+      "batch": "first120",
+      "title": "Vitamin C has finite reducing capacity: iodine eventually persists",
+      "script_sha256": "a3de98bd0da51470f263e895a1b64f86473f546096caa1ca29d9639835217691",
+      "original_physical_forecast": "Successive iodine additions consume a finite ascorbic-acid pool. Iodine persists after that pool is exhausted.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:rx-008",
+      "batch": "first120",
+      "title": "Acidified permanganate oxidises oxalic acid to carbon dioxide",
+      "script_sha256": "ca719f57d5e8024390fc772e85e9373c62c3f93286a395a87f80aeee82179009",
+      "original_physical_forecast": "Under a chemically appropriate acidic, warm setup, permanganate is reduced while oxalic-acid carbon becomes CO2.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:rx-010",
+      "batch": "first120",
+      "title": "Changing the zinc half-cell shifts Daniell voltage in the opposite direction",
+      "script_sha256": "6d32011f657f8a43a8894d258f1969d36fdf15cfe322297ac730f4bf408ee2dc",
+      "original_physical_forecast": "Increasing zinc-ion activity with the copper side otherwise fixed lowers the forward Zn/Cu cell voltage according to the reaction quotient.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:rx-011",
+      "batch": "first120",
+      "title": "A copper–silver cell links two different electron stoichiometries",
+      "script_sha256": "13a99904e2c829ae7996095a508c1e0975d32f541f726e0dbd18f656eea48301",
+      "original_physical_forecast": "The silver electrode is the more positive reduction half-cell; copper oxidation coupled to silver reduction has a positive forward driving force.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:rx-013",
+      "batch": "first120",
+      "title": "Electrolysis connects charge to the hydrogen–oxygen gas ratio",
+      "script_sha256": "cc800bb8436ce1270083331c6cc28a54942d79183df126e081e4d1ac18fe1dcc",
+      "original_physical_forecast": "For water electrolysis with a spectator sulfate electrolyte, net generated hydrogen and oxygen should have a 2:1 molar ratio and obey Faraday’s law.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:gs-001",
+      "batch": "first120",
+      "title": "Dalton additivity after subtracting the sealed-air baseline",
+      "script_sha256": "21e7c282fa2c90f88496a48ad2b7c5e2510201d250fc1262a3aa5883f6ef9468",
+      "original_physical_forecast": "At approximately constant headspace and temperature, the pressure increments from added gases are approximately additive, with small gas-solubility differences.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:gs-002",
+      "batch": "first120",
+      "title": "Dissolution makes carbon dioxide and nitrogen pressurise differently",
+      "script_sha256": "2acef9e3b98755c0b08ffe992e75e6e12521f4398158493ff4d09de13cb0099c",
+      "original_physical_forecast": "More added CO2 is accommodated by dissolved inorganic-carbon species than an equal N2 dose, changing the pressure increment.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:gs-003",
+      "batch": "first120",
+      "title": "Chemical absorption lowers carbon-dioxide headspace pressure",
+      "script_sha256": "9060ad1912c82c28327f69131e17e5b8b57c33a906ccc188d10b70913618c997",
+      "original_physical_forecast": "The alkaline liquid converts CO2 into bicarbonate/carbonate, storing more carbon in liquid and reducing the CO2 contribution to pressure.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:gs-005",
+      "batch": "first120",
+      "title": "An acid trap captures ammonia as ammonium",
+      "script_sha256": "f99aa854cfcd70f6790dde48ca1d78e415e3ff612867a21957e410a458ba3330",
+      "original_physical_forecast": "Protonation stores ammonia as ammonium and reduces the uncharged ammonia fraction available to the headspace.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:gs-006",
+      "batch": "first120",
+      "title": "Capture carbon dioxide and release the same carbon again",
+      "script_sha256": "8f8df394ac3d2bd733592c621c99c4d0e8b7a9144de797eaf5b4fac238d26d94",
+      "original_physical_forecast": "Base captures the CO2 dose as inorganic-carbon ions; acidification reverses that storage and moves carbon back toward molecular and gas-phase CO2.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:gs-007",
+      "batch": "first120",
+      "title": "Degassing hard water promotes calcium-carbonate scale",
+      "script_sha256": "aee4f444f4bc8c20870b424b4a9c64d5ed6b30b5efa652432289c54acb08cce9",
+      "original_physical_forecast": "Removing CO2 from a bicarbonate-rich calcium solution favours renewed calcium-carbonate precipitation.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:kn-001",
+      "batch": "first120",
+      "title": "Catalyst particle size changes surface-controlled peroxide decomposition",
+      "script_sha256": "ab759ccb28fb7adcfe5034a7d401be1da8c1107c252351f92bb41772f40fb835",
+      "original_physical_forecast": "At equal catalyst amount, smaller modelled particles expose more surface and consume more peroxide during the same virtual interval.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:kn-003",
+      "batch": "first120",
+      "title": "Moderate warming accelerates the same manganese-dioxide reaction",
+      "script_sha256": "7dd35bbe29a17ede0359589f67dd2a792e64779d0b8d4521f7663ccea2b042d0",
+      "original_physical_forecast": "The warmer heterogeneous-catalyst mixture reacts faster over a common short interval.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:kn-005",
+      "batch": "first120",
+      "title": "The enzyme temperature response has an activity envelope",
+      "script_sha256": "0b393daffb713f18f0d666773abd9dab06a8084284aace6a1dd245ad207bcfb6",
+      "original_physical_forecast": "The source model predicts acceleration from room temperature to moderate warmth, but suppression in very hot water due to its enzyme-activity envelope.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:kn-007",
+      "batch": "first120",
+      "title": "Recover and reuse manganese dioxide with a fresh substrate charge",
+      "script_sha256": "b3ca508451c7973f3e52ecf8b0fbe01ce9b4cf94db9a26670b23862723bfc36c",
+      "original_physical_forecast": "The retained solid catalyst remains active when supplied with fresh solvent and peroxide.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:kn-011",
+      "batch": "first120",
+      "title": "Acid activity, not acid bottle amount, controls a sulfur clock",
+      "script_sha256": "8a7100f3f39edd8742f0596889c302779ebe639eb256bfeeeff9b53914533fe9",
+      "original_physical_forecast": "Equal formal amounts of strong and weak acid give different proton activities and therefore different early thiosulfate-decomposition rates.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:kn-012",
+      "batch": "first120",
+      "title": "Warming accelerates acid decomposition of thiosulfate",
+      "script_sha256": "aee4d1cfe52a9c41329d9c5a0de25cb2bdfff62a5bec947d2c51a2fa10971e7c",
+      "original_physical_forecast": "With similar acidity and substrate loading, the warmer mixture produces sulfur more rapidly over an early common interval.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:kn-014",
+      "batch": "first120",
+      "title": "A second substrate pulse restarts an enzyme without adding new enzyme",
+      "script_sha256": "4cd5296dfcf1b4c1a9fe272f1423f9dfbfd3a62c7d36454f20e22da9e6de6a14",
+      "original_physical_forecast": "The finite first substrate dose is consumed, but the enzyme remains available to process a second dose.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:or-001",
+      "batch": "first120",
+      "title": "Equimolar esterification reaches equilibrium instead of complete conversion",
+      "script_sha256": "5a6f51475c2e4b929aa9ed606206572f8928c0ff37e9a08a33acce5f702ccaff",
+      "original_physical_forecast": "The declared ideal-mixture K ≈ 4 model predicts partial esterification, approximately two-thirds conversion for initially product-free equimolar reactants.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:or-002",
+      "batch": "first120",
+      "title": "Alcohol excess shifts esterification at fixed acid loading",
+      "script_sha256": "72ebfb1a222108d363fbff8c67871e4aa70aaf30f4ef1ed7d76ae6f645e313ab",
+      "original_physical_forecast": "The alcohol-rich mixture should convert a larger fraction of its fixed acetic-acid dose into ester under the ideal equilibrium model.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:or-003",
+      "batch": "first120",
+      "title": "Added product water suppresses esterification",
+      "script_sha256": "860707d043829f1c031ef5f7535eefad8c8d3ce9cc75014d715ff17f8eac8d39",
+      "original_physical_forecast": "Including water on the product side lowers equilibrium ester formation relative to the initially dry control.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:or-006",
+      "batch": "first120",
+      "title": "Base-limited ester hydrolysis leaves residual ester",
+      "script_sha256": "76533f7bf9d3aa1c3504807d65ad19016a4c6b04932346bdd91d36796d7c560d",
+      "original_physical_forecast": "The nominal hydroxide dose can hydrolyse at most half the ester through the saponification reaction, producing acetate and ethanol.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:or-007",
+      "batch": "first120",
+      "title": "Ester-limited hydrolysis leaves excess base",
+      "script_sha256": "4b571c0aca6376b5effa185a39035cc9eca60996fdd40e1081e2fc094025fe77",
+      "original_physical_forecast": "A sufficiently large hydroxide budget can exhaust the ester while leaving an alkaline product solution.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:or-010",
+      "batch": "first120",
+      "title": "Explicit alcohol oxidation is a requested model, not spontaneous vinegar formation",
+      "script_sha256": "c21d6779a540733ebfa5a7161510f94da2e93bae10857bf6d8f6135d3779a057",
+      "original_physical_forecast": "The explicit request converts ethanol and available oxygen into an acetic-acid/water product pool; the otherwise matched vessel has no organism or oxidation command.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:or-011",
+      "batch": "first120",
+      "title": "Overall glucose respiration preserves the six-carbon budget",
+      "script_sha256": "a5ef7514bad0a3698d07e827f4b9ea6b9c3aecaffa4226ed7546e344ba922658",
+      "original_physical_forecast": "The requested overall transformation can convert one glucose into six CO2 and six water molecules when oxygen is sufficient.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:sp-001",
+      "batch": "first120",
+      "title": "Successive distillate cuts become poorer in ethanol",
+      "script_sha256": "f0e04851ed20daf415d294b1cf4a1e37f2650625ba93ac9a7b3bbc91b19873d7",
+      "original_physical_forecast": "The earlier vapour cut is normally richer in the more volatile ethanol than a later cut from the depleted pot.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:sp-002",
+      "batch": "first120",
+      "title": "Redistillation enriches a volatile component but sacrifices recovery",
+      "script_sha256": "ec082c7e83f597c15f44d990bb6cf5211b5b9159e3df9f26a06293bc27cf7a58",
+      "original_physical_forecast": "Redistilling the first condensate increases ethanol fraction in the second condensate, while only part of the original ethanol reaches the final receiver.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:sp-005",
+      "batch": "first120",
+      "title": "A filter cannot separate two miscible liquids",
+      "script_sha256": "fd1f7bdc3959d1ecc961a94328d5c97fb6a6a17e50f4a1c9603721edbe1ca75c",
+      "original_physical_forecast": "Ideal filtration transfers the homogeneous ethanol–water liquid without selectively retaining one molecular liquid as a solid.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:sp-006",
+      "batch": "first120",
+      "title": "Separate iron, sand and salt with three different physical operations",
+      "script_sha256": "fdd3f698aefd614bd2f8d4e04bb9d31ca8dd69ae481c3211bcda6f1ef39a37ec",
+      "original_physical_forecast": "Magnetic collection isolates iron, filtration leaves a sand-rich residue, and evaporation recovers salt from the dissolved fraction.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:sp-007",
+      "batch": "first120",
+      "title": "Determine chloride gravimetrically from a calcium-chloride sample",
+      "script_sha256": "6eacd06782aad3057c589f0d9e0eae6b1e142bd555f90d91ab430abfdecccf74",
+      "original_physical_forecast": "Two chlorides per calcium-chloride formula unit can yield nearly 0.002 mol AgCl, while a small silver excess remains in the filtrate.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:sp-008",
+      "batch": "first120",
+      "title": "Both sugar and salt pass a filter, but only one is a strong electrolyte",
+      "script_sha256": "e1f163dcc0dbbc4ac7f095e570354cb610aecc0f12d2f932a0aa34fe70a37ade",
+      "original_physical_forecast": "Both dissolved solutes transfer with water; salt gives much greater conductivity because dissolution is not the same as ionisation.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:sp-009",
+      "batch": "first120",
+      "title": "A separating funnel drains the lower liquid layer, not every liquid",
+      "script_sha256": "ab1c00ded46c382c3af771f9c1716ff63df1e29e97f538aff448b52568a95123",
+      "original_physical_forecast": "A resolved water/hexane two-phase mixture can be separated by draining its denser aqueous layer while the organic-rich layer remains.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:sp-010",
+      "batch": "first120",
+      "title": "Distillation simultaneously enriches ethanol and rejects salt",
+      "script_sha256": "18c32150706bff6a10d3f00291b51e39006d8eefea307515e0fd43c3757e0fe4",
+      "original_physical_forecast": "The distillate is ethanol-enriched relative to the starting liquid and strongly depleted in nonvolatile salt.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:th-001",
+      "batch": "first120",
+      "title": "Equal masses of water and ethanol have different heat capacities",
+      "script_sha256": "909649a0498d08f560a3333d3b4d18bf2a91db53ce6f1c4d38f3a016c2f73c5a",
+      "original_physical_forecast": "Below phase transitions, the same energy pulse raises the temperature of ethanol more than that of the same mass of water.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:th-002",
+      "batch": "first120",
+      "title": "Hot copper and cold water equilibrate by heat capacity, not mass alone",
+      "script_sha256": "5739d05f62c63c8acbde2d4aca2345891e8d3f76bfab2273d206fa776bab1757",
+      "original_physical_forecast": "The mixture should settle only a few degrees above the water’s initial temperature because water contributes much more heat capacity than the copper.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:th-003",
+      "batch": "first120",
+      "title": "Partial thawing spends heat without raising temperature",
+      "script_sha256": "f04dfb9c1ed91493a1deb37bd1608a4642283536721a8c9bb42561822f29966d",
+      "original_physical_forecast": "After creating an ice/water mixture, a smaller heating pulse melts part of the ice while the temperature stays near the melting point.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:th-005",
+      "batch": "first120",
+      "title": "Ice formation concentrates the remaining brine",
+      "script_sha256": "64079daba04d7516e18b7c050637e879e8b09e6a66dc46f66cfe8054cbba1178",
+      "original_physical_forecast": "Freezing removes mostly water from the liquid phase, increasing the concentration of salt in the remaining brine without creating salt.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:th-007",
+      "batch": "first120",
+      "title": "Cooling a hot potassium-nitrate solution recovers crystals",
+      "script_sha256": "b9601da5475c45730d87f07827567a2241dcc9eb0123a2377151faad2f21a76e",
+      "original_physical_forecast": "The decrease in potassium-nitrate solubility on cooling can produce crystals from a hot, initially more highly dissolved feed.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:th-009",
+      "batch": "first120",
+      "title": "Slaking lime couples chemical hydration to heat release",
+      "script_sha256": "5c4083f34fb598efd55f74e22574dbee2bf655a3e14f0435eda68aa57e370403",
+      "original_physical_forecast": "Calcium oxide reacts with water toward calcium hydroxide and an alkaline liquid; the real hydration reaction is exothermic.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:th-010",
+      "batch": "first120",
+      "title": "Heating bicarbonate generates carbonate, water and carbon dioxide",
+      "script_sha256": "c534f8b359b3801265494d3a4c91390487f966adf4038947b8a2051e59f97681",
+      "original_physical_forecast": "Crossing the curated thermal threshold converts bicarbonate toward carbonate with water and CO2 production; escaping products reduce the vessel’s retained mass.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:th-013",
+      "batch": "first120",
+      "title": "Ethanol’s boiling plateau is different from water’s",
+      "script_sha256": "50e84d350d61848b95846b144a33aa3fb2f1b89f2fcbb40e3544dc37b69886f5",
+      "original_physical_forecast": "The energy pulse first reaches ethanol’s boiling region, then mainly drives vaporisation rather than heating all liquid far above its boiling point.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:th-014",
+      "batch": "first120",
+      "title": "Salt dissolution can warm one solution and cool another",
+      "script_sha256": "88f439a627544472a4a4b51b3337ad214f9da98ccf85dc527ac8720d59b983bb",
+      "original_physical_forecast": "Under the documented dissolution-enthalpy model, calcium chloride warms the water while potassium chloride cools it.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:th-015",
+      "batch": "first120",
+      "title": "Neutralisation calorimetry must subtract prior dissolution heat",
+      "script_sha256": "fa6a1a489c244a4af3ef9765e150234a6121a825d0850fc4a57d8c57f0370063",
+      "original_physical_forecast": "Mixing separately prepared acid and base solutions releases neutralisation heat in addition to the sensible heat already stored in those solutions.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-007",
+      "batch": "first120",
+      "title": "A common ammonium ion suppresses ammonia ionisation",
+      "script_sha256": "710e50a8e7ff0db147f2dc6b9ee8a371ad46a1db5ee730363379ae98ac2e0675",
+      "original_physical_forecast": "Adding ammonium chloride lowers the pH of an otherwise equal ammonia dose by shifting its base equilibrium.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-008",
+      "batch": "first120",
+      "title": "A basic buffer absorbs an alkali challenge",
+      "script_sha256": "19d719cd072f6d104dc7a1500606836cb6a575c89663d91ece47dd4e65429772",
+      "original_physical_forecast": "The buffered vessel shows a much smaller pH change than water receiving the same hydroxide dose.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-010",
+      "batch": "first120",
+      "title": "Reverse a buffer ratio while holding its total pool constant",
+      "script_sha256": "d5ce35c12b4726dd52f07ec98a8b0bde1073b63404da372eaec70dcd4298900b",
+      "original_physical_forecast": "Reversing an approximately 1:9 base/acid ratio to 9:1 raises pH by roughly 1.9 units in the ideal approximation.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-012",
+      "batch": "first120",
+      "title": "Diluting a buffer preserves its ratio but weakens capacity per volume",
+      "script_sha256": "16e08acf281a4877cae488a82dea16fe0a7b3f5648a1e36913b38fbe1acb50e9",
+      "original_physical_forecast": "After splitting equal buffer inventories, dilution alone changes pH little. An equal acid challenge per approximate final litre consumes more of the buffer in the larger, dilute vessel.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-013",
+      "batch": "first120",
+      "title": "An extremely dilute strong acid never becomes a base",
+      "script_sha256": "5a3de892593266665abd7d5e96f7da7369a6894533a2f324419ebbdfcb218534",
+      "original_physical_forecast": "Water autoionisation prevents the naive pH = -log10(c_acid) calculation from predicting pH 8 for a 10^-8 M acid addition.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-015",
+      "batch": "first120",
+      "title": "Weak-acid dilution increases the fraction ionised",
+      "script_sha256": "07c136705409476cf0072f13ad296e0c4cf3595e2649dafa01ddb807fd9d3df5",
+      "original_physical_forecast": "On tenfold dilution the pH rises less than a full unit in the ordinary weak-acid regime while the ionised fraction of the acid increases.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-017",
+      "batch": "first120",
+      "title": "Combine a weak-acid cation and weak-base anion",
+      "script_sha256": "c07a11e30d5ee527d9f03d3ee54553a13326f2be8c33f33ae1b6a3c5d7ee335e",
+      "original_physical_forecast": "Comparable ammonium acidity and acetate basicity tend to give a near-neutral mixture while both weak equilibria remain active.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-018",
+      "batch": "first120",
+      "title": "Metal-ion hydrolysis acidifies ferric chloride",
+      "script_sha256": "0cedf8a141123efe08288fbe0bb7e72f7842e97327836ae32b01e3dc61581e35",
+      "original_physical_forecast": "Ferric-ion hydrolysis acidifies the water much more than calcium chloride does; hydroxide-bearing ferric species or solids may also appear.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-020",
+      "batch": "first120",
+      "title": "A carbonate–bicarbonate buffer absorbs an acid pulse",
+      "script_sha256": "a847c967dcbe423b332857f98a0536f86cc8a11f30a2f7df5ba06d95b2c5f9af",
+      "original_physical_forecast": "A small proton dose mainly converts carbonate to bicarbonate, leaving an alkaline buffer rather than releasing all carbon as gas.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:ab-021",
+      "batch": "first120",
+      "title": "Neutral water need not have pH seven when warm",
+      "script_sha256": "2601efd736b08e53163f58ff183803c93e2fcba897418dc8c0d34ea071078940",
+      "original_physical_forecast": "For a temperature-dependent water equilibrium, warmer pure water has a lower neutral pH while hydrogen and hydroxide activities remain matched.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:pr-004",
+      "batch": "first120",
+      "title": "Excess ammonia can dissolve a copper hydroxide precipitate",
+      "script_sha256": "76a1ddbdfb006ed96709ee3410215431cde7d14283d08e1d6b752e8695ee4fb1",
+      "original_physical_forecast": "Chemical expectation: excess ammonia stabilises dissolved copper ammine species and can remove the hydroxide precipitate, with a changed copper colour.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:pr-005",
+      "batch": "first120",
+      "title": "Selective hydroxide precipitation separates ferric and cupric ions",
+      "script_sha256": "f5a6b08641709d92815ff6544ed3150abbe2cc1cedad3495c669ccc0f4c0f3d9",
+      "original_physical_forecast": "A moderately acidic endpoint should preferentially remove ferric hydroxide while leaving much more copper in the filtrate.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:pr-008",
+      "batch": "first120",
+      "title": "Carbonate and sulfate precipitates respond differently to acid",
+      "script_sha256": "54a49cb5867789766d1a9ebee13476abc6844a6bb53ff560dc99b8f2927f78d8",
+      "original_physical_forecast": "Barium carbonate is acid-labile and can release CO2; barium sulfate should largely persist under the same dilute-acid challenge.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:pr-009",
+      "batch": "first120",
+      "title": "Not every alkaline-earth sulfate precipitates at the same concentration",
+      "script_sha256": "ae3a3e5fe634a8375122c32dc07397d490e4dcd3035d630011618b3da150a10a",
+      "original_physical_forecast": "At these dilute analytical loadings, calcium sulfate is expected to remain mostly dissolved whereas barium sulfate precipitates strongly.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:pr-011",
+      "batch": "first120",
+      "title": "Cross the silver-chloride ion-product threshold",
+      "script_sha256": "8bd5ea547bd7d0a0babe0c4d769ef5dca96ad9492cd46d7d705bd22a3004e1e5",
+      "original_physical_forecast": "The first trace additions are below the precipitation threshold; increasing both ion inventories crosses the solubility-product boundary.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:pr-012",
+      "batch": "first120",
+      "title": "Selectively dissolve carbonate from a mixed mineral precipitate",
+      "script_sha256": "10905f13e184ed0885a99b8352f8a2e1bde4c7a04a1d20dd20d2998275b0842a",
+      "original_physical_forecast": "Acid removes calcium carbonate from a mixture containing barium sulfate, after which filtration retains the sulfate-rich residue.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:pr-013",
+      "batch": "first120",
+      "title": "One mixture can contain two distinct precipitates",
+      "script_sha256": "d1abb7055f1f32626dcda48695ea661023d36634da36aa70ee9dd26dba1a3689",
+      "original_physical_forecast": "Barium chloride supplies barium for sulfate precipitation and chloride for silver precipitation, yielding a mixed solid fraction.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:pr-017",
+      "batch": "first120",
+      "title": "Iodide precipitation extends the silver-halide test",
+      "script_sha256": "69b3b8332cefb4d6ae665b62ad42bc4ce0cc6eb9e1a7c6dbc604e0085c02eae5",
+      "original_physical_forecast": "Chemical expectation: iodide and silver ions form poorly soluble silver iodide, commonly described as a yellow precipitate.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:pr-018",
+      "batch": "first120",
+      "title": "Bromide precipitation without inventing an unregistered salt bottle",
+      "script_sha256": "e63ba40ee49d2cab6f11a9f410901a96c61756b2d1eaaa565082cddd1f56c1fc",
+      "original_physical_forecast": "Chemical expectation: bromide from hydrobromic acid forms a pale silver-bromide precipitate with silver ions.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:rx-002",
+      "batch": "first120",
+      "title": "Ferric ions oxidise copper without needing a noble-metal salt",
+      "script_sha256": "f00b087fd96a1faeeabad039b040284e8ed35d5528887d17efc097772de7620a",
+      "original_physical_forecast": "Ferric ions can accept electrons from copper, producing ferrous and cupric ions rather than plating a second metal.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:rx-004",
+      "batch": "first120",
+      "title": "Ferric ions oxidise iodide to iodine",
+      "script_sha256": "28924fa2033686acc43b2e0d77ca60eddc3489bc1d827fecd889340953d003b9",
+      "original_physical_forecast": "Chemical expectation: ferric ions oxidise iodide while being reduced to ferrous ions, producing an iodine-containing pool.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:rx-009",
+      "batch": "first120",
+      "title": "Neutral permanganate and ethanol produce a different manganese endpoint",
+      "script_sha256": "49b6aad5cb497a81277c30b100032f635701d86e2b776fc9b731536456d33989",
+      "original_physical_forecast": "The documented non-acidified teaching route forms MnO2 and an acetic-acid/acetate product pool, rather than treating every permanganate reduction as Mn(II).",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:rx-012",
+      "batch": "first120",
+      "title": "A zinc concentration cell reverses sign when electrodes are swapped",
+      "script_sha256": "01a5e02d3313c023412b20b4ee248966fb00d364521d472b64484474abe4df8d",
+      "original_physical_forecast": "The concentration difference generates a non-zero voltage, and reversing the electrode order reverses its sign without changing the chemistry.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:rx-014",
+      "batch": "first120",
+      "title": "Copper sulfate electrolysis competes with hydrogen evolution",
+      "script_sha256": "ea9c9ef32f7957dfcf2660e1529b58653878967021caf4c3f08ba42d8ff0d245",
+      "original_physical_forecast": "With an inert-anode, copper-deposition interpretation, a small charge can reduce Cu(II) to copper while anodic water oxidation generates oxygen and acidity.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:gs-004",
+      "batch": "first120",
+      "title": "Warm water retains a smaller fraction of a finite CO2 dose",
+      "script_sha256": "4829ecf444e45b5228f4bb027c58ea3b22a5e4ebabc516d99217cfd785e465a9",
+      "original_physical_forecast": "Warming normally favours CO2 release into the gas phase. Pressure also changes directly with temperature, so phase inventories are needed to separate the effects.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:gs-008",
+      "batch": "first120",
+      "title": "An inert gas at fixed volume changes total pressure, not the carbon dose",
+      "script_sha256": "d060a6c2ea351c6d0f1c009603b70a63c20fbc322e05edfc6edaa16cf1e3ffe7",
+      "original_physical_forecast": "Adding inert gas to a fixed headspace increases total pressure without adding carbon. In an ideal mixture at fixed temperature, it does not directly multiply CO2 partial pressure.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:kn-002",
+      "batch": "first120",
+      "title": "Stirring gives a bounded heterogeneous-catalyst rate enhancement",
+      "script_sha256": "52721a374f81df66471516b03fca94c4a73501861d6bbc2d5d06ac3f1b3211e0",
+      "original_physical_forecast": "A vigorously stirred catalyst suspension is expected to consume peroxide faster than a minimally stirred one, without an unbounded proportional gain with rpm.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:kn-004",
+      "batch": "first120",
+      "title": "Enzyme loading affects the early peroxide-decomposition rate",
+      "script_sha256": "1f44e226d0e5618250ee48cd47e191ef3acede4357b8fc89bf42e670fca66432",
+      "original_physical_forecast": "The higher catalase loading produces a larger early peroxide loss, before substrate exhaustion masks the dose response.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:kn-006",
+      "batch": "first120",
+      "title": "Filtration distinguishes a soluble enzyme from a solid catalyst",
+      "script_sha256": "459c8272b54ccf4810f69e285b78a702d897fb93298ba9f3ab0cfdbce841c9b1",
+      "original_physical_forecast": "An ideal filter retains solid MnO2 but passes molecularly represented catalase, so the two filtrates differ in catalytic activity.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:kn-008",
+      "batch": "first120",
+      "title": "Equal time intervals consume progressively less substrate",
+      "script_sha256": "ff149e6e7e40f543b08bd5c547edd22ff60995ea021e5939f508366a5df88aff",
+      "original_physical_forecast": "With nearly constant catalytic conditions, a first-order-like substrate decay consumes less absolute peroxide in each successive equal interval.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:kn-010",
+      "batch": "first120",
+      "title": "An iodine clock separates production from visible accumulation",
+      "script_sha256": "dd9f3019e68bb363bc0d3f3f978ef1446ef5cad2c64530906a0da4aa1322060e",
+      "original_physical_forecast": "Peroxide generates iodine while thiosulfate removes it. A larger scavenger inventory delays accumulation of an oxidised-iodine signal.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:kn-013",
+      "batch": "first120",
+      "title": "A sulfur clock can become acid-limited before all substrate is consumed",
+      "script_sha256": "881d4418e4c0910f513e29104895329b8875f3f1e1746364111e2817879ce2e7",
+      "original_physical_forecast": "Limited acidity slows or arrests substantial conversion while thiosulfate remains; a fresh acid pulse restores the chemical driving conditions for further decomposition.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:or-004",
+      "batch": "first120",
+      "title": "A product-rich mixture tests the reverse ester equilibrium",
+      "script_sha256": "d0d0a801f38d2a257ba02344c12274588adf74d02c856f221157aab2143cd430",
+      "original_physical_forecast": "With a product-rich initial reaction quotient, a reversible ideal-equilibrium implementation should move toward hydrolysis and produce more acid and ethanol.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:or-008",
+      "batch": "first120",
+      "title": "Acidifying a saponification product does not automatically remake ester",
+      "script_sha256": "3140524cc1fe16128b100b3c42ac9948c45bf6373dc3c57e6219d960085af4b4",
+      "original_physical_forecast": "Acidification shifts acetate toward acetic acid. Without a new esterification request, that protonation is not itself evidence of ester re-formation.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:or-009",
+      "batch": "first120",
+      "title": "Follow carbon through esterification and alkaline cleavage",
+      "script_sha256": "6a0478e5ed4f7b0e9a5397b9a03af1316c2fec43bacabc4fe15874d9815e5b3a",
+      "original_physical_forecast": "Ester made in the first transformation is cleaved in the second; initially unreacted acid also consumes part of the hydroxide budget.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:or-012",
+      "batch": "first120",
+      "title": "Finite oxygen limits the requested respiration extent",
+      "script_sha256": "fea359750cbede7a450fab802266db1eed2e7938e21ea0302f2fcffb62600c8e",
+      "original_physical_forecast": "The total available oxygen, including trapped air, is insufficient for the full glucose dose; the requested aerobic transformation should leave glucose.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:sp-003",
+      "batch": "first120",
+      "title": "More theoretical stages change enrichment at the same cut specification",
+      "script_sha256": "203a94f77d183e9be5adfd54dcb62a1024bd25979e94d036cba16e97c52df085",
+      "original_physical_forecast": "The modelled multi-stage separation should enrich the more volatile component more strongly than a one-stage separation of a matched feed.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:sp-011",
+      "batch": "first120",
+      "title": "Reduction changes whether iodine can be extracted into hexane",
+      "script_sha256": "b5a32a121ec68a41bc99e759a339006c3d05ce256dfd6949fdf4330434182a43",
+      "original_physical_forecast": "Reducing iodine to ionic iodide diminishes the neutral iodine available for transfer to the organic phase.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:sp-012",
+      "batch": "first120",
+      "title": "Chromatography distinguishes dissolved neutral solutes without consuming the sample",
+      "script_sha256": "3e410d636ad2a6b264a2db66f378935d9700aff474ef6bc6e338279974c45a8e",
+      "original_physical_forecast": "The supported chromatography model can report differing retention behaviour for neutral solutes while leaving the vessel’s macroscopic inventory unchanged.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:th-004",
+      "batch": "first120",
+      "title": "Equal solute molality does not mean equal freezing-point depression",
+      "script_sha256": "1dcfe7d254d8f81994100b6ea9196a6940f70a102283ac5ebfd916828834c246",
+      "original_physical_forecast": "The electrolyte produces a larger ideal particle-count effect than the same amount of a molecular nonelectrolyte, depressing the freezing equilibrium more strongly.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:th-006",
+      "batch": "first120",
+      "title": "A nonvolatile solute elevates a boiling plateau",
+      "script_sha256": "1e12e432034138e575c466bdfee457e659f9a098f504c09500d050f5cfd07cb5",
+      "original_physical_forecast": "When both cases are boiling, the saline solution should have a slightly higher phase-equilibrium temperature than pure water at the same external pressure.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:th-008",
+      "batch": "first120",
+      "title": "Hydration state changes dissolution heat and water bookkeeping",
+      "script_sha256": "10e03efbe28230a7332e7f8d62f0c1e22aa44c45de699bb434e2c629740d90ac",
+      "original_physical_forecast": "Anhydrous copper sulfate and its pentahydrate provide the same copper/sulfate loading but different hydration-water and dissolution-enthalpy contributions.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:th-011",
+      "batch": "first120",
+      "title": "A molecular solid shows a melting plateau",
+      "script_sha256": "5e09b1e636540528c1b2a834ec87dad90f94241be19ab07f9062c62e602d746f",
+      "original_physical_forecast": "A modest energy pulse can bring naphthalene to its modelled melting point and partly melt it instead of producing the full sensible-heat temperature rise.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:th-012",
+      "batch": "first120",
+      "title": "Pure acetic acid can freeze above water’s freezing point",
+      "script_sha256": "eeae5a5e9eb13ccbc83d0151a8f7e9e272f55c6b10ec3aa6255a6cc6f6bd3ca3",
+      "original_physical_forecast": "Pure acetic acid can enter a solid/liquid coexistence region near its declared melting point, well above 0 C.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:th-016",
+      "batch": "first120",
+      "title": "A metal absorbs latent heat while melting without being oxidised",
+      "script_sha256": "8fa2a9862e690ce02d073e355e5cd06c40ad3b992f1f6597eda620b63ddd0de1",
+      "original_physical_forecast": "The pulse can bring zinc to its melting region and partly melt it; a solid/liquid transition is not by itself a change in oxidation state.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:pr-010",
+      "batch": "first120",
+      "title": "Distinguish a common-ion effect from a background-electrolyte effect",
+      "script_sha256": "b88c00172ec675ec0746dcf3681d48d78b8123285674215afd9ad9b04c9d87a9",
+      "original_physical_forecast": "Chloride changes silver-chloride equilibrium through common-ion and complexation effects; nitrate mainly changes the ionic medium. Equal salt amounts do not make the effects equivalent.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:pr-016",
+      "batch": "first120",
+      "title": "Solvent identity changes the route to a silver-chloride precipitate",
+      "script_sha256": "3dcc1ae6bec0f994324b4a0770b8bc1c851f402c36500cf7957e823d38dffc66",
+      "original_physical_forecast": "AgCl formation in water uses aqueous speciation, whereas the documented pure-ethanol route is constrained by dissolved reagent fractions and a curated metathesis rule.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:gs-009",
+      "batch": "first120",
+      "title": "The same inert-gas addition behaves differently at fixed pressure",
+      "script_sha256": "66399a99f578e0cdd1171ebc14b2a99053709e42cf6bdf08015bd366d6111e78",
+      "original_physical_forecast": "With a materially closed, expanding regulated headspace, inert-gas addition expands the gas volume and can lower CO2 partial pressure, favouring CO2 transfer out of solution.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:gs-010",
+      "batch": "first120",
+      "title": "Salt can alter gas solubility without consuming the gas",
+      "script_sha256": "e4652aa7ba19e0fd0fbfe144cde5ffb532c96cc885d29a9f65ca37a7dfedd78f",
+      "original_physical_forecast": "Chemical expectation: a concentrated salt medium can reduce molecular CO2 solubility through salting-out; it does not stoichiometrically consume CO2.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:kn-009",
+      "batch": "first120",
+      "title": "Enzyme saturation makes the substrate response sublinear",
+      "script_sha256": "a34e180f4b92893409e310cf5dce9e42c2a5c5cf4d0f9425842eb7a1b2092aa9",
+      "original_physical_forecast": "The Michaelis-type catalyst model predicts a less-than-proportional increase in initial reaction rate as peroxide concentration approaches or exceeds its saturation scale.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:or-005",
+      "batch": "first120",
+      "title": "Requesting the same ester equilibrium twice must not create more matter",
+      "script_sha256": "ac649ccbfce4bd67b6f9202e24043b8b2912418cee42734a55a51f4c70f32600",
+      "original_physical_forecast": "After equilibrium is reached, an identical second request should leave the reaction extent essentially unchanged rather than apply another fixed fractional conversion.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
+    },
+    {
+      "id": "new120:sp-004",
+      "batch": "first120",
+      "title": "An energy-budgeted distillation is not a chosen mass fraction",
+      "script_sha256": "809c68b9f83af589f1043251289dc1153124d43e4ab01c1c5a8200b4474267fa",
+      "original_physical_forecast": "The larger specified energy budget should generally collect more material, but composition and phase enthalpies prevent treating energy as a fixed mass fraction.",
+      "state": "frozen_awaiting_first_engine_execution",
+      "latest_combined_release_revalidated": false
     }
-  ]
+  ],
+  "authenticated_first120": {
+    "file": "common-engine-completion/originals/new-experiments-20261016.json",
+    "count": 120,
+    "sha256": "8e9fb7a92c20ad4de747d43540e417684ba398ff3896ab9d3de270e5a99b1fdd",
+    "matches_batch2_declared_sha256": true,
+    "execution_state": "prospective unchanged originals frozen; dispatch pending"
+  }
 }

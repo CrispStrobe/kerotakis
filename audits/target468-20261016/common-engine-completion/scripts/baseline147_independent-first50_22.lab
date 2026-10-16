@@ -1,0 +1,8 @@
+# Extra solvent rescues leftover salt
+# Expectation: Adding another 500 mL water to 50 g NaCl in 100 g water should dissolve the residual solid.
+register lv3
+add v1 water 100g
+add v1 NaCl 50g
+inspect v1
+dilute v1 500mL
+inspect v1

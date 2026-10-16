@@ -1,0 +1,8 @@
+# Fresh independent syntax-only experiment 26
+# Copper displaces silver
+add v1 water 100mL
+add v1 AgNO3 0.002mol
+add v1 Cu 0.002mol
+stir v1 200rpm 1s
+inspect v1
+look v1

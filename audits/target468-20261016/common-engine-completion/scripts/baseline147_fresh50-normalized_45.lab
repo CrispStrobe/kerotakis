@@ -1,0 +1,7 @@
+# Fresh independent syntax-only experiment 45
+# Charge bounded aqueous electrolysis
+seal v1 1L
+add v1 water 100mL
+add v1 Na2SO4 0.001mol
+electrolyse v1 0.1A 10s
+inspect v1

@@ -1,0 +1,10 @@
+# Fresh independent syntax-only experiment 22
+# Carbonate acid gas
+seal v1 1L
+add v1 water 100mL
+add v1 Na2CO3 0.001mol
+add v1 HCl 0.003mol
+stir v1 200rpm 1s
+inspect v1
+test v1 limewater
+measure v1 ph

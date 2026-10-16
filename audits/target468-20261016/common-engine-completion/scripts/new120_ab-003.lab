@@ -1,0 +1,15 @@
+# AB-003: Resolve the first two phosphoric-acid equivalence regions
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 H3PO4 0.001mol
+measure v1 ph
+add v1 NaOH 0.0005mol
+measure v1 ph
+add v1 NaOH 0.0005mol
+measure v1 ph
+add v1 NaOH 0.0005mol
+measure v1 ph
+add v1 NaOH 0.0005mol
+measure v1 ph
+inspect

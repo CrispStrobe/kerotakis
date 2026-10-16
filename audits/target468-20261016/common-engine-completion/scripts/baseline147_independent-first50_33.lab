@@ -1,0 +1,7 @@
+# A sacrificial zinc strip plates copper
+# Expectation: Zinc in 0.001 mol CuSO4 solution should produce copper metal and consume zinc; mass/inventory should show the exchange.
+register lv3
+add v1 water 100mL
+add v1 CuSO4 0.001mol
+add v1 Zn 0.002mol
+inspect v1

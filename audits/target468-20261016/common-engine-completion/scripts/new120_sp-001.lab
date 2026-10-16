@@ -1,0 +1,12 @@
+# SP-001: Successive distillate cuts become poorer in ethanol
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100g
+add v1 ethanol 10g
+inspect v1
+new
+new
+distil v1 v2 0.1
+inspect
+distil v1 v3 0.1
+inspect

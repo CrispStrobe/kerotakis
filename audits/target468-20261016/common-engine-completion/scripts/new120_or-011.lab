@@ -1,0 +1,10 @@
+# OR-011: Overall glucose respiration preserves the six-carbon budget
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 20mL
+seal v1 500mL
+add v1 glucose 0.001mol
+add v1 O2 0.01mol
+inspect v1
+react v1 respiration
+inspect v1

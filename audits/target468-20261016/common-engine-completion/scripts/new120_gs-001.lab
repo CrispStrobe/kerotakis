@@ -1,0 +1,11 @@
+# GS-001: Dalton additivity after subtracting the sealed-air baseline
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 10mL
+seal v1 1000mL
+measure v1 pressure
+add v1 N2 0.001mol
+measure v1 pressure
+add v1 O2 0.001mol
+measure v1 pressure
+inspect v1

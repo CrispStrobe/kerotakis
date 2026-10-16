@@ -1,0 +1,11 @@
+register lv3
+new
+new
+add v1 water 100mL
+add v1 AgNO3 0.001mol
+add v1 NaCl 0.001mol
+inspect
+filter v1 v2
+inspect
+filter v2 v3
+inspect

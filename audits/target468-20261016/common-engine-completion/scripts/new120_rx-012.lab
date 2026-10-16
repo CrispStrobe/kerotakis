@@ -1,0 +1,13 @@
+# RX-012: A zinc concentration cell reverses sign when electrodes are swapped
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 ZnSO4 0.0001mol
+add v1 Zn 1g
+new
+add v2 water 100mL
+add v2 ZnSO4 0.01mol
+add v2 Zn 1g
+cell v1 v2
+cell v2 v1
+inspect

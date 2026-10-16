@@ -1,0 +1,8 @@
+# TH-012: Pure acetic acid can freeze above water’s freezing point
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 CH3COOH 100g @ 20C
+cool v1 2kJ
+inspect v1
+measure v1 thermometer
+inspect

@@ -1,0 +1,9 @@
+# A tenfold acid dilution
+# Expectation: Diluting 0.001 mol HCl in 100 mL water with another 900 mL should raise pH by about one unit (roughly 2 to 3).
+register lv3
+add v1 water 100mL
+add v1 HCl 0.001mol
+measure v1 ph
+dilute v1 900mL
+measure v1 ph
+inspect v1

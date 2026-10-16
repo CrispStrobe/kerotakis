@@ -1,0 +1,12 @@
+# PR-012: Selectively dissolve carbonate from a mixed mineral precipitate
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 CaCO3 0.001mol
+add v1 BaCl2 0.0005mol
+add v1 Na2SO4 0.0005mol
+inspect v1
+add v1 HCl 0.003mol
+new
+filter v1 v2
+inspect

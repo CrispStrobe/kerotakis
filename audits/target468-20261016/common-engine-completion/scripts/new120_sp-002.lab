@@ -1,0 +1,11 @@
+# SP-002: Redistillation enriches a volatile component but sacrifices recovery
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100g
+add v1 ethanol 10g
+new
+distil v1 v2 0.2
+inspect
+new
+distil v2 v3 0.2
+inspect

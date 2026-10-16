@@ -1,0 +1,12 @@
+# PR-005: Selective hydroxide precipitation separates ferric and cupric ions
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 HCl 0.002mol
+add v1 FeCl3 0.0002mol
+add v1 CuSO4 0.0002mol
+titrate v1 NaOH 0.1M 0.1mL until ph 4 max 400
+inspect v1
+new
+filter v1 v2
+inspect

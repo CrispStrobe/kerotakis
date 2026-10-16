@@ -1,0 +1,14 @@
+# PR-010: Distinguish a common-ion effect from a background-electrolyte effect
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 AgCl 0.0001mol
+new
+add v2 water 100mL
+add v2 NaNO3 0.001mol
+add v2 AgCl 0.0001mol
+new
+add v3 water 100mL
+add v3 NaCl 0.001mol
+add v3 AgCl 0.0001mol
+inspect

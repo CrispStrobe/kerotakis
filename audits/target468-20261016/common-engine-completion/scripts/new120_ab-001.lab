@@ -1,0 +1,16 @@
+# AB-001: Conductometric strong-acid titration: a minimum, not only an endpoint
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 HCl 0.001mol
+measure v1 conductivity
+measure v1 ph
+add v1 NaOH 0.0005mol
+measure v1 conductivity
+add v1 NaOH 0.0005mol
+measure v1 conductivity
+measure v1 ph
+add v1 NaOH 0.0005mol
+measure v1 conductivity
+measure v1 ph
+inspect

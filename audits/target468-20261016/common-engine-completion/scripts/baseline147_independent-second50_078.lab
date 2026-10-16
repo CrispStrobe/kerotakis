@@ -1,0 +1,16 @@
+new
+add v1 water 100mL
+add v1 ZnSO4 0.001mol
+add v1 Zn 0.01mol
+add v2 water 100mL
+add v2 CuSO4 0.001mol
+add v2 Cu 0.01mol
+inspect v1
+inspect v2
+cell v1 v2
+cell v1 v2
+cell v1 v2
+inspect v1
+inspect v2
+explain v1
+inspect

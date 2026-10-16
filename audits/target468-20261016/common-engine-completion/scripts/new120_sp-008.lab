@@ -1,0 +1,15 @@
+# SP-008: Both sugar and salt pass a filter, but only one is a strong electrolyte
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 glucose 0.001mol
+new
+filter v1 v2
+measure v2 conductivity
+new
+add v3 water 100mL
+add v3 NaCl 0.001mol
+new
+filter v3 v4
+measure v4 conductivity
+inspect

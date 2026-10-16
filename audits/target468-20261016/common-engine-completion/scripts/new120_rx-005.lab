@@ -1,0 +1,15 @@
+# RX-005: Iodometric stoichiometry uses two thiosulfates per iodine
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 100mL
+add v1 KI 0.001mol
+add v1 I2 0.0001mol
+measure v1 uvvis
+add v1 Na2S2O3 0.0001mol
+wait 1s
+inspect v1
+add v1 Na2S2O3 0.0001mol
+wait 1s
+inspect v1
+measure v1 uvvis
+inspect
