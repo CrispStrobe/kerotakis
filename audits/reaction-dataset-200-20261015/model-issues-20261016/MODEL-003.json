@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "id": "MODEL-003",
+  "owner_lane": "independent-model-agent",
+  "title": "Aqueous inventory and product phase reconciliation",
+  "source_cases": [
+    {
+      "rank": 126,
+      "id": "iron_two_hydroxide_precipitation",
+      "original_script": "design/scripts/126-iron_two_hydroxide_precipitation.lab",
+      "original_script_sha256": "ecc5bef8ac532901bed23d715abb0b78322e61952374b6ddcc0a27b2c036411c"
+    },
+    {
+      "rank": 114,
+      "id": "iron_copper_displacement",
+      "original_script": "design/scripts/114-iron_copper_displacement.lab",
+      "original_script_sha256": "c3c9bcea953bc097912654f66c2e366e414f63f0f63ac2503f35d24883acde9e"
+    },
+    {
+      "rank": 115,
+      "id": "copper_silver_displacement",
+      "original_script": "design/scripts/115-copper_silver_displacement.lab",
+      "original_script_sha256": "8389407cc1a9431b6a615ed3df53a214bb6965af3a6cb7ce39a5397b75103b87"
+    }
+  ],
+  "observed_evidence": "chemistry-screening.json",
+  "gap": "Original bare/partial protocols require complete-stock controls before reproducing suspected model defects.",
+  "reproduction_state": "original_screen_only; corrected_reproducer_pending",
+  "status": "intake; refresh source and prerequisites before implementation",
+  "required_acceptance": [
+    "Separate physical protocol from model defect",
+    "Preserve source/binary/lock/script bindings and first failures",
+    "Positive, limiting-reactant and excluded-domain controls",
+    "Relevant material/charge/gas/energy closure and native/browser parity"
+  ],
+  "followups": "append under model-followups/MODEL-003/; do not rewrite this intake"
+}

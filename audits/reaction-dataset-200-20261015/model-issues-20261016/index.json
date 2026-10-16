@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "created_utc": "2026-10-16T07:27:47.269361+00:00",
+  "kind": "independent model-agent intake; not newly executed experiments",
+  "issues": [
+    {
+      "id": "MODEL-001",
+      "record": "MODEL-001.json",
+      "ranks": [
+        119
+      ]
+    },
+    {
+      "id": "MODEL-002",
+      "record": "MODEL-002.json",
+      "ranks": [
+        124
+      ]
+    },
+    {
+      "id": "MODEL-003",
+      "record": "MODEL-003.json",
+      "ranks": [
+        126,
+        114,
+        115
+      ]
+    },
+    {
+      "id": "MODEL-004",
+      "record": "MODEL-004.json",
+      "ranks": [
+        134,
+        138,
+        116
+      ]
+    }
+  ],
+  "protocol_owner": "separate protocol agent; see docs/reaction-repair-lane-contract.md"
+}

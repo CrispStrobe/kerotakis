@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "id": "MODEL-002",
+  "owner_lane": "independent-model-agent",
+  "title": "Canonical free and complex-bound ammonia ownership",
+  "source_cases": [
+    {
+      "rank": 124,
+      "id": "silver_chloride_ammonia",
+      "original_script": "design/scripts/124-silver_chloride_ammonia.lab",
+      "original_script_sha256": "9fb665eb04280d4f7a98b3610b5a58eb65da00099de00916d6007bb817a59356"
+    }
+  ],
+  "observed_evidence": "silver-followup-replay-20261016/assessment.json",
+  "gap": "Equilibrium dissolution is demonstrated; subsequent availability of the same ligand across models needs reconciliation.",
+  "reproduction_state": "existing_source_bound_replay",
+  "status": "intake; refresh source and prerequisites before implementation",
+  "required_acceptance": [
+    "Separate physical protocol from model defect",
+    "Preserve source/binary/lock/script bindings and first failures",
+    "Positive, limiting-reactant and excluded-domain controls",
+    "Relevant material/charge/gas/energy closure and native/browser parity"
+  ],
+  "followups": "append under model-followups/MODEL-002/; do not rewrite this intake"
+}
