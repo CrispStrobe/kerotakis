@@ -198,3 +198,19 @@ reviewed head. The earlier production binding remains separate.
 [PR805 integration receipt](../audits/reaction-dataset-200-20261015/pr805-integration.json)
 records accepted bounded endpoint and actual merge-tree checks. The previous
 F12 replay and production receipts retain their original source bindings.
+
+## Trusted readback prerequisite
+
+Draft [PR813](https://github.com/CrispStrobe/kerotakis/pull/813) at `387f539f`
+exposes a unique explicitly trusted aqueous adapter through the actual standard
+stack and phase wrapper. Four core groups and one native mechanical group are
+added. [Independent source review](../audits/new-experiments-201-20261016/trusted-stack-bridge-source-review.json)
+and formatting pass; hosted compile/native/cache/Wasm/fleet checks remain.
+Partial answers keep no complete-answer receipt, and generic/ambiguous stacks
+refuse. This is characterization-only plumbing; the full hydroxide reaction
+proposal is still uncommitted with solver-scope and real-test blockers.
+
+PR812 now uses test-only corrected head `d6203717`; its first Clippy failure
+and [unchanged-runtime correction](../audits/new-experiments-201-20261016/transport-effluent-followup/first-clippy-correction.json)
+are preserved. Hosted acceptance remains pending. PR810 normal CI is green;
+its separately dispatched full own fleet still gates readiness.

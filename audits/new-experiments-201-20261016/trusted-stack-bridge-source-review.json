@@ -1,0 +1,27 @@
+{
+  "recorded_utc": "2026-10-16T11:09:47.842147+00:00",
+  "pr": 813,
+  "head": "387f539f984581b8582bb157eefd2353eeaf8d07",
+  "base": "adef8be657ce97535ed0a807ed2b68248bd6bd5c",
+  "runtime_files": [
+    "crates/kerotakis-core/src/solve.rs"
+  ],
+  "runtime_added_lines": 23,
+  "source_sha256": {
+    "crates/kerotakis-core/src/solve.rs": "894715eb647a6b86efde1e9c29121ed894fc77edc31b7934e611844bbd6f7433",
+    "crates/kerotakis-core/tests/aqueous_continuation.rs": "c78cecf2ddb610b9a5944d66917b94b40a388a8bd31092e500539a85cd772cc2",
+    "crates/kerotakis-phreeqc/tests/aqueous_continuation.rs": "6e2df1ad64f0c3ada0ee1c40dfddaf252cadfdc1302d9d71bd501f107a2cc29b"
+  },
+  "independent_review_sha256": "a3b0bca381040921a9835213f900ab39ff69403f9671f01ca000ed7456aa72f1",
+  "acceptance": "Independent source review, rustfmt and diff checks pass; hosted acceptance pending",
+  "new_core_test_groups": 4,
+  "new_native_mechanical_group": 1,
+  "native_topology": "SolverStack -> Phase -> Displacement -> PHREEQC, matching production CLI construction",
+  "ci_run": 38891672027,
+  "full_own_fleet_run": 38891672067,
+  "characterization_only": true,
+  "full_stack_phase_or_route_acceptance_claim": false,
+  "new_reaction_installed": false,
+  "local_cargo_or_engine_executions": 0,
+  "chemistry_catalog_count_unchanged": 152
+}
