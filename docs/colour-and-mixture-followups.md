@@ -9,58 +9,36 @@ Do not change frozen experiments to agree with a candidate.
    all 25 CI jobs. The actual-browser probe covers accepted fill/headspace and
    computed layer colour, persistent canvas, superseded fades, and restoration
    of full canvas dimensions after economy mode. Focused grid/pour controls
-   passed 36/36. [Integration evidence](https://github.com/CrispStrobe/kerotakis/blob/5808123a346ced48e407ddcd903ed4f252a7c7c2/audits/fresh-syntax50-20261013/fluid-rendering-integration.json)
+   passed 36/36. [Integration evidence](https://github.com/CrispStrobe/kerotakis/blob/51beacc0b1bf018b8f3bd0a4c7cdc70b13d1cca6/audits/fresh-syntax50-20261013/fluid-rendering-integration.json)
    verifies parents, expected merge tree and unchanged reviewed runtime subtrees.
    Preserve this acceptance; repeat or extend controls when those paths change.
-   Current recipe/replay PR792 includes this accepted main change and still needs
-   combined-head acceptance. The separate black static watercolor mixture remains
-   in lanes 2–3; no deployment claim follows from this merge.
+   Combined-head PR792 acceptance also passed; the recipe and rendering changes
+   are integrated. A merge alone does not establish deployment.
 
-2. **Recipe identity and historical replay — candidate PR792.** Current head
-   `3196a8d6` contains archive/migration/revision-specific bottles and v2 defaults,
-   plus accepted rendering changes from main. Source review passed after closing
-   namespace and archive-selector gaps. Both exporter definition and constructor
-   failures are preserved and corrected. The earlier combined app unit suite at `af788ba6` passed
-   **1,666/1,666**; native export/protocol/optical, browser and fleet acceptance
-   remain pending. Follow their actual current-head results before normal merge.
+2. **Recipe identity and historical replay — integrated PR792.** Merge
+   `b22f3da5` contains the reviewed `3574752f` candidate: exact revision-1 archive,
+   saved-history migration on browser/native transports, revision-specific finite
+   bottles and version-2 defaults. All 25 CI and 33 own-fleet jobs passed, including
+   current registry export, native recipe/protocol controls and actual-browser
+   rendering checks. [Integration receipt](../audits/fresh-syntax50-20261013/watercolour-integration-20261015.json)
+   verifies actual parents and expected merge tree. Earlier failed checks remain
+   preserved. Extend replay controls whenever material schema or history changes;
+   unavailable historical recipes must still refuse without mutation.
 
-   Verify `crates/kerotakis-core/src/material.rs` revision lookup and the
-   `Operator::AddMaterial` branch in `bench.rs`: exact revision, canonical identity,
-   basis and finite bottle balances must survive replay. In
-   `web/app/src/lib/session.svelte.ts`, verify whole-history preflight includes
-   undone future entries, snapshot fallback, undo and export. Missing historical
-   parsing or failed replay must preserve original saved bytes. Exercise both
-   browser-worker and native-host transports. Keep archived recipes off the
-   default shelf and refuse unavailable revisions without mutation. Prepared
-   native controls and executed app mocks are separate evidence domains; report
-   which actually ran. See [current native correction](https://github.com/CrispStrobe/kerotakis/blob/5808123a346ced48e407ddcd903ed4f252a7c7c2/audits/fresh-syntax50-20261013/watercolour-native-first-failure.json)
-   and [combined app acceptance](https://github.com/CrispStrobe/kerotakis/blob/5808123a346ced48e407ddcd903ed4f252a7c7c2/audits/fresh-syntax50-20261013/watercolour-merged-app-acceptance.json).
-
-3. **Transparent teaching wash optics — reproduction and versioned remedy.**
-   The staged revision-2 blue/yellow recipes and seven native control groups are
-   on PR792 at `3196a8d6`; native and full browser/CLI outcomes remain unexecuted.
-   Review [the frozen candidate expectations](https://github.com/CrispStrobe/kerotakis/blob/b094f969/docs/watercolour-v2-controls.md)
-   and retain their initial outcomes before any correction.
-   Reproduce an empty vessel followed by `add v1 watercolour_blue 100g` and
-   `add v1 watercolour_yellow 100g` using actual accepted recipe keys (confirm
-   spelling in the registry). Inspect scene colour and browser pixels after
-   motion stops. The current 0.02% mass-fraction dye surrogates and 4 cm beaker
-   path predict near-black transmission in a source-only estimate; this has
-   not yet been confirmed by an executed current-source CLI reproduction.
-   Preserve that baseline. Freeze expected primary hues and a visible green
-   teaching mixture at a declared dilution/path before running a candidate.
-   Consider a separately versioned dilute teaching wash with honest surrogate
-   provenance. Preserve the measured spectra and concentration/path dependence;
-   do not clamp RGB or promise that arbitrary blue/yellow dyes always mix green.
-   Verify amounts, addition order, dilution and optical path, old-version replay,
-   and static/animated scene agreement. This is teaching-surrogate design, not
-   empirical calibration or a claim about retail watercolor paint.
+3. **Transparent teaching wash optics — versioned remedy accepted.** Seven native
+   `watercolour_revision` controls passed: primary hues, visible blue/yellow green
+   at the declared dose, order independence, separate finite bottles and old dense
+   recipe replay. Revision-2 dyes are tenfold diluted; spectra and optical paths
+   are unchanged. This closes the reported teaching-mixture regression at those
+   modeled conditions. It does not calibrate retail paint or guarantee green for
+   arbitrary dyes, concentration and path length. Future optical extensions need
+   new frozen dose/path/geometry controls and independent spectral evidence.
 
 4. **Duplicate diagnostics and equilibrium readback — establish event causes.**
    PR791 implements exact model-limit prose deduplication per step; raw events
    and chemistry are unchanged. PR791 is integrated as `f471b628` after all 25 CI
    and 33 fleet jobs passed, including four new native groups. The
-   [integration receipt](https://github.com/CrispStrobe/kerotakis/blob/5808123a346ced48e407ddcd903ed4f252a7c7c2/audits/fresh-syntax50-20261013/coverage-prose-integration.json)
+   [integration receipt](https://github.com/CrispStrobe/kerotakis/blob/51beacc0b1bf018b8f3bd0a4c7cdc70b13d1cca6/audits/fresh-syntax50-20261013/coverage-prose-integration.json)
    verifies the merged tree. This does not fix equilibrium readback churn.
    Preserve a minimal blue-color addition showing repeated indigo unsupported
    notes, then a bounded saline/alkaline case showing equal magnesium hydroxide
