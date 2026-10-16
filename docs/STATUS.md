@@ -7,13 +7,29 @@ lanes can proceed in parallel where prerequisites permit. Frozen forecasts,
 first failures and versioned evidence remain unchanged; older checkpoints can
 contain obsolete pending notes. A process exit is not a scientific verdict.
 
-Latest delivery checkpoint: all668 first API requests are authenticated; the two
-infrastructure failures now complete in separately frozen changed-budget
-follow-ups with exact native JSON agreement. PR810/812/813 are integrated with
-verified merge trees. API PR814–817 remain gated by exact-head full acceptance;
-production remainsc446. PR809 needs its separately bound CLI replay. The working
-catalog remains155 (153 within fixed468);34 independently reviewed saved-case
-proposals await final selection. Details and next gates are below.
+Latest checkpoint: the separately versioned
+[working catalog](https://github.com/CrispStrobe/kerotakis/blob/40cb86fa3292f9228a31bf2b985b0d6310ace16f/audits/working-experiments-20261016.json)
+contains **189 source-qualified entries**, including **187 of the fixed468 target**.
+The [selection receipt](https://github.com/CrispStrobe/kerotakis/blob/40cb86fa3292f9228a31bf2b985b0d6310ace16f/audits/target468-20261016/saved-first120-selection.json)
+adds21acid-base and13precipitation protocols after independent saved-evidence
+review. Original scripts, forecasts, first results and previous155 entries are
+unchanged. This is evidence on recorded versions, not189 validated latest-release
+runs;214 further fixed-target selections are needed to reach401.
+
+PR814 and815 are integrated with verified merge trees. PR816/817 await full
+exact-head acceptance; production remainsc446. PR819 now has reviewed head
+`0d61f582`, preserving its corrected runtime/tests while normally merging accepted
+main. FreshCI and full own fleet remain pending; normal exact-head auto-merge
+follows acceptance. PR809's separately source-bound CLI replay remains open.
+
+Three separately prepared protocols completed once through the API. Their
+[analytical-basis assessment](https://github.com/CrispStrobe/kerotakis/blob/40cb86fa3292f9228a31bf2b985b0d6310ace16f/audits/target468-20261016/prepared-basis-first2/results/assessment.json)
+retains the charge/phase limits, while the
+[complete-stock oxalate control](https://github.com/CrispStrobe/kerotakis/blob/40cb86fa3292f9228a31bf2b985b0d6310ace16f/audits/target468-20261016/oxalate-physical-stock-followup/results/assessment.json)
+forms10mmolCO2 and finishes atpH1.292 without solver/model warnings. These controls
+meet frozen bounded checks and represented material/charge balances; their
+catalog review is separate. Missing original identities, rate and heat
+calibration remain open. Earlier dated counts below preserve historical scope.
 
 ## Integrated behavior
 
