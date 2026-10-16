@@ -7,6 +7,7 @@ import hashlib
 import importlib
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -93,6 +94,68 @@ class ApiTests(unittest.TestCase):
             response = self.client.post("/run", headers=AUTH, json={"script": script})
             self.assertEqual(response.status_code, 200)
             engine.assert_awaited_once_with(self.cfg, script)
+
+    def test_every_core_verb_and_alias_has_api_admission(self):
+        # Read the engine's public grammar inventory, not another hand-copied
+        # allowlist. A new engine verb must obtain an explicit API contract.
+        source = Path("crates/kerotakis-core/src/script.rs").read_text()
+        inventory = source.split("pub const VERBS:", 1)[1].split("];", 1)[0]
+        examples = re.findall(r'\("([^"\n]+)", "([^"\n]+)"\)', inventory)
+        self.assertGreater(len(examples), 30)
+        aliases = set()
+        for name in ("VERB_SYNONYMS", "VERB_SPELLINGS"):
+            section = source.split("pub const " + name + ":", 1)[1].split("];", 1)[0]
+            aliases.update(re.findall(r'"([^"\n]+)"', section))
+        self.assertLessEqual({verb for verb, _ in examples} | aliases, api.VERBS)
+        for verb, example in examples:
+            with self.subTest(verb=verb):
+                api.validate_script(example)
+        for example in ("stock water 100mL", "stock blue_watercolour@1 10g",
+                        "remove v2", "discard v1", "smell", "waft v1",
+                        "zoom", "zoom v1", "voltmeter v1 v2"):
+            api.validate_script(example)
+        sessions = source.split("pub const SESSION_WORDS:", 1)[1].split("];", 1)[0]
+        self.assertEqual(set(re.findall(r'"([^"\n]+)"', sessions)) - api.VERBS,
+                         {"species", "help", "structure", "identify", "coverage"})
+        self.assertLessEqual(set(re.findall(r'"([^"\n]+)"', sessions)),
+                             api.VERBS | api.UNAVAILABLE_SESSION_WORDS)
+
+    def test_multiword_identity_aliases_do_not_shift_loop_accounting(self):
+        source = Path("crates/kerotakis-core/src/species.rs").read_text()
+        section = source.split("const INPUT_ALIASES:", 1)[1].split("];", 1)[0]
+        aliases = {tuple(alias.split()): canonical for alias, canonical in
+                   re.findall(r'\("([^"\n]+)", "([^"\n]+)"\)', section) if " " in alias}
+        self.assertEqual(aliases, api.MULTIWORD_INGREDIENT_ALIASES)
+        for script in ("stock sodium chloride 1mol", "stock carbon dioxide 1mol",
+                       "titrate v1 sodium chloride 1M 1mL until ph 7 max 20",
+                       "extract v1 v2 carbon dioxide 1mol stages 2"):
+            api.validate_script(script)
+        for script in ("titrate v1 sodium chloride 1M 1mL until ph 7 max 2001",
+                       "titrate v1 sodium chloride 1M 1mL until ph 7 max 2000\n" * 3,
+                       "extract v1 v2 carbon dioxide 1mol stages 17",
+                       "extract v1 v2 carbon dioxide 1mol stages 2 stages 999999"):
+            with self.subTest(script=script), self.assertRaises(HTTPException) as error:
+                api.validate_script(script)
+            self.assertEqual(error.exception.status_code, 422)
+
+    def test_capabilities_match_enforced_policy_and_session_noops_refuse(self):
+        with patch.object(api, "run_engine", new_callable=AsyncMock) as engine:
+            response = self.client.get("/capabilities")
+            self.assertEqual(response.status_code, 200)
+            policy = response.json()
+            self.assertEqual(set(policy["commands"]), api.VERBS)
+            self.assertEqual(policy["limits"]["aggregate_loop_work"], api.MAX_LOOP_WORK)
+            self.assertEqual(policy["limits"]["child_wall_seconds"], api.WALL_SECONDS)
+            self.assertEqual(response.headers["cache-control"], "no-store")
+            for verb in api.UNAVAILABLE_SESSION_WORDS:
+                response = self.client.post("/run", headers=AUTH, json={"script": verb + " SECRET"})
+                self.assertEqual(response.status_code, 422)
+                self.assertEqual(response.json()["detail"], "Command 1 is unavailable in batch JSON execution")
+                self.assertNotIn("SECRET", response.text)
+            for script in ("remove", "discard /etc/passwd", "stock water", "stock water 1mol extra",
+                           "voltmeter v1", "voltmeter v1 v2 extra", "zoom v1 extra", "inspect /etc/passwd"):
+                self.assertEqual(self.client.post("/run", headers=AUTH, json={"script": script}).status_code, 422)
+            engine.assert_not_called()
 
     def test_solver_loop_limits_cannot_be_bypassed_by_suffixes_or_aggregation(self):
         scripts = [
@@ -288,6 +351,7 @@ class PackagingTests(unittest.TestCase):
                 spec.loader.exec_module(module)
             client = TestClient(module.app)
             self.assertEqual(client.get("/api/health").json()["mode"], "vercel")
+            self.assertEqual(set(client.get("/api/capabilities").json()["commands"]), api.VERBS)
             self.assertRegex(client.get("/api/health").json()["revision"], r"^[a-f0-9]{40}(-dirty)?$")
             schema = client.get("/api/openapi.json").json()
             self.assertEqual(schema["servers"][0]["url"], "/api")
