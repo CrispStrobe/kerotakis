@@ -351,3 +351,18 @@ PR812 integrated as `1d24a43a` after58 successful checks/one skip; its
 [actual merge receipt](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/target468-20261016/accepted-pr-integration/pr812-integration.json)
 verifies the reviewed head and reconstructed tree. No accepted product remains
 waiting for confirmation;809 retains its named CLI replay gate.
+
+## Organic-solubility repair in review
+
+Saved first120 PR-016 exposes withdrawn numerical support for organic dissolution
+and dependent yields. The [bounded repair and next implementation lanes](organic-solubility-repair-lane.md)
+add explicit support boundaries at both consumers, including fully consumed
+reagents and liquid-only residues, and remove the missing-row unlimited-solid
+availability fallback. Legacy values remain provisional; phase ownership and
+compatible primary measurements are still required. Hosted exact-head native
+and full-fleet acceptance is pending. No working-catalog count changes.
+
+The three historical silence assertions now require exact typed provenance
+boundaries while retaining their numerical and material checks. Their first
+native failure is preserved separately; corrected-head CI and full fleet
+acceptance remain required before integration.

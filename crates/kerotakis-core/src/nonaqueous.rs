@@ -4,7 +4,9 @@
 //! "sodium chloride is practically insoluble in ethanol" is not a
 //! model gap — it is chemistry with a handbook value, and "zinc does
 //! not react with dry ethanol at bench conditions" is knowledge, not
-//! an apology. This equilibrator says those things with numbers.
+//! an apology. The legacy numerical table now has withdrawn provenance:
+//! every affected pair reports a model boundary, including liquid residues.
+//! Retained numerical behavior is provisional, not a validated prediction.
 //!
 //! Model boundary, stated once and carried in every event: dissolved
 //! amounts in an organic solvent are undissociated solute held at the
@@ -16,7 +18,7 @@
 
 use crate::i18n::Locale;
 use crate::ops::Event;
-use crate::phrase::Phrase;
+use crate::phrase::{Phrase, Slot};
 use crate::solve::{Equilibrator, SolveError};
 use crate::species::{self, Phase, SpeciesId};
 use crate::units::Moles;
@@ -33,7 +35,7 @@ pub const KNOWN_SOLVENTS: &[&str] = &["ethanol", "hexane", "ethyl_acetate", "pro
 /// to the first digit; the point is the verdict and its order of
 /// magnitude, and the provenance says exactly that.
 ///
-/// ## Every source line here was withdrawn on 2026-09-13
+/// ## Sixty-five legacy source lines were withdrawn on 2026-09-13
 ///
 /// All sixty-five of these rows cited "CRC Handbook, 97th ed." as the
 /// source of the number. PLAN.md's provenance audit puts that handbook on
@@ -50,13 +52,12 @@ pub const KNOWN_SOLVENTS: &[&str] = &["ethanol", "hexane", "ethyl_acetate", "pro
 /// can print the book behind it, and the book it named is one the project
 /// may not ship from.
 ///
-/// The second is why the numbers stay. [`crate::curated`] looks a solute
-/// up in this table and, **when it finds no row, dissolves all of it** —
-/// the `else` branch returns `liquid + solid`. Deleting an unsupported row
-/// therefore does not make the bench refuse the question. It makes the
-/// bench answer "it all dissolved", confidently and wrongly, which is
-/// strictly worse than an embarrassing citation. An honest shrink here has
-/// to change that fallback first, and that is a separate decision.
+/// The numbers remain as explicitly provisional legacy behavior, with a
+/// machine-readable withdrawal status and a model boundary at each consumer.
+/// Missing rows no longer imply unlimited solid dissolution in `curated`:
+/// only already-liquid inventory is available without a solubility cap.
+/// Replacing or disabling the remaining legacy values requires a separately
+/// reviewed phase-ownership contract and compatible primary measurements.
 ///
 /// No open replacement was found. The IUPAC-NIST Solubility Data Series
 /// is published in J. Phys. Chem. Ref. Data and is copyrighted; PubChem's
@@ -65,11 +66,20 @@ pub const KNOWN_SOLVENTS: &[&str] = &["ethanol", "hexane", "ethyl_acetate", "pro
 /// What a row here needs is its own primary measurement with a DOI, in the
 /// shape `literature/hartley-campbell-iodine-water` uses in the registry —
 /// which is, appropriately, a 1908 solubility measurement.
+/// Machine-readable support status; never infer provenance from source prose.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum SolubilityProvenance {
+    Withdrawn,
+    /// A qualitative teaching estimate, not a measured numerical solubility.
+    EditorialEstimate,
+}
+
 pub struct OrganicSolubility {
     pub solute: &'static str,
     pub solvent: &'static str,
     pub g_per_100ml: f64,
     pub source: &'static str,
+    pub provenance: SolubilityProvenance,
 }
 
 pub const ORGANIC_SOLUBILITY: &[OrganicSolubility] = &[
@@ -78,156 +88,182 @@ pub const ORGANIC_SOLUBILITY: &[OrganicSolubility] = &[
         solute: "NaCl",
         solvent: "ethanol",
         g_per_100ml: 0.065,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: NaCl in ethanol 0.065 g/100 mL (25 °C)",
     },
     OrganicSolubility {
         solute: "KCl",
         solvent: "ethanol",
         g_per_100ml: 0.03,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: KCl sparingly soluble in ethanol, ~0.03 g/100 mL",
     },
     OrganicSolubility {
         solute: "AgCl",
         solvent: "ethanol",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: AgCl insoluble in ethanol ('i')",
     },
     OrganicSolubility {
         solute: "AgNO3",
         solvent: "ethanol",
         g_per_100ml: 2.1,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: AgNO3 in ethanol 2.1 g/100 mL (25 °C)",
     },
     OrganicSolubility {
         solute: "Pb(NO3)2",
         solvent: "ethanol",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: Pb(NO3)2 insoluble in ethanol ('i')",
     },
     OrganicSolubility {
         solute: "NaOH",
         solvent: "ethanol",
         g_per_100ml: 13.9,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: NaOH in ethanol 13.9 g/100 mL",
     },
     OrganicSolubility {
         solute: "CaCO3",
         solvent: "ethanol",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: CaCO3 insoluble in ethanol ('i')",
     },
     OrganicSolubility {
         solute: "CaCl2",
         solvent: "ethanol",
         g_per_100ml: 25.8,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: CaCl2 in ethanol 25.8 g/100 mL (25 °C)",
     },
     OrganicSolubility {
         solute: "NaOAc",
         solvent: "ethanol",
         g_per_100ml: 5.3,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: NaOAc in ethanol ~5.3 g/100 mL",
     },
     OrganicSolubility {
         solute: "MgSO4",
         solvent: "ethanol",
         g_per_100ml: 1.2,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: MgSO4 slightly soluble in ethanol, ~1.2 g/100 mL",
     },
     OrganicSolubility {
         solute: "S",
         solvent: "ethanol",
         g_per_100ml: 0.066,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: sulfur in ethanol ~0.066 g/100 mL (25 °C)",
     },
     OrganicSolubility {
         solute: "NaHCO3",
         solvent: "ethanol",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: NaHCO3 insoluble in ethanol ('i')",
     },
     OrganicSolubility {
         solute: "Na2CO3",
         solvent: "ethanol",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: Na2CO3 insoluble in ethanol ('i')",
     },
     OrganicSolubility {
         solute: "Na2SO3",
         solvent: "ethanol",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: Na2SO3 insoluble in ethanol ('i')",
     },
     OrganicSolubility {
         solute: "Na2S2O3",
         solvent: "ethanol",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: Na2S2O3 insoluble in ethanol ('i')",
     },
     OrganicSolubility {
         solute: "FeSO4",
         solvent: "ethanol",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: FeSO4 insoluble in ethanol ('i')",
     },
     OrganicSolubility {
         solute: "CuSO4",
         solvent: "ethanol",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: CuSO4 insoluble in ethanol ('i')",
     },
     OrganicSolubility {
         solute: "ZnSO4",
         solvent: "ethanol",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: ZnSO4 insoluble in ethanol ('i')",
     },
     OrganicSolubility {
         solute: "MnO2",
         solvent: "ethanol",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: MnO2 insoluble in ethanol ('i')",
     },
     OrganicSolubility {
         solute: "Ca(OH)2",
         solvent: "ethanol",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: Ca(OH)2 insoluble in ethanol ('i')",
     },
     OrganicSolubility {
         solute: "Cu(OH)2",
         solvent: "ethanol",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: Cu(OH)2 insoluble in ethanol ('i')",
     },
     OrganicSolubility {
         solute: "CuO",
         solvent: "ethanol",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: CuO insoluble in ethanol ('i')",
     },
     OrganicSolubility {
         solute: "MgO",
         solvent: "ethanol",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: MgO insoluble in ethanol ('i')",
     },
     OrganicSolubility {
         solute: "CaO",
         solvent: "ethanol",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: CaO practically insoluble in ethanol at 25 °C",
     },
     OrganicSolubility {
         solute: "gypsum",
         solvent: "ethanol",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: CaSO4·2H2O insoluble in ethanol ('i')",
     },
     OrganicSolubility {
         solute: "C",
         solvent: "ethanol",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: graphite insoluble in organic solvents ('i')",
     },
     // bio-091: the leaf-pigment extraction. This is the one row in this
@@ -240,6 +276,7 @@ pub const ORGANIC_SOLUBILITY: &[OrganicSolubility] = &[
         solute: "chlorophyll",
         solvent: "ethanol",
         g_per_100ml: 2.0,
+        provenance: SolubilityProvenance::EditorialEstimate,
         source: "Editorial judgement (Kerotakis): no general reference tabulates a chlorophyll solubility, because an extract is a mixture of chlorophyll a, chlorophyll b and allomers that degrade in solution. Ethanol is nevertheless the standard solvent for extracting leaf pigment, and 2 g/100 mL is an order-of-magnitude teaching figure standing for 'freely soluble'. The verdict is the claim; the digit is not",
     },
     // ── hexane ──────────────────────────────────────────────────────
@@ -247,138 +284,161 @@ pub const ORGANIC_SOLUBILITY: &[OrganicSolubility] = &[
         solute: "NaCl",
         solvent: "hexane",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: NaCl insoluble in hydrocarbons ('i')",
     },
     OrganicSolubility {
         solute: "KCl",
         solvent: "hexane",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: KCl insoluble in hydrocarbons ('i')",
     },
     OrganicSolubility {
         solute: "AgCl",
         solvent: "hexane",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: AgCl insoluble in organic solvents ('i')",
     },
     OrganicSolubility {
         solute: "AgNO3",
         solvent: "hexane",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: AgNO3 insoluble in hydrocarbons ('i')",
     },
     OrganicSolubility {
         solute: "Pb(NO3)2",
         solvent: "hexane",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: Pb(NO3)2 insoluble in hydrocarbons ('i')",
     },
     OrganicSolubility {
         solute: "NaOH",
         solvent: "hexane",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: NaOH insoluble in hydrocarbons ('i')",
     },
     OrganicSolubility {
         solute: "CaCO3",
         solvent: "hexane",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: CaCO3 insoluble in organic solvents ('i')",
     },
     OrganicSolubility {
         solute: "CaCl2",
         solvent: "hexane",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: CaCl2 insoluble in hydrocarbons ('i')",
     },
     OrganicSolubility {
         solute: "NaOAc",
         solvent: "hexane",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: NaOAc insoluble in hydrocarbons ('i')",
     },
     OrganicSolubility {
         solute: "MgSO4",
         solvent: "hexane",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: MgSO4 insoluble in hydrocarbons ('i')",
     },
     OrganicSolubility {
         solute: "S",
         solvent: "hexane",
         g_per_100ml: 0.05,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: sulfur slightly soluble in hexane, ~0.05 g/100 mL",
     },
     OrganicSolubility {
         solute: "NaHCO3",
         solvent: "hexane",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: NaHCO3 insoluble in organic solvents ('i')",
     },
     OrganicSolubility {
         solute: "Na2CO3",
         solvent: "hexane",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: Na2CO3 insoluble in organic solvents ('i')",
     },
     OrganicSolubility {
         solute: "FeSO4",
         solvent: "hexane",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: FeSO4 insoluble in organic solvents ('i')",
     },
     OrganicSolubility {
         solute: "CuSO4",
         solvent: "hexane",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: CuSO4 insoluble in organic solvents ('i')",
     },
     OrganicSolubility {
         solute: "ZnSO4",
         solvent: "hexane",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: ZnSO4 insoluble in organic solvents ('i')",
     },
     OrganicSolubility {
         solute: "MnO2",
         solvent: "hexane",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: MnO2 insoluble in organic solvents ('i')",
     },
     OrganicSolubility {
         solute: "CaO",
         solvent: "hexane",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: CaO insoluble in hydrocarbons ('i')",
     },
     OrganicSolubility {
         solute: "MgO",
         solvent: "hexane",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: MgO insoluble in organic solvents ('i')",
     },
     OrganicSolubility {
         solute: "Ca(OH)2",
         solvent: "hexane",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: Ca(OH)2 insoluble in organic solvents ('i')",
     },
     OrganicSolubility {
         solute: "Cu(OH)2",
         solvent: "hexane",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: Cu(OH)2 insoluble in organic solvents ('i')",
     },
     OrganicSolubility {
         solute: "CuO",
         solvent: "hexane",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: CuO insoluble in organic solvents ('i')",
     },
     OrganicSolubility {
         solute: "C",
         solvent: "hexane",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: graphite insoluble in organic solvents ('i')",
     },
     // ── propanone (acetone) ─────────────────────────────────────────
@@ -386,60 +446,70 @@ pub const ORGANIC_SOLUBILITY: &[OrganicSolubility] = &[
         solute: "NaCl",
         solvent: "propanone",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: NaCl insoluble in acetone ('i')",
     },
     OrganicSolubility {
         solute: "KCl",
         solvent: "propanone",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: KCl insoluble in acetone ('i')",
     },
     OrganicSolubility {
         solute: "AgNO3",
         solvent: "propanone",
         g_per_100ml: 0.44,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: AgNO3 in acetone ~0.44 g/100 mL (20 °C)",
     },
     OrganicSolubility {
         solute: "CaCl2",
         solvent: "propanone",
         g_per_100ml: 33.3,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: CaCl2 very soluble in acetone, ~33.3 g/100 mL",
     },
     OrganicSolubility {
         solute: "CaCO3",
         solvent: "propanone",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: CaCO3 insoluble in acetone ('i')",
     },
     OrganicSolubility {
         solute: "NaOH",
         solvent: "propanone",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: NaOH insoluble in acetone ('i')",
     },
     OrganicSolubility {
         solute: "MgSO4",
         solvent: "propanone",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: MgSO4 insoluble in acetone ('i')",
     },
     OrganicSolubility {
         solute: "CuSO4",
         solvent: "propanone",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: CuSO4 insoluble in acetone ('i')",
     },
     OrganicSolubility {
         solute: "S",
         solvent: "propanone",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: sulfur insoluble in acetone ('i')",
     },
     OrganicSolubility {
         solute: "C",
         solvent: "propanone",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: graphite insoluble in organic solvents ('i')",
     },
     // ── ethyl_acetate ───────────────────────────────────────────────
@@ -447,36 +517,42 @@ pub const ORGANIC_SOLUBILITY: &[OrganicSolubility] = &[
         solute: "NaCl",
         solvent: "ethyl_acetate",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: NaCl insoluble in ethyl acetate ('i')",
     },
     OrganicSolubility {
         solute: "CaCO3",
         solvent: "ethyl_acetate",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: CaCO3 insoluble in organic solvents ('i')",
     },
     OrganicSolubility {
         solute: "S",
         solvent: "ethyl_acetate",
         g_per_100ml: 1.8,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: sulfur in ethyl acetate ~1.8 g/100 mL",
     },
     OrganicSolubility {
         solute: "CuSO4",
         solvent: "ethyl_acetate",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: CuSO4 insoluble in ethyl acetate ('i')",
     },
     OrganicSolubility {
         solute: "NaOH",
         solvent: "ethyl_acetate",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: NaOH insoluble in ethyl acetate ('i')",
     },
     OrganicSolubility {
         solute: "C",
         solvent: "ethyl_acetate",
         g_per_100ml: 0.0,
+        provenance: SolubilityProvenance::Withdrawn,
         source: "NO SOURCE IS CLAIMED; withdrawn 2026-09-13, see OrganicSolubility. The magnitude: graphite insoluble in organic solvents ('i')",
     },
 ];
@@ -700,6 +776,48 @@ pub fn verdict_exists(species: &SpeciesId, solvent: &str) -> bool {
             .any(|(m, s, _)| *m == species.0 && *s == solvent)
 }
 
+/// Report unvalidated numerical support before any consumer can use or consume
+/// the solute. Liquid residues matter too: a dissolved label is not provenance.
+/// This does not replace the legacy values with unlimited dissolution or claim
+/// that their phase partition, reaction extent or yield has been validated.
+pub(crate) fn solubility_boundaries(vessel: &Vessel, solvent: &str) -> Vec<Event> {
+    ORGANIC_SOLUBILITY
+        .iter()
+        .filter(|row| {
+            row.solvent == solvent
+                && vessel.contents.iter().any(|portion| {
+                    portion.species.0 == row.solute
+                        && matches!(portion.phase, Phase::Solid | Phase::Liquid)
+                        && portion.moles.0 > 0.0
+                })
+        })
+        .map(|row| {
+            let (key, english) = match row.provenance {
+                SolubilityProvenance::Withdrawn => (
+                    "not-modeled.withdrawn-organic-solubility",
+                    "{solute} in {solvent}: the legacy solubility value has withdrawn provenance and no supported replacement. Reported dissolved amounts, phase partition and dependent reaction yields are provisional, not validated predictions; organic electrolyte speciation and activities are not modeled",
+                ),
+                SolubilityProvenance::EditorialEstimate => (
+                    "not-modeled.editorial-organic-solubility",
+                    "{solute} in {solvent}: the solubility value is an editorial teaching estimate, not a measured numerical limit. Reported dissolved amounts, phase partition and dependent reaction yields are provisional, not validated predictions",
+                ),
+            };
+            Event::not_modeled(
+                vessel.id,
+                crate::ops::NotModelledCause::ModelBoundary,
+                Phrase::new(
+                    key,
+                    english,
+                    vec![
+                        ("solute".into(), Slot::text(row.solute)),
+                        ("solvent".into(), Slot::text(solvent)),
+                    ],
+                ),
+            )
+        })
+        .collect()
+}
+
 /// Applies curated organic-solvent verdicts: dissolution to the
 /// handbook limit, and computed inertness. Sits between the curated
 /// reactions and the aqueous engine in every stack.
@@ -714,10 +832,11 @@ impl Equilibrator for NonAqueousEquilibrator {
         let Some(solvent) = single_organic_solvent(vessel) else {
             return false;
         };
-        vessel
-            .contents
-            .iter()
-            .any(|p| p.phase == Phase::Solid && verdict_exists(&p.species, solvent))
+        vessel.contents.iter().any(|p| {
+            p.moles.0 > 0.0
+                && matches!(p.phase, Phase::Solid | Phase::Liquid)
+                && verdict_exists(&p.species, solvent)
+        })
     }
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
@@ -725,6 +844,7 @@ impl Equilibrator for NonAqueousEquilibrator {
         let Some(solvent) = single_organic_solvent(vessel) else {
             return Ok(events);
         };
+        events.extend(solubility_boundaries(vessel, solvent));
         let solvent_id = SpeciesId::new(solvent);
         let solvent_data =
             species::lookup(&solvent_id).expect("known solvents are registry species");
@@ -850,5 +970,99 @@ impl Equilibrator for NonAqueousEquilibrator {
             });
         }
         Ok(events)
+    }
+}
+
+#[cfg(test)]
+mod provenance_tests {
+    use super::*;
+    use crate::VesselId;
+
+    fn ethanol() -> Vessel {
+        let mut vessel = Vessel::new(VesselId(0), "provenance");
+        vessel.deposit(SpeciesId::new("ethanol"), Moles(1.0), Phase::Liquid);
+        vessel
+    }
+
+    #[test]
+    fn every_unvalidated_pair_reports_one_boundary_for_split_phases() {
+        assert_eq!(ORGANIC_SOLUBILITY.len(), 66);
+        assert_eq!(
+            ORGANIC_SOLUBILITY
+                .iter()
+                .filter(|row| row.provenance == SolubilityProvenance::Withdrawn)
+                .count(),
+            65
+        );
+        assert_eq!(
+            ORGANIC_SOLUBILITY
+                .iter()
+                .filter(|row| row.provenance == SolubilityProvenance::EditorialEstimate)
+                .count(),
+            1
+        );
+        for row in ORGANIC_SOLUBILITY {
+            let mut vessel = Vessel::new(VesselId(0), "all legacy pairs");
+            vessel.deposit(SpeciesId::new(row.solvent), Moles(1.0), Phase::Liquid);
+            vessel.deposit(SpeciesId::new(row.solute), Moles(0.001), Phase::Solid);
+            vessel.deposit(SpeciesId::new(row.solute), Moles(0.001), Phase::Liquid);
+            let events = solubility_boundaries(&vessel, row.solvent);
+            let expected_key = match row.provenance {
+                SolubilityProvenance::Withdrawn => "not-modeled.withdrawn-organic-solubility",
+                SolubilityProvenance::EditorialEstimate => {
+                    "not-modeled.editorial-organic-solubility"
+                }
+            };
+            assert_eq!(events.len(), 1, "{} in {}", row.solute, row.solvent);
+            assert!(matches!(&events[0], Event::NotYetModeled {
+                cause: crate::ops::NotModelledCause::ModelBoundary, reason: Some(reason), ..
+            } if reason.key == expected_key
+                && reason.render(Locale::parse("de")) != reason.render(Locale::EN)
+                && reason.render(Locale::parse("fr")) != reason.render(Locale::EN)
+                && reason.text_slot("solute") == Some(row.solute)
+                && reason.text_slot("solvent") == Some(row.solvent)));
+        }
+    }
+
+    #[test]
+    fn liquid_only_residue_still_reports_and_inert_metal_does_not() {
+        let mut vessel = ethanol();
+        vessel.deposit(SpeciesId::new("NaCl"), Moles(0.001), Phase::Liquid);
+        let mut solver = NonAqueousEquilibrator;
+        assert!(solver.applies(&vessel));
+        let before = vessel.contents.clone();
+        assert_eq!(solver.equilibrate(&mut vessel).unwrap().len(), 1);
+        assert_eq!(vessel.contents, before);
+        let mut metal = ethanol();
+        metal.deposit(SpeciesId::new("Zn"), Moles(0.001), Phase::Solid);
+        assert!(solubility_boundaries(&metal, "ethanol").is_empty());
+        assert!(matches!(
+            &solver.equilibrate(&mut metal).unwrap()[0],
+            Event::InertInSolvent { .. }
+        ));
+    }
+
+    #[test]
+    fn curated_boundary_survives_complete_reagent_consumption() {
+        let mut vessel = ethanol();
+        vessel.deposit(SpeciesId::new("NaCl"), Moles(0.001), Phase::Liquid);
+        vessel.deposit(SpeciesId::new("AgNO3"), Moles(0.001), Phase::Liquid);
+        let events = crate::curated::CuratedEquilibrator
+            .equilibrate(&mut vessel)
+            .unwrap();
+        assert_eq!(vessel.moles_of(&SpeciesId::new("NaCl")).0, 0.0);
+        assert_eq!(vessel.moles_of(&SpeciesId::new("AgNO3")).0, 0.0);
+        assert_eq!(vessel.moles_of(&SpeciesId::new("AgCl")).0, 0.001);
+        let reaction_index = events
+            .iter()
+            .position(|event| matches!(event, Event::ReactionOccurred { .. }))
+            .unwrap();
+        assert_eq!(
+            events[..reaction_index]
+                .iter()
+                .filter(|event| matches!(event, Event::NotYetModeled { .. }))
+                .count(),
+            2
+        );
     }
 }
