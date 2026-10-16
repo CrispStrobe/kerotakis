@@ -174,7 +174,10 @@ Two additional supervised Hermes/Muse Spark lanes review transport ownership and
 optical provenance alongside the existing hydroxide-route review. Source-only
 work continues under resource gates; heavy validation stays hosted. The transport
 adapter loses effluent temperature, phase and charge on receiver deposition; a
-narrow repair is assigned, with two separately frozen
+narrow repair is pushed as draft [PR812](https://github.com/CrispStrobe/kerotakis/pull/812)
+at `2df4107c` with ten core and two exact-script native regression groups.
+Source/format review passes; hosted compile/native/Wasm/fleet acceptance remains.
+Two separately frozen
 [baseline controls](../audits/new-experiments-201-20261016/transport-effluent-followup/README.md)
 executed once in [run38884179479](https://github.com/CrispStrobe/kerotakis/actions/runs/38884179479).
 The [collected first baseline](../audits/new-experiments-201-20261016/transport-effluent-followup/baseline-results/README.md)

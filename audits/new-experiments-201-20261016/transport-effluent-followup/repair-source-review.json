@@ -1,0 +1,47 @@
+{
+  "recorded_utc": "2026-10-16T10:32:23.208313+00:00",
+  "pr": 812,
+  "head": "2df4107c10f085e6abffcb115e861da221ab8f2a",
+  "base": "4f0112f6cc1330572369429c7ae2e0ca94494205",
+  "state": "draft; source reviewed; hosted acceptance pending",
+  "changed_paths": [
+    "crates/kerotakis-core/TRANSPORT-EFFLUENT-ACCEPTANCE.md",
+    "crates/kerotakis-core/src/bench.rs",
+    "crates/kerotakis-core/src/transport.rs",
+    "crates/kerotakis-core/tests/transport_effluent_ownership.rs",
+    "crates/kerotakis-phreeqc/tests/fixtures/transport-cold-cell-hot-inlet.lab",
+    "crates/kerotakis-phreeqc/tests/fixtures/transport-hot-cell-cold-inlet.lab",
+    "crates/kerotakis-phreeqc/tests/transport_effluent_ownership.rs"
+  ],
+  "source_sha256": {
+    "crates/kerotakis-core/TRANSPORT-EFFLUENT-ACCEPTANCE.md": "c55cf3c3ee38abb227a60c1b1c453fa8e0e58070d4d0959f53156650173a2d5d",
+    "crates/kerotakis-core/src/bench.rs": "b6dcab43596e3b9ebc2dc2483a248fbb16488f60c4b942edbe22e510fafdcd64",
+    "crates/kerotakis-core/src/transport.rs": "edba8f4afcba57adc25406d7475b24d0f82dd02494d3dc0689b6a9c16b6f106b",
+    "crates/kerotakis-core/tests/transport_effluent_ownership.rs": "a7e7c6faf7c6c54ab87a0c3ec7508d4c105dc43c37f282344ca5aaaab808e3ec",
+    "crates/kerotakis-phreeqc/tests/fixtures/transport-cold-cell-hot-inlet.lab": "54bf1033f642d3ea5b6550f359f30604a837549031385e84406bbafd64b20b91",
+    "crates/kerotakis-phreeqc/tests/fixtures/transport-hot-cell-cold-inlet.lab": "d87fc2b6e9ca3b89644f5939d2ab7c0dba180ed2381c445cc285f71facbec038",
+    "crates/kerotakis-phreeqc/tests/transport_effluent_ownership.rs": "e0d116ce8e521bae507d9f457f81a47555e93c2d297aa59786cd163b0dfdf52b"
+  },
+  "root_review": [
+    "actual T/phase Cp(T) and charge/free-ion ownership",
+    "bounded transactional receiver, no per-step parcel buffer",
+    "alias refusal and zero-flow cache/heat preservation",
+    "historical serde defaults",
+    "removed unused fixture helper",
+    "zero-flow geometry validated once",
+    "fixed invalid Vessel PartialEq fixture assertions before push"
+  ],
+  "added_controls": {
+    "core_groups": 10,
+    "native_groups": 2,
+    "native_script_bytes_equal_frozen_baseline": true
+  },
+  "format_and_diff_checks": "passed",
+  "cargo_or_native_execution_for_this_head": "not yet run",
+  "ci_run": 38887698127,
+  "full_own_fleet_run": 38887698095,
+  "first_baseline_run": 38884179479,
+  "prior_failure_evidence_immutable": true,
+  "empirical_calibration_claim": false,
+  "unsupported_hydraulic_domain_expanded": false
+}
