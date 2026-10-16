@@ -55,11 +55,11 @@ class ApiTests(unittest.TestCase):
     def test_input_limits_and_no_script_echo_in_errors(self):
         cases = ({"script": "lang de\nwarte 1s"}, {"script": "quest start x"},
                  {"script": "extract v1 v2 hexane 1mol stages 999999"},
-                 {"script": "transport v1 steps 999999"}, {"script": "titrate v1 NaOH 1M 1mL until ph 7"},
+                 {"script": "transport v1 steps 999999"}, {"script": "titrate v1 NaOH 1M 1mL until ph 7 max 999999"},
                  {"script": "distil v1 v2 1 stages 999999"},
-                 {"script": "wait 1e309s"}, {"script": "wait 1h\nwait 1s"},
-                 {"script": "wait 3601"}, {"script": "wait 61minutes"},
-                 {"script": "stir v1 500rpm 2hours"}, {"script": "wait inf"},
+                 {"script": "wait 1e309s"}, {"script": "wait 720h\nwait 720h\nwait 720h\nwait 1s"},
+                 {"script": "wait 2592001"}, {"script": "wait 43201minutes"},
+                 {"script": "stir v1 500rpm 721hours"}, {"script": "wait inf"},
                  {"script": "wait 1s\n" * 129}, {"script": "add v1 SECRET 1mol\x00"},
                  {"script": "inspect v1", "path": "/etc/passwd"}, {"script": 5})
         for body in cases:
@@ -69,6 +69,56 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(self.client.post("/run", headers={**AUTH, "Content-Type": "application/json"},
                                          content=b" " * (api.BODY_LIMIT + 1)).status_code, 413)
         self.assertEqual(self.client.post("/run", headers=AUTH, content="inspect v1").status_code, 415)
+
+    def test_supported_cli_commands_and_bounded_long_simulation_are_admitted(self):
+        scripts = [
+            "register lv3\nlook v1\nexplain v1",
+            "evaporate v1 0.5\nregulate v1 1bar 100mL\nmix v1 1 v2 1 into v3",
+            "extract v1 v2 hexane 20mL stages 4\ndistil v1 v2 10kJ stages 3",
+            "titrate v1 NaOH 0.01M 0.1mL until ph 7 max 1200\n"
+            "titrate v2 NaOH 0.01M 0.1mL until ph 8.7 max 1200",
+            "titrate v1 KMnO4 0.02M 0.1mL until pe >= 8 max 200",
+            "titrate v1 KMnO4 0.02M 0.1mL until colour persists",
+            "transport v1 v2 v3 from v4 to v5 steps 15 courant 0.5",
+            "wait 48h\nstir v1 500rpm 2hours",
+        ]
+        for script in scripts:
+            with self.subTest(script=script):
+                api.validate_script(script)
+        script = "register lv3\ntitrate v1 NaOH 1M 1mL until ph 7 max 10"
+        result = {"execution_status": "completed", "exit_status": 0, "observations": [],
+                  "diagnostics": "", "elapsed_seconds": .001,
+                  "script_sha256": hashlib.sha256(script.encode()).hexdigest(), "engine": {}}
+        with patch.object(api, "check_resources"), patch.object(api, "run_engine", new=AsyncMock(return_value=result)) as engine:
+            response = self.client.post("/run", headers=AUTH, json={"script": script})
+            self.assertEqual(response.status_code, 200)
+            engine.assert_awaited_once_with(self.cfg, script)
+
+    def test_solver_loop_limits_cannot_be_bypassed_by_suffixes_or_aggregation(self):
+        scripts = [
+            "extract v1 v2 hexane 1mol stages 0",
+            "extract v1 v2 hexane 1mol stages 999999",
+            "distil v1 v2 .5 stages 2 stages 999999",
+            "titrate v1 NaOH 1M 1mL until ph 7 max 2 max 999999",
+            "titrate v1 NaOH 1M 1mL until ph 7 max 2001",
+            "titrate v1 NaOH 1M 1mL until ph 7 max 2000\n" * 3,
+            "transport v1 v2 from v3 to v4 steps 257",
+            "transport v1 from v2 to v3 steps 1 steps 999999",
+            "transport v1 v2 v3 from v4 to v5 steps 256\n" * 6,
+            "transport v1 from v2 to v3 steps 1 courant nan",
+            "transport v1 from v2 to v3 steps 1 courant 1e999",
+            "extract v1 v2 hexane 1mol stages " + "9" * 1000,
+            "register lv4", "register lv3 extra", "explain /etc/passwd",
+            "save /etc/passwd", "load /etc/passwd", "lang de", "quest start x",
+            "wait 720h\nwait 720h\nwait 720h\nstir v1",
+        ]
+        with patch.object(api, "run_engine", new_callable=AsyncMock) as engine:
+            for script in scripts:
+                with self.subTest(script=script):
+                    response = self.client.post("/run", headers=AUTH, json={"script": script})
+                    self.assertEqual(response.status_code, 422)
+                    self.assertNotIn(script, response.text)
+            engine.assert_not_called()
 
     def test_openapi_health_and_cors(self):
         schema = self.client.get("/openapi.json").json()
