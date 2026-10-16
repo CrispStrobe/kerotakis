@@ -1,0 +1,44 @@
+{
+  "candidate_branch": "fix/aqueous-transfer-ownership-20261016",
+  "base": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "state": "Signed source commit pushed as draft PR; hosted acceptance pending.",
+  "files": [
+    {
+      "path": "crates/kerotakis-core/src/bench.rs",
+      "sha256": "574b63c8d8d00af91a4f2927c4d2c3427cf9aafecb8f3753ac15f51025ba4141"
+    },
+    {
+      "path": "crates/kerotakis-core/tests/aqueous_transfer_snapshot.rs",
+      "sha256": "e7f5b74f5f31a798b75285f44823b695dadc3c425b31a33425a877cc8daa3050"
+    },
+    {
+      "path": "crates/kerotakis-phreeqc/tests/aqueous_transfer_snapshot.rs",
+      "sha256": "0d7907ab84945a3864439d89e52ac58d868704c8c548c05ded2552a86f5e7db5"
+    },
+    {
+      "path": "crates/kerotakis-phreeqc/tests/fixtures/ab029-filter-suspension.lab",
+      "sha256": "cf7a5085df974af447178e328821b2ec41c883e27092929b790d25d670e12c9c"
+    },
+    {
+      "path": "crates/kerotakis-core/AQUEOUS-TRANSFER-ACCEPTANCE.md",
+      "sha256": "e3f239419882fd194a0c066fed78fe66b836e8eb6c0df7961ef951d80553c33b"
+    }
+  ],
+  "local_checks": [
+    "rustfmt parsed all three changed Rust files and --check passed",
+    "git diff --check passed",
+    "unchanged native AB029 fixture bytes rehashed against original selected script"
+  ],
+  "not_run": [
+    "Cargo compilation",
+    "core/native/Wasm tests",
+    "CLI",
+    "API repair replay",
+    "browser",
+    "application builds"
+  ],
+  "hosted_required": "Exact-source core/native AB029 and repeated-pour acceptance, applicable full fleet/client parity; preserve any further failure and collect authorized trace if ownership fix alone is insufficient.",
+  "source_head": "25956e619cc7c874e0099377a49a23d5791efb57",
+  "pull_request": "https://github.com/CrispStrobe/kerotakis/pull/809",
+  "core_regression_groups": 10
+}

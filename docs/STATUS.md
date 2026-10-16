@@ -36,6 +36,14 @@ once-only delivery requests. Both finite controls and auth/subset/CORS/client
 checks passed. Raw producer-lock bytes and independent VM-deletion receipts are
 not supplied by this artifact. Previous production evidence retains its old binding.
 
+[PR806 documentation](../audits/reaction-dataset-200-20261015/pr806-integration.json)
+integrated as `4f0112f6` after25 successful checks and one skip; actual parents/tree
+match the reviewed merge candidate. Runtime is unchanged, so this documentation
+merge requires no production rebuild.
+The maintained current-results refresh is [PR808](https://github.com/CrispStrobe/kerotakis/pull/808),
+reviewed at `20a1c5c5` with normal protected auto-merge enabled. It changes only
+two maintained Markdown files; required CI remains pending.
+
 The actual Pages REST client still returned404 at its last check. Follow the
 existing integrated-main demo/publish pipeline, then verify actual served bytes;
 the accepted controlled Pages-origin browser test does not establish publication.
@@ -46,7 +54,7 @@ or completed200-case transport jobs.
 | --- | --- |
 | PR805 acidified permanganate/peroxide | `d66b0811` pushed; exact-head CI/fleets pending. Root reviewed the locale-composer admission. Earlier native endpoint controls passed before the locale gate; the separate viewer failure still needs diagnosis/repair. No merge or full-domain pass is claimed. |
 | PR807 proven input aliases | `352e1c48`; all six focused macOS native groups passed. Linux/remaining applicable checks still gate readiness. Only CuSO4_anhydrous→CuSO4 and acetate→CH3COO- are admitted. |
-| PR806 handover documentation | Normal exact-head auto-merge enabled; protected checks pending. Keep new source changes out of this documentation PR. |
+| [PR809 aqueous transfer ownership](https://github.com/CrispStrobe/kerotakis/pull/809) | Draft `25956e61` carries measured proton/hydroxide and charge baselines with Filter/Decant liquid, preserves nontransferred gas, and adds ten core plus two native regression groups. Static checks passed; hosted native/core and fleet acceptance remain pending. |
 | Independent viewer repair | Three actual-source lifecycle defects are reproduced. Hermes owns a separate narrow repair with deterministic regressions; product source review and browser acceptance remain. |
 
 Use normal exact-head auto-merge when all applicable acceptance passes. Never
@@ -130,3 +138,12 @@ and its own status/evidence. Keep private operating details out of public files.
 Check load, available memory and storage before large work. Use bounded hosted
 validation when local gates are closed, preserve protected evidence/worktrees,
 and keep first failures plus exact source/binary/lock/script associations.
+
+
+The original open QA-004/005 carbonate titrations miss their first-endpoint
+forecasts while explicitly exporting CO2; retained plus exported carbon closes.
+Two separately frozen finite-headspace controls are dispatched once in
+[run38875794689](https://github.com/CrispStrobe/kerotakis/actions/runs/38875794689).
+Their [design and open diagnostics](../audits/new-experiments-201-20261016/carbonate-boundary-followup/README.md)
+retain the original forecasts and count trapped atmosphere. No tolerance or
+chemical implementation changed; physical outcomes remain pending.
