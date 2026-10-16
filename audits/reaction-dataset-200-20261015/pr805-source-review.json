@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "pr": 805,
+  "head": "a03113a201f4bd838b476f6cc3cf2b563ed2482e",
+  "tree": "81a79c3cefa85e2a256ce556a6eec4f1492589a7",
+  "parents": [
+    "998533ebe9cca22d7bd42e0f50b8ee76f7dc9a35",
+    "92e14021ae65249a3b0de55a170df20ca1f9d281"
+  ],
+  "implementation_commit": "998533ebe9cca22d7bd42e0f50b8ee76f7dc9a35",
+  "scope": "Independent source-only review; no edits, compilation, native/Wasm/browser execution or jobs",
+  "worktree_clean": true,
+  "accepted_source_review": true,
+  "runtime_acceptance": false,
+  "findings": [
+    {
+      "name": "Residual pair outside acidic product domain",
+      "closed": true,
+      "evidence": "Candidate remains uncommitted until final complete readback; both residual pools with pH>3 cause decline. Exhausted endpoint products may end neutral."
+    },
+    {
+      "name": "First-pass mutation leak on transformed readback failure",
+      "closed": true,
+      "evidence": "over() clones the entire endpoint-possible path before optional first answer; failure propagates without committing candidate. Negative control changes first-pass T."
+    },
+    {
+      "name": "Wrong reaction credited for typed reachability",
+      "closed": true,
+      "evidence": "Typed post-aqueous reachability requires exact target equation; old rows retain documented sibling matching."
+    }
+  ],
+  "host_controls_reviewed": {
+    "html_chromium": "Explicit diagnostic invokes actual Lab report; both fixed open/sealed PASS markers required online and offline. Markers cannot be emitted from a false report as PASS.",
+    "node_hook": "Actual wrapper report requires target event/balance/readback/ownership; missing-readback case accepts only named cache/hook failure and full-state rollback.",
+    "node_cache": "Complete endpoint cache prewarm plus separate missing initial warm; correct current-question absence remains required.",
+    "no_engine": "Actual concrete cache-miss/failing-hook controls preserve full stock and require actual hook invocation."
+  },
+  "unexpected_domain_widening_found": false,
+  "blockers": [],
+  "pending": [
+    "Exact-head protected CI and applicable full own-fleet acceptance.",
+    "Actual native/cache/Wasm/Chromium controls must execute; review is not a runtime or scientific pass."
+  ],
+  "source_sha256": {
+    "crates/kerotakis-core/src/acid_endpoint.rs": "63f8b35a15a680221e0fee3853cf3c07fcc1535fc39c13ed7407ec1f9796a2e5",
+    "crates/kerotakis-core/src/displacement.rs": "ff7425a1c965b3f601b09b36944a899a51927f4b664a70a424ffefdff6a98d49",
+    "crates/kerotakis-core/src/aqueous_continuation.rs": "c6c12f8dcfa02720b908375d4f4395cf5ecbec8cfa985e7391c95d1513e819d7",
+    "crates/kerotakis-core/tests/acid_permanganate_endpoint.rs": "1a1bebbc2199a675945386f1ac0f44153c7a88d93238feac8dba6b5402bc2041",
+    "crates/kerotakis-phreeqc/src/acid_endpoint_acceptance.rs": "07692f983bfe00fa2c0a36856e2cd8d32e70284b6b8c77063426da73b33745c4",
+    "crates/kerotakis-phreeqc/tests/curated_reachability_at_runtime.rs": "bae5d910973026aa56720ca6365b37ecd334454496681c708714a166cb5c0502",
+    "crates/kerotakis-phreeqc/tests/acid_permanganate_endpoint.rs": "aa7da4f6bbb36f8e5e878672c514bb9f12091288bdd20356d8ea0f6e5c36f673",
+    "crates/kerotakis-phreeqc/tests/acid_permanganate_cache_only.rs": "1c77fce28ec665a4ea9887bde183be74a220ed30e425b3fb6a6bffd21b40e113",
+    "crates/kerotakis-wasm/src/lib.rs": "fae137348cda8c6d7778122ef2a09c40b4e50b1ead567f946bb2391af76642dd",
+    "web/index.html": "40ad0bfa5ea82b9bab3729db7c9d71fd4d4c6689fa124850b4458b1226b35ab4",
+    "tools/test-web-demo.mjs": "ea4d6a3741169ee403498f337b6d8518739974535383058372bf90767a5f55ce",
+    "tools/test-wasm-bridge.mjs": "016b98f19485dce15bc6c806d41b1bc34624dcc632383b4255cf2a45b1866906",
+    "tools/test-wasm-lab.mjs": "d152d02b84479f98202267c9fd07aac50428fa9a59b7c91d32efcaccd98836ee"
+  }
+}

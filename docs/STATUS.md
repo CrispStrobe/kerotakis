@@ -418,3 +418,16 @@ CI remains pending; the broad audit and isolated validation branches must never
 merge. Endpoint source review additionally requires unsupported partial answers
 to retain ordinary behavior, post-reaction acidic-domain limits and full shared
 rollback when the initial answer changes state before a later readback fails.
+
+
+The rank-119 bounded endpoint is implemented in draft
+[PR805](https://github.com/CrispStrobe/kerotakis/pull/805), exact head `a03113a2`,
+including integrated main `92e14021`. The independently reviewed
+[source receipt](../audits/reaction-dataset-200-20261015/pr805-source-review.json)
+binds the tree and thirteen source hashes; root rechecked them against Git.
+Eight core, five native and one no-engine controls, plus actual Node/cache/live
+hook and online/offline Chromium checks are wired into hosted validation.
+Source formatting, JavaScript syntax and locale/static checks passed. Runtime
+acceptance remains pending in CI 38863384721 and fleet 38863384507, together
+with a separately bound unchanged-F12 replay. No endpoint scientific pass,
+integration or deployment is claimed before those checks finish.

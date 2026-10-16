@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-10-16T06:39:53.312565+00:00",
+  "updated_utc": "2026-10-16T06:52:50.212724+00:00",
   "kind": "maintained per-record repair queue; no original verdicts rewritten",
   "original_screening": "chemistry-screening.json",
   "records": [
@@ -1388,11 +1388,13 @@
       "original_script": "design/scripts/119-permanganate_peroxide.lab",
       "original_script_sha256": "1f8bd42b5ce0044dfdfd0803c1bd0cad3a5199e8eeb44cf426fa6d58ceec32d7",
       "original_expected_observation": "Oxygen evolves and permanganate is consumed.",
-      "status": "pending_shared_continuation_prerequisite_and_endpoint",
-      "next_action": "Accept PR799 shared native/browser continuation and thermal ownership first. Then implement finite sulfate-acidified permanganate/peroxide endpoint with acid/reactant limits, retained/open oxygen and rollback; validate unchanged F12 and independent acid/peroxide/permanganate limiting controls.",
+      "status": "bounded_endpoint_source_implemented_and_reviewed; exact_head_runtime_acceptance_pending",
+      "next_action": "PR799 prerequisite integrated79f9e5f8; draftPR805 a03113a2 includes actualmain92e14021 and source-reviewed endpoint. Await native/cache-only/NodeWasm/livehook/Chromium/full own-fleet runs, then source/binary/actual-lock-bound unchangedF12 replay before normal protected exact-head integration. Preserve incomplete-input reporting, shared rollback and acid-depleted competing-product boundary.",
       "separate_stock_followups": [
         "F12-permanganate-peroxide-acid"
-      ]
+      ],
+      "source_review": "pr805-source-review.json",
+      "candidate_pr": "https://github.com/CrispStrobe/kerotakis/pull/805"
     },
     {
       "rank": 120,
