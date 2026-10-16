@@ -1,0 +1,11 @@
+{
+  "completed_utc": "2026-10-16T06:04:57.352021+00:00",
+  "controls": 4,
+  "passed_declared_controls": 4,
+  "preview_source_head": "4abb4d7982b1c661473a53f08732a49103878595",
+  "product_fix_head": "7d229066dc0039c62939dfd0dd04004e94b932be",
+  "origin": "https://kerotakis-web-payload-hik5d62q8-crispstrobes-projects.vercel.app",
+  "production_unchanged": true,
+  "product_native_and_full_fleet_acceptance_still_required": true,
+  "physical_calibration": false
+}

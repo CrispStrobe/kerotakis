@@ -170,3 +170,10 @@ a shared defect: the gravity clock reports settling of CuSO4 despite no solid
 CuSO4 in the preceding inventory. Historical addition lots are not authoritative
 current solids. A narrow physical-solid settling repair is now draft [PR803](https://github.com/CrispStrobe/kerotakis/pull/803), head `7d229066`, with seven core and two native controls awaiting acceptance; this
 experiment remains open for that defect despite its demonstrated chemical target.
+
+PR798 is now integrated as `5b7cc5ee` after all 58 applicable checks passed;
+[the receipt](pr798-integration.json) verifies the exact reviewed candidate tree.
+The canonical free/complex-bound ligand limitation remains open. The rebuilt
+settling repair also [passed four actual REST controls](solid-settling-rest-acceptance-20261016/completion.json),
+including both absent-stock negatives and the real AgCl particulate positive.
+Its product CI/full-fleet acceptance remains before integration.

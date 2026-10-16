@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-10-16T05:19:46.707177+00:00",
+  "updated_utc": "2026-10-16T06:15:11.554617+00:00",
   "kind": "maintained per-record repair queue; no original verdicts rewritten",
   "original_screening": "chemistry-screening.json",
   "records": [
@@ -172,11 +172,12 @@
       "original_script": "design/scripts/014-daniell_cell.lab",
       "original_script_sha256": "c6041a540026ef409cf64cbe234baa8d9a2d8268b24c21ecc969ccff25fd2fd1",
       "original_expected_observation": "Zinc dissolves and copper is deposited.",
-      "status": "complete_stock_displacement_verified; physical_solid_settling_repair_awaiting_native_and_fleet_acceptance",
-      "next_action": "Follow PR803 seven core and two native controls, all applicable CI and own fleets; fix failures, then normal protected exact-head auto-merge and rerun unchanged rank14 follow-up. Preserve first bogus-settling event and remaining grain-lot representation limits.",
+      "status": "complete_stock_displacement_verified; repaired_settling_passes_real_REST_controls; product_fleet_pending",
+      "next_action": "Finish PR803 applicable native/browser/full-fleet acceptance and protected exact-head integration. The isolated REST build already passed absentCuSO4/NaCl and realresidualAgCl controls; preserve source binding and original bogus event. Grain-size lot allocation remains separate.",
       "evidence": "case014-repair-20261016/assessment.json",
       "repair_pr": "https://github.com/CrispStrobe/kerotakis/pull/803",
-      "repair_head": "7d229066dc0039c62939dfd0dd04004e94b932be"
+      "repair_head": "7d229066dc0039c62939dfd0dd04004e94b932be",
+      "rest_acceptance": "solid-settling-rest-acceptance-20261016/completion.json"
     },
     {
       "rank": 15,
@@ -1445,12 +1446,13 @@
       "original_script": "design/scripts/124-silver_chloride_ammonia.lab",
       "original_script_sha256": "9fb665eb04280d4f7a98b3610b5a58eb65da00099de00916d6007bb817a59356",
       "original_expected_observation": "Silver chloride can dissolve as a soluble complex forms.",
-      "status": "speciation_candidate_demonstrated; combined_acceptance_and_ligand_ownership_pending",
-      "next_action": "Finish PR798 combined-source native/full-fleet acceptance and protected integration. Separately reconcile canonical free/complex-bound NH3 availability for downstream volatilisation/reactions. Do not count dissolution enhancement as full ownership closure.",
+      "status": "silver_ammine_equilibrium_routing_integrated; canonical_free_ligand_ownership_pending",
+      "next_action": "PR798 integrated as5b7cc5ee after all58applicable checks. Separately reconcile canonical free/complex-boundNH3 availability for volatilisation/curated reactions; do not turn demonstrated equilibrium complexes into a full ownership/calibration claim.",
       "separate_stock_followups": [
         "F11-AgCl-NH3"
       ],
-      "evidence": "silver-followup-replay-20261016/assessment.json"
+      "evidence": "silver-followup-replay-20261016/assessment.json",
+      "integration": "pr798-integration.json"
     },
     {
       "rank": 125,

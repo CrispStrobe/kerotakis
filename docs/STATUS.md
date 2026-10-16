@@ -335,3 +335,29 @@ and six PR803 files; [its binding](../audits/reaction-dataset-200-20261015/solid
 records both parents and the expected tree. Hosted preview run38856027175 is
 queued. This validation branch must never merge into main, and no successful
 execution or product acceptance is claimed before its build and checks finish.
+
+
+### Integrated silver route and actual repaired-engine REST acceptance
+
+[PR798](https://github.com/CrispStrobe/kerotakis/pull/798) integrated as
+`5b7cc5ee` after all 58 applicable checks succeeded (one unrelated skip),
+including both native platforms and complete own-fleet acceptance. The actual
+parents/tree match the reviewed candidate;
+[integration evidence](../audits/reaction-dataset-200-20261015/pr798-integration.json)
+retains the exact binding. Silver ammine equilibrium routing is integrated;
+canonical free/complex-bound ammonia ownership remains a separate explicit gap.
+No production deployment or empirical calibration follows from integration.
+Documentation PR802 integrated as `0f41950e` after 25 successful checks and one
+skip; its [receipt](../audits/reaction-dataset-200-20261015/pr802-integration.json)
+verifies actual parents and candidate tree.
+
+The isolated rebuilt PR803 preview now passed all four
+[real REST acceptance controls](../audits/reaction-dataset-200-20261015/solid-settling-rest-acceptance-20261016/completion.json).
+Absent CuSO4 and NaCl solids produce no false settling, real residual AgCl
+still settles, and the conducting-stock electrolysis retains its product/water
+balance. All requests returned HTTP200 on source `4abb4d79`, binary `2d83c77b`.
+Its three changed runtime blobs equal PR803 exactly; the separately frozen
+[engine/artifact binding](../audits/reaction-dataset-200-20261015/solid-settling-rest-acceptance-20261016/execution-binding.json)
+and raw responses are preserved. PR803's product native/core/browser and full
+fleet checks still govern integration. The isolated validation branch must
+never merge into main. Production remains unchanged.
