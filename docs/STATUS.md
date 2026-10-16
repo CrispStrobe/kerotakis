@@ -1,5 +1,10 @@
 # Kerotakis current state — 2026-10-16
 
+Read the [latest reaction-repair checkpoint](reaction-repair-checkpoint-20261016.md)
+for subsequent integrations, exact-source REST acceptance and the current queue.
+Its current states supersede older pending notes below; original results remain
+unchanged.
+
 This is the current entry point. Older dated checkpoints retain historical
 outcomes and may describe PRs that have since merged. No deployment or scientific
 calibration claim follows from a merge or green engineering tests.

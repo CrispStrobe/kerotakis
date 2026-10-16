@@ -1,0 +1,41 @@
+{
+  "rank": 14,
+  "classification": "direct-contact chemical target demonstrated; real settling narration/state-metadata defect remains open",
+  "observations": {
+    "copper_deposited_after_wait_mol": 0.001,
+    "aqueous_zinc_after_wait_mol": 0.001,
+    "zinc_solid_remaining_mol": 0,
+    "sulfate_after_wait_mol": 0.0010000000008318264,
+    "solid_CuSO4_before_wait_mol": 0,
+    "bogus_settling_events": [
+      {
+        "event": "gravity_settled",
+        "seconds": 10.0,
+        "separations": [
+          {
+            "direction": "outward",
+            "distance_m": 0.16183242099597245,
+            "particle_density_kg_m3": 3600.0,
+            "particle_diameter_um": 100.0,
+            "particle_size_assumed": true,
+            "separated_fraction": 1.0,
+            "species": "CuSO4",
+            "terminal_speed_m_s": 0.016183242099597244
+          }
+        ],
+        "vessel": 0
+      }
+    ]
+  },
+  "new_defect": "Gravity clock uses historical solid addition lots without requiring current physical solid inventory. It reports settling of absent CuSO4; this parallels reported dissolved-salt sedimentation.",
+  "repair_status": "Narrow physical-solid settling source repair in preparation; not yet validated or merged.",
+  "limits": [
+    "Direct-contact displacement demonstrates the source target; spatially separated electrical work is not measured by this protocol.",
+    "Pre-dose minor antlerite and raw post-dose sulfur residual remain explicit in the streams; no yield/thermal/rate calibration.",
+    "Do not count this as complete experiment/UI closure until stale-lot settling is repaired."
+  ],
+  "source_head": "efd79bf88eb1514bb87506171c39e808c3b544e1",
+  "original_results_modified": false,
+  "physical_calibration": false,
+  "deployed_current_engine": false
+}

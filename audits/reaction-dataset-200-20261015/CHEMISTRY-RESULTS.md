@@ -65,12 +65,11 @@ probe in place or count a warning as implemented chemistry.
 1. **Explain incomplete ionic inputs.** [PR796](https://github.com/CrispStrobe/kerotakis/pull/796)
    withholds solvent-only readings for explicit bare acid/base coordinates and
    discloses uncompensated analytical-component charge. Preserve complete-stock
-   predictions, inventory, typed interfaces and counterion recovery. Eight
-   regression groups are prepared; hosted execution is pending. A future physical
+   predictions, inventory, typed interfaces and counterion recovery. Seventeen focused core/aqueous groups and full native/own-fleet acceptance passed; PR796 integrated as `21d2cca8`. A future physical
    ion-input convention needs separate versioning, water and energy accounting.
-2. **Select silver–ammonia capability.** The source candidate is
-   [PR798](https://github.com/CrispStrobe/kerotakis/pull/798), with four focused
-   groups awaiting hosted execution. Its named limitation preserves the distinction
+2. **Select silver–ammonia capability — routing integrated.**
+   [PR798](https://github.com/CrispStrobe/kerotakis/pull/798) integrated as `5b7cc5ee`
+   after all 58 applicable checks passed (one skip). Its named limitation preserves the distinction
    between equilibrium speciation and canonical free-ligand availability. Inspect
    `crates/kerotakis-phreeqc/src/aqueous.rs` database selection. The default dataset
    lacks silver ammines; vendored `minteq.v4.dat` already contains sourced
@@ -116,3 +115,88 @@ The watercolor and vessel-animation work has its own accepted implementation;
 its acceptance does not close these chemical coverage lanes. The production API
 still reports its pinned engine revision, so later merges do not silently change
 these saved results.
+
+## Per-record repair checkpoint — 2026-10-16
+
+The [maintained repair queue](repair-progress.json) tracks all 200 records by
+original rank, script hash, current disposition and concrete next action. It does
+not rewrite the original screening or treat honest refusals as implemented
+chemistry. Shared prerequisites retain the order above; newly unblocked records
+are handled in rank order within their lane.
+
+Rank 1 now has a [paired repair-source replay](case001-repair-20261016/assessment.json).
+On engine `efd79bf8`, the unchanged bare-H+/OH− protocol withholds solution
+readings and names its unsupported analytical-coordinate interpretation. The
+separate complete HCl/NaOH protocol moves from pH 2.0381 to 6.9927 and warms by
+0.2407 K; a ten-second wait retains the near-neutral endpoint. This demonstrates
+the target with supported stocks and verifies the reporting repair. Bare-ion
+neutralisation remains unimplemented, and no empirical heat calibration or
+production-deployment claim follows. Both scripts, frozen forecasts, executable
+binding and raw streams are saved separately from the original experiment.
+
+The shared continuation prerequisite PR799 integrated as `79f9e5f8` after
+all 58 applicable checks passed (one skip), including native, actual browser,
+Wasm, bridge and complete own fleets. Initial near-vacuum fixture and translation
+failures remain preserved. The bounded rank-119 endpoint is now in source
+implementation and independent review; no endpoint runtime pass is claimed.
+
+PR801 integrated as `6fffb455` after both strict finite-gas controls, the old
+filtration assertion, full native suites and unchanged curiosity gate passed on
+both platforms, alongside the complete applicable fleets. PR798 routing is also
+integrated; canonical free/complex-bound ammonia ownership remains a separate
+gap after the demonstrated speciation fix. No production deployment follows.
+
+The [first fifteen distinct identity refusals](identity-first15-review-20261016.json)
+now have an exact-main registry/parser review and per-token acceptance tasks.
+Two are proven alias candidates: `CuSO4_anhydrous` → `CuSO4`, and the explicitly
+singly charged `acetate` → `CH3COO-`. The other thirteen need new identities,
+physical domains or clearer schematic definitions. This source review adds no
+aliases and executes no chemistry. Charged, hydrated, phase-specific and isomer
+identities must remain distinct. Continue implementation after the earlier
+endpoint prerequisites; a resolved first token can reveal further missing
+reactants in the same protocol.
+
+Rank 7 has a [separate conducting-stock replay](case007-repair-20261016/assessment.json):
+10 C produces 5.18213e-5 mol H2 and 2.59107e-5 mol O2, explicitly exported,
+with matching water consumption and unchanged sulfate. The original pure-water
+electrode-domain refusal remains unsupported; no empirical efficiency or full
+work/heat calibration is claimed.
+
+Rank 14's [complete copper-sulfate direct-contact replay](case014-repair-20261016/assessment.json)
+produces 1 mmol copper metal and aqueous zinc after the wait. It also reproduces
+a shared defect: the gravity clock reports settling of CuSO4 despite no solid
+CuSO4 in the preceding inventory. Historical addition lots are not authoritative
+current solids. A narrow physical-solid settling repair is now draft [PR803](https://github.com/CrispStrobe/kerotakis/pull/803), head `7d229066`, with seven core and two native controls awaiting acceptance; this
+experiment remains open for that defect despite its demonstrated chemical target.
+
+PR798 is now integrated as `5b7cc5ee` after all 58 applicable checks passed;
+[the receipt](pr798-integration.json) verifies the exact reviewed candidate tree.
+The canonical free/complex-bound ligand limitation remains open. The rebuilt
+settling repair also [passed four actual REST controls](solid-settling-rest-acceptance-20261016/completion.json),
+including both absent-stock negatives and the real AgCl particulate positive.
+Its product CI/full-fleet acceptance remains before integration.
+
+The finite-gas temperature/solvent precision prerequisite is now integrated via
+PR801 as `6fffb455`, with [actual parents/tree evidence](pr801-integration.json),
+all 58 successful applicable checks and unchanged strict assertions. Do not
+reinterpret earlier carbon/filtration failures as passes; they remain separate
+source-bound evidence. The current reaction queue still retains unsupported
+physical domains and canonical ligand ownership explicitly.
+
+
+PR799 subsequently integrated as `79f9e5f8` after all 58 applicable checks
+succeeded and one unrelated publication check skipped. Native, actual browser,
+Wasm, bridge and full own fleets passed; [actual parents/tree and accepted patch](pr799-integration.json)
+are verified. This closes the shared continuation prerequisite, not rank 119.
+The bounded acidic endpoint is now in source implementation with separate
+positive/negative, material, charge, gas, rollback and thermal acceptance.
+
+
+PR803 integrated as `92e14021` after all 58 applicable checks succeeded (one
+publication skip), including the full own fleets. [Actual integration evidence](pr803-integration.json)
+verifies parents/tree and the accepted patch on shared-continuation main. The
+four separately frozen rebuilt-engine REST controls remain source-bound and
+passed. Rank 14's complete-stock target and stale-solid settling repair are now
+verified; broader grain provenance and new-precipitate metadata remain separate.
+The working-script catalog adds the two demonstrated complete-stock protocols
+for ranks 7/14 without changing their original procedures or first outcomes.

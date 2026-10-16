@@ -1,0 +1,27 @@
+{
+  "frozen_utc": "2026-10-16T05:13:42.632393+00:00",
+  "kind": "rank014 complete copper-sulfate displacement followup; original bare-Cu input unchanged",
+  "rank": 14,
+  "engine": {
+    "source_head": "efd79bf88eb1514bb87506171c39e808c3b544e1",
+    "source_tree": "b85fca52e02c5a879cf47ae05cf546129f12b8fb",
+    "build_image": "public.ecr.aws/amazonlinux/amazonlinux@sha256:18c71e6a20f8b0834b002b6002156a84eea76162d5adea72d2ea8b86800eaf91",
+    "binary_sha256": "75cb9b3ca1a38c05dcde7faad1efdd4cb69ec89f7df29f4d91468baa3d0b00fa",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+    "libraries": {
+      "ld-linux-x86-64.so.2": "5022436ff15df9e54e79ee0a0ca8b3422a0dcb0c11920d9901ded30eccbf8638",
+      "libc.so.6": "fdf84d7d72db18bb3996a7b24f3eb473e7efbc8f994af7b159f76d61d1b4c978",
+      "libgcc_s.so.1": "9460b5f230d3f66554ec259e8e0890b0946dfde7cc83f95d1ac8d4dca3d3f9bb",
+      "libm.so.6": "f7cb1097b97353d994fe191e5fafc81f0171935792311a157c3082213fc704e0",
+      "libstdc++.so.6": "846b43f9f1429cc67ae7ffd24f4ccdd7a17d652765aaf3e6f9d2ca54178b369d"
+    },
+    "loader": "ld-linux-x86-64.so.2",
+    "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+    "target": "x86_64-unknown-linux-gnu"
+  },
+  "script": "add v1 water 100mL @ 25C\nadd v1 CuSO4 0.001mol\ninspect v1\nadd v1 Zn 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+  "script_sha256": "ec4e8d639ef8b85b06b2545cc0582c7cbca1236289c4429f41529ec3d6849544",
+  "forecast_before_execution": "Complete dilute CuSO4 plus direct zinc contact should produce copper metal while zinc becomes aqueous Zn(II). Before the dose, establish actual copper phases. Require substantial copper deposition and equal zinc consumption, finite Cu/Zn/S inventory closure and stability through a ten-second wait. This direct-contact branch does not measure electrical work from spatially separated half-cells; no empirical kinetic/yield/heat calibration claim.",
+  "original_protocol_status": "Original naked-Cu2+ analytical input and its precipitate-heavy result are retained separately, not rewritten.",
+  "lock_binding": "Producer-reported; rawlock bytes not included in hosted artifact."
+}

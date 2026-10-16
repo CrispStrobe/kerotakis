@@ -1,0 +1,43 @@
+{
+  "bound_utc": "2026-10-16T06:04:28.167891+00:00",
+  "origin": "https://kerotakis-web-payload-hik5d62q8-crispstrobes-projects.vercel.app",
+  "workflow": "https://github.com/CrispStrobe/kerotakis/actions/runs/38856027175",
+  "artifact_id": 12028141897,
+  "artifact_sha256": "b9f26374205787718006c075f733952146ddbe3a6da52da649252237e5bec653",
+  "native_manifest": {
+    "source_head": "4abb4d7982b1c661473a53f08732a49103878595",
+    "source_tree": "695e734c5fa354f6563c0d01f526ba5dc5bec928",
+    "build_image": "public.ecr.aws/amazonlinux/amazonlinux@sha256:18c71e6a20f8b0834b002b6002156a84eea76162d5adea72d2ea8b86800eaf91",
+    "binary_sha256": "2d83c77b18684aaffddde61f2ec8339f5d33d89c7d628bc1297b7babc4b56d25",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+    "libraries": {
+      "ld-linux-x86-64.so.2": "5022436ff15df9e54e79ee0a0ca8b3422a0dcb0c11920d9901ded30eccbf8638",
+      "libc.so.6": "fdf84d7d72db18bb3996a7b24f3eb473e7efbc8f994af7b159f76d61d1b4c978",
+      "libgcc_s.so.1": "9460b5f230d3f66554ec259e8e0890b0946dfde7cc83f95d1ac8d4dca3d3f9bb",
+      "libm.so.6": "f7cb1097b97353d994fe191e5fafc81f0171935792311a157c3082213fc704e0",
+      "libstdc++.so.6": "846b43f9f1429cc67ae7ffd24f4ccdd7a17d652765aaf3e6f9d2ca54178b369d"
+    },
+    "loader": "ld-linux-x86-64.so.2",
+    "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+    "target": "x86_64-unknown-linux-gnu"
+  },
+  "health": {
+    "service": "kerotakis",
+    "api_version": 1,
+    "mode": "vercel",
+    "configured": true,
+    "revision": "4abb4d7982b1c661473a53f08732a49103878595",
+    "execution_backend": "microvm",
+    "engine": {
+      "source_head": "4abb4d7982b1c661473a53f08732a49103878595",
+      "binary_sha256": "2d83c77b18684aaffddde61f2ec8339f5d33d89c7d628bc1297b7babc4b56d25",
+      "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+    }
+  },
+  "frozen_design_sha256": "194aca797ba177431a8177ff18432f9c951c10d7600f73cd4f7d303b86d0c71c",
+  "vm_job_sha256": "bb00548fb24e62192fc39a4f633981dceabea17d8542a8f5f3244b6c7e7b429f",
+  "sandbox_sha256": "4e4425da74b0b451c3ee6f51204db7bae395c3d6538cea81afe0fc207f355ef7",
+  "actual_microvm_isolation_passed": true,
+  "lock_binding": "Producer-reported; Cargo.lock bytes absent from artifact.",
+  "production_unchanged": true
+}

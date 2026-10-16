@@ -1,0 +1,25 @@
+{
+  "finished_utc": "2026-10-16T05:08:21.864443+00:00",
+  "cases": [
+    {
+      "id": "original-bare-input",
+      "exit_code": 0,
+      "stdout_sha256": "6480f432dc17e1cad14585ec396c71f88a232005b60d24a7ea0c16772154dadd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "resources": {
+        "available_mib": 4467.55078125,
+        "load1": 0.6474609375
+      }
+    },
+    {
+      "id": "complete-stock",
+      "exit_code": 0,
+      "stdout_sha256": "ef4baa9986be9fafc89d2a43d8ed607014fc4106c999705a1b0f2dfd5c0926ca",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "resources": {
+        "available_mib": 4460.203125,
+        "load1": 0.6474609375
+      }
+    }
+  ]
+}
