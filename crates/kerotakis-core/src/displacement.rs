@@ -1778,8 +1778,44 @@ impl Equilibrator for DisplacementEquilibrator {
 /// aqueous solver by value (the browser does, to feed it shipped results)
 /// can apply the same pass without boxing it.
 pub fn over(inner: &mut dyn Equilibrator, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+    if crate::acid_endpoint::may_apply(vessel) {
+        // The first aqueous answer can itself change temperature/material.
+        // If the endpoint's strict readback fails, no effects without their
+        // events may leak through hosts that lack a SolverStack checkpoint.
+        let mut candidate = vessel.clone();
+        let events = over_inner(inner, &mut candidate)?;
+        *vessel = candidate;
+        Ok(events)
+    } else {
+        over_inner(inner, vessel)
+    }
+}
+
+fn over_inner(inner: &mut dyn Equilibrator, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
     let t_start = vessel.temperature;
-    let mut events = inner.equilibrate(vessel)?;
+    let endpoint_possible = crate::acid_endpoint::may_apply(vessel);
+    let (mut events, answer) = if endpoint_possible
+        && crate::acid_endpoint::supported_input(vessel)
+        && inner.trusted_aqueous_readback().is_some()
+    {
+        crate::aqueous_continuation::characterize_optional_via(inner, vessel)?
+    } else {
+        (inner.equilibrate(vessel)?, None)
+    };
+    if endpoint_possible {
+        let continued = match answer {
+            Some(ref answer) => crate::acid_endpoint::run(vessel, answer, inner)?,
+            None => None,
+        };
+        if let Some(more) = continued {
+            // Readings from the initial answer no longer describe the final
+            // material. Preserve bookkeeping and named model limitations.
+            events.retain(|e| !matches!(e, Event::SolutionCharacterized { vessel: id, .. } if *id == vessel.id));
+            events.extend(more);
+        } else {
+            events.push(crate::acid_endpoint::outside_domain(vessel));
+        }
+    }
     if !DisplacementEquilibrator::has_series_metal(vessel) {
         return Ok(events);
     }

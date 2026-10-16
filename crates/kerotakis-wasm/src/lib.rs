@@ -271,6 +271,31 @@ impl Lab {
         .expect("the mechanical continuation report is serialisable")
     }
 
+    /// Actual bounded endpoint controls on local vessels through BrowserAqueous.
+    /// This makes no empirical rate/heat claim and does not mutate the bench.
+    #[wasm_bindgen(js_name = acidEndpointAcceptance)]
+    pub fn acid_endpoint_acceptance(&mut self, expect_missing: bool) -> String {
+        let mut browser = BrowserAqueous {
+            inner: &mut self.aqueous,
+        };
+        let mut report =
+            kerotakis_phreeqc::acid_endpoint_acceptance::run_wrapper(&mut browser, expect_missing);
+        if !expect_missing && report.passed() {
+            if let Err(error) =
+                kerotakis_phreeqc::acid_endpoint_acceptance::warm_missing_initials(&mut browser)
+            {
+                report.cases.push(
+                    kerotakis_phreeqc::continuation_acceptance::ContinuationCase {
+                        id: "missing-control-initial-questions".into(),
+                        passed: false,
+                        detail: error,
+                    },
+                );
+            }
+        }
+        serde_json::to_string(&report).expect("the endpoint report is serialisable")
+    }
+
     /// How much detail to render: `lv1` (what you see), `lv2` (equations
     /// and quantities), `lv3` (full numeric detail). More levels can be
     /// added without changing this call.

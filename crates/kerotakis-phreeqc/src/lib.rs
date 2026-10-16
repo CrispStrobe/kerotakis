@@ -14,6 +14,7 @@
 use std::ffi::{CStr, CString};
 
 pub mod acceptance;
+pub mod acid_endpoint_acceptance;
 mod aqueous;
 pub mod aqueous_gases;
 pub mod complexation;

@@ -378,6 +378,14 @@ async function boot() {
     }
   }
 
+  // Explicit engineering diagnostic, never part of an ordinary user session.
+  if (new URLSearchParams(location.search).has("acid-endpoint")) {
+    const report = JSON.parse(lab.acidEndpointAcceptance(false));
+    for (const test of report.cases) {
+      write(`ACID ${test.id}: ${test.passed ? "PASS" : `FAIL — ${test.detail}`}`);
+    }
+  }
+
   // A shareable bench: everything after `#run=` is run on load, with `;`
   // between commands. Makes a link to a specific experiment possible, and
   // makes the page testable without a human clicking anything.
