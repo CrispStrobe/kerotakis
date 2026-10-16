@@ -1,0 +1,13 @@
+# D3-MI-006: Magnetic recovery does not measure all the iron in a mixture
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 Fe 0.20g
+add v1 Fe2O3 0.20g
+add v1 SiO2 0.20g
+magnet v1 v2
+measure v1 balance
+measure v2 balance
+particles v1
+particles v2
+inspect

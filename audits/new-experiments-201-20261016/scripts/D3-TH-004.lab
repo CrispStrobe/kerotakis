@@ -1,0 +1,19 @@
+# D3-TH-004: A wax surrogate is not a chemically pure phase-change standard
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 paraffin 5g @ 20C
+add v2 hexadecane 5g @ 20C
+measure v1 melting_point
+measure v2 melting_point
+heat v1 0.5kJ
+heat v2 0.5kJ
+measure v1 thermometer
+measure v2 thermometer
+look v1
+look v2
+cool v1 0.5kJ
+cool v2 0.5kJ
+look v1
+look v2
+inspect

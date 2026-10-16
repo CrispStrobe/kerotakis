@@ -1,0 +1,12 @@
+# EC-010: Pass reducing equivalents through a recovered copper intermediate
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 CuSO4 0.001mol
+add v1 Zn 0.0003mol
+new
+filter v1 v2
+inspect v1
+add v1 water 100mL
+add v1 AgNO3 0.0005mol
+inspect

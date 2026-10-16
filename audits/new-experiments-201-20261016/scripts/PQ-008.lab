@@ -1,0 +1,16 @@
+# PQ-008: A saturated salt suspension absorbs dilution by dissolving its reservoir
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100g
+add v1 NaCl 50g
+measure v1 conductivity
+inspect v1
+dilute v1 20mL
+measure v1 conductivity
+inspect v1
+dilute v1 20mL
+measure v1 conductivity
+inspect v1
+dilute v1 200mL
+measure v1 conductivity
+inspect

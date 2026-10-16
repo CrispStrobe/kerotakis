@@ -1,0 +1,15 @@
+# SE-004: Repeated partial washing follows a geometric soluble-impurity budget
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 NaCl 0.001mol
+add v1 SiO2 1g
+new
+decant v1 v2 0.8
+dilute v1 80mL
+new
+decant v1 v3 0.8
+dilute v1 80mL
+new
+decant v1 v4 0.8
+inspect

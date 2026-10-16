@@ -1,0 +1,16 @@
+# D3-TH-001: Two cold additions need not have the same acid-base effect
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 water 30mL @ 25C
+add v2 water 30mL @ 25C
+add v1 dry_ice 0.10g @ -80C
+add v2 liquid_nitrogen 0.10g @ -196C
+measure v1 thermometer
+measure v2 thermometer
+measure v1 ph
+measure v2 ph
+wait 2min
+measure v1 ph
+measure v2 ph
+inspect

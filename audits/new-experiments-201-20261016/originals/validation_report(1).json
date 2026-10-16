@@ -1,0 +1,2157 @@
+{
+  "status": "pass",
+  "validation_kind": "custom_offline_subset_lint_and_data_integrity",
+  "official_kero_parser_run": false,
+  "kero_engine_run": false,
+  "chemistry_acceptance_evaluated": false,
+  "count": 101,
+  "counts_by_group": {
+    "quantitative-analysis": 12,
+    "acid-base": 12,
+    "precipitation": 12,
+    "redox": 12,
+    "gases": 8,
+    "kinetics": 12,
+    "separation": 12,
+    "thermal": 9,
+    "molecular-analysis": 12
+  },
+  "unique_script_bodies": 101,
+  "unique_action_protocols": 101,
+  "reagent_key_count": 52,
+  "reagent_keys": [
+    "Ag",
+    "AgCl",
+    "AgNO3",
+    "BaCl2",
+    "CH3COOH",
+    "CO2",
+    "Ca(OH)2",
+    "CaCO3",
+    "CaCl2",
+    "CaO",
+    "Cu",
+    "CuSO4",
+    "Fe",
+    "FeCl3",
+    "FeSO4",
+    "H2C2O4",
+    "H2O2",
+    "H2SO4",
+    "H3PO4",
+    "HCl",
+    "I2",
+    "KI",
+    "KMnO4",
+    "KNO3",
+    "KSCN",
+    "Mg(OH)2",
+    "MnO2",
+    "NH3",
+    "NH4Cl",
+    "Na2CO3",
+    "Na2S2O3",
+    "Na2SO4",
+    "NaCl",
+    "NaHCO3",
+    "NaNO3",
+    "NaOAc",
+    "NaOH",
+    "O2",
+    "SiO2",
+    "Zn",
+    "ZnSO4",
+    "ascorbic_acid",
+    "bromothymol_blue",
+    "catalase",
+    "ethanol",
+    "ethyl_acetate",
+    "glucose",
+    "hexane",
+    "methyl_orange",
+    "naphthalene",
+    "phenolphthalein",
+    "water"
+  ],
+  "command_count": 1352,
+  "commands": {
+    "add": 529,
+    "cell": 11,
+    "centrifuge": 5,
+    "cool": 10,
+    "decant": 10,
+    "dilute": 12,
+    "distil": 2,
+    "drain": 2,
+    "electrolyse": 4,
+    "extract": 5,
+    "filter": 26,
+    "grind": 9,
+    "heat": 12,
+    "inspect": 179,
+    "magnet": 2,
+    "measure": 234,
+    "new": 106,
+    "react": 10,
+    "register": 101,
+    "regulate": 2,
+    "seal": 26,
+    "stir": 1,
+    "sweep": 2,
+    "titrate": 22,
+    "wait": 30
+  },
+  "baseline_duplicate_check": {
+    "performed": true,
+    "baseline_count": 120,
+    "exact_script_matches": [],
+    "comment_stripped_body_matches": [],
+    "action_protocol_matches": [],
+    "id_collisions": [],
+    "semantic_novelty_certified": false
+  },
+  "errors": [],
+  "experiments": [
+    {
+      "id": "batch2:qa-001",
+      "status": "pass",
+      "errors": [],
+      "command_count": 13,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "CaCO3",
+        "HCl",
+        "NaOH",
+        "SiO2",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 6,
+        "new": 1,
+        "sweep": 1,
+        "wait": 1,
+        "titrate": 2,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:qa-002",
+      "status": "pass",
+      "errors": [],
+      "command_count": 10,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "CH3COOH",
+        "HCl",
+        "NaOH",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 5,
+        "new": 1,
+        "titrate": 2,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:qa-003",
+      "status": "pass",
+      "errors": [],
+      "command_count": 10,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "HCl",
+        "NaOH",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 2,
+        "new": 1,
+        "decant": 1,
+        "measure": 2,
+        "titrate": 2,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:qa-004",
+      "status": "pass",
+      "errors": [],
+      "command_count": 8,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "HCl",
+        "Na2CO3",
+        "NaHCO3",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 3,
+        "titrate": 2,
+        "inspect": 2
+      }
+    },
+    {
+      "id": "batch2:qa-009",
+      "status": "pass",
+      "errors": [],
+      "command_count": 11,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "BaCl2",
+        "Na2SO4",
+        "NaCl",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "new": 1,
+        "filter": 1,
+        "measure": 2,
+        "inspect": 2
+      }
+    },
+    {
+      "id": "batch2:qa-011",
+      "status": "pass",
+      "errors": [],
+      "command_count": 9,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "HCl",
+        "NaOH",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "new": 1,
+        "titrate": 2,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:qa-012",
+      "status": "pass",
+      "errors": [],
+      "command_count": 14,
+      "vessel_count": 4,
+      "reagent_keys": [
+        "AgNO3",
+        "CaCl2",
+        "NaCl",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 7,
+        "new": 3,
+        "filter": 2,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:ab-025",
+      "status": "pass",
+      "errors": [],
+      "command_count": 19,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "CH3COOH",
+        "HCl",
+        "NH3",
+        "NaOH",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 10,
+        "measure": 6,
+        "new": 1,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:ab-029",
+      "status": "pass",
+      "errors": [],
+      "command_count": 15,
+      "vessel_count": 3,
+      "reagent_keys": [
+        "HCl",
+        "Mg(OH)2",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 6,
+        "new": 2,
+        "filter": 1,
+        "measure": 4,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:ab-030",
+      "status": "pass",
+      "errors": [],
+      "command_count": 15,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "CaCO3",
+        "HCl",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 6,
+        "measure": 4,
+        "inspect": 4
+      }
+    },
+    {
+      "id": "batch2:ab-032",
+      "status": "pass",
+      "errors": [],
+      "command_count": 21,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "CH3COOH",
+        "NaOH",
+        "methyl_orange",
+        "phenolphthalein",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 10,
+        "new": 1,
+        "measure": 8,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:ab-033",
+      "status": "pass",
+      "errors": [],
+      "command_count": 13,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "HCl",
+        "NaOH",
+        "bromothymol_blue",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 5,
+        "measure": 6,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:ab-035",
+      "status": "pass",
+      "errors": [],
+      "command_count": 15,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "HCl",
+        "NaHCO3",
+        "NaOH",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 6,
+        "seal": 2,
+        "new": 1,
+        "measure": 4,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:ab-036",
+      "status": "pass",
+      "errors": [],
+      "command_count": 15,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "CaCO3",
+        "CaO",
+        "HCl",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 6,
+        "seal": 2,
+        "new": 1,
+        "measure": 4,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:pq-005",
+      "status": "pass",
+      "errors": [],
+      "command_count": 11,
+      "vessel_count": 3,
+      "reagent_keys": [
+        "CaCl2",
+        "Na2CO3",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 5,
+        "new": 2,
+        "heat": 1,
+        "filter": 1,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:pq-008",
+      "status": "pass",
+      "errors": [],
+      "command_count": 14,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "NaCl",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 2,
+        "measure": 4,
+        "inspect": 4,
+        "dilute": 3
+      }
+    },
+    {
+      "id": "batch2:ec-001",
+      "status": "pass",
+      "errors": [],
+      "command_count": 15,
+      "vessel_count": 3,
+      "reagent_keys": [
+        "Cu",
+        "CuSO4",
+        "Zn",
+        "ZnSO4",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 9,
+        "new": 2,
+        "cell": 2,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:ec-006",
+      "status": "pass",
+      "errors": [],
+      "command_count": 10,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "CuSO4",
+        "Zn",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 5,
+        "inspect": 4
+      }
+    },
+    {
+      "id": "batch2:ec-008",
+      "status": "pass",
+      "errors": [],
+      "command_count": 13,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "FeCl3",
+        "FeSO4",
+        "H2SO4",
+        "KI",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 8,
+        "new": 1,
+        "measure": 2,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:ec-011",
+      "status": "pass",
+      "errors": [],
+      "command_count": 11,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "Na2SO4",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "seal": 2,
+        "new": 1,
+        "electrolyse": 2,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:gs-011",
+      "status": "pass",
+      "errors": [],
+      "command_count": 15,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "CO2",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "wait": 2,
+        "seal": 2,
+        "new": 1,
+        "measure": 4,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:gs-012",
+      "status": "pass",
+      "errors": [],
+      "command_count": 15,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "CO2",
+        "NaOH",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 5,
+        "seal": 1,
+        "measure": 7,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:gs-013",
+      "status": "pass",
+      "errors": [],
+      "command_count": 17,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "HCl",
+        "Na2CO3",
+        "NaHCO3",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 8,
+        "seal": 2,
+        "new": 1,
+        "measure": 4,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:ki-001",
+      "status": "pass",
+      "errors": [],
+      "command_count": 12,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "H2O2",
+        "MnO2",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 3,
+        "seal": 1,
+        "wait": 3,
+        "inspect": 4
+      }
+    },
+    {
+      "id": "batch2:ki-002",
+      "status": "pass",
+      "errors": [],
+      "command_count": 14,
+      "vessel_count": 3,
+      "reagent_keys": [
+        "H2O2",
+        "MnO2",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 6,
+        "new": 2,
+        "wait": 2,
+        "filter": 1,
+        "inspect": 2
+      }
+    },
+    {
+      "id": "batch2:se-002",
+      "status": "pass",
+      "errors": [],
+      "command_count": 11,
+      "vessel_count": 3,
+      "reagent_keys": [
+        "NaCl",
+        "hexane",
+        "naphthalene",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 3,
+        "new": 2,
+        "filter": 1,
+        "extract": 1,
+        "measure": 2,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:se-003",
+      "status": "pass",
+      "errors": [],
+      "command_count": 11,
+      "vessel_count": 3,
+      "reagent_keys": [
+        "KNO3",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 2,
+        "heat": 1,
+        "new": 2,
+        "filter": 2,
+        "inspect": 2,
+        "cool": 1
+      }
+    },
+    {
+      "id": "batch2:se-004",
+      "status": "pass",
+      "errors": [],
+      "command_count": 13,
+      "vessel_count": 4,
+      "reagent_keys": [
+        "NaCl",
+        "SiO2",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 3,
+        "new": 3,
+        "decant": 3,
+        "dilute": 2,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:se-007",
+      "status": "pass",
+      "errors": [],
+      "command_count": 15,
+      "vessel_count": 4,
+      "reagent_keys": [
+        "CH3COOH",
+        "NaCl",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "new": 3,
+        "distil": 2,
+        "measure": 4,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:se-009",
+      "status": "pass",
+      "errors": [],
+      "command_count": 10,
+      "vessel_count": 3,
+      "reagent_keys": [
+        "NaCl",
+        "SiO2",
+        "hexane",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "new": 2,
+        "drain": 1,
+        "filter": 1,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:se-010",
+      "status": "pass",
+      "errors": [],
+      "command_count": 11,
+      "vessel_count": 4,
+      "reagent_keys": [
+        "Fe",
+        "FeCl3",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "new": 3,
+        "magnet": 2,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:se-011",
+      "status": "pass",
+      "errors": [],
+      "command_count": 13,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "NaCl",
+        "SiO2",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "grind": 1,
+        "centrifuge": 1,
+        "inspect": 2,
+        "new": 1,
+        "measure": 3
+      }
+    },
+    {
+      "id": "batch2:tc-002",
+      "status": "pass",
+      "errors": [],
+      "command_count": 25,
+      "vessel_count": 4,
+      "reagent_keys": [
+        "HCl",
+        "NaOH",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 8,
+        "new": 3,
+        "measure": 10,
+        "decant": 2,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:tc-007",
+      "status": "pass",
+      "errors": [],
+      "command_count": 11,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 2,
+        "new": 1,
+        "cool": 2,
+        "measure": 4,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:tc-009",
+      "status": "pass",
+      "errors": [],
+      "command_count": 23,
+      "vessel_count": 4,
+      "reagent_keys": [
+        "HCl",
+        "NaOH",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 8,
+        "new": 3,
+        "measure": 8,
+        "decant": 2,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:mo-007",
+      "status": "pass",
+      "errors": [],
+      "command_count": 14,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "CuSO4",
+        "H2SO4",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 3,
+        "measure": 5,
+        "inspect": 3,
+        "dilute": 2
+      }
+    },
+    {
+      "id": "batch2:mo-009",
+      "status": "pass",
+      "errors": [],
+      "command_count": 14,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "CuSO4",
+        "H2SO4",
+        "SiO2",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "stir": 1,
+        "measure": 4,
+        "inspect": 2,
+        "new": 1,
+        "filter": 1
+      }
+    },
+    {
+      "id": "batch2:mo-012",
+      "status": "pass",
+      "errors": [],
+      "command_count": 17,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "I2",
+        "KI",
+        "ascorbic_acid",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 7,
+        "new": 1,
+        "measure": 6,
+        "dilute": 1,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:qa-005",
+      "status": "pass",
+      "errors": [],
+      "command_count": 8,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "HCl",
+        "Na2CO3",
+        "NaOH",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 3,
+        "titrate": 2,
+        "inspect": 2
+      }
+    },
+    {
+      "id": "batch2:qa-006",
+      "status": "pass",
+      "errors": [],
+      "command_count": 7,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "H2C2O4",
+        "H2SO4",
+        "KMnO4",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 3,
+        "titrate": 1,
+        "measure": 1,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:qa-007",
+      "status": "pass",
+      "errors": [],
+      "command_count": 15,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "I2",
+        "KI",
+        "Na2S2O3",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 7,
+        "measure": 4,
+        "inspect": 3
+      }
+    },
+    {
+      "id": "batch2:qa-008",
+      "status": "pass",
+      "errors": [],
+      "command_count": 17,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "I2",
+        "KI",
+        "Na2S2O3",
+        "ascorbic_acid",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 10,
+        "new": 1,
+        "measure": 4,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:qa-010",
+      "status": "pass",
+      "errors": [],
+      "command_count": 9,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "CH3COOH",
+        "NaOH",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "new": 1,
+        "titrate": 2,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:ab-026",
+      "status": "pass",
+      "errors": [],
+      "command_count": 14,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "CH3COOH",
+        "HCl",
+        "NaCl",
+        "NaOAc",
+        "NaOH",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 7,
+        "new": 1,
+        "measure": 4,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:ab-027",
+      "status": "pass",
+      "errors": [],
+      "command_count": 16,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "CH3COOH",
+        "HCl",
+        "NaOH",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 7,
+        "measure": 7,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:ab-031",
+      "status": "pass",
+      "errors": [],
+      "command_count": 17,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "NH3",
+        "NH4Cl",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 6,
+        "seal": 2,
+        "new": 1,
+        "measure": 4,
+        "sweep": 1,
+        "wait": 1,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:ab-034",
+      "status": "pass",
+      "errors": [],
+      "command_count": 16,
+      "vessel_count": 3,
+      "reagent_keys": [
+        "H3PO4",
+        "NaOH",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 9,
+        "new": 2,
+        "measure": 3,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:pq-001",
+      "status": "pass",
+      "errors": [],
+      "command_count": 11,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "FeCl3",
+        "HCl",
+        "KSCN",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 5,
+        "measure": 3,
+        "inspect": 2
+      }
+    },
+    {
+      "id": "batch2:pq-004",
+      "status": "pass",
+      "errors": [],
+      "command_count": 11,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "AgNO3",
+        "KI",
+        "NaCl",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 5,
+        "new": 1,
+        "filter": 1,
+        "inspect": 2,
+        "measure": 1
+      }
+    },
+    {
+      "id": "batch2:pq-006",
+      "status": "pass",
+      "errors": [],
+      "command_count": 12,
+      "vessel_count": 3,
+      "reagent_keys": [
+        "CaCl2",
+        "HCl",
+        "Mg(OH)2",
+        "Na2CO3",
+        "NaOH",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 6,
+        "new": 2,
+        "filter": 2,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:pq-007",
+      "status": "pass",
+      "errors": [],
+      "command_count": 20,
+      "vessel_count": 6,
+      "reagent_keys": [
+        "AgNO3",
+        "NaCl",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 9,
+        "new": 5,
+        "filter": 4,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:pq-009",
+      "status": "pass",
+      "errors": [],
+      "command_count": 11,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "BaCl2",
+        "Na2CO3",
+        "Na2SO4",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 8,
+        "new": 1,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:pq-011",
+      "status": "pass",
+      "errors": [],
+      "command_count": 14,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "CH3COOH",
+        "CuSO4",
+        "NaOH",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 9,
+        "new": 1,
+        "measure": 2,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:pq-012",
+      "status": "pass",
+      "errors": [],
+      "command_count": 11,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "CaCl2",
+        "H3PO4",
+        "HCl",
+        "NaOH",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 6,
+        "inspect": 2,
+        "new": 1,
+        "filter": 1
+      }
+    },
+    {
+      "id": "batch2:ec-002",
+      "status": "pass",
+      "errors": [],
+      "command_count": 16,
+      "vessel_count": 3,
+      "reagent_keys": [
+        "Ag",
+        "AgNO3",
+        "Cu",
+        "CuSO4",
+        "Zn",
+        "ZnSO4",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 9,
+        "new": 2,
+        "cell": 3,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:ec-003",
+      "status": "pass",
+      "errors": [],
+      "command_count": 13,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "Cu",
+        "CuSO4",
+        "Zn",
+        "ZnSO4",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 6,
+        "new": 1,
+        "cell": 2,
+        "dilute": 2,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:ec-004",
+      "status": "pass",
+      "errors": [],
+      "command_count": 12,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "Ag",
+        "AgNO3",
+        "NaCl",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 7,
+        "new": 1,
+        "cell": 2,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:ec-007",
+      "status": "pass",
+      "errors": [],
+      "command_count": 7,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "AgCl",
+        "Zn",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 3,
+        "inspect": 2,
+        "measure": 1
+      }
+    },
+    {
+      "id": "batch2:ec-009",
+      "status": "pass",
+      "errors": [],
+      "command_count": 7,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "FeSO4",
+        "H2SO4",
+        "KMnO4",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 3,
+        "titrate": 1,
+        "measure": 1,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:ec-010",
+      "status": "pass",
+      "errors": [],
+      "command_count": 10,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "AgNO3",
+        "CuSO4",
+        "Zn",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 5,
+        "new": 1,
+        "filter": 1,
+        "inspect": 2
+      }
+    },
+    {
+      "id": "batch2:ec-012",
+      "status": "pass",
+      "errors": [],
+      "command_count": 10,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "CuSO4",
+        "Na2SO4",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 3,
+        "seal": 1,
+        "electrolyse": 2,
+        "inspect": 3
+      }
+    },
+    {
+      "id": "batch2:gs-014",
+      "status": "pass",
+      "errors": [],
+      "command_count": 13,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "HCl",
+        "NH4Cl",
+        "NaOH",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "seal": 1,
+        "measure": 5,
+        "inspect": 2
+      }
+    },
+    {
+      "id": "batch2:gs-015",
+      "status": "pass",
+      "errors": [],
+      "command_count": 15,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "CO2",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 2,
+        "seal": 1,
+        "measure": 6,
+        "inspect": 3,
+        "heat": 1,
+        "cool": 1
+      }
+    },
+    {
+      "id": "batch2:gs-016",
+      "status": "pass",
+      "errors": [],
+      "command_count": 13,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "CO2",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "seal": 2,
+        "new": 1,
+        "measure": 4,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:gs-017",
+      "status": "pass",
+      "errors": [],
+      "command_count": 12,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "O2",
+        "glucose",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 3,
+        "seal": 1,
+        "inspect": 3,
+        "measure": 3,
+        "react": 1
+      }
+    },
+    {
+      "id": "batch2:gs-018",
+      "status": "pass",
+      "errors": [],
+      "command_count": 13,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "CO2",
+        "Ca(OH)2",
+        "HCl",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 5,
+        "seal": 2,
+        "inspect": 2,
+        "new": 1,
+        "filter": 1,
+        "measure": 1
+      }
+    },
+    {
+      "id": "batch2:ki-003",
+      "status": "pass",
+      "errors": [],
+      "command_count": 14,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "H2O2",
+        "MnO2",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 6,
+        "grind": 2,
+        "new": 1,
+        "wait": 2,
+        "inspect": 2
+      }
+    },
+    {
+      "id": "batch2:ki-004",
+      "status": "pass",
+      "errors": [],
+      "command_count": 12,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "H2O2",
+        "MnO2",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 3,
+        "grind": 2,
+        "wait": 2,
+        "inspect": 4
+      }
+    },
+    {
+      "id": "batch2:ki-005",
+      "status": "pass",
+      "errors": [],
+      "command_count": 10,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "H2O2",
+        "catalase",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 3,
+        "wait": 2,
+        "new": 1,
+        "decant": 1,
+        "inspect": 2
+      }
+    },
+    {
+      "id": "batch2:ki-006",
+      "status": "pass",
+      "errors": [],
+      "command_count": 14,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "H2O2",
+        "MnO2",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 6,
+        "new": 1,
+        "wait": 3,
+        "inspect": 3
+      }
+    },
+    {
+      "id": "batch2:ki-007",
+      "status": "pass",
+      "errors": [],
+      "command_count": 12,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "H2O2",
+        "MnO2",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 3,
+        "wait": 2,
+        "measure": 2,
+        "inspect": 3,
+        "cool": 1
+      }
+    },
+    {
+      "id": "batch2:ki-009",
+      "status": "pass",
+      "errors": [],
+      "command_count": 13,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "HCl",
+        "Na2S2O3",
+        "NaOH",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 5,
+        "wait": 3,
+        "inspect": 4
+      }
+    },
+    {
+      "id": "batch2:ki-010",
+      "status": "pass",
+      "errors": [],
+      "command_count": 10,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "HCl",
+        "Na2S2O3",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 3,
+        "wait": 2,
+        "new": 1,
+        "filter": 1,
+        "inspect": 2
+      }
+    },
+    {
+      "id": "batch2:ki-012",
+      "status": "pass",
+      "errors": [],
+      "command_count": 14,
+      "vessel_count": 3,
+      "reagent_keys": [
+        "H2O2",
+        "KMnO4",
+        "ethanol",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 7,
+        "inspect": 2,
+        "new": 2,
+        "filter": 1,
+        "wait": 1
+      }
+    },
+    {
+      "id": "batch2:se-001",
+      "status": "pass",
+      "errors": [],
+      "command_count": 11,
+      "vessel_count": 3,
+      "reagent_keys": [
+        "I2",
+        "Na2S2O3",
+        "hexane",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "new": 2,
+        "extract": 1,
+        "inspect": 2,
+        "drain": 1
+      }
+    },
+    {
+      "id": "batch2:se-005",
+      "status": "pass",
+      "errors": [],
+      "command_count": 11,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "SiO2",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "grind": 2,
+        "new": 1,
+        "centrifuge": 2,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:se-006",
+      "status": "pass",
+      "errors": [],
+      "command_count": 11,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "SiO2",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "grind": 2,
+        "new": 1,
+        "centrifuge": 2,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:se-008",
+      "status": "pass",
+      "errors": [],
+      "command_count": 12,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "KNO3",
+        "NaCl",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 3,
+        "heat": 1,
+        "measure": 2,
+        "inspect": 2,
+        "cool": 1,
+        "new": 1,
+        "filter": 1
+      }
+    },
+    {
+      "id": "batch2:se-012",
+      "status": "pass",
+      "errors": [],
+      "command_count": 11,
+      "vessel_count": 4,
+      "reagent_keys": [
+        "hexane",
+        "naphthalene",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "new": 3,
+        "extract": 2,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:tc-001",
+      "status": "pass",
+      "errors": [],
+      "command_count": 18,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "CaO",
+        "HCl",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 6,
+        "measure": 8,
+        "inspect": 2,
+        "new": 1
+      }
+    },
+    {
+      "id": "batch2:tc-003",
+      "status": "pass",
+      "errors": [],
+      "command_count": 9,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 2,
+        "cool": 1,
+        "measure": 3,
+        "inspect": 2
+      }
+    },
+    {
+      "id": "batch2:tc-004",
+      "status": "pass",
+      "errors": [],
+      "command_count": 14,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "NaCl",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 2,
+        "measure": 4,
+        "cool": 1,
+        "inspect": 3,
+        "new": 1,
+        "filter": 1,
+        "heat": 1
+      }
+    },
+    {
+      "id": "batch2:tc-005",
+      "status": "pass",
+      "errors": [],
+      "command_count": 15,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 2,
+        "regulate": 2,
+        "new": 1,
+        "heat": 2,
+        "measure": 6,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:tc-006",
+      "status": "pass",
+      "errors": [],
+      "command_count": 17,
+      "vessel_count": 4,
+      "reagent_keys": [
+        "Cu",
+        "Fe"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "new": 3,
+        "heat": 4,
+        "measure": 4,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:tc-008",
+      "status": "pass",
+      "errors": [],
+      "command_count": 9,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "NaCl",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 2,
+        "cool": 1,
+        "measure": 3,
+        "inspect": 2
+      }
+    },
+    {
+      "id": "batch2:mo-001",
+      "status": "pass",
+      "errors": [],
+      "command_count": 14,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "CH3COOH",
+        "NaOH",
+        "ethanol",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 6,
+        "react": 1,
+        "inspect": 3,
+        "titrate": 2,
+        "new": 1
+      }
+    },
+    {
+      "id": "batch2:mo-002",
+      "status": "pass",
+      "errors": [],
+      "command_count": 17,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "NaOH",
+        "O2",
+        "ethanol",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 6,
+        "seal": 2,
+        "react": 1,
+        "inspect": 4,
+        "titrate": 2,
+        "new": 1
+      }
+    },
+    {
+      "id": "batch2:mo-005",
+      "status": "pass",
+      "errors": [],
+      "command_count": 13,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "Ca(OH)2",
+        "O2",
+        "glucose",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "seal": 1,
+        "react": 1,
+        "inspect": 3,
+        "measure": 1,
+        "new": 1,
+        "filter": 1
+      }
+    },
+    {
+      "id": "batch2:mo-006",
+      "status": "pass",
+      "errors": [],
+      "command_count": 13,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "HCl",
+        "NaOH",
+        "ethyl_acetate",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 5,
+        "react": 1,
+        "inspect": 3,
+        "titrate": 2,
+        "new": 1
+      }
+    },
+    {
+      "id": "batch2:mo-010",
+      "status": "pass",
+      "errors": [],
+      "command_count": 17,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "NaCl",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 2,
+        "measure": 9,
+        "inspect": 3,
+        "heat": 1,
+        "cool": 1
+      }
+    },
+    {
+      "id": "batch2:mo-011",
+      "status": "pass",
+      "errors": [],
+      "command_count": 13,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "NaOH",
+        "ethyl_acetate",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "measure": 3,
+        "inspect": 3,
+        "react": 2
+      }
+    },
+    {
+      "id": "batch2:ab-028",
+      "status": "pass",
+      "errors": [],
+      "command_count": 24,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "CH3COOH",
+        "H3PO4",
+        "NaOH",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 13,
+        "new": 1,
+        "measure": 8,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:pq-002",
+      "status": "pass",
+      "errors": [],
+      "command_count": 19,
+      "vessel_count": 3,
+      "reagent_keys": [
+        "FeCl3",
+        "HCl",
+        "KSCN",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 12,
+        "new": 2,
+        "measure": 3,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:pq-003",
+      "status": "pass",
+      "errors": [],
+      "command_count": 14,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "FeCl3",
+        "H3PO4",
+        "HCl",
+        "KSCN",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 6,
+        "new": 1,
+        "decant": 1,
+        "measure": 4,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:pq-010",
+      "status": "pass",
+      "errors": [],
+      "command_count": 9,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "AgNO3",
+        "CH3COOH",
+        "Na2CO3",
+        "NaCl",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 5,
+        "inspect": 3
+      }
+    },
+    {
+      "id": "batch2:ec-005",
+      "status": "pass",
+      "errors": [],
+      "command_count": 12,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "Cu",
+        "CuSO4",
+        "NaNO3",
+        "Zn",
+        "ZnSO4",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 7,
+        "new": 1,
+        "cell": 2,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:ki-008",
+      "status": "pass",
+      "errors": [],
+      "command_count": 15,
+      "vessel_count": 3,
+      "reagent_keys": [
+        "H2O2",
+        "MnO2",
+        "catalase",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 10,
+        "new": 2,
+        "wait": 1,
+        "inspect": 1
+      }
+    },
+    {
+      "id": "batch2:ki-011",
+      "status": "pass",
+      "errors": [],
+      "command_count": 22,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "H2O2",
+        "H2SO4",
+        "KI",
+        "Na2S2O3",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 10,
+        "new": 1,
+        "wait": 3,
+        "measure": 4,
+        "inspect": 3
+      }
+    },
+    {
+      "id": "batch2:mo-003",
+      "status": "pass",
+      "errors": [],
+      "command_count": 11,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "NaOH",
+        "O2",
+        "ethyl_acetate",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "seal": 1,
+        "react": 2,
+        "inspect": 2,
+        "measure": 1
+      }
+    },
+    {
+      "id": "batch2:mo-004",
+      "status": "pass",
+      "errors": [],
+      "command_count": 11,
+      "vessel_count": 2,
+      "reagent_keys": [
+        "CH3COOH",
+        "ethanol",
+        "hexane",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 3,
+        "react": 1,
+        "inspect": 2,
+        "new": 1,
+        "extract": 1,
+        "measure": 2
+      }
+    },
+    {
+      "id": "batch2:mo-008",
+      "status": "pass",
+      "errors": [],
+      "command_count": 18,
+      "vessel_count": 1,
+      "reagent_keys": [
+        "CuSO4",
+        "H2SO4",
+        "NaNO3",
+        "water"
+      ],
+      "commands": {
+        "register": 1,
+        "add": 6,
+        "measure": 6,
+        "inspect": 3,
+        "dilute": 2
+      }
+    }
+  ],
+  "json_schema_validation": {
+    "performed": true,
+    "status": "pass",
+    "errors": []
+  },
+  "package_file_checks": {
+    "performed": true,
+    "script_file_count": 101,
+    "status": "pass",
+    "errors": []
+  }
+}

@@ -1,0 +1,15 @@
+# D3-PO-010: A thermoplastic article and its repeat-unit stock are not identical objects
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 thermoplastic 2g @ 20C
+add v2 PE 2g @ 20C
+heat v1 0.5kJ
+heat v2 0.5kJ
+measure v1 thermometer
+measure v2 thermometer
+look v1
+look v2
+particles v1
+particles v2
+inspect

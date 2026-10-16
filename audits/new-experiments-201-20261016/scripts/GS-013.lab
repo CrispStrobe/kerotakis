@@ -1,0 +1,19 @@
+# GS-013: Equal carbon amounts need different acid doses before fizzing
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 Na2CO3 0.001mol
+seal v1 100mL
+new
+add v2 water 100mL
+add v2 NaHCO3 0.001mol
+seal v2 100mL
+add v1 HCl 0.0005mol
+add v2 HCl 0.0005mol
+measure v1 pressure
+measure v2 pressure
+inspect
+add v1 HCl 0.002mol
+add v2 HCl 0.002mol
+measure v1 pressure
+measure v2 pressure

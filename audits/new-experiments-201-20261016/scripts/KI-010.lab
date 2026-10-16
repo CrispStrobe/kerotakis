@@ -1,0 +1,12 @@
+# KI-010: Removing the visible sulfur does not remove all unreacted precursor
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 Na2S2O3 0.002mol
+add v1 HCl 0.002mol
+wait 10s
+new
+filter v1 v2
+inspect
+wait 30s
+inspect

@@ -1,0 +1,13 @@
+# SE-002: Separate a dissolved nonpolar solute from a soluble salt
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 NaCl 0.001mol
+add v1 naphthalene 0.000005mol
+new
+filter v1 v2
+new
+extract v2 v3 hexane 20mL
+measure v2 conductivity
+measure v3 chromatograph
+inspect

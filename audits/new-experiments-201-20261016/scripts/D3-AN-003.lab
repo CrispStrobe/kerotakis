@@ -1,0 +1,23 @@
+# D3-AN-003: Compare chloride, bromide and iodide precipitate fingerprints
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+new
+add v1 water 30mL
+add v1 NaCl 0.0001mol
+add v2 water 30mL
+add v2 NaBr 0.0001mol
+add v3 water 30mL
+add v3 KI 0.0001mol
+add v4 water 30mL
+add v1 AgNO3 0.0001mol
+add v2 AgNO3 0.0001mol
+add v3 AgNO3 0.0001mol
+add v4 AgNO3 0.0001mol
+look v1
+look v2
+look v3
+look v4
+particles v2
+inspect

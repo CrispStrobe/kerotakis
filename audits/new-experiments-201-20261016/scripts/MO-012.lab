@@ -1,0 +1,19 @@
+# MO-012: A weaker iodine colour can mean dilution or reduction
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 KI 0.001mol
+add v1 I2 0.00001mol
+new
+add v2 water 100mL
+add v2 KI 0.001mol
+add v2 I2 0.00001mol
+measure v1 uvvis
+measure v2 uvvis
+dilute v1 900mL
+add v2 ascorbic_acid 0.00001mol
+measure v1 eyes
+measure v2 eyes
+measure v1 uvvis
+measure v2 uvvis
+inspect

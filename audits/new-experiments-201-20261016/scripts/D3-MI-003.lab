@@ -1,0 +1,22 @@
+# D3-MI-003: A sulfate background and an ionic-strength control affect gypsum differently
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+add v1 water 50mL
+add v1 gypsum 0.002mol
+add v1 Na2SO4 0.001mol
+add v2 water 50mL
+add v2 gypsum 0.002mol
+add v2 NaCl 0.002mol
+add v3 water 50mL
+add v3 gypsum 0.002mol
+stir v1 300rpm 10s
+stir v2 300rpm 10s
+stir v3 300rpm 10s
+look v1
+look v2
+look v3
+particles v1
+particles v2
+inspect

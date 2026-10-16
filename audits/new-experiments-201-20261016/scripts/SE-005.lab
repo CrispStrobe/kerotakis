@@ -1,0 +1,13 @@
+# SE-005: Centrifugal acceleration depends quadratically on rotation speed
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100g
+add v1 SiO2 0.1g
+grind v1 SiO2 5um
+new
+add v2 water 100g
+add v2 SiO2 0.1g
+grind v2 SiO2 5um
+centrifuge v1 1000rpm 30s 10cm 100.1g
+centrifuge v2 2000rpm 30s 10cm 100.1g
+inspect

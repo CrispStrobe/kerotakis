@@ -495,9 +495,15 @@ mass. No original case is closed and the working catalog remains149. This
 user-directed split supersedes earlier serialized ordering where independent.
 
 The newly supplied batches contain **201 designed, unexecuted experiments**
-(100 plus101). The protocol lane is preserving original scripts/forecasts and
-preparing a separate syntax/procedure intake. These are separate from the200
-reference screen and are not new scientific passes.
+(100 plus101). The [separate source-only intake](../audits/new-experiments-201-20261016/README.md)
+preserves supplied bytes and all201 original script hashes, forecasts and IDs.
+All3,002 command lines have been screened against source. Four SO-001–SO-004
+[corrected candidates](../audits/new-experiments-201-20261016/protocol-rewrites.json)
+add the missing explicit `react … haloalkane` calls; no identity, dose or original
+physical forecast changed. The prioritized queue separately covers titration,
+time, boundary/energy and transport acceptance. Official parser/runtime checks
+remain pending. These201 are separate from the200 reference screen and are not
+new scientific passes.
 
 [PR795 gateway](../audits/reaction-dataset-200-20261015/pr795-integration.json)
 merged as `c4469205` after all59 successful checks and one skip, with applicable

@@ -1,0 +1,16 @@
+# MO-007: Serial dilution: absorbance follows concentration, not total copper
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 H2SO4 0.001mol
+add v1 CuSO4 0.001mol
+measure v1 uvvis
+measure v1 eyes
+inspect v1
+dilute v1 100mL
+measure v1 uvvis
+inspect v1
+dilute v1 200mL
+measure v1 uvvis
+measure v1 eyes
+inspect

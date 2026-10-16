@@ -1,0 +1,13 @@
+# PQ-009: Competing anions share a limited barium budget
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 Na2SO4 0.0005mol
+add v1 Na2CO3 0.0005mol
+add v1 BaCl2 0.0004mol
+new
+add v2 water 100mL
+add v2 Na2SO4 0.0005mol
+add v2 Na2CO3 0.0005mol
+add v2 BaCl2 0.0008mol
+inspect

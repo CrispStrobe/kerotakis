@@ -1,0 +1,20 @@
+# D3-SU-003: Passivated alloy and bare iron are not equivalent aqueous inputs
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 water 50mL
+add v1 NaCl 0.005mol
+add v1 stainless_steel 1g
+add v2 water 50mL
+add v2 NaCl 0.005mol
+add v2 Fe 0.70g
+seal v1 500mL
+seal v2 500mL
+add v1 O2 0.003mol
+add v2 O2 0.003mol
+wait 72h
+look v1
+look v2
+measure v1 conductivity
+measure v2 conductivity
+inspect

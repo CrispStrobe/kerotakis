@@ -1,0 +1,15 @@
+# GS-018: Recover captured carbon from an isolated carbonate solid
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 Ca(OH)2 0.001mol
+seal v1 100mL
+add v1 CO2 0.0005mol
+inspect v1
+new
+filter v1 v2
+add v1 water 100mL
+seal v1 100mL
+add v1 HCl 0.003mol
+measure v1 pressure
+inspect

@@ -1,0 +1,21 @@
+# PQ-002: Use continuous variation to test complex stoichiometry
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 HCl 0.001mol
+add v1 FeCl3 0.000025mol
+add v1 KSCN 0.000075mol
+new
+add v2 water 100mL
+add v2 HCl 0.001mol
+add v2 FeCl3 0.00005mol
+add v2 KSCN 0.00005mol
+new
+add v3 water 100mL
+add v3 HCl 0.001mol
+add v3 FeCl3 0.000075mol
+add v3 KSCN 0.000025mol
+measure v1 uvvis
+measure v2 uvvis
+measure v3 uvvis
+inspect

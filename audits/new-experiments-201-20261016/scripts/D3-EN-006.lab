@@ -1,0 +1,21 @@
+# D3-EN-006: Lipase recognises oil, not cellulose
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+add v1 water 50mL
+add v1 vegetable_oil 1g
+add v1 lipase 0.05g
+add v2 water 50mL
+add v2 cellulose 1g
+add v2 lipase 0.05g
+add v3 water 50mL
+add v3 vegetable_oil 1g
+stir v1 400rpm 20s
+stir v2 400rpm 20s
+stir v3 400rpm 20s
+wait 45min
+look v1
+look v2
+look v3
+inspect

@@ -1,0 +1,13 @@
+# SE-006: Particle diameter changes sedimentation at fixed centrifuge settings
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100g
+add v1 SiO2 0.1g
+grind v1 SiO2 1um
+new
+add v2 water 100g
+add v2 SiO2 0.1g
+grind v2 SiO2 10um
+centrifuge v1 1000rpm 10s 10cm 100.1g
+centrifuge v2 1000rpm 10s 10cm 100.1g
+inspect

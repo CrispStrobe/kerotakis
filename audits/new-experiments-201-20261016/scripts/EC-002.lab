@@ -1,0 +1,18 @@
+# EC-002: Three half-cells form a closed potential-difference triangle
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 ZnSO4 0.001mol
+add v1 Zn 0.001mol
+new
+add v2 water 100mL
+add v2 CuSO4 0.001mol
+add v2 Cu 0.001mol
+new
+add v3 water 100mL
+add v3 AgNO3 0.001mol
+add v3 Ag 0.001mol
+cell v1 v2
+cell v2 v3
+cell v1 v3
+inspect

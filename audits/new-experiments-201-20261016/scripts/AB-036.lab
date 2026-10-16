@@ -1,0 +1,17 @@
+# AB-036: Equal acid capacities do not imply equal gas production
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 CaO 0.0005mol
+seal v1 100mL
+new
+add v2 water 100mL
+add v2 CaCO3 0.0005mol
+seal v2 100mL
+add v1 HCl 0.0012mol
+add v2 HCl 0.0012mol
+measure v1 ph
+measure v2 ph
+measure v1 pressure
+measure v2 pressure
+inspect

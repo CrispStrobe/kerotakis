@@ -1,0 +1,22 @@
+# D3-EN-004: Pepsin activity in acidic and neutral protein suspensions
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+add v1 water 100mL @ 37C
+add v1 albumin 0.5g
+add v1 HCl 0.001mol
+add v1 pepsin 0.05g
+add v2 water 100mL @ 37C
+add v2 albumin 0.5g
+add v2 pepsin 0.05g
+add v3 water 100mL @ 37C
+add v3 albumin 0.5g
+add v3 HCl 0.001mol
+measure v1 ph
+measure v2 ph
+wait 30min
+look v1
+look v2
+look v3
+inspect

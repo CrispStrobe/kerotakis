@@ -1,0 +1,20 @@
+# D3-LI-004: Bleaching a pigment is different from diluting it
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+add v1 water 40mL
+add v1 betanin 0.000001mol
+add v2 water 40mL
+add v2 betanin 0.000001mol
+add v3 water 40mL
+add v1 NaOCl 0.00001mol
+add v2 water 40mL
+add v3 NaOCl 0.00001mol
+measure v1 ph
+measure v1 uvvis
+measure v2 uvvis
+measure v3 uvvis
+particles v1
+particles v2
+inspect

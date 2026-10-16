@@ -1,0 +1,17 @@
+# QA-007: Bracket an iodine endpoint with known thiosulfate increments
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 KI 0.002mol
+add v1 I2 0.0001mol
+measure v1 uvvis
+add v1 Na2S2O3 0.00015mol
+measure v1 uvvis
+inspect v1
+add v1 Na2S2O3 0.00004mol
+measure v1 uvvis
+add v1 Na2S2O3 0.00001mol
+measure v1 uvvis
+inspect v1
+add v1 Na2S2O3 0.00002mol
+inspect

@@ -1,0 +1,18 @@
+# D3-FE-002: Sourdough allocates carbon to acid, alcohol and gas
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 water 40mL @ 27C
+add v1 sucrose 1g
+add v1 sourdough_starter 5g
+add v2 water 40mL @ 27C
+add v2 sourdough_starter 5g
+seal v1 500mL
+seal v2 500mL
+wait 12h
+measure v1 ph
+measure v2 ph
+measure v1 pressure
+measure v2 pressure
+chromatograph v1
+inspect

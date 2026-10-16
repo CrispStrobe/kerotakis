@@ -1,0 +1,16 @@
+# TC-004: Freeze concentration and recovery of a lower-salt melt
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100g @ 5C
+add v1 NaCl 1g
+measure v1 conductivity
+cool v1 10kJ
+measure v1 thermometer
+inspect v1
+new
+filter v1 v2
+inspect
+heat v1 10kJ
+measure v1 conductivity
+measure v2 conductivity
+inspect

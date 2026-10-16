@@ -1,0 +1,18 @@
+# D3-CO-006: Foam volume is not the number of moles of gas
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 water 50mL
+add v1 NaHCO3 0.001mol
+add v1 dish_soap 0.5g
+add v2 water 50mL
+add v2 NaHCO3 0.001mol
+add v1 citric_acid 0.0004mol
+add v2 citric_acid 0.0004mol
+look v1
+look v2
+wait 1min
+look v1
+wait 4min
+look v1
+inspect

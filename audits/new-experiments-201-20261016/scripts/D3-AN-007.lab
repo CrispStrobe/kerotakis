@@ -1,0 +1,18 @@
+# D3-AN-007: Triangulate a solvent identity from independent physical properties
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+add v1 ethanol 10g
+add v2 isopropanol 10g
+add v3 propanone 10g
+measure v1 density
+measure v2 density
+measure v3 density
+measure v1 boiling_point
+measure v2 boiling_point
+measure v3 boiling_point
+measure v1 melting_point
+measure v2 melting_point
+measure v3 melting_point
+inspect

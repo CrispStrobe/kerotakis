@@ -1,0 +1,17 @@
+# D3-EN-010: Molecular products and aggregate conversion are different outputs
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 water 50mL
+add v1 starch 0.20g
+add v1 amylase 0.010g
+add v2 whole_milk 40g
+add v2 lactase 0.05g
+measure v1 balance
+measure v2 balance
+wait 1h
+measure v1 balance
+measure v2 balance
+particles v1
+particles v2
+inspect

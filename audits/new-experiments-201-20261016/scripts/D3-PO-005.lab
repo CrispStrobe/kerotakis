@@ -1,0 +1,17 @@
+# D3-PO-005: Thermoplastic and thermoset under the same thermal cycle
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 thermoplastic 5g @ 20C
+add v2 thermoset_resin 5g @ 20C
+heat v1 1.3kJ
+heat v2 1.3kJ
+measure v1 thermometer
+measure v2 thermometer
+look v1
+look v2
+cool v1 1.3kJ
+cool v2 1.3kJ
+look v1
+look v2
+inspect

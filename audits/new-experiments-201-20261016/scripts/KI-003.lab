@@ -1,0 +1,16 @@
+# KI-003: Different catalyst masses can have the same nominal surface area
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 H2O2 0.001mol
+add v1 MnO2 0.001g
+grind v1 MnO2 10um
+new
+add v2 water 100mL
+add v2 H2O2 0.001mol
+add v2 MnO2 0.01g
+grind v2 MnO2 100um
+wait 10s
+inspect
+wait 20s
+inspect

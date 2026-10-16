@@ -1,0 +1,19 @@
+# MO-002: Quantify acidity produced by requested ethanol oxidation
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+seal v1 250mL
+add v1 ethanol 0.0005mol
+add v1 O2 0.001mol
+react v1 alcohol-oxidation
+inspect v1
+titrate v1 NaOH 0.1M 0.1mL until ph 8.5 max 100
+inspect v1
+new
+add v2 water 100mL
+seal v2 250mL
+add v2 ethanol 0.0005mol
+add v2 O2 0.001mol
+inspect v2
+titrate v2 NaOH 0.1M 0.1mL until ph 8.5 max 100
+inspect

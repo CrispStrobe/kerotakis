@@ -1,0 +1,20 @@
+# D3-PO-008: Polar polymer chains need not dissolve in water
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+add v1 water 40mL
+add v1 nylon 0.5g
+add v2 water 40mL
+add v2 PVA 0.5g
+add v3 water 40mL
+add v3 sucrose 0.5g
+stir v1 300rpm 30s
+stir v2 300rpm 30s
+stir v3 300rpm 30s
+look v1
+look v2
+look v3
+particles v1
+particles v2
+inspect

@@ -1,0 +1,13 @@
+# PQ-001: Track iron–thiocyanate complex formation with a ligand pulse
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 HCl 0.001mol
+add v1 FeCl3 0.0001mol
+measure v1 uvvis
+add v1 KSCN 0.0001mol
+measure v1 uvvis
+inspect v1
+add v1 KSCN 0.0009mol
+measure v1 uvvis
+inspect

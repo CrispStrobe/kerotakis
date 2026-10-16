@@ -1,0 +1,13 @@
+# QA-009: Weigh sulfate in a mixed salt sample rather than all dissolved salts
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 Na2SO4 0.0005mol
+add v1 NaCl 0.002mol
+add v1 BaCl2 0.0006mol
+new
+filter v1 v2
+measure v1 balance
+inspect v1
+measure v2 conductivity
+inspect

@@ -1,0 +1,20 @@
+# MO-008: Standard addition with volume-corrected optical responses
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 NaNO3 0.01mol
+add v1 H2SO4 0.001mol
+add v1 CuSO4 0.0005mol
+measure v1 uvvis
+measure v1 volume
+inspect v1
+add v1 CuSO4 0.00025mol
+dilute v1 5mL
+measure v1 uvvis
+measure v1 volume
+inspect v1
+add v1 CuSO4 0.00025mol
+dilute v1 5mL
+measure v1 uvvis
+measure v1 volume
+inspect

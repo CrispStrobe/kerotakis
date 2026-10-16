@@ -1,0 +1,35 @@
+# D3-TR-002: Numerical dispersion is not a new chemical reaction
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+new
+new
+new
+new
+new
+new
+new
+new
+new
+add v1 water 20mL
+add v2 water 20mL
+add v3 water 20mL
+add v4 water 20mL
+add v4 NaCl 0.0002mol
+add v6 water 20mL
+add v7 water 20mL
+add v8 water 20mL
+add v9 water 20mL
+add v9 NaCl 0.0002mol
+add v11 water 20mL
+add v12 water 20mL
+transport v1 v2 v3 from v4 to v5 steps 1 courant 1
+transport v6 v7 v8 from v9 to v10 steps 2 courant 0.5
+transport v1 v2 v3 from v11 to v5 steps 3 courant 1
+transport v6 v7 v8 from v12 to v10 steps 6 courant 0.5
+measure v3 conductivity
+measure v8 conductivity
+measure v5 conductivity
+measure v10 conductivity
+inspect

@@ -1,0 +1,19 @@
+# D3-TH-006: Sublimation and boiling are different phase-change paths
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 dry_ice 1g @ -80C
+add v2 liquid_nitrogen 1g @ -196C
+measure v1 balance
+measure v2 balance
+look v1
+look v2
+heat v1 0.1kJ
+heat v2 0.1kJ
+measure v1 balance
+measure v2 balance
+look v1
+look v2
+particles v1
+particles v2
+inspect

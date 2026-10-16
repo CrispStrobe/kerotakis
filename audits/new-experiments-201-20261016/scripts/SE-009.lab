@@ -1,0 +1,12 @@
+# SE-009: Recover three physical fractions from an immiscible liquid–solid mixture
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 NaCl 0.001mol
+add v1 hexane 20mL
+add v1 SiO2 1g
+new
+drain v1 v2
+new
+filter v1 v3
+inspect

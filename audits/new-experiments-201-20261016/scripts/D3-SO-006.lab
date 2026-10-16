@@ -1,0 +1,19 @@
+# D3-SO-006: Iodide changes iodine availability without being extra iodine molecules
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 water 30mL
+add v1 I2 0.0003mol
+add v1 KI 0.003mol
+add v2 water 30mL
+add v2 I2 0.0003mol
+add v2 KCl 0.003mol
+stir v1 300rpm 30s
+stir v2 300rpm 30s
+measure v1 uvvis
+measure v2 uvvis
+look v1
+look v2
+particles v1
+particles v2
+inspect

@@ -1,0 +1,16 @@
+# D3-PO-009: A polymer blend does not have one guaranteed pure melting point
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+add v1 PE 1g
+add v2 PP 1g
+add v3 PE 0.5g
+add v3 PP 0.5g
+measure v1 melting_point
+measure v2 melting_point
+measure v3 melting_point
+heat v3 0.3kJ
+measure v3 thermometer
+look v3
+inspect

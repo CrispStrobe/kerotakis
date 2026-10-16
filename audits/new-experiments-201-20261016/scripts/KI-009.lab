@@ -1,0 +1,15 @@
+# KI-009: Neutralisation quenches an acid-driven sulfur clock
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 Na2S2O3 0.001mol
+add v1 HCl 0.001mol
+wait 10s
+inspect v1
+add v1 NaOH 0.001mol
+wait 30s
+inspect v1
+add v1 HCl 0.002mol
+wait 30s
+inspect v1
+inspect

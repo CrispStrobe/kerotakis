@@ -1,0 +1,15 @@
+# SE-011: Clarification and dissolution are different reasons for a clear liquid
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100g
+add v1 SiO2 0.1g
+grind v1 SiO2 2um
+centrifuge v1 2000rpm 60s 10cm 100.1g
+inspect v1
+new
+add v2 water 100g
+add v2 NaCl 0.1g
+measure v1 eyes
+measure v2 eyes
+measure v2 conductivity
+inspect

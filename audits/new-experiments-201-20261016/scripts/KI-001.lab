@@ -1,0 +1,14 @@
+# KI-001: Add a catalyst only after observing the uncatalysed baseline
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 H2O2 0.001mol
+seal v1 100mL
+wait 30s
+inspect v1
+add v1 MnO2 0.001g
+wait 30s
+inspect v1
+wait 30s
+inspect v1
+inspect

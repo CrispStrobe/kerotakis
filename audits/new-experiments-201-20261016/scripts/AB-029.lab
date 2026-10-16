@@ -1,0 +1,17 @@
+# AB-029: A hydroxide suspension and its clear filtrate hide different reserves
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 Mg(OH)2 0.002mol
+new
+add v2 water 100mL
+add v2 Mg(OH)2 0.002mol
+new
+filter v2 v3
+measure v1 ph
+measure v3 ph
+add v1 HCl 0.001mol
+add v3 HCl 0.001mol
+measure v1 ph
+measure v3 ph
+inspect

@@ -1,0 +1,15 @@
+# D3-FE-004: A two-stage sugar-to-acid bioprocess
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+add v1 water 60mL @ 30C
+add v1 sucrose 0.5g
+add v1 dry_yeast 0.5g
+seal v1 500mL
+wait 8h
+inspect
+add v1 acetobacter 1g
+add v1 O2 0.003mol
+wait 24h
+measure v1 ph
+chromatograph v1
+inspect

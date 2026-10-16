@@ -1,0 +1,15 @@
+# MO-005: Capture carbon from the requested glucose-respiration model
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+seal v1 250mL
+add v1 glucose 0.0001mol
+add v1 O2 0.001mol
+react v1 respiration
+inspect v1
+add v1 Ca(OH)2 0.0007mol
+measure v1 pressure
+inspect v1
+new
+filter v1 v2
+inspect

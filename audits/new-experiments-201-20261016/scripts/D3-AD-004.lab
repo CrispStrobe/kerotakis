@@ -1,0 +1,20 @@
+# D3-AD-004: Two fresh adsorption stages versus one larger stage
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+new
+new
+add v1 water 50mL
+add v1 methyl_orange 0.02g
+add v1 activated_charcoal 0.20g
+add v2 water 50mL
+add v2 methyl_orange 0.02g
+add v2 activated_charcoal 0.10g
+filter v1 v3
+filter v2 v4
+add v4 activated_charcoal 0.10g
+filter v4 v5
+measure v3 uvvis
+measure v5 uvvis
+inspect

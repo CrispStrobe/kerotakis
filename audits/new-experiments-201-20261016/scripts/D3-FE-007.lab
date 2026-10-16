@@ -1,0 +1,15 @@
+# D3-FE-007: An oxygen pulse can restart a limited acetification step
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+add v1 water 50mL @ 30C
+add v1 ethanol 0.001mol
+add v1 acetobacter 1g
+seal v1 20mL
+add v1 O2 0.0001mol
+wait 48h
+inspect
+add v1 O2 0.0005mol
+wait 48h
+measure v1 ph
+chromatograph v1
+inspect

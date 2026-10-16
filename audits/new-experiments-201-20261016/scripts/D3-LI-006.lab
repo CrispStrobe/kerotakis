@@ -1,0 +1,21 @@
+# D3-LI-006: Brightness and persistence can trade off
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 water 30mL @ 15C
+add v1 luminol_glow_solution 3g
+add v2 water 30mL @ 40C
+add v2 luminol_glow_solution 3g
+add v1 H2O2 0.0001mol
+add v2 H2O2 0.0001mol
+measure v1 thermometer
+measure v2 thermometer
+look v1
+look v2
+wait 2min
+look v1
+look v2
+wait 8min
+look v1
+look v2
+inspect

@@ -1,0 +1,17 @@
+# D3-AD-005: Clear water can still contain dissolved salt
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+add v1 water 50mL
+add v1 methyl_orange 0.005g
+add v1 NaCl 0.005mol
+add v1 activated_charcoal 0.10g
+add v2 water 50mL
+add v2 NaCl 0.005mol
+filter v1 v3
+measure v2 conductivity
+measure v3 conductivity
+measure v3 uvvis
+particles v3
+inspect

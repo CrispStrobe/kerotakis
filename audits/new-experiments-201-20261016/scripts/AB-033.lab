@@ -1,0 +1,15 @@
+# AB-033: An indicator changes reversibly while its amount stays constant
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 bromothymol_blue 0.0000001mol
+add v1 HCl 0.0001mol
+measure v1 ph
+measure v1 eyes
+add v1 NaOH 0.0002mol
+measure v1 ph
+measure v1 eyes
+add v1 HCl 0.0002mol
+measure v1 ph
+measure v1 eyes
+inspect

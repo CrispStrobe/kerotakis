@@ -1,0 +1,23 @@
+# AB-032: Indicator selection matters for a weak-acid titration
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 CH3COOH 0.001mol
+add v1 methyl_orange 0.0000001mol
+new
+add v2 water 100mL
+add v2 CH3COOH 0.001mol
+add v2 phenolphthalein 0.0000001mol
+measure v1 eyes
+measure v2 eyes
+add v1 NaOH 0.0005mol
+add v2 NaOH 0.0005mol
+measure v1 ph
+measure v1 eyes
+measure v2 eyes
+add v1 NaOH 0.0005mol
+add v2 NaOH 0.0005mol
+measure v1 ph
+measure v1 eyes
+measure v2 eyes
+inspect

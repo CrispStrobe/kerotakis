@@ -1,0 +1,158 @@
+{
+  "schema": "kerotakis.new201-intake.v1",
+  "date": "2026-10-16",
+  "record_count": 201,
+  "batch_counts": {
+    "batch2": 101,
+    "batch3-diverse": 100
+  },
+  "audited_source_commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "source_files": [
+    {
+      "path": "crates/kerotakis-core/src/script.rs",
+      "sha256": "279036582bf9270055ab8b96f2ef3f5c9644ce3a58916bef8daf584a3e22bca2",
+      "git_blob": "6fe16efa53e3df47796b747780f976c1a640d1be"
+    },
+    {
+      "path": "crates/kerotakis-core/src/bench.rs",
+      "sha256": "44b3fa4190093c3dfa3d0a1ddd676dcaecabd997bbd6a9fc89b191402e282f80",
+      "git_blob": "0b9b0ca7d8a3b8ced26c79ee585fcf3c26ac1430"
+    },
+    {
+      "path": "crates/kerotakis-core/src/selectivity.rs",
+      "sha256": "7c181ff4915e8e9febc39c2f6ecc972269d70c72aa6ce428277c2c075fa03a37",
+      "git_blob": "7001b6b32a581183ed71d4f805870a7a34122086"
+    },
+    {
+      "path": "crates/kerotakis-core/src/species.rs",
+      "sha256": "2f7cf2e683c3bb1f0718e5e8e9d75f3cad58621df256f115686fc279be17850f",
+      "git_blob": "474c88fb7a555caf4de638aaaef491ffa21ed3a3"
+    },
+    {
+      "path": "crates/kerotakis-core/src/material.rs",
+      "sha256": "657dbd8fa6d1b1b82862d81331d100a0955330e0b7c5abca8abf537d52ed6f2b",
+      "git_blob": "fb291d13977247035521a9b061ab339db0a42837"
+    },
+    {
+      "path": "crates/kerotakis-core/src/enzyme.rs",
+      "sha256": "95661ba277e06e2e0e980cd843d38a580b56291a00cf98c7e5464fdfa5b2f2d5",
+      "git_blob": "c36873459004d3404b9f5345b27e4c4d3c3d172c"
+    },
+    {
+      "path": "data/registry/registry-source-v1.json",
+      "sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+      "git_blob": "6e18054a7a515ba88a12517ae3d07c17a4407f4c"
+    },
+    {
+      "path": "crates/kerotakis-cli/src/main.rs",
+      "sha256": "c53398d67cc58c2b3110fb99b2480a400c74ce6a9f16a649de1764a548e4eccb",
+      "git_blob": "3dc91f86aedcaf26c2d34e80527361224dea1d0b"
+    }
+  ],
+  "supplied_files": [
+    {
+      "basename": "README(7).md",
+      "path": "originals/README(7).md",
+      "bytes": 12872,
+      "sha256": "1c221fa2aaf7b589671c11574659538ddc1be6fc7016d2299529b73acd75dd38"
+    },
+    {
+      "basename": "experiment_index.csv",
+      "path": "originals/experiment_index.csv",
+      "bytes": 30010,
+      "sha256": "90cab4a8fcf31642ca6a3d659a3dfca857dfda140af3d91a8d27975c0a4e8cc6"
+    },
+    {
+      "basename": "new-experiments-batch2-20261016.json",
+      "path": "originals/new-experiments-batch2-20261016.json",
+      "bytes": 1042716,
+      "sha256": "247da5c494b3923d590eeda42ccd1002b23fc35d7c36eabf3fcd2697615a9ab5"
+    },
+    {
+      "basename": "new-experiments-diverse-100-20261016.json",
+      "path": "originals/new-experiments-diverse-100-20261016.json",
+      "bytes": 1212051,
+      "sha256": "10b61170cd901f039c2414c47309d116ad79c090fdf77db785b63971ef7fbde7"
+    },
+    {
+      "basename": "novelty_comparison(1).json",
+      "path": "originals/novelty_comparison(1).json",
+      "bytes": 332,
+      "sha256": "8b817cfd35a7cd0a8bafb12474c529c94b9fa5b046db7390ff923ebe17e92428"
+    },
+    {
+      "basename": "novelty_comparison.json",
+      "path": "originals/novelty_comparison.json",
+      "bytes": 3188,
+      "sha256": "912ee9386c45013316415a9ba6b2a39f69430848f18a9e86f54e2f5dadef8831"
+    },
+    {
+      "basename": "validation_report(1).json",
+      "path": "originals/validation_report(1).json",
+      "bytes": 39719,
+      "sha256": "d3ce97e1b485bf9e78635a2f2c9bc5f8d4abfaabe1ecaa622e3bb046476f723c"
+    },
+    {
+      "basename": "validation_report.json",
+      "path": "originals/validation_report.json",
+      "bytes": 49351,
+      "sha256": "b21254ce310eff2128281641ded94c62afc4c3bd57c59a1079f64321acd74ae8"
+    }
+  ],
+  "preservation": "Exact supplied bytes copied; original expected_result and acceptance checks retained. No supplied validation is promoted to official parser/runtime evidence.",
+  "missing_referenced_package_files": [
+    "dataset.schema.json",
+    "validate_dataset.py",
+    "run_experiments.py",
+    "scripts/",
+    "experiments.jsonl",
+    "reference/previous-120.json",
+    "reference/previous-101.json",
+    "SHA256SUMS.txt"
+  ],
+  "validation_scope": {
+    "json_decoding": true,
+    "unique_ids": 201,
+    "script_hashes_verified": 201,
+    "candidate_status_verified": 201,
+    "vessel_order_and_input_identity_source_screened": 201,
+    "command_lines": 3002,
+    "command_counts": {
+      "add": 1124,
+      "cell": 11,
+      "centrifuge": 6,
+      "chromatograph": 13,
+      "cool": 15,
+      "decant": 10,
+      "dilute": 12,
+      "distil": 2,
+      "drain": 2,
+      "electrolyse": 4,
+      "extract": 5,
+      "filter": 36,
+      "grind": 9,
+      "heat": 33,
+      "ignite": 6,
+      "inspect": 296,
+      "irradiate": 6,
+      "look": 156,
+      "magnet": 3,
+      "measure": 481,
+      "new": 277,
+      "particles": 72,
+      "react": 10,
+      "register": 201,
+      "regulate": 2,
+      "seal": 58,
+      "stir": 35,
+      "sweep": 2,
+      "titrate": 22,
+      "transport": 18,
+      "wait": 75
+    },
+    "official_parser_execution": false,
+    "engine_execution": false,
+    "official_json_schema_validation_reproduced": false,
+    "atom_balance_or_semantic_novelty_certified": false
+  }
+}

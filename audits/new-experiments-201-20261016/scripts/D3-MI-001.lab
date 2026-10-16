@@ -1,0 +1,15 @@
+# D3-MI-001: Hydrated and anhydrous magnesium sulfate: compare formula units, not grams
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 water 40mL
+add v1 epsomite 0.005mol
+add v2 water 40mL
+add v2 MgSO4 0.005mol
+measure v1 balance
+measure v2 balance
+measure v1 conductivity
+measure v2 conductivity
+particles v1
+particles v2
+inspect

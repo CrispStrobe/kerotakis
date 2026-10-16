@@ -1,0 +1,22 @@
+# D3-BD-003: An irradiation command is not proof of a supported photochemical pathway
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+add v1 water 40mL
+add v1 H2O2 0.0001mol
+add v2 water 40mL
+add v2 H2O2 0.0001mol
+add v3 water 40mL
+seal v1 500mL
+seal v2 500mL
+seal v3 500mL
+irradiate v1 254nm 1W/m2
+irradiate v3 254nm 1W/m2
+wait 10min
+measure v1 pressure
+measure v2 pressure
+measure v3 pressure
+particles v1
+particles v2
+inspect

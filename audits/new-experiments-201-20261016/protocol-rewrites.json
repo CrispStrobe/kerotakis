@@ -1,0 +1,70 @@
+[
+  {
+    "original_id": "batch3-diverse:so-001",
+    "original_script": "scripts/D3-SO-001.lab",
+    "original_sha256": "244e2a02ec5db7293a614cc69573144bb3dea65d778dacdca3894a723f73cc6c",
+    "candidate_script": "corrected/D3-SO-001.lab",
+    "candidate_sha256": "cc9f17f4146e7d4289a5bb99e46092e298010944505e549416c07661d64310c4",
+    "status": "prospective_source_only_unexecuted",
+    "change": "Insert react v1 haloalkane, react v2 haloalkane after final addition and before observations.",
+    "reason": "Only Operator::React calls selectivity::dispatch; additions/observations do not request the authored selectivity table.",
+    "source": [
+      "crates/kerotakis-core/src/script.rs:980",
+      "crates/kerotakis-core/src/selectivity.rs:268",
+      "crates/kerotakis-core/src/bench.rs:5964"
+    ],
+    "forecast": "The installed table selects substitution in the cooler branch and elimination in the hotter branch: ethanol versus ethene, both with bromide-containing products. Establish product identity from inventory, not simply a pressure difference between hot and cool vessels.",
+    "forecast_policy": "Original physical hypothesis retained verbatim; named refusal/unsupported remains possible. No elapsed-rate, heat or empirical selectivity claim."
+  },
+  {
+    "original_id": "batch3-diverse:so-002",
+    "original_script": "scripts/D3-SO-002.lab",
+    "original_sha256": "384b6af81abe73232bb2eab869b818facb56bb323f5f9d3b89c943d276bfcd41",
+    "candidate_script": "corrected/D3-SO-002.lab",
+    "candidate_sha256": "4519e3309ba8ad56e7c9457df2c4a48907b1a52dc0c9a3592799a3b9737f3326",
+    "status": "prospective_source_only_unexecuted",
+    "change": "Insert react v1 haloalkane after final addition and before observations.",
+    "reason": "Only Operator::React calls selectivity::dispatch; additions/observations do not request the authored selectivity table.",
+    "source": [
+      "crates/kerotakis-core/src/script.rs:980",
+      "crates/kerotakis-core/src/selectivity.rs:268",
+      "crates/kerotakis-core/src/bench.rs:5964"
+    ],
+    "forecast": "The supported solvolysis branch can form tert-butanol and HBr-derived aqueous species. The solvent blank separates coproduct acidity from a nominal starting-water property.",
+    "forecast_policy": "Original physical hypothesis retained verbatim; named refusal/unsupported remains possible. No elapsed-rate, heat or empirical selectivity claim."
+  },
+  {
+    "original_id": "batch3-diverse:so-003",
+    "original_script": "scripts/D3-SO-003.lab",
+    "original_sha256": "f3fc3301492333fcb468a031dfc3a70be73e9e7c7b9f366bee1d8a417b3df22f",
+    "candidate_script": "corrected/D3-SO-003.lab",
+    "candidate_sha256": "5b393fd75f270a4ae2cc434bb779209cdabae92b78bed4ecdb80bf9d950b3a0a",
+    "status": "prospective_source_only_unexecuted",
+    "change": "Insert react v1 haloalkane, react v2 haloalkane after final addition and before observations.",
+    "reason": "Only Operator::React calls selectivity::dispatch; additions/observations do not request the authored selectivity table.",
+    "source": [
+      "crates/kerotakis-core/src/script.rs:980",
+      "crates/kerotakis-core/src/selectivity.rs:268",
+      "crates/kerotakis-core/src/bench.rs:5964"
+    ],
+    "forecast": "The table can select primary substitution but tertiary elimination under strong-base conditions. Use the product inventories to identify structural selectivity rather than treating all haloalkanes as interchangeable.",
+    "forecast_policy": "Original physical hypothesis retained verbatim; named refusal/unsupported remains possible. No elapsed-rate, heat or empirical selectivity claim."
+  },
+  {
+    "original_id": "batch3-diverse:so-004",
+    "original_script": "scripts/D3-SO-004.lab",
+    "original_sha256": "cbc2f7a212128a6033a34903b5f9337effc793ed02f04bd995bbd52e7336e4c0",
+    "candidate_script": "corrected/D3-SO-004.lab",
+    "candidate_sha256": "44d1610991a0413606d52a90f3bafee230066a8c8c70236cba480c277f06c26c",
+    "status": "prospective_source_only_unexecuted",
+    "change": "Insert react v1 haloalkane, react v2 haloalkane after final addition and before observations.",
+    "reason": "Only Operator::React calls selectivity::dispatch; additions/observations do not request the authored selectivity table.",
+    "source": [
+      "crates/kerotakis-core/src/script.rs:980",
+      "crates/kerotakis-core/src/selectivity.rs:268",
+      "crates/kerotakis-core/src/bench.rs:5964"
+    ],
+    "forecast": "The cool branch can give tert-butanol; the hot branch can give isobutylene. Both can release an acidic bromide coproduct, so pH alone cannot identify the organic mechanism.",
+    "forecast_policy": "Original physical hypothesis retained verbatim; named refusal/unsupported remains possible. No elapsed-rate, heat or empirical selectivity claim."
+  }
+]

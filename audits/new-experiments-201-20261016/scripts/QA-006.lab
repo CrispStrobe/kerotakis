@@ -1,0 +1,9 @@
+# QA-006: Standardise a permanganate burette against oxalic acid
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL @ 40C
+add v1 H2SO4 0.005mol
+add v1 H2C2O4 0.001mol
+titrate v1 KMnO4 0.02M 0.2mL until colour persists max 150
+measure v1 eyes
+inspect

@@ -1,0 +1,14 @@
+# D3-LI-002: A plant indicator can trace an acid-base round trip
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+add v1 water 50mL
+add v1 anthocyanin 0.001g
+measure v1 ph
+measure v1 uvvis
+add v1 HCl 0.0001mol
+measure v1 ph
+measure v1 uvvis
+add v1 NaOH 0.0001mol
+measure v1 ph
+measure v1 uvvis
+inspect

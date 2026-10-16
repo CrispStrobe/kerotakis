@@ -1,0 +1,17 @@
+# EC-001: Electrode mass changes the inventory, not the equilibrium voltage
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 ZnSO4 0.001mol
+add v1 Zn 0.001mol
+new
+add v2 water 100mL
+add v2 ZnSO4 0.001mol
+add v2 Zn 0.01mol
+new
+add v3 water 100mL
+add v3 CuSO4 0.001mol
+add v3 Cu 0.001mol
+cell v1 v3
+cell v2 v3
+inspect

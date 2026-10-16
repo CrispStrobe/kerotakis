@@ -1,0 +1,26 @@
+# AB-028: Compare mixed and single-component buffers across two pH regions
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 CH3COOH 0.001mol
+add v1 H3PO4 0.001mol
+add v1 NaOH 0.0015mol
+new
+add v2 water 100mL
+add v2 CH3COOH 0.002mol
+add v2 NaOH 0.001mol
+measure v1 ph
+measure v2 ph
+add v1 NaOH 0.0005mol
+add v2 NaOH 0.0005mol
+measure v1 ph
+measure v2 ph
+add v1 NaOH 0.0005mol
+add v2 NaOH 0.0005mol
+measure v1 ph
+measure v2 ph
+add v1 NaOH 0.0005mol
+add v2 NaOH 0.0005mol
+measure v1 ph
+measure v2 ph
+inspect

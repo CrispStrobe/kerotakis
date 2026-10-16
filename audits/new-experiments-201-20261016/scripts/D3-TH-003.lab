@@ -1,0 +1,17 @@
+# D3-TH-003: Two alcohols can have similar boiling behaviour but very different freezing behaviour
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 tert_butanol 5g @ 15C
+add v2 isopropanol 5g @ 15C
+measure v1 melting_point
+measure v2 melting_point
+measure v1 boiling_point
+measure v2 boiling_point
+look v1
+look v2
+heat v1 0.4kJ
+heat v2 0.4kJ
+look v1
+look v2
+inspect

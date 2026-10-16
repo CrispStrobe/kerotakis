@@ -1,0 +1,22 @@
+# PQ-007: A common-ion wash sacrifices less precipitate than pure water
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 20mL
+add v1 AgNO3 0.0001mol
+add v1 NaCl 0.0001mol
+new
+add v2 water 20mL
+add v2 AgNO3 0.0001mol
+add v2 NaCl 0.0001mol
+new
+new
+filter v1 v3
+filter v2 v4
+add v1 water 200mL
+add v2 water 200mL
+add v2 NaCl 0.0002mol
+new
+new
+filter v1 v5
+filter v2 v6
+inspect

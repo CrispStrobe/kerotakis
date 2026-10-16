@@ -1,0 +1,13 @@
+# PQ-005: Boiling and carbonate treatment do not remove the same hardness
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 CaCl2 0.001mol
+new
+add v2 water 100mL
+add v2 CaCl2 0.001mol
+heat v1 35kJ
+add v2 Na2CO3 0.001mol
+new
+filter v2 v3
+inspect

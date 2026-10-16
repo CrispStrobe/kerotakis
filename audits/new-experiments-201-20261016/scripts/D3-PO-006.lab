@@ -1,0 +1,13 @@
+# D3-PO-006: A superabsorbent stores water without consuming it
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+add v1 instant_snow_powder 0.2g
+add v1 water 10g
+look v1
+measure v1 balance
+add v1 water 15g
+look v1
+measure v1 balance
+add v1 water 15g
+look v1
+inspect

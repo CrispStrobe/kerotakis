@@ -1,0 +1,23 @@
+# D3-TR-003: An acid front advances through a carbonate-containing bed
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+new
+new
+add v1 water 20mL
+add v1 CaCO3 0.0005mol
+add v2 water 20mL
+add v2 CaCO3 0.0005mol
+add v3 water 20mL
+add v3 CaCO3 0.0005mol
+add v4 water 20mL
+add v4 HCl 0.0002mol
+transport v1 v2 v3 from v4 to v5 steps 3 courant 1
+measure v1 ph
+measure v2 ph
+measure v3 ph
+inspect
+transport v1 v2 v3 from v4 to v5 steps 15 courant 1
+measure v5 ph
+inspect

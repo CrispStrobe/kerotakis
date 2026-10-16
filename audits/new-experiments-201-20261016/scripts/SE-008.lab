@@ -1,0 +1,14 @@
+# SE-008: Crystallise nitrate selectively from a mixed-salt solution
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100g @ 70C
+add v1 KNO3 50g
+add v1 NaCl 5g
+heat v1 10kJ
+measure v1 thermometer
+inspect v1
+cool v1 20kJ
+measure v1 thermometer
+new
+filter v1 v2
+inspect

@@ -1,0 +1,20 @@
+# D3-SU-002: A barrier coating is not another dissolved corrosion inhibitor
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 water 50mL
+add v1 NaCl 0.005mol
+add v1 painted_iron 1g
+add v2 water 50mL
+add v2 NaCl 0.005mol
+add v2 Fe 0.95g
+seal v1 500mL
+seal v2 500mL
+add v1 O2 0.003mol
+add v2 O2 0.003mol
+wait 48h
+look v1
+look v2
+particles v1
+particles v2
+inspect

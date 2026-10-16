@@ -1,0 +1,19 @@
+# D3-CO-001: Stirring and surfactant are separate emulsion requirements
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+add v1 water 40mL
+add v1 vegetable_oil 4g
+add v1 dish_soap 0.5g
+add v2 water 40mL
+add v2 vegetable_oil 4g
+add v3 water 40mL
+add v3 vegetable_oil 4g
+add v3 dish_soap 0.5g
+stir v1 500rpm 30s
+stir v2 500rpm 30s
+look v1
+look v2
+look v3
+inspect

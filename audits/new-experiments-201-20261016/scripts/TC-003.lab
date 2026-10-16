@@ -1,0 +1,11 @@
+# TC-003: Infer ice-melting energy from a measured warm-water balance
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 30g @ 0C
+cool v1 10kJ
+measure v1 thermometer
+inspect v1
+add v1 water 50g @ 60C
+measure v1 thermometer
+measure v1 calorimeter
+inspect

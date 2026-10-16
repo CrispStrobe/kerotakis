@@ -1,0 +1,20 @@
+# D3-CO-008: Fatty soap and generic detergent are not interchangeable in hard water
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+add v1 water 50mL
+add v1 CaCl2 0.0005mol
+add v1 fatty_soap 0.4g
+add v2 water 50mL
+add v2 CaCl2 0.0005mol
+add v2 dish_soap 0.4g
+add v3 water 50mL
+add v3 fatty_soap 0.4g
+stir v1 300rpm 10s
+stir v2 300rpm 10s
+look v1
+look v2
+look v3
+measure v1 conductivity
+inspect

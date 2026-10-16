@@ -1,0 +1,12 @@
+# QA-002: Recover a known acid spike from a weak-acid sample
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 CH3COOH 0.001mol
+new
+add v2 water 100mL
+add v2 CH3COOH 0.001mol
+add v2 HCl 0.0005mol
+titrate v1 NaOH 0.1M 0.1mL until ph 8.7 max 200
+titrate v2 NaOH 0.1M 0.1mL until ph 8.7 max 200
+inspect

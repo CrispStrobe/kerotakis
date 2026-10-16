@@ -1,0 +1,27 @@
+# TC-002: Neutralisation heat is limited by the smaller reagent budget
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 50mL
+add v1 HCl 0.001mol
+new
+add v2 water 50mL
+add v2 HCl 0.002mol
+new
+add v3 water 50mL
+add v3 NaOH 0.0005mol
+new
+add v4 water 50mL
+add v4 NaOH 0.0005mol
+measure v1 thermometer
+measure v2 thermometer
+measure v3 thermometer
+measure v4 thermometer
+decant v3 v1 1
+decant v4 v2 1
+measure v1 thermometer
+measure v2 thermometer
+measure v1 calorimeter
+measure v2 calorimeter
+measure v1 ph
+measure v2 ph
+inspect

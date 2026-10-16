@@ -1,0 +1,18 @@
+# D3-LI-005: Chemical light does not require an external light source
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+add v1 water 20mL
+add v1 luminol_glow_solution 5g
+add v2 water 20mL
+add v2 luminol_glow_solution 5g
+add v3 water 20mL
+add v1 H2O2 0.0001mol
+add v3 H2O2 0.0001mol
+look v1
+look v2
+look v3
+wait 1min
+look v1
+inspect

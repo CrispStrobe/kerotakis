@@ -1,0 +1,16 @@
+# D3-SO-004: Solvolysis and thermal elimination share a leaving group, not a product
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 water 40mL @ 25C
+add v2 water 40mL @ 90C
+seal v1 500mL
+seal v2 500mL
+add v1 tert_butyl_bromide 0.0002mol
+add v2 tert_butyl_bromide 0.0002mol
+measure v1 ph
+measure v2 ph
+particles v1
+particles v2
+measure v2 thermometer
+inspect

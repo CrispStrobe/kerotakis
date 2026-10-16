@@ -1,0 +1,9 @@
+# EC-009: Compare one-electron iron with a multi-electron oxidant titre
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 H2SO4 0.005mol
+add v1 FeSO4 0.001mol
+titrate v1 KMnO4 0.02M 0.1mL until colour persists max 200
+measure v1 uvvis
+inspect

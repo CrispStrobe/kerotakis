@@ -1,0 +1,12 @@
+# EC-006: A finite zinc donor eventually stops depositing fresh copper
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 Zn 0.0005mol
+add v1 CuSO4 0.0003mol
+inspect v1
+add v1 CuSO4 0.0003mol
+inspect v1
+add v1 CuSO4 0.0003mol
+inspect v1
+inspect

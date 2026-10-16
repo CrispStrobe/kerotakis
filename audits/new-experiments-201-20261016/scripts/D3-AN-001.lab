@@ -1,0 +1,15 @@
+# D3-AN-001: A flame fingerprint follows the cation, not the whole salt name
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+add v1 NaCl 0.1g
+add v2 NaBr 0.1g
+add v3 KCl 0.1g
+ignite v1
+ignite v2
+ignite v3
+measure v1 balance
+measure v2 balance
+measure v3 balance
+inspect

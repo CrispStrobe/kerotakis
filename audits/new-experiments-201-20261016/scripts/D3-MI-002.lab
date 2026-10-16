@@ -1,0 +1,18 @@
+# D3-MI-002: Heating does not increase every mineral solubility
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 water 50mL @ 20C
+add v1 gypsum 0.005mol
+add v2 water 50mL @ 20C
+add v2 KNO3 0.20mol
+stir v1 300rpm 30s
+stir v2 300rpm 30s
+inspect
+heat v1 10kJ
+heat v2 10kJ
+measure v1 thermometer
+measure v2 thermometer
+look v1
+look v2
+inspect

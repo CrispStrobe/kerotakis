@@ -1,0 +1,15 @@
+# D3-SU-004: Sacrificial protection has a finite inventory
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+add v1 water 50mL
+add v1 NaCl 0.005mol
+add v1 Fe 0.001mol
+add v1 Zn 0.00005mol
+seal v1 500mL
+add v1 O2 0.003mol
+wait 48h
+inspect
+wait 192h
+look v1
+particles v1
+inspect

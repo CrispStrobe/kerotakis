@@ -1,0 +1,15 @@
+# EC-008: Iron oxidation state determines whether iodide is oxidised
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 H2SO4 0.001mol
+add v1 FeCl3 0.0004mol
+add v1 KI 0.001mol
+new
+add v2 water 100mL
+add v2 H2SO4 0.001mol
+add v2 FeSO4 0.0004mol
+add v2 KI 0.001mol
+measure v1 uvvis
+measure v2 uvvis
+inspect

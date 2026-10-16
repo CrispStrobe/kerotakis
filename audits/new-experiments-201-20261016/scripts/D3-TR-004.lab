@@ -1,0 +1,21 @@
+# D3-TR-004: Mobile ions can create a stationary precipitate
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+new
+new
+add v1 water 20mL
+add v2 water 20mL
+add v2 AgNO3 0.0001mol
+add v3 water 20mL
+add v4 water 20mL
+add v4 NaCl 0.0002mol
+transport v1 v2 v3 from v4 to v5 steps 2 courant 0.5
+inspect
+transport v1 v2 v3 from v4 to v5 steps 6 courant 0.5
+look v1
+look v2
+look v3
+particles v5
+inspect

@@ -1,0 +1,15 @@
+# GS-014: Release and recapture ammonia inside one closed system
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 NH4Cl 0.001mol
+seal v1 100mL
+measure v1 pressure
+add v1 NaOH 0.001mol
+measure v1 ph
+measure v1 pressure
+inspect v1
+add v1 HCl 0.001mol
+measure v1 ph
+measure v1 pressure
+inspect

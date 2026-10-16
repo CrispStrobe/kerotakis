@@ -1,0 +1,19 @@
+# D3-SU-005: Carbon allotropes can have very different electronic behaviour
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+new
+add v1 graphite 1g
+add v2 diamond 1g
+add v3 Cu 1g
+add v4 PE 1g
+measure v1 conductivity
+measure v2 conductivity
+measure v3 conductivity
+measure v4 conductivity
+measure v1 density
+measure v2 density
+particles v1
+particles v2
+inspect

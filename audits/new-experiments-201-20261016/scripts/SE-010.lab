@@ -1,0 +1,13 @@
+# SE-010: A magnet distinguishes metallic iron from dissolved iron ions
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 Fe 0.001mol
+new
+add v2 water 100mL
+add v2 FeCl3 0.001mol
+new
+new
+magnet v1 v3
+magnet v2 v4
+inspect

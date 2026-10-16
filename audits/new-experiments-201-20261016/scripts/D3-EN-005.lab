@@ -1,0 +1,20 @@
+# D3-EN-005: Heating the enzyme source rather than the protein substrate
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 water 30mL @ 25C
+add v1 pineapple 5g
+add v2 water 30mL @ 25C
+add v2 pineapple 5g
+heat v1 9kJ
+measure v1 thermometer
+wait 2min
+cool v1 9kJ
+measure v1 thermometer
+measure v2 thermometer
+add v1 gelatin 0.5g
+add v2 gelatin 0.5g
+wait 45min
+look v1
+look v2
+inspect

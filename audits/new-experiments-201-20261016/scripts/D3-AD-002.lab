@@ -1,0 +1,14 @@
+# D3-AD-002: An adsorbent can saturate before the water becomes colourless
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+add v1 water 50mL
+add v1 activated_charcoal 0.10g
+add v1 methyl_orange 0.005g
+measure v1 uvvis
+add v1 methyl_orange 0.03g
+measure v1 uvvis
+look v1
+add v1 activated_charcoal 0.30g
+measure v1 uvvis
+look v1
+inspect

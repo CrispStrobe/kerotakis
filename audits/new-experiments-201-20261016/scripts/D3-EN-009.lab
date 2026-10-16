@@ -1,0 +1,17 @@
+# D3-EN-009: Pause and resume the pepsin pH gate
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+add v1 water 100mL @ 37C
+add v1 gelatin 0.5g
+add v1 HCl 0.001mol
+add v1 pepsin 0.05g
+wait 10min
+inspect
+add v1 NaOH 0.001mol
+measure v1 ph
+wait 10min
+inspect
+add v1 HCl 0.001mol
+measure v1 ph
+wait 10min
+inspect

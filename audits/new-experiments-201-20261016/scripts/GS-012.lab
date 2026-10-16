@@ -1,0 +1,17 @@
+# GS-012: A finite alkali trap eventually allows CO2 breakthrough
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 NaOH 0.001mol
+seal v1 100mL
+measure v1 pressure
+add v1 CO2 0.00025mol
+measure v1 ph
+measure v1 pressure
+add v1 CO2 0.00075mol
+measure v1 ph
+measure v1 pressure
+add v1 CO2 0.002mol
+measure v1 ph
+measure v1 pressure
+inspect

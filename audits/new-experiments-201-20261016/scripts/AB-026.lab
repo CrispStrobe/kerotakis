@@ -1,0 +1,16 @@
+# AB-026: Prepare the same buffer by two stoichiometrically equivalent routes
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 CH3COOH 0.002mol
+add v1 NaOH 0.001mol
+add v1 NaCl 0.001mol
+new
+add v2 water 100mL
+add v2 NaOAc 0.002mol
+add v2 HCl 0.001mol
+measure v1 ph
+measure v2 ph
+measure v1 conductivity
+measure v2 conductivity
+inspect

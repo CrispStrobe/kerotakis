@@ -1,0 +1,13 @@
+# MO-003: Hydrolyse an ester, then oxidise the liberated alcohol
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+seal v1 250mL
+add v1 ethyl_acetate 0.001mol
+add v1 NaOH 0.001mol
+react v1 saponification
+inspect v1
+add v1 O2 0.002mol
+react v1 alcohol-oxidation
+measure v1 ph
+inspect

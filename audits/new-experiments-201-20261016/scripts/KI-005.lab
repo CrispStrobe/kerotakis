@@ -1,0 +1,12 @@
+# KI-005: Splitting a homogeneous reacting solution preserves fractional kinetics
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 H2O2 0.001mol
+add v1 catalase 0.000001g
+wait 5s
+new
+decant v1 v2 0.25
+inspect
+wait 20s
+inspect

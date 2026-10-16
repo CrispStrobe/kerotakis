@@ -1,0 +1,16 @@
+# KI-006: First-order half-life is tested by changing initial substrate, not the clock
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 H2O2 0.001mol
+add v1 MnO2 0.001g
+new
+add v2 water 100mL
+add v2 H2O2 0.002mol
+add v2 MnO2 0.001g
+wait 10s
+inspect
+wait 20s
+inspect
+wait 40s
+inspect

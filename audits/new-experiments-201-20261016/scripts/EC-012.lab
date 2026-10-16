@@ -1,0 +1,12 @@
+# EC-012: Copper depletion changes what additional electrolysis charge can produce
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 CuSO4 0.00005mol
+add v1 Na2SO4 0.001mol
+seal v1 100mL
+electrolyse v1 0.05A 100s
+inspect v1
+electrolyse v1 0.05A 300s
+inspect v1
+inspect

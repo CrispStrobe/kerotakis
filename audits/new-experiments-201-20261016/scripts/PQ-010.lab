@@ -1,0 +1,11 @@
+# PQ-010: Acid can selectively remove carbonate from a silver precipitate mixture
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 NaCl 0.0003mol
+add v1 Na2CO3 0.0002mol
+add v1 AgNO3 0.0007mol
+inspect v1
+add v1 CH3COOH 0.001mol
+inspect v1
+inspect

@@ -1,0 +1,13 @@
+# SE-012: Extraction recovery should depend on phase ratio rather than batch scale
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 50mL
+add v1 naphthalene 0.000002mol
+new
+add v2 water 100mL
+add v2 naphthalene 0.000004mol
+new
+new
+extract v1 v3 hexane 10mL
+extract v2 v4 hexane 20mL
+inspect

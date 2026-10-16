@@ -1,0 +1,19 @@
+# D3-FE-006: The milk matrix changes what acidification can tell you
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+add v1 whole_milk 50g @ 40C
+add v1 yoghurt_culture 0.5g
+add v2 water 43.5mL @ 40C
+add v2 sucrose 2.4g
+add v2 yoghurt_culture 0.5g
+add v3 whole_milk 50g @ 40C
+measure v1 ph
+measure v2 ph
+wait 8h
+measure v1 ph
+measure v2 ph
+measure v3 ph
+look v1
+inspect

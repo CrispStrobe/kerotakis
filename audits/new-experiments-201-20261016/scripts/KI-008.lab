@@ -1,0 +1,17 @@
+# KI-008: Two catalysts do not justify multiplying their speed-up factors
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 H2O2 0.001mol
+add v1 MnO2 0.001g
+new
+add v2 water 100mL
+add v2 H2O2 0.001mol
+add v2 catalase 0.000001g
+new
+add v3 water 100mL
+add v3 H2O2 0.001mol
+add v3 MnO2 0.001g
+add v3 catalase 0.000001g
+wait 10s
+inspect

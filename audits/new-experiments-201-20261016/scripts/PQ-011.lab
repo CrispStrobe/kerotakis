@@ -1,0 +1,16 @@
+# PQ-011: A buffer resists the hydroxide dose needed to precipitate copper
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 CuSO4 0.0002mol
+new
+add v2 water 100mL
+add v2 CH3COOH 0.001mol
+add v2 NaOH 0.0005mol
+add v2 CuSO4 0.0002mol
+add v1 NaOH 0.0004mol
+add v2 NaOH 0.0004mol
+measure v1 ph
+measure v2 ph
+inspect
+add v2 NaOH 0.0006mol

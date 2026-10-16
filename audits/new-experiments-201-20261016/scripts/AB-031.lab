@@ -1,0 +1,19 @@
+# AB-031: Sweeping ammonia changes the composition of a basic buffer
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 NH4Cl 0.001mol
+add v1 NH3 0.001mol
+seal v1 100mL
+new
+add v2 water 100mL
+add v2 NH4Cl 0.001mol
+add v2 NH3 0.001mol
+seal v2 100mL
+measure v1 ph
+measure v2 ph
+sweep v2 1bar
+wait 120s
+measure v1 ph
+measure v2 ph
+inspect

@@ -1,0 +1,10 @@
+# QA-005: Distinguish hydroxide contamination from bicarbonate in an alkaline sample
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 NaOH 0.0004mol
+add v1 Na2CO3 0.0003mol
+titrate v1 HCl 0.1M 0.1mL until ph 8.3 max 150
+inspect v1
+titrate v1 HCl 0.1M 0.1mL until ph 4.5 max 100
+inspect

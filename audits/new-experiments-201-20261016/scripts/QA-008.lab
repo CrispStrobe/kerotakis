@@ -1,0 +1,19 @@
+# QA-008: Back-assay vitamin C using an iodine excess and a reagent blank
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 KI 0.002mol
+add v1 I2 0.0003mol
+new
+add v2 water 100mL
+add v2 KI 0.002mol
+add v2 ascorbic_acid 0.0001mol
+add v2 I2 0.0003mol
+measure v1 uvvis
+measure v2 uvvis
+add v1 Na2S2O3 0.0004mol
+add v2 Na2S2O3 0.0004mol
+measure v1 uvvis
+measure v2 uvvis
+inspect
+add v1 Na2S2O3 0.0002mol

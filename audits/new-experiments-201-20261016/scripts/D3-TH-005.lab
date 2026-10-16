@@ -1,0 +1,18 @@
+# D3-TH-005: Equal molar gas amounts need not have equal heat capacity
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+seal v1 500mL
+seal v2 500mL
+add v1 helium 0.005mol
+add v2 N2 0.005mol
+measure v1 thermometer
+measure v2 thermometer
+inspect
+heat v1 1J
+heat v2 1J
+measure v1 thermometer
+measure v2 thermometer
+measure v1 pressure
+measure v2 pressure
+inspect

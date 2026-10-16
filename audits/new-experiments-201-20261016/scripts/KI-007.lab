@@ -1,0 +1,14 @@
+# KI-007: Cooling an active catalytic mixture slows the next interval
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL @ 35C
+add v1 H2O2 0.001mol
+add v1 MnO2 0.001g
+wait 15s
+measure v1 thermometer
+inspect v1
+cool v1 4kJ
+measure v1 thermometer
+wait 15s
+inspect v1
+inspect

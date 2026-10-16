@@ -1,0 +1,13 @@
+# MO-004: Extract an esterification mixture and assay both product pools
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 CH3COOH 0.001mol
+add v1 ethanol 0.001mol
+react v1 esterification
+inspect v1
+add v1 water 100mL
+new
+extract v1 v2 hexane 20mL
+inspect
+measure v1 chromatograph
+measure v2 chromatograph

@@ -1,0 +1,16 @@
+# D3-CO-007: Surface motion need not be a reaction of the floating solid
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 water 50mL
+add v1 ground_black_pepper 0.05g
+add v2 water 50mL
+add v2 ground_black_pepper 0.05g
+look v1
+look v2
+add v1 dish_soap 0.05g
+add v2 water 0.05g
+look v1
+look v2
+measure v1 balance
+inspect

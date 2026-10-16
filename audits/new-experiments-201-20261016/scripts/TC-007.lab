@@ -1,0 +1,13 @@
+# TC-007: The same thermometer reading can conceal different stored energies
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100g @ 0C
+new
+add v2 water 100g @ 0C
+cool v1 5kJ
+cool v2 20kJ
+measure v1 thermometer
+measure v2 thermometer
+measure v1 calorimeter
+measure v2 calorimeter
+inspect

@@ -1,0 +1,18 @@
+# D3-CO-004: Curdling is different from making milk less opaque by dilution
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+add v1 whole_milk 30g
+add v1 CH3COOH 0.003mol
+add v2 whole_milk 30g
+add v2 water 30mL
+add v3 whole_milk 30g
+look v1
+look v2
+look v3
+measure v1 ph
+measure v2 ph
+measure v1 balance
+measure v2 balance
+inspect

@@ -1,0 +1,16 @@
+# D3-LI-008: Opaque pigment mixing is not averaging two RGB colours
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+add v1 acrylic_red 2g
+add v2 acrylic_blue 2g
+add v3 acrylic_red 1g
+add v3 acrylic_blue 1g
+look v1
+look v2
+look v3
+stir v3 200rpm 10s
+look v3
+measure v3 balance
+inspect

@@ -1,0 +1,13 @@
+# EC-011: Different current–time pairs deliver the same electrolysis charge
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 Na2SO4 0.001mol
+seal v1 100mL
+new
+add v2 water 100mL
+add v2 Na2SO4 0.001mol
+seal v2 100mL
+electrolyse v1 0.05A 100s
+electrolyse v2 0.1A 50s
+inspect

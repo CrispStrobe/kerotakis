@@ -1,0 +1,18 @@
+# D3-EN-003: Protein versus sugar enzymes on the same gelatin sample
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+add v1 water 40mL
+add v1 gelatin 1g
+add v1 protease 0.05g
+add v2 water 40mL
+add v2 gelatin 1g
+add v2 lactase 0.05g
+add v3 water 40mL
+add v3 gelatin 1g
+wait 45min
+look v1
+look v2
+look v3
+inspect

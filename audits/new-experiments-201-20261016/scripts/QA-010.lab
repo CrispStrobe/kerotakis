@@ -1,0 +1,11 @@
+# QA-010: An arbitrary pH-seven endpoint underestimates weak-acid equivalence
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 CH3COOH 0.001mol
+new
+add v2 water 100mL
+add v2 CH3COOH 0.001mol
+titrate v1 NaOH 0.01M 0.1mL until ph 7 max 1200
+titrate v2 NaOH 0.01M 0.1mL until ph 8.7 max 1200
+inspect

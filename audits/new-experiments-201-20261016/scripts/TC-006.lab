@@ -1,0 +1,19 @@
+# TC-006: Mass-specific versus molar heat capacities of two metals
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 Cu 1g @ 25C
+new
+add v2 Fe 1g @ 25C
+new
+add v3 Cu 0.01mol @ 25C
+new
+add v4 Fe 0.01mol @ 25C
+heat v1 10J
+heat v2 10J
+heat v3 10J
+heat v4 10J
+measure v1 thermometer
+measure v2 thermometer
+measure v3 thermometer
+measure v4 thermometer
+inspect

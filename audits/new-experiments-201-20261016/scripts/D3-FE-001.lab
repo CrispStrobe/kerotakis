@@ -1,0 +1,23 @@
+# D3-FE-001: Sugar conversion can occur without gas production
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+add v1 water 50mL @ 30C
+add v1 sucrose 1g
+add v1 dry_yeast 0.5g
+add v2 water 50mL @ 30C
+add v2 sucrose 1g
+add v2 yoghurt_culture 0.5g
+add v3 water 50mL @ 30C
+add v3 sucrose 1g
+seal v1 500mL
+seal v2 500mL
+seal v3 500mL
+wait 8h
+measure v1 pressure
+measure v2 pressure
+measure v3 pressure
+measure v1 ph
+measure v2 ph
+inspect

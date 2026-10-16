@@ -1,0 +1,18 @@
+# AB-034: Phosphate protonation state changes at successive base equivalents
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 H3PO4 0.001mol
+add v1 NaOH 0.001mol
+new
+add v2 water 100mL
+add v2 H3PO4 0.001mol
+add v2 NaOH 0.002mol
+new
+add v3 water 100mL
+add v3 H3PO4 0.001mol
+add v3 NaOH 0.0025mol
+measure v1 ph
+measure v2 ph
+measure v3 ph
+inspect

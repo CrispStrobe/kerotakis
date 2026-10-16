@@ -1,0 +1,17 @@
+# GS-015: A closed warming–cooling cycle redistributes carbon rather than losing it
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+seal v1 100mL
+add v1 CO2 0.001mol
+measure v1 thermometer
+measure v1 pressure
+inspect v1
+heat v1 2kJ
+measure v1 thermometer
+measure v1 pressure
+inspect v1
+cool v1 2kJ
+measure v1 thermometer
+measure v1 pressure
+inspect

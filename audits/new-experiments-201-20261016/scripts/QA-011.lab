@@ -1,0 +1,11 @@
+# QA-011: Coarse and fine burette steps produce different endpoint uncertainty
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 HCl 0.001035mol
+new
+add v2 water 100mL
+add v2 HCl 0.001035mol
+titrate v1 NaOH 0.1M 1mL until ph 7 max 30
+titrate v2 NaOH 0.1M 0.1mL until ph 7 max 200
+inspect

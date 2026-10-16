@@ -1,0 +1,13 @@
+# SE-003: Cooling before filtration changes what can be recovered
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100g @ 60C
+add v1 KNO3 40g
+heat v1 8kJ
+new
+filter v1 v2
+inspect
+cool v2 15kJ
+new
+filter v2 v3
+inspect

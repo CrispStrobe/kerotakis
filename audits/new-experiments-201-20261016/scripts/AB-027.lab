@@ -1,0 +1,18 @@
+# AB-027: Recharging a buffer restores pH but accumulates salt
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 CH3COOH 0.002mol
+add v1 NaOH 0.001mol
+measure v1 ph
+measure v1 conductivity
+add v1 HCl 0.0004mol
+measure v1 ph
+add v1 NaOH 0.0004mol
+measure v1 ph
+measure v1 conductivity
+add v1 HCl 0.0004mol
+add v1 NaOH 0.0004mol
+measure v1 ph
+measure v1 conductivity
+inspect

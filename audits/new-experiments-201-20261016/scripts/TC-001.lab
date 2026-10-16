@@ -1,0 +1,20 @@
+# TC-001: Hess-law route comparison: lime hydration before neutralisation
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 HCl 0.002mol
+measure v1 thermometer
+measure v1 calorimeter
+add v1 CaO 0.001mol
+measure v1 thermometer
+measure v1 calorimeter
+inspect v1
+new
+add v2 water 100mL
+add v2 CaO 0.001mol
+measure v2 thermometer
+measure v2 calorimeter
+add v2 HCl 0.002mol
+measure v2 thermometer
+measure v2 calorimeter
+inspect

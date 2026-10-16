@@ -1,0 +1,15 @@
+# GS-016: More liquid can retain more CO2 at the same headspace size
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 20mL
+seal v1 100mL
+add v1 CO2 0.001mol
+new
+add v2 water 200mL
+seal v2 100mL
+add v2 CO2 0.001mol
+measure v1 pressure
+measure v2 pressure
+measure v1 ph
+measure v2 ph
+inspect

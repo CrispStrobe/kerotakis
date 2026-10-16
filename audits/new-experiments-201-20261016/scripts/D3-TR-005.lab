@@ -1,0 +1,22 @@
+# D3-TR-005: Temperature can be transported without a reacting solute
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+new
+new
+new
+add v1 water 20mL @ 20C
+add v2 water 20mL @ 20C
+add v3 water 20mL @ 20C
+add v4 water 20mL @ 50C
+add v6 water 20mL @ 20C
+transport v1 v2 v3 from v4 to v5 steps 1 courant 0.5
+measure v1 thermometer
+measure v2 thermometer
+measure v3 thermometer
+transport v1 v2 v3 from v6 to v5 steps 6 courant 0.5
+measure v1 thermometer
+measure v3 thermometer
+measure v5 thermometer
+inspect

@@ -1,0 +1,17 @@
+# D3-BD-002: Known boundary: emulsifying oil need not speed the aggregate lipase model
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 water 50mL
+add v1 vegetable_oil 1g
+add v1 dish_soap 0.3g
+add v1 lipase 0.05g
+add v2 water 50mL
+add v2 vegetable_oil 1g
+add v2 lipase 0.05g
+stir v1 500rpm 30s
+stir v2 500rpm 30s
+wait 30min
+look v1
+look v2
+inspect

@@ -1,0 +1,14 @@
+# D3-AN-002: A mixture needs a mixture interpretation of its flame signal
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+add v1 NaCl 0.1g
+add v2 KCl 0.1g
+add v3 NaCl 0.1g
+add v3 KCl 0.01g
+ignite v1
+ignite v2
+ignite v3
+particles v3
+inspect

@@ -1,0 +1,17 @@
+# D3-EN-007: Add fresh protein after a protease incubation
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 water 40mL
+add v1 gelatin 0.25g
+add v1 protease 0.05g
+add v2 water 40mL
+add v2 gelatin 0.25g
+wait 1h
+inspect
+add v1 gelatin 0.25g
+add v2 gelatin 0.25g
+wait 1h
+look v1
+look v2
+inspect

@@ -1,0 +1,17 @@
+# SE-007: Distillation rejects a nonvolatile salt but may carry a volatile acid
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 NaCl 0.005mol
+new
+add v2 water 100mL
+add v2 CH3COOH 0.005mol
+new
+new
+distil v1 v3 0.2 stages 3
+distil v2 v4 0.2 stages 3
+measure v3 ph
+measure v4 ph
+measure v3 conductivity
+measure v4 conductivity
+inspect

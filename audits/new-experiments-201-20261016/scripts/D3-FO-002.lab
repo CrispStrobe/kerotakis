@@ -1,0 +1,16 @@
+# D3-FO-002: An antioxidant response is not a food-safety verdict
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 cut_apple 5g
+add v2 cut_apple 5g
+add v2 ascorbic_acid 0.0001mol
+wait 10min
+look v1
+look v2
+wait 20min
+look v1
+look v2
+measure v1 balance
+measure v2 balance
+inspect

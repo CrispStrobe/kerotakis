@@ -1,0 +1,19 @@
+# D3-MI-005: Carbonate and sulfate minerals do not share the same acid-test signal
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 water 40mL
+add v1 CaCO3 0.0005mol
+add v2 water 40mL
+add v2 gypsum 0.0005mol
+seal v1 500mL
+seal v2 500mL
+add v1 HCl 0.0012mol
+add v2 HCl 0.0012mol
+measure v1 pressure
+measure v2 pressure
+look v1
+look v2
+particles v1
+particles v2
+inspect

@@ -1,0 +1,17 @@
+# D3-CO-003: An oil layer is not a dissolved organic molecule
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 water 40mL
+add v1 ethanol 2g
+add v2 water 40mL
+add v2 vegetable_oil 2g
+stir v1 300rpm 10s
+stir v2 300rpm 10s
+look v1
+look v2
+measure v1 density
+measure v2 density
+wait 5min
+look v2
+inspect

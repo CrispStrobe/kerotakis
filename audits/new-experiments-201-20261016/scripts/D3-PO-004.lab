@@ -1,0 +1,13 @@
+# D3-PO-004: Network loading differs from simply adding more polymer
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+add v1 water 30mL
+add v1 PVA 0.5g
+add v1 Na2B4O7 0.02g
+look v1
+add v1 PVA 1.5g
+stir v1 300rpm 20s
+look v1
+add v1 Na2B4O7 0.06g
+look v1
+inspect

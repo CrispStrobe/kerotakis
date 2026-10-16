@@ -1,0 +1,2385 @@
+{
+  "status": "pass",
+  "validation_kind": "custom_offline_subset_lint_schema_integrity_and_duplicate_checks",
+  "schema_validation": "pass",
+  "official_kero_parser_run": false,
+  "kero_engine_run": false,
+  "chemistry_acceptance_evaluated": false,
+  "kero_executable_found_on_validation_path": false,
+  "count": 100,
+  "group_count": 14,
+  "counts_by_group": {
+    "enzymes-and-digestion": 10,
+    "fermentation-and-bioprocesses": 8,
+    "polymers-and-macromolecules": 10,
+    "colloids-and-interfaces": 8,
+    "light-and-colour": 8,
+    "adsorption-and-water-treatment": 6,
+    "minerals-and-hydrates": 8,
+    "analytical-fingerprints": 8,
+    "surfaces-and-electronic-materials": 6,
+    "thermal-and-phase-phenomena": 6,
+    "everyday-formulations": 4,
+    "solvents-and-organic-selectivity": 6,
+    "transport-and-reaction-fronts": 8,
+    "explicit-model-boundaries": 4
+  },
+  "command_count": 1650,
+  "commands": {
+    "add": 595,
+    "centrifuge": 1,
+    "chromatograph": 13,
+    "cool": 5,
+    "filter": 10,
+    "heat": 21,
+    "ignite": 6,
+    "inspect": 117,
+    "irradiate": 6,
+    "look": 156,
+    "magnet": 1,
+    "measure": 247,
+    "new": 171,
+    "particles": 72,
+    "register": 100,
+    "seal": 32,
+    "stir": 34,
+    "transport": 18,
+    "wait": 45
+  },
+  "unique_explicit_input_keys": 100,
+  "new_explicit_input_keys_vs_previous_221": 71,
+  "baseline_count": 221,
+  "duplicate_check_status": "pass",
+  "checks_do_not_prove": [
+    "official-parser acceptance",
+    "runtime reagent lookup",
+    "uniform transport geometry after chemistry",
+    "numerical stability",
+    "chemical agreement",
+    "real-world safety",
+    "semantic uniqueness"
+  ],
+  "errors": [],
+  "experiments": [
+    {
+      "id": "batch3-diverse:en-001",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 13,
+        "wait": 1,
+        "measure": 3,
+        "inspect": 1
+      },
+      "command_count": 21,
+      "vessel_count": 3,
+      "input_keys": [
+        "I2",
+        "KI",
+        "amylase",
+        "maltose",
+        "starch",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:en-002",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 6,
+        "wait": 1,
+        "look": 3,
+        "measure": 2,
+        "inspect": 1
+      },
+      "command_count": 16,
+      "vessel_count": 3,
+      "input_keys": [
+        "glucose",
+        "lactase",
+        "water",
+        "whole_milk"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:en-003",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 8,
+        "wait": 1,
+        "look": 3,
+        "inspect": 1
+      },
+      "command_count": 16,
+      "vessel_count": 3,
+      "input_keys": [
+        "gelatin",
+        "lactase",
+        "protease",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:fe-001",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 8,
+        "seal": 3,
+        "wait": 1,
+        "measure": 5,
+        "inspect": 1
+      },
+      "command_count": 21,
+      "vessel_count": 3,
+      "input_keys": [
+        "dry_yeast",
+        "sucrose",
+        "water",
+        "yoghurt_culture"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:fe-005",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 6,
+        "seal": 2,
+        "wait": 1,
+        "measure": 2,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 16,
+      "vessel_count": 2,
+      "input_keys": [
+        "dry_yeast",
+        "starch",
+        "sucrose",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:po-001",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 6,
+        "look": 2,
+        "measure": 2,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 15,
+      "vessel_count": 2,
+      "input_keys": [
+        "PE",
+        "PET",
+        "PP",
+        "PS",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:po-003",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 7,
+        "stir": 3,
+        "look": 3,
+        "particles": 1,
+        "inspect": 1
+      },
+      "command_count": 18,
+      "vessel_count": 3,
+      "input_keys": [
+        "Na2B4O7",
+        "PVA",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:po-005",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 2,
+        "heat": 2,
+        "measure": 2,
+        "look": 4,
+        "cool": 2,
+        "inspect": 1
+      },
+      "command_count": 15,
+      "vessel_count": 2,
+      "input_keys": [
+        "thermoplastic",
+        "thermoset_resin"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:po-006",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "look": 3,
+        "measure": 2,
+        "inspect": 1
+      },
+      "command_count": 11,
+      "vessel_count": 1,
+      "input_keys": [
+        "instant_snow_powder",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:po-007",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 10,
+        "wait": 1,
+        "particles": 2,
+        "measure": 2,
+        "inspect": 1
+      },
+      "command_count": 18,
+      "vessel_count": 2,
+      "input_keys": [
+        "I2",
+        "KI",
+        "amylase",
+        "cellulose",
+        "starch",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:co-001",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 8,
+        "stir": 2,
+        "look": 3,
+        "inspect": 1
+      },
+      "command_count": 17,
+      "vessel_count": 3,
+      "input_keys": [
+        "dish_soap",
+        "vegetable_oil",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:co-002",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "add": 3,
+        "stir": 2,
+        "look": 3,
+        "wait": 1,
+        "measure": 1,
+        "inspect": 1
+      },
+      "command_count": 12,
+      "vessel_count": 1,
+      "input_keys": [
+        "dish_soap",
+        "vegetable_oil",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:co-003",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 4,
+        "stir": 2,
+        "look": 3,
+        "measure": 2,
+        "wait": 1,
+        "inspect": 1
+      },
+      "command_count": 15,
+      "vessel_count": 2,
+      "input_keys": [
+        "ethanol",
+        "vegetable_oil",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:co-004",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 5,
+        "look": 3,
+        "measure": 4,
+        "inspect": 1
+      },
+      "command_count": 16,
+      "vessel_count": 3,
+      "input_keys": [
+        "CH3COOH",
+        "water",
+        "whole_milk"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:co-006",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 7,
+        "look": 4,
+        "wait": 2,
+        "inspect": 1
+      },
+      "command_count": 16,
+      "vessel_count": 2,
+      "input_keys": [
+        "NaHCO3",
+        "citric_acid",
+        "dish_soap",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:co-007",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 6,
+        "look": 4,
+        "measure": 1,
+        "inspect": 1
+      },
+      "command_count": 14,
+      "vessel_count": 2,
+      "input_keys": [
+        "dish_soap",
+        "ground_black_pepper",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:li-001",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 3,
+        "add": 6,
+        "look": 2,
+        "measure": 4,
+        "inspect": 1
+      },
+      "command_count": 17,
+      "vessel_count": 4,
+      "input_keys": [
+        "betanin",
+        "chlorophyll",
+        "ethanol",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:li-002",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "measure": 6,
+        "inspect": 1
+      },
+      "command_count": 12,
+      "vessel_count": 1,
+      "input_keys": [
+        "HCl",
+        "NaOH",
+        "anthocyanin",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:li-004",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 8,
+        "measure": 4,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 18,
+      "vessel_count": 3,
+      "input_keys": [
+        "NaOCl",
+        "betanin",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:li-005",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 7,
+        "look": 4,
+        "wait": 1,
+        "inspect": 1
+      },
+      "command_count": 16,
+      "vessel_count": 3,
+      "input_keys": [
+        "H2O2",
+        "luminol_glow_solution",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:li-008",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 4,
+        "look": 4,
+        "stir": 1,
+        "measure": 1,
+        "inspect": 1
+      },
+      "command_count": 14,
+      "vessel_count": 3,
+      "input_keys": [
+        "acrylic_blue",
+        "acrylic_red"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:ad-001",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 3,
+        "add": 5,
+        "measure": 4,
+        "filter": 2,
+        "look": 1,
+        "inspect": 1
+      },
+      "command_count": 17,
+      "vessel_count": 4,
+      "input_keys": [
+        "activated_charcoal",
+        "methyl_orange",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:ad-005",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 6,
+        "filter": 1,
+        "measure": 3,
+        "particles": 1,
+        "inspect": 1
+      },
+      "command_count": 15,
+      "vessel_count": 3,
+      "input_keys": [
+        "NaCl",
+        "activated_charcoal",
+        "methyl_orange",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:mi-001",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 4,
+        "measure": 4,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 13,
+      "vessel_count": 2,
+      "input_keys": [
+        "MgSO4",
+        "epsomite",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:mi-002",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 4,
+        "stir": 2,
+        "inspect": 2,
+        "heat": 2,
+        "measure": 2,
+        "look": 2
+      },
+      "command_count": 16,
+      "vessel_count": 2,
+      "input_keys": [
+        "KNO3",
+        "gypsum",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:mi-005",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 6,
+        "seal": 2,
+        "measure": 2,
+        "look": 2,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 17,
+      "vessel_count": 2,
+      "input_keys": [
+        "CaCO3",
+        "HCl",
+        "gypsum",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:mi-006",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 3,
+        "magnet": 1,
+        "measure": 2,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 11,
+      "vessel_count": 2,
+      "input_keys": [
+        "Fe",
+        "Fe2O3",
+        "SiO2"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:an-001",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 3,
+        "ignite": 3,
+        "measure": 3,
+        "inspect": 1
+      },
+      "command_count": 13,
+      "vessel_count": 3,
+      "input_keys": [
+        "KCl",
+        "NaBr",
+        "NaCl"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:an-002",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 4,
+        "ignite": 3,
+        "particles": 1,
+        "inspect": 1
+      },
+      "command_count": 12,
+      "vessel_count": 3,
+      "input_keys": [
+        "KCl",
+        "NaCl"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:an-003",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 3,
+        "add": 11,
+        "look": 4,
+        "particles": 1,
+        "inspect": 1
+      },
+      "command_count": 21,
+      "vessel_count": 4,
+      "input_keys": [
+        "AgNO3",
+        "KI",
+        "NaBr",
+        "NaCl",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:an-004",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 14,
+        "measure": 4,
+        "particles": 1,
+        "inspect": 1
+      },
+      "command_count": 23,
+      "vessel_count": 3,
+      "input_keys": [
+        "I2",
+        "KI",
+        "ascorbic_acid",
+        "starch",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:an-007",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 3,
+        "measure": 9,
+        "inspect": 1
+      },
+      "command_count": 16,
+      "vessel_count": 3,
+      "input_keys": [
+        "ethanol",
+        "isopropanol",
+        "propanone"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:an-008",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 6,
+        "measure": 6,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 18,
+      "vessel_count": 3,
+      "input_keys": [
+        "NaBr",
+        "NaCl",
+        "sucrose",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:su-001",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 14,
+        "seal": 3,
+        "wait": 1,
+        "look": 3,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 27,
+      "vessel_count": 3,
+      "input_keys": [
+        "Cu",
+        "Fe",
+        "NaCl",
+        "O2",
+        "Zn",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:su-005",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 3,
+        "add": 4,
+        "measure": 6,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 17,
+      "vessel_count": 4,
+      "input_keys": [
+        "Cu",
+        "PE",
+        "diamond",
+        "graphite"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:th-002",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 2,
+        "measure": 4,
+        "look": 4,
+        "heat": 2,
+        "inspect": 1
+      },
+      "command_count": 15,
+      "vessel_count": 2,
+      "input_keys": [
+        "dodecane",
+        "hexadecane"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:th-003",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 2,
+        "measure": 4,
+        "look": 4,
+        "heat": 2,
+        "inspect": 1
+      },
+      "command_count": 15,
+      "vessel_count": 2,
+      "input_keys": [
+        "isopropanol",
+        "tert_butanol"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:fo-001",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 4,
+        "look": 4,
+        "measure": 4,
+        "heat": 2,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 19,
+      "vessel_count": 2,
+      "input_keys": [
+        "NaHCO3",
+        "baking_powder",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:fo-002",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 3,
+        "wait": 2,
+        "look": 4,
+        "measure": 2,
+        "inspect": 1
+      },
+      "command_count": 14,
+      "vessel_count": 2,
+      "input_keys": [
+        "ascorbic_acid",
+        "cut_apple"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:fo-003",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 8,
+        "measure": 2,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 15,
+      "vessel_count": 2,
+      "input_keys": [
+        "I2",
+        "KI",
+        "NaHCO3",
+        "baking_powder",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:fo-004",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 6,
+        "stir": 2,
+        "look": 4,
+        "measure": 2,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 19,
+      "vessel_count": 2,
+      "input_keys": [
+        "acrylic_blue",
+        "water",
+        "watercolour_blue"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:en-004",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 10,
+        "measure": 2,
+        "wait": 1,
+        "look": 3,
+        "inspect": 1
+      },
+      "command_count": 20,
+      "vessel_count": 3,
+      "input_keys": [
+        "HCl",
+        "albumin",
+        "pepsin",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:en-005",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 6,
+        "heat": 1,
+        "measure": 3,
+        "wait": 2,
+        "cool": 1,
+        "look": 2,
+        "inspect": 1
+      },
+      "command_count": 18,
+      "vessel_count": 2,
+      "input_keys": [
+        "gelatin",
+        "pineapple",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:en-006",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 8,
+        "stir": 3,
+        "wait": 1,
+        "look": 3,
+        "inspect": 1
+      },
+      "command_count": 19,
+      "vessel_count": 3,
+      "input_keys": [
+        "cellulose",
+        "lipase",
+        "vegetable_oil",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:en-007",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 7,
+        "wait": 2,
+        "inspect": 2,
+        "look": 2
+      },
+      "command_count": 15,
+      "vessel_count": 2,
+      "input_keys": [
+        "gelatin",
+        "protease",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:en-008",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 10,
+        "wait": 1,
+        "look": 3,
+        "inspect": 1
+      },
+      "command_count": 18,
+      "vessel_count": 3,
+      "input_keys": [
+        "gelatin",
+        "lactase",
+        "protease",
+        "whole_milk"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:en-009",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "add": 6,
+        "wait": 3,
+        "inspect": 3,
+        "measure": 2
+      },
+      "command_count": 15,
+      "vessel_count": 1,
+      "input_keys": [
+        "HCl",
+        "NaOH",
+        "gelatin",
+        "pepsin",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:fe-002",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 5,
+        "seal": 2,
+        "wait": 1,
+        "measure": 4,
+        "chromatograph": 1,
+        "inspect": 1
+      },
+      "command_count": 16,
+      "vessel_count": 2,
+      "input_keys": [
+        "sourdough_starter",
+        "sucrose",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:fe-003",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 9,
+        "wait": 2,
+        "inspect": 2,
+        "measure": 3
+      },
+      "command_count": 19,
+      "vessel_count": 3,
+      "input_keys": [
+        "dry_yeast",
+        "fresh_yeast",
+        "sucrose",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:fe-006",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 6,
+        "measure": 5,
+        "wait": 1,
+        "look": 1,
+        "inspect": 1
+      },
+      "command_count": 17,
+      "vessel_count": 3,
+      "input_keys": [
+        "sucrose",
+        "water",
+        "whole_milk",
+        "yoghurt_culture"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:fe-008",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 6,
+        "wait": 2,
+        "inspect": 2,
+        "heat": 1,
+        "measure": 4
+      },
+      "command_count": 17,
+      "vessel_count": 2,
+      "input_keys": [
+        "sucrose",
+        "water",
+        "yoghurt_culture"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:po-002",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 7,
+        "measure": 2,
+        "look": 2,
+        "inspect": 1
+      },
+      "command_count": 14,
+      "vessel_count": 2,
+      "input_keys": [
+        "NaCl",
+        "PET",
+        "PS",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:po-004",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "add": 5,
+        "look": 3,
+        "stir": 1,
+        "inspect": 1
+      },
+      "command_count": 11,
+      "vessel_count": 1,
+      "input_keys": [
+        "Na2B4O7",
+        "PVA",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:po-008",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 6,
+        "stir": 3,
+        "look": 3,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 18,
+      "vessel_count": 3,
+      "input_keys": [
+        "PVA",
+        "nylon",
+        "sucrose",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:co-008",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 8,
+        "stir": 2,
+        "look": 3,
+        "measure": 1,
+        "inspect": 1
+      },
+      "command_count": 18,
+      "vessel_count": 3,
+      "input_keys": [
+        "CaCl2",
+        "dish_soap",
+        "fatty_soap",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:li-003",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 7,
+        "measure": 6,
+        "inspect": 1
+      },
+      "command_count": 16,
+      "vessel_count": 2,
+      "input_keys": [
+        "Na2CO3",
+        "curcumin",
+        "ethanol",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:li-006",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 6,
+        "measure": 2,
+        "look": 6,
+        "wait": 2,
+        "inspect": 1
+      },
+      "command_count": 19,
+      "vessel_count": 2,
+      "input_keys": [
+        "H2O2",
+        "luminol_glow_solution",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:li-007",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 3,
+        "add": 4,
+        "irradiate": 4,
+        "look": 4,
+        "inspect": 1
+      },
+      "command_count": 17,
+      "vessel_count": 4,
+      "input_keys": [
+        "sunscreen",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:ad-002",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "add": 5,
+        "measure": 3,
+        "look": 2,
+        "inspect": 1
+      },
+      "command_count": 12,
+      "vessel_count": 1,
+      "input_keys": [
+        "activated_charcoal",
+        "methyl_orange",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:ad-006",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 6,
+        "filter": 2,
+        "look": 1,
+        "measure": 3,
+        "particles": 1,
+        "inspect": 1
+      },
+      "command_count": 17,
+      "vessel_count": 3,
+      "input_keys": [
+        "NaCl",
+        "PET",
+        "SiO2",
+        "activated_charcoal",
+        "methyl_orange",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:mi-003",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 8,
+        "stir": 3,
+        "look": 3,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 20,
+      "vessel_count": 3,
+      "input_keys": [
+        "Na2SO4",
+        "NaCl",
+        "gypsum",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:mi-008",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 6,
+        "seal": 2,
+        "wait": 1,
+        "measure": 2,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 16,
+      "vessel_count": 2,
+      "input_keys": [
+        "Fe",
+        "Fe2O3",
+        "HCl",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:so-006",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 6,
+        "stir": 2,
+        "measure": 2,
+        "look": 2,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 17,
+      "vessel_count": 2,
+      "input_keys": [
+        "I2",
+        "KCl",
+        "KI",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:su-002",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 8,
+        "seal": 2,
+        "wait": 1,
+        "look": 2,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 18,
+      "vessel_count": 2,
+      "input_keys": [
+        "Fe",
+        "NaCl",
+        "O2",
+        "painted_iron",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:su-003",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 8,
+        "seal": 2,
+        "wait": 1,
+        "look": 2,
+        "measure": 2,
+        "inspect": 1
+      },
+      "command_count": 18,
+      "vessel_count": 2,
+      "input_keys": [
+        "Fe",
+        "NaCl",
+        "O2",
+        "stainless_steel",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:th-001",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 4,
+        "measure": 6,
+        "wait": 1,
+        "inspect": 1
+      },
+      "command_count": 14,
+      "vessel_count": 2,
+      "input_keys": [
+        "dry_ice",
+        "liquid_nitrogen",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:th-006",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 2,
+        "measure": 4,
+        "look": 4,
+        "heat": 2,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 17,
+      "vessel_count": 2,
+      "input_keys": [
+        "dry_ice",
+        "liquid_nitrogen"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:en-010",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 5,
+        "measure": 4,
+        "wait": 1,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 15,
+      "vessel_count": 2,
+      "input_keys": [
+        "amylase",
+        "lactase",
+        "starch",
+        "water",
+        "whole_milk"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:fe-004",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "add": 5,
+        "seal": 1,
+        "wait": 2,
+        "inspect": 2,
+        "measure": 1,
+        "chromatograph": 1
+      },
+      "command_count": 13,
+      "vessel_count": 1,
+      "input_keys": [
+        "O2",
+        "acetobacter",
+        "dry_yeast",
+        "sucrose",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:fe-007",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "add": 5,
+        "seal": 1,
+        "wait": 2,
+        "inspect": 2,
+        "measure": 1,
+        "chromatograph": 1
+      },
+      "command_count": 13,
+      "vessel_count": 1,
+      "input_keys": [
+        "O2",
+        "acetobacter",
+        "ethanol",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:po-009",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 4,
+        "measure": 4,
+        "heat": 1,
+        "look": 1,
+        "inspect": 1
+      },
+      "command_count": 14,
+      "vessel_count": 3,
+      "input_keys": [
+        "PE",
+        "PP"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:po-010",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 2,
+        "heat": 2,
+        "measure": 2,
+        "look": 2,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 13,
+      "vessel_count": 2,
+      "input_keys": [
+        "PE",
+        "thermoplastic"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:co-005",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 7,
+        "measure": 4,
+        "centrifuge": 1,
+        "look": 1,
+        "inspect": 1
+      },
+      "command_count": 17,
+      "vessel_count": 3,
+      "input_keys": [
+        "betanin",
+        "water",
+        "whole_milk"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:ad-003",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 4,
+        "filter": 2,
+        "inspect": 2,
+        "stir": 1,
+        "measure": 2,
+        "look": 1
+      },
+      "command_count": 15,
+      "vessel_count": 3,
+      "input_keys": [
+        "activated_charcoal",
+        "methyl_orange",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:ad-004",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 4,
+        "add": 7,
+        "filter": 3,
+        "measure": 2,
+        "inspect": 1
+      },
+      "command_count": 18,
+      "vessel_count": 5,
+      "input_keys": [
+        "activated_charcoal",
+        "methyl_orange",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:tr-001",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 5,
+        "add": 6,
+        "transport": 2,
+        "inspect": 2,
+        "measure": 4
+      },
+      "command_count": 20,
+      "vessel_count": 6,
+      "input_keys": [
+        "NaCl",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:tr-002",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 11,
+        "add": 12,
+        "transport": 4,
+        "measure": 4,
+        "inspect": 1
+      },
+      "command_count": 33,
+      "vessel_count": 12,
+      "input_keys": [
+        "NaCl",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:tr-003",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 4,
+        "add": 8,
+        "transport": 2,
+        "measure": 4,
+        "inspect": 2
+      },
+      "command_count": 21,
+      "vessel_count": 5,
+      "input_keys": [
+        "CaCO3",
+        "HCl",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:tr-004",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 4,
+        "add": 6,
+        "transport": 2,
+        "inspect": 2,
+        "look": 3,
+        "particles": 1
+      },
+      "command_count": 19,
+      "vessel_count": 5,
+      "input_keys": [
+        "AgNO3",
+        "NaCl",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:tr-005",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 5,
+        "add": 5,
+        "transport": 2,
+        "measure": 6,
+        "inspect": 1
+      },
+      "command_count": 20,
+      "vessel_count": 6,
+      "input_keys": [
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:tr-006",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 5,
+        "add": 8,
+        "transport": 2,
+        "inspect": 2,
+        "measure": 2,
+        "look": 1
+      },
+      "command_count": 21,
+      "vessel_count": 6,
+      "input_keys": [
+        "NaCl",
+        "activated_charcoal",
+        "methyl_orange",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:tr-007",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 4,
+        "add": 5,
+        "transport": 2,
+        "inspect": 2,
+        "measure": 1,
+        "look": 1,
+        "particles": 1
+      },
+      "command_count": 17,
+      "vessel_count": 5,
+      "input_keys": [
+        "gypsum",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:tr-008",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 4,
+        "add": 6,
+        "transport": 2,
+        "inspect": 2,
+        "look": 1,
+        "measure": 1,
+        "particles": 1
+      },
+      "command_count": 18,
+      "vessel_count": 5,
+      "input_keys": [
+        "CuSO4",
+        "Fe",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:mi-004",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 6,
+        "measure": 4,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 15,
+      "vessel_count": 2,
+      "input_keys": [
+        "HCl",
+        "antlerite",
+        "atacamite",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:mi-007",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 6,
+        "measure": 4,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 15,
+      "vessel_count": 2,
+      "input_keys": [
+        "HCl",
+        "brochantite",
+        "langite",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:so-001",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 6,
+        "seal": 2,
+        "measure": 2,
+        "particles": 2,
+        "chromatograph": 2,
+        "inspect": 1
+      },
+      "command_count": 17,
+      "vessel_count": 2,
+      "input_keys": [
+        "NaOH",
+        "bromoethane",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:so-002",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 3,
+        "measure": 4,
+        "chromatograph": 1,
+        "particles": 1,
+        "inspect": 1
+      },
+      "command_count": 12,
+      "vessel_count": 2,
+      "input_keys": [
+        "tert_butyl_bromide",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:so-003",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 6,
+        "seal": 2,
+        "particles": 2,
+        "measure": 2,
+        "inspect": 1
+      },
+      "command_count": 15,
+      "vessel_count": 2,
+      "input_keys": [
+        "NaOH",
+        "bromoethane",
+        "tert_butyl_bromide",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:so-004",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 4,
+        "seal": 2,
+        "measure": 3,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 14,
+      "vessel_count": 2,
+      "input_keys": [
+        "tert_butyl_bromide",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:so-005",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 6,
+        "stir": 3,
+        "look": 3,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 18,
+      "vessel_count": 3,
+      "input_keys": [
+        "CaCl2",
+        "NaCl",
+        "ethanol",
+        "propanone"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:an-005",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 3,
+        "add": 10,
+        "chromatograph": 4,
+        "inspect": 1
+      },
+      "command_count": 19,
+      "vessel_count": 4,
+      "input_keys": [
+        "ethanol",
+        "ethyl_acetate",
+        "propanone",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:an-006",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 7,
+        "measure": 2,
+        "chromatograph": 2,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 16,
+      "vessel_count": 2,
+      "input_keys": [
+        "CH3COOH",
+        "NaOH",
+        "ethanol",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:su-004",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "add": 5,
+        "seal": 1,
+        "wait": 2,
+        "inspect": 2,
+        "look": 1,
+        "particles": 1
+      },
+      "command_count": 13,
+      "vessel_count": 1,
+      "input_keys": [
+        "Fe",
+        "NaCl",
+        "O2",
+        "Zn",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:su-006",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 3,
+        "measure": 5,
+        "look": 2,
+        "inspect": 1
+      },
+      "command_count": 14,
+      "vessel_count": 3,
+      "input_keys": [
+        "Cu",
+        "doped_silicon",
+        "silicon"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:th-004",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 2,
+        "measure": 4,
+        "heat": 2,
+        "look": 4,
+        "cool": 2,
+        "inspect": 1
+      },
+      "command_count": 17,
+      "vessel_count": 2,
+      "input_keys": [
+        "hexadecane",
+        "paraffin"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:th-005",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "seal": 2,
+        "add": 2,
+        "measure": 6,
+        "inspect": 2,
+        "heat": 2
+      },
+      "command_count": 16,
+      "vessel_count": 2,
+      "input_keys": [
+        "N2",
+        "helium"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:bd-001",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 5,
+        "look": 2,
+        "measure": 2,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 14,
+      "vessel_count": 2,
+      "input_keys": [
+        "NaCl",
+        "instant_snow_powder",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:bd-002",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 1,
+        "add": 7,
+        "stir": 2,
+        "wait": 1,
+        "look": 2,
+        "inspect": 1
+      },
+      "command_count": 15,
+      "vessel_count": 2,
+      "input_keys": [
+        "dish_soap",
+        "lipase",
+        "vegetable_oil",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:bd-003",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "new": 2,
+        "add": 5,
+        "seal": 3,
+        "irradiate": 2,
+        "wait": 1,
+        "measure": 3,
+        "particles": 2,
+        "inspect": 1
+      },
+      "command_count": 20,
+      "vessel_count": 3,
+      "input_keys": [
+        "H2O2",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    },
+    {
+      "id": "batch3-diverse:bd-004",
+      "status": "pass",
+      "errors": [],
+      "commands": {
+        "register": 1,
+        "add": 4,
+        "chromatograph": 1,
+        "measure": 2,
+        "particles": 1,
+        "inspect": 1
+      },
+      "command_count": 10,
+      "vessel_count": 1,
+      "input_keys": [
+        "NaCl",
+        "albumin",
+        "ethanol",
+        "water"
+      ],
+      "official_parser_run": false,
+      "runtime_executed": false
+    }
+  ]
+}

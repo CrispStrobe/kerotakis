@@ -1,0 +1,16 @@
+# D3-BD-001: Known boundary: salt sensitivity is absent from the simple swelling model
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+add v1 instant_snow_powder 0.2g
+add v1 water 30g
+add v2 instant_snow_powder 0.2g
+add v2 water 30g
+add v2 NaCl 1g
+look v1
+look v2
+measure v1 conductivity
+measure v2 conductivity
+particles v1
+particles v2
+inspect
