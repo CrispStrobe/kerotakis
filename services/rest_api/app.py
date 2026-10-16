@@ -34,12 +34,29 @@ SCRIPT_LIMIT = 16_000
 OUTPUT_LIMIT = 1_000_000
 WALL_SECONDS = 10
 LEASE_SECONDS = 90
-# English only. Deliberately excludes language/session directives and commands
-# whose user-supplied loop bounds require a separate admission policy.
+# English-only simulation commands. Filesystem, language and game/session
+# controls remain excluded; register selects presentation only. Explicit loop
+# budgets complement the independent child CPU/wall/output/memory limits.
 VERBS = frozenset("new add heat cool wait stir seal open "
                   "ignite filter decant drain measure "
                   "chromatograph electrolyse electrolyze cell grind centrifuge "
-                  "irradiate dilute magnet react test inspect particles sweep".split())
+                  "irradiate dilute magnet react test inspect particles sweep "
+                  "register look observe explain evaporate regulate mix "
+                  "extract distil distill titrate transport "
+                  "remove discard stock smell waft zoom voltmeter".split())
+# These shell words either emit plain text or are no-ops in `kero run --json`.
+# Admitting them as if they were observations would silently mislead clients.
+UNAVAILABLE_SESSION_WORDS = frozenset(
+    "species help structure identify coverage materials find lang quest save load quit exit".split())
+# Only multiword identity aliases affect parameter positions. Keep this small
+# policy view aligned with the engine inventory; the submitted script is intact.
+MULTIWORD_INGREDIENT_ALIASES = {("carbon", "dioxide"): "CO2", ("sodium", "chloride"): "NaCl"}
+MAX_TITRATION_STEPS = 2000
+MAX_STAGES = 16
+MAX_TRANSPORT_STEPS = 256
+MAX_LOOP_WORK = 4096
+MAX_COMMAND_SECONDS = 30 * 86400
+MAX_SCRIPT_SECONDS = 90 * 86400
 bearer = HTTPBearer(auto_error=False)
 
 
@@ -165,18 +182,96 @@ def validate_script(script: str):
         raise HTTPException(422, "Supply 1–128 commands")
     for n, line in enumerate(lines, 1):
         words = line.split()
+        if words[0] in UNAVAILABLE_SESSION_WORDS:
+            raise HTTPException(422, f"Command {n} is unavailable in batch JSON execution")
         if len(words) > 32 or words[0] not in VERBS:
             raise HTTPException(422, f"Command {n} is outside the API command subset")
     if sum(line.split()[0] == "new" for line in lines) > 16:
         raise HTTPException(422, "At most 16 vessel creation commands")
     duration = 0.0
+    loop_work = 0
     for line in lines:
         words = line.split()
-        index = {"wait": 1, "stir": 3, "electrolyse": 3, "electrolyze": 3, "centrifuge": 3}.get(words[0])
+        verb = words[0]
+        position = {"stock": 1, "add": 2, "grind": 2, "titrate": 2, "extract": 3}.get(verb)
+        if position is not None:
+            for alias, canonical in sorted(MULTIWORD_INGREDIENT_ALIASES.items(), key=lambda row: -len(row[0])):
+                if tuple(words[position:position + len(alias)]) == alias:
+                    words[position:position + len(alias)] = [canonical]
+                    break
+        if verb == "register" and (len(words) != 2 or words[1] not in ("lv1", "lv2", "lv3")):
+            raise HTTPException(422, "Use register lv1, lv2 or lv3")
+        if verb in ("remove", "discard") and (
+                len(words) != 2 or not re.fullmatch(r"v[1-9][0-9]*", words[1])):
+            raise HTTPException(422, "Vessel lifecycle command expects one vessel")
+        if verb == "stock" and len(words) != 3:
+            raise HTTPException(422, "Stock expects an ingredient and amount")
+        if verb in ("cell", "voltmeter") and (
+                len(words) != 3 or any(not re.fullmatch(r"v[1-9][0-9]*", word) for word in words[1:])):
+            raise HTTPException(422, "Cell measurement expects two vessels")
+        if verb in ("look", "observe", "explain", "smell", "waft", "particles", "zoom", "inspect") and (
+                len(words) > 2 or len(words) == 2 and not re.fullmatch(r"v[1-9][0-9]*", words[1])):
+            raise HTTPException(422, "Observation expects an optional vessel")
+        if verb == "evaporate" and len(words) != 3:
+            raise HTTPException(422, "Evaporation expects vessel and fraction")
+        if verb == "regulate" and len(words) != 4:
+            raise HTTPException(422, "Regulation expects vessel, pressure and initial volume")
+        if verb == "mix" and (len(words) != 7 or words[5] != "into"):
+            raise HTTPException(422, "Mix expects two vessel fractions and a target")
+        if verb in ("extract", "distil", "distill"):
+            base = 5 if verb == "extract" else 4
+            if len(words) == base:
+                count = 1
+            elif len(words) == base + 2 and words[base] == "stages":
+                count = bounded_count(words[base + 1], MAX_STAGES)
+            else:
+                raise HTTPException(422, "Only a bounded stages count may follow the amount")
+            loop_work += count
+        if verb == "titrate":
+            if len(words) < 7:
+                raise HTTPException(422, "Titration needs an increment and endpoint")
+            rest = words[4:] if words[3].endswith(("M", "m")) else words[3:]
+            if len(rest) < 4 or rest[1] != "until":
+                raise HTTPException(422, "Titration needs an increment and endpoint")
+            if rest[2] == "ph":
+                tail = rest[4:]
+            elif rest[2] in ("colour", "color") and rest[3] == "persists":
+                tail = rest[4:]
+            elif rest[2] == "pe" and len(rest) >= 5 and rest[3] in (">", ">=", "<", "<=", "above", "below"):
+                tail = rest[5:]
+            else:
+                raise HTTPException(422, "Unsupported titration endpoint")
+            if not tail:
+                count = 100  # The CLI's actual default, not an unbounded loop.
+            elif len(tail) == 2 and tail[0] == "max":
+                count = bounded_count(tail[1], MAX_TITRATION_STEPS)
+            else:
+                raise HTTPException(422, "Only a bounded max count may follow the endpoint")
+            loop_work += count
+        if verb == "transport":
+            # Match the canonical form, including the entire suffix: duplicate
+            # or reordered keywords must not bypass the charged loop count.
+            match = re.fullmatch(
+                r"transport((?: v[1-9][0-9]*){1,16}) from v[1-9][0-9]* to v[1-9][0-9]* steps ([0-9]+)(?: courant ([^ ]+))?",
+                " ".join(words))
+            if not match:
+                raise HTTPException(422, "Use a bounded canonical transport chain")
+            count = bounded_count(match[2], MAX_TRANSPORT_STEPS)
+            if match[3] is not None:
+                try:
+                    courant = float(match[3])
+                except ValueError:
+                    raise HTTPException(422, "Use a finite Courant fraction") from None
+                if not math.isfinite(courant) or not 0 <= courant <= 1:
+                    raise HTTPException(422, "Use a finite Courant fraction")
+            loop_work += count * len(match[1].split())
+        if loop_work > MAX_LOOP_WORK:
+            raise HTTPException(422, "Aggregate solver loop budget exceeded")
+        index = {"wait": 1, "stir": 3, "electrolyse": 3, "electrolyze": 3, "centrifuge": 3}.get(verb)
         if index is None:
             continue
         if len(words) <= index:
-            if words[0] == "stir":
+            if verb == "stir":
                 duration += 10  # The CLI's default stir duration.
                 continue
             raise HTTPException(422, "Duration required")
@@ -185,11 +280,24 @@ def validate_script(script: str):
             raise HTTPException(422, "Use a finite Kero duration")
         unit = match[2]
         value = float(match[1]) * (3600 if unit in ("h", "hr", "hours") else 60 if unit.startswith("min") else 1)
-        if not 0 <= value <= 3600:
+        if not math.isfinite(value) or not 0 <= value <= MAX_COMMAND_SECONDS:
             raise HTTPException(422, "Duration outside API limit")
         duration += value
-    if duration > 3600:
-        raise HTTPException(422, "Aggregate simulated duration exceeds one hour")
+        if duration > MAX_SCRIPT_SECONDS:
+            raise HTTPException(422, "Aggregate simulated duration exceeds API limit")
+
+    if duration > MAX_SCRIPT_SECONDS:
+        raise HTTPException(422, "Aggregate simulated duration exceeds API limit")
+
+
+def bounded_count(raw: str, maximum: int) -> int:
+    # Reject before int conversion; no huge integer or signed/float spelling.
+    if not re.fullmatch(r"[0-9]{1,10}", raw):
+        raise HTTPException(422, "Use a bounded positive integer loop count")
+    count = int(raw)
+    if not 1 <= count <= maximum:
+        raise HTTPException(422, "Loop count outside API limit")
+    return count
 
 
 class Admission:
@@ -513,6 +621,22 @@ def create_app(cfg: Settings | None = None):
                 "configured": cfg.mode != "disabled", "revision": cfg.revision,
                 "execution_backend": cfg.executor if cfg.mode == "vercel" else cfg.mode,
                 "engine": cfg.engine or None}
+
+    @app.get("/capabilities")
+    async def capabilities():
+        # Public, static policy only: no principal, key, host path or snapshot.
+        return {"api_version": 1, "revision": cfg.revision,
+                "language": "en", "commands": sorted(VERBS),
+                "unavailable_session_commands": sorted(UNAVAILABLE_SESSION_WORDS),
+                "limits": {"body_bytes": BODY_LIMIT, "script_bytes": SCRIPT_LIMIT,
+                    "commands": 128, "tokens_per_command": 32, "vessel_creations": 16,
+                    "titration_steps": MAX_TITRATION_STEPS, "stages": MAX_STAGES,
+                    "transport_steps": MAX_TRANSPORT_STEPS, "transport_cells": 16,
+                    "aggregate_loop_work": MAX_LOOP_WORK,
+                    "simulated_seconds_per_command": MAX_COMMAND_SECONDS,
+                    "aggregate_simulated_seconds": MAX_SCRIPT_SECONDS,
+                    "child_cpu_seconds": 8, "child_wall_seconds": WALL_SECONDS},
+                "physical_verdict": "not_assigned"}
 
     @app.post("/run", response_model=RunOutput, openapi_extra={"requestBody": {
         "required": True, "content": {"application/json": {"schema": RunInput.model_json_schema()}}}})
