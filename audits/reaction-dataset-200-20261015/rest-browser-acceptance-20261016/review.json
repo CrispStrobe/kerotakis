@@ -1,0 +1,173 @@
+{
+  "schema": 1,
+  "kind": "Independent offline review of actual remote Chromium browser evidence",
+  "source": {
+    "reviewed_client_source": "efd79bf88eb1514bb87506171c39e808c3b544e1",
+    "reviewed_client_repository_path": "web/rest.html",
+    "client_sha256": "f8ccf3dfb62ceafb104db6daad69d67886823f4a20a2bd9d3989ee7b0dcdff80",
+    "actual_browser_client_bytes_match_reviewed_blob": true
+  },
+  "physical_verdict": "not_assigned",
+  "harness_assertion_correction": {
+    "original_saved_assertion_field": "status",
+    "actual_schema_field": "execution_status",
+    "actual_execution_status": "completed",
+    "actual_exit_status": 0,
+    "actual_observations": 2,
+    "rerun_required": false
+  },
+  "accepted_browser_client_checks": true,
+  "production_engine_observed": {
+    "source_head": "d791d3062886e4a06dbc7c9d1635383da3e05359",
+    "binary_sha256": "e837e75f6e1c2c8d3f86e56144a1cebd8e2a6edacc3a264e94ed1117a006c21c",
+    "cargo_lock_sha256": "12d9a91b9348a577cb83f1f16db0d89c4994ea79d1f6967a611b20e8a71a78dc"
+  },
+  "production_api_revision_observed": "9bee95d9282919c435692f3b961cdaa2823d76bf",
+  "accepted_new_preview_engine": false,
+  "origins": [
+    {
+      "origin": "https://kerotakis-web-payload.vercel.app",
+      "actual_client": true,
+      "actual_api_execution": true
+    },
+    {
+      "origin": "https://crispstrobe.github.io",
+      "actual_client": false,
+      "exact_client_injected_if_unpublished": true,
+      "actual_api_execution": true
+    }
+  ],
+  "pages_delivery": {
+    "url": "https://crispstrobe.github.io/kerotakis/rest.html",
+    "status": 404,
+    "sha256": "b620507312c5e97566a3c6cfaf99144fefc18a0da7d941401dfa0f5f58fb0368",
+    "published": false
+  },
+  "accepted_actual_pages_publication": false,
+  "privacy": {
+    "stores": {
+      "local": [],
+      "session": [],
+      "indexedDB": [],
+      "caches": [],
+      "serviceWorkers": [],
+      "controller": false
+    },
+    "clear_button": {
+      "key_empty": true,
+      "results_empty": true,
+      "script_retained": true
+    },
+    "after_submit": {
+      "key_present": true,
+      "script_retained": true
+    },
+    "interpretation": "Key and script remain only in current page memory after submit; labelled Clear key and results clears those two fields, intentionally retaining editable script. Reload resets the key and custom script. No local/session storage, IndexedDB, Cache Storage, service worker or cookies populated in this fresh browser context."
+  },
+  "remaining": [
+    "Publish source-bound REST client through normal Pages delivery after source integration, then test actual served Pages client.",
+    "Updated preview engine browser acceptance is not established by these retained-production-engine tests."
+  ],
+  "executed_response_engine_matches_health": true,
+  "browser": {
+    "version": "153.0.8010.0",
+    "web_security_enabled": true,
+    "actual_api_requests": true,
+    "remote_resource_cap": {
+      "vcpus": 1,
+      "memory_mib": 2048,
+      "lifecycle_seconds": 600
+    },
+    "observed_run_seconds": 49.057,
+    "sandbox_destroyed": true
+  },
+  "checks": [
+    {
+      "name": "production client genuinely served",
+      "passed": true
+    },
+    {
+      "name": "production actual form submit completes",
+      "passed": true
+    },
+    {
+      "name": "actual native response completed",
+      "passed": true,
+      "observation_count": 2,
+      "correction": "Actual API schema uses execution_status, not status; independently re-evaluated unchanged saved production_execution."
+    },
+    {
+      "name": "no key/script persistence mechanisms populated",
+      "passed": true
+    },
+    {
+      "name": "browser has no cookies after API execution",
+      "passed": true
+    },
+    {
+      "name": "invalid credential is rendered as HTTP401",
+      "passed": true
+    },
+    {
+      "name": "unsupported script subset is rendered as HTTP422",
+      "passed": true
+    },
+    {
+      "name": "invalid endpoint rejected in client",
+      "passed": true
+    },
+    {
+      "name": "mock hostile response rendered",
+      "passed": true
+    },
+    {
+      "name": "response HTML displayed only as text",
+      "passed": true
+    },
+    {
+      "name": "clear button clears documented key/results",
+      "passed": true
+    },
+    {
+      "name": "reload clears in-memory key and custom script",
+      "passed": true
+    },
+    {
+      "name": "controlled exact client at approved Pages origin executes real cross-origin API",
+      "passed": true
+    },
+    {
+      "name": "Pages-origin browser storage remains empty",
+      "passed": true
+    },
+    {
+      "name": "unapproved-origin browser fetch refuses",
+      "passed": true
+    }
+  ],
+  "first_failures": [
+    {
+      "stage": "remote allocation before execution",
+      "reason": "Requested 2 CPUs with 2 GiB; platform requires 2 GiB per CPU. Corrected to 1 CPU/2 GiB within approved cap."
+    },
+    {
+      "stage": "browser launch before page access",
+      "reason": "Missing browser runtime library; no page or API request executed."
+    },
+    {
+      "stage": "remote dependency installation",
+      "reason": "Assumed package manager absent; switched to platform-aware browser dependency installer before page access."
+    },
+    {
+      "stage": "first full browser report",
+      "reason": "One assertion read status instead of execution_status. Saved raw response shows completed/exit0/two observations; independently corrected offline without rerunning requests."
+    }
+  ],
+  "evidence_sha256": {
+    "raw_browser_report": "d2556985fa50476685114222f822a0bc22ca7f7888ac59560a8c88e83e6467b5",
+    "independent_offline_review": "07e9e2f67ec2368203cb434eb93297abf5ee3c7c05c193dd5bbd8b44ccb6e9d4",
+    "browser_program": "3354ba3c4f62f3c6bd1cd335c4b422968dae73d9bb0c54a55a56790678954f17",
+    "actual_production_client_html": "f8ccf3dfb62ceafb104db6daad69d67886823f4a20a2bd9d3989ee7b0dcdff80",
+    "actual_pages_404_html": "b620507312c5e97566a3c6cfaf99144fefc18a0da7d941401dfa0f5f58fb0368"
+  }
+}

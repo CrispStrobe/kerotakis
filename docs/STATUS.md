@@ -223,7 +223,7 @@ Current source and acceptance (older failures below remain historical evidence):
 
 | PR / source | Accepted result | Remaining work |
 | --- | --- | --- |
-| [795](https://github.com/CrispStrobe/kerotakis/pull/795), `efd79bf8` | All 59 applicable checks succeeded, one skip; exact-source AL2023/Vercel preview, isolation and four full CLI/API observation comparisons passed. | Manual REST browser-client acceptance and Pages delivery remain separate; keep production's engine binding explicit. |
+| [795](https://github.com/CrispStrobe/kerotakis/pull/795), `74a030ec` | Earlier `efd79bf8` passed all 59 checks, exact-source Vercel preview and four CLI/API comparisons. Actual unchanged browser client passed fifteen UI/privacy/CORS controls. | Refreshed onto accepted runtime main; fresh CI/full fleets and exact-source preview pending. Actual Pages publication follows integration. |
 | [798](https://github.com/CrispStrobe/kerotakis/pull/798), merged `5b7cc5ee` | All 58 applicable checks succeeded, one skip; silver ammine equilibrium routing integrated with verified parents/tree. | Canonical free/complex-bound ammonia ownership and deployment remain separate gaps. |
 | [799](https://github.com/CrispStrobe/kerotakis/pull/799), merged `79f9e5f8` | All 58 applicable checks succeeded, one skip; native, actual browser, Wasm, bridge and full own fleets passed. Shared continuation and thermal ownership integrated with verified parents/tree. | Bounded acidic endpoint implementation and its separate acceptance; no new endpoint follows from this prerequisite. |
 | [801](https://github.com/CrispStrobe/kerotakis/pull/801), merged `6fffb455` | All 58 applicable checks succeeded, one skip; strict finite-gas/filtration controls, full suites and fleets passed. Exact accepted patch retained on silver main; actual parents/tree verified. | Deployment and broader unsupported gas/chemistry domains remain separate. |
@@ -378,3 +378,17 @@ bridge, native and full own-fleet acceptance passed. The
 verifies actual parents/tree and preservation of the accepted patch on main
 containing the silver and finite-gas repairs. The next bounded rank-119 endpoint
 is now in source implementation; its chemistry and acceptance remain separate.
+
+
+The [actual remote REST-browser receipt](../audits/reaction-dataset-200-20261015/rest-browser-acceptance-20261016/review.json)
+accepts fifteen UI/privacy/network controls with browser security enabled.
+Production HTML equals the reviewed client byte-for-byte; real form submissions
+returned 200/401/422 as appropriate, and no credential/script storage was created.
+The actual Pages client URL returned 404; an exact controlled copy at its approved
+origin passed cross-origin execution, which does not establish publication.
+A harness field-name mistake was corrected against unchanged saved responses;
+first failures remain preserved and no execution was repeated for that correction.
+PR795 is refreshed as `74a030ec` onto main `79f9e5f8`, resolving only a STATUS
+conflict. Fresh CI/fleets and serverless preview run 38862025694 are pending.
+The client bytes are unchanged; these UI checks still use retained production
+engine `d791d306`, not the new preview engine. Production remains unchanged.
