@@ -1,0 +1,18 @@
+{
+  "setup_failure_script_invocations": 0,
+  "first_native_invocations": 1,
+  "first_native_status": "completed",
+  "first_native_exit_code": 1,
+  "first_native_observations": 0,
+  "first_native_stderr_sha256": "e38b01f3b5bbf05d9a7fa3adc13158b1b64e3eb8602b019d45ac3ff061bf4efa",
+  "first_native_stderr": "/kero: /lib/libc.so.6: version `GLIBC_2.38' not found (required by /kero)\n/kero: /lib/libc.so.6: weak version `GLIBC_2.39' not found (required by /kero)\n",
+  "cause": "Known ELF ABI mismatch; loader lacks GLIBC_2.38/2.39 required by authenticated binary. Not a command refusal or physical chemistry result.",
+  "followup": "New frozen runtime correction, same script/binary/source/lock/thresholds, fresh disposable VM; no production mutation.",
+  "final_runtime_libraries_sha256": {
+    "ld-linux-x86-64.so.2": "cd4df4f3c7b83673d61189bf2eaebd33ca4f2853ab9772b8a25e025ef99b1e81",
+    "libstdc++.so.6": "1fd75fe70354a416d75aef22bcae68c47bd25d20e2d0568c30b1a9838cf62f11",
+    "libgcc_s.so.1": "d93224d2b0dab4247598be683adca02f5cf00586f99c187579cd7e92058fb7cb",
+    "libm.so.6": "e9c4b28d340e415b8137480ec442662f981e1399386c5931dae0e886e3639e91",
+    "libc.so.6": "8db37cf3f2169f59a0f07ef1fea308c35656668c64c8ff294e1860f4121eb161"
+  }
+}

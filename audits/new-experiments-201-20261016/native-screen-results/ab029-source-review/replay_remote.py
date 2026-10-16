@@ -38,12 +38,22 @@ async def run(args):
     assert sha(lock) == design['engine']['cargo_lock_sha256']
     assert snapshot['vm_job_sha256'] == design['supervisor_sha256']
     assert snapshot['sandbox_sha256'] == design['sandbox_sha256']
-    assert snapshot['engine']['libraries'] == design['runtime_libraries_sha256']
+    assert snapshot['engine']['libraries'] == design['snapshot_runtime_libraries_sha256']
+    runtime = {}
+    if args.runtime_bundle:
+        for name, digest in design['runtime_libraries_sha256'].items():
+            assert Path(name).name == name
+            content = (args.runtime_bundle / name).read_bytes()
+            assert sha(content) == digest
+            runtime[name] = content
+    else:
+        assert design['runtime_libraries_sha256'] == design['snapshot_runtime_libraries_sha256']
     assert sha(design['script'].encode()) == design['script_sha256']
     args.out.mkdir(mode=0o700, exist_ok=False)
     (args.out / 'frozen-design.json').write_bytes(frozen_raw)
     (args.out / 'Cargo.lock').write_bytes(lock)
-    manifest = {**snapshot['engine'], **design['engine']}
+    manifest = {**snapshot['engine'], **design['engine'],
+                'libraries': design['runtime_libraries_sha256']}
     save(args.out / 'manifest.json', manifest)
     async with session():
         box = await sandbox.create_sandbox(
@@ -58,6 +68,9 @@ async def run(args):
                                    ('engine/sandbox.runtime', design['sandbox_sha256'])]:
                 assert sha(await box.fs.read_bytes('/vercel/sandbox/' + name)) == expected
             await box.fs.write_bytes('/vercel/sandbox/engine/kero', binary, mode=0o755)
+            for name, content in runtime.items():
+                await box.fs.write_bytes('/vercel/sandbox/engine/lib/' + name, content,
+                                        mode=0o755 if name == manifest['loader'] else 0o644)
             await box.fs.write_bytes('/vercel/sandbox/engine/manifest.json',
                                     json.dumps(manifest).encode(), mode=0o644)
             await box.fs.write_bytes('/vercel/sandbox/engine/input.lab',
@@ -101,4 +114,5 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ('design', 'snapshot-receipt', 'artifact', 'out'):
         parser.add_argument('--' + name, type=Path, required=True)
+    parser.add_argument('--runtime-bundle', type=Path)
     asyncio.run(run(parser.parse_args()))
