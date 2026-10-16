@@ -1,0 +1,625 @@
+{
+  "schema_version": 1,
+  "checked_utc": "2026-10-15T20:01:44.195405+00:00",
+  "pr": "https://github.com/CrispStrobe/kerotakis/pull/792",
+  "reviewed_head": "3574752ff1b233f9dbcf76447665733ead111931",
+  "merge": "b22f3da5655614ae37e8874fefc023becccd1dcf",
+  "actual_parents": [
+    "4bf2b973c8636527ec77604891c5af31ed4a2c44",
+    "3574752ff1b233f9dbcf76447665733ead111931"
+  ],
+  "expected_merge_tree": "8df75ab4093f314728833afc5f4923b0c352319f",
+  "actual_merge_tree": "8df75ab4093f314728833afc5f4923b0c352319f",
+  "integration": "Normal protected auto-merge with exact reviewed head; no admin/force/waivers.",
+  "ci": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618",
+  "own_fleet": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516",
+  "successful_ci_jobs": 25,
+  "successful_fleet_jobs": 33,
+  "skipped_publication_job": 1,
+  "checks": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T17:09:39Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529359160",
+      "name": "GPU release tools (deterministic)",
+      "startedAt": "2026-10-15T17:09:33Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T16:54:56Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116529889537",
+      "name": "Build audited CLI once",
+      "startedAt": "2026-10-15T16:52:31Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T17:18:28Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529358727",
+      "name": "BRD-080 viewer decision spike",
+      "startedAt": "2026-10-15T17:17:17Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:25:51Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189534",
+      "name": "Frozen fleet 195-218",
+      "startedAt": "2026-10-15T18:25:39Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T17:04:24Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529358695",
+      "name": "Theme contrast tokens",
+      "startedAt": "2026-10-15T17:04:12Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T17:47:10Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189341",
+      "name": "Frozen fleet 459-488",
+      "startedAt": "2026-10-15T17:46:52Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T16:56:16Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529358548",
+      "name": "Presentation authority adapters",
+      "startedAt": "2026-10-15T16:55:27Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:29:14Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189802",
+      "name": "Source fleet acid-base-buffers",
+      "startedAt": "2026-10-15T18:29:02Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:39:17Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189859",
+      "name": "Source fleet solubility-precipitation",
+      "startedAt": "2026-10-15T18:39:05Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:00:01Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189604",
+      "name": "Source fleet gas-boundaries",
+      "startedAt": "2026-10-15T17:59:47Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:18:38Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189771",
+      "name": "Source fleet electrochemistry",
+      "startedAt": "2026-10-15T18:18:29Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T17:39:02Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189658",
+      "name": "Source fleet mixing-transfer",
+      "startedAt": "2026-10-15T17:38:51Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:08:56Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189637",
+      "name": "Source fleet filtration-evaporation",
+      "startedAt": "2026-10-15T18:08:43Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T17:52:21Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189640",
+      "name": "Source fleet distillation",
+      "startedAt": "2026-10-15T17:52:08Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T17:36:11Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189538",
+      "name": "Source fleet thermal-phase-paths",
+      "startedAt": "2026-10-15T17:35:57Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T17:42:42Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189715",
+      "name": "Source fleet organic-equilibria",
+      "startedAt": "2026-10-15T17:42:31Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:17:52Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189702",
+      "name": "Source fleet observables-negative-controls",
+      "startedAt": "2026-10-15T18:17:39Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:48:22Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529359052",
+      "name": "Full preflight gate",
+      "startedAt": "2026-10-15T18:21:15Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:29:00Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189990",
+      "name": "Source fleet v2 quantitative-solutions",
+      "startedAt": "2026-10-15T18:28:46Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:28:44Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189922",
+      "name": "Source fleet v2 polyprotic-carbonate",
+      "startedAt": "2026-10-15T18:28:35Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:04:14Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189911",
+      "name": "Source fleet v2 redox-cells",
+      "startedAt": "2026-10-15T18:04:02Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:12:20Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189819",
+      "name": "Source fleet v2 gas-production-transfer",
+      "startedAt": "2026-10-15T18:12:10Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:40:57Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189957",
+      "name": "Source fleet v2 phase-colligative",
+      "startedAt": "2026-10-15T18:40:46Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:49:07Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189815",
+      "name": "Source fleet v2 crystallisation-boundaries",
+      "startedAt": "2026-10-15T18:48:57Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:54:13Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189820",
+      "name": "Source fleet v2 separation-trains",
+      "startedAt": "2026-10-15T18:54:01Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:54:57Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553190457",
+      "name": "Source fleet v2 kinetics-boundaries",
+      "startedAt": "2026-10-15T18:54:47Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T19:06:12Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189845",
+      "name": "Source fleet v2 household-biochemistry",
+      "startedAt": "2026-10-15T19:06:02Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T19:06:23Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189964",
+      "name": "Source fleet v2 materials-transport",
+      "startedAt": "2026-10-15T19:06:13Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T19:12:06Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553190240",
+      "name": "Source fleet v2 analytical-observables",
+      "startedAt": "2026-10-15T19:11:56Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T19:19:25Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189931",
+      "name": "Source fleet v2 thermochemical-paths",
+      "startedAt": "2026-10-15T19:19:15Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:31:30Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529359334",
+      "name": "Test (native) (ubuntu-latest)",
+      "startedAt": "2026-10-15T18:15:53Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T17:52:33Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189452",
+      "name": "Source fleet v3 water-energy",
+      "startedAt": "2026-10-15T17:52:19Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T17:07:58Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529358627",
+      "name": "Test (native) (macos-latest)",
+      "startedAt": "2026-10-15T16:47:56Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T17:36:27Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189329",
+      "name": "Source fleet v3 aqueous-selectivity",
+      "startedAt": "2026-10-15T17:36:13Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:34:23Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189599",
+      "name": "Source fleet v3 ionic-conductivity",
+      "startedAt": "2026-10-15T18:34:12Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:18:50Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189630",
+      "name": "Source fleet v3 metal-ligand",
+      "startedAt": "2026-10-15T18:18:40Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:40:41Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116553189381",
+      "name": "Source fleet v3 organic-equilibrium",
+      "startedAt": "2026-10-15T18:40:32Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T17:08:19Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529358964",
+      "name": "MY-BASIC preview (ubuntu-latest)",
+      "startedAt": "2026-10-15T17:07:59Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:56:29Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116602857516",
+      "name": "All 240 source-informed cases",
+      "startedAt": "2026-10-15T18:56:22Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T16:50:17Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529359001",
+      "name": "MY-BASIC preview (macos-latest)",
+      "startedAt": "2026-10-15T16:49:50Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T16:50:29Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529358572",
+      "name": "Legacy BASIC oracle (development only)",
+      "startedAt": "2026-10-15T16:50:15Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T19:33:22Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116621898417",
+      "name": "All 288 source-informed v2 cases",
+      "startedAt": "2026-10-15T19:33:13Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:10:29Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529359220",
+      "name": "Core and data schemas compile to wasm32",
+      "startedAt": "2026-10-15T18:09:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:59:40Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037516/job/116603531844",
+      "name": "All 120 source-informed v3 cases",
+      "startedAt": "2026-10-15T18:59:29Z",
+      "status": "COMPLETED",
+      "workflowName": "Chemistry audit fleets"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T17:12:40Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529358792",
+      "name": "feos adapter (wasm32-unknown-unknown)",
+      "startedAt": "2026-10-15T17:12:19Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T17:52:41Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529358925",
+      "name": "feos adapter (aarch64-linux-android)",
+      "startedAt": "2026-10-15T17:52:03Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T16:47:51Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529358586",
+      "name": "feos adapter (x86_64-pc-windows-msvc)",
+      "startedAt": "2026-10-15T16:47:12Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T16:55:25Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529359096",
+      "name": "feos adapter (aarch64-apple-darwin)",
+      "startedAt": "2026-10-15T16:55:03Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T16:53:44Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529358865",
+      "name": "feos adapter (aarch64-apple-ios)",
+      "startedAt": "2026-10-15T16:52:58Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T18:06:25Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529358685",
+      "name": "Current registry source export",
+      "startedAt": "2026-10-15T18:04:38Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T16:55:36Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529359242",
+      "name": "The native host still compiles",
+      "startedAt": "2026-10-15T16:50:34Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T17:01:09Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529358804",
+      "name": "IPhreeqc under MSVC",
+      "startedAt": "2026-10-15T16:54:59Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T16:48:39Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529358527",
+      "name": "Shell payload (ubuntu-22.04)",
+      "startedAt": "2026-10-15T16:48:31Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T16:53:38Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529359047",
+      "name": "Shell payload (windows-latest)",
+      "startedAt": "2026-10-15T16:53:19Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T17:11:40Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529358624",
+      "name": "The bench in WebAssembly",
+      "startedAt": "2026-10-15T17:05:36Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T17:31:59Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529359046",
+      "name": "IPhreeqc wasm gate",
+      "startedAt": "2026-10-15T17:30:04Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T17:32:15Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529358991",
+      "name": "The two wasm halves, together",
+      "startedAt": "2026-10-15T17:25:18Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T17:31:05Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116529359259",
+      "name": "The demo page, in a real browser",
+      "startedAt": "2026-10-15T17:17:38Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T17:31:06Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/38766037618/job/116570535261",
+      "name": "Publish the demo",
+      "startedAt": "2026-10-15T17:31:06Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    }
+  ],
+  "focused_acceptance": {
+    "native": "Seven watercolour_revision groups passed, including green revision-2 mix, retained revision-1 concentrated replay, separate finite bottles and replay controls. Full workspace native checks passed on Linux and macOS.",
+    "browser": "Actual browser fill bounds/accepted colour, fade replacement and economy restoration controls passed.",
+    "data_export": "Current registry source export passed."
+  },
+  "saved_log_sha256": {
+    "native": "6493c12e112b9a6cfd2cde43aef82462edc787918d0e12897d844c1ee9a97975",
+    "browser": "5cf80c46ed43d73a71e1a272f75953bc43a6b111456531e476ed5ff6c8dad5fa"
+  },
+  "limits": [
+    "Engineering/optical regression acceptance, not empirical spectral calibration.",
+    "A merge does not establish which frontend/API engine is deployed.",
+    "Earlier failures, original recipes and forecasts are preserved."
+  ]
+}
