@@ -1,0 +1,196 @@
+{
+  "schema": "kerotakis.viewer-followup-review.v1",
+  "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "status": "source-bound deterministic lifecycle defects reproduced; exact browser failure causality still requires separate evidence",
+  "task_scope": "Independent source/pure-Node review only; no product edits, commits, browser, GPU, Cargo, native CLI, package build, install or runtime chemistry. Hermes owns product diagnosis/repair.",
+  "source_pins": [
+    {
+      "path": "spikes/brd080/src/comparison.ts",
+      "sha256": "3855843d1915ac906593f0e0c5737b6f3df53f235136cd305f61e11d96cbaaae"
+    },
+    {
+      "path": "spikes/brd080/src/adapter.ts",
+      "sha256": "b958c729dbe5207e3566ec48c33d19bac226a10fd115f8da77450332bb57b847"
+    },
+    {
+      "path": "spikes/brd080/src/3dmolAdapter.ts",
+      "sha256": "d364d3f37c253adbf2728d9ec81ff37f5c26180468c210a54553898f2fe3c30b"
+    }
+  ],
+  "prior_browser_observation": {
+    "reported_by_parent": "Ready status and semantic rows with zero canvas during concurrent initial candidate/fixture changes.",
+    "this_review_replayed_browser": false,
+    "frozen_first_logs_changed": false
+  },
+  "first_private_proof": {
+    "preserved_unchanged": true,
+    "script_sha256": "e227023cb908ceb5f475a75bf76a9131b5dbcaea2e62fcd7785904bc51153650",
+    "stdout_sha256": "f89fcd5b0e639ffae4475a3a764027e4b6424c113ab7683fd08711645508a177",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "exact_process_exit_receipt": "First command saved stdout/stderr but did not separately capture Node exit status; valid JSON contains all three assertion-complete schedules. Do not relabel it as the separate portable run."
+  },
+  "portable_proof": {
+    "script": "viewer-generation-repro.cjs",
+    "raw_stdout": "viewer-generation-repro.stdout.json",
+    "raw_stderr": "viewer-generation-repro.stderr.txt",
+    "execution": "viewer-generation-repro-execution.json",
+    "receipt": {
+      "kind": "Separate portable pure-Node run; original private proof preserved unchanged.",
+      "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+      "command": [
+        "node",
+        "--max-old-space-size=128",
+        "audits/new-experiments-201-20261016/viewer-generation-repro.cjs"
+      ],
+      "working_directory": "repository root",
+      "script_sha256": "6b076689edbe3f98196905b3f3e5eb4668168e20fe58f7a5cdf88f89b0752d64",
+      "stdout_sha256": "f89fcd5b0e639ffae4475a3a764027e4b6424c113ab7683fd08711645508a177",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_status": 0,
+      "elapsed_seconds": 0.906964123249054,
+      "process_timeout_seconds": 30,
+      "node_heap_limit_mib": 128,
+      "no_package_build_or_dependency_install": true,
+      "no_browser_or_renderer_library_import": true,
+      "all_assertions_pass": true
+    },
+    "dependency_resolution": "Resolve git repository root, then require existing spikes/brd080/node_modules/typescript; assert TypeScript5.9.3. No dependency installation.",
+    "source_loading": "Read pinned c446 Git objects for comparison.ts, adapter.ts and 3dmolAdapter.ts; assert each SHA256 before transpileModule with ES2022/CommonJS. Execute actual transformed modules via a tiny require shim allowing ./adapter only. Inject deferred loader into actual createThreeDMolAdapter; use actual ComparisonController for all scenarios.",
+    "test_doubles": "Fake host/children/canvas and minimal viewer are patterned after existing 3dmolAdapter.test.mjs; deferred promises replace load/dispose/resize timing. No controller or adapter implementation is reimplemented. Synthetic fixtures validate the adapter contract, not chemical geometry or rendered pixels."
+  },
+  "tested_schedules": [
+    {
+      "id": "stale-3dmol-load-disposes-new-canvas",
+      "steps": [
+        "Begin show A, pause actual adapter loader after it captured originalChildren.",
+        "Begin show B on the same host; resolve B loader first; await B show: current session ready, one current canvas.",
+        "Resolve A loader; actual adapter creates old canvas; controller detects stale generation and calls old session.dispose.",
+        "Actual dispose removes every child absent from its originalChildren set, including B canvas."
+      ],
+      "actual": {
+        "scenario": "stale-3dmol-load-disposes-new-canvas",
+        "beforeStaleCompletion": {
+          "status": "ready",
+          "canvases": [
+            "current-canvas"
+          ]
+        },
+        "afterStaleCompletion": {
+          "status": "ready",
+          "snapshot": {
+            "candidate": "3dmol",
+            "fixture": "current",
+            "selectedAtomIds": [],
+            "labelsVisible": false,
+            "width": 500,
+            "height": 300,
+            "dpr": 1,
+            "status": "ready"
+          },
+          "canvases": 0
+        },
+        "hypothesisReproduced": true
+      },
+      "source_findings": [
+        "3dmolAdapter.ts mount captures originalChildren before await load.",
+        "Its dispose removes all current nonoriginal children, rather than only children owned by that session.",
+        "Controller stale-generation check after mount cannot make this broad disposal safe."
+      ],
+      "observed_in_node": true
+    },
+    {
+      "id": "stale-show-resumes-after-dispose-await",
+      "steps": [
+        "Mount an initial stub session with deferred disposal.",
+        "Start show A; it increments generation and awaits initial disposal.",
+        "Show B completes while A waits, giving current canvas and current session.",
+        "Resolve initial disposal; stale A continues through replaceChildren/loading/mount before its postmount generation check."
+      ],
+      "actual": {
+        "scenario": "stale-show-resumes-after-dispose-await",
+        "mountOrder": [
+          "current",
+          "stale"
+        ],
+        "status": "loading",
+        "snapshot": {
+          "candidate": "stub",
+          "fixture": "current",
+          "selectedAtomIds": [],
+          "labelsVisible": false,
+          "width": 500,
+          "height": 300,
+          "dpr": 1,
+          "status": "ready"
+        },
+        "canvases": 0,
+        "hypothesisReproduced": true
+      },
+      "source_findings": [
+        "comparison.ts show has no generation check immediately after await #disposeSession.",
+        "Stale operation can erase a newer canvas and publish stale loading even if its eventual mounted session is discarded."
+      ],
+      "observed_in_node": true
+    },
+    {
+      "id": "stale-resize-publishes-ready",
+      "steps": [
+        "Show A mounts; pause its actual controller at a deferred session.resize.",
+        "Show B completes and owns current session.",
+        "Resolve A resize; its continuation publishes ready for old fixture without checking generation/session ownership."
+      ],
+      "actual": {
+        "scenario": "stale-resize-publishes-ready",
+        "status": {
+          "state": "ready",
+          "message": "old is ready in a. The table below remains the accessible source."
+        },
+        "snapshot": {
+          "candidate": "stub",
+          "fixture": "current",
+          "selectedAtomIds": [],
+          "labelsVisible": false,
+          "width": 500,
+          "height": 300,
+          "dpr": 1,
+          "status": "ready"
+        },
+        "canvases": 1,
+        "hypothesisReproduced": true
+      },
+      "source_findings": [
+        "comparison.ts show lacks generation/session check after awaited session.resize."
+      ],
+      "observed_in_node": true
+    }
+  ],
+  "source_inferred_not_executed": [
+    {
+      "hypothesis": "A delayed stale loader rejection or parse failure can also remove a newer canvas through the catch cleanup, which uses the same broad originalChildren predicate and restores stale dimensions.",
+      "status": "Source inference; no extra schedule was executed."
+    }
+  ],
+  "repair_acceptance_plan": [
+    {
+      "priority": 1,
+      "task": "Add deterministic regression tests for all three schedules using real controller and adapter modules. Preserve zero-canvas failure, stale loading and stale-ready assertions as original witnesses."
+    },
+    {
+      "priority": 2,
+      "task": "Make each mount/dispose/failure cleanup own its DOM nodes/container and sizing. Old disposal must not remove or resize a newer session. Check current generation after every awaited lifecycle boundary, including prior disposal and resize. An isolated per-generation container is one possible design; review ownership through resize, labels, select, failed mount and final dispose."
+    },
+    {
+      "priority": 3,
+      "task": "Add positive sequential mount/replacement, current failure, stale failed load and dispose-while-loading controls. Confirm only the selected current generation can publish loading/ready/error or mutate current DOM."
+    },
+    {
+      "priority": 4,
+      "task": "Run applicable unit and real-browser smoke acceptance on the reviewed repair source; require actual selected candidate/fixture, semantic rows and canvas existence together. Keep existing assertions and first logs. Do not mask with WebGL flags, retries or fixed sleep."
+    }
+  ],
+  "limits": [
+    "This bounded Node reproduction establishes source-level lifecycle failures under controlled promise order, not the exact event order or sole root cause of the reported browser run.",
+    "Fake renderer modules do not validate WebGL rendering, DPR, screenshots, actual third-party disposal behavior or GPU support.",
+    "Existing TypeScript transformation is a small test preparation step; no application/package build ran."
+  ]
+}

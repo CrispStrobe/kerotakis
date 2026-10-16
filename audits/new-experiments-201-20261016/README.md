@@ -143,3 +143,12 @@ is dispatched once; the [dispatch binding](native-screen-dispatch.json) records
 its isolated workflow head and immutable input checkout. This validation ref
 must never merge. Completion and physical assessment remain pending; dispatch
 is not an execution or pass claim.
+
+## Independent viewer follow-up
+
+The [deterministic lifecycle review](viewer-followup-review.json) and
+[portable Node reproduction](viewer-generation-repro.cjs) establish three
+concurrency defects using pinned actual controller/adapter source. This is a
+separate UI acceptance investigation, not201 chemistry results or proof of the
+exact historical browser failure. Raw output and execution hashes are retained;
+Hermes owns the separately scoped product repair.

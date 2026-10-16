@@ -1,0 +1,85 @@
+{
+  "source": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "sourcePins": [
+    {
+      "path": "spikes/brd080/src/comparison.ts",
+      "sha256": "3855843d1915ac906593f0e0c5737b6f3df53f235136cd305f61e11d96cbaaae"
+    },
+    {
+      "path": "spikes/brd080/src/adapter.ts",
+      "sha256": "b958c729dbe5207e3566ec48c33d19bac226a10fd115f8da77450332bb57b847"
+    },
+    {
+      "path": "spikes/brd080/src/3dmolAdapter.ts",
+      "sha256": "d364d3f37c253adbf2728d9ec81ff37f5c26180468c210a54553898f2fe3c30b"
+    }
+  ],
+  "runtime": "v20.20.2",
+  "typescript": "5.9.3",
+  "kind": "Pure Node deterministic fake-host/loader reproduction using in-memory TypeScript transform of actual source; no renderer library, browser or GPU invoked.",
+  "results": [
+    {
+      "scenario": "stale-3dmol-load-disposes-new-canvas",
+      "beforeStaleCompletion": {
+        "status": "ready",
+        "canvases": [
+          "current-canvas"
+        ]
+      },
+      "afterStaleCompletion": {
+        "status": "ready",
+        "snapshot": {
+          "candidate": "3dmol",
+          "fixture": "current",
+          "selectedAtomIds": [],
+          "labelsVisible": false,
+          "width": 500,
+          "height": 300,
+          "dpr": 1,
+          "status": "ready"
+        },
+        "canvases": 0
+      },
+      "hypothesisReproduced": true
+    },
+    {
+      "scenario": "stale-show-resumes-after-dispose-await",
+      "mountOrder": [
+        "current",
+        "stale"
+      ],
+      "status": "loading",
+      "snapshot": {
+        "candidate": "stub",
+        "fixture": "current",
+        "selectedAtomIds": [],
+        "labelsVisible": false,
+        "width": 500,
+        "height": 300,
+        "dpr": 1,
+        "status": "ready"
+      },
+      "canvases": 0,
+      "hypothesisReproduced": true
+    },
+    {
+      "scenario": "stale-resize-publishes-ready",
+      "status": {
+        "state": "ready",
+        "message": "old is ready in a. The table below remains the accessible source."
+      },
+      "snapshot": {
+        "candidate": "stub",
+        "fixture": "current",
+        "selectedAtomIds": [],
+        "labelsVisible": false,
+        "width": 500,
+        "height": 300,
+        "dpr": 1,
+        "status": "ready"
+      },
+      "canvases": 1,
+      "hypothesisReproduced": true
+    }
+  ]
+}

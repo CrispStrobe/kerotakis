@@ -1,0 +1,20 @@
+{
+  "kind": "Separate portable pure-Node run; original private proof preserved unchanged.",
+  "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "command": [
+    "node",
+    "--max-old-space-size=128",
+    "audits/new-experiments-201-20261016/viewer-generation-repro.cjs"
+  ],
+  "working_directory": "repository root",
+  "script_sha256": "6b076689edbe3f98196905b3f3e5eb4668168e20fe58f7a5cdf88f89b0752d64",
+  "stdout_sha256": "f89fcd5b0e639ffae4475a3a764027e4b6424c113ab7683fd08711645508a177",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "exit_status": 0,
+  "elapsed_seconds": 0.906964123249054,
+  "process_timeout_seconds": 30,
+  "node_heap_limit_mib": 128,
+  "no_package_build_or_dependency_install": true,
+  "no_browser_or_renderer_library_import": true,
+  "all_assertions_pass": true
+}

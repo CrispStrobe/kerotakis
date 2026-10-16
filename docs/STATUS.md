@@ -535,3 +535,19 @@ limits bound execution. The isolated validation workflow must never merge;
 completion, CLI outcomes and physical assessment are pending. No local engine
 process ran. PR805's locale-composer correction `d66b0811` is pushed after root
 source review; exact-head acceptance and the separate viewer diagnosis remain.
+
+
+[PR807 macOS native acceptance](../audits/reaction-dataset-200-20261015/pr807-macos-native.json)
+passed at exact head352e1c48, including all six proven-input-alias groups.
+Linux and remaining applicable checks still gate readiness; no new chemistry
+case closure follows from naming support.
+
+A [source-bound viewer reproduction](../audits/new-experiments-201-20261016/viewer-followup-review.json)
+demonstrates three lifecycle defects in actual c446 modules under deterministic
+promise schedules: stale adapter cleanup removes a newer canvas, delayed prior
+disposal clears current content, and stale resize completion publishes old
+readiness. Root independently reproduced all three with the portable Node
+script. No browser/GPU/build was used. This proves source-level defects, while
+exact historical browser-failure causality remains separately unproven. Hermes
+is assigned a narrow viewer repair with per-generation ownership and lifecycle
+regressions; preserve the existing one-canvas assertion and current805 checks.

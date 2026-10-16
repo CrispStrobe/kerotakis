@@ -1,0 +1,16 @@
+{
+  "recorded_utc": "2026-10-16T08:11:10.883043+00:00",
+  "pr": 807,
+  "reviewed_head": "352e1c489b0b3c36f2c949217e96fe8fa51f6b91",
+  "run": 38867814858,
+  "job": 116864592459,
+  "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38867814858/job/116864592459",
+  "platform": "macos-latest",
+  "conclusion": "success",
+  "full_job_log_sha256": "3d2313f4bf8d524b120adaebc8ada93c8f9c537c0e027bd0a4222a95ddcb03d0",
+  "focused_test_file": "crates/kerotakis-core/tests/proven_input_alias.rs",
+  "focused_groups_passed": 6,
+  "scope": "Actual exact-head macOS native test execution; Linux/full applicable fleet still pending.",
+  "full_acceptance_claimed": false,
+  "scientific_cases_closed": 0
+}
