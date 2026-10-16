@@ -14,7 +14,7 @@
     "The recent silver/ammonia replay is excluded because canonical free/complex-bound ligand ownership remains a material gap.",
     "Original experiment designs, forecasts and first results remain unchanged."
   ],
-  "count": 192,
+  "count": 200,
   "counts_by_group": {
     "independent-first50": 38,
     "independent-second50": 25,
@@ -25,7 +25,7 @@
     "complete-reagent-followups": 9,
     "supplied200-repaired-protocols": 4,
     "new201-original-assessed": 7,
-    "first120-original-assessed": 34
+    "first120-original-assessed": 42
   },
   "experiments": [
     {
@@ -4098,7 +4098,277 @@
         "original_first_case": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_ab-029.json",
         "selection": "audits/new-experiments-201-20261016/native-screen-results/ab029-source-review/catalog-selection.json"
       }
+    },
+    {
+      "id": "new120:rx-001",
+      "group": "first120-original-assessed",
+      "title": "Zinc reduces two silver ions per atom oxidised",
+      "script": "# RX-001: Zinc reduces two silver ions per atom oxidised\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 AgNO3 0.002mol\nadd v1 Zn 0.001mol\ninspect v1\nnew\nfilter v1 v2\ninspect\n",
+      "script_sha256": "c74be1bfbecf34e73d61f1beda00b2a258fb25079ee74ba9c43ec36ee203e4df",
+      "expected_result": "Zinc oxidation supplies two electrons per zinc atom, so the stoichiometric ceiling is two silver atoms deposited per zinc atom consumed.",
+      "observed_result": "Metallic Ag solid, not a silver salt: 0.002 mol, retained in source after filtering. Zn oxidation 0.001 mol gives 0.002 mol electrons; Ag deposition 0.002 mol takes the same amount, at the 0.002 mol ceiling.",
+      "validated_on": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "binding_qualification": "Producer-bound source/tree/binary/lock and library manifest; raw executable and Cargo.lock bytes absent from this case-output archive. No reconstructed binary-byte verification is claimed."
+      },
+      "limitations": [
+        "Archive carries producer-reported binary/lock identity; raw executable/lock bytes absent and not independently rehashed in this audit.",
+        "Whole-script final whole-bench and per-vessel represented material/formal-charge accounting; no energy or per-step closure claim.",
+        "Exact-source registry compositions and OH-derived base_equivalents; no double-counting of solution distributions, measured H/OH fields, lots or solute_charge.",
+        "RX008 only the warm acidic curated endpoint; missing acid/temperature gates and MnII spectrum do not become calibrated kinetics/heat.",
+        "RX010/011 ideal open-circuit Nernst measurements, with no discharge, junction-potential or empirical electrode claim.",
+        "RX013/014 ideal imposed-current model; floating extraction residuals are arithmetic checks, not newly authored physical acceptance tolerances.",
+        "RX012 original opposite-sign forecast fails; source sorts physical anode/cathode and reports positive spontaneous magnitude. No expectation rewrite.",
+        "RX006/007 positive literal curated conversion does not close unsupported KI/iodine-mixture and dissolution coverage."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-redox/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-redox-independent/review.json",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-redox-selection.json",
+        "case_id": "new120:rx-001"
+      }
+    },
+    {
+      "id": "new120:rx-003",
+      "group": "first120-original-assessed",
+      "title": "An active metal releases hydrogen from acid; copper is the control",
+      "script": "# RX-003: An active metal releases hydrogen from acid; copper is the control\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nseal v1 1000mL\nadd v1 HCl 0.004mol\nadd v1 Mg 0.001mol\ninspect v1\nnew\nadd v2 water 100mL\nseal v2 1000mL\nadd v2 HCl 0.004mol\nadd v2 Cu 0.001mol\ninspect v2\n",
+      "script_sha256": "f9ca357de8bc8df077aebbc74718275c6dfd3c4d1166ac352875bc941323daab",
+      "expected_result": "Magnesium can reduce protons to hydrogen. Copper does not evolve hydrogen through the same proton-displacement reaction under ordinary non-oxidising conditions.",
+      "observed_result": "{'magnesium_H2_mol': 0.001, 'copper_H2_mol': 0, 'magnesium_aqueous_mol': 0.001000000000000435, 'magnesium_acid_remaining_mol': 0.0020000000388933972, 'copper_solid_mol': 0.001} Cu retains its 0.001 mol solid and has no H2; its own sealed-air baseline is retained. Oxygen-driven copper corrosion is outside the stated displacement route, not disproved.",
+      "validated_on": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "binding_qualification": "Producer-bound source/tree/binary/lock and library manifest; raw executable and Cargo.lock bytes absent from this case-output archive. No reconstructed binary-byte verification is claimed."
+      },
+      "limitations": [
+        "Archive carries producer-reported binary/lock identity; raw executable/lock bytes absent and not independently rehashed in this audit.",
+        "Whole-script final whole-bench and per-vessel represented material/formal-charge accounting; no energy or per-step closure claim.",
+        "Exact-source registry compositions and OH-derived base_equivalents; no double-counting of solution distributions, measured H/OH fields, lots or solute_charge.",
+        "RX008 only the warm acidic curated endpoint; missing acid/temperature gates and MnII spectrum do not become calibrated kinetics/heat.",
+        "RX010/011 ideal open-circuit Nernst measurements, with no discharge, junction-potential or empirical electrode claim.",
+        "RX013/014 ideal imposed-current model; floating extraction residuals are arithmetic checks, not newly authored physical acceptance tolerances.",
+        "RX012 original opposite-sign forecast fails; source sorts physical anode/cathode and reports positive spontaneous magnitude. No expectation rewrite.",
+        "RX006/007 positive literal curated conversion does not close unsupported KI/iodine-mixture and dissolution coverage."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-redox/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-redox-independent/review.json",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-redox-selection.json",
+        "case_id": "new120:rx-003"
+      }
+    },
+    {
+      "id": "new120:rx-008",
+      "group": "first120-original-assessed",
+      "title": "Acidified permanganate oxidises oxalic acid to carbon dioxide",
+      "script": "# RX-008: Acidified permanganate oxidises oxalic acid to carbon dioxide\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL @ 60C\nadd v1 H2SO4 0.001mol\nadd v1 H2C2O4 0.0005mol\nadd v1 KMnO4 0.0002mol\ninspect v1\nmeasure v1 uvvis\ninspect\n",
+      "script_sha256": "ca719f57d5e8024390fc772e85e9373c62c3f93286a395a87f80aeee82179009",
+      "expected_result": "Under a chemically appropriate acidic, warm setup, permanganate is reduced while oxalic-acid carbon becomes CO2.",
+      "observed_result": "{'exported_CO2_mol': 0.001, 'manganeseII_mol': 0.0002, 'oxalic_acid_remaining_mol': 0, 'final_ph': 2.100885721366, 'final_T_K': 333.14039280414147, 'nominal_oxalic_to_permanganate': 2.5} 0.0005 mol oxalic acid and 0.0002 mol permanganate consumed, producing 0.001 mol CO2 and 0.0002 mol MnII: 5:2 with ten electrons per 5 oxalic acids.",
+      "validated_on": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "binding_qualification": "Producer-bound source/tree/binary/lock and library manifest; raw executable and Cargo.lock bytes absent from this case-output archive. No reconstructed binary-byte verification is claimed."
+      },
+      "limitations": [
+        "Only this warm acidic protocol is proposed. At c446 the curated oxalate row explicitly has no acidity or temperature gate; it cannot validate failure outside those conditions or actual autocatalytic kinetics. UV/visible absorbance is explicitly unavailable for MnII species. No heat/rate calibration or later repair credit.",
+        "Archive carries producer-reported binary/lock identity; raw executable/lock bytes absent and not independently rehashed in this audit.",
+        "Whole-script final whole-bench and per-vessel represented material/formal-charge accounting; no energy or per-step closure claim.",
+        "Exact-source registry compositions and OH-derived base_equivalents; no double-counting of solution distributions, measured H/OH fields, lots or solute_charge.",
+        "RX008 only the warm acidic curated endpoint; missing acid/temperature gates and MnII spectrum do not become calibrated kinetics/heat.",
+        "RX010/011 ideal open-circuit Nernst measurements, with no discharge, junction-potential or empirical electrode claim.",
+        "RX013/014 ideal imposed-current model; floating extraction residuals are arithmetic checks, not newly authored physical acceptance tolerances.",
+        "RX012 original opposite-sign forecast fails; source sorts physical anode/cathode and reports positive spontaneous magnitude. No expectation rewrite.",
+        "RX006/007 positive literal curated conversion does not close unsupported KI/iodine-mixture and dissolution coverage."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-redox/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-redox-independent/review.json",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-redox-selection.json",
+        "case_id": "new120:rx-008"
+      }
+    },
+    {
+      "id": "new120:rx-009",
+      "group": "first120-original-assessed",
+      "title": "Neutral permanganate and ethanol produce a different manganese endpoint",
+      "script": "# RX-009: Neutral permanganate and ethanol produce a different manganese endpoint\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 ethanol 0.0003mol\nadd v1 KMnO4 0.0004mol\ninspect v1\nmeasure v1 ph\nmeasure v1 eyes\ninspect\n",
+      "script_sha256": "49b6aad5cb497a81277c30b100032f635701d86e2b776fc9b731536456d33989",
+      "expected_result": "The documented non-acidified teaching route forms MnO2 and an acetic-acid/acetate product pool, rather than treating every permanganate reduction as Mn(II).",
+      "observed_result": "MnO2 solid 0.0004 mol; permanganate input is exhausted: {'manganese_dioxide_mol': 0.00039999999999999996, 'acid_mol': 1.722292295648986e-10, 'acetate_mol': 0.00029999982777077045, 'organic_product_family_mol': 0.00030000000000000003, 'final_ph': 10.96824732529, 'base_equivalents_mol': 0.00010000017222923027} Final acid/base partition is measured in the canonical pool; total Mn is 0.0004 mol and product-family 0.0003 mol. Gross 4:3 reaction is followed by equilibration, giving predominantly acetate at pH 10.96824732529",
+      "validated_on": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "binding_qualification": "Producer-bound source/tree/binary/lock and library manifest; raw executable and Cargo.lock bytes absent from this case-output archive. No reconstructed binary-byte verification is claimed."
+      },
+      "limitations": [
+        "Curated stoichiometry only: not a measured product selectivity, rate law, general acidic/neutral routing comparison or heat calibration. Registered coefficients/properties have not been independently scientifically calibrated by these saved observations.",
+        "Archive carries producer-reported binary/lock identity; raw executable/lock bytes absent and not independently rehashed in this audit.",
+        "Whole-script final whole-bench and per-vessel represented material/formal-charge accounting; no energy or per-step closure claim.",
+        "Exact-source registry compositions and OH-derived base_equivalents; no double-counting of solution distributions, measured H/OH fields, lots or solute_charge.",
+        "RX008 only the warm acidic curated endpoint; missing acid/temperature gates and MnII spectrum do not become calibrated kinetics/heat.",
+        "RX010/011 ideal open-circuit Nernst measurements, with no discharge, junction-potential or empirical electrode claim.",
+        "RX013/014 ideal imposed-current model; floating extraction residuals are arithmetic checks, not newly authored physical acceptance tolerances.",
+        "RX012 original opposite-sign forecast fails; source sorts physical anode/cathode and reports positive spontaneous magnitude. No expectation rewrite.",
+        "RX006/007 positive literal curated conversion does not close unsupported KI/iodine-mixture and dissolution coverage."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-redox/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-redox-independent/review.json",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-redox-selection.json",
+        "case_id": "new120:rx-009"
+      }
+    },
+    {
+      "id": "new120:rx-010",
+      "group": "first120-original-assessed",
+      "title": "Changing the zinc half-cell shifts Daniell voltage in the opposite direction",
+      "script": "# RX-010: Changing the zinc half-cell shifts Daniell voltage in the opposite direction\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 ZnSO4 0.001mol\nadd v1 Zn 1g\nnew\nadd v2 water 100mL\nadd v2 CuSO4 0.001mol\nadd v2 Cu 1g\ncell v1 v2\nadd v1 ZnSO4 0.009mol\ncell v1 v2\ninspect\n",
+      "script_sha256": "6d32011f657f8a43a8894d258f1969d36fdf15cfe322297ac730f4bf408ee2dc",
+      "expected_result": "Increasing zinc-ion activity with the copper side otherwise fixed lowers the forward Zn/Cu cell voltage according to the reaction quotient.",
+      "observed_result": "Same physical anode/cathode and order: voltage [1.104111551966049, 1.0857656675517737] V; zinc activity rises 0.003758 -> 0.01604 while copper activity remains 0.003879. Actual zinc temperature changes, so no isothermal textbook slope is imposed. Every cell call leaves all published vessel state unchanged relative to its preceding snapshot. No discharge or metal consumption is assigned to voltage measurement.",
+      "validated_on": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "binding_qualification": "Producer-bound source/tree/binary/lock and library manifest; raw executable and Cargo.lock bytes absent from this case-output archive. No reconstructed binary-byte verification is claimed."
+      },
+      "limitations": [
+        "Ideal open-circuit Nernst calculation, ideal salt bridge and no junction potential; E0 is used at vessel temperature without dE0/dT. Zinc is below the hydrogen line and mixed-potential/passivation rates are outside this model. No empirical electrode calibration; full paired snapshots and named limits are retained.",
+        "Archive carries producer-reported binary/lock identity; raw executable/lock bytes absent and not independently rehashed in this audit.",
+        "Whole-script final whole-bench and per-vessel represented material/formal-charge accounting; no energy or per-step closure claim.",
+        "Exact-source registry compositions and OH-derived base_equivalents; no double-counting of solution distributions, measured H/OH fields, lots or solute_charge.",
+        "RX008 only the warm acidic curated endpoint; missing acid/temperature gates and MnII spectrum do not become calibrated kinetics/heat.",
+        "RX010/011 ideal open-circuit Nernst measurements, with no discharge, junction-potential or empirical electrode claim.",
+        "RX013/014 ideal imposed-current model; floating extraction residuals are arithmetic checks, not newly authored physical acceptance tolerances.",
+        "RX012 original opposite-sign forecast fails; source sorts physical anode/cathode and reports positive spontaneous magnitude. No expectation rewrite.",
+        "RX006/007 positive literal curated conversion does not close unsupported KI/iodine-mixture and dissolution coverage."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-redox/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-redox-independent/review.json",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-redox-selection.json",
+        "case_id": "new120:rx-010"
+      }
+    },
+    {
+      "id": "new120:rx-011",
+      "group": "first120-original-assessed",
+      "title": "A copper–silver cell links two different electron stoichiometries",
+      "script": "# RX-011: A copper–silver cell links two different electron stoichiometries\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 CuSO4 0.001mol\nadd v1 Cu 1g\nnew\nadd v2 water 100mL\nadd v2 AgNO3 0.001mol\nadd v2 Ag 1g\ncell v1 v2\ninspect\n",
+      "script_sha256": "13a99904e2c829ae7996095a508c1e0975d32f541f726e0dbd18f656eea48301",
+      "expected_result": "The silver electrode is the more positive reduction half-cell; copper oxidation coupled to silver reduction has a positive forward driving force.",
+      "observed_result": "Runtime identifies v1 Cu as anode and v2 Ag as positive cathode; voltage 0.4080887599150608 V. Positive value is cathode minus anode, not a signed input-lead convention. Every cell call leaves all published vessel state unchanged relative to its preceding snapshot. No discharge or metal consumption is assigned to voltage measurement.",
+      "validated_on": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "binding_qualification": "Producer-bound source/tree/binary/lock and library manifest; raw executable and Cargo.lock bytes absent from this case-output archive. No reconstructed binary-byte verification is claimed."
+      },
+      "limitations": [
+        "Ideal open-circuit Nernst calculation, ideal salt bridge and no junction potential; E0 is used at vessel temperature without dE0/dT. Zinc is below the hydrogen line and mixed-potential/passivation rates are outside this model. No empirical electrode calibration; full paired snapshots and named limits are retained.",
+        "Archive carries producer-reported binary/lock identity; raw executable/lock bytes absent and not independently rehashed in this audit.",
+        "Whole-script final whole-bench and per-vessel represented material/formal-charge accounting; no energy or per-step closure claim.",
+        "Exact-source registry compositions and OH-derived base_equivalents; no double-counting of solution distributions, measured H/OH fields, lots or solute_charge.",
+        "RX008 only the warm acidic curated endpoint; missing acid/temperature gates and MnII spectrum do not become calibrated kinetics/heat.",
+        "RX010/011 ideal open-circuit Nernst measurements, with no discharge, junction-potential or empirical electrode claim.",
+        "RX013/014 ideal imposed-current model; floating extraction residuals are arithmetic checks, not newly authored physical acceptance tolerances.",
+        "RX012 original opposite-sign forecast fails; source sorts physical anode/cathode and reports positive spontaneous magnitude. No expectation rewrite.",
+        "RX006/007 positive literal curated conversion does not close unsupported KI/iodine-mixture and dissolution coverage."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-redox/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-redox-independent/review.json",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-redox-selection.json",
+        "case_id": "new120:rx-011"
+      }
+    },
+    {
+      "id": "new120:rx-013",
+      "group": "first120-original-assessed",
+      "title": "Electrolysis connects charge to the hydrogen–oxygen gas ratio",
+      "script": "# RX-013: Electrolysis connects charge to the hydrogen–oxygen gas ratio\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 Na2SO4 0.001mol\nseal v1 1000mL\ninspect v1\nelectrolyse v1 0.1A 100s\ninspect v1\n",
+      "script_sha256": "cc800bb8436ce1270083331c6cc28a54942d79183df126e081e4d1ac18fe1dcc",
+      "expected_result": "For water electrolysis with a spectator sulfate electrolyte, net generated hydrogen and oxygen should have a 2:1 molar ratio and obey Faraday’s law.",
+      "observed_result": "Canonical owned dissolved-plus-gas portions after subtracting the actual sealed baseline: {'H2_baseline_mol': 0, 'O2_baseline_mol': 0.008562944985743927, 'H2_increment_mol': 5.1821348283088646e-05, 'O2_increment_mol': 2.5910674141545187e-05, 'gas_ratio': 1.9999999999999334, 'ideal_H2_mol': 5.1821348283088646e-05, 'ideal_O2_mol': 2.5910674141544323e-05, 'H2_residual_mol': 0.0, 'O2_residual_mol': 8.639736061993863e-19}. Neither snapshot has owned aqueous H2 or O2; both products are in retained headspace. Diagnostic solver gas species are not additional material. Q=10 C and F=96485.33212 C/mol; identified H2/O2 production agrees with Faraday amounts and 2:1 ratio within the shown floating-point residuals. Inert-electrode spectator-sulfate route is admitted, not merely an unsupported request.",
+      "validated_on": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "binding_qualification": "Producer-bound source/tree/binary/lock and library manifest; raw executable and Cargo.lock bytes absent from this case-output archive. No reconstructed binary-byte verification is claimed."
+      },
+      "limitations": [
+        "Ideal imposed-current undivided water splitting. No voltage/current-geometry prediction, overpotentials, empirical gas collection efficiency, kinetic gas-transfer or measured Faradaic efficiency. Floating residual comparisons are extraction arithmetic, not a new physical tolerance.",
+        "Archive carries producer-reported binary/lock identity; raw executable/lock bytes absent and not independently rehashed in this audit.",
+        "Whole-script final whole-bench and per-vessel represented material/formal-charge accounting; no energy or per-step closure claim.",
+        "Exact-source registry compositions and OH-derived base_equivalents; no double-counting of solution distributions, measured H/OH fields, lots or solute_charge.",
+        "RX008 only the warm acidic curated endpoint; missing acid/temperature gates and MnII spectrum do not become calibrated kinetics/heat.",
+        "RX010/011 ideal open-circuit Nernst measurements, with no discharge, junction-potential or empirical electrode claim.",
+        "RX013/014 ideal imposed-current model; floating extraction residuals are arithmetic checks, not newly authored physical acceptance tolerances.",
+        "RX012 original opposite-sign forecast fails; source sorts physical anode/cathode and reports positive spontaneous magnitude. No expectation rewrite.",
+        "RX006/007 positive literal curated conversion does not close unsupported KI/iodine-mixture and dissolution coverage."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-redox/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-redox-independent/review.json",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-redox-selection.json",
+        "case_id": "new120:rx-013"
+      }
+    },
+    {
+      "id": "new120:rx-014",
+      "group": "first120-original-assessed",
+      "title": "Copper sulfate electrolysis competes with hydrogen evolution",
+      "script": "# RX-014: Copper sulfate electrolysis competes with hydrogen evolution\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 CuSO4 0.001mol\ninspect v1\nelectrolyse v1 0.1A 100s\ninspect v1\nmeasure v1 ph\ninspect\n",
+      "script_sha256": "ea9c9ef32f7957dfcf2660e1529b58653878967021caf4c3f08ba42d8ff0d245",
+      "expected_result": "With an inert-anode, copper-deposition interpretation, a small charge can reduce Cu(II) to copper while anodic water oxidation generates oxygen and acidity.",
+      "observed_result": "Explicit metallic Cu deposit and full phase budget: {'deposited_Cu_mol': 5.1821348283088646e-05, 'aqueous_Cu_decrease_mol': 4.828090756412611e-05, 'initial_antlerite_formula_mol': 1.180148159963e-06, 'initial_antlerite_Cu_mol': 3.540444479889e-06, 'exported_O2_mol': 2.5910674141544323e-05, 'H2_generated_mol': 0, 'ideal_Cu_mol': 5.1821348283088646e-05, 'final_H_plus_mol': 0.00010364266475212068, 'final_ph': 3.178172690378}. Aqueous-only decrease is smaller than deposit because antlerite dissolves; include three Cu per antlerite formula. Source solvent-electrolysis route selects Cu plating by a positive standard-potential heuristic with sufficient ion supply; inert anode oxidises water to O2 and produces net acidity. No metal electrode was initially present. Supply-exhausted residual charge would generate H2, but none is generated at this small charge. O2 export is 2.5910674141544323e-5 mol, and the represented H/O/charge ledger is checked separately.",
+      "validated_on": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "binding_qualification": "Producer-bound source/tree/binary/lock and library manifest; raw executable and Cargo.lock bytes absent from this case-output archive. No reconstructed binary-byte verification is claimed."
+      },
+      "limitations": [
+        "Ideal imposed-current model with exhaustion-based charge split, not simultaneous kinetic H2/Cu competition or measured efficiency. A soluble copper anode is not assumed. Standard-potential heuristic, electrode geometry/overpotentials and quantitative gas collection remain unvalidated.",
+        "Archive carries producer-reported binary/lock identity; raw executable/lock bytes absent and not independently rehashed in this audit.",
+        "Whole-script final whole-bench and per-vessel represented material/formal-charge accounting; no energy or per-step closure claim.",
+        "Exact-source registry compositions and OH-derived base_equivalents; no double-counting of solution distributions, measured H/OH fields, lots or solute_charge.",
+        "RX008 only the warm acidic curated endpoint; missing acid/temperature gates and MnII spectrum do not become calibrated kinetics/heat.",
+        "RX010/011 ideal open-circuit Nernst measurements, with no discharge, junction-potential or empirical electrode claim.",
+        "RX013/014 ideal imposed-current model; floating extraction residuals are arithmetic checks, not newly authored physical acceptance tolerances.",
+        "RX012 original opposite-sign forecast fails; source sorts physical anode/cathode and reports positive spontaneous magnitude. No expectation rewrite.",
+        "RX006/007 positive literal curated conversion does not close unsupported KI/iodine-mixture and dissolution coverage."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-first120-redox/assessment.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-redox-independent/review.json",
+        "raw_archive": "audits/target468-20261016/common-engine-completion/results/raw-artifact.zip",
+        "selection": "audits/target468-20261016/saved-redox-selection.json",
+        "case_id": "new120:rx-014"
+      }
     }
   ],
-  "updated_utc": "2026-10-16T18:59:55.531685+00:00"
+  "updated_utc": "2026-10-16T19:48:50.129908+00:00"
 }

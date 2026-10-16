@@ -7,12 +7,16 @@ lanes can proceed in parallel where prerequisites permit. Frozen forecasts,
 first failures and versioned evidence remain unchanged; older checkpoints can
 contain obsolete pending notes. A process exit is not a scientific verdict.
 
-Latest checkpoint: the [separate saved-evidence selection](../audits/target468-20261016/saved-first120-selection.json)
-adds34 unchanged protocols (21acid-base,13precipitation), with independent reviews
-and explicit limitations. The working catalog now contains**192 entries**, of
-which**188 belong to the fixed468 target**;213 further selections are needed for401.
-Previous155 entries, original predictions and first outputs remain unchanged.
-Historical dated counts below retain their original scope.
+Latest checkpoint: the [separate redox selection](../audits/target468-20261016/saved-redox-selection.json)
+adds eight unchanged protocols after independent saved-evidence review. The
+working catalog contains **200 source-qualified entries**, with **196 of the
+fixed468 target** selected on recorded versions;205 further selections are
+needed for401. First120 now has42 selections,14 reviewed holds and64 unassessed
+cases. Previous192 entries and every original forecast/script/first outcome remain
+unchanged. Six redox cases stay held for reaction/mapping/observation or command
+contract gaps; ideal electrode and curated endpoint limitations remain attached.
+These are recorded-source results, not empirical calibration or a unified latest
+release/deployment claim. Earlier dated counts below retain historical scope.
 
 PR814 and815 are integrated with verified merge trees;816/817 await their
 exact-head full acceptance. Production remainsc446. PR819's reviewed

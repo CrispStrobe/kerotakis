@@ -1,0 +1,1661 @@
+{
+  "schema_version": 1,
+  "scope": "Independent saved-only review of14 first120 redox cases, not new execution or empirical calibration. Selection recommendations only.",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "original_dataset_sha256": "8e9fb7a92c20ad4de747d43540e417684ba398ff3896ab9d3de270e5a99b1fdd",
+  "raw_archive_sha256": "9c33ddf3893ab32e0309dc1ef5c65b3b2c4e2967c8a3468c2808b0de1074201f",
+  "design_authentication": {
+    "original_bytes_sha256": "e89c2f91b07ecb639436d75bae7417b5af9d3febfecb977519a2742fde692ea0",
+    "archive_bytes_sha256": "8809b1558840709aed6f046087727a3d8b0a37fe031be1cf3a1e472c532ed05c",
+    "complete_parsed_value_equal": true
+  },
+  "reviewed_sibling_files_sha256": {
+    "review_saved.py": "c85d9f851c738e080604159a22d57743d8ec3f31f17ea5e6eec5269e629c37a8",
+    "assessment.json": "e1065ff2f24b92c345f6601aedf83da6239bcf1ee181bb9cf7aef17ebc7074d9",
+    "README.md": "49aeb9144997e4d842f626c21aa0d7c17da42e1b02c9b05ab749c92447bf54a4"
+  },
+  "source_files_sha256": {
+    "crates/kerotakis-core/src/displacement.rs": "546e8bcdceca3f7d18301bbc0b8f6f2cefbded8303d435df6d06f7f403d6bfd7",
+    "crates/kerotakis-core/src/bench.rs": "44b3fa4190093c3dfa3d0a1ddd676dcaecabd997bbd6a9fc89b191402e282f80",
+    "crates/kerotakis-core/src/curated.rs": "20db49d2b0679fb77e1df7205f6a4ae8878f8becccf7c30cebb1c9796bcd27a5",
+    "crates/kerotakis-core/src/relations.rs": "b2bd6fc8fb616f79eca30bfea1c74b3e2ec9975d84c76b7f072af8dc0d447c4f",
+    "crates/kerotakis-cli/src/main.rs": "c53398d67cc58c2b3110fb99b2480a400c74ce6a9f16a649de1764a548e4eccb"
+  },
+  "registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "cases": [
+    {
+      "id": "new120:rx-001",
+      "script_sha256": "c74be1bfbecf34e73d61f1beda00b2a258fb25079ee74ba9c43ec36ee203e4df",
+      "raw_member_sha256": {
+        "experiment.lab": "c74be1bfbecf34e73d61f1beda00b2a258fb25079ee74ba9c43ec36ee203e4df",
+        "stdout.jsonl": "f1e15431283748020c8142298f5bf888c5d76b244e7c35d64f88fdf728822b60",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution_receipt_sha256": "2691fc260fbccc811ac6f8ba4fb58e6e53e77abfd7d5406cfe1e47eae9ea30be",
+      "independent_recommendation": "accept_bounded_selection",
+      "positive_observations": {
+        "Ag_solid_mol": 0.002,
+        "ZnII_mol": 0.001
+      },
+      "final_whole_script_residual_mol": {
+        "Ag": 0.0,
+        "H": 0.0,
+        "N": 0.0,
+        "O": 0.0,
+        "Zn": 0.0,
+        "charge": 0.0
+      },
+      "final_per_vessel_residuals": [
+        {
+          "vessel": 0,
+          "residual_mol": {
+            "Ag": 0.0,
+            "H": 0.0,
+            "N": 0.0,
+            "O": 0.0,
+            "Zn": 0.0,
+            "charge": 0.0
+          }
+        },
+        {
+          "vessel": 1,
+          "residual_mol": {
+            "H": 0.0,
+            "N": 0.0,
+            "O": 0.0,
+            "Zn": 0.0,
+            "charge": 0.0
+          }
+        }
+      ],
+      "max_abs_residual_mol": 0.0,
+      "named_limits_preserved": []
+    },
+    {
+      "id": "new120:rx-002",
+      "script_sha256": "f00b087fd96a1faeeabad039b040284e8ed35d5528887d17efc097772de7620a",
+      "raw_member_sha256": {
+        "experiment.lab": "f00b087fd96a1faeeabad039b040284e8ed35d5528887d17efc097772de7620a",
+        "stdout.jsonl": "2b1767d9644991aa692f6b69334bb8389cd14859dc87ff6fc8e02b8935ed3b24",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution_receipt_sha256": "5d1c4a38b8564cc96c9da5f0ec79a2c5b0161ff9230758165ea8927b0734f74d",
+      "independent_recommendation": "retain_hold",
+      "positive_observations": {
+        "Cu_solid_mol": 0.001,
+        "CuII_mol": 0,
+        "FeII_mol": 0,
+        "hold_reason": "No positive requested coupled oxidation/reduction; zero conversion below a ceiling is insufficient."
+      },
+      "final_whole_script_residual_mol": {
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 0.0,
+        "O": 0.0,
+        "charge": 0.0
+      },
+      "final_per_vessel_residuals": [
+        {
+          "vessel": 0,
+          "residual_mol": {
+            "Cl": 0.0,
+            "Cu": 0.0,
+            "Fe": 0.0,
+            "H": 0.0,
+            "O": 0.0,
+            "charge": 0.0
+          }
+        }
+      ],
+      "max_abs_residual_mol": 0.0,
+      "named_limits_preserved": [
+        {
+          "row": 2,
+          "cause": "phase-not-in-registry",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+            "key": "not-modeled.supersaturated-no-registry-solid",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Goethite (SI +3.3)"
+                  }
+                }
+              ],
+              [
+                "database",
+                {
+                  "text": {
+                    "text": "wateq4f"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Goethite (SI +3.3). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+        },
+        {
+          "row": 2,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+            "key": "not-modeled.supersaturated-solid-not-offered",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Hematite (SI +8.6)"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Hematite (SI +8.6). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+        },
+        {
+          "row": 2,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{phases} have reported saturation indices but no phase definition in the selected {database} diagnostic index; their phase type and exclusion reason cannot be classified",
+            "key": "not-modeled.saturation-index-unclassified",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Fe(OH)2.7Cl.3 (SI +4.5)"
+                  }
+                }
+              ],
+              [
+                "database",
+                {
+                  "text": {
+                    "text": "wateq4f"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "Fe(OH)2.7Cl.3 (SI +4.5) have reported saturation indices but no phase definition in the selected wateq4f diagnostic index; their phase type and exclusion reason cannot be classified"
+        },
+        {
+          "row": 3,
+          "cause": "phase-not-in-registry",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+            "key": "not-modeled.supersaturated-no-registry-solid",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Goethite (SI +3.3)"
+                  }
+                }
+              ],
+              [
+                "database",
+                {
+                  "text": {
+                    "text": "wateq4f"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Goethite (SI +3.3). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+        },
+        {
+          "row": 3,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+            "key": "not-modeled.supersaturated-solid-not-offered",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Hematite (SI +8.6)"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Hematite (SI +8.6). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+        },
+        {
+          "row": 3,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{phases} have reported saturation indices but no phase definition in the selected {database} diagnostic index; their phase type and exclusion reason cannot be classified",
+            "key": "not-modeled.saturation-index-unclassified",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Fe(OH)2.7Cl.3 (SI +4.5)"
+                  }
+                }
+              ],
+              [
+                "database",
+                {
+                  "text": {
+                    "text": "wateq4f"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "Fe(OH)2.7Cl.3 (SI +4.5) have reported saturation indices but no phase definition in the selected wateq4f diagnostic index; their phase type and exclusion reason cannot be classified"
+        },
+        {
+          "row": 5,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "complete absorbance is unavailable: no absorption spectrum for {species}",
+            "key": "not-modeled.incomplete-absorbance",
+            "slots": [
+              [
+                "species",
+                {
+                  "list": {
+                    "items": [
+                      {
+                        "term": {
+                          "en": "Fe+3",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "FeCl+2",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "FeOH+2",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "FeCl2+",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "Fe2(OH)2+4",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "Fe(OH)2+",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "Fe3(OH)4+5",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "FeCl3",
+                          "section": "species"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "complete absorbance is unavailable: no absorption spectrum for Fe+3, FeCl+2, FeOH+2, FeCl2+, Fe2(OH)2+4, Fe(OH)2+, Fe3(OH)4+5 and FeCl3"
+        }
+      ]
+    },
+    {
+      "id": "new120:rx-003",
+      "script_sha256": "f9ca357de8bc8df077aebbc74718275c6dfd3c4d1166ac352875bc941323daab",
+      "raw_member_sha256": {
+        "experiment.lab": "f9ca357de8bc8df077aebbc74718275c6dfd3c4d1166ac352875bc941323daab",
+        "stdout.jsonl": "d702fe0269acbb3f3b905b5b295572a949036ec5ffc21682343f8618b93f4d33",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution_receipt_sha256": "3a887dfa2e8e60bf8e170620b70ed159194b9275aac4269ab61598d3d6de54e5",
+      "independent_recommendation": "accept_bounded_selection",
+      "positive_observations": {
+        "Mg_vessel_H2_mol": 0.001,
+        "Cu_control_H2_mol": 0
+      },
+      "final_whole_script_residual_mol": {
+        "C": 1.759631324e-17,
+        "Cl": 1.681e-15,
+        "Cu": 0.0,
+        "H": -1.57826918676e-15,
+        "Mg": 4.35e-16,
+        "N": -1.1384e-18,
+        "O": -7.8702456028e-16,
+        "charge": -7.5233081324e-16
+      },
+      "final_per_vessel_residuals": [
+        {
+          "vessel": 0,
+          "residual_mol": {
+            "C": 1.597921963e-17,
+            "Cl": 7.43e-16,
+            "H": -1.26509398037e-15,
+            "Mg": 4.35e-16,
+            "N": -5.692e-19,
+            "O": -6.3220954111e-16,
+            "charge": 1.8649398037e-16
+          }
+        },
+        {
+          "vessel": 1,
+          "residual_mol": {
+            "C": 1.61709361e-18,
+            "Cl": 9.38e-16,
+            "Cu": 0.0,
+            "H": -3.1317520639e-16,
+            "N": -5.692e-19,
+            "O": -1.5481501917e-16,
+            "charge": -9.3882479361e-16
+          }
+        }
+      ],
+      "max_abs_residual_mol": 1.681e-15,
+      "named_limits_preserved": []
+    },
+    {
+      "id": "new120:rx-004",
+      "script_sha256": "28924fa2033686acc43b2e0d77ca60eddc3489bc1d827fecd889340953d003b9",
+      "raw_member_sha256": {
+        "experiment.lab": "28924fa2033686acc43b2e0d77ca60eddc3489bc1d827fecd889340953d003b9",
+        "stdout.jsonl": "cc0b49b49688f7e21eb8afe2135ac20c1a964cdc81c81798f8ca9440bfcf4192",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution_receipt_sha256": "ee558650dd667b2e3b8e2f78f799cae7d0a1cc7a0d004bedbba6f0cdf57d3513",
+      "independent_recommendation": "retain_hold",
+      "positive_observations": {
+        "retained_KI_mol": 0.0004,
+        "oxidized_iodine_mol": 0,
+        "FeII_mol": 0,
+        "hold_reason": "Unmapped KI and absent positive coupled products."
+      },
+      "final_whole_script_residual_mol": {
+        "Cl": 0.0,
+        "Fe": 0.0,
+        "H": 0.0,
+        "I": 0.0,
+        "K": 0.0,
+        "O": 0.0,
+        "charge": 0.0
+      },
+      "final_per_vessel_residuals": [
+        {
+          "vessel": 0,
+          "residual_mol": {
+            "Cl": 0.0,
+            "Fe": 0.0,
+            "H": 0.0,
+            "I": 0.0,
+            "K": 0.0,
+            "O": 0.0,
+            "charge": 0.0
+          }
+        }
+      ],
+      "max_abs_residual_mol": 0.0,
+      "named_limits_preserved": [
+        {
+          "row": 2,
+          "cause": "phase-not-in-registry",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+            "key": "not-modeled.supersaturated-no-registry-solid",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Goethite (SI +3.8)"
+                  }
+                }
+              ],
+              [
+                "database",
+                {
+                  "text": {
+                    "text": "wateq4f"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Goethite (SI +3.8). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+        },
+        {
+          "row": 2,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+            "key": "not-modeled.supersaturated-solid-not-offered",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Hematite (SI +9.7)"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Hematite (SI +9.7). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+        },
+        {
+          "row": 2,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{phases} have reported saturation indices but no phase definition in the selected {database} diagnostic index; their phase type and exclusion reason cannot be classified",
+            "key": "not-modeled.saturation-index-unclassified",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Fe(OH)2.7Cl.3 (SI +4.7)"
+                  }
+                }
+              ],
+              [
+                "database",
+                {
+                  "text": {
+                    "text": "wateq4f"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "Fe(OH)2.7Cl.3 (SI +4.7) have reported saturation indices but no phase definition in the selected wateq4f diagnostic index; their phase type and exclusion reason cannot be classified"
+        },
+        {
+          "row": 3,
+          "cause": "phase-not-in-registry",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+            "key": "not-modeled.supersaturated-no-registry-solid",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Goethite (SI +3.8)"
+                  }
+                }
+              ],
+              [
+                "database",
+                {
+                  "text": {
+                    "text": "wateq4f"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Goethite (SI +3.8). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+        },
+        {
+          "row": 3,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+            "key": "not-modeled.supersaturated-solid-not-offered",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Hematite (SI +9.7)"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Hematite (SI +9.7). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+        },
+        {
+          "row": 3,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{phases} have reported saturation indices but no phase definition in the selected {database} diagnostic index; their phase type and exclusion reason cannot be classified",
+            "key": "not-modeled.saturation-index-unclassified",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Fe(OH)2.7Cl.3 (SI +4.7)"
+                  }
+                }
+              ],
+              [
+                "database",
+                {
+                  "text": {
+                    "text": "wateq4f"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "Fe(OH)2.7Cl.3 (SI +4.7) have reported saturation indices but no phase definition in the selected wateq4f diagnostic index; their phase type and exclusion reason cannot be classified"
+        },
+        {
+          "row": 3,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "row": 5,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "complete absorbance is unavailable: no absorption spectrum for {species}",
+            "key": "not-modeled.incomplete-absorbance",
+            "slots": [
+              [
+                "species",
+                {
+                  "list": {
+                    "items": [
+                      {
+                        "term": {
+                          "en": "Fe+3",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "FeOH+2",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "FeCl+2",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "Fe2(OH)2+4",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "FeCl2+",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "Fe(OH)2+",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "Fe3(OH)4+5",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "FeCl3",
+                          "section": "species"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "complete absorbance is unavailable: no absorption spectrum for Fe+3, FeOH+2, FeCl+2, Fe2(OH)2+4, FeCl2+, Fe(OH)2+, Fe3(OH)4+5 and FeCl3"
+        }
+      ]
+    },
+    {
+      "id": "new120:rx-005",
+      "script_sha256": "1ae1155e84e151beff558f6a139bd417f2d20d5acf57b594925ae4572ec72174",
+      "raw_member_sha256": {
+        "experiment.lab": "1ae1155e84e151beff558f6a139bd417f2d20d5acf57b594925ae4572ec72174",
+        "stdout.jsonl": "05a7eca174bda3988e76d503d20e49ed5cfad692b6800db77f0e081941e61abc",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution_receipt_sha256": "54be88f9e2734693f2f8f3248472f668f331dc4888980548f5f485ec89032511",
+      "independent_recommendation": "retain_hold",
+      "positive_observations": {
+        "remaining_I2_mol": 0.0001,
+        "remaining_thiosulfate_mol": 0.0002,
+        "tetrathionate_mol": 0,
+        "hold_reason": "No requested iodine-thiosulfate consumption; complexation coverage remains unsupported."
+      },
+      "final_whole_script_residual_mol": {
+        "H": 0.0,
+        "I": 0.0,
+        "K": 0.0,
+        "Na": 0.0,
+        "O": 0.0,
+        "S": 0.0,
+        "charge": 0.0
+      },
+      "final_per_vessel_residuals": [
+        {
+          "vessel": 0,
+          "residual_mol": {
+            "H": 0.0,
+            "I": 0.0,
+            "K": 0.0,
+            "Na": 0.0,
+            "O": 0.0,
+            "S": 0.0,
+            "charge": 0.0
+          }
+        }
+      ],
+      "max_abs_residual_mol": 0.0,
+      "named_limits_preserved": [
+        {
+          "row": 1,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "row": 2,
+          "beside_a_visible_change": true,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "row": 4,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "row": 5,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{reaction}: Proton-consuming kinetics requires a coupled weak-acid/buffer equilibrium: measured free proton activity is not the titratable acid inventory. This uncoupled rate step is withheld rather than treating the buffer as a fixed acid reservoir",
+            "key": "not-modeled.proton-consuming-kinetics",
+            "slots": [
+              [
+                "reaction",
+                {
+                  "text": {
+                    "text": "thiosulfate-acid"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "thiosulfate-acid: Proton-consuming kinetics requires a coupled weak-acid/buffer equilibrium: measured free proton activity is not the titratable acid inventory. This uncoupled rate step is withheld rather than treating the buffer as a fixed acid reservoir"
+        },
+        {
+          "row": 5,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "row": 7,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "row": 8,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{reaction}: Proton-consuming kinetics requires a coupled weak-acid/buffer equilibrium: measured free proton activity is not the titratable acid inventory. This uncoupled rate step is withheld rather than treating the buffer as a fixed acid reservoir",
+            "key": "not-modeled.proton-consuming-kinetics",
+            "slots": [
+              [
+                "reaction",
+                {
+                  "text": {
+                    "text": "thiosulfate-acid"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "thiosulfate-acid: Proton-consuming kinetics requires a coupled weak-acid/buffer equilibrium: measured free proton activity is not the titratable acid inventory. This uncoupled rate step is withheld rather than treating the buffer as a fixed acid reservoir"
+        },
+        {
+          "row": 8,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      ]
+    },
+    {
+      "id": "new120:rx-006",
+      "script_sha256": "010e1623b1592f9c6b445a103098d7db62d2c59457c4f9215c46ffdfd6016777",
+      "raw_member_sha256": {
+        "experiment.lab": "010e1623b1592f9c6b445a103098d7db62d2c59457c4f9215c46ffdfd6016777",
+        "stdout.jsonl": "60eb523a15139aae44d4fe18c30c4f7cc6d9861b37ff3ed9e96f5f4aaf6fef34",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution_receipt_sha256": "e0cf2e62f5df21b537c749c4207fc040de8a3a822312e4face67965e52d78daf",
+      "independent_recommendation": "retain_hold",
+      "positive_observations": {
+        "oxidized_vitaminC_mol": 0.0001,
+        "remaining_I2_mol": 0,
+        "hold_reason": "Literal curated conversion does not close missing KI/iodine-complex mixture coverage; RX007 also has initial dissolution limitation."
+      },
+      "final_whole_script_residual_mol": {
+        "C": 0.0,
+        "H": 0.0,
+        "I": 0.0,
+        "K": 0.0,
+        "O": 0.0,
+        "charge": 0.0
+      },
+      "final_per_vessel_residuals": [
+        {
+          "vessel": 0,
+          "residual_mol": {
+            "C": 0.0,
+            "H": 0.0,
+            "I": 0.0,
+            "K": 0.0,
+            "O": 0.0,
+            "charge": 0.0
+          }
+        }
+      ],
+      "max_abs_residual_mol": 0.0,
+      "named_limits_preserved": [
+        {
+          "row": 1,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "row": 2,
+          "beside_a_visible_change": true,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "row": 3,
+          "beside_a_visible_change": true,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      ]
+    },
+    {
+      "id": "new120:rx-007",
+      "script_sha256": "a3de98bd0da51470f263e895a1b64f86473f546096caa1ca29d9639835217691",
+      "raw_member_sha256": {
+        "experiment.lab": "a3de98bd0da51470f263e895a1b64f86473f546096caa1ca29d9639835217691",
+        "stdout.jsonl": "14ff3b2ff53e72a069b4b2dbd0f6c49d19c9272440902c91b8dfbf058823eebd",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution_receipt_sha256": "3a74d622520a6c4b90d9a30dd9cdae24aad8ec0ba9933cf7edad02fcf46c9e18",
+      "independent_recommendation": "retain_hold",
+      "positive_observations": {
+        "oxidized_vitaminC_mol": 0.0001,
+        "remaining_I2_mol": 5e-05,
+        "hold_reason": "Literal curated conversion does not close missing KI/iodine-complex mixture coverage; RX007 also has initial dissolution limitation."
+      },
+      "final_whole_script_residual_mol": {
+        "C": 0.0,
+        "H": 0.0,
+        "I": 0.0,
+        "K": 0.0,
+        "O": 0.0,
+        "charge": 0.0
+      },
+      "final_per_vessel_residuals": [
+        {
+          "vessel": 0,
+          "residual_mol": {
+            "C": 0.0,
+            "H": 0.0,
+            "I": 0.0,
+            "K": 0.0,
+            "O": 0.0,
+            "charge": 0.0
+          }
+        }
+      ],
+      "max_abs_residual_mol": 0.0,
+      "named_limits_preserved": [
+        {
+          "row": 1,
+          "cause": "no-solver",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+            "key": "not-modeled.no-dissolution-solver",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "ascorbic acid (vitamin C)",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "ascorbic acid (vitamin C) in contact with liquid: no wired solver models this dissolution/reaction"
+        },
+        {
+          "row": 2,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "row": 3,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "row": 5,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "row": 7,
+          "beside_a_visible_change": true,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      ]
+    },
+    {
+      "id": "new120:rx-008",
+      "script_sha256": "ca719f57d5e8024390fc772e85e9373c62c3f93286a395a87f80aeee82179009",
+      "raw_member_sha256": {
+        "experiment.lab": "ca719f57d5e8024390fc772e85e9373c62c3f93286a395a87f80aeee82179009",
+        "stdout.jsonl": "83c8f232ccbe40c56b6b3f68f3c1d9369266e2172ad1f186b9623a29a3a5de52",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution_receipt_sha256": "0d76eb3d8e4203568461b76c4cdd0d30e7c681e42f69ee9681d32f74cbf24a88",
+      "independent_recommendation": "accept_bounded_selection",
+      "positive_observations": {
+        "exported_CO2_mol": 0.001,
+        "MnII_mol": 0.0002,
+        "oxalic_to_permanganate_input_ratio": 2.5
+      },
+      "final_whole_script_residual_mol": {
+        "C": 0.0,
+        "H": 2e-19,
+        "K": 0.0,
+        "Mn": 0.0,
+        "O": 0.0,
+        "S": 0.0,
+        "charge": 2e-19
+      },
+      "final_per_vessel_residuals": [
+        {
+          "vessel": 0,
+          "residual_mol": {
+            "C": 0.0,
+            "H": 2e-19,
+            "K": 0.0,
+            "Mn": 0.0,
+            "O": 0.0,
+            "S": 0.0,
+            "charge": 2e-19
+          }
+        }
+      ],
+      "max_abs_residual_mol": 2e-19,
+      "named_limits_preserved": [
+        {
+          "row": 5,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "complete absorbance is unavailable: no absorption spectrum for {species}",
+            "key": "not-modeled.incomplete-absorbance",
+            "slots": [
+              [
+                "species",
+                {
+                  "list": {
+                    "items": [
+                      {
+                        "term": {
+                          "en": "Mn+2",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "MnSO4",
+                          "section": "species"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "complete absorbance is unavailable: no absorption spectrum for Mn+2 and MnSO4"
+        }
+      ]
+    },
+    {
+      "id": "new120:rx-009",
+      "script_sha256": "49b6aad5cb497a81277c30b100032f635701d86e2b776fc9b731536456d33989",
+      "raw_member_sha256": {
+        "experiment.lab": "49b6aad5cb497a81277c30b100032f635701d86e2b776fc9b731536456d33989",
+        "stdout.jsonl": "3c13037c93673d31245e6ec49a02f937be17c596b95385c23b910498897b618e",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution_receipt_sha256": "4ed77b2bb4691707d8fde9bad2002e7585ba14a9654757dc8da9c05c8cf651f1",
+      "independent_recommendation": "accept_bounded_selection",
+      "positive_observations": {
+        "MnO2_mol": 0.00039999999999999996,
+        "acetic_family_mol": 0.00030000000000000003
+      },
+      "final_whole_script_residual_mol": {
+        "C": 2.97972e-20,
+        "H": -1.5401204056e-15,
+        "K": 0.0,
+        "Mn": -4e-20,
+        "O": -7.697802028e-16,
+        "charge": -7.2e-19
+      },
+      "final_per_vessel_residuals": [
+        {
+          "vessel": 0,
+          "residual_mol": {
+            "C": 2.97972e-20,
+            "H": -1.5401204056e-15,
+            "K": 0.0,
+            "Mn": -4e-20,
+            "O": -7.697802028e-16,
+            "charge": -7.2e-19
+          }
+        }
+      ],
+      "max_abs_residual_mol": 1.5401204056e-15,
+      "named_limits_preserved": []
+    },
+    {
+      "id": "new120:rx-010",
+      "script_sha256": "6d32011f657f8a43a8894d258f1969d36fdf15cfe322297ac730f4bf408ee2dc",
+      "raw_member_sha256": {
+        "experiment.lab": "6d32011f657f8a43a8894d258f1969d36fdf15cfe322297ac730f4bf408ee2dc",
+        "stdout.jsonl": "366289d44bb2bac08fdc05edec4f9c48ffdc1e0f6ae938fee0e05cf8acefcb2c",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution_receipt_sha256": "dcbee0e6917ffe5bf85836a2cc10e7efaf28c9958966fd233a2c2f56a13ff636",
+      "independent_recommendation": "accept_bounded_selection",
+      "positive_observations": {
+        "cell_volts": [
+          1.104111551966049,
+          1.0857656675517737
+        ],
+        "anode_ids": [
+          0,
+          0
+        ],
+        "cathode_ids": [
+          1,
+          1
+        ],
+        "no_state_change_during_measurement": true
+      },
+      "final_whole_script_residual_mol": {
+        "Cu": 4.14535e-13,
+        "H": -9.481265e-15,
+        "O": -4.9e-15,
+        "S": 4.15925e-13,
+        "Zn": -4e-17,
+        "charge": 3.324858735e-12
+      },
+      "final_per_vessel_residuals": [
+        {
+          "vessel": 0,
+          "residual_mol": {
+            "H": -8e-15,
+            "O": -4.16e-15,
+            "S": -4e-17,
+            "Zn": -4e-17,
+            "charge": 0.0
+          }
+        },
+        {
+          "vessel": 1,
+          "residual_mol": {
+            "Cu": 4.14535e-13,
+            "H": -1.481265e-15,
+            "O": -7.4e-16,
+            "S": 4.15965e-13,
+            "charge": 3.324858735e-12
+          }
+        }
+      ],
+      "max_abs_residual_mol": 3.324858735e-12,
+      "named_limits_preserved": [
+        {
+          "row": 2,
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself \u2014 hydrogen over hours, a passivating hydroxide skin \u2014 is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "zinc",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "zinc stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself \u2014 hydrogen over hours, a passivating hydroxide skin \u2014 is a rate this lab does not model"
+        },
+        {
+          "row": 8,
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself \u2014 hydrogen over hours, a passivating hydroxide skin \u2014 is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "zinc",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "zinc stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself \u2014 hydrogen over hours, a passivating hydroxide skin \u2014 is a rate this lab does not model"
+        }
+      ]
+    },
+    {
+      "id": "new120:rx-011",
+      "script_sha256": "13a99904e2c829ae7996095a508c1e0975d32f541f726e0dbd18f656eea48301",
+      "raw_member_sha256": {
+        "experiment.lab": "13a99904e2c829ae7996095a508c1e0975d32f541f726e0dbd18f656eea48301",
+        "stdout.jsonl": "639d729ade6a11303997f8fc9f29b3a5d86d67cc25e78e91260bee374b37b86a",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution_receipt_sha256": "72cc516a6d46eb7dbe0cc380c617ac7225c34ac7ac1279c1e06ee566badff1bb",
+      "independent_recommendation": "accept_bounded_selection",
+      "positive_observations": {
+        "cell_volts": [
+          0.4080887599150608
+        ],
+        "anode_ids": [
+          0
+        ],
+        "cathode_ids": [
+          1
+        ],
+        "no_state_change_during_measurement": true
+      },
+      "final_whole_script_residual_mol": {
+        "Ag": 0.0,
+        "Cu": 4.14535e-13,
+        "H": -1.481265e-15,
+        "N": 0.0,
+        "O": -7.4e-16,
+        "S": 4.15965e-13,
+        "charge": 3.324858735e-12
+      },
+      "final_per_vessel_residuals": [
+        {
+          "vessel": 0,
+          "residual_mol": {
+            "Cu": 4.14535e-13,
+            "H": -1.481265e-15,
+            "O": -7.4e-16,
+            "S": 4.15965e-13,
+            "charge": 3.324858735e-12
+          }
+        },
+        {
+          "vessel": 1,
+          "residual_mol": {
+            "Ag": 0.0,
+            "H": 0.0,
+            "N": 0.0,
+            "O": 0.0,
+            "charge": 0.0
+          }
+        }
+      ],
+      "max_abs_residual_mol": 3.324858735e-12,
+      "named_limits_preserved": []
+    },
+    {
+      "id": "new120:rx-012",
+      "script_sha256": "01a5e02d3313c023412b20b4ee248966fb00d364521d472b64484474abe4df8d",
+      "raw_member_sha256": {
+        "experiment.lab": "01a5e02d3313c023412b20b4ee248966fb00d364521d472b64484474abe4df8d",
+        "stdout.jsonl": "8ec489d72d4536adf2b2bd0477dc85e8a042a1772c2c98d855f8792c722a8c77",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution_receipt_sha256": "22144dc5de642eef56be05531ffe0ffac025858f89df68fabc77f072907bb781",
+      "independent_recommendation": "retain_hold",
+      "positive_observations": {
+        "cell_volts": [
+          0.04003851213353726,
+          0.04003851213353726
+        ],
+        "anode_ids": [
+          0,
+          0
+        ],
+        "cathode_ids": [
+          1,
+          1
+        ],
+        "no_state_change_during_measurement": true
+      },
+      "final_whole_script_residual_mol": {
+        "H": -1.4e-14,
+        "O": -1.344692e-14,
+        "S": -1.61173e-15,
+        "Zn": -1.61173e-15,
+        "charge": 0.0
+      },
+      "final_per_vessel_residuals": [
+        {
+          "vessel": 0,
+          "residual_mol": {
+            "H": 0.0,
+            "O": 1.0908e-16,
+            "S": 2.727e-17,
+            "Zn": 2.727e-17,
+            "charge": 0.0
+          }
+        },
+        {
+          "vessel": 1,
+          "residual_mol": {
+            "H": -1.4e-14,
+            "O": -1.3556e-14,
+            "S": -1.639e-15,
+            "Zn": -1.639e-15,
+            "charge": 0.0
+          }
+        }
+      ],
+      "max_abs_residual_mol": 1.4e-14,
+      "named_limits_preserved": [
+        {
+          "row": 2,
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself \u2014 hydrogen over hours, a passivating hydroxide skin \u2014 is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "zinc",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "zinc stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself \u2014 hydrogen over hours, a passivating hydroxide skin \u2014 is a rate this lab does not model"
+        },
+        {
+          "row": 6,
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself \u2014 hydrogen over hours, a passivating hydroxide skin \u2014 is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "zinc",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "zinc stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself \u2014 hydrogen over hours, a passivating hydroxide skin \u2014 is a rate this lab does not model"
+        }
+      ]
+    },
+    {
+      "id": "new120:rx-013",
+      "script_sha256": "cc800bb8436ce1270083331c6cc28a54942d79183df126e081e4d1ac18fe1dcc",
+      "raw_member_sha256": {
+        "experiment.lab": "cc800bb8436ce1270083331c6cc28a54942d79183df126e081e4d1ac18fe1dcc",
+        "stdout.jsonl": "c89e880bbce232c329f9e99e4a2431fc55215ecf7e9893a3151aa68e33b8026f",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution_receipt_sha256": "3771d059853236ffbaf7ee0e094cb586085b687aa60d7526cbb418363aa4924e",
+      "independent_recommendation": "accept_bounded_selection",
+      "positive_observations": {
+        "H2_increment_mol": 5.1821348283088646e-05,
+        "O2_increment_mol": 2.5910674141545187e-05,
+        "H2_to_O2": 1.9999999999999334,
+        "H2_Q_over_2F_residual": 0.0,
+        "O2_Q_over_4F_residual": 8.639736061993863e-19
+      },
+      "final_whole_script_residual_mol": {
+        "C": -1.966012495e-18,
+        "H": -6.2617533e-16,
+        "N": 6.612e-18,
+        "Na": 1.054e-15,
+        "O": -1.759572637485e-15,
+        "S": 2.86e-17,
+        "charge": 4.11369389499e-15
+      },
+      "final_per_vessel_residuals": [
+        {
+          "vessel": 0,
+          "residual_mol": {
+            "C": -1.966012495e-18,
+            "H": -6.2617533e-16,
+            "N": 6.612e-18,
+            "Na": 1.054e-15,
+            "O": -1.759572637485e-15,
+            "S": 2.86e-17,
+            "charge": 4.11369389499e-15
+          }
+        }
+      ],
+      "max_abs_residual_mol": 4.11369389499e-15,
+      "named_limits_preserved": []
+    },
+    {
+      "id": "new120:rx-014",
+      "script_sha256": "ea9c9ef32f7957dfcf2660e1529b58653878967021caf4c3f08ba42d8ff0d245",
+      "raw_member_sha256": {
+        "experiment.lab": "ea9c9ef32f7957dfcf2660e1529b58653878967021caf4c3f08ba42d8ff0d245",
+        "stdout.jsonl": "a48965bf7ab7220842a8b030517b26f6641996f887adbc3d2843c2dfb9359e8a",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution_receipt_sha256": "fa8081d063626bc1154862883a38f88395095b9123df9e4fe6eed1ab5c338ad4",
+      "independent_recommendation": "accept_bounded_selection",
+      "positive_observations": {
+        "Cu_solid_mol": 5.1821348283088646e-05,
+        "aqueous_CuII_decrease_mol": 4.828090756412611e-05,
+        "Cu_from_antlerite_loss_mol": 3.540444479889e-06,
+        "Cu_phase_budget_residual_mol": -3.760926465242798e-12,
+        "Q_over_2F_residual_mol": 0.0,
+        "exported_O2_mol": 2.5910674141544323e-05
+      },
+      "final_whole_script_residual_mol": {
+        "Cu": -3.760918754e-12,
+        "H": -1.87932e-15,
+        "O": -9.39354e-16,
+        "S": -3.976757e-12,
+        "charge": -3.138238012e-11
+      },
+      "final_per_vessel_residuals": [
+        {
+          "vessel": 0,
+          "residual_mol": {
+            "Cu": -3.760918754e-12,
+            "H": -1.87932e-15,
+            "O": -9.39354e-16,
+            "S": -3.976757e-12,
+            "charge": -3.138238012e-11
+          }
+        }
+      ],
+      "max_abs_residual_mol": 3.138238012e-11,
+      "named_limits_preserved": []
+    }
+  ],
+  "accepted_ids": [
+    "new120:rx-001",
+    "new120:rx-003",
+    "new120:rx-008",
+    "new120:rx-009",
+    "new120:rx-010",
+    "new120:rx-011",
+    "new120:rx-013",
+    "new120:rx-014"
+  ],
+  "held_ids": [
+    "new120:rx-002",
+    "new120:rx-004",
+    "new120:rx-005",
+    "new120:rx-006",
+    "new120:rx-007",
+    "new120:rx-012"
+  ],
+  "material_blockers": [],
+  "qualifications": [
+    "Archive carries producer-reported binary/lock identity; raw executable/lock bytes absent and not independently rehashed in this audit.",
+    "Whole-script final whole-bench and per-vessel represented material/formal-charge accounting; no energy or per-step closure claim.",
+    "Exact-source registry compositions and OH-derived base_equivalents; no double-counting of solution distributions, measured H/OH fields, lots or solute_charge.",
+    "RX008 only the warm acidic curated endpoint; missing acid/temperature gates and MnII spectrum do not become calibrated kinetics/heat.",
+    "RX010/011 ideal open-circuit Nernst measurements, with no discharge, junction-potential or empirical electrode claim.",
+    "RX013/014 ideal imposed-current model; floating extraction residuals are arithmetic checks, not newly authored physical acceptance tolerances.",
+    "RX012 original opposite-sign forecast fails; source sorts physical anode/cathode and reports positive spontaneous magnitude. No expectation rewrite.",
+    "RX006/007 positive literal curated conversion does not close unsupported KI/iodine-mixture and dissolution coverage."
+  ],
+  "catalog_additions": 0,
+  "new_executions": 0
+}

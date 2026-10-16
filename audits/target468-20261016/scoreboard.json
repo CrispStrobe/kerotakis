@@ -1,20 +1,20 @@
 {
   "schema": "kerotakis.fixed-target468.v1",
-  "recorded_utc": "2026-10-16T18:59:55.531685+00:00",
+  "recorded_utc": "2026-10-16T19:48:50.129908+00:00",
   "declared_target_total": 468,
   "minimum_selected_goal": 401,
   "baseline147_commit": "159fa6e08fa4ebea3105ac7e17d5b8350bc91189",
   "available_case_records": 468,
   "missing_first_batch": null,
-  "current_working_catalog_entries": 192,
-  "source_qualified_selected_in_target": 188,
+  "current_working_catalog_entries": 200,
+  "source_qualified_selected_in_target": 196,
   "out_of_target_catalog_entries": [
     "supplied200-repaired-protocols:014-zinc-copper",
     "supplied200-repaired-protocols:007-water-electrolysis",
     "supplied200-repaired-protocols:084-copper-chloride-prepared-ions",
     "supplied200-repaired-protocols:118-acidic-oxalate-complete-stocks"
   ],
-  "additional_selections_needed_for_401": 213,
+  "additional_selections_needed_for_401": 205,
   "latest_combined_release_pass_count": null,
   "latest_release_qualification": "No unified latest-release execution and physical assessment of all468; selected means evidence on each recorded version, not current deployment certification.",
   "available201_unselected_states": {
@@ -7976,7 +7976,7 @@
       "title": "Zinc reduces two silver ions per atom oxidised",
       "script_sha256": "c74be1bfbecf34e73d61f1beda00b2a258fb25079ee74ba9c43ec36ee203e4df",
       "original_physical_forecast": "Zinc oxidation supplies two electrons per zinc atom, so the stoichiometric ceiling is two silver atoms deposited per zinc atom consumed.",
-      "state": "completed_requires_physical_assessment",
+      "state": "source_qualified_selected_on_recorded_version",
       "latest_combined_release_revalidated": false,
       "common_c446_execution": {
         "run_id": 38909751180,
@@ -7985,7 +7985,9 @@
         "script_sha256": "c74be1bfbecf34e73d61f1beda00b2a258fb25079ee74ba9c43ec36ee203e4df",
         "stdout_sha256": "f1e15431283748020c8142298f5bf888c5d76b244e7c35d64f88fdf728822b60",
         "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-      }
+      },
+      "catalog_id": "new120:rx-001",
+      "selection_evidence": "audits/target468-20261016/saved-redox-selection.json"
     },
     {
       "id": "new120:rx-003",
@@ -7993,7 +7995,7 @@
       "title": "An active metal releases hydrogen from acid; copper is the control",
       "script_sha256": "f9ca357de8bc8df077aebbc74718275c6dfd3c4d1166ac352875bc941323daab",
       "original_physical_forecast": "Magnesium can reduce protons to hydrogen. Copper does not evolve hydrogen through the same proton-displacement reaction under ordinary non-oxidising conditions.",
-      "state": "completed_requires_physical_assessment",
+      "state": "source_qualified_selected_on_recorded_version",
       "latest_combined_release_revalidated": false,
       "common_c446_execution": {
         "run_id": 38909751180,
@@ -8002,7 +8004,9 @@
         "script_sha256": "f9ca357de8bc8df077aebbc74718275c6dfd3c4d1166ac352875bc941323daab",
         "stdout_sha256": "d702fe0269acbb3f3b905b5b295572a949036ec5ffc21682343f8618b93f4d33",
         "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-      }
+      },
+      "catalog_id": "new120:rx-003",
+      "selection_evidence": "audits/target468-20261016/saved-redox-selection.json"
     },
     {
       "id": "new120:rx-005",
@@ -8010,7 +8014,7 @@
       "title": "Iodometric stoichiometry uses two thiosulfates per iodine",
       "script_sha256": "1ae1155e84e151beff558f6a139bd417f2d20d5acf57b594925ae4572ec72174",
       "original_physical_forecast": "Thiosulfate reduces iodine to iodide; half the required dose should leave an oxidised-iodine pool, while the full nominal dose removes most of it.",
-      "state": "completed_requires_physical_assessment",
+      "state": "assessed_not_selected",
       "latest_combined_release_revalidated": false,
       "common_c446_execution": {
         "run_id": 38909751180,
@@ -8019,7 +8023,9 @@
         "script_sha256": "1ae1155e84e151beff558f6a139bd417f2d20d5acf57b594925ae4572ec72174",
         "stdout_sha256": "05a7eca174bda3988e76d503d20e49ed5cfad692b6800db77f0e081941e61abc",
         "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-      }
+      },
+      "physical_assessment": "audits/target468-20261016/saved-assessment-first120-redox/assessment.json",
+      "independent_review": "audits/target468-20261016/saved-assessment-first120-redox-independent/review.json"
     },
     {
       "id": "new120:rx-006",
@@ -8027,7 +8033,7 @@
       "title": "Ascorbic acid reduces iodine with a one-to-one molecular budget",
       "script_sha256": "010e1623b1592f9c6b445a103098d7db62d2c59457c4f9215c46ffdfd6016777",
       "original_physical_forecast": "Ascorbic acid is oxidised to dehydroascorbic acid as the oxidised iodine pool is reduced.",
-      "state": "completed_requires_physical_assessment",
+      "state": "assessed_not_selected",
       "latest_combined_release_revalidated": false,
       "common_c446_execution": {
         "run_id": 38909751180,
@@ -8036,7 +8042,9 @@
         "script_sha256": "010e1623b1592f9c6b445a103098d7db62d2c59457c4f9215c46ffdfd6016777",
         "stdout_sha256": "60eb523a15139aae44d4fe18c30c4f7cc6d9861b37ff3ed9e96f5f4aaf6fef34",
         "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-      }
+      },
+      "physical_assessment": "audits/target468-20261016/saved-assessment-first120-redox/assessment.json",
+      "independent_review": "audits/target468-20261016/saved-assessment-first120-redox-independent/review.json"
     },
     {
       "id": "new120:rx-007",
@@ -8044,7 +8052,7 @@
       "title": "Vitamin C has finite reducing capacity: iodine eventually persists",
       "script_sha256": "a3de98bd0da51470f263e895a1b64f86473f546096caa1ca29d9639835217691",
       "original_physical_forecast": "Successive iodine additions consume a finite ascorbic-acid pool. Iodine persists after that pool is exhausted.",
-      "state": "completed_requires_physical_assessment",
+      "state": "assessed_not_selected",
       "latest_combined_release_revalidated": false,
       "common_c446_execution": {
         "run_id": 38909751180,
@@ -8053,7 +8061,9 @@
         "script_sha256": "a3de98bd0da51470f263e895a1b64f86473f546096caa1ca29d9639835217691",
         "stdout_sha256": "14ff3b2ff53e72a069b4b2dbd0f6c49d19c9272440902c91b8dfbf058823eebd",
         "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-      }
+      },
+      "physical_assessment": "audits/target468-20261016/saved-assessment-first120-redox/assessment.json",
+      "independent_review": "audits/target468-20261016/saved-assessment-first120-redox-independent/review.json"
     },
     {
       "id": "new120:rx-008",
@@ -8061,7 +8071,7 @@
       "title": "Acidified permanganate oxidises oxalic acid to carbon dioxide",
       "script_sha256": "ca719f57d5e8024390fc772e85e9373c62c3f93286a395a87f80aeee82179009",
       "original_physical_forecast": "Under a chemically appropriate acidic, warm setup, permanganate is reduced while oxalic-acid carbon becomes CO2.",
-      "state": "completed_requires_physical_assessment",
+      "state": "source_qualified_selected_on_recorded_version",
       "latest_combined_release_revalidated": false,
       "common_c446_execution": {
         "run_id": 38909751180,
@@ -8070,7 +8080,9 @@
         "script_sha256": "ca719f57d5e8024390fc772e85e9373c62c3f93286a395a87f80aeee82179009",
         "stdout_sha256": "83c8f232ccbe40c56b6b3f68f3c1d9369266e2172ad1f186b9623a29a3a5de52",
         "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-      }
+      },
+      "catalog_id": "new120:rx-008",
+      "selection_evidence": "audits/target468-20261016/saved-redox-selection.json"
     },
     {
       "id": "new120:rx-010",
@@ -8078,7 +8090,7 @@
       "title": "Changing the zinc half-cell shifts Daniell voltage in the opposite direction",
       "script_sha256": "6d32011f657f8a43a8894d258f1969d36fdf15cfe322297ac730f4bf408ee2dc",
       "original_physical_forecast": "Increasing zinc-ion activity with the copper side otherwise fixed lowers the forward Zn/Cu cell voltage according to the reaction quotient.",
-      "state": "completed_requires_physical_assessment",
+      "state": "source_qualified_selected_on_recorded_version",
       "latest_combined_release_revalidated": false,
       "common_c446_execution": {
         "run_id": 38909751180,
@@ -8087,7 +8099,9 @@
         "script_sha256": "6d32011f657f8a43a8894d258f1969d36fdf15cfe322297ac730f4bf408ee2dc",
         "stdout_sha256": "366289d44bb2bac08fdc05edec4f9c48ffdc1e0f6ae938fee0e05cf8acefcb2c",
         "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-      }
+      },
+      "catalog_id": "new120:rx-010",
+      "selection_evidence": "audits/target468-20261016/saved-redox-selection.json"
     },
     {
       "id": "new120:rx-011",
@@ -8095,7 +8109,7 @@
       "title": "A copper–silver cell links two different electron stoichiometries",
       "script_sha256": "13a99904e2c829ae7996095a508c1e0975d32f541f726e0dbd18f656eea48301",
       "original_physical_forecast": "The silver electrode is the more positive reduction half-cell; copper oxidation coupled to silver reduction has a positive forward driving force.",
-      "state": "completed_requires_physical_assessment",
+      "state": "source_qualified_selected_on_recorded_version",
       "latest_combined_release_revalidated": false,
       "common_c446_execution": {
         "run_id": 38909751180,
@@ -8104,7 +8118,9 @@
         "script_sha256": "13a99904e2c829ae7996095a508c1e0975d32f541f726e0dbd18f656eea48301",
         "stdout_sha256": "639d729ade6a11303997f8fc9f29b3a5d86d67cc25e78e91260bee374b37b86a",
         "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-      }
+      },
+      "catalog_id": "new120:rx-011",
+      "selection_evidence": "audits/target468-20261016/saved-redox-selection.json"
     },
     {
       "id": "new120:rx-013",
@@ -8112,7 +8128,7 @@
       "title": "Electrolysis connects charge to the hydrogen–oxygen gas ratio",
       "script_sha256": "cc800bb8436ce1270083331c6cc28a54942d79183df126e081e4d1ac18fe1dcc",
       "original_physical_forecast": "For water electrolysis with a spectator sulfate electrolyte, net generated hydrogen and oxygen should have a 2:1 molar ratio and obey Faraday’s law.",
-      "state": "completed_requires_physical_assessment",
+      "state": "source_qualified_selected_on_recorded_version",
       "latest_combined_release_revalidated": false,
       "common_c446_execution": {
         "run_id": 38909751180,
@@ -8121,7 +8137,9 @@
         "script_sha256": "cc800bb8436ce1270083331c6cc28a54942d79183df126e081e4d1ac18fe1dcc",
         "stdout_sha256": "c89e880bbce232c329f9e99e4a2431fc55215ecf7e9893a3151aa68e33b8026f",
         "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-      }
+      },
+      "catalog_id": "new120:rx-013",
+      "selection_evidence": "audits/target468-20261016/saved-redox-selection.json"
     },
     {
       "id": "new120:gs-001",
@@ -9124,7 +9142,7 @@
       "title": "Ferric ions oxidise copper without needing a noble-metal salt",
       "script_sha256": "f00b087fd96a1faeeabad039b040284e8ed35d5528887d17efc097772de7620a",
       "original_physical_forecast": "Ferric ions can accept electrons from copper, producing ferrous and cupric ions rather than plating a second metal.",
-      "state": "completed_requires_physical_assessment",
+      "state": "assessed_not_selected",
       "latest_combined_release_revalidated": false,
       "common_c446_execution": {
         "run_id": 38909751180,
@@ -9133,7 +9151,9 @@
         "script_sha256": "f00b087fd96a1faeeabad039b040284e8ed35d5528887d17efc097772de7620a",
         "stdout_sha256": "2b1767d9644991aa692f6b69334bb8389cd14859dc87ff6fc8e02b8935ed3b24",
         "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-      }
+      },
+      "physical_assessment": "audits/target468-20261016/saved-assessment-first120-redox/assessment.json",
+      "independent_review": "audits/target468-20261016/saved-assessment-first120-redox-independent/review.json"
     },
     {
       "id": "new120:rx-004",
@@ -9141,7 +9161,7 @@
       "title": "Ferric ions oxidise iodide to iodine",
       "script_sha256": "28924fa2033686acc43b2e0d77ca60eddc3489bc1d827fecd889340953d003b9",
       "original_physical_forecast": "Chemical expectation: ferric ions oxidise iodide while being reduced to ferrous ions, producing an iodine-containing pool.",
-      "state": "completed_requires_physical_assessment",
+      "state": "assessed_not_selected",
       "latest_combined_release_revalidated": false,
       "common_c446_execution": {
         "run_id": 38909751180,
@@ -9150,7 +9170,9 @@
         "script_sha256": "28924fa2033686acc43b2e0d77ca60eddc3489bc1d827fecd889340953d003b9",
         "stdout_sha256": "cc0b49b49688f7e21eb8afe2135ac20c1a964cdc81c81798f8ca9440bfcf4192",
         "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-      }
+      },
+      "physical_assessment": "audits/target468-20261016/saved-assessment-first120-redox/assessment.json",
+      "independent_review": "audits/target468-20261016/saved-assessment-first120-redox-independent/review.json"
     },
     {
       "id": "new120:rx-009",
@@ -9158,7 +9180,7 @@
       "title": "Neutral permanganate and ethanol produce a different manganese endpoint",
       "script_sha256": "49b6aad5cb497a81277c30b100032f635701d86e2b776fc9b731536456d33989",
       "original_physical_forecast": "The documented non-acidified teaching route forms MnO2 and an acetic-acid/acetate product pool, rather than treating every permanganate reduction as Mn(II).",
-      "state": "completed_requires_physical_assessment",
+      "state": "source_qualified_selected_on_recorded_version",
       "latest_combined_release_revalidated": false,
       "common_c446_execution": {
         "run_id": 38909751180,
@@ -9167,7 +9189,9 @@
         "script_sha256": "49b6aad5cb497a81277c30b100032f635701d86e2b776fc9b731536456d33989",
         "stdout_sha256": "3c13037c93673d31245e6ec49a02f937be17c596b95385c23b910498897b618e",
         "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-      }
+      },
+      "catalog_id": "new120:rx-009",
+      "selection_evidence": "audits/target468-20261016/saved-redox-selection.json"
     },
     {
       "id": "new120:rx-012",
@@ -9175,7 +9199,7 @@
       "title": "A zinc concentration cell reverses sign when electrodes are swapped",
       "script_sha256": "01a5e02d3313c023412b20b4ee248966fb00d364521d472b64484474abe4df8d",
       "original_physical_forecast": "The concentration difference generates a non-zero voltage, and reversing the electrode order reverses its sign without changing the chemistry.",
-      "state": "completed_requires_physical_assessment",
+      "state": "assessed_not_selected",
       "latest_combined_release_revalidated": false,
       "common_c446_execution": {
         "run_id": 38909751180,
@@ -9184,7 +9208,9 @@
         "script_sha256": "01a5e02d3313c023412b20b4ee248966fb00d364521d472b64484474abe4df8d",
         "stdout_sha256": "8ec489d72d4536adf2b2bd0477dc85e8a042a1772c2c98d855f8792c722a8c77",
         "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-      }
+      },
+      "physical_assessment": "audits/target468-20261016/saved-assessment-first120-redox/assessment.json",
+      "independent_review": "audits/target468-20261016/saved-assessment-first120-redox-independent/review.json"
     },
     {
       "id": "new120:rx-014",
@@ -9192,7 +9218,7 @@
       "title": "Copper sulfate electrolysis competes with hydrogen evolution",
       "script_sha256": "ea9c9ef32f7957dfcf2660e1529b58653878967021caf4c3f08ba42d8ff0d245",
       "original_physical_forecast": "With an inert-anode, copper-deposition interpretation, a small charge can reduce Cu(II) to copper while anodic water oxidation generates oxygen and acidity.",
-      "state": "completed_requires_physical_assessment",
+      "state": "source_qualified_selected_on_recorded_version",
       "latest_combined_release_revalidated": false,
       "common_c446_execution": {
         "run_id": 38909751180,
@@ -9201,7 +9227,9 @@
         "script_sha256": "ea9c9ef32f7957dfcf2660e1529b58653878967021caf4c3f08ba42d8ff0d245",
         "stdout_sha256": "a48965bf7ab7220842a8b030517b26f6641996f887adbc3d2843c2dfb9359e8a",
         "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-      }
+      },
+      "catalog_id": "new120:rx-014",
+      "selection_evidence": "audits/target468-20261016/saved-redox-selection.json"
     },
     {
       "id": "new120:gs-004",
@@ -9703,5 +9731,11 @@
     },
     "receipt": "common-engine-all668.json"
   },
-  "optimistic_bound_qualification": "Selected188 + remaining105clean201 + remaining86first120 =379; an optimistic planning bound, not assigned scientific passes."
+  "optimistic_bound_qualification": "Selected196 + remaining105clean201 + remaining78first120 =379; optimistic planning bound, not assigned scientific passes.",
+  "first120_saved_assessment_summary": {
+    "reviewed": 56,
+    "selected": 42,
+    "held": 14,
+    "unassessed": 64
+  }
 }
