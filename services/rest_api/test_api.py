@@ -285,6 +285,28 @@ class ApiTests(unittest.TestCase):
             self.assertEqual(self.client.post("/run", headers=AUTH, json={"script": "inspect v1"}).status_code, 503)
             engine.assert_not_called()
 
+    def test_gateway_deadline_bounds_total_drip_response_and_closes_stream(self):
+        self.cfg.mode, self.cfg.upstream = "gateway", "https://worker.example"
+        closed = []
+        class Drip(httpx.AsyncByteStream):
+            async def __aiter__(self):
+                yield b'{'
+                await asyncio.sleep(10)
+                yield b'}'
+            async def aclose(self):
+                closed.append(True)
+        async def handle(request):
+            return httpx.Response(200, stream=Drip())
+        original_client, original_timeout = httpx.AsyncClient, asyncio.timeout
+        with patch.object(api.httpx, "AsyncClient", side_effect=lambda **kwargs:
+                original_client(transport=httpx.MockTransport(handle), **kwargs)), \
+             patch.object(api.asyncio, "timeout", side_effect=lambda seconds:
+                original_timeout(.01 if seconds == 40 else seconds)):
+            with self.assertRaises(HTTPException) as error:
+                asyncio.run(api.forward(self.cfg, TOKEN, "inspect v1"))
+        self.assertEqual(error.exception.status_code, 502)
+        self.assertTrue(closed)
+
     def test_gateway_passes_token_only_to_fixed_destination_and_refuses_redirects(self):
         self.cfg.mode, self.cfg.upstream = "gateway", "https://worker.example"
         seen = []

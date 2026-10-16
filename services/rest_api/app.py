@@ -575,21 +575,22 @@ async def run_microvm_engine(cfg: Settings, script: str):
 
 async def forward(cfg: Settings, token: str, script: str):
     try:
-        async with httpx.AsyncClient(timeout=40, follow_redirects=False, trust_env=False) as client:
-            async with client.stream("POST", cfg.upstream + "/run", json={"script": script},
-                    headers={"Authorization": "Bearer " + token}) as response:
-                data = bytearray()
-                async for chunk in response.aiter_bytes():
-                    if len(data) + len(chunk) > OUTPUT_LIMIT * 2:
+        async with asyncio.timeout(40):
+            async with httpx.AsyncClient(timeout=40, follow_redirects=False, trust_env=False) as client:
+                async with client.stream("POST", cfg.upstream + "/run", json={"script": script},
+                        headers={"Authorization": "Bearer " + token}) as response:
+                    data = bytearray()
+                    async for chunk in response.aiter_bytes():
+                        if len(data) + len(chunk) > OUTPUT_LIMIT * 2:
+                            raise ValueError
+                        data.extend(chunk)
+                    if response.status_code in (401, 403, 422, 429, 503):
+                        raise HTTPException(response.status_code, "Execution worker declined the request",
+                            headers={"Retry-After": "30"} if response.status_code in (429, 503) else None)
+                    if response.status_code != 200:
                         raise ValueError
-                    data.extend(chunk)
-                if response.status_code in (401, 403, 422, 429, 503):
-                    raise HTTPException(response.status_code, "Execution worker declined the request",
-                        headers={"Retry-After": "30"} if response.status_code in (429, 503) else None)
-                if response.status_code != 200:
-                    raise ValueError
-                return RunOutput.model_validate_json(data).model_dump()
-    except (httpx.HTTPError, ValueError, ValidationError):
+                    return RunOutput.model_validate_json(data).model_dump()
+    except (TimeoutError, httpx.HTTPError, ValueError, ValidationError):
         raise HTTPException(502, "Execution worker unavailable or returned an invalid response") from None
 
 
