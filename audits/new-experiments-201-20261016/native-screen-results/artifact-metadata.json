@@ -1,0 +1,20 @@
+{
+  "id": 12034345557,
+  "node_id": "MDg6QXJ0aWZhY3QxMjAzNDM0NTU1Nw==",
+  "name": "new201-native-38871207777",
+  "size_in_bytes": 1499659,
+  "url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/artifacts/12034345557",
+  "archive_download_url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/artifacts/12034345557/zip",
+  "expired": false,
+  "digest": "sha256:7e3102c8ba72746974b0595de3f525041064e1641d55b2bcc11f546646a2f3f3",
+  "created_at": "2026-10-16T08:11:35Z",
+  "updated_at": "2026-10-16T08:11:35Z",
+  "expires_at": "2027-01-14T08:04:00Z",
+  "workflow_run": {
+    "id": 38871207777,
+    "repository_id": 1338831929,
+    "head_repository_id": 1338831929,
+    "head_branch": "validation/new201-native-screen-20261016",
+    "head_sha": "ca343c25176809989e02106b7195758a19036d2f"
+  }
+}

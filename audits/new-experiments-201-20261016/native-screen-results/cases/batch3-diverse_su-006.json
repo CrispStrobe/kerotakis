@@ -1,0 +1,482 @@
+{
+  "id": "batch3-diverse:su-006",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "cfb3e5fb2c81a4a7ea7243540a26f3ddcadf462098c6574f2266b495ea0489c0",
+  "original_script_sha256": "cfb3e5fb2c81a4a7ea7243540a26f3ddcadf462098c6574f2266b495ea0489c0",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "The selected doped-silicon grade can have a different electrical descriptor from intrinsic silicon while retaining similar bulk density. A density-only assay cannot establish electronic purity.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Can intrinsic and doped silicon share a bulk-material appearance but differ in electrical descriptors?",
+      "review_instruction": "The selected doped-silicon grade can have a different electrical descriptor from intrinsic silicon while retaining similar bulk density. A density-only assay cannot establish electronic purity.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v1: intrinsic silicon; v3: metallic comparison",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:su-006",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11676852200000098,
+    "script_sha256": "cfb3e5fb2c81a4a7ea7243540a26f3ddcadf462098c6574f2266b495ea0489c0",
+    "stdout_sha256": "68897a6618bfc221e9e23a6bb6fc224c1ec36322c385f6edd7ffb56e6ec0d5dd",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 13,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "silicon",
+      "op": "add_material",
+      "recipe_id": "electronics/intrinsic-silicon",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 1.0,
+      "vessel": 0
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "doped_silicon",
+      "op": "add_material",
+      "recipe_id": "electronics/doped-silicon",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 1.0,
+      "vessel": 1
+    },
+    {
+      "moles": 0.015736631731344222,
+      "op": "add",
+      "species": "Cu",
+      "vessel": 2
+    },
+    {
+      "instrument": "conductivity_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "conductivity_meter",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "conductivity_meter",
+      "op": "measure",
+      "vessel": 2
+    },
+    {
+      "instrument": "densitometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "densitometer",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 2,
+    "material_added": 2,
+    "added": 1,
+    "measured": 5,
+    "observed": 2
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 12,
+      "output_sequence": 12,
+      "step": 12,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0,
+        "free_proton": 0.0,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 1.0,
+            "basis": "mass_fraction",
+            "material": "silicon",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "electronics/intrinsic-silicon",
+            "recipe_version": 1
+          }
+        ]
+      }
+    },
+    {
+      "observation_index": 12,
+      "output_sequence": 12,
+      "step": 12,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0,
+        "free_proton": 0.0,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 1.0,
+            "basis": "mass_fraction",
+            "material": "doped_silicon",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "electronics/doped-silicon",
+            "recipe_version": 1
+          }
+        ]
+      }
+    },
+    {
+      "observation_index": 12,
+      "output_sequence": 12,
+      "step": 12,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 0.015736631731344222,
+            "phase": "solid",
+            "species": "Cu"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0,
+        "free_proton": 0.0,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 2,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 0.015736631731344222,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "Cu",
+            "suspended_fraction": 0.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 5,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "unit": "S/m",
+        "value": 0.0004347826086956522,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 6,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "unit": "S/m",
+        "value": 100.0,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 7,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 2
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "unit": "S/m",
+        "value": 59594755.661501795,
+        "vessel": 2
+      }
+    },
+    {
+      "observation_index": 8,
+      "operator": {
+        "instrument": "densitometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "densitometer",
+        "unit": "g/mL",
+        "value": 2.33,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 9,
+      "operator": {
+        "instrument": "densitometer",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "densitometer",
+        "unit": "g/mL",
+        "value": 2.33,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 10,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "a piece of {what} is in the beaker",
+              "key": "look.piece-here",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{colour} {name}",
+                        "key": "look.coloured",
+                        "slots": [
+                          [
+                            "colour",
+                            {
+                              "term": {
+                                "en": "grey",
+                                "section": "appearance"
+                              }
+                            }
+                          ],
+                          [
+                            "name",
+                            {
+                              "term": {
+                                "en": "intrinsic silicon",
+                                "section": "material"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": null,
+          "words": "A piece of grey intrinsic silicon is in the beaker."
+        },
+        "event": "observed",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "a piece of {what} is in the beaker",
+              "key": "look.piece-here",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{colour} {name}",
+                        "key": "look.coloured",
+                        "slots": [
+                          [
+                            "colour",
+                            {
+                              "term": {
+                                "en": "grey",
+                                "section": "appearance"
+                              }
+                            }
+                          ],
+                          [
+                            "name",
+                            {
+                              "term": {
+                                "en": "doped silicon",
+                                "section": "material"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": null,
+          "words": "A piece of grey doped silicon is in the beaker."
+        },
+        "event": "observed",
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

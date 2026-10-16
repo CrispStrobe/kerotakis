@@ -1,0 +1,1198 @@
+{
+  "id": "batch2:ab-029",
+  "before_observation_index": 5,
+  "failure_observation_index": 6,
+  "before": {
+    "bench": {
+      "vessels": [
+        {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 1.3205626906821246e-05,
+              "phase": "aqueous",
+              "species": "Mg+2"
+            },
+            {
+              "moles": 0.001986794373093,
+              "phase": "solid",
+              "species": "Mg(OH)2"
+            },
+            {
+              "moles": 5.534276991396059,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 2.641125381399982e-05,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 2.5382005404967627e-05,
+          "free_proton": 4.096130781432941e-12,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.534276991396059,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.0019851183127572018,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "Mg(OH)2",
+              "suspended_fraction": 1.0
+            },
+            {
+              "added_at": 0.0,
+              "moles": 1.4881687242798353e-05,
+              "particle_size_um": null,
+              "phase": "aqueous",
+              "source": "reagent bottle",
+              "species": "Mg(OH)2",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 2.6411253813642492e-05,
+          "solution": {
+            "ionic_strength": 0.0003767139398895,
+            "pe": null,
+            "ph": 10.39568327534,
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset",
+              "routing_phrase": {
+                "en": "the default inorganic aqueous dataset",
+                "key": "routing.default-inorganic"
+              }
+            },
+            "redox": [],
+            "solvent_kg": 0.0997,
+            "species": [
+              {
+                "activity": 1.0,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.0002677,
+                "molality": 0.0002677,
+                "name": "O2"
+              },
+              {
+                "activity": 0.000249,
+                "molality": 0.0002546,
+                "name": "OH-"
+              },
+              {
+                "activity": 0.0001119,
+                "molality": 0.0001221,
+                "name": "Mg+2"
+              },
+              {
+                "activity": 1.01e-05,
+                "molality": 1.032e-05,
+                "name": "MgOH+"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 1.3205626906821246e-05,
+              "phase": "aqueous",
+              "species": "Mg+2"
+            },
+            {
+              "moles": 0.001986794373093,
+              "phase": "solid",
+              "species": "Mg(OH)2"
+            },
+            {
+              "moles": 5.534276991396059,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 2.641125381399982e-05,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 2.5382005404967627e-05,
+          "free_proton": 4.096130781432941e-12,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 1,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.534276991396059,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.0019851183127572018,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "Mg(OH)2",
+              "suspended_fraction": 1.0
+            },
+            {
+              "added_at": 0.0,
+              "moles": 1.4881687242798353e-05,
+              "particle_size_um": null,
+              "phase": "aqueous",
+              "source": "reagent bottle",
+              "species": "Mg(OH)2",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 2.6411253813642492e-05,
+          "solution": {
+            "ionic_strength": 0.0003767139398895,
+            "pe": null,
+            "ph": 10.39568327534,
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset",
+              "routing_phrase": {
+                "en": "the default inorganic aqueous dataset",
+                "key": "routing.default-inorganic"
+              }
+            },
+            "redox": [],
+            "solvent_kg": 0.0997,
+            "species": [
+              {
+                "activity": 1.0,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.0002677,
+                "molality": 0.0002677,
+                "name": "O2"
+              },
+              {
+                "activity": 0.000249,
+                "molality": 0.0002546,
+                "name": "OH-"
+              },
+              {
+                "activity": 0.0001119,
+                "molality": 0.0001221,
+                "name": "Mg+2"
+              },
+              {
+                "activity": 1.01e-05,
+                "molality": 1.032e-05,
+                "name": "MgOH+"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 2,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ]
+    },
+    "events": [
+      {
+        "event": "vessel_created",
+        "vessel": 2
+      }
+    ],
+    "operator": {
+      "op": "new_vessel"
+    },
+    "output_sequence": 5,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 10.39568327534
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 0.0003767139398895
+            }
+          ],
+          "boiling_point_k": 373.1503359140978,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and cloudy",
+                        "key": "look.clarity-cloudy"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.1
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.3973588746186,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.1
+          },
+          "mass_g": 99.81663998679437,
+          "melting_point_k": 273.148782560187,
+          "pressure_pa": 101325.0,
+          "solids": [
+            {
+              "colour_word": "white",
+              "metallic": false,
+              "moles": 0.001986794373093,
+              "name": "magnesium hydroxide",
+              "represented_by_bulk_object": false,
+              "settled_fraction": 0.0,
+              "species": "Mg(OH)2",
+              "srgb": [
+                245,
+                245,
+                245
+              ],
+              "volume_l": 4.951702899093324e-05
+            }
+          ],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and cloudy."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 10.39568327534
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 0.0003767139398895
+            }
+          ],
+          "boiling_point_k": 373.1503359140978,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and cloudy",
+                        "key": "look.clarity-cloudy"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 1,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.1
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.3973588746186,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.1
+          },
+          "mass_g": 99.81663998679437,
+          "melting_point_k": 273.148782560187,
+          "pressure_pa": 101325.0,
+          "solids": [
+            {
+              "colour_word": "white",
+              "metallic": false,
+              "moles": 0.001986794373093,
+              "name": "magnesium hydroxide",
+              "represented_by_bulk_object": false,
+              "settled_fraction": 0.0,
+              "species": "Mg(OH)2",
+              "srgb": [
+                245,
+                245,
+                245
+              ],
+              "volume_l": 4.951702899093324e-05
+            }
+          ],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and cloudy."
+        },
+        {
+          "badges": [],
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the beaker is empty",
+              "key": "look.empty"
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 2,
+          "label": "beaker",
+          "liquid": null,
+          "mass_g": 0.0,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The beaker is empty."
+        }
+      ]
+    },
+    "step": 5
+  },
+  "after": {
+    "bench": {
+      "vessels": [
+        {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 1.3205626906821246e-05,
+              "phase": "aqueous",
+              "species": "Mg+2"
+            },
+            {
+              "moles": 0.001986794373093,
+              "phase": "solid",
+              "species": "Mg(OH)2"
+            },
+            {
+              "moles": 5.534276991396059,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 2.641125381399982e-05,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 2.5382005404967627e-05,
+          "free_proton": 4.096130781432941e-12,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.534276991396059,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.0019851183127572018,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "Mg(OH)2",
+              "suspended_fraction": 1.0
+            },
+            {
+              "added_at": 0.0,
+              "moles": 1.4881687242798353e-05,
+              "particle_size_um": null,
+              "phase": "aqueous",
+              "source": "reagent bottle",
+              "species": "Mg(OH)2",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 2.6411253813642492e-05,
+          "solution": {
+            "ionic_strength": 0.0003767139398895,
+            "pe": null,
+            "ph": 10.39568327534,
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset",
+              "routing_phrase": {
+                "en": "the default inorganic aqueous dataset",
+                "key": "routing.default-inorganic"
+              }
+            },
+            "redox": [],
+            "solvent_kg": 0.0997,
+            "species": [
+              {
+                "activity": 1.0,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.0002677,
+                "molality": 0.0002677,
+                "name": "O2"
+              },
+              {
+                "activity": 0.000249,
+                "molality": 0.0002546,
+                "name": "OH-"
+              },
+              {
+                "activity": 0.0001119,
+                "molality": 0.0001221,
+                "name": "Mg+2"
+              },
+              {
+                "activity": 1.01e-05,
+                "molality": 1.032e-05,
+                "name": "MgOH+"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 0.001986794373093,
+              "phase": "solid",
+              "species": "Mg(OH)2"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 2.5382005404967627e-05,
+          "free_proton": 4.096130781432941e-12,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 1,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.534276991396059,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.0019851183127572018,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "Mg(OH)2",
+              "suspended_fraction": 1.0
+            },
+            {
+              "added_at": 0.0,
+              "moles": 1.4881687242798353e-05,
+              "particle_size_um": null,
+              "phase": "aqueous",
+              "source": "reagent bottle",
+              "species": "Mg(OH)2",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 2.6411253813642492e-05,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 1.3205626906821246e-05,
+              "phase": "aqueous",
+              "species": "Mg+2"
+            },
+            {
+              "moles": 5.534276991396059,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 2.641125381399982e-05,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 2,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ]
+    },
+    "events": [
+      {
+        "event": "filtered",
+        "from": 1,
+        "to": 2
+      },
+      {
+        "detail": "phreeqc-aqueous could not solve this state: coupled aqueous temperature did not converge within 64 passes (last residual 3.402842e-3 K)",
+        "event": "solver_failed",
+        "solver": "phreeqc-aqueous",
+        "vessel": 2
+      }
+    ],
+    "operator": {
+      "from": 1,
+      "op": "filter",
+      "to": 2
+    },
+    "output_sequence": 6,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 10.39568327534
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 0.0003767139398895
+            }
+          ],
+          "boiling_point_k": 373.1503359140978,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and cloudy",
+                        "key": "look.clarity-cloudy"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.1
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.3973588746186,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.1
+          },
+          "mass_g": 99.81663998679437,
+          "melting_point_k": 273.148782560187,
+          "pressure_pa": 101325.0,
+          "solids": [
+            {
+              "colour_word": "white",
+              "metallic": false,
+              "moles": 0.001986794373093,
+              "name": "magnesium hydroxide",
+              "represented_by_bulk_object": false,
+              "settled_fraction": 0.0,
+              "species": "Mg(OH)2",
+              "srgb": [
+                245,
+                245,
+                245
+              ],
+              "volume_l": 4.951702899093324e-05
+            }
+          ],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and cloudy."
+        },
+        {
+          "badges": [],
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "there is {what} in the beaker",
+              "key": "look.deposit-dry",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "white",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "magnesium hydroxide",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 1,
+          "label": "beaker",
+          "liquid": null,
+          "mass_g": 0.11586984783878376,
+          "pressure_pa": 101325.0,
+          "solids": [
+            {
+              "colour_word": "white",
+              "metallic": false,
+              "moles": 0.001986794373093,
+              "name": "magnesium hydroxide",
+              "represented_by_bulk_object": false,
+              "settled_fraction": 0.0,
+              "species": "Mg(OH)2",
+              "srgb": [
+                245,
+                245,
+                245
+              ],
+              "volume_l": 4.951702899093324e-05
+            }
+          ],
+          "temperature_k": 298.15,
+          "words": "There is white magnesium hydroxide in the beaker."
+        },
+        {
+          "badges": [],
+          "boiling_point_k": 373.15,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 2,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.1
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.1
+          },
+          "mass_g": 99.70077013895559,
+          "melting_point_k": 273.15,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear."
+        }
+      ]
+    },
+    "step": 6
+  }
+}

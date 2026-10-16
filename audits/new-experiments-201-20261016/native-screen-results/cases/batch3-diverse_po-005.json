@@ -1,0 +1,544 @@
+{
+  "id": "batch3-diverse:po-005",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "3cbf5bf3712b1c826d42df6d6b657d4c8dd569d7bd1b45e94944bd98de46b50a",
+  "original_script_sha256": "3cbf5bf3712b1c826d42df6d6b657d4c8dd569d7bd1b45e94944bd98de46b50a",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "The PE-based article can cross its declared softening threshold and return to a rigid state on cooling. The cured network should not be labelled melt-processable merely because it is warm.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Can both plastic families be softened into a remouldable state by heating and cooling?",
+      "review_instruction": "The PE-based article can cross its declared softening threshold and return to a rigid state on cooling. The cured network should not be labelled melt-processable merely because it is warm.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: cross-linked thermoset",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:po-005",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.1165976540000031,
+    "script_sha256": "3cbf5bf3712b1c826d42df6d6b657d4c8dd569d7bd1b45e94944bd98de46b50a",
+    "stdout_sha256": "2315b693b1c94c16be7fd9dbb015f7954c6a4e68f0550495364681a250da8b6f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 14,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "at": 293.15,
+      "basis": "mass_fraction",
+      "material": "thermoplastic",
+      "op": "add_material",
+      "recipe_id": "polymer/thermoplastic-sheet",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 5.0,
+      "vessel": 0
+    },
+    {
+      "at": 293.15,
+      "basis": "mass_fraction",
+      "material": "thermoset_resin",
+      "op": "add_material",
+      "recipe_id": "polymer/thermoset-resin",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 5.0,
+      "vessel": 1
+    },
+    {
+      "energy": 1300.0,
+      "op": "heat",
+      "vessel": 0
+    },
+    {
+      "energy": 1300.0,
+      "op": "heat",
+      "vessel": 1
+    },
+    {
+      "instrument": "thermometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "thermometer",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "energy": 1300.0,
+      "op": "cool",
+      "vessel": 0
+    },
+    {
+      "energy": 1300.0,
+      "op": "cool",
+      "vessel": 1
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 1,
+    "temperature_changed": 6,
+    "material_added": 2,
+    "polymer_heated": 6,
+    "energy_transferred": 4,
+    "measured": 2,
+    "observed": 4
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 13,
+      "output_sequence": 13,
+      "step": 13,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 0.17822770371426536,
+            "phase": "solid",
+            "species": "PE"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0,
+        "free_proton": 0.0,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 0.17822770371426536,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "material recipe polymer/thermoplastic-sheet",
+            "species": "PE",
+            "suspended_fraction": 0.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 293.15,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 13,
+      "output_sequence": 13,
+      "step": 13,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0,
+        "free_proton": 0.0,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 293.15,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 5.0,
+            "basis": "mass_fraction",
+            "material": "thermoset_resin",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "polymer/thermoset-resin",
+            "recipe_version": 1
+          }
+        ]
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 5,
+      "operator": {
+        "instrument": "thermometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 163.02039215686273,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 6,
+      "operator": {
+        "instrument": "thermometer",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 193.33333333333337,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 7,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "there is {what} in the beaker",
+              "key": "look.deposit-dry",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "white",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "polyethylene (HDPE)",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": [
+            "polyethylene (HDPE)",
+            {
+              "b": 232,
+              "g": 237,
+              "r": 240,
+              "strength": 0.0
+            }
+          ],
+          "liquid": null,
+          "words": "There is white polyethylene (HDPE) in the beaker."
+        },
+        "event": "observed",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 8,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "a piece of {what} is in the beaker",
+              "key": "look.piece-here",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{colour} {name}",
+                        "key": "look.coloured",
+                        "slots": [
+                          [
+                            "colour",
+                            {
+                              "term": {
+                                "en": "off-white",
+                                "section": "appearance"
+                              }
+                            }
+                          ],
+                          [
+                            "name",
+                            {
+                              "term": {
+                                "en": "cured thermoset resin",
+                                "section": "material"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": null,
+          "words": "A piece of off-white cured thermoset resin is in the beaker."
+        },
+        "event": "observed",
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "there is {what} in the beaker",
+              "key": "look.deposit-dry",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "white",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "polyethylene (HDPE)",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": [
+            "polyethylene (HDPE)",
+            {
+              "b": 232,
+              "g": 237,
+              "r": 240,
+              "strength": 0.0
+            }
+          ],
+          "liquid": null,
+          "words": "There is white polyethylene (HDPE) in the beaker."
+        },
+        "event": "observed",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 12,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "a piece of {what} is in the beaker",
+              "key": "look.piece-here",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{colour} {name}",
+                        "key": "look.coloured",
+                        "slots": [
+                          [
+                            "colour",
+                            {
+                              "term": {
+                                "en": "off-white",
+                                "section": "appearance"
+                              }
+                            }
+                          ],
+                          [
+                            "name",
+                            {
+                              "term": {
+                                "en": "cured thermoset resin",
+                                "section": "material"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": null,
+          "words": "A piece of off-white cured thermoset resin is in the beaker."
+        },
+        "event": "observed",
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

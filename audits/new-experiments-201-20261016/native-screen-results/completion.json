@@ -1,0 +1,11 @@
+{
+  "completed_utc": "2026-10-16T08:11:33.797540+00:00",
+  "attempts": 201,
+  "counts": {
+    "zero_exit": 198,
+    "nonzero_exit": 3
+  },
+  "stdout_parse_errors": 0,
+  "physical_verdict": "not_assigned",
+  "retries": 0
+}

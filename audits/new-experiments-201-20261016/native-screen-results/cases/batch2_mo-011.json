@@ -1,0 +1,379 @@
+{
+  "id": "batch2:mo-011",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "a59e4c385cefbeec54a06cb3c813d8c3846a2bd03722cbfcd8d3ea9f84899541",
+  "original_script_sha256": "a59e4c385cefbeec54a06cb3c813d8c3846a2bd03722cbfcd8d3ea9f84899541",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "If the chromatograph recognises the relevant molecular pools, ester features should decrease and ethanol features increase as additional hydroxide permits further hydrolysis.",
+  "original_acceptance_checks": [
+    {
+      "id": "MO-011-C1",
+      "criterion": "Relate peak identities to independently reported species inventories after each stage.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "MO-011-C2",
+      "criterion": "Do not compare raw areas as stoichiometric mole ratios unless response factors are provided; ionic acetate need not produce a comparable volatile peak.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:mo-011",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11685908799998401,
+    "script_sha256": "a59e4c385cefbeec54a06cb3c813d8c3846a2bd03722cbfcd8d3ea9f84899541",
+    "stdout_sha256": "a0d18b464ec1b24c5480aa5adf5290461dab07ddae241a63763faeef95fb971f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 12,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "ethyl_acetate",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0005,
+      "op": "add",
+      "species": "NaOH",
+      "vessel": 0
+    },
+    {
+      "instrument": "chromatograph",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "op": "react",
+      "reaction": "saponification",
+      "vessel": 0
+    },
+    {
+      "instrument": "chromatograph",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "moles": 0.0005,
+      "op": "add",
+      "species": "NaOH",
+      "vessel": 0
+    },
+    {
+      "op": "react",
+      "reaction": "saponification",
+      "vessel": 0
+    },
+    {
+      "instrument": "chromatograph",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 4,
+    "solution_routed": 2,
+    "dissolved": 2,
+    "solution_characterized": 4,
+    "temperature_changed": 3,
+    "not_yet_modeled": 5
+  },
+  "named_model_limits": {
+    "not-modeled.no-group-decomposition": {
+      "first_observation_index": 3,
+      "first_operator": {
+        "instrument": "chromatograph",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "not-parameterised",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "the column has no curated group decomposition for {species} — a real column would separate these, so this is a gap in the model rather than a result",
+          "key": "not-modeled.no-group-decomposition",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "text": {
+                        "text": "base_equivalents"
+                      }
+                    },
+                    {
+                      "text": {
+                        "text": "ethyl_acetate"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "the column has no curated group decomposition for base_equivalents and ethyl_acetate — a real column would separate these, so this is a gap in the model rather than a result"
+      },
+      "occurrences": 3
+    },
+    "not-modeled.no-limiting-reactant": {
+      "first_observation_index": 5,
+      "first_operator": {
+        "op": "react",
+        "reaction": "saponification",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "nothing-to-act-on",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "No to-completion conversion for {reaction}: a limiting reactant is absent, depleted, or its capacity is within the 1e-12 mol no-conversion tolerance",
+          "key": "not-modeled.no-limiting-reactant",
+          "slots": [
+            [
+              "reaction",
+              {
+                "text": {
+                  "text": "saponification"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "No to-completion conversion for saponification: a limiting reactant is absent, depleted, or its capacity is within the 1e-12 mol no-conversion tolerance"
+      },
+      "occurrences": 2
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 11,
+      "output_sequence": 11,
+      "step": 9,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "liquid",
+            "species": "ethyl_acetate"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 5.534276991396058,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0009999999999999992,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.001000000000121391,
+        "free_proton": 1.2202330617996158e-13,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "ethyl_acetate",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "NaOH",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "NaOH",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.001,
+        "solution": {
+          "ionic_strength": 0.01003009027203,
+          "pe": null,
+          "ph": 11.95166943513,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.0997,
+          "species": [
+            {
+              "activity": 0.9997,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.009026,
+              "molality": 0.01003,
+              "name": "OH-"
+            },
+            {
+              "activity": 0.009055,
+              "molality": 0.01003,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0002672,
+              "molality": 0.0002666,
+              "name": "O2"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.2566694901976,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

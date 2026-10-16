@@ -1,0 +1,51 @@
+{
+  "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+  "source_parents": [
+    "f1592a963a477f29a76728c102406ad1ffbee6d8",
+    "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2"
+  ],
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "producer_run": 38868092504,
+  "producer_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38868092504",
+  "producer_success": true,
+  "producer_run_attempt": 1,
+  "artifact": {
+    "id": 12033256299,
+    "name": "rest-native-38868092504",
+    "digest": "sha256:14abc84c3b0f4ec6647582c4ed951ec77ef82c7a16b4d4aae29cc6bc6152dc9c",
+    "size_in_bytes": 9251731,
+    "expired": false
+  },
+  "archive_sha256": "14abc84c3b0f4ec6647582c4ed951ec77ef82c7a16b4d4aae29cc6bc6152dc9c",
+  "binary_and_all_libraries_rehashed": true,
+  "producer_lock_binding": {
+    "raw_lock_bytes_uploaded": false,
+    "independently_rehashed_build_lock": false,
+    "qualification": "Producer-reported lock hash bound through native manifest, snapshot and live health; raw build Cargo.lock absent from artifact."
+  },
+  "snapshot": {
+    "receipt_sha256": "b9442ddbf0644897a26cc770d8ab4d07ceec559160e70746613b2d8cca385b97",
+    "snapshot_identifier_sha256": "c4f35072bd07ffa946ca6e7bf446f029fba9e92da11562a5eac3143507654e87",
+    "engine_matches": true,
+    "network": "deny-all",
+    "vcpus": 1,
+    "memory_mib": 2048,
+    "smoke_completed_code0": true,
+    "smoke_stdout_sha256": "7d48853908b7c8e638f81adbaff0a7457c16996ea4b57cb049d7b473c78b6265",
+    "runtime_source_hashes_match": true
+  },
+  "isolation": {
+    "receipt_sha256": "d87c774e274a4ed03734f4cd1abc0e85908a67641c75d6cc23ce284287615d54",
+    "same_snapshot": true,
+    "controls_pass": true,
+    "completed_code0": true,
+    "probe_source_sha256": "0e101c7f0d9d47cc2df5e2706227ff8aaf1e043cbae8c06f93ee54ea44103694",
+    "scope": "Actual producer probe, not local execution; cleanup source/context completion does not independently prove VM deletion."
+  },
+  "alias": "https://kerotakis-web-payload.vercel.app"
+}

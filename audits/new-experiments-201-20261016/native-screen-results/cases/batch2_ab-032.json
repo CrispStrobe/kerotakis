@@ -1,0 +1,999 @@
+{
+  "id": "batch2:ab-032",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "7f7d23537b5c2b8e4fc01663eeb6db503c095ffd92ac6c5514b5d246d892fcc4",
+  "original_script_sha256": "7f7d23537b5c2b8e4fc01663eeb6db503c095ffd92ac6c5514b5d246d892fcc4",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Methyl orange changes in an acidic region and cannot uniquely mark acetic-acid equivalence. Phenolphthalein is responsive in the alkaline region near this titration endpoint.",
+  "original_acceptance_checks": [
+    {
+      "id": "AB-032-C1",
+      "criterion": "Relate each colour to the simultaneous pH rather than to the same fractional dose.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "AB-032-C2",
+      "criterion": "Indicator inventories remain trace compared with the acid/base pool.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:ab-032",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.46852430600000616,
+    "script_sha256": "7f7d23537b5c2b8e4fc01663eeb6db503c095ffd92ac6c5514b5d246d892fcc4",
+    "stdout_sha256": "3e2edfbe95908fbbec3be95f51ff85e57d358d8d4943c0a8047dac6fc2693d0a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 20,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "CH3COOH",
+      "vessel": 0
+    },
+    {
+      "moles": 1e-07,
+      "op": "add",
+      "species": "methyl_orange",
+      "vessel": 0
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "CH3COOH",
+      "vessel": 1
+    },
+    {
+      "moles": 1e-07,
+      "op": "add",
+      "species": "phenolphthalein",
+      "vessel": 1
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0005,
+      "op": "add",
+      "species": "NaOH",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0005,
+      "op": "add",
+      "species": "NaOH",
+      "vessel": 1
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0005,
+      "op": "add",
+      "species": "NaOH",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0005,
+      "op": "add",
+      "species": "NaOH",
+      "vessel": 1
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 10,
+    "solution_routed": 4,
+    "solution_characterized": 8,
+    "not_yet_modeled": 3,
+    "vessel_created": 1,
+    "observed": 6,
+    "temperature_changed": 8,
+    "dissolved": 4,
+    "neutralised": 4,
+    "measured": 2
+  },
+  "named_model_limits": {
+    "not-modeled.no-component-mapping": {
+      "first_observation_index": 2,
+      "first_operator": {
+        "moles": 1e-07,
+        "op": "add",
+        "species": "methyl_orange",
+        "vessel": 0
+      },
+      "event": {
+        "beside_a_visible_change": true,
+        "cause": "not-speciated",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+          "key": "not-modeled.no-component-mapping",
+          "slots": [
+            [
+              "name",
+              {
+                "term": {
+                  "en": "methyl_orange",
+                  "section": "species"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "methyl_orange is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+      },
+      "occurrences": 3
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 19,
+      "output_sequence": 19,
+      "step": 19,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 1e-07,
+            "phase": "aqueous",
+            "species": "methyl_orange"
+          },
+          {
+            "moles": 2.4231236844387477e-07,
+            "phase": "aqueous",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.000999757687631556,
+            "phase": "aqueous",
+            "species": "CH3COO-"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 5.53527674908369,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 2.4231236844286796e-07,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 2.415350232196345e-07,
+        "free_proton": 5.197207548644945e-10,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "CH3COOH",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 1e-07,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "methyl_orange",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "NaOH",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "NaOH",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 2.4231236844395217e-07,
+        "solution": {
+          "ionic_strength": 0.009974608162113,
+          "pe": null,
+          "ph": 8.327753135212,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.099718011,
+          "species": [
+            {
+              "activity": 0.9997,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.008997,
+              "molality": 0.009975,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.008995,
+              "molality": 0.009972,
+              "name": "Acetate-"
+            },
+            {
+              "activity": 0.0002521,
+              "molality": 0.0002515,
+              "name": "O2"
+            },
+            {
+              "activity": 5.368e-05,
+              "molality": 5.368e-05,
+              "name": "Na(Acetate)"
+            },
+            {
+              "activity": 2.18e-06,
+              "molality": 2.422e-06,
+              "name": "OH-"
+            },
+            {
+              "activity": 2.417e-06,
+              "molality": 2.417e-06,
+              "name": "H(Acetate)"
+            },
+            {
+              "activity": 4.702e-09,
+              "molality": 5.213e-09,
+              "name": "H+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.3914527923081,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 19,
+      "output_sequence": 19,
+      "step": 19,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 1e-07,
+            "phase": "aqueous",
+            "species": "phenolphthalein"
+          },
+          {
+            "moles": 2.4231236844387477e-07,
+            "phase": "aqueous",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.000999757687631556,
+            "phase": "aqueous",
+            "species": "CH3COO-"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 5.53527674908369,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 2.4231236844286796e-07,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 2.415350232196345e-07,
+        "free_proton": 5.197207548644945e-10,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "CH3COOH",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 1e-07,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "phenolphthalein",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "NaOH",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "NaOH",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 2.4231236844395217e-07,
+        "solution": {
+          "ionic_strength": 0.009974608162113,
+          "pe": null,
+          "ph": 8.327753135212,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.099718011,
+          "species": [
+            {
+              "activity": 0.9997,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.008997,
+              "molality": 0.009975,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.008995,
+              "molality": 0.009972,
+              "name": "Acetate-"
+            },
+            {
+              "activity": 0.0002521,
+              "molality": 0.0002515,
+              "name": "O2"
+            },
+            {
+              "activity": 5.368e-05,
+              "molality": 5.368e-05,
+              "name": "Na(Acetate)"
+            },
+            {
+              "activity": 2.18e-06,
+              "molality": 2.422e-06,
+              "name": "OH-"
+            },
+            {
+              "activity": 2.417e-06,
+              "molality": 2.417e-06,
+              "name": "H(Acetate)"
+            },
+            {
+              "activity": 4.702e-09,
+              "molality": 5.213e-09,
+              "name": "H+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.3914527923081,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 7,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "orange",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 236,
+            "g": 241,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is orange and clear."
+        },
+        "event": "observed",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 8,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and clear."
+        },
+        "event": "observed",
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 4.726319461,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 12,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "orange",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 230,
+            "g": 244,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is orange and clear."
+        },
+        "event": "observed",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 13,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and clear."
+        },
+        "event": "observed",
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 16,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 8.327753135212,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 17,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "orange",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 229,
+            "g": 245,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is orange and clear."
+        },
+        "event": "observed",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 18,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 254,
+            "r": 254,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and clear."
+        },
+        "event": "observed",
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

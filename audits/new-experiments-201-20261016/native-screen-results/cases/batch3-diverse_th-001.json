@@ -1,0 +1,474 @@
+{
+  "id": "batch3-diverse:th-001",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "ece18440d1ea0e9f39488ac8b3861d555654a8f59498a4143e2048f0a1afc0bb",
+  "original_script_sha256": "ece18440d1ea0e9f39488ac8b3861d555654a8f59498a4143e2048f0a1afc0bb",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Any CO2 retained in water can participate in carbonate acid-base chemistry; nitrogen does not provide the same acid source. Equal cryogen masses do not imply equal cooling or equal dissolved-gas amounts.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Can cooling by CO2 and cooling by nitrogen be separated from any dissolved-gas chemistry?",
+      "review_instruction": "Any CO2 retained in water can participate in carbonate acid-base chemistry; nitrogen does not provide the same acid source. Equal cryogen masses do not imply equal cooling or equal dissolved-gas amounts.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:th-001",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11690899900000318,
+    "script_sha256": "ece18440d1ea0e9f39488ac8b3861d555654a8f59498a4143e2048f0a1afc0bb",
+    "stdout_sha256": "1553ae7816490a1e1c59d4be46ea7a3a093ecaf8ae0893187b3e99b5d7c534c7",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 13,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "at": 298.15,
+      "moles": 1.6602830974188176,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "at": 298.15,
+      "moles": 1.6602830974188176,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "at": 193.14999999999998,
+      "moles": 0.0022722624917630484,
+      "op": "add",
+      "species": "dry_ice",
+      "vessel": 0
+    },
+    {
+      "at": 77.14999999999998,
+      "moles": 0.003569643749553795,
+      "op": "add",
+      "species": "liquid_nitrogen",
+      "vessel": 1
+    },
+    {
+      "instrument": "thermometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "thermometer",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "wait",
+      "seconds": 120.0
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 1,
+    "added": 4,
+    "solution_routed": 2,
+    "temperature_changed": 6,
+    "state_changed": 2,
+    "gas_evolved": 2,
+    "hazard_warning": 1,
+    "measured": 6
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 12,
+      "output_sequence": 12,
+      "step": 12,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 1.6602830974188176,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "elapsed_seconds": 120.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 2.964718456408478e-09,
+        "free_proton": 2.964718456408478e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 1.6602830974188176,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0022722624917630484,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "dry_ice",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 9.912131248440247e-08,
+          "pe": null,
+          "ph": 7.003832956016983,
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "redox": [],
+          "scope": "solvent_only",
+          "solvent_kg": 0.02991,
+          "species": [
+            {
+              "activity": 9.912131248440247e-08,
+              "molality": 9.912131248440247e-08,
+              "name": "H+"
+            },
+            {
+              "activity": 9.912131248440247e-08,
+              "molality": 9.912131248440247e-08,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 297.76079518512455,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 12,
+      "output_sequence": 12,
+      "step": 12,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 1.6602830974188176,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "elapsed_seconds": 120.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 2.9936529543387422e-09,
+        "free_proton": 2.9936529543387422e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 1.6602830974188176,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.003569643749553795,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "liquid_nitrogen",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 1.0008869790500643e-07,
+          "pe": null,
+          "ph": 6.999614960628689,
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "redox": [],
+          "scope": "solvent_only",
+          "solvent_kg": 0.02991,
+          "species": [
+            {
+              "activity": 1.0008869790500643e-07,
+              "molality": 1.0008869790500643e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 1.0008869790500643e-07,
+              "molality": 1.0008869790500643e-07,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.0148606017005,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 5,
+      "operator": {
+        "instrument": "thermometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 24.540460876388806,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 6,
+      "operator": {
+        "instrument": "thermometer",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 24.840439439953798,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 7,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 7.005002556820977,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 8,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 7.000019931916758,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 10,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 7.003832956016983,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 6.999614960628689,
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

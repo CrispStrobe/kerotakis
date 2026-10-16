@@ -1,0 +1,66 @@
+{
+  "owner": "independent-model-agent",
+  "status": "unrepaired_saved-output_intake",
+  "source": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "run_id": 38871207777,
+  "artifact_id": 12034345557,
+  "archive_sha256": "7e3102c8ba72746974b0595de3f525041064e1641d55b2bcc11f546646a2f3f3",
+  "source_runtime_executed_locally": false,
+  "scientific_pass_assigned": false,
+  "id": "MODEL-008",
+  "title": "PHREEQC thermal fixed-point failure after hydroxide-suspension filtration",
+  "source_pins": [
+    {
+      "path": "crates/kerotakis-phreeqc/src/aqueous.rs",
+      "sha256": "eb75a5ddea5818a929d7e37468fddf320f9336ece01d1119ee7962db88b2785d"
+    },
+    {
+      "path": "crates/kerotakis-core/src/bench.rs",
+      "sha256": "44b3fa4190093c3dfa3d0a1ddd676dcaecabd997bbd6a9fc89b191402e282f80"
+    },
+    {
+      "path": "crates/kerotakis-core/src/solve.rs",
+      "sha256": "4f8b9786e8a04ae4d869ae56e9821225151ad068643fe71cac078409a81a82ad"
+    }
+  ],
+  "original_id": "batch2:ab-029",
+  "script_sha256": "cf7a5085df974af447178e328821b2ec41c883e27092929b790d25d670e12c9c",
+  "stdout_sha256": "369df51d9533ccea8a2d74b38c8899462a0758ea478f87d0f94ea14123196735",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_physical_forecast": "The suspension can replenish dissolved hydroxide by consuming solid Mg(OH)2. Its filtrate lacks that reserve and should acidify much more under the same acid dose.",
+  "witness_path": "audits/new-experiments-201-20261016/native-screen-results/diagnostics/MODEL-008-before-after.json",
+  "witness_sha256": "0530a1230bc142a6ff886ce6b9a7992c8c49e4c2713f0938be2641cd89e22b07",
+  "process_exit": 0,
+  "failure_events": [
+    {
+      "observation_index": 6,
+      "output_sequence": 6,
+      "operator": {
+        "from": 1,
+        "op": "filter",
+        "to": 2
+      },
+      "event": {
+        "detail": "phreeqc-aqueous could not solve this state: coupled aqueous temperature did not converge within 64 passes (last residual 3.402842e-3 K)",
+        "event": "solver_failed",
+        "solver": "phreeqc-aqueous",
+        "vessel": 2
+      }
+    }
+  ],
+  "classification": "zero_exit_contains_solver_failure_requires_separate_assessment",
+  "generic_limit": "An exit0 is not accepted chemistry. No new runtime, parameter change or calibration is assigned.",
+  "observed": "Filtering transfers aqueous Mg+2, water and analytical base into v3 while retaining solid Mg(OH)2 in v2. The target solve reaches 64 passes with residual 0.003402842 K and declines. The initial filtrate pH measurement emits ph-meter-has-no-solution; later HCl obtains pH 2.04993. Suspension pH changes from 10.39568 to 9.67121. The original capacity forecast remains unclosed.",
+  "rollback_scope": "Filtering itself remains committed. The failing aqueous trial does not visibly replace the transferred inventory. Combined pre/post H/O/Mg/charge residuals are zero and all vessel temperatures/excess-enthalpy fields are unchanged. Equal temperatures alone are not a complete energy-balance proof.",
+  "acceptance_lanes": [
+    "Diagnose exact postfilter aqueous thermal fixed point with owned basis/water/energy and source reference; preserve64pass failure.",
+    "Keep genuine nonconvergence honest and withhold stale pH. Verify successful physically supported readback or named unsupported scope; do not loosen tolerance/increase passes without convergence evidence.",
+    "Compare solids-containing suspension and finite filtrate, next acid dose, varied ordering, rollback of failed solver trial and native/Wasm parity."
+  ]
+}

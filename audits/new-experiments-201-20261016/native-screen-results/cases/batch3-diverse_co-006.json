@@ -1,0 +1,986 @@
+{
+  "id": "batch3-diverse:co-006",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "db76b99fa8d052880492587e34d3abc0762e0bc441cdee9fac97c3f6eec288e4",
+  "original_script_sha256": "db76b99fa8d052880492587e34d3abc0762e0bc441cdee9fac97c3f6eec288e4",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Foam can persist in the surfactant vessel even though the bicarbonate-limited gas yield is comparable. Its later collapse is not conversion of CO2 back into bicarbonate.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Can the same gas-forming reaction look larger solely because surfactant stabilises bubbles?",
+      "review_instruction": "Foam can persist in the surfactant vessel even though the bicarbonate-limited gas yield is comparable. Its later collapse is not conversion of CO2 back into bicarbonate.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: no foam stabilizer",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:co-006",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.2181937310000137,
+    "script_sha256": "db76b99fa8d052880492587e34d3abc0762e0bc441cdee9fac97c3f6eec288e4",
+    "stdout_sha256": "93807b7e37506c9a1d00c3ae16f1dae39071eabab316ec950d03f583a8e5ff5c",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 15,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "NaHCO3",
+      "vessel": 0
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "dish_soap",
+      "op": "add_material",
+      "recipe_id": "household/dish-soap-surrogate",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 0.5,
+      "vessel": 0
+    },
+    {
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "NaHCO3",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0004,
+      "op": "add",
+      "species": "citric_acid",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0004,
+      "op": "add",
+      "species": "citric_acid",
+      "vessel": 1
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "wait",
+      "seconds": 60.0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "wait",
+      "seconds": 240.0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 1,
+    "added": 6,
+    "solution_routed": 6,
+    "gas_evolved": 8,
+    "dissolved": 4,
+    "solution_characterized": 9,
+    "temperature_changed": 4,
+    "material_added": 1,
+    "foam_changed": 3,
+    "observed": 4,
+    "not_yet_modeled": 4
+  },
+  "named_model_limits": {
+    "not-modeled.family-declined-at-gate": {
+      "first_observation_index": 10,
+      "first_operator": {
+        "op": "wait",
+        "seconds": 60.0
+      },
+      "event": {
+        "cause": "model-boundary",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "{family} v{version} matched, but declined at {gate}: {why}. Waiting does not supply a missing reaction rate or satisfy the condition gate",
+          "key": "not-modeled.family-declined-at-gate",
+          "slots": [
+            [
+              "family",
+              {
+                "text": {
+                  "text": "fischer-esterification"
+                }
+              }
+            ],
+            [
+              "version",
+              {
+                "text": {
+                  "text": "1"
+                }
+              }
+            ],
+            [
+              "gate",
+              {
+                "text": {
+                  "text": "temperature_k"
+                }
+              }
+            ],
+            [
+              "why",
+              {
+                "term": {
+                  "en": "the vessel stands at 298.1 K and the family needs at least 333.1 K",
+                  "section": "family-gate"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "fischer-esterification v1 matched, but declined at temperature_k: the vessel stands at 298.1 K and the family needs at least 333.1 K. Waiting does not supply a missing reaction rate or satisfy the condition gate"
+      },
+      "occurrences": 4
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 14,
+      "output_sequence": 14,
+      "step": 14,
+      "state": {
+        "co2_partial_pressure_atm": 0.0003930375178736013,
+        "contents": [
+          {
+            "moles": 6.749819860919254e-07,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 4.418830957260613e-07,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 4.369970440706839e-11,
+            "phase": "aqueous",
+            "species": "CO3-2"
+          },
+          {
+            "moles": 0.00039999999876114383,
+            "phase": "aqueous",
+            "species": "C6H5O7-3"
+          },
+          {
+            "moles": 0.0010000000063017202,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 2.7903417728893922,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.00020044198627993445,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 300.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.004998333852910892,
+          "trapped_gas_liters": 0.0014169409632337144,
+          "volume_liters": 0.0015743788480374603
+        },
+        "free_hydroxide": 7.532180318150375e-10,
+        "free_proton": 4.7770477920476944e-08,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "NaHCO3",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.022203719122953096,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "material recipe household/dish-soap-surrogate",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0004,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "citric_acid",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.00020044196047684605,
+        "solution": {
+          "ionic_strength": 0.03476895222016,
+          "pe": null,
+          "ph": 6.096958000971,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.050268007,
+          "species": [
+            {
+              "activity": 0.9995,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.01642,
+              "molality": 0.01951,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.00157,
+              "molality": 0.00377,
+              "name": "H(Citrate)-2"
+            },
+            {
+              "activity": 0.0007889,
+              "molality": 0.003719,
+              "name": "Citrate-3"
+            },
+            {
+              "activity": 0.0001388,
+              "molality": 0.0003333,
+              "name": "Na(Citrate)-2"
+            },
+            {
+              "activity": 0.000262,
+              "molality": 0.0002599,
+              "name": "O2"
+            },
+            {
+              "activity": 7.245e-05,
+              "molality": 9.019e-05,
+              "name": "H2(Citrate)-"
+            },
+            {
+              "activity": 2.921e-05,
+              "molality": 3.637e-05,
+              "name": "NaH(Citrate)-"
+            },
+            {
+              "activity": 1.339e-05,
+              "molality": 1.339e-05,
+              "name": "H2CO3"
+            },
+            {
+              "activity": 7.434e-06,
+              "molality": 8.763e-06,
+              "name": "HCO3-"
+            },
+            {
+              "activity": 6.73e-06,
+              "molality": 8.377e-06,
+              "name": "Na2(Citrate)-"
+            },
+            {
+              "activity": 7.999e-07,
+              "molality": 9.503e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 7.786e-08,
+              "molality": 7.786e-08,
+              "name": "H3(Citrate)"
+            },
+            {
+              "activity": 6.873e-08,
+              "molality": 6.873e-08,
+              "name": "NaHCO3"
+            },
+            {
+              "activity": 1.251e-08,
+              "molality": 1.498e-08,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.07602046005996,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 0.09999999999999998,
+            "basis": "mass_fraction",
+            "material": "dish_soap",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "household/dish-soap-surrogate",
+            "recipe_version": 1
+          }
+        ]
+      }
+    },
+    {
+      "observation_index": 14,
+      "output_sequence": 14,
+      "step": 14,
+      "state": {
+        "co2_partial_pressure_atm": 0.0003930328635516979,
+        "contents": [
+          {
+            "moles": 6.696283865142425e-07,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 4.378458119477532e-07,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 4.3294498796256354e-11,
+            "phase": "aqueous",
+            "species": "CO3-2"
+          },
+          {
+            "moles": 0.0004000000020382962,
+            "phase": "aqueous",
+            "species": "C6H5O7-3"
+          },
+          {
+            "moles": 0.0010000000050964884,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 2.7681380577782493,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0002004379835576866,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 300.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 7.463676497469786e-10,
+        "free_proton": 4.7494968249822686e-08,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "NaHCO3",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0004,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "citric_acid",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.00020043793341934565,
+        "solution": {
+          "ionic_strength": 0.03504139900138,
+          "pe": null,
+          "ph": 6.096222575874,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.049868007,
+          "species": [
+            {
+              "activity": 0.9995,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.01654,
+              "molality": 0.01966,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.001577,
+              "molality": 0.0038,
+              "name": "H(Citrate)-2"
+            },
+            {
+              "activity": 0.0007912,
+              "molality": 0.003747,
+              "name": "Citrate-3"
+            },
+            {
+              "activity": 0.0001403,
+              "molality": 0.0003379,
+              "name": "Na(Citrate)-2"
+            },
+            {
+              "activity": 0.000262,
+              "molality": 0.0002599,
+              "name": "O2"
+            },
+            {
+              "activity": 7.291e-05,
+              "molality": 9.083e-05,
+              "name": "H2(Citrate)-"
+            },
+            {
+              "activity": 2.956e-05,
+              "molality": 3.683e-05,
+              "name": "NaH(Citrate)-"
+            },
+            {
+              "activity": 1.339e-05,
+              "molality": 1.339e-05,
+              "name": "H2CO3"
+            },
+            {
+              "activity": 7.421e-06,
+              "molality": 8.753e-06,
+              "name": "HCO3-"
+            },
+            {
+              "activity": 6.849e-06,
+              "molality": 8.533e-06,
+              "name": "Na2(Citrate)-"
+            },
+            {
+              "activity": 8.013e-07,
+              "molality": 9.524e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 7.848e-08,
+              "molality": 7.848e-08,
+              "name": "H3(Citrate)"
+            },
+            {
+              "activity": 6.913e-08,
+              "molality": 6.913e-08,
+              "name": "NaHCO3"
+            },
+            {
+              "activity": 1.249e-08,
+              "molality": 1.497e-08,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.0755820634591,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 6,
+      "operator": {
+        "moles": 0.0004,
+        "op": "add",
+        "species": "citric_acid",
+        "vessel": 0
+      },
+      "event": {
+        "event": "foam_changed",
+        "half_life_seconds": 180.0,
+        "height_cm": 0.17851192331824614,
+        "overflow_liters": 0.0,
+        "trapped_gas_liters": 0.004498500467619803,
+        "vessel": 0,
+        "volume_liters": 0.004998333852910892
+      }
+    },
+    {
+      "observation_index": 8,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and clear."
+        },
+        "event": "observed",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 9,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and clear."
+        },
+        "event": "observed",
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 10,
+      "operator": {
+        "op": "wait",
+        "seconds": 60.0
+      },
+      "event": {
+        "event": "foam_changed",
+        "half_life_seconds": 180.0,
+        "height_cm": 0.1416850272887394,
+        "overflow_liters": 0.0,
+        "trapped_gas_liters": 0.0035704626876762327,
+        "vessel": 0,
+        "volume_liters": 0.003967180764084703
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and clear."
+        },
+        "event": "observed",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 12,
+      "operator": {
+        "op": "wait",
+        "seconds": 240.0
+      },
+      "event": {
+        "event": "foam_changed",
+        "half_life_seconds": 180.0,
+        "height_cm": 0.05622781600133787,
+        "overflow_liters": 0.0,
+        "trapped_gas_liters": 0.0014169409632337144,
+        "vessel": 0,
+        "volume_liters": 0.0015743788480374603
+      }
+    },
+    {
+      "observation_index": 13,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and clear."
+        },
+        "event": "observed",
+        "vessel": 0
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

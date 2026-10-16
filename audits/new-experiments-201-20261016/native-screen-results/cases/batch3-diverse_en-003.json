@@ -1,0 +1,767 @@
+{
+  "id": "batch3-diverse:en-003",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "972f3c8d1ce659bd9295a3a350e5defc87bd700aa13c896e59474b4398c9e7bd",
+  "original_script_sha256": "972f3c8d1ce659bd9295a3a350e5defc87bd700aa13c896e59474b4398c9e7bd",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Protease should generate a protein-hydrolysis state whereas lactase and the blank should not. This alone does not establish that a visible gelatin gel has liquefied.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Is gelatin hydrolysis specific to a protein-cleaving enzyme rather than any material labelled enzyme?",
+      "review_instruction": "Protease should generate a protein-hydrolysis state whereas lactase and the blank should not. This alone does not establish that a visible gelatin gel has liquefied.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: mismatched enzyme; v3: no enzyme",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:en-003",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11769094699999982,
+    "script_sha256": "972f3c8d1ce659bd9295a3a350e5defc87bd700aa13c896e59474b4398c9e7bd",
+    "stdout_sha256": "be59c1a6e09661f0b479e67e97075e32ddacb1650a0fe6bbd10d2909e4805700",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 15,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 2.2137107965584235,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "gelatin",
+      "op": "add_material",
+      "recipe_id": "food/gelatin",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 1.0,
+      "vessel": 0
+    },
+    {
+      "moles": 1.6666666666666667e-06,
+      "op": "add",
+      "species": "protease",
+      "vessel": 0
+    },
+    {
+      "moles": 2.2137107965584235,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "gelatin",
+      "op": "add_material",
+      "recipe_id": "food/gelatin",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 1.0,
+      "vessel": 1
+    },
+    {
+      "moles": 4.1666666666666667e-07,
+      "op": "add",
+      "species": "lactase",
+      "vessel": 1
+    },
+    {
+      "moles": 2.2137107965584235,
+      "op": "add",
+      "species": "water",
+      "vessel": 2
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "gelatin",
+      "op": "add_material",
+      "recipe_id": "food/gelatin",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 1.0,
+      "vessel": 2
+    },
+    {
+      "op": "wait",
+      "seconds": 2700.0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 2
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 2,
+    "added": 5,
+    "solution_routed": 3,
+    "material_added": 3,
+    "enzyme_hydrolysed": 1,
+    "observed": 3
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 14,
+      "output_sequence": 14,
+      "step": 14,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 2.2192617263391616,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 1.6666666666666667e-06,
+            "phase": "aqueous",
+            "species": "protease"
+          }
+        ],
+        "elapsed_seconds": 2700.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 4.022231090906819e-09,
+        "free_proton": 4.022231090906819e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.2137107965584235,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.005550929780738274,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "material recipe food/gelatin",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 1.6666666666666667e-06,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "protease",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 1.006060803128269e-07,
+          "pe": null,
+          "ph": 6.997375771104036,
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "redox": [],
+          "scope": "solvent_only",
+          "solvent_kg": 0.039979999999999995,
+          "species": [
+            {
+              "activity": 1.006060803128269e-07,
+              "molality": 1.006060803128269e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 1.006060803128269e-07,
+              "molality": 1.006060803128269e-07,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 0.9,
+            "basis": "mass_fraction",
+            "enzyme_hydrolysis": {
+              "carried_enzyme_denatured": false,
+              "converted_fraction": 0.6991386178864527,
+              "family": "protease"
+            },
+            "material": "gelatin",
+            "protein_denatured_fraction": 1.0,
+            "recipe_id": "food/gelatin",
+            "recipe_version": 1
+          }
+        ]
+      }
+    },
+    {
+      "observation_index": 14,
+      "output_sequence": 14,
+      "step": 14,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 2.2192617263391616,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 4.1666666666666667e-07,
+            "phase": "aqueous",
+            "species": "lactase"
+          }
+        ],
+        "elapsed_seconds": 2700.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 4.022231090906819e-09,
+        "free_proton": 4.022231090906819e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.2137107965584235,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.005550929780738274,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "material recipe food/gelatin",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.1666666666666667e-07,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "lactase",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 1.006060803128269e-07,
+          "pe": null,
+          "ph": 6.997375771104036,
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "redox": [],
+          "scope": "solvent_only",
+          "solvent_kg": 0.039979999999999995,
+          "species": [
+            {
+              "activity": 1.006060803128269e-07,
+              "molality": 1.006060803128269e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 1.006060803128269e-07,
+              "molality": 1.006060803128269e-07,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 0.9,
+            "basis": "mass_fraction",
+            "material": "gelatin",
+            "protein_denatured_fraction": 1.0,
+            "recipe_id": "food/gelatin",
+            "recipe_version": 1
+          }
+        ]
+      }
+    },
+    {
+      "observation_index": 14,
+      "output_sequence": 14,
+      "step": 14,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 2.2192617263391616,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "elapsed_seconds": 2700.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 4.022231090906819e-09,
+        "free_proton": 4.022231090906819e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 2,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.2137107965584235,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.005550929780738274,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "material recipe food/gelatin",
+            "species": "water",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 1.006060803128269e-07,
+          "pe": null,
+          "ph": 6.997375771104036,
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "redox": [],
+          "scope": "solvent_only",
+          "solvent_kg": 0.039979999999999995,
+          "species": [
+            {
+              "activity": 1.006060803128269e-07,
+              "molality": 1.006060803128269e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 1.006060803128269e-07,
+              "molality": 1.006060803128269e-07,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 0.9,
+            "basis": "mass_fraction",
+            "material": "gelatin",
+            "protein_denatured_fraction": 1.0,
+            "recipe_id": "food/gelatin",
+            "recipe_version": 1
+          }
+        ]
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 10,
+      "operator": {
+        "op": "wait",
+        "seconds": 2700.0
+      },
+      "event": {
+        "converted_fraction": 0.6991386178864527,
+        "event": "enzyme_hydrolysed",
+        "family": "protease",
+        "hydrolysed_mass_g": 0.6292247560978075,
+        "material": "gelatine (dry sheets)",
+        "seconds": 2700.0,
+        "substrate": "gelatine protein",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and clear."
+        },
+        "event": "observed",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 12,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and clear."
+        },
+        "event": "observed",
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 13,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 2
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and clear."
+        },
+        "event": "observed",
+        "vessel": 2
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

@@ -1,0 +1,752 @@
+{
+  "id": "batch3-diverse:ad-006",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "6d2af83f83f312154f85d1216164bdb40fd9fe3bf4d4cea52ed32de2e89a8e23",
+  "original_script_sha256": "6d2af83f83f312154f85d1216164bdb40fd9fe3bf4d4cea52ed32de2e89a8e23",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Review which solids remain after the first filter, where the dye resides after charcoal contact, and which dissolved ions persist in the final filtrate. No single visual observation certifies complete treatment.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Can physical solids removal, dye adsorption and residual-ion detection be separated in one sample history?",
+      "review_instruction": "Review which solids remain after the first filter, where the dye resides after charcoal contact, and which dissolved ions persist in the final filtrate. No single visual observation certifies complete treatment.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:ad-006",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11805330800001457,
+    "script_sha256": "6d2af83f83f312154f85d1216164bdb40fd9fe3bf4d4cea52ed32de2e89a8e23",
+    "stdout_sha256": "28bb385b0896876d9acd51f6d903ea7bd5c914835fb8cdf678a616bf6eb9385e",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 16,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 3.3205661948376353,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.003328673190866121,
+      "op": "add",
+      "species": "SiO2",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0005203725867721289,
+      "op": "add",
+      "species": "PET",
+      "vessel": 0
+    },
+    {
+      "moles": 1.527491797369048e-05,
+      "op": "add",
+      "species": "methyl_orange",
+      "vessel": 0
+    },
+    {
+      "moles": 0.003,
+      "op": "add",
+      "species": "NaCl",
+      "vessel": 0
+    },
+    {
+      "from": 0,
+      "op": "filter",
+      "to": 1
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "moles": 0.008325701440346351,
+      "op": "add",
+      "species": "activated_charcoal",
+      "vessel": 1
+    },
+    {
+      "from": 1,
+      "op": "filter",
+      "to": 2
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 2
+    },
+    {
+      "instrument": "conductivity_meter",
+      "op": "measure",
+      "vessel": 2
+    },
+    {
+      "op": "particles",
+      "vessel": 2
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 2,
+    "added": 6,
+    "solution_routed": 4,
+    "dissolved": 2,
+    "inert": 2,
+    "not_yet_modeled": 5,
+    "solution_characterized": 4,
+    "temperature_changed": 1,
+    "filtered": 2,
+    "observed": 1,
+    "measured": 3,
+    "adsorbed": 1
+  },
+  "named_model_limits": {
+    "not-modeled.no-component-mapping": {
+      "first_observation_index": 5,
+      "first_operator": {
+        "moles": 1.527491797369048e-05,
+        "op": "add",
+        "species": "methyl_orange",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "not-speciated",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+          "key": "not-modeled.no-component-mapping",
+          "slots": [
+            [
+              "name",
+              {
+                "term": {
+                  "en": "methyl_orange",
+                  "section": "species"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "methyl_orange is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+      },
+      "occurrences": 5
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 15,
+      "output_sequence": 15,
+      "step": 14,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.003316689967379003,
+            "phase": "solid",
+            "species": "SiO2"
+          },
+          {
+            "moles": 0.0005203725867721289,
+            "phase": "solid",
+            "species": "PET"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 7.173228208079945e-09,
+        "free_proton": 7.173228208073964e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 3.3205661948376353,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.003316689967379003,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 1.1983223487118033e-05,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005203725867721289,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "PET",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 1.527491797369048e-05,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "methyl_orange",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.003,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "NaCl",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 298.10352514766305,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 15,
+      "output_sequence": 15,
+      "step": 14,
+      "state": {
+        "adsorbed": [
+          {
+            "moles": 1.4168191513206663e-05,
+            "sorbate": "methyl_orange",
+            "sorbent": "activated_charcoal"
+          }
+        ],
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.008325701440346351,
+            "phase": "solid",
+            "species": "activated_charcoal"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 7.173228208079945e-09,
+        "free_proton": 7.173228208073964e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 0.008325701440346351,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "activated_charcoal",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 298.10353668655046,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 15,
+      "output_sequence": 15,
+      "step": 14,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 1.1983223487118033e-05,
+            "phase": "aqueous",
+            "species": "SiO2"
+          },
+          {
+            "moles": 1.1067264604838174e-06,
+            "phase": "aqueous",
+            "species": "methyl_orange"
+          },
+          {
+            "moles": 0.0030000000000000005,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0030000000000000005,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 3.3205661948376357,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 7.173228208079945e-09,
+        "free_proton": 7.173228208073964e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 2,
+        "label": "beaker",
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 0.0501505712676,
+          "pe": null,
+          "ph": 6.989846415399,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone",
+            "routing_phrase": {
+              "en": "{routing}; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on {dataset} ({model}), posed with no phases, gas or interfaces and asked for a_w alone",
+              "key": "routing.second-speciation-for-solvent",
+              "slots": [
+                [
+                  "routing",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "the default inorganic aqueous dataset",
+                        "key": "routing.default-inorganic"
+                      }
+                    }
+                  }
+                ],
+                [
+                  "dataset",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                        "key": "provenance.dataset.with-gas-uptake-slice",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "pitzer.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ],
+                [
+                  "model",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                        "key": "provenance.model.ion-interaction",
+                        "slots": [
+                          [
+                            "name",
+                            {
+                              "text": {
+                                "text": "Pitzer"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          "redox": [],
+          "solvent_activity": {
+            "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "pitzer.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "ionic_strength": 0.05015057303835,
+            "model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+            "model_phrase": {
+              "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+              "key": "provenance.model.ion-interaction",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "Pitzer"
+                    }
+                  }
+                ]
+              ]
+            },
+            "particle_molality": 0.10030024339999999,
+            "water_activity": 0.9983
+          },
+          "solvent_kg": 0.05982,
+          "species": [
+            {
+              "activity": 0.9983,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.04076,
+              "molality": 0.05015,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.04129,
+              "molality": 0.05015,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0002679,
+              "molality": 0.0002648,
+              "name": "O2"
+            },
+            {
+              "activity": 9.728e-08,
+              "molality": 1.199e-07,
+              "name": "OH-"
+            },
+            {
+              "activity": 1.024e-07,
+              "molality": 1.199e-07,
+              "name": "H+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1035350837519,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 8,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "there is {what} in the beaker",
+              "key": "look.deposit-dry",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "white",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "silicon dioxide (quartz)",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "white",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "polyethylene terephthalate",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": [
+            "silicon dioxide (quartz)",
+            {
+              "b": 220,
+              "g": 220,
+              "r": 220,
+              "strength": 0.0
+            }
+          ],
+          "liquid": null,
+          "words": "There is white silicon dioxide (quartz) and white polyethylene terephthalate in the beaker."
+        },
+        "event": "observed",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 9,
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 465 nm",
+        "value": 6.617378367950263,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 12,
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 2
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 465 nm",
+        "value": 0.4794544724533376,
+        "vessel": 2
+      }
+    },
+    {
+      "observation_index": 13,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 2
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "unit": "µS/cm",
+        "value": 5678.774265308723,
+        "vessel": 2
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

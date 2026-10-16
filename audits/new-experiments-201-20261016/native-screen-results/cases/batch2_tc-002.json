@@ -1,0 +1,804 @@
+{
+  "id": "batch2:tc-002",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "0ff9a164517d2b50a0d017de533a89275be78b4c6095e49dcde6867a313fcf9b",
+  "original_script_sha256": "0ff9a164517d2b50a0d017de533a89275be78b4c6095e49dcde6867a313fcf9b",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Both mixtures can neutralise approximately 0.0005 mol of hydroxide, so the neutralisation contribution should be similar rather than doubled. The second mixture retains more excess acid.",
+  "original_acceptance_checks": [
+    {
+      "id": "TC-002-C1",
+      "criterion": "Calculate temperature changes against each pair of measured pre-mixing temperatures and heat capacities.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "TC-002-C2",
+      "criterion": "Confirm the same hydroxide consumption but different residual acidity.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:tc-002",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11912832800000217,
+    "script_sha256": "0ff9a164517d2b50a0d017de533a89275be78b4c6095e49dcde6867a313fcf9b",
+    "stdout_sha256": "3c902fd417af63439dc16f1792dafe3dfce043a7a170fbf465e2e8936cea52d4",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 24,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "HCl",
+      "vessel": 0
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.002,
+      "op": "add",
+      "species": "HCl",
+      "vessel": 1
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 2
+    },
+    {
+      "moles": 0.0005,
+      "op": "add",
+      "species": "NaOH",
+      "vessel": 2
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 3
+    },
+    {
+      "moles": 0.0005,
+      "op": "add",
+      "species": "NaOH",
+      "vessel": 3
+    },
+    {
+      "instrument": "thermometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "thermometer",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "thermometer",
+      "op": "measure",
+      "vessel": 2
+    },
+    {
+      "instrument": "thermometer",
+      "op": "measure",
+      "vessel": 3
+    },
+    {
+      "fraction": 1.0,
+      "from": 2,
+      "op": "decant",
+      "to": 0
+    },
+    {
+      "fraction": 1.0,
+      "from": 3,
+      "op": "decant",
+      "to": 1
+    },
+    {
+      "instrument": "thermometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "thermometer",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "calorimeter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "calorimeter",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 8,
+    "solution_routed": 8,
+    "solution_characterized": 6,
+    "vessel_created": 3,
+    "dissolved": 2,
+    "temperature_changed": 4,
+    "measured": 10,
+    "transferred": 2
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 23,
+      "output_sequence": 23,
+      "step": 23,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0005,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 5.5347769913960585,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0005,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 2.4306135180800603e-13,
+        "free_proton": 0.0005000000002428474,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "HCl",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.0005,
+        "solution": {
+          "ionic_strength": 0.0100291841762,
+          "pe": null,
+          "ph": 2.339176705885,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.099709008,
+          "species": [
+            {
+              "activity": 0.9997,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.009028,
+              "molality": 0.01003,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.00458,
+              "molality": 0.005015,
+              "name": "H+"
+            },
+            {
+              "activity": 0.004527,
+              "molality": 0.005015,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0002675,
+              "molality": 0.0002668,
+              "name": "O2"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.20335240095744,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 23,
+      "output_sequence": 23,
+      "step": 23,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.002,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0005,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 5.5347769913960585,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0015,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 8.635175691426201e-14,
+        "free_proton": 0.0015000000000858758,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.002,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "HCl",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.0015,
+        "solution": {
+          "ionic_strength": 0.02005836834838,
+          "pe": null,
+          "ph": 1.873562377725,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.099709008,
+          "species": [
+            {
+              "activity": 0.9993,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.0174,
+              "molality": 0.02006,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.01338,
+              "molality": 0.01504,
+              "name": "H+"
+            },
+            {
+              "activity": 0.004374,
+              "molality": 0.005015,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0002675,
+              "molality": 0.0002662,
+              "name": "O2"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.2033524009596,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 23,
+      "output_sequence": 23,
+      "step": 23,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0005000000000606955,
+        "free_proton": 6.101165308998079e-14,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 2,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "NaOH",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0005,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 298.2567130008505,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 23,
+      "output_sequence": 23,
+      "step": 23,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0005000000000606955,
+        "free_proton": 6.101165308998079e-14,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 3,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "NaOH",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0005,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 298.2567130008505,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "thermometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 25.000001344721568,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 12,
+      "operator": {
+        "instrument": "thermometer",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 25.000001344725547,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 13,
+      "operator": {
+        "instrument": "thermometer",
+        "op": "measure",
+        "vessel": 2
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 25.106713000850505,
+        "vessel": 2
+      }
+    },
+    {
+      "observation_index": 14,
+      "operator": {
+        "instrument": "thermometer",
+        "op": "measure",
+        "vessel": 3
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 25.106713000850505,
+        "vessel": 3
+      }
+    },
+    {
+      "observation_index": 17,
+      "operator": {
+        "instrument": "thermometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 25.053352400957465,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 18,
+      "operator": {
+        "instrument": "thermometer",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 25.053352400959625,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 19,
+      "operator": {
+        "instrument": "calorimeter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "calorimeter",
+        "unit": "kJ",
+        "value": 0.02225056076189981,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 20,
+      "operator": {
+        "instrument": "calorimeter",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "calorimeter",
+        "unit": "kJ",
+        "value": 0.022250560762896453,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 21,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 2.339176705885,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 22,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 1.873562377725,
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

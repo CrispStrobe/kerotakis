@@ -1,0 +1,698 @@
+{
+  "id": "batch3-diverse:li-003",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "84305e79214996147f20e19c0d60b9c6ee24a290b2c219c7d61398b792029167",
+  "original_script_sha256": "84305e79214996147f20e19c0d60b9c6ee24a290b2c219c7d61398b792029167",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "The mixed-solvent blank should not acquire a curcumin band. Interpret a pigment response together with measured pH and coverage, rather than assuming every pH shift has a fully parameterised spectrum.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Can a pigment response to modest base addition be distinguished from changes caused by the solvent alone?",
+      "review_instruction": "The mixed-solvent blank should not acquire a curcumin band. Interpret a pigment response together with measured pH and coverage, rather than assuming every pH shift has a fully parameterised spectrum.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: solvent and base without pigment",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:li-003",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11755768499997998,
+    "script_sha256": "84305e79214996147f20e19c0d60b9c6ee24a290b2c219c7d61398b792029167",
+    "stdout_sha256": "da82312f642d8a6663147ff5d87da0b6f5ff9e4056a534818feca15e4532302a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 15,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 2.4904246461282264,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.08563242093381666,
+      "op": "add",
+      "species": "ethanol",
+      "vessel": 0
+    },
+    {
+      "moles": 1e-06,
+      "op": "add",
+      "species": "curcumin",
+      "vessel": 0
+    },
+    {
+      "moles": 2.4904246461282264,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.08563242093381666,
+      "op": "add",
+      "species": "ethanol",
+      "vessel": 1
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "moles": 1e-05,
+      "op": "add",
+      "species": "Na2CO3",
+      "vessel": 0
+    },
+    {
+      "moles": 1e-05,
+      "op": "add",
+      "species": "Na2CO3",
+      "vessel": 1
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 1,
+    "added": 7,
+    "solution_routed": 4,
+    "measured": 6,
+    "dissolved": 2,
+    "solution_characterized": 2
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 14,
+      "output_sequence": 14,
+      "step": 14,
+      "state": {
+        "co2_partial_pressure_atm": 6.61764705882353e-07,
+        "contents": [
+          {
+            "moles": 0.08563242093381666,
+            "phase": "liquid",
+            "species": "ethanol"
+          },
+          {
+            "moles": 1e-06,
+            "phase": "aqueous",
+            "species": "curcumin"
+          },
+          {
+            "moles": 2.0000000000000625e-05,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 1.0126210434011856e-09,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 6.021694812077565e-06,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 3.977292566872617e-06,
+            "phase": "aqueous",
+            "species": "CO3-2"
+          },
+          {
+            "moles": 2.4904186234207932,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 6.0237200542045954e-06,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 6.0064581678804895e-06,
+        "free_proton": 3.533137420038997e-12,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.4904246461282264,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.08563242093381666,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "ethanol",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 1e-06,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "curcumin",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 1e-05,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "Na2CO3",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 6.023720054177826e-06,
+        "solution": {
+          "ionic_strength": 0.000533466788095,
+          "pe": null,
+          "ph": 10.11477487716,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.044864892,
+          "species": [
+            {
+              "activity": 1.0,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.0004336,
+              "molality": 0.0004451,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0002677,
+              "molality": 0.0002677,
+              "name": "O2"
+            },
+            {
+              "activity": 0.0001304,
+              "molality": 0.0001339,
+              "name": "OH-"
+            },
+            {
+              "activity": 0.0001304,
+              "molality": 0.0001338,
+              "name": "HCO3-"
+            },
+            {
+              "activity": 7.963e-05,
+              "molality": 8.838e-05,
+              "name": "CO3-2"
+            },
+            {
+              "activity": 6.429e-07,
+              "molality": 6.598e-07,
+              "name": "NaCO3-"
+            },
+            {
+              "activity": 3.178e-08,
+              "molality": 3.178e-08,
+              "name": "NaHCO3"
+            },
+            {
+              "activity": 2.25e-08,
+              "molality": 2.25e-08,
+              "name": "CO2"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 14,
+      "output_sequence": 14,
+      "step": 14,
+      "state": {
+        "co2_partial_pressure_atm": 6.61764705882353e-07,
+        "contents": [
+          {
+            "moles": 0.08563242093381666,
+            "phase": "liquid",
+            "species": "ethanol"
+          },
+          {
+            "moles": 2.0000000000000625e-05,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 1.0126210434011856e-09,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 6.021694812077565e-06,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 3.977292566872617e-06,
+            "phase": "aqueous",
+            "species": "CO3-2"
+          },
+          {
+            "moles": 2.4904186234207932,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 6.0237200542045954e-06,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 6.0064581678804895e-06,
+        "free_proton": 3.533137420038997e-12,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.4904246461282264,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.08563242093381666,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "ethanol",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 1e-05,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "Na2CO3",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 6.023720054177826e-06,
+        "solution": {
+          "ionic_strength": 0.000533466788095,
+          "pe": null,
+          "ph": 10.11477487716,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.044864892,
+          "species": [
+            {
+              "activity": 1.0,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.0004336,
+              "molality": 0.0004451,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0002677,
+              "molality": 0.0002677,
+              "name": "O2"
+            },
+            {
+              "activity": 0.0001304,
+              "molality": 0.0001339,
+              "name": "OH-"
+            },
+            {
+              "activity": 0.0001304,
+              "molality": 0.0001338,
+              "name": "HCO3-"
+            },
+            {
+              "activity": 7.963e-05,
+              "molality": 8.838e-05,
+              "name": "CO3-2"
+            },
+            {
+              "activity": 6.429e-07,
+              "molality": 6.598e-07,
+              "name": "NaCO3-"
+            },
+            {
+              "activity": 3.178e-08,
+              "molality": 3.178e-08,
+              "name": "NaHCO3"
+            },
+            {
+              "activity": 2.25e-08,
+              "molality": 2.25e-08,
+              "name": "CO2"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 6,
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 425 nm",
+        "value": 1.1,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 7,
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 405 nm",
+        "value": 0.0,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 10,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 10.11477487716,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 10.11477487716,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 12,
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 425 nm",
+        "value": 1.1000023941673343,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 13,
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 405 nm",
+        "value": 0.0,
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

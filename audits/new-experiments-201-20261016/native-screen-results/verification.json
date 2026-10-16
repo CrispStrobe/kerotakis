@@ -1,0 +1,48 @@
+{
+  "recorded_utc": "2026-10-16T08:16:02.878179+00:00",
+  "run": 38871207777,
+  "workflow_head": "ca343c25176809989e02106b7195758a19036d2f",
+  "input_checkout_commit": "4a277d66be235647116b797255c6f01ed5072800",
+  "artifact_id": 12034345557,
+  "artifact_sha256": "7e3102c8ba72746974b0595de3f525041064e1641d55b2bcc11f546646a2f3f3",
+  "all201_selected_script_stdout_stderr_hashes_verified": true,
+  "actual_completion": {
+    "completed_utc": "2026-10-16T08:11:33.797540+00:00",
+    "attempts": 201,
+    "counts": {
+      "zero_exit": 198,
+      "nonzero_exit": 3
+    },
+    "stdout_parse_errors": 0,
+    "physical_verdict": "not_assigned",
+    "retries": 0
+  },
+  "process_failures": [
+    {
+      "id": "batch3-diverse:co-005",
+      "status": "nonzero_exit",
+      "diagnostic_repository_paths": "kero: audits/new-experiments-201-20261016/scripts/D3-CO-005.lab:16: centrifuge rotor is 60.09 g out of balance (sample 39.91 g, counterbalance 100.00 g); match within 0.10 g\n",
+      "raw_stderr_sha256": "d66f0101a4b3937b59a590a37a4a6b87ad95526cc386d20a6c6261b49f6550c0",
+      "physical_verdict": "not_assigned"
+    },
+    {
+      "id": "batch3-diverse:tr-003",
+      "status": "nonzero_exit",
+      "diagnostic_repository_paths": "kero: audits/new-experiments-201-20261016/scripts/D3-TR-003.lab:16: the inlet represents 0.02 L of liquid; one full transport cell requires 0.019999968580779747 L\n",
+      "raw_stderr_sha256": "e4b618ac6bf7e72f3282bd51b8ba0957c155778e1cf6f62bd465f544764c0dba",
+      "physical_verdict": "not_assigned"
+    },
+    {
+      "id": "batch3-diverse:tr-007",
+      "status": "nonzero_exit",
+      "diagnostic_repository_paths": "kero: audits/new-experiments-201-20261016/scripts/D3-TR-007.lab:13: transport cell 1 has 0.02 L of liquid; the uniform chain requires 0.020011277721117417 L\n",
+      "raw_stderr_sha256": "261bc4bc9936da026ebaf90c132baffccdccc6ac9ac7ffe0ac5459738d4b7a91",
+      "physical_verdict": "not_assigned"
+    }
+  ],
+  "review_state": "Engineering execution/integrity complete; saved physical assessment pending. Zero exits do not establish expected chemistry.",
+  "original_forecasts_changed": false,
+  "local_engine_executions": 0,
+  "retries": 0,
+  "isolated_ref_may_merge": false
+}

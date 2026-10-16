@@ -1,0 +1,644 @@
+{
+  "id": "batch3-diverse:an-006",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "8e34c98798cf280e755b170eb8d15ff68c0d436d062d72d25e523b243a0d218f",
+  "original_script_sha256": "8e34c98798cf280e755b170eb8d15ff68c0d436d062d72d25e523b243a0d218f",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Compare neutral acid and ionised acetate inventories with the chromatogram's coverage categories. Loss of a neutral peak must not be described as destruction of all acetic-acid-derived carbon.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Can converting an organic acid into its salt change what a neutral-partition chromatogram includes?",
+      "review_instruction": "Compare neutral acid and ionised acetate inventories with the chromatogram's coverage categories. Loss of a neutral peak must not be described as destruction of all acetic-acid-derived carbon.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v1: unneutralised acid mixture",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:an-006",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11754305499999873,
+    "script_sha256": "8e34c98798cf280e755b170eb8d15ff68c0d436d062d72d25e523b243a0d218f",
+    "stdout_sha256": "cf79bdfc5a00d916a9cd562d0d66a8e82907e8c1a1407210ab1153f8c928dd9f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 15,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "CH3COOH",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "ethanol",
+      "vessel": 0
+    },
+    {
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "CH3COOH",
+      "vessel": 1
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "ethanol",
+      "vessel": 1
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "NaOH",
+      "vessel": 1
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "chromatograph",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "chromatograph",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "particles",
+      "vessel": 0
+    },
+    {
+      "op": "particles",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 1,
+    "added": 7,
+    "solution_routed": 4,
+    "solution_characterized": 5,
+    "temperature_changed": 2,
+    "dissolved": 1,
+    "neutralised": 1,
+    "measured": 2,
+    "chromatographed": 2
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 14,
+      "output_sequence": 14,
+      "step": 12,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "liquid",
+            "species": "ethanol"
+          },
+          {
+            "moles": 0.0009700883043139309,
+            "phase": "aqueous",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 2.9911695686069233e-05,
+            "phase": "aqueous",
+            "species": "CH3COO-"
+          },
+          {
+            "moles": 2.767138495698029,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 2.9911695686067434e-05,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 8.842846059745954e-13,
+        "free_proton": 2.991169657034389e-05,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "CH3COOH",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "ethanol",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -2.9911695686069233e-05,
+        "solution": {
+          "ionic_strength": 0.0006000340335074,
+          "pe": null,
+          "ph": 3.233926952636,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.04985,
+          "species": [
+            {
+              "activity": 0.9996,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.01946,
+              "molality": 0.01946,
+              "name": "H(Acetate)"
+            },
+            {
+              "activity": 0.0005835,
+              "molality": 0.0006,
+              "name": "H+"
+            },
+            {
+              "activity": 0.0005835,
+              "molality": 0.0006,
+              "name": "Acetate-"
+            },
+            {
+              "activity": 0.0002596,
+              "molality": 0.0002596,
+              "name": "O2"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1500600930185,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 14,
+      "output_sequence": 14,
+      "step": 12,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "liquid",
+            "species": "ethanol"
+          },
+          {
+            "moles": 1.7356697704073392e-07,
+            "phase": "aqueous",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.0009998264330229594,
+            "phase": "aqueous",
+            "species": "CH3COO-"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 2.7681383221310516,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 1.7356697704345309e-07,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.720429575856874e-07,
+        "free_proton": 1.995773129778478e-10,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "CH3COOH",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "ethanol",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "NaOH",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 1.7356697704063416e-07,
+        "solution": {
+          "ionic_strength": 0.01985386709048,
+          "pe": null,
+          "ph": 8.457495221016,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.049868012,
+          "species": [
+            {
+              "activity": 0.9993,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.01729,
+              "molality": 0.01985,
+              "name": "Acetate-"
+            },
+            {
+              "activity": 0.01729,
+              "molality": 0.01985,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0002448,
+              "molality": 0.0002437,
+              "name": "O2"
+            },
+            {
+              "activity": 0.0001991,
+              "molality": 0.0001991,
+              "name": "Na(Acetate)"
+            },
+            {
+              "activity": 2.992e-06,
+              "molality": 3.451e-06,
+              "name": "OH-"
+            },
+            {
+              "activity": 3.447e-06,
+              "molality": 3.447e-06,
+              "name": "H(Acetate)"
+            },
+            {
+              "activity": 3.487e-09,
+              "molality": 4.004e-09,
+              "name": "H+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.63257455077644,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 8,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 3.233926952636,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 9,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 8.457495221016,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 10,
+      "operator": {
+        "instrument": "chromatograph",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "chromatographed",
+        "outside_method": [
+          "CH3COO-",
+          "H+"
+        ],
+        "peaks": [
+          {
+            "partition_k": 0.2751111934936365,
+            "relative_area": 1.0,
+            "retention_time_s": 68.2533358048091,
+            "rf": 0.21575466900252682,
+            "species": "ethanol",
+            "width_s": 2.730133432192364
+          }
+        ],
+        "plates": 10000,
+        "vessel": 0,
+        "void_time_s": 60.0
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "chromatograph",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "chromatographed",
+        "outside_method": [
+          "CH3COO-",
+          "Na+"
+        ],
+        "peaks": [
+          {
+            "partition_k": 0.2766085605700098,
+            "relative_area": 1.0,
+            "retention_time_s": 68.2982568171003,
+            "rf": 0.21667453055970673,
+            "species": "ethanol",
+            "width_s": 2.731930272684012
+          }
+        ],
+        "plates": 10000,
+        "vessel": 1,
+        "void_time_s": 60.0
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

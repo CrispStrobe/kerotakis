@@ -1,0 +1,902 @@
+{
+  "id": "batch3-diverse:en-005",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "ef265a8b5513c82b4b5e442112120b0d10d9e934256195ad90b2252749ceb865",
+  "original_script_sha256": "ef265a8b5513c82b4b5e442112120b0d10d9e934256195ad90b2252749ceb865",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "If the heated source crosses its declared denaturation threshold, its later proteolytic activity should remain lower after cooling. The comparison is about enzyme history, not heating gelatin itself.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Does preheating pineapple suppress later protein hydrolysis after the samples are brought back toward the same temperature?",
+      "review_instruction": "If the heated source crosses its declared denaturation threshold, its later proteolytic activity should remain lower after cooling. The comparison is about enzyme history, not heating gelatin itself.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: unheated pineapple source",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:en-005",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.4691245549999792,
+    "script_sha256": "ef265a8b5513c82b4b5e442112120b0d10d9e934256195ad90b2252749ceb865",
+    "stdout_sha256": "c883e6f7978922ec945a7f2008461e60ed6a858ee43bf7bd977b1ffa35670c9f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 17,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "at": 298.15,
+      "moles": 1.6602830974188176,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "pineapple",
+      "op": "add_material",
+      "recipe_id": "food/pineapple",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 5.0,
+      "vessel": 0
+    },
+    {
+      "at": 298.15,
+      "moles": 1.6602830974188176,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "pineapple",
+      "op": "add_material",
+      "recipe_id": "food/pineapple",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 5.0,
+      "vessel": 1
+    },
+    {
+      "energy": 9000.0,
+      "op": "heat",
+      "vessel": 0
+    },
+    {
+      "instrument": "thermometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "wait",
+      "seconds": 120.0
+    },
+    {
+      "energy": 9000.0,
+      "op": "cool",
+      "vessel": 0
+    },
+    {
+      "instrument": "thermometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "thermometer",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "gelatin",
+      "op": "add_material",
+      "recipe_id": "food/gelatin",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 0.5,
+      "vessel": 0
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "gelatin",
+      "op": "add_material",
+      "recipe_id": "food/gelatin",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 0.5,
+      "vessel": 1
+    },
+    {
+      "op": "wait",
+      "seconds": 2700.0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 1,
+    "added": 2,
+    "solution_routed": 4,
+    "material_added": 4,
+    "dissolved": 8,
+    "solution_characterized": 10,
+    "temperature_changed": 5,
+    "energy_transferred": 2,
+    "measured": 3,
+    "enzyme_hydrolysed": 1,
+    "observed": 2
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 16,
+      "output_sequence": 16,
+      "step": 16,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.000874972428873798,
+            "phase": "aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 0.0005883789604564933,
+            "phase": "aqueous",
+            "species": "fructose"
+          },
+          {
+            "moles": 0.00048013943471213833,
+            "phase": "aqueous",
+            "species": "glucose"
+          },
+          {
+            "moles": 0.00015614996642775722,
+            "phase": "aqueous",
+            "species": "C6H5O7-3"
+          },
+          {
+            "moles": 1.9017485428809324,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.00046844989928326863,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 2820.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 2.325500167050604e-13,
+        "free_proton": 5.4221855390205955e-05,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 1.6602830974188176,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.23868998057174576,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "material recipe food/pineapple",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.000874972428873798,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe food/pineapple",
+            "species": "sucrose",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005883789604564933,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe food/pineapple",
+            "species": "fructose",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.00048013943471213833,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe food/pineapple",
+            "species": "glucose",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.00015614996642775722,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "material recipe food/pineapple",
+            "species": "citric_acid",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 120.0,
+            "moles": 0.002775464890369137,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "material recipe food/gelatin",
+            "species": "water",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 4.838501394736728e-07,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.00046844989928327167,
+        "solution": {
+          "ionic_strength": 0.001602997059008,
+          "pe": null,
+          "ph": 2.819990856282,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.03426,
+          "species": [
+            {
+              "activity": 0.9999,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.002995,
+              "molality": 0.002995,
+              "name": "H3(Citrate)"
+            },
+            {
+              "activity": 0.001514,
+              "molality": 0.001583,
+              "name": "H+"
+            },
+            {
+              "activity": 0.001471,
+              "molality": 0.001542,
+              "name": "H2(Citrate)-"
+            },
+            {
+              "activity": 0.0002702,
+              "molality": 0.0002701,
+              "name": "O2"
+            },
+            {
+              "activity": 1.684e-05,
+              "molality": 2.032e-05,
+              "name": "H(Citrate)-2"
+            },
+            {
+              "activity": 4.476e-09,
+              "molality": 6.688e-09,
+              "name": "Citrate-3"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 297.8233218641094,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 0.17800000000000038,
+            "basis": "mass_fraction",
+            "enzyme_hydrolysis": {
+              "carried_enzyme_denatured": true,
+              "converted_fraction": 0.0,
+              "family": "bromelain"
+            },
+            "material": "pineapple",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "food/pineapple",
+            "recipe_version": 1
+          },
+          {
+            "amount": 0.45,
+            "basis": "mass_fraction",
+            "material": "gelatin",
+            "protein_denatured_fraction": 1.0,
+            "recipe_id": "food/gelatin",
+            "recipe_version": 1
+          }
+        ]
+      }
+    },
+    {
+      "observation_index": 16,
+      "output_sequence": 16,
+      "step": 16,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.000874972428873798,
+            "phase": "aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 0.0005883789604564933,
+            "phase": "aqueous",
+            "species": "fructose"
+          },
+          {
+            "moles": 0.00048013943471213833,
+            "phase": "aqueous",
+            "species": "glucose"
+          },
+          {
+            "moles": 0.00015614996642775722,
+            "phase": "aqueous",
+            "species": "C6H5O7-3"
+          },
+          {
+            "moles": 1.9017485428809324,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.00046844989928326863,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 2820.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 2.382053577510618e-13,
+        "free_proton": 5.426253858817458e-05,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 1.6602830974188176,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.23868998057174576,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "material recipe food/pineapple",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.000874972428873798,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe food/pineapple",
+            "species": "sucrose",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005883789604564933,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe food/pineapple",
+            "species": "fructose",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.00048013943471213833,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe food/pineapple",
+            "species": "glucose",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.00015614996642775722,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "material recipe food/pineapple",
+            "species": "citric_acid",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 120.0,
+            "moles": 0.002775464890369137,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "material recipe food/gelatin",
+            "species": "water",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 4.1032873541769313e-07,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.00046844989928327167,
+        "solution": {
+          "ionic_strength": 0.001604206315069,
+          "pe": null,
+          "ph": 2.819682909392,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.03426,
+          "species": [
+            {
+              "activity": 0.9999,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.002994,
+              "molality": 0.002994,
+              "name": "H3(Citrate)"
+            },
+            {
+              "activity": 0.001515,
+              "molality": 0.001584,
+              "name": "H+"
+            },
+            {
+              "activity": 0.001472,
+              "molality": 0.001543,
+              "name": "H2(Citrate)-"
+            },
+            {
+              "activity": 0.0002596,
+              "molality": 0.0002595,
+              "name": "O2"
+            },
+            {
+              "activity": 1.685e-05,
+              "molality": 2.034e-05,
+              "name": "H(Citrate)-2"
+            },
+            {
+              "activity": 4.47e-09,
+              "molality": 6.682e-09,
+              "name": "Citrate-3"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 0.17800000000000038,
+            "basis": "mass_fraction",
+            "material": "pineapple",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "food/pineapple",
+            "recipe_version": 1
+          },
+          {
+            "amount": 0.45,
+            "basis": "mass_fraction",
+            "enzyme_hydrolysis": {
+              "carried_enzyme_denatured": false,
+              "converted_fraction": 0.8484452434827794,
+              "family": "bromelain"
+            },
+            "material": "gelatin",
+            "protein_denatured_fraction": 1.0,
+            "recipe_id": "food/gelatin",
+            "recipe_version": 1
+          }
+        ]
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 6,
+      "operator": {
+        "instrument": "thermometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 87.55473956770481,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 9,
+      "operator": {
+        "instrument": "thermometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 16.577236076741315,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 10,
+      "operator": {
+        "instrument": "thermometer",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 25.0,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 13,
+      "operator": {
+        "op": "wait",
+        "seconds": 2700.0
+      },
+      "event": {
+        "converted_fraction": 0.8484452434827794,
+        "event": "enzyme_hydrolysed",
+        "family": "bromelain",
+        "hydrolysed_mass_g": 0.3818003595672507,
+        "material": "gelatine (dry sheets)",
+        "seconds": 2700.0,
+        "substrate": "gelatine protein",
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 14,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "a piece of {what} is at the bottom",
+              "key": "look.piece-bottom",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "term": {
+                      "en": "pineapple (fresh fruit)",
+                      "section": "material"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and clear, a piece of pineapple (fresh fruit) is at the bottom."
+        },
+        "event": "observed",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 15,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "a piece of {what} is at the bottom",
+              "key": "look.piece-bottom",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "term": {
+                      "en": "pineapple (fresh fruit)",
+                      "section": "material"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and clear, a piece of pineapple (fresh fruit) is at the bottom."
+        },
+        "event": "observed",
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

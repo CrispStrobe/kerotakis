@@ -1,0 +1,730 @@
+{
+  "id": "batch3-diverse:an-008",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "0bbd2cb245d7caef424b507c596cf6a9b4bd5149329cea4aad07ef917fde7127",
+  "original_script_sha256": "0bbd2cb245d7caef424b507c596cf6a9b4bd5149329cea4aad07ef917fde7127",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Both halide solutions are electrolyte candidates while sucrose is a nonelectrolyte reference. A similar or colourless response is not proof that chloride and bromide are the same species.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Can clear sodium chloride and sodium bromide solutions be uniquely identified by conductivity and visible absorption alone?",
+      "review_instruction": "Both halide solutions are electrolyte candidates while sucrose is a nonelectrolyte reference. A similar or colourless response is not proof that chloride and bromide are the same species.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v3: molecular nonelectrolyte",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:an-008",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.1178226800000175,
+    "script_sha256": "0bbd2cb245d7caef424b507c596cf6a9b4bd5149329cea4aad07ef917fde7127",
+    "stdout_sha256": "9d2ad08f7ba8c1b8a23673bb377cbbc5b910688481d5e7f66e9532e323df14d8",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 17,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "NaCl",
+      "vessel": 0
+    },
+    {
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "NaBr",
+      "vessel": 1
+    },
+    {
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 2
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "sucrose",
+      "vessel": 2
+    },
+    {
+      "instrument": "conductivity_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "conductivity_meter",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "conductivity_meter",
+      "op": "measure",
+      "vessel": 2
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 2
+    },
+    {
+      "op": "particles",
+      "vessel": 0
+    },
+    {
+      "op": "particles",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 2,
+    "added": 6,
+    "solution_routed": 5,
+    "dissolved": 3,
+    "solution_characterized": 2,
+    "temperature_changed": 1,
+    "measured": 6
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 16,
+      "output_sequence": 16,
+      "step": 14,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 2.7671384956980294,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 5.674954709698685e-09,
+        "free_proton": 5.67495470966379e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "NaCl",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 0.02006029438224,
+          "pe": null,
+          "ph": 6.994617963521,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.04985,
+          "species": [
+            {
+              "activity": 0.9993,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.0174,
+              "molality": 0.02006,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.0175,
+              "molality": 0.02006,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0002678,
+              "molality": 0.0002665,
+              "name": "O2"
+            },
+            {
+              "activity": 9.867e-08,
+              "molality": 1.138e-07,
+              "name": "OH-"
+            },
+            {
+              "activity": 1.012e-07,
+              "molality": 1.138e-07,
+              "name": "H+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.13139118784443,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 16,
+      "output_sequence": 16,
+      "step": 14,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Br-"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 2.7671384956980294,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 5.678970728150405e-09,
+        "free_proton": 5.67897072819527e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "NaBr",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 0.0200602944628,
+          "pe": null,
+          "ph": 6.994312222426,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.04985,
+          "species": [
+            {
+              "activity": 0.9993,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.01746,
+              "molality": 0.02006,
+              "name": "Br-"
+            },
+            {
+              "activity": 0.0175,
+              "molality": 0.02006,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0002677,
+              "molality": 0.0002665,
+              "name": "O2"
+            },
+            {
+              "activity": 1.013e-07,
+              "molality": 1.139e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 9.874e-08,
+              "molality": 1.139e-07,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 16,
+      "output_sequence": 16,
+      "step": 14,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 2.7671384956980294,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "sucrose"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 5.0152131035944206e-09,
+        "free_proton": 5.0152131035944206e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 2,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "sucrose",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 1.006060803128269e-07,
+          "pe": null,
+          "ph": 6.997375771104036,
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "redox": [],
+          "scope": "solvent_only",
+          "solvent_kg": 0.04985,
+          "species": [
+            {
+              "activity": 1.006060803128269e-07,
+              "molality": 1.006060803128269e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 1.006060803128269e-07,
+              "molality": 1.006060803128269e-07,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 8,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "unit": "µS/cm",
+        "value": 2360.3403959473176,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 9,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "unit": "µS/cm",
+        "value": 2393.7679761219606,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 10,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 2
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "unit": "µS/cm",
+        "value": 0.05508761762446267,
+        "vessel": 2
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 405 nm",
+        "value": 0.0,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 12,
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 405 nm",
+        "value": 0.0,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 13,
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 2
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 405 nm",
+        "value": 0.0,
+        "vessel": 2
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

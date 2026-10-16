@@ -1,0 +1,909 @@
+{
+  "id": "batch2:ec-008",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "6d2d6ce5f5e534a8ecfe306b81285d5f9d924d099b3ecbd50d461ab4a5876530",
+  "original_script_sha256": "6d2d6ce5f5e534a8ecfe306b81285d5f9d924d099b3ecbd50d461ab4a5876530",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Ferric iron can oxidise iodide; ferrous iron is not an equivalent oxidant. Total iron concentration alone does not determine redox capacity.",
+  "original_acceptance_checks": [
+    {
+      "id": "EC-008-C1",
+      "criterion": "Link iodine production to Fe(III) reduction rather than merely to iron colour.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "EC-008-C2",
+      "criterion": "Check dissolved oxygen or other oxidants before interpreting the ferrous arm.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:ec-008",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11786668599999928,
+    "script_sha256": "6d2d6ce5f5e534a8ecfe306b81285d5f9d924d099b3ecbd50d461ab4a5876530",
+    "stdout_sha256": "84cb2d670de7e127209f47706a4f539c29b57d0d092fe20bbe03b2f54dd2f1d1",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 12,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "H2SO4",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0004,
+      "op": "add",
+      "species": "FeCl3",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "KI",
+      "vessel": 0
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "H2SO4",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0004,
+      "op": "add",
+      "species": "FeSO4",
+      "vessel": 1
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "KI",
+      "vessel": 1
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 8,
+    "solution_routed": 6,
+    "solution_characterized": 6,
+    "dissolved": 4,
+    "not_yet_modeled": 10,
+    "vessel_created": 1
+  },
+  "named_model_limits": {
+    "not-modeled.supersaturated-no-registry-solid": {
+      "first_observation_index": 2,
+      "first_operator": {
+        "moles": 0.0004,
+        "op": "add",
+        "species": "FeCl3",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "phase-not-in-registry",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+          "key": "not-modeled.supersaturated-no-registry-solid",
+          "slots": [
+            [
+              "phases",
+              {
+                "text": {
+                  "text": "Goethite (SI +2.6)"
+                }
+              }
+            ],
+            [
+              "database",
+              {
+                "text": {
+                  "text": "wateq4f"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "the solution is supersaturated against Goethite (SI +2.6). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+      },
+      "occurrences": 2
+    },
+    "not-modeled.supersaturated-solid-not-offered": {
+      "first_observation_index": 2,
+      "first_operator": {
+        "moles": 0.0004,
+        "op": "add",
+        "species": "FeCl3",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "model-boundary",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+          "key": "not-modeled.supersaturated-solid-not-offered",
+          "slots": [
+            [
+              "phases",
+              {
+                "text": {
+                  "text": "Hematite (SI +7.2)"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "the solution is supersaturated against Hematite (SI +7.2). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+      },
+      "occurrences": 2
+    },
+    "not-modeled.saturation-index-unclassified": {
+      "first_observation_index": 2,
+      "first_operator": {
+        "moles": 0.0004,
+        "op": "add",
+        "species": "FeCl3",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "model-boundary",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "{phases} have reported saturation indices but no phase definition in the selected {database} diagnostic index; their phase type and exclusion reason cannot be classified",
+          "key": "not-modeled.saturation-index-unclassified",
+          "slots": [
+            [
+              "phases",
+              {
+                "text": {
+                  "text": "Fe(OH)2.7Cl.3 (SI +3.5)"
+                }
+              }
+            ],
+            [
+              "database",
+              {
+                "text": {
+                  "text": "wateq4f"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "Fe(OH)2.7Cl.3 (SI +3.5) have reported saturation indices but no phase definition in the selected wateq4f diagnostic index; their phase type and exclusion reason cannot be classified"
+      },
+      "occurrences": 2
+    },
+    "not-modeled.no-component-mapping": {
+      "first_observation_index": 3,
+      "first_operator": {
+        "moles": 0.001,
+        "op": "add",
+        "species": "KI",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "not-speciated",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+          "key": "not-modeled.no-component-mapping",
+          "slots": [
+            [
+              "name",
+              {
+                "term": {
+                  "en": "KI",
+                  "section": "species"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+      },
+      "occurrences": 2
+    },
+    "not-modeled.incomplete-absorbance": {
+      "first_observation_index": 9,
+      "first_operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "model-boundary",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "complete absorbance is unavailable: no absorption spectrum for {species}",
+          "key": "not-modeled.incomplete-absorbance",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "FeSO4+",
+                        "section": "species"
+                      }
+                    },
+                    {
+                      "term": {
+                        "en": "Fe+3",
+                        "section": "species"
+                      }
+                    },
+                    {
+                      "term": {
+                        "en": "FeHSO4+2",
+                        "section": "species"
+                      }
+                    },
+                    {
+                      "term": {
+                        "en": "Fe(SO4)2-",
+                        "section": "species"
+                      }
+                    },
+                    {
+                      "term": {
+                        "en": "FeOH+2",
+                        "section": "species"
+                      }
+                    },
+                    {
+                      "term": {
+                        "en": "FeCl+2",
+                        "section": "species"
+                      }
+                    },
+                    {
+                      "term": {
+                        "en": "FeCl2+",
+                        "section": "species"
+                      }
+                    },
+                    {
+                      "term": {
+                        "en": "Fe(OH)2+",
+                        "section": "species"
+                      }
+                    },
+                    {
+                      "term": {
+                        "en": "Fe2(OH)2+4",
+                        "section": "species"
+                      }
+                    },
+                    {
+                      "term": {
+                        "en": "FeCl3",
+                        "section": "species"
+                      }
+                    },
+                    {
+                      "term": {
+                        "en": "Fe3(OH)4+5",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "complete absorbance is unavailable: no absorption spectrum for FeSO4+, Fe+3, FeHSO4+2, Fe(SO4)2-, FeOH+2, FeCl+2, FeCl2+, Fe(OH)2+, Fe2(OH)2+4, FeCl3 and Fe3(OH)4+5"
+      },
+      "occurrences": 2
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 11,
+      "output_sequence": 11,
+      "step": 11,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "KI"
+          },
+          {
+            "moles": 0.0012000000000000001,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0004,
+            "phase": "aqueous",
+            "species": "Fe+3"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 5.534276991396059,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.002,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 7.950346916125097e-14,
+        "free_proton": 0.001678740423438495,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "H2SO4",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0004,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "FeCl3",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "KI",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.002,
+        "solution": {
+          "ionic_strength": 0.02750827035562,
+          "pe": 18.7965857693,
+          "ph": 1.830470988253,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added",
+            "routing_phrase": {
+              "en": "{routing}. {note}",
+              "key": "routing.with-redox-note",
+              "slots": [
+                [
+                  "routing",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "the default inorganic aqueous dataset",
+                        "key": "routing.default-inorganic"
+                      }
+                    }
+                  }
+                ],
+                [
+                  "note",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added",
+                        "key": "routing.slow-couples-held-as-added"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          "redox": [
+            {
+              "element": "Fe",
+              "molality": 0.004012036108325,
+              "oxidation": 3
+            },
+            {
+              "element": "S",
+              "molality": 0.01003009027081,
+              "oxidation": 6
+            }
+          ],
+          "solvent_kg": 0.0997,
+          "species": [
+            {
+              "activity": 0.9993,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.01478,
+              "molality": 0.01684,
+              "name": "H+"
+            },
+            {
+              "activity": 0.01017,
+              "molality": 0.01196,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.001868,
+              "molality": 0.003454,
+              "name": "SO4-2"
+            },
+            {
+              "activity": 0.002683,
+              "molality": 0.003137,
+              "name": "HSO4-"
+            },
+            {
+              "activity": 0.002575,
+              "molality": 0.003001,
+              "name": "FeSO4+"
+            },
+            {
+              "activity": 0.0001258,
+              "molality": 0.0005184,
+              "name": "Fe+3"
+            },
+            {
+              "activity": 0.0002677,
+              "molality": 0.000266,
+              "name": "O2"
+            },
+            {
+              "activity": 0.0001019,
+              "molality": 0.0001912,
+              "name": "FeHSO4+2"
+            },
+            {
+              "activity": 0.0001052,
+              "molality": 0.0001232,
+              "name": "Fe(SO4)2-"
+            },
+            {
+              "activity": 5.492e-05,
+              "molality": 0.0001013,
+              "name": "FeOH+2"
+            },
+            {
+              "activity": 3.861e-05,
+              "molality": 7.121e-05,
+              "name": "FeCl+2"
+            },
+            {
+              "activity": 1.753e-06,
+              "molality": 2.052e-06,
+              "name": "FeCl2+"
+            },
+            {
+              "activity": 1.23e-06,
+              "molality": 1.43e-06,
+              "name": "Fe(OH)2+"
+            },
+            {
+              "activity": 8.117e-08,
+              "molality": 1.007e-06,
+              "name": "Fe2(OH)2+4"
+            },
+            {
+              "activity": 1.782e-09,
+              "molality": 1.771e-09,
+              "name": "FeCl3"
+            },
+            {
+              "activity": 2.086e-11,
+              "molality": 1.066e-09,
+              "name": "Fe3(OH)4+5"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1500013444238,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 11,
+      "output_sequence": 11,
+      "step": 11,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "KI"
+          },
+          {
+            "moles": 0.0004,
+            "phase": "aqueous",
+            "species": "Fe+2"
+          },
+          {
+            "moles": 0.0014,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 5.534276991396058,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.002,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 9.405262774150368e-14,
+        "free_proton": 0.001435389282597537,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "H2SO4",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0004,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "FeSO4",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "KI",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.002,
+        "solution": {
+          "ionic_strength": 0.03037507030906,
+          "pe": 18.72663843556,
+          "ph": 1.90038836179,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added",
+            "routing_phrase": {
+              "en": "{routing}. {note}",
+              "key": "routing.with-redox-note",
+              "slots": [
+                [
+                  "routing",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "the default inorganic aqueous dataset",
+                        "key": "routing.default-inorganic"
+                      }
+                    }
+                  }
+                ],
+                [
+                  "note",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added",
+                        "key": "routing.slow-couples-held-as-added"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          "redox": [
+            {
+              "element": "Fe",
+              "molality": 0.004012036108325,
+              "oxidation": 2
+            },
+            {
+              "element": "S",
+              "molality": 0.01404212637914,
+              "oxidation": 6
+            }
+          ],
+          "solvent_kg": 0.0997,
+          "species": [
+            {
+              "activity": 0.9995,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.01258,
+              "molality": 0.0144,
+              "name": "H+"
+            },
+            {
+              "activity": 0.003863,
+              "molality": 0.007322,
+              "name": "SO4-2"
+            },
+            {
+              "activity": 0.004724,
+              "molality": 0.005559,
+              "name": "HSO4-"
+            },
+            {
+              "activity": 0.00155,
+              "molality": 0.002851,
+              "name": "Fe+2"
+            },
+            {
+              "activity": 0.001065,
+              "molality": 0.001057,
+              "name": "FeSO4"
+            },
+            {
+              "activity": 0.0002677,
+              "molality": 0.0002658,
+              "name": "O2"
+            },
+            {
+              "activity": 8.804e-05,
+              "molality": 0.0001037,
+              "name": "FeHSO4+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1500013444187,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

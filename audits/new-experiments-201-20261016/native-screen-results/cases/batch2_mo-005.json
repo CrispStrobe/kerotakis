@@ -1,0 +1,425 @@
+{
+  "id": "batch2:mo-005",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "6d41f80d3a37bfe1c129105421063e3ff9f083cdcaf9e4e5def90fc98aef4d1a",
+  "original_script_sha256": "6d41f80d3a37bfe1c129105421063e3ff9f083cdcaf9e4e5def90fc98aef4d1a",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "The requested respiration can release up to 0.0006 mol of carbon dioxide from this glucose dose. Lime addition may transfer some of that carbon into carbonate solid while the rest remains in dissolved or gaseous pools.",
+  "original_acceptance_checks": [
+    {
+      "id": "MO-005-C1",
+      "criterion": "Account for all six carbons per converted glucose across every retained carbon-bearing pool.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "MO-005-C2",
+      "criterion": "Identify carbonate separately from any excess unreacted calcium hydroxide before using retained solid mass as a carbon assay.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:mo-005",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.16698067000001515,
+    "script_sha256": "6d41f80d3a37bfe1c129105421063e3ff9f083cdcaf9e4e5def90fc98aef4d1a",
+    "stdout_sha256": "0c2b250d9620c4158d7df74bc017b5e6fbddd69ee5a7fc6f92eec35ec38ee36a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 12,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "headspace_volume": 0.25,
+      "op": "seal",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0001,
+      "op": "add",
+      "species": "glucose",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "O2",
+      "vessel": 0
+    },
+    {
+      "op": "react",
+      "reaction": "respiration",
+      "vessel": 0
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "moles": 0.0007,
+      "op": "add",
+      "species": "Ca(OH)2",
+      "vessel": 0
+    },
+    {
+      "instrument": "pressure_gauge",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "from": 0,
+      "op": "filter",
+      "to": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 4,
+    "solution_routed": 3,
+    "vessel_sealed": 1,
+    "headspace_equilibrated": 5,
+    "solution_characterized": 6,
+    "dissolved": 2,
+    "neutralised": 2,
+    "org_reacted": 1,
+    "precipitated": 1,
+    "measured": 1,
+    "vessel_created": 1,
+    "filtered": 1,
+    "temperature_changed": 1
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 11,
+      "output_sequence": 11,
+      "step": 9,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.0006029244794884,
+            "phase": "solid",
+            "species": "CaCO3"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0001895304456354321,
+        "free_proton": 5.886156833666592e-13,
+        "headspace": {
+          "boundary": "sealed",
+          "volume": 0.25
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0001,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "glucose",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "gas",
+            "source": "reagent bottle",
+            "species": "O2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0007,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "Ca(OH)2",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": -0.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.00019193125355303892,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 298.1572507223052,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 11,
+      "output_sequence": 11,
+      "step": 9,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 9.707552078032669e-05,
+            "phase": "aqueous",
+            "species": "Ca+2"
+          },
+          {
+            "moles": 1.2544456091133799e-12,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 1.059254748042188e-07,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 1.0569962525183386e-06,
+            "phase": "aqueous",
+            "species": "CO3-2"
+          },
+          {
+            "moles": 5.535480972871806,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.00019193112303050416,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0001895260108841972,
+        "free_proton": 5.875173948615266e-13,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0001919311235808125,
+        "solution": {
+          "ionic_strength": 0.002862066830216,
+          "pe": null,
+          "ph": 11.25332744198,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.09972169,
+          "species": [
+            {
+              "activity": 0.9999,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.001791,
+              "molality": 0.001901,
+              "name": "OH-"
+            },
+            {
+              "activity": 0.0007503,
+              "molality": 0.0009443,
+              "name": "Ca+2"
+            },
+            {
+              "activity": 0.0002678,
+              "molality": 0.0002676,
+              "name": "O2"
+            },
+            {
+              "activity": 2.231e-05,
+              "molality": 2.362e-05,
+              "name": "CaOH+"
+            },
+            {
+              "activity": 4.416e-06,
+              "molality": 5.555e-06,
+              "name": "CO3-2"
+            },
+            {
+              "activity": 5.549e-06,
+              "molality": 5.545e-06,
+              "name": "CaCO3"
+            },
+            {
+              "activity": 5.256e-07,
+              "molality": 5.567e-07,
+              "name": "HCO3-"
+            },
+            {
+              "activity": 5.029e-09,
+              "molality": 5.323e-09,
+              "name": "CaHCO3+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1318468191523,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 4,
+      "operator": {
+        "op": "react",
+        "reaction": "respiration",
+        "vessel": 0
+      },
+      "event": {
+        "boundary": "asking for a named reaction is the LEARNER requesting an outcome, not the bench predicting it: nothing here decides that glucose and oxygen in a beaker will respire. No cell, no membrane, no enzyme, no electron transport chain and no ATP is modelled — glycolysis, the citric acid cycle and oxidative phosphorylation are collapsed into one equation, which is a summary of respiration and not a mechanism for it. The standard enthalpy of combustion of glucose is about −2803 kJ/mol, and THAT HEAT IS NOT APPLIED: no row in this table carries a curated reaction enthalpy, so the vessel's temperature does not move and the figure is quoted rather than used. The energy a cell actually captures is smaller again, and is not claimed at all.",
+        "equation": "C6H12O6 + 6 O2 → 6 CO2 + 6 H2O",
+        "event": "org_reacted",
+        "extent": 0.0001,
+        "name": "respiration",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 7,
+      "operator": {
+        "instrument": "pressure_gauge",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "pressure_gauge",
+        "unit": "kPa",
+        "value": 105.25336086561124,
+        "vessel": 0
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

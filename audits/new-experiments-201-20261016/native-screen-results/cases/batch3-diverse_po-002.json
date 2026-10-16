@@ -1,0 +1,630 @@
+{
+  "id": "batch3-diverse:po-002",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "e54dce875e64a5386efcb1c469ab6c7d1b7bb2104dd33144597ba1608f4a66d0",
+  "original_script_sha256": "e54dce875e64a5386efcb1c469ab6c7d1b7bb2104dd33144597ba1608f4a66d0",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Compare measured liquid density with each polymer density. A denser brine may cross the PS threshold while remaining below PET, allowing a different classification than pure water.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "How does a liquid-density change alter the potential separation of polystyrene and PET?",
+      "review_instruction": "Compare measured liquid density with each polymer density. A denser brine may cross the PS threshold while remaining below PET, allowing a different classification than pure water.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v1: water reference",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:po-002",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11724167700000976,
+    "script_sha256": "e54dce875e64a5386efcb1c469ab6c7d1b7bb2104dd33144597ba1608f4a66d0",
+    "stdout_sha256": "0a3a6da01d716fd5a4d114397582d56cf671737102d3bee6a70b3081bc9eea5e",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 13,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.004800768122899664,
+      "op": "add",
+      "species": "PS",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0026018629338606446,
+      "op": "add",
+      "species": "PET",
+      "vessel": 0
+    },
+    {
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.13688551237958352,
+      "op": "add",
+      "species": "NaCl",
+      "vessel": 1
+    },
+    {
+      "moles": 0.004800768122899664,
+      "op": "add",
+      "species": "PS",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0026018629338606446,
+      "op": "add",
+      "species": "PET",
+      "vessel": 1
+    },
+    {
+      "instrument": "densitometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "densitometer",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 1,
+    "added": 7,
+    "solution_routed": 3,
+    "inert": 2,
+    "dissolved": 1,
+    "solution_characterized": 3,
+    "temperature_changed": 1,
+    "measured": 2,
+    "not_yet_modeled": 1,
+    "observed": 2
+  },
+  "named_model_limits": {
+    "not-modeled.density-of-the-dissolved-ions": {
+      "first_observation_index": 9,
+      "first_operator": {
+        "instrument": "densitometer",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "cause": "no-reviewed-datum",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "the dissolved ions' share of this density: every ion in the registry carries water's density as a structural default rather than a measured one, so a salt solution reads as the water it was made from. The solvent's figure is right and the solutes' is missing",
+          "key": "not-modeled.density-of-the-dissolved-ions"
+        },
+        "vessel": 1,
+        "what": "the dissolved ions' share of this density: every ion in the registry carries water's density as a structural default rather than a measured one, so a salt solution reads as the water it was made from. The solvent's figure is right and the solutes' is missing"
+      },
+      "occurrences": 1
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 12,
+      "output_sequence": 12,
+      "step": 12,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 2.7671384956980294,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.004800768122899664,
+            "phase": "solid",
+            "species": "PS"
+          },
+          {
+            "moles": 0.0026018629338606446,
+            "phase": "solid",
+            "species": "PET"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 5.0152131035944206e-09,
+        "free_proton": 5.0152131035944206e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.004800768122899664,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "PS",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0026018629338606446,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "PET",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 1.006060803128269e-07,
+          "pe": null,
+          "ph": 6.997375771104036,
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "redox": [],
+          "scope": "solvent_only",
+          "solvent_kg": 0.04985,
+          "species": [
+            {
+              "activity": 1.006060803128269e-07,
+              "molality": 1.006060803128269e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 1.006060803128269e-07,
+              "molality": 1.006060803128269e-07,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 12,
+      "output_sequence": 12,
+      "step": 12,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.004800768122899664,
+            "phase": "solid",
+            "species": "PS"
+          },
+          {
+            "moles": 0.0026018629338606446,
+            "phase": "solid",
+            "species": "PET"
+          },
+          {
+            "moles": 0.13688551237958355,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.13688551237958355,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 2.7671384956980294,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 4.8341625690645496e-09,
+        "free_proton": 4.834162560788453e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.13688551237958352,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "NaCl",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.004800768122899664,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "PS",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0026018629338606446,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "PET",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 2.745948188841,
+          "pe": null,
+          "ph": 6.754080689325,
+          "provenance": {
+            "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "pitzer.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "-5 < a3 < 5 ? ka = DH_B * a2 * mu^0.5 / (1 + mu^a3), Appelo, 2017: Dw(I) = Dw(TK) * exp(-a * DH_A * z * sqrt_mu / (1 + ka))",
+              "The apparent volume parameters are defined in ref. 1 & 2 For Li+ additional data from Ellis, 1968, J. Chem. Soc. A, 1138",
+              "Hnedkovsky et al., 1996, JCT 28, 125",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+            "model_phrase": {
+              "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+              "key": "provenance.model.ion-interaction",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "Pitzer"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the solution is concentrated (~5.5 mol/kgw), where the ion-interaction model is the valid one",
+            "routing_phrase": {
+              "en": "chosen because the solution is concentrated (~{molality} mol/kgw), where the ion-interaction model is the valid one",
+              "key": "routing.concentrated-ion-interaction",
+              "slots": [
+                [
+                  "molality",
+                  {
+                    "number": {
+                      "text": "5.5"
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.04985,
+          "species": [
+            {
+              "activity": 0.9035,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 1.557,
+              "molality": 2.746,
+              "name": "Cl-"
+            },
+            {
+              "activity": 2.352,
+              "molality": 2.746,
+              "name": "Na+"
+            },
+            {
+              "activity": 4.268e-08,
+              "molality": 9.697e-08,
+              "name": "OH-"
+            },
+            {
+              "activity": 1.762e-07,
+              "molality": 9.697e-08,
+              "name": "H+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 295.61653134225594,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 8,
+      "operator": {
+        "instrument": "densitometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "densitometer",
+        "unit": "g/mL",
+        "value": 0.997,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 9,
+      "operator": {
+        "instrument": "densitometer",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "densitometer",
+        "unit": "g/mL",
+        "value": 0.9974137931034484,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 10,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "white",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and so cloudy you cannot see through it",
+                        "key": "look.clarity-opaque"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 1.0,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is white and so cloudy you cannot see through it."
+        },
+        "event": "observed",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "white",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and so cloudy you cannot see through it",
+                        "key": "look.clarity-opaque"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 1.0,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is white and so cloudy you cannot see through it."
+        },
+        "event": "observed",
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

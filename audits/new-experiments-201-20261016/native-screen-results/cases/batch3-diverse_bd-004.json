@@ -1,0 +1,478 @@
+{
+  "id": "batch3-diverse:bd-004",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "3bf8c92ef01ca69a3e4a5e9c41202726d369e68d0324f5f316fcb374b346b173",
+  "original_script_sha256": "3bf8c92ef01ca69a3e4a5e9c41202726d369e68d0324f5f316fcb374b346b173",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Compare the peak list with the independent salt and unresolved-protein inventories. A plot that includes ethanol cannot certify absence of the other ingredients, whether or not every omission is explicitly labelled by the instrument.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "What is lost when a neutral-partition chromatogram is treated as a complete analysis of a sample containing ions and unresolved protein?",
+      "review_instruction": "Compare the peak list with the independent salt and unresolved-protein inventories. A plot that includes ethanol cannot certify absence of the other ingredients, whether or not every omission is explicitly labelled by the instrument.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:bd-004",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11667277500001205,
+    "script_sha256": "3bf8c92ef01ca69a3e4a5e9c41202726d369e68d0324f5f316fcb374b346b173",
+    "stdout_sha256": "1e95286eff981b00745cf875d5c49dec08942d21fc76de87258cefb071134fcc",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 9,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 2.2137107965584235,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "ethanol",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "NaCl",
+      "vessel": 0
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "albumin",
+      "op": "add_material",
+      "recipe_id": "food/albumin",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 0.2,
+      "vessel": 0
+    },
+    {
+      "instrument": "chromatograph",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "conductivity_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "balance",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "particles",
+      "vessel": 0
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 3,
+    "solution_routed": 2,
+    "dissolved": 1,
+    "solution_characterized": 2,
+    "temperature_changed": 1,
+    "material_added": 1,
+    "chromatographed": 1,
+    "measured": 2
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 8,
+      "output_sequence": 8,
+      "step": 7,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "liquid",
+            "species": "ethanol"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 2.2143769081321123,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 4.594211486340464e-09,
+        "free_proton": 4.5942114864162584e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.2137107965584235,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "ethanol",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "NaCl",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0006661115736885929,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "material recipe food/albumin",
+            "species": "water",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 0.02506779790965,
+          "pe": null,
+          "ph": 6.993677375332,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone",
+            "routing_phrase": {
+              "en": "{routing}; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on {dataset} ({model}), posed with no phases, gas or interfaces and asked for a_w alone",
+              "key": "routing.second-speciation-for-solvent",
+              "slots": [
+                [
+                  "routing",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "the default inorganic aqueous dataset",
+                        "key": "routing.default-inorganic"
+                      }
+                    }
+                  }
+                ],
+                [
+                  "dataset",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                        "key": "provenance.dataset.with-gas-uptake-slice",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "pitzer.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ],
+                [
+                  "model",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                        "key": "provenance.model.ion-interaction",
+                        "slots": [
+                          [
+                            "name",
+                            {
+                              "text": {
+                                "text": "Pitzer"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          "redox": [],
+          "solvent_activity": {
+            "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "pitzer.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "ionic_strength": 0.02506779933003,
+            "model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+            "model_phrase": {
+              "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+              "key": "provenance.model.ion-interaction",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "Pitzer"
+                    }
+                  }
+                ]
+              ]
+            },
+            "particle_molality": 0.0501402332,
+            "water_activity": 0.9991
+          },
+          "solvent_kg": 0.039892,
+          "species": [
+            {
+              "activity": 0.9991,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.02144,
+              "molality": 0.02507,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.02158,
+              "molality": 0.02507,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0002678,
+              "molality": 0.0002663,
+              "name": "O2"
+            },
+            {
+              "activity": 1.015e-07,
+              "molality": 1.152e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 9.84e-08,
+              "molality": 1.152e-07,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1267616469911,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 0.188,
+            "basis": "mass_fraction",
+            "material": "albumin",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "food/albumin",
+            "recipe_version": 1
+          }
+        ]
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 4,
+      "operator": {
+        "instrument": "chromatograph",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "chromatographed",
+        "outside_method": [
+          "Cl-",
+          "Na+"
+        ],
+        "peaks": [
+          {
+            "partition_k": 0.27503896380363785,
+            "relative_area": 1.0,
+            "retention_time_s": 68.25116891410913,
+            "rf": 0.21571024228401162,
+            "species": "ethanol",
+            "width_s": 2.730046756564365
+          }
+        ],
+        "plates": 10000,
+        "vessel": 0,
+        "void_time_s": 60.0
+      }
+    },
+    {
+      "observation_index": 5,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "unit": "µS/cm",
+        "value": 2926.439635445035,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 6,
+      "operator": {
+        "instrument": "balance",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "balance",
+        "unit": "g",
+        "value": 39.996512,
+        "vessel": 0
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

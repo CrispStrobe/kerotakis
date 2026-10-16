@@ -1,0 +1,992 @@
+{
+  "id": "batch2:qa-011",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "01f8a947a613993eb8e3c35b30267b68b6ff5100f5302a059d394dd728adb219",
+  "original_script_sha256": "01f8a947a613993eb8e3c35b30267b68b6ff5100f5302a059d394dd728adb219",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "The ideal equivalence volume is 10.35 mL. A whole-step endpoint is expected near 11 mL for 1 mL steps and 10.4 mL for 0.1 mL steps, unless the engine explicitly interpolates.",
+  "original_acceptance_checks": [
+    {
+      "id": "QA-011-C1",
+      "criterion": "Compare actual delivered volumes with the 10.35 mL stoichiometric reference.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "QA-011-C2",
+      "criterion": "Distinguish an interpolated estimate from the physical amount actually added.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:qa-011",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.6183968989999897,
+    "script_sha256": "01f8a947a613993eb8e3c35b30267b68b6ff5100f5302a059d394dd728adb219",
+    "stdout_sha256": "9d2db0efc4cf48ba7a520dc02307f3e0ab0b938ddfd57602d5c97e4ade7c2783",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 8,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001035,
+      "op": "add",
+      "species": "HCl",
+      "vessel": 0
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.001035,
+      "op": "add",
+      "species": "HCl",
+      "vessel": 1
+    },
+    {
+      "concentration": 0.1,
+      "max_steps": 30,
+      "op": "titrate",
+      "step": 0.001,
+      "target_ph": 7.0,
+      "titrant": "NaOH",
+      "vessel": 0
+    },
+    {
+      "concentration": 0.1,
+      "max_steps": 200,
+      "op": "titrate",
+      "step": 0.0001,
+      "target_ph": 7.0,
+      "titrant": "NaOH",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 4,
+    "solution_routed": 4,
+    "solution_characterized": 117,
+    "vessel_created": 1,
+    "dissolved": 115,
+    "neutralised": 115,
+    "temperature_changed": 10,
+    "titrated": 2
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 7,
+      "output_sequence": 7,
+      "step": 7,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.0010350000000000001,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0010350003838539125,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 6.108109872440936,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 3.838539126583152e-10,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.2408473389142025e-08,
+        "free_proton": 1.2024619546076636e-08,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001035,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "HCl",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 3.838539124143697e-10,
+        "solution": {
+          "ionic_strength": 0.009405988631481,
+          "pe": null,
+          "ph": 6.999923425922,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.110037599,
+          "species": [
+            {
+              "activity": 0.9997,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.008492,
+              "molality": 0.009406,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.008516,
+              "molality": 0.009406,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0002667,
+              "molality": 0.0002661,
+              "name": "O2"
+            },
+            {
+              "activity": 1.018e-07,
+              "molality": 1.128e-07,
+              "name": "OH-"
+            },
+            {
+              "activity": 1e-07,
+              "molality": 1.093e-07,
+              "name": "H+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.3757913409614,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 7,
+      "output_sequence": 7,
+      "step": 7,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.001035,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0010350003910064717,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 6.108109876399314,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 3.9100647188524643e-10,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.2412163966693864e-08,
+        "free_proton": 1.2021157452321774e-08,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001035,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "HCl",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 3.9100647177513215e-10,
+        "solution": {
+          "ionic_strength": 0.009405988658402,
+          "pe": null,
+          "ph": 7.000050560469,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.110037599,
+          "species": [
+            {
+              "activity": 0.9997,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.008492,
+              "molality": 0.009406,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.008516,
+              "molality": 0.009406,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0002667,
+              "molality": 0.0002661,
+              "name": "O2"
+            },
+            {
+              "activity": 1.018e-07,
+              "molality": 1.128e-07,
+              "name": "OH-"
+            },
+            {
+              "activity": 9.999e-08,
+              "molality": 1.092e-07,
+              "name": "H+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.37579134194596,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 5,
+      "operator": {
+        "concentration": 0.1,
+        "max_steps": 30,
+        "op": "titrate",
+        "step": 0.001,
+        "target_ph": 7.0,
+        "titrant": "NaOH",
+        "vessel": 0
+      },
+      "event": {
+        "concentration": 0.1,
+        "curve": [
+          [
+            0.0,
+            2.023690587214
+          ],
+          [
+            1.0,
+            2.07199722592
+          ],
+          [
+            2.0,
+            2.125259408386
+          ],
+          [
+            3.0,
+            2.184755527398
+          ],
+          [
+            4.0,
+            2.252326837294
+          ],
+          [
+            5.0,
+            2.330765933293
+          ],
+          [
+            6.0,
+            2.424611808461
+          ],
+          [
+            7.0,
+            2.54200050087
+          ],
+          [
+            8.0,
+            2.699885274509
+          ],
+          [
+            9.000000000000002,
+            2.944491457287
+          ],
+          [
+            10.000000000000002,
+            3.534594129983
+          ],
+          [
+            10.350003838539125,
+            6.999923425922
+          ]
+        ],
+        "endpoint_reached": true,
+        "event": "titrated",
+        "final_ph": 6.999923425922,
+        "steps": 11,
+        "titrant": "NaOH",
+        "total_volume": 0.010350003838539125,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 6,
+      "operator": {
+        "concentration": 0.1,
+        "max_steps": 200,
+        "op": "titrate",
+        "step": 0.0001,
+        "target_ph": 7.0,
+        "titrant": "NaOH",
+        "vessel": 1
+      },
+      "event": {
+        "concentration": 0.1,
+        "curve": [
+          [
+            0.0,
+            2.023690587214
+          ],
+          [
+            0.1,
+            2.02832672323
+          ],
+          [
+            0.2,
+            2.03300378238
+          ],
+          [
+            0.30000000000000004,
+            2.037722584101
+          ],
+          [
+            0.4,
+            2.042483972385
+          ],
+          [
+            0.5,
+            2.047288816773
+          ],
+          [
+            0.6000000000000001,
+            2.052138013397
+          ],
+          [
+            0.7000000000000001,
+            2.057032479691
+          ],
+          [
+            0.8000000000000002,
+            2.061973181099
+          ],
+          [
+            0.9000000000000002,
+            2.06696109395
+          ],
+          [
+            1.0000000000000002,
+            2.07199722592
+          ],
+          [
+            1.1000000000000003,
+            2.077082636518
+          ],
+          [
+            1.2000000000000004,
+            2.082218400205
+          ],
+          [
+            1.3000000000000003,
+            2.087405627059
+          ],
+          [
+            1.4000000000000004,
+            2.0926454771
+          ],
+          [
+            1.5000000000000004,
+            2.097939149196
+          ],
+          [
+            1.6000000000000005,
+            2.103287863727
+          ],
+          [
+            1.7000000000000006,
+            2.108692902684
+          ],
+          [
+            1.8000000000000007,
+            2.114155592521
+          ],
+          [
+            1.9000000000000006,
+            2.119677287155
+          ],
+          [
+            2.0000000000000004,
+            2.125259408386
+          ],
+          [
+            2.1,
+            2.130903422777
+          ],
+          [
+            2.2,
+            2.136610850519
+          ],
+          [
+            2.3,
+            2.142383268077
+          ],
+          [
+            2.4,
+            2.148222311006
+          ],
+          [
+            2.4999999999999996,
+            2.154129676939
+          ],
+          [
+            2.5999999999999996,
+            2.160107128777
+          ],
+          [
+            2.6999999999999993,
+            2.166156498076
+          ],
+          [
+            2.799999999999999,
+            2.172279688663
+          ],
+          [
+            2.899999999999999,
+            2.178478680487
+          ],
+          [
+            2.9999999999999987,
+            2.184755527398
+          ],
+          [
+            3.0999999999999988,
+            2.191112386907
+          ],
+          [
+            3.1999999999999984,
+            2.197551486836
+          ],
+          [
+            3.299999999999998,
+            2.204075149393
+          ],
+          [
+            3.399999999999998,
+            2.210685815553
+          ],
+          [
+            3.499999999999998,
+            2.217386006507
+          ],
+          [
+            3.599999999999998,
+            2.224178380535
+          ],
+          [
+            3.6999999999999975,
+            2.231065689031
+          ],
+          [
+            3.7999999999999976,
+            2.238050827986
+          ],
+          [
+            3.8999999999999972,
+            2.245136826728
+          ],
+          [
+            3.9999999999999973,
+            2.252326837294
+          ],
+          [
+            4.099999999999998,
+            2.259624181365
+          ],
+          [
+            4.199999999999998,
+            2.267032334696
+          ],
+          [
+            4.299999999999998,
+            2.274554950268
+          ],
+          [
+            4.399999999999999,
+            2.282195844431
+          ],
+          [
+            4.499999999999999,
+            2.289959047154
+          ],
+          [
+            4.599999999999999,
+            2.297848790189
+          ],
+          [
+            4.699999999999999,
+            2.305869527995
+          ],
+          [
+            4.8,
+            2.314025953645
+          ],
+          [
+            4.8999999999999995,
+            2.322323016184
+          ],
+          [
+            5.0,
+            2.330765933293
+          ],
+          [
+            5.1000000000000005,
+            2.339360237243
+          ],
+          [
+            5.200000000000001,
+            2.348111759838
+          ],
+          [
+            5.300000000000001,
+            2.3570266826
+          ],
+          [
+            5.400000000000001,
+            2.366111551656
+          ],
+          [
+            5.500000000000002,
+            2.375373333184
+          ],
+          [
+            5.600000000000001,
+            2.384819409098
+          ],
+          [
+            5.700000000000002,
+            2.394457632932
+          ],
+          [
+            5.8000000000000025,
+            2.404296389703
+          ],
+          [
+            5.900000000000002,
+            2.414344597488
+          ],
+          [
+            6.000000000000003,
+            2.424611808461
+          ],
+          [
+            6.100000000000003,
+            2.435108215287
+          ],
+          [
+            6.200000000000003,
+            2.445844764774
+          ],
+          [
+            6.300000000000003,
+            2.45683317879
+          ],
+          [
+            6.400000000000004,
+            2.468086078236
+          ],
+          [
+            6.500000000000004,
+            2.479617048241
+          ],
+          [
+            6.600000000000004,
+            2.491440752893
+          ],
+          [
+            6.700000000000005,
+            2.503573026171
+          ],
+          [
+            6.800000000000005,
+            2.516031041667
+          ],
+          [
+            6.900000000000005,
+            2.528833438516
+          ],
+          [
+            7.000000000000005,
+            2.54200050087
+          ],
+          [
+            7.100000000000006,
+            2.555554357377
+          ],
+          [
+            7.2000000000000055,
+            2.569519211822
+          ],
+          [
+            7.300000000000006,
+            2.583921611002
+          ],
+          [
+            7.400000000000007,
+            2.598790757262
+          ],
+          [
+            7.500000000000007,
+            2.614158874949
+          ],
+          [
+            7.600000000000007,
+            2.630061636091
+          ],
+          [
+            7.700000000000007,
+            2.646538697359
+          ],
+          [
+            7.800000000000008,
+            2.663634273062
+          ],
+          [
+            7.9000000000000075,
+            2.681397892819
+          ],
+          [
+            8.000000000000007,
+            2.699885274509
+          ],
+          [
+            8.100000000000007,
+            2.719159427316
+          ],
+          [
+            8.200000000000006,
+            2.739291931385
+          ],
+          [
+            8.300000000000006,
+            2.760364626474
+          ],
+          [
+            8.400000000000004,
+            2.782471617163
+          ],
+          [
+            8.500000000000004,
+            2.805721880305
+          ],
+          [
+            8.600000000000003,
+            2.830242586269
+          ],
+          [
+            8.700000000000003,
+            2.856183369921
+          ],
+          [
+            8.800000000000002,
+            2.883721936259
+          ],
+          [
+            8.900000000000002,
+            2.913071600462
+          ],
+          [
+            9.000000000000002,
+            2.944491457287
+          ],
+          [
+            9.1,
+            2.978300478847
+          ],
+          [
+            9.2,
+            3.014897567383
+          ],
+          [
+            9.299999999999999,
+            3.054790674931
+          ],
+          [
+            9.399999999999999,
+            3.09864059211
+          ],
+          [
+            9.499999999999998,
+            3.147329140263
+          ],
+          [
+            9.599999999999998,
+            3.202070322919
+          ],
+          [
+            9.699999999999998,
+            3.264601401886
+          ],
+          [
+            9.799999999999995,
+            3.337534892771
+          ],
+          [
+            9.899999999999995,
+            3.425067542152
+          ],
+          [
+            9.999999999999995,
+            3.534594129983
+          ],
+          [
+            10.099999999999994,
+            3.681103903709
+          ],
+          [
+            10.199999999999994,
+            3.903333920536
+          ],
+          [
+            10.299999999999994,
+            4.380833981224
+          ],
+          [
+            10.35000391006469,
+            7.000050560469
+          ]
+        ],
+        "endpoint_reached": true,
+        "event": "titrated",
+        "final_ph": 7.000050560469,
+        "steps": 104,
+        "titrant": "NaOH",
+        "total_volume": 0.01035000391006469,
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

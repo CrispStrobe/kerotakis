@@ -1,0 +1,732 @@
+{
+  "id": "batch3-diverse:bd-001",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "313733d79d6f8bcfe4deae88b549291a435b2a254f8ed2238002f6570572dfda",
+  "original_script_sha256": "313733d79d6f8bcfe4deae88b549291a435b2a254f8ed2238002f6570572dfda",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "The reviewed implementation uses water availability and a fixed polymer capacity, not ionic environment. An unchanged predicted retention state should be recorded as that limitation, not a finding that real polyelectrolyte gels are salt-insensitive.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Will the current superabsorbent model wrongly preserve the same retention capacity after adding salt?",
+      "review_instruction": "The reviewed implementation uses water availability and a fixed polymer capacity, not ionic environment. An unchanged predicted retention state should be recorded as that limitation, not a finding that real polyelectrolyte gels are salt-insensitive.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v1: no added salt",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:bd-001",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.1175442690000068,
+    "script_sha256": "313733d79d6f8bcfe4deae88b549291a435b2a254f8ed2238002f6570572dfda",
+    "stdout_sha256": "6a5986d63bf3e99619be19c643a222bad612b87a058c076122b498cf0650cec6",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 13,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "instant_snow_powder",
+      "op": "add_material",
+      "recipe_id": "school/sodium-polyacrylate-instant-snow",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 0.2,
+      "vessel": 0
+    },
+    {
+      "moles": 1.665278934221482,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "instant_snow_powder",
+      "op": "add_material",
+      "recipe_id": "school/sodium-polyacrylate-instant-snow",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 0.2,
+      "vessel": 1
+    },
+    {
+      "moles": 1.665278934221482,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.01711068904744794,
+      "op": "add",
+      "species": "NaCl",
+      "vessel": 1
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "conductivity_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "conductivity_meter",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "particles",
+      "vessel": 0
+    },
+    {
+      "op": "particles",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 1,
+    "material_added": 2,
+    "added": 3,
+    "solution_routed": 3,
+    "polymer_swelled": 2,
+    "dissolved": 1,
+    "solution_characterized": 1,
+    "temperature_changed": 1,
+    "observed": 2,
+    "measured": 2
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 12,
+      "output_sequence": 12,
+      "step": 10,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 1.665278934221482,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 3.018182409384807e-09,
+        "free_proton": 3.018182409384807e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 1.665278934221482,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 1.006060803128269e-07,
+          "pe": null,
+          "ph": 6.997375771104036,
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "redox": [],
+          "scope": "solvent_only",
+          "solvent_kg": 0.03,
+          "species": [
+            {
+              "activity": 1.006060803128269e-07,
+              "molality": 1.006060803128269e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 1.006060803128269e-07,
+              "molality": 1.006060803128269e-07,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 0.2,
+            "basis": "mass_fraction",
+            "material": "instant_snow_powder",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "school/sodium-polyacrylate-instant-snow",
+            "recipe_version": 1
+          }
+        ]
+      }
+    },
+    {
+      "observation_index": 12,
+      "output_sequence": 12,
+      "step": 10,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.01711068904744794,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.01711068904744794,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 1.665278934221482,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 4.1096561082e-09,
+        "free_proton": 4.109656108206e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 1.665278934221482,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.01711068904744794,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "NaCl",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 0.5703564385701,
+          "pe": null,
+          "ph": 6.939291062413,
+          "provenance": {
+            "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "pitzer.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "-5 < a3 < 5 ? ka = DH_B * a2 * mu^0.5 / (1 + mu^a3), Appelo, 2017: Dw(I) = Dw(TK) * exp(-a * DH_A * z * sqrt_mu / (1 + ka))",
+              "The apparent volume parameters are defined in ref. 1 & 2 For Li+ additional data from Ellis, 1968, J. Chem. Soc. A, 1138",
+              "Hnedkovsky et al., 1996, JCT 28, 125",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+            "model_phrase": {
+              "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+              "key": "provenance.model.ion-interaction",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "Pitzer"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the solution is concentrated (~1.1 mol/kgw), where the ion-interaction model is the valid one",
+            "routing_phrase": {
+              "en": "chosen because the solution is concentrated (~{molality} mol/kgw), where the ion-interaction model is the valid one",
+              "key": "routing.concentrated-ion-interaction",
+              "slots": [
+                [
+                  "molality",
+                  {
+                    "number": {
+                      "text": "1.1"
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.03,
+          "species": [
+            {
+              "activity": 0.9812,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.3651,
+              "molality": 0.5704,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.4061,
+              "molality": 0.5704,
+              "name": "Na+"
+            },
+            {
+              "activity": 1.15e-07,
+              "molality": 1.37e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 8.293e-08,
+              "molality": 1.37e-07,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 297.62090915175827,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 0.2,
+            "basis": "mass_fraction",
+            "material": "instant_snow_powder",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "school/sodium-polyacrylate-instant-snow",
+            "recipe_version": 1
+          }
+        ]
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 2,
+      "operator": {
+        "moles": 1.665278934221482,
+        "op": "add",
+        "species": "water",
+        "vessel": 0
+      },
+      "event": {
+        "capacity_g_per_g": 100.0,
+        "dry_polymer_g": 0.2,
+        "event": "polymer_swelled",
+        "retained_water_g": 20.0,
+        "saturated": true,
+        "swelling_ratio_g_per_g": 100.0,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 4,
+      "operator": {
+        "moles": 1.665278934221482,
+        "op": "add",
+        "species": "water",
+        "vessel": 1
+      },
+      "event": {
+        "capacity_g_per_g": 100.0,
+        "dry_polymer_g": 0.2,
+        "event": "polymer_swelled",
+        "retained_water_g": 20.0,
+        "saturated": true,
+        "swelling_ratio_g_per_g": 100.0,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 6,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "a piece of {what} is in the beaker",
+              "key": "look.piece-here",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{colour} {name}",
+                        "key": "look.coloured",
+                        "slots": [
+                          [
+                            "colour",
+                            {
+                              "term": {
+                                "en": "white",
+                                "section": "appearance"
+                              }
+                            }
+                          ],
+                          [
+                            "name",
+                            {
+                              "term": {
+                                "en": "superabsorbent instant-snow powder",
+                                "section": "material"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and clear, a piece of white superabsorbent instant-snow powder is in the beaker."
+        },
+        "event": "observed",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 7,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "a piece of {what} is in the beaker",
+              "key": "look.piece-here",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{colour} {name}",
+                        "key": "look.coloured",
+                        "slots": [
+                          [
+                            "colour",
+                            {
+                              "term": {
+                                "en": "white",
+                                "section": "appearance"
+                              }
+                            }
+                          ],
+                          [
+                            "name",
+                            {
+                              "term": {
+                                "en": "superabsorbent instant-snow powder",
+                                "section": "material"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and clear, a piece of white superabsorbent instant-snow powder is in the beaker."
+        },
+        "event": "observed",
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 8,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "unit": "µS/cm",
+        "value": 0.05508761762446267,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 9,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "note": "past I = 0.10 mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: the ion–ion drag is corrected by an empirical factor (0.73× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and 2 mol/kgw. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+        "note_reason": {
+          "en": "past I = {limit} mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: {where_it_stands}. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+          "key": "measured.conductivity-past-the-dilute-limit",
+          "slots": [
+            [
+              "limit",
+              {
+                "number": {
+                  "text": "0.10"
+                }
+              }
+            ],
+            [
+              "where_it_stands",
+              {
+                "phrase": {
+                  "phrase": {
+                    "en": "the ion–ion drag is corrected by an empirical factor ({factor}× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and {limit} mol/kgw",
+                    "key": "measured.conductivity-fitted-correction",
+                    "slots": [
+                      [
+                        "factor",
+                        {
+                          "number": {
+                            "text": "0.73"
+                          }
+                        }
+                      ],
+                      [
+                        "limit",
+                        {
+                          "number": {
+                            "text": "2"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            ]
+          ]
+        },
+        "unit": "µS/cm",
+        "value": 52722.58979476864,
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

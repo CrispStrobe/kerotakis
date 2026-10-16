@@ -1,0 +1,45 @@
+{
+  "schema": "kerotakis.counterbalance-followup.v1",
+  "status": "prospective_before_request",
+  "original_id": "batch3-diverse:co-005",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "alias": "https://kerotakis-web-payload.vercel.app",
+  "binding_sha256": "4b13c682745bc44d60297508829f8602b465ef77f6b8674890575c56eb730abd",
+  "original_script_sha256": "fd2f3f8976204e22b419b730a2299aa177b03d0f1f26337bfca9f874fb76dcd2",
+  "native_candidate_sha256": "df4137be515fa7c22b31276a65bad928677629899bb58ec39788a3a05d882c4a",
+  "api_adapted_sha256": "e304a0508bb597a028e739683f29177fbac8be2b7a367a1835d6953abd7d2429",
+  "request_sha256": "0af9c8300069b7d4ee1e485e891e423b67760b0ff9c1e2cf488eb44d7faf0453",
+  "original_physical_forecast": "Compare pigment-associated bands with the cloudy blank; do not interpret total attenuation as dye concentration. A post-centrifugation claim requires an actually reported material redistribution.",
+  "changes": [
+    "Counterbalance100g ->39.91g; source maximum allowed imbalance0.10g; all other physics unchanged.",
+    "Remove only exact register lv3 session rendering directive for API transport.",
+    "Canonical parser alias look v3 -> measure v3 eyes; same eyes instrument/operator, no measurement removed."
+  ],
+  "first_failure_preservation": "Original native CO005 imbalance refusal and all raw snapshots/hashes retained; this is a new candidate, not a retry of unchanged original.",
+  "expectations": {
+    "one_centrifuge_completed": true,
+    "rotation_rpm": 3000,
+    "seconds": 60,
+    "rotor_radius_m": 0.08,
+    "counterbalance_g": 39.91,
+    "imbalance_upper_bound_g": 0.1,
+    "original_forecast": "Assess original light-scattering versus dissolved-pigment hypothesis, before/after UV-vis and eyes. Do not equate reached centrifuge or zero exit to optical acceptance.",
+    "material": "Account actual resolved species, retained/settled solids and unresolved milk material; preserve betanin amount and all water/salt/protein/fat pools unless explicitly transformed/exported.",
+    "limits": "No claimed empirical optical calibration or centrifuge-recovery efficiency; unsupported turbidity/absorbance coverage must remain explicit."
+  },
+  "policy": {
+    "requests": 1,
+    "one_attempt": true,
+    "health_source_binary_producer_lock_gate": true,
+    "minimum_seconds_between_starts": 3.1,
+    "retry": false,
+    "stop_on_ambiguity_auth_5xx_or_unexpected_status": true,
+    "private_owner_config_only": true,
+    "local_cli_or_build": false,
+    "production_changed": false
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "counterbalance",
+  "http_status": 200,
+  "client_exit": 0,
+  "elapsed_seconds": 5.260254023596644,
+  "body_sha256": "9b12099c5d8fa7fa0371b9e1af16e7225a50f00b630dda5efd909aed2cad186a",
+  "headers_sha256": "7ccbaed023fcefd4b113a7c57cb4bd4421ccb0c8b6dc96f1be7217b929558095",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

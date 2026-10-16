@@ -1,0 +1,502 @@
+{
+  "id": "batch2:mo-008",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "02cf1cd197d1be3b3c3d202e79aafc04684f8f1d182b31c3483aa5154c91ebbf",
+  "original_script_sha256": "02cf1cd197d1be3b3c3d202e79aafc04684f8f1d182b31c3483aa5154c91ebbf",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Successive known copper additions should increase a supported copper optical signal, but changing volume requires correction before interpreting the response per added mole.",
+  "original_acceptance_checks": [
+    {
+      "id": "MO-008-C1",
+      "criterion": "Construct the response relation using measured volumes and the same spectral feature at every step.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "MO-008-C2",
+      "criterion": "Compare any extrapolated starting amount with the known initial copper budget and report nonlinearity rather than forcing a calibration.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:mo-008",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.16754420800000958,
+    "script_sha256": "02cf1cd197d1be3b3c3d202e79aafc04684f8f1d182b31c3483aa5154c91ebbf",
+    "stdout_sha256": "3a86ab3703e9e24973e23c28d572e1b7c10d9bd14d10364416055110e97a62ad",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 17,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.01,
+      "op": "add",
+      "species": "NaNO3",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "H2SO4",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0005,
+      "op": "add",
+      "species": "CuSO4",
+      "vessel": 0
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "volume_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "moles": 0.00025,
+      "op": "add",
+      "species": "CuSO4",
+      "vessel": 0
+    },
+    {
+      "op": "dilute",
+      "vessel": 0,
+      "volume": 0.005
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "volume_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "moles": 0.00025,
+      "op": "add",
+      "species": "CuSO4",
+      "vessel": 0
+    },
+    {
+      "op": "dilute",
+      "vessel": 0,
+      "volume": 0.005
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "volume_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 6,
+    "solution_routed": 3,
+    "dissolved": 4,
+    "solution_characterized": 7,
+    "temperature_changed": 5,
+    "not_yet_modeled": 6,
+    "diluted": 2
+  },
+  "named_model_limits": {
+    "not-modeled.incomplete-absorbance": {
+      "first_observation_index": 4,
+      "first_operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "model-boundary",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "complete absorbance is unavailable: no absorption spectrum for {species}",
+          "key": "not-modeled.incomplete-absorbance",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "CuSO4",
+                        "section": "species"
+                      }
+                    },
+                    {
+                      "term": {
+                        "en": "CuOH+",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "complete absorbance is unavailable: no absorption spectrum for CuSO4 and CuOH+"
+      },
+      "occurrences": 3
+    },
+    "not-modeled.volume-meter-on-an-open-vessel": {
+      "first_observation_index": 5,
+      "first_operator": {
+        "instrument": "volume_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "boundary-mismatch",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "the volume meter reads a sealed vessel's headspace, and this one is open — seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+          "key": "not-modeled.volume-meter-on-an-open-vessel"
+        },
+        "vessel": 0,
+        "what": "the volume meter reads a sealed vessel's headspace, and this one is open — seal it to give the gas a measured volume. The liquid's own volume is on the vessel line."
+      },
+      "occurrences": 3
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 16,
+      "output_sequence": 16,
+      "step": 14,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.010000000000000002,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 0.0009999999999978776,
+            "phase": "aqueous",
+            "species": "Cu+2"
+          },
+          {
+            "moles": 0.010000000000000002,
+            "phase": "aqueous",
+            "species": "NO3-"
+          },
+          {
+            "moles": 0.0019999999999991054,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 6.087704690535668,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.001999999999992841,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.3723357899180767e-13,
+        "free_proton": 0.0014739376828839367,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.01,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "NaNO3",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "H2SO4",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "CuSO4",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.00025,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "CuSO4",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.00025,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "CuSO4",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.0020000000000024555,
+        "solution": {
+          "ionic_strength": 0.1351401302897,
+          "pe": 18.65276345136,
+          "ph": 1.961475623941,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added",
+            "routing_phrase": {
+              "en": "{routing}. {note}",
+              "key": "routing.with-redox-note",
+              "slots": [
+                [
+                  "routing",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "the default inorganic aqueous dataset",
+                        "key": "routing.default-inorganic"
+                      }
+                    }
+                  }
+                ],
+                [
+                  "note",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added",
+                        "key": "routing.slow-couples-held-as-added"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          "redox": [
+            {
+              "element": "Cu",
+              "molality": 0.009118263882537,
+              "oxidation": 2
+            },
+            {
+              "element": "N",
+              "molality": 0.09118263882557,
+              "oxidation": 5
+            },
+            {
+              "element": "S",
+              "molality": 0.01823652776511,
+              "oxidation": 6
+            }
+          ],
+          "solvent_kg": 0.10967,
+          "species": [
+            {
+              "activity": 0.9963,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.06641,
+              "molality": 0.09118,
+              "name": "NO3-"
+            },
+            {
+              "activity": 0.06859,
+              "molality": 0.08966,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.01093,
+              "molality": 0.01344,
+              "name": "H+"
+            },
+            {
+              "activity": 0.003401,
+              "molality": 0.01011,
+              "name": "SO4-2"
+            },
+            {
+              "activity": 0.002685,
+              "molality": 0.007309,
+              "name": "Cu+2"
+            },
+            {
+              "activity": 0.003626,
+              "molality": 0.004797,
+              "name": "HSO4-"
+            },
+            {
+              "activity": 0.001866,
+              "molality": 0.001809,
+              "name": "CuSO4"
+            },
+            {
+              "activity": 0.00117,
+              "molality": 0.00152,
+              "name": "NaSO4-"
+            },
+            {
+              "activity": 0.000267,
+              "molality": 0.0002588,
+              "name": "O2"
+            },
+            {
+              "activity": 2.448e-09,
+              "molality": 3.275e-09,
+              "name": "CuOH+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.3093603693901,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

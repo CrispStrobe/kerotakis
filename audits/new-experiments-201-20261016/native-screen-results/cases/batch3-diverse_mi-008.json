@@ -1,0 +1,661 @@
+{
+  "id": "batch3-diverse:mi-008",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "7b691923a107947a7260cd0c2bf30b241b49060f09bfcd69916c55d6c2d43c37",
+  "original_script_sha256": "7b691923a107947a7260cd0c2bf30b241b49060f09bfcd69916c55d6c2d43c37",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Metal oxidation by acid can form hydrogen, whereas acid dissolution of the oxide does not itself require hydrogen evolution. The iron oxidation states and acid demands also differ.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Can a metallic-iron sample and an iron-oxide sample be distinguished by the products formed during acid treatment?",
+      "review_instruction": "Metal oxidation by acid can form hydrogen, whereas acid dissolution of the oxide does not itself require hydrogen evolution. The iron oxidation states and acid demands also differ.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:mi-008",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.1682321059999765,
+    "script_sha256": "7b691923a107947a7260cd0c2bf30b241b49060f09bfcd69916c55d6c2d43c37",
+    "stdout_sha256": "0afecf845b919290429381f2b658db5b51bb47cc75f0e66994d975417c9849fe",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 15,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 2.2137107965584235,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0005,
+      "op": "add",
+      "species": "Fe",
+      "vessel": 0
+    },
+    {
+      "moles": 2.2137107965584235,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.00025,
+      "op": "add",
+      "species": "Fe2O3",
+      "vessel": 1
+    },
+    {
+      "headspace_volume": 0.5,
+      "op": "seal",
+      "vessel": 0
+    },
+    {
+      "headspace_volume": 0.5,
+      "op": "seal",
+      "vessel": 1
+    },
+    {
+      "moles": 0.002,
+      "op": "add",
+      "species": "HCl",
+      "vessel": 0
+    },
+    {
+      "moles": 0.002,
+      "op": "add",
+      "species": "HCl",
+      "vessel": 1
+    },
+    {
+      "op": "wait",
+      "seconds": 600.0
+    },
+    {
+      "instrument": "pressure_gauge",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "pressure_gauge",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "particles",
+      "vessel": 0
+    },
+    {
+      "op": "particles",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 1,
+    "added": 6,
+    "solution_routed": 4,
+    "not_yet_modeled": 3,
+    "corroded": 2,
+    "vessel_sealed": 2,
+    "headspace_equilibrated": 6,
+    "solution_characterized": 6,
+    "hazard_warning": 2,
+    "gas_contained": 2,
+    "inert": 2,
+    "gravity_settled": 1,
+    "measured": 2
+  },
+  "named_model_limits": {
+    "not-modeled.stays-as-the-metal": {
+      "first_observation_index": 2,
+      "first_operator": {
+        "moles": 0.0005,
+        "op": "add",
+        "species": "Fe",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "rate-not-modelled",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+          "key": "not-modeled.stays-as-the-metal",
+          "slots": [
+            [
+              "name",
+              {
+                "term": {
+                  "en": "iron",
+                  "section": "species"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "iron stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
+      },
+      "occurrences": 1
+    },
+    "not-modeled.no-dissolution-solver": {
+      "first_observation_index": 2,
+      "first_operator": {
+        "moles": 0.0005,
+        "op": "add",
+        "species": "Fe",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "no-solver",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+          "key": "not-modeled.no-dissolution-solver",
+          "slots": [
+            [
+              "name",
+              {
+                "term": {
+                  "en": "iron",
+                  "section": "species"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "iron in contact with liquid: no wired solver models this dissolution/reaction"
+      },
+      "occurrences": 2
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 14,
+      "output_sequence": 14,
+      "step": 12,
+      "state": {
+        "co2_partial_pressure_atm": 0.0003714712053906771,
+        "contents": [
+          {
+            "moles": 0.0004960103336669082,
+            "phase": "solid",
+            "species": "Fe"
+          },
+          {
+            "moles": 0.016147291289336348,
+            "phase": "gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.00427856391417369,
+            "phase": "gas",
+            "species": "O2"
+          },
+          {
+            "moles": 1.9948331665458972e-06,
+            "phase": "solid",
+            "species": "Fe2O3"
+          },
+          {
+            "moles": 0.0020000000000011758,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 5.037868082454475e-07,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 6.380479327403195e-12,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 7.671015716147e-06,
+            "phase": "gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 2.2137107965520433,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0020000000063805055,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 600.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.1475438104052025e-14,
+        "free_proton": 0.0020000000063931426,
+        "headspace": {
+          "boundary": "sealed",
+          "volume": 0.5
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.2137107965584235,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "Fe",
+            "suspended_fraction": 0.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.002,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "HCl",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101307.68782868124,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.0020000000063816552,
+        "solution": {
+          "ionic_strength": 0.05015045151452,
+          "pe": null,
+          "ph": 1.368448007241,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.03987999999989,
+          "species": [
+            {
+              "activity": 0.9983,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.04281,
+              "molality": 0.05015,
+              "name": "H+"
+            },
+            {
+              "activity": 0.04076,
+              "molality": 0.05015,
+              "name": "Cl-"
+            },
+            {
+              "activity": 1.278e-05,
+              "molality": 1.263e-05,
+              "name": "CO2"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1500615358498,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 14,
+      "output_sequence": 14,
+      "step": 12,
+      "state": {
+        "co2_partial_pressure_atm": 0.00037147120534134024,
+        "contents": [
+          {
+            "moles": 0.00025,
+            "phase": "solid",
+            "species": "Fe2O3"
+          },
+          {
+            "moles": 0.016147291289336348,
+            "phase": "gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.004281556163923509,
+            "phase": "gas",
+            "species": "O2"
+          },
+          {
+            "moles": 0.0020000000000011758,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 5.037868082454475e-07,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 6.380479327403195e-12,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 7.671015716147e-06,
+            "phase": "gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 2.2137107965520433,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0020000000063805055,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 600.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.1475438104052025e-14,
+        "free_proton": 0.0020000000063931426,
+        "headspace": {
+          "boundary": "sealed",
+          "volume": 0.5
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.2137107965584235,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.00025,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "Fe2O3",
+            "suspended_fraction": 0.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.002,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "HCl",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101322.52314717436,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.0020000000063816552,
+        "solution": {
+          "ionic_strength": 0.05015045151452,
+          "pe": null,
+          "ph": 1.368448007241,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.03987999999989,
+          "species": [
+            {
+              "activity": 0.9983,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.04281,
+              "molality": 0.05015,
+              "name": "H+"
+            },
+            {
+              "activity": 0.04076,
+              "molality": 0.05015,
+              "name": "Cl-"
+            },
+            {
+              "activity": 1.278e-05,
+              "molality": 1.263e-05,
+              "name": "CO2"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15006153093043,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 10,
+      "operator": {
+        "instrument": "pressure_gauge",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "pressure_gauge",
+        "unit": "kPa",
+        "value": 101.30768782868124,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "pressure_gauge",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "pressure_gauge",
+        "unit": "kPa",
+        "value": 101.32252314717437,
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

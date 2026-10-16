@@ -1,0 +1,647 @@
+{
+  "id": "batch3-diverse:bd-002",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "c2725fa0b1ebd687ad2e7dd60af9031133bb3b62f86b156c9a874e41f99b5ab3",
+  "original_script_sha256": "c2725fa0b1ebd687ad2e7dd60af9031133bb3b62f86b156c9a874e41f99b5ab3",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Review emulsion and hydrolysis outputs independently. The aggregate substrate-dose model does not establish a droplet-area rate law; equal hydrolysis despite different dispersion must not be reported as a general real-lipase result.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Does the implementation couple increased oil-water interface to enzyme activity, or merely keep a separate emulsion state?",
+      "review_instruction": "Review emulsion and hydrolysis outputs independently. The aggregate substrate-dose model does not establish a droplet-area rate law; equal hydrolysis despite different dispersion must not be reported as a general real-lipase result.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: no emulsifier",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:bd-002",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11723933899997974,
+    "script_sha256": "c2725fa0b1ebd687ad2e7dd60af9031133bb3b62f86b156c9a874e41f99b5ab3",
+    "stdout_sha256": "04159f927a96e2dfe39db699c8f50f0940a9af32668e4ea03edc95ec0e2c9be4",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 14,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "vegetable_oil",
+      "op": "add_material",
+      "recipe_id": "household/vegetable-oil-surrogate",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 1.0,
+      "vessel": 0
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "dish_soap",
+      "op": "add_material",
+      "recipe_id": "household/dish-soap-surrogate",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 0.3,
+      "vessel": 0
+    },
+    {
+      "moles": 1.5151515151515152e-06,
+      "op": "add",
+      "species": "lipase",
+      "vessel": 0
+    },
+    {
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "vegetable_oil",
+      "op": "add_material",
+      "recipe_id": "household/vegetable-oil-surrogate",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 1.0,
+      "vessel": 1
+    },
+    {
+      "moles": 1.5151515151515152e-06,
+      "op": "add",
+      "species": "lipase",
+      "vessel": 1
+    },
+    {
+      "op": "stir",
+      "rpm": 500.0,
+      "seconds": 30.0,
+      "vessel": 0
+    },
+    {
+      "op": "stir",
+      "rpm": 500.0,
+      "seconds": 30.0,
+      "vessel": 1
+    },
+    {
+      "op": "wait",
+      "seconds": 1800.0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 1,
+    "added": 4,
+    "solution_routed": 2,
+    "material_added": 3,
+    "material_layers_formed": 9,
+    "stirred": 2,
+    "enzyme_hydrolysed": 4,
+    "emulsion_changed": 2,
+    "observed": 2
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 13,
+      "output_sequence": 13,
+      "step": 13,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 2.780460727171801,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 1.5151515151515152e-06,
+            "phase": "aqueous",
+            "species": "lipase"
+          }
+        ],
+        "elapsed_seconds": 1830.0,
+        "emulsion": {
+          "dispersed_volume_l": 9.375000000000001e-06,
+          "half_life_seconds": 300.0,
+          "oil_recipe_id": "household/vegetable-oil-surrogate"
+        },
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 5.039358562869499e-09,
+        "free_proton": 5.039358562869499e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.013322231473771855,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "material recipe household/dish-soap-surrogate",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 1.5151515151515152e-06,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "lipase",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 1.006060803128269e-07,
+          "pe": null,
+          "ph": 6.997375771104036,
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "redox": [],
+          "scope": "solvent_only",
+          "solvent_kg": 0.050089999999999996,
+          "species": [
+            {
+              "activity": 1.006060803128269e-07,
+              "molality": 1.006060803128269e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 1.006060803128269e-07,
+              "molality": 1.006060803128269e-07,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 1.0,
+            "basis": "mass_fraction",
+            "enzyme_hydrolysis": {
+              "carried_enzyme_denatured": false,
+              "converted_fraction": 0.4913828569000964,
+              "family": "lipase"
+            },
+            "material": "vegetable_oil",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "household/vegetable-oil-surrogate",
+            "recipe_version": 1
+          },
+          {
+            "amount": 0.059999999999999984,
+            "basis": "mass_fraction",
+            "material": "dish_soap",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "household/dish-soap-surrogate",
+            "recipe_version": 1
+          }
+        ]
+      }
+    },
+    {
+      "observation_index": 13,
+      "output_sequence": 13,
+      "step": 13,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 2.7671384956980294,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 1.5151515151515152e-06,
+            "phase": "aqueous",
+            "species": "lipase"
+          }
+        ],
+        "elapsed_seconds": 1830.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 5.0152131035944206e-09,
+        "free_proton": 5.0152131035944206e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 1.5151515151515152e-06,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "lipase",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 1.006060803128269e-07,
+          "pe": null,
+          "ph": 6.997375771104036,
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "redox": [],
+          "scope": "solvent_only",
+          "solvent_kg": 0.04985,
+          "species": [
+            {
+              "activity": 1.006060803128269e-07,
+              "molality": 1.006060803128269e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 1.006060803128269e-07,
+              "molality": 1.006060803128269e-07,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 1.0,
+            "basis": "mass_fraction",
+            "enzyme_hydrolysis": {
+              "carried_enzyme_denatured": false,
+              "converted_fraction": 0.4913828569000964,
+              "family": "lipase"
+            },
+            "material": "vegetable_oil",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "household/vegetable-oil-surrogate",
+            "recipe_version": 1
+          }
+        ]
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 8,
+      "operator": {
+        "op": "stir",
+        "rpm": 500.0,
+        "seconds": 30.0,
+        "vessel": 0
+      },
+      "event": {
+        "converted_fraction": 0.01102175664503724,
+        "event": "enzyme_hydrolysed",
+        "family": "lipase",
+        "hydrolysed_mass_g": 0.01102175664503724,
+        "material": "vegetable oil",
+        "seconds": 30.0,
+        "substrate": "triglycerides in vegetable oil",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 9,
+      "operator": {
+        "op": "stir",
+        "rpm": 500.0,
+        "seconds": 30.0,
+        "vessel": 1
+      },
+      "event": {
+        "converted_fraction": 0.01102175664503724,
+        "event": "enzyme_hydrolysed",
+        "family": "lipase",
+        "hydrolysed_mass_g": 0.01102175664503724,
+        "material": "vegetable oil",
+        "seconds": 30.0,
+        "substrate": "triglycerides in vegetable oil",
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 10,
+      "operator": {
+        "op": "wait",
+        "seconds": 1800.0
+      },
+      "event": {
+        "converted_fraction": 0.4913828569000964,
+        "event": "enzyme_hydrolysed",
+        "family": "lipase",
+        "hydrolysed_mass_g": 0.4803611002550592,
+        "material": "vegetable oil",
+        "seconds": 1800.0,
+        "substrate": "triglycerides in vegetable oil",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 10,
+      "operator": {
+        "op": "wait",
+        "seconds": 1800.0
+      },
+      "event": {
+        "converted_fraction": 0.4913828569000964,
+        "event": "enzyme_hydrolysed",
+        "family": "lipase",
+        "hydrolysed_mass_g": 0.4803611002550592,
+        "material": "vegetable oil",
+        "seconds": 1800.0,
+        "substrate": "triglycerides in vegetable oil",
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.006727500000000001,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and clear."
+        },
+        "event": "observed",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 12,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and clear."
+        },
+        "event": "observed",
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

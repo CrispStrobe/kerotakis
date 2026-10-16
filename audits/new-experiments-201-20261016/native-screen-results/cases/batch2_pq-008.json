@@ -1,0 +1,569 @@
+{
+  "id": "batch2:pq-008",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "1584e9bc2fe1c9594e85542a6004122d051f68a4fb2674039be506a930d31c8f",
+  "original_script_sha256": "1584e9bc2fe1c9594e85542a6004122d051f68a4fb2674039be506a930d31c8f",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Initially, added water dissolves excess halite and the solution remains near saturation. After the solid reservoir is exhausted, further dilution lowers concentration more directly.",
+  "original_acceptance_checks": [
+    {
+      "id": "PQ-008-C1",
+      "criterion": "Track decreasing solid NaCl before expecting large concentration dilution.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "PQ-008-C2",
+      "criterion": "Distinguish saturated activity/concentration from nonlinearly responding conductivity.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:pq-008",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11777850199999307,
+    "script_sha256": "1584e9bc2fe1c9594e85542a6004122d051f68a4fb2674039be506a930d31c8f",
+    "stdout_sha256": "dc7660414da447a905824c5baa1311e69eafda64e563935f7a9257aeb419503b",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 13,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 5.550929780738273,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.8555344523723971,
+      "op": "add",
+      "species": "NaCl",
+      "vessel": 0
+    },
+    {
+      "instrument": "conductivity_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "op": "dilute",
+      "vessel": 0,
+      "volume": 0.02
+    },
+    {
+      "instrument": "conductivity_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "op": "dilute",
+      "vessel": 0,
+      "volume": 0.02
+    },
+    {
+      "instrument": "conductivity_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "op": "dilute",
+      "vessel": 0,
+      "volume": 0.2
+    },
+    {
+      "instrument": "conductivity_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 2,
+    "solution_routed": 2,
+    "dissolved": 4,
+    "precipitated": 3,
+    "solution_characterized": 4,
+    "temperature_changed": 6,
+    "measured": 4,
+    "diluted": 3
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 12,
+      "output_sequence": 12,
+      "step": 9,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.8555344523727728,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.8555344523730526,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 18.833194560088813,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 3.4463747409733764e-08,
+        "free_proton": 3.446340822951601e-08,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.550929780738273,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.11379823876208575,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "NaCl",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.615092372578269,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "NaCl",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.12664384103204238,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "NaCl",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 2.7977620220553945e-13,
+        "solution": {
+          "ionic_strength": 2.521617798976,
+          "pe": null,
+          "ph": 6.77309251186,
+          "provenance": {
+            "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "pitzer.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "-5 < a3 < 5 ? ka = DH_B * a2 * mu^0.5 / (1 + mu^a3), Appelo, 2017: Dw(I) = Dw(TK) * exp(-a * DH_A * z * sqrt_mu / (1 + ka))",
+              "The apparent volume parameters are defined in ref. 1 & 2 For Li+ additional data from Ellis, 1968, J. Chem. Soc. A, 1138",
+              "Hnedkovsky et al., 1996, JCT 28, 125",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+            "model_phrase": {
+              "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+              "key": "provenance.model.ion-interaction",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "Pitzer"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the solution is concentrated (~5.0 mol/kgw), where the ion-interaction model is the valid one",
+            "routing_phrase": {
+              "en": "chosen because the solution is concentrated (~{molality} mol/kgw), where the ion-interaction model is the valid one",
+              "key": "routing.concentrated-ion-interaction",
+              "slots": [
+                [
+                  "molality",
+                  {
+                    "number": {
+                      "text": "5.0"
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.33928,
+          "species": [
+            {
+              "activity": 0.9121,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 1.431,
+              "molality": 2.522,
+              "name": "Cl-"
+            },
+            {
+              "activity": 2.093,
+              "molality": 2.522,
+              "name": "Na+"
+            },
+            {
+              "activity": 4.571e-08,
+              "molality": 1.016e-07,
+              "name": "OH-"
+            },
+            {
+              "activity": 1.686e-07,
+              "molality": 1.016e-07,
+              "name": "H+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 295.8107410442842,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 2,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "note": "past I = 0.10 mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: this solution is at I = 6.1 mol/kgw, ABOVE the 2 mol/kgw the correction was fitted to, so the factor applied (0.51×) is an extrapolation. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+        "note_reason": {
+          "en": "past I = {limit} mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: {where_it_stands}. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+          "key": "measured.conductivity-past-the-dilute-limit",
+          "slots": [
+            [
+              "limit",
+              {
+                "number": {
+                  "text": "0.10"
+                }
+              }
+            ],
+            [
+              "where_it_stands",
+              {
+                "phrase": {
+                  "phrase": {
+                    "en": "this solution is at I = {ionic_strength} mol/kgw, ABOVE the {limit} mol/kgw the correction was fitted to, so the factor applied ({factor}×) is an extrapolation",
+                    "key": "measured.conductivity-extrapolated",
+                    "slots": [
+                      [
+                        "ionic_strength",
+                        {
+                          "number": {
+                            "text": "6.1"
+                          }
+                        }
+                      ],
+                      [
+                        "limit",
+                        {
+                          "number": {
+                            "text": "2"
+                          }
+                        }
+                      ],
+                      [
+                        "factor",
+                        {
+                          "number": {
+                            "text": "0.51"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            ]
+          ]
+        },
+        "unit": "µS/cm",
+        "value": 397193.6123710475,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 5,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "note": "past I = 0.10 mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: this solution is at I = 6.1 mol/kgw, ABOVE the 2 mol/kgw the correction was fitted to, so the factor applied (0.51×) is an extrapolation. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+        "note_reason": {
+          "en": "past I = {limit} mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: {where_it_stands}. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+          "key": "measured.conductivity-past-the-dilute-limit",
+          "slots": [
+            [
+              "limit",
+              {
+                "number": {
+                  "text": "0.10"
+                }
+              }
+            ],
+            [
+              "where_it_stands",
+              {
+                "phrase": {
+                  "phrase": {
+                    "en": "this solution is at I = {ionic_strength} mol/kgw, ABOVE the {limit} mol/kgw the correction was fitted to, so the factor applied ({factor}×) is an extrapolation",
+                    "key": "measured.conductivity-extrapolated",
+                    "slots": [
+                      [
+                        "ionic_strength",
+                        {
+                          "number": {
+                            "text": "6.1"
+                          }
+                        }
+                      ],
+                      [
+                        "limit",
+                        {
+                          "number": {
+                            "text": "2"
+                          }
+                        }
+                      ],
+                      [
+                        "factor",
+                        {
+                          "number": {
+                            "text": "0.51"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            ]
+          ]
+        },
+        "unit": "µS/cm",
+        "value": 397195.90178479184,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 8,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "note": "past I = 0.10 mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: this solution is at I = 6.1 mol/kgw, ABOVE the 2 mol/kgw the correction was fitted to, so the factor applied (0.51×) is an extrapolation. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+        "note_reason": {
+          "en": "past I = {limit} mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: {where_it_stands}. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+          "key": "measured.conductivity-past-the-dilute-limit",
+          "slots": [
+            [
+              "limit",
+              {
+                "number": {
+                  "text": "0.10"
+                }
+              }
+            ],
+            [
+              "where_it_stands",
+              {
+                "phrase": {
+                  "phrase": {
+                    "en": "this solution is at I = {ionic_strength} mol/kgw, ABOVE the {limit} mol/kgw the correction was fitted to, so the factor applied ({factor}×) is an extrapolation",
+                    "key": "measured.conductivity-extrapolated",
+                    "slots": [
+                      [
+                        "ionic_strength",
+                        {
+                          "number": {
+                            "text": "6.1"
+                          }
+                        }
+                      ],
+                      [
+                        "limit",
+                        {
+                          "number": {
+                            "text": "2"
+                          }
+                        }
+                      ],
+                      [
+                        "factor",
+                        {
+                          "number": {
+                            "text": "0.51"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            ]
+          ]
+        },
+        "unit": "µS/cm",
+        "value": 397197.57413442055,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "note": "past I = 0.10 mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: this solution is at I = 2.5 mol/kgw, ABOVE the 2 mol/kgw the correction was fitted to, so the factor applied (0.59×) is an extrapolation. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+        "note_reason": {
+          "en": "past I = {limit} mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: {where_it_stands}. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+          "key": "measured.conductivity-past-the-dilute-limit",
+          "slots": [
+            [
+              "limit",
+              {
+                "number": {
+                  "text": "0.10"
+                }
+              }
+            ],
+            [
+              "where_it_stands",
+              {
+                "phrase": {
+                  "phrase": {
+                    "en": "this solution is at I = {ionic_strength} mol/kgw, ABOVE the {limit} mol/kgw the correction was fitted to, so the factor applied ({factor}×) is an extrapolation",
+                    "key": "measured.conductivity-extrapolated",
+                    "slots": [
+                      [
+                        "ionic_strength",
+                        {
+                          "number": {
+                            "text": "2.5"
+                          }
+                        }
+                      ],
+                      [
+                        "limit",
+                        {
+                          "number": {
+                            "text": "2"
+                          }
+                        }
+                      ],
+                      [
+                        "factor",
+                        {
+                          "number": {
+                            "text": "0.59"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            ]
+          ]
+        },
+        "unit": "µS/cm",
+        "value": 188376.97622858494,
+        "vessel": 0
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

@@ -1,0 +1,291 @@
+{
+  "id": "batch2:tc-007",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "ed8f735001bff045672d1b9f71fc26dba657d9a5abe9cb7671acafc0367e675b",
+  "original_script_sha256": "ed8f735001bff045672d1b9f71fc26dba657d9a5abe9cb7671acafc0367e675b",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Both portions can remain near the melting temperature while the more strongly cooled portion contains more ice and a lower retained enthalpy.",
+  "original_acceptance_checks": [
+    {
+      "id": "TC-007-C1",
+      "criterion": "Confirm coexistence of ice and liquid before comparing equal temperatures.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "TC-007-C2",
+      "criterion": "Use the different phase fractions and known cooling inputs to explain why temperature alone does not determine stored energy.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:tc-007",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11636980400000141,
+    "script_sha256": "ed8f735001bff045672d1b9f71fc26dba657d9a5abe9cb7671acafc0367e675b",
+    "stdout_sha256": "a71da4fa610f7a651a5da1d4b867461101e86d579974bba4fa4b9d32189b9dea",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 10,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "at": 273.15,
+      "moles": 5.550929780738273,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "at": 273.15,
+      "moles": 5.550929780738273,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "energy": 5000.0,
+      "op": "cool",
+      "vessel": 0
+    },
+    {
+      "energy": 20000.0,
+      "op": "cool",
+      "vessel": 1
+    },
+    {
+      "instrument": "thermometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "thermometer",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "calorimeter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "calorimeter",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "temperature_changed": 2,
+    "added": 2,
+    "solution_routed": 2,
+    "vessel_created": 1,
+    "energy_transferred": 2,
+    "state_changed": 2,
+    "measured": 4
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 9,
+      "output_sequence": 9,
+      "step": 9,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 4.718983025330618,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.831946755407655,
+            "phase": "solid",
+            "species": "water"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0,
+        "free_proton": 0.0,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.550929780738273,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 273.15,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 9,
+      "output_sequence": 9,
+      "step": 9,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 2.223142759107657,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 3.3277870216306162,
+            "phase": "solid",
+            "species": "water"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0,
+        "free_proton": 0.0,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.550929780738273,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 273.15,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 5,
+      "operator": {
+        "instrument": "thermometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 0.0,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 6,
+      "operator": {
+        "instrument": "thermometer",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 0.0,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 7,
+      "operator": {
+        "instrument": "calorimeter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "calorimeter",
+        "unit": "kJ",
+        "value": -9.696999071506642,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 8,
+      "operator": {
+        "instrument": "calorimeter",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "calorimeter",
+        "unit": "kJ",
+        "value": -7.365646672194238,
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

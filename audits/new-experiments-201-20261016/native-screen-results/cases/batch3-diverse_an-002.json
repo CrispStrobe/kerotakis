@@ -1,0 +1,367 @@
+{
+  "id": "batch3-diverse:an-002",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "333c2fad5c9703e224f655bbb19d5618fbceab7d4b00b4602e61649cf2932bfd",
+  "original_script_sha256": "333c2fad5c9703e224f655bbb19d5618fbceab7d4b00b4602e61649cf2932bfd",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Use both reference signatures and the known mixed inventory. Whether the engine renders one colour or several, the mixture must not be classified as a pure compound from a single dominant visual cue.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Can a dominant sodium signal make a potassium-containing sample unsafe to label as pure sodium salt?",
+      "review_instruction": "Use both reference signatures and the known mixed inventory. Whether the engine renders one colour or several, the mixture must not be classified as a pure compound from a single dominant visual cue.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v1 and v2: pure-salt references",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:an-002",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11666474500000845,
+    "script_sha256": "333c2fad5c9703e224f655bbb19d5618fbceab7d4b00b4602e61649cf2932bfd",
+    "stdout_sha256": "f1c50881ab3d5c11b6d14abf84d31283c030c471976c5863d48aba4684f76405",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 11,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 0.0017110689047447943,
+      "op": "add",
+      "species": "NaCl",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001341363630266529,
+      "op": "add",
+      "species": "KCl",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0017110689047447943,
+      "op": "add",
+      "species": "NaCl",
+      "vessel": 2
+    },
+    {
+      "moles": 0.0001341363630266529,
+      "op": "add",
+      "species": "KCl",
+      "vessel": 2
+    },
+    {
+      "op": "ignite",
+      "vessel": 0
+    },
+    {
+      "op": "ignite",
+      "vessel": 1
+    },
+    {
+      "op": "ignite",
+      "vessel": 2
+    },
+    {
+      "op": "particles",
+      "vessel": 2
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 2,
+    "added": 4,
+    "state_changed": 9,
+    "flame_test": 3,
+    "not_yet_modeled": 1
+  },
+  "named_model_limits": {
+    "not-modeled.no-dissolution-solver": {
+      "first_observation_index": 8,
+      "first_operator": {
+        "op": "ignite",
+        "vessel": 2
+      },
+      "event": {
+        "cause": "no-solver",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+          "key": "not-modeled.no-dissolution-solver",
+          "slots": [
+            [
+              "name",
+              {
+                "term": {
+                  "en": "sodium chloride",
+                  "section": "species"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 2,
+        "what": "sodium chloride in contact with liquid: no wired solver models this dissolution/reaction"
+      },
+      "occurrences": 1
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 10,
+      "output_sequence": 10,
+      "step": 9,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 0.0017110689047447943,
+            "phase": "solid",
+            "species": "NaCl"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0,
+        "free_proton": 0.0,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 0.0017110689047447943,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "NaCl",
+            "suspended_fraction": 0.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 10,
+      "output_sequence": 10,
+      "step": 9,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 0.001341363630266529,
+            "phase": "liquid",
+            "species": "KCl"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0,
+        "free_proton": 0.0,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 0.001341363630266529,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "KCl",
+            "suspended_fraction": 0.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 10,
+      "output_sequence": 10,
+      "step": 9,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 0.0017110689047447945,
+            "phase": "solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 0.0001341363630266529,
+            "phase": "liquid",
+            "species": "KCl"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0,
+        "free_proton": 0.0,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 2,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 0.0017110689047447943,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "NaCl",
+            "suspended_fraction": 0.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0001341363630266529,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "KCl",
+            "suspended_fraction": 0.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 6,
+      "operator": {
+        "op": "ignite",
+        "vessel": 0
+      },
+      "event": {
+        "colour": "bright yellow",
+        "event": "flame_test",
+        "species": "NaCl",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 7,
+      "operator": {
+        "op": "ignite",
+        "vessel": 1
+      },
+      "event": {
+        "colour": "lilac",
+        "event": "flame_test",
+        "species": "KCl",
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 8,
+      "operator": {
+        "op": "ignite",
+        "vessel": 2
+      },
+      "event": {
+        "colour": "bright yellow",
+        "event": "flame_test",
+        "species": "NaCl",
+        "vessel": 2
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

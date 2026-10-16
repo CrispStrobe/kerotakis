@@ -1,0 +1,550 @@
+{
+  "id": "batch3-diverse:th-003",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "e58beb4e5ebfb3b28f3e922710de5a8f70bbff17a106f29b75f4b079ec242a95",
+  "original_script_sha256": "e58beb4e5ebfb3b28f3e922710de5a8f70bbff17a106f29b75f4b079ec242a95",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Compare melting and boiling descriptors rather than treating the hydroxyl functional group as a complete prediction of physical behavior. The warming step tests any installed near-ambient phase change.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Can tert-butanol and isopropanol be distinguished by a low-temperature phase test even when both are alcohols?",
+      "review_instruction": "Compare melting and boiling descriptors rather than treating the hydroxyl functional group as a complete prediction of physical behavior. The warming step tests any installed near-ambient phase change.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:th-003",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11646754599999554,
+    "script_sha256": "e58beb4e5ebfb3b28f3e922710de5a8f70bbff17a106f29b75f4b079ec242a95",
+    "stdout_sha256": "70869f2202a41f328ea6e923ec62503141ae505ed1abb32db86ce72d68f2e907",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 14,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "at": 288.15,
+      "moles": 0.0674554456781296,
+      "op": "add",
+      "species": "tert_butanol",
+      "vessel": 0
+    },
+    {
+      "at": 288.15,
+      "moles": 0.08320021299254526,
+      "op": "add",
+      "species": "isopropanol",
+      "vessel": 1
+    },
+    {
+      "instrument": "melting_point_apparatus",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "melting_point_apparatus",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "boiling_point_apparatus",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "boiling_point_apparatus",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "energy": 400.0,
+      "op": "heat",
+      "vessel": 0
+    },
+    {
+      "energy": 400.0,
+      "op": "heat",
+      "vessel": 1
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 1,
+    "temperature_changed": 4,
+    "added": 2,
+    "transition_point_read": 4,
+    "observed": 4,
+    "energy_transferred": 2
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 13,
+      "output_sequence": 13,
+      "step": 13,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 0.0674554456781296,
+            "phase": "liquid",
+            "species": "tert_butanol"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0,
+        "free_proton": 0.0,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 0.0674554456781296,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "tert_butanol",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 315.27644098810606,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 13,
+      "output_sequence": 13,
+      "step": 13,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 0.08320021299254526,
+            "phase": "liquid",
+            "species": "isopropanol"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0,
+        "free_proton": 0.0,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 0.08320021299254526,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "isopropanol",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 319.73791064388956,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 3,
+      "operator": {
+        "instrument": "melting_point_apparatus",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "transition_point_read",
+        "reading": {
+          "boundary": null,
+          "components": [],
+          "kind": "melting",
+          "lowest_component_c": null,
+          "outcome": null,
+          "source": null,
+          "species": null,
+          "value_c": null,
+          "verdict": "nothing_to_test"
+        },
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 4,
+      "operator": {
+        "instrument": "melting_point_apparatus",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "transition_point_read",
+        "reading": {
+          "boundary": null,
+          "components": [],
+          "kind": "melting",
+          "lowest_component_c": null,
+          "outcome": null,
+          "source": null,
+          "species": null,
+          "value_c": null,
+          "verdict": "nothing_to_test"
+        },
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 5,
+      "operator": {
+        "instrument": "boiling_point_apparatus",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "transition_point_read",
+        "reading": {
+          "boundary": "the block does not simulate the melt: it reports the curated literature constant for the substance the bench knows is in the capillary, to the precision a school apparatus resolves. A real determination is the evidence for an identity; here the identity is the evidence for the number, and only the refusals are computed from the sample. the melting point is barely above room temperature, so this liquid is a solid on a cold morning",
+          "components": [
+            "tert_butanol"
+          ],
+          "kind": "boiling",
+          "lowest_component_c": 82.30000000000001,
+          "outcome": "boils",
+          "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed. NO PRIMARY REFERENCE IS CLAIMED FOR THESE VALUES, AND THE ONE THIS LINE USED TO NAME HAS BEEN WITHDRAWN. PLAN.md's provenance audit puts the CRC Handbook of Chemistry and Physics on the commercial row and the NIST WebBook and JANAF-online on the do-not-redistribute row, and states the remedy for an avoid-row source: the claim stops and the prose stays as commentary. Naming a reference the project may not ship from as the source behind a shipped number is a claim, not a citation, and so is saying the number agrees with it. Both are gone. The commentary that remains is worth keeping: these are the transition temperatures the general references agree on for these substances, and the editorial care in the rest of this paragraph was real. What a row here needs and does not have is its own primary measurement with a DOI, in the shape `literature/hartley-campbell-iodine-water` already uses in this registry; a cleared vendored source such as vendor/nasa-cea/thermo.inp is the acceptable second choice. Until a row has one of those it is supported by this paragraph and nothing else. (The reviewer confirmation recorded 2026-09-01 confirmed a handbook agreement, which is the claim that has just stopped; it is not evidence for the values and is no longer offered as any.) Withdrawn 2026-09-13. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29",
+          "species": "tert_butanol",
+          "value_c": 82.30000000000001,
+          "verdict": "pure"
+        },
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 6,
+      "operator": {
+        "instrument": "boiling_point_apparatus",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "transition_point_read",
+        "reading": {
+          "boundary": "the block does not simulate the melt: it reports the curated literature constant for the substance the bench knows is in the capillary, to the precision a school apparatus resolves. A real determination is the evidence for an identity; here the identity is the evidence for the number, and only the refusals are computed from the sample",
+          "components": [
+            "isopropanol"
+          ],
+          "kind": "boiling",
+          "lowest_component_c": 82.21000000000004,
+          "outcome": "boils",
+          "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed. NO PRIMARY REFERENCE IS CLAIMED FOR THESE VALUES, AND THE ONE THIS LINE USED TO NAME HAS BEEN WITHDRAWN. PLAN.md's provenance audit puts the CRC Handbook of Chemistry and Physics on the commercial row and the NIST WebBook and JANAF-online on the do-not-redistribute row, and states the remedy for an avoid-row source: the claim stops and the prose stays as commentary. Naming a reference the project may not ship from as the source behind a shipped number is a claim, not a citation, and so is saying the number agrees with it. Both are gone. The commentary that remains is worth keeping: these are the transition temperatures the general references agree on for these substances, and the editorial care in the rest of this paragraph was real. What a row here needs and does not have is its own primary measurement with a DOI, in the shape `literature/hartley-campbell-iodine-water` already uses in this registry; a cleared vendored source such as vendor/nasa-cea/thermo.inp is the acceptable second choice. Until a row has one of those it is supported by this paragraph and nothing else. (The reviewer confirmation recorded 2026-09-01 confirmed a handbook agreement, which is the claim that has just stopped; it is not evidence for the values and is no longer offered as any.) Withdrawn 2026-09-13. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29",
+          "species": "isopropanol",
+          "value_c": 82.21000000000004,
+          "verdict": "pure"
+        },
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 7,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and clear."
+        },
+        "event": "observed",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 8,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and clear."
+        },
+        "event": "observed",
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and clear."
+        },
+        "event": "observed",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 12,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and clear."
+        },
+        "event": "observed",
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

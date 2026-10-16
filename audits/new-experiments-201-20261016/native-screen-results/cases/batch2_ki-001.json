@@ -1,0 +1,325 @@
+{
+  "id": "batch2:ki-001",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "62b9aff557f81e726db7115abd7e3f8fbf90b099a0ef392944478cdf63f44334",
+  "original_script_sha256": "62b9aff557f81e726db7115abd7e3f8fbf90b099a0ef392944478cdf63f44334",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Peroxide consumption should accelerate after catalyst introduction, relative to the initial uncatalysed interval.",
+  "original_acceptance_checks": [
+    {
+      "id": "KI-001-C1",
+      "criterion": "Calculate interval consumption from inventories, allowing unequal remaining substrate.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "KI-001-C2",
+      "criterion": "MnO2 must not be consumed as a stoichiometric fuel.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:ki-001",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11644924699999137,
+    "script_sha256": "62b9aff557f81e726db7115abd7e3f8fbf90b099a0ef392944478cdf63f44334",
+    "stdout_sha256": "cc0d12673fc5b749734185f78b33c405fab0a94374ff42320446744d67fdae72",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 11,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "H2O2",
+      "vessel": 0
+    },
+    {
+      "headspace_volume": 0.1,
+      "op": "seal",
+      "vessel": 0
+    },
+    {
+      "op": "wait",
+      "seconds": 30.0
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "moles": 1.1502185415228894e-05,
+      "op": "add",
+      "species": "MnO2",
+      "vessel": 0
+    },
+    {
+      "op": "wait",
+      "seconds": 30.0
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "op": "wait",
+      "seconds": 30.0
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 3,
+    "solution_routed": 2,
+    "vessel_sealed": 1,
+    "headspace_equilibrated": 5,
+    "solution_characterized": 5,
+    "gravity_settled": 1
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 10,
+      "output_sequence": 10,
+      "step": 7,
+      "state": {
+        "co2_partial_pressure_atm": 0.0001958544946120322,
+        "contents": [
+          {
+            "moles": 0.0009978228258358892,
+            "phase": "liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 0.00322945825786727,
+            "phase": "gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.0008573998198667573,
+            "phase": "gas",
+            "species": "O2"
+          },
+          {
+            "moles": 1.1502185415228894e-05,
+            "phase": "solid",
+            "species": "MnO2"
+          },
+          {
+            "moles": 6.639287319489192e-07,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 1.7155396553889833e-07,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 4.6884368825714285e-12,
+            "phase": "aqueous",
+            "species": "CO3-2"
+          },
+          {
+            "moles": 7.99474395051e-07,
+            "phase": "gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 5.534278997011569,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 1.7156334242152127e-07,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 90.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 5.798513401747792e-10,
+        "free_proton": 1.7214319375282612e-07,
+        "headspace": {
+          "boundary": "sealed",
+          "volume": 0.1
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "H2O2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 30.0,
+            "moles": 1.1502185415228894e-05,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "MnO2",
+            "suspended_fraction": 0.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101331.37407830803,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -1.7156334241266348e-07,
+        "solution": {
+          "ionic_strength": 1.726658172554e-06,
+          "pe": null,
+          "ph": 5.76347308445,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.09970003613116,
+          "species": [
+            {
+              "activity": 1.0,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 6.659e-06,
+              "molality": 6.659e-06,
+              "name": "CO2"
+            },
+            {
+              "activity": 1.724e-06,
+              "molality": 1.727e-06,
+              "name": "H+"
+            },
+            {
+              "activity": 1.718e-06,
+              "molality": 1.721e-06,
+              "name": "HCO3-"
+            },
+            {
+              "activity": 5.807e-09,
+              "molality": 5.816e-09,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1502937786537,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

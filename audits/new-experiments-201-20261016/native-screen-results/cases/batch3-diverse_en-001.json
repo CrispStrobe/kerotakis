@@ -1,0 +1,597 @@
+{
+  "id": "batch3-diverse:en-001",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "163f2787c2b766f4c23771de118f33b5e204d5321f39aa71948c348eb378627b",
+  "original_script_sha256": "163f2787c2b766f4c23771de118f33b5e204d5321f39aa71948c348eb378627b",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Enzymatic chain cleavage should reduce the starch-associated colour relative to the intact-starch control; maltose is not an intact amylose helix. Inspect substrate/product inventory as well as colour.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Can an endpoint starch test distinguish enzyme-treated starch from intact starch and a maltose negative control?",
+      "review_instruction": "Enzymatic chain cleavage should reduce the starch-associated colour relative to the intact-starch control; maltose is not an intact amylose helix. Inspect substrate/product inventory as well as colour.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: intact starch without enzyme; v3: maltose without enzyme",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:en-001",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.4689114289999736,
+    "script_sha256": "163f2787c2b766f4c23771de118f33b5e204d5321f39aa71948c348eb378627b",
+    "stdout_sha256": "f6cd6006ce7f2cf9bf853dba4c696f6def9cead9e4bd13698467d977a120246f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 20,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "at": 310.15,
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0012335019119279636,
+      "op": "add",
+      "species": "starch",
+      "vessel": 0
+    },
+    {
+      "moles": 1.8181818181818183e-07,
+      "op": "add",
+      "species": "amylase",
+      "vessel": 0
+    },
+    {
+      "at": 310.15,
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0012335019119279636,
+      "op": "add",
+      "species": "starch",
+      "vessel": 1
+    },
+    {
+      "at": 310.15,
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 2
+    },
+    {
+      "moles": 0.0005842879137123609,
+      "op": "add",
+      "species": "maltose",
+      "vessel": 2
+    },
+    {
+      "op": "wait",
+      "seconds": 1200.0
+    },
+    {
+      "moles": 0.0001,
+      "op": "add",
+      "species": "KI",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0001,
+      "op": "add",
+      "species": "KI",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0001,
+      "op": "add",
+      "species": "KI",
+      "vessel": 2
+    },
+    {
+      "moles": 2e-05,
+      "op": "add",
+      "species": "I2",
+      "vessel": 0
+    },
+    {
+      "moles": 2e-05,
+      "op": "add",
+      "species": "I2",
+      "vessel": 1
+    },
+    {
+      "moles": 2e-05,
+      "op": "add",
+      "species": "I2",
+      "vessel": 2
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 2
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 2,
+    "temperature_changed": 7,
+    "added": 13,
+    "solution_routed": 3,
+    "inert": 2,
+    "reaction_occurred": 1,
+    "not_yet_modeled": 7,
+    "gravity_settled": 2,
+    "dissolved": 6,
+    "measured": 3
+  },
+  "named_model_limits": {
+    "not-modeled.no-dissolution-solver": {
+      "first_observation_index": 8,
+      "first_operator": {
+        "moles": 0.0005842879137123609,
+        "op": "add",
+        "species": "maltose",
+        "vessel": 2
+      },
+      "event": {
+        "cause": "no-solver",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+          "key": "not-modeled.no-dissolution-solver",
+          "slots": [
+            [
+              "name",
+              {
+                "term": {
+                  "en": "maltose",
+                  "section": "species"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 2,
+        "what": "maltose in contact with liquid: no wired solver models this dissolution/reaction"
+      },
+      "occurrences": 1
+    },
+    "not-modeled.no-component-mapping": {
+      "first_observation_index": 10,
+      "first_operator": {
+        "moles": 0.0001,
+        "op": "add",
+        "species": "KI",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "not-speciated",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+          "key": "not-modeled.no-component-mapping",
+          "slots": [
+            [
+              "name",
+              {
+                "term": {
+                  "en": "KI",
+                  "section": "species"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+      },
+      "occurrences": 6
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 19,
+      "output_sequence": 19,
+      "step": 19,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 2.7665217447420654,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 1.8181818181818183e-07,
+            "phase": "aqueous",
+            "species": "amylase"
+          },
+          {
+            "moles": 0.0006167509559639818,
+            "phase": "aqueous",
+            "species": "maltose"
+          },
+          {
+            "moles": 0.0001,
+            "phase": "aqueous",
+            "species": "KI"
+          },
+          {
+            "moles": 2e-05,
+            "phase": "aqueous",
+            "species": "I2"
+          }
+        ],
+        "elapsed_seconds": 1200.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 5.914503382347518e-09,
+        "free_proton": 5.914503382347518e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0012335019119279636,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "starch",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 1.8181818181818183e-07,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "amylase",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 1200.0,
+            "moles": 0.0001,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "KI",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 1200.0,
+            "moles": 2e-05,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "I2",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 302.5786777649431,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 19,
+      "output_sequence": 19,
+      "step": 19,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 2.7671384956980294,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0012335019119279636,
+            "phase": "solid",
+            "species": "starch"
+          },
+          {
+            "moles": 0.0001,
+            "phase": "aqueous",
+            "species": "KI"
+          },
+          {
+            "moles": 2e-05,
+            "phase": "aqueous",
+            "species": "I2"
+          }
+        ],
+        "elapsed_seconds": 1200.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 5.915921367732262e-09,
+        "free_proton": 5.915921367732262e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0012335019119279636,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "starch",
+            "suspended_fraction": 0.0
+          },
+          {
+            "added_at": 1200.0,
+            "moles": 0.0001,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "KI",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 1200.0,
+            "moles": 2e-05,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "I2",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 302.57913868594585,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 19,
+      "output_sequence": 19,
+      "step": 19,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 2.7671384956980294,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0005842879137123609,
+            "phase": "solid",
+            "species": "maltose"
+          },
+          {
+            "moles": 0.0001,
+            "phase": "aqueous",
+            "species": "KI"
+          },
+          {
+            "moles": 2e-05,
+            "phase": "aqueous",
+            "species": "I2"
+          }
+        ],
+        "elapsed_seconds": 1200.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 5.915921089580103e-09,
+        "free_proton": 5.915921089580103e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 2,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005842879137123609,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "maltose",
+            "suspended_fraction": 0.0
+          },
+          {
+            "added_at": 1200.0,
+            "moles": 0.0001,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "KI",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 1200.0,
+            "moles": 2e-05,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "I2",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 302.57913740644096,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 16,
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 405 nm",
+        "value": 0.0,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 17,
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 405 nm",
+        "value": 0.0,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 18,
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 2
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 405 nm",
+        "value": 0.0,
+        "vessel": 2
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

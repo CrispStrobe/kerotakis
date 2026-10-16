@@ -1,0 +1,532 @@
+{
+  "id": "batch3-diverse:fe-004",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "e4d51c8a263f2368370695f63c140d34e1606dc2ca26fd119974a902936c09bc",
+  "original_script_sha256": "e4d51c8a263f2368370695f63c140d34e1606dc2ca26fd119974a902936c09bc",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Review sugar-to-ethanol conversion before introducing the second culture. Afterwards, any acetic-acid increase must be reconciled with loss of ethanol and finite available oxygen.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Can fermentation supply an intermediate that a later oxygen-dependent culture transforms?",
+      "review_instruction": "Review sugar-to-ethanol conversion before introducing the second culture. Afterwards, any acetic-acid increase must be reconciled with loss of ethanol and finite available oxygen.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:fe-004",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.16718790300001274,
+    "script_sha256": "e4d51c8a263f2368370695f63c140d34e1606dc2ca26fd119974a902936c09bc",
+    "stdout_sha256": "1a4ff04ece6ff8bd6af63f85b4b73ef275dd70214371990a07729ff74e0064fd",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 12,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "at": 303.15,
+      "moles": 3.3205661948376353,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0014607219179863073,
+      "op": "add",
+      "species": "sucrose",
+      "vessel": 0
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "dry_yeast",
+      "op": "add_material",
+      "recipe_id": "household/dry-yeast-catalase-surrogate",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 0.5,
+      "vessel": 0
+    },
+    {
+      "headspace_volume": 0.5,
+      "op": "seal",
+      "vessel": 0
+    },
+    {
+      "op": "wait",
+      "seconds": 28800.0
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "acetobacter",
+      "op": "add_material",
+      "recipe_id": "food/acetic-acid-bacteria",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 1.0,
+      "vessel": 0
+    },
+    {
+      "moles": 0.003,
+      "op": "add",
+      "species": "O2",
+      "vessel": 0
+    },
+    {
+      "op": "wait",
+      "seconds": 86400.0
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "chromatograph",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "temperature_changed": 5,
+    "added": 3,
+    "solution_routed": 3,
+    "dissolved": 1,
+    "material_added": 2,
+    "vessel_sealed": 1,
+    "headspace_equilibrated": 5,
+    "solution_characterized": 5,
+    "gas_produced": 2,
+    "fermented": 2,
+    "not_yet_modeled": 2,
+    "reaction_occurred": 1,
+    "gas_contained": 1,
+    "measured": 1,
+    "chromatographed": 1
+  },
+  "named_model_limits": {
+    "not-modeled.family-declined-at-gate": {
+      "first_observation_index": 4,
+      "first_operator": {
+        "op": "wait",
+        "seconds": 28800.0
+      },
+      "event": {
+        "cause": "model-boundary",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "{family} v{version} matched, but declined at {gate}: {why}. Waiting does not supply a missing reaction rate or satisfy the condition gate",
+          "key": "not-modeled.family-declined-at-gate",
+          "slots": [
+            [
+              "family",
+              {
+                "text": {
+                  "text": "fischer-esterification"
+                }
+              }
+            ],
+            [
+              "version",
+              {
+                "text": {
+                  "text": "1"
+                }
+              }
+            ],
+            [
+              "gate",
+              {
+                "text": {
+                  "text": "temperature_k"
+                }
+              }
+            ],
+            [
+              "why",
+              {
+                "term": {
+                  "en": "the vessel stands at 298.2 K and the family needs at least 333.1 K",
+                  "section": "family-gate"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "fischer-esterification v1 matched, but declined at temperature_k: the vessel stands at 298.2 K and the family needs at least 333.1 K. Waiting does not supply a missing reaction rate or satisfy the condition gate"
+      },
+      "occurrences": 2
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 11,
+      "output_sequence": 11,
+      "step": 10,
+      "state": {
+        "co2_partial_pressure_atm": 0.26119197760528523,
+        "contents": [
+          {
+            "moles": 2.4784780118699266e-06,
+            "phase": "aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 2.0833333333333334e-12,
+            "phase": "aqueous",
+            "species": "catalase"
+          },
+          {
+            "moles": 0.0158817041905203,
+            "phase": "gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.005976026430401072,
+            "phase": "gas",
+            "species": "O2"
+          },
+          {
+            "moles": 0.004597866121302489,
+            "phase": "aqueous",
+            "species": "ethanol"
+          },
+          {
+            "moles": 0.0011988762928727187,
+            "phase": "aqueous",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 3.6231345722798126e-05,
+            "phase": "aqueous",
+            "species": "CH3COO-"
+          },
+          {
+            "moles": 0.0005310906652853458,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 4.0773919761432676e-07,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 0.005309515706823,
+            "phase": "gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 3.32034265129713,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 3.663908477572614e-05,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 115200.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.0402904961393868e-12,
+        "free_proton": 3.663908603058155e-05,
+        "headspace": {
+          "boundary": "sealed",
+          "volume": 0.5
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 3.3205661948376353,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0014607219179863073,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "sucrose",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "hydrated_at": 0.0,
+            "moles": 2.0833333333333334e-12,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe household/dry-yeast-catalase-surrogate",
+            "species": "catalase",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 28800.0,
+            "moles": 0.003,
+            "particle_size_um": null,
+            "phase": "gas",
+            "source": "reagent bottle",
+            "species": "O2",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 134695.7504637607,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -3.663908492041245e-05,
+        "solution": {
+          "ionic_strength": 0.0006125375844523,
+          "pe": null,
+          "ph": 3.225092108829,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.05981597264747,
+          "species": [
+            {
+              "activity": 0.9995,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.02004,
+              "molality": 0.02004,
+              "name": "H(Acetate)"
+            },
+            {
+              "activity": 0.008879,
+              "molality": 0.008879,
+              "name": "H2CO3"
+            },
+            {
+              "activity": 0.0005955,
+              "molality": 0.0006125,
+              "name": "H+"
+            },
+            {
+              "activity": 0.0005889,
+              "molality": 0.0006057,
+              "name": "Acetate-"
+            },
+            {
+              "activity": 6.63e-06,
+              "molality": 6.817e-06,
+              "name": "HCO3-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1563704945339,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 0.4999995,
+            "basis": "mass_fraction",
+            "material": "dry_yeast",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "household/dry-yeast-catalase-surrogate",
+            "recipe_version": 1
+          },
+          {
+            "amount": 1.0,
+            "basis": "mass_fraction",
+            "material": "acetobacter",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "food/acetic-acid-bacteria",
+            "recipe_version": 1
+          }
+        ]
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 4,
+      "operator": {
+        "op": "wait",
+        "seconds": 28800.0
+      },
+      "event": {
+        "active_yeast_grams": 0.46266953042899844,
+        "carbon_dioxide_moles": 0.004954213831201834,
+        "ethanol_moles": 0.004954213831201834,
+        "event": "fermented",
+        "seconds": 28800.0,
+        "sucrose_moles": 0.0012385534578004584,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 8,
+      "operator": {
+        "op": "wait",
+        "seconds": 86400.0
+      },
+      "event": {
+        "active_yeast_grams": 0.3680317766070355,
+        "carbon_dioxide_moles": 0.0008787599286959157,
+        "ethanol_moles": 0.0008787599286959157,
+        "event": "fermented",
+        "seconds": 86400.0,
+        "sucrose_moles": 0.00021968998217397894,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 9,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 3.225092108829,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 10,
+      "operator": {
+        "instrument": "chromatograph",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "chromatographed",
+        "outside_method": [
+          "CH3COO-",
+          "H+",
+          "HCO3-"
+        ],
+        "peaks": [
+          {
+            "partition_k": 0.2751307580935261,
+            "relative_area": 1.0,
+            "retention_time_s": 68.25392274280578,
+            "rf": 0.2157667018438797,
+            "species": "ethanol",
+            "width_s": 2.7301569097122314
+          }
+        ],
+        "plates": 10000,
+        "vessel": 0,
+        "void_time_s": 60.0
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

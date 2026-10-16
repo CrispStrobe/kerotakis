@@ -1,0 +1,9 @@
+{
+  "id": "health-before",
+  "http_status": 200,
+  "client_exit": 0,
+  "elapsed_seconds": 1.828115588054061,
+  "body_sha256": "493e0bb20364ea784fad704f223dc8a8abe399180cccbd990b9d54614989336d",
+  "headers_sha256": "2d0552654d7a1c6355aa3446537e648de31acd60aaec15ad0242ab0497b33bd6",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

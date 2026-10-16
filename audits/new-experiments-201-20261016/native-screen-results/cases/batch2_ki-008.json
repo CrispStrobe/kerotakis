@@ -1,0 +1,591 @@
+{
+  "id": "batch2:ki-008",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "24786bd781e4dd02bb2cf6121125ee4ba6632fb0d5499d72de0b01b104371439",
+  "original_script_sha256": "24786bd781e4dd02bb2cf6121125ee4ba6632fb0d5499d72de0b01b104371439",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "The combined-catalyst response must follow an explicit pathway-combination rule; multiplying two observed acceleration factors is not a justified chemical prediction.",
+  "original_acceptance_checks": [
+    {
+      "id": "KI-008-C1",
+      "criterion": "Report the three measured conversion fractions and the engine’s stated combination rule.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "KI-008-C2",
+      "criterion": "All arms conserve catalyst and substrate-derived atoms; do not force an unsupported additive or multiplicative claim.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:ki-008",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11744279399999868,
+    "script_sha256": "24786bd781e4dd02bb2cf6121125ee4ba6632fb0d5499d72de0b01b104371439",
+    "stdout_sha256": "d393d6d929837b3bb5348ae3b8edd3231abc83ba1c9489d02096ab1585e0127c",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 14,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "H2O2",
+      "vessel": 0
+    },
+    {
+      "moles": 1.1502185415228894e-05,
+      "op": "add",
+      "species": "MnO2",
+      "vessel": 0
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "H2O2",
+      "vessel": 1
+    },
+    {
+      "moles": 4.166666666666667e-12,
+      "op": "add",
+      "species": "catalase",
+      "vessel": 1
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 2
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "H2O2",
+      "vessel": 2
+    },
+    {
+      "moles": 1.1502185415228894e-05,
+      "op": "add",
+      "species": "MnO2",
+      "vessel": 2
+    },
+    {
+      "moles": 4.166666666666667e-12,
+      "op": "add",
+      "species": "catalase",
+      "vessel": 2
+    },
+    {
+      "op": "wait",
+      "seconds": 10.0
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 10,
+    "solution_routed": 3,
+    "vessel_created": 2,
+    "gravity_settled": 2,
+    "gas_produced": 2,
+    "reaction_heat_released": 2,
+    "temperature_changed": 2,
+    "reacted": 2
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 13,
+      "output_sequence": 13,
+      "step": 13,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 5.534277313977132,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0009996774189273932,
+            "phase": "liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 1.1502185415228894e-05,
+            "phase": "solid",
+            "species": "MnO2"
+          },
+          {
+            "moles": 1.612905363034085e-07,
+            "phase": "gas",
+            "species": "O2"
+          }
+        ],
+        "elapsed_seconds": 10.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.0030441313897567e-08,
+        "free_proton": 1.0030441313897567e-08,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "H2O2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 1.1502185415228894e-05,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "MnO2",
+            "suspended_fraction": 0.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.0,
+        "solution": {
+          "ionic_strength": 1.0060622597035912e-07,
+          "pe": null,
+          "ph": 6.997375142332728,
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "redox": [],
+          "scope": "solvent_only",
+          "solvent_kg": 0.09970000581129802,
+          "species": [
+            {
+              "activity": 1.0060622597035912e-07,
+              "molality": 1.0060622597035912e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 1.0060622597035912e-07,
+              "molality": 1.0060622597035912e-07,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1500379734084,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 13,
+      "output_sequence": 13,
+      "step": 13,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 5.535276991386059,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 1e-11,
+            "phase": "liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 4.166666666666667e-12,
+            "phase": "aqueous",
+            "species": "catalase"
+          },
+          {
+            "moles": 0.000499999995,
+            "phase": "gas",
+            "species": "O2"
+          }
+        ],
+        "elapsed_seconds": 10.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.007715214053349e-08,
+        "free_proton": 1.007715214053349e-08,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "H2O2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.166666666666667e-12,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "catalase",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 1.0105648553625636e-07,
+          "pe": null,
+          "ph": 6.995435809390395,
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "redox": [],
+          "scope": "solvent_only",
+          "solvent_kg": 0.09971801499981986,
+          "species": [
+            {
+              "activity": 1.0105648553625636e-07,
+              "molality": 1.0105648553625636e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 1.0105648553625636e-07,
+              "molality": 1.0105648553625636e-07,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.26722933760107,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 13,
+      "output_sequence": 13,
+      "step": 13,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 5.535276991386059,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 1e-11,
+            "phase": "liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 1.1502185415228894e-05,
+            "phase": "solid",
+            "species": "MnO2"
+          },
+          {
+            "moles": 4.166666666666667e-12,
+            "phase": "aqueous",
+            "species": "catalase"
+          },
+          {
+            "moles": 0.000499999995,
+            "phase": "gas",
+            "species": "O2"
+          }
+        ],
+        "elapsed_seconds": 10.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.0077152073696152e-08,
+        "free_proton": 1.0077152073696152e-08,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 2,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "H2O2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 1.1502185415228894e-05,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "MnO2",
+            "suspended_fraction": 0.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.166666666666667e-12,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "catalase",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 1.0105648486599293e-07,
+          "pe": null,
+          "ph": 6.99543581227088,
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "redox": [],
+          "scope": "solvent_only",
+          "solvent_kg": 0.09971801499981986,
+          "species": [
+            {
+              "activity": 1.0105648486599293e-07,
+              "molality": 1.0105648486599293e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 1.0105648486599293e-07,
+              "molality": 1.0105648486599293e-07,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.26722916343556,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

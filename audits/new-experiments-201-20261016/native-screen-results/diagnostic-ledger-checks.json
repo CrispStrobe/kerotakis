@@ -1,0 +1,24 @@
+{
+  "MODEL-008": {
+    "combined_element_residual_mol": {
+      "Mg": 0.0,
+      "O": 0.0,
+      "H": 0.0
+    },
+    "combined_charge_residual_mol": 0.0,
+    "all_vessel_temperature_and_excess_enthalpy_equal": true,
+    "solution_diagnostics_not_counted_as_matter": true,
+    "energy_balance_claim": "Not assigned; equal temperature/excess fields alone are insufficient."
+  },
+  "MODEL-009": {
+    "complete_before_after_bench_json_equal": true,
+    "scope": "NaBr failing ignition step only; no lost matter or retained spark heat demonstrated."
+  },
+  "MODEL-007": {
+    "tr003_relative_proxy_difference": 1.5709634805870092e-06,
+    "tr007_water_increment_mol": 0.0006241403249549471,
+    "tr007_twice_dissolved_gypsum_mol": 0.0006241403249556495,
+    "same_volume_tolerance": 1e-06,
+    "transport_refusal_is_not_a_completed_transport_balance_test": true
+  }
+}

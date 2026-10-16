@@ -1,0 +1,537 @@
+{
+  "id": "batch3-diverse:fo-002",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "848f6b958524d7a6a69fc991950a5a42cbfa40e823e0f39380d3a0d90226d532",
+  "original_script_sha256": "848f6b958524d7a6a69fc991950a5a42cbfa40e823e0f39380d3a0d90226d532",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "The bounded cut-surface model can show less visible browning with ascorbate under comparable oxygen exposure. That response is not proof of sterility, edibility or unchanged flavour.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Can a cut-apple surface response be changed by ascorbate without treating it as a universal preservation process?",
+      "review_instruction": "The bounded cut-surface model can show less visible browning with ascorbate under comparable oxygen exposure. That response is not proof of sterility, edibility or unchanged flavour.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v1: no added antioxidant",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:fo-002",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.1167291739999996,
+    "script_sha256": "848f6b958524d7a6a69fc991950a5a42cbfa40e823e0f39380d3a0d90226d532",
+    "stdout_sha256": "f2cc0b25222d23d972b7d02e4bef9aabd82ec94f183965c2fd8c5fa1a24b8633",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 13,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "cut_apple",
+      "op": "add_material",
+      "recipe_id": "prepared/cut-apple",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 5.0,
+      "vessel": 0
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "cut_apple",
+      "op": "add_material",
+      "recipe_id": "prepared/cut-apple",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 5.0,
+      "vessel": 1
+    },
+    {
+      "moles": 0.0001,
+      "op": "add",
+      "species": "ascorbic_acid",
+      "vessel": 1
+    },
+    {
+      "op": "wait",
+      "seconds": 600.0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "wait",
+      "seconds": 1200.0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "balance",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "balance",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 1,
+    "material_added": 2,
+    "added": 1,
+    "browning_changed": 8,
+    "observed": 4,
+    "measured": 2
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 12,
+      "output_sequence": 12,
+      "step": 12,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [],
+        "elapsed_seconds": 1800.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0,
+        "free_proton": 0.0,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "material_objects": [
+          {
+            "components": [
+              {
+                "moles": 0.23619206217041352,
+                "species": "water"
+              },
+              {
+                "moles": 0.0017207309220897444,
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00066608938919603,
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00030675160277712456,
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0007400965826040299,
+                "species": "cellulose"
+              },
+              {
+                "moles": 0.00013012497202313103,
+                "species": "citric_acid"
+              }
+            ],
+            "mass_g": 5.0,
+            "material": "cut_apple",
+            "recipe_id": "prepared/cut-apple",
+            "recipe_version": 1,
+            "state": {
+              "browned_fraction": 0.9816843611112658,
+              "elapsed_seconds": 3600.0,
+              "exchanged_water_moles": 0.0
+            }
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 12,
+      "output_sequence": 12,
+      "step": 12,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 0.0001,
+            "phase": "solid",
+            "species": "ascorbic_acid"
+          }
+        ],
+        "elapsed_seconds": 1800.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0,
+        "free_proton": 0.0,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 0.0001,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "ascorbic_acid",
+            "suspended_fraction": 0.0
+          }
+        ],
+        "material_objects": [
+          {
+            "components": [
+              {
+                "moles": 0.23619206217041352,
+                "species": "water"
+              },
+              {
+                "moles": 0.0017207309220897444,
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00066608938919603,
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00030675160277712456,
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0007400965826040299,
+                "species": "cellulose"
+              },
+              {
+                "moles": 0.00013012497202313103,
+                "species": "citric_acid"
+              }
+            ],
+            "mass_g": 5.0,
+            "material": "cut_apple",
+            "recipe_id": "prepared/cut-apple",
+            "recipe_version": 1,
+            "state": {
+              "browned_fraction": 0.4908421805556329,
+              "elapsed_seconds": 3600.0,
+              "exchanged_water_moles": 0.0
+            }
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 5,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "there is nothing to see in the beaker",
+              "key": "look.nothing-visible"
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": null,
+          "words": "There is nothing to see in the beaker."
+        },
+        "event": "observed",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 6,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "there is {what} in the beaker",
+              "key": "look.deposit-dry",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "white",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "ascorbic acid (vitamin C)",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": [
+            "ascorbic acid (vitamin C)",
+            {
+              "b": 220,
+              "g": 220,
+              "r": 220,
+              "strength": 0.0
+            }
+          ],
+          "liquid": null,
+          "words": "There is white ascorbic acid (vitamin C) in the beaker."
+        },
+        "event": "observed",
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 8,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "there is nothing to see in the beaker",
+              "key": "look.nothing-visible"
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": null,
+          "words": "There is nothing to see in the beaker."
+        },
+        "event": "observed",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 9,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "there is {what} in the beaker",
+              "key": "look.deposit-dry",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "white",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "ascorbic acid (vitamin C)",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": [
+            "ascorbic acid (vitamin C)",
+            {
+              "b": 220,
+              "g": 220,
+              "r": 220,
+              "strength": 0.0
+            }
+          ],
+          "liquid": null,
+          "words": "There is white ascorbic acid (vitamin C) in the beaker."
+        },
+        "event": "observed",
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 10,
+      "operator": {
+        "instrument": "balance",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "balance",
+        "unit": "g",
+        "value": 5.0,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "balance",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "balance",
+        "unit": "g",
+        "value": 5.0176124,
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

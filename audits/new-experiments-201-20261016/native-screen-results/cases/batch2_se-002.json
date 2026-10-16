@@ -1,0 +1,470 @@
+{
+  "id": "batch2:se-002",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "52721ccf45f4c2e80b12430d21cec0217debf7b2cd3a5e7c0b8eb0bea6052a8b",
+  "original_script_sha256": "52721ccf45f4c2e80b12430d21cec0217debf7b2cd3a5e7c0b8eb0bea6052a8b",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "The dilute naphthalene can pass the filter but favour the hexane extract, whereas the ionic salt remains mainly aqueous.",
+  "original_acceptance_checks": [
+    {
+      "id": "SE-002-C1",
+      "criterion": "Confirm that naphthalene was dissolved before filtration.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "SE-002-C2",
+      "criterion": "Track sodium/chloride and naphthalene separately through extraction.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:se-002",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11645702199999164,
+    "script_sha256": "52721ccf45f4c2e80b12430d21cec0217debf7b2cd3a5e7c0b8eb0bea6052a8b",
+    "stdout_sha256": "4d2697011760ed518824ba464f2eef5629753d8325c5dabe2945b0726feb9e9e",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 10,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "NaCl",
+      "vessel": 0
+    },
+    {
+      "moles": 5e-06,
+      "op": "add",
+      "species": "naphthalene",
+      "vessel": 0
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "from": 0,
+      "op": "filter",
+      "to": 1
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "from": 1,
+      "op": "extract",
+      "solvent": "hexane",
+      "stages": 1,
+      "to": 2,
+      "total_solvent": 0.15331058970967068
+    },
+    {
+      "instrument": "conductivity_meter",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "chromatograph",
+      "op": "measure",
+      "vessel": 2
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 3,
+    "solution_routed": 3,
+    "dissolved": 2,
+    "solution_characterized": 3,
+    "vessel_created": 2,
+    "filtered": 1,
+    "not_yet_modeled": 2,
+    "measured": 1
+  },
+  "named_model_limits": {
+    "not-modeled.no-distribution-coefficient": {
+      "first_observation_index": 6,
+      "first_operator": {
+        "from": 1,
+        "op": "extract",
+        "solvent": "hexane",
+        "stages": 1,
+        "to": 2,
+        "total_solvent": 0.15331058970967068
+      },
+      "event": {
+        "cause": "not-parameterised",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "no reviewed {solvent}/water distribution coefficient for {solutes}",
+          "key": "not-modeled.no-distribution-coefficient",
+          "slots": [
+            [
+              "solvent",
+              {
+                "text": {
+                  "text": "hexane"
+                }
+              }
+            ],
+            [
+              "solutes",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "text": {
+                        "text": "Cl-"
+                      }
+                    },
+                    {
+                      "text": {
+                        "text": "Na+"
+                      }
+                    },
+                    {
+                      "text": {
+                        "text": "naphthalene"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 1,
+        "what": "no reviewed hexane/water distribution coefficient for Cl-, Na+ and naphthalene"
+      },
+      "occurrences": 1
+    },
+    "not-modeled.chromatography-needs-an-aqueous-sample": {
+      "first_observation_index": 8,
+      "first_operator": {
+        "instrument": "chromatograph",
+        "op": "measure",
+        "vessel": 2
+      },
+      "event": {
+        "cause": "no-solution",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "chromatography needs an aqueous sample — the column's mobile phase is water",
+          "key": "not-modeled.chromatography-needs-an-aqueous-sample"
+        },
+        "vessel": 2,
+        "what": "chromatography needs an aqueous sample — the column's mobile phase is water"
+      },
+      "occurrences": 1
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 9,
+      "output_sequence": 9,
+      "step": 9,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.099788491374813e-08,
+        "free_proton": 1.099788491377804e-08,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "NaCl",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 5e-06,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "naphthalene",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 298.140695572657,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 9,
+      "output_sequence": 9,
+      "step": 9,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 5e-06,
+            "phase": "aqueous",
+            "species": "naphthalene"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 5.534276991396059,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.099788491374813e-08,
+        "free_proton": 1.099788491377804e-08,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 0.01003020058059,
+          "pe": null,
+          "ph": 6.99679587879,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.0997,
+          "species": [
+            {
+              "activity": 0.9997,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.009029,
+              "molality": 0.01003,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.009056,
+              "molality": 0.01003,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0002677,
+              "molality": 0.0002671,
+              "name": "O2"
+            },
+            {
+              "activity": 1.007e-07,
+              "molality": 1.103e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 9.927e-08,
+              "molality": 1.103e-07,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.14069409822673,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 9,
+      "output_sequence": 9,
+      "step": 9,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0,
+        "free_proton": 0.0,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 2,
+        "label": "beaker",
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 7,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "unit": "µS/cm",
+        "value": 1204.2742133145518,
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

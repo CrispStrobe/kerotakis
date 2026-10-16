@@ -1,0 +1,1299 @@
+{
+  "id": "batch2:qa-006",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "fd00c688f0c86ffb544cef6d91c5254bdc72d8a4ce822a176b14a40d011efdcc",
+  "original_script_sha256": "fd00c688f0c86ffb544cef6d91c5254bdc72d8a4ce822a176b14a40d011efdcc",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "The stoichiometric requirement is 0.4 mmol permanganate, corresponding to 20 mL of the nominal 0.02 M titrant; a small persistent excess defines the endpoint.",
+  "original_acceptance_checks": [
+    {
+      "id": "QA-006-C1",
+      "criterion": "Cumulative titrant volume brackets 20 mL with the chosen 0.2 mL step, subject to model response.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "QA-006-C2",
+      "criterion": "Inspect both oxalate depletion and persistent oxidant; a generic colour event is insufficient.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:qa-006",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.818461456999998,
+    "script_sha256": "fd00c688f0c86ffb544cef6d91c5254bdc72d8a4ce822a176b14a40d011efdcc",
+    "stdout_sha256": "62bcfc8245ceebaec684162ff7f959ea8bc392b2173fdc47fc7aa88c5b7b7411",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 6,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "at": 313.15,
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.005,
+      "op": "add",
+      "species": "H2SO4",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "H2C2O4",
+      "vessel": 0
+    },
+    {
+      "concentration": 0.02,
+      "endpoint": {
+        "kind": "colour_persists"
+      },
+      "max_steps": 150,
+      "op": "titrate",
+      "step": 0.0002,
+      "target_ph": 7.0,
+      "titrant": "KMnO4",
+      "vessel": 0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "temperature_changed": 3,
+    "added": 3,
+    "solution_routed": 3,
+    "solution_characterized": 103,
+    "dissolved": 3,
+    "hazard_warning": 100,
+    "reaction_occurred": 100,
+    "gas_evolved": 100,
+    "titrated": 1,
+    "observed": 1
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 5,
+      "output_sequence": 5,
+      "step": 5,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.00040399999999999903,
+            "phase": "aqueous",
+            "species": "K+"
+          },
+          {
+            "moles": 0.00039999999999999904,
+            "phase": "aqueous",
+            "species": "Mn+2"
+          },
+          {
+            "moles": 4e-06,
+            "phase": "aqueous",
+            "species": "MnO4-"
+          },
+          {
+            "moles": 0.005000000000000005,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 6.653800943658001,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.008800000000000203,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 9.876752597839972e-14,
+        "free_proton": 0.0053233760461864265,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.005,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "H2SO4",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "H2C2O4",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.008800000000000013,
+        "solution": {
+          "ionic_strength": 0.0659840320721,
+          "pe": 18.18729664449,
+          "ph": 1.428467492272,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added",
+            "routing_phrase": {
+              "en": "{routing}. {note}",
+              "key": "routing.with-redox-note",
+              "slots": [
+                [
+                  "routing",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "the default inorganic aqueous dataset",
+                        "key": "routing.default-inorganic"
+                      }
+                    }
+                  }
+                ],
+                [
+                  "note",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added",
+                        "key": "routing.slow-couples-held-as-added"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          "redox": [
+            {
+              "element": "Mn",
+              "molality": 0.003336997801853,
+              "oxidation": 2
+            },
+            {
+              "element": "Mn",
+              "molality": 3.336997801853e-05,
+              "oxidation": 7
+            },
+            {
+              "element": "S",
+              "molality": 0.04171247252316,
+              "oxidation": 6
+            }
+          ],
+          "solvent_kg": 0.119868224,
+          "species": [
+            {
+              "activity": 0.9984,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.03728,
+              "molality": 0.04441,
+              "name": "H+"
+            },
+            {
+              "activity": 0.0232,
+              "molality": 0.029,
+              "name": "HSO4-"
+            },
+            {
+              "activity": 0.004812,
+              "molality": 0.01151,
+              "name": "SO4-2"
+            },
+            {
+              "activity": 0.002559,
+              "molality": 0.003239,
+              "name": "K+"
+            },
+            {
+              "activity": 0.001004,
+              "molality": 0.002274,
+              "name": "Mn+2"
+            },
+            {
+              "activity": 0.001079,
+              "molality": 0.001063,
+              "name": "MnSO4"
+            },
+            {
+              "activity": 0.0002233,
+              "molality": 0.0002199,
+              "name": "O2"
+            },
+            {
+              "activity": 0.0001066,
+              "molality": 0.0001317,
+              "name": "KSO4-"
+            },
+            {
+              "activity": 2.61e-05,
+              "molality": 3.337e-05,
+              "name": "MnO4-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 310.6227113728586,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 3,
+      "operator": {
+        "concentration": 0.02,
+        "endpoint": {
+          "kind": "colour_persists"
+        },
+        "max_steps": 150,
+        "op": "titrate",
+        "step": 0.0002,
+        "target_ph": 7.0,
+        "titrant": "KMnO4",
+        "vessel": 0
+      },
+      "event": {
+        "concentration": 0.02,
+        "curve": [
+          [
+            0.0,
+            1.292125086944
+          ],
+          [
+            0.2,
+            1.293524102725
+          ],
+          [
+            0.4,
+            1.294922141944
+          ],
+          [
+            0.6000000000000001,
+            1.296318950158
+          ],
+          [
+            0.8,
+            1.297714800561
+          ],
+          [
+            1.0,
+            1.299109570244
+          ],
+          [
+            1.2000000000000002,
+            1.300503268181
+          ],
+          [
+            1.4000000000000001,
+            1.301895903313
+          ],
+          [
+            1.6000000000000003,
+            1.303287618375
+          ],
+          [
+            1.8000000000000005,
+            1.304678154909
+          ],
+          [
+            2.0000000000000004,
+            1.30606778973
+          ],
+          [
+            2.2000000000000006,
+            1.307456397825
+          ],
+          [
+            2.400000000000001,
+            1.308843987976
+          ],
+          [
+            2.6000000000000005,
+            1.310230568932
+          ],
+          [
+            2.8000000000000007,
+            1.311616149415
+          ],
+          [
+            3.000000000000001,
+            1.313000738115
+          ],
+          [
+            3.200000000000001,
+            1.314384480053
+          ],
+          [
+            3.4000000000000012,
+            1.315767111453
+          ],
+          [
+            3.6000000000000014,
+            1.317148913955
+          ],
+          [
+            3.800000000000001,
+            1.318529622457
+          ],
+          [
+            4.000000000000001,
+            1.319909519808
+          ],
+          [
+            4.2,
+            1.321288477527
+          ],
+          [
+            4.4,
+            1.3226665041
+          ],
+          [
+            4.6,
+            1.324043607983
+          ],
+          [
+            4.8,
+            1.325419797608
+          ],
+          [
+            4.999999999999999,
+            1.326795081377
+          ],
+          [
+            5.199999999999999,
+            1.328169467666
+          ],
+          [
+            5.399999999999999,
+            1.329542964822
+          ],
+          [
+            5.599999999999998,
+            1.330915581168
+          ],
+          [
+            5.799999999999998,
+            1.332287324999
+          ],
+          [
+            5.999999999999997,
+            1.333658204586
+          ],
+          [
+            6.1999999999999975,
+            1.335028228172
+          ],
+          [
+            6.399999999999997,
+            1.336397403975
+          ],
+          [
+            6.599999999999996,
+            1.337765881906
+          ],
+          [
+            6.799999999999996,
+            1.339133387012
+          ],
+          [
+            6.999999999999996,
+            1.340500068839
+          ],
+          [
+            7.199999999999996,
+            1.341865935506
+          ],
+          [
+            7.399999999999995,
+            1.343230995108
+          ],
+          [
+            7.599999999999995,
+            1.344595255715
+          ],
+          [
+            7.7999999999999945,
+            1.345958725374
+          ],
+          [
+            7.999999999999995,
+            1.347321412108
+          ],
+          [
+            8.199999999999996,
+            1.348683323918
+          ],
+          [
+            8.399999999999997,
+            1.350044468781
+          ],
+          [
+            8.599999999999996,
+            1.35140485465
+          ],
+          [
+            8.799999999999997,
+            1.352764489458
+          ],
+          [
+            8.999999999999998,
+            1.354123235645
+          ],
+          [
+            9.199999999999998,
+            1.355481391724
+          ],
+          [
+            9.399999999999999,
+            1.356838820406
+          ],
+          [
+            9.6,
+            1.358195383128
+          ],
+          [
+            9.799999999999999,
+            1.359551233497
+          ],
+          [
+            10.0,
+            1.36090652634
+          ],
+          [
+            10.200000000000001,
+            1.362260975697
+          ],
+          [
+            10.400000000000002,
+            1.363614736044
+          ],
+          [
+            10.600000000000001,
+            1.36496781512
+          ],
+          [
+            10.800000000000002,
+            1.366320220647
+          ],
+          [
+            11.000000000000004,
+            1.367671960324
+          ],
+          [
+            11.200000000000003,
+            1.369022892942
+          ],
+          [
+            11.400000000000004,
+            1.37037332363
+          ],
+          [
+            11.600000000000005,
+            1.371722961943
+          ],
+          [
+            11.800000000000004,
+            1.37307211421
+          ],
+          [
+            12.000000000000005,
+            1.374420488708
+          ],
+          [
+            12.200000000000006,
+            1.375768242531
+          ],
+          [
+            12.400000000000006,
+            1.377115383247
+          ],
+          [
+            12.600000000000007,
+            1.378461767348
+          ],
+          [
+            12.800000000000008,
+            1.379807704167
+          ],
+          [
+            13.000000000000009,
+            1.381152898798
+          ],
+          [
+            13.200000000000008,
+            1.382497509792
+          ],
+          [
+            13.40000000000001,
+            1.383841544628
+          ],
+          [
+            13.60000000000001,
+            1.385185010765
+          ],
+          [
+            13.80000000000001,
+            1.38652791565
+          ],
+          [
+            14.00000000000001,
+            1.387870113495
+          ],
+          [
+            14.200000000000012,
+            1.389211917831
+          ],
+          [
+            14.400000000000011,
+            1.390553029318
+          ],
+          [
+            14.600000000000012,
+            1.391893608548
+          ],
+          [
+            14.800000000000013,
+            1.393233508441
+          ],
+          [
+            15.000000000000014,
+            1.394573044924
+          ],
+          [
+            15.200000000000014,
+            1.395911916134
+          ],
+          [
+            15.400000000000015,
+            1.397250283832
+          ],
+          [
+            15.600000000000016,
+            1.39858815532
+          ],
+          [
+            15.800000000000015,
+            1.399925537883
+          ],
+          [
+            16.000000000000014,
+            1.40126228251
+          ],
+          [
+            16.200000000000014,
+            1.402598552129
+          ],
+          [
+            16.400000000000013,
+            1.403934353984
+          ],
+          [
+            16.600000000000012,
+            1.405269695303
+          ],
+          [
+            16.800000000000008,
+            1.406604583301
+          ],
+          [
+            17.000000000000007,
+            1.407938867367
+          ],
+          [
+            17.200000000000006,
+            1.409272711891
+          ],
+          [
+            17.400000000000006,
+            1.410606124047
+          ],
+          [
+            17.600000000000005,
+            1.411938952267
+          ],
+          [
+            17.800000000000004,
+            1.413271361819
+          ],
+          [
+            18.000000000000004,
+            1.414603359838
+          ],
+          [
+            18.2,
+            1.415934953447
+          ],
+          [
+            18.4,
+            1.417265989809
+          ],
+          [
+            18.599999999999998,
+            1.418596635362
+          ],
+          [
+            18.799999999999997,
+            1.419926897191
+          ],
+          [
+            18.999999999999996,
+            1.421256782371
+          ],
+          [
+            19.199999999999996,
+            1.422586136801
+          ],
+          [
+            19.399999999999995,
+            1.423915128088
+          ],
+          [
+            19.59999999999999,
+            1.425243763273
+          ],
+          [
+            19.79999999999999,
+            1.426571887309
+          ],
+          [
+            19.99999999999999,
+            1.427899668682
+          ],
+          [
+            20.19999999999999,
+            1.428467492272
+          ]
+        ],
+        "endpoint": {
+          "kind": "colour_persists"
+        },
+        "endpoint_reached": true,
+        "event": "titrated",
+        "final_ph": 1.428467492272,
+        "pe_curve": [
+          [
+            0.0,
+            18.12927507375
+          ],
+          [
+            0.2,
+            18.13016778404
+          ],
+          [
+            0.4,
+            18.13104583624
+          ],
+          [
+            0.6000000000000001,
+            18.13192557693
+          ],
+          [
+            0.8,
+            18.13279144371
+          ],
+          [
+            1.0,
+            18.13365119668
+          ],
+          [
+            1.2000000000000002,
+            18.13450482243
+          ],
+          [
+            1.4000000000000001,
+            18.13535230763
+          ],
+          [
+            1.6000000000000003,
+            18.13618585448
+          ],
+          [
+            1.8000000000000005,
+            18.1370210169
+          ],
+          [
+            2.0000000000000004,
+            18.13784221089
+          ],
+          [
+            2.2000000000000006,
+            18.13865720781
+          ],
+          [
+            2.400000000000001,
+            18.13946599453
+          ],
+          [
+            2.6000000000000005,
+            18.14026855799
+          ],
+          [
+            2.8000000000000007,
+            18.14106488517
+          ],
+          [
+            3.000000000000001,
+            18.1418549631
+          ],
+          [
+            3.200000000000001,
+            18.14263098006
+          ],
+          [
+            3.4000000000000012,
+            18.14340851894
+          ],
+          [
+            3.6000000000000014,
+            18.14417196761
+          ],
+          [
+            3.800000000000001,
+            18.14493691607
+          ],
+          [
+            4.000000000000001,
+            18.14568774525
+          ],
+          [
+            4.2,
+            18.14643224473
+          ],
+          [
+            4.4,
+            18.14717040184
+          ],
+          [
+            4.6,
+            18.14790220395
+          ],
+          [
+            4.8,
+            18.14862763848
+          ],
+          [
+            4.999999999999999,
+            18.14934669288
+          ],
+          [
+            5.199999999999999,
+            18.15005935466
+          ],
+          [
+            5.399999999999999,
+            18.15076561134
+          ],
+          [
+            5.599999999999998,
+            18.15146545051
+          ],
+          [
+            5.799999999999998,
+            18.15215885978
+          ],
+          [
+            5.999999999999997,
+            18.15284582681
+          ],
+          [
+            6.1999999999999975,
+            18.15352633928
+          ],
+          [
+            6.399999999999997,
+            18.15420038495
+          ],
+          [
+            6.599999999999996,
+            18.15486012356
+          ],
+          [
+            6.799999999999996,
+            18.15552119728
+          ],
+          [
+            6.999999999999996,
+            18.15617576762
+          ],
+          [
+            7.199999999999996,
+            18.15682382247
+          ],
+          [
+            7.399999999999995,
+            18.15746534976
+          ],
+          [
+            7.599999999999995,
+            18.15810033744
+          ],
+          [
+            7.7999999999999945,
+            18.15872877353
+          ],
+          [
+            7.999999999999995,
+            18.15935064605
+          ],
+          [
+            8.199999999999996,
+            18.15996594309
+          ],
+          [
+            8.399999999999997,
+            18.16057465274
+          ],
+          [
+            8.599999999999996,
+            18.16117676317
+          ],
+          [
+            8.799999999999997,
+            18.16177226254
+          ],
+          [
+            8.999999999999998,
+            18.16236898686
+          ],
+          [
+            9.199999999999998,
+            18.16295123045
+          ],
+          [
+            9.399999999999999,
+            18.16352682775
+          ],
+          [
+            9.6,
+            18.16410361969
+          ],
+          [
+            9.799999999999999,
+            18.16467374524
+          ],
+          [
+            10.0,
+            18.16522933696
+          ],
+          [
+            10.200000000000001,
+            18.16578609329
+          ],
+          [
+            10.400000000000002,
+            18.16633614848
+          ],
+          [
+            10.600000000000001,
+            18.166879491
+          ],
+          [
+            10.800000000000002,
+            18.16741610938
+          ],
+          [
+            11.000000000000004,
+            18.16794599217
+          ],
+          [
+            11.200000000000003,
+            18.16847699326
+          ],
+          [
+            11.400000000000004,
+            18.16899337221
+          ],
+          [
+            11.600000000000005,
+            18.16951084987
+          ],
+          [
+            11.800000000000004,
+            18.17001367958
+          ],
+          [
+            12.000000000000005,
+            18.17051758849
+          ],
+          [
+            12.200000000000006,
+            18.17101469691
+          ],
+          [
+            12.400000000000006,
+            18.17150499359
+          ],
+          [
+            12.600000000000007,
+            18.17199634352
+          ],
+          [
+            12.800000000000008,
+            18.1724729847
+          ],
+          [
+            13.000000000000009,
+            18.1729506599
+          ],
+          [
+            13.200000000000008,
+            18.1734214818
+          ],
+          [
+            13.40000000000001,
+            18.17388543932
+          ],
+          [
+            13.60000000000001,
+            18.1743425214
+          ],
+          [
+            13.80000000000001,
+            18.17479271701
+          ],
+          [
+            14.00000000000001,
+            18.17524390201
+          ],
+          [
+            14.200000000000012,
+            18.17568029324
+          ],
+          [
+            14.400000000000011,
+            18.17611765496
+          ],
+          [
+            14.600000000000012,
+            18.17654808941
+          ],
+          [
+            14.800000000000013,
+            18.17697947855
+          ],
+          [
+            15.000000000000014,
+            18.17739602729
+          ],
+          [
+            15.200000000000014,
+            18.177813512
+          ],
+          [
+            15.400000000000015,
+            18.17822402902
+          ],
+          [
+            15.600000000000016,
+            18.17862756755
+          ],
+          [
+            15.800000000000015,
+            18.17902411683
+          ],
+          [
+            16.000000000000014,
+            18.1794215679
+          ],
+          [
+            16.200000000000014,
+            18.17981201122
+          ],
+          [
+            16.400000000000013,
+            18.18019543612
+          ],
+          [
+            16.600000000000012,
+            18.18057183193
+          ],
+          [
+            16.800000000000008,
+            18.18094118803
+          ],
+          [
+            17.000000000000007,
+            18.18131140286
+          ],
+          [
+            17.200000000000006,
+            18.18167455969
+          ],
+          [
+            17.400000000000006,
+            18.18203064797
+          ],
+          [
+            17.600000000000005,
+            18.18238757054
+          ],
+          [
+            17.800000000000004,
+            18.18273740638
+          ],
+          [
+            18.000000000000004,
+            18.183080145
+          ],
+          [
+            18.2,
+            18.18341577592
+          ],
+          [
+            18.4,
+            18.18375220783
+          ],
+          [
+            18.599999999999998,
+            18.18408151404
+          ],
+          [
+            18.799999999999997,
+            18.18440368413
+          ],
+          [
+            18.999999999999996,
+            18.18471870775
+          ],
+          [
+            19.199999999999996,
+            18.18503449931
+          ],
+          [
+            19.399999999999995,
+            18.18534312652
+          ],
+          [
+            19.59999999999999,
+            18.18564457906
+          ],
+          [
+            19.79999999999999,
+            18.18594677565
+          ],
+          [
+            19.99999999999999,
+            18.18624177981
+          ],
+          [
+            20.19999999999999,
+            18.18729664449
+          ]
+        ],
+        "steps": 101,
+        "titrant": "KMnO4",
+        "total_volume": 0.02019999999999999,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 4,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "pink",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": null,
+          "liquid": {
+            "b": 254,
+            "g": 197,
+            "r": 255,
+            "strength": 0.0
+          },
+          "notes": [
+            {
+              "en": "Colour is incomplete: no absorption spectrum for {species}.",
+              "key": "look.spectral-gap",
+              "slots": [
+                [
+                  "species",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "term": {
+                            "en": "Mn+2",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "MnSO4",
+                            "section": "species"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "spectral_gaps": [
+            "Mn+2",
+            "MnSO4"
+          ],
+          "words": "The liquid is pink and clear. Colour is incomplete: no absorption spectrum for Mn+2 and MnSO4."
+        },
+        "event": "observed",
+        "vessel": 0
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

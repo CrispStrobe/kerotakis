@@ -1,0 +1,1185 @@
+{
+  "id": "batch3-diverse:mi-003",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "b5139dec8e5ebeb8e9a64945e0af9f37d3e79011a9337e9b846bc9ce255de974",
+  "original_script_sha256": "b5139dec8e5ebeb8e9a64945e0af9f37d3e79011a9337e9b846bc9ce255de974",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Sulfate participates in the gypsum dissolution equilibrium; chloride does not play the same common-ion role. The controls are not exactly ionic-strength matched, so use speciation rather than a pure concentration argument.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Can a common anion be distinguished from merely adding another dissolved electrolyte?",
+      "review_instruction": "Sulfate participates in the gypsum dissolution equilibrium; chloride does not play the same common-ion role. The controls are not exactly ionic-strength matched, so use speciation rather than a pure concentration argument.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: non-common electrolyte, not exactly activity matched; v3: no added salt",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:mi-003",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11884726600001727,
+    "script_sha256": "b5139dec8e5ebeb8e9a64945e0af9f37d3e79011a9337e9b846bc9ce255de974",
+    "stdout_sha256": "c4d5547b64480c6b859e91fd303d9b39e94fba2d54430f7ea358d477f684fd15",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 19,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.002,
+      "op": "add",
+      "species": "gypsum",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "Na2SO4",
+      "vessel": 0
+    },
+    {
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.002,
+      "op": "add",
+      "species": "gypsum",
+      "vessel": 1
+    },
+    {
+      "moles": 0.002,
+      "op": "add",
+      "species": "NaCl",
+      "vessel": 1
+    },
+    {
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 2
+    },
+    {
+      "moles": 0.002,
+      "op": "add",
+      "species": "gypsum",
+      "vessel": 2
+    },
+    {
+      "op": "stir",
+      "rpm": 300.0,
+      "seconds": 10.0,
+      "vessel": 0
+    },
+    {
+      "op": "stir",
+      "rpm": 300.0,
+      "seconds": 10.0,
+      "vessel": 1
+    },
+    {
+      "op": "stir",
+      "rpm": 300.0,
+      "seconds": 10.0,
+      "vessel": 2
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 2
+    },
+    {
+      "op": "particles",
+      "vessel": 0
+    },
+    {
+      "op": "particles",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 2,
+    "added": 8,
+    "solution_routed": 6,
+    "dissolved": 13,
+    "solution_characterized": 8,
+    "precipitated": 5,
+    "temperature_changed": 1,
+    "stirred": 3,
+    "neutralised": 1,
+    "observed": 3
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 18,
+      "output_sequence": 18,
+      "step": 16,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.0005811786273211424,
+            "phase": "aqueous",
+            "species": "Ca+2"
+          },
+          {
+            "moles": 0.002000000005009891,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 0.001581178629826088,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 0.001418821384429,
+            "phase": "solid",
+            "species": "gypsum"
+          },
+          {
+            "moles": 2.7683008528721462,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 1.1404545710580472e-10,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 10.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 8.67009862814815e-09,
+        "free_proton": 4.434378488686486e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005439764305502572,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "gypsum",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0007278065847326205,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "gypsum",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "Na2SO4",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0007282169847171224,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "gypsum",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 2.9395726597626354e-09,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 0.08245874363777,
+          "pe": 13.49551601779,
+          "ph": 7.129979266657,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [
+            {
+              "element": "S",
+              "molality": 0.03172209796258,
+              "oxidation": 6
+            }
+          ],
+          "solvent_kg": 0.04987095281507,
+          "species": [
+            {
+              "activity": 0.9987,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.03036,
+              "molality": 0.03824,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0098,
+              "molality": 0.0247,
+              "name": "SO4-2"
+            },
+            {
+              "activity": 0.002685,
+              "molality": 0.006508,
+              "name": "Ca+2"
+            },
+            {
+              "activity": 0.005251,
+              "molality": 0.005152,
+              "name": "CaSO4"
+            },
+            {
+              "activity": 0.001491,
+              "molality": 0.001865,
+              "name": "NaSO4-"
+            },
+            {
+              "activity": 0.0002676,
+              "molality": 0.0002626,
+              "name": "O2"
+            },
+            {
+              "activity": 1.35e-07,
+              "molality": 1.739e-07,
+              "name": "OH-"
+            },
+            {
+              "activity": 7.065e-08,
+              "molality": 8.953e-08,
+              "name": "HSO4-"
+            },
+            {
+              "activity": 7.413e-08,
+              "molality": 8.897e-08,
+              "name": "H+"
+            },
+            {
+              "activity": 6.003e-09,
+              "molality": 7.446e-09,
+              "name": "CaOH+"
+            },
+            {
+              "activity": 2.281e-09,
+              "molality": 2.879e-09,
+              "name": "CaHSO4+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1615386829754,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 18,
+      "output_sequence": 18,
+      "step": 16,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.0009357794605554905,
+            "phase": "aqueous",
+            "species": "Ca+2"
+          },
+          {
+            "moles": 0.0020000000057983683,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0020000000057983683,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 0.0009357794605554906,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 0.001064220543395,
+            "phase": "solid",
+            "species": "gypsum"
+          },
+          {
+            "moles": 2.7690100545954324,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 3.160867748097651e-11,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 10.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 7.4220139132912395e-09,
+        "free_proton": 5.264282611083977e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005439764305502572,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "gypsum",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0007278065847326205,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "gypsum",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.002,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "NaCl",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0007282169847171224,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "gypsum",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 2.9404961544598852e-09,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -2.168404344971009e-19,
+        "solution": {
+          "ionic_strength": 0.0926927051256,
+          "pe": 13.5684339548,
+          "ph": 7.058122693416,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [
+            {
+              "element": "S",
+              "molality": 0.01876909089746,
+              "oxidation": 6
+            }
+          ],
+          "solvent_kg": 0.04988373135131,
+          "species": [
+            {
+              "activity": 0.9981,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.03086,
+              "molality": 0.04009,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.03082,
+              "molality": 0.03915,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.005438,
+              "molality": 0.01362,
+              "name": "Ca+2"
+            },
+            {
+              "activity": 0.004845,
+              "molality": 0.01268,
+              "name": "SO4-2"
+            },
+            {
+              "activity": 0.005257,
+              "molality": 0.005146,
+              "name": "CaSO4"
+            },
+            {
+              "activity": 0.0007482,
+              "molality": 0.0009438,
+              "name": "NaSO4-"
+            },
+            {
+              "activity": 0.0002677,
+              "molality": 0.000262,
+              "name": "O2"
+            },
+            {
+              "activity": 1.142e-07,
+              "molality": 1.489e-07,
+              "name": "OH-"
+            },
+            {
+              "activity": 8.747e-08,
+              "molality": 1.056e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 4.12e-08,
+              "molality": 5.272e-08,
+              "name": "HSO4-"
+            },
+            {
+              "activity": 1.03e-08,
+              "molality": 1.288e-08,
+              "name": "CaOH+"
+            },
+            {
+              "activity": 2.694e-09,
+              "molality": 3.43e-09,
+              "name": "CaHSO4+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 18,
+      "output_sequence": 18,
+      "step": 16,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.0007801751141959641,
+            "phase": "aqueous",
+            "species": "Ca+2"
+          },
+          {
+            "moles": 0.0007801751141959641,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 0.001219824894275,
+            "phase": "solid",
+            "species": "gypsum"
+          },
+          {
+            "moles": 2.7686988458755906,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 6.777246472355891e-11,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 10.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 7.066524535470059e-09,
+        "free_proton": 4.964729397464511e-09,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 2,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005439764305502572,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "gypsum",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0007278065847326205,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "gypsum",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0007282169847171224,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "gypsum",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 2.9404961544598852e-09,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 0.04183355936512,
+          "pe": 13.5594660986,
+          "ph": 7.066793524874,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [
+            {
+              "element": "S",
+              "molality": 0.01564986629709,
+              "oxidation": 6
+            }
+          ],
+          "solvent_kg": 0.04987812480566,
+          "species": [
+            {
+              "activity": 0.9996,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.005176,
+              "molality": 0.01046,
+              "name": "Ca+2"
+            },
+            {
+              "activity": 0.005075,
+              "molality": 0.01046,
+              "name": "SO4-2"
+            },
+            {
+              "activity": 0.005242,
+              "molality": 0.005191,
+              "name": "CaSO4"
+            },
+            {
+              "activity": 0.0002677,
+              "molality": 0.0002651,
+              "name": "O2"
+            },
+            {
+              "activity": 1.167e-07,
+              "molality": 1.418e-07,
+              "name": "OH-"
+            },
+            {
+              "activity": 8.574e-08,
+              "molality": 9.959e-08,
+              "name": "H+"
+            },
+            {
+              "activity": 4.231e-08,
+              "molality": 5.088e-08,
+              "name": "HSO4-"
+            },
+            {
+              "activity": 1.001e-08,
+              "molality": 1.188e-08,
+              "name": "CaOH+"
+            },
+            {
+              "activity": 2.633e-09,
+              "molality": 3.167e-09,
+              "name": "CaHSO4+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 13,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and cloudy",
+                        "key": "look.clarity-cloudy"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "there is {what} at the bottom",
+              "key": "look.deposit-in-liquid",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "white",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "gypsum (calcium sulfate dihydrate)",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.5672902592649504,
+          "deposit": [
+            "gypsum (calcium sulfate dihydrate)",
+            {
+              "b": 220,
+              "g": 220,
+              "r": 220,
+              "strength": 0.0
+            }
+          ],
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and cloudy, there is white gypsum (calcium sulfate dihydrate) at the bottom."
+        },
+        "event": "observed",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 14,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and cloudy",
+                        "key": "look.clarity-cloudy"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "there is {what} at the bottom",
+              "key": "look.deposit-in-liquid",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "white",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "gypsum (calcium sulfate dihydrate)",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.42540049699765176,
+          "deposit": [
+            "gypsum (calcium sulfate dihydrate)",
+            {
+              "b": 220,
+              "g": 220,
+              "r": 220,
+              "strength": 0.0
+            }
+          ],
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and cloudy, there is white gypsum (calcium sulfate dihydrate) at the bottom."
+        },
+        "event": "observed",
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 15,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 2
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and cloudy",
+                        "key": "look.clarity-cloudy"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.48765497598084423,
+          "deposit": null,
+          "liquid": {
+            "b": 255,
+            "g": 255,
+            "r": 255,
+            "strength": 0.0
+          },
+          "words": "The liquid is colourless and cloudy."
+        },
+        "event": "observed",
+        "vessel": 2
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

@@ -1,0 +1,857 @@
+{
+  "id": "batch2:ki-011",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "8ee57b2e0bca4ecd54eba3bc8c7a622b89ab7c329a932b9be933f3fc5f61467c",
+  "original_script_sha256": "8ee57b2e0bca4ecd54eba3bc8c7a622b89ab7c329a932b9be933f3fc5f61467c",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "A larger thiosulfate sink can delay iodine accumulation even if the underlying iodine-production kinetics are similar.",
+  "original_acceptance_checks": [
+    {
+      "id": "KI-011-C1",
+      "criterion": "Distinguish gross iodine production from surviving iodine inventory.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "KI-011-C2",
+      "criterion": "Compare sink exhaustion and precursor consumption, not colour onset alone.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:ki-011",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.21930509000000598,
+    "script_sha256": "8ee57b2e0bca4ecd54eba3bc8c7a622b89ab7c329a932b9be933f3fc5f61467c",
+    "stdout_sha256": "6a317765664ff5988a1f9d24894b0ba3d619307d8d81ae0fc782688752e94b56",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 21,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "H2SO4",
+      "vessel": 0
+    },
+    {
+      "moles": 0.002,
+      "op": "add",
+      "species": "KI",
+      "vessel": 0
+    },
+    {
+      "moles": 0.002,
+      "op": "add",
+      "species": "H2O2",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0001,
+      "op": "add",
+      "species": "Na2S2O3",
+      "vessel": 0
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "H2SO4",
+      "vessel": 1
+    },
+    {
+      "moles": 0.002,
+      "op": "add",
+      "species": "KI",
+      "vessel": 1
+    },
+    {
+      "moles": 0.002,
+      "op": "add",
+      "species": "H2O2",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0002,
+      "op": "add",
+      "species": "Na2S2O3",
+      "vessel": 1
+    },
+    {
+      "op": "wait",
+      "seconds": 10.0
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "op": "wait",
+      "seconds": 30.0
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "op": "wait",
+      "seconds": 60.0
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 10,
+    "solution_routed": 6,
+    "solution_characterized": 14,
+    "dissolved": 10,
+    "not_yet_modeled": 18,
+    "hazard_warning": 4,
+    "vessel_created": 1,
+    "reacted": 18,
+    "gas_produced": 6,
+    "reaction_heat_released": 6,
+    "temperature_changed": 6,
+    "neutralised": 6,
+    "measured": 4
+  },
+  "named_model_limits": {
+    "not-modeled.no-component-mapping": {
+      "first_observation_index": 2,
+      "first_operator": {
+        "moles": 0.002,
+        "op": "add",
+        "species": "KI",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "not-speciated",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+          "key": "not-modeled.no-component-mapping",
+          "slots": [
+            [
+              "name",
+              {
+                "term": {
+                  "en": "KI",
+                  "section": "species"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+      },
+      "occurrences": 12
+    },
+    "not-modeled.finite-acid-inventory": {
+      "first_observation_index": 11,
+      "first_operator": {
+        "op": "wait",
+        "seconds": 10.0
+      },
+      "event": {
+        "cause": "model-boundary",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "{reaction} consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law.",
+          "key": "not-modeled.finite-acid-inventory",
+          "slots": [
+            [
+              "reaction",
+              {
+                "text": {
+                  "text": "thiosulfate-acid"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+      },
+      "occurrences": 6
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 20,
+      "output_sequence": 20,
+      "step": 18,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.0019543876078062013,
+            "phase": "aqueous",
+            "species": "KI"
+          },
+          {
+            "moles": 0.0009920609710965935,
+            "phase": "liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 3.6029078447068736e-05,
+            "phase": "solid",
+            "species": "S"
+          },
+          {
+            "moles": 3.634105244889292e-05,
+            "phase": "gas",
+            "species": "SO2"
+          },
+          {
+            "moles": 0.0004925664164032535,
+            "phase": "gas",
+            "species": "O2"
+          },
+          {
+            "moles": 2.280619609689952e-05,
+            "phase": "aqueous",
+            "species": "I2"
+          },
+          {
+            "moles": 3.11974001824186e-07,
+            "phase": "aqueous",
+            "species": "S"
+          },
+          {
+            "moles": 4.561239219379905e-05,
+            "phase": "aqueous",
+            "species": "K+"
+          },
+          {
+            "moles": 0.00020000000000000004,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 6.365894755110708e-05,
+            "phase": "aqueous",
+            "species": "S2O3-2"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 5.535344077673507,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.001881705502908419,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 100.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 9.455463285924941e-14,
+        "free_proton": 0.001438619641915544,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "H2SO4",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.002,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "KI",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.002,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "H2O2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0001,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "Na2S2O3",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 2.9186954752717172e-08,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.001881705502908415,
+        "solution": {
+          "ionic_strength": 0.02302785988095,
+          "pe": 18.68850717029,
+          "ph": 1.904520113205,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [
+            {
+              "element": "S",
+              "molality": 0.0100281984527,
+              "oxidation": 6
+            }
+          ],
+          "solvent_kg": 0.099719224,
+          "species": [
+            {
+              "activity": 0.9995,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.01246,
+              "molality": 0.01443,
+              "name": "H+"
+            },
+            {
+              "activity": 0.00311,
+              "molality": 0.005591,
+              "name": "SO4-2"
+            },
+            {
+              "activity": 0.003799,
+              "molality": 0.004394,
+              "name": "HSO4-"
+            },
+            {
+              "activity": 0.001704,
+              "molality": 0.001973,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0003279,
+              "molality": 0.0005895,
+              "name": "Thiosulfate-2"
+            },
+            {
+              "activity": 0.0003866,
+              "molality": 0.0004476,
+              "name": "K+"
+            },
+            {
+              "activity": 0.0002561,
+              "molality": 0.0002547,
+              "name": "O2"
+            },
+            {
+              "activity": 4.218e-05,
+              "molality": 4.885e-05,
+              "name": "H(Thiosulfate)-"
+            },
+            {
+              "activity": 2.846e-05,
+              "molality": 3.275e-05,
+              "name": "NaSO4-"
+            },
+            {
+              "activity": 8.516e-06,
+              "molality": 9.8e-06,
+              "name": "KSO4-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.2623182513607,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 20,
+      "output_sequence": 20,
+      "step": 18,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.0019554801172588696,
+            "phase": "aqueous",
+            "species": "KI"
+          },
+          {
+            "moles": 0.0009923067336274033,
+            "phase": "liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 7.083962129033448e-05,
+            "phase": "solid",
+            "species": "S"
+          },
+          {
+            "moles": 7.115159725220552e-05,
+            "phase": "gas",
+            "species": "SO2"
+          },
+          {
+            "moles": 0.0004927166625010158,
+            "phase": "gas",
+            "species": "O2"
+          },
+          {
+            "moles": 2.2259941370565143e-05,
+            "phase": "aqueous",
+            "species": "I2"
+          },
+          {
+            "moles": 3.1197596187105626e-07,
+            "phase": "aqueous",
+            "species": "S"
+          },
+          {
+            "moles": 4.4519882741130286e-05,
+            "phase": "aqueous",
+            "species": "K+"
+          },
+          {
+            "moles": 0.0004,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 0.0001288484027477945,
+            "phase": "aqueous",
+            "species": "S2O3-2"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 5.535378096201055,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0018131769227544628,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 100.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 9.95266163808641e-14,
+        "free_proton": 0.001382014548815114,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "H2SO4",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.002,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "KI",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.002,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "H2O2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0002,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "Na2S2O3",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 2.9186938116015954e-08,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.0018131769227544587,
+        "solution": {
+          "ionic_strength": 0.02516275327943,
+          "pe": 18.6687675282,
+          "ph": 1.924258869066,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [
+            {
+              "element": "S",
+              "molality": 0.01002813544868,
+              "oxidation": 6
+            }
+          ],
+          "solvent_kg": 0.099719836,
+          "species": [
+            {
+              "activity": 0.9995,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.01191,
+              "molality": 0.01386,
+              "name": "H+"
+            },
+            {
+              "activity": 0.003116,
+              "molality": 0.005723,
+              "name": "SO4-2"
+            },
+            {
+              "activity": 0.003638,
+              "molality": 0.00423,
+              "name": "HSO4-"
+            },
+            {
+              "activity": 0.003389,
+              "molality": 0.003946,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0006528,
+              "molality": 0.001199,
+              "name": "Thiosulfate-2"
+            },
+            {
+              "activity": 0.0003753,
+              "molality": 0.0004369,
+              "name": "K+"
+            },
+            {
+              "activity": 0.0002561,
+              "molality": 0.0002546,
+              "name": "O2"
+            },
+            {
+              "activity": 8.024e-05,
+              "molality": 9.341e-05,
+              "name": "H(Thiosulfate)-"
+            },
+            {
+              "activity": 5.673e-05,
+              "molality": 6.561e-05,
+              "name": "NaSO4-"
+            },
+            {
+              "activity": 8.284e-06,
+              "molality": 9.581e-06,
+              "name": "KSO4-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.2623518018374,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 12,
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 405 nm",
+        "value": 0.0,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 13,
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 405 nm",
+        "value": 0.0,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 16,
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 405 nm",
+        "value": 0.0,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 17,
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 405 nm",
+        "value": 0.0,
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

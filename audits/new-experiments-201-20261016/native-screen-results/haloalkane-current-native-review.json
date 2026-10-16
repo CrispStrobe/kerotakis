@@ -1,0 +1,689 @@
+{
+  "schema": 1,
+  "kind": "Saved current-native haloalkane review against original frozen forecasts; no new execution",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "design": "audits/new-experiments-201-20261016/native-screen-design.json",
+  "forecast_reference": "audits/new-experiments-201-20261016/haloalkane-acceptance/api-envelope-v2/design.json",
+  "forecast_reference_sha256": "70f39746ba0a5d67b5c2c8662ae68af8b8a1cd2a2f1699340a80a62ec7b1df18",
+  "cases": [
+    {
+      "id": "batch3-diverse:so-001",
+      "execution": {
+        "id": "batch3-diverse:so-001",
+        "status": "zero_exit",
+        "exit_code": 0,
+        "elapsed_seconds": 0.1682316579999963,
+        "script_sha256": "cc9f17f4146e7d4289a5bb99e46092e298010944505e549416c07661d64310c4",
+        "stdout_sha256": "7e3181749d072fefb226af9c393e1c0717fc7e33a1fe738169a1da16451d4b8f",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "parsed_observations": 18,
+        "stdout_parse_error": null,
+        "physical_verdict": "not_assigned"
+      },
+      "principal_forecast_met": false,
+      "reactions": [
+        {
+          "vessel": 0,
+          "expected_mechanism": "haloalkane:SN2",
+          "actual_mechanisms": [],
+          "principal_forecast_met": false,
+          "principal_product_gain_mol": 0,
+          "substrate_debit_mol": 0.0,
+          "base_equivalents_before_mol": 0.0002838566153233017,
+          "molecular_NaOH_before_mol": 0,
+          "temperature_before_k": 298.2352484827662,
+          "closure": {
+            "elements_mol": {
+              "Br": 0.0,
+              "C": -6.433991794202454e-13,
+              "H": 8.881784197001252e-16,
+              "N": 0.0,
+              "Na": -3.0791341698588326e-17,
+              "O": 0.0
+            },
+            "charge_mol": -2.5736243106262713e-12,
+            "external_transfers": [],
+            "accepted": true,
+            "basis_policy": "base_equivalents carries OH stoichiometric coordinate, not measured hydroxide; no addition of free_proton/free_hydroxide or solution species to authoritative contents."
+          },
+          "events": [
+            {
+              "cause": "not-parameterised",
+              "event": "not_yet_modeled",
+              "reason": {
+                "en": "no selectivity rule for {substrate} substrate + {nucleophile} nucleophile at {temperature}°C — outside the curated table",
+                "key": "not-modeled.no-selectivity-rule",
+                "slots": [
+                  [
+                    "substrate",
+                    {
+                      "term": {
+                        "en": "primary",
+                        "section": "substrate-class"
+                      }
+                    }
+                  ],
+                  [
+                    "nucleophile",
+                    {
+                      "term": {
+                        "en": "weak",
+                        "section": "nucleophile-class"
+                      }
+                    }
+                  ],
+                  [
+                    "temperature",
+                    {
+                      "number": {
+                        "text": "25"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "vessel": 0,
+              "what": "no selectivity rule for primary substrate + weak nucleophile at 25°C — outside the curated table"
+            },
+            {
+              "event": "headspace_equilibrated",
+              "pressure": 101286.24059798972,
+              "total_moles": 0.02042336503203922,
+              "vessel": 0
+            },
+            {
+              "event": "solution_characterized",
+              "ionic_strength": 0.007687040672172,
+              "ph": 11.80852912765,
+              "vessel": 0
+            }
+          ]
+        },
+        {
+          "vessel": 1,
+          "expected_mechanism": "haloalkane:E2",
+          "actual_mechanisms": [],
+          "principal_forecast_met": false,
+          "principal_product_gain_mol": 0,
+          "substrate_debit_mol": 0.0,
+          "base_equivalents_before_mol": 0.0002890489502412625,
+          "molecular_NaOH_before_mol": 0,
+          "temperature_before_k": 363.22587923557296,
+          "closure": {
+            "elements_mol": {
+              "Br": 0.0,
+              "C": 0.0,
+              "H": -8.881784197001252e-16,
+              "N": 0.0,
+              "Na": -1.713039432527097e-17,
+              "O": 0.0
+            },
+            "charge_mol": -1.8323016715005025e-17,
+            "external_transfers": [],
+            "accepted": true,
+            "basis_policy": "base_equivalents carries OH stoichiometric coordinate, not measured hydroxide; no addition of free_proton/free_hydroxide or solution species to authoritative contents."
+          },
+          "events": [
+            {
+              "cause": "not-parameterised",
+              "event": "not_yet_modeled",
+              "reason": {
+                "en": "no selectivity rule for {substrate} substrate + {nucleophile} nucleophile at {temperature}°C — outside the curated table",
+                "key": "not-modeled.no-selectivity-rule",
+                "slots": [
+                  [
+                    "substrate",
+                    {
+                      "term": {
+                        "en": "primary",
+                        "section": "substrate-class"
+                      }
+                    }
+                  ],
+                  [
+                    "nucleophile",
+                    {
+                      "term": {
+                        "en": "weak",
+                        "section": "nucleophile-class"
+                      }
+                    }
+                  ],
+                  [
+                    "temperature",
+                    {
+                      "number": {
+                        "text": "90"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "vessel": 1,
+              "what": "no selectivity rule for primary substrate + weak nucleophile at 90°C — outside the curated table"
+            },
+            {
+              "event": "headspace_equilibrated",
+              "pressure": 101283.45356241232,
+              "total_moles": 0.01676862826056504,
+              "vessel": 1
+            },
+            {
+              "event": "solution_characterized",
+              "ionic_strength": 0.007501485230566,
+              "ph": 10.24170837387,
+              "vessel": 1
+            }
+          ]
+        }
+      ],
+      "physical_verdict": "not_assigned"
+    },
+    {
+      "id": "batch3-diverse:so-002",
+      "execution": {
+        "id": "batch3-diverse:so-002",
+        "status": "zero_exit",
+        "exit_code": 0,
+        "elapsed_seconds": 0.11719659899998192,
+        "script_sha256": "4519e3309ba8ad56e7c9457df2c4a48907b1a52dc0c9a3592799a3b9737f3326",
+        "stdout_sha256": "1ae7e432da0e17a5458f75fe0c05effa08dfc92f7ad2bcefe0104216406416cc",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "parsed_observations": 12,
+        "stdout_parse_error": null,
+        "physical_verdict": "not_assigned"
+      },
+      "principal_forecast_met": true,
+      "reactions": [
+        {
+          "vessel": 0,
+          "expected_mechanism": "haloalkane:SN1",
+          "actual_mechanisms": [
+            "haloalkane:SN1"
+          ],
+          "principal_forecast_met": true,
+          "principal_product_gain_mol": 0.0002,
+          "substrate_debit_mol": 0.0002,
+          "base_equivalents_before_mol": 0,
+          "molecular_NaOH_before_mol": 0,
+          "temperature_before_k": 298.15,
+          "closure": {
+            "elements_mol": {
+              "Br": 0.0,
+              "C": 0.0,
+              "H": 0.0,
+              "O": 0.0
+            },
+            "charge_mol": 8.131516293641283e-20,
+            "external_transfers": [],
+            "accepted": true,
+            "basis_policy": "base_equivalents carries OH stoichiometric coordinate, not measured hydroxide; no addition of free_proton/free_hydroxide or solution species to authoritative contents."
+          },
+          "events": [
+            {
+              "boundary": "Mechanism SN1 selected by the selectivity rule table: tertiary substrate (tert_butyl_bromide) + weak nucleophile (water) at 25°C. March ch. 10: tertiary + weak nucleophile → SN1 (carbocation intermediate, racemisation). The reaction is driven to completion on command — no yield claim is made, and the kinetic selectivity ratios are not modelled",
+              "equation": "(CH₃)₃CBr + H₂O → (CH₃)₃COH + HBr",
+              "event": "org_reacted",
+              "extent": 0.0002,
+              "name": "haloalkane:SN1",
+              "vessel": 0
+            },
+            {
+              "event": "solution_routed",
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-Hückel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "vessel": 0
+            },
+            {
+              "event": "solution_characterized",
+              "ionic_strength": 0.004012326109386,
+              "ph": 2.423814533379,
+              "vessel": 0
+            }
+          ]
+        }
+      ],
+      "physical_verdict": "not_assigned"
+    },
+    {
+      "id": "batch3-diverse:so-003",
+      "execution": {
+        "id": "batch3-diverse:so-003",
+        "status": "zero_exit",
+        "exit_code": 0,
+        "elapsed_seconds": 0.16805211600001257,
+        "script_sha256": "5b393fd75f270a4ae2cc434bb779209cdabae92b78bed4ecdb80bf9d950b3a0a",
+        "stdout_sha256": "136e7ca72193cdb4c16d74ee9d48ad8daee19aa38116955731489ca4344ee28a",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "parsed_observations": 16,
+        "stdout_parse_error": null,
+        "physical_verdict": "not_assigned"
+      },
+      "principal_forecast_met": false,
+      "reactions": [
+        {
+          "vessel": 0,
+          "expected_mechanism": "haloalkane:SN2",
+          "actual_mechanisms": [],
+          "principal_forecast_met": false,
+          "principal_product_gain_mol": 0,
+          "substrate_debit_mol": 0.0,
+          "base_equivalents_before_mol": 0.0002838566153233017,
+          "molecular_NaOH_before_mol": 0,
+          "temperature_before_k": 298.2352484827662,
+          "closure": {
+            "elements_mol": {
+              "Br": 0.0,
+              "C": -6.433991794202454e-13,
+              "H": 8.881784197001252e-16,
+              "N": 0.0,
+              "Na": -3.0791341698588326e-17,
+              "O": 0.0
+            },
+            "charge_mol": -2.5736243106262713e-12,
+            "external_transfers": [],
+            "accepted": true,
+            "basis_policy": "base_equivalents carries OH stoichiometric coordinate, not measured hydroxide; no addition of free_proton/free_hydroxide or solution species to authoritative contents."
+          },
+          "events": [
+            {
+              "cause": "not-parameterised",
+              "event": "not_yet_modeled",
+              "reason": {
+                "en": "no selectivity rule for {substrate} substrate + {nucleophile} nucleophile at {temperature}°C — outside the curated table",
+                "key": "not-modeled.no-selectivity-rule",
+                "slots": [
+                  [
+                    "substrate",
+                    {
+                      "term": {
+                        "en": "primary",
+                        "section": "substrate-class"
+                      }
+                    }
+                  ],
+                  [
+                    "nucleophile",
+                    {
+                      "term": {
+                        "en": "weak",
+                        "section": "nucleophile-class"
+                      }
+                    }
+                  ],
+                  [
+                    "temperature",
+                    {
+                      "number": {
+                        "text": "25"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "vessel": 0,
+              "what": "no selectivity rule for primary substrate + weak nucleophile at 25°C — outside the curated table"
+            },
+            {
+              "event": "headspace_equilibrated",
+              "pressure": 101286.24059798972,
+              "total_moles": 0.02042336503203922,
+              "vessel": 0
+            },
+            {
+              "event": "solution_characterized",
+              "ionic_strength": 0.007687040672172,
+              "ph": 11.80852912765,
+              "vessel": 0
+            }
+          ]
+        },
+        {
+          "vessel": 1,
+          "expected_mechanism": "haloalkane:E2",
+          "actual_mechanisms": [
+            "haloalkane:SN1"
+          ],
+          "principal_forecast_met": false,
+          "principal_product_gain_mol": 0,
+          "substrate_debit_mol": 0.0002,
+          "base_equivalents_before_mol": 0.00028385661532330346,
+          "molecular_NaOH_before_mol": 0,
+          "temperature_before_k": 298.23524550621164,
+          "closure": {
+            "elements_mol": {
+              "Br": 8.944667923005412e-19,
+              "C": 3.2526065174565133e-19,
+              "H": 0.0,
+              "N": 0.0,
+              "Na": -1.452830911130576e-17,
+              "O": 0.0
+            },
+            "charge_mol": -1.3742262536253769e-17,
+            "external_transfers": [],
+            "accepted": true,
+            "basis_policy": "base_equivalents carries OH stoichiometric coordinate, not measured hydroxide; no addition of free_proton/free_hydroxide or solution species to authoritative contents."
+          },
+          "events": [
+            {
+              "boundary": "Mechanism SN1 selected by the selectivity rule table: tertiary substrate (tert_butyl_bromide) + weak nucleophile (water) at 25°C. March ch. 10: tertiary + weak nucleophile → SN1 (carbocation intermediate, racemisation). The reaction is driven to completion on command — no yield claim is made, and the kinetic selectivity ratios are not modelled",
+              "equation": "(CH₃)₃CBr + H₂O → (CH₃)₃COH + HBr",
+              "event": "org_reacted",
+              "extent": 0.0002,
+              "name": "haloalkane:SN1",
+              "vessel": 1
+            },
+            {
+              "event": "gas_contained",
+              "moles": 8.756148459095e-11,
+              "species": "CO2",
+              "vessel": 1
+            },
+            {
+              "event": "neutralised",
+              "moles": 0.0001995570051543914,
+              "vessel": 1
+            },
+            {
+              "event": "headspace_equilibrated",
+              "pressure": 101308.90702126724,
+              "total_moles": 0.020423365119600707,
+              "vessel": 1
+            },
+            {
+              "cause": "model-boundary",
+              "event": "not_yet_modeled",
+              "reason": {
+                "en": "HBr gas uptake uses the dissociative Henry constant from the CC-BY Sander compilation, converted from concentration to the dilute molal standard state. The reaction enthalpy is derived from its local temperature slope and solvent-density correction, not an independent calorimetric measurement. {temperature} Gas transfer is an equilibrium boundary, not a time-dependent absorption model.",
+                "key": "not-modeled.hbr-gas-uptake",
+                "slots": [
+                  [
+                    "temperature",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "Away from 25 °C this uses a local constant-enthalpy van't Hoff approximation, not a validated broad-temperature correlation.",
+                          "key": "not-modeled.hbr-away-from-the-reference-temperature"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "vessel": 1,
+              "what": "HBr gas uptake uses the dissociative Henry constant from the CC-BY Sander compilation, converted from concentration to the dilute molal standard state. The reaction enthalpy is derived from its local temperature slope and solvent-density correction, not an independent calorimetric measurement. Away from 25 °C this uses a local constant-enthalpy van't Hoff approximation, not a validated broad-temperature correlation. Gas transfer is an equilibrium boundary, not a time-dependent absorption model."
+            },
+            {
+              "event": "solution_characterized",
+              "ionic_strength": 0.007678487276432,
+              "ph": 11.27883980706,
+              "vessel": 1
+            },
+            {
+              "event": "temperature_changed",
+              "from": 298.23524550621164,
+              "to": 298.30198802015946,
+              "vessel": 1
+            }
+          ]
+        }
+      ],
+      "physical_verdict": "not_assigned"
+    },
+    {
+      "id": "batch3-diverse:so-004",
+      "execution": {
+        "id": "batch3-diverse:so-004",
+        "status": "zero_exit",
+        "exit_code": 0,
+        "elapsed_seconds": 0.16778128400000014,
+        "script_sha256": "44d1610991a0413606d52a90f3bafee230066a8c8c70236cba480c277f06c26c",
+        "stdout_sha256": "433958f45487b48c5c407cd09cbc32bbe7a74eff3570e4d60dd451b11db1c202",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "parsed_observations": 15,
+        "stdout_parse_error": null,
+        "physical_verdict": "not_assigned"
+      },
+      "principal_forecast_met": true,
+      "reactions": [
+        {
+          "vessel": 0,
+          "expected_mechanism": "haloalkane:SN1",
+          "actual_mechanisms": [
+            "haloalkane:SN1"
+          ],
+          "principal_forecast_met": true,
+          "principal_product_gain_mol": 0.0002,
+          "substrate_debit_mol": 0.0002,
+          "base_equivalents_before_mol": 0,
+          "molecular_NaOH_before_mol": 0,
+          "temperature_before_k": 298.15006757456536,
+          "closure": {
+            "elements_mol": {
+              "Br": -5.863907449887851e-16,
+              "C": 6.570265165262157e-17,
+              "H": 0.0,
+              "N": 0.0,
+              "O": 0.0
+            },
+            "charge_mol": 8.469018292010433e-16,
+            "external_transfers": [],
+            "accepted": true,
+            "basis_policy": "base_equivalents carries OH stoichiometric coordinate, not measured hydroxide; no addition of free_proton/free_hydroxide or solution species to authoritative contents."
+          },
+          "events": [
+            {
+              "boundary": "Mechanism SN1 selected by the selectivity rule table: tertiary substrate (tert_butyl_bromide) + weak nucleophile (water) at 25°C. March ch. 10: tertiary + weak nucleophile → SN1 (carbocation intermediate, racemisation). The reaction is driven to completion on command — no yield claim is made, and the kinetic selectivity ratios are not modelled",
+              "equation": "(CH₃)₃CBr + H₂O → (CH₃)₃COH + HBr",
+              "event": "org_reacted",
+              "extent": 0.0002,
+              "name": "haloalkane:SN1",
+              "vessel": 0
+            },
+            {
+              "event": "gas_contained",
+              "moles": 8.92313837650003e-08,
+              "species": "CO2",
+              "vessel": 0
+            },
+            {
+              "event": "headspace_equilibrated",
+              "pressure": 101322.49887910936,
+              "total_moles": 0.020436513533754325,
+              "vessel": 0
+            },
+            {
+              "cause": "model-boundary",
+              "event": "not_yet_modeled",
+              "reason": {
+                "en": "HBr gas uptake uses the dissociative Henry constant from the CC-BY Sander compilation, converted from concentration to the dilute molal standard state. The reaction enthalpy is derived from its local temperature slope and solvent-density correction, not an independent calorimetric measurement. {temperature} Gas transfer is an equilibrium boundary, not a time-dependent absorption model.",
+                "key": "not-modeled.hbr-gas-uptake",
+                "slots": [
+                  [
+                    "temperature",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "Away from 25 °C this uses a local constant-enthalpy van't Hoff approximation, not a validated broad-temperature correlation.",
+                          "key": "not-modeled.hbr-away-from-the-reference-temperature"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "vessel": 0,
+              "what": "HBr gas uptake uses the dissociative Henry constant from the CC-BY Sander compilation, converted from concentration to the dilute molal standard state. The reaction enthalpy is derived from its local temperature slope and solvent-density correction, not an independent calorimetric measurement. Away from 25 °C this uses a local constant-enthalpy van't Hoff approximation, not a validated broad-temperature correlation. Gas transfer is an equilibrium boundary, not a time-dependent absorption model."
+            },
+            {
+              "event": "solution_characterized",
+              "ionic_strength": 0.005015499574175,
+              "ph": 2.329554025397,
+              "vessel": 0
+            }
+          ]
+        },
+        {
+          "vessel": 1,
+          "expected_mechanism": "haloalkane:E1",
+          "actual_mechanisms": [
+            "haloalkane:E1"
+          ],
+          "principal_forecast_met": true,
+          "principal_product_gain_mol": 0.0002,
+          "substrate_debit_mol": 0.0002,
+          "base_equivalents_before_mol": 0,
+          "molecular_NaOH_before_mol": 0,
+          "temperature_before_k": 363.139973274706,
+          "closure": {
+            "elements_mol": {
+              "Br": -1.6816851188504456e-13,
+              "C": 2.7321894746634712e-17,
+              "H": 0.0,
+              "N": 0.0,
+              "O": 0.0
+            },
+            "charge_mol": 1.6827891904968147e-13,
+            "external_transfers": [],
+            "accepted": true,
+            "basis_policy": "base_equivalents carries OH stoichiometric coordinate, not measured hydroxide; no addition of free_proton/free_hydroxide or solution species to authoritative contents."
+          },
+          "events": [
+            {
+              "event": "gas_contained",
+              "moles": 0.0002,
+              "species": "isobutylene",
+              "vessel": 1
+            },
+            {
+              "boundary": "Mechanism E1 selected by the selectivity rule table: tertiary substrate (tert_butyl_bromide) + weak nucleophile (water) at 90°C. March ch. 10: tertiary + weak nucleophile + heat → E1 (unimolecular elimination via carbocation, Zaitsev product). The reaction is driven to completion on command — no yield claim is made, and the kinetic selectivity ratios are not modelled",
+              "equation": "(CH₃)₃CBr →Δ (CH₃)₂C=CH₂↑ + HBr",
+              "event": "org_reacted",
+              "extent": 0.0002,
+              "name": "haloalkane:E1",
+              "vessel": 1
+            },
+            {
+              "event": "gas_contained",
+              "moles": 4.8422655525999786e-08,
+              "species": "CO2",
+              "vessel": 1
+            },
+            {
+              "event": "headspace_equilibrated",
+              "pressure": 102529.4939307876,
+              "total_moles": 0.016978834888748722,
+              "vessel": 1
+            },
+            {
+              "cause": "model-boundary",
+              "event": "not_yet_modeled",
+              "reason": {
+                "en": "HBr gas uptake uses the dissociative Henry constant from the CC-BY Sander compilation, converted from concentration to the dilute molal standard state. The reaction enthalpy is derived from its local temperature slope and solvent-density correction, not an independent calorimetric measurement. {temperature} Gas transfer is an equilibrium boundary, not a time-dependent absorption model.",
+                "key": "not-modeled.hbr-gas-uptake",
+                "slots": [
+                  [
+                    "temperature",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "Away from 25 °C this uses a local constant-enthalpy van't Hoff approximation, not a validated broad-temperature correlation.",
+                          "key": "not-modeled.hbr-away-from-the-reference-temperature"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "vessel": 1,
+              "what": "HBr gas uptake uses the dissociative Henry constant from the CC-BY Sander compilation, converted from concentration to the dilute molal standard state. The reaction enthalpy is derived from its local temperature slope and solvent-density correction, not an independent calorimetric measurement. Away from 25 °C this uses a local constant-enthalpy van't Hoff approximation, not a validated broad-temperature correlation. Gas transfer is an equilibrium boundary, not a time-dependent absorption model."
+            },
+            {
+              "event": "solution_characterized",
+              "ionic_strength": 0.005015045651074,
+              "ph": 2.333782111372,
+              "vessel": 1
+            }
+          ]
+        }
+      ],
+      "physical_verdict": "not_assigned"
+    }
+  ],
+  "principal_forecasts_met": 2,
+  "model_issue": "MODEL-006",
+  "limits": [
+    "Different-source preview and current native evidence remain separately bound; no exact stream equality or same-head API parity is claimed.",
+    "Allseven reaction ledgers close including analytical base and external transfers; two principal forecasts still fail.",
+    "No empirical rate/heat/yield validation or catalogue closure."
+  ]
+}

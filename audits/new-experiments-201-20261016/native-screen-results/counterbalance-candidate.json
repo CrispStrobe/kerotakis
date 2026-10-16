@@ -1,0 +1,16 @@
+{
+  "original_id": "batch3-diverse:co-005",
+  "original_script_path": "audits/new-experiments-201-20261016/scripts/D3-CO-005.lab",
+  "original_script_sha256": "fd2f3f8976204e22b419b730a2299aa177b03d0f1f26337bfca9f874fb76dcd2",
+  "candidate_path": "corrected/D3-CO-005-counterbalance.lab",
+  "candidate_sha256": "df4137be515fa7c22b31276a65bad928677629899bb58ec39788a3a05d882c4a",
+  "only_change": "Centrifuge counterbalance 100g -> 39.91g. No identity, dose, time, rotor geometry, observation or physical forecast changes.",
+  "first_failure": "Sample39.91g versus counterbalance100g exceeds source0.10g maximum imbalance; refusal precedes centrifuge.",
+  "status": "prospective_unexecuted_counterbalance_candidate",
+  "reason_source": [
+    "crates/kerotakis-core/src/bench.rs:5731",
+    "crates/kerotakis-core/src/vessel.rs:1940"
+  ],
+  "forecast": "Compare pigment-associated bands with the cloudy blank; do not interpret total attenuation as dye concentration. A post-centrifugation claim requires an actually reported material redistribution.",
+  "acceptance": "Reach intended centrifuge; preserve dairy unresolved pools and pigment/material ledgers. Judge UV/scattering forecast separately; named unsupported optics is not a scientific pass."
+}

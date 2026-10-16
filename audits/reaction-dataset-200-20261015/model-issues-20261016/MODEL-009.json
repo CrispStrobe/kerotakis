@@ -1,0 +1,65 @@
+{
+  "owner": "independent-model-agent",
+  "status": "unrepaired_saved-output_intake",
+  "source": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "run_id": 38871207777,
+  "artifact_id": 12034345557,
+  "archive_sha256": "7e3102c8ba72746974b0595de3f525041064e1641d55b2bcc11f546646a2f3f3",
+  "source_runtime_executed_locally": false,
+  "scientific_pass_assigned": false,
+  "id": "MODEL-009",
+  "title": "NaBr flame-test coverage and CEA trial nonconvergence",
+  "source_pins": [
+    {
+      "path": "crates/kerotakis-cea/src/thermal.rs",
+      "sha256": "e7525c104e947ec9c3867cbdefc7981e01b823137cdef36e43d6daa839b2f64f"
+    },
+    {
+      "path": "crates/kerotakis-core/src/bench.rs",
+      "sha256": "44b3fa4190093c3dfa3d0a1ddd676dcaecabd997bbd6a9fc89b191402e282f80"
+    },
+    {
+      "path": "data/registry/registry-source-v1.json",
+      "sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132"
+    }
+  ],
+  "original_id": "batch3-diverse:an-001",
+  "script_sha256": "d7291d7db9f7c63488129f44bb88cada6499ce3925d65da82589b8eba4767379",
+  "stdout_sha256": "db68d202d75b1bc7581778138c10e002a1d2394b537daaef124e20aed90a16d2",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_physical_forecast": "Compare the declared emission signatures of NaCl, NaBr and KCl and check that a flame-test event does not consume each salt as fuel. An unparameterised salt must be reported as such rather than assigned a guessed line.",
+  "witness_path": "audits/new-experiments-201-20261016/native-screen-results/diagnostics/MODEL-009-before-after.json",
+  "witness_sha256": "4d647815330044d39c85f20fad1735cedc5ecdfc34777de244301b887b4b7146",
+  "process_exit": 0,
+  "failure_events": [
+    {
+      "observation_index": 6,
+      "output_sequence": 6,
+      "operator": {
+        "op": "ignite",
+        "vessel": 1
+      },
+      "event": {
+        "detail": "cea-thermal could not solve this state: equilibrium did not converge after 1 iterations",
+        "event": "solver_failed",
+        "solver": "cea-thermal",
+        "vessel": 1
+      }
+    }
+  ],
+  "classification": "zero_exit_contains_solver_failure_requires_separate_assessment",
+  "generic_limit": "An exit0 is not accepted chemistry. No new runtime, parameter change or calibration is assigned.",
+  "observed": "NaCl and KCl yield bright-yellow/lilac flame_test events. NaBr yields solver_failed plus did_not_ignite (no_fuel), with no flame_test. The complete bench before/after NaBr ignition is identical: each salt retains 0.1 g at 298.15 K, with zero excess enthalpy. Fuel combustion was not expected. The original shared-sodium optical forecast is not met.",
+  "source_domain": "Registry optical/NaBr has flame_colour=null, whereas NaCl/KCl supply flame metadata. NoFuel is an honest combustion result but does not answer the missing flame-test observable. CEA applies above its kinetic threshold when charge maps; solver admission/pool and optical-property coverage must be reviewed separately. Do not invent sodium emission data or infer noncombustible means no flame colour.",
+  "acceptance_lanes": [
+    "Separate optical property coverage from hot equilibrium/combustion admission; preserve raw nonconvergence and unsupported property evidence.",
+    "Require supported NaCl/KCl behavior unchanged; either review-source NaBr flame metadata or state explicit missing optical coverage. Do not invent rates, heat or flame data.",
+    "Validate no-fuel ignition restores inventory/temperature and never leaves spark heat or trial products; supported/missing-element pool paths report honest scope."
+  ]
+}

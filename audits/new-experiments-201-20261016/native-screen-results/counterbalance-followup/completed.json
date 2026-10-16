@@ -1,0 +1,11 @@
+{
+  "completed_utc": "2026-10-16T08:22:38.832127+00:00",
+  "execution_status": "completed",
+  "exit_status": 0,
+  "observations": 16,
+  "requests": 1,
+  "retries": 0,
+  "source_script_binary_match": true,
+  "no_credential_reflection": true,
+  "physical_verdict": "not_assigned"
+}

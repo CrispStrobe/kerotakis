@@ -1,0 +1,858 @@
+{
+  "id": "batch3-diverse:fe-002",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "54e52d5ad65d284a50940b26a9f14b1e184d5ff29d693ce9715f82be63cee752",
+  "original_script_sha256": "54e52d5ad65d284a50940b26a9f14b1e184d5ff29d693ce9715f82be63cee752",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Look for acid, ethanol and CO2 together and account for the starter recipe's own sugar. Chromatography alone cannot close the balance because ionised acid and unsupported components may be outside that method.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Does a heterolactic route account for three product classes from one disaccharide pool?",
+      "review_instruction": "Look for acid, ethanol and CO2 together and account for the starter recipe's own sugar. Chromatography alone cannot close the balance because ionised acid and unsupported components may be outside that method.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: starter with no added sugar",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:fe-002",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.16809116499999277,
+    "script_sha256": "54e52d5ad65d284a50940b26a9f14b1e184d5ff29d693ce9715f82be63cee752",
+    "stdout_sha256": "8909f4dd28532b6919e55adc0fba5c52148bf60d996f6ad8f9e68acd878f13b0",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 15,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "at": 300.15,
+      "moles": 2.2137107965584235,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0029214438359726146,
+      "op": "add",
+      "species": "sucrose",
+      "vessel": 0
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "sourdough_starter",
+      "op": "add_material",
+      "recipe_id": "food/sourdough-starter",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 5.0,
+      "vessel": 0
+    },
+    {
+      "at": 300.15,
+      "moles": 2.2137107965584235,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "sourdough_starter",
+      "op": "add_material",
+      "recipe_id": "food/sourdough-starter",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 5.0,
+      "vessel": 1
+    },
+    {
+      "headspace_volume": 0.5,
+      "op": "seal",
+      "vessel": 0
+    },
+    {
+      "headspace_volume": 0.5,
+      "op": "seal",
+      "vessel": 1
+    },
+    {
+      "op": "wait",
+      "seconds": 43200.0
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "pressure_gauge",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "pressure_gauge",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "chromatograph",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 1,
+    "temperature_changed": 7,
+    "added": 3,
+    "solution_routed": 6,
+    "dissolved": 5,
+    "material_added": 2,
+    "not_yet_modeled": 3,
+    "vessel_sealed": 2,
+    "headspace_equilibrated": 4,
+    "solution_characterized": 4,
+    "gas_produced": 2,
+    "fermented": 2,
+    "measured": 4,
+    "chromatographed": 1
+  },
+  "named_model_limits": {
+    "not-modeled.dissolves-unspeciated": {
+      "first_observation_index": 3,
+      "first_operator": {
+        "basis": "mass_fraction",
+        "material": "sourdough_starter",
+        "op": "add_material",
+        "recipe_id": "food/sourdough-starter",
+        "recipe_version": 1,
+        "sample_seed": 0,
+        "total_amount": 5.0,
+        "vessel": 0
+      },
+      "event": {
+        "cause": "not-speciated",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+          "key": "not-modeled.dissolves-unspeciated",
+          "slots": [
+            [
+              "name",
+              {
+                "term": {
+                  "en": "sucrose",
+                  "section": "species"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "sucrose dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+      },
+      "occurrences": 1
+    },
+    "not-modeled.family-declined-at-gate": {
+      "first_observation_index": 8,
+      "first_operator": {
+        "op": "wait",
+        "seconds": 43200.0
+      },
+      "event": {
+        "cause": "model-boundary",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "{family} v{version} matched, but declined at {gate}: {why}. Waiting does not supply a missing reaction rate or satisfy the condition gate",
+          "key": "not-modeled.family-declined-at-gate",
+          "slots": [
+            [
+              "family",
+              {
+                "text": {
+                  "text": "fischer-esterification"
+                }
+              }
+            ],
+            [
+              "version",
+              {
+                "text": {
+                  "text": "1"
+                }
+              }
+            ],
+            [
+              "gate",
+              {
+                "text": {
+                  "text": "temperature_k"
+                }
+              }
+            ],
+            [
+              "why",
+              {
+                "term": {
+                  "en": "the vessel stands at 298.1 K and the family needs at least 333.1 K",
+                  "section": "family-gate"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "fischer-esterification v1 matched, but declined at temperature_k: the vessel stands at 298.1 K and the family needs at least 333.1 K. Waiting does not supply a missing reaction rate or satisfy the condition gate"
+      },
+      "occurrences": 2
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 14,
+      "output_sequence": 14,
+      "step": 14,
+      "state": {
+        "co2_partial_pressure_atm": 0.1023235294117647,
+        "contents": [
+          {
+            "moles": 0.001811315003067065,
+            "phase": "aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 0.00029214438359726147,
+            "phase": "solid",
+            "species": "sucrose"
+          },
+          {
+            "moles": 0.016046879032362137,
+            "phase": "gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.004254931220452939,
+            "phase": "gas",
+            "species": "O2"
+          },
+          {
+            "moles": 0.002220257665811099,
+            "phase": "aqueous",
+            "species": "ethanol"
+          },
+          {
+            "moles": 0.00014735419774138431,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 2.6557564012011644e-08,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 0.0021031467930315937,
+            "phase": "aqueous",
+            "species": "lactic_acid"
+          },
+          {
+            "moles": 0.00011711087277941091,
+            "phase": "aqueous",
+            "species": "lactate"
+          },
+          {
+            "moles": 0.002081000884195,
+            "phase": "gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 2.3513738856864146,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0001171374303381989,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 43200.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.730137272834677e-13,
+        "free_proton": 0.00011713743051760717,
+        "headspace": {
+          "boundary": "sealed",
+          "volume": 0.5
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.2137107965584235,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0029214438359726146,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "sucrose",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.13877324451845685,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "material recipe food/sourdough-starter",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.00029214438359726147,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe food/sourdough-starter",
+            "species": "sucrose",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 110972.05401866224,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.00011713743034342293,
+        "solution": {
+          "ionic_strength": 0.0027653655997,
+          "pe": null,
+          "ph": 2.583306032332,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.04236000039562,
+          "species": [
+            {
+              "activity": 0.999,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.04968,
+              "molality": 0.04965,
+              "name": "H(Lactate)"
+            },
+            {
+              "activity": 0.003479,
+              "molality": 0.003479,
+              "name": "H2CO3"
+            },
+            {
+              "activity": 0.00261,
+              "molality": 0.002765,
+              "name": "H+"
+            },
+            {
+              "activity": 0.00261,
+              "molality": 0.002765,
+              "name": "Lactate-"
+            },
+            {
+              "activity": 5.926e-07,
+              "molality": 6.27e-07,
+              "name": "HCO3-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 2.4,
+            "basis": "mass_fraction",
+            "material": "sourdough_starter",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "food/sourdough-starter",
+            "recipe_version": 1
+          }
+        ]
+      }
+    },
+    {
+      "observation_index": 14,
+      "output_sequence": 14,
+      "step": 14,
+      "state": {
+        "co2_partial_pressure_atm": 0.010576470588235293,
+        "contents": [
+          {
+            "moles": 0.00018113004859261398,
+            "phase": "aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 0.016046083758880014,
+            "phase": "gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.004254720348671513,
+            "phase": "gas",
+            "species": "O2"
+          },
+          {
+            "moles": 0.00022202867000929502,
+            "phase": "aqueous",
+            "species": "ethanol"
+          },
+          {
+            "moles": 1.5238140480452277e-05,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 8.967321562301475e-09,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 0.00018790732892233402,
+            "phase": "aqueous",
+            "species": "lactic_acid"
+          },
+          {
+            "moles": 3.4121341086957284e-05,
+            "phase": "aqueous",
+            "species": "lactate"
+          },
+          {
+            "moles": 0.0002149051332781,
+            "phase": "gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 2.352373017774555,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 3.4130308406005866e-05,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 43200.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 5.650119121884717e-13,
+        "free_proton": 3.4130308974717956e-05,
+        "headspace": {
+          "boundary": "sealed",
+          "volume": 0.5
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.2137107965584235,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.13877324451845685,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "material recipe food/sourdough-starter",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.00029214438359726147,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe food/sourdough-starter",
+            "species": "sucrose",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101715.1232777919,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -3.413030840851958e-05,
+        "solution": {
+          "ionic_strength": 0.0008053802767806,
+          "pe": null,
+          "ph": 3.107951146255,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.0423779999136,
+          "species": [
+            {
+              "activity": 0.9999,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.004435,
+              "molality": 0.004434,
+              "name": "H(Lactate)"
+            },
+            {
+              "activity": 0.0007799,
+              "molality": 0.0008054,
+              "name": "H+"
+            },
+            {
+              "activity": 0.0007797,
+              "molality": 0.0008052,
+              "name": "Lactate-"
+            },
+            {
+              "activity": 0.0003596,
+              "molality": 0.0003596,
+              "name": "H2CO3"
+            },
+            {
+              "activity": 2.05e-07,
+              "molality": 2.116e-07,
+              "name": "HCO3-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 2.4,
+            "basis": "mass_fraction",
+            "material": "sourdough_starter",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "food/sourdough-starter",
+            "recipe_version": 1
+          }
+        ]
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 8,
+      "operator": {
+        "op": "wait",
+        "seconds": 43200.0
+      },
+      "event": {
+        "active_yeast_grams": 2.3998076691131898,
+        "carbon_dioxide_moles": 0.002220257665811099,
+        "ethanol_moles": 0.002220257665811099,
+        "event": "fermented",
+        "seconds": 43200.0,
+        "sucrose_moles": 0.0011101288329055496,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 8,
+      "operator": {
+        "op": "wait",
+        "seconds": 43200.0
+      },
+      "event": {
+        "active_yeast_grams": 2.3998479051241284,
+        "carbon_dioxide_moles": 0.00022202867000929502,
+        "ethanol_moles": 0.00022202867000929502,
+        "event": "fermented",
+        "seconds": 43200.0,
+        "sucrose_moles": 0.00011101433500464751,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 9,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 2.583306032332,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 10,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 3.107951146255,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "pressure_gauge",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "pressure_gauge",
+        "unit": "kPa",
+        "value": 110.97205401866223,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 12,
+      "operator": {
+        "instrument": "pressure_gauge",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "pressure_gauge",
+        "unit": "kPa",
+        "value": 101.7151232777919,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 13,
+      "operator": {
+        "instrument": "chromatograph",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "chromatographed",
+        "outside_method": [
+          "H+",
+          "HCO3-"
+        ],
+        "peaks": [
+          {
+            "partition_k": 0.27511100718517506,
+            "relative_area": 1.0,
+            "retention_time_s": 68.25333021555525,
+            "rf": 0.21575455441521627,
+            "species": "ethanol",
+            "width_s": 2.73013320862221
+          }
+        ],
+        "plates": 10000,
+        "vessel": 0,
+        "void_time_s": 60.0
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

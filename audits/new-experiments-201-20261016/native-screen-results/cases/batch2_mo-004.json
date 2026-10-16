@@ -1,0 +1,492 @@
+{
+  "id": "batch2:mo-004",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "820b3e975f7a221eb73b5ef2cff087150aaf451348a09cbf2e37d3e5f1fac258",
+  "original_script_sha256": "820b3e975f7a221eb73b5ef2cff087150aaf451348a09cbf2e37d3e5f1fac258",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "If partition data and molecular-pool coupling are present, ester, acid and ethanol should have distinguishable extraction fractions. Each component must be reconciled across both vessels.",
+  "original_acceptance_checks": [
+    {
+      "id": "MO-004-C1",
+      "criterion": "Calculate a separate recovery fraction for each feed-derived molecular family.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "MO-004-C2",
+      "criterion": "Do not assume extraction shifts reaction equilibrium automatically; check whether additional chemical conversion actually occurs.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:mo-004",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11649503099999947,
+    "script_sha256": "820b3e975f7a221eb73b5ef2cff087150aaf451348a09cbf2e37d3e5f1fac258",
+    "stdout_sha256": "da220d7076747e2c2bfd909f0ad5310760d1584b75cee39d42bdcfac6f4a1e39",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 10,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "CH3COOH",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "ethanol",
+      "vessel": 0
+    },
+    {
+      "op": "react",
+      "reaction": "esterification",
+      "vessel": 0
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "from": 0,
+      "op": "extract",
+      "solvent": "hexane",
+      "stages": 1,
+      "to": 1,
+      "total_solvent": 0.15331058970967068
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "instrument": "chromatograph",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "chromatograph",
+      "op": "measure",
+      "vessel": 1
+    }
+  ],
+  "event_counts": {
+    "added": 3,
+    "org_reacted": 1,
+    "not_yet_modeled": 3,
+    "solution_routed": 1,
+    "solution_characterized": 1,
+    "vessel_created": 1,
+    "chromatographed": 1
+  },
+  "named_model_limits": {
+    "not-modeled.mostly-organic-solvent": {
+      "first_observation_index": 2,
+      "first_operator": {
+        "op": "react",
+        "reaction": "esterification",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "model-boundary",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+          "key": "not-modeled.mostly-organic-solvent",
+          "slots": [
+            [
+              "percent",
+              {
+                "number": {
+                  "text": "33"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "a mixed solvent that is mostly organic (water is 33% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+      },
+      "occurrences": 1
+    },
+    "not-modeled.no-distribution-coefficient": {
+      "first_observation_index": 6,
+      "first_operator": {
+        "from": 0,
+        "op": "extract",
+        "solvent": "hexane",
+        "stages": 1,
+        "to": 1,
+        "total_solvent": 0.15331058970967068
+      },
+      "event": {
+        "cause": "not-parameterised",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "no reviewed {solvent}/water distribution coefficient for {solutes}",
+          "key": "not-modeled.no-distribution-coefficient",
+          "slots": [
+            [
+              "solvent",
+              {
+                "text": {
+                  "text": "hexane"
+                }
+              }
+            ],
+            [
+              "solutes",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "text": {
+                        "text": "CH3COO-"
+                      }
+                    },
+                    {
+                      "text": {
+                        "text": "CH3COOH"
+                      }
+                    },
+                    {
+                      "text": {
+                        "text": "H+"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "no reviewed hexane/water distribution coefficient for CH3COO-, CH3COOH and H+"
+      },
+      "occurrences": 1
+    },
+    "not-modeled.chromatography-needs-an-aqueous-sample": {
+      "first_observation_index": 9,
+      "first_operator": {
+        "instrument": "chromatograph",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "cause": "no-solution",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "chromatography needs an aqueous sample — the column's mobile phase is water",
+          "key": "not-modeled.chromatography-needs-an-aqueous-sample"
+        },
+        "vessel": 1,
+        "what": "chromatography needs an aqueous sample — the column's mobile phase is water"
+      },
+      "occurrences": 1
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 9,
+      "output_sequence": 9,
+      "step": 7,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.0003333333333333337,
+            "phase": "liquid",
+            "species": "ethanol"
+          },
+          {
+            "moles": 0.0006666666666666663,
+            "phase": "liquid",
+            "species": "ethyl_acetate"
+          },
+          {
+            "moles": 0.00030967270923933646,
+            "phase": "aqueous",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 2.3660624093997253e-05,
+            "phase": "aqueous",
+            "species": "CH3COO-"
+          },
+          {
+            "moles": 5.534943658062725,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 2.3660624093997835e-05,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 4.383905215101013e-12,
+        "free_proton": 2.366062847790248e-05,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "CH3COOH",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "ethanol",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -2.3660624093997253e-05,
+        "solution": {
+          "ionic_strength": 0.0002372896552572,
+          "pe": null,
+          "ph": 3.632422228381,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.09971201,
+          "species": [
+            {
+              "activity": 0.9999,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.003106,
+              "molality": 0.003106,
+              "name": "H(Acetate)"
+            },
+            {
+              "activity": 0.0002596,
+              "molality": 0.0002596,
+              "name": "O2"
+            },
+            {
+              "activity": 0.0002331,
+              "molality": 0.0002373,
+              "name": "H+"
+            },
+            {
+              "activity": 0.0002331,
+              "molality": 0.0002373,
+              "name": "Acetate-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1500232489159,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 9,
+      "output_sequence": 9,
+      "step": 7,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0,
+        "free_proton": 0.0,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 2,
+      "operator": {
+        "op": "react",
+        "reaction": "esterification",
+        "vessel": 0
+      },
+      "event": {
+        "boundary": "Ideal-mixture equilibrium with K ≈ 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+        "equation": "CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O",
+        "event": "org_reacted",
+        "extent": 0.0006666666666666663,
+        "name": "esterification",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 8,
+      "operator": {
+        "instrument": "chromatograph",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "chromatographed",
+        "outside_method": [
+          "CH3COO-",
+          "H+"
+        ],
+        "peaks": [
+          {
+            "partition_k": 0.2751110792645871,
+            "relative_area": 1.0,
+            "retention_time_s": 68.25333237793761,
+            "rf": 0.21575459874700156,
+            "species": "ethanol",
+            "width_s": 2.7301332951175046
+          }
+        ],
+        "plates": 10000,
+        "vessel": 0,
+        "void_time_s": 60.0
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

@@ -1,0 +1,603 @@
+{
+  "id": "batch3-diverse:fe-008",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "aadf6abc05c8eed536d972077c32bc18ef72f8e66d57a718c7feab30b7a784a5",
+  "original_script_sha256": "aadf6abc05c8eed536d972077c32bc18ef72f8e66d57a718c7feab30b7a784a5",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Compare conversion increments before and after warming against the warm-start control. The temperature envelope should change ongoing activity, not create a new population.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Does warming a cold-started lactic culture accelerate later conversion without adding culture?",
+      "review_instruction": "Compare conversion increments before and after warming against the warm-start control. The temperature envelope should change ongoing activity, not create a new population.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: warm-start culture",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:fe-008",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11765173999998524,
+    "script_sha256": "aadf6abc05c8eed536d972077c32bc18ef72f8e66d57a718c7feab30b7a784a5",
+    "stdout_sha256": "76e50fc02e6ac75c1ef38348e4d223db200d3c181e2b3091a62f8ba6e6f9a614",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 16,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "at": 278.15,
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0029214438359726146,
+      "op": "add",
+      "species": "sucrose",
+      "vessel": 0
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "yoghurt_culture",
+      "op": "add_material",
+      "recipe_id": "food/yoghurt-culture",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 0.5,
+      "vessel": 0
+    },
+    {
+      "at": 313.15,
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0029214438359726146,
+      "op": "add",
+      "species": "sucrose",
+      "vessel": 1
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "yoghurt_culture",
+      "op": "add_material",
+      "recipe_id": "food/yoghurt-culture",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 0.5,
+      "vessel": 1
+    },
+    {
+      "op": "wait",
+      "seconds": 14400.0
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "energy": 7300.0,
+      "op": "heat",
+      "vessel": 0
+    },
+    {
+      "instrument": "thermometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "thermometer",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "wait",
+      "seconds": 14400.0
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 1,
+    "temperature_changed": 8,
+    "added": 4,
+    "solution_routed": 4,
+    "dissolved": 2,
+    "material_added": 2,
+    "solution_characterized": 5,
+    "energy_transferred": 1,
+    "measured": 4
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 15,
+      "output_sequence": 15,
+      "step": 14,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.0028978165039761136,
+            "phase": "aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 7.18068373240279e-05,
+            "phase": "aqueous",
+            "species": "lactic_acid"
+          },
+          {
+            "moles": 2.2702490661975545e-05,
+            "phase": "aqueous",
+            "species": "lactate"
+          },
+          {
+            "moles": 2.767114868366033,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 2.270249066198271e-05,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 28800.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.157303714410038e-12,
+        "free_proton": 2.2702491658236988e-05,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0029214438359726146,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "sucrose",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 2.865701105469527e-07,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -2.2702490661975545e-05,
+        "solution": {
+          "ionic_strength": 0.0004554199732627,
+          "pe": null,
+          "ph": 3.352175045633,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.049849574,
+          "species": [
+            {
+              "activity": 1.0,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.001441,
+              "molality": 0.00144,
+              "name": "H(Lactate)"
+            },
+            {
+              "activity": 0.0004445,
+              "molality": 0.0004554,
+              "name": "H+"
+            },
+            {
+              "activity": 0.0004445,
+              "molality": 0.0004554,
+              "name": "Lactate-"
+            },
+            {
+              "activity": 0.0002596,
+              "molality": 0.0002596,
+              "name": "O2"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15024039953556,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 0.5,
+            "basis": "mass_fraction",
+            "material": "yoghurt_culture",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "food/yoghurt-culture",
+            "recipe_version": 1
+          }
+        ]
+      }
+    },
+    {
+      "observation_index": 15,
+      "output_sequence": 15,
+      "step": 14,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.0028245455858979755,
+            "phase": "aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 0.00033779357311022483,
+            "phase": "aqueous",
+            "species": "lactic_acid"
+          },
+          {
+            "moles": 4.9799427188332426e-05,
+            "phase": "aqueous",
+            "species": "lactate"
+          },
+          {
+            "moles": 2.7670415974479545,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 4.9799427188329526e-05,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 28800.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 5.395616736442095e-13,
+        "free_proton": 4.9799427350244475e-05,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0029214438359726146,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "sucrose",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 6.632526526003913e-07,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -4.9799427188332426e-05,
+        "solution": {
+          "ionic_strength": 0.0009990204942834,
+          "pe": null,
+          "ph": 3.015899332667,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.049848254,
+          "species": [
+            {
+              "activity": 0.9998,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.006778,
+              "molality": 0.006776,
+              "name": "H(Lactate)"
+            },
+            {
+              "activity": 0.0009641,
+              "molality": 0.000999,
+              "name": "H+"
+            },
+            {
+              "activity": 0.0009641,
+              "molality": 0.000999,
+              "name": "Lactate-"
+            },
+            {
+              "activity": 0.0002596,
+              "molality": 0.0002595,
+              "name": "O2"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15010319838694,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 0.5,
+            "basis": "mass_fraction",
+            "material": "yoghurt_culture",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "food/yoghurt-culture",
+            "recipe_version": 1
+          }
+        ]
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 10,
+      "operator": {
+        "instrument": "thermometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 59.782196158396005,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "thermometer",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 25.000103198386967,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 13,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 3.352175045633,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 14,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 3.015899332667,
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

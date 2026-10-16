@@ -1,0 +1,732 @@
+{
+  "id": "batch2:pq-009",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "697aaa58f3efd1a6b0b641b51c20fe3c0a8a99c94c277ae5a4affb0d4fc039c2",
+  "original_script_sha256": "697aaa58f3efd1a6b0b641b51c20fe3c0a8a99c94c277ae5a4affb0d4fc039c2",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Sulfate should strongly compete for barium. Only after sufficient barium is available can substantial carbonate precipitation coexist; neither anion may consume the same barium twice.",
+  "original_acceptance_checks": [
+    {
+      "id": "PQ-009-C1",
+      "criterion": "Sum barium in every solid and aqueous species against its input.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "PQ-009-C2",
+      "criterion": "Compare phase allocation in the barium-deficient and barium-excess-to-sulfate arms.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:pq-009",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11684891400000197,
+    "script_sha256": "697aaa58f3efd1a6b0b641b51c20fe3c0a8a99c94c277ae5a4affb0d4fc039c2",
+    "stdout_sha256": "edb18ee4297f2da535936aa6ac9552f238003c31754ffea1a4da5c0ff79a83b0",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 10,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0005,
+      "op": "add",
+      "species": "Na2SO4",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0005,
+      "op": "add",
+      "species": "Na2CO3",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0004,
+      "op": "add",
+      "species": "BaCl2",
+      "vessel": 0
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0005,
+      "op": "add",
+      "species": "Na2SO4",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0005,
+      "op": "add",
+      "species": "Na2CO3",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0008,
+      "op": "add",
+      "species": "BaCl2",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 8,
+    "solution_routed": 4,
+    "dissolved": 6,
+    "solution_characterized": 6,
+    "precipitated": 2,
+    "vessel_created": 1,
+    "not_yet_modeled": 1
+  },
+  "named_model_limits": {
+    "not-modeled.supersaturated-no-registry-solid": {
+      "first_observation_index": 8,
+      "first_operator": {
+        "moles": 0.0008,
+        "op": "add",
+        "species": "BaCl2",
+        "vessel": 1
+      },
+      "event": {
+        "cause": "phase-not-in-registry",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+          "key": "not-modeled.supersaturated-no-registry-solid",
+          "slots": [
+            [
+              "phases",
+              {
+                "text": {
+                  "text": "Witherite (SI +2.8)"
+                }
+              }
+            ],
+            [
+              "database",
+              {
+                "text": {
+                  "text": "wateq4f"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 1,
+        "what": "the solution is supersaturated against Witherite (SI +2.8). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+      },
+      "occurrences": 1
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 9,
+      "output_sequence": 9,
+      "step": 9,
+      "state": {
+        "co2_partial_pressure_atm": 6.609343241964757e-07,
+        "contents": [
+          {
+            "moles": 6.181691429713015e-08,
+            "phase": "aqueous",
+            "species": "Ba+2"
+          },
+          {
+            "moles": 0.0007999999984023788,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0019999999960064454,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 2.6171373512198063e-09,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 8.794060621319615e-05,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 0.0004120567756509642,
+            "phase": "aqueous",
+            "species": "CO3-2"
+          },
+          {
+            "moles": 0.00010006181671466479,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 0.0003999381822869,
+            "phase": "solid",
+            "species": "BaSO4"
+          },
+          {
+            "moles": 5.534189048165719,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 8.794585446609583e-05,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 7.588123745221116e-05,
+        "free_proton": 1.7313080875001278e-12,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "Na2SO4",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "Na2CO3",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0004,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "BaCl2",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 8.794584048820689e-05,
+        "solution": {
+          "ionic_strength": 0.02377753504123,
+          "pe": 9.8122465008,
+          "ph": 10.81433281926,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [
+            {
+              "element": "S",
+              "molality": 0.001003646233171,
+              "oxidation": 6
+            }
+          ],
+          "solvent_kg": 0.099698416,
+          "species": [
+            {
+              "activity": 0.9994,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.01666,
+              "molality": 0.01929,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.006886,
+              "molality": 0.008024,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.002003,
+              "molality": 0.003537,
+              "name": "CO3-2"
+            },
+            {
+              "activity": 0.0005331,
+              "molality": 0.0009523,
+              "name": "SO4-2"
+            },
+            {
+              "activity": 0.0006526,
+              "molality": 0.0007611,
+              "name": "OH-"
+            },
+            {
+              "activity": 0.0006549,
+              "molality": 0.000755,
+              "name": "HCO3-"
+            },
+            {
+              "activity": 0.0006214,
+              "molality": 0.0007164,
+              "name": "NaCO3-"
+            },
+            {
+              "activity": 0.0002677,
+              "molality": 0.0002662,
+              "name": "O2"
+            },
+            {
+              "activity": 4.451e-05,
+              "molality": 5.131e-05,
+              "name": "NaSO4-"
+            },
+            {
+              "activity": 6.135e-06,
+              "molality": 6.102e-06,
+              "name": "NaHCO3"
+            },
+            {
+              "activity": 2.008e-07,
+              "molality": 3.58e-07,
+              "name": "Ba+2"
+            },
+            {
+              "activity": 2.078e-07,
+              "molality": 2.067e-07,
+              "name": "BaCO3"
+            },
+            {
+              "activity": 5.366e-08,
+              "molality": 5.337e-08,
+              "name": "BaSO4"
+            },
+            {
+              "activity": 2.259e-08,
+              "molality": 2.247e-08,
+              "name": "CO2"
+            },
+            {
+              "activity": 1.261e-09,
+              "molality": 1.463e-09,
+              "name": "BaHCO3+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15291262520816,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 9,
+      "output_sequence": 9,
+      "step": 9,
+      "state": {
+        "co2_partial_pressure_atm": 6.568163496070924e-07,
+        "contents": [
+          {
+            "moles": 0.00030002393455616467,
+            "phase": "aqueous",
+            "species": "Ba+2"
+          },
+          {
+            "moles": 0.0015999999968049157,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.001999999996006643,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 3.1539960057803125e-09,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 9.476205260611457e-05,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 0.00040523479239944074,
+            "phase": "aqueous",
+            "species": "CO3-2"
+          },
+          {
+            "moles": 2.39351552940275e-08,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 0.0004999760638462,
+            "phase": "solid",
+            "species": "BaSO4"
+          },
+          {
+            "moles": 5.534182226182468,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 9.476837457659312e-05,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 6.790192881693656e-05,
+        "free_proton": 1.9750279973411733e-12,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "Na2SO4",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "Na2CO3",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0008,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "BaCl2",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 9.476836059847287e-05,
+        "solution": {
+          "ionic_strength": 0.02867022280216,
+          "pe": 9.865896550502,
+          "ph": 10.76066490125,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [
+            {
+              "element": "S",
+              "molality": 2.40075795262e-07,
+              "oxidation": 6
+            }
+          ],
+          "solvent_kg": 0.099698293,
+          "species": [
+            {
+              "activity": 0.9993,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.01665,
+              "molality": 0.01949,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0136,
+              "molality": 0.01605,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.001556,
+              "molality": 0.002869,
+              "name": "CO3-2"
+            },
+            {
+              "activity": 0.001127,
+              "molality": 0.002099,
+              "name": "Ba+2"
+            },
+            {
+              "activity": 0.000906,
+              "molality": 0.0009,
+              "name": "BaCO3"
+            },
+            {
+              "activity": 0.0005766,
+              "molality": 0.0006811,
+              "name": "OH-"
+            },
+            {
+              "activity": 0.0005758,
+              "molality": 0.0006709,
+              "name": "HCO3-"
+            },
+            {
+              "activity": 0.0004826,
+              "molality": 0.0005623,
+              "name": "NaCO3-"
+            },
+            {
+              "activity": 0.0002677,
+              "molality": 0.0002659,
+              "name": "O2"
+            },
+            {
+              "activity": 6.219e-06,
+              "molality": 7.298e-06,
+              "name": "BaHCO3+"
+            },
+            {
+              "activity": 5.391e-06,
+              "molality": 5.355e-06,
+              "name": "NaHCO3"
+            },
+            {
+              "activity": 2.199e-06,
+              "molality": 2.569e-06,
+              "name": "BaOH+"
+            },
+            {
+              "activity": 9.503e-08,
+              "molality": 1.775e-07,
+              "name": "SO4-2"
+            },
+            {
+              "activity": 5.366e-08,
+              "molality": 5.331e-08,
+              "name": "BaSO4"
+            },
+            {
+              "activity": 2.248e-08,
+              "molality": 2.233e-08,
+              "name": "CO2"
+            },
+            {
+              "activity": 7.929e-09,
+              "molality": 9.24e-09,
+              "name": "NaSO4-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15291241530804,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

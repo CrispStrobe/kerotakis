@@ -1,0 +1,819 @@
+{
+  "id": "batch2:ec-003",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "6376391a2db5129d2297c0efabd91d8688641309c04181d40a4a26028ce6d953",
+  "original_script_sha256": "6376391a2db5129d2297c0efabd91d8688641309c04181d40a4a26028ce6d953",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "An ideal concentration-ratio model predicts little change because both concentrations fall together; real activity and complexation corrections can produce a residual shift.",
+  "original_acceptance_checks": [
+    {
+      "id": "EC-003-C1",
+      "criterion": "Reconstruct the prediction using solved Cu2+/Zn2+ activity ratios.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "EC-003-C2",
+      "criterion": "Do not label every nonzero voltage shift a failure of the Nernst relation.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:ec-003",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11782526199999666,
+    "script_sha256": "6376391a2db5129d2297c0efabd91d8688641309c04181d40a4a26028ce6d953",
+    "stdout_sha256": "f27de34c87fd1ce58ac39814526a2d62628690d6111781b8e1f328858fc098af",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 12,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "ZnSO4",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "Zn",
+      "vessel": 0
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "CuSO4",
+      "vessel": 1
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "Cu",
+      "vessel": 1
+    },
+    {
+      "a": 0,
+      "b": 1,
+      "op": "cell"
+    },
+    {
+      "op": "dilute",
+      "vessel": 0,
+      "volume": 0.9
+    },
+    {
+      "op": "dilute",
+      "vessel": 1,
+      "volume": 0.9
+    },
+    {
+      "a": 0,
+      "b": 1,
+      "op": "cell"
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 6,
+    "solution_routed": 4,
+    "dissolved": 3,
+    "solution_characterized": 6,
+    "temperature_changed": 4,
+    "not_yet_modeled": 2,
+    "corroded": 3,
+    "vessel_created": 1,
+    "precipitated": 1,
+    "inert": 1,
+    "cell_voltage": 2,
+    "diluted": 2
+  },
+  "named_model_limits": {
+    "not-modeled.stays-as-the-metal": {
+      "first_observation_index": 2,
+      "first_operator": {
+        "moles": 0.001,
+        "op": "add",
+        "species": "Zn",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "rate-not-modelled",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+          "key": "not-modeled.stays-as-the-metal",
+          "slots": [
+            [
+              "name",
+              {
+                "term": {
+                  "en": "zinc",
+                  "section": "species"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "zinc stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
+      },
+      "occurrences": 2
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 11,
+      "output_sequence": 11,
+      "step": 11,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "solid",
+            "species": "Zn"
+          },
+          {
+            "moles": 0.0010000000000003298,
+            "phase": "aqueous",
+            "species": "Zn+2"
+          },
+          {
+            "moles": 0.0010000000000003298,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 55.34276991396058,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.2379885105594579e-08,
+        "free_proton": 9.122503731826187e-07,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "ZnSO4",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "Zn",
+            "suspended_fraction": 0.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 0.003560860411942,
+          "pe": -14.456136982439554,
+          "ph": 6.064452563983,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset. The potential reported is the Zn/Zn+2 electrode's, by Nernst over the computed activity (6.922e-4; E° -0.7618 V, CRC) — a metal in contact with its ion sets the potential, not the air above the beaker. The speciation itself was solved at the open-air pe. This lies below water's own hydrogen line (-0.359 V at pH 6.06): Zn is not at equilibrium with the water it stands in, and a real voltmeter would read a mixed potential set by rates this lab does not model",
+            "routing_phrase": {
+              "en": "{first} {second}",
+              "key": "look.sentence-join",
+              "slots": [
+                [
+                  "first",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{routing}. The potential reported is the {reduced}/{oxidised} electrode's, by Nernst over the computed activity ({activity}; E° {e0} V, CRC) — a metal in contact with its ion sets the potential, not the air above the beaker. The speciation itself was solved at the open-air pe.",
+                        "key": "routing.electrode-potential",
+                        "slots": [
+                          [
+                            "routing",
+                            {
+                              "phrase": {
+                                "phrase": {
+                                  "en": "the default inorganic aqueous dataset",
+                                  "key": "routing.default-inorganic"
+                                }
+                              }
+                            }
+                          ],
+                          [
+                            "reduced",
+                            {
+                              "text": {
+                                "text": "Zn"
+                              }
+                            }
+                          ],
+                          [
+                            "oxidised",
+                            {
+                              "text": {
+                                "text": "Zn+2"
+                              }
+                            }
+                          ],
+                          [
+                            "activity",
+                            {
+                              "number": {
+                                "text": "6.922e-4"
+                              }
+                            }
+                          ],
+                          [
+                            "e0",
+                            {
+                              "number": {
+                                "text": "-0.7618"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ],
+                [
+                  "second",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "This lies below water's own hydrogen line ({line} V at pH {ph}): {name} is not at equilibrium with the water it stands in, and a real voltmeter would read a mixed potential set by rates this lab does not model",
+                        "key": "routing.below-the-hydrogen-line",
+                        "slots": [
+                          [
+                            "line",
+                            {
+                              "number": {
+                                "text": "-0.359"
+                              }
+                            }
+                          ],
+                          [
+                            "ph",
+                            {
+                              "number": {
+                                "text": "6.06"
+                              }
+                            }
+                          ],
+                          [
+                            "name",
+                            {
+                              "text": {
+                                "text": "Zn"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          "redox": [
+            {
+              "element": "S",
+              "molality": 0.001003009027082,
+              "oxidation": 6
+            }
+          ],
+          "solvent_kg": 0.997,
+          "species": [
+            {
+              "activity": 1.0,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.0006889,
+              "molality": 0.0008896,
+              "name": "SO4-2"
+            },
+            {
+              "activity": 0.0006922,
+              "molality": 0.0008895,
+              "name": "Zn+2"
+            },
+            {
+              "activity": 0.0002676,
+              "molality": 0.0002674,
+              "name": "O2"
+            },
+            {
+              "activity": 0.0001118,
+              "molality": 0.0001117,
+              "name": "ZnSO4"
+            },
+            {
+              "activity": 8.817e-07,
+              "molality": 9.408e-07,
+              "name": "ZnOH+"
+            },
+            {
+              "activity": 8.621e-07,
+              "molality": 9.15e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 6.26e-07,
+              "molality": 8.115e-07,
+              "name": "Zn(SO4)2-2"
+            },
+            {
+              "activity": 5.777e-08,
+              "molality": 6.161e-08,
+              "name": "HSO4-"
+            },
+            {
+              "activity": 1.163e-08,
+              "molality": 1.242e-08,
+              "name": "OH-"
+            },
+            {
+              "activity": 1.172e-08,
+              "molality": 1.172e-08,
+              "name": "Zn(OH)2"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1692800753741,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 11,
+      "output_sequence": 11,
+      "step": 11,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "solid",
+            "species": "Cu"
+          },
+          {
+            "moles": 0.0009971894330696428,
+            "phase": "aqueous",
+            "species": "Cu+2"
+          },
+          {
+            "moles": 0.000999297358611914,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 7.026418465649e-07,
+            "phase": "solid",
+            "species": "brochantite"
+          },
+          {
+            "moles": 55.34276569810766,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 4.215854747219305e-06,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.6416140326465942e-09,
+        "free_proton": 6.883531164161621e-06,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "CuSO4",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "Cu",
+            "suspended_fraction": 0.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -4.215851084542373e-06,
+        "solution": {
+          "ionic_strength": 0.00360658847995,
+          "pe": 4.2008319746853084,
+          "ph": 5.186895841917,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added. The potential reported is the Cu/Cu+2 electrode's, by Nernst over the computed activity (6.978e-4; E° +0.3419 V, CRC) — a metal in contact with its ion sets the potential, not the air above the beaker. The speciation itself was solved at the open-air pe.",
+            "routing_phrase": {
+              "en": "{routing}. The potential reported is the {reduced}/{oxidised} electrode's, by Nernst over the computed activity ({activity}; E° {e0} V, CRC) — a metal in contact with its ion sets the potential, not the air above the beaker. The speciation itself was solved at the open-air pe.",
+              "key": "routing.electrode-potential",
+              "slots": [
+                [
+                  "routing",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{routing}. {note}",
+                        "key": "routing.with-redox-note",
+                        "slots": [
+                          [
+                            "routing",
+                            {
+                              "phrase": {
+                                "phrase": {
+                                  "en": "the default inorganic aqueous dataset",
+                                  "key": "routing.default-inorganic"
+                                }
+                              }
+                            }
+                          ],
+                          [
+                            "note",
+                            {
+                              "phrase": {
+                                "phrase": {
+                                  "en": "some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added",
+                                  "key": "routing.slow-couples-held-as-added"
+                                }
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ],
+                [
+                  "reduced",
+                  {
+                    "text": {
+                      "text": "Cu"
+                    }
+                  }
+                ],
+                [
+                  "oxidised",
+                  {
+                    "text": {
+                      "text": "Cu+2"
+                    }
+                  }
+                ],
+                [
+                  "activity",
+                  {
+                    "number": {
+                      "text": "6.978e-4"
+                    }
+                  }
+                ],
+                [
+                  "e0",
+                  {
+                    "number": {
+                      "text": "+0.3419"
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          "redox": [
+            {
+              "element": "Cu",
+              "molality": 0.001000190082879,
+              "oxidation": 2
+            },
+            {
+              "element": "S",
+              "molality": 0.001002304351395,
+              "oxidation": 6
+            }
+          ],
+          "solvent_kg": 0.996999924,
+          "species": [
+            {
+              "activity": 1.0,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.0006979,
+              "molality": 0.0009025,
+              "name": "SO4-2"
+            },
+            {
+              "activity": 0.0006978,
+              "molality": 0.000898,
+              "name": "Cu+2"
+            },
+            {
+              "activity": 0.0002676,
+              "molality": 0.0002674,
+              "name": "O2"
+            },
+            {
+              "activity": 9.944e-05,
+              "molality": 9.936e-05,
+              "name": "CuSO4"
+            },
+            {
+              "activity": 6.503e-06,
+              "molality": 6.904e-06,
+              "name": "H+"
+            },
+            {
+              "activity": 1.073e-06,
+              "molality": 1.146e-06,
+              "name": "CuOH+"
+            },
+            {
+              "activity": 5.047e-07,
+              "molality": 6.553e-07,
+              "name": "Cu2(OH)2+2"
+            },
+            {
+              "activity": 4.414e-07,
+              "molality": 4.709e-07,
+              "name": "HSO4-"
+            },
+            {
+              "activity": 3.447e-07,
+              "molality": 3.445e-07,
+              "name": "Cu(OH)2"
+            },
+            {
+              "activity": 1.541e-09,
+              "molality": 1.647e-09,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1675294109924,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 7,
+      "operator": {
+        "a": 0,
+        "b": 1,
+        "op": "cell"
+      },
+      "event": {
+        "anode": 0,
+        "cathode": 1,
+        "equation": "Zn + Cu+2 → Zn+2 + Cu",
+        "event": "cell_voltage",
+        "notation": "Zn | Zn+2 ‖ Cu+2 | Cu",
+        "standard_volts": 1.1037,
+        "volts": 1.104111556117784
+      }
+    },
+    {
+      "observation_index": 10,
+      "operator": {
+        "a": 0,
+        "b": 1,
+        "op": "cell"
+      },
+      "event": {
+        "anode": 0,
+        "cathode": 1,
+        "equation": "Zn + Cu+2 → Zn+2 + Cu",
+        "event": "cell_voltage",
+        "notation": "Zn | Zn+2 ‖ Cu+2 | Cu",
+        "standard_volts": 1.1037,
+        "volts": 1.1038040651204053
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

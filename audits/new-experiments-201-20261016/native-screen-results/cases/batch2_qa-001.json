@@ -1,0 +1,1908 @@
+{
+  "id": "batch2:qa-001",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "e2d63fa51a39124096cafeba94709a05bba34ee41df2d1dfd64898c21e48c14a",
+  "original_script_sha256": "e2d63fa51a39124096cafeba94709a05bba34ee41df2d1dfd64898c21e48c14a",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "The sample consumes about 2 mmol more acid than the blank, corresponding to 1 mmol CaCO3; silica is excluded from neutralising capacity.",
+  "original_acceptance_checks": [
+    {
+      "id": "QA-001-C1",
+      "criterion": "Blank minus sample base demand is close to 2 mmol, allowing two burette increments and residual dissolved CO2.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "QA-001-C2",
+      "criterion": "Recovered carbonate amount agrees with the introduced amount; silica remains a separate inventory.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:qa-001",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.9199479180000054,
+    "script_sha256": "e2d63fa51a39124096cafeba94709a05bba34ee41df2d1dfd64898c21e48c14a",
+    "stdout_sha256": "dc6428b77deea6bc92a2c25095a02a28fe94611318307690eccf2af6795a99be",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 12,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.003,
+      "op": "add",
+      "species": "HCl",
+      "vessel": 0
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "CaCO3",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0016643365954330605,
+      "op": "add",
+      "species": "SiO2",
+      "vessel": 1
+    },
+    {
+      "moles": 0.003,
+      "op": "add",
+      "species": "HCl",
+      "vessel": 1
+    },
+    {
+      "op": "sweep",
+      "pressure": 100000.0,
+      "vessel": 1
+    },
+    {
+      "op": "wait",
+      "seconds": 60.0
+    },
+    {
+      "concentration": 0.1,
+      "max_steps": 200,
+      "op": "titrate",
+      "step": 0.0002,
+      "target_ph": 7.0,
+      "titrant": "NaOH",
+      "vessel": 0
+    },
+    {
+      "concentration": 0.1,
+      "max_steps": 200,
+      "op": "titrate",
+      "step": 0.0002,
+      "target_ph": 7.0,
+      "titrant": "NaOH",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 6,
+    "solution_routed": 4,
+    "solution_characterized": 209,
+    "vessel_created": 1,
+    "dissolved": 259,
+    "precipitated": 1,
+    "neutralised": 201,
+    "hazard_warning": 1,
+    "gas_evolved": 2,
+    "vessel_swept": 1,
+    "gravity_settled": 1,
+    "titrated": 2
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 11,
+      "output_sequence": 11,
+      "step": 11,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.0029999999999999988,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0030000010776519833,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 7.197560685217324,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 1.0776519775390626e-09,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "elapsed_seconds": 60.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.5747002789778724e-08,
+        "free_proton": 1.4669351854462814e-08,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.003,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "HCl",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 1.752636924806533e-08,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 1.0776519845760724e-09,
+        "solution": {
+          "ionic_strength": 0.02313683410399,
+          "pe": null,
+          "ph": 6.999969250956,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.129664056,
+          "species": [
+            {
+              "activity": 0.9992,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.01989,
+              "molality": 0.02314,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.02001,
+              "molality": 0.02314,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0002653,
+              "molality": 0.0002638,
+              "name": "O2"
+            },
+            {
+              "activity": 1.043e-07,
+              "molality": 1.214e-07,
+              "name": "OH-"
+            },
+            {
+              "activity": 1e-07,
+              "molality": 1.131e-07,
+              "name": "H+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.7054018558367,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 11,
+      "output_sequence": 11,
+      "step": 11,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.0016423601315759889,
+            "phase": "solid",
+            "species": "SiO2"
+          },
+          {
+            "moles": 2.1976463857067036e-05,
+            "phase": "aqueous",
+            "species": "SiO2"
+          },
+          {
+            "moles": 0.0009999999998244662,
+            "phase": "aqueous",
+            "species": "Ca+2"
+          },
+          {
+            "moles": 0.00299999998875072,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0010000016117095959,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 6.089705582500009,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 1.6117095947773552e-09,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "elapsed_seconds": 60.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.3285631228530272e-08,
+        "free_proton": 1.2662605399713318e-08,
+        "headspace": {
+          "boundary": "swept",
+          "pressure": 100000.0
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0009610339413160278,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "CaCO3",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 1.29886998311469e-05,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "CaCO3",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0016423601315759889,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": 0.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 1.298867942640586e-05,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "CaCO3",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 1.9972007769901877e-05,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.003,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "HCl",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 1.2988679426419505e-05,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "CaCO3",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 3.6401642232972186e-09,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 3.994407858300033e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478319e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.0016254074793354e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478319e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478319e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.0016254074789966e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.0016254074789966e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478319e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478319e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.0016254074789966e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.0016254074789966e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.00162540747798e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.0016254074789966e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478319e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.0016254074793354e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.00162540747798e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.0016254074789966e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.0016254074789966e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.00162540747798e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.0016254074789966e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.0016254074789966e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478319e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478319e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.0016254074789966e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.0016254074789966e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478319e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.001625407478658e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 4.0016254074789966e-08,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 7.539469431598286e-11,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "SiO2",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 100000.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 1.6226078083155654e-09,
+        "solution": {
+          "ionic_strength": 0.03646118348042,
+          "pe": null,
+          "ph": 6.999964736479,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.109706046,
+          "species": [
+            {
+              "activity": 0.9992,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.02278,
+              "molality": 0.02735,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.004669,
+              "molality": 0.009115,
+              "name": "Ca+2"
+            },
+            {
+              "activity": 0.007667,
+              "molality": 0.009115,
+              "name": "Na+"
+            },
+            {
+              "activity": 1.008e-07,
+              "molality": 1.211e-07,
+              "name": "OH-"
+            },
+            {
+              "activity": 1e-07,
+              "molality": 1.154e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 7.741e-09,
+              "molality": 9.111e-09,
+              "name": "CaOH+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.2469629901185,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 9,
+      "operator": {
+        "concentration": 0.1,
+        "max_steps": 200,
+        "op": "titrate",
+        "step": 0.0002,
+        "target_ph": 7.0,
+        "titrant": "NaOH",
+        "vessel": 0
+      },
+      "event": {
+        "concentration": 0.1,
+        "curve": [
+          [
+            0.0,
+            1.580054590852
+          ],
+          [
+            0.2,
+            1.583790623347
+          ],
+          [
+            0.4,
+            1.587544570939
+          ],
+          [
+            0.6000000000000001,
+            1.591316705438
+          ],
+          [
+            0.8,
+            1.595107294997
+          ],
+          [
+            1.0,
+            1.598916631426
+          ],
+          [
+            1.2000000000000002,
+            1.60274501221
+          ],
+          [
+            1.4000000000000001,
+            1.606592704525
+          ],
+          [
+            1.6000000000000003,
+            1.610460035822
+          ],
+          [
+            1.8000000000000005,
+            1.614347303579
+          ],
+          [
+            2.0000000000000004,
+            1.618254811665
+          ],
+          [
+            2.2000000000000006,
+            1.622182888562
+          ],
+          [
+            2.400000000000001,
+            1.626131860468
+          ],
+          [
+            2.6000000000000005,
+            1.630102060522
+          ],
+          [
+            2.8000000000000007,
+            1.634093829017
+          ],
+          [
+            3.000000000000001,
+            1.638107504609
+          ],
+          [
+            3.200000000000001,
+            1.642143460536
+          ],
+          [
+            3.4000000000000012,
+            1.646202041853
+          ],
+          [
+            3.6000000000000014,
+            1.650283628657
+          ],
+          [
+            3.800000000000001,
+            1.654388591357
+          ],
+          [
+            4.000000000000001,
+            1.65851733586
+          ],
+          [
+            4.2,
+            1.662670240967
+          ],
+          [
+            4.4,
+            1.666847730472
+          ],
+          [
+            4.6,
+            1.671050201664
+          ],
+          [
+            4.8,
+            1.675278088416
+          ],
+          [
+            4.999999999999999,
+            1.679531816664
+          ],
+          [
+            5.199999999999999,
+            1.683811849509
+          ],
+          [
+            5.399999999999999,
+            1.688118624891
+          ],
+          [
+            5.599999999999998,
+            1.692452627528
+          ],
+          [
+            5.799999999999998,
+            1.696814317725
+          ],
+          [
+            5.999999999999997,
+            1.70120419434
+          ],
+          [
+            6.1999999999999975,
+            1.705622759418
+          ],
+          [
+            6.399999999999997,
+            1.710070518623
+          ],
+          [
+            6.599999999999996,
+            1.714548017343
+          ],
+          [
+            6.799999999999996,
+            1.719055778708
+          ],
+          [
+            6.999999999999996,
+            1.723594366474
+          ],
+          [
+            7.199999999999996,
+            1.728164349845
+          ],
+          [
+            7.399999999999995,
+            1.732766312895
+          ],
+          [
+            7.599999999999995,
+            1.737400846212
+          ],
+          [
+            7.7999999999999945,
+            1.742068583014
+          ],
+          [
+            7.999999999999995,
+            1.746770137493
+          ],
+          [
+            8.199999999999996,
+            1.751506167648
+          ],
+          [
+            8.399999999999997,
+            1.756277349233
+          ],
+          [
+            8.599999999999996,
+            1.761084340948
+          ],
+          [
+            8.799999999999997,
+            1.765927873859
+          ],
+          [
+            8.999999999999998,
+            1.770808663397
+          ],
+          [
+            9.199999999999998,
+            1.77572744563
+          ],
+          [
+            9.399999999999999,
+            1.780685004609
+          ],
+          [
+            9.6,
+            1.785682111222
+          ],
+          [
+            9.799999999999999,
+            1.790719586045
+          ],
+          [
+            10.0,
+            1.795798264855
+          ],
+          [
+            10.200000000000001,
+            1.800918999617
+          ],
+          [
+            10.400000000000002,
+            1.806082694837
+          ],
+          [
+            10.600000000000001,
+            1.811290246801
+          ],
+          [
+            10.800000000000002,
+            1.81654261534
+          ],
+          [
+            11.000000000000004,
+            1.82184075441
+          ],
+          [
+            11.200000000000003,
+            1.827185675096
+          ],
+          [
+            11.400000000000004,
+            1.832578411638
+          ],
+          [
+            11.600000000000005,
+            1.838020022836
+          ],
+          [
+            11.800000000000004,
+            1.843511628719
+          ],
+          [
+            12.000000000000005,
+            1.849054350476
+          ],
+          [
+            12.200000000000006,
+            1.854649382468
+          ],
+          [
+            12.400000000000006,
+            1.860297923599
+          ],
+          [
+            12.600000000000007,
+            1.866001240664
+          ],
+          [
+            12.800000000000008,
+            1.871760635114
+          ],
+          [
+            13.000000000000009,
+            1.877577445108
+          ],
+          [
+            13.200000000000008,
+            1.883453082754
+          ],
+          [
+            13.40000000000001,
+            1.889388983756
+          ],
+          [
+            13.60000000000001,
+            1.895386636179
+          ],
+          [
+            13.80000000000001,
+            1.901447600514
+          ],
+          [
+            14.00000000000001,
+            1.907573486128
+          ],
+          [
+            14.200000000000012,
+            1.91376596293
+          ],
+          [
+            14.400000000000011,
+            1.920026764452
+          ],
+          [
+            14.600000000000012,
+            1.926357691142
+          ],
+          [
+            14.800000000000013,
+            1.932760605129
+          ],
+          [
+            15.000000000000014,
+            1.939237468883
+          ],
+          [
+            15.200000000000014,
+            1.945790288079
+          ],
+          [
+            15.400000000000015,
+            1.952421176962
+          ],
+          [
+            15.600000000000016,
+            1.959132327975
+          ],
+          [
+            15.800000000000015,
+            1.96592602535
+          ],
+          [
+            16.000000000000014,
+            1.972804650327
+          ],
+          [
+            16.200000000000014,
+            1.979770686731
+          ],
+          [
+            16.400000000000013,
+            1.986826726968
+          ],
+          [
+            16.600000000000012,
+            1.993975469768
+          ],
+          [
+            16.800000000000008,
+            2.001219753194
+          ],
+          [
+            17.000000000000007,
+            2.008562544672
+          ],
+          [
+            17.200000000000006,
+            2.016006922991
+          ],
+          [
+            17.400000000000006,
+            2.023556139068
+          ],
+          [
+            17.600000000000005,
+            2.031213581878
+          ],
+          [
+            17.800000000000004,
+            2.038982831951
+          ],
+          [
+            18.000000000000004,
+            2.046867620274
+          ],
+          [
+            18.2,
+            2.054871866195
+          ],
+          [
+            18.4,
+            2.062999716273
+          ],
+          [
+            18.599999999999998,
+            2.071255497661
+          ],
+          [
+            18.799999999999997,
+            2.079643793954
+          ],
+          [
+            18.999999999999996,
+            2.088169427175
+          ],
+          [
+            19.199999999999996,
+            2.096837484569
+          ],
+          [
+            19.399999999999995,
+            2.105653338442
+          ],
+          [
+            19.59999999999999,
+            2.114622667877
+          ],
+          [
+            19.79999999999999,
+            2.123751473953
+          ],
+          [
+            19.99999999999999,
+            2.133046140429
+          ],
+          [
+            20.19999999999999,
+            2.142513402217
+          ],
+          [
+            20.399999999999988,
+            2.152160437555
+          ],
+          [
+            20.599999999999987,
+            2.161994868682
+          ],
+          [
+            20.799999999999986,
+            2.172024818009
+          ],
+          [
+            20.999999999999982,
+            2.182258908318
+          ],
+          [
+            21.19999999999998,
+            2.192706396893
+          ],
+          [
+            21.39999999999998,
+            2.203377143086
+          ],
+          [
+            21.59999999999998,
+            2.214281711259
+          ],
+          [
+            21.79999999999998,
+            2.225431420733
+          ],
+          [
+            21.99999999999998,
+            2.236838446985
+          ],
+          [
+            22.199999999999978,
+            2.248515889436
+          ],
+          [
+            22.399999999999977,
+            2.260477841758
+          ],
+          [
+            22.599999999999973,
+            2.272739552179
+          ],
+          [
+            22.799999999999972,
+            2.2853175129
+          ],
+          [
+            22.99999999999997,
+            2.29822960987
+          ],
+          [
+            23.19999999999997,
+            2.311495284421
+          ],
+          [
+            23.39999999999997,
+            2.325135710511
+          ],
+          [
+            23.59999999999997,
+            2.339174043308
+          ],
+          [
+            23.79999999999997,
+            2.353635607757
+          ],
+          [
+            23.999999999999964,
+            2.368548256143
+          ],
+          [
+            24.199999999999964,
+            2.383942637932
+          ],
+          [
+            24.399999999999963,
+            2.399852657156
+          ],
+          [
+            24.599999999999962,
+            2.416315908149
+          ],
+          [
+            24.79999999999996,
+            2.433374242712
+          ],
+          [
+            24.99999999999996,
+            2.451074438357
+          ],
+          [
+            25.19999999999996,
+            2.46946900303
+          ],
+          [
+            25.399999999999956,
+            2.488617142664
+          ],
+          [
+            25.599999999999955,
+            2.508585988411
+          ],
+          [
+            25.799999999999955,
+            2.529452007989
+          ],
+          [
+            25.999999999999954,
+            2.551302903825
+          ],
+          [
+            26.199999999999953,
+            2.57423984488
+          ],
+          [
+            26.399999999999952,
+            2.598380448453
+          ],
+          [
+            26.59999999999995,
+            2.623862504559
+          ],
+          [
+            26.799999999999947,
+            2.650848883577
+          ],
+          [
+            26.999999999999947,
+            2.679534018635
+          ],
+          [
+            27.199999999999946,
+            2.710152627859
+          ],
+          [
+            27.399999999999945,
+            2.742991666204
+          ],
+          [
+            27.599999999999945,
+            2.7784071167
+          ],
+          [
+            27.799999999999944,
+            2.816847997318
+          ],
+          [
+            27.999999999999943,
+            2.858891997775
+          ],
+          [
+            28.19999999999994,
+            2.905299785383
+          ],
+          [
+            28.399999999999938,
+            2.957101598162
+          ],
+          [
+            28.599999999999937,
+            3.015741840187
+          ],
+          [
+            28.799999999999937,
+            3.083335915522
+          ],
+          [
+            28.999999999999936,
+            3.163163448928
+          ],
+          [
+            29.199999999999935,
+            3.260718744228
+          ],
+          [
+            29.399999999999935,
+            3.386301774064
+          ],
+          [
+            29.59999999999993,
+            3.563036315845
+          ],
+          [
+            29.79999999999993,
+            3.864708456376
+          ],
+          [
+            29.99999999999993,
+            6.98457576198
+          ],
+          [
+            30.0000107765197,
+            6.999969250956
+          ]
+        ],
+        "endpoint_reached": true,
+        "event": "titrated",
+        "final_ph": 6.999969250956,
+        "steps": 151,
+        "titrant": "NaOH",
+        "total_volume": 0.030000010776519703,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 10,
+      "operator": {
+        "concentration": 0.1,
+        "max_steps": 200,
+        "op": "titrate",
+        "step": 0.0002,
+        "target_ph": 7.0,
+        "titrant": "NaOH",
+        "vessel": 1
+      },
+      "event": {
+        "concentration": 0.1,
+        "curve": [
+          [
+            0.0,
+            2.062932847099
+          ],
+          [
+            0.2,
+            2.072535791217
+          ],
+          [
+            0.4,
+            2.082318008435
+          ],
+          [
+            0.6000000000000001,
+            2.09228713358
+          ],
+          [
+            0.8,
+            2.102451263524
+          ],
+          [
+            1.0,
+            2.112819059419
+          ],
+          [
+            1.2000000000000002,
+            2.123399745616
+          ],
+          [
+            1.4000000000000001,
+            2.134203212391
+          ],
+          [
+            1.6000000000000003,
+            2.14524001694
+          ],
+          [
+            1.8000000000000005,
+            2.156521489809
+          ],
+          [
+            2.0000000000000004,
+            2.168059790704
+          ],
+          [
+            2.2000000000000006,
+            2.179868032671
+          ],
+          [
+            2.400000000000001,
+            2.191960309533
+          ],
+          [
+            2.6000000000000005,
+            2.204351873295
+          ],
+          [
+            2.8000000000000007,
+            2.217059228487
+          ],
+          [
+            3.000000000000001,
+            2.230100244019
+          ],
+          [
+            3.200000000000001,
+            2.24349437352
+          ],
+          [
+            3.4000000000000012,
+            2.257262801985
+          ],
+          [
+            3.6000000000000014,
+            2.271428669956
+          ],
+          [
+            3.800000000000001,
+            2.286017312176
+          ],
+          [
+            4.000000000000001,
+            2.301056585786
+          ],
+          [
+            4.2,
+            2.316577150002
+          ],
+          [
+            4.4,
+            2.332612902718
+          ],
+          [
+            4.6,
+            2.349201430919
+          ],
+          [
+            4.8,
+            2.36638460825
+          ],
+          [
+            4.999999999999999,
+            2.384209195121
+          ],
+          [
+            5.199999999999999,
+            2.402727711545
+          ],
+          [
+            5.399999999999999,
+            2.42199937429
+          ],
+          [
+            5.599999999999998,
+            2.442091309498
+          ],
+          [
+            5.799999999999998,
+            2.463079984778
+          ],
+          [
+            5.999999999999997,
+            2.485053097528
+          ],
+          [
+            6.1999999999999975,
+            2.508111835994
+          ],
+          [
+            6.399999999999997,
+            2.532373811204
+          ],
+          [
+            6.599999999999996,
+            2.557976805731
+          ],
+          [
+            6.799999999999996,
+            2.585083711549
+          ],
+          [
+            6.999999999999996,
+            2.613888954309
+          ],
+          [
+            7.199999999999996,
+            2.644627244677
+          ],
+          [
+            7.399999999999995,
+            2.677585567611
+          ],
+          [
+            7.599999999999995,
+            2.713119872062
+          ],
+          [
+            7.7999999999999945,
+            2.751679214455
+          ],
+          [
+            7.999999999999995,
+            2.793841250467
+          ],
+          [
+            8.199999999999996,
+            2.840366676233
+          ],
+          [
+            8.399999999999997,
+            2.89228573323
+          ],
+          [
+            8.599999999999996,
+            2.951042800191
+          ],
+          [
+            8.799999999999997,
+            3.018753310307
+          ],
+          [
+            8.999999999999998,
+            3.098696882905
+          ],
+          [
+            9.199999999999998,
+            3.196367834254
+          ],
+          [
+            9.399999999999999,
+            3.322066117358
+          ],
+          [
+            9.6,
+            3.498915554569
+          ],
+          [
+            9.799999999999999,
+            3.800702312572
+          ],
+          [
+            10.0,
+            6.973958855687
+          ],
+          [
+            10.000016117095948,
+            6.999964736479
+          ]
+        ],
+        "endpoint_reached": true,
+        "event": "titrated",
+        "final_ph": 6.999964736479,
+        "steps": 51,
+        "titrant": "NaOH",
+        "total_volume": 0.010000016117095948,
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

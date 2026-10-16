@@ -1,0 +1,748 @@
+{
+  "id": "batch3-diverse:so-003",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "5b393fd75f270a4ae2cc434bb779209cdabae92b78bed4ecdb80bf9d950b3a0a",
+  "original_script_sha256": "f3fc3301492333fcb468a031dfc3a70be73e9e7c7b9f366bee1d8a417b3df22f",
+  "selection": "separate explicit-React procedure correction",
+  "original_physical_forecast": "The table can select primary substitution but tertiary elimination under strong-base conditions. Use the product inventories to identify structural selectivity rather than treating all haloalkanes as interchangeable.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Can changing substrate class at the same nominal strong-base condition change the favoured branch?",
+      "review_instruction": "The table can select primary substitution but tertiary elimination under strong-base conditions. Use the product inventories to identify structural selectivity rather than treating all haloalkanes as interchangeable.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v1: primary substrate",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:so-003",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.16805211600001257,
+    "script_sha256": "5b393fd75f270a4ae2cc434bb779209cdabae92b78bed4ecdb80bf9d950b3a0a",
+    "stdout_sha256": "136e7ca72193cdb4c16d74ee9d48ad8daee19aa38116955731489ca4344ee28a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 16,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "known_strong_base_selectivity_forecast_not_met_MODEL006",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "at": 298.15,
+      "moles": 2.2137107965584235,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0003,
+      "op": "add",
+      "species": "NaOH",
+      "vessel": 0
+    },
+    {
+      "at": 298.15,
+      "moles": 2.2137107965584235,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0003,
+      "op": "add",
+      "species": "NaOH",
+      "vessel": 1
+    },
+    {
+      "headspace_volume": 0.5,
+      "op": "seal",
+      "vessel": 0
+    },
+    {
+      "headspace_volume": 0.5,
+      "op": "seal",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0002,
+      "op": "add",
+      "species": "bromoethane",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0002,
+      "op": "add",
+      "species": "tert_butyl_bromide",
+      "vessel": 1
+    },
+    {
+      "op": "react",
+      "reaction": "haloalkane",
+      "vessel": 0
+    },
+    {
+      "op": "react",
+      "reaction": "haloalkane",
+      "vessel": 1
+    },
+    {
+      "op": "particles",
+      "vessel": 0
+    },
+    {
+      "op": "particles",
+      "vessel": 1
+    },
+    {
+      "instrument": "pressure_gauge",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "pressure_gauge",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 1,
+    "added": 6,
+    "solution_routed": 4,
+    "dissolved": 2,
+    "solution_characterized": 8,
+    "temperature_changed": 3,
+    "vessel_sealed": 2,
+    "neutralised": 3,
+    "headspace_equilibrated": 6,
+    "not_yet_modeled": 2,
+    "org_reacted": 1,
+    "gas_contained": 1,
+    "measured": 2
+  },
+  "named_model_limits": {
+    "not-modeled.no-selectivity-rule": {
+      "first_observation_index": 9,
+      "first_operator": {
+        "op": "react",
+        "reaction": "haloalkane",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "not-parameterised",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "no selectivity rule for {substrate} substrate + {nucleophile} nucleophile at {temperature}°C — outside the curated table",
+          "key": "not-modeled.no-selectivity-rule",
+          "slots": [
+            [
+              "substrate",
+              {
+                "term": {
+                  "en": "primary",
+                  "section": "substrate-class"
+                }
+              }
+            ],
+            [
+              "nucleophile",
+              {
+                "term": {
+                  "en": "weak",
+                  "section": "nucleophile-class"
+                }
+              }
+            ],
+            [
+              "temperature",
+              {
+                "number": {
+                  "text": "25"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "no selectivity rule for primary substrate + weak nucleophile at 25°C — outside the curated table"
+      },
+      "occurrences": 1
+    },
+    "not-modeled.hbr-gas-uptake": {
+      "first_observation_index": 10,
+      "first_operator": {
+        "op": "react",
+        "reaction": "haloalkane",
+        "vessel": 1
+      },
+      "event": {
+        "cause": "model-boundary",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "HBr gas uptake uses the dissociative Henry constant from the CC-BY Sander compilation, converted from concentration to the dilute molal standard state. The reaction enthalpy is derived from its local temperature slope and solvent-density correction, not an independent calorimetric measurement. {temperature} Gas transfer is an equilibrium boundary, not a time-dependent absorption model.",
+          "key": "not-modeled.hbr-gas-uptake",
+          "slots": [
+            [
+              "temperature",
+              {
+                "phrase": {
+                  "phrase": {
+                    "en": "Away from 25 °C this uses a local constant-enthalpy van't Hoff approximation, not a validated broad-temperature correlation.",
+                    "key": "not-modeled.hbr-away-from-the-reference-temperature"
+                  }
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 1,
+        "what": "HBr gas uptake uses the dissociative Henry constant from the CC-BY Sander compilation, converted from concentration to the dilute molal standard state. The reaction enthalpy is derived from its local temperature slope and solvent-density correction, not an independent calorimetric measurement. Away from 25 °C this uses a local constant-enthalpy van't Hoff approximation, not a validated broad-temperature correlation. Gas transfer is an equilibrium boundary, not a time-dependent absorption model."
+      },
+      "occurrences": 1
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 15,
+      "output_sequence": 15,
+      "step": 13,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.01614295788795987,
+            "phase": "gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.004280407135207685,
+            "phase": "gas",
+            "species": "O2"
+          },
+          {
+            "moles": 0.0002,
+            "phase": "liquid",
+            "species": "bromoethane"
+          },
+          {
+            "moles": 0.0002999999999999252,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 2.0181995297320602e-07,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 7.970784300446291e-06,
+            "phase": "aqueous",
+            "species": "CO3-2"
+          },
+          {
+            "moles": 8.87166687621e-12,
+            "phase": "gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 2.213718767338864,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0002838566191669459,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0002838396257782975,
+        "free_proton": 6.72583414211608e-14,
+        "headspace": {
+          "boundary": "sealed",
+          "volume": 0.5
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.2137107965584235,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0003,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "NaOH",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0002,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "bromoethane",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101286.24059798972,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.00028385661144605945,
+        "solution": {
+          "ionic_strength": 0.007687040672172,
+          "pe": null,
+          "ph": 11.80852912765,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.03988014359363,
+          "species": [
+            {
+              "activity": 0.9997,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.006852,
+              "molality": 0.007505,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.006482,
+              "molality": 0.007117,
+              "name": "OH-"
+            },
+            {
+              "activity": 0.0001277,
+              "molality": 0.0001824,
+              "name": "CO3-2"
+            },
+            {
+              "activity": 1.636e-05,
+              "molality": 1.789e-05,
+              "name": "NaCO3-"
+            },
+            {
+              "activity": 4.225e-06,
+              "molality": 4.618e-06,
+              "name": "HCO3-"
+            },
+            {
+              "activity": 1.628e-08,
+              "molality": 1.625e-08,
+              "name": "NaHCO3"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.2352484827662,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 15,
+      "output_sequence": 15,
+      "step": 13,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.01614295788795987,
+            "phase": "gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.004280407135207685,
+            "phase": "gas",
+            "species": "O2"
+          },
+          {
+            "moles": 0.0002,
+            "phase": "liquid",
+            "species": "tert_butanol"
+          },
+          {
+            "moles": 0.0002000000000000009,
+            "phase": "aqueous",
+            "species": "Br-"
+          },
+          {
+            "moles": 0.0002999999999999415,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 6.951426722995018e-12,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 6.4453822803665e-07,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 7.52797215587017e-06,
+            "phase": "aqueous",
+            "species": "CO3-2"
+          },
+          {
+            "moles": 9.643315224352e-11,
+            "phase": "gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 2.213718324528006,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 8.429952260744118e-05,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 8.424786231548111e-05,
+        "free_proton": 2.276923451662546e-13,
+        "headspace": {
+          "boundary": "sealed",
+          "volume": 0.5
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.2137107965584235,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0003,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "NaOH",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0002,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "tert_butyl_bromide",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101308.90702126724,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 8.429951746016359e-05,
+        "solution": {
+          "ionic_strength": 0.007678487276432,
+          "pe": null,
+          "ph": 11.27883980706,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.03988013561644,
+          "species": [
+            {
+              "activity": 0.9997,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.006853,
+              "molality": 0.007505,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.004575,
+              "molality": 0.005015,
+              "name": "Br-"
+            },
+            {
+              "activity": 0.001924,
+              "molality": 0.002113,
+              "name": "OH-"
+            },
+            {
+              "activity": 0.0001212,
+              "molality": 0.000173,
+              "name": "CO3-2"
+            },
+            {
+              "activity": 1.558e-05,
+              "molality": 1.703e-05,
+              "name": "NaCO3-"
+            },
+            {
+              "activity": 1.355e-05,
+              "molality": 1.482e-05,
+              "name": "HCO3-"
+            },
+            {
+              "activity": 5.223e-08,
+              "molality": 5.214e-08,
+              "name": "NaHCO3"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.30198802015946,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 10,
+      "operator": {
+        "op": "react",
+        "reaction": "haloalkane",
+        "vessel": 1
+      },
+      "event": {
+        "boundary": "Mechanism SN1 selected by the selectivity rule table: tertiary substrate (tert_butyl_bromide) + weak nucleophile (water) at 25°C. March ch. 10: tertiary + weak nucleophile → SN1 (carbocation intermediate, racemisation). The reaction is driven to completion on command — no yield claim is made, and the kinetic selectivity ratios are not modelled",
+        "equation": "(CH₃)₃CBr + H₂O → (CH₃)₃COH + HBr",
+        "event": "org_reacted",
+        "extent": 0.0002,
+        "name": "haloalkane:SN1",
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 13,
+      "operator": {
+        "instrument": "pressure_gauge",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "pressure_gauge",
+        "unit": "kPa",
+        "value": 101.28624059798972,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 14,
+      "operator": {
+        "instrument": "pressure_gauge",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "pressure_gauge",
+        "unit": "kPa",
+        "value": 101.30890702126723,
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

@@ -1,0 +1,366 @@
+{
+  "id": "batch2:tc-008",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "e4b74c4bf0faf8dcbcf0adf6957df668ae62b3a87ad716293e92c0ac4347dfd5",
+  "original_script_sha256": "e4b74c4bf0faf8dcbcf0adf6957df668ae62b3a87ad716293e92c0ac4347dfd5",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "When supported by the coupled brine/ice model, salt lowers the freezing equilibrium temperature and promotes melting that consumes latent energy. Cooling and melting can therefore occur together.",
+  "original_acceptance_checks": [
+    {
+      "id": "TC-008-C1",
+      "criterion": "Compare both temperature and ice fraction before and after salt addition.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "TC-008-C2",
+      "criterion": "Include salt dissolution energy and any undissolved salt in the interpretation, rather than attributing every joule to freezing-point depression.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:tc-008",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11642964300000358,
+    "script_sha256": "e4b74c4bf0faf8dcbcf0adf6957df668ae62b3a87ad716293e92c0ac4347dfd5",
+    "stdout_sha256": "266a4a87d902436dab09f8f8ed6914dbeb8058c7edb54f6aa7877f589f886dc1",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 8,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "at": 273.15,
+      "moles": 2.7754648903691366,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "energy": 10000.0,
+      "op": "cool",
+      "vessel": 0
+    },
+    {
+      "instrument": "thermometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "at": 273.15,
+      "moles": 0.0855534452372397,
+      "op": "add",
+      "species": "NaCl",
+      "vessel": 0
+    },
+    {
+      "instrument": "thermometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "conductivity_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "temperature_changed": 2,
+    "added": 2,
+    "solution_routed": 2,
+    "energy_transferred": 1,
+    "state_changed": 4,
+    "measured": 3,
+    "dissolved": 1,
+    "solution_characterized": 4
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 7,
+      "output_sequence": 7,
+      "step": 6,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 1.433749228616425,
+            "phase": "solid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0855534452372397,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0855534452372397,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 1.3417156617527115,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 3.6117200800298837e-10,
+        "free_proton": 3.611720104452271e-10,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7754648903691366,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0855534452372397,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "NaCl",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": {
+          "ionic_strength": 3.539506786383,
+          "pe": null,
+          "ph": 7.380648275396,
+          "provenance": {
+            "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "pitzer.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "-5 < a3 < 5 ? ka = DH_B * a2 * mu^0.5 / (1 + mu^a3), Appelo, 2017: Dw(I) = Dw(TK) * exp(-a * DH_A * z * sqrt_mu / (1 + ka))",
+              "The apparent volume parameters are defined in ref. 1 & 2 For Li+ additional data from Ellis, 1968, J. Chem. Soc. A, 1138",
+              "Hnedkovsky et al., 1996, JCT 28, 125",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+            "model_phrase": {
+              "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+              "key": "provenance.model.ion-interaction",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "Pitzer"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the solution is concentrated (~7.1 mol/kgw), where the ion-interaction model is the valid one",
+            "routing_phrase": {
+              "en": "chosen because the solution is concentrated (~{molality} mol/kgw), where the ion-interaction model is the valid one",
+              "key": "routing.concentrated-ion-interaction",
+              "slots": [
+                [
+                  "molality",
+                  {
+                    "number": {
+                      "text": "7.1"
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.024171008,
+          "species": [
+            {
+              "activity": 0.8804,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 1.746,
+              "molality": 3.54,
+              "name": "Cl-"
+            },
+            {
+              "activity": 2.719,
+              "molality": 3.54,
+              "name": "Na+"
+            },
+            {
+              "activity": 4.162e-08,
+              "molality": 1.494e-08,
+              "name": "H+"
+            },
+            {
+              "activity": 6.463e-09,
+              "molality": 1.494e-08,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 260.6058104854603,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 2,
+      "operator": {
+        "instrument": "thermometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 0.0,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 5,
+      "operator": {
+        "instrument": "thermometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": -12.544189514539653,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 6,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "note": "past I = 0.10 mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: this solution is at I = 3.5 mol/kgw, ABOVE the 2 mol/kgw the correction was fitted to, so the factor applied (0.56×) is an extrapolation. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+        "note_reason": {
+          "en": "past I = {limit} mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: {where_it_stands}. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+          "key": "measured.conductivity-past-the-dilute-limit",
+          "slots": [
+            [
+              "limit",
+              {
+                "number": {
+                  "text": "0.10"
+                }
+              }
+            ],
+            [
+              "where_it_stands",
+              {
+                "phrase": {
+                  "phrase": {
+                    "en": "this solution is at I = {ionic_strength} mol/kgw, ABOVE the {limit} mol/kgw the correction was fitted to, so the factor applied ({factor}×) is an extrapolation",
+                    "key": "measured.conductivity-extrapolated",
+                    "slots": [
+                      [
+                        "ionic_strength",
+                        {
+                          "number": {
+                            "text": "3.5"
+                          }
+                        }
+                      ],
+                      [
+                        "limit",
+                        {
+                          "number": {
+                            "text": "2"
+                          }
+                        }
+                      ],
+                      [
+                        "factor",
+                        {
+                          "number": {
+                            "text": "0.56"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            ]
+          ]
+        },
+        "unit": "µS/cm",
+        "value": 250454.76200976557,
+        "vessel": 0
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

@@ -1,0 +1,1187 @@
+{
+  "id": "batch2:pq-002",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "03fd4e39282f63d890e3b6b585d7b68f2409521a05c5b5290c561ef47c412256",
+  "original_script_sha256": "03fd4e39282f63d890e3b6b585d7b68f2409521a05c5b5290c561ef47c412256",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Under a dominant 1:1 FeSCN model, the complex-specific response should peak near the equal-mole mixture, not at the largest iron input.",
+  "original_acceptance_checks": [
+    {
+      "id": "PQ-002-C1",
+      "criterion": "Compare complex-specific concentrations or baseline-corrected spectral features, not total colour intensity.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "PQ-002-C2",
+      "criterion": "The sum of analytical Fe and SCN is constant across all three samples.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:pq-002",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.119146776000008,
+    "script_sha256": "03fd4e39282f63d890e3b6b585d7b68f2409521a05c5b5290c561ef47c412256",
+    "stdout_sha256": "da8db6332c8f832bcf94160b35e7786d94712b814bea3c3e3da207c7d91cfb80",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 18,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "HCl",
+      "vessel": 0
+    },
+    {
+      "moles": 2.5e-05,
+      "op": "add",
+      "species": "FeCl3",
+      "vessel": 0
+    },
+    {
+      "moles": 7.5e-05,
+      "op": "add",
+      "species": "KSCN",
+      "vessel": 0
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "HCl",
+      "vessel": 1
+    },
+    {
+      "moles": 5e-05,
+      "op": "add",
+      "species": "FeCl3",
+      "vessel": 1
+    },
+    {
+      "moles": 5e-05,
+      "op": "add",
+      "species": "KSCN",
+      "vessel": 1
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 2
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "HCl",
+      "vessel": 2
+    },
+    {
+      "moles": 7.5e-05,
+      "op": "add",
+      "species": "FeCl3",
+      "vessel": 2
+    },
+    {
+      "moles": 2.5e-05,
+      "op": "add",
+      "species": "KSCN",
+      "vessel": 2
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 2
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 12,
+    "solution_routed": 6,
+    "solution_characterized": 9,
+    "dissolved": 3,
+    "not_yet_modeled": 24,
+    "vessel_created": 2
+  },
+  "named_model_limits": {
+    "not-modeled.supersaturated-no-registry-solid": {
+      "first_observation_index": 2,
+      "first_operator": {
+        "moles": 2.5e-05,
+        "op": "add",
+        "species": "FeCl3",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "phase-not-in-registry",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+          "key": "not-modeled.supersaturated-no-registry-solid",
+          "slots": [
+            [
+              "phases",
+              {
+                "text": {
+                  "text": "Goethite (SI +2.9)"
+                }
+              }
+            ],
+            [
+              "database",
+              {
+                "text": {
+                  "text": "wateq4f"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "the solution is supersaturated against Goethite (SI +2.9). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+      },
+      "occurrences": 6
+    },
+    "not-modeled.supersaturated-solid-not-offered": {
+      "first_observation_index": 2,
+      "first_operator": {
+        "moles": 2.5e-05,
+        "op": "add",
+        "species": "FeCl3",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "model-boundary",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+          "key": "not-modeled.supersaturated-solid-not-offered",
+          "slots": [
+            [
+              "phases",
+              {
+                "text": {
+                  "text": "Hematite (SI +7.8)"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "the solution is supersaturated against Hematite (SI +7.8). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+      },
+      "occurrences": 6
+    },
+    "not-modeled.saturation-index-unclassified": {
+      "first_observation_index": 2,
+      "first_operator": {
+        "moles": 2.5e-05,
+        "op": "add",
+        "species": "FeCl3",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "model-boundary",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "{phases} have reported saturation indices but no phase definition in the selected {database} diagnostic index; their phase type and exclusion reason cannot be classified",
+          "key": "not-modeled.saturation-index-unclassified",
+          "slots": [
+            [
+              "phases",
+              {
+                "text": {
+                  "text": "Fe(OH)2.7Cl.3 (SI +3.7)"
+                }
+              }
+            ],
+            [
+              "database",
+              {
+                "text": {
+                  "text": "wateq4f"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "Fe(OH)2.7Cl.3 (SI +3.7) have reported saturation indices but no phase definition in the selected wateq4f diagnostic index; their phase type and exclusion reason cannot be classified"
+      },
+      "occurrences": 6
+    },
+    "look.sentence-join": {
+      "first_observation_index": 3,
+      "first_operator": {
+        "moles": 7.5e-05,
+        "op": "add",
+        "species": "KSCN",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "model-boundary",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "{first} {second}",
+          "key": "look.sentence-join",
+          "slots": [
+            [
+              "first",
+              {
+                "phrase": {
+                  "phrase": {
+                    "en": "Copper–ammine / iron–thiocyanate speciation uses public-domain USBM IC 9429 cumulative constants at 25 °C and zero ionic strength, with the selected database's activity corrections. {temperature} Complex-formation enthalpies, rate laws, and complex spectra are not supplied by this data slice; reaction heat and colour are incomplete where those contributions matter.",
+                    "key": "not-modeled.usbm-reference-complexes",
+                    "slots": [
+                      [
+                        "temperature",
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "At this vessel temperature these are reference-temperature approximations, not validated temperature-dependent constants.",
+                              "key": "not-modeled.away-from-the-reference-temperature"
+                            }
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            ],
+            [
+              "second",
+              {
+                "phrase": {
+                  "phrase": {
+                    "en": "Thiocyanate is treated as a conserved SCN- ligand. HNCS protonation, ligand redox, and binding to metals other than Fe(III) are not covered by this slice; in particular it is not an exhaustive strong-acid thiocyanate model. KSCN is an aqueous analytical equivalent, not a solid dissolution model.",
+                    "key": "not-modeled.thiocyanate-slice"
+                  }
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "Copper–ammine / iron–thiocyanate speciation uses public-domain USBM IC 9429 cumulative constants at 25 °C and zero ionic strength, with the selected database's activity corrections. At this vessel temperature these are reference-temperature approximations, not validated temperature-dependent constants. Complex-formation enthalpies, rate laws, and complex spectra are not supplied by this data slice; reaction heat and colour are incomplete where those contributions matter. Thiocyanate is treated as a conserved SCN- ligand. HNCS protonation, ligand redox, and binding to metals other than Fe(III) are not covered by this slice; in particular it is not an exhaustive strong-acid thiocyanate model. KSCN is an aqueous analytical equivalent, not a solid dissolution model."
+      },
+      "occurrences": 3
+    },
+    "not-modeled.incomplete-absorbance": {
+      "first_observation_index": 14,
+      "first_operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "model-boundary",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "complete absorbance is unavailable: no absorption spectrum for {species}",
+          "key": "not-modeled.incomplete-absorbance",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "Fe+3",
+                        "section": "species"
+                      }
+                    },
+                    {
+                      "term": {
+                        "en": "FeOH+2",
+                        "section": "species"
+                      }
+                    },
+                    {
+                      "term": {
+                        "en": "Fe(SCN)+2",
+                        "section": "species"
+                      }
+                    },
+                    {
+                      "term": {
+                        "en": "FeCl+2",
+                        "section": "species"
+                      }
+                    },
+                    {
+                      "term": {
+                        "en": "Fe(OH)2+",
+                        "section": "species"
+                      }
+                    },
+                    {
+                      "term": {
+                        "en": "FeCl2+",
+                        "section": "species"
+                      }
+                    },
+                    {
+                      "term": {
+                        "en": "Fe2(OH)2+4",
+                        "section": "species"
+                      }
+                    },
+                    {
+                      "term": {
+                        "en": "Fe(SCN)2+",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "complete absorbance is unavailable: no absorption spectrum for Fe+3, FeOH+2, Fe(SCN)+2, FeCl+2, Fe(OH)2+, FeCl2+, Fe2(OH)2+4 and Fe(SCN)2+"
+      },
+      "occurrences": 3
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 17,
+      "output_sequence": 17,
+      "step": 17,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.001075,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 7.5e-05,
+            "phase": "aqueous",
+            "species": "K+"
+          },
+          {
+            "moles": 7.5e-05,
+            "phase": "aqueous",
+            "species": "SCN-"
+          },
+          {
+            "moles": 2.5e-05,
+            "phase": "aqueous",
+            "species": "Fe+3"
+          },
+          {
+            "moles": 5.534276991396059,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.222003363703246e-13,
+        "free_proton": 0.0010054396169091651,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "HCl",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 2.5e-05,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "FeCl3",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 7.5e-05,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "KSCN",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.001,
+        "solution": {
+          "ionic_strength": 0.01197275611642,
+          "pe": 18.58848889556,
+          "ph": 2.038505637305,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [
+            {
+              "element": "Fe",
+              "molality": 0.0002507522567703,
+              "oxidation": 3
+            }
+          ],
+          "solvent_kg": 0.0997,
+          "species": [
+            {
+              "activity": 0.9996,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.009603,
+              "molality": 0.01076,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.009152,
+              "molality": 0.01008,
+              "name": "H+"
+            },
+            {
+              "activity": 0.0006714,
+              "molality": 0.0007523,
+              "name": "K+"
+            },
+            {
+              "activity": 0.000631,
+              "molality": 0.0007055,
+              "name": "SCN-"
+            },
+            {
+              "activity": 0.0002677,
+              "molality": 0.000267,
+              "name": "O2"
+            },
+            {
+              "activity": 4.725e-05,
+              "molality": 0.000129,
+              "name": "Fe+3"
+            },
+            {
+              "activity": 3.332e-05,
+              "molality": 5.152e-05,
+              "name": "FeOH+2"
+            },
+            {
+              "activity": 2.981e-05,
+              "molality": 4.659e-05,
+              "name": "Fe(SCN)+2"
+            },
+            {
+              "activity": 1.37e-05,
+              "molality": 2.119e-05,
+              "name": "FeCl+2"
+            },
+            {
+              "activity": 1.205e-06,
+              "molality": 1.342e-06,
+              "name": "Fe(OH)2+"
+            },
+            {
+              "activity": 5.878e-07,
+              "molality": 6.572e-07,
+              "name": "FeCl2+"
+            },
+            {
+              "activity": 2.989e-08,
+              "molality": 1.782e-07,
+              "name": "Fe2(OH)2+4"
+            },
+            {
+              "activity": 7.49e-08,
+              "molality": 8.374e-08,
+              "name": "Fe(SCN)2+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1500013447061,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 17,
+      "output_sequence": 17,
+      "step": 17,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.00115,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 5e-05,
+            "phase": "aqueous",
+            "species": "K+"
+          },
+          {
+            "moles": 5e-05,
+            "phase": "aqueous",
+            "species": "SCN-"
+          },
+          {
+            "moles": 5e-05,
+            "phase": "aqueous",
+            "species": "Fe+3"
+          },
+          {
+            "moles": 5.534276991396059,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.223351281343563e-13,
+        "free_proton": 0.001011537846432382,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "HCl",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 5e-05,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "FeCl3",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 5e-05,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "KSCN",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.001,
+        "solution": {
+          "ionic_strength": 0.01298077461566,
+          "pe": 18.58981598099,
+          "ph": 2.037180469255,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [
+            {
+              "element": "Fe",
+              "molality": 0.0005015045135406,
+              "oxidation": 3
+            }
+          ],
+          "solvent_kg": 0.0997,
+          "species": [
+            {
+              "activity": 0.9996,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.01021,
+              "molality": 0.01148,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.00918,
+              "molality": 0.01015,
+              "name": "H+"
+            },
+            {
+              "activity": 0.0004457,
+              "molality": 0.0005015,
+              "name": "K+"
+            },
+            {
+              "activity": 0.0003921,
+              "molality": 0.0004402,
+              "name": "SCN-"
+            },
+            {
+              "activity": 9.833e-05,
+              "molality": 0.0002782,
+              "name": "Fe+3"
+            },
+            {
+              "activity": 0.0002677,
+              "molality": 0.0002669,
+              "name": "O2"
+            },
+            {
+              "activity": 6.913e-05,
+              "molality": 0.0001085,
+              "name": "FeOH+2"
+            },
+            {
+              "activity": 3.856e-05,
+              "molality": 6.121e-05,
+              "name": "Fe(SCN)+2"
+            },
+            {
+              "activity": 3.031e-05,
+              "molality": 4.758e-05,
+              "name": "FeCl+2"
+            },
+            {
+              "activity": 2.493e-06,
+              "molality": 2.786e-06,
+              "name": "Fe(OH)2+"
+            },
+            {
+              "activity": 1.382e-06,
+              "molality": 1.551e-06,
+              "name": "FeCl2+"
+            },
+            {
+              "activity": 1.286e-07,
+              "molality": 8.17e-07,
+              "name": "Fe2(OH)2+4"
+            },
+            {
+              "activity": 6.019e-08,
+              "molality": 6.756e-08,
+              "name": "Fe(SCN)2+"
+            },
+            {
+              "activity": 1.411e-09,
+              "molality": 1.406e-09,
+              "name": "FeCl3"
+            },
+            {
+              "activity": 6.7e-11,
+              "molality": 1.204e-09,
+              "name": "Fe3(OH)4+5"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15000134469835,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 17,
+      "output_sequence": 17,
+      "step": 17,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.001225,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 2.5e-05,
+            "phase": "aqueous",
+            "species": "K+"
+          },
+          {
+            "moles": 2.5e-05,
+            "phase": "aqueous",
+            "species": "SCN-"
+          },
+          {
+            "moles": 7.5e-05,
+            "phase": "aqueous",
+            "species": "Fe+3"
+          },
+          {
+            "moles": 5.534276991396059,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.224107339981646e-13,
+        "free_proton": 0.001018238198042932,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 2,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "HCl",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 7.5e-05,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "FeCl3",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 2.5e-05,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "KSCN",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.001,
+        "solution": {
+          "ionic_strength": 0.01405520427436,
+          "pe": 18.59137969669,
+          "ph": 2.0356187841,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [
+            {
+              "element": "Fe",
+              "molality": 0.0007522567703109,
+              "oxidation": 3
+            }
+          ],
+          "solvent_kg": 0.0997,
+          "species": [
+            {
+              "activity": 0.9996,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.0108,
+              "molality": 0.0122,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.009213,
+              "molality": 0.01021,
+              "name": "H+"
+            },
+            {
+              "activity": 0.0001524,
+              "molality": 0.0004468,
+              "name": "Fe+3"
+            },
+            {
+              "activity": 0.0002677,
+              "molality": 0.0002668,
+              "name": "O2"
+            },
+            {
+              "activity": 0.0002219,
+              "molality": 0.0002508,
+              "name": "K+"
+            },
+            {
+              "activity": 0.0001826,
+              "molality": 0.0002058,
+              "name": "SCN-"
+            },
+            {
+              "activity": 0.0001068,
+              "molality": 0.0001702,
+              "name": "FeOH+2"
+            },
+            {
+              "activity": 4.97e-05,
+              "molality": 7.922e-05,
+              "name": "FeCl+2"
+            },
+            {
+              "activity": 2.783e-05,
+              "molality": 4.489e-05,
+              "name": "Fe(SCN)+2"
+            },
+            {
+              "activity": 3.836e-06,
+              "molality": 4.303e-06,
+              "name": "Fe(OH)2+"
+            },
+            {
+              "activity": 2.398e-06,
+              "molality": 2.702e-06,
+              "name": "FeCl2+"
+            },
+            {
+              "activity": 3.068e-07,
+              "molality": 2.076e-06,
+              "name": "Fe2(OH)2+4"
+            },
+            {
+              "activity": 2.023e-08,
+              "molality": 2.28e-08,
+              "name": "Fe(SCN)2+"
+            },
+            {
+              "activity": 2.458e-10,
+              "molality": 4.879e-09,
+              "name": "Fe3(OH)4+5"
+            },
+            {
+              "activity": 2.59e-09,
+              "molality": 2.581e-09,
+              "name": "FeCl3"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1500013446905,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

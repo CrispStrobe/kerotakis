@@ -1,0 +1,505 @@
+{
+  "id": "batch3-diverse:po-009",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "e23e80310a4868921ec7836822e2502d489a106385afc4dbbd570717cdb49d0c",
+  "original_script_sha256": "e23e80310a4868921ec7836822e2502d489a106385afc4dbbd570717cdb49d0c",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Use the pure references to interpret the mixture output. A single returned property must not be presented as an experimentally established blend transition or proof of blend miscibility.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "What does a melting-point instrument actually report for a mixture of PE and PP?",
+      "review_instruction": "Use the pure references to interpret the mixture output. A single returned property must not be presented as an experimentally established blend transition or proof of blend miscibility.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v1 and v2: individual polymer references",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:po-009",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11709644800001229,
+    "script_sha256": "e23e80310a4868921ec7836822e2502d489a106385afc4dbbd570717cdb49d0c",
+    "stdout_sha256": "c930e27fb4c55b7eb93530c65f13d792fd7977e00495bec824633b13173a4680",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 13,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 0.035645540742853074,
+      "op": "add",
+      "species": "PE",
+      "vessel": 0
+    },
+    {
+      "moles": 0.023763693828568713,
+      "op": "add",
+      "species": "PP",
+      "vessel": 1
+    },
+    {
+      "moles": 0.017822770371426537,
+      "op": "add",
+      "species": "PE",
+      "vessel": 2
+    },
+    {
+      "moles": 0.011881846914284356,
+      "op": "add",
+      "species": "PP",
+      "vessel": 2
+    },
+    {
+      "instrument": "melting_point_apparatus",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "melting_point_apparatus",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "melting_point_apparatus",
+      "op": "measure",
+      "vessel": 2
+    },
+    {
+      "energy": 300.0,
+      "op": "heat",
+      "vessel": 2
+    },
+    {
+      "instrument": "thermometer",
+      "op": "measure",
+      "vessel": 2
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 2
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 2,
+    "added": 4,
+    "transition_point_read": 3,
+    "temperature_changed": 1,
+    "energy_transferred": 1,
+    "measured": 1,
+    "observed": 1
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 12,
+      "output_sequence": 12,
+      "step": 12,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 0.035645540742853074,
+            "phase": "solid",
+            "species": "PE"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0,
+        "free_proton": 0.0,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 0.035645540742853074,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "PE",
+            "suspended_fraction": 0.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 12,
+      "output_sequence": 12,
+      "step": 12,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 0.023763693828568713,
+            "phase": "solid",
+            "species": "PP"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0,
+        "free_proton": 0.0,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 0.023763693828568713,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "PP",
+            "suspended_fraction": 0.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 12,
+      "output_sequence": 12,
+      "step": 12,
+      "state": {
+        "co2_partial_pressure_atm": null,
+        "contents": [
+          {
+            "moles": 0.017822770371426537,
+            "phase": "solid",
+            "species": "PE"
+          },
+          {
+            "moles": 0.011881846914284356,
+            "phase": "solid",
+            "species": "PP"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0,
+        "free_proton": 0.0,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 2,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 0.017822770371426537,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "PE",
+            "suspended_fraction": 0.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.011881846914284356,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "PP",
+            "suspended_fraction": 0.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 467.0369565217391,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 6,
+      "operator": {
+        "instrument": "melting_point_apparatus",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "transition_point_read",
+        "reading": {
+          "boundary": null,
+          "components": [
+            "PE"
+          ],
+          "kind": "melting",
+          "lowest_component_c": null,
+          "outcome": null,
+          "source": null,
+          "species": "PE",
+          "value_c": null,
+          "verdict": "no_data"
+        },
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 7,
+      "operator": {
+        "instrument": "melting_point_apparatus",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "transition_point_read",
+        "reading": {
+          "boundary": null,
+          "components": [
+            "PP"
+          ],
+          "kind": "melting",
+          "lowest_component_c": null,
+          "outcome": null,
+          "source": null,
+          "species": "PP",
+          "value_c": null,
+          "verdict": "no_data"
+        },
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 8,
+      "operator": {
+        "instrument": "melting_point_apparatus",
+        "op": "measure",
+        "vessel": 2
+      },
+      "event": {
+        "event": "transition_point_read",
+        "reading": {
+          "boundary": "the direction is a law and is claimed: a mixture melts below its lowest-melting pure component and over a range, not at a point. The SIZE of the depression is not claimed — that needs the cryoscopic constant and enthalpy of fusion of the major component, and this registry curates neither for solids other than water",
+          "components": [
+            "PE",
+            "PP"
+          ],
+          "kind": "melting",
+          "lowest_component_c": null,
+          "outcome": null,
+          "source": null,
+          "species": null,
+          "value_c": null,
+          "verdict": "mixture"
+        },
+        "vessel": 2
+      }
+    },
+    {
+      "observation_index": 10,
+      "operator": {
+        "instrument": "thermometer",
+        "op": "measure",
+        "vessel": 2
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 193.88695652173914,
+        "vessel": 2
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 2
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "there is {what} in the beaker",
+              "key": "look.deposit-dry",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "white",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "polyethylene (HDPE)",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "white",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "polypropylene",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 0.0,
+          "deposit": [
+            "polyethylene (HDPE)",
+            {
+              "b": 232,
+              "g": 237,
+              "r": 240,
+              "strength": 0.0
+            }
+          ],
+          "liquid": null,
+          "words": "There is white polyethylene (HDPE) and white polypropylene in the beaker."
+        },
+        "event": "observed",
+        "vessel": 2
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

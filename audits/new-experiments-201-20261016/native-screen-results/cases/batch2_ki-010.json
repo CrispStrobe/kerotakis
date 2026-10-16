@@ -1,0 +1,388 @@
+{
+  "id": "batch2:ki-010",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "0096be318c38594d6729e08419b18ea3ede6079b243878854e6e9c7cb21ca70f",
+  "original_script_sha256": "0096be318c38594d6729e08419b18ea3ede6079b243878854e6e9c7cb21ca70f",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "If acid and thiosulfate remain in the filtrate, fresh sulfur can form there after the original solid is retained in the first vessel.",
+  "original_acceptance_checks": [
+    {
+      "id": "KI-010-C1",
+      "criterion": "Verify residual acid/thiosulfate in v2 immediately after filtration.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "KI-010-C2",
+      "criterion": "New solid in v2 must be distinguished from transferred old sulfur.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:ki-010",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11682861399999922,
+    "script_sha256": "0096be318c38594d6729e08419b18ea3ede6079b243878854e6e9c7cb21ca70f",
+    "stdout_sha256": "a93e1a6dce430e4da93ee77f9f733eb5caceac1b6aabbaee7a6430f77d3ff2be",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 9,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.002,
+      "op": "add",
+      "species": "Na2S2O3",
+      "vessel": 0
+    },
+    {
+      "moles": 0.002,
+      "op": "add",
+      "species": "HCl",
+      "vessel": 0
+    },
+    {
+      "op": "wait",
+      "seconds": 10.0
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "from": 0,
+      "op": "filter",
+      "to": 1
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "op": "wait",
+      "seconds": 30.0
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 3,
+    "solution_routed": 3,
+    "dissolved": 3,
+    "solution_characterized": 5,
+    "not_yet_modeled": 2,
+    "reacted": 2,
+    "vessel_created": 1,
+    "filtered": 1
+  },
+  "named_model_limits": {
+    "not-modeled.finite-acid-inventory": {
+      "first_observation_index": 3,
+      "first_operator": {
+        "op": "wait",
+        "seconds": 10.0
+      },
+      "event": {
+        "cause": "model-boundary",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "{reaction} consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law.",
+          "key": "not-modeled.finite-acid-inventory",
+          "slots": [
+            [
+              "reaction",
+              {
+                "text": {
+                  "text": "thiosulfate-acid"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+      },
+      "occurrences": 2
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 8,
+      "output_sequence": 8,
+      "step": 7,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 9.556973487799406e-05,
+            "phase": "solid",
+            "species": "S"
+          }
+        ],
+        "elapsed_seconds": 40.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 9.504633512110949e-14,
+        "free_proton": 0.001682675901988033,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.002,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "Na2S2O3",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.002,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "HCl",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 2.937245210818659e-09,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.0018082366891179636,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 298.1500017359957,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 8,
+      "output_sequence": 8,
+      "step": 7,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 3.1192056302414026e-07,
+            "phase": "aqueous",
+            "species": "S"
+          },
+          {
+            "moles": 0.00021963928826953678,
+            "phase": "solid",
+            "species": "S"
+          },
+          {
+            "moles": 0.00021963928826953678,
+            "phase": "gas",
+            "species": "SO2"
+          },
+          {
+            "moles": 0.002,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.004,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 0.0016844790562894451,
+            "phase": "aqueous",
+            "species": "S2O3-2"
+          },
+          {
+            "moles": 5.53459251233977,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0013689581125788906,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 30.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.2320092820352122e-13,
+        "free_proton": 0.0012810924417660944,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 8.792273960024828e-09,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.0013689581125788902,
+        "solution": {
+          "ionic_strength": 0.06898007762894,
+          "pe": null,
+          "ph": 1.986674722096,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.099705684,
+          "species": [
+            {
+              "activity": 0.9985,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.0322,
+              "molality": 0.04012,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0161,
+              "molality": 0.02006,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.006643,
+              "molality": 0.01601,
+              "name": "Thiosulfate-2"
+            },
+            {
+              "activity": 0.01031,
+              "molality": 0.01285,
+              "name": "H+"
+            },
+            {
+              "activity": 0.0007072,
+              "molality": 0.0008813,
+              "name": "H(Thiosulfate)-"
+            },
+            {
+              "activity": 0.0002596,
+              "molality": 0.0002555,
+              "name": "O2"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1500017359957,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

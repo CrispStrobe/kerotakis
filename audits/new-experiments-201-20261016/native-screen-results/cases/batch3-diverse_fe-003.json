@@ -1,0 +1,1091 @@
+{
+  "id": "batch3-diverse:fe-003",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "bdbc26af0b823b7fd5169787561758a6760f464a7f325d26ed6f45917513c7ee",
+  "original_script_sha256": "bdbc26af0b823b7fd5169787561758a6760f464a7f325d26ed6f45917513c7ee",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "The first two preparations approximately match yeast solids and recipe water, unlike the equal-weighed-mass comparison. Early differences can also reflect the dry-yeast hydration state.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Do equal weighed masses and approximately equal culture-solids masses give different comparisons?",
+      "review_instruction": "The first two preparations approximately match yeast solids and recipe water, unlike the equal-weighed-mass comparison. Early differences can also reflect the dry-yeast hydration state.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: approximately matched solids; v3: equal weighed mass to the dry dose",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:fe-003",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.16868122200000357,
+    "script_sha256": "bdbc26af0b823b7fd5169787561758a6760f464a7f325d26ed6f45917513c7ee",
+    "stdout_sha256": "0bde1a13b73bd18691a86760f4d98a9cc731337ad1275f642bc1c41b2ea4a9ed",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 18,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "at": 303.15,
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0029214438359726146,
+      "op": "add",
+      "species": "sucrose",
+      "vessel": 0
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "dry_yeast",
+      "op": "add_material",
+      "recipe_id": "household/dry-yeast-catalase-surrogate",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 0.3,
+      "vessel": 0
+    },
+    {
+      "at": 303.15,
+      "moles": 2.7283985567582567,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0029214438359726146,
+      "op": "add",
+      "species": "sucrose",
+      "vessel": 1
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "fresh_yeast",
+      "op": "add_material",
+      "recipe_id": "household/fresh-compressed-yeast-surrogate",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 1.0,
+      "vessel": 1
+    },
+    {
+      "at": 303.15,
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 2
+    },
+    {
+      "moles": 0.0029214438359726146,
+      "op": "add",
+      "species": "sucrose",
+      "vessel": 2
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "fresh_yeast",
+      "op": "add_material",
+      "recipe_id": "household/fresh-compressed-yeast-surrogate",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 0.3,
+      "vessel": 2
+    },
+    {
+      "op": "wait",
+      "seconds": 300.0
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "op": "wait",
+      "seconds": 3300.0
+    },
+    {
+      "instrument": "balance",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "balance",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "balance",
+      "op": "measure",
+      "vessel": 2
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 2,
+    "temperature_changed": 19,
+    "added": 6,
+    "solution_routed": 6,
+    "dissolved": 3,
+    "material_added": 3,
+    "gas_produced": 6,
+    "fermented": 6,
+    "not_yet_modeled": 9,
+    "gas_absorbed": 6,
+    "solution_characterized": 6,
+    "gas_evolved": 2,
+    "measured": 3
+  },
+  "named_model_limits": {
+    "not-modeled.finite-gas-dose": {
+      "first_observation_index": 11,
+      "first_operator": {
+        "op": "wait",
+        "seconds": 300.0
+      },
+      "event": {
+        "cause": "rate-not-modelled",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "{species} finite gas dose: uptake is an instantaneous equilibrium calculation, not a mass-transfer rate. After the dose, only explicitly configured atmospheric species exchange with an external reservoir; no new reservoir is inferred from the dose. Waiting time does not parameterise degassing",
+          "key": "not-modeled.finite-gas-dose",
+          "slots": [
+            [
+              "species",
+              {
+                "term": {
+                  "en": "CO2",
+                  "section": "species"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "CO2 finite gas dose: uptake is an instantaneous equilibrium calculation, not a mass-transfer rate. After the dose, only explicitly configured atmospheric species exchange with an external reservoir; no new reservoir is inferred from the dose. Waiting time does not parameterise degassing"
+      },
+      "occurrences": 6
+    },
+    "not-modeled.family-declined-at-gate": {
+      "first_observation_index": 13,
+      "first_operator": {
+        "op": "wait",
+        "seconds": 3300.0
+      },
+      "event": {
+        "cause": "model-boundary",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "{family} v{version} matched, but declined at {gate}: {why}. Waiting does not supply a missing reaction rate or satisfy the condition gate",
+          "key": "not-modeled.family-declined-at-gate",
+          "slots": [
+            [
+              "family",
+              {
+                "text": {
+                  "text": "fischer-esterification"
+                }
+              }
+            ],
+            [
+              "version",
+              {
+                "text": {
+                  "text": "1"
+                }
+              }
+            ],
+            [
+              "gate",
+              {
+                "text": {
+                  "text": "temperature_k"
+                }
+              }
+            ],
+            [
+              "why",
+              {
+                "term": {
+                  "en": "the vessel stands at 298.4 K and the family needs at least 333.1 K",
+                  "section": "family-gate"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "fischer-esterification v1 matched, but declined at temperature_k: the vessel stands at 298.4 K and the family needs at least 333.1 K. Waiting does not supply a missing reaction rate or satisfy the condition gate"
+      },
+      "occurrences": 3
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 17,
+      "output_sequence": 17,
+      "step": 16,
+      "state": {
+        "co2_partial_pressure_atm": 1.0014483261201268,
+        "contents": [
+          {
+            "moles": 0.002480174975513382,
+            "phase": "aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 1.25e-12,
+            "phase": "aqueous",
+            "species": "catalase"
+          },
+          {
+            "moles": 0.0017650754418369304,
+            "phase": "aqueous",
+            "species": "ethanol"
+          },
+          {
+            "moles": 0.0016799453547556556,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 6.19327809979969e-06,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 2.478668161016871e-12,
+            "phase": "aqueous",
+            "species": "CO3-2"
+          },
+          {
+            "moles": 2.7666910335596753,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 6.193277689732252e-06,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 3600.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 4.234313204521849e-12,
+        "free_proton": 6.193287291445279e-06,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0029214438359726146,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "sucrose",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "hydrated_at": 0.0,
+            "moles": 1.25e-12,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe household/dry-yeast-catalase-surrogate",
+            "species": "catalase",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -6.193283057136012e-06,
+        "solution": {
+          "ionic_strength": 2.43275188087e-06,
+          "pe": null,
+          "ph": 5.614703017866,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.04984204839381,
+          "species": [
+            {
+              "activity": 1.0,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.000266,
+              "molality": 0.000266,
+              "name": "O2"
+            },
+            {
+              "activity": 1.317e-05,
+              "molality": 1.317e-05,
+              "name": "CO2"
+            },
+            {
+              "activity": 2.428e-06,
+              "molality": 2.433e-06,
+              "name": "H+"
+            },
+            {
+              "activity": 2.424e-06,
+              "molality": 2.428e-06,
+              "name": "HCO3-"
+            },
+            {
+              "activity": 4.24e-09,
+              "molality": 4.248e-09,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.5213428316223,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 0.2999997,
+            "basis": "mass_fraction",
+            "material": "dry_yeast",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "household/dry-yeast-catalase-surrogate",
+            "recipe_version": 1
+          }
+        ]
+      }
+    },
+    {
+      "observation_index": 17,
+      "output_sequence": 17,
+      "step": 16,
+      "state": {
+        "co2_partial_pressure_atm": 1.0013536355485277,
+        "contents": [
+          {
+            "moles": 0.0024810330308032984,
+            "phase": "aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 1.25e-12,
+            "phase": "aqueous",
+            "species": "catalase"
+          },
+          {
+            "moles": 0.0017616432206772653,
+            "phase": "aqueous",
+            "species": "ethanol"
+          },
+          {
+            "moles": 0.001680174752731784,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 6.1937014834753075e-06,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 2.4786010221986686e-12,
+            "phase": "aqueous",
+            "species": "CO3-2"
+          },
+          {
+            "moles": 2.76680846071373,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 6.193707565121226e-06,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 3600.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 4.233267232979556e-12,
+        "free_proton": 6.193710673946108e-06,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7283985567582567,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0029214438359726146,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "sucrose",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.03885650846516791,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "material recipe household/fresh-compressed-yeast-surrogate",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 1.25e-12,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe household/fresh-compressed-yeast-surrogate",
+            "species": "catalase",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -6.193706440677352e-06,
+        "solution": {
+          "ionic_strength": 2.432814117403e-06,
+          "pe": null,
+          "ph": 5.61469191207,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.04984416340128,
+          "species": [
+            {
+              "activity": 1.0,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.0002661,
+              "molality": 0.0002661,
+              "name": "O2"
+            },
+            {
+              "activity": 1.318e-05,
+              "molality": 1.318e-05,
+              "name": "CO2"
+            },
+            {
+              "activity": 2.428e-06,
+              "molality": 2.433e-06,
+              "name": "H+"
+            },
+            {
+              "activity": 2.424e-06,
+              "molality": 2.428e-06,
+              "name": "HCO3-"
+            },
+            {
+              "activity": 4.239e-09,
+              "molality": 4.246e-09,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.51783181286635,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 0.2999997000000001,
+            "basis": "mass_fraction",
+            "material": "fresh_yeast",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "household/fresh-compressed-yeast-surrogate",
+            "recipe_version": 1
+          }
+        ]
+      }
+    },
+    {
+      "observation_index": 17,
+      "output_sequence": 17,
+      "step": 16,
+      "state": {
+        "co2_partial_pressure_atm": 0.3281944939356459,
+        "contents": [
+          {
+            "moles": 0.0027820774781622333,
+            "phase": "aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 3.75e-13,
+            "phase": "aqueous",
+            "species": "catalase"
+          },
+          {
+            "moles": 0.0005574654312415247,
+            "phase": "aqueous",
+            "species": "ethanol"
+          },
+          {
+            "moles": 0.0005539133397693266,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 3.5520888559337524e-06,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 2.455221119477323e-12,
+            "phase": "aqueous",
+            "species": "CO3-2"
+          },
+          {
+            "moles": 2.7786525297887805,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 3.5520931221943997e-06,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 3600.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 7.361782805432406e-12,
+        "free_proton": 3.552101128160097e-06,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 2,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0029214438359726146,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "sucrose",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.011656952539550373,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "material recipe household/fresh-compressed-yeast-surrogate",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 3.75e-13,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe household/fresh-compressed-yeast-surrogate",
+            "species": "catalase",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -3.5520937663759915e-06,
+        "solution": {
+          "ionic_strength": 2.434097853394e-06,
+          "pe": null,
+          "ph": 5.614462899179,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.05005748679954,
+          "species": [
+            {
+              "activity": 1.0,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.0002664,
+              "molality": 0.0002664,
+              "name": "O2"
+            },
+            {
+              "activity": 1.32e-05,
+              "molality": 1.32e-05,
+              "name": "CO2"
+            },
+            {
+              "activity": 2.43e-06,
+              "molality": 2.434e-06,
+              "name": "H+"
+            },
+            {
+              "activity": 2.425e-06,
+              "molality": 2.43e-06,
+              "name": "HCO3-"
+            },
+            {
+              "activity": 4.213e-09,
+              "molality": 4.221e-09,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.44560046837194,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 0.08999991000000003,
+            "basis": "mass_fraction",
+            "material": "fresh_yeast",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "household/fresh-compressed-yeast-surrogate",
+            "recipe_version": 1
+          }
+        ]
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 11,
+      "operator": {
+        "op": "wait",
+        "seconds": 300.0
+      },
+      "event": {
+        "active_yeast_grams": 0.27743261922906165,
+        "carbon_dioxide_moles": 0.00016379497055831792,
+        "ethanol_moles": 0.00016379497055831792,
+        "event": "fermented",
+        "seconds": 300.0,
+        "sucrose_moles": 4.094874263957948e-05,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "op": "wait",
+        "seconds": 300.0
+      },
+      "event": {
+        "active_yeast_grams": 0.2768280012687228,
+        "carbon_dioxide_moles": 0.00016343367836774925,
+        "ethanol_moles": 0.00016343367836774925,
+        "event": "fermented",
+        "seconds": 300.0,
+        "sucrose_moles": 4.0858419591937314e-05,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "op": "wait",
+        "seconds": 300.0
+      },
+      "event": {
+        "active_yeast_grams": 0.08317617774347964,
+        "carbon_dioxide_moles": 4.9143164676051624e-05,
+        "ethanol_moles": 4.9143164676051624e-05,
+        "event": "fermented",
+        "seconds": 300.0,
+        "sucrose_moles": 1.2285791169012906e-05,
+        "vessel": 2
+      }
+    },
+    {
+      "observation_index": 13,
+      "operator": {
+        "op": "wait",
+        "seconds": 3300.0
+      },
+      "event": {
+        "active_yeast_grams": 0.267350547971238,
+        "carbon_dioxide_moles": 0.0016012804712786126,
+        "ethanol_moles": 0.0016012804712786126,
+        "event": "fermented",
+        "seconds": 3300.0,
+        "sucrose_moles": 0.00040032011781965314,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 13,
+      "operator": {
+        "op": "wait",
+        "seconds": 3300.0
+      },
+      "event": {
+        "active_yeast_grams": 0.2667997879585464,
+        "carbon_dioxide_moles": 0.001598209542309516,
+        "ethanol_moles": 0.001598209542309516,
+        "event": "fermented",
+        "seconds": 3300.0,
+        "sucrose_moles": 0.000399552385577379,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 13,
+      "operator": {
+        "op": "wait",
+        "seconds": 3300.0
+      },
+      "event": {
+        "active_yeast_grams": 0.08014170586654772,
+        "carbon_dioxide_moles": 0.0005083222665654731,
+        "ethanol_moles": 0.0005083222665654731,
+        "event": "fermented",
+        "seconds": 3300.0,
+        "sucrose_moles": 0.00012708056664136828,
+        "vessel": 2
+      }
+    },
+    {
+      "observation_index": 14,
+      "operator": {
+        "instrument": "balance",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "balance",
+        "unit": "g",
+        "value": 50.84652659695327,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 15,
+      "operator": {
+        "instrument": "balance",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "balance",
+        "unit": "g",
+        "value": 50.84878775930194,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 16,
+      "operator": {
+        "instrument": "balance",
+        "op": "measure",
+        "vessel": 2
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "balance",
+        "unit": "g",
+        "value": 51.06000016323334,
+        "vessel": 2
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

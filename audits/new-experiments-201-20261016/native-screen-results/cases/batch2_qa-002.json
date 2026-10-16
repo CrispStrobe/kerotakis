@@ -1,0 +1,1588 @@
+{
+  "id": "batch2:qa-002",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "8111bf66617f0a7544d898822d156ab1d005665966f0f95aa8b865d85303b091",
+  "original_script_sha256": "8111bf66617f0a7544d898822d156ab1d005665966f0f95aa8b865d85303b091",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "The spiked aliquot should require approximately 0.5 mmol more hydroxide, despite a disproportionate change in its starting pH.",
+  "original_acceptance_checks": [
+    {
+      "id": "QA-002-C1",
+      "criterion": "Subtracting endpoint doses recovers the 0.5 mmol spike within step-size and endpoint corrections.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "QA-002-C2",
+      "criterion": "Total acetate is conserved in both aliquots.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:qa-002",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 1.7715477260000085,
+    "script_sha256": "8111bf66617f0a7544d898822d156ab1d005665966f0f95aa8b865d85303b091",
+    "stdout_sha256": "da9bddfdaf6799b51a243b59d6d6c8fcf0e5b1275dafd80f47317d8b5ec244a5",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 9,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "CH3COOH",
+      "vessel": 0
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "CH3COOH",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0005,
+      "op": "add",
+      "species": "HCl",
+      "vessel": 1
+    },
+    {
+      "concentration": 0.1,
+      "max_steps": 200,
+      "op": "titrate",
+      "step": 0.0001,
+      "target_ph": 8.7,
+      "titrant": "NaOH",
+      "vessel": 0
+    },
+    {
+      "concentration": 0.1,
+      "max_steps": 200,
+      "op": "titrate",
+      "step": 0.0001,
+      "target_ph": 8.7,
+      "titrant": "NaOH",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 5,
+    "solution_routed": 4,
+    "solution_characterized": 255,
+    "vessel_created": 1,
+    "dissolved": 252,
+    "neutralised": 219,
+    "titrated": 2
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 8,
+      "output_sequence": 8,
+      "step": 8,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 1.0327256188608116e-07,
+            "phase": "aqueous",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.0009998967274381138,
+            "phase": "aqueous",
+            "species": "CH3COO-"
+          },
+          {
+            "moles": 0.001000519409179689,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 6.088992042690283,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 6.226817415798912e-07,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 6.224160527869633e-07,
+        "free_proton": 2.4162300003485317e-10,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "CH3COOH",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 6.226817415753375e-07,
+        "solution": {
+          "ionic_strength": 0.009076290642617,
+          "pe": null,
+          "ph": 8.70003221671,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.109693192,
+          "species": [
+            {
+              "activity": 0.9997,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.008221,
+              "molality": 0.009076,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.008216,
+              "molality": 0.009071,
+              "name": "Acetate-"
+            },
+            {
+              "activity": 0.0002528,
+              "molality": 0.0002522,
+              "name": "O2"
+            },
+            {
+              "activity": 4.478e-05,
+              "molality": 4.478e-05,
+              "name": "Na(Acetate)"
+            },
+            {
+              "activity": 5.13e-06,
+              "molality": 5.674e-06,
+              "name": "OH-"
+            },
+            {
+              "activity": 9.368e-07,
+              "molality": 9.368e-07,
+              "name": "H(Acetate)"
+            },
+            {
+              "activity": 1.995e-09,
+              "molality": 2.203e-09,
+              "name": "H+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.36956308735114,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 8,
+      "output_sequence": 8,
+      "step": 8,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 1.0157339101219879e-07,
+            "phase": "aqueous",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.0009998984266089872,
+            "phase": "aqueous",
+            "species": "CH3COO-"
+          },
+          {
+            "moles": 0.0005000000000000001,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.001500565795898441,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 6.366231565654261,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 6.673692894794067e-07,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 6.669340960410848e-07,
+        "free_proton": 2.569343262002958e-10,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "CH3COOH",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "HCl",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 6.673692894538195e-07,
+        "solution": {
+          "ionic_strength": 0.01302452203852,
+          "pe": null,
+          "ph": 8.699973092292,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.114687662,
+          "species": [
+            {
+              "activity": 0.9996,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.0116,
+              "molality": 0.01302,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.007712,
+              "molality": 0.008659,
+              "name": "Acetate-"
+            },
+            {
+              "activity": 0.003883,
+              "molality": 0.00436,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.0002498,
+              "molality": 0.0002491,
+              "name": "O2"
+            },
+            {
+              "activity": 5.941e-05,
+              "molality": 5.941e-05,
+              "name": "Na(Acetate)"
+            },
+            {
+              "activity": 5.165e-06,
+              "molality": 5.815e-06,
+              "name": "OH-"
+            },
+            {
+              "activity": 8.796e-07,
+              "molality": 8.796e-07,
+              "name": "H(Acetate)"
+            },
+            {
+              "activity": 1.995e-09,
+              "molality": 2.24e-09,
+              "name": "H+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.4645602177943,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 6,
+      "operator": {
+        "concentration": 0.1,
+        "max_steps": 200,
+        "op": "titrate",
+        "step": 0.0001,
+        "target_ph": 8.7,
+        "titrant": "NaOH",
+        "vessel": 0
+      },
+      "event": {
+        "concentration": 0.1,
+        "curve": [
+          [
+            0.0,
+            3.387131770465
+          ],
+          [
+            0.1,
+            3.440334519986
+          ],
+          [
+            0.2,
+            3.493067956054
+          ],
+          [
+            0.30000000000000004,
+            3.544721731888
+          ],
+          [
+            0.4,
+            3.594814114039
+          ],
+          [
+            0.5,
+            3.643015091829
+          ],
+          [
+            0.6000000000000001,
+            3.689139106278
+          ],
+          [
+            0.7000000000000001,
+            3.733119549084
+          ],
+          [
+            0.8000000000000002,
+            3.774977108983
+          ],
+          [
+            0.9000000000000002,
+            3.814790280479
+          ],
+          [
+            1.0000000000000002,
+            3.852671709036
+          ],
+          [
+            1.1000000000000003,
+            3.88875111232
+          ],
+          [
+            1.2000000000000004,
+            3.923163605085
+          ],
+          [
+            1.3000000000000003,
+            3.956042583582
+          ],
+          [
+            1.4000000000000004,
+            3.987515334197
+          ],
+          [
+            1.5000000000000004,
+            4.017700965245
+          ],
+          [
+            1.6000000000000005,
+            4.046709328729
+          ],
+          [
+            1.7000000000000006,
+            4.074641036324
+          ],
+          [
+            1.8000000000000007,
+            4.101587630355
+          ],
+          [
+            1.9000000000000006,
+            4.127632285376
+          ],
+          [
+            2.0000000000000004,
+            4.152850432385
+          ],
+          [
+            2.1,
+            4.177310415974
+          ],
+          [
+            2.2,
+            4.201074307152
+          ],
+          [
+            2.3,
+            4.224198487458
+          ],
+          [
+            2.4,
+            4.246734275754
+          ],
+          [
+            2.4999999999999996,
+            4.268728479918
+          ],
+          [
+            2.5999999999999996,
+            4.29022389266
+          ],
+          [
+            2.6999999999999993,
+            4.311259734353
+          ],
+          [
+            2.799999999999999,
+            4.331872047004
+          ],
+          [
+            2.899999999999999,
+            4.352094044019
+          ],
+          [
+            2.9999999999999987,
+            4.371956402276
+          ],
+          [
+            3.0999999999999988,
+            4.391487610212
+          ],
+          [
+            3.1999999999999984,
+            4.410714102868
+          ],
+          [
+            3.299999999999998,
+            4.429660534282
+          ],
+          [
+            3.399999999999998,
+            4.448350024786
+          ],
+          [
+            3.499999999999998,
+            4.466804226096
+          ],
+          [
+            3.599999999999998,
+            4.485043530659
+          ],
+          [
+            3.6999999999999975,
+            4.503087263906
+          ],
+          [
+            3.7999999999999976,
+            4.520953685947
+          ],
+          [
+            3.8999999999999972,
+            4.538660229414
+          ],
+          [
+            3.9999999999999973,
+            4.556223549827
+          ],
+          [
+            4.099999999999998,
+            4.573659568583
+          ],
+          [
+            4.199999999999998,
+            4.590983664926
+          ],
+          [
+            4.299999999999998,
+            4.608210704208
+          ],
+          [
+            4.399999999999999,
+            4.625355062102
+          ],
+          [
+            4.499999999999999,
+            4.642430798686
+          ],
+          [
+            4.599999999999999,
+            4.659451656725
+          ],
+          [
+            4.699999999999999,
+            4.676431143072
+          ],
+          [
+            4.8,
+            4.693382590553
+          ],
+          [
+            4.8999999999999995,
+            4.710319218246
+          ],
+          [
+            5.0,
+            4.727254190792
+          ],
+          [
+            5.1000000000000005,
+            4.744200677387
+          ],
+          [
+            5.200000000000001,
+            4.761171911076
+          ],
+          [
+            5.300000000000001,
+            4.778181232606
+          ],
+          [
+            5.400000000000001,
+            4.795242217998
+          ],
+          [
+            5.500000000000002,
+            4.812368644132
+          ],
+          [
+            5.600000000000001,
+            4.829574621921
+          ],
+          [
+            5.700000000000002,
+            4.846874635008
+          ],
+          [
+            5.8000000000000025,
+            4.864283680461
+          ],
+          [
+            5.900000000000002,
+            4.881817237996
+          ],
+          [
+            6.000000000000003,
+            4.899491487824
+          ],
+          [
+            6.100000000000003,
+            4.917323280282
+          ],
+          [
+            6.200000000000003,
+            4.935330371101
+          ],
+          [
+            6.300000000000003,
+            4.953531414158
+          ],
+          [
+            6.400000000000004,
+            4.971946221657
+          ],
+          [
+            6.500000000000004,
+            4.990595788794
+          ],
+          [
+            6.600000000000004,
+            5.009502573846
+          ],
+          [
+            6.700000000000005,
+            5.028690629267
+          ],
+          [
+            6.800000000000005,
+            5.048185854589
+          ],
+          [
+            6.900000000000005,
+            5.068016190292
+          ],
+          [
+            7.000000000000005,
+            5.088212005782
+          ],
+          [
+            7.100000000000006,
+            5.108806381996
+          ],
+          [
+            7.2000000000000055,
+            5.12983553003
+          ],
+          [
+            7.300000000000006,
+            5.151339266289
+          ],
+          [
+            7.400000000000007,
+            5.173361576023
+          ],
+          [
+            7.500000000000007,
+            5.195951286143
+          ],
+          [
+            7.600000000000007,
+            5.219162874216
+          ],
+          [
+            7.700000000000007,
+            5.243057433747
+          ],
+          [
+            7.800000000000008,
+            5.267703930424
+          ],
+          [
+            7.9000000000000075,
+            5.293180587517
+          ],
+          [
+            8.000000000000007,
+            5.319576778577
+          ],
+          [
+            8.100000000000007,
+            5.346995300993
+          ],
+          [
+            8.200000000000006,
+            5.37555535923
+          ],
+          [
+            8.300000000000006,
+            5.405396238491
+          ],
+          [
+            8.400000000000004,
+            5.436682250142
+          ],
+          [
+            8.500000000000004,
+            5.469609258975
+          ],
+          [
+            8.600000000000003,
+            5.504413306729
+          ],
+          [
+            8.700000000000003,
+            5.541382688085
+          ],
+          [
+            8.800000000000002,
+            5.580874594543
+          ],
+          [
+            8.900000000000002,
+            5.623339293441
+          ],
+          [
+            9.000000000000002,
+            5.669355581326
+          ],
+          [
+            9.1,
+            5.719685249681
+          ],
+          [
+            9.2,
+            5.775359562113
+          ],
+          [
+            9.299999999999999,
+            5.837823802634
+          ],
+          [
+            9.399999999999999,
+            5.909194145868
+          ],
+          [
+            9.499999999999998,
+            5.992750586433
+          ],
+          [
+            9.599999999999998,
+            6.093986905969
+          ],
+          [
+            9.699999999999998,
+            6.223199607677
+          ],
+          [
+            9.799999999999995,
+            6.403495567359
+          ],
+          [
+            9.899999999999995,
+            6.708517160931
+          ],
+          [
+            9.999999999999995,
+            8.309413844518
+          ],
+          [
+            10.00519409179687,
+            8.70003221671
+          ]
+        ],
+        "endpoint_reached": true,
+        "event": "titrated",
+        "final_ph": 8.70003221671,
+        "steps": 101,
+        "titrant": "NaOH",
+        "total_volume": 0.01000519409179687,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 7,
+      "operator": {
+        "concentration": 0.1,
+        "max_steps": 200,
+        "op": "titrate",
+        "step": 0.0001,
+        "target_ph": 8.7,
+        "titrant": "NaOH",
+        "vessel": 1
+      },
+      "event": {
+        "concentration": 0.1,
+        "curve": [
+          [
+            0.0,
+            2.329334276864
+          ],
+          [
+            0.1,
+            2.338385941659
+          ],
+          [
+            0.2,
+            2.347609171856
+          ],
+          [
+            0.30000000000000004,
+            2.357010831024
+          ],
+          [
+            0.4,
+            2.36659819337
+          ],
+          [
+            0.5,
+            2.376378976402
+          ],
+          [
+            0.6000000000000001,
+            2.386361371024
+          ],
+          [
+            0.7000000000000001,
+            2.396554104177
+          ],
+          [
+            0.8000000000000002,
+            2.406966447629
+          ],
+          [
+            0.9000000000000002,
+            2.417608289145
+          ],
+          [
+            1.0000000000000002,
+            2.428490173982
+          ],
+          [
+            1.1000000000000003,
+            2.43962338688
+          ],
+          [
+            1.2000000000000004,
+            2.451019976595
+          ],
+          [
+            1.3000000000000003,
+            2.46269287475
+          ],
+          [
+            1.4000000000000004,
+            2.474655929827
+          ],
+          [
+            1.5000000000000004,
+            2.486924037585
+          ],
+          [
+            1.6000000000000005,
+            2.499513223713
+          ],
+          [
+            1.7000000000000006,
+            2.512440738092
+          ],
+          [
+            1.8000000000000007,
+            2.525725214981
+          ],
+          [
+            1.9000000000000006,
+            2.539386789849
+          ],
+          [
+            2.0000000000000004,
+            2.553447268368
+          ],
+          [
+            2.1,
+            2.567930279427
+          ],
+          [
+            2.2,
+            2.582861508842
+          ],
+          [
+            2.3,
+            2.598268898821
+          ],
+          [
+            2.4,
+            2.614182904495
+          ],
+          [
+            2.4999999999999996,
+            2.630636775441
+          ],
+          [
+            2.5999999999999996,
+            2.647666865443
+          ],
+          [
+            2.6999999999999993,
+            2.665313009783
+          ],
+          [
+            2.799999999999999,
+            2.683618882951
+          ],
+          [
+            2.899999999999999,
+            2.702632458693
+          ],
+          [
+            2.9999999999999987,
+            2.722406476628
+          ],
+          [
+            3.0999999999999988,
+            2.742998985455
+          ],
+          [
+            3.1999999999999984,
+            2.764473857015
+          ],
+          [
+            3.299999999999998,
+            2.786901371499
+          ],
+          [
+            3.399999999999998,
+            2.810358791107
+          ],
+          [
+            3.499999999999998,
+            2.834930809717
+          ],
+          [
+            3.599999999999998,
+            2.86070995807
+          ],
+          [
+            3.6999999999999975,
+            2.887796644435
+          ],
+          [
+            3.7999999999999976,
+            2.916298841386
+          ],
+          [
+            3.8999999999999972,
+            2.946330978421
+          ],
+          [
+            3.9999999999999973,
+            2.978011700838
+          ],
+          [
+            4.099999999999998,
+            3.011460006209
+          ],
+          [
+            4.199999999999998,
+            3.046788915532
+          ],
+          [
+            4.299999999999998,
+            3.084095964986
+          ],
+          [
+            4.399999999999999,
+            3.123449665867
+          ],
+          [
+            4.499999999999999,
+            3.164871729826
+          ],
+          [
+            4.599999999999999,
+            3.208315682673
+          ],
+          [
+            4.699999999999999,
+            3.253644719009
+          ],
+          [
+            4.8,
+            3.300614083366
+          ],
+          [
+            4.8999999999999995,
+            3.348865425069
+          ],
+          [
+            5.0,
+            3.397940165139
+          ],
+          [
+            5.1000000000000005,
+            3.447314390196
+          ],
+          [
+            5.200000000000001,
+            3.496449564797
+          ],
+          [
+            5.300000000000001,
+            3.544846574201
+          ],
+          [
+            5.400000000000001,
+            3.592088801894
+          ],
+          [
+            5.500000000000002,
+            3.637865450732
+          ],
+          [
+            5.600000000000001,
+            3.681974516934
+          ],
+          [
+            5.700000000000002,
+            3.724310690003
+          ],
+          [
+            5.8000000000000025,
+            3.764845843368
+          ],
+          [
+            5.900000000000002,
+            3.8036081421
+          ],
+          [
+            6.000000000000003,
+            3.840663302817
+          ],
+          [
+            6.100000000000003,
+            3.876099864241
+          ],
+          [
+            6.200000000000003,
+            3.910018141934
+          ],
+          [
+            6.300000000000003,
+            3.942522761895
+          ],
+          [
+            6.400000000000004,
+            3.973717662701
+          ],
+          [
+            6.500000000000004,
+            4.003702999712
+          ],
+          [
+            6.600000000000004,
+            4.032573504804
+          ],
+          [
+            6.700000000000005,
+            4.06041759843
+          ],
+          [
+            6.800000000000005,
+            4.087317072433
+          ],
+          [
+            6.900000000000005,
+            4.113347260049
+          ],
+          [
+            7.000000000000005,
+            4.138577266219
+          ],
+          [
+            7.100000000000006,
+            4.163070383973
+          ],
+          [
+            7.2000000000000055,
+            4.186884546664
+          ],
+          [
+            7.300000000000006,
+            4.210072792433
+          ],
+          [
+            7.400000000000007,
+            4.232683717832
+          ],
+          [
+            7.500000000000007,
+            4.254761907561
+          ],
+          [
+            7.600000000000007,
+            4.276348333665
+          ],
+          [
+            7.700000000000007,
+            4.297480721607
+          ],
+          [
+            7.800000000000008,
+            4.318193883071
+          ],
+          [
+            7.9000000000000075,
+            4.338520002441
+          ],
+          [
+            8.000000000000007,
+            4.358488965365
+          ],
+          [
+            8.100000000000007,
+            4.378128515973
+          ],
+          [
+            8.200000000000006,
+            4.39746451915
+          ],
+          [
+            8.300000000000006,
+            4.416521199686
+          ],
+          [
+            8.400000000000004,
+            4.435321233528
+          ],
+          [
+            8.500000000000004,
+            4.453885949987
+          ],
+          [
+            8.600000000000003,
+            4.472235517509
+          ],
+          [
+            8.700000000000003,
+            4.490388975119
+          ],
+          [
+            8.800000000000002,
+            4.508364448953
+          ],
+          [
+            8.900000000000002,
+            4.526179217443
+          ],
+          [
+            9.000000000000002,
+            4.543849768309
+          ],
+          [
+            9.1,
+            4.561391972442
+          ],
+          [
+            9.2,
+            4.578821125663
+          ],
+          [
+            9.299999999999999,
+            4.596151985587
+          ],
+          [
+            9.399999999999999,
+            4.613398926897
+          ],
+          [
+            9.499999999999998,
+            4.630575955065
+          ],
+          [
+            9.599999999999998,
+            4.647696785424
+          ],
+          [
+            9.699999999999998,
+            4.664774919225
+          ],
+          [
+            9.799999999999995,
+            4.681823650381
+          ],
+          [
+            9.899999999999995,
+            4.698856205447
+          ],
+          [
+            9.999999999999995,
+            4.715885748056
+          ],
+          [
+            10.099999999999994,
+            4.732925450599
+          ],
+          [
+            10.199999999999994,
+            4.749988539658
+          ],
+          [
+            10.299999999999994,
+            4.767088408443
+          ],
+          [
+            10.399999999999993,
+            4.784238598949
+          ],
+          [
+            10.499999999999991,
+            4.80145291863
+          ],
+          [
+            10.59999999999999,
+            4.818745494141
+          ],
+          [
+            10.69999999999999,
+            4.836130829399
+          ],
+          [
+            10.79999999999999,
+            4.853623933214
+          ],
+          [
+            10.89999999999999,
+            4.871240323483
+          ],
+          [
+            10.99999999999999,
+            4.888996155278
+          ],
+          [
+            11.099999999999989,
+            4.906908356523
+          ],
+          [
+            11.199999999999989,
+            4.924994658867
+          ],
+          [
+            11.299999999999986,
+            4.943273755862
+          ],
+          [
+            11.399999999999986,
+            4.961765474341
+          ],
+          [
+            11.499999999999986,
+            4.980490836492
+          ],
+          [
+            11.599999999999985,
+            4.999472318266
+          ],
+          [
+            11.699999999999985,
+            5.018734005155
+          ],
+          [
+            11.799999999999985,
+            5.038301777129
+          ],
+          [
+            11.899999999999984,
+            5.058203638256
+          ],
+          [
+            11.999999999999982,
+            5.078469974885
+          ],
+          [
+            12.099999999999982,
+            5.099133863213
+          ],
+          [
+            12.199999999999982,
+            5.120231546194
+          ],
+          [
+            12.299999999999981,
+            5.141802859468
+          ],
+          [
+            12.39999999999998,
+            5.163891807181
+          ],
+          [
+            12.49999999999998,
+            5.186547246827
+          ],
+          [
+            12.59999999999998,
+            5.209823650108
+          ],
+          [
+            12.699999999999978,
+            5.233782155266
+          ],
+          [
+            12.799999999999978,
+            5.258491715785
+          ],
+          [
+            12.899999999999977,
+            5.284030586874
+          ],
+          [
+            12.999999999999977,
+            5.310488158819
+          ],
+          [
+            13.099999999999977,
+            5.33796724814
+          ],
+          [
+            13.199999999999976,
+            5.36658706967
+          ],
+          [
+            13.299999999999976,
+            5.396486926983
+          ],
+          [
+            13.399999999999974,
+            5.427831160942
+          ],
+          [
+            13.499999999999973,
+            5.460815622337
+          ],
+          [
+            13.599999999999973,
+            5.49567638432
+          ],
+          [
+            13.699999999999973,
+            5.532701749902
+          ],
+          [
+            13.799999999999972,
+            5.572248940634
+          ],
+          [
+            13.899999999999972,
+            5.614768196766
+          ],
+          [
+            13.999999999999972,
+            5.660838377308
+          ],
+          [
+            14.09999999999997,
+            5.711221258475
+          ],
+          [
+            14.199999999999969,
+            5.766948086869
+          ],
+          [
+            14.299999999999969,
+            5.829464200894
+          ],
+          [
+            14.399999999999968,
+            5.900885735369
+          ],
+          [
+            14.499999999999968,
+            5.98449268612
+          ],
+          [
+            14.599999999999968,
+            6.085778745654
+          ],
+          [
+            14.699999999999967,
+            6.215040210079
+          ],
+          [
+            14.799999999999965,
+            6.395383047259
+          ],
+          [
+            14.899999999999965,
+            6.700442093253
+          ],
+          [
+            14.999999999999964,
+            8.290374900569
+          ],
+          [
+            15.00565795898434,
+            8.699973092292
+          ]
+        ],
+        "endpoint_reached": true,
+        "event": "titrated",
+        "final_ph": 8.699973092292,
+        "steps": 151,
+        "titrant": "NaOH",
+        "total_volume": 0.01500565795898434,
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

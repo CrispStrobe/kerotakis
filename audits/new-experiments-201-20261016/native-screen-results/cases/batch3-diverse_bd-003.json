@@ -1,0 +1,811 @@
+{
+  "id": "batch3-diverse:bd-003",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "44d5bd3ae868a1f5791a72447d65c9a12bd51f9b53d83148925defc162c5719d",
+  "original_script_sha256": "44d5bd3ae868a1f5791a72447d65c9a12bd51f9b53d83148925defc162c5719d",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Photochemical conversion is established only if runtime exposes a supported light-dependent route and a consistent reagent/product ledger beyond the dark control. Merely accepting irradiate or displaying a wavelength is not such evidence.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Does this pinned engine actually couple light to peroxide conversion, or only store the illumination state?",
+      "review_instruction": "Photochemical conversion is established only if runtime exposes a supported light-dependent route and a consistent reagent/product ledger beyond the dark control. Merely accepting irradiate or displaying a wavelength is not such evidence.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: peroxide in the dark; v3: irradiated water without peroxide",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:bd-003",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.16858749900001158,
+    "script_sha256": "44d5bd3ae868a1f5791a72447d65c9a12bd51f9b53d83148925defc162c5719d",
+    "stdout_sha256": "c7b4d65ca37ea09e85bc564489de59dcc976bf5e1934756c2170ec9760a16b85",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 19,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 2.2137107965584235,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0001,
+      "op": "add",
+      "species": "H2O2",
+      "vessel": 0
+    },
+    {
+      "moles": 2.2137107965584235,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0001,
+      "op": "add",
+      "species": "H2O2",
+      "vessel": 1
+    },
+    {
+      "moles": 2.2137107965584235,
+      "op": "add",
+      "species": "water",
+      "vessel": 2
+    },
+    {
+      "headspace_volume": 0.5,
+      "op": "seal",
+      "vessel": 0
+    },
+    {
+      "headspace_volume": 0.5,
+      "op": "seal",
+      "vessel": 1
+    },
+    {
+      "headspace_volume": 0.5,
+      "op": "seal",
+      "vessel": 2
+    },
+    {
+      "irradiance_w_m2": 1.0,
+      "op": "irradiate",
+      "vessel": 0,
+      "wavelength_nm": 254.0
+    },
+    {
+      "irradiance_w_m2": 1.0,
+      "op": "irradiate",
+      "vessel": 2,
+      "wavelength_nm": 254.0
+    },
+    {
+      "op": "wait",
+      "seconds": 600.0
+    },
+    {
+      "instrument": "pressure_gauge",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "pressure_gauge",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "pressure_gauge",
+      "op": "measure",
+      "vessel": 2
+    },
+    {
+      "op": "particles",
+      "vessel": 0
+    },
+    {
+      "op": "particles",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 2,
+    "added": 5,
+    "solution_routed": 6,
+    "vessel_sealed": 3,
+    "headspace_equilibrated": 8,
+    "solution_characterized": 8,
+    "irradiated": 2,
+    "neutralised": 2,
+    "gas_contained": 2,
+    "measured": 3
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 18,
+      "output_sequence": 18,
+      "step": 16,
+      "state": {
+        "co2_partial_pressure_atm": 0.00037117857853818557,
+        "contents": [
+          {
+            "moles": 9.951372422873313e-05,
+            "phase": "liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 0.016147291289336348,
+            "phase": "gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.004281799301809142,
+            "phase": "gas",
+            "species": "O2"
+          },
+          {
+            "moles": 5.033805983797847e-07,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 9.457627562884339e-08,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 1.880383251202031e-12,
+            "phase": "aqueous",
+            "species": "CO3-2"
+          },
+          {
+            "moles": 7.576850150473e-06,
+            "phase": "gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 2.2137111882560387,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 9.458003639301049e-08,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 600.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.686476926735707e-10,
+        "free_proton": 9.474868408801164e-08,
+        "headspace": {
+          "boundary": "sealed",
+          "volume": 0.5
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.2137107965584235,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "H2O2",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101323.31231307542,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -9.45800363953458e-08,
+        "solution": {
+          "ionic_strength": 2.375891366749e-06,
+          "pe": null,
+          "ph": 5.624964661072,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.03988000705643,
+          "species": [
+            {
+              "activity": 1.0,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 1.262e-05,
+              "molality": 1.262e-05,
+              "name": "CO2"
+            },
+            {
+              "activity": 2.372e-06,
+              "molality": 2.376e-06,
+              "name": "H+"
+            },
+            {
+              "activity": 2.367e-06,
+              "molality": 2.372e-06,
+              "name": "HCO3-"
+            },
+            {
+              "activity": 4.221e-09,
+              "molality": 4.229e-09,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1502103474812,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 18,
+      "output_sequence": 18,
+      "step": 16,
+      "state": {
+        "co2_partial_pressure_atm": 0.00037117857853818557,
+        "contents": [
+          {
+            "moles": 9.951372422873313e-05,
+            "phase": "liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 0.016147291289336348,
+            "phase": "gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.004281799301809142,
+            "phase": "gas",
+            "species": "O2"
+          },
+          {
+            "moles": 5.033805983797847e-07,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 9.457627562884339e-08,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 1.880383251202031e-12,
+            "phase": "aqueous",
+            "species": "CO3-2"
+          },
+          {
+            "moles": 7.576850150474e-06,
+            "phase": "gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 2.2137111882560387,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 9.458003639301049e-08,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 600.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.686476926735707e-10,
+        "free_proton": 9.474868408801164e-08,
+        "headspace": {
+          "boundary": "sealed",
+          "volume": 0.5
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.2137107965584235,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "H2O2",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101323.31231307542,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -9.45800363953458e-08,
+        "solution": {
+          "ionic_strength": 2.375891366749e-06,
+          "pe": null,
+          "ph": 5.624964661072,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.03988000705643,
+          "species": [
+            {
+              "activity": 1.0,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 1.262e-05,
+              "molality": 1.262e-05,
+              "name": "CO2"
+            },
+            {
+              "activity": 2.372e-06,
+              "molality": 2.376e-06,
+              "name": "H+"
+            },
+            {
+              "activity": 2.367e-06,
+              "molality": 2.372e-06,
+              "name": "HCO3-"
+            },
+            {
+              "activity": 4.221e-09,
+              "molality": 4.229e-09,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1502103474812,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 18,
+      "output_sequence": 18,
+      "step": 16,
+      "state": {
+        "co2_partial_pressure_atm": 0.00037117714787583916,
+        "contents": [
+          {
+            "moles": 0.016147291289336348,
+            "phase": "gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.004281556163923509,
+            "phase": "gas",
+            "species": "O2"
+          },
+          {
+            "moles": 5.033816109644659e-07,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 9.45763028206612e-08,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 1.880379076985073e-12,
+            "phase": "aqueous",
+            "species": "CO3-2"
+          },
+          {
+            "moles": 7.576849110703e-06,
+            "phase": "gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 2.2137107019802404,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 9.45800635865357e-08,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 600.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.6864629708895558e-10,
+        "free_proton": 9.474870987589324e-08,
+        "headspace": {
+          "boundary": "sealed",
+          "volume": 0.5
+        },
+        "id": 2,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.2137107965584235,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101322.05833455465,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -9.458006357881517e-08,
+        "solution": {
+          "ionic_strength": 2.375892535183e-06,
+          "pe": null,
+          "ph": 5.624964447528,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.03987999829617,
+          "species": [
+            {
+              "activity": 1.0,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 1.262e-05,
+              "molality": 1.262e-05,
+              "name": "CO2"
+            },
+            {
+              "activity": 2.372e-06,
+              "molality": 2.376e-06,
+              "name": "H+"
+            },
+            {
+              "activity": 2.367e-06,
+              "molality": 2.372e-06,
+              "name": "HCO3-"
+            },
+            {
+              "activity": 4.221e-09,
+              "molality": 4.229e-09,
+              "name": "OH-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1500675850714,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 13,
+      "operator": {
+        "instrument": "pressure_gauge",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "pressure_gauge",
+        "unit": "kPa",
+        "value": 101.32331231307542,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 14,
+      "operator": {
+        "instrument": "pressure_gauge",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "pressure_gauge",
+        "unit": "kPa",
+        "value": 101.32331231307542,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 15,
+      "operator": {
+        "instrument": "pressure_gauge",
+        "op": "measure",
+        "vessel": 2
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "pressure_gauge",
+        "unit": "kPa",
+        "value": 101.32205833455465,
+        "vessel": 2
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

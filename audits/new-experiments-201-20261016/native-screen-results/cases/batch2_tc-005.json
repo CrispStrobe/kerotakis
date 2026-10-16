@@ -1,0 +1,433 @@
+{
+  "id": "batch2:tc-005",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "88a3f2c379ebddb1463d8e105c03d3c06d7ceda35c53039e1775423529275ded",
+  "original_script_sha256": "88a3f2c379ebddb1463d8e105c03d3c06d7ceda35c53039e1775423529275ded",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "A pressure-aware phase model predicts a higher water boiling temperature at 2 bar and a different sensible-versus-latent allocation of the same heat.",
+  "original_acceptance_checks": [
+    {
+      "id": "TC-005-C1",
+      "criterion": "Check actual pressure and phase inventories rather than assuming the regulator has no mass exchange.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "TC-005-C2",
+      "criterion": "Compare any reported boiling points with the operative vessel pressure, not automatically with a 1 bar reference value.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:tc-005",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.1172391320000088,
+    "script_sha256": "88a3f2c379ebddb1463d8e105c03d3c06d7ceda35c53039e1775423529275ded",
+    "stdout_sha256": "42f480cf64d401418872c9bc62552d6b03b503193bdd5e59f9815afc96ccc75f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 14,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "at": 298.15,
+      "moles": 1.1101859561476548,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "initial_volume": 0.1,
+      "op": "regulate",
+      "pressure": 100000.0,
+      "vessel": 0
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "at": 298.15,
+      "moles": 1.1101859561476548,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "initial_volume": 0.1,
+      "op": "regulate",
+      "pressure": 200000.0,
+      "vessel": 1
+    },
+    {
+      "energy": 8000.0,
+      "op": "heat",
+      "vessel": 0
+    },
+    {
+      "energy": 8000.0,
+      "op": "heat",
+      "vessel": 1
+    },
+    {
+      "instrument": "thermometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "thermometer",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "pressure_gauge",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "pressure_gauge",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "boiling_point_apparatus",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "boiling_point_apparatus",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 2,
+    "solution_routed": 4,
+    "vessel_pressure_controlled": 2,
+    "headspace_equilibrated": 4,
+    "solution_characterized": 4,
+    "vessel_created": 1,
+    "temperature_changed": 2,
+    "energy_transferred": 2,
+    "gas_contained": 4,
+    "boiling_point_routed": 2,
+    "state_changed": 2,
+    "measured": 4,
+    "transition_point_read": 2
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 13,
+      "output_sequence": 13,
+      "step": 13,
+      "state": {
+        "co2_partial_pressure_atm": 0.0007156407550220963,
+        "contents": [
+          {
+            "moles": 0.003187227493577369,
+            "phase": "gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.000845113479185494,
+            "phase": "gas",
+            "species": "O2"
+          },
+          {
+            "moles": 6.939980547484281e-08,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 1.3823436292611902e-08,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 1.530357057277e-06,
+            "phase": "gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 1.0674324064971479,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 1.3817345134812392e-08,
+            "phase": "aqueous",
+            "species": "H+"
+          },
+          {
+            "moles": 0.0427535358301161,
+            "phase": "gas",
+            "species": "water"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.4771743898681875e-08,
+        "free_proton": 2.859634056059754e-08,
+        "headspace": {
+          "boundary": "pressure_controlled",
+          "pressure": 100000.0,
+          "volume": 1.450171885514699
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 1.1101859561476548,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 100000.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -1.3823436292611902e-08,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 372.78318778085423,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 13,
+      "output_sequence": 13,
+      "step": 13,
+      "state": {
+        "co2_partial_pressure_atm": 0.0014314406831197081,
+        "contents": [
+          {
+            "moles": 0.006374454987154738,
+            "phase": "gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.001690226958370988,
+            "phase": "gas",
+            "species": "O2"
+          },
+          {
+            "moles": 1.390951700433937e-07,
+            "phase": "aqueous",
+            "species": "CO2(aq)"
+          },
+          {
+            "moles": 2.2782330450060945e-08,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 3.065284412332e-06,
+            "phase": "gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 1.0684121834413556,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 2.2775407081121468e-08,
+            "phase": "aqueous",
+            "species": "H+"
+          },
+          {
+            "moles": 0.04177374992743054,
+            "phase": "gas",
+            "species": "water"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.2074921599009314e-08,
+        "free_proton": 3.4858824068528074e-08,
+        "headspace": {
+          "boundary": "pressure_controlled",
+          "pressure": 200000.0,
+          "volume": 0.7731766341613848
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 1.1101859561476548,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 200000.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -2.2782330450060945e-08,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 373.15000535678695,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 7,
+      "operator": {
+        "instrument": "thermometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 99.63318778085426,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 8,
+      "operator": {
+        "instrument": "thermometer",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 100.00000535678697,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 9,
+      "operator": {
+        "instrument": "pressure_gauge",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "pressure_gauge",
+        "unit": "kPa",
+        "value": 100.0,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 10,
+      "operator": {
+        "instrument": "pressure_gauge",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "pressure_gauge",
+        "unit": "kPa",
+        "value": 200.0,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "boiling_point_apparatus",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "transition_point_read",
+        "reading": {
+          "boundary": "the direction is a law and is claimed: a mixture melts below its lowest-melting pure component and over a range, not at a point. The SIZE of the depression is not claimed — that needs the cryoscopic constant and enthalpy of fusion of the major component, and this registry curates neither for solids other than water",
+          "components": [
+            "water"
+          ],
+          "kind": "boiling",
+          "lowest_component_c": 100.0,
+          "outcome": null,
+          "source": null,
+          "species": "water",
+          "value_c": null,
+          "verdict": "not_isolated"
+        },
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 12,
+      "operator": {
+        "instrument": "boiling_point_apparatus",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "transition_point_read",
+        "reading": {
+          "boundary": "the direction is a law and is claimed: a mixture melts below its lowest-melting pure component and over a range, not at a point. The SIZE of the depression is not claimed — that needs the cryoscopic constant and enthalpy of fusion of the major component, and this registry curates neither for solids other than water",
+          "components": [
+            "water"
+          ],
+          "kind": "boiling",
+          "lowest_component_c": 100.0,
+          "outcome": null,
+          "source": null,
+          "species": "water",
+          "value_c": null,
+          "verdict": "not_isolated"
+        },
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

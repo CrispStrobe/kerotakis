@@ -1,0 +1,457 @@
+{
+  "id": "batch3-diverse:en-009",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "3b76c39e6e1d6151cb9f0bc1d6351ef2f277c4aae1a0001d11d368e26bf4fb16",
+  "original_script_sha256": "3b76c39e6e1d6151cb9f0bc1d6351ef2f277c4aae1a0001d11d368e26bf4fb16",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Compare incremental, not cumulative, hydrolysis across acidic, near-neutral and reacidified intervals. Activity may recover in the final interval if the pH gate is restored.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Can changing the solution acidity pause modelled digestion and permit renewed activity without adding more pepsin?",
+      "review_instruction": "Compare incremental, not cumulative, hydrolysis across acidic, near-neutral and reacidified intervals. Activity may recover in the final interval if the pH gate is restored.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:en-009",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11694378199999278,
+    "script_sha256": "3b76c39e6e1d6151cb9f0bc1d6351ef2f277c4aae1a0001d11d368e26bf4fb16",
+    "stdout_sha256": "00e1183ac4ae40c1513ada32d574aa497d1acd3d1a617c8400fbf7146ab1fc68",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 14,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "at": 310.15,
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "gelatin",
+      "op": "add_material",
+      "recipe_id": "food/gelatin",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 0.5,
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "HCl",
+      "vessel": 0
+    },
+    {
+      "moles": 1.4492753623188406e-06,
+      "op": "add",
+      "species": "pepsin",
+      "vessel": 0
+    },
+    {
+      "op": "wait",
+      "seconds": 600.0
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "NaOH",
+      "vessel": 0
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "wait",
+      "seconds": 600.0
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "HCl",
+      "vessel": 0
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "wait",
+      "seconds": 600.0
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "temperature_changed": 6,
+    "added": 5,
+    "solution_routed": 2,
+    "material_added": 1,
+    "solution_characterized": 7,
+    "enzyme_hydrolysed": 3,
+    "dissolved": 1,
+    "neutralised": 1,
+    "measured": 2
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 13,
+      "output_sequence": 13,
+      "step": 11,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 1.4492753623188406e-06,
+            "phase": "aqueous",
+            "species": "pepsin"
+          },
+          {
+            "moles": 0.002,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 5.538052456286429,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 1800.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.9860637197903778e-13,
+        "free_proton": 0.0010000000001987393,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.002775464890369137,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "material recipe food/gelatin",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "HCl",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 1.4492753623188406e-06,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "pepsin",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 600.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "NaOH",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 1200.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "HCl",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 3.871294283246797e-07,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.001,
+        "solution": {
+          "ionic_strength": 0.02004650488635,
+          "pe": null,
+          "ph": 2.050375854227,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.099768015,
+          "species": [
+            {
+              "activity": 0.9993,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.01736,
+              "molality": 0.02005,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.008905,
+              "molality": 0.01002,
+              "name": "H+"
+            },
+            {
+              "activity": 0.00873,
+              "molality": 0.01002,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0002444,
+              "molality": 0.0002433,
+              "name": "O2"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 303.9775597709014,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 0.45,
+            "basis": "mass_fraction",
+            "enzyme_hydrolysis": {
+              "carried_enzyme_denatured": false,
+              "converted_fraction": 0.7235334451090351,
+              "family": "pepsin"
+            },
+            "material": "gelatin",
+            "protein_denatured_fraction": 1.0,
+            "recipe_id": "food/gelatin",
+            "recipe_version": 1
+          }
+        ]
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 4,
+      "operator": {
+        "op": "wait",
+        "seconds": 600.0
+      },
+      "event": {
+        "converted_fraction": 0.4798101721769471,
+        "event": "enzyme_hydrolysed",
+        "family": "pepsin",
+        "hydrolysed_mass_g": 0.2159145774796262,
+        "material": "gelatine (dry sheets)",
+        "seconds": 600.0,
+        "substrate": "gelatine protein",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 7,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 6.846674059546,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 8,
+      "operator": {
+        "op": "wait",
+        "seconds": 600.0
+      },
+      "event": {
+        "converted_fraction": 0.47985977701979343,
+        "event": "enzyme_hydrolysed",
+        "family": "pepsin",
+        "hydrolysed_mass_g": 2.232217928084812e-05,
+        "material": "gelatine (dry sheets)",
+        "seconds": 600.0,
+        "substrate": "gelatine protein",
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 2.050516552096,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 12,
+      "operator": {
+        "op": "wait",
+        "seconds": 600.0
+      },
+      "event": {
+        "converted_fraction": 0.7235334451090351,
+        "event": "enzyme_hydrolysed",
+        "family": "pepsin",
+        "hydrolysed_mass_g": 0.10965315064015874,
+        "material": "gelatine (dry sheets)",
+        "seconds": 600.0,
+        "substrate": "gelatine protein",
+        "vessel": 0
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

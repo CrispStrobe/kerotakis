@@ -1,0 +1,418 @@
+{
+  "id": "batch2:qa-009",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "b54310ae3f3a1ecb87c44c577fd34538c688865994381b47371a4a7411d89446",
+  "original_script_sha256": "b54310ae3f3a1ecb87c44c577fd34538c688865994381b47371a4a7411d89446",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Approximately 0.5 mmol BaSO4 should be retained, while chloride-rich solution passes into the filtrate; the precipitate is not the total salt mass.",
+  "original_acceptance_checks": [
+    {
+      "id": "QA-009-C1",
+      "criterion": "Use the BaSO4 solid inventory to infer 0.5 mmol sulfate, not the mass of the whole wet vessel.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "QA-009-C2",
+      "criterion": "Chloride remains predominantly in the filtrate and contributes no sulfate-equivalent precipitate.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:qa-009",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11671571000000824,
+    "script_sha256": "b54310ae3f3a1ecb87c44c577fd34538c688865994381b47371a4a7411d89446",
+    "stdout_sha256": "ee0d5f7d9410fb0c33b30ff11d71fe8c61a958690d0597113764242e1a93003e",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 10,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0005,
+      "op": "add",
+      "species": "Na2SO4",
+      "vessel": 0
+    },
+    {
+      "moles": 0.002,
+      "op": "add",
+      "species": "NaCl",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0006,
+      "op": "add",
+      "species": "BaCl2",
+      "vessel": 0
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "from": 0,
+      "op": "filter",
+      "to": 1
+    },
+    {
+      "instrument": "balance",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "inspect"
+    },
+    {
+      "instrument": "conductivity_meter",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 4,
+    "solution_routed": 3,
+    "dissolved": 3,
+    "solution_characterized": 4,
+    "temperature_changed": 2,
+    "precipitated": 1,
+    "neutralised": 1,
+    "vessel_created": 1,
+    "filtered": 1,
+    "measured": 2
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 9,
+      "output_sequence": 9,
+      "step": 8,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.0004999518554401,
+            "phase": "solid",
+            "species": "BaSO4"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.1657403724559852e-08,
+        "free_proton": 1.1677443236629541e-08,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "Na2SO4",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.002,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "NaCl",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0006,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "BaCl2",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 2.277274151426094e-16,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 298.13430625602723,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 9,
+      "output_sequence": 9,
+      "step": 8,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.00010004814455986687,
+            "phase": "aqueous",
+            "species": "Ba+2"
+          },
+          {
+            "moles": 0.0031999999999999195,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.003000000000000236,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 4.814455991121639e-08,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 5.534276991396059,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.165740364564327e-08,
+        "free_proton": 1.167744314970286e-08,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 2.277274019077196e-16,
+        "solution": {
+          "ionic_strength": 0.03310107153869,
+          "pe": 13.63678995188,
+          "ph": 6.991683731754,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [
+            {
+              "element": "S",
+              "molality": 4.828942818178e-07,
+              "oxidation": 6
+            }
+          ],
+          "solvent_kg": 0.0997,
+          "species": [
+            {
+              "activity": 0.9989,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.02693,
+              "molality": 0.0321,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.02547,
+              "molality": 0.03009,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0005197,
+              "molality": 0.001003,
+              "name": "Ba+2"
+            },
+            {
+              "activity": 0.0002678,
+              "molality": 0.0002657,
+              "name": "O2"
+            },
+            {
+              "activity": 2.059e-07,
+              "molality": 3.988e-07,
+              "name": "SO4-2"
+            },
+            {
+              "activity": 1.019e-07,
+              "molality": 1.171e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 9.799e-08,
+              "molality": 1.169e-07,
+              "name": "OH-"
+            },
+            {
+              "activity": 5.363e-08,
+              "molality": 5.322e-08,
+              "name": "BaSO4"
+            },
+            {
+              "activity": 2.628e-08,
+              "molality": 3.089e-08,
+              "name": "NaSO4-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1343046931752,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 6,
+      "operator": {
+        "instrument": "balance",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "balance",
+        "unit": "g",
+        "value": 0.11668026387817687,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 8,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "unit": "µS/cm",
+        "value": 3730.3420910657537,
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

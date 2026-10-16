@@ -1,0 +1,811 @@
+{
+  "id": "batch2:ab-034",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "2450659854651908a4b29eb4476e8c2c8d10cb5d2ae8b8a1d936fc21c7bca953",
+  "original_script_sha256": "2450659854651908a4b29eb4476e8c2c8d10cb5d2ae8b8a1d936fc21c7bca953",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "One equivalent predominantly gives dihydrogen phosphate; two give hydrogen phosphate; a further half equivalent probes the third, high-pH region. These are different species distributions, not the same neutral salt.",
+  "original_acceptance_checks": [
+    {
+      "id": "AB-034-C1",
+      "criterion": "Use solved phosphate species to interpret each pH, rather than assigning every neutralised salt pH seven.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "AB-034-C2",
+      "criterion": "Total phosphorus is 1 mmol in each vessel.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:ab-034",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11783573099999956,
+    "script_sha256": "2450659854651908a4b29eb4476e8c2c8d10cb5d2ae8b8a1d936fc21c7bca953",
+    "stdout_sha256": "7f86acf163df592bf39fefec2236d5097ed68bb691cc8674b5f6c4deafad0e06",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 15,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "H3PO4",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "NaOH",
+      "vessel": 0
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "H3PO4",
+      "vessel": 1
+    },
+    {
+      "moles": 0.002,
+      "op": "add",
+      "species": "NaOH",
+      "vessel": 1
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 2
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "H3PO4",
+      "vessel": 2
+    },
+    {
+      "moles": 0.0025,
+      "op": "add",
+      "species": "NaOH",
+      "vessel": 2
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 2
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 9,
+    "solution_routed": 6,
+    "solution_characterized": 6,
+    "temperature_changed": 9,
+    "dissolved": 3,
+    "neutralised": 3,
+    "vessel_created": 2,
+    "measured": 3
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 14,
+      "output_sequence": 14,
+      "step": 14,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 2.4974194078617076e-06,
+            "phase": "aqueous",
+            "species": "H3PO4"
+          },
+          {
+            "moles": 0.0009931655225232613,
+            "phase": "aqueous",
+            "species": "H2PO4-"
+          },
+          {
+            "moles": 4.337057910740605e-06,
+            "phase": "aqueous",
+            "species": "HPO4-2"
+          },
+          {
+            "moles": 5.5352769913966915,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 1.8396375540599003e-06,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 5.7706266932771804e-11,
+        "free_proton": 2.180233120702382e-06,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "H3PO4",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "NaOH",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -1.8396383447424577e-06,
+        "solution": {
+          "ionic_strength": 0.01009020374163,
+          "pe": null,
+          "ph": 4.705253300499,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.099718015,
+          "species": [
+            {
+              "activity": 0.9997,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.009037,
+              "molality": 0.01002,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.009007,
+              "molality": 0.009956,
+              "name": "H2PO4-"
+            },
+            {
+              "activity": 0.0002515,
+              "molality": 0.0002509,
+              "name": "O2"
+            },
+            {
+              "activity": 2.899e-05,
+              "molality": 4.348e-05,
+              "name": "HPO4-2"
+            },
+            {
+              "activity": 2.503e-05,
+              "molality": 2.503e-05,
+              "name": "H3PO4"
+            },
+            {
+              "activity": 1.971e-05,
+              "molality": 2.187e-05,
+              "name": "H+"
+            },
+            {
+              "activity": 3.095e-06,
+              "molality": 3.421e-06,
+              "name": "NaHPO4-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.4093648455138,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 14,
+      "output_sequence": 14,
+      "step": 14,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.002,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 4.779897430579831e-06,
+            "phase": "aqueous",
+            "species": "H2PO4-"
+          },
+          {
+            "moles": 0.00099326633524568,
+            "phase": "aqueous",
+            "species": "HPO4-2"
+          },
+          {
+            "moles": 1.9537670412130733e-06,
+            "phase": "aqueous",
+            "species": "PO4-3"
+          },
+          {
+            "moles": 5.536274165264821,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 2.826132367055728e-06,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 2.5234601928951377e-06,
+        "free_proton": 5.6842757130232566e-11,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "H3PO4",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.002,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "NaOH",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 2.8261309544210213e-06,
+        "solution": {
+          "ionic_strength": 0.02792408438765,
+          "pe": null,
+          "ph": 9.312823480792,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.099735979,
+          "species": [
+            {
+              "activity": 0.9995,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.0162,
+              "molality": 0.01898,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.004801,
+              "molality": 0.008892,
+              "name": "HPO4-2"
+            },
+            {
+              "activity": 0.0009228,
+              "molality": 0.001074,
+              "name": "NaHPO4-"
+            },
+            {
+              "activity": 0.0002445,
+              "molality": 0.0002429,
+              "name": "O2"
+            },
+            {
+              "activity": 3.678e-05,
+              "molality": 4.28e-05,
+              "name": "H2PO4-"
+            },
+            {
+              "activity": 2.146e-05,
+              "molality": 2.531e-05,
+              "name": "OH-"
+            },
+            {
+              "activity": 4.202e-06,
+              "molality": 1.749e-05,
+              "name": "PO4-3"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.64228730656805,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 14,
+      "output_sequence": 14,
+      "step": 14,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.0025,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 2.983492641047693e-08,
+            "phase": "aqueous",
+            "species": "H2PO4-"
+          },
+          {
+            "moles": 0.0007926755828334176,
+            "phase": "aqueous",
+            "species": "HPO4-2"
+          },
+          {
+            "moles": 0.00020729458224015646,
+            "phase": "aqueous",
+            "species": "PO4-3"
+          },
+          {
+            "moles": 5.536484256143373,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.000292735252686362,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 0.0003138151993108677,
+        "free_proton": 4.771443323259691e-13,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 2,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "H3PO4",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0025,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "NaOH",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 0.0002927352526862851,
+        "solution": {
+          "ionic_strength": 0.03678499856952,
+          "pe": null,
+          "ph": 11.39648795084,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.099739764,
+          "species": [
+            {
+              "activity": 0.9994,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.02016,
+              "molality": 0.02405,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.003596,
+              "molality": 0.00714,
+              "name": "HPO4-2"
+            },
+            {
+              "activity": 0.002616,
+              "molality": 0.003147,
+              "name": "OH-"
+            },
+            {
+              "activity": 0.0003822,
+              "molality": 0.001866,
+              "name": "PO4-3"
+            },
+            {
+              "activity": 0.0008617,
+              "molality": 0.00102,
+              "name": "NaHPO4-"
+            },
+            {
+              "activity": 0.0002424,
+              "molality": 0.0002403,
+              "name": "O2"
+            },
+            {
+              "activity": 2.272e-07,
+              "molality": 2.688e-07,
+              "name": "H2PO4-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.713429906162,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 4.705253300499,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 12,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 9.312823480792,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 13,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 2
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 11.39648795084,
+        "vessel": 2
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

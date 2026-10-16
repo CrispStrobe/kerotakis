@@ -49,6 +49,28 @@
         "batch3-diverse:so-001",
         "batch3-diverse:so-003"
       ]
+    },
+    {
+      "id": "MODEL-007",
+      "record": "MODEL-007.json",
+      "new_design_ids": [
+        "batch3-diverse:tr-003",
+        "batch3-diverse:tr-007"
+      ]
+    },
+    {
+      "id": "MODEL-008",
+      "record": "MODEL-008.json",
+      "new_design_ids": [
+        "batch2:ab-029"
+      ]
+    },
+    {
+      "id": "MODEL-009",
+      "record": "MODEL-009.json",
+      "new_design_ids": [
+        "batch3-diverse:an-001"
+      ]
     }
   ],
   "protocol_owner": "separate protocol agent; see docs/reaction-repair-lane-contract.md"

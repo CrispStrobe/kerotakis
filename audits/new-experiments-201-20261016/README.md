@@ -141,8 +141,9 @@ observations and incubation times. CLI exits and JSON ingestion remain engineeri
 outcomes until the saved physical forecasts are assessed. [Run38871207777](https://github.com/CrispStrobe/kerotakis/actions/runs/38871207777)
 is dispatched once; the [dispatch binding](native-screen-dispatch.json) records
 its isolated workflow head and immutable input checkout. This validation ref
-must never merge. Completion and physical assessment remain pending; dispatch
-is not an execution or pass claim.
+must never merge. [Execution is now complete](native-screen-results/README.md):201 attempts,
+198 zero exits and three nonzero exits, with all raw bindings verified. Physical
+forecast assessment remains separate and pending; zero exits are not passes.
 
 ## Independent viewer follow-up
 

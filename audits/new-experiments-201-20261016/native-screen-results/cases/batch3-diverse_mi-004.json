@@ -1,0 +1,732 @@
+{
+  "id": "batch3-diverse:mi-004",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "c0fcae433eac68716476e1f8975727b86ae627ebefa1278b748931898b42c663",
+  "original_script_sha256": "c0fcae433eac68716476e1f8975727b86ae627ebefa1278b748931898b42c663",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "The doses contain equal total copper but different hydroxide counts and counteranions. If both minerals dissolve, residual acidity and released anions can differ even when copper-associated signals are similar.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Can chloride-bearing atacamite and sulfate-bearing antlerite be distinguished after matching their copper content?",
+      "review_instruction": "The doses contain equal total copper but different hydroxide counts and counteranions. If both minerals dissolve, residual acidity and released anions can differ even when copper-associated signals are similar.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:mi-004",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11770086199999241,
+    "script_sha256": "c0fcae433eac68716476e1f8975727b86ae627ebefa1278b748931898b42c663",
+    "stdout_sha256": "f0bc6c582eb27db5653ca8e9c03ac67a7f5639be8f8111eae8be58e5d31e7b42",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 14,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0003,
+      "op": "add",
+      "species": "atacamite",
+      "vessel": 0
+    },
+    {
+      "moles": 2.7671384956980294,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0002,
+      "op": "add",
+      "species": "antlerite",
+      "vessel": 1
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "HCl",
+      "vessel": 0
+    },
+    {
+      "moles": 0.001,
+      "op": "add",
+      "species": "HCl",
+      "vessel": 1
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "spectrophotometer",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "particles",
+      "vessel": 0
+    },
+    {
+      "op": "particles",
+      "vessel": 1
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 1,
+    "added": 6,
+    "solution_routed": 4,
+    "dissolved": 5,
+    "precipitated": 2,
+    "solution_characterized": 4,
+    "not_yet_modeled": 3,
+    "neutralised": 1,
+    "measured": 2
+  },
+  "named_model_limits": {
+    "not-modeled.supersaturated-below-formation-temperature": {
+      "first_observation_index": 2,
+      "first_operator": {
+        "moles": 0.0003,
+        "op": "add",
+        "species": "atacamite",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "model-boundary",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "the solution is supersaturated against {phases}, deliberately withheld below the registry's formation-temperature threshold at {temperature} °C. This is a curated metastability boundary, not a computed nucleation or growth rate",
+          "key": "not-modeled.supersaturated-below-formation-temperature",
+          "slots": [
+            [
+              "phases",
+              {
+                "text": {
+                  "text": "Tenorite (SI +1.0)"
+                }
+              }
+            ],
+            [
+              "temperature",
+              {
+                "number": {
+                  "text": "25"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "the solution is supersaturated against Tenorite (SI +1.0), deliberately withheld below the registry's formation-temperature threshold at 25 °C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+      },
+      "occurrences": 1
+    },
+    "not-modeled.incomplete-absorbance": {
+      "first_observation_index": 9,
+      "first_operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "cause": "model-boundary",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "complete absorbance is unavailable: no absorption spectrum for {species}",
+          "key": "not-modeled.incomplete-absorbance",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "CuCl+",
+                        "section": "species"
+                      }
+                    },
+                    {
+                      "term": {
+                        "en": "CuCl2",
+                        "section": "species"
+                      }
+                    },
+                    {
+                      "term": {
+                        "en": "CuOH+",
+                        "section": "species"
+                      }
+                    },
+                    {
+                      "term": {
+                        "en": "Cu2(OH)2+2",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "complete absorbance is unavailable: no absorption spectrum for CuCl+, CuCl2, CuOH+ and Cu2(OH)2+2"
+      },
+      "occurrences": 2
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 13,
+      "output_sequence": 13,
+      "step": 11,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.0012999999999999986,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.000599999999999731,
+            "phase": "aqueous",
+            "species": "Cu+2"
+          },
+          {
+            "moles": 2.7680384956980295,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 9.999999999999994e-05,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 3.4596167961623613e-13,
+        "free_proton": 0.00010000218210762023,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0003,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "atacamite",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "HCl",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.00010000000000053673,
+        "solution": {
+          "ionic_strength": 0.03726159859924,
+          "pe": 17.86696623432,
+          "ph": 2.760477495781,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [
+            {
+              "element": "Cu",
+              "molality": 0.01203219997817,
+              "oxidation": 2
+            }
+          ],
+          "solvent_kg": 0.049866213,
+          "species": [
+            {
+              "activity": 0.9993,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.02133,
+              "molality": 0.02565,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.006022,
+              "molality": 0.01161,
+              "name": "Cu+2"
+            },
+            {
+              "activity": 0.001736,
+              "molality": 0.002005,
+              "name": "H+"
+            },
+            {
+              "activity": 0.0003457,
+              "molality": 0.0004143,
+              "name": "CuCl+"
+            },
+            {
+              "activity": 0.0002677,
+              "molality": 0.0002654,
+              "name": "O2"
+            },
+            {
+              "activity": 3.961e-06,
+              "molality": 3.927e-06,
+              "name": "CuCl2"
+            },
+            {
+              "activity": 3.466e-08,
+              "molality": 4.154e-08,
+              "name": "CuOH+"
+            },
+            {
+              "activity": 5.258e-10,
+              "molality": 1.067e-09,
+              "name": "Cu2(OH)2+2"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 13,
+      "output_sequence": 13,
+      "step": 11,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0006000000004262776,
+            "phase": "aqueous",
+            "species": "Cu+2"
+          },
+          {
+            "moles": 0.00020000000042721724,
+            "phase": "aqueous",
+            "species": "SO4-2"
+          },
+          {
+            "moles": 2.7679384956963204,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.00020000000341773797,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.9333519269608167e-13,
+        "free_proton": 0.00017914776066086464,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.7671384956980294,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0002,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "antlerite",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "HCl",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.0002000000000018794,
+        "solution": {
+          "ionic_strength": 0.03761796929601,
+          "pe": 18.11991643848,
+          "ph": 2.507449963238,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added",
+            "routing_phrase": {
+              "en": "{routing}. {note}",
+              "key": "routing.with-redox-note",
+              "slots": [
+                [
+                  "routing",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "the default inorganic aqueous dataset",
+                        "key": "routing.default-inorganic"
+                      }
+                    }
+                  }
+                ],
+                [
+                  "note",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added",
+                        "key": "routing.slow-couples-held-as-added"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          "redox": [
+            {
+              "element": "Cu",
+              "molality": 0.01203262934649,
+              "oxidation": 2
+            },
+            {
+              "element": "S",
+              "molality": 0.004010876454548,
+              "oxidation": 6
+            }
+          ],
+          "solvent_kg": 0.049864412,
+          "species": [
+            {
+              "activity": 0.9993,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.01643,
+              "molality": 0.01976,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.005417,
+              "molality": 0.01047,
+              "name": "Cu+2"
+            },
+            {
+              "activity": 0.003108,
+              "molality": 0.003593,
+              "name": "H+"
+            },
+            {
+              "activity": 0.001159,
+              "molality": 0.002322,
+              "name": "SO4-2"
+            },
+            {
+              "activity": 0.001282,
+              "molality": 0.001271,
+              "name": "CuSO4"
+            },
+            {
+              "activity": 0.0003504,
+              "molality": 0.0004182,
+              "name": "HSO4-"
+            },
+            {
+              "activity": 0.0002395,
+              "molality": 0.0002872,
+              "name": "CuCl+"
+            },
+            {
+              "activity": 0.0002677,
+              "molality": 0.0002654,
+              "name": "O2"
+            },
+            {
+              "activity": 2.113e-06,
+              "molality": 2.095e-06,
+              "name": "CuCl2"
+            },
+            {
+              "activity": 1.742e-08,
+              "molality": 2.088e-08,
+              "name": "CuOH+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 7,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 2.760477495781,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 8,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 2.507449963238,
+        "vessel": 1
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

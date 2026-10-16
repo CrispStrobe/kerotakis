@@ -1,0 +1,691 @@
+{
+  "id": "batch2:qa-012",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "7826744f2c54422f8ef72dfcc55c6a56e0efa9a5777d5d7919d58737aaf003c0",
+  "original_script_sha256": "7826744f2c54422f8ef72dfcc55c6a56e0efa9a5777d5d7919d58737aaf003c0",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "The calcium-chloride spike introduces 0.4 mmol chloride, so the spiked arm should retain approximately 0.4 mmol more AgCl, not 0.2 mmol.",
+  "original_acceptance_checks": [
+    {
+      "id": "QA-012-C1",
+      "criterion": "Subtract solid AgCl inventories to recover two chloride ions per CaCl2 unit.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "QA-012-C2",
+      "criterion": "Neither arm should be silver-limited at the specified amounts.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch2:qa-012",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11777862399999606,
+    "script_sha256": "7826744f2c54422f8ef72dfcc55c6a56e0efa9a5777d5d7919d58737aaf003c0",
+    "stdout_sha256": "692457114681938a3d925a37f6286ac35e08b195d60c7c7294eb3973f2182991",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 13,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_requires_physical_assessment",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0005,
+      "op": "add",
+      "species": "NaCl",
+      "vessel": 0
+    },
+    {
+      "moles": 0.0012,
+      "op": "add",
+      "species": "AgNO3",
+      "vessel": 0
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "moles": 5.534276991396059,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0005,
+      "op": "add",
+      "species": "NaCl",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0002,
+      "op": "add",
+      "species": "CaCl2",
+      "vessel": 1
+    },
+    {
+      "moles": 0.0012,
+      "op": "add",
+      "species": "AgNO3",
+      "vessel": 1
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "from": 0,
+      "op": "filter",
+      "to": 2
+    },
+    {
+      "from": 1,
+      "op": "filter",
+      "to": 3
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "added": 7,
+    "solution_routed": 6,
+    "dissolved": 5,
+    "solution_characterized": 7,
+    "temperature_changed": 6,
+    "precipitated": 2,
+    "vessel_created": 3,
+    "filtered": 2
+  },
+  "named_model_limits": {},
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 12,
+      "output_sequence": 12,
+      "step": 12,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.0004999638729085,
+            "phase": "solid",
+            "species": "AgCl"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 8.893261239431483e-09,
+        "free_proton": 1.3827686230094367e-08,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "NaCl",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0012,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "AgNO3",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -2.3245294578089215e-16,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 298.15908240492274,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 12,
+      "output_sequence": 12,
+      "step": 12,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.000899959209204,
+            "phase": "solid",
+            "species": "AgCl"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.0016424018963042e-08,
+        "free_proton": 1.2548108651152813e-08,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 5.534276991396059,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "NaCl",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0002,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "CaCl2",
+            "suspended_fraction": 1.0
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0012,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "reagent bottle",
+            "species": "AgNO3",
+            "suspended_fraction": 1.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 3.666771747345976e-16,
+        "solution": null,
+        "surfaces": [],
+        "temperature": 298.26180078050163,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 12,
+      "output_sequence": 12,
+      "step": 12,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.0007000361270909438,
+            "phase": "aqueous",
+            "species": "Ag+"
+          },
+          {
+            "moles": 3.612709143789973e-08,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.000500000000000041,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 0.0011999999999997794,
+            "phase": "aqueous",
+            "species": "NO3-"
+          },
+          {
+            "moles": 5.534276991396058,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 8.893261257701002e-09,
+        "free_proton": 1.382768619273512e-08,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 2,
+        "label": "beaker",
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -2.3245294578089215e-16,
+        "solution": {
+          "ionic_strength": 0.01200208011659,
+          "pe": 13.72607804734,
+          "ph": 6.900151709921,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [
+            {
+              "element": "N",
+              "molality": 0.01203610832497,
+              "oxidation": 5
+            }
+          ],
+          "solvent_kg": 0.0997,
+          "species": [
+            {
+              "activity": 0.9996,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.01069,
+              "molality": 0.012,
+              "name": "NO3-"
+            },
+            {
+              "activity": 0.006248,
+              "molality": 0.006987,
+              "name": "Ag+"
+            },
+            {
+              "activity": 0.004491,
+              "molality": 0.005015,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0002677,
+              "molality": 0.0002669,
+              "name": "O2"
+            },
+            {
+              "activity": 3.424e-05,
+              "molality": 3.415e-05,
+              "name": "AgNO3"
+            },
+            {
+              "activity": 3.314e-07,
+              "molality": 3.304e-07,
+              "name": "AgCl"
+            },
+            {
+              "activity": 1.258e-07,
+              "molality": 1.387e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 7.957e-08,
+              "molality": 8.92e-08,
+              "name": "OH-"
+            },
+            {
+              "activity": 4.963e-08,
+              "molality": 4.949e-08,
+              "name": "AgOH"
+            },
+            {
+              "activity": 2.848e-08,
+              "molality": 3.192e-08,
+              "name": "Cl-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.15908121264704,
+        "thermal_mode": "adiabatic"
+      }
+    },
+    {
+      "observation_index": 12,
+      "output_sequence": 12,
+      "step": 12,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.00030004079079556283,
+            "phase": "aqueous",
+            "species": "Ag+"
+          },
+          {
+            "moles": 0.00019999999999997762,
+            "phase": "aqueous",
+            "species": "Ca+2"
+          },
+          {
+            "moles": 4.079079602713072e-08,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0004999999999999441,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 0.0011999999999990683,
+            "phase": "aqueous",
+            "species": "NO3-"
+          },
+          {
+            "moles": 5.534276991396056,
+            "phase": "liquid",
+            "species": "water"
+          }
+        ],
+        "elapsed_seconds": 0.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 1.0016423993745601e-08,
+        "free_proton": 1.254810865807945e-08,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 3,
+        "label": "beaker",
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": 3.666771747345976e-16,
+        "solution": {
+          "ionic_strength": 0.0140278821842,
+          "pe": 13.67266725364,
+          "ph": 6.944865608571,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "redox": [
+            {
+              "element": "N",
+              "molality": 0.01203610832497,
+              "oxidation": 5
+            }
+          ],
+          "solvent_kg": 0.0997,
+          "species": [
+            {
+              "activity": 0.9996,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.01061,
+              "molality": 0.01202,
+              "name": "NO3-"
+            },
+            {
+              "activity": 0.004457,
+              "molality": 0.005015,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.002658,
+              "molality": 0.002995,
+              "name": "Ag+"
+            },
+            {
+              "activity": 0.001266,
+              "molality": 0.002006,
+              "name": "Ca+2"
+            },
+            {
+              "activity": 0.0002672,
+              "molality": 0.0002663,
+              "name": "O2"
+            },
+            {
+              "activity": 1.447e-05,
+              "molality": 1.442e-05,
+              "name": "AgNO3"
+            },
+            {
+              "activity": 3.339e-07,
+              "molality": 3.328e-07,
+              "name": "AgCl"
+            },
+            {
+              "activity": 1.135e-07,
+              "molality": 1.259e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 8.889e-08,
+              "molality": 1.005e-07,
+              "name": "OH-"
+            },
+            {
+              "activity": 6.758e-08,
+              "molality": 7.635e-08,
+              "name": "Cl-"
+            },
+            {
+              "activity": 2.34e-08,
+              "molality": 2.332e-08,
+              "name": "AgOH"
+            },
+            {
+              "activity": 1.849e-09,
+              "molality": 2.07e-09,
+              "name": "CaOH+"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.26179943765464,
+        "thermal_mode": "adiabatic"
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}

@@ -1,0 +1,1399 @@
+{
+  "id": "batch3-diverse:fe-006",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "selected_script_sha256": "f52518caf0b2ed33a0fe5cb6cba18ccb3e59b11fd944d5df14372069295cdda5",
+  "original_script_sha256": "f52518caf0b2ed33a0fe5cb6cba18ccb3e59b11fd944d5df14372069295cdda5",
+  "selection": "unchanged original protocol",
+  "original_physical_forecast": "Both cultured samples can generate lactic acid, but their pH changes need not scale directly with converted sugar because the milk has additional material and mineral pools. Use recorded conversion to interpret pH.",
+  "original_acceptance_checks": [
+    {
+      "id": "question",
+      "criterion": "Does equal culture addition make pH a comparable conversion assay in milk and a simple sugar solution?",
+      "review_instruction": "Both cultured samples can generate lactic acid, but their pH changes need not scale directly with converted sugar because the milk has additional material and mineral pools. Use recorded conversion to interpret pH.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v3: milk without culture",
+      "result": null
+    }
+  ],
+  "execution": {
+    "id": "batch3-diverse:fe-006",
+    "status": "zero_exit",
+    "exit_code": 0,
+    "elapsed_seconds": 0.16963424700000473,
+    "script_sha256": "f52518caf0b2ed33a0fe5cb6cba18ccb3e59b11fd944d5df14372069295cdda5",
+    "stdout_sha256": "1324304d445b4eff3324880e9431fab5e02220f8416bc5e478918b1a03cdd25d",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parsed_observations": 16,
+    "stdout_parse_error": null,
+    "physical_verdict": "not_assigned"
+  },
+  "classification": "completed_with_named_model_limits",
+  "physical_forecast_status": "not_automatically_assessed",
+  "physical_verdict": "not_assigned",
+  "stderr_display": "",
+  "stderr_preservation": "Original stderr bytes/hash remain in authenticated raw artifact; host-specific script locator redacted only in this display.",
+  "actual_operator_sequence": [
+    {
+      "op": "new_vessel"
+    },
+    {
+      "op": "new_vessel"
+    },
+    {
+      "at": 313.15,
+      "basis": "mass_fraction",
+      "material": "whole_milk",
+      "op": "add_material",
+      "recipe_id": "household/whole-milk-surrogate",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 50.0,
+      "vessel": 0
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "yoghurt_culture",
+      "op": "add_material",
+      "recipe_id": "food/yoghurt-culture",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 0.5,
+      "vessel": 0
+    },
+    {
+      "at": 313.15,
+      "moles": 2.4074104912572856,
+      "op": "add",
+      "species": "water",
+      "vessel": 1
+    },
+    {
+      "moles": 0.007011465206334275,
+      "op": "add",
+      "species": "sucrose",
+      "vessel": 1
+    },
+    {
+      "basis": "mass_fraction",
+      "material": "yoghurt_culture",
+      "op": "add_material",
+      "recipe_id": "food/yoghurt-culture",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 0.5,
+      "vessel": 1
+    },
+    {
+      "at": 313.15,
+      "basis": "mass_fraction",
+      "material": "whole_milk",
+      "op": "add_material",
+      "recipe_id": "household/whole-milk-surrogate",
+      "recipe_version": 1,
+      "sample_seed": 0,
+      "total_amount": 50.0,
+      "vessel": 2
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "op": "wait",
+      "seconds": 28800.0
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 1
+    },
+    {
+      "instrument": "ph_meter",
+      "op": "measure",
+      "vessel": 2
+    },
+    {
+      "instrument": "eyes",
+      "op": "measure",
+      "vessel": 0
+    },
+    {
+      "op": "inspect"
+    }
+  ],
+  "event_counts": {
+    "vessel_created": 2,
+    "temperature_changed": 7,
+    "material_added": 4,
+    "precipitated": 2,
+    "solution_routed": 4,
+    "solution_characterized": 6,
+    "not_yet_modeled": 11,
+    "neutralised": 2,
+    "added": 2,
+    "dissolved": 3,
+    "measured": 5,
+    "gravity_settled": 2,
+    "observed": 1
+  },
+  "named_model_limits": {
+    "not-modeled.supersaturated-below-formation-temperature": {
+      "first_observation_index": 2,
+      "first_operator": {
+        "at": 313.15,
+        "basis": "mass_fraction",
+        "material": "whole_milk",
+        "op": "add_material",
+        "recipe_id": "household/whole-milk-surrogate",
+        "recipe_version": 1,
+        "sample_seed": 0,
+        "total_amount": 50.0,
+        "vessel": 0
+      },
+      "event": {
+        "beside_a_visible_change": true,
+        "cause": "model-boundary",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "the solution is supersaturated against {phases}, deliberately withheld below the registry's formation-temperature threshold at {temperature} °C. This is a curated metastability boundary, not a computed nucleation or growth rate",
+          "key": "not-modeled.supersaturated-below-formation-temperature",
+          "slots": [
+            [
+              "phases",
+              {
+                "text": {
+                  "text": "Hydroxylapatite (SI +6.6)"
+                }
+              }
+            ],
+            [
+              "temperature",
+              {
+                "number": {
+                  "text": "40"
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "the solution is supersaturated against Hydroxylapatite (SI +6.6), deliberately withheld below the registry's formation-temperature threshold at 40 °C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+      },
+      "occurrences": 5
+    },
+    "not-modeled.analytical-component-charge": {
+      "first_observation_index": 2,
+      "first_operator": {
+        "at": 313.15,
+        "basis": "mass_fraction",
+        "material": "whole_milk",
+        "op": "add_material",
+        "recipe_id": "household/whole-milk-surrogate",
+        "recipe_version": 1,
+        "sample_seed": 0,
+        "total_amount": 50.0,
+        "vessel": 0
+      },
+      "event": {
+        "beside_a_visible_change": true,
+        "cause": "model-boundary",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred",
+          "key": "not-modeled.analytical-component-charge"
+        },
+        "vessel": 0,
+        "what": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred"
+      },
+      "occurrences": 5
+    },
+    "not-modeled.milk-casein-buffer-residual": {
+      "first_observation_index": 10,
+      "first_operator": {
+        "op": "wait",
+        "seconds": 28800.0
+      },
+      "event": {
+        "cause": "no-reviewed-datum",
+        "event": "not_yet_modeled",
+        "reason": {
+          "en": "this milk has been acidified to pH {ph}, and only half of its buffer is modelled. Its colloidal calcium phosphate is here and dissolves as the acid arrives; casein's own buffering is not here at all, and that is about a third of milk's buffer capacity. Above pH 5 what is missing costs little; below it the colloid is spent and this beaker has nothing left to resist with, where a real one still has casein — so the number is a lower bound again, and by more than it was. {assumption} (the recipe's full assumption is in `explain material whole_milk`)",
+          "key": "not-modeled.milk-casein-buffer-residual",
+          "slots": [
+            [
+              "ph",
+              {
+                "number": {
+                  "text": "4.62"
+                }
+              }
+            ],
+            [
+              "assumption",
+              {
+                "phrase": {
+                  "phrase": {
+                    "en": "CASEIN IS STILL NOT MODELLED AND ITS BUFFERING IS THEREFORE STILL ABSENT",
+                    "key": "material-assumption.whole_milk-casein"
+                  }
+                }
+              }
+            ]
+          ]
+        },
+        "vessel": 0,
+        "what": "this milk has been acidified to pH 4.62, and only half of its buffer is modelled. Its colloidal calcium phosphate is here and dissolves as the acid arrives; casein's own buffering is not here at all, and that is about a third of milk's buffer capacity. Above pH 5 what is missing costs little; below it the colloid is spent and this beaker has nothing left to resist with, where a real one still has casein — so the number is a lower bound again, and by more than it was. CASEIN IS STILL NOT MODELLED AND ITS BUFFERING IS THEREFORE STILL ABSENT (the recipe's full assumption is in `explain material whole_milk`)"
+      },
+      "occurrences": 1
+    }
+  },
+  "solver_failures": [],
+  "last_available_snapshots_by_vessel": [
+    {
+      "observation_index": 15,
+      "output_sequence": 15,
+      "step": 15,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.001232430859234888,
+            "phase": "aqueous",
+            "species": "Ca+2"
+          },
+          {
+            "moles": 0.00045999714062449184,
+            "phase": "aqueous",
+            "species": "C6H5O7-3"
+          },
+          {
+            "moles": 0.001500578218170157,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0019182566727732955,
+            "phase": "aqueous",
+            "species": "K+"
+          },
+          {
+            "moles": 0.00019489756191260838,
+            "phase": "aqueous",
+            "species": "lactic_acid"
+          },
+          {
+            "moles": 0.0014951790992961515,
+            "phase": "aqueous",
+            "species": "lactate"
+          },
+          {
+            "moles": 0.0008264462742932765,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 2.841690163446547e-06,
+            "phase": "aqueous",
+            "species": "H3PO4"
+          },
+          {
+            "moles": 0.00109085008842121,
+            "phase": "aqueous",
+            "species": "H2PO4-"
+          },
+          {
+            "moles": 6.383360088329302e-06,
+            "phase": "aqueous",
+            "species": "HPO4-2"
+          },
+          {
+            "moles": 2.4147819884559087,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0005819657794878634,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 28800.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 2.4515595981482034e-11,
+        "free_proton": 1.3486929361869765e-06,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 0,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.414654454621149,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "material recipe household/whole-milk-surrogate",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0019182566883216533,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe household/whole-milk-surrogate",
+            "species": "K+",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0008264462809917356,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe household/whole-milk-surrogate",
+            "species": "Na+",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.000499026897549778,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe household/whole-milk-surrogate",
+            "species": "Ca+2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001500578230333117,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe household/whole-milk-surrogate",
+            "species": "Cl-",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005500221679194118,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe household/whole-milk-surrogate",
+            "species": "H2PO4-",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.00045999714435295805,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe household/whole-milk-surrogate",
+            "species": "C6H5O7-3",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.00018335099046514882,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "material recipe household/whole-milk-surrogate",
+            "species": "octacalcium_phosphate",
+            "suspended_fraction": 0.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 3.9902617410350566e-07,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.0002698008824013048,
+        "solution": {
+          "ionic_strength": 0.1224447784382,
+          "pe": null,
+          "ph": 4.622070737213,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.043502298,
+          "species": [
+            {
+              "activity": 0.9968,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.03393,
+              "molality": 0.04406,
+              "name": "K+"
+            },
+            {
+              "activity": 0.02656,
+              "molality": 0.03449,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.02647,
+              "molality": 0.03437,
+              "name": "Lactate-"
+            },
+            {
+              "activity": 0.01697,
+              "molality": 0.02187,
+              "name": "H2PO4-"
+            },
+            {
+              "activity": 0.01461,
+              "molality": 0.01897,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.006281,
+              "molality": 0.01786,
+              "name": "Ca+2"
+            },
+            {
+              "activity": 0.003435,
+              "molality": 0.00518,
+              "name": "Ca(Citrate)-"
+            },
+            {
+              "activity": 0.004608,
+              "molality": 0.00448,
+              "name": "H(Lactate)"
+            },
+            {
+              "activity": 0.002387,
+              "molality": 0.003075,
+              "name": "CaH2PO4+"
+            },
+            {
+              "activity": 0.0004384,
+              "molality": 0.002268,
+              "name": "H(Citrate)-2"
+            },
+            {
+              "activity": 0.002013,
+              "molality": 0.002013,
+              "name": "CaH(Citrate)"
+            },
+            {
+              "activity": 0.0006036,
+              "molality": 0.0009104,
+              "name": "H2(Citrate)-"
+            },
+            {
+              "activity": 0.0002596,
+              "molality": 0.0002524,
+              "name": "O2"
+            },
+            {
+              "activity": 0.0001294,
+              "molality": 0.0001294,
+              "name": "CaHPO4"
+            },
+            {
+              "activity": 4.507e-05,
+              "molality": 0.000128,
+              "name": "HPO4-2"
+            },
+            {
+              "activity": 7.377e-06,
+              "molality": 7.747e-05,
+              "name": "Citrate-3"
+            },
+            {
+              "activity": 4.773e-05,
+              "molality": 7.198e-05,
+              "name": "CaH2(Citrate)+"
+            },
+            {
+              "activity": 5.698e-05,
+              "molality": 5.698e-05,
+              "name": "H3PO4"
+            },
+            {
+              "activity": 2.387e-05,
+              "molality": 3.1e-05,
+              "name": "H+"
+            },
+            {
+              "activity": 1.935e-05,
+              "molality": 1.935e-05,
+              "name": "H3(Citrate)"
+            },
+            {
+              "activity": 3.151e-06,
+              "molality": 1.631e-05,
+              "name": "K(Citrate)-2"
+            },
+            {
+              "activity": 1.16e-05,
+              "molality": 1.495e-05,
+              "name": "KHPO4-"
+            },
+            {
+              "activity": 7.252e-06,
+              "molality": 1.094e-05,
+              "name": "NaH(Citrate)-"
+            },
+            {
+              "activity": 7.735e-06,
+              "molality": 9.968e-06,
+              "name": "NaHPO4-"
+            },
+            {
+              "activity": 1.155e-06,
+              "molality": 5.976e-06,
+              "name": "Na(Citrate)-2"
+            },
+            {
+              "activity": 4.979e-08,
+              "molality": 7.509e-08,
+              "name": "Na2(Citrate)-"
+            },
+            {
+              "activity": 1.442e-08,
+              "molality": 1.858e-08,
+              "name": "CaPO4-"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1500000000194,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 5.9561179572745635,
+            "basis": "mass_fraction",
+            "material": "whole_milk",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "household/whole-milk-surrogate",
+            "recipe_version": 1
+          },
+          {
+            "amount": 0.5,
+            "basis": "mass_fraction",
+            "material": "yoghurt_culture",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "food/yoghurt-culture",
+            "recipe_version": 1
+          }
+        ]
+      }
+    },
+    {
+      "observation_index": 15,
+      "output_sequence": 15,
+      "step": 15,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.0065908691734872515,
+            "phase": "aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 0.0015800955958041106,
+            "phase": "aqueous",
+            "species": "lactic_acid"
+          },
+          {
+            "moles": 0.000102288535583983,
+            "phase": "aqueous",
+            "species": "lactate"
+          },
+          {
+            "moles": 2.4069898952244384,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.000102288535583972,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 28800.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 2.059721890097975e-13,
+        "free_proton": 0.00010228853587848305,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 1,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.4074104912572856,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "reagent bottle",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.007011465206334275,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "reagent bottle",
+            "species": "sucrose",
+            "suspended_fraction": null
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 0.0,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -0.000102288535583983,
+        "solution": {
+          "ionic_strength": 0.002358948330739,
+          "pe": null,
+          "ph": 2.650544637624,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.043361923,
+          "species": [
+            {
+              "activity": 0.9993,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.03646,
+              "molality": 0.03644,
+              "name": "H(Lactate)"
+            },
+            {
+              "activity": 0.002236,
+              "molality": 0.002359,
+              "name": "H+"
+            },
+            {
+              "activity": 0.002236,
+              "molality": 0.002359,
+              "name": "Lactate-"
+            },
+            {
+              "activity": 0.0002596,
+              "molality": 0.0002595,
+              "name": "O2"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1500000000278,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 0.5,
+            "basis": "mass_fraction",
+            "material": "yoghurt_culture",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "food/yoghurt-culture",
+            "recipe_version": 1
+          }
+        ]
+      }
+    },
+    {
+      "observation_index": 15,
+      "output_sequence": 15,
+      "step": 15,
+      "state": {
+        "co2_partial_pressure_atm": 0.0,
+        "contents": [
+          {
+            "moles": 0.00035327867593293354,
+            "phase": "aqueous",
+            "species": "Ca+2"
+          },
+          {
+            "moles": 0.00045999714062459115,
+            "phase": "aqueous",
+            "species": "C6H5O7-3"
+          },
+          {
+            "moles": 0.001500578218170115,
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.0019182566727735074,
+            "phase": "aqueous",
+            "species": "K+"
+          },
+          {
+            "moles": 0.0008264462742930596,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 9.391871236818366e-09,
+            "phase": "aqueous",
+            "species": "H3PO4"
+          },
+          {
+            "moles": 0.0003033785435761644,
+            "phase": "aqueous",
+            "species": "H2PO4-"
+          },
+          {
+            "moles": 0.0001373223999741641,
+            "phase": "aqueous",
+            "species": "HPO4-2"
+          },
+          {
+            "moles": 6.648605972236561e-10,
+            "phase": "aqueous",
+            "species": "PO4-3"
+          },
+          {
+            "moles": 0.0002197880451989,
+            "phase": "solid",
+            "species": "octacalcium_phosphate"
+          },
+          {
+            "moles": 2.41454514349679,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.00031949955732159946,
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ],
+        "elapsed_seconds": 28800.0,
+        "excess_enthalpy_j": 0.0,
+        "foam": {
+          "peak_volume_liters": 0.0,
+          "trapped_gas_liters": 0.0,
+          "volume_liters": 0.0
+        },
+        "free_hydroxide": 2.0414906453583127e-09,
+        "free_proton": 1.4882211354155551e-08,
+        "headspace": {
+          "boundary": "open"
+        },
+        "id": 2,
+        "label": "beaker",
+        "lots": [
+          {
+            "added_at": 0.0,
+            "moles": 2.414654454621149,
+            "particle_size_um": null,
+            "phase": "liquid",
+            "source": "material recipe household/whole-milk-surrogate",
+            "species": "water",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0019182566883216533,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe household/whole-milk-surrogate",
+            "species": "K+",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0008264462809917356,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe household/whole-milk-surrogate",
+            "species": "Na+",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.000499026897549778,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe household/whole-milk-surrogate",
+            "species": "Ca+2",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.001500578230333117,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe household/whole-milk-surrogate",
+            "species": "Cl-",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.0005500221679194118,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe household/whole-milk-surrogate",
+            "species": "H2PO4-",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.00045999714435295805,
+            "particle_size_um": null,
+            "phase": "aqueous",
+            "source": "material recipe household/whole-milk-surrogate",
+            "species": "C6H5O7-3",
+            "suspended_fraction": null
+          },
+          {
+            "added_at": 0.0,
+            "moles": 0.00018335099046514882,
+            "particle_size_um": null,
+            "phase": "solid",
+            "source": "material recipe household/whole-milk-surrogate",
+            "species": "octacalcium_phosphate",
+            "suspended_fraction": 0.0
+          }
+        ],
+        "nuclides": {
+          "inventory": {}
+        },
+        "pending_co2_transfer_mol": 3.9909516687948734e-07,
+        "pressure": 101325.0,
+        "resolved": {
+          "solution": null,
+          "valid": false
+        },
+        "solute_charge": -7.334679217738595e-06,
+        "solution": {
+          "ionic_strength": 0.07411512932916,
+          "pe": null,
+          "ph": 6.563599801614,
+          "provenance": {
+            "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "minteq.v4.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+            "routing_phrase": {
+              "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "key": "routing.extended-chemistry"
+            }
+          },
+          "redox": [],
+          "solvent_kg": 0.04349803100001,
+          "species": [
+            {
+              "activity": 0.998,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.03456,
+              "molality": 0.04329,
+              "name": "K+"
+            },
+            {
+              "activity": 0.02754,
+              "molality": 0.0345,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.01483,
+              "molality": 0.01858,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.005268,
+              "molality": 0.007253,
+              "name": "Ca(Citrate)-"
+            },
+            {
+              "activity": 0.00516,
+              "molality": 0.006402,
+              "name": "H2PO4-"
+            },
+            {
+              "activity": 0.001197,
+              "molality": 0.002898,
+              "name": "HPO4-2"
+            },
+            {
+              "activity": 0.0002693,
+              "molality": 0.002044,
+              "name": "Citrate-3"
+            },
+            {
+              "activity": 0.0001831,
+              "molality": 0.0006577,
+              "name": "H(Citrate)-2"
+            },
+            {
+              "activity": 0.0002639,
+              "molality": 0.0006495,
+              "name": "Ca+2"
+            },
+            {
+              "activity": 0.0001172,
+              "molality": 0.0004209,
+              "name": "K(Citrate)-2"
+            },
+            {
+              "activity": 0.0003139,
+              "molality": 0.0003895,
+              "name": "KHPO4-"
+            },
+            {
+              "activity": 0.0002087,
+              "molality": 0.0002589,
+              "name": "NaHPO4-"
+            },
+            {
+              "activity": 0.0002596,
+              "molality": 0.0002552,
+              "name": "O2"
+            },
+            {
+              "activity": 4.28e-05,
+              "molality": 0.0001538,
+              "name": "Na(Citrate)-2"
+            },
+            {
+              "activity": 0.0001444,
+              "molality": 0.0001444,
+              "name": "CaHPO4"
+            },
+            {
+              "activity": 3.048e-05,
+              "molality": 3.782e-05,
+              "name": "CaH2PO4+"
+            },
+            {
+              "activity": 3.532e-05,
+              "molality": 3.532e-05,
+              "name": "CaH(Citrate)"
+            },
+            {
+              "activity": 3.075e-06,
+              "molality": 4.233e-06,
+              "name": "NaH(Citrate)-"
+            },
+            {
+              "activity": 2.884e-06,
+              "molality": 3.971e-06,
+              "name": "H2(Citrate)-"
+            },
+            {
+              "activity": 1.873e-06,
+              "molality": 2.579e-06,
+              "name": "Na2(Citrate)-"
+            },
+            {
+              "activity": 1.407e-06,
+              "molality": 1.745e-06,
+              "name": "CaPO4-"
+            },
+            {
+              "activity": 2.731e-07,
+              "molality": 3.421e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 1.982e-07,
+              "molality": 1.982e-07,
+              "name": "H3PO4"
+            },
+            {
+              "activity": 3.679e-08,
+              "molality": 4.693e-08,
+              "name": "OH-"
+            },
+            {
+              "activity": 1.849e-09,
+              "molality": 1.403e-08,
+              "name": "PO4-3"
+            },
+            {
+              "activity": 9.582e-09,
+              "molality": 1.319e-08,
+              "name": "CaH2(Citrate)+"
+            },
+            {
+              "activity": 1.058e-09,
+              "molality": 1.058e-09,
+              "name": "H3(Citrate)"
+            }
+          ]
+        },
+        "surfaces": [],
+        "temperature": 298.1500000000189,
+        "thermal_mode": "adiabatic",
+        "unresolved_materials": [
+          {
+            "amount": 6.100745000000007,
+            "basis": "mass_fraction",
+            "material": "whole_milk",
+            "protein_denatured_fraction": 0.0,
+            "recipe_id": "household/whole-milk-surrogate",
+            "recipe_version": 1
+          }
+        ]
+      }
+    }
+  ],
+  "actual_measurement_and_process_observations": [
+    {
+      "observation_index": 8,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 6.465957328365,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 9,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 6.7706500643432665,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 11,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 4.622070737213,
+        "vessel": 0
+      }
+    },
+    {
+      "observation_index": 12,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 1
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 2.650544637624,
+        "vessel": 1
+      }
+    },
+    {
+      "observation_index": 13,
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 2
+      },
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 6.563599801614,
+        "vessel": 2
+      }
+    },
+    {
+      "observation_index": 14,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "event": {
+        "appearance": {
+          "bubbling": false,
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "white",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and so cloudy you cannot see through it",
+                        "key": "look.clarity-opaque"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "cloudiness": 1.0,
+          "deposit": null,
+          "liquid": {
+            "b": 240,
+            "g": 247,
+            "r": 248,
+            "strength": 0.0
+          },
+          "words": "The liquid is white and so cloudy you cannot see through it."
+        },
+        "event": "observed",
+        "vessel": 0
+      }
+    }
+  ],
+  "ledger_scope": "Authoritative contents plus unresolved materials, surfaces, exported/imported gases and operation transfers must all be counted. Solution species are diagnostic and must not be double-counted; free-ion fields are not new matter. No generic full-batch atom/energy proof is assigned.",
+  "catalog_case_closed": false
+}
