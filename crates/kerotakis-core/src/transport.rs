@@ -17,7 +17,7 @@ use crate::ops::Event;
 use crate::solve::{adiabatic_mix_into, Equilibrator, SolveError};
 use crate::species::{self, Phase, SpeciesId};
 use crate::units::{Joules, Kelvin, Liters, Moles};
-use crate::vessel::{Portion, ThermalMode, Vessel};
+use crate::vessel::{Portion, ThermalMode, Vessel, VesselId};
 
 // `Vessel::liquid_volume` is an additive solvent-volume proxy and deliberately
 // excludes solute volume. Aqueous/exchange bookkeeping can therefore move it
@@ -51,6 +51,14 @@ pub enum TransportError {
     InvalidMobileState { location: String },
     #[error("transport cell {cell} is thermostatted; conservative AQ-011 transport requires adiabatic cells")]
     ThermostattedCell { cell: usize },
+    #[error("duplicate vessel {vessel} appears twice in transport chain")]
+    DuplicateChainCell { vessel: VesselId },
+    #[error("inlet {vessel} is also a chain cell; inlet must be an external reservoir")]
+    InletIsChainCell { vessel: VesselId },
+    #[error("receiver {vessel} is also a chain cell; receiver must be distinct from the chain")]
+    ReceiverIsChainCell { vessel: VesselId },
+    #[error("receiver {vessel} is also the inlet; receiver and inlet must be distinct")]
+    ReceiverIsInlet { vessel: VesselId },
 }
 
 #[derive(Debug, thiserror::Error)]
@@ -77,6 +85,15 @@ pub struct MobileParcel {
     pub temperature: Kelvin,
     /// Net analytical solute charge, in moles of charge equivalents.
     pub solute_charge: f64,
+    /// Free hydroxide measured by the last aqueous solve, in moles. Zero
+    /// means no measured free base was present. Scaled with the aqueous
+    /// fraction so a transported parcel does not leave its donor's measured
+    /// state behind.
+    #[serde(default)]
+    pub free_hydroxide: f64,
+    /// Free proton measured by the last aqueous solve, in moles.
+    #[serde(default)]
+    pub free_proton: f64,
 }
 
 impl MobileParcel {
@@ -91,6 +108,8 @@ impl MobileParcel {
                 .collect(),
             temperature: vessel.temperature,
             solute_charge: vessel.solute_charge,
+            free_hydroxide: vessel.free_hydroxide,
+            free_proton: vessel.free_proton,
         }
     }
 
@@ -171,6 +190,8 @@ impl MobileParcel {
                 .collect(),
             temperature: self.temperature,
             solute_charge: self.solute_charge * fraction,
+            free_hydroxide: self.free_hydroxide * fraction,
+            free_proton: self.free_proton * fraction,
         }
     }
 
@@ -178,6 +199,10 @@ impl MobileParcel {
         if !self.temperature.0.is_finite()
             || self.temperature.0 <= 0.0
             || !self.solute_charge.is_finite()
+            || !self.free_hydroxide.is_finite()
+            || self.free_hydroxide < 0.0
+            || !self.free_proton.is_finite()
+            || self.free_proton < 0.0
             || self.contents.iter().any(|portion| {
                 !is_mobile(portion.phase) || !portion.moles.0.is_finite() || portion.moles.0 < 0.0
             })
@@ -312,7 +337,10 @@ impl CellChain {
             }
             cell.contents.retain(|portion| portion.moles.0 > 1e-15);
             cell.solute_charge *= 1.0 - courant_fraction;
+            cell.free_hydroxide *= 1.0 - courant_fraction;
+            cell.free_proton *= 1.0 - courant_fraction;
             cell.solution = None;
+            cell.resolved.invalidate();
         }
 
         for index in 0..self.cells.len() {
@@ -332,6 +360,8 @@ impl CellChain {
                 cell.deposit(portion.species.clone(), portion.moles, portion.phase);
             }
             cell.solute_charge += incoming.solute_charge;
+            cell.free_hydroxide += incoming.free_hydroxide;
+            cell.free_proton += incoming.free_proton;
         }
 
         Ok(TransportStep {

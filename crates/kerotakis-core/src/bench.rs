@@ -5380,6 +5380,66 @@ impl Bench {
                 }
                 self.vessel(*inlet)?;
                 self.vessel(*receiver)?;
+                // Alias guards: chain/inlet/receiver are distinct finite
+                // boundaries. A receiver that is also a chain cell would have
+                // its chain-mutated state overwritten by the receiver proposal,
+                // silently losing ownership; similarly inlet must be external.
+                {
+                    use std::collections::HashSet;
+                    let mut seen = HashSet::new();
+                    for cid in chain.iter() {
+                        if !seen.insert(*cid) {
+                            return Err(crate::transport::TransportError::DuplicateChainCell {
+                                vessel: *cid,
+                            }
+                            .into());
+                        }
+                    }
+                    if chain.contains(inlet) {
+                        return Err(crate::transport::TransportError::InletIsChainCell {
+                            vessel: *inlet,
+                        }
+                        .into());
+                    }
+                    if chain.contains(receiver) {
+                        return Err(crate::transport::TransportError::ReceiverIsChainCell {
+                            vessel: *receiver,
+                        }
+                        .into());
+                    }
+                    if inlet == receiver {
+                        return Err(crate::transport::TransportError::ReceiverIsInlet {
+                            vessel: *receiver,
+                        }
+                        .into());
+                    }
+                }
+                // Zero-Courant is validated no-movement: geometry checks run
+                // but caches and temperatures must not be cleared. The outer
+                // step_with loop unconditionally clears touched vessels, so
+                // mark this as Unchanged to preserve caches and still emit
+                // Transported with zero effluent.
+                if *courant == 0.0 {
+                    let inlet_vessel = self.vessel(*inlet)?.clone();
+                    let chain_vessels: Vec<crate::vessel::Vessel> = chain
+                        .iter()
+                        .map(|id| self.vessel(*id).cloned())
+                        .collect::<Result<_, _>>()?;
+                    let mut cell_chain = crate::transport::CellChain::new(chain_vessels)?;
+                    let total_effluent: Vec<(SpeciesId, Moles)> = Vec::new();
+                    // With zero movement every requested step has identical
+                    // inputs, so validate once rather than repeat a no-op.
+                    cell_chain.advance(&inlet_vessel, *courant)?;
+                    *disposition = ApplyDisposition::Unchanged;
+                    events.push(Event::Transported {
+                        chain: chain.clone(),
+                        receiver: *receiver,
+                        steps: *steps,
+                        courant: *courant,
+                        effluent_moles: total_effluent,
+                    });
+                    return Ok(events);
+                }
                 let inlet_vessel = self.vessel(*inlet)?.clone();
                 let chain_vessels: Vec<crate::vessel::Vessel> = chain
                     .iter()
@@ -5387,7 +5447,16 @@ impl Bench {
                     .collect::<Result<_, _>>()?;
                 let mut cell_chain = crate::transport::CellChain::new(chain_vessels)?;
 
+                // Bounded-memory receiver proposal: mix each actual effluent
+                // parcel directly into a local clone, retaining only the
+                // aggregated Event ABI. The bench previously collapsed every
+                // parcel to (SpeciesId, Moles) and priced enthalpy as Liquid
+                // at the inlet temperature, losing hot-cell heat and
+                // inventing solid/charge.
+                let mut receiver_proposal = self.vessel(*receiver)?.clone();
+                let temp_before = receiver_proposal.temperature;
                 let mut total_effluent: Vec<(SpeciesId, Moles)> = Vec::new();
+                let mut has_movement = false;
                 for _ in 0..*steps {
                     let step = cell_chain.advance(&inlet_vessel, *courant)?;
                     for portion in &step.effluent.contents {
@@ -5400,42 +5469,59 @@ impl Bench {
                             total_effluent.push((portion.species.clone(), portion.moles));
                         }
                     }
+                    let effluent = step.effluent;
+                    let is_empty = effluent.contents.is_empty()
+                        && effluent.solute_charge == 0.0
+                        && effluent.free_hydroxide == 0.0
+                        && effluent.free_proton == 0.0;
+                    if is_empty {
+                        continue;
+                    }
+                    has_movement = true;
+                    if matches!(receiver_proposal.thermal_mode, ThermalMode::Adiabatic) {
+                        let t_new =
+                            adiabatic_mix_into(&receiver_proposal, effluent.temperature, |t| {
+                                effluent.energy_between(effluent.temperature.0, t)
+                            });
+                        receiver_proposal.temperature = t_new;
+                    }
+                    for portion in &effluent.contents {
+                        receiver_proposal.deposit(
+                            portion.species.clone(),
+                            portion.moles,
+                            portion.phase,
+                        );
+                    }
+                    receiver_proposal.solute_charge += effluent.solute_charge;
+                    receiver_proposal.free_hydroxide += effluent.free_hydroxide;
+                    receiver_proposal.free_proton += effluent.free_proton;
                 }
-
+                // Publish chain only after every domain check succeeded;
+                // CellChain already carries correct cache semantics (zero
+                // Courant leaves solution intact, movement clears it).
                 for (i, cid) in chain.iter().enumerate() {
                     let updated = &cell_chain.cells()[i];
                     let v = self.vessel_mut(*cid)?;
                     v.contents = updated.contents.clone();
                     v.temperature = updated.temperature;
                     v.solute_charge = updated.solute_charge;
-                    v.solution = None;
+                    v.free_hydroxide = updated.free_hydroxide;
+                    v.free_proton = updated.free_proton;
+                    v.solution = updated.solution.clone();
+                    v.resolved = updated.resolved.clone();
                 }
-
-                let t_eff = inlet_vessel.temperature;
-                let dst = self.vessel_mut(*receiver)?;
-                if matches!(dst.thermal_mode, ThermalMode::Adiabatic) && !total_effluent.is_empty()
-                {
-                    let t_new = adiabatic_mix_into(dst, t_eff, |t| {
-                        portions_enthalpy(
-                            total_effluent.iter().map(|(s, n)| (s, n.0, Phase::Liquid)),
-                            t_eff.0,
-                            t,
-                        )
-                    });
-                    if (t_new.0 - dst.temperature.0).abs() > 1e-9 {
+                if has_movement {
+                    receiver_proposal.solution = None;
+                    receiver_proposal.resolved.invalidate();
+                    let temp_after = receiver_proposal.temperature;
+                    if (temp_after.0 - temp_before.0).abs() > 1e-9 {
                         events.push(Event::TemperatureChanged {
                             vessel: *receiver,
-                            from: dst.temperature,
-                            to: t_new,
+                            from: temp_before,
+                            to: temp_after,
                         });
                     }
-                    dst.temperature = t_new;
-                }
-                for (spec, moles) in &total_effluent {
-                    let phase = species::lookup(spec)
-                        .map(|d| d.standard_phase)
-                        .unwrap_or(Phase::Aqueous);
-                    dst.deposit(spec.clone(), *moles, phase);
+                    *self.vessel_mut(*receiver)? = receiver_proposal;
                 }
 
                 events.push(Event::Transported {
