@@ -1,0 +1,20 @@
+{
+  "id": 12051486233,
+  "node_id": "MDg6QXJ0aWZhY3QxMjA1MTQ4NjIzMw==",
+  "name": "remaining267-native-38909751180",
+  "size_in_bytes": 1319272,
+  "url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/artifacts/12051486233",
+  "archive_download_url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/artifacts/12051486233/zip",
+  "expired": false,
+  "digest": "sha256:9c33ddf3893ab32e0309dc1ef5c65b3b2c4e2967c8a3468c2808b0de1074201f",
+  "created_at": "2026-10-16T14:09:36Z",
+  "updated_at": "2026-10-16T14:09:36Z",
+  "expires_at": "2027-01-14T13:41:07Z",
+  "workflow_run": {
+    "id": 38909751180,
+    "repository_id": 1338831929,
+    "head_repository_id": 1338831929,
+    "head_branch": "validation/fixed468-completion-20261016",
+    "head_sha": "e6ee9e053cd628087a902ba285627a4a75689c39"
+  }
+}

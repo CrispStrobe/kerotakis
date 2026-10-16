@@ -261,3 +261,13 @@ The [curriculum200 native follow-up](../audits/target468-20261016/curriculum200-
 completed and is authenticated:92 zero exits,108 nonzero,0 parse errors/retries.
 These are execution results; physical verdicts and PR814 production acceptance
 remain separate. The remaining267 native completion job is still queued.
+
+## Complete668 native execution baseline
+
+[All668 native executions](../audits/target468-20261016/common-engine-all668.json)
+are now authenticated on c446/670:557 zero exits,111 nonzero,0 JSON parsing
+errors/retries. The fixed468 split is465/3; curriculum200 is92/108. All120 first
+batch cases completed. The earlier267 queued note is superseded by its
+[verified completion](../audits/target468-20261016/common-engine-completion/results/README.md).
+Physical selection remains153 of fixed468 on recorded evidence; the REST batch
+continues on gatewayc96. No557-pass or latest-main certification is claimed.

@@ -7,7 +7,7 @@ new designs, variants and engineering checks do not increase this count.
 | Batch | Declared cases | Selected working evidence on recorded versions |
 | --- | ---: | ---: |
 | Original catalog | 147 | 147 retained unchanged from159fa6e0 |
-| First additional batch | 120 | Authenticated120; first execution pending |
+| First additional batch | 120 | All120 executed; physical assessment pending |
 | Batch2 | 101 | 6: QA001, QA002, QA009, QA010, QA011, QA012 |
 | Batch3 | 100 | 0 selected so far |
 | Total | 468 | 153 accounted for; no unified latest-release count yet |
@@ -82,3 +82,14 @@ after only presentation/eyes alias adaptation. The other65 require commands
 outside the current subset or exceed duration limits. This admission result
 performs no HTTP or chemistry execution. Full CLI execution preserves all
 commands, observations and simulated durations without weakening API policy.
+
+## All668 native executions verified
+
+The [combined source-bound receipt](common-engine-all668.json) now authenticates
+all668 case executions:557 zero exits,111 nonzero,0 JSON parse errors/retries.
+The fixed468 split is465/3; the separate curriculum200 split is92/108. All267
+remaining original147/first120 protocols completed in
+[run38909751180](https://github.com/CrispStrobe/kerotakis/actions/runs/38909751180).
+These results establish execution and preserve raw evidence, not557 physical
+passes. The repaired-gateway [REST batch](rest-api-all668/README.md) is continuing
+on the same native engine.
