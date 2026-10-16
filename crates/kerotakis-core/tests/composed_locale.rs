@@ -43,6 +43,7 @@ use kerotakis_core::{appearance, scene, Locale, Moles, SpeciesId, Vessel, Vessel
 /// never correctness, and `unknown_composers_are_declared` below fails if
 /// a new file starts composing without being listed.
 const COMPOSERS: &[(&str, &str)] = &[
+    ("acid_endpoint.rs", include_str!("../src/acid_endpoint.rs")),
     ("appearance.rs", include_str!("../src/appearance.rs")),
     (
         "aqueous_continuation.rs",
