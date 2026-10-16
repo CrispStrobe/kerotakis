@@ -192,8 +192,8 @@ continues to carry `physical_verdict: not_assigned`.
 source integration and fresh hosted rebuild acceptance. The first AL2023 build
 failed on IPhreeqc's `lib64`/Cargo `lib` mismatch and cleanup ownership; fixes are
 pushed, with [a new preview run](https://github.com/CrispStrobe/kerotakis/actions/runs/38783017261).
-The hosted native preview now passed; API sandbox acceptance and encoding/workflow
-lint corrections remain before source integration. Manual browser acceptance and
+The hosted native preview and subsequent REST acceptance passed; the earlier
+encoding/workflow corrections are pushed. Full fleet acceptance remains before source integration. Manual browser acceptance and
 Pages-client publication remain separate from passed HTTP/client controls. Follow the [remaining API lanes](simulation-api-lane.md).
 
 ## Chemical review of the supplied 200 probes
@@ -211,9 +211,8 @@ CaCO3/CuO dissolution and CO2 capture by NaOH. Zinc/acid reaches an explicit mod
 limit; silver ammines and acidified permanganate/peroxide remain missing.
 The original 200 outcomes and all previous blind forecasts are unchanged.
 
-[PR796](https://github.com/CrispStrobe/kerotakis/pull/796) contains the first
-charged-input reporting repair and eight regression groups; hosted native/full
-fleet acceptance is pending. [PR798](https://github.com/CrispStrobe/kerotakis/pull/798)
+[PR796](https://github.com/CrispStrobe/kerotakis/pull/796) contains charged-input reporting and electrode-balance repairs. All 17 focused
+groups passed on Linux and macOS; full own-fleet acceptance remains pending. [PR798](https://github.com/CrispStrobe/kerotakis/pull/798)
 contains sourced silver–ammonia routing, four focused groups and an explicit
 canonical ligand-ownership limitation; hosted execution remains pending.
 Before adding acidified permanganate/peroxide, implement the
@@ -235,3 +234,49 @@ UTF-8 and payload lint, and client/service-worker checks passed locally. The
 Ubuntu vendor Bubblewrap profile and complete native/fleet/browser acceptance
 remain subject to fresh hosted checks; no engine or browser build ran locally.
 The first sandbox/build/lint failures remain preserved.
+
+PR796's first hosted macOS job passed the original eight focused groups and
+the complete Rust suite, then failed unchanged curiosity forecasts `aq-063`,
+`aq-065` and `mat-063`. The first two exposed nanomole-scale carbon/gas readback
+residuals misreported as missing counterions. The last exposed a real hydrogen
+cathode defect: gas production had no corresponding water consumption or OH−.
+The corrected head `f253fc21` fixes electrode accounting, refuses finite-water
+overdraw before mutation and declares the charge diagnostic's reporting allowance.
+Eleven aqueous and six core regression groups passed on Linux and macOS,
+alongside each full Rust suite and the unchanged 500-prompt curiosity gate
+(zero unmet requirements, runtime failures or baseline drift). Full own-fleet
+acceptance remains pending. See the [native receipt](../audits/reaction-dataset-200-20261015/charged-input-native-acceptance.json). See the
+[first failure, contracts and remaining limits](https://github.com/CrispStrobe/kerotakis/blob/f253fc21d4641fbb88f4a9cb7a953c7566d393ae/crates/kerotakis-phreeqc/CHARGED-COMPONENTS.md).
+The separate existing-metal electrode route also omitted anodic H+; it now
+books only the metal-deposition electron share. Successful full-plating and
+metal-depletion controls close hydrogen and charge before the aqueous tail.
+No frozen forecast or conservation tolerance changed. Carbon/gas elemental
+reconciliation remains a separate accuracy gap.
+
+The shared unknown-heat continuation prerequisite remains draft
+[PR799](https://github.com/CrispStrobe/kerotakis/pull/799), now `3aca4d99`.
+Its first hosted build failed on two nonexistent vessel-field references;
+those references are corrected and the first logs remain preserved. The
+implementation guards fresh answer binding, atomic rollback, retained-gas events
+and step-local thermal ownership. It now includes an explicit trusted bridge
+through native and browser wrappers, CLI cache prewarming and actual Node Wasm/
+Emscripten controls for continuation, changed-input cache refusal and failing-hook
+rollback. Seventeen Rust controls plus the Wasm harness additions await execution
+on the corrected source; formatting, JavaScript syntax and diff checks passed.
+These isolated mechanical callbacks install no chemical endpoint. Node Wasm
+acceptance and Chromium execution remain distinct.
+
+[PR798](https://github.com/CrispStrobe/kerotakis/pull/798), now `54d40916`,
+passed three of four initial focused controls. The remaining test looked up H+
+below the public species-list reporting cutoff; it now uses hydrogen activity
+from pH while retaining both mass-action equations and conservation assertions.
+Fresh native and full-fleet acceptance are pending. This reporting-test failure
+alone did not demonstrate a failed silver equilibrium calculation.
+
+[PR797](https://github.com/CrispStrobe/kerotakis/pull/797) merged normally as
+`e027e964`; its integrated tree matches the reviewed candidate. All 25 applicable
+checks passed, with one unrelated job skipped.
+[Integration receipt](../audits/reaction-dataset-200-20261015/pr797-integration.json).
+PR795's REST acceptance and both native jobs passed; remaining applicable fleet
+checks still precede integration. The deployed API retains its original pinned
+engine; none of these pending runtime repairs is claimed deployed.

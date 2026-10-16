@@ -4608,6 +4608,7 @@ impl Bench {
                 let v = self.vessel(*vessel)?;
                 match crate::displacement::electrolyse(v, *amps, *seconds) {
                     Some(run) => {
+                        require_electrolysis_water(v, run.electrons / 2.0)?;
                         // The counter-electrode's half-reaction, named
                         // before the event rather than only booked after
                         // it: an inert anode splits water,
@@ -4635,6 +4636,17 @@ impl Bench {
                             let v = self.vessel_mut(*vessel)?;
                             v.deposit(species.clone(), moles, Phase::Solid);
                             v.withdraw(&taken.0, taken.1);
+                            // Oxygen evolution supplies one proton per
+                            // electron, but cathodic hydrogen cancels its
+                            // share. Only the metal's electron share remains
+                            // acidic. Book it as matter before speciation;
+                            // a pH charge-balance adjustment cannot restore
+                            // missing hydrogen atoms or formal charge.
+                            v.deposit(
+                                SpeciesId::new("H+"),
+                                Moles(run.electrons_to_metal),
+                                Phase::Aqueous,
+                            );
                             events.push(Event::Electrolysed {
                                 vessel: *vessel,
                                 species: species.clone(),
@@ -4651,22 +4663,10 @@ impl Bench {
                                 cathode_moles: Some(moles),
                                 current_efficiency: run.current_efficiency,
                             });
-                            // The other electrode has to be somewhere.
-                            //
-                            // Taking copper out of solution leaves its
-                            // charge behind, and the solve balances that
-                            // with acid: the beaker goes from pH 4.27 to
-                            // 1.84 on 0.01 mol of electrons. That is the
-                            // right chemistry for an *inert* anode —
-                            // 2 H₂O → O₂ + 4 H⁺ + 4 e⁻, carbon rods, the
-                            // school cell — but the acid was appearing
-                            // without the oxygen that pays for it.
-                            //
-                            // Booked here so the ledger closes. A copper
-                            // anode instead dissolves to replace what
-                            // plates out, holds Cu²⁺ constant and makes no
-                            // acid at all; that is electrorefining and it
-                            // is a different cell, which the register says.
+                            // This route uses an inert anode: water supplies
+                            // oxygen and the net acid booked above. A copper
+                            // anode replacing the plated ions is a different
+                            // electrorefining model and is not inferred here.
                             if anode_evolves {
                                 let v = self.vessel_mut(*vessel)?;
                                 v.withdraw(&SpeciesId::new("water"), Moles(oxygen.0 * 2.0));
@@ -4727,6 +4727,7 @@ impl Bench {
                         *seconds,
                     ) {
                         Some(run) => {
+                            require_electrolysis_water(self.vessel(*vessel)?, run.water_spent)?;
                             let v = self.vessel_mut(*vessel)?;
                             if run.water_spent > crate::OBSERVABLE_MOLES {
                                 v.withdraw(&SpeciesId::new("water"), Moles(run.water_spent));
@@ -6290,6 +6291,30 @@ fn stock_refusal_event(vessel: VesselId, key: &str, refusal: crate::stock::Stock
 /// there so a solver that neither warms nor consumes cannot spin, and when
 /// it is reached the event says so rather than pretending the dose ran out.
 const HEAT_DELIVERY_PASSES: u32 = 32;
+
+/// Refuse the whole current dose before any electrode product is booked.
+/// The represented route is aqueous: exhausting the last observable solvent
+/// would require a different phase/voltage model, so that endpoint is declined.
+fn require_electrolysis_water(vessel: &Vessel, required: f64) -> Result<(), BenchError> {
+    let available: f64 = vessel
+        .contents
+        .iter()
+        .filter(|portion| portion.species.0 == "water" && portion.phase == Phase::Liquid)
+        .map(|portion| portion.moles.0)
+        .sum();
+    if !required.is_finite()
+        || required < 0.0
+        || !available.is_finite()
+        || available - required <= crate::OBSERVABLE_MOLES
+    {
+        return Err(BenchError::InvalidState(format!(
+            "electrolysis water budget: requested dose requires {required} mol liquid water, \
+             available {available} mol; an observable aqueous solvent remainder is required. \
+             No electrode products or partial current dose were applied"
+        )));
+    }
+    Ok(())
+}
 
 /// One `Electrolysed` for a solvent-electrolysis run, with BOTH electrodes
 /// named.
