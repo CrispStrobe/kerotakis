@@ -35,7 +35,7 @@ pub const KNOWN_SOLVENTS: &[&str] = &["ethanol", "hexane", "ethyl_acetate", "pro
 /// to the first digit; the point is the verdict and its order of
 /// magnitude, and the provenance says exactly that.
 ///
-/// ## Every source line here was withdrawn on 2026-09-13
+/// ## Sixty-five legacy source lines were withdrawn on 2026-09-13
 ///
 /// All sixty-five of these rows cited "CRC Handbook, 97th ed." as the
 /// source of the number. PLAN.md's provenance audit puts that handbook on
@@ -70,6 +70,8 @@ pub const KNOWN_SOLVENTS: &[&str] = &["ethanol", "hexane", "ethyl_acetate", "pro
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum SolubilityProvenance {
     Withdrawn,
+    /// A qualitative teaching estimate, not a measured numerical solubility.
+    EditorialEstimate,
 }
 
 pub struct OrganicSolubility {
@@ -274,6 +276,7 @@ pub const ORGANIC_SOLUBILITY: &[OrganicSolubility] = &[
         solute: "chlorophyll",
         solvent: "ethanol",
         g_per_100ml: 2.0,
+        provenance: SolubilityProvenance::EditorialEstimate,
         source: "Editorial judgement (Kerotakis): no general reference tabulates a chlorophyll solubility, because an extract is a mixture of chlorophyll a, chlorophyll b and allomers that degrade in solution. Ethanol is nevertheless the standard solvent for extracting leaf pigment, and 2 g/100 mL is an order-of-magnitude teaching figure standing for 'freely soluble'. The verdict is the claim; the digit is not",
     },
     // ── hexane ──────────────────────────────────────────────────────
@@ -773,7 +776,7 @@ pub fn verdict_exists(species: &SpeciesId, solvent: &str) -> bool {
             .any(|(m, s, _)| *m == species.0 && *s == solvent)
 }
 
-/// Report withdrawn numerical support before any consumer can use or consume
+/// Report unvalidated numerical support before any consumer can use or consume
 /// the solute. Liquid residues matter too: a dissolved label is not provenance.
 /// This does not replace the legacy values with unlimited dissolution or claim
 /// that their phase partition, reaction extent or yield has been validated.
@@ -782,7 +785,6 @@ pub(crate) fn solubility_boundaries(vessel: &Vessel, solvent: &str) -> Vec<Event
         .iter()
         .filter(|row| {
             row.solvent == solvent
-                && row.provenance == SolubilityProvenance::Withdrawn
                 && vessel.contents.iter().any(|portion| {
                     portion.species.0 == row.solute
                         && matches!(portion.phase, Phase::Solid | Phase::Liquid)
@@ -790,12 +792,22 @@ pub(crate) fn solubility_boundaries(vessel: &Vessel, solvent: &str) -> Vec<Event
                 })
         })
         .map(|row| {
+            let (key, english) = match row.provenance {
+                SolubilityProvenance::Withdrawn => (
+                    "not-modeled.withdrawn-organic-solubility",
+                    "{solute} in {solvent}: the legacy solubility value has withdrawn provenance and no supported replacement. Reported dissolved amounts, phase partition and dependent reaction yields are provisional, not validated predictions; organic electrolyte speciation and activities are not modeled",
+                ),
+                SolubilityProvenance::EditorialEstimate => (
+                    "not-modeled.editorial-organic-solubility",
+                    "{solute} in {solvent}: the solubility value is an editorial teaching estimate, not a measured numerical limit. Reported dissolved amounts, phase partition and dependent reaction yields are provisional, not validated predictions",
+                ),
+            };
             Event::not_modeled(
                 vessel.id,
                 crate::ops::NotModelledCause::ModelBoundary,
                 Phrase::new(
-                    "not-modeled.withdrawn-organic-solubility",
-                    "{solute} in {solvent}: the legacy solubility value has withdrawn provenance and no supported replacement. Reported dissolved amounts, phase partition and dependent reaction yields are provisional, not validated predictions; organic electrolyte speciation and activities are not modeled",
+                    key,
+                    english,
                     vec![
                         ("solute".into(), Slot::text(row.solute)),
                         ("solvent".into(), Slot::text(solvent)),
@@ -973,18 +985,41 @@ mod provenance_tests {
     }
 
     #[test]
-    fn every_withdrawn_pair_reports_one_boundary_for_split_phases() {
-        assert_eq!(ORGANIC_SOLUBILITY.len(), 65);
+    fn every_unvalidated_pair_reports_one_boundary_for_split_phases() {
+        assert_eq!(ORGANIC_SOLUBILITY.len(), 66);
+        assert_eq!(
+            ORGANIC_SOLUBILITY
+                .iter()
+                .filter(|row| row.provenance == SolubilityProvenance::Withdrawn)
+                .count(),
+            65
+        );
+        assert_eq!(
+            ORGANIC_SOLUBILITY
+                .iter()
+                .filter(|row| row.provenance == SolubilityProvenance::EditorialEstimate)
+                .count(),
+            1
+        );
         for row in ORGANIC_SOLUBILITY {
             let mut vessel = Vessel::new(VesselId(0), "all legacy pairs");
             vessel.deposit(SpeciesId::new(row.solvent), Moles(1.0), Phase::Liquid);
             vessel.deposit(SpeciesId::new(row.solute), Moles(0.001), Phase::Solid);
             vessel.deposit(SpeciesId::new(row.solute), Moles(0.001), Phase::Liquid);
             let events = solubility_boundaries(&vessel, row.solvent);
+            let expected_key = match row.provenance {
+                SolubilityProvenance::Withdrawn => "not-modeled.withdrawn-organic-solubility",
+                SolubilityProvenance::EditorialEstimate => {
+                    "not-modeled.editorial-organic-solubility"
+                }
+            };
             assert_eq!(events.len(), 1, "{} in {}", row.solute, row.solvent);
             assert!(matches!(&events[0], Event::NotYetModeled {
                 cause: crate::ops::NotModelledCause::ModelBoundary, reason: Some(reason), ..
-            } if reason.text_slot("solute") == Some(row.solute)
+            } if reason.key == expected_key
+                && reason.render(Locale::parse("de")) != reason.render(Locale::EN)
+                && reason.render(Locale::parse("fr")) != reason.render(Locale::EN)
+                && reason.text_slot("solute") == Some(row.solute)
                 && reason.text_slot("solvent") == Some(row.solvent)));
         }
     }
