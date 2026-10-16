@@ -1,0 +1,27 @@
+{
+  "frozen_utc": "2026-10-16T05:13:11.016263+00:00",
+  "kind": "rank007 complete-conducting-stock followup; original pure-water control unchanged",
+  "rank": 7,
+  "engine": {
+    "source_head": "efd79bf88eb1514bb87506171c39e808c3b544e1",
+    "source_tree": "b85fca52e02c5a879cf47ae05cf546129f12b8fb",
+    "build_image": "public.ecr.aws/amazonlinux/amazonlinux@sha256:18c71e6a20f8b0834b002b6002156a84eea76162d5adea72d2ea8b86800eaf91",
+    "binary_sha256": "75cb9b3ca1a38c05dcde7faad1efdd4cb69ec89f7df29f4d91468baa3d0b00fa",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+    "libraries": {
+      "ld-linux-x86-64.so.2": "5022436ff15df9e54e79ee0a0ca8b3422a0dcb0c11920d9901ded30eccbf8638",
+      "libc.so.6": "fdf84d7d72db18bb3996a7b24f3eb473e7efbc8f994af7b159f76d61d1b4c978",
+      "libgcc_s.so.1": "9460b5f230d3f66554ec259e8e0890b0946dfde7cc83f95d1ac8d4dca3d3f9bb",
+      "libm.so.6": "f7cb1097b97353d994fe191e5fafc81f0171935792311a157c3082213fc704e0",
+      "libstdc++.so.6": "846b43f9f1429cc67ae7ffd24f4ccdd7a17d652765aaf3e6f9d2ca54178b369d"
+    },
+    "loader": "ld-linux-x86-64.so.2",
+    "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+    "target": "x86_64-unknown-linux-gnu"
+  },
+  "script": "add v1 water 100mL @ 25C\nadd v1 H2SO4 0.001mol\ninspect v1\nelectrolyse v1 0.1A 100s\ninspect v1\nwait 10s\ninspect v1\n",
+  "script_sha256": "e7593076038d1cd491bde9313e4599cea55102afefb7313baf0f068e6afb1e40",
+  "forecast_before_execution": "With supporting dilute sulfuric acid,10C produces hydrogen and oxygen in a2:1molar ratio, approximately5.18e-5molH2 and2.59e-5molO2 at100%ideal current efficiency if this electrode domain is supported. For an open vessel, gas output must be explicitly exported rather than unowned retained inventory. Preserve sodium-free sulfate stock and balance water/H/O; no empirical efficiency, rate or full electrical/thermal-work calibration claim.",
+  "original_protocol_status": "Pure water conductivity/electrode model refusal is retained as unsupported, not rewritten.",
+  "lock_binding": "Producer-reported; rawlock bytes not included in hosted artifact."
+}

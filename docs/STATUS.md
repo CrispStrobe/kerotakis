@@ -302,3 +302,16 @@ production is unchanged. The standalone
 [working-script JSON](../audits/working-experiments-20261016.json) contains 147
 previously demonstrated experiments, including 13 original supplied-200 cases
 and nine complete-stock follow-ups; it is not a fresh current-engine batch.
+
+
+Rank 7's [conducting-stock follow-up](../audits/reaction-dataset-200-20261015/case007-repair-20261016/assessment.json)
+now demonstrates the expected electrolysis products, a 2:1 H2/O2 ratio, matching
+water consumption and retained sulfate. The pure-water electrode-domain limit
+remains. Rank 14's [complete-stock displacement](../audits/reaction-dataset-200-20261015/case014-repair-20261016/assessment.json)
+produces 1 mmol copper and aqueous zinc but exposes a real stale-lot bug: a wait
+reports settling of absent CuSO4 solid. A narrow core gravity/centrifuge admission
+repair with seven core controls and two native controls is prepared; runtime
+acceptance remains pending. Historical lots remain provenance, not current solid
+ownership. PR801's strict finite-gas and old filtration controls now pass on
+both native platforms, alongside each full Rust suite and unchanged curiosity
+gate; full applicable fleet acceptance still precedes integration.

@@ -83,8 +83,9 @@
       "original_script": "design/scripts/007-water_electrolysis.lab",
       "original_script_sha256": "b20ffe560fa8d2a05f3ffb4326e1db05d9a651f8b87c2ae48a0c8632dd7fe26e",
       "original_expected_observation": "Hydrogen and oxygen form in a 2:1 molar ratio.",
-      "status": "pending",
-      "next_action": "Freeze a condition-specific positive protocol and matching boundary/activation negative controls. Implement the missing physical domain with finite material/energy accounting before assigning target agreement."
+      "status": "principal_response_verified_in_separate_conducting_stock_protocol",
+      "next_action": "Preserve pure-water refusal as unsupported. Use separately frozen acidified-water protocol for the demonstrated gas endpoint and water balance; do not claim empirical electrode efficiency or full electrical/thermal calibration.",
+      "evidence": "case007-repair-20261016/assessment.json"
     },
     {
       "rank": 8,
@@ -171,8 +172,9 @@
       "original_script": "design/scripts/014-daniell_cell.lab",
       "original_script_sha256": "c6041a540026ef409cf64cbe234baa8d9a2d8268b24c21ecc969ccff25fd2fd1",
       "original_expected_observation": "Zinc dissolves and copper is deposited.",
-      "status": "pending",
-      "next_action": "Reproduce the documented material gap separately, preserving the demonstrated response. Repair its ownership/boundary/observable cause and check full forecast, conservation and repeated continuation."
+      "status": "complete_stock_displacement_verified; stale_solid_lot_settling_defect_open",
+      "next_action": "Repair gravity-clock use of historical lot metadata without present solid inventory. Verify actual native dissolved-salt wait replay, real residual-solid positive controls, trace and multiple-lot ownership; preserve canonical inventory and original bare-ion evidence.",
+      "evidence": "case014-repair-20261016/assessment.json"
     },
     {
       "rank": 15,

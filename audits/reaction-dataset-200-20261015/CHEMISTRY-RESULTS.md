@@ -157,3 +157,16 @@ aliases and executes no chemistry. Charged, hydrated, phase-specific and isomer
 identities must remain distinct. Continue implementation after the earlier
 endpoint prerequisites; a resolved first token can reveal further missing
 reactants in the same protocol.
+
+Rank 7 has a [separate conducting-stock replay](case007-repair-20261016/assessment.json):
+10 C produces 5.18213e-5 mol H2 and 2.59107e-5 mol O2, explicitly exported,
+with matching water consumption and unchanged sulfate. The original pure-water
+electrode-domain refusal remains unsupported; no empirical efficiency or full
+work/heat calibration is claimed.
+
+Rank 14's [complete copper-sulfate direct-contact replay](case014-repair-20261016/assessment.json)
+produces 1 mmol copper metal and aqueous zinc after the wait. It also reproduces
+a shared defect: the gravity clock reports settling of CuSO4 despite no solid
+CuSO4 in the preceding inventory. Historical addition lots are not authoritative
+current solids. A narrow physical-solid settling repair is in preparation; this
+experiment remains open for that defect despite its demonstrated chemical target.
