@@ -1,0 +1,19 @@
+{
+  "recorded_utc": "2026-10-16T11:04:38.698458+00:00",
+  "pr": 812,
+  "first_head": "2df4107c10f085e6abffcb115e861da221ab8f2a",
+  "first_run": 38887698127,
+  "first_job": 116929364705,
+  "raw_log_sha256": "ab94ff492dcdf435469bab4edbe1f3ec510b2584b8d080ade8942b33e1a4b62f",
+  "first_failure_excerpt": [
+    "2026-10-16T10:55:18.1861300Z error: useless use of `vec!`",
+    "2026-10-16T10:55:18.1979730Z    --> crates/kerotakis-core/tests/transport_effluent_ownership.rs:429:24",
+    "2026-10-16T10:55:18.2789720Z error: could not compile `kerotakis-core` (test \"transport_effluent_ownership\") due to 1 previous error"
+  ],
+  "corrected_head": "d62037170c984620abfff2b089adf4130f1c4835",
+  "change": "Fixed-size rollback snapshot uses array; all assertions and runtime unchanged",
+  "runtime_and_native_test_blobs_unchanged": true,
+  "new_ci_run": 38890961265,
+  "new_full_own_fleet_run": 38890961321,
+  "native_execution_for_corrected_head": "not yet accepted"
+}

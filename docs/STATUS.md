@@ -54,7 +54,7 @@ or completed200-case transport jobs.
 
 | PR/lane | Actual state and next acceptance |
 | --- | --- |
-| PR805 acidified permanganate/peroxide | `d66b0811` pushed; exact-head CI/fleets pending. Root reviewed the locale-composer admission. Earlier native endpoint controls passed before the locale gate; the separate viewer failure still needs diagnosis/repair. No merge or full-domain pass is claimed. |
+| PR805 acidified permanganate/peroxide | Integrated as `adef8be6` after58 successful checks and one skip: both native platforms, cache/Wasm/live-hook, online/offline Chromium and full own fleet pass. Unknown heat and competing manganese-oxide phase exclusions remain limits; viewer repair stays separate. |
 | PR807 proven input aliases | Integrated as `f441cf6e` after58 successful checks and one skip, including both native platforms and the full own fleet. Only CuSO4_anhydrous→CuSO4 and acetate→CH3COO- are admitted; no new scientific pass or production acceptance is assigned. |
 | [PR809 aqueous transfer ownership](https://github.com/CrispStrobe/kerotakis/pull/809) | Draft `673233df` carries measured proton/hydroxide and charge baselines with Filter/Decant liquid, preserves nontransferred gas, and adds ten core plus two native regression groups. The first preflight found private fixture-method calls; a test-only correction preserves all assertions. Hosted compile/native/core and fleet acceptance remain pending. |
 | [PR810 viewer ownership](https://github.com/CrispStrobe/kerotakis/pull/810) | Draft `3a61b1f1` passes ten targeted actual-module checks, fifteen maintained controller tests in bounded Vitest and six adapter groups with a transpile-only loader. Source/test review is complete; normal exact-head CI, Vite-loader/browser and the full viewer/own-fleet checks remain (fleet run38880000860 dispatched once). |
@@ -125,7 +125,7 @@ proven aliases and shared reconciliation for the protocol agent. Hermes runs
 Together.ai `meta-models/Muse-Spark-Open-816B-A42B-promo` for underlying models
 and its own status/evidence. Keep private operating details out of public files.
 
-1. Finish805/809/810/812 applicable acceptance; diagnose actual failures, integrate
+1. Finish809/810/812 applicable acceptance; diagnose actual failures, integrate
    accepted reviewed heads and verify actual merge trees. Verify Pages publication.
 2. Repair [viewer generation ownership](../audits/new-experiments-201-20261016/viewer-followup-review.json)
    on its separate narrow branch. Actual pinned modules reproduce stale cleanup
@@ -194,3 +194,7 @@ domain expansion and the optical CEA convergence failure remain separate gaps.
 [PR807 integration receipt](../audits/reaction-dataset-200-20261015/pr807-integration.json)
 verifies actual merge parents and reconstructed parent-merge tree against the
 reviewed head. The earlier production binding remains separate.
+
+[PR805 integration receipt](../audits/reaction-dataset-200-20261015/pr805-integration.json)
+records accepted bounded endpoint and actual merge-tree checks. The previous
+F12 replay and production receipts retain their original source bindings.

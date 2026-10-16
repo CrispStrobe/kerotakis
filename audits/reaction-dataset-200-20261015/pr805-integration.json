@@ -1,0 +1,33 @@
+{
+  "recorded_utc": "2026-10-16T11:04:38.534674+00:00",
+  "pr": 805,
+  "head": "d66b08119c75b0b30e22550c5951f85c7801fe93",
+  "merge_commit": "adef8be657ce97535ed0a807ed2b68248bd6bd5c",
+  "merge_parents": [
+    "f441cf6eb8c42c5a558a50ca7b7e88e59c1034f8",
+    "d66b08119c75b0b30e22550c5951f85c7801fe93"
+  ],
+  "expected_parent_merge_tree": "755771c8c11992743e9b37c14ad611fda263dfd9",
+  "actual_tree": "755771c8c11992743e9b37c14ad611fda263dfd9",
+  "tree_matches": true,
+  "checks": {
+    "success": 58,
+    "skipped": 1
+  },
+  "ci_run": 38870449486,
+  "full_own_fleet_run": 38870449501,
+  "focused_acceptance": [
+    "core endpoint admission/conservation/rollback",
+    "both native platforms and corrected prewarm operator-boundary controls",
+    "cache-only and actual Wasm/cache/live hook",
+    "online/offline real Chromium open/sealed endpoint controls"
+  ],
+  "final_source_review": "Difference from earlier reviewed3f84e59f is one locale-composer fixture admission; runtime unchanged by that final correction.",
+  "limits": [
+    "Unknown reaction heat withheld",
+    "Excluded competing manganese-oxide phases remain coverage limits",
+    "Prior F12 raw replay retains its old executable/source binding",
+    "No current production execution or empirical calibration claim"
+  ],
+  "delivery": "normal protected exact-head auto-merge; no admin bypass"
+}
