@@ -301,7 +301,7 @@ class ApiTests(unittest.TestCase):
         with patch.object(api.httpx, "AsyncClient", side_effect=lambda **kwargs:
                 original_client(transport=httpx.MockTransport(handle), **kwargs)), \
              patch.object(api.asyncio, "timeout", side_effect=lambda seconds:
-                original_timeout(.01 if seconds == 40 else seconds)):
+                original_timeout(.01 if seconds == 50 else seconds)):
             with self.assertRaises(HTTPException) as error:
                 asyncio.run(api.forward(self.cfg, TOKEN, "inspect v1"))
         self.assertEqual(error.exception.status_code, 502)

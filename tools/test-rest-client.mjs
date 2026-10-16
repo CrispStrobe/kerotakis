@@ -22,7 +22,7 @@ elements.endpoint.value = 'https://api.example';
 elements.script.value = 'inspect v1';
 await submit();
 assert.equal(requests.length, 1);
-assert.equal(requestedTimeout, 45000);
+assert.equal(requestedTimeout, 65000);
 assert.equal(String(requests[0][0]), 'https://api.example/run');
 assert.equal(requests[0][1].redirect, 'error');
 assert.equal(requests[0][1].credentials, 'omit');

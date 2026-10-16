@@ -575,8 +575,8 @@ async def run_microvm_engine(cfg: Settings, script: str):
 
 async def forward(cfg: Settings, token: str, script: str):
     try:
-        async with asyncio.timeout(40):
-            async with httpx.AsyncClient(timeout=40, follow_redirects=False, trust_env=False) as client:
+        async with asyncio.timeout(50):
+            async with httpx.AsyncClient(timeout=50, follow_redirects=False, trust_env=False) as client:
                 async with client.stream("POST", cfg.upstream + "/run", json={"script": script},
                         headers={"Authorization": "Bearer " + token}) as response:
                     data = bytearray()

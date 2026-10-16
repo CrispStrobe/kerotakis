@@ -187,7 +187,11 @@ exhaustion; it is finite and does not remove loop or admission limits.
 
 Deadline ordering reserves room for cleanup: child 18s wall, supervisor process
 kill 21s, SDK process deadline 23s, VM lifetime 30s, complete VM lifecycle 35s,
-optional forwarding 40s and browser 45s, under the 60s Vercel function deadline.
+optional total forwarding 50s, function deadline 60s and browser 65s.
+The Vercel worker also reserves up to 5s for the body, 3s for admission and 3s
+for release around its 35s VM lifecycle; the client deadline includes these
+phases rather than only the engine time. Forwarding reserves room for the
+upstream lifecycle and the gateway body under its own function deadline.
 The CLI validates quantities, identities and chemistry; gateway admission does not claim chemical support or success.
 
 ## Browser clients
