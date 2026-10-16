@@ -14,7 +14,7 @@
     "The recent silver/ammonia replay is excluded because canonical free/complex-bound ligand ownership remains a material gap.",
     "Original experiment designs, forecasts and first results remain unchanged."
   ],
-  "count": 149,
+  "count": 150,
   "counts_by_group": {
     "independent-first50": 38,
     "independent-second50": 25,
@@ -23,7 +23,8 @@
     "fresh50-normalized": 28,
     "supplied200": 13,
     "complete-reagent-followups": 9,
-    "supplied200-repaired-protocols": 2
+    "supplied200-repaired-protocols": 2,
+    "new201-original-assessed": 1
   },
   "experiments": [
     {
@@ -2903,7 +2904,34 @@
         "engine_binding": "audits/reaction-dataset-200-20261015/solid-settling-rest-acceptance-20261016/execution-binding.json",
         "response": "audits/reaction-dataset-200-20261015/solid-settling-rest-acceptance-20261016/007-water-electrolysis.response.json"
       }
+    },
+    {
+      "id": "new201-original-assessed:batch2:qa-011",
+      "group": "new201-original-assessed",
+      "title": "Coarse and fine burette steps with a physically dispensed fractional endpoint",
+      "script": "# QA-011: Coarse and fine burette steps produce different endpoint uncertainty\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 HCl 0.001035mol\nnew\nadd v2 water 100mL\nadd v2 HCl 0.001035mol\ntitrate v1 NaOH 0.1M 1mL until ph 7 max 30\ntitrate v2 NaOH 0.1M 0.1mL until ph 7 max 200\ninspect\n",
+      "script_sha256": "01f8a947a613993eb8e3c35b30267b68b6ff5100f5302a059d394dd728adb219",
+      "expected_result": "The ideal equivalence volume is 10.35 mL. A whole-step endpoint is expected near 11 mL for 1 mL steps and 10.4 mL for 0.1 mL steps, unless the engine explicitly interpolates.",
+      "observed_result": "Both arms physically deliver approximately 10.350004 mL of 0.1 M NaOH for 1.035 mmol HCl. Retained sodium agrees with the event dose; H/O/Na/Cl/charge and titrant carrier water close. The final increment is fractional, rather than only a displayed endpoint estimate.",
+      "validated_on": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "limitations": [
+        "Ideal computed endpoint; real burette resolution, experimental uncertainty and empirical calibration are not modeled by this check.",
+        "Native CLI source-qualified; no API execution of this presentation-bearing script is claimed.",
+        "Cargo.lock identity is producer-reported; its raw bytes were not included in the runtime artifact."
+      ],
+      "evidence": {
+        "assessment": "audits/new-experiments-201-20261016/native-screen-results/endpoint-dose-review/assessment.json",
+        "saved_reader": "audits/new-experiments-201-20261016/native-screen-results/endpoint-dose-review/review_saved.py",
+        "tested_script": "audits/new-experiments-201-20261016/scripts/QA-011.lab",
+        "raw_artifact": "audits/new-experiments-201-20261016/native-screen-results/raw-artifact.zip",
+        "engine_binding": "audits/new-experiments-201-20261016/native-screen-results/binding.json"
+      }
     }
   ],
-  "updated_utc": "2026-10-16T06:39:53.303119+00:00"
+  "updated_utc": "2026-10-16T09:42:44.469434+00:00"
 }

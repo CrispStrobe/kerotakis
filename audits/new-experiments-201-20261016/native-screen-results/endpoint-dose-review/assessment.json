@@ -1,0 +1,72 @@
+{
+  "id": "batch2:qa-011",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "script_sha256": "01f8a947a613993eb8e3c35b30267b68b6ff5100f5302a059d394dd728adb219",
+  "stdout_sha256": "9d2db0efc4cf48ba7a520dc02307f3e0ab0b938ddfd57602d5c97e4ade7c2783",
+  "raw_artifact_sha256": "7e3102c8ba72746974b0595de3f525041064e1641d55b2bcc11f546646a2f3f3",
+  "original_physical_forecast": "The ideal equivalence volume is 10.35 mL. A whole-step endpoint is expected near 11 mL for 1 mL steps and 10.4 mL for 0.1 mL steps, unless the engine explicitly interpolates.",
+  "original_checks": [
+    {
+      "id": "QA-011-C1",
+      "criterion": "Compare actual delivered volumes with the 10.35 mL stoichiometric reference.",
+      "result": "met"
+    },
+    {
+      "id": "QA-011-C2",
+      "criterion": "Distinguish an interpolated estimate from the physical amount actually added.",
+      "result": "met"
+    }
+  ],
+  "arms": [
+    {
+      "vessel": 0,
+      "requested_increment_l": 0.001,
+      "actual_delivered_volume_l": 0.010350003838539125,
+      "steps": 11,
+      "final_partial_increment_l": 0.00035000383853912506,
+      "actual_delivered_NaOH_mol": 0.0010350003838539125,
+      "retained_sodium_mol": 0.0010350003838539125,
+      "carrier_water_mol": 0.5727978810448797,
+      "ideal_reference_volume_l": 0.010349999999999998,
+      "final_ph": 6.999923425922,
+      "material_charge_residual_mol": {
+        "H": -3.552713678800501e-15,
+        "O": -2.6645352591003757e-15,
+        "Na": 0.0,
+        "Cl": 2.168404344971009e-19,
+        "charge": -2.439454888092385e-19
+      }
+    },
+    {
+      "vessel": 1,
+      "requested_increment_l": 0.0001,
+      "actual_delivered_volume_l": 0.01035000391006469,
+      "steps": 104,
+      "final_partial_increment_l": 5.000391006469013e-05,
+      "actual_delivered_NaOH_mol": 0.001035000391006469,
+      "retained_sodium_mol": 0.0010350003910064717,
+      "carrier_water_mol": 0.5727978850033025,
+      "ideal_reference_volume_l": 0.010349999999999998,
+      "final_ph": 7.000050560469,
+      "material_charge_residual_mol": {
+        "H": -9.592326932761353e-14,
+        "O": -4.796163466380676e-14,
+        "Na": 2.6020852139652106e-18,
+        "Cl": 0.0,
+        "charge": -1.1011428314305904e-19
+      }
+    }
+  ],
+  "verdict": "original_bounded_expectation_met",
+  "interpretation": "The fractional final increment is actually dispensed: retained sodium and carrier/atom balances match the event dose. It is not only an interpolated display estimate.",
+  "limitations": [
+    "Ideal computed endpoint; real burette resolution, experimental uncertainty and empirical calibration are not modeled by this check.",
+    "Native CLI source-qualified; no API execution of this presentation-bearing script is claimed."
+  ],
+  "new_engine_executions": 0
+}

@@ -1,0 +1,16 @@
+{
+  "recorded_utc": "2026-10-16T09:42:44.469434+00:00",
+  "catalog": "audits/working-experiments-20261016.json",
+  "previous_count": 149,
+  "new_count": 150,
+  "entry_id": "new201-original-assessed:batch2:qa-011",
+  "unchanged_previous_entries": 149,
+  "source_qualified_substantive_agreement": true,
+  "successful_exit_alone_not_selection": true,
+  "original_200_repaired_count_not_changed": true,
+  "new_engine_executions": 0,
+  "original_checks_met": 2,
+  "material_tolerance_mol": 1e-08,
+  "script_sha256": "01f8a947a613993eb8e3c35b30267b68b6ff5100f5302a059d394dd728adb219",
+  "assessment_sha256": "61a863c50d61f4b3254b3693e25ca883a82952c0c35773b7a849c4b3eb10eda3"
+}

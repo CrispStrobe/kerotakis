@@ -101,3 +101,8 @@ A [separate QA-003 scene-volume supplement](quantitative-saved-review/scene-volu
 checks liquid volumes already present in the raw measurement-step scene. They
 support the concentration forecast; the original gas-meter refusals still stand.
 The first reader and assessment omitted those scene values and remain preserved.
+
+The [QA-011 endpoint-dose assessment](endpoint-dose-review/README.md) verifies
+that the refined final increment is physically dispensed. It adds one unchanged,
+source-qualified CLI protocol to the working catalog (now150); the previous149
+entries and original200 outcomes remain unchanged. No experiment was rerun.

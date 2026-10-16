@@ -54,7 +54,7 @@ or completed200-case transport jobs.
 | --- | --- |
 | PR805 acidified permanganate/peroxide | `d66b0811` pushed; exact-head CI/fleets pending. Root reviewed the locale-composer admission. Earlier native endpoint controls passed before the locale gate; the separate viewer failure still needs diagnosis/repair. No merge or full-domain pass is claimed. |
 | PR807 proven input aliases | `352e1c48`; all six focused macOS native groups passed. Linux/remaining applicable checks still gate readiness. Only CuSO4_anhydrous→CuSO4 and acetate→CH3COO- are admitted. |
-| [PR809 aqueous transfer ownership](https://github.com/CrispStrobe/kerotakis/pull/809) | Draft `25956e61` carries measured proton/hydroxide and charge baselines with Filter/Decant liquid, preserves nontransferred gas, and adds ten core plus two native regression groups. Static checks passed; hosted native/core and fleet acceptance remain pending. |
+| [PR809 aqueous transfer ownership](https://github.com/CrispStrobe/kerotakis/pull/809) | Draft `673233df` carries measured proton/hydroxide and charge baselines with Filter/Decant liquid, preserves nontransferred gas, and adds ten core plus two native regression groups. The first preflight found private fixture-method calls; a test-only correction preserves all assertions. Hosted compile/native/core and fleet acceptance remain pending. |
 | [PR810 viewer ownership](https://github.com/CrispStrobe/kerotakis/pull/810) | Draft `3a61b1f1` passes ten targeted actual-module checks, fifteen maintained controller tests in bounded Vitest and six adapter groups with a transpile-only loader. Source/test review is complete; normal exact-head CI, Vite-loader/browser and the full viewer/own-fleet checks remain (fleet run38880000860 dispatched once). |
 
 Use normal exact-head auto-merge when all applicable acceptance passes. Never
@@ -73,9 +73,11 @@ cancel active checks for optional edits. Refresh actual heads before work.
   no procedures. Separate complete-stock/procedure repairs must retain their
   original first outcomes. Do not call the92 scientific passes or repeat the batch
   unchanged. See [chemical assessment](../audits/reaction-dataset-200-20261015/CHEMISTRY-RESULTS.md).
-- The [working catalog](../audits/working-experiments-20261016.json) retains149
-  source-qualified entries across corpora; this is not149 repaired original200
-  reactions. No new whole-case closures are assigned by the latest controls.
+- The [working catalog](../audits/working-experiments-20261016.json) retains150
+  source-qualified entries across corpora; this is not150 repaired original200
+  reactions. One separately [assessed original QA-011 protocol](../audits/new-experiments-201-20261016/native-screen-results/endpoint-dose-review/README.md)
+  is newly selected: actual fractional endpoint doses and retained material agree
+  with both original conditional checks. Previous149 entries remain unchanged.
 - The [new201 intake](../audits/new-experiments-201-20261016/README.md) preserves100
   batch-3 and101 batch-2 designs. The hosted native screen selects197 originals
   and four separate explicit-React corrections. **All201 executed once:198 zero
