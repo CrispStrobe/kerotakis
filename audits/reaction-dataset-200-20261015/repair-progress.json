@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-10-16T05:09:22.626449+00:00",
+  "updated_utc": "2026-10-16T05:19:46.707177+00:00",
   "kind": "maintained per-record repair queue; no original verdicts rewritten",
   "original_screening": "chemistry-screening.json",
   "records": [
@@ -172,9 +172,11 @@
       "original_script": "design/scripts/014-daniell_cell.lab",
       "original_script_sha256": "c6041a540026ef409cf64cbe234baa8d9a2d8268b24c21ecc969ccff25fd2fd1",
       "original_expected_observation": "Zinc dissolves and copper is deposited.",
-      "status": "complete_stock_displacement_verified; stale_solid_lot_settling_defect_open",
-      "next_action": "Repair gravity-clock use of historical lot metadata without present solid inventory. Verify actual native dissolved-salt wait replay, real residual-solid positive controls, trace and multiple-lot ownership; preserve canonical inventory and original bare-ion evidence.",
-      "evidence": "case014-repair-20261016/assessment.json"
+      "status": "complete_stock_displacement_verified; physical_solid_settling_repair_awaiting_native_and_fleet_acceptance",
+      "next_action": "Follow PR803 seven core and two native controls, all applicable CI and own fleets; fix failures, then normal protected exact-head auto-merge and rerun unchanged rank14 follow-up. Preserve first bogus-settling event and remaining grain-lot representation limits.",
+      "evidence": "case014-repair-20261016/assessment.json",
+      "repair_pr": "https://github.com/CrispStrobe/kerotakis/pull/803",
+      "repair_head": "7d229066dc0039c62939dfd0dd04004e94b932be"
     },
     {
       "rank": 15,

@@ -310,7 +310,7 @@ water consumption and retained sulfate. The pure-water electrode-domain limit
 remains. Rank 14's [complete-stock displacement](../audits/reaction-dataset-200-20261015/case014-repair-20261016/assessment.json)
 produces 1 mmol copper and aqueous zinc but exposes a real stale-lot bug: a wait
 reports settling of absent CuSO4 solid. A narrow core gravity/centrifuge admission
-repair with seven core controls and two native controls is prepared; runtime
+repair is now [PR803](https://github.com/CrispStrobe/kerotakis/pull/803), `7d229066`, with seven core controls and two native controls; runtime
 acceptance remains pending. Historical lots remain provenance, not current solid
 ownership. PR801's strict finite-gas and old filtration controls now pass on
 both native platforms, alongside each full Rust suite and unchanged curiosity

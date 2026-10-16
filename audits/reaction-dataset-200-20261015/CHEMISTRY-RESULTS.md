@@ -168,5 +168,5 @@ Rank 14's [complete copper-sulfate direct-contact replay](case014-repair-2026101
 produces 1 mmol copper metal and aqueous zinc after the wait. It also reproduces
 a shared defect: the gravity clock reports settling of CuSO4 despite no solid
 CuSO4 in the preceding inventory. Historical addition lots are not authoritative
-current solids. A narrow physical-solid settling repair is in preparation; this
+current solids. A narrow physical-solid settling repair is now draft [PR803](https://github.com/CrispStrobe/kerotakis/pull/803), head `7d229066`, with seven core and two native controls awaiting acceptance; this
 experiment remains open for that defect despite its demonstrated chemical target.
