@@ -255,6 +255,27 @@ fn reference_complex_boundary(vessel: &Vessel, distribution: &[SpeciesDetail]) -
     ))
 }
 
+/// Native equilibrium includes bound ammonia, while the canonical NH3/NH4
+/// portions still partition total reduced nitrogen using only free-ion weights.
+fn silver_ammine_inventory_boundary(
+    vessel: &Vessel,
+    distribution: &[SpeciesDetail],
+) -> Option<Event> {
+    if !distribution.iter().any(|species| {
+        species.molality > 0.0 && matches!(species.name.as_str(), "AgNH3+" | "Ag(NH3)2+")
+    }) {
+        return None;
+    }
+    Some(Event::not_modeled(
+        vessel.id,
+        kerotakis_core::ops::NotModelledCause::ModelBoundary,
+        Phrase::bare(
+            "not-modeled.silver-ammine-ligand-inventory",
+            "Silver-ammonia equilibrium complexes and free ligand are represented in the solution speciation. The canonical NH3/NH4 portions remain analytical total-nitrogen carriers, including complex-bound ammonia; they are not measured free NH3 amounts. Their use for downstream ammonia volatilisation or curated reaction availability is not yet reconciled with bound ligand. This limitation does not withdraw the reported equilibrium complex distribution",
+        ),
+    ))
+}
+
 fn reactive_gas_boundary(vessel: &Vessel, problem: &Problem) -> Option<Event> {
     if !problem.gases.iter().any(|(_, species, _)| species == "HBr")
         && !problem
@@ -1749,6 +1770,13 @@ fn append_candidate_phases(
     }
 }
 
+/// Element coverage alone cannot express ligand coverage: wateq4f knows
+/// both Ag and N(-3), but lacks silver ammines. Nitrate N(5) is not ammonia.
+fn needs_silver_ammine(elements: &[String]) -> bool {
+    elements.iter().any(|element| element == "Ag")
+        && elements.iter().any(|element| element == "N(-3)")
+}
+
 fn partition(vessel: &Vessel) -> Option<Problem> {
     let mut kgw = 0.0;
     let mut totals: Vec<(String, f64)> = Vec::new();
@@ -2455,7 +2483,41 @@ fn checked_crystal_reconciliation(
     Ok(corrected)
 }
 
+impl kerotakis_core::aqueous_continuation::TrustedAqueousReadback for PhreeqcEquilibrator {
+    fn characterize_current(
+        &mut self,
+        vessel: &mut Vessel,
+    ) -> Result<
+        (
+            Vec<Event>,
+            kerotakis_core::aqueous_continuation::CurrentAqueousAnswer,
+        ),
+        SolveError,
+    > {
+        // Concrete native/hook/cache adapter: no generic Equilibrator may
+        // manufacture a freshness receipt by restoring an old SolutionInfo.
+        let input = vessel.clone();
+        let mut candidate = input.clone();
+        candidate.solution = None;
+        candidate.resolved.invalidate();
+        candidate.free_proton = 0.0;
+        candidate.free_hydroxide = 0.0;
+        let events = self.equilibrate(&mut candidate)?;
+        let receipt = kerotakis_core::aqueous_continuation::CurrentAqueousAnswer::attest_computed(
+            &input, &candidate,
+        )?;
+        *vessel = candidate;
+        Ok((events, receipt))
+    }
+}
+
 impl Equilibrator for PhreeqcEquilibrator {
+    fn trusted_aqueous_readback(
+        &mut self,
+    ) -> Option<&mut dyn kerotakis_core::aqueous_continuation::TrustedAqueousReadback> {
+        Some(self)
+    }
+
     fn name(&self) -> &'static str {
         "phreeqc-aqueous"
     }
@@ -2654,7 +2716,12 @@ impl Equilibrator for PhreeqcEquilibrator {
             // the fixed-point loop walk a thermostatted vessel away from t0
             // made the bath a suggestion.
             let held = start.energy_between(t_ref, t0) + q_joules;
-            let next = if !matches!(start.thermal_mode, ThermalMode::Adiabatic) {
+            // Unknown-heat continuation is characterisation at the supplied
+            // temperature, not an adiabatic prediction. Even a Cp/water basis
+            // change must not reconstruct omitted endpoint heat indirectly.
+            let next = if !matches!(start.thermal_mode, ThermalMode::Adiabatic)
+                || !kerotakis_core::aqueous_continuation::whole_step_heat_available(&start)
+            {
                 t0
             } else if trial.heat_capacity() > 0.0 {
                 trial.temperature_after_from(t_ref, held)
@@ -2784,8 +2851,13 @@ impl Equilibrator for PhreeqcEquilibrator {
         soln_b: &Vessel,
         frac_b: f64,
     ) -> Option<Result<Vec<Event>, SolveError>> {
-        // MIX's initial solutions must not silently bypass the explicit
-        // component/basis reporting boundary of the ordinary target solve.
+        // Native MIX has its own whole-step thermal bookkeeping. An active
+        // unknown-heat continuation must use the ordinary guarded readback.
+        if !kerotakis_core::aqueous_continuation::whole_step_heat_available(vessel) {
+            return None;
+        }
+        // Neither source nor target may bypass the ordinary analytical
+        // component/basis reporting boundary through the MIX optimization.
         if [vessel as &Vessel, soln_a, soln_b].iter().any(|source| {
             has_solvent_only_basis(source) || analytical_charge_note(source).is_some()
         }) {
@@ -2824,6 +2896,13 @@ impl Equilibrator for PhreeqcEquilibrator {
             if !merged_elements.contains(el) {
                 merged_elements.push(el.clone());
             }
+        }
+
+        // Separate sources can each use wateq4f while their combination
+        // needs silver ammines. Leave that new ligand problem to the
+        // ordinary target solve, which owns capability routing/provenance.
+        if needs_silver_ammine(&merged_elements) {
+            return None;
         }
 
         // Candidate phases for the mixed solution, reconciled with the
@@ -3026,6 +3105,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         vessel.refresh_pressure();
 
         events.extend(reference_complex_boundary(vessel, &cached.speciation));
+        events.extend(silver_ammine_inventory_boundary(vessel, &cached.speciation));
         // Composed BEFORE the record it goes into, because a reader has
         // to be told about it and the telling is an event.
         //
@@ -3658,7 +3738,9 @@ impl PhreeqcEquilibrator {
                 let k_h = kerotakis_core::properties::henry_at_t(coeff, vessel.temperature.0).value;
                 (co2_moles / problem.kgw) / k_h
             });
-        if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
+        if matches!(vessel.thermal_mode, ThermalMode::Adiabatic)
+            && kerotakis_core::aqueous_continuation::whole_step_heat_available(vessel)
+        {
             // Gas this solver gave off, added to whatever the solvers
             // above it already booked into the snapshot.
             for e in &events {
@@ -3770,6 +3852,8 @@ impl PhreeqcEquilibrator {
         // (the ion-interaction model is built for them: halite saturates at
         // the textbook 6.13 mol/kgw where wateq4f gives 6.50); wateq4f
         // otherwise.
+        // Silver ammines are a separate ligand capability: Ag and N(-3)
+        // exist in wateq4f, but their complexes are present only in minteq.
         // "Extended": any element wateq4f does not know (derived — e.g.
         // Acetate), plus phosphate as a documented exception (wateq4f has
         // the P element but no free H3PO4 species).
@@ -3782,7 +3866,15 @@ impl PhreeqcEquilibrator {
             .elements
             .iter()
             .all(|el| derived::index_for("pitzer").has_element(el));
-        let (db_tag, mut routing) = if needs_extended {
+        let (db_tag, mut routing) = if needs_silver_ammine(&problem.elements) {
+            (
+                "minteq.v4",
+                Phrase::bare(
+                    "routing.silver-ammine",
+                    "chosen because silver and reduced nitrogen require the silver-ammonia complexes present in minteq.v4.dat (NIST46.4 entries 204901 and 204902); elemental coverage in the default dataset does not include these ligand species",
+                ),
+            )
+        } else if needs_extended {
             (
                 "minteq.v4",
                 Phrase::bare(
@@ -5398,6 +5490,7 @@ impl PhreeqcEquilibrator {
         });
 
         events.extend(reference_complex_boundary(vessel, &speciation));
+        events.extend(silver_ammine_inventory_boundary(vessel, &speciation));
         events.extend(reactive_gas_boundary(vessel, problem));
         // A pe nothing constrains is not a small pe, it is a number the
         // solver happened to leave behind.
@@ -6464,7 +6557,15 @@ fn build_input_at(
     writeln!(input, "    units     mol/kgw").unwrap();
     writeln!(input, "    temp      {temp_c:.4}").unwrap();
     writeln!(input, "    pH        7  charge").unwrap();
-    writeln!(input, "    water     {:.9}", problem.kgw).unwrap();
+    if vessel.owns_headspace_gas() && !problem.gases.is_empty() {
+        // Totals below are n/kgw. Quantizing only kgw changes the native
+        // supplied element amounts before equilibrium even begins. Preserve
+        // finite gas/solution ownership with matching input precision; open
+        // aqueous and MIX problems retain their established serialization.
+        writeln!(input, "    water     {:.12e}", problem.kgw).unwrap();
+    } else {
+        writeln!(input, "    water     {:.9}", problem.kgw).unwrap();
+    }
     match couple {
         // Solving for the electron balance: pe is the unknown being
         // bisected, so it is stated outright.
@@ -6535,7 +6636,12 @@ fn build_input_at(
         // of carbon simply gone, and the sealed-mass lesson drifted 0.04 g
         // away from the conservation it teaches. Invisible for as long as
         // nothing moved a sealed vessel's temperature.
-        writeln!(input, "    -temperature {temp_c:.4}").unwrap();
+        // partition() converts owned moles to partial pressure at the
+        // vessel's unrounded temperature. Four decimal Celsius places here
+        // changed the initializer's moles by T_raw/T_written (1.26e-7 in the
+        // frozen carbonated-water opening). Preserve the initializer's own
+        // temperature without changing SOLUTION's established precision.
+        writeln!(input, "    -temperature {temp_c:.12e}").unwrap();
         match vessel.headspace {
             Headspace::Sealed { volume } => {
                 writeln!(input, "    -fixed_volume").unwrap();
@@ -7135,3 +7241,110 @@ mod solid_solution_raw_readback_contracts_external_raw;
 #[cfg(test)]
 #[path = "../tests/solid_solution_phase_budget/refusal_atomicity.rs"]
 mod solid_solution_raw_readback_contracts_refusal_atomicity;
+
+#[cfg(test)]
+mod finite_gas_temperature_serialization_tests {
+    use super::*;
+
+    #[test]
+    fn finite_gas_input_round_trips_fractional_solvent_and_aqueous_carbon() {
+        let kgw = 0.099699987654321;
+        let aqueous_carbon = 0.00123456789;
+        let gas_carbon = 0.02;
+        let mut vessel = Vessel::new(kerotakis_core::VesselId(0), "finite carbon input");
+        vessel.temperature = Kelvin(298.1500375477956);
+        vessel.headspace = Headspace::Sealed {
+            volume: kerotakis_core::Liters(0.1),
+        };
+        vessel.deposit(
+            SpeciesId::new("water"),
+            Moles(kgw * 1000.0 / WATER_MOLAR_MASS),
+            Phase::Liquid,
+        );
+        vessel.deposit(
+            SpeciesId::new("CO2(aq)"),
+            Moles(aqueous_carbon),
+            Phase::Aqueous,
+        );
+        vessel.deposit(SpeciesId::new("CO2"), Moles(gas_carbon), Phase::Gas);
+        let problem = partition(&vessel).unwrap();
+        assert!((problem.kgw - kgw).abs() < 1e-16);
+        let input = build_input(&vessel, &problem, "wateq4f");
+        let written = |prefix: &str| -> f64 {
+            input
+                .lines()
+                .find_map(|line| line.trim().strip_prefix(prefix))
+                .unwrap()
+                .trim()
+                .parse()
+                .unwrap()
+        };
+        let input_aqueous = written("C ") * written("water ");
+        let input_gas = written("CO2(g) ") * written("-volume ")
+            / (0.082_059_7 * (written("-temperature ") + 273.15));
+        let target = aqueous_carbon + gas_carbon;
+        // Each twelve-decimal scientific field has <=5e-13 relative
+        // quantization. This bound covers both native initialization paths.
+        let bound = 5e-12 * target;
+        assert!((input_aqueous + input_gas - target).abs() < bound);
+        let legacy_water: f64 = format!("{:.9}", problem.kgw).parse().unwrap();
+        let legacy_error = written("C ") * legacy_water - aqueous_carbon;
+        let predicted_error = aqueous_carbon * (legacy_water / problem.kgw - 1.0);
+        assert!(
+            legacy_error.abs() > 1e-12,
+            "fixture must expose the old picomole-scale input error"
+        );
+        assert!((legacy_error - predicted_error).abs() < 1e-15);
+
+        // A separate open input keeps the old format and does not acquire
+        // a new equilibrium problem because this finite-owner repair exists.
+        let mut open = vessel.clone();
+        open.headspace = Headspace::Open;
+        open.contents.retain(|portion| portion.phase != Phase::Gas);
+        let open_problem = partition(&open).unwrap();
+        let open_input = build_input(&open, &open_problem, "wateq4f");
+        assert!(open_input.contains(&format!("    water     {:.9}\n", open_problem.kgw)));
+    }
+
+    #[test]
+    fn gas_initializer_round_trips_owned_moles_at_recorded_fractional_temperatures() {
+        for temperature in [298.1500375477956, 298.5820854655798, 298.14965445166615] {
+            let mut vessel = Vessel::new(kerotakis_core::VesselId(0), "finite gas input");
+            vessel.temperature = Kelvin(temperature);
+            vessel.headspace = Headspace::Sealed {
+                volume: kerotakis_core::Liters(0.1),
+            };
+            vessel.contents.push(Portion {
+                species: SpeciesId::new("water"),
+                moles: Moles(5.55),
+                phase: Phase::Liquid,
+            });
+            vessel.contents.push(Portion {
+                species: SpeciesId::new("CO2"),
+                moles: Moles(0.02),
+                phase: Phase::Gas,
+            });
+            let problem = partition(&vessel).unwrap();
+            let input = build_input(&vessel, &problem, "wateq4f");
+            let written_celsius: f64 = input
+                .lines()
+                .find_map(|line| line.trim().strip_prefix("-temperature "))
+                .unwrap()
+                .trim()
+                .parse()
+                .unwrap();
+            let partial_pressure: f64 = input
+                .lines()
+                .find_map(|line| line.trim().strip_prefix("CO2(g) "))
+                .unwrap()
+                .trim()
+                .parse()
+                .unwrap();
+            let initialized = partial_pressure * 0.1 / (0.082_059_7 * (written_celsius + 273.15));
+            assert!(
+                (initialized - 0.02).abs() < 1e-14,
+                "T={temperature}: {initialized}"
+            );
+        }
+    }
+}

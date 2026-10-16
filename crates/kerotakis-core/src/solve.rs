@@ -78,6 +78,15 @@ pub enum SolverRouteKind {
 /// Re-equilibrates one vessel after an operator touched it.
 pub trait Equilibrator {
     fn name(&self) -> &'static str;
+    /// Explicit opt-in to current-input aqueous characterization. Generic
+    /// equilibrium output does not establish this trusted adapter contract.
+    /// Wrappers may forward their concrete aqueous adapter; they must not
+    /// manufacture receipts from a cached `Some(solution)` field.
+    fn trusted_aqueous_readback(
+        &mut self,
+    ) -> Option<&mut dyn crate::aqueous_continuation::TrustedAqueousReadback> {
+        None
+    }
     /// Opt into element-balance enforcement for routes with complete inventories
     /// and explicit gas inlet/outlet events. Unsupported ledgers must not claim
     /// this contract merely because their individual amounts are finite.

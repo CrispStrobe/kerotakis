@@ -148,6 +148,10 @@ jobs:
       # say everything it knows in one go.
       - name: Test
         run: cargo test --workspace --no-fail-fast
+      - name: Aqueous continuation cache-only adapter
+        # Native builds do not dispatch through SolveHook. Exercise the
+        # browser's no-engine adapter configuration as a separate test binary.
+        run: cargo test -p kerotakis-phreeqc --no-default-features --test aqueous_continuation_cache_only
       - name: Codex — every claim must still compute
         run: cargo run -p kerotakis-cli -- codex lint
       # The curiosity baseline records the route every prompt actually takes.

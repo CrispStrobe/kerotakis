@@ -1,0 +1,330 @@
+{
+  "recorded_at": "2026-10-16T04:23:18.936747+00:00",
+  "pr": 796,
+  "head": "f253fc21d4641fbb88f4a9cb7a953c7566d393ae",
+  "merge": "21d2cca85649dc9bbbb5558e146bb13cf06ce9f9",
+  "parents": [
+    "f3c4cd0084570d2be4d72b8a7df835470ff33f65",
+    "f253fc21d4641fbb88f4a9cb7a953c7566d393ae"
+  ],
+  "tree": "c8096b9a2625cfa4543f02267644b167754a0e0a",
+  "reviewed_candidate_tree": "c8096b9a2625cfa4543f02267644b167754a0e0a",
+  "tree_matches": true,
+  "method": "normal protected exact-head auto-merge",
+  "checks": [
+    {
+      "name": "GPU release tools (deterministic)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718130"
+    },
+    {
+      "name": "Build audited CLI once",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116680321697"
+    },
+    {
+      "name": "BRD-080 viewer decision spike",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718247"
+    },
+    {
+      "name": "Frozen fleet 195-218",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194556"
+    },
+    {
+      "name": "Theme contrast tokens",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718128"
+    },
+    {
+      "name": "Frozen fleet 459-488",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194654"
+    },
+    {
+      "name": "Presentation authority adapters",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668717756"
+    },
+    {
+      "name": "Source fleet acid-base-buffers",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194898"
+    },
+    {
+      "name": "Source fleet solubility-precipitation",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194971"
+    },
+    {
+      "name": "Source fleet gas-boundaries",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194769"
+    },
+    {
+      "name": "Source fleet electrochemistry",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194776"
+    },
+    {
+      "name": "Source fleet mixing-transfer",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194866"
+    },
+    {
+      "name": "Source fleet filtration-evaporation",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194920"
+    },
+    {
+      "name": "Source fleet distillation",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693195006"
+    },
+    {
+      "name": "Source fleet thermal-phase-paths",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194888"
+    },
+    {
+      "name": "Source fleet organic-equilibria",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693195065"
+    },
+    {
+      "name": "Source fleet observables-negative-controls",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194912"
+    },
+    {
+      "name": "Full preflight gate",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718266"
+    },
+    {
+      "name": "Source fleet v2 quantitative-solutions",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194697"
+    },
+    {
+      "name": "Source fleet v2 polyprotic-carbonate",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194858"
+    },
+    {
+      "name": "Source fleet v2 redox-cells",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194603"
+    },
+    {
+      "name": "Source fleet v2 gas-production-transfer",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194923"
+    },
+    {
+      "name": "Source fleet v2 phase-colligative",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194905"
+    },
+    {
+      "name": "Source fleet v2 crystallisation-boundaries",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194828"
+    },
+    {
+      "name": "Source fleet v2 separation-trains",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693195272"
+    },
+    {
+      "name": "Source fleet v2 kinetics-boundaries",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194875"
+    },
+    {
+      "name": "Source fleet v2 household-biochemistry",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693195049"
+    },
+    {
+      "name": "Source fleet v2 materials-transport",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194946"
+    },
+    {
+      "name": "Source fleet v2 analytical-observables",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693195063"
+    },
+    {
+      "name": "Source fleet v2 thermochemical-paths",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194925"
+    },
+    {
+      "name": "Test (native) (ubuntu-latest)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718317"
+    },
+    {
+      "name": "Source fleet v3 water-energy",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194666"
+    },
+    {
+      "name": "Test (native) (macos-latest)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718519"
+    },
+    {
+      "name": "Source fleet v3 aqueous-selectivity",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194553"
+    },
+    {
+      "name": "Source fleet v3 ionic-conductivity",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194885"
+    },
+    {
+      "name": "Source fleet v3 metal-ligand",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194602"
+    },
+    {
+      "name": "Source fleet v3 organic-equilibrium",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116693194749"
+    },
+    {
+      "name": "MY-BASIC preview (ubuntu-latest)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718185"
+    },
+    {
+      "name": "All 240 source-informed cases",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116724490303"
+    },
+    {
+      "name": "MY-BASIC preview (macos-latest)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718500"
+    },
+    {
+      "name": "Legacy BASIC oracle (development only)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718175"
+    },
+    {
+      "name": "All 288 source-informed v2 cases",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116731664125"
+    },
+    {
+      "name": "Core and data schemas compile to wasm32",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718591"
+    },
+    {
+      "name": "All 120 source-informed v3 cases",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527371/job/116729620963"
+    },
+    {
+      "name": "feos adapter (wasm32-unknown-unknown)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718443"
+    },
+    {
+      "name": "feos adapter (aarch64-linux-android)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718359"
+    },
+    {
+      "name": "feos adapter (x86_64-pc-windows-msvc)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718549"
+    },
+    {
+      "name": "feos adapter (aarch64-apple-darwin)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718260"
+    },
+    {
+      "name": "feos adapter (aarch64-apple-ios)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718356"
+    },
+    {
+      "name": "Current registry source export",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718252"
+    },
+    {
+      "name": "The native host still compiles",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718063"
+    },
+    {
+      "name": "IPhreeqc under MSVC",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718166"
+    },
+    {
+      "name": "Shell payload (ubuntu-22.04)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718509"
+    },
+    {
+      "name": "Shell payload (windows-latest)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718506"
+    },
+    {
+      "name": "The bench in WebAssembly",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718352"
+    },
+    {
+      "name": "IPhreeqc wasm gate",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718198"
+    },
+    {
+      "name": "The two wasm halves, together",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718625"
+    },
+    {
+      "name": "The demo page, in a real browser",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116668718362"
+    },
+    {
+      "name": "Publish the demo",
+      "conclusion": "SKIPPED",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38806527358/job/116689896839"
+    }
+  ],
+  "deployed": false,
+  "scientific_calibration_claim": false,
+  "tested_merge": "01a679299098ee64f2a9b7f71793cf6d0caf5bc8",
+  "changes_from_tested_merge": [
+    "audits/fresh-syntax50-20261013/watercolour-integration-20261015.json",
+    "audits/reaction-dataset-200-20261015/CHEMISTRY-RESULTS.md",
+    "audits/reaction-dataset-200-20261015/README.md",
+    "audits/reaction-dataset-200-20261015/charged-input-native-acceptance.json",
+    "audits/reaction-dataset-200-20261015/chemistry-screening.csv",
+    "audits/reaction-dataset-200-20261015/chemistry-screening.json",
+    "audits/reaction-dataset-200-20261015/pr797-integration.json",
+    "audits/reaction-dataset-200-20261015/stock-followups-20261015/assessment.json",
+    "audits/reaction-dataset-200-20261015/stock-followups-20261015/design.json",
+    "docs/STATUS.md",
+    "docs/acid-permanganate-peroxide-lane.md",
+    "docs/colour-and-mixture-followups.md",
+    "docs/simulation-api-lane.md"
+  ],
+  "runtime_tree_unchanged_from_tested_merge": true
+}

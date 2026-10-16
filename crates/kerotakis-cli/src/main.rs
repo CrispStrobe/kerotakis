@@ -524,6 +524,19 @@ fn main() {
                 );
                 std::process::exit(1);
             }
+            let continuation =
+                kerotakis_phreeqc::continuation_acceptance::run_continuation_acceptance(
+                    &mut engine,
+                    false,
+                );
+            if !continuation.passed() {
+                eprintln!(
+                    "kero prewarm: mechanical continuation acceptance failed:\n{}",
+                    serde_json::to_string_pretty(&continuation)
+                        .expect("serialise continuation report")
+                );
+                std::process::exit(1);
+            }
             let data = engine.export_cache();
             let bytes = postcard::to_allocvec(&data).expect("serialise cache");
             std::fs::write(&out, &bytes).unwrap_or_else(|e| {

@@ -1753,6 +1753,12 @@ impl Equilibrator for DisplacementEquilibrator {
         self.inner.name()
     }
 
+    fn trusted_aqueous_readback(
+        &mut self,
+    ) -> Option<&mut dyn crate::aqueous_continuation::TrustedAqueousReadback> {
+        self.inner.trusted_aqueous_readback()
+    }
+
     fn applies(&self, vessel: &Vessel) -> bool {
         self.inner.applies(vessel)
     }

@@ -254,6 +254,23 @@ impl Lab {
         .expect("the R1 report is serialisable")
     }
 
+    /// Isolated mechanical continuation controls. This does not run a user
+    /// reaction or mutate the learner bench. `expect_missing` selects an
+    /// un-prewarmed extent for cache-only/failing-hook rollback acceptance.
+    #[wasm_bindgen(js_name = continuationAcceptance)]
+    pub fn continuation_acceptance(&mut self, expect_missing: bool) -> String {
+        let mut browser = BrowserAqueous {
+            inner: &mut self.aqueous,
+        };
+        serde_json::to_string(
+            &kerotakis_phreeqc::continuation_acceptance::run_continuation_acceptance(
+                &mut browser,
+                expect_missing,
+            ),
+        )
+        .expect("the mechanical continuation report is serialisable")
+    }
+
     /// How much detail to render: `lv1` (what you see), `lv2` (equations
     /// and quantities), `lv3` (full numeric detail). More levels can be
     /// added without changing this call.
@@ -1042,6 +1059,12 @@ struct BrowserAqueous<'a> {
 }
 
 impl Equilibrator for BrowserAqueous<'_> {
+    fn trusted_aqueous_readback(
+        &mut self,
+    ) -> Option<&mut dyn kerotakis_core::aqueous_continuation::TrustedAqueousReadback> {
+        self.inner.trusted_aqueous_readback()
+    }
+
     fn name(&self) -> &'static str {
         "phreeqc-aqueous (shipped results)"
     }
