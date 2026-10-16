@@ -1,0 +1,10 @@
+{
+  "completed_utc": "2026-10-16T10:17:53.833758+00:00",
+  "attempts": 2,
+  "counts": {
+    "zero_exit": 2
+  },
+  "stdout_parse_errors": 0,
+  "physical_verdict": "not_assigned",
+  "retries": 0
+}

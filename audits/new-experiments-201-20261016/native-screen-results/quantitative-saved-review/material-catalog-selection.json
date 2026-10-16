@@ -1,0 +1,22 @@
+{
+  "recorded_utc": "2026-10-16T10:20:19.388913+00:00",
+  "previous_count": 150,
+  "new_count": 152,
+  "unchanged_previous_entries": 150,
+  "selected_ids": [
+    "new201-original-assessed:batch2:qa-001",
+    "new201-original-assessed:batch2:qa-002"
+  ],
+  "source_qualified_original_criteria_met": true,
+  "per_step_represented_material_charge_met": true,
+  "assessment_sha256": "c3b4f3e255f2ca56a78bb8204713cb4311fbf9da60dae8fbcd2919f32402cb14",
+  "independent_private_review_sha256": "009dec32bdd726cf6714db0f1116fa6db6f2e6b6c191c5e08039d44bd5d446e3",
+  "new_engine_executions": 0,
+  "original_200_repaired_count_changed": false,
+  "material_tolerance_mol": 1e-08,
+  "limitations": [
+    "Represented inventory and original dose/retention criteria only.",
+    "No empirical endpoint, activity, heat, rate or instrument calibration claim.",
+    "Native c446/670 execution only; no API execution claim."
+  ]
+}

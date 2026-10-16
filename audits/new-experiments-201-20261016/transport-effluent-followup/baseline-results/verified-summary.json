@@ -1,0 +1,37 @@
+{
+  "run": {
+    "conclusion": "success",
+    "headSha": "df72f6a4029cbc41b60e4e1d5323e8caf1054fe1",
+    "status": "completed",
+    "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38884179479"
+  },
+  "artifact_digest": "sha256:c7ea14541e3f7c71e82d7245d196b31cd2701a7452e0fefeb0465905fbf7b1b6",
+  "binding": {
+    "started_utc": "2026-10-16T10:17:53.597296+00:00",
+    "design_sha256": "460c4bf44d13309eb23dc3609c725077e4866b4a15defceee70b615016728cf3",
+    "runner_sha256": "d5f1c39e5abb25dbdaf7d22283ba3f50f7537053324ba0f7b711dd58a6c94f87",
+    "workflow_commit": "df72f6a4029cbc41b60e4e1d5323e8caf1054fe1",
+    "run_id": "38884179479",
+    "input_checkout_commit": "906115f67ff72642d710a8e3f4ca489f9764b6c5",
+    "engine": {
+      "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+      "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+      "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+      "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+    },
+    "local_vps_engine_execution": false,
+    "lock_qualification": "Producer-reported manifest hash; artifact omits raw Cargo.lock bytes."
+  },
+  "completion": {
+    "completed_utc": "2026-10-16T10:17:53.833758+00:00",
+    "attempts": 2,
+    "counts": {
+      "zero_exit": 2
+    },
+    "stdout_parse_errors": 0,
+    "physical_verdict": "not_assigned",
+    "retries": 0
+  },
+  "both_raw_hashes_verified": true,
+  "physical_verdict": "not_assigned"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "transport-thermal:cold-cell-hot-inlet",
+  "status": "zero_exit",
+  "exit_code": 0,
+  "elapsed_seconds": 0.11631371800000068,
+  "script_sha256": "54bf1033f642d3ea5b6550f359f30604a837549031385e84406bbafd64b20b91",
+  "stdout_sha256": "22e0720947917107dfdfa604ab653e1227c97971744ab16610157eba5471b12e",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "parsed_observations": 7,
+  "stdout_parse_error": null,
+  "physical_verdict": "not_assigned"
+}

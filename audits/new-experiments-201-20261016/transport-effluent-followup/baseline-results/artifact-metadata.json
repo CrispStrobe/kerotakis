@@ -1,0 +1,20 @@
+{
+  "id": 12039638613,
+  "node_id": "MDg6QXJ0aWZhY3QxMjAzOTYzODYxMw==",
+  "name": "transport-effluent-native-38884179479",
+  "size_in_bytes": 10693,
+  "url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/artifacts/12039638613",
+  "archive_download_url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/artifacts/12039638613/zip",
+  "expired": false,
+  "digest": "sha256:c7ea14541e3f7c71e82d7245d196b31cd2701a7452e0fefeb0465905fbf7b1b6",
+  "created_at": "2026-10-16T10:17:54Z",
+  "updated_at": "2026-10-16T10:17:54Z",
+  "expires_at": "2027-01-14T09:59:13Z",
+  "workflow_run": {
+    "id": 38884179479,
+    "repository_id": 1338831929,
+    "head_repository_id": 1338831929,
+    "head_branch": "validation/transport-effluent-baseline-20261016",
+    "head_sha": "df72f6a4029cbc41b60e4e1d5323e8caf1054fe1"
+  }
+}

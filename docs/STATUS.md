@@ -75,11 +75,14 @@ cancel active checks for optional edits. Refresh actual heads before work.
   no procedures. Separate complete-stock/procedure repairs must retain their
   original first outcomes. Do not call the92 scientific passes or repeat the batch
   unchanged. See [chemical assessment](../audits/reaction-dataset-200-20261015/CHEMISTRY-RESULTS.md).
-- The [working catalog](../audits/working-experiments-20261016.json) retains150
-  source-qualified entries across corpora; this is not150 repaired original200
+- The [working catalog](../audits/working-experiments-20261016.json) retains152
+  source-qualified entries across corpora; this is not152 repaired original200
   reactions. One separately [assessed original QA-011 protocol](../audits/new-experiments-201-20261016/native-screen-results/endpoint-dose-review/README.md)
   is newly selected: actual fractional endpoint doses and retained material agree
-  with both original conditional checks. Previous149 entries remain unchanged.
+  with both original conditional checks. Previous149 entries remain unchanged at that selection. A separate
+  [per-step quantitative supplement](../audits/new-experiments-201-20261016/native-screen-results/quantitative-saved-review/material-catalog-selection.json)
+  selects unchanged QA001/002 after independent review (150→152), preserving
+  previous150 entries.
 - The [new201 intake](../audits/new-experiments-201-20261016/README.md) preserves100
   batch-3 and101 batch-2 designs. The hosted native screen selects197 originals
   and four separate explicit-React corrections. **All201 executed once:198 zero
@@ -96,7 +99,8 @@ cancel active checks for optional edits. Refresh actual heads before work.
   also verifies the concentration forecast using already reported0.15/0.05L
   liquid volumes. Requested gas-meter readings still refuse; computed scene
   volumes are not independent instrument readings. First assessments are
-  preserved, with no new execution or working-catalog addition.
+  preserved, with no new execution at that review. The later QA001/002 selection is
+  separately recorded above.
 - Four corrected haloalkane controls match only two bounded principal forecasts,
   both on the separately bound source74 preview and current c446 native run.
   Strong-base lookup loses solved NaOH identity in the other two. All seven
@@ -172,6 +176,8 @@ work continues under resource gates; heavy validation stays hosted. The transpor
 adapter loses effluent temperature, phase and charge on receiver deposition; a
 narrow repair is assigned, with two separately frozen
 [baseline controls](../audits/new-experiments-201-20261016/transport-effluent-followup/README.md)
-queued in [run38884179479](https://github.com/CrispStrobe/kerotakis/actions/runs/38884179479).
-No baseline physical verdict is assigned before artifact collection. Hydraulic
+executed once in [run38884179479](https://github.com/CrispStrobe/kerotakis/actions/runs/38884179479).
+The [collected first baseline](../audits/new-experiments-201-20261016/transport-effluent-followup/baseline-results/README.md)
+confirms both receiver errors of−40K/+40K while material/cell temperature checks
+pass. A repaired-source replay remains pending. Hydraulic
 domain expansion and the optical CEA convergence failure remain separate gaps.

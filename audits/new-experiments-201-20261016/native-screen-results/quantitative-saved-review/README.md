@@ -24,3 +24,11 @@ calibration nor general atom/energy closure. The working catalog is unchanged.
 The next QA-003 lane should identify an actual liquid-volume observable and
 freeze a separate observation-only protocol correction, preserving its original
 missing-measurement result and dose forecast. Do not relax gas-meter semantics.
+
+A separate [per-step material supplement](material-assessment.json), reproduced
+by [this saved reader](review_material.py) and independently reviewed, closes
+represented H/O/C/Na/Cl/Ca/Si/charge for QA001/002 including titrant carrier
+water and explicit CO2 exports. [Selection](material-catalog-selection.json)
+adds their two unchanged original scripts to the working catalog (150→152),
+preserving the previous150 entries and all first assessments. QA003 remains
+separate; no chemistry is rerun or calibration claimed.

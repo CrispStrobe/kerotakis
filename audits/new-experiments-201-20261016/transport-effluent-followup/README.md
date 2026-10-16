@@ -16,3 +16,7 @@ The existing inlet is a representative external composition. Count injected
 water explicitly; do not infer missing matter from the unchanged inlet vessel.
 The original TR003/TR007 uniform-volume refusals remain separate. No hydraulic
 guard, chemistry, geometry, heat parameter or earlier forecast changes.
+
+The [first hosted baseline](baseline-results/README.md) now confirms both
+receiver-temperature failures (opposite40K errors) while material and cell
+temperature checks pass. This separate result preserves the prospective freeze.

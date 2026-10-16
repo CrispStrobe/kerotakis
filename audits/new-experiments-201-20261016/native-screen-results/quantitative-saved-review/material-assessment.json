@@ -1,0 +1,121 @@
+{
+  "cases": [
+    {
+      "id": "batch2:qa-001",
+      "engine": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "e2d63fa51a39124096cafeba94709a05bba34ee41df2d1dfd64898c21e48c14a",
+      "stdout_sha256": "dc6428b77deea6bc92a2c25095a02a28fe94611318307690eccf2af6795a99be",
+      "checked_snapshots": 12,
+      "max_abs_per_step_material_charge_residual_mol": {
+        "H": 7.762679388179095e-13,
+        "O": 7.736034035588091e-13,
+        "C": 1.9296305365234265e-13,
+        "Na": 1.3010426069826053e-17,
+        "Cl": 1.1293151309932359e-11,
+        "Ca": 1.9017968623524784e-13,
+        "Si": 4.553649124439119e-18,
+        "charge": 1.0898213538210189e-11
+      },
+      "titrant_material": [
+        {
+          "vessel": 0,
+          "NaOH_mol": 0.0030000010776519703,
+          "carrier_water_mol": 1.660283693821268
+        },
+        {
+          "vessel": 1,
+          "NaOH_mol": 0.0010000016117095948,
+          "carrier_water_mol": 0.5534285911043386
+        }
+      ],
+      "gas_exports": [
+        {
+          "event": "gas_evolved",
+          "moles": 0.0009986852345314,
+          "species": "CO2",
+          "vessel": 1
+        },
+        {
+          "event": "gas_evolved",
+          "moles": 1.314765275637e-06,
+          "species": "CO2",
+          "vessel": 1
+        }
+      ],
+      "original_criteria": [
+        {
+          "id": "QA-001-C1",
+          "criterion": "Blank minus sample base demand is close to 2 mmol, allowing two burette increments and residual dissolved CO2.",
+          "result": "met"
+        },
+        {
+          "id": "QA-001-C2",
+          "criterion": "Recovered carbonate amount agrees with the introduced amount; silica remains a separate inventory.",
+          "result": "met"
+        }
+      ],
+      "verdict": "bounded_criteria_and_represented_per_step_ledgers_met"
+    },
+    {
+      "id": "batch2:qa-002",
+      "engine": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "8111bf66617f0a7544d898822d156ab1d005665966f0f95aa8b865d85303b091",
+      "stdout_sha256": "da9bddfdaf6799b51a243b59d6d6c8fcf0e5b1275dafd80f47317d8b5ec244a5",
+      "checked_snapshots": 9,
+      "max_abs_per_step_material_charge_residual_mol": {
+        "H": 1.3677947663381929e-13,
+        "O": 6.838973831690964e-14,
+        "C": 1.3010426069826053e-18,
+        "Na": 6.938893903907228e-18,
+        "Cl": 1.0842021724855044e-19,
+        "Ca": 0.0,
+        "Si": 0.0,
+        "charge": 2.5587171270657905e-17
+      },
+      "titrant_material": [
+        {
+          "vessel": 0,
+          "NaOH_mol": 0.0010005194091796872,
+          "carrier_water_mol": 0.5537151545668321
+        },
+        {
+          "vessel": 1,
+          "NaOH_mol": 0.0015005657958984341,
+          "carrier_water_mol": 0.8304546758316618
+        }
+      ],
+      "gas_exports": [],
+      "original_criteria": [
+        {
+          "id": "QA-002-C1",
+          "criterion": "Subtracting endpoint doses recovers the 0.5 mmol spike within step-size and endpoint corrections.",
+          "result": "met"
+        },
+        {
+          "id": "QA-002-C2",
+          "criterion": "Total acetate is conserved in both aliquots.",
+          "result": "met"
+        }
+      ],
+      "verdict": "bounded_criteria_and_represented_per_step_ledgers_met"
+    }
+  ],
+  "raw_artifact_sha256": "7e3102c8ba72746974b0595de3f525041064e1641d55b2bcc11f546646a2f3f3",
+  "material_tolerance_mol": 1e-08,
+  "new_engine_executions": 0,
+  "limitations": [
+    "Represented inventory and original dose/retention criteria only.",
+    "No empirical endpoint, activity, heat, rate or instrument calibration claim.",
+    "Native c446/670 execution only; no API execution claim."
+  ]
+}

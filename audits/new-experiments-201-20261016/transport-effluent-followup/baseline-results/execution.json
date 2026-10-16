@@ -1,0 +1,34 @@
+{
+  "results": [
+    {
+      "id": "transport-thermal:hot-cell-cold-inlet",
+      "status": "zero_exit",
+      "exit_code": 0,
+      "elapsed_seconds": 0.11623935999999446,
+      "script_sha256": "d87fc2b6e9ca3b89644f5939d2ab7c0dba180ed2381c445cc285f71facbec038",
+      "stdout_sha256": "ab6ef9afd20266094e85ba4bc9e005fd982711be164070cd6ea84ea5ebc31028",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "parsed_observations": 7,
+      "stdout_parse_error": null,
+      "physical_verdict": "not_assigned"
+    },
+    {
+      "id": "transport-thermal:cold-cell-hot-inlet",
+      "status": "zero_exit",
+      "exit_code": 0,
+      "elapsed_seconds": 0.11631371800000068,
+      "script_sha256": "54bf1033f642d3ea5b6550f359f30604a837549031385e84406bbafd64b20b91",
+      "stdout_sha256": "22e0720947917107dfdfa604ab653e1227c97971744ab16610157eba5471b12e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "parsed_observations": 7,
+      "stdout_parse_error": null,
+      "physical_verdict": "not_assigned"
+    }
+  ],
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  }
+}

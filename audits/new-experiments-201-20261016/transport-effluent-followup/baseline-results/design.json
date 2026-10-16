@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "frozen_utc": "2026-10-16T09:58:11.075669+00:00",
+  "kind": "Two prospective source-bound native baseline controls for a source-identified Transport receiver ownership defect; no hydraulic-domain or empirical calibration claim.",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "producer_run": 38868092504,
+  "artifact_id": 12033256299,
+  "artifact_zip_sha256": "14abc84c3b0f4ec6647582c4ed951ec77ef82c7a16b4d4aae29cc6bc6152dc9c",
+  "expected_controls": 2,
+  "cases": [
+    {
+      "id": "transport-thermal:hot-cell-cold-inlet",
+      "selected_script": "hot-cell-cold-inlet.lab",
+      "selected_script_sha256": "d87fc2b6e9ca3b89644f5939d2ab7c0dba180ed2381c445cc285f71facbec038",
+      "cell_temperature_requested_c": 60,
+      "inlet_temperature_requested_c": 20,
+      "expectation": "One full upwind cell of pure water leaves at the pre-transport cell temperature. An initially empty adiabatic receiver must retain that effluent temperature, while the cell receives the inlet at the inlet temperature.",
+      "receiver_reference": "Actual v1 temperature in the pre-transport inspect snapshot, not a source constant or the inlet temperature.",
+      "cell_reference": "Actual v2 temperature in the same pre-transport snapshot.",
+      "temperature_tolerance_k": 0.01,
+      "material_tolerance_mol": 1e-08,
+      "inlet_contract": "Representative external composition remains unchanged; injection is counted explicitly, not inferred from closed-bench totals.",
+      "physical_verdict": "not_assigned"
+    },
+    {
+      "id": "transport-thermal:cold-cell-hot-inlet",
+      "selected_script": "cold-cell-hot-inlet.lab",
+      "selected_script_sha256": "54bf1033f642d3ea5b6550f359f30604a837549031385e84406bbafd64b20b91",
+      "cell_temperature_requested_c": 20,
+      "inlet_temperature_requested_c": 60,
+      "expectation": "One full upwind cell of pure water leaves at the pre-transport cell temperature. An initially empty adiabatic receiver must retain that effluent temperature, while the cell receives the inlet at the inlet temperature.",
+      "receiver_reference": "Actual v1 temperature in the pre-transport inspect snapshot, not a source constant or the inlet temperature.",
+      "cell_reference": "Actual v2 temperature in the same pre-transport snapshot.",
+      "temperature_tolerance_k": 0.01,
+      "material_tolerance_mol": 1e-08,
+      "inlet_contract": "Representative external composition remains unchanged; injection is counted explicitly, not inferred from closed-bench totals.",
+      "physical_verdict": "not_assigned"
+    }
+  ],
+  "constraints": [
+    "Run each once serially using accepted c446/670 artifact; no local engine or rebuild.",
+    "Preserve first raw stdout/stderr and exact source/binary/lock/script bindings.",
+    "No volume tolerance change, new geometry, reaction chemistry or source rewrite; all original TR003/TR007 hydraulic refusals stay unchanged.",
+    "Pure-water temperature identity is a physical ownership check, not empirical Cp or reaction-heat calibration.",
+    "Original boundary assumptions and first failures remain separate from any post-repair replay."
+  ]
+}
