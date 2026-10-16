@@ -1,0 +1,363 @@
+{
+  "recorded_utc": "2026-10-16T17:18:49.560298+00:00",
+  "runs": [
+    {
+      "pr": 815,
+      "run": 38918403545,
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38918403545",
+      "reviewed_head": "735c523d415e1e8ab1dddf58efbbf6d7bc53266e",
+      "conclusion": "success",
+      "job_counts": {
+        "success": 25,
+        "skipped": 1
+      },
+      "jobs": [
+        {
+          "name": "Presentation authority adapters",
+          "conclusion": "success"
+        },
+        {
+          "name": "Full preflight gate",
+          "conclusion": "success"
+        },
+        {
+          "name": "BRD-080 viewer decision spike",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Theme contrast tokens",
+          "conclusion": "success"
+        },
+        {
+          "name": "Core and data schemas compile to wasm32",
+          "conclusion": "success"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "success"
+        },
+        {
+          "name": "Shell payload (windows-latest)",
+          "conclusion": "success"
+        },
+        {
+          "name": "IPhreeqc under MSVC",
+          "conclusion": "success"
+        },
+        {
+          "name": "IPhreeqc wasm gate",
+          "conclusion": "success"
+        },
+        {
+          "name": "feos adapter (wasm32-unknown-unknown)",
+          "conclusion": "success"
+        },
+        {
+          "name": "feos adapter (aarch64-apple-darwin)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Shell payload (ubuntu-22.04)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Current registry source export",
+          "conclusion": "success"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "success"
+        },
+        {
+          "name": "MY-BASIC preview (ubuntu-latest)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "success"
+        },
+        {
+          "name": "MY-BASIC preview (macos-latest)",
+          "conclusion": "success"
+        },
+        {
+          "name": "The two wasm halves, together",
+          "conclusion": "success"
+        },
+        {
+          "name": "Legacy BASIC oracle (development only)",
+          "conclusion": "success"
+        },
+        {
+          "name": "feos adapter (x86_64-pc-windows-msvc)",
+          "conclusion": "success"
+        },
+        {
+          "name": "The native host still compiles",
+          "conclusion": "success"
+        },
+        {
+          "name": "feos adapter (aarch64-linux-android)",
+          "conclusion": "success"
+        },
+        {
+          "name": "GPU release tools (deterministic)",
+          "conclusion": "success"
+        },
+        {
+          "name": "feos adapter (aarch64-apple-ios)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Publish the demo",
+          "conclusion": "skipped"
+        }
+      ],
+      "raw_receipt_sha256": "87292d11288b75505c9af8c79799262d32ba4a2a7490cb722f0da5467880c039"
+    },
+    {
+      "pr": 816,
+      "run": 38919785386,
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38919785386",
+      "reviewed_head": "828c09b9a32b5ae1e22b9f782920a33ec299a6d0",
+      "conclusion": "success",
+      "job_counts": {
+        "success": 25,
+        "skipped": 1
+      },
+      "jobs": [
+        {
+          "name": "MY-BASIC preview (macos-latest)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Shell payload (windows-latest)",
+          "conclusion": "success"
+        },
+        {
+          "name": "feos adapter (wasm32-unknown-unknown)",
+          "conclusion": "success"
+        },
+        {
+          "name": "GPU release tools (deterministic)",
+          "conclusion": "success"
+        },
+        {
+          "name": "feos adapter (x86_64-pc-windows-msvc)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Full preflight gate",
+          "conclusion": "success"
+        },
+        {
+          "name": "BRD-080 viewer decision spike",
+          "conclusion": "success"
+        },
+        {
+          "name": "feos adapter (aarch64-linux-android)",
+          "conclusion": "success"
+        },
+        {
+          "name": "IPhreeqc wasm gate",
+          "conclusion": "success"
+        },
+        {
+          "name": "MY-BASIC preview (ubuntu-latest)",
+          "conclusion": "success"
+        },
+        {
+          "name": "feos adapter (aarch64-apple-darwin)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Shell payload (ubuntu-22.04)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Presentation authority adapters",
+          "conclusion": "success"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "success"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Legacy BASIC oracle (development only)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Theme contrast tokens",
+          "conclusion": "success"
+        },
+        {
+          "name": "IPhreeqc under MSVC",
+          "conclusion": "success"
+        },
+        {
+          "name": "feos adapter (aarch64-apple-ios)",
+          "conclusion": "success"
+        },
+        {
+          "name": "The native host still compiles",
+          "conclusion": "success"
+        },
+        {
+          "name": "Core and data schemas compile to wasm32",
+          "conclusion": "success"
+        },
+        {
+          "name": "Current registry source export",
+          "conclusion": "success"
+        },
+        {
+          "name": "The two wasm halves, together",
+          "conclusion": "success"
+        },
+        {
+          "name": "Publish the demo",
+          "conclusion": "skipped"
+        }
+      ],
+      "raw_receipt_sha256": "5b03f18dc3e59672ae9a6a7d2b1387ddd57249be3bbc55f9384446025853132c"
+    },
+    {
+      "pr": 817,
+      "run": 38922279235,
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38922279235",
+      "reviewed_head": "266121dd5605a439a495c85f2401fbeacd6272f4",
+      "conclusion": "success",
+      "job_counts": {
+        "success": 25,
+        "skipped": 1
+      },
+      "jobs": [
+        {
+          "name": "BRD-080 viewer decision spike",
+          "conclusion": "success"
+        },
+        {
+          "name": "feos adapter (aarch64-linux-android)",
+          "conclusion": "success"
+        },
+        {
+          "name": "feos adapter (x86_64-pc-windows-msvc)",
+          "conclusion": "success"
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "conclusion": "success"
+        },
+        {
+          "name": "IPhreeqc under MSVC",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Legacy BASIC oracle (development only)",
+          "conclusion": "success"
+        },
+        {
+          "name": "feos adapter (aarch64-apple-darwin)",
+          "conclusion": "success"
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "conclusion": "success"
+        },
+        {
+          "name": "feos adapter (aarch64-apple-ios)",
+          "conclusion": "success"
+        },
+        {
+          "name": "The native host still compiles",
+          "conclusion": "success"
+        },
+        {
+          "name": "Theme contrast tokens",
+          "conclusion": "success"
+        },
+        {
+          "name": "MY-BASIC preview (macos-latest)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Current registry source export",
+          "conclusion": "success"
+        },
+        {
+          "name": "Presentation authority adapters",
+          "conclusion": "success"
+        },
+        {
+          "name": "Shell payload (ubuntu-22.04)",
+          "conclusion": "success"
+        },
+        {
+          "name": "The two wasm halves, together",
+          "conclusion": "success"
+        },
+        {
+          "name": "Core and data schemas compile to wasm32",
+          "conclusion": "success"
+        },
+        {
+          "name": "feos adapter (wasm32-unknown-unknown)",
+          "conclusion": "success"
+        },
+        {
+          "name": "IPhreeqc wasm gate",
+          "conclusion": "success"
+        },
+        {
+          "name": "MY-BASIC preview (ubuntu-latest)",
+          "conclusion": "success"
+        },
+        {
+          "name": "GPU release tools (deterministic)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Shell payload (windows-latest)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Full preflight gate",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Publish the demo",
+          "conclusion": "skipped"
+        }
+      ],
+      "raw_receipt_sha256": "36f92de8b965288592bc5b0f35735422707d80d18459f5cc7cfe10e18fb33747"
+    }
+  ],
+  "full_fleet_acceptance": "Still required separately on each exact head; this does not authorize integration without it.",
+  "production_deployment_performed": false,
+  "new_experiments_executed": 0,
+  "working_catalog_delta": 0
+}
