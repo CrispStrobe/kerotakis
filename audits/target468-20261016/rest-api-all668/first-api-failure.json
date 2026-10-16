@@ -1,0 +1,23 @@
+{
+  "recorded_utc": "2026-10-16T14:30:18.499351+00:00",
+  "verified_completed_requests": 226,
+  "http_attempts": 227,
+  "failed_id": "new120:pr-005",
+  "failed_script_sha256": "f5a6b08641709d92815ff6544ed3150abbe2cc1cedad3495c669ccc0f4c0f3d9",
+  "http_status": 503,
+  "elapsed_seconds": 14.633542513474822,
+  "response_sha256": "138242f09c634ff75723931ae67b3341b682de3e36165e2509fce818edfc842e",
+  "response_detail": {
+    "detail": "Engine or sandbox failed to execute"
+  },
+  "platform_log": "Engine startup failed: exit=-9 restriction=unclassified",
+  "termination": "SIGKILL; precise cause requires diagnostic, not a chemistry or parser refusal",
+  "same_script_native_result": {
+    "run": 38909751180,
+    "exit_code": 0,
+    "seconds": 5.788995801999988
+  },
+  "retries": 0,
+  "remaining_unsubmitted": 441,
+  "physical_verdict": "not_assigned"
+}
