@@ -1,0 +1,6 @@
+{
+  "exit_code": 0,
+  "stdout_sha256": "8334421541a350cf4724e0a607354afcf3dac032f2f1191735b6910dcb1b4a8f",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "scope": "actual TS modules synthetic DOM/renderer no Vite/build/browser/native"
+}

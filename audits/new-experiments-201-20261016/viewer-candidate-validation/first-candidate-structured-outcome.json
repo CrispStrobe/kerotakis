@@ -1,0 +1,13 @@
+{
+  "recorded_utc": "2026-10-16T09:01:39.746636+00:00",
+  "command_kind": "Node128MiB in-memory TS modules; synthetic DOM/renderer; no Vite/browser/native",
+  "exit_code": 1,
+  "source_pins": {
+    "comparison.ts": "1da784385974f02ec429fbbb5bf080d45934a8df1d88842cfe0c3c78f0d593e8",
+    "3dmolAdapter.ts": "8b7ba39e321dd56b83629557bf8890bcd49fd4923f55989b61b90daa672bf97b"
+  },
+  "controller_four_cases": "pass",
+  "adapter_clickable_resize_labels_cleanup": "all3 fail; one canvas remains after rejection",
+  "reader_sha256": "49cee913c9e171a70690a57e37c7ddda72a860f10b3780e99cca323956639b7d",
+  "preservation": "Structured first observed candidate results; not claimed exact raw stdout bytes."
+}

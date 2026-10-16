@@ -55,7 +55,7 @@ or completed200-case transport jobs.
 | PR805 acidified permanganate/peroxide | `d66b0811` pushed; exact-head CI/fleets pending. Root reviewed the locale-composer admission. Earlier native endpoint controls passed before the locale gate; the separate viewer failure still needs diagnosis/repair. No merge or full-domain pass is claimed. |
 | PR807 proven input aliases | `352e1c48`; all six focused macOS native groups passed. Linux/remaining applicable checks still gate readiness. Only CuSO4_anhydrous→CuSO4 and acetate→CH3COO- are admitted. |
 | [PR809 aqueous transfer ownership](https://github.com/CrispStrobe/kerotakis/pull/809) | Draft `25956e61` carries measured proton/hydroxide and charge baselines with Filter/Decant liquid, preserves nontransferred gas, and adds ten core plus two native regression groups. Static checks passed; hosted native/core and fleet acceptance remain pending. |
-| Independent viewer repair | Three actual-source lifecycle defects are reproduced. Hermes owns a separate narrow repair with deterministic regressions; product source review and browser acceptance remain. |
+| Independent viewer repair | Three original-source lifecycle defects remain preserved. The [revised candidate](../audits/new-experiments-201-20261016/viewer-candidate-validation/README.md) passes ten actual-module ownership/setup-failure checks using a synthetic DOM/renderer. Maintained test-harness review, exact-head CI and browser acceptance remain; no integration claim. |
 
 Use normal exact-head auto-merge when all applicable acceptance passes. Never
 merge broad audit/isolated validation refs, bypass protection, waive failures or

@@ -1,0 +1,18 @@
+{
+  "recorded_utc": "2026-10-16T09:07:41.093559+00:00",
+  "reviewed_parent_source": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "candidate_state": "Uncommitted source snapshot; exact file hashes in stdout. Not integrated or browser accepted.",
+  "typescript_version": "5.9.3",
+  "node_heap_limit_mib": 128,
+  "controller_and_adapter_cases": 10,
+  "passed": 10,
+  "first_candidate": "Four controller cases passed; three late adapter initialization cleanup cases failed. Structured observed outcome preserved separately, not exact raw stdout.",
+  "harness_sha256": "10c888b1984380f9cf0007ebcf3cadb027be0e4b386f3e8d845b71e05e06356a",
+  "local_engine_executions": 0,
+  "vite_or_browser_or_app_builds": 0,
+  "limitations": [
+    "Synthetic DOM/renderer only; no GPU/WebGL acceptance",
+    "No chemistry forecasts or catalog counts changed",
+    "Maintained source tests, strict TypeScript and actual browser checks remain required"
+  ]
+}

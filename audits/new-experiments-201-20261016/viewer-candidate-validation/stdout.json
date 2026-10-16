@@ -1,0 +1,59 @@
+{
+  "source_pins": [
+    {
+      "path": "spikes/brd080/src/adapter.ts",
+      "sha256": "b958c729dbe5207e3566ec48c33d19bac226a10fd115f8da77450332bb57b847"
+    },
+    {
+      "path": "spikes/brd080/src/comparison.ts",
+      "sha256": "d4903650bd7f8540f343d732acc6edd6c468077dc9da20ef4e5928baedba2367"
+    },
+    {
+      "path": "spikes/brd080/src/3dmolAdapter.ts",
+      "sha256": "15a4311a4a764993ad1905772f95d5b6d83e563468e8292cf497cb2cace2fe33"
+    }
+  ],
+  "results": [
+    {
+      "name": "stale-resize-cannot-publish-ready",
+      "result": "pass"
+    },
+    {
+      "name": "stale-prior-disposal-cannot-publish-loading",
+      "result": "pass"
+    },
+    {
+      "name": "resize-failure-disposal-cannot-clobber-newer-ready",
+      "result": "pass"
+    },
+    {
+      "name": "creation-failure-invalidates-older-pending-intent",
+      "result": "pass"
+    },
+    {
+      "name": "stale-creation-error-cannot-clobber-newer-loading",
+      "result": "pass"
+    },
+    {
+      "name": "stale-append-error-cannot-clobber-newer-loading",
+      "result": "pass"
+    },
+    {
+      "name": "stale-3dmol-loader-preserves-new-canvas",
+      "result": "pass"
+    },
+    {
+      "name": "adapter-cleans-failed-clickable-setup",
+      "result": "pass"
+    },
+    {
+      "name": "adapter-cleans-failed-resize-setup",
+      "result": "pass"
+    },
+    {
+      "name": "adapter-cleans-failed-labels-setup",
+      "result": "pass"
+    }
+  ],
+  "scope": "In-memory actual TypeScript modules, synthetic DOM/renderer, no browser/WebGL/build/native engine."
+}
