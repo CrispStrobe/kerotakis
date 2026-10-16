@@ -187,3 +187,13 @@ domain expansion and the optical CEA convergence failure remain separate gaps.
 | Transport effluent | In `crates/kerotakis-core/src/bench.rs` and `transport.rs`, preserve actual parcel temperature/phase and charge/free-ion ownership using one bounded transactional receiver. Refuse aliased inlet/cell/receiver roles before mutation. Add exact hot/cold, nonempty/multistep, fractional/zero-flow and rollback controls; obtain hosted compile/native/fleet acceptance and a separately bound replay of the two frozen failures. |
 | Canonical hydroxide selectivity | In `selectivity.rs`, `bench.rs` and `solve.rs`, admit only a fresh trusted aqueous answer for the explicit simple-hydroxide domain; retain conservative sodium/bromide bookkeeping. Intercept where the solver is in scope, never trust cached solutions or fall through on failed readback. Check carbonate exclusion, deficient/neutralized base, failed readback rollback, unknown heat and native/Wasm exposure. |
 | NaBr optics and CEA | Keep metadata provenance and minimizer convergence separate. Resolve compatible primary provenance before curating hue. For CEA, inspect the actual element-filtered candidate pool and first failed matrix; distinguish structural rank loss from missing data. Preserve the original failure and rollback; no invented species, phase deduplication, relaxed tolerance or failure suppression. |
+
+## Organic-solubility repair in review
+
+Saved first120 PR-016 exposes withdrawn numerical support for organic dissolution
+and dependent yields. The [bounded repair and next implementation lanes](organic-solubility-repair-lane.md)
+add explicit support boundaries at both consumers, including fully consumed
+reagents and liquid-only residues, and remove the missing-row unlimited-solid
+availability fallback. Legacy values remain provisional; phase ownership and
+compatible primary measurements are still required. Hosted exact-head native
+and full-fleet acceptance is pending. No working-catalog count changes.
