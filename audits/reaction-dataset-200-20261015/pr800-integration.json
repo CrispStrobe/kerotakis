@@ -1,0 +1,148 @@
+{
+  "recorded_at": "2026-10-16T04:23:18.981163+00:00",
+  "pr": 800,
+  "head": "ffc3a7d79e5d612df6eda4f09d88e03d981ead22",
+  "merge": "f3c4cd0084570d2be4d72b8a7df835470ff33f65",
+  "parents": [
+    "e027e964e3c75ab7711b3a2c9ee111a688180cf3",
+    "ffc3a7d79e5d612df6eda4f09d88e03d981ead22"
+  ],
+  "tree": "4c6ec99db136002ddacbadb1b3907c7ed1a8e427",
+  "reviewed_candidate_tree": "4c6ec99db136002ddacbadb1b3907c7ed1a8e427",
+  "tree_matches": true,
+  "method": "normal protected exact-head auto-merge",
+  "checks": [
+    {
+      "name": "GPU release tools (deterministic)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700800767"
+    },
+    {
+      "name": "BRD-080 viewer decision spike",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700800230"
+    },
+    {
+      "name": "Theme contrast tokens",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700800617"
+    },
+    {
+      "name": "Presentation authority adapters",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700800808"
+    },
+    {
+      "name": "Full preflight gate",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700800535"
+    },
+    {
+      "name": "Test (native) (ubuntu-latest)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700800800"
+    },
+    {
+      "name": "Test (native) (macos-latest)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700800852"
+    },
+    {
+      "name": "MY-BASIC preview (ubuntu-latest)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700800680"
+    },
+    {
+      "name": "MY-BASIC preview (macos-latest)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700802117"
+    },
+    {
+      "name": "Legacy BASIC oracle (development only)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700800900"
+    },
+    {
+      "name": "Core and data schemas compile to wasm32",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700801099"
+    },
+    {
+      "name": "feos adapter (wasm32-unknown-unknown)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700800788"
+    },
+    {
+      "name": "feos adapter (aarch64-linux-android)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700800686"
+    },
+    {
+      "name": "feos adapter (x86_64-pc-windows-msvc)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700801524"
+    },
+    {
+      "name": "feos adapter (aarch64-apple-darwin)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700800801"
+    },
+    {
+      "name": "feos adapter (aarch64-apple-ios)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700801052"
+    },
+    {
+      "name": "Current registry source export",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700800970"
+    },
+    {
+      "name": "The native host still compiles",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700800913"
+    },
+    {
+      "name": "IPhreeqc under MSVC",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700800836"
+    },
+    {
+      "name": "Shell payload (ubuntu-22.04)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700800724"
+    },
+    {
+      "name": "Shell payload (windows-latest)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700801338"
+    },
+    {
+      "name": "The bench in WebAssembly",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700800479"
+    },
+    {
+      "name": "IPhreeqc wasm gate",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700800962"
+    },
+    {
+      "name": "The two wasm halves, together",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700800792"
+    },
+    {
+      "name": "The demo page, in a real browser",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116700800899"
+    },
+    {
+      "name": "Publish the demo",
+      "conclusion": "SKIPPED",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38816031870/job/116721676242"
+    }
+  ],
+  "deployed": false,
+  "scientific_calibration_claim": false
+}

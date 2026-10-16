@@ -1,4 +1,4 @@
-# Kerotakis current state — 2026-10-15
+# Kerotakis current state — 2026-10-16
 
 This is the current entry point. Older dated checkpoints retain historical
 outcomes and may describe PRs that have since merged. No deployment or scientific
@@ -188,110 +188,88 @@ verified engine `d791d306`; the existing frontend assets were preserved.
 records first failures, exact bindings, controls and limits. Execution success
 continues to carry `physical_verdict: not_assigned`.
 
-[PR795](https://github.com/CrispStrobe/kerotakis/pull/795) still requires normal
-source integration and fresh hosted rebuild acceptance. The first AL2023 build
-failed on IPhreeqc's `lib64`/Cargo `lib` mismatch and cleanup ownership; fixes are
-pushed, with [a new preview run](https://github.com/CrispStrobe/kerotakis/actions/runs/38783017261).
-The hosted native preview and subsequent REST acceptance passed; the earlier
-encoding/workflow corrections are pushed. Full fleet acceptance remains before source integration. Manual browser acceptance and
-Pages-client publication remain separate from passed HTTP/client controls. Follow the [remaining API lanes](simulation-api-lane.md).
-
-## Chemical review of the supplied 200 probes
+## Current repair and delivery checkpoint — 2026-10-16
 
 The [retrospective chemical screen](../audits/reaction-dataset-200-20261015/CHEMISTRY-RESULTS.md)
-reviews every saved result: 13 principal observations align, 11 are partial,
-16 do not demonstrate their target, 20 name a model limit, 32 remain inconclusive,
-and 108 stop at unknown identities (80 distinct first tokens). These are routing
-categories, not empirically validated scientific passes.
+retains the original 200 routing outcomes: 13 principal observations align, 11
+partial, 16 do not demonstrate the target, 20 name a model limit, 32 inconclusive,
+and 108 unknown-identity refusals. These are not empirical scientific passes.
+The twelve original complete-reagent controls remain unchanged: nine principal
+responses align, zinc/acid reaches an explicit limit, and silver ammines and
+acidified permanganate/peroxide were missing on their original engine.
 
-Twelve separately frozen complete-reagent API controls distinguish incomplete
-bare-ion protocols from physical-stock defects. Nine principal responses align,
-including HCl/NaOH neutralisation, acidic NH4Cl, alkaline Na2CO3, acid-driven
-CaCO3/CuO dissolution and CO2 capture by NaOH. Zinc/acid reaches an explicit model
-limit; silver ammines and acidified permanganate/peroxide remain missing.
-The original 200 outcomes and all previous blind forecasts are unchanged.
+[PR796](https://github.com/CrispStrobe/kerotakis/pull/796) is now **merged as
+`21d2cca8`**. All 58 applicable checks succeeded, with one unrelated skip,
+including six core and eleven aqueous focused groups on both native platforms,
+full Rust suites, own fleets and the unchanged 500-prompt curiosity gate with
+zero unmet requirements, runtime failures or drift. The actual parents/tree
+match the reviewed candidate. Differences from the tested merge are limited to
+non-runtime documentation/receipts. The
+[integration receipt](../audits/reaction-dataset-200-20261015/pr796-integration.json)
+retains exact bindings. Charged-input diagnostics, hydrogen-cathode water/OH−
+accounting and the existing-metal anode H+ share are integrated. Original
+curiosity failures and the explicit diagnostic allowance remain documented;
+finite-gas elemental precision is a separate repair. No frozen forecast or
+conservation tolerance changed. This source is **not yet deployed**.
 
-[PR796](https://github.com/CrispStrobe/kerotakis/pull/796) contains charged-input reporting and electrode-balance repairs. All 17 focused
-groups passed on Linux and macOS; full own-fleet acceptance remains pending. [PR798](https://github.com/CrispStrobe/kerotakis/pull/798)
-contains sourced silver–ammonia routing, four focused groups and an explicit
-canonical ligand-ownership limitation; hosted execution remains pending.
-Before adding acidified permanganate/peroxide, implement the
-[shared continuation and thermal-ownership prerequisites](acid-permanganate-peroxide-lane.md).
-Fresh acidity and unmodeled reaction heat must survive native/browser continuation
-and repeated phase-tail solves correctly. Follow the
+Documentation [PR800](https://github.com/CrispStrobe/kerotakis/pull/800) merged
+as `f3c4cd00` after 25 successful checks and one unrelated skip. Its
+[integration receipt](../audits/reaction-dataset-200-20261015/pr800-integration.json)
+verifies the actual candidate tree. Earlier documentation PR797 merged as
+`e027e964`; its [receipt](../audits/reaction-dataset-200-20261015/pr797-integration.json)
+remains preserved.
+
+The following draft PRs now include accepted PR796. Their earlier green checks
+are preserved but do not establish acceptance for the refreshed combined source:
+
+| PR / current head | Completed evidence | Remaining acceptance |
+| --- | --- | --- |
+| [795](https://github.com/CrispStrobe/kerotakis/pull/795), `efd79bf8` — REST delivery | Previous `21dcb14c` had 59 successful checks and one skip; AL2023 preview 38783017261 passed. | Fresh combined CI/fleets and exact-source [Vercel preview 38850693661](https://github.com/CrispStrobe/kerotakis/actions/runs/38850693661); manual browser-client acceptance and Pages publication remain separate delivery work. |
+| [798](https://github.com/CrispStrobe/kerotakis/pull/798), `50ff7a84` — silver ammines | Previous `54d40916` had 58 successful checks and one skip, including native and own-fleet acceptance. Four focused groups retain native mass action and finite balances. | Fresh combined-source checks, then protected exact-head integration. Canonical free/complex-bound ammonia ownership remains an explicit separate gap. |
+| [799](https://github.com/CrispStrobe/kerotakis/pull/799), `bc5f46b5` — unknown-heat continuation | First build field-reference failure and subsequent native/Wasm-prewarm failures preserved. Static formatting, JS syntax and diff checks pass. | Eighteen Rust controls and actual Node Wasm cache/hook controls need successful execution on this source, plus full applicable fleets/browser acceptance. |
+| [801](https://github.com/CrispStrobe/kerotakis/pull/801), `c0dfe45f` — finite-gas input precision | Earlier sealed/open/repeated-wait control and all chemistry fleets passed; strict regulated-volume carbon and existing filtration assertions failed. Deterministic serialization proofs and static checks support a narrower repair. | Fresh native controls and full fleets. Both failed assertions remain unchanged, with richer diagnostics. No analytical projection or tolerance relaxation. |
+
+The unchanged original F11 AgCl/ammonia stock protocol has a separately frozen
+[CLI replay and assessment](../audits/reaction-dataset-200-20261015/silver-followup-replay-20261016/assessment.json)
+on the verified `54d40916` producer executable. Dissolved silver increases from
+1.3683 µmol to 98.2716 µmol (71.82-fold), native silver ammine species appear,
+and 0.90173 mmol AgCl remains solid. The ten-second wait retains the principal
+response. Canonical Ag/Cl totals remain approximately 1 mmol and N approximately
+2 mmol; raw residuals are recorded. The named canonical ligand-ownership limit
+persists. This supports the expected principal response on that source, with no
+calibration claim, no changed original counts and no transfer of acceptance to
+`50ff7a84` or production. The [frozen design](../audits/reaction-dataset-200-20261015/silver-followup-replay-20261016/design.json)
+binds script, source, tested merge, artifact, binary and lock; raw streams remain
+alongside it. This is a targeted replay, not a new blind experiment or a repeat
+of the full 200-case batch.
+
+PR799's second native failure was a fixture distinction: a one-litre sealed
+headspace containing only trace oxygen was under near vacuum. Ordinary
+pressure-dependent boiling legitimately cooled it to about 294.21 K. The fixture
+now declares inert nitrogen, and a separate conservative-vacuum control requires
+phase cooling to remain active under unknown aqueous heat. The native MIX guard
+retains both unknown-heat rejection and charged/solvent-only admission rules.
+Wasm/bridge/browser jobs previously stopped in CLI prewarming; their new Wasm
+controls had not executed and are not claimed accepted. These callbacks install
+no new chemical endpoint. Node Wasm and Chromium acceptance remain distinct.
+
+PR801 now preserves high precision specifically for GAS_PHASE temperature and
+water mass in gas-owning native inputs. Molal concentrations were derived from
+unrounded solvent mass, while rounded written water mass introduced a second
+picomole-scale carbon error. An actual serialized-input control demonstrates
+that discrepancy. Open/MIX solution temperature and water formatting retain
+established values, avoiding unrelated equilibrium perturbations. The strict
+regulated carbon and filtration failures remain unresolved until fresh execution
+confirms the repair; no gas constant, forecast or conservation allowance changed.
+
+The ordered next steps are to follow these exact-source runs through failures,
+accept and integrate the prerequisite repairs, then implement the bounded
+[acidified permanganate/peroxide endpoint](acid-permanganate-peroxide-lane.md).
+Preserve fresh acidity and thermal ownership through native/browser continuation
+and phase-tail solves before adding that endpoint. Resume the remaining
 [ordered repair contracts](../audits/reaction-dataset-200-20261015/CHEMISTRY-RESULTS.md#ordered-repairs)
-for identities, protocol completion, conservation, phase and observable gaps.
-
-The PR795 native AL2023 preview build now passed in
-[run 38783017261](https://github.com/CrispStrobe/kerotakis/actions/runs/38783017261).
-Its first API acceptance failure, encoding offences and workflow-lint failure
-are preserved; fixes are in progress. Production API execution remains on its
-explicitly reported pinned engine; no newer chemistry is claimed deployed.
-
-PR795's CI repair is now pushed at `21dcb14c`, including integrated main through
-PR792. On that exact source, 25 API controls, 15 workflow-toolchain controls,
-UTF-8 and payload lint, and client/service-worker checks passed locally. The
-Ubuntu vendor Bubblewrap profile and complete native/fleet/browser acceptance
-remain subject to fresh hosted checks; no engine or browser build ran locally.
-The first sandbox/build/lint failures remain preserved.
-
-PR796's first hosted macOS job passed the original eight focused groups and
-the complete Rust suite, then failed unchanged curiosity forecasts `aq-063`,
-`aq-065` and `mat-063`. The first two exposed nanomole-scale carbon/gas readback
-residuals misreported as missing counterions. The last exposed a real hydrogen
-cathode defect: gas production had no corresponding water consumption or OH−.
-The corrected head `f253fc21` fixes electrode accounting, refuses finite-water
-overdraw before mutation and declares the charge diagnostic's reporting allowance.
-Eleven aqueous and six core regression groups passed on Linux and macOS,
-alongside each full Rust suite and the unchanged 500-prompt curiosity gate
-(zero unmet requirements, runtime failures or baseline drift). Full own-fleet
-acceptance remains pending. See the [native receipt](../audits/reaction-dataset-200-20261015/charged-input-native-acceptance.json). See the
-[first failure, contracts and remaining limits](https://github.com/CrispStrobe/kerotakis/blob/f253fc21d4641fbb88f4a9cb7a953c7566d393ae/crates/kerotakis-phreeqc/CHARGED-COMPONENTS.md).
-The separate existing-metal electrode route also omitted anodic H+; it now
-books only the metal-deposition electron share. Successful full-plating and
-metal-depletion controls close hydrogen and charge before the aqueous tail.
-No frozen forecast or conservation tolerance changed. Carbon/gas elemental
-reconciliation remains a separate accuracy gap.
-
-The shared unknown-heat continuation prerequisite remains draft
-[PR799](https://github.com/CrispStrobe/kerotakis/pull/799), now `a45c6f45`.
-Its first hosted build failed on two nonexistent vessel-field references;
-those references are corrected and the first logs remain preserved. The
-implementation guards fresh answer binding, atomic rollback, retained-gas events
-and step-local thermal ownership. It now includes an explicit trusted bridge
-through native and browser wrappers, CLI cache prewarming and actual Node Wasm/
-Emscripten controls for continuation, changed-input cache refusal and failing-hook
-rollback. Seventeen Rust controls plus the Wasm harness additions await execution
-on the corrected source; formatting, JavaScript syntax and diff checks passed.
-Negative controls require the intended concrete cache miss or tagged hook failure;
-an unrelated guard error cannot earn a cache/hook acceptance pass.
-These isolated mechanical callbacks install no chemical endpoint. Node Wasm
-acceptance and Chromium execution remain distinct.
-
-[PR798](https://github.com/CrispStrobe/kerotakis/pull/798), now `54d40916`,
-passed three of four initial focused controls. The remaining test looked up H+
-below the public species-list reporting cutoff; it now uses hydrogen activity
-from pH while retaining both mass-action equations and conservation assertions.
-Fresh native and full-fleet acceptance are pending. This reporting-test failure
-alone did not demonstrate a failed silver equilibrium calculation.
-
-[PR797](https://github.com/CrispStrobe/kerotakis/pull/797) merged normally as
-`e027e964`; its integrated tree matches the reviewed candidate. All 25 applicable
-checks passed, with one unrelated job skipped.
-[Integration receipt](../audits/reaction-dataset-200-20261015/pr797-integration.json).
-PR795's REST acceptance and both native jobs passed; remaining applicable fleet
-checks still precede integration. The deployed API retains its original pinned
-engine; none of these pending runtime repairs is claimed deployed.
-
-The proven finite-gas residual now has a narrow causal repair in draft
-[PR801](https://github.com/CrispStrobe/kerotakis/pull/801), `727966a5`.
-Pressure was calculated at the full vessel temperature, but the native gas
-initializer used a temperature rounded to four decimal Celsius places. The
-saved temperature ratios match both carbon discrepancies. Four temperature
-serialization sites now retain consistent precision; no carbon projection,
-gas constant or conservation tolerance changes. Two deterministic and two native
-regression groups are prepared; corrected-source execution and cache regeneration
-remain pending. The [source contract and original bindings](https://github.com/CrispStrobe/kerotakis/blob/727966a5ae917a0ce5b9d16f845ebfa4488f437e/crates/kerotakis-phreeqc/FINITE-CARBON.md)
-retain the first evidence. [PR800](https://github.com/CrispStrobe/kerotakis/pull/800)
-selectively publishes the accepted native receipt and current status on a narrow
-main-based documentation branch; normal auto-merge is enabled.
+for identity, protocol, conservation, phase and observable gaps afterward.
+Production remains explicitly pinned to API `9bee95d9` / engine `d791d306` until
+an accepted exact-source deployment and its platform checks complete. No local
+Rust or browser build ran for this checkpoint; one resource-gated prebuilt CLI
+replay completed.
