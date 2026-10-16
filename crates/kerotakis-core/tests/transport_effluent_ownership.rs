@@ -426,7 +426,7 @@ fn rejected_uniform_geometry_atomic_rollback() {
         v.deposit(SpeciesId::new("water"), Moles(1.0), Phase::Liquid);
         v.temperature = Kelvin(298.0);
     }
-    let before_cells = vec![bench.vessels[0].clone(), bench.vessels[1].clone()];
+    let before_cells = [bench.vessels[0].clone(), bench.vessels[1].clone()];
     let before_recv = bench.vessels[3].clone();
     let before_log_len = bench.log.len();
     let mut noop = Noop;
