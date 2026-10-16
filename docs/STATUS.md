@@ -465,3 +465,23 @@ verifies only the acceptance helper/revision note changed, with chemical/thermal
 policy blobs unchanged. Fresh CI 38865460559 and fleets 38865460634 are pending.
 The old replay is not relabelled as execution of the new head, main or production.
 No local engine process ran.
+
+
+## Independent repair lanes — user instruction, 2026-10-16
+
+The user now authorizes parallel independent protocol and underlying-model lanes.
+The [ready-to-use model-agent handover](independent-model-agent-handover.md)
+contains the starting evidence, current PR805 failure, scoped priorities,
+acceptance/delivery requirements and collision rules. The
+[lane contract](reaction-repair-lane-contract.md) reserves corrected Kero commands,
+procedures and proven aliases for the protocol agent; the independent model
+agent owns solver/mechanism/data fixes and its own evidence/status files.
+Shared counts and original evidence remain centrally maintained. Four initial
+[model intake records](../audits/reaction-dataset-200-20261015/model-issues-20261016/index.json)
+distinguish reproduced source-bound findings from pending corrected reproducers.
+The independent model agent has not been started by this session.
+
+Protocol work has begun on the two proven input aliases and separately frozen
+rank17/rank32 command/procedure controls. No new outcomes or repaired-case counts
+are assigned before source-bound execution and assessment. This user-directed
+split supersedes earlier serialized ordering where the lanes are independent.

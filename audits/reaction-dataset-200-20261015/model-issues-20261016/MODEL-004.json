@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "id": "MODEL-004",
+  "owner_lane": "independent-model-agent",
+  "title": "Gas uptake and halogen reaction domains",
+  "source_cases": [
+    {
+      "rank": 134,
+      "id": "sulfur_dioxide_water",
+      "original_script": "design/scripts/134-sulfur_dioxide_water.lab",
+      "original_script_sha256": "5ddc724ffce69989c4cca9225b1dd47ff5338e9fbf574d9185ce75e0201b4281"
+    },
+    {
+      "rank": 138,
+      "id": "chlorine_water_equilibrium",
+      "original_script": "design/scripts/138-chlorine_water_equilibrium.lab",
+      "original_script_sha256": "3ba4206d663002938f140a9ef13d003a9e6c3cc2e3cf80f1178fda4b9c9bb984"
+    },
+    {
+      "rank": 116,
+      "id": "chlorine_bromide_displacement",
+      "original_script": "design/scripts/116-chlorine_bromide_displacement.lab",
+      "original_script_sha256": "382d10dcdbd1c7d7033875ae1408e3b65b10931530130401ba95259089e2cf56"
+    }
+  ],
+  "observed_evidence": "chemistry-screening.json",
+  "gap": "Original probes do not show the target; complete physical stock/boundary controls must precede assigning a shared cause.",
+  "reproduction_state": "original_screen_only; corrected_reproducer_pending",
+  "status": "intake; refresh source and prerequisites before implementation",
+  "required_acceptance": [
+    "Separate physical protocol from model defect",
+    "Preserve source/binary/lock/script bindings and first failures",
+    "Positive, limiting-reactant and excluded-domain controls",
+    "Relevant material/charge/gas/energy closure and native/browser parity"
+  ],
+  "followups": "append under model-followups/MODEL-004/; do not rewrite this intake"
+}
