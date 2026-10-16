@@ -524,3 +524,14 @@ cleanup limits. Actual Pages publication remains pending. PR806's
 portable handover documentation is in protected CI with normal auto-merge.
 PR805's current `3f84e59f` has native/preflight and viewer failures requiring
 diagnosis; it is not ready to merge. No failed acceptance is waived.
+
+
+The separately frozen [201-case hosted native screen](../audits/new-experiments-201-20261016/native-screen-design.json)
+is dispatched once in [run38871207777](https://github.com/CrispStrobe/kerotakis/actions/runs/38871207777).
+It reuses the authenticated c446 production CLI (no rebuild), selecting197
+unchanged originals plus four separate procedure corrections. All original
+forecasts and native observations/session directives remain. Per-process resource
+limits bound execution. The isolated validation workflow must never merge;
+completion, CLI outcomes and physical assessment are pending. No local engine
+process ran. PR805's locale-composer correction `d66b0811` is pushed after root
+source review; exact-head acceptance and the separate viewer diagnosis remain.

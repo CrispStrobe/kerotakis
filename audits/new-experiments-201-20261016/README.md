@@ -138,5 +138,8 @@ c446 native artifact; no compiler or VPS engine execution is needed. The
 every selected script before executing serially, once each, with process CPU,
 address-space, wall-time and output limits. It retains original session directives,
 observations and incubation times. CLI exits and JSON ingestion remain engineering
-outcomes until the saved physical forecasts are assessed. Dispatch/completion
-will be recorded separately; this frozen design is not an execution claim.
+outcomes until the saved physical forecasts are assessed. [Run38871207777](https://github.com/CrispStrobe/kerotakis/actions/runs/38871207777)
+is dispatched once; the [dispatch binding](native-screen-dispatch.json) records
+its isolated workflow head and immutable input checkout. This validation ref
+must never merge. Completion and physical assessment remain pending; dispatch
+is not an execution or pass claim.
