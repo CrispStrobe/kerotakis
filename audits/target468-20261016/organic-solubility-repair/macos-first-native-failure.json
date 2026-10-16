@@ -1,0 +1,44 @@
+{
+  "recorded_utc": "2026-10-16T16:57:33.909952+00:00",
+  "head": "c4b85d2d88f03f7e9cc67c9367bda75051cb37e8",
+  "run": 38930003346,
+  "job": 117071266322,
+  "job_name": "Test (native) (macos-latest)",
+  "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38930003346/job/117071266322",
+  "raw_job_log_sha256": "52a84a9664ace69aafa387521f091d6124ccf7b6a228d799832c783049f08307",
+  "new_regression_groups_passed": [
+    "curated::organic_availability_tests::unknown_organic_solubility_never_promotes_solid_to_solution",
+    "nonaqueous::provenance_tests::curated_boundary_survives_complete_reagent_consumption",
+    "nonaqueous::provenance_tests::liquid_only_residue_still_reports_and_inert_metal_does_not",
+    "nonaqueous::provenance_tests::every_unvalidated_pair_reports_one_boundary_for_split_phases"
+  ],
+  "failed_existing_contracts": [
+    {
+      "test": "the_transcript_scenario_answers_instead_of_apologising",
+      "file": "crates/kerotakis-core/tests/nonaqueous.rs",
+      "line": 62
+    },
+    {
+      "test": "no_apology_for_covered_species",
+      "file": "crates/kerotakis-core/tests/silver_metathesis.rs",
+      "line": 210
+    },
+    {
+      "test": "ethanol_bench_answers_with_the_curated_verdict",
+      "file": "crates/kerotakis-phreeqc/tests/equilibrator.rs",
+      "line": 238
+    }
+  ],
+  "first_failure_preserved": true,
+  "diagnosis": "Three existing tests require zero NotYetModeled events for the legacy organic-solubility pairs. New explicit withdrawn-provenance ModelBoundary events contradict those historical silence requirements.",
+  "required_correction": [
+    "Retain every existing dissolution amount, residual-solid, reaction and conservation assertion.",
+    "Require the exact withdrawn-provenance key, ModelBoundary cause, vessel, solute and solvent for affected pairs.",
+    "Reject unrelated or missing model-boundary diagnostics; preserve supported inert controls.",
+    "Keep the original failed head/log and validate the corrected head independently on applicable hosted CI/fleets."
+  ],
+  "local_native_execution": false,
+  "correction_implemented_at_recording": false,
+  "scientific_working_count_delta": 0,
+  "full_ci_pass": false
+}
