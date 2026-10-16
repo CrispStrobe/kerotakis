@@ -1,0 +1,25 @@
+{
+  "created_utc": "2026-10-16T14:48:55.601902+00:00",
+  "api_revision": "735c523d415e1e8ab1dddf58efbbf6d7bc53266e",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "cases": [
+    {
+      "id": "lifecycle-stock-observation",
+      "script": "register lv3\nstock sodium chloride 0.002mol\nadd v1 water 100mL\nadd v1 sodium chloride 0.001mol\nlook v1\nsmell v1\nwaft v1\nparticles v1\nzoom v1\ninspect v1\ndiscard v1\ninspect v1\nremove v1\ninspect\n",
+      "script_sha256": "8edf2c09b52a1b9de56a675737557df906fcf4161842db8439ff780ae35033a2",
+      "forecast": "HTTP200 completed, exit0, JSON observations; controls exercise command exposure only, no calibrated chemistry claim."
+    },
+    {
+      "id": "voltmeter-alias",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 Zn 0.001mol\nadd v1 ZnSO4 0.001mol\nnew\nadd v2 water 100mL\nadd v2 Cu 0.001mol\nadd v2 CuSO4 0.001mol\ncell v1 v2\nvoltmeter v1 v2\ninspect\n",
+      "script_sha256": "75868d29245da1ac1808cc17be562fec632221bf4f828d614872775bd3097c1b",
+      "forecast": "HTTP200 completed, exit0, JSON observations; controls exercise command exposure only, no calibrated chemistry claim."
+    }
+  ],
+  "policy": "Execute only after existing668-case batch finishes. One API attempt per case, no ambiguous retries. Verify exact gateway/engine/script identity. Bound loop/session refusal controls do not start engines.",
+  "physical_verdict": "not_assigned"
+}
