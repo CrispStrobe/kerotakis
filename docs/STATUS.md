@@ -40,9 +40,11 @@ not supplied by this artifact. Previous production evidence retains its old bind
 integrated as `4f0112f6` after25 successful checks and one skip; actual parents/tree
 match the reviewed merge candidate. Runtime is unchanged, so this documentation
 merge requires no production rebuild.
-The maintained current-results refresh is [PR808](https://github.com/CrispStrobe/kerotakis/pull/808),
-reviewed at `20a1c5c5` with normal protected auto-merge enabled. It changes only
-two maintained Markdown files; required CI remains pending.
+The maintained current-results refresh [PR808](https://github.com/CrispStrobe/kerotakis/pull/808)
+integrated as `dd892b68`; actual parents/tree match the reviewed documentation
+candidate. The [receipt](../audits/reaction-dataset-200-20261015/pr808-integration.json)
+retains the check snapshot, including three nonprotected jobs still queued at
+collection. Runtime is unchanged.
 
 The actual Pages REST client still returned404 at its last check. Follow the
 existing integrated-main demo/publish pipeline, then verify actual served bytes;
@@ -161,3 +163,15 @@ Trapped air, titrant carrier water, retained carbon and other material/charge
 ledgers close; no post-seal export or solver failure occurs. Original open
 failures remain unchanged. No chemical implementation, tolerance, empirical
 calibration or working-catalog count changed.
+
+## Parallel source review checkpoint
+
+Two additional supervised Hermes/Muse Spark lanes review transport ownership and
+optical provenance alongside the existing hydroxide-route review. Source-only
+work continues under resource gates; heavy validation stays hosted. The transport
+adapter loses effluent temperature, phase and charge on receiver deposition; a
+narrow repair is assigned, with two separately frozen
+[baseline controls](../audits/new-experiments-201-20261016/transport-effluent-followup/README.md)
+queued in [run38884179479](https://github.com/CrispStrobe/kerotakis/actions/runs/38884179479).
+No baseline physical verdict is assigned before artifact collection. Hydraulic
+domain expansion and the optical CEA convergence failure remain separate gaps.

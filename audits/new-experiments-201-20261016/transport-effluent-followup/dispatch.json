@@ -1,0 +1,23 @@
+{
+  "recorded_utc": "2026-10-16T09:59:12.865705+00:00",
+  "run": 38884179479,
+  "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38884179479",
+  "isolated_validation_head": "df72f6a4029cbc41b60e4e1d5323e8caf1054fe1",
+  "isolated_validation_tree": "143c9b88861d278f24ec952322ae0b4a15d12f68",
+  "parent_actual_main": "4f0112f6cc1330572369429c7ae2e0ca94494205",
+  "changed_paths_from_parent": [
+    ".github/workflows/vercel.yml"
+  ],
+  "input_checkout_commit": "906115f67ff72642d710a8e3f4ca489f9764b6c5",
+  "design_sha256": "460c4bf44d13309eb23dc3609c725077e4866b4a15defceee70b615016728cf3",
+  "runner_sha256": "d5f1c39e5abb25dbdaf7d22283ba3f50f7537053324ba0f7b711dd58a6c94f87",
+  "producer_run": 38868092504,
+  "dispatch_count": 1,
+  "cases": 2,
+  "rebuilds": 0,
+  "api_requests": 0,
+  "local_engine_executions": 0,
+  "integration_allowed": false,
+  "physical_verdict": "not_assigned",
+  "state": "dispatched; pending collection"
+}

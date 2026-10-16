@@ -1,0 +1,147 @@
+{
+  "recorded_utc": "2026-10-16T10:04:22.996694+00:00",
+  "pr": 808,
+  "head": "20a1c5c5b2013084f2591d264270ebe574564b2a",
+  "merge_commit": "dd892b6877dd95abf37fdf0a56b1fa6c785f43d0",
+  "merge_parents": [
+    "4f0112f6cc1330572369429c7ae2e0ca94494205",
+    "20a1c5c5b2013084f2591d264270ebe574564b2a"
+  ],
+  "reviewed_candidate_tree": "5b660d3953b0a8a4f0e6a34d249e1e699661446f",
+  "actual_merged_tree": "5b660d3953b0a8a4f0e6a34d249e1e699661446f",
+  "tree_matches": true,
+  "checks_snapshot": [
+    {
+      "conclusion": "SUCCESS",
+      "name": "GPU release tools (deterministic)",
+      "status": "COMPLETED"
+    },
+    {
+      "conclusion": "SUCCESS",
+      "name": "BRD-080 viewer decision spike",
+      "status": "COMPLETED"
+    },
+    {
+      "conclusion": "SUCCESS",
+      "name": "Theme contrast tokens",
+      "status": "COMPLETED"
+    },
+    {
+      "conclusion": "SUCCESS",
+      "name": "Presentation authority adapters",
+      "status": "COMPLETED"
+    },
+    {
+      "conclusion": "SUCCESS",
+      "name": "Full preflight gate",
+      "status": "COMPLETED"
+    },
+    {
+      "conclusion": "SUCCESS",
+      "name": "Test (native) (ubuntu-latest)",
+      "status": "COMPLETED"
+    },
+    {
+      "conclusion": "SUCCESS",
+      "name": "Test (native) (macos-latest)",
+      "status": "COMPLETED"
+    },
+    {
+      "conclusion": "SUCCESS",
+      "name": "MY-BASIC preview (ubuntu-latest)",
+      "status": "COMPLETED"
+    },
+    {
+      "conclusion": "SUCCESS",
+      "name": "MY-BASIC preview (macos-latest)",
+      "status": "COMPLETED"
+    },
+    {
+      "conclusion": "",
+      "name": "Legacy BASIC oracle (development only)",
+      "status": "QUEUED"
+    },
+    {
+      "conclusion": "SUCCESS",
+      "name": "Core and data schemas compile to wasm32",
+      "status": "COMPLETED"
+    },
+    {
+      "conclusion": "SUCCESS",
+      "name": "feos adapter (wasm32-unknown-unknown)",
+      "status": "COMPLETED"
+    },
+    {
+      "conclusion": "SUCCESS",
+      "name": "feos adapter (aarch64-linux-android)",
+      "status": "COMPLETED"
+    },
+    {
+      "conclusion": "SUCCESS",
+      "name": "feos adapter (x86_64-pc-windows-msvc)",
+      "status": "COMPLETED"
+    },
+    {
+      "conclusion": "SUCCESS",
+      "name": "feos adapter (aarch64-apple-darwin)",
+      "status": "COMPLETED"
+    },
+    {
+      "conclusion": "SUCCESS",
+      "name": "feos adapter (aarch64-apple-ios)",
+      "status": "COMPLETED"
+    },
+    {
+      "conclusion": "",
+      "name": "Current registry source export",
+      "status": "QUEUED"
+    },
+    {
+      "conclusion": "SUCCESS",
+      "name": "The native host still compiles",
+      "status": "COMPLETED"
+    },
+    {
+      "conclusion": "SUCCESS",
+      "name": "IPhreeqc under MSVC",
+      "status": "COMPLETED"
+    },
+    {
+      "conclusion": "SUCCESS",
+      "name": "Shell payload (ubuntu-22.04)",
+      "status": "COMPLETED"
+    },
+    {
+      "conclusion": "SUCCESS",
+      "name": "Shell payload (windows-latest)",
+      "status": "COMPLETED"
+    },
+    {
+      "conclusion": "SUCCESS",
+      "name": "The bench in WebAssembly",
+      "status": "COMPLETED"
+    },
+    {
+      "conclusion": "",
+      "name": "IPhreeqc wasm gate",
+      "status": "QUEUED"
+    },
+    {
+      "conclusion": "SUCCESS",
+      "name": "The two wasm halves, together",
+      "status": "COMPLETED"
+    },
+    {
+      "conclusion": "SUCCESS",
+      "name": "The demo page, in a real browser",
+      "status": "COMPLETED"
+    },
+    {
+      "conclusion": "SKIPPED",
+      "name": "Publish the demo",
+      "status": "COMPLETED"
+    }
+  ],
+  "scope": "maintained documentation only; protected auto-merge completed; three nonprotected checks still queued at collection; no runtime change",
+  "production_redeploy_required": false
+}
