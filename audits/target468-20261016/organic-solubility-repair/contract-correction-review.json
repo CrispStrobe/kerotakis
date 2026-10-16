@@ -1,0 +1,25 @@
+{
+  "recorded_utc": "2026-10-16T17:53:04.343362+00:00",
+  "pr": 819,
+  "reviewed_head": "77c5488ec996464123eb7aa26e568446ff4721a7",
+  "parent": "c4b85d2d88f03f7e9cc67c9367bda75051cb37e8",
+  "changed_files": [
+    "crates/kerotakis-core/tests/nonaqueous.rs",
+    "crates/kerotakis-core/tests/silver_metathesis.rs",
+    "crates/kerotakis-phreeqc/tests/equilibrator.rs"
+  ],
+  "source_review": "Exact planned three warning-contract replacements; expected pair sets independently checked against first native failure. All pre-existing numerical/material assertions retained. Runtime files unchanged.",
+  "formatting_qualification": "Reconstructed each planned replacement and compared full file ignoring whitespace and commas introduced by rustfmt; diff independently reviewed.",
+  "local_ssh_signature_verified": true,
+  "github_signature_state": "unknown_key; local verification is distinct from GitHub account registration",
+  "controller_stop": "Successful signed commit and push, followed by a stale old-head response from immediate gh pr view; no second commit/push/retry was performed.",
+  "current_remote_head_matches": true,
+  "native_test_execution_local": false,
+  "native_ci_and_full_fleet": "Required on corrected exact head; not yet accepted",
+  "file_sha256": {
+    "crates/kerotakis-core/tests/nonaqueous.rs": "22e6f1f4c7010b049788d2e6492d4e7f717ab9f0d1684f8d0def349fbee914e5",
+    "crates/kerotakis-core/tests/silver_metathesis.rs": "6306c26035175027996a0d690d2f457271f5722152868dd3edadd40826a903d6",
+    "crates/kerotakis-phreeqc/tests/equilibrator.rs": "cd32a28b1f9ae99862f67a345607b112cd9841aff106c37274719375c59a48ed"
+  },
+  "plan_sha256": "c059eb7edd6a585039f63a83f3d8b57757fac49796fbc7fabb8bc9d77e19a14b"
+}

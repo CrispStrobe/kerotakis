@@ -1,0 +1,17 @@
+{
+  "recorded_utc": "2026-10-16T18:00:00.309412+00:00",
+  "reviewed_head": "77c5488ec996464123eb7aa26e568446ff4721a7",
+  "accepted_main_at_preflight": "0c97975bbc2c5e7a17bfbaff384a5ce54fd8a044",
+  "merge_conflicts": [
+    "docs/STATUS.md"
+  ],
+  "other_source_conflicts": [],
+  "preflight_sha256": "b6630b0d55ac162aa169fe9604f944bea322e337d8089b85d654d92a27e8254e",
+  "checks_at_head_before_resolution": 0,
+  "trigger_followup": "Draft PR closed and immediately reopened without changing its source; this did not resolve the documentation conflict or attach checks.",
+  "cause_reference": "https://docs.github.com/en/actions/how-tos/troubleshoot-workflows",
+  "required_correction": "Merge actual accepted main into the narrow branch, preserve complete main STATUS and the appended organic lane, review combined head and require new normal CI/full fleet. No force push or pull_request_target switch.",
+  "resolution_implemented_at_recording": false,
+  "local_native_execution": false,
+  "scientific_selection_delta": 0
+}
