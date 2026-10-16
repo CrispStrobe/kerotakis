@@ -1,0 +1,130 @@
+{
+  "schema": 1,
+  "reviewed_utc": "2026-10-16T06:59:24.974136+00:00",
+  "source": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+  "engine": {
+    "source_head": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+    "binary_sha256": "30f32713fb01a4564b986f0c7a99ac0dd2089a3cceaabcc382d00f63e88922d6",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "run": 38862025694,
+  "binding_sha256": "a14bfbcde883523b4ed93a3ad14ce6f28f48c7597e8e3be40a5225ff566fb9f2",
+  "prospective_design_sha256": "9d2f3e3601162a337e8e373c729d72b091c424968e9422d732d255fc2ba10c0b",
+  "cases": [
+    {
+      "id": "001-original",
+      "accepted_declared_engineering_checks": true,
+      "checks": {
+        "authenticated_engine_and_script_binding": true,
+        "completed_expected_operator_sequence": true,
+        "finite_observations": true,
+        "no_solver_failed": true,
+        "retains_both_basis_ions": true,
+        "separate_water_dose_retained": true,
+        "all_post_basis_readings_withheld": true,
+        "named_honest_basis_limit": true,
+        "no_neutralization_event": true,
+        "no_invented_temperature_change": true
+      },
+      "observed": {
+        "owned_h_plus_mol": 0.001,
+        "owned_oh_minus_mol": 0.001,
+        "owned_water_mol": 5.535276991396059,
+        "final_solution": null,
+        "classification": "Supported reporting of an unsupported bare-basis physical neutralization; no scientific pass assigned."
+      },
+      "response_sha256": "73a1091ac80fc21e5e30732002c7dd4c0f018d4f33eb9d6871d87e296f9f0d89",
+      "physical_verdict": "not_assigned"
+    },
+    {
+      "id": "001-complete-stock",
+      "accepted_declared_engineering_checks": true,
+      "checks": {
+        "authenticated_engine_and_script_binding": true,
+        "completed_expected_operator_sequence": true,
+        "finite_observations": true,
+        "no_solver_failed": true,
+        "initial_acidic_readback": true,
+        "neutral_and_final_readback": true,
+        "counterions_retained": true,
+        "neutralization_water": true,
+        "finite_neutralization_event": true,
+        "positive_temperature_response": true,
+        "no_input_limit": true,
+        "material_and_charge_closure": true
+      },
+      "observed": {
+        "initial_acid_ph": 2.038105470481,
+        "post_base_ph": 6.992693453276,
+        "final_ph": 6.992709843471,
+        "water_increment_mol": 0.001000000000000334,
+        "neutralised_mol": [
+          0.0009999888974391263
+        ],
+        "temperature_increment_kelvin": 0.2407310109252876,
+        "retained_na_mol": 0.001,
+        "retained_cl_mol": 0.001,
+        "balance": {
+          "element_residual_mol": {
+            "Cl": 0.0,
+            "H": 1.7763568394002505e-15,
+            "Na": 0.0,
+            "O": 0.0
+          },
+          "charge_residual_mol": 0.0,
+          "accepted": true
+        }
+      },
+      "response_sha256": "4f0fb86e29d0cbc164ffc635770939b04b768518c3a41541380a251d1857fa8b",
+      "physical_verdict": "not_assigned"
+    },
+    {
+      "id": "007-complete-stock",
+      "accepted_declared_engineering_checks": true,
+      "checks": {
+        "authenticated_engine_and_script_binding": true,
+        "completed_expected_operator_sequence": true,
+        "finite_observations": true,
+        "no_solver_failed": true,
+        "faraday_electrons": true,
+        "hydrogen_amount": true,
+        "oxygen_amount": true,
+        "gas_ratio": true,
+        "finite_water_debit": true,
+        "supporting_sulfate_retained": true,
+        "supporting_acid_retained": true,
+        "material_and_charge_closure": true,
+        "no_electrolyte_or_charge_limit": true,
+        "finite_acidic_final_readback": true
+      },
+      "observed": {
+        "expected_electrons_mol": 0.00010364269656617729,
+        "reported_electrons_mol": 0.00010364269656617729,
+        "h2_export_mol": 5.1821348283088646e-05,
+        "o2_export_mol": 2.5910674141544323e-05,
+        "water_spent_mol": 5.182134828274343e-05,
+        "retained_sulfate_mol": 0.001,
+        "retained_owned_h_plus_mol": 0.002,
+        "balance": {
+          "element_residual_mol": {
+            "H": 0.0,
+            "O": 0.0,
+            "S": 0.0
+          },
+          "charge_residual_mol": 0.0,
+          "accepted": true
+        }
+      },
+      "response_sha256": "55b0745ac961e6e91c0e690c3f463c54a83f79e62473d52e11c106cd35a2f4d3",
+      "physical_verdict": "not_assigned"
+    }
+  ],
+  "accepted_all_three_engineering_controls": true,
+  "requests": 3,
+  "all_http200_completed": true,
+  "local_cli_run": false,
+  "same_head_cli_comparison": false,
+  "production_changed": false,
+  "physical_verdict": "not_assigned",
+  "reviewer_scope": "Independent amount/formula/charge/gas/readback checks against prospectively frozen expectations. No assertion of empirical calibration or source-74 CLI equivalence."
+}

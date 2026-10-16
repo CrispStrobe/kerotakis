@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "frozen_utc": "2026-10-16T06:57:32.298389+00:00",
+  "kind": "Separately frozen exact-source API engineering controls; three unchanged prior scripts, not new blind experiments",
+  "binding_sha256": "a14bfbcde883523b4ed93a3ad14ce6f28f48c7597e8e3be40a5225ff566fb9f2",
+  "source": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+  "engine": {
+    "source_head": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+    "binary_sha256": "30f32713fb01a4564b986f0c7a99ac0dd2089a3cceaabcc382d00f63e88922d6",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "preview_url": "https://kerotakis-web-payload-3j5wmq8y7-crispstrobes-projects.vercel.app",
+  "cases": [
+    {
+      "id": "001-original",
+      "script": "# neutralisation\nadd v1 water 100mL @ 25C\ninspect v1\nadd v1 H+ 0.001mol\nadd v1 water 0.001mol\nadd v1 OH- 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "d0037d6c1f5b3c49967c14b2cae84b6088001793bb5f72b054f3765f51d62294",
+      "request_body_sha256": "05dfbe303d98fc4f0573146e05c5691793f2b0fb31446e7a4f4b732c5189809a",
+      "original_design": "audits/reaction-dataset-200-20261015/repair-api-preview-20261016/design.json",
+      "original_request": "audits/reaction-dataset-200-20261015/repair-api-preview-20261016/001-original.request.json",
+      "observation_count": 8,
+      "operator_sequence": [
+        "add",
+        "inspect",
+        "add",
+        "add",
+        "add",
+        "inspect",
+        "wait",
+        "inspect"
+      ],
+      "expectation": "Bare H+/OH- remain owned; after explicit basis input no solution reading is assigned and named bare-acid-base-basis limitation is retained, including after wait. No neutralization heat or products are claimed.",
+      "checks": [
+        "retained H+ 0.001mol and OH-0.001mol",
+        "water equals initial5.534276991396059+separate0.001mol dose",
+        "no solution after explicit H+",
+        "named refusal emitted",
+        "no neutralised event",
+        "unchanged298.15K"
+      ]
+    },
+    {
+      "id": "001-complete-stock",
+      "script": "add v1 water 100mL @ 25C\nadd v1 HCl 0.001mol\ninspect v1\nadd v1 NaOH 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "a4e2a4c3f27aa790a4843e644b4ba647ff71d5515a945bf7fe6304bb8925b1c1",
+      "request_body_sha256": "f81d52df27a6cda5bfe27f2a9c9ce7588f5a8ee0e9c987ac8acf9cbe7256e4db",
+      "original_design": "audits/reaction-dataset-200-20261015/repair-api-preview-20261016/design.json",
+      "original_request": "audits/reaction-dataset-200-20261015/repair-api-preview-20261016/001-complete-stock.request.json",
+      "observation_count": 7,
+      "operator_sequence": [
+        "add",
+        "add",
+        "inspect",
+        "add",
+        "inspect",
+        "wait",
+        "inspect"
+      ],
+      "expectation": "Complete HCl/NaOH supported neutralization retains Na/Cl, consumes finite acid/base, produces corresponding water and reports warm near-neutral final readback; no new scientific calibration.",
+      "checks": [
+        "acid setup pH<3",
+        "post-base and final pH6..8",
+        "Na+ and Cl-0.001mol retained",
+        "water increment0.001mol within1e-8",
+        "neutralised amount near0.001mol within1e-7",
+        "temperature rises after base",
+        "no bare-basis or uncompensated-charge diagnostic"
+      ]
+    },
+    {
+      "id": "007-complete-stock",
+      "script": "add v1 water 100mL @ 25C\nadd v1 H2SO4 0.001mol\ninspect v1\nelectrolyse v1 0.1A 100s\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "e7593076038d1cd491bde9313e4599cea55102afefb7313baf0f068e6afb1e40",
+      "request_body_sha256": "113784f29b390611813f6fc933444cfbecb0a63d6ff280b393be8d52ac1f7991",
+      "original_design": "audits/reaction-dataset-200-20261015/repair-api-preview-20261016/design.json",
+      "original_request": "audits/reaction-dataset-200-20261015/repair-api-preview-20261016/007-complete-stock.request.json",
+      "observation_count": 7,
+      "operator_sequence": [
+        "add",
+        "add",
+        "inspect",
+        "electrolyse",
+        "inspect",
+        "wait",
+        "inspect"
+      ],
+      "expectation": "Supporting sulfuric acid permits ideal-current solvent electrolysis with finite water, H2:O2=2:1, unchanged supporting sulfate/proton coordinates and explicit exported gas; rate/voltage/yield calibration is not assigned.",
+      "checks": [
+        "electrons=0.1A*100s/96485.33212",
+        "H2=electrons/2 and O2=electrons/4",
+        "water debit=electrons/2",
+        "sulfate0.001mol retained",
+        "H+0.002mol retained",
+        "formal charge and H/O/S closure with exported gas",
+        "no unsupported-electrolyte or uncompensated-charge diagnostic"
+      ]
+    }
+  ],
+  "execution_policy": "One request per script, serial with at least3.1seconds between starts; stop on auth/redirect/quota/transport ambiguity, uncompleted execution or source/binary/script mismatch; no silent retry.",
+  "comparison_scope": "No local CLI execution or same-head CLI equality claim. Original design/outcomes remain immutable. These are declared API/material/reporting checks, not empirical chemical validation.",
+  "physical_verdict": "not_assigned",
+  "excluded_cases": [
+    "014-complete-stock: source does not include803 physicalsolid repair",
+    "F12: PR805 endpoint not included"
+  ]
+}

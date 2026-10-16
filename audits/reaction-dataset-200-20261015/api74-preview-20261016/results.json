@@ -1,0 +1,41 @@
+[
+  {
+    "id": "001-original",
+    "http_status": 200,
+    "client_exit": 0,
+    "elapsed_seconds": 7.160323414951563,
+    "response_sha256": "73a1091ac80fc21e5e30732002c7dd4c0f018d4f33eb9d6871d87e296f9f0d89",
+    "script_sha256": "d0037d6c1f5b3c49967c14b2cae84b6088001793bb5f72b054f3765f51d62294",
+    "execution_status": "completed",
+    "exit_status": 0,
+    "observations": 8,
+    "source_and_binary_match": true,
+    "physical_verdict": "not_assigned"
+  },
+  {
+    "id": "001-complete-stock",
+    "http_status": 200,
+    "client_exit": 0,
+    "elapsed_seconds": 7.16222352348268,
+    "response_sha256": "4f0fb86e29d0cbc164ffc635770939b04b768518c3a41541380a251d1857fa8b",
+    "script_sha256": "a4e2a4c3f27aa790a4843e644b4ba647ff71d5515a945bf7fe6304bb8925b1c1",
+    "execution_status": "completed",
+    "exit_status": 0,
+    "observations": 7,
+    "source_and_binary_match": true,
+    "physical_verdict": "not_assigned"
+  },
+  {
+    "id": "007-complete-stock",
+    "http_status": 200,
+    "client_exit": 0,
+    "elapsed_seconds": 7.212648764252663,
+    "response_sha256": "55b0745ac961e6e91c0e690c3f463c54a83f79e62473d52e11c106cd35a2f4d3",
+    "script_sha256": "e7593076038d1cd491bde9313e4599cea55102afefb7313baf0f068e6afb1e40",
+    "execution_status": "completed",
+    "exit_status": 0,
+    "observations": 7,
+    "source_and_binary_match": true,
+    "physical_verdict": "not_assigned"
+  }
+]

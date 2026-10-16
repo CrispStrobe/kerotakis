@@ -1,0 +1,79 @@
+{
+  "schema": 1,
+  "bound_before_case_requests_utc": "2026-10-16T06:56:04.036993+00:00",
+  "run": 38862025694,
+  "job": 116846250747,
+  "harness_source": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+  "source_tree": "244fa59920ac0530a76c9e4ff2833d6a7e9ad4bd",
+  "artifact": {
+    "id": 12029562826,
+    "name": "rest-native-38862025694",
+    "api_digest": "sha256:f0e9ebb1e41e2b17a47b48ecf4d079ef20a816d26925cf0e1cf61ec2aa03dbdd",
+    "downloaded_archive_sha256": "f0e9ebb1e41e2b17a47b48ecf4d079ef20a816d26925cf0e1cf61ec2aa03dbdd",
+    "not_expired": true
+  },
+  "preview_url": "https://kerotakis-web-payload-3j5wmq8y7-crispstrobes-projects.vercel.app",
+  "deployment_protection": "retained; authorized Vercel CLI request access only",
+  "engine": {
+    "source_head": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+    "binary_sha256": "30f32713fb01a4564b986f0c7a99ac0dd2089a3cceaabcc382d00f63e88922d6",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "libraries_verified": {
+    "ld-linux-x86-64.so.2": "5022436ff15df9e54e79ee0a0ca8b3422a0dcb0c11920d9901ded30eccbf8638",
+    "libc.so.6": "fdf84d7d72db18bb3996a7b24f3eb473e7efbc8f994af7b159f76d61d1b4c978",
+    "libgcc_s.so.1": "9460b5f230d3f66554ec259e8e0890b0946dfde7cc83f95d1ac8d4dca3d3f9bb",
+    "libm.so.6": "f7cb1097b97353d994fe191e5fafc81f0171935792311a157c3082213fc704e0",
+    "libstdc++.so.6": "846b43f9f1429cc67ae7ffd24f4ccdd7a17d652765aaf3e6f9d2ca54178b369d"
+  },
+  "snapshot": {
+    "id": "snap_e5leucKtN6O8x30T2Ty8Ws4sLUQk",
+    "engine_manifest_matches_binary_and_libraries": true,
+    "network": "deny-all",
+    "vcpus": 1,
+    "memory_mib": 2048,
+    "vm_job_sha256": "bb00548fb24e62192fc39a4f633981dceabea17d8542a8f5f3244b6c7e7b429f",
+    "sandbox_sha256": "4e4425da74b0b451c3ee6f51204db7bae395c3d6538cea81afe0fc207f355ef7",
+    "smoke_observations": 2,
+    "smoke_code": 0
+  },
+  "isolation": {
+    "probe_source_sha256": "0e101c7f0d9d47cc2df5e2706227ff8aaf1e043cbae8c06f93ee54ea44103694",
+    "probe_binary_sha256": "d65f5b306784ce30d76414a7fc9e4e908c50cd3e33f9aa353e1d4893786cc583",
+    "probe_replaces_only_disposable_snapshot_copy_engine": true,
+    "isolation_controls_pass": true
+  },
+  "health": {
+    "service": "kerotakis",
+    "api_version": 1,
+    "mode": "vercel",
+    "configured": true,
+    "revision": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+    "execution_backend": "microvm",
+    "engine": {
+      "source_head": "74a030ec5becd4eddb1122fd0d2f7a8df7ac33a2",
+      "binary_sha256": "30f32713fb01a4564b986f0c7a99ac0dd2089a3cceaabcc382d00f63e88922d6",
+      "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+    }
+  },
+  "producer_lock_binding": {
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+    "raw_lock_bytes_uploaded": false,
+    "independently_rehashed_build_lock": false,
+    "qualification": "Producer-reported build-lock hash is bound through manifest, snapshot and health; raw build lock is absent from artifact and has not been independently rehashed."
+  },
+  "accepted_artifact_deployment_binding": true,
+  "local_cli_executed": false,
+  "production_changed": false,
+  "physical_verdict": "not_assigned",
+  "receipt_sha256": {
+    "run.json": "df9b55ea7bb12bae9ab2378b7f97b88007038e132a75d161b381e52a3e29e971",
+    "jobs.json": "23e4201c1f0e2acf18b30e414d253227a760bd7f7fdc0d04f695fc03e1ab08df",
+    "artifacts.json": "91eba7ecc15898eadedcda09f7aac1debb157ab1a11fc4f48ede799e4d966bee",
+    "job.log": "3d1a5b8f4be7fb31dfcacc2bb7b2db07bd731beaaea33598d974c78cbc7689c8",
+    "health.json": "7055c395b42c196643f50ad43d83e347d301d2f687eb63a9cc4f71ceb540ed38",
+    "artifact/rest-native/manifest.json": "64e212dc0edb9a1fd74a760943ab7b00e8b3c3c3e31f50eab619bf248589a6f5",
+    "artifact/rest-snapshot.json": "597965d084f3ec293b663bba0ef9520f8d67656697c478c514004103ebe93d42",
+    "artifact/rest-isolation.json": "2252642d3415e01c9854584f1df95df5edbb2aff77cab3fa222e8eef7a145c1f"
+  }
+}

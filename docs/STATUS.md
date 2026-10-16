@@ -431,3 +431,16 @@ Source formatting, JavaScript syntax and locale/static checks passed. Runtime
 acceptance remains pending in CI 38863384721 and fleet 38863384507, together
 with a separately bound unchanged-F12 replay. No endpoint scientific pass,
 integration or deployment is claimed before those checks finish.
+
+
+PR795's refreshed source `74a030ec` now passed its exact-source serverless build,
+microVM smoke/isolation and three separately frozen
+[real API repair controls](../audits/reaction-dataset-200-20261015/api74-preview-20261016/assessment.json).
+All three completed with exact engine/script bindings; 36 declared engineering
+checks passed. The absent raw lock bytes remain explicitly qualified. These
+runs make no same-head CLI comparison or production/empirical claim. Remaining
+native/browser/full-fleet checks still precede integration. Reaction 119's
+separate audited CLI build succeeded; unchanged F12 collection is dispatched in
+[run 38864486610](https://github.com/CrispStrobe/kerotakis/actions/runs/38864486610)
+from an isolated validation-only ref that must never merge. Its chemical result
+and remaining PR805 runtime acceptance are still pending.
