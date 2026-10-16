@@ -35,6 +35,80 @@ enum ApplyDisposition {
     Unchanged,
 }
 
+/// The measured aqueous coordinates accompanying a physical aliquot.
+///
+/// These are not additional ions or a cached solution. The aqueous heat
+/// balance reads them from StepStart, separately from analytical H/O portions.
+/// Leaving them behind on a pour prices transported hydroxide as newly formed
+/// in the receiver (and leaves a stale hydroxide baseline in the source).
+struct AqueousTransferSnapshot {
+    free_hydroxide: f64,
+    free_proton: f64,
+    solute_charge: f64,
+}
+
+impl AqueousTransferSnapshot {
+    fn validate(vessel: &Vessel) -> Result<(), BenchError> {
+        if !vessel.solute_charge.is_finite()
+            || !vessel.free_hydroxide.is_finite()
+            || vessel.free_hydroxide < 0.0
+            || !vessel.free_proton.is_finite()
+            || vessel.free_proton < 0.0
+        {
+            return Err(BenchError::InvalidState(
+                "invalid measured aqueous transfer coordinates".into(),
+            ));
+        }
+        Ok(())
+    }
+
+    /// Only for a common fraction of ALL liquid/aqueous contents: Filter and
+    /// Decant. Phase-selective extraction and native MIX need their own proof.
+    fn take(source: &mut Vessel, fraction: f64) -> Result<Option<Self>, BenchError> {
+        // No measured aqueous parcel accompanies a dry/organic-only pour.
+        // In particular, do not migrate old diagnostic fields when no water
+        // carrier moves, or turn a zero-fraction rehearsal into a mutation.
+        let carries_water = source.contents.iter().any(|portion| {
+            portion.species.0 == "water"
+                && portion.phase == Phase::Liquid
+                && portion.moles.0 * fraction > 0.0
+        });
+        if !carries_water {
+            return Ok(None);
+        }
+        Self::validate(source)?;
+        let carried = Self {
+            free_hydroxide: source.free_hydroxide * fraction,
+            free_proton: source.free_proton * fraction,
+            solute_charge: source.solute_charge * fraction,
+        };
+        source.free_hydroxide *= 1.0 - fraction;
+        source.free_proton *= 1.0 - fraction;
+        source.solute_charge *= 1.0 - fraction;
+        source.solution = None;
+        source.resolved.invalidate();
+        Ok(Some(carried))
+    }
+
+    fn deposit(self, destination: &mut Vessel) -> Result<(), BenchError> {
+        Self::validate(destination)?;
+        let hydroxide = destination.free_hydroxide + self.free_hydroxide;
+        let proton = destination.free_proton + self.free_proton;
+        let charge = destination.solute_charge + self.solute_charge;
+        if !hydroxide.is_finite() || !proton.is_finite() || !charge.is_finite() {
+            return Err(BenchError::InvalidState(
+                "measured aqueous transfer coordinates overflow".into(),
+            ));
+        }
+        destination.free_hydroxide = hydroxide;
+        destination.free_proton = proton;
+        destination.solute_charge = charge;
+        destination.solution = None;
+        destination.resolved.invalidate();
+        Ok(())
+    }
+}
+
 /// The temperature a match or spark brings its immediate surroundings to.
 pub const IGNITION_K: f64 = 1200.0;
 
@@ -2676,8 +2750,9 @@ impl Bench {
                 }
 
                 // Apply: take the liquid fraction out of `from`…
-                let portions = {
+                let (portions, aqueous_snapshot) = {
                     let src = self.vessel_mut(*from)?;
+                    let aqueous_snapshot = AqueousTransferSnapshot::take(src, *fraction)?;
                     for p in src.contents.iter_mut() {
                         if matches!(p.phase, Phase::Liquid | Phase::Aqueous) {
                             p.moles = Moles(p.moles.0 * (1.0 - fraction));
@@ -2691,7 +2766,7 @@ impl Bench {
                     }
                     src.unresolved_materials
                         .retain(|portion| portion.amount > 1e-15);
-                    would_move
+                    (would_move, aqueous_snapshot)
                 };
                 // …and mix it into `to` with the energy balance.
                 let dst = self.vessel_mut(*to)?;
@@ -2716,6 +2791,9 @@ impl Bench {
                     dst.deposit(s, n, phase);
                 }
                 dst.unresolved_materials.extend(unresolved_move);
+                if let Some(aqueous_snapshot) = aqueous_snapshot {
+                    aqueous_snapshot.deposit(dst)?;
+                }
                 events.push(Event::Transferred {
                     from: *from,
                     to: *to,
@@ -2978,7 +3056,11 @@ impl Bench {
                 }
 
                 let src = self.vessel_mut(*from)?;
-                src.contents.retain(|p| p.phase == Phase::Solid);
+                let aqueous_snapshot = AqueousTransferSnapshot::take(src, 1.0)?;
+                // Filtering selects only liquid/aqueous matter. Gas is not
+                // a filtrate or an implicit exhaust; preserve its owner.
+                src.contents
+                    .retain(|p| !matches!(p.phase, Phase::Liquid | Phase::Aqueous));
                 let dst = self.vessel_mut(*to)?;
                 if matches!(dst.thermal_mode, ThermalMode::Adiabatic) {
                     let settled = adiabatic_mix_into(dst, t_from, |t| {
@@ -2992,6 +3074,9 @@ impl Bench {
                 }
                 for (s, n, phase) in would_move {
                     dst.deposit(s, n, phase);
+                }
+                if let Some(aqueous_snapshot) = aqueous_snapshot {
+                    aqueous_snapshot.deposit(dst)?;
                 }
                 events.push(Event::Filtered {
                     from: *from,
