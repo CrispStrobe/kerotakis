@@ -1,0 +1,10 @@
+{
+  "kind": "saved-output reader failure, not simulator conservation failure",
+  "first_reader_sha256": "95d7c9bd0a0ce1637bb0b0e1cf26ec5a1935db9a3154fd4fbe891934d6aacf1e",
+  "case": "batch2:qa-009",
+  "operator": "inspect v1",
+  "assertion": "apparent Ba residual 0.0001000481445598999 mol",
+  "cause": "Targeted inspect publishes only vessel0; first reader incorrectly summed the partial view as the entire bench. Source raw file remains unchanged.",
+  "correction": "Permit omitted known vessels only on nonmutating inspect with no events and identical published states. Retain their previous recorded states for global accounting; require all vessels on every other observation.",
+  "tolerance_changed": false
+}

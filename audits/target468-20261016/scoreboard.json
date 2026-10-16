@@ -1,23 +1,23 @@
 {
   "schema": "kerotakis.fixed-target468.v1",
-  "recorded_utc": "2026-10-16T13:32:06.090693+00:00",
+  "recorded_utc": "2026-10-16T13:39:33.496530+00:00",
   "declared_target_total": 468,
   "minimum_selected_goal": 401,
   "baseline147_commit": "159fa6e08fa4ebea3105ac7e17d5b8350bc91189",
   "available_case_records": 468,
   "missing_first_batch": null,
-  "current_working_catalog_entries": 152,
-  "source_qualified_selected_in_target": 150,
+  "current_working_catalog_entries": 155,
+  "source_qualified_selected_in_target": 153,
   "out_of_target_catalog_entries": [
     "supplied200-repaired-protocols:014-zinc-copper",
     "supplied200-repaired-protocols:007-water-electrolysis"
   ],
-  "additional_selections_needed_for_401": 251,
+  "additional_selections_needed_for_401": 248,
   "latest_combined_release_pass_count": null,
   "latest_release_qualification": "No unified latest-release execution and physical assessment of all468; selected means evidence on each recorded version, not current deployment certification.",
   "available201_unselected_states": {
     "completed_with_named_model_limits": 85,
-    "completed_requires_physical_assessment": 108,
+    "completed_requires_physical_assessment": 105,
     "completed_with_solver_failure": 2,
     "process_admission_refusal": 3
   },
@@ -1428,7 +1428,7 @@
       "title": "Weigh sulfate in a mixed salt sample rather than all dissolved salts",
       "original_intake_script_sha256": "b54310ae3f3a1ecb87c44c577fd34538c688865994381b47371a4a7411d89446",
       "original_forecast": "Approximately 0.5 mmol BaSO4 should be retained, while chloride-rich solution passes into the filtrate; the precipitate is not the total salt mass.",
-      "state": "completed_requires_physical_assessment",
+      "state": "source_qualified_selected_on_recorded_version",
       "catalog_id": null,
       "recorded_screen_engine": {
         "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
@@ -1437,7 +1437,8 @@
         "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
       },
       "latest_combined_release_revalidated": false,
-      "evidence": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_qa-009.json"
+      "evidence": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_qa-009.json",
+      "physical_assessment": "audits/target468-20261016/saved-assessment-next3/assessment.json"
     },
     {
       "id": "batch2:qa-011",
@@ -1462,7 +1463,7 @@
       "title": "Cross-check chloride by gravimetry and standard addition",
       "original_intake_script_sha256": "7826744f2c54422f8ef72dfcc55c6a56e0efa9a5777d5d7919d58737aaf003c0",
       "original_forecast": "The calcium-chloride spike introduces 0.4 mmol chloride, so the spiked arm should retain approximately 0.4 mmol more AgCl, not 0.2 mmol.",
-      "state": "completed_requires_physical_assessment",
+      "state": "source_qualified_selected_on_recorded_version",
       "catalog_id": null,
       "recorded_screen_engine": {
         "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
@@ -1471,7 +1472,8 @@
         "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
       },
       "latest_combined_release_revalidated": false,
-      "evidence": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_qa-012.json"
+      "evidence": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_qa-012.json",
+      "physical_assessment": "audits/target468-20261016/saved-assessment-next3/assessment.json"
     },
     {
       "id": "batch2:ab-025",
@@ -2074,7 +2076,7 @@
       "title": "An arbitrary pH-seven endpoint underestimates weak-acid equivalence",
       "original_intake_script_sha256": "9e1ac21325599a7f5c26beff5f18e97c72f654981f09fbd999886f153dfb21fc",
       "original_forecast": "The pH-seven stop generally occurs before the weak-acid equivalence region. The higher endpoint requires more base; the difference is endpoint bias, not different acid content.",
-      "state": "completed_requires_physical_assessment",
+      "state": "source_qualified_selected_on_recorded_version",
       "catalog_id": null,
       "recorded_screen_engine": {
         "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
@@ -2083,7 +2085,8 @@
         "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
       },
       "latest_combined_release_revalidated": false,
-      "evidence": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_qa-010.json"
+      "evidence": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_qa-010.json",
+      "physical_assessment": "audits/target468-20261016/saved-assessment-next3/assessment.json"
     },
     {
       "id": "batch2:ab-026",
@@ -5857,6 +5860,6 @@
     "count": 120,
     "sha256": "8e9fb7a92c20ad4de747d43540e417684ba398ff3896ab9d3de270e5a99b1fdd",
     "matches_batch2_declared_sha256": true,
-    "execution_state": "prospective unchanged originals frozen; dispatch pending"
+    "execution_state": "queued hosted run38908802617;267 frozen remaining cases total; no outcome assigned"
   }
 }

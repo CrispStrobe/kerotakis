@@ -1,0 +1,186 @@
+{
+  "schema": "kerotakis.saved-next3-assessment.v1",
+  "cases": [
+    {
+      "id": "batch2:qa-009",
+      "engine": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "b54310ae3f3a1ecb87c44c577fd34538c688865994381b47371a4a7411d89446",
+      "stdout_sha256": "ee0d5f7d9410fb0c33b30ff11d71fe8c61a958690d0597113764242e1a93003e",
+      "original_forecast": "Approximately 0.5 mmol BaSO4 should be retained, while chloride-rich solution passes into the filtrate; the precipitate is not the total salt mass.",
+      "criteria": [
+        {
+          "id": "QA-009-C1",
+          "criterion": "Use the BaSO4 solid inventory to infer 0.5 mmol sulfate, not the mass of the whole wet vessel.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met",
+          "saved_observation_explanation": "0.499951855 mmol sulfate is retained as BaSO4; the 0.000048145 mmol dissolved remainder accounts for the finite-solubility difference."
+        },
+        {
+          "id": "QA-009-C2",
+          "criterion": "Chloride remains predominantly in the filtrate and contributes no sulfate-equivalent precipitate.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met",
+          "saved_observation_explanation": "All 3.2 mmol chloride remains in the filtrate, with none in the retained solid; wet-vessel mass is not used as sulfate mass."
+        }
+      ],
+      "observed": {
+        "retained_BaSO4_mol": 0.0004999518554401,
+        "filtrate_sulfate_mol": 4.814455991121639e-08,
+        "filtrate_chloride_mol": 0.0031999999999999195,
+        "sulfate_recovery_fraction": 0.9999037108802
+      },
+      "checked_observation_snapshots": 10,
+      "nonmutating_partial_inspects": 1,
+      "max_abs_whole_bench_material_charge_residual_mol": {
+        "Ag": 0.0,
+        "Ba": 3.3068166260807885e-17,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 8.023096076392733e-17,
+        "H": 0.0,
+        "N": 0.0,
+        "Na": 3.456436525883788e-16,
+        "O": 0.0,
+        "S": 2.677979366039196e-17,
+        "charge": 3.9920323990916273e-16
+      },
+      "verdict": "original_bounded_criteria_and_represented_ledgers_met"
+    },
+    {
+      "id": "batch2:qa-010",
+      "engine": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "9e1ac21325599a7f5c26beff5f18e97c72f654981f09fbd999886f153dfb21fc",
+      "stdout_sha256": "c5f91bf78649f1a18537b0f543bf8b5193b251462feb10304e62737f065e9cbf",
+      "original_forecast": "The pH-seven stop generally occurs before the weak-acid equivalence region. The higher endpoint requires more base; the difference is endpoint bias, not different acid content.",
+      "criteria": [
+        {
+          "id": "QA-010-C1",
+          "criterion": "Both acid inputs are equal, but saved endpoint doses differ in the expected direction.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met",
+          "saved_observation_explanation": "Both arms retain the same 1 mmol analytical acetate, but the pH7 endpoint uses less base than the pH8.7 endpoint."
+        },
+        {
+          "id": "QA-010-C2",
+          "criterion": "Infer bias from actual delivered doses, not from the target pH numbers alone.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met",
+          "saved_observation_explanation": "Actual physical doses bracket 1 mmol: 0.994744141 and 1.000991211 mmol; the delivered-dose difference is 0.006247070 mmol."
+        }
+      ],
+      "observed": {
+        "actual_doses": [
+          {
+            "vessel": 0,
+            "NaOH_mol": 0.0009947441406250182,
+            "volume_litres": 0.09947441406250182,
+            "final_ph": 6.999949947554
+          },
+          {
+            "vessel": 1,
+            "NaOH_mol": 0.0010009912109375184,
+            "volume_litres": 0.10009912109375184,
+            "final_ph": 8.699992530164
+          }
+        ],
+        "dose_difference_mol": 6.247070312500203e-06,
+        "total_acetate_mol_by_vessel": [
+          0.0009999999999999961,
+          0.000999999999999996
+        ]
+      },
+      "checked_observation_snapshots": 8,
+      "nonmutating_partial_inspects": 0,
+      "max_abs_whole_bench_material_charge_residual_mol": {
+        "Ag": 0.0,
+        "Ba": 0.0,
+        "C": 1.5612511283791264e-17,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "H": 2.1529444893531036e-12,
+        "N": 0.0,
+        "Na": 4.7704895589362195e-18,
+        "O": 1.0835776720341528e-12,
+        "S": 0.0,
+        "charge": 2.3332030751888055e-16
+      },
+      "verdict": "original_bounded_criteria_and_represented_ledgers_met"
+    },
+    {
+      "id": "batch2:qa-012",
+      "engine": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "7826744f2c54422f8ef72dfcc55c6a56e0efa9a5777d5d7919d58737aaf003c0",
+      "stdout_sha256": "692457114681938a3d925a37f6286ac35e08b195d60c7c7294eb3973f2182991",
+      "original_forecast": "The calcium-chloride spike introduces 0.4 mmol chloride, so the spiked arm should retain approximately 0.4 mmol more AgCl, not 0.2 mmol.",
+      "criteria": [
+        {
+          "id": "QA-012-C1",
+          "criterion": "Subtract solid AgCl inventories to recover two chloride ions per CaCl2 unit.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met",
+          "saved_observation_explanation": "The 0.2 mmol CaCl2 spike produces 0.399995336 mmol extra AgCl; residual dissolved chloride accounts for the tiny departure from 0.4 mmol."
+        },
+        {
+          "id": "QA-012-C2",
+          "criterion": "Neither arm should be silver-limited at the specified amounts.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met",
+          "saved_observation_explanation": "Both filtrates retain excess silver: 0.700036127 and 0.300040791 mmol, so neither arm is silver-limited."
+        }
+      ],
+      "observed": {
+        "AgCl_mol_unspiked": 0.0004999638729085,
+        "AgCl_mol_spiked": 0.000899959209204,
+        "extra_AgCl_mol": 0.0003999953362955,
+        "filtrate_chloride_mol": [
+          3.612709143789973e-08,
+          4.079079602713072e-08
+        ],
+        "excess_dissolved_silver_mol": [
+          0.0007000361270909438,
+          0.00030004079079556283
+        ]
+      },
+      "checked_observation_snapshots": 13,
+      "nonmutating_partial_inspects": 0,
+      "max_abs_whole_bench_material_charge_residual_mol": {
+        "Ag": 9.93129189996722e-16,
+        "Ba": 0.0,
+        "C": 0.0,
+        "Ca": 2.2388774861825667e-17,
+        "Cl": 6.21247844834194e-17,
+        "H": 7.105427357601002e-15,
+        "N": 1.1522900689175941e-15,
+        "Na": 4.098284211995207e-17,
+        "O": 5.329070518200751e-15,
+        "S": 0.0,
+        "charge": 2.3245294578089215e-16
+      },
+      "verdict": "original_bounded_criteria_and_represented_ledgers_met"
+    }
+  ],
+  "raw_artifact_sha256": "7e3102c8ba72746974b0595de3f525041064e1641d55b2bcc11f546646a2f3f3",
+  "numerical_inventory_tolerance_mol": 1e-08,
+  "new_engine_executions": 0,
+  "api_requests": 0,
+  "limitations": [
+    "Source-bound c446/670 represented inventory only; no empirical heat, activity or instrument calibration.",
+    "Whole-bench conservation across transfers is checked; no independent thermal proof is assigned.",
+    "Prior triage and raw first outcomes remain unchanged."
+  ]
+}

@@ -75,7 +75,7 @@ cancel active checks for optional edits. Refresh actual heads before work.
   no procedures. Separate complete-stock/procedure repairs must retain their
   original first outcomes. Do not call the92 scientific passes or repeat the batch
   unchanged. See [chemical assessment](../audits/reaction-dataset-200-20261015/CHEMISTRY-RESULTS.md).
-- The [working catalog](../audits/working-experiments-20261016.json) retains152
+- The [working catalog](../audits/working-experiments-20261016.json) retains155
   source-qualified entries across corpora; this is not152 repaired original200
   reactions. One separately [assessed original QA-011 protocol](../audits/new-experiments-201-20261016/native-screen-results/endpoint-dose-review/README.md)
   is newly selected: actual fractional endpoint doses and retained material agree
@@ -218,14 +218,14 @@ its separately dispatched full own fleet still gates readiness.
 ## Fixed target: more than400 of468
 
 The [reconciled scoreboard](../audits/target468-20261016/README.md) fixes the
-denominator at147+120+101+100. Current selected evidence covers150 of those
-cases on recorded versions, while the152-entry catalog contains two additional
+denominator at147+120+101+100. Current selected evidence covers153 of those
+cases on recorded versions, while the155-entry catalog contains two additional
 repairs from the separate200-reaction corpus. The first120 JSON is now present and matches the exact declared
 SHA; all468 original case records are indexed. A unified latest-release pass count is not established.
 
-The next outcome target is401 selected original IDs:251 more than the accounted
-150. Assess the108 remaining clean-run candidates, execute the authenticated120 and
-repair shared coverage/model causes. Even the optimistic addition of all228
+The next outcome target is401 selected original IDs:248 more than the accounted
+153. Assess the105 remaining clean-run candidates, execute the authenticated120 and
+repair shared coverage/model causes. Even the optimistic addition of all225
 would give378, requiring at least23 further repaired cases. New experiments,
 protocol variants and successful exits alone do not count toward this target.
 
@@ -234,4 +234,11 @@ freeze unchanged original147 and first120 scripts. Reusing the completed201
 will establish one common c446/670 baseline without duplicating that run.
 The separate curriculum200 brings total records to668; its CLI/API contact
 probes already ran, with92 completed and108 refused. Batch2 execution is101/101,
-while three selected working entries reflect completed assessment only.
+while six selected working entries reflect completed assessment only.
+
+The [QA009/010/012 saved assessment](../audits/target468-20261016/saved-assessment-next3/README.md)
+checks six original physical criteria and represented per-operation material/charge
+closure, selecting three unchanged scripts:155 catalog entries,153 within468,
+and six of101 batch2 selected. Original triage/raw evidence remains unchanged.
+The [all668 offline API audit](../audits/target468-20261016/api-admission-all668.json)
+admits603 after presentation/eyes adaptation;65 still hit command/duration policy.

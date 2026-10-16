@@ -14,7 +14,7 @@
     "The recent silver/ammonia replay is excluded because canonical free/complex-bound ligand ownership remains a material gap.",
     "Original experiment designs, forecasts and first results remain unchanged."
   ],
-  "count": 152,
+  "count": 155,
   "counts_by_group": {
     "independent-first50": 38,
     "independent-second50": 25,
@@ -24,7 +24,7 @@
     "supplied200": 13,
     "complete-reagent-followups": 9,
     "supplied200-repaired-protocols": 2,
-    "new201-original-assessed": 3
+    "new201-original-assessed": 6
   },
   "experiments": [
     {
@@ -2988,6 +2988,84 @@
         "tested_script": "audits/new-experiments-201-20261016/scripts/QA-002.lab",
         "raw_artifact": "audits/new-experiments-201-20261016/native-screen-results/raw-artifact.zip",
         "engine_binding": "audits/new-experiments-201-20261016/native-screen-results/binding.json"
+      }
+    },
+    {
+      "id": "new201-original-assessed:batch2:qa-009",
+      "group": "new201-original-assessed",
+      "title": "Weigh sulfate in a mixed salt sample rather than all dissolved salts",
+      "script": "# QA-009: Weigh sulfate in a mixed salt sample rather than all dissolved salts\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 Na2SO4 0.0005mol\nadd v1 NaCl 0.002mol\nadd v1 BaCl2 0.0006mol\nnew\nfilter v1 v2\nmeasure v1 balance\ninspect v1\nmeasure v2 conductivity\ninspect\n",
+      "script_sha256": "b54310ae3f3a1ecb87c44c577fd34538c688865994381b47371a4a7411d89446",
+      "expected_result": "Approximately 0.5 mmol BaSO4 should be retained, while chloride-rich solution passes into the filtrate; the precipitate is not the total salt mass.",
+      "observed_result": "0.499951855 mmol sulfate is retained as BaSO4; the 0.000048145 mmol dissolved remainder accounts for the finite-solubility difference. All 3.2 mmol chloride remains in the filtrate, with none in the retained solid; wet-vessel mass is not used as sulfate mass.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock bytes absent from bundle."
+      },
+      "limitations": [
+        "Source-bound c446/670 represented inventory only; no empirical heat, activity or instrument calibration.",
+        "Whole-bench conservation across transfers is checked; no independent thermal proof is assigned.",
+        "Prior triage and raw first outcomes remain unchanged."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-next3/assessment.json",
+        "reader": "audits/target468-20261016/saved-assessment-next3/review_saved.py",
+        "raw_archive": "audits/new-experiments-201-20261016/native-screen-results/raw-artifact.zip",
+        "case": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_qa-009.json"
+      }
+    },
+    {
+      "id": "new201-original-assessed:batch2:qa-010",
+      "group": "new201-original-assessed",
+      "title": "An arbitrary pH-seven endpoint underestimates weak-acid equivalence",
+      "script": "# QA-010: An arbitrary pH-seven endpoint underestimates weak-acid equivalence\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 CH3COOH 0.001mol\nnew\nadd v2 water 100mL\nadd v2 CH3COOH 0.001mol\ntitrate v1 NaOH 0.01M 0.1mL until ph 7 max 1200\ntitrate v2 NaOH 0.01M 0.1mL until ph 8.7 max 1200\ninspect\n",
+      "script_sha256": "9e1ac21325599a7f5c26beff5f18e97c72f654981f09fbd999886f153dfb21fc",
+      "expected_result": "The pH-seven stop generally occurs before the weak-acid equivalence region. The higher endpoint requires more base; the difference is endpoint bias, not different acid content.",
+      "observed_result": "Both arms retain the same 1 mmol analytical acetate, but the pH7 endpoint uses less base than the pH8.7 endpoint. Actual physical doses bracket 1 mmol: 0.994744141 and 1.000991211 mmol; the delivered-dose difference is 0.006247070 mmol.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock bytes absent from bundle."
+      },
+      "limitations": [
+        "Source-bound c446/670 represented inventory only; no empirical heat, activity or instrument calibration.",
+        "Whole-bench conservation across transfers is checked; no independent thermal proof is assigned.",
+        "Prior triage and raw first outcomes remain unchanged."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-next3/assessment.json",
+        "reader": "audits/target468-20261016/saved-assessment-next3/review_saved.py",
+        "raw_archive": "audits/new-experiments-201-20261016/native-screen-results/raw-artifact.zip",
+        "case": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_qa-010.json"
+      }
+    },
+    {
+      "id": "new201-original-assessed:batch2:qa-012",
+      "group": "new201-original-assessed",
+      "title": "Cross-check chloride by gravimetry and standard addition",
+      "script": "# QA-012: Cross-check chloride by gravimetry and standard addition\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 NaCl 0.0005mol\nadd v1 AgNO3 0.0012mol\nnew\nadd v2 water 100mL\nadd v2 NaCl 0.0005mol\nadd v2 CaCl2 0.0002mol\nadd v2 AgNO3 0.0012mol\nnew\nnew\nfilter v1 v3\nfilter v2 v4\ninspect\n",
+      "script_sha256": "7826744f2c54422f8ef72dfcc55c6a56e0efa9a5777d5d7919d58737aaf003c0",
+      "expected_result": "The calcium-chloride spike introduces 0.4 mmol chloride, so the spiked arm should retain approximately 0.4 mmol more AgCl, not 0.2 mmol.",
+      "observed_result": "The 0.2 mmol CaCl2 spike produces 0.399995336 mmol extra AgCl; residual dissolved chloride accounts for the tiny departure from 0.4 mmol. Both filtrates retain excess silver: 0.700036127 and 0.300040791 mmol, so neither arm is silver-limited.",
+      "validated_on": {
+        "commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229",
+        "lock_qualification": "Producer-reported manifest hash; raw Cargo.lock bytes absent from bundle."
+      },
+      "limitations": [
+        "Source-bound c446/670 represented inventory only; no empirical heat, activity or instrument calibration.",
+        "Whole-bench conservation across transfers is checked; no independent thermal proof is assigned.",
+        "Prior triage and raw first outcomes remain unchanged."
+      ],
+      "evidence": {
+        "assessment": "audits/target468-20261016/saved-assessment-next3/assessment.json",
+        "reader": "audits/target468-20261016/saved-assessment-next3/review_saved.py",
+        "raw_archive": "audits/new-experiments-201-20261016/native-screen-results/raw-artifact.zip",
+        "case": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_qa-012.json"
       }
     }
   ],

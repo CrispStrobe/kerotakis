@@ -1,0 +1,20 @@
+{
+  "created_utc": "2026-10-16T13:39:33.502558+00:00",
+  "reviewer": "primary agent saved-evidence review",
+  "previous_catalog_count": 152,
+  "new_catalog_count": 155,
+  "unchanged_previous_entries": 152,
+  "new_selected_ids": [
+    "batch2:qa-009",
+    "batch2:qa-010",
+    "batch2:qa-012"
+  ],
+  "target468_selected_count": 153,
+  "assessment_sha256": "4fa52869e90694516922a50e2cfc83e4977d598bf94bf4375cf9ea169caa059d",
+  "reader_sha256": "1f5b6f5ec7561037f68dbafd7e0356ae26a5ced9a4244a9b02efdb5a5fb8cc20",
+  "all_original_checks_met": 6,
+  "new_engine_executions": 0,
+  "inventory_tolerance_changed": false,
+  "first_reader_failure_preserved": "first-reader-failure.json",
+  "source_scope": "Existing native c446/670, not fresh production/API or latest-main acceptance."
+}
