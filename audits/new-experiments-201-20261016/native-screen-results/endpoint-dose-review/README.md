@@ -20,3 +20,9 @@ raising its count from149 to150 while preserving every previous entry. It does
 not increase the repaired-original200 count. The [selection receipt](catalog-selection.json)
 records that distinction. No experiment ran again, and this is no empirical
 burette, uncertainty, rate or heat calibration.
+
+The [independent saved-output review](independent-review.json) reproduces the
+physical endpoint interpretation and finds no selection blocker. Root separately
+verified the selection hash and that the preceding149 catalog entries remain
+unchanged. An inaccurate reviewer workflow claim has a separate correction;
+neither review runs the chemistry engine or expands calibration claims.

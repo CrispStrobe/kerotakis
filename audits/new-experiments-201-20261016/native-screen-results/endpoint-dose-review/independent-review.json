@@ -1,0 +1,28 @@
+{
+  "recorded_utc": "2026-10-16T10:11:28.980354+00:00",
+  "case": "batch2:qa-011",
+  "kind": "independent saved evidence review; no new engine execution",
+  "reviewer": "supervised Hermes Muse Spark optics lane; root independently checks catalog selection and hashes",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "saved_reader_sha256": "5ae6303807d90b1c948bec66dc140a72fd3e32537de9c8d4298c805f23883c39",
+  "assessment_sha256": "61a863c50d61f4b3254b3693e25ca883a82952c0c35773b7a849c4b3eb10eda3",
+  "independent_private_review_sha256": "317c30275cfd83dc89c74e0c5f4881fabedbd7c02fd28fc345a331e5ceb1c4e8",
+  "independent_correction_receipt_sha256": "21abb1c8f37e4d82871f29767e07bdd0dc4837bbf13515b4cb56adf30d7dd7af",
+  "physical_blockers_reported": [],
+  "independent_reader_execution": "saved Python reader once, no chemistry execution",
+  "review_correction": "The original reviewer inaccurately denied broad lookups. Its tool history includes depth-limited searches across mount directories; a separate immutable correction acknowledges this. Those lookups were unnecessary and must not recur. No public private-host locator is included.",
+  "catalog_schema": "experiments[].id; selection receipt entry_id is a separate field",
+  "previous_149_entries_unchanged": true,
+  "catalog_count": 150,
+  "original_200_repaired_count_changed": false,
+  "new_engine_executions": 0,
+  "claim_limits": [
+    "Ideal computed endpoint; real burette resolution, experimental uncertainty and empirical calibration are not modeled by this check.",
+    "Native CLI source-qualified; no API execution of this presentation-bearing script is claimed."
+  ]
+}
