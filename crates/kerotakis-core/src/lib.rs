@@ -18,6 +18,7 @@ pub mod adsorption;
 pub mod amount;
 pub mod apparatus;
 pub mod appearance;
+pub mod aqueous_continuation;
 pub mod authority;
 pub mod bench;
 pub mod buoyancy;

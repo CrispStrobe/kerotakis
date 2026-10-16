@@ -1199,6 +1199,17 @@ impl ResolvedState {
     }
 }
 
+/// Ownership of the remaining aqueous thermal balance within one operator.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub enum AqueousHeatOwnership {
+    /// The ordinary whole-step enthalpy balance remains available.
+    #[default]
+    WholeStep,
+    /// A committed post-speciation transformation has no reviewed heat.
+    /// Subsequent aqueous passes cannot price the whole operator again.
+    UnmodeledContinuation,
+}
+
 /// What a step started from — see [`Vessel::step_start`].
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct StepStart {
@@ -1357,6 +1368,11 @@ pub struct Vessel {
     /// this and falls back to its call-start where a host never sets it.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub step_start: Option<StepStart>,
+    /// Step-local thermal ownership survives internal snapshot recaptures
+    /// (for example, multiple delivered heat chunks in one operator).
+    /// Bench clears it at operator entry/exit; saved vessels never persist it.
+    #[serde(skip)]
+    pub aqueous_heat: AqueousHeatOwnership,
     /// Step-local operator energy, cleared after each solver pass and omitted
     /// from persistence so a later operation cannot spend the same joules.
     #[serde(skip)]
@@ -1561,6 +1577,7 @@ impl Vessel {
             solid_solutions: Vec::new(),
             solute_charge: 0.0,
             step_start: None,
+            aqueous_heat: AqueousHeatOwnership::WholeStep,
             heat_input: None,
             free_hydroxide: 0.0,
             free_proton: 0.0,

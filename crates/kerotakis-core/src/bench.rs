@@ -665,6 +665,11 @@ impl Bench {
     ) -> Result<Vec<Event>, BenchError> {
         let mut op = op;
         op.canonicalize_inputs();
+        // One operator owns its continuation policy across every internal
+        // dose/phase pass, even if those passes recapture StepStart.
+        for vessel in &mut self.vessels {
+            vessel.aqueous_heat = crate::vessel::AqueousHeatOwnership::WholeStep;
+        }
         // Protect physical state and stock while keeping the append-only
         // journal cheap to restore. Solver-private state is outside this scope.
         let checkpoint = (
@@ -710,6 +715,9 @@ impl Bench {
             self.broken_vessels = checkpoint.2;
             self.stock = checkpoint.3;
             self.log.truncate(checkpoint.4);
+        }
+        for vessel in &mut self.vessels {
+            vessel.aqueous_heat = crate::vessel::AqueousHeatOwnership::WholeStep;
         }
         result
     }

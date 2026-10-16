@@ -1457,6 +1457,7 @@ PVA = "PVA"
 "muscle protein" = "protéine musculaire"
 
 [not-modeled]
+"aqueous-continuation-heat" = "Cette transformation après spéciation ne dispose d’aucune chaleur de réaction vérifiée. La nouvelle caractérisation aqueuse associée et tous les calculs ultérieurs de chaleur des réactions aqueuses dans cette opération ne sont pas effectués ; la température indiquée ne constitue pas une prévision thermique complète pour cette transformation. Les bilans de matière et de gaz restent explicites"
 
 # Ideal-liquid still checked refusal categories.
 ideal-still-invalid-input = "La distillation idéale exige des stocks finis et non négatifs, des propriétés valides, une coupe valide, un nombre d’étages pris en charge et une pression positive ; aucune matière n’a été transférée"

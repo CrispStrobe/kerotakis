@@ -44,6 +44,10 @@ use kerotakis_core::{appearance, scene, Locale, Moles, SpeciesId, Vessel, Vessel
 /// a new file starts composing without being listed.
 const COMPOSERS: &[(&str, &str)] = &[
     ("appearance.rs", include_str!("../src/appearance.rs")),
+    (
+        "aqueous_continuation.rs",
+        include_str!("../src/aqueous_continuation.rs"),
+    ),
     ("displacement.rs", include_str!("../src/displacement.rs")),
     ("solve.rs", include_str!("../src/solve.rs")),
     ("nonaqueous.rs", include_str!("../src/nonaqueous.rs")),
