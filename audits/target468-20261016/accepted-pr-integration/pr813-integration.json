@@ -1,0 +1,16 @@
+{
+  "recorded_utc": "2026-10-16T15:22:04.175109+00:00",
+  "pr": 813,
+  "reviewed_head": "387f539f984581b8582bb157eefd2353eeaf8d07",
+  "merge_commit": "1b03d8dd3ddc4cd2aedf42b8aa7b1ce6e32a81a9",
+  "actual_parents": [
+    "40ffb253a41792f6c723838a51533cd7f4061a86",
+    "387f539f984581b8582bb157eefd2353eeaf8d07"
+  ],
+  "actual_tree": "d6c24b846b7084777bf1e74da8e14d802e683daa",
+  "reconstructed_merge_tree": "d6c24b846b7084777bf1e74da8e14d802e683daa",
+  "tree_matches": true,
+  "integration": "Normal protected merge with exact reviewed head; no admin bypass or force.",
+  "acceptance_receipt": "pr813-accepted-checks.json",
+  "first_auto_merge_attempt": "GitHub returned clean-state GraphQL error when enabling auto-merge; ordinary exact-head protected merge succeeded without bypass."
+}

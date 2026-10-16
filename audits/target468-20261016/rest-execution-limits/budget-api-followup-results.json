@@ -1,0 +1,62 @@
+{
+  "api_revision": "266121dd5605a439a495c85f2401fbeacd6272f4",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "design_sha256": "38ffd8109db0683dee51e0afd3e3360872c273be3f1527d61dcd5c5143d6527e",
+  "runner_sha256": "1908062b976cf904483f972ab5fa931d6d431582db5c2c6634f015164921d273",
+  "cases": [
+    {
+      "id": "new120:pr-005",
+      "http_status": 200,
+      "execution_status": "completed",
+      "exit_status": 0,
+      "observations": 9,
+      "script_sha256": "f5a6b08641709d92815ff6544ed3150abbe2cc1cedad3495c669ccc0f4c0f3d9",
+      "response_sha256": "b88e3191033140a23a6299199a15f7c4049d965c4855bca72ecbbbd4cc4a7a99",
+      "native_json_observations_equal": true,
+      "api_elapsed_seconds": 18.058454263
+    },
+    {
+      "id": "batch2:qa-010",
+      "http_status": 200,
+      "execution_status": "completed",
+      "exit_status": 0,
+      "observations": 8,
+      "script_sha256": "9e1ac21325599a7f5c26beff5f18e97c72f654981f09fbd999886f153dfb21fc",
+      "response_sha256": "b5d8801264da15f41a819013ff73ab4eed5dde0d2072225b4c8cc3aff4e69a46",
+      "native_json_observations_equal": true,
+      "api_elapsed_seconds": 10.810999562999996
+    }
+  ],
+  "admission_refusals": [
+    {
+      "script_sha256": "4005d37a7119ec4ee2a331518460941d2d4bfd7b92c6d50c716ad2e330d48fb2",
+      "http_status": 422,
+      "response_sha256": "474361a427733842e228f59e9c0c12ea83a7c1b62400f1aeab48c70b7adbe9a7"
+    },
+    {
+      "script_sha256": "3fce1ab67cfc43852748e2ad4d99bda8dbd3384ee2a1c2eae63350dda7e713db",
+      "http_status": 422,
+      "response_sha256": "474361a427733842e228f59e9c0c12ea83a7c1b62400f1aeab48c70b7adbe9a7"
+    },
+    {
+      "script_sha256": "106a5842fc5fce6f663176285ed1516dbb1e3d15c05abab12fdca46d60b539b7",
+      "http_status": 422,
+      "response_sha256": "cff20b9b465b30f436322ee668d120d5ddc18022fd5fea6f48ddc8a52c203620"
+    },
+    {
+      "script_sha256": "e59d5dcff38a8928f057b846370b6620a7c72d23db86ea1f28174dfb9e09266e",
+      "http_status": 422,
+      "response_sha256": "cff20b9b465b30f436322ee668d120d5ddc18022fd5fea6f48ddc8a52c203620"
+    }
+  ],
+  "ambiguous_retries": 0,
+  "physical_verdict": "not_assigned",
+  "qualification": "Two original API503 cases, unchangedscripts/nativeengine and changedboundedresourcepolicy. Check delivery and exact savedCLIobservations only; no scientific pass or668casecurrent-gateway rerun claim.",
+  "health_before_sha256": "d46c8ba417abd5d0df74570c4ac4ee5eb179f6a34e9b234887e0b9ce955049f5",
+  "health_after_sha256": "d46c8ba417abd5d0df74570c4ac4ee5eb179f6a34e9b234887e0b9ce955049f5",
+  "capabilities_sha256": "599502bdb611c32168dc30271743f93b7054c43f867775bf20ec1e632124e03f"
+}

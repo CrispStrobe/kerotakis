@@ -57,7 +57,7 @@ or completed200-case transport jobs.
 | PR805 acidified permanganate/peroxide | Integrated as `adef8be6` after58 successful checks and one skip: both native platforms, cache/Wasm/live-hook, online/offline Chromium and full own fleet pass. Unknown heat and competing manganese-oxide phase exclusions remain limits; viewer repair stays separate. |
 | PR807 proven input aliases | Integrated as `f441cf6e` after58 successful checks and one skip, including both native platforms and the full own fleet. Only CuSO4_anhydrous→CuSO4 and acetate→CH3COO- are admitted; no new scientific pass or production acceptance is assigned. |
 | [PR809 aqueous transfer ownership](https://github.com/CrispStrobe/kerotakis/pull/809) | Draft `673233df` carries measured proton/hydroxide and charge baselines with Filter/Decant liquid, preserves nontransferred gas, and adds ten core plus two native regression groups. The first preflight found private fixture-method calls; a test-only correction preserves all assertions. Hosted compile/native/core and fleet acceptance remain pending. |
-| [PR810 viewer ownership](https://github.com/CrispStrobe/kerotakis/pull/810) | Draft `3a61b1f1` passes ten targeted actual-module checks, fifteen maintained controller tests in bounded Vitest and six adapter groups with a transpile-only loader. Source/test review is complete; normal exact-head CI, Vite-loader/browser and the full viewer/own-fleet checks remain (fleet run38880000860 dispatched once). |
+| [PR810 viewer ownership](https://github.com/CrispStrobe/kerotakis/pull/810) | Integrated as `40ffb253` after25 successful CI checks, one skip and all33 manually bound own-fleet jobs. Ten targeted, fifteen maintained controller and six adapter groups remain qualified by their original evidence. Actual merged parents/tree match the reviewed head. |
 
 Use normal exact-head auto-merge when all applicable acceptance passes. Never
 merge broad audit/isolated validation refs, bypass protection, waive failures or
@@ -125,8 +125,10 @@ proven aliases and shared reconciliation for the protocol agent. Hermes runs
 Together.ai `meta-models/Muse-Spark-Open-816B-A42B-promo` for underlying models
 and its own status/evidence. Keep private operating details out of public files.
 
-1. Finish809/810/812 applicable acceptance; diagnose actual failures, integrate
-   accepted reviewed heads and verify actual merge trees. Verify Pages publication.
+1. Finish809 separately bound hosted CLI acceptance; follow812 normal protected
+   auto-merge and814–817 exact-head CI/native/fleet gates. PR810/813 are integrated
+   with verified trees. Verify Pages publication and deliver accepted production
+   source without rerunning unchanged corpus batches.
 2. Repair [viewer generation ownership](../audits/new-experiments-201-20261016/viewer-followup-review.json)
    on its separate narrow branch. Actual pinned modules reproduce stale cleanup
    deleting a newer canvas, late disposal clearing current content and late resize
@@ -201,19 +203,18 @@ F12 replay and production receipts retain their original source bindings.
 
 ## Trusted readback prerequisite
 
-Draft [PR813](https://github.com/CrispStrobe/kerotakis/pull/813) at `387f539f`
+[PR813](https://github.com/CrispStrobe/kerotakis/pull/813), integrated as `1b03d8dd` from reviewed `387f539f`,
 exposes a unique explicitly trusted aqueous adapter through the actual standard
 stack and phase wrapper. Four core groups and one native mechanical group are
 added. [Independent source review](../audits/new-experiments-201-20261016/trusted-stack-bridge-source-review.json)
-and formatting pass; hosted compile/native/cache/Wasm/fleet checks remain.
+and formatting pass;58 successful checks and one skip now include hosted compile/native/cache/Wasm/full own-fleet acceptance. Actual merge parents/tree are verified.
 Partial answers keep no complete-answer receipt, and generic/ambiguous stacks
 refuse. This is characterization-only plumbing; the full hydroxide reaction
 proposal is still uncommitted with solver-scope and real-test blockers.
 
 PR812 now uses test-only corrected head `d6203717`; its first Clippy failure
 and [unchanged-runtime correction](../audits/new-experiments-201-20261016/transport-effluent-followup/first-clippy-correction.json)
-are preserved. Hosted acceptance remains pending. PR810 normal CI is green;
-its separately dispatched full own fleet still gates readiness.
+are preserved. Hosted acceptance remains pending. PR810 CI and its separately dispatched full own fleet pass; it is integrated as40ffb253.
 
 ## Fixed target: more than400 of468
 
@@ -224,17 +225,22 @@ repairs from the separate200-reaction corpus. The first120 JSON is now present a
 SHA; all468 original case records are indexed. A unified latest-release pass count is not established.
 
 The next outcome target is401 selected original IDs:248 more than the accounted
-153. Assess the105 remaining clean-run candidates, execute the authenticated120 and
-repair shared coverage/model causes. Even the optimistic addition of all225
-would give378, requiring at least23 further repaired cases. New experiments,
-protocol variants and successful exits alone do not count toward this target.
+153. All468 have now executed on the common c446/670 baseline:465 zero exits and
+3 CLI refusals. Assess saved physical forecasts and repair shared model causes;
+additional executions or zero exits alone do not count toward401. The completed
+first120 includes81 clean-run triage cases,38 with named limits and1 solver
+failure. Two independent saved-review lanes propose21 bounded acid/base and13
+precipitation selections; final root selection/publication remains pending, so
+these34 do not yet change the catalog. Hold PR016 for withdrawn organic-solubility
+provenance and phase ownership; its modeled numerical yield is not a working
+chemistry selection.
 
-The [remaining267 common-engine protocols](../audits/target468-20261016/common-engine-completion/README.md)
-freeze unchanged original147 and first120 scripts. Reusing the completed201
-will establish one common c446/670 baseline without duplicating that run.
-The separate curriculum200 brings total records to668; its CLI/API contact
-probes already ran, with92 completed and108 refused. Batch2 execution is101/101,
-while six selected working entries reflect completed assessment only.
+The [remaining267 protocols](../audits/target468-20261016/common-engine-completion/README.md)
+completed and are authenticated, alongside the previously completed201. The
+separate curriculum200 brings total records to668; its native contact probes
+retain92 completed and108 refused. There is no missing120, unexecuted468 or new
+668-pass claim. Batch2 execution is101/101, while six selected entries reflect
+completed physical assessment only.
 
 The [QA009/010/012 saved assessment](../audits/target468-20261016/saved-assessment-next3/README.md)
 checks six original physical criteria and represented per-operation material/charge
@@ -260,7 +266,7 @@ All scripts remain unchanged; source/hash/credential checks precede counting.
 The [curriculum200 native follow-up](../audits/target468-20261016/curriculum200-common-engine/results/README.md)
 completed and is authenticated:92 zero exits,108 nonzero,0 parse errors/retries.
 These are execution results; physical verdicts and PR814 production acceptance
-remain separate. The remaining267 native completion job is still queued.
+remain separate. The267 native completion is authenticated below; the earlier queued state is superseded.
 
 ## Complete668 native execution baseline
 
@@ -271,3 +277,51 @@ batch cases completed. The earlier267 queued note is superseded by its
 [verified completion](../audits/target468-20261016/common-engine-completion/results/README.md).
 Physical selection remains153 of fixed468 on recorded evidence; the REST batch
 continues on gatewayc96. No557-pass or latest-main certification is claimed.
+
+## REST command parity and completed668 delivery audit
+
+The [authenticated first API outcomes](../audits/target468-20261016/rest-api-all668/api-results.json)
+are **555 completed,111 CLI refusals and2 infrastructure failures**, with668
+HTTP attempts and no ambiguous retries. All666 engine-bearing responses have
+exact saved CLI exit/JSON agreement. Median request latency is2.83s; summed
+request time excludes pacing, the diagnostic pause and storage waits. These are
+execution outcomes, not scientific passes; the catalog remains155/target153.
+
+[PR815](https://github.com/CrispStrobe/kerotakis/pull/815) at735c523d closes the
+remaining seven verb omissions and covers all35 canonical English bench verbs
+plus eight synonyms/spellings. It aligns multiword ingredient accounting and
+publishes `/api/capabilities`. Native
+[command controls](../audits/target468-20261016/rest-command-parity/preview-followup-results.json)
+pass; the first last-vessel protocol refusal remains preserved separately.
+Session facilities without JSON batch handlers refuse explicitly.
+
+[PR816](https://github.com/CrispStrobe/kerotakis/pull/816) at828c09b9 separates
+native signal termination from startup and CLI refusal, and runs REST parity
+tests when engine command/identity inventories change. Independent source review
+finds no material blocker; exact-head CI/full own fleet still gate integration.
+
+[PR817](https://github.com/CrispStrobe/kerotakis/pull/817) at266121dd gives jobs a
+finite12CPU/18wall budget, retains memory/isolation/quotas, classifies trusted
+CPU exhaustion and bounds total Redis/forwarding time with cleanup allowance.
+The original QA010 diagnostic reached8.012676CPU seconds before SIGKILL; PR005's
+separate diagnostic completed under the old budget, leaving its original cause
+unconfirmed. Twenty-three lightweight groups and maintained client controls pass.
+A new immutable snapshot passes native smoke and strengthened actual isolation.
+Both original failed scripts now
+[complete through the changed-policy API](../audits/target468-20261016/rest-execution-limits/budget-api-followup-results.json)
+and exactly match saved native JSON. Original first outcomes stay unchanged.
+
+The [independent budget review](../audits/target468-20261016/rest-execution-limits/budget-independent-review.md)
+retains two demonstrated total-timeout gaps and their corrections. The four
+narrow API PRs remain drafts while named full native/CI/fleet gates are pending;
+retarget stacked branches after predecessor integration, then normal exact-head
+auto-merge. Production staysc446; direct previews and snapshot changes do not
+claim a full frontend rebuild or a latest-main chemical pass count. Continue
+physical assessment and the separately scoped111 CLI refusals after API delivery
+acceptance; do not repeat the668-case corpus unchanged.
+
+The [accepted PR810/813 integration receipts](../audits/target468-20261016/accepted-pr-integration/pr810-integration.json)
+verify reviewed heads and reconstructed actual merge trees. PR813 has its
+[separate receipt](../audits/target468-20261016/accepted-pr-integration/pr813-integration.json).
+PR812's58 successful checks/one skip are accepted and normal exact-head auto-merge
+is enabled; refresh actual integration state rather than repeating its controls.

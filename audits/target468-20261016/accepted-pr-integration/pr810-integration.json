@@ -1,0 +1,15 @@
+{
+  "recorded_utc": "2026-10-16T15:22:04.133598+00:00",
+  "pr": 810,
+  "reviewed_head": "3a61b1f1e656fb0e3aa1003932ce671d4e3b3790",
+  "merge_commit": "40ffb253a41792f6c723838a51533cd7f4061a86",
+  "actual_parents": [
+    "60720d0a59663f7dc39671bf56b0d2aec50ab2b5",
+    "3a61b1f1e656fb0e3aa1003932ce671d4e3b3790"
+  ],
+  "actual_tree": "38c6029335e91e29ffe39ad3e1c320a4212bf529",
+  "reconstructed_merge_tree": "38c6029335e91e29ffe39ad3e1c320a4212bf529",
+  "tree_matches": true,
+  "integration": "Normal protected merge with exact reviewed head; no admin bypass or force.",
+  "acceptance_receipt": "pr810-accepted-checks.json"
+}

@@ -90,3 +90,26 @@ Pages pipeline must publish it before testing the served client.
 The implementation/deployment contract is `services/rest_api/README.md` on
 integrated main. Actual platform receipts, rather than configuration alone,
 establish the accepted isolation boundary.
+
+## Command and resource follow-up — 2026-10-16
+
+The completed [668-request audit](../audits/target468-20261016/rest-api-all668/README.md)
+records555completed/111CLIrefusals/2infrastructure failures, with exact native JSON
+agreement for all666 engine responses. Its two separately frozen changed-policy
+follow-ups now both complete with exact native observations. Neither successful
+transport nor a zero exit assigns a scientific pass.
+
+PR814 admits the whole frozen corpus unchanged. PR815 adds the seven remaining
+English bench verbs and a checked43-word operator/alias inventory plus three
+JSON session commands, with `/api/capabilities`. PR816 makes signal diagnostics
+truthful and wires grammar/identity changes to admission tests. PR817 adds a
+finite12CPU/18wall budget, trusted CPU accounting, total Redis/forwarding deadlines
+and browser/platform cleanup allowance. New source-bound snapshot smoke and
+actual strengthened isolation pass; the old snapshot is not relabelled.
+
+Acceptance remains exact-head full CI/native sandbox/fleet, then integration in
+prerequisite order and source-bound production delivery. Current preview proofs
+use the acceptedc446/670 native engine; they are not a rebuilt latest-main engine
+or full frontend acceptance. Preserve first failures, immutable designs, raw
+request/response evidence and changed-policy associations. Use the
+[current state](STATUS.md) for evolving PR heads and outcomes.
