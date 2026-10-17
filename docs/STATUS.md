@@ -31,6 +31,11 @@ meet frozen bounded checks and represented material/charge balances; their
 catalog review is separate. Missing original identities, rate and heat
 calibration remain open. Earlier dated counts below preserve historical scope.
 
+A separate [native MIX inventory boundary](mix-finite-inventory-boundary.md)
+sends supplied solids, gas and typed interface inventories through ordinary
+equilibrium instead of the dissolved-only shortcut. Exact-head native and
+full-fleet acceptance remain pending; this is not a multiphase MIX model.
+
 ## Integrated behavior
 
 | Front | Accepted integration and remaining scope |
