@@ -2885,6 +2885,19 @@ impl Equilibrator for PhreeqcEquilibrator {
         soln_b: &Vessel,
         frac_b: f64,
     ) -> Option<Result<Vec<Event>, SolveError>> {
+        // This optimization serializes dissolved totals and zero-inventory
+        // precipitation candidates only. Supplied solids, retained gas and
+        // typed interfaces need the ordinary target solve: MIX would otherwise
+        // omit their matter and rebuild the target from an incomplete ledger.
+        if [vessel as &Vessel, soln_a, soln_b].iter().any(|source| {
+            source.contents.iter().any(|portion| {
+                portion.moles.0 > 0.0 && matches!(portion.phase, Phase::Solid | Phase::Gas)
+            }) || !source.surfaces.is_empty()
+                || !source.exchanges.is_empty()
+                || !source.solid_solutions.is_empty()
+        }) {
+            return None;
+        }
         // Native MIX has its own whole-step thermal bookkeeping. An active
         // unknown-heat continuation must use the ordinary guarded readback.
         if !kerotakis_core::aqueous_continuation::whole_step_heat_available(vessel) {

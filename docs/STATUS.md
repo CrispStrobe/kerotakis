@@ -43,6 +43,11 @@ oxalate protocols via the [separate receipt](https://github.com/CrispStrobe/kero
 The analytical oxalate control stays excluded; no missing original identity,
 empirical rate or heat calibration is claimed closed.
 
+A separate [native MIX inventory boundary](mix-finite-inventory-boundary.md)
+sends supplied solids, gas and typed interface inventories through ordinary
+equilibrium instead of the dissolved-only shortcut. Exact-head native and
+full-fleet acceptance remain pending; this is not a multiphase MIX model.
+
 ## Integrated behavior
 
 | Front | Accepted integration and remaining scope |
