@@ -48,7 +48,7 @@ Two finite-inventory repairs are now signed and pushed, with acceptance pending:
 admission and comparison omission; [PR823](https://github.com/CrispStrobe/kerotakis/pull/823)
 bounds dissolved-only native MIX before it can omit solids, gas or typed interfaces.
 Their [phase repair](https://github.com/CrispStrobe/kerotakis/blob/9b7e70998db9a89ca595e2d7f3719c78230f44f5/docs/finite-solid-inventory-repair.md) and
-[MIX boundary](mix-finite-inventory-boundary.md) describe actual regression controls,
+[MIX boundary](https://github.com/CrispStrobe/kerotakis/blob/9b7e70998db9a89ca595e2d7f3719c78230f44f5/docs/mix-finite-inventory-boundary.md) describe actual regression controls,
 remaining domains and exact-head CI/full-fleet gates. Neither is integrated,
 deployed or counted as a new scientific pass at this checkpoint.
 
