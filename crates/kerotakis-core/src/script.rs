@@ -1742,13 +1742,13 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
 ).with("word", other))
                 }
             };
-            let max_steps = match (tail.first(), tail.get(1)) {
-                (Some(&"max"), Some(n)) => n.parse().map_err(|_| {
+            let max_steps = match tail {
+                ["max", n] => n.parse().map_err(|_| {
                     Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
                         .with("what", "max step count")
                         .with("raw", n)
                 })?,
-                (None, _) => 100,
+                [] => 100,
                 _ => {
                     return Err(Refusal::new(
                         "error.titrate-only-max-may-follow",
@@ -1768,7 +1768,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
         }
         "mix" => {
             // mix v1 0.5 v2 0.5 into v3
-            if words.len() < 7 {
+            if words.len() != 7 {
                 return Err(usage(
                     "mix <vessel-a> <frac-a> <vessel-b> <frac-b> into <target>",
                 ));
