@@ -25,6 +25,23 @@ optional. Coupled-redox and typed-surface solves retain their existing native-on
 admission domain. No phase constants, polymorph equivalence rules or thermodynamic
 sources are added by this repair.
 
+## First repaired-engine replay exposed a second defect
+
+The once-only unchanged wait-cycle replay on reviewed head `aa08be0f` completed,
+but failed the frozen invariance criteria: Fe(OH)2 declined from
+0.009875323796001 to 0.009677216645027 mol over two waits while ferric hydroxide
+appeared. Represented iron closed within approximately 3.9e-15 mol; that did not
+make the altered phase/oxidation state a pass. No threshold is relaxed.
+
+The pinning block inspected dissolved totals only. Once the positive solid was
+retained correctly, its supplied ferrous state no longer reached that block.
+The correction uses positive phase elemental inventory for oxidation-state
+pinning and admission decisions, while leaving solution totals unchanged to
+avoid counting the solid twice. The same inventory detects a redox partner
+supplied in a solid, preserving the coupled-domain exclusion. Native controls
+also require no new ferric inventory in the ferrous-only case. Exact-source
+acceptance of the corrected head remains pending.
+
 ## Acceptance still required
 
 The candidate is unaccepted until exact-head native CI and the full own fleet

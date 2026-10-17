@@ -1247,7 +1247,8 @@ fn comparison_problem(problem: &Problem, db_tag: &str) -> Result<Problem, Vec<St
     let mut missing = Vec::new();
     // Preserve the direct solver's native-only domain for coupled redox and
     // typed surfaces. Comparison must not introduce an untracked solid pool.
-    let native_only = redox_coupling(problem, db_tag).is_some() || !problem.surfaces.is_empty();
+    let native_only = redox_coupling_totals(&phase_inclusive_totals(problem), db_tag).is_some()
+        || !problem.surfaces.is_empty();
     for (name, moles, si) in &problem.phases {
         let admitted = if native_only {
             derived::index_for(db_tag)
@@ -4120,7 +4121,8 @@ impl PhreeqcEquilibrator {
                 *moles = 0.0;
             }
         }
-        let coupled_now = redox_coupling(&problem, db_tag).is_some();
+        let coupled_now =
+            redox_coupling_totals(&phase_inclusive_totals(&problem), db_tag).is_some();
         problem.phases.retain_mut(|(name, moles, _)| {
             if idx.has_phase(name) {
                 return true;
@@ -6195,11 +6197,39 @@ fn tagged_state(key: &str) -> Option<i32> {
 /// One element on its own has nothing to react with here, because water's
 /// own redox is deliberately not part of the budget.
 fn redox_coupling(problem: &Problem, db_tag: &str) -> Option<RedoxCoupling> {
+    redox_coupling_totals(&problem.totals, db_tag)
+}
+
+/// Oxidation-state inventory used for admission and pinning, not solution input.
+/// Supplied solids remain in EQUILIBRIUM_PHASES; adding them to SOLUTION would
+/// count their matter twice. Zero-amount precipitation candidates add no stock.
+fn phase_inclusive_totals(problem: &Problem) -> Vec<(String, f64)> {
+    let mut totals = problem.totals.clone();
+    for (name, moles, _) in &problem.phases {
+        if *moles <= 0.0 {
+            continue;
+        }
+        let Some(phase) = derived::phase_by_name(name) else {
+            continue;
+        };
+        for (element, coefficient) in &phase.elements {
+            let amount = coefficient * moles;
+            if let Some((_, existing)) = totals.iter_mut().find(|(key, _)| key == element) {
+                *existing += amount;
+            } else {
+                totals.push((element.clone(), amount));
+            }
+        }
+    }
+    totals
+}
+
+fn redox_coupling_totals(totals: &[(String, f64)], db_tag: &str) -> Option<RedoxCoupling> {
     let idx = derived::index_for(db_tag);
     let mut target = 0.0;
     let mut scale = 0.0;
     let mut coupled: Vec<&str> = Vec::new();
-    for (key, moles) in &problem.totals {
+    for (key, moles) in totals {
         let base = key.split('(').next().unwrap_or(key);
         if !FAST_REDOX.contains(&base) || !idx.redox_elements.contains(base) {
             continue;
@@ -6640,7 +6670,10 @@ fn build_input_at(
     // coupled solve is bisecting pe and must not have its own answer pinned
     // out from under it. See `fast_redox_pin_block`.
     if couple.is_none() {
-        input.push_str(&fast_redox_pin_block(&problem.totals, db_tag));
+        input.push_str(&fast_redox_pin_block(
+            &phase_inclusive_totals(problem),
+            db_tag,
+        ));
     }
     let temp_c = vessel.temperature.to_celsius();
     writeln!(input, "SOLUTION 1").unwrap();
@@ -7516,6 +7549,34 @@ mod comparison_phase_inventory_tests {
                 .expect("supplied phase must be refused"),
             vec!["Fe(OH)2"]
         );
+    }
+
+    #[test]
+    fn supplied_phase_states_inform_pinning_without_becoming_dissolved_totals() {
+        let mut problem = water_problem();
+        problem.phases = vec![("Fe(OH)2".into(), 0.01, 0.0)];
+        let analytical = problem.totals.clone();
+        let states = phase_inclusive_totals(&problem);
+        assert!(states
+            .iter()
+            .any(|(element, amount)| element == "Fe(2)" && (*amount - 0.01).abs() < 1e-12));
+        assert!(!fast_redox_pin_block(&states, "wateq4f").is_empty());
+        assert_eq!(
+            problem.totals, analytical,
+            "solid inventory must not be double counted"
+        );
+        problem.phases[0].1 = 0.0;
+        assert_eq!(phase_inclusive_totals(&problem), analytical);
+    }
+
+    #[test]
+    fn redox_partner_in_positive_solid_keeps_native_only_admission() {
+        let mut problem = water_problem();
+        problem.phases = vec![("Fe(OH)2".into(), 0.01, 0.0)];
+        problem.totals = vec![("Mn(7)".into(), 0.001)];
+        assert!(redox_coupling(&problem, "wateq4f").is_none());
+        assert!(redox_coupling_totals(&phase_inclusive_totals(&problem), "wateq4f").is_some());
+        assert!(comparison_problem(&problem, "wateq4f").is_err());
     }
 
     #[test]

@@ -41,6 +41,11 @@ fn reviewed_positive_foreign_solid_does_not_toggle_between_equilibrations() {
         baseline_solid > 0.005,
         "the supplied solid was treated as fully dissolved"
     );
+    assert!(
+        vessel.moles_of(&SpeciesId::new("Fe+3")).0 < 1e-10,
+        "ferrous solid acquired ferric inventory without an electron partner"
+    );
+    assert!(vessel.moles_of(&SpeciesId::new("Fe(OH)3")).0 < 1e-10);
     let baseline_ph = vessel.solution.as_ref().expect("aqueous readback").ph;
     let baseline_temperature = vessel.temperature.0;
     let baseline_enthalpy = vessel.enthalpy().0;
