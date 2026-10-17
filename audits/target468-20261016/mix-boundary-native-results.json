@@ -1,0 +1,36 @@
+{
+  "pr": 823,
+  "head": "4730f7e689fee8ec3ed0eaa3794c50f18755c8d1",
+  "ci_run": 38999106064,
+  "jobs": [
+    {
+      "name": "Test (native) (ubuntu-latest)",
+      "job_id": 117298050783,
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38999106064/job/117298050783",
+      "conclusion": "success",
+      "raw_log_sha256": "df98bfe207ef5da256b22c011bbc48d8cf7cc9b30a1a29f79ea799995449723d",
+      "observed_tests": {
+        "source_and_target_solid_or_gas_decline_without_engine_calls_or_mutation": true,
+        "typed_surface_declines_even_without_a_solid_portion": true,
+        "exchanger_and_solid_solution_decline_without_mutation": true,
+        "ordinary_fallback_retains_finite_salt_and_sealed_inert_gas": true,
+        "uncoupled_native_mix_remains_available": true
+      }
+    },
+    {
+      "name": "Test (native) (macos-latest)",
+      "job_id": 117298050878,
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/38999106064/job/117298050878",
+      "conclusion": "success",
+      "raw_log_sha256": "24b735442997bcef89dede4ee9583c360f6da99c3385f1565653857360e073d2",
+      "observed_tests": {
+        "source_and_target_solid_or_gas_decline_without_engine_calls_or_mutation": true,
+        "typed_surface_declines_even_without_a_solid_portion": true,
+        "exchanger_and_solid_solution_decline_without_mutation": true,
+        "ordinary_fallback_retains_finite_salt_and_sealed_inert_gas": true,
+        "uncoupled_native_mix_remains_available": true
+      }
+    }
+  ],
+  "qualification": "Native boundary and fallback regressions actually passed on both platforms. Remaining CI/full own fleet and integration are separate gates; no empirical calibration or working-catalog selection."
+}

@@ -43,6 +43,52 @@ oxalate protocols via the [separate receipt](https://github.com/CrispStrobe/kero
 The analytical oxalate control stays excluded; no missing original identity,
 empirical rate or heat calibration is claimed closed.
 
+Two finite-inventory repairs are now signed and pushed, with acceptance pending:
+[PR822](https://github.com/CrispStrobe/kerotakis/pull/822) repairs reviewed supplied-solid
+admission and comparison omission; [PR823](https://github.com/CrispStrobe/kerotakis/pull/823)
+bounds dissolved-only native MIX before it can omit solids, gas or typed interfaces.
+Their [phase repair](finite-solid-inventory-repair.md) and
+[MIX boundary](mix-finite-inventory-boundary.md) describe actual regression controls,
+remaining domains and exact-head CI/full-fleet gates. Neither is integrated,
+deployed or counted as a new scientific pass at this checkpoint.
+
+[PR824](https://github.com/CrispStrobe/kerotakis/pull/824) separately repairs ignored
+trailing tokens across fixed-arity commands and optional heat, distillation,
+titration, MIX and transport forms. A regression covers every documented verb,
+with valid optional syntax and comments checked separately. Native parser,
+REST and full-fleet acceptance remain pending; syntax repair adds no chemistry
+coverage or working-catalog selections.
+
+The [first repaired finite-solid replay](../audits/target468-20261016/finite-phase-first-repaired-replay/README.md)
+failed its unchanged invariance criteria despite completed execution and retained
+bulk solid: ferric inventory appeared and phase allocation drifted. PR822 now
+includes phase oxidation states in pinning/admission without adding their matter
+to solution totals. The [corrected-head native replay](../audits/target468-20261016/finite-phase-corrected-replay/README.md)
+passes all eight frozen checks: retained-solid drift is approximately2e-15 mol,
+pH is unchanged and artificial ferric inventory is absent. CI/full-fleet and
+integration acceptance remain pending; the first failed response and original
+forecasts stay immutable. No catalog selection or calibration is added.
+
+PR824's first broader parser head exposed real compatibility regressions in
+inline comments and the shipped `wait 60 seconds` lesson. The correction keeps
+the lesson and frozen snapshots unchanged, preserves embedded hashes, and
+converts spaced minute/hour units explicitly. Its REST admission repair charges
+the same duration, retaining the30-day command and90-day script limits;19 HTTP
+policy tests pass locally. The corrected head `7ea71e56` still requires its own
+hosted native, REST and full-fleet acceptance before integration.
+
+[PR825](https://github.com/CrispStrobe/kerotakis/pull/825) rejects non-finite parsed
+operator quantities and scaled unit-conversion overflow, including public
+quantity readers. Normal/large-finite JSON round trips retain controls; native,
+REST and full-fleet acceptance remain pending. PR823's four new MIX groups and
+existing positive control now have [verified Linux/macOS results](../audits/target468-20261016/mix-boundary-native-results.json),
+with remaining fleet/integration gates still open.
+
+The maintained delivery/results documentation [PR821](../audits/target468-20261016/accepted-pr-integration/pr821-integration.json)
+merged as `12c2478e` after25 successful CI checks and one expected skip. Its
+actual parents/tree match the reviewed candidate. This documentation integration
+does not deploy the pending chemistry/API/frontend snapshot.
+
 ## Integrated behavior
 
 | Front | Accepted integration and remaining scope |

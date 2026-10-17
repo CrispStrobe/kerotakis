@@ -1,0 +1,14 @@
+{
+  "README.md": "4ff49c406d67255922a9f3da52729ef620bd0d64168d1da3dae14220e38d90a9",
+  "assess.py": "a9dd0116f8f772b7f7bb5d6d21c71edd7d23c2f4fe78aedfbf0128406d6453a0",
+  "assessment.json": "f5b36823aa67286405b61847fc740c487c4dfcea098cdc747ad33ac4b65f716b",
+  "destroy-returned.json": "10a7eaab7d66df4955defa63ed113c3c84c3135d163728469a21748ba632eef6",
+  "execution.json": "6c262da6a672a9bbf1729446318ea91a69741c3139f52c9a629974c460884edb",
+  "frozen-design.json": "f20a3e7b5f761a5871948c22b3648e2ff8a0926b7ee20e37e93c0f60a61f8f00",
+  "issued.json": "f33c618e8ea7269eeee11eacb26a75ec01a7be6007fb0dbceb51c0daa9bd9095",
+  "manifest.json": "d25b8173098aa3159ab2422af647bad942dd12868c9cd214a7c2cd688a7d6595",
+  "producer-receipt.json": "8add1114b497e68615461396fae3917be6be87c5949ce8d2bfcab0ff164b3460",
+  "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout.jsonl": "e11bdcfdb1b899593cf22b05c3f986f952fc3ccd95c81902c7b46f167a11a060",
+  "supervisor-process.json": "1e3f6691f455051e8adb15d961e4bf3c7a17e83dd88b2afdd13315cc288250bb"
+}
