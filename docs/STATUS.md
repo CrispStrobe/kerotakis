@@ -380,4 +380,3 @@ The three historical silence assertions now require exact typed provenance
 boundaries while retaining their numerical and material checks. Their first
 native failure is preserved separately. The [integration receipt](https://github.com/CrispStrobe/kerotakis/blob/f8217652fb5592a126b4ff0c092a4b3c55c67c5a/audits/target468-20261016/accepted-pr-integration/pr819-integration.json)
 verifies the reviewed head, actual merge parents and reconstructed tree.
-
