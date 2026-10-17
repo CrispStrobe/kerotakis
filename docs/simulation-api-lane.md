@@ -10,7 +10,7 @@ on Vercel and requires no VPS service or additional hostname.
 
 Production now serves integrated API/engine revision `c4469205`, native binary
 `670bd3d8`, from [run38868092504](https://github.com/CrispStrobe/kerotakis/actions/runs/38868092504).
-The [authenticated production receipt](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/reaction-dataset-200-20261015/production-c446-20261016/README.md)
+The [authenticated production receipt](https://github.com/CrispStrobe/kerotakis/blob/fd9826734cd56eb0d31f4e3a4017b815add1345b/audits/reaction-dataset-200-20261015/production-c446-20261016/README.md)
 verifies artifact/source/tree/native/libraries, fresh isolated snapshot and live
 health. Raw build-lock bytes remain producer-qualified for this artifact. The
 previous production `9bee95d9`/`d791d306` evidence below is retained historical
@@ -30,20 +30,20 @@ production requests returned one completed execution and one 429. A native HCl
 screen completed with three observations. The first unsupported `mmol` input was
 preserved as a CLI refusal, then a separate `0.001mol` follow-up executed. Neither
 HTTP200 nor process completion assigns a scientific pass.
-[Deployment receipt](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/fresh-syntax50-20261013/rest-api-production-20261015.json).
+[Deployment receipt](https://github.com/CrispStrobe/kerotakis/blob/fd9826734cd56eb0d31f4e3a4017b815add1345b/audits/fresh-syntax50-20261013/rest-api-production-20261015.json).
 
 The requested full API comparison is now complete: **200 HTTP200 responses,
 92 completed scripts, 108 CLI refusals, no errors/retries**. Execution statuses
 and full parsed observations agree with the prior CLI run for all 200 unchanged
 scripts. Median request time was 3.27 seconds. See the
-[verified comparison](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/reaction-dataset-200-20261015/api-comparison/completion.json).
+[verified comparison](https://github.com/CrispStrobe/kerotakis/blob/fd9826734cd56eb0d31f4e3a4017b815add1345b/audits/reaction-dataset-200-20261015/api-comparison/completion.json).
 Physical validation remains separate; do not duplicate this finished API batch.
 
 ## Current integration and delivery checkpoint — 2026-10-16
 
 [PR795](https://github.com/CrispStrobe/kerotakis/pull/795) is integrated as
 `c4469205`, with all59 successful checks and one skip. The
-[integration receipt](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/reaction-dataset-200-20261015/pr795-integration.json)
+[integration receipt](https://github.com/CrispStrobe/kerotakis/blob/fd9826734cd56eb0d31f4e3a4017b815add1345b/audits/reaction-dataset-200-20261015/pr795-integration.json)
 records reviewed source, actual merge parents/tree and applicable acceptance.
 The old source-build, native sandbox and UTF-8/lint failures remain preserved;
 they are no longer pending integration work.
@@ -54,11 +54,13 @@ nine once-only requests: two finite chemistry controls, auth/subset/CORS checks,
 fresh health and exact client bytes. The same-snapshot isolation probe passed.
 No independent VM-deletion receipt or raw producer-lock rehash is claimed.
 
-[Fifteen actual-browser controls](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/reaction-dataset-200-20261015/rest-browser-acceptance-20261016/README.md)
+[Fifteen actual-browser controls](https://github.com/CrispStrobe/kerotakis/blob/fd9826734cd56eb0d31f4e3a4017b815add1345b/audits/reaction-dataset-200-20261015/rest-browser-acceptance-20261016/README.md)
 already accept the unchanged client UI/privacy and actual browser CORS behavior.
-Its controlled Pages-origin check does not establish publication. Actual
-`/kerotakis/rest.html` still returned404 at this checkpoint; the integrated-main
-Pages pipeline must publish it before testing the served client.
+Its controlled Pages-origin check remains separately bound. Actual
+`/kerotakis/rest.html` now returns200 and exactly matches `web/rest.html` at
+`fa5a75fa`; the Pages deployment and live production CORS preflight both pass.
+The [publication receipt](https://github.com/CrispStrobe/kerotakis/blob/fd9826734cd56eb0d31f4e3a4017b815add1345b/audits/target468-20261016/pages-publication-20261016/receipt.json)
+closes the old404 publication gap without claiming a new browser execution.
 
 ## Doable next lanes
 
@@ -67,17 +69,18 @@ Pages pipeline must publish it before testing the served client.
    acceptance when an accepted source change warrants a new engine. Preserve
    source/tree/native/lock/snapshot bindings and first failures; do not repeat
    unchanged200-case transport checks.
-2. **Verify Pages publication.** Follow the existing integrated-main demo/publish
-   pipeline, then confirm the actual served client bytes. Reuse accepted
+2. **Maintain verified Pages publication.** Actual served bytes and deployment
+   provenance now pass at `fa5a75fa`. Recheck only when the published client changes. Reuse accepted
    unchanged-client browser evidence where applicable; complete any outstanding
    actual-origin acceptance after publication. Do not repeat the entire200 batch.
 3. **Repair protocols and underlying chemistry independently.** Use the
    [lane contract](reaction-repair-lane-contract.md) and
-   [model intake](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/reaction-dataset-200-20261015/model-issues-20261016/index.json).
-   The protocol lane owns procedures, syntax and proven aliases; Hermes owns
-   model repairs and PR805 acceptance. All process outcomes remain separate
+   [model intake](https://github.com/CrispStrobe/kerotakis/blob/fd9826734cd56eb0d31f4e3a4017b815add1345b/audits/reaction-dataset-200-20261015/model-issues-20261016/index.json).
+   The protocol lane owns procedures, syntax and proven aliases; the model lane
+   owns underlying chemistry repairs. PR805 acceptance is complete. Any delegated
+   implementation requires independent review of code and observed results. All process outcomes remain separate
    from scientific verdicts. Freeze source-bound follow-ups before execution.
-   The [201 new designs](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/new-experiments-201-20261016/README.md) have
+   The [201 new designs](https://github.com/CrispStrobe/kerotakis/blob/fd9826734cd56eb0d31f4e3a4017b815add1345b/audits/new-experiments-201-20261016/README.md) have
    separate originals, four proposed procedure corrections and acceptance lanes.
 4. **Maintain the security binding.** Changed supervisor/seccomp code requires
    a rebuilt snapshot, actual isolation tests and the matching native bundle.
@@ -93,7 +96,7 @@ establish the accepted isolation boundary.
 
 ## Command and resource follow-up — 2026-10-16
 
-The completed [668-request audit](https://github.com/CrispStrobe/kerotakis/blob/21520946aeee9125a101405c3b2c6c854a2f2ec0/audits/target468-20261016/rest-api-all668/README.md)
+The completed [668-request audit](https://github.com/CrispStrobe/kerotakis/blob/fd9826734cd56eb0d31f4e3a4017b815add1345b/audits/target468-20261016/rest-api-all668/README.md)
 records555completed/111CLIrefusals/2infrastructure failures, with exact native JSON
 agreement for all666 engine responses. Its two separately frozen changed-policy
 follow-ups now both complete with exact native observations. Neither successful
@@ -107,8 +110,9 @@ finite12CPU/18wall budget, trusted CPU accounting, total Redis/forwarding deadli
 and browser/platform cleanup allowance. New source-bound snapshot smoke and
 actual strengthened isolation pass; the old snapshot is not relabelled.
 
-Acceptance remains exact-head full CI/native sandbox/fleet, then integration in
-prerequisite order and source-bound production delivery. Current preview proofs
+All four API PRs814–817 have completed exact-head CI/native sandbox/fleet
+acceptance and integration in prerequisite order. Source-bound full frontend/native
+production delivery remains pending; production is stillc446/670. Current preview proofs
 use the acceptedc446/670 native engine; they are not a rebuilt latest-main engine
 or full frontend acceptance. Preserve first failures, immutable designs, raw
 request/response evidence and changed-policy associations. Use the
