@@ -58,12 +58,38 @@ fn the_transcript_scenario_answers_instead_of_apologising() {
         nacl.1
     );
     assert!((nacl.1 + nacl.2 - 0.0171).abs() < 1e-12, "conservation");
-    // No apology for any covered species.
-    assert!(
-        !events
-            .iter()
-            .any(|e| matches!(e, Event::NotYetModeled { .. })),
-        "covered pairs must not also apologise: {events:?}"
+    // Legacy amounts remain regression controls; withdrawn support must be
+    // disclosed for exactly these pairs, without unrelated model-gap claims.
+    let warned: std::collections::BTreeSet<_> = events
+        .iter()
+        .filter_map(|event| {
+            let Event::NotYetModeled {
+                vessel,
+                cause,
+                reason,
+                ..
+            } = event
+            else {
+                return None;
+            };
+            assert_eq!(*vessel, VesselId(0));
+            assert!(matches!(
+                cause,
+                kerotakis_core::ops::NotModelledCause::ModelBoundary
+            ));
+            let reason = reason.as_ref().expect("structured provenance boundary");
+            assert_eq!(reason.key, "not-modeled.withdrawn-organic-solubility");
+            assert_eq!(reason.text_slot("solvent"), Some("ethanol"));
+            Some(
+                reason
+                    .text_slot("solute")
+                    .expect("affected solute identity"),
+            )
+        })
+        .collect();
+    assert_eq!(
+        warned,
+        std::collections::BTreeSet::from(["AgCl", "AgNO3", "NaCl"])
     );
 
     // Zinc: computed inertness, with the reason.

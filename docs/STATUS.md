@@ -24,9 +24,8 @@ PR814–817 are integrated. PR816 merged as `238b5dc3` and PR817 as
 and [PR817 receipts](https://github.com/CrispStrobe/kerotakis/blob/fd9826734cd56eb0d31f4e3a4017b815add1345b/audits/target468-20261016/accepted-pr-integration/pr817-integration.json)
 verify the actual merge trees. The [PR820 documentation checkpoint](https://github.com/CrispStrobe/kerotakis/blob/fd9826734cd56eb0d31f4e3a4017b815add1345b/audits/target468-20261016/accepted-pr-integration/pr820-integration.json)
 also integrated. Production remainsc446; delivery of the accepted full frontend/native
-snapshot is a separate pending lane. PR819's reviewed `0d61f582` passed normalCI;
-its full own fleet remains the integration gate at this checkpoint. The existing
-watcher will request normal exact-head auto-merge only after that gate passes.
+snapshot is a separate pending lane. PR819's reviewed `0d61f582` passed normal CI and the full own fleet, then
+merged as `6874e9cf`; its verified integration receipt is linked below.
 [PR809](https://github.com/CrispStrobe/kerotakis/pull/809) is integrated as
 `fa5a75fa` after independent unchanged-CLI acceptance; its actual merge tree is verified.
 The [separate AB029 selection](https://github.com/CrispStrobe/kerotakis/blob/fd9826734cd56eb0d31f4e3a4017b815add1345b/audits/new-experiments-201-20261016/native-screen-results/ab029-source-review/catalog-selection.json) adds one
@@ -366,3 +365,19 @@ PR812 integrated as `1d24a43a` after58 successful checks/one skip; its
 [actual merge receipt](https://github.com/CrispStrobe/kerotakis/blob/fd9826734cd56eb0d31f4e3a4017b815add1345b/audits/target468-20261016/accepted-pr-integration/pr812-integration.json)
 verifies the reviewed head and reconstructed tree. No accepted product remains
 waiting for confirmation; PR809 completed its independent CLI replay and integrated as recorded above.
+
+## Organic-solubility repair integrated
+
+PR819 merged as `6874e9cf` after exact-head native CI and full own-fleet
+acceptance. Saved first120 PR-016 exposed withdrawn numerical support for organic
+dissolution and dependent yields. The [bounded repair and remaining lanes](organic-solubility-repair-lane.md)
+add explicit support boundaries at both consumers, including fully consumed
+reagents and liquid-only residues, and remove the missing-row unlimited-solid
+availability fallback. Legacy values remain provisional; phase ownership and
+compatible primary measurements are still required. No working-catalog count changes.
+
+The three historical silence assertions now require exact typed provenance
+boundaries while retaining their numerical and material checks. Their first
+native failure is preserved separately. The [integration receipt](https://github.com/CrispStrobe/kerotakis/blob/f8217652fb5592a126b4ff0c092a4b3c55c67c5a/audits/target468-20261016/accepted-pr-integration/pr819-integration.json)
+verifies the reviewed head, actual merge parents and reconstructed tree.
+
