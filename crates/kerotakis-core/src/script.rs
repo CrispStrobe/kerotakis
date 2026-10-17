@@ -1164,6 +1164,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                         )
                         .with("amount", amount)
                     })?;
+                finite(moles, "tracer amount")?;
                 return Ok(Some(Operator::SpikeNuclide {
                     vessel,
                     nuclide: words[2].to_string(),
@@ -1880,7 +1881,106 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
             .with("word", other))
         }
     };
+    finite_operator_quantities(&op)?;
     Ok(Some(op))
+}
+
+// Exhaustive so a new operator cannot silently omit its numeric log fields.
+// Physical ranges remain the bench's policy; this checks representability only.
+fn finite_operator_quantities(op: &Operator) -> Result<(), Refusal> {
+    let numbers = match op {
+        Operator::Add { moles, at, .. } => [moles.0, at.map_or(0.0, |t| t.0), 0.0, 0.0],
+        Operator::AddMaterial {
+            total_amount, at, ..
+        } => [*total_amount, at.map_or(0.0, |t| t.0), 0.0, 0.0],
+        Operator::StockShelf { amount, .. } => [*amount, 0.0, 0.0, 0.0],
+        Operator::Heat { energy, .. } | Operator::Cool { energy, .. } => [energy.0, 0.0, 0.0, 0.0],
+        Operator::Stir { rpm, seconds, .. } => [*rpm, *seconds, 0.0, 0.0],
+        Operator::Seal {
+            headspace_volume, ..
+        } => [headspace_volume.0, 0.0, 0.0, 0.0],
+        Operator::Regulate {
+            pressure,
+            initial_volume,
+            ..
+        } => [pressure.0, initial_volume.0, 0.0, 0.0],
+        Operator::Sweep { pressure, .. } => [pressure.0, 0.0, 0.0, 0.0],
+        Operator::Decant { fraction, .. }
+        | Operator::Spill { fraction, .. }
+        | Operator::RecoverSpill { fraction, .. }
+        | Operator::Evaporate { fraction, .. } => [*fraction, 0.0, 0.0, 0.0],
+        Operator::Impact { impulse_ns, .. } => [*impulse_ns, 0.0, 0.0, 0.0],
+        Operator::Distil {
+            fraction, energy, ..
+        } => [
+            fraction.unwrap_or(0.0),
+            energy.map_or(0.0, |j| j.0),
+            0.0,
+            0.0,
+        ],
+        Operator::Extract { total_solvent, .. } => [total_solvent.0, 0.0, 0.0, 0.0],
+        Operator::Wait { seconds } => [*seconds, 0.0, 0.0, 0.0],
+        Operator::Electrolyse { amps, seconds, .. } => [*amps, *seconds, 0.0, 0.0],
+        Operator::Grind { diameter_um, .. } => [*diameter_um, 0.0, 0.0, 0.0],
+        Operator::Centrifuge {
+            rpm,
+            seconds,
+            rotor_radius_m,
+            counterbalance_g,
+            ..
+        } => [
+            *rpm,
+            *seconds,
+            *rotor_radius_m,
+            counterbalance_g.unwrap_or(0.0),
+        ],
+        Operator::Irradiate {
+            wavelength_nm,
+            irradiance_w_m2,
+            ..
+        } => [*wavelength_nm, *irradiance_w_m2, 0.0, 0.0],
+        Operator::Dilute { volume, .. } => [volume.0, 0.0, 0.0, 0.0],
+        Operator::SpikeNuclide { moles, .. } => [moles.0, 0.0, 0.0, 0.0],
+        Operator::Titrate {
+            concentration,
+            step,
+            target_ph,
+            endpoint,
+            ..
+        } => [
+            *concentration,
+            step.0,
+            *target_ph,
+            match endpoint {
+                Endpoint::Pe { value, .. } => *value,
+                _ => 0.0,
+            },
+        ],
+        Operator::Mix {
+            fraction_a,
+            fraction_b,
+            ..
+        } => [*fraction_a, *fraction_b, 0.0, 0.0],
+        Operator::Transport { courant, .. } => [*courant, 0.0, 0.0, 0.0],
+        Operator::NewVessel { .. }
+        | Operator::RemoveVessel { .. }
+        | Operator::Open { .. }
+        | Operator::Discard { .. }
+        | Operator::Filter { .. }
+        | Operator::Ignite { .. }
+        | Operator::Drain { .. }
+        | Operator::Measure { .. }
+        | Operator::Cell { .. }
+        | Operator::Smell { .. }
+        | Operator::Particles { .. }
+        | Operator::TestGas { .. }
+        | Operator::React { .. }
+        | Operator::Magnet { .. } => [0.0; 4],
+    };
+    for number in numbers {
+        finite(number, "operator quantity")?;
+    }
+    Ok(())
 }
 
 pub fn parse_vessel(word: &str) -> Result<VesselId, Refusal> {
@@ -1940,7 +2040,7 @@ pub fn parse_material_amount(word: &str, recipe: &MaterialRecipe) -> Result<f64,
             "material amount must be positive",
         ));
     }
-    match recipe.basis {
+    let amount = match recipe.basis {
         MaterialBasis::MassFraction => match unit {
             "g" => Ok(value),
             "mL" | "ml" => recipe
@@ -1991,12 +2091,14 @@ pub fn parse_material_amount(word: &str, recipe: &MaterialRecipe) -> Result<f64,
             .with("material", &recipe.canonical_key)
             .with("unit", other)),
         },
-    }
+    }?;
+    finite(amount, "material amount")?;
+    Ok(amount)
 }
 
 pub fn parse_energy(word: &str) -> Result<Joules, Refusal> {
     let (value, unit) = split_unit(word)?;
-    match unit {
+    let energy = match unit {
         "J" | "j" => Ok(Joules(value)),
         "kJ" | "kj" => Ok(Joules(value * 1000.0)),
         other => Err(Refusal::new(
@@ -2004,7 +2106,9 @@ pub fn parse_energy(word: &str) -> Result<Joules, Refusal> {
             "unknown energy unit '{unit}' (J, kJ)",
         )
         .with("unit", other)),
-    }
+    }?;
+    finite(energy.0, "energy")?;
+    Ok(energy)
 }
 
 pub fn parse_volume(word: &str) -> Result<Liters, Refusal> {
@@ -2015,7 +2119,7 @@ pub fn parse_volume(word: &str) -> Result<Liters, Refusal> {
             "headspace volume must be positive",
         ));
     }
-    match unit {
+    let volume = match unit {
         "mL" | "ml" => Ok(Liters(value / 1000.0)),
         "L" | "l" => Ok(Liters(value)),
         other => Err(Refusal::new(
@@ -2023,7 +2127,9 @@ pub fn parse_volume(word: &str) -> Result<Liters, Refusal> {
             "unknown volume unit '{unit}' (mL, L)",
         )
         .with("unit", other)),
-    }
+    }?;
+    finite(volume.0, "volume")?;
+    Ok(volume)
 }
 
 pub fn parse_pressure(word: &str) -> Result<Pascal, Refusal> {
@@ -2034,7 +2140,7 @@ pub fn parse_pressure(word: &str) -> Result<Pascal, Refusal> {
             "pressure must be positive",
         ));
     }
-    match unit {
+    let pressure = match unit {
         "Pa" | "pa" => Ok(Pascal(value)),
         "kPa" | "kpa" => Ok(Pascal(value * 1_000.0)),
         "bar" => Ok(Pascal(value * 100_000.0)),
@@ -2044,12 +2150,14 @@ pub fn parse_pressure(word: &str) -> Result<Pascal, Refusal> {
             "unknown pressure unit '{unit}' (Pa, kPa, bar, atm)",
         )
         .with("unit", other)),
-    }
+    }?;
+    finite(pressure.0, "pressure")?;
+    Ok(pressure)
 }
 
 /// Optional trailing `@ 60C` / `@ 333K` on `add`.
 pub fn parse_at(words: &[&str]) -> Result<Option<Kelvin>, Refusal> {
-    match words {
+    let temperature = match words {
         [] => Ok(None),
         ["@", t] => {
             let (value, unit) = split_unit(t)?;
@@ -2067,7 +2175,11 @@ pub fn parse_at(words: &[&str]) -> Result<Option<Kelvin>, Refusal> {
             "error.temperature-goes-last",
             "temperature goes last: … @ 60C",
         )),
+    }?;
+    if let Some(value) = temperature {
+        finite(value.0, "temperature")?;
     }
+    Ok(temperature)
 }
 
 fn parse_duration_seconds(raw: &str) -> Result<f64, Refusal> {
