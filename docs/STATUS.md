@@ -44,6 +44,15 @@ oxalate protocols via the [separate receipt](../audits/target468-20261016/prepar
 The analytical oxalate control stays excluded; no missing original identity,
 empirical rate or heat calibration is claimed closed.
 
+Two finite-inventory repairs are now signed and pushed, with acceptance pending:
+[PR822](https://github.com/CrispStrobe/kerotakis/pull/822) repairs reviewed supplied-solid
+admission and comparison omission; [PR823](https://github.com/CrispStrobe/kerotakis/pull/823)
+bounds dissolved-only native MIX before it can omit solids, gas or typed interfaces.
+Their [phase repair](finite-solid-inventory-repair.md) and
+[MIX boundary](mix-finite-inventory-boundary.md) describe actual regression controls,
+remaining domains and exact-head CI/full-fleet gates. Neither is integrated,
+deployed or counted as a new scientific pass at this checkpoint.
+
 ## Integrated behavior
 
 | Front | Accepted integration and remaining scope |
