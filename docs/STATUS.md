@@ -31,6 +31,12 @@ meet frozen bounded checks and represented material/charge balances; their
 catalog review is separate. Missing original identities, rate and heat
 calibration remain open. Earlier dated counts below preserve historical scope.
 
+A separate numeric parser repair rejects non-finite operator fields and unit
+conversion overflow before an operator can enter a saved log. Public quantity
+readers receive the same checks; finite values retain round-trip controls.
+Native parser, REST and full-fleet acceptance remain pending. Physical-domain
+validation remains separate from numeric representability.
+
 ## Integrated behavior
 
 | Front | Accepted integration and remaining scope |
