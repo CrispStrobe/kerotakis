@@ -110,3 +110,41 @@ fn optional_forms_are_consumed_without_losing_valid_syntax() {
         );
     }
 }
+
+#[test]
+fn spaced_wait_units_are_read_as_units_not_discarded_text() {
+    for (input, expected) in [
+        ("wait 60 seconds", 60.0),
+        ("wait 2 min", 120.0),
+        ("wait 1 hours", 3600.0),
+    ] {
+        match parse_op(input).unwrap().unwrap() {
+            Operator::Wait { seconds } => assert_eq!(seconds, expected),
+            other => panic!("unexpected operation {other:?}"),
+        }
+    }
+    for input in [
+        "wait 60 seconds ignored",
+        "wait 60 garbage",
+        "wait 60 1s",
+        "wait 60s min",
+    ] {
+        assert!(parse_op(input).is_err(), "silently accepted: {input}");
+    }
+}
+
+#[test]
+fn comment_tokens_are_removed_without_truncating_molecular_hashes() {
+    use kerotakis_core::{script::parse_command, Locale};
+    for (_, example) in kerotakis_core::script::VERBS {
+        assert_eq!(
+            parse_op(example).unwrap(),
+            parse_op(&format!("{example} # note")).unwrap()
+        );
+    }
+    let command = parse_command("structure C#N # note", Locale::EN).unwrap();
+    assert_eq!(command.canonical, "structure C#N");
+    assert!(command.operator.is_none());
+    assert!(parse_op("# complete comment").unwrap().is_none());
+    assert!(parse_op("mix v1 0.5 v2 0.5 into v3#not-a-comment").is_err());
+}

@@ -611,6 +611,19 @@ fn canonical_ingredient_line(line: &str) -> Option<String> {
     Some(rewritten.join(" "))
 }
 
+/// A comment starts at a token boundary. Embedded hashes (SMILES C#N,
+/// for example) remain part of the argument, including session commands.
+fn without_inline_comment(line: &str) -> &str {
+    let mut follows_space = true;
+    for (index, character) in line.char_indices() {
+        if character == '#' && follows_space {
+            return &line[..index];
+        }
+        follows_space = character.is_whitespace();
+    }
+    line
+}
+
 /// Parse one line typed in `locale`.
 ///
 /// The alias rewrite is tried first and the raw line second, so an alias
@@ -618,6 +631,7 @@ fn canonical_ingredient_line(line: &str) -> Option<String> {
 /// is dropped when the index is built, and if a rewritten line does not
 /// parse the untouched one still gets its turn.
 pub fn parse_command(line: &str, locale: Locale) -> Result<Command, ParseError> {
+    let line = without_inline_comment(line);
     let translated = canonical_line_in(line, locale);
     let candidate = translated.as_deref().unwrap_or(line);
     let ingredient = canonical_ingredient_line(candidate);
@@ -1019,6 +1033,7 @@ pub struct ParseError {
 }
 
 pub fn parse_op_typed(line: &str) -> Result<Option<Operator>, ParseError> {
+    let line = without_inline_comment(line);
     let ingredient = canonical_ingredient_line(line);
     let line = ingredient.as_deref().unwrap_or(line);
     let words = line.split_whitespace().collect::<Vec<_>>();
@@ -1069,10 +1084,10 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
     // Fixed-arity commands must consume the whole line. A valid prefix is
     // not a valid command when extra instructions would be silently ignored.
     let max_words = match words[0] {
-        "new" | "wait" | "ignite" | "open" | "look" | "observe" | "smell" | "waft"
-        | "particles" | "zoom" | "chromatograph" => Some(2),
-        "react" | "stock" | "cool" | "filter" | "magnet" | "evaporate" | "drain" | "measure"
-        | "test" | "cell" | "voltmeter" | "dilute" => Some(3),
+        "new" | "ignite" | "open" | "look" | "observe" | "smell" | "waft" | "particles"
+        | "zoom" | "chromatograph" => Some(2),
+        "wait" | "react" | "stock" | "cool" | "filter" | "magnet" | "evaporate" | "drain"
+        | "measure" | "test" | "cell" | "voltmeter" | "dilute" => Some(3),
         "decant" | "electrolyse" | "electrolyze" | "grind" | "irradiate" => Some(4),
         "centrifuge" => Some(6),
         _ => None,
@@ -1279,10 +1294,28 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
         }
         "wait" => {
             // `wait 30s` — the clock the rate experiments need.
-            let raw = words.get(1).ok_or_else(|| usage("wait <n><s|min|h>"))?;
-            Operator::Wait {
-                seconds: parse_duration_seconds(raw)?,
-            }
+            let seconds = match &words[1..] {
+                [raw] => parse_duration_seconds(raw)?,
+                [value, unit]
+                    if value.parse::<f64>().is_ok()
+                        && matches!(
+                            unit.to_ascii_lowercase().as_str(),
+                            "s" | "sec"
+                                | "secs"
+                                | "seconds"
+                                | "min"
+                                | "mins"
+                                | "minutes"
+                                | "h"
+                                | "hr"
+                                | "hours"
+                        ) =>
+                {
+                    parse_duration_seconds(&format!("{value}{unit}"))?
+                }
+                _ => return Err(usage("wait <n><s|min|h>")),
+            };
+            Operator::Wait { seconds }
         }
         "ignite" => Operator::Ignite {
             vessel: parse_vessel(words.get(1).ok_or_else(|| usage("ignite <vessel>"))?)?,
