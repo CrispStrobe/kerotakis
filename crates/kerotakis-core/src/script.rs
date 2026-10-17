@@ -611,6 +611,19 @@ fn canonical_ingredient_line(line: &str) -> Option<String> {
     Some(rewritten.join(" "))
 }
 
+/// A comment starts at a token boundary. Embedded hashes (SMILES C#N,
+/// for example) remain part of the argument, including session commands.
+fn without_inline_comment(line: &str) -> &str {
+    let mut follows_space = true;
+    for (index, character) in line.char_indices() {
+        if character == '#' && follows_space {
+            return &line[..index];
+        }
+        follows_space = character.is_whitespace();
+    }
+    line
+}
+
 /// Parse one line typed in `locale`.
 ///
 /// The alias rewrite is tried first and the raw line second, so an alias
@@ -618,6 +631,7 @@ fn canonical_ingredient_line(line: &str) -> Option<String> {
 /// is dropped when the index is built, and if a rewritten line does not
 /// parse the untouched one still gets its turn.
 pub fn parse_command(line: &str, locale: Locale) -> Result<Command, ParseError> {
+    let line = without_inline_comment(line);
     let translated = canonical_line_in(line, locale);
     let candidate = translated.as_deref().unwrap_or(line);
     let ingredient = canonical_ingredient_line(candidate);
@@ -1019,6 +1033,7 @@ pub struct ParseError {
 }
 
 pub fn parse_op_typed(line: &str) -> Result<Option<Operator>, ParseError> {
+    let line = without_inline_comment(line);
     let ingredient = canonical_ingredient_line(line);
     let line = ingredient.as_deref().unwrap_or(line);
     let words = line.split_whitespace().collect::<Vec<_>>();
@@ -1066,6 +1081,20 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
         return Ok(None);
     }
     let words: Vec<&str> = line.split_whitespace().collect();
+    // Fixed-arity commands must consume the whole line. A valid prefix is
+    // not a valid command when extra instructions would be silently ignored.
+    let max_words = match words[0] {
+        "new" | "ignite" | "open" | "look" | "observe" | "smell" | "waft" | "particles"
+        | "zoom" | "chromatograph" => Some(2),
+        "wait" | "react" | "stock" | "cool" | "filter" | "magnet" | "evaporate" | "drain"
+        | "measure" | "test" | "cell" | "voltmeter" | "dilute" => Some(3),
+        "decant" | "electrolyse" | "electrolyze" | "grind" | "irradiate" => Some(4),
+        "centrifuge" => Some(6),
+        _ => None,
+    };
+    if max_words.is_some_and(|max| words.len() > max) {
+        return Err(usage(format!("{}: unexpected trailing words", words[0])));
+    }
     let op = match words[0] {
         // Session commands: they ask the SHELL something, not the bench,
         // so they are not operators and never enter the log. `particles`
@@ -1152,6 +1181,9 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
             // EXP-49: El-A notation with a curated nuclide entry routes
             // to the tracer ledger, not the chemical registry.
             if !words[2].contains('@') && crate::nuclide::lookup_notation(words[2]).is_some() {
+                if words.len() != 4 {
+                    return Err(usage("add <vessel> <nuclide> <amount>mol"));
+                }
                 let amount = words[3];
                 let moles = amount
                     .strip_suffix("mol")
@@ -1226,12 +1258,19 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                 // meaning exactly: the bench default, a laboratory burner.
                 // `heat v1 40kJ on candle` (or `mit Kerze`) names one, and
                 // what a named source changes is how hot it can get.
-                let named = words.iter().skip(3).find(|word| {
-                    !matches!(
-                        word.to_ascii_lowercase().as_str(),
-                        "on" | "with" | "auf" | "mit" | "über" | "ueber"
-                    )
-                });
+                let named = match &words[3..] {
+                    [] => None,
+                    [source] => Some(source),
+                    [preposition, source]
+                        if matches!(
+                            preposition.to_ascii_lowercase().as_str(),
+                            "on" | "with" | "auf" | "mit" | "über" | "ueber"
+                        ) =>
+                    {
+                        Some(source)
+                    }
+                    _ => return Err(usage("heat <vessel> <energy><J|kJ> [on <source>]")),
+                };
                 let source = match named {
                     Some(word) => {
                         Some(crate::apparatus::HeatSource::by_name(word).ok_or_else(|| {
@@ -1255,10 +1294,28 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
         }
         "wait" => {
             // `wait 30s` — the clock the rate experiments need.
-            let raw = words.get(1).ok_or_else(|| usage("wait <n><s|min|h>"))?;
-            Operator::Wait {
-                seconds: parse_duration_seconds(raw)?,
-            }
+            let seconds = match &words[1..] {
+                [raw] => parse_duration_seconds(raw)?,
+                [value, unit]
+                    if value.parse::<f64>().is_ok()
+                        && matches!(
+                            unit.to_ascii_lowercase().as_str(),
+                            "s" | "sec"
+                                | "secs"
+                                | "seconds"
+                                | "min"
+                                | "mins"
+                                | "minutes"
+                                | "h"
+                                | "hr"
+                                | "hours"
+                        ) =>
+                {
+                    parse_duration_seconds(&format!("{value}{unit}"))?
+                }
+                _ => return Err(usage("wait <n><s|min|h>")),
+            };
+            Operator::Wait { seconds }
         }
         "ignite" => Operator::Ignite {
             vessel: parse_vessel(words.get(1).ok_or_else(|| usage("ignite <vessel>"))?)?,
@@ -1448,13 +1505,13 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                 })?;
                 (Some(f), None)
             };
-            let stages = match (words.get(4), words.get(5)) {
-                (Some(&"stages"), Some(n)) => n.parse().map_err(|_| {
+            let stages = match &words[4..] {
+                ["stages", n] => n.parse().map_err(|_| {
                     Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
                         .with("what", "stage count")
                         .with("raw", n)
                 })?,
-                (None, _) => 1,
+                [] => 1,
                 _ => {
                     return Err(Refusal::new(
                         "error.distil-only-stages-may-follow",
@@ -1742,13 +1799,13 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
 ).with("word", other))
                 }
             };
-            let max_steps = match (tail.first(), tail.get(1)) {
-                (Some(&"max"), Some(n)) => n.parse().map_err(|_| {
+            let max_steps = match tail {
+                ["max", n] => n.parse().map_err(|_| {
                     Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
                         .with("what", "max step count")
                         .with("raw", n)
                 })?,
-                (None, _) => 100,
+                [] => 100,
                 _ => {
                     return Err(Refusal::new(
                         "error.titrate-only-max-may-follow",
@@ -1768,7 +1825,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
         }
         "mix" => {
             // mix v1 0.5 v2 0.5 into v3
-            if words.len() < 7 {
+            if words.len() != 7 {
                 return Err(usage(
                     "mix <vessel-a> <frac-a> <vessel-b> <frac-b> into <target>",
                 ));
@@ -1846,23 +1903,27 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                         .with("what", "step count")
                         .with("raw", words.get(steps_pos + 1).unwrap_or(&""))
                 })?;
-            let courant_pos = words.iter().position(|&w| w == "courant");
-            let courant: f64 = match courant_pos {
-                Some(cp) => words
-                    .get(cp + 1)
-                    .ok_or_else(|| {
-                        Refusal::new(
-                            "error.transport-expected-courant",
-                            "expected Courant fraction after 'courant'",
-                        )
-                    })?
-                    .parse()
-                    .map_err(|_| {
-                        Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
-                            .with("what", "Courant fraction")
-                            .with("raw", words.get(cp + 1).unwrap_or(&""))
-                    })?,
-                None => 1.0,
+            if to_pos != from_pos + 2 || steps_pos != to_pos + 2 {
+                return Err(usage(
+                    "transport <v1> [v2 ...] from <inlet> to <receiver> steps <n> [courant <f>]",
+                ));
+            }
+            let courant: f64 = match &words[steps_pos + 2..] {
+                [] => 1.0,
+                ["courant", value] => value.parse().map_err(|_| {
+                    Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
+                        .with("what", "Courant fraction")
+                        .with("raw", value)
+                })?,
+                ["courant"] => {
+                    return Err(Refusal::new(
+                        "error.transport-expected-courant",
+                        "expected Courant fraction after 'courant'",
+                    ))
+                }
+                _ => return Err(usage(
+                    "transport <v1> [v2 ...] from <inlet> to <receiver> steps <n> [courant <f>]",
+                )),
             };
             Operator::Transport {
                 chain,

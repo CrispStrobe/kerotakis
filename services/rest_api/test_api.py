@@ -120,6 +120,26 @@ class ApiTests(unittest.TestCase):
         self.assertLessEqual(set(re.findall(r'"([^"\n]+)"', sessions)),
                              api.VERBS | api.UNAVAILABLE_SESSION_WORDS)
 
+    def test_spaced_wait_units_and_comments_preserve_duration_budgets(self):
+        for script in ("wait 60 seconds", "wait 43200 minutes", "wait 720 hours",
+                       "wait 720 hours\n" * 3,
+                       "# lesson\nwait 2 min # " + "note " * 40,
+                       "inspect v1 # inspection"):
+            with self.subTest(script=script):
+                api.validate_script(script)
+        refused = ("wait 43201 minutes", "wait 721 hours",
+                   "wait 720 hours\n" * 3 + "wait 1 seconds",
+                   "wait 720 hours # wait 0\n" * 3 + "wait 1 seconds",
+                   "wait 60s min", "wait 60 seconds extra", "wait 60 61s",
+                   "wait 60 seconds#notacomment", "wait 60s#notacomment",
+                   "wait 1e309 seconds", "wait -1 seconds", "# only comment")
+        with patch.object(api, "run_engine", new_callable=AsyncMock) as engine:
+            for script in refused:
+                with self.subTest(script=script):
+                    response = self.client.post("/run", headers=AUTH, json={"script": script})
+                    self.assertEqual(response.status_code, 422)
+            engine.assert_not_called()
+
     def test_multiword_identity_aliases_do_not_shift_loop_accounting(self):
         source = Path("crates/kerotakis-core/src/species.rs").read_text()
         section = source.split("const INPUT_ALIASES:", 1)[1].split("];", 1)[0]

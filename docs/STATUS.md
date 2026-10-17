@@ -43,6 +43,12 @@ oxalate protocols via the [separate receipt](https://github.com/CrispStrobe/kero
 The analytical oxalate control stays excluded; no missing original identity,
 empirical rate or heat calibration is claimed closed.
 
+A separate parser repair rejects ignored trailing tokens across fixed-arity
+operations and optional heating, titration, distillation, MIX and transport forms.
+Every documented verb has a complete-consumption regression, with valid optional
+forms and comments retained. Exact-head parser, REST and full-fleet acceptance
+remain pending. This is a syntax boundary repair, not new chemistry coverage.
+
 ## Integrated behavior
 
 | Front | Accepted integration and remaining scope |
