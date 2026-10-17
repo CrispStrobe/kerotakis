@@ -1,0 +1,79 @@
+{
+  "status": "FAIL",
+  "execution": {
+    "engine": {
+      "source_head": "3fdc1e017bb565b17c9f35a002a1d5c24ddcf317",
+      "source_tree": "8f44bc3e042786ca45c63364606c5118ba04807b",
+      "binary_sha256": "d1817345e0d89c32980fb2359ca543f8c81d3c419a98c158e8ca350514370aba",
+      "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+    },
+    "status": "completed",
+    "exit_code": 0,
+    "script_sha256": "b00995ccf47640260e729883fb07de817fe38cea692ece09682295910bab0adc",
+    "stdout_sha256": "f68cebcbc0d8b5d9a800c0e2e0967559ca033f17b8c8e1e84f221b4c01791ae0",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "observations": 9,
+    "elapsed_seconds": 0.2106395980000002,
+    "resource_usage": {
+      "user_cpu_seconds": 0.14954699999999999,
+      "system_cpu_seconds": 0.026841,
+      "max_rss_kib": 40728
+    },
+    "attempts": 1,
+    "physical_verdict": "not_assigned"
+  },
+  "original_first_results_unchanged": true,
+  "states": [
+    {
+      "elapsed_s": 0.0,
+      "ph": 9.332261488885,
+      "temperature_K": 298.15,
+      "FeOH2_mol": 0.009875323796001,
+      "FeOH3_mol": 0,
+      "Fe2_mol": 1.7919231666392964e-05,
+      "Fe3_mol": 0.0001067569723325092,
+      "water_mol": 5.534276991396058,
+      "represented_Fe_mol": 0.009999999999999901
+    },
+    {
+      "elapsed_s": 1.0,
+      "ph": 9.332261488886,
+      "temperature_K": 298.15,
+      "FeOH2_mol": 0.009785135488301,
+      "FeOH3_mol": 0.0002134952144191,
+      "Fe2_mol": 1.9680383572158885e-07,
+      "Fe3_mol": 1.1724934437041392e-06,
+      "water_mol": 5.534066234776199,
+      "represented_Fe_mol": 0.009999999999999527
+    },
+    {
+      "elapsed_s": 2.0,
+      "ph": 9.332261488886,
+      "temperature_K": 298.15,
+      "FeOH2_mol": 0.009677216645027,
+      "FeOH3_mol": 0.0003214141098398,
+      "Fe2_mol": 1.7838961927809113e-07,
+      "Fe3_mol": 1.1908555100351505e-06,
+      "water_mol": 5.533958315776484,
+      "represented_Fe_mol": 0.009999999999996113
+    }
+  ],
+  "comparisons": [
+    [
+      "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice pH 9.332 \u00b7 I = 0.0000 m \u00b7 Fe(OH)2 0.0097 mol \u00b7 Fe(OH)3(a) 0.0003 mol",
+      "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice pH 9.336 \u00b7 I = 0.0000 m \u00b7 Fe(OH)2 0.0097 mol \u00b7 Ferrihydrite 0.0003 mol"
+    ],
+    [
+      "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice pH 9.332 \u00b7 I = 0.0000 m \u00b7 Fe(OH)2 0.0096 mol \u00b7 Fe(OH)3(a) 0.0004 mol",
+      "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice pH 9.336 \u00b7 I = 0.0000 m \u00b7 Fe(OH)2 0.0096 mol \u00b7 Ferrihydrite 0.0004 mol"
+    ]
+  ],
+  "retained_solid_precondition_met": true,
+  "max_FeOH2_difference_mol": 0.0001981071509740001,
+  "max_ph_difference": 9.983125437429408e-13,
+  "represented_iron_max_residual_mol": 3.887515309664025e-15,
+  "interpretation": "Wholesale solid loss repaired but frozen equilibrium invariance fails. New oxidation-state drift/phase allocation persists. Do not merge or mark scientific pass. Source-level pinning omits supplied phase redox inventory; raw native PHREEQC inputs not independently captured.",
+  "raw_stdout_sha256": "f68cebcbc0d8b5d9a800c0e2e0967559ca033f17b8c8e1e84f221b4c01791ae0",
+  "runtime_qualification": "One native invocation in bounded network-denied VM; SDK destroy returned, no independent deletion attestation. Not REST/deployment acceptance.",
+  "runtime_metadata_qualification": "Raw manifest inherits build_image/rustc/target metadata from the base snapshot. These fields are not attested as producer build metadata. Binary/lock bytes, source merge tree and the five replacement Ubuntu runtime library hashes are independently bound; the binary came from the authenticated Ubuntu Actions artifact."
+}

@@ -1,0 +1,68 @@
+{
+  "snapshot_receipt_sha256": "d2ee619542b36309db044e0b346517aed7941e491ecc7cd3fefaeece1a4f371e",
+  "supervisor_sha256": "299e61560ed46b465b666a276a78a3664e6d1dbed1e681382544419e1b2cab70",
+  "sandbox_sha256": "4e4425da74b0b451c3ee6f51204db7bae395c3d6538cea81afe0fc207f355ef7",
+  "runtime_libraries_sha256": {
+    "ld-linux-x86-64.so.2": "cd4df4f3c7b83673d61189bf2eaebd33ca4f2853ab9772b8a25e025ef99b1e81",
+    "libstdc++.so.6": "1fd75fe70354a416d75aef22bcae68c47bd25d20e2d0568c30b1a9838cf62f11",
+    "libgcc_s.so.1": "d93224d2b0dab4247598be683adca02f5cf00586f99c187579cd7e92058fb7cb",
+    "libm.so.6": "e9c4b28d340e415b8137480ec442662f981e1399386c5931dae0e886e3639e91",
+    "libc.so.6": "8db37cf3f2169f59a0f07ef1fea308c35656668c64c8ff294e1860f4121eb161"
+  },
+  "snapshot_runtime_libraries_sha256": {
+    "ld-linux-x86-64.so.2": "5022436ff15df9e54e79ee0a0ca8b3422a0dcb0c11920d9901ded30eccbf8638",
+    "libc.so.6": "fdf84d7d72db18bb3996a7b24f3eb473e7efbc8f994af7b159f76d61d1b4c978",
+    "libgcc_s.so.1": "9460b5f230d3f66554ec259e8e0890b0946dfde7cc83f95d1ac8d4dca3d3f9bb",
+    "libm.so.6": "f7cb1097b97353d994fe191e5fafc81f0171935792311a157c3082213fc704e0",
+    "libstdc++.so.6": "846b43f9f1429cc67ae7ffd24f4ccdd7a17d652765aaf3e6f9d2ca54178b369d"
+  },
+  "isolation": {
+    "network": "deny-all",
+    "environment": {},
+    "vcpus": 1,
+    "memory_mib": 2048,
+    "cpu_seconds": 12,
+    "wall_seconds": 18,
+    "credentials_enter_vm": false,
+    "production_snapshot_modified": false
+  },
+  "frozen_utc": "2026-10-17T04:02:07.437761+00:00",
+  "pr": 822,
+  "reviewed_pr_head": "aa08be0fa2c46bcb945063c6dd4cd85a762ad7f9",
+  "producer_run": 38998918633,
+  "tested_merge_commit": "3fdc1e017bb565b17c9f35a002a1d5c24ddcf317",
+  "actual_merge_parents": [
+    "6874e9cfcfcbcf7d66d1bd3a5b73081cebae678c",
+    "aa08be0fa2c46bcb945063c6dd4cd85a762ad7f9"
+  ],
+  "actual_merge_tree": "8f44bc3e042786ca45c63364606c5118ba04807b",
+  "engine": {
+    "source_head": "3fdc1e017bb565b17c9f35a002a1d5c24ddcf317",
+    "source_tree": "8f44bc3e042786ca45c63364606c5118ba04807b",
+    "binary_sha256": "d1817345e0d89c32980fb2359ca543f8c81d3c419a98c158e8ca350514370aba",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "script": "register lv3\nadd v1 water 100mL\nadd v1 Fe(OH)2 0.01mol\ninspect v1\nwait 1s\ninspect v1\nexplain v1\nwait 1s\ninspect v1\nexplain v1\n",
+  "script_sha256": "b00995ccf47640260e729883fb07de817fe38cea692ece09682295910bab0adc",
+  "original_design_sha256": "0d7cb5cfae2c6118213d90d8b9bf1f042dbae2cb777dfc78eceff2c1696a0c06",
+  "original_forecasts_unchanged": {
+    "equilibrium_invariance": "At unchanged temperature, boundary and supplied inventory, waits should not erase/recreate a substantial hydroxide solid through role admission alone. Preserve finite gas exchange and actual chemistry if any; attribute no observed change before examining all event and inventory ledgers.",
+    "source_suspected_failure": "A zero-inventory reviewed foreign FeOH2 candidate is admitted on one solve; on the next solve its positive non-native initial inventory is freed into dissolved totals before reviewed foreign admission. Substantial phase allocation may alternate. This is a prediction, not observed evidence.",
+    "comparison_precondition": "Only if inspect immediately before explain contains positive live FeOH2 solid does that explain qualify as a runtime supplied-solid comparison control. Historical lots do not satisfy this condition.",
+    "qualification": "No empirical equilibrium/calibration, complete material/energy closure or catalog selection. Original first diagnostic and its inconclusive supplied-solid precondition remain immutable."
+  },
+  "repair_acceptance": {
+    "positive_solid_after_dose_and_both_waits_min_mol": 0.005,
+    "solid_between_unchanged_waits_max_difference_mol": 1e-08,
+    "ph_between_unchanged_waits_max_difference": 1e-05,
+    "represented_iron_each_state_expected_mol": 0.01,
+    "represented_iron_max_difference_mol": 1e-10,
+    "same_dataset_explain_inspect_ph_max_difference_including_display_rounding": 0.00051,
+    "solver_failed_events": 0
+  },
+  "runner_sha256": "7e4be7d1ce2980745221f836ca2ddfb3f8619f1cfb358ed94c23b13462dfa9f2",
+  "execution_policy": "One unchanged wait-cycle script invocation on new exact-source binary in existing bounded disposable microVM policy. No retry after issued marker. No production mutation or unchanged corpus rerun.",
+  "qualification": "Native CLI replay, not REST gateway/deployment acceptance. Invariance and represented iron are not full H/O/charge/energy closure or empirical solubility calibration.",
+  "previous_setup_design_sha256": "0e0ccb750449f241d483fc86e27b342956dfac8b6fbefded7d97e13bdd87c0b7",
+  "harness_context_correction": "First setup failed resolving parent SDK credentials before VM creation or issued marker. Load project/team metadata from the existing linked project as well as the existing token; engine/script/runtime/budget/forecasts unchanged."
+}

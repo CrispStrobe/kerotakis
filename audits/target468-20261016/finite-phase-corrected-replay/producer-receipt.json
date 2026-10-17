@@ -1,0 +1,19 @@
+{
+  "head": "e2a4ff7054041c21adaaf90435d1a4363362fac6",
+  "producer_run": 39001207751,
+  "producer_merge": "1a3bd1e25e14ee314c168b24eeb8c930523fbf0b",
+  "parents": [
+    "6874e9cfcfcbcf7d66d1bd3a5b73081cebae678c",
+    "e2a4ff7054041c21adaaf90435d1a4363362fac6"
+  ],
+  "tree": "a181723db4ef5653954cb4df2a988735f4b0b0ae",
+  "tree_matches": true,
+  "archive_sha256": "f5bc7c4a961d2ddf2ce01b1bc5dbf5c56f321136ceaba55856c14e8344084ca6",
+  "files": {
+    "target/release/kero": "3e3865917876ee28067407f6a73c7e7fad8d789d8b29fc757689bd2ea2ca0516",
+    "binary-sha256.txt": "089449a0b68aed039ef2be1aeb4b63ebc718896280516eccf9e5710e106c5f28",
+    "Cargo.lock": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+    "submodules.txt": "dae123bd185b0dff0f0d7176cb509940c4f7f68da6087ad6e6ab003543dbdd47"
+  },
+  "lock_qualification": "Actual producer bytes, not a tracked source lock"
+}

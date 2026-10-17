@@ -1,0 +1,12 @@
+{
+  "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "assessment.json": "67765bafbc0ec491d09ea1ede627c3bf289614dfa9103d080ed57baf6de02764",
+  "issued.json": "66e3f00df0f1d55acb76e06afbc587165cd36152476e49055ecce6a571aedaa2",
+  "manifest.json": "f1f660684b9dc5b8c21d67a2bb7ba5989607544dbb266033f74b272c6fc9b7d5",
+  "execution.json": "319728ab6fb94fb1a73204336cf25e5f0c91ed843d2e35b1368b1d45474378fe",
+  "README.md": "cb790037898867581c98e6efd60834d4861f802dbdacd9f3612ad0f7144cb39e",
+  "stdout.jsonl": "f68cebcbc0d8b5d9a800c0e2e0967559ca033f17b8c8e1e84f221b4c01791ae0",
+  "frozen-design.json": "add78c3d01b914ef5362c6aba3584ef6f78b5a4f34482901a0bcc69ef98d14c6",
+  "supervisor-process.json": "1e3f6691f455051e8adb15d961e4bf3c7a17e83dd88b2afdd13315cc288250bb",
+  "destroy-returned.json": "40ffb4bf54600dd3e371b8aa7b97a5dc9b60df3633f99fcf8079daddf4c8b2e4"
+}

@@ -1,5 +1,10 @@
 # Ordered improvement agenda — 2026-10-14
 
+Current executable scope and delivery prerequisites are in the
+[fresh-agent handover](next-agent-handoff.md). Steps1–3 below are historical
+completed work; do not repeat them. Finish pending PR822–825 acceptance before
+new model work. The handover scopes remaining step4 work and queued steps5–6.
+
 The user authorized all six steps below in this order. Steps 1–3 are complete;
 step 4 is active and steps 5–6 are queued. This agenda orders the current fresh-experiment gap work;
 the annotation and other queued lanes in the [earlier roadmap](ordered-work-roadmap-20261013.md)
