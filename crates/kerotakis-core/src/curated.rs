@@ -775,7 +775,9 @@ fn available_dissolved(vessel: &Vessel, key: &str, solvent: &str) -> f64 {
         let room = (limit_mol - liquid).max(0.0);
         liquid + solid.min(room)
     } else {
-        liquid + solid
+        // No supported cap is not evidence of unlimited solid solubility.
+        // Only inventory already represented in solution is available.
+        liquid
     }
 }
 
@@ -828,7 +830,11 @@ impl Equilibrator for CuratedEquilibrator {
     }
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
-        let mut events = Vec::new();
+        // Capture support limits before a reaction consumes its final reagent.
+        // The later nonaqueous pass cannot recover a fully consumed identity.
+        let mut events = crate::nonaqueous::single_organic_solvent(vessel)
+            .map(|solvent| crate::nonaqueous::solubility_boundaries(vessel, solvent))
+            .unwrap_or_default();
         // Solvent-gated reactions fire at most once per equilibration:
         // the dissolved fraction reacts, and that is all until the next
         // step re-equilibrates (Le Chatelier pull from the solid is a
@@ -908,5 +914,22 @@ impl Equilibrator for CuratedEquilibrator {
             refresh_solute_charge(vessel);
         }
         Ok(events)
+    }
+}
+
+#[cfg(test)]
+mod organic_availability_tests {
+    use super::*;
+    use crate::VesselId;
+
+    #[test]
+    fn unknown_organic_solubility_never_promotes_solid_to_solution() {
+        let mut vessel = Vessel::new(VesselId(0), "unknown solubility");
+        vessel.deposit(SpeciesId::new("ethanol"), Moles(1.0), Phase::Liquid);
+        vessel.deposit(SpeciesId::new("NaNO3"), Moles(0.5), Phase::Solid);
+        assert_eq!(available_dissolved(&vessel, "NaNO3", "ethanol"), 0.0);
+        vessel.deposit(SpeciesId::new("NaNO3"), Moles(0.25), Phase::Liquid);
+        assert_eq!(available_dissolved(&vessel, "NaNO3", "ethanol"), 0.25);
+        assert_eq!(vessel.moles_of(&SpeciesId::new("NaNO3")).0, 0.75);
     }
 }

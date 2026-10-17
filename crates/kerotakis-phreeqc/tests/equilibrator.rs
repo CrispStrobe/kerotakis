@@ -235,12 +235,36 @@ fn ethanol_bench_answers_with_the_curated_verdict() {
         )),
         "salt in ethanol gets the handbook verdict, got {events:?}"
     );
-    assert!(
-        !events
-            .iter()
-            .any(|e| matches!(e, Event::NotYetModeled { .. })),
-        "an answered pair must not also apologise, got {events:?}"
-    );
+    // Legacy amounts remain regression controls; withdrawn support must be
+    // disclosed for exactly these pairs, without unrelated model-gap claims.
+    let warned: std::collections::BTreeSet<_> = events
+        .iter()
+        .filter_map(|event| {
+            let Event::NotYetModeled {
+                vessel,
+                cause,
+                reason,
+                ..
+            } = event
+            else {
+                return None;
+            };
+            assert_eq!(*vessel, VesselId(0));
+            assert!(matches!(
+                cause,
+                kerotakis_core::ops::NotModelledCause::ModelBoundary
+            ));
+            let reason = reason.as_ref().expect("structured provenance boundary");
+            assert_eq!(reason.key, "not-modeled.withdrawn-organic-solubility");
+            assert_eq!(reason.text_slot("solvent"), Some("ethanol"));
+            Some(
+                reason
+                    .text_slot("solute")
+                    .expect("affected solute identity"),
+            )
+        })
+        .collect();
+    assert_eq!(warned, std::collections::BTreeSet::from(["NaCl"]));
     assert!(
         bench.vessel(v).unwrap().solution.is_none(),
         "no aqueous solution is claimed for an organic phase"
