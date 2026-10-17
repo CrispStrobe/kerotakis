@@ -67,6 +67,13 @@ includes phase oxidation states in pinning/admission without adding their matter
 to solution totals. Corrected-head acceptance remains pending; the first failed
 response and original forecasts stay immutable.
 
+[PR825](https://github.com/CrispStrobe/kerotakis/pull/825) rejects non-finite parsed
+operator quantities and scaled unit-conversion overflow, including public
+quantity readers. Normal/large-finite JSON round trips retain controls; native,
+REST and full-fleet acceptance remain pending. PR823's four new MIX groups and
+existing positive control now have [verified Linux/macOS results](../audits/target468-20261016/mix-boundary-native-results.json),
+with remaining fleet/integration gates still open.
+
 ## Integrated behavior
 
 | Front | Accepted integration and remaining scope |

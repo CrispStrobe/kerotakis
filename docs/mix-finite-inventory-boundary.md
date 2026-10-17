@@ -12,6 +12,13 @@ equilibrium. This preserves the solution-only MIX optimization and avoids
 representing omitted inventory as a successful native mixture. It does not add
 a multiphase MIX model or change transfer fractions and physical entrainment.
 
+## Native regression results
+
+The [verified native logs](../audits/target468-20261016/mix-boundary-native-results.json)
+show the four new boundary/fallback groups and existing solution-only MIX
+control passed on both Linux and macOS for reviewed head `4730f7e6`. Remaining
+CI and full own-fleet acceptance are still required before integration.
+
 ## Required acceptance
 
 Native tests must verify every source/target position declines without an engine
