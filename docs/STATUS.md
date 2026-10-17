@@ -24,9 +24,9 @@ PR814–817 are integrated. PR816 merged as `238b5dc3` and PR817 as
 and [PR817 receipts](../audits/target468-20261016/accepted-pr-integration/pr817-integration.json)
 verify the actual merge trees. The [PR820 documentation checkpoint](../audits/target468-20261016/accepted-pr-integration/pr820-integration.json)
 also integrated. Production remainsc446; delivery of the accepted full frontend/native
-snapshot is a separate pending lane. PR819's reviewed `0d61f582` passed normalCI;
-its full own fleet remains the integration gate at this checkpoint. The existing
-watcher will request normal exact-head auto-merge only after that gate passes.
+snapshot is a separate pending lane. PR819's reviewed `0d61f582` passed normal CI and the full own fleet, then
+merged as `6874e9cf`. Its [integration receipt](../audits/target468-20261016/accepted-pr-integration/pr819-integration.json)
+verifies the actual parents and reconstructed merge tree.
 [PR809](https://github.com/CrispStrobe/kerotakis/pull/809) is integrated as
 `fa5a75fa` after independent unchanged-CLI acceptance; its actual merge tree is verified.
 The [separate AB029 selection](../audits/new-experiments-201-20261016/native-screen-results/ab029-source-review/catalog-selection.json) adds one
