@@ -53,6 +53,13 @@ Their [phase repair](finite-solid-inventory-repair.md) and
 remaining domains and exact-head CI/full-fleet gates. Neither is integrated,
 deployed or counted as a new scientific pass at this checkpoint.
 
+[PR824](https://github.com/CrispStrobe/kerotakis/pull/824) separately repairs ignored
+trailing tokens across fixed-arity commands and optional heat, distillation,
+titration, MIX and transport forms. A regression covers every documented verb,
+with valid optional syntax and comments checked separately. Native parser,
+REST and full-fleet acceptance remain pending; syntax repair adds no chemistry
+coverage or working-catalog selections.
+
 ## Integrated behavior
 
 | Front | Accepted integration and remaining scope |
