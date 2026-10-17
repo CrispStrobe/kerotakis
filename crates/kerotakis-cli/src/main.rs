@@ -1739,6 +1739,19 @@ fn explain_text(
                             )
                             .unwrap()
                         }
+                        kerotakis_phreeqc::PathOutcome::CannotExpressPhases { missing_phases } => {
+                            writeln!(
+                                out,
+                                "    {:<14} {}",
+                                dataset,
+                                locale.fill(
+                                    "explain.missing-supplied-phases",
+                                    "cannot compare this inventory (no admitted model for supplied solid phases: {phases})",
+                                    &[("phases", &missing_phases.join(", "))],
+                                )
+                            )
+                            .unwrap()
+                        }
                         kerotakis_phreeqc::PathOutcome::Failed { detail } => {
                             let short: String = detail.lines().next().unwrap_or("").into();
                             writeln!(out, "    {:<14} could not solve it: {short}", dataset)
