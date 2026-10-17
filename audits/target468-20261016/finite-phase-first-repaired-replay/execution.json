@@ -1,0 +1,22 @@
+{
+  "engine": {
+    "source_head": "3fdc1e017bb565b17c9f35a002a1d5c24ddcf317",
+    "source_tree": "8f44bc3e042786ca45c63364606c5118ba04807b",
+    "binary_sha256": "d1817345e0d89c32980fb2359ca543f8c81d3c419a98c158e8ca350514370aba",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "status": "completed",
+  "exit_code": 0,
+  "script_sha256": "b00995ccf47640260e729883fb07de817fe38cea692ece09682295910bab0adc",
+  "stdout_sha256": "f68cebcbc0d8b5d9a800c0e2e0967559ca033f17b8c8e1e84f221b4c01791ae0",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "observations": 9,
+  "elapsed_seconds": 0.2106395980000002,
+  "resource_usage": {
+    "user_cpu_seconds": 0.14954699999999999,
+    "system_cpu_seconds": 0.026841,
+    "max_rss_kib": 40728
+  },
+  "attempts": 1,
+  "physical_verdict": "not_assigned"
+}

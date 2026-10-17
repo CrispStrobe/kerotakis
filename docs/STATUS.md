@@ -60,6 +60,13 @@ with valid optional syntax and comments checked separately. Native parser,
 REST and full-fleet acceptance remain pending; syntax repair adds no chemistry
 coverage or working-catalog selections.
 
+The [first repaired finite-solid replay](../audits/target468-20261016/finite-phase-first-repaired-replay/README.md)
+failed its unchanged invariance criteria despite completed execution and retained
+bulk solid: ferric inventory appeared and phase allocation drifted. PR822 now
+includes phase oxidation states in pinning/admission without adding their matter
+to solution totals. Corrected-head acceptance remains pending; the first failed
+response and original forecasts stay immutable.
+
 ## Integrated behavior
 
 | Front | Accepted integration and remaining scope |
