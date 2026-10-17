@@ -76,8 +76,9 @@ closes the old404 publication gap without claiming a new browser execution.
 3. **Repair protocols and underlying chemistry independently.** Use the
    [lane contract](reaction-repair-lane-contract.md) and
    [model intake](https://github.com/CrispStrobe/kerotakis/blob/fd9826734cd56eb0d31f4e3a4017b815add1345b/audits/reaction-dataset-200-20261015/model-issues-20261016/index.json).
-   The protocol lane owns procedures, syntax and proven aliases; Hermes owns
-   model repairs and PR805 acceptance. All process outcomes remain separate
+   The protocol lane owns procedures, syntax and proven aliases; the model lane
+   owns underlying chemistry repairs. PR805 acceptance is complete. Any delegated
+   implementation requires independent review of code and observed results. All process outcomes remain separate
    from scientific verdicts. Freeze source-bound follow-ups before execution.
    The [201 new designs](https://github.com/CrispStrobe/kerotakis/blob/fd9826734cd56eb0d31f4e3a4017b815add1345b/audits/new-experiments-201-20261016/README.md) have
    separate originals, four proposed procedure corrections and acceptance lanes.
