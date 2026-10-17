@@ -1,5 +1,10 @@
 # Independent reaction-repair lanes
 
+Current scopes and precedence: [fresh-agent handover](next-agent-handoff.md).
+The independent model workers are currently frozen; this ownership contract
+does not authorize launching or thawing an agent. Older lane descriptions below
+remain ownership rules, not evidence that a session is running.
+
 The user authorized two independent lanes on2026-10-16. The protocol agent
 repairs command syntax, explicit procedures and proven naming aliases; the
 independent model agent repairs underlying chemical/physical models. Their

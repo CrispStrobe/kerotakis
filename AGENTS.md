@@ -1,7 +1,10 @@
 # Kerotakis agent instructions
 
 Read [current state](docs/STATUS.md), the [ordered agenda](docs/improvement-agenda-20261014.md)
-and [PR delivery policy](docs/PR-WORKFLOW.md) before choosing work. Explicit user
+and [PR delivery policy](docs/PR-WORKFLOW.md) before choosing work.
+Use [fresh-agent task scopes](docs/next-agent-handoff.md) for current prerequisites
+and acceptance. Read ignored `CLAUDE.local.md` when available; never
+commit its contents. Explicit user
 instructions take priority. Private host details belong only in the private
 operating handoff; keep public documentation to repository/public paths.
 
