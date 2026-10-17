@@ -31,9 +31,10 @@ meet frozen bounded checks and represented material/charge balances; their
 catalog review is separate. Missing original identities, rate and heat
 calibration remain open. Earlier dated counts below preserve historical scope.
 
-A separate parser repair rejects ignored trailing tokens after titration
-`max <n>` and the target of `mix`. Valid endpoint forms, default/explicit limits
-and comments retain controls; exact-head parser, REST and full-fleet acceptance
+A separate parser repair rejects ignored trailing tokens across fixed-arity
+operations and optional heating, titration, distillation, MIX and transport forms.
+Every documented verb has a complete-consumption regression, with valid optional
+forms and comments retained. Exact-head parser, REST and full-fleet acceptance
 remain pending. This is a syntax boundary repair, not new chemistry coverage.
 
 ## Integrated behavior

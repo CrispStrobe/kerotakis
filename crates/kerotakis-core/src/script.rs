@@ -1066,6 +1066,20 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
         return Ok(None);
     }
     let words: Vec<&str> = line.split_whitespace().collect();
+    // Fixed-arity commands must consume the whole line. A valid prefix is
+    // not a valid command when extra instructions would be silently ignored.
+    let max_words = match words[0] {
+        "new" | "wait" | "ignite" | "open" | "look" | "observe" | "smell" | "waft"
+        | "particles" | "zoom" | "chromatograph" => Some(2),
+        "react" | "stock" | "cool" | "filter" | "magnet" | "evaporate" | "drain" | "measure"
+        | "test" | "cell" | "voltmeter" | "dilute" => Some(3),
+        "decant" | "electrolyse" | "electrolyze" | "grind" | "irradiate" => Some(4),
+        "centrifuge" => Some(6),
+        _ => None,
+    };
+    if max_words.is_some_and(|max| words.len() > max) {
+        return Err(usage(format!("{}: unexpected trailing words", words[0])));
+    }
     let op = match words[0] {
         // Session commands: they ask the SHELL something, not the bench,
         // so they are not operators and never enter the log. `particles`
@@ -1152,6 +1166,9 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
             // EXP-49: El-A notation with a curated nuclide entry routes
             // to the tracer ledger, not the chemical registry.
             if !words[2].contains('@') && crate::nuclide::lookup_notation(words[2]).is_some() {
+                if words.len() != 4 {
+                    return Err(usage("add <vessel> <nuclide> <amount>mol"));
+                }
                 let amount = words[3];
                 let moles = amount
                     .strip_suffix("mol")
@@ -1226,12 +1243,19 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                 // meaning exactly: the bench default, a laboratory burner.
                 // `heat v1 40kJ on candle` (or `mit Kerze`) names one, and
                 // what a named source changes is how hot it can get.
-                let named = words.iter().skip(3).find(|word| {
-                    !matches!(
-                        word.to_ascii_lowercase().as_str(),
-                        "on" | "with" | "auf" | "mit" | "über" | "ueber"
-                    )
-                });
+                let named = match &words[3..] {
+                    [] => None,
+                    [source] => Some(source),
+                    [preposition, source]
+                        if matches!(
+                            preposition.to_ascii_lowercase().as_str(),
+                            "on" | "with" | "auf" | "mit" | "über" | "ueber"
+                        ) =>
+                    {
+                        Some(source)
+                    }
+                    _ => return Err(usage("heat <vessel> <energy><J|kJ> [on <source>]")),
+                };
                 let source = match named {
                     Some(word) => {
                         Some(crate::apparatus::HeatSource::by_name(word).ok_or_else(|| {
@@ -1448,13 +1472,13 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                 })?;
                 (Some(f), None)
             };
-            let stages = match (words.get(4), words.get(5)) {
-                (Some(&"stages"), Some(n)) => n.parse().map_err(|_| {
+            let stages = match &words[4..] {
+                ["stages", n] => n.parse().map_err(|_| {
                     Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
                         .with("what", "stage count")
                         .with("raw", n)
                 })?,
-                (None, _) => 1,
+                [] => 1,
                 _ => {
                     return Err(Refusal::new(
                         "error.distil-only-stages-may-follow",
@@ -1846,23 +1870,27 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                         .with("what", "step count")
                         .with("raw", words.get(steps_pos + 1).unwrap_or(&""))
                 })?;
-            let courant_pos = words.iter().position(|&w| w == "courant");
-            let courant: f64 = match courant_pos {
-                Some(cp) => words
-                    .get(cp + 1)
-                    .ok_or_else(|| {
-                        Refusal::new(
-                            "error.transport-expected-courant",
-                            "expected Courant fraction after 'courant'",
-                        )
-                    })?
-                    .parse()
-                    .map_err(|_| {
-                        Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
-                            .with("what", "Courant fraction")
-                            .with("raw", words.get(cp + 1).unwrap_or(&""))
-                    })?,
-                None => 1.0,
+            if to_pos != from_pos + 2 || steps_pos != to_pos + 2 {
+                return Err(usage(
+                    "transport <v1> [v2 ...] from <inlet> to <receiver> steps <n> [courant <f>]",
+                ));
+            }
+            let courant: f64 = match &words[steps_pos + 2..] {
+                [] => 1.0,
+                ["courant", value] => value.parse().map_err(|_| {
+                    Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
+                        .with("what", "Courant fraction")
+                        .with("raw", value)
+                })?,
+                ["courant"] => {
+                    return Err(Refusal::new(
+                        "error.transport-expected-courant",
+                        "expected Courant fraction after 'courant'",
+                    ))
+                }
+                _ => return Err(usage(
+                    "transport <v1> [v2 ...] from <inlet> to <receiver> steps <n> [courant <f>]",
+                )),
             };
             Operator::Transport {
                 chain,

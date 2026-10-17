@@ -63,3 +63,50 @@ fn mix_rejects_trailing_tokens_and_preserves_comment_syntax() {
         );
     }
 }
+
+#[test]
+fn every_documented_operation_rejects_an_unconsumed_tail() {
+    for (verb, example) in kerotakis_core::script::VERBS {
+        assert!(
+            parse_op(example).unwrap().is_some(),
+            "invalid example for {verb}"
+        );
+        let malformed = format!("{example} __unexpected_tail__");
+        assert!(
+            parse_op(&malformed).is_err(),
+            "silently accepted: {malformed}"
+        );
+    }
+}
+
+#[test]
+fn optional_forms_are_consumed_without_losing_valid_syntax() {
+    for valid in [
+        "heat v1 10kJ on candle",
+        "heat v1 10kJ candle",
+        "distil v1 v2 0.5 stages 4",
+        "centrifuge v1 3000rpm 60s 8cm 100g",
+        "transport v1 v2 from v3 to v4 steps 3 courant 0.5",
+    ] {
+        assert!(
+            parse_op(valid).unwrap().is_some(),
+            "valid optional form refused: {valid}"
+        );
+        assert!(
+            parse_op(&format!("{valid} __unexpected_tail__")).is_err(),
+            "silently accepted optional-form tail: {valid}"
+        );
+    }
+    for malformed in [
+        "heat v1 10kJ on",
+        "heat v1 10kJ on candle hotplate",
+        "transport v1 from v2 ignored to v3 steps 3",
+        "transport v1 from v2 to v3 ignored steps 3",
+        "transport v1 from v2 to v3 steps 3 courant 0.5 courant 0.1",
+    ] {
+        assert!(
+            parse_op(malformed).is_err(),
+            "silently accepted: {malformed}"
+        );
+    }
+}
