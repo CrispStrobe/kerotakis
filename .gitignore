@@ -2,7 +2,6 @@
 **/*.rs.bk
 Cargo.lock
 !web/app/src-tauri/Cargo.lock
-!audits/**/validation*/Cargo.lock
 .DS_Store
 .env
 /dist
@@ -13,7 +12,6 @@ __pycache__/
 !/crates/**/vendor/**/*.wasm
 error.inp
 phreeqc.log
-!audits/**/validation*/phreeqc.log
 .claude/worktrees/
 data/registry/registry.pack
 data/dbindex/
@@ -41,3 +39,6 @@ web/app/node_modules
 # accident tools/mutation/mutate.py's recovery guard exists to prevent.
 .mutation-state/
 .mutation-tmp/
+
+# Private operating handoff; never publish host details.
+/CLAUDE.local.md
