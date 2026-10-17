@@ -1,4 +1,4 @@
-# Kerotakis current state — 2026-10-16
+# Kerotakis current state — 2026-10-17
 
 This is the maintained entry point. Follow the [ordered agenda](improvement-agenda-20261014.md),
 [repair-lane contract](reaction-repair-lane-contract.md) and
@@ -73,6 +73,11 @@ quantity readers. Normal/large-finite JSON round trips retain controls; native,
 REST and full-fleet acceptance remain pending. PR823's four new MIX groups and
 existing positive control now have [verified Linux/macOS results](../audits/target468-20261016/mix-boundary-native-results.json),
 with remaining fleet/integration gates still open.
+
+The maintained delivery/results documentation [PR821](../audits/target468-20261016/accepted-pr-integration/pr821-integration.json)
+merged as `12c2478e` after25 successful CI checks and one expected skip. Its
+actual parents/tree match the reviewed candidate. This documentation integration
+does not deploy the pending chemistry/API/frontend snapshot.
 
 ## Integrated behavior
 
