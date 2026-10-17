@@ -31,6 +31,11 @@ meet frozen bounded checks and represented material/charge balances; their
 catalog review is separate. Missing original identities, rate and heat
 calibration remain open. Earlier dated counts below preserve historical scope.
 
+A [finite-solid inventory repair](finite-solid-inventory-repair.md) now addresses
+the separately reproduced ferrous-hydroxide wait cycle and comparison omission.
+Its native regression and full-fleet acceptance remain pending; unsupported
+solid and nitrate-solubility domains remain open. No catalog count changes.
+
 ## Integrated behavior
 
 | Front | Accepted integration and remaining scope |

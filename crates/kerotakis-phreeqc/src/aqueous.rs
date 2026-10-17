@@ -432,6 +432,9 @@ pub enum PathOutcome {
     },
     /// The dataset does not carry the chemistry the question needs.
     CannotExpress { missing_elements: Vec<String> },
+    /// A positive supplied solid cannot be represented on this dataset.
+    /// Removing it would compare a different material inventory.
+    CannotExpressPhases { missing_phases: Vec<String> },
     /// It tried and could not answer — honest, first-class.
     Failed { detail: String },
 }
@@ -1174,8 +1177,17 @@ impl PhreeqcEquilibrator {
                 ));
                 continue;
             }
-            let mut scoped = problem.clone();
-            scoped.phases.retain(|(name, ..)| idx.has_phase(name));
+            let scoped = match comparison_problem(&problem, db_tag) {
+                Ok(scoped) => scoped,
+                Err(missing_phases) => {
+                    out.push(PathResult::new(
+                        db_tag,
+                        idx.activity_model,
+                        PathOutcome::CannotExpressPhases { missing_phases },
+                    ));
+                    continue;
+                }
+            };
             let input = build_input(vessel, &scoped, db_tag);
             let engine = match self.engine_for(db_tag, &input) {
                 Ok(engine) => engine,
@@ -1222,6 +1234,41 @@ impl PhreeqcEquilibrator {
             out.push(PathResult::new(db_tag, idx.activity_model, outcome));
         }
         out
+    }
+}
+
+/// A comparison may omit unavailable zero-inventory precipitation candidates.
+/// Positive supplied solids must use the same reviewed phase admission as the
+/// direct solver, or the dataset must decline to compare this inventory.
+#[cfg(any(feature = "engine", test))]
+fn comparison_problem(problem: &Problem, db_tag: &str) -> Result<Problem, Vec<String>> {
+    let mut scoped = problem.clone();
+    scoped.phases.clear();
+    let mut missing = Vec::new();
+    // Preserve the direct solver's native-only domain for coupled redox and
+    // typed surfaces. Comparison must not introduce an untracked solid pool.
+    let native_only = redox_coupling_totals(&phase_inclusive_totals(problem), db_tag).is_some()
+        || !problem.surfaces.is_empty();
+    for (name, moles, si) in &problem.phases {
+        let admitted = if native_only {
+            derived::index_for(db_tag)
+                .has_phase(name)
+                .then_some(name.as_str())
+        } else {
+            posed_phase(name, db_tag)
+        };
+        if let Some(posed) = admitted {
+            scoped.phases.push((posed.to_string(), *moles, *si));
+        } else if *moles > 0.0 {
+            missing.push(name.clone());
+        }
+    }
+    if missing.is_empty() {
+        Ok(scoped)
+    } else {
+        missing.sort();
+        missing.dedup();
+        Err(missing)
     }
 }
 
@@ -4074,10 +4121,21 @@ impl PhreeqcEquilibrator {
                 *moles = 0.0;
             }
         }
-        let coupled_now = redox_coupling(&problem, db_tag).is_some();
+        let coupled_now =
+            redox_coupling_totals(&phase_inclusive_totals(&problem), db_tag).is_some();
         problem.phases.retain_mut(|(name, moles, _)| {
             if idx.has_phase(name) {
                 return true;
+            }
+            // A reviewed alternate/foreign phase bounds supplied solid just as
+            // it bounds a zero-inventory precipitation candidate. Freeing it
+            // first made successive solves alternate solid and dissolved stock.
+            // Preserve the coupled-redox and typed-surface admission domains.
+            if *moles > 0.0 && !coupled_now && problem.surfaces.is_empty() {
+                if let Some(posed) = posed_phase(name, db_tag).map(str::to_string) {
+                    *name = posed;
+                    return true;
+                }
             }
             if *moles > 0.0 {
                 if let Some(p) = derived::phase_by_name(name) {
@@ -6139,11 +6197,39 @@ fn tagged_state(key: &str) -> Option<i32> {
 /// One element on its own has nothing to react with here, because water's
 /// own redox is deliberately not part of the budget.
 fn redox_coupling(problem: &Problem, db_tag: &str) -> Option<RedoxCoupling> {
+    redox_coupling_totals(&problem.totals, db_tag)
+}
+
+/// Oxidation-state inventory used for admission and pinning, not solution input.
+/// Supplied solids remain in EQUILIBRIUM_PHASES; adding them to SOLUTION would
+/// count their matter twice. Zero-amount precipitation candidates add no stock.
+fn phase_inclusive_totals(problem: &Problem) -> Vec<(String, f64)> {
+    let mut totals = problem.totals.clone();
+    for (name, moles, _) in &problem.phases {
+        if *moles <= 0.0 {
+            continue;
+        }
+        let Some(phase) = derived::phase_by_name(name) else {
+            continue;
+        };
+        for (element, coefficient) in &phase.elements {
+            let amount = coefficient * moles;
+            if let Some((_, existing)) = totals.iter_mut().find(|(key, _)| key == element) {
+                *existing += amount;
+            } else {
+                totals.push((element.clone(), amount));
+            }
+        }
+    }
+    totals
+}
+
+fn redox_coupling_totals(totals: &[(String, f64)], db_tag: &str) -> Option<RedoxCoupling> {
     let idx = derived::index_for(db_tag);
     let mut target = 0.0;
     let mut scale = 0.0;
     let mut coupled: Vec<&str> = Vec::new();
-    for (key, moles) in &problem.totals {
+    for (key, moles) in totals {
         let base = key.split('(').next().unwrap_or(key);
         if !FAST_REDOX.contains(&base) || !idx.redox_elements.contains(base) {
             continue;
@@ -6584,7 +6670,10 @@ fn build_input_at(
     // coupled solve is bisecting pe and must not have its own answer pinned
     // out from under it. See `fast_redox_pin_block`.
     if couple.is_none() {
-        input.push_str(&fast_redox_pin_block(&problem.totals, db_tag));
+        input.push_str(&fast_redox_pin_block(
+            &phase_inclusive_totals(problem),
+            db_tag,
+        ));
     }
     let temp_c = vessel.temperature.to_celsius();
     writeln!(input, "SOLUTION 1").unwrap();
@@ -7380,5 +7469,132 @@ mod finite_gas_temperature_serialization_tests {
                 "T={temperature}: {initialized}"
             );
         }
+    }
+}
+
+#[cfg(test)]
+mod comparison_phase_inventory_tests {
+    use super::*;
+    use kerotakis_core::VesselId;
+
+    fn water_problem() -> Problem {
+        let mut vessel = Vessel::new(VesselId(0), "comparison inventory");
+        vessel.deposit(SpeciesId::new("water"), Moles(5.0), Phase::Liquid);
+        partition(&vessel).expect("liquid water supplies an aqueous problem")
+    }
+
+    #[test]
+    fn unavailable_positive_solids_refuse_instead_of_disappearing() {
+        let mut problem = water_problem();
+        problem.phases = vec![("UnreviewedFiniteSolid".into(), 0.25, 0.0)];
+        assert_eq!(
+            comparison_problem(&problem, "wateq4f")
+                .err()
+                .expect("must refuse"),
+            vec!["UnreviewedFiniteSolid".to_string()]
+        );
+        // Even an amount below narrative reporting floors is supplied matter.
+        problem.phases[0].1 = 1e-15;
+        assert!(comparison_problem(&problem, "wateq4f").is_err());
+    }
+
+    #[test]
+    fn unavailable_zero_inventory_candidates_do_not_refuse_the_comparison() {
+        let mut problem = water_problem();
+        problem.phases = vec![("UnreviewedFiniteSolid".into(), 0.0, 0.0)];
+        let scoped = comparison_problem(&problem, "wateq4f").unwrap();
+        assert!(scoped.phases.is_empty());
+        assert_eq!(scoped.kgw, problem.kgw);
+        assert_eq!(scoped.totals, problem.totals);
+    }
+
+    #[test]
+    fn foreign_solid_is_not_admitted_into_a_typed_surface_comparison() {
+        use kerotakis_core::{Grams, SurfaceModel};
+        let mut problem = water_problem();
+        problem.phases = vec![("Fe(OH)2".into(), 0.01, 0.0)];
+        assert!(comparison_problem(&problem, "wateq4f").is_ok());
+        problem.surfaces.push(SurfaceSites {
+            label: "finite HFO".into(),
+            model: SurfaceModel::HydrousFerricOxide,
+            mass: Grams(0.09),
+            specific_area_m2_per_g: 600.0,
+            strong_capacity: Moles(5e-6),
+            weak_capacity: Moles(2e-4),
+            occupancy: Vec::new(),
+            water_release: Moles(0.0),
+        });
+        assert_eq!(
+            comparison_problem(&problem, "wateq4f")
+                .err()
+                .expect("supplied phase must be refused"),
+            vec!["Fe(OH)2"]
+        );
+        problem.phases[0].1 = 0.0;
+        assert!(comparison_problem(&problem, "wateq4f")
+            .unwrap()
+            .phases
+            .is_empty());
+    }
+
+    #[test]
+    fn foreign_solid_is_not_admitted_into_a_coupled_redox_comparison() {
+        let mut problem = water_problem();
+        problem.phases = vec![("Fe(OH)2".into(), 0.01, 0.0)];
+        problem.totals = vec![("Fe(2)".into(), 0.001), ("Mn(7)".into(), 0.001)];
+        assert!(redox_coupling(&problem, "wateq4f").is_some());
+        assert_eq!(
+            comparison_problem(&problem, "wateq4f")
+                .err()
+                .expect("supplied phase must be refused"),
+            vec!["Fe(OH)2"]
+        );
+    }
+
+    #[test]
+    fn supplied_phase_states_inform_pinning_without_becoming_dissolved_totals() {
+        let mut problem = water_problem();
+        problem.phases = vec![("Fe(OH)2".into(), 0.01, 0.0)];
+        let analytical = problem.totals.clone();
+        let states = phase_inclusive_totals(&problem);
+        assert!(states
+            .iter()
+            .any(|(element, amount)| element == "Fe(2)" && (*amount - 0.01).abs() < 1e-12));
+        assert!(!fast_redox_pin_block(&states, "wateq4f").is_empty());
+        assert_eq!(
+            problem.totals, analytical,
+            "solid inventory must not be double counted"
+        );
+        problem.phases[0].1 = 0.0;
+        assert_eq!(phase_inclusive_totals(&problem), analytical);
+    }
+
+    #[test]
+    fn redox_partner_in_positive_solid_keeps_native_only_admission() {
+        let mut problem = water_problem();
+        problem.phases = vec![("Fe(OH)2".into(), 0.01, 0.0)];
+        problem.totals = vec![("Mn(7)".into(), 0.001)];
+        assert!(redox_coupling(&problem, "wateq4f").is_none());
+        assert!(redox_coupling_totals(&phase_inclusive_totals(&problem), "wateq4f").is_some());
+        assert!(comparison_problem(&problem, "wateq4f").is_err());
+    }
+
+    #[test]
+    fn reviewed_phase_mappings_preserve_supplied_inventory() {
+        let tag = "wateq4f";
+        let phase = derived::candidate_phases()
+            .iter()
+            .find(|phase| {
+                !derived::index_for(tag).has_phase(&phase.name)
+                    && posed_phase(&phase.name, tag).is_some()
+            })
+            .expect("a reviewed non-native phase exercises the old retain defect");
+        let mut problem = water_problem();
+        problem.phases = vec![(phase.name.clone(), 0.002, 0.0)];
+        let scoped = comparison_problem(&problem, tag).unwrap();
+        assert_eq!(scoped.phases.len(), 1);
+        assert_eq!(scoped.phases[0].0, posed_phase(&phase.name, tag).unwrap());
+        assert_eq!(scoped.phases[0].1, 0.002);
+        assert_eq!(scoped.phases[0].2, 0.0);
     }
 }

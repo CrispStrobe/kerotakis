@@ -416,6 +416,7 @@ hydroxylapatite = "hydroxylapatite"
 "from-inventory" = "  dessiné à partir du bilan : aucune solution n'a été caractérisée, les paires d'ions et les complexes ne sont donc pas résolus ici\n"
 
 [explain]
+"missing-supplied-phases" = "Impossible de comparer cet inventaire (aucun modèle admis pour les phases solides apportées : {phases})"
 # `kero explain` — why this dataset answered this beaker. The CLI's own
 # labels live in the ENGINE catalogue rather than a CLI one, so adding
 # French stays one core toml and one web json.
