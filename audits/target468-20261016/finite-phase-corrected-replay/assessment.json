@@ -1,0 +1,113 @@
+{
+  "status": "PASS",
+  "criteria": {
+    "completed": true,
+    "retained_solid": true,
+    "solid_invariance": true,
+    "ph_invariance": true,
+    "represented_iron": true,
+    "no_artificial_ferric_inventory": true,
+    "same_dataset_ph": true,
+    "no_solver_failure": true
+  },
+  "metrics": {
+    "max_FeOH2_difference_mol": 2.0001361678012586e-15,
+    "max_ph_difference": 0.0,
+    "represented_iron_max_residual_mol": 8.430756093247282e-16,
+    "max_ferric_mol": 0,
+    "solver_failed_events": 0,
+    "water_span_mol": 8.881784197001252e-16,
+    "charge_baseline_span_mol": 4.886889673580853e-15,
+    "base_equivalent_span_mol": 4.000272335602517e-15
+  },
+  "states": [
+    {
+      "elapsed_s": 0.0,
+      "ph": 9.332569356644,
+      "temperature_K": 298.15,
+      "boundary": {
+        "boundary": "open"
+      },
+      "excess_enthalpy_j": 0.0,
+      "solute_charge": 2.722828403200784e-06,
+      "FeOH2_mol": 0.009998638585798,
+      "ferric_mol": 0,
+      "represented_Fe_mol": 0.0099999999999996,
+      "water_mol": 5.534276991396059,
+      "base_equivalents_mol": 2.722828404001787e-06
+    },
+    {
+      "elapsed_s": 1.0,
+      "ph": 9.332569356644,
+      "temperature_K": 298.15,
+      "boundary": {
+        "boundary": "open"
+      },
+      "excess_enthalpy_j": 0.0,
+      "solute_charge": 2.722828398313894e-06,
+      "FeOH2_mol": 0.0099986385858,
+      "ferric_mol": 0,
+      "represented_Fe_mol": 0.009999999999999157,
+      "water_mol": 5.534276991396058,
+      "base_equivalents_mol": 2.7228284000015146e-06
+    },
+    {
+      "elapsed_s": 2.0,
+      "ph": 9.332569356644,
+      "temperature_K": 298.15,
+      "boundary": {
+        "boundary": "open"
+      },
+      "excess_enthalpy_j": 0.0,
+      "solute_charge": 2.722828398313894e-06,
+      "FeOH2_mol": 0.0099986385858,
+      "ferric_mol": 0,
+      "represented_Fe_mol": 0.009999999999999157,
+      "water_mol": 5.534276991396058,
+      "base_equivalents_mol": 2.7228284000015146e-06
+    }
+  ],
+  "comparisons": [
+    {
+      "lines": [
+        "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice pH 9.333 \u00b7 I = 0.0000 m \u00b7 Fe(OH)2 0.0100 mol",
+        "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice pH 9.336 \u00b7 I = 0.0000 m \u00b7 Fe(OH)2 0.0100 mol"
+      ],
+      "same_dataset_ph_residual": 0.0004306433560010703,
+      "same_dataset_displayed_FeOH2_mol": 0.01
+    },
+    {
+      "lines": [
+        "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice pH 9.333 \u00b7 I = 0.0000 m \u00b7 Fe(OH)2 0.0100 mol",
+        "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice pH 9.336 \u00b7 I = 0.0000 m \u00b7 Fe(OH)2 0.0100 mol"
+      ],
+      "same_dataset_ph_residual": 0.0004306433560010703,
+      "same_dataset_displayed_FeOH2_mol": 0.01
+    }
+  ],
+  "execution": {
+    "engine": {
+      "source_head": "1a3bd1e25e14ee314c168b24eeb8c930523fbf0b",
+      "source_tree": "a181723db4ef5653954cb4df2a988735f4b0b0ae",
+      "binary_sha256": "3e3865917876ee28067407f6a73c7e7fad8d789d8b29fc757689bd2ea2ca0516",
+      "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+    },
+    "status": "completed",
+    "exit_code": 0,
+    "script_sha256": "b00995ccf47640260e729883fb07de817fe38cea692ece09682295910bab0adc",
+    "stdout_sha256": "e11bdcfdb1b899593cf22b05c3f986f952fc3ccd95c81902c7b46f167a11a060",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "observations": 9,
+    "elapsed_seconds": 0.3362193419999997,
+    "resource_usage": {
+      "user_cpu_seconds": 0.264103,
+      "system_cpu_seconds": 0.0276,
+      "max_rss_kib": 40720
+    },
+    "attempts": 1,
+    "physical_verdict": "not_assigned"
+  },
+  "original_first_results_unchanged": true,
+  "qualification": "Bounded regression consistency only. Not complete H/O/charge/energy closure, empirical calibration, REST/deployment acceptance, full-fleet acceptance or a catalog selection.",
+  "runtime_metadata_qualification": "Raw manifest build_image/rustc/target are inherited snapshot metadata, not attested producer build metadata. Binary and actual producer lock bytes, tested merge/tree and replacement runtime-library hashes are separately bound. SDK destruction returned; independent deletion is not attested."
+}

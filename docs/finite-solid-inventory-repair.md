@@ -40,7 +40,11 @@ pinning and admission decisions, while leaving solution totals unchanged to
 avoid counting the solid twice. The same inventory detects a redox partner
 supplied in a solid, preserving the coupled-domain exclusion. Native controls
 also require no new ferric inventory in the ferrous-only case. Exact-source
-acceptance of the corrected head remains pending.
+replay of corrected head `e2a4ff70` now meets all eight unchanged frozen
+criteria in the [separate corrected assessment](../audits/target468-20261016/finite-phase-corrected-replay/README.md).
+Retained solid changes by approximately2e-15 mol, represented iron closes
+within8.5e-16 mol, and neither pH drift nor artificial ferric inventory appears.
+This bounded native regression pass leaves CI/full-fleet acceptance pending.
 
 ## Acceptance still required
 
@@ -54,10 +58,10 @@ exclusions. German and French CLI diagnostics explain refused comparisons.
 These checks establish regression consistency, not complete empirical validation
 or a general H/O/charge closure proof.
 
-After source/binary/lock binding, replay the unchanged diagnostic separately on
-the repaired engine and retain the original responses and first test failures.
-Do not rerun the whole unchanged corpus or increment the working catalog from
-these diagnostic controls.
+The corrected diagnostic replay has its own source/binary/lock binding and is
+complete. Retain its raw response alongside the original responses and first
+test failures. Do not repeat either unchanged execution, rerun the unchanged
+corpus or increment the working catalog from these diagnostic controls.
 
 ## Remaining implementation lanes
 
