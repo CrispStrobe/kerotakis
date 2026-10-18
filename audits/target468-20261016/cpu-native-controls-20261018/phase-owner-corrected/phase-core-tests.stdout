@@ -1,0 +1,56 @@
+
+running 3 tests
+test heat_reports_the_energy_actually_delivered_and_its_time_boundary ... ok
+test impossible_cooling_reports_less_delivered_than_requested ... ok
+test delivered_energy_is_rendered_by_the_engine_in_german ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+
+running 1 test
+test partial_freezing_closes_the_transition_referenced_energy_for_different_phases ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 4 tests
+test ice_and_water_and_steam_each_carry_their_own_heat_capacity ... ok
+test the_leftover_energy_chills_ice_at_ices_own_heat_capacity ... ok
+test plain_water_is_unmoved_by_the_same_change ... ok
+test sugar_water_boils_at_the_temperature_it_actually_boils_at ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 20 tests
+test a_lone_dewar_of_liquid_nitrogen_settles_on_its_boiling_point ... ok
+test a_lone_block_of_dry_ice_settles_on_its_own_sublimation_point ... ok
+test a_cryogen_arrives_cold_and_a_salt_arrives_at_room_temperature ... ok
+test a_substance_with_no_enthalpy_row_sublimes_exactly_as_before ... ok
+test dry_ice_cools_the_water_it_is_dropped_into ... ok
+test ammonium_chloride_leaves_and_common_salt_stays ... ok
+test a_sealed_flask_of_subliming_solid_on_a_hot_plate_bursts ... ok
+test epsomite_carries_its_seven_waters_through_the_same_ledger ... ok
+test every_boil_this_bench_pays_for_can_be_undone ... ok
+test heating_the_pentahydrate_drives_off_exactly_five_waters ... ok
+test a_sealed_vessel_keeps_the_vapour_and_gives_it_back_on_cooling ... ok
+test frozen_ethanol_melts_when_the_nitrogen_is_gone ... ok
+test nothing_sublimes_at_bench_temperature ... ok
+test liquid_nitrogen_freezes_ethanol_solid ... ok
+test dry_ice_in_an_already_sealed_flask_fills_the_headspace ... ok
+test the_honesty_pass_does_not_call_frozen_ethanol_unmodelled ... ok
+test the_heat_of_freezing_boils_nitrogen_rather_than_warming_the_flask ... ok
+test the_hydrate_survives_a_warm_bench_and_only_goes_at_its_own_temperature ... ok
+test the_water_goes_back_in_and_the_ledger_closes_both_ways ... ok
+test plenty_of_water_dissolves_the_salt_instead_of_hydrating_it ... ok
+
+test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+
+running 3 tests
+test no_transition_keeps_aqueous_failure_explicit_and_clears_stale_measurements ... ok
+test pure_water_freezes_melts_and_boils_with_conserved_latent_energy_across_scales ... ok
+test unsolved_ionic_and_unknown_mixtures_do_not_get_a_pure_water_phase_answer ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

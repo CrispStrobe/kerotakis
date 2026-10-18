@@ -1,0 +1,77 @@
+{
+  "source": "ed7c452d1a763396a18ef77663b9062007a1b03c",
+  "source_tree": "79a17226360de4043e632745ab8c72d911734bb7",
+  "engine_identity": {
+    "source_head": "ed7c452d1a763396a18ef77663b9062007a1b03c",
+    "binary_sha256": "f9358b91b24f73c060e08f15dbf7eca7aebb11706c8af85b09942f5b69fd743a",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "build_image": "public.ecr.aws/amazonlinux/amazonlinux@sha256:c07ab0773eddf9449c0994a87d8148300db98bdf8d8dad672a9dc26321c104fc",
+  "runtime_libraries": {
+    "ld-linux-x86-64.so.2": "5022436ff15df9e54e79ee0a0ca8b3422a0dcb0c11920d9901ded30eccbf8638",
+    "libc.so.6": "fdf84d7d72db18bb3996a7b24f3eb473e7efbc8f994af7b159f76d61d1b4c978",
+    "libgcc_s.so.1": "9460b5f230d3f66554ec259e8e0890b0946dfde7cc83f95d1ac8d4dca3d3f9bb",
+    "libm.so.6": "f7cb1097b97353d994fe191e5fafc81f0171935792311a157c3082213fc704e0",
+    "libstdc++.so.6": "846b43f9f1429cc67ae7ffd24f4ccdd7a17d652765aaf3e6f9d2ca54178b369d"
+  },
+  "producer_compiler": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+  "frontend_assets": {
+    "iphreeqc.mjs": {
+      "sha256": "0feaacd1b4cd69630879d6b1881d0bc196b597625b456ecea75460f09d06c7b9",
+      "bytes": 33213
+    },
+    "iphreeqc.wasm": {
+      "sha256": "38c04668edb55c6339899e1191b9cfff76cc96dad68a0e90e0cb12b78eed1357",
+      "bytes": 1952556
+    },
+    "kerotakis.mjs": {
+      "sha256": "24b54432d4b66051b619fcc1f6e0d1c845eaabce8d89de452cd23886d09b6b44",
+      "bytes": 8205
+    },
+    "kerotakis_wasm.js": {
+      "sha256": "ed1ed1f583ec6e7a11cf0bdb6d97b08a2f0480df47c22825e5571a6490da6ead",
+      "bytes": 41630
+    },
+    "kerotakis_wasm_bg.wasm": {
+      "sha256": "c82a0f04afebbd8d45d2b7b2eee6d73ea4b3db73a416dbedacb042b81d1d0c1d",
+      "bytes": 11299165
+    },
+    "rest.html": {
+      "sha256": "d4d3fbfded5a3d404f91e3dea707a4cc197a9dfd8cb3d64f2cd6f604b87f4a21",
+      "bytes": 2970
+    }
+  },
+  "production_run": 39124453384,
+  "actual_full_verifier_receipt_sha256": "03221ec01fdf57d5f5ee2d171f0d4472c61aae67dbd4954356d46ae5e1e327ae",
+  "actual_artifact_metadata_digest": "sha256:d7e1cf98d25710a92948bdbe23a5ee2ca0370075e01504e0eb96f7f817337eca",
+  "actual_frozen_script_cases": 11,
+  "script_criteria_all_pass": true,
+  "http_concurrency_pattern": [
+    200,
+    429
+  ],
+  "browser_acceptance": "All37 unchanged live-browser checks passed on exact bound CPU-provider harness",
+  "scientific_catalog_additions": 0,
+  "reader_corrections": [
+    {
+      "utc": "2026-10-18T14:21:21.774544+00:00",
+      "previous_stop_sha256": "4af8aeb7908aa31189d4df5917d6e05d1c58c2f7ae37b8578ca5e7b9b1044565",
+      "previous_design_sha256": "f20e69da45041e1a5ea188aca5556a665492c06fa5514602ff11fddd2c04abe5",
+      "reason": "Public API engine identity has three fields; authenticated artifact manifest additionally carries tree/image/libraries/compiler. Compare the public identity while retaining full artifact authentication.",
+      "previous_engine_requests_issued": 0,
+      "previous_health_identity_matches_verified_artifact": true,
+      "original_evidence_unchanged": true
+    },
+    {
+      "utc": "2026-10-18T14:23:03.616833+00:00",
+      "original_reader_sha256": "cb9adb55a62120c0fa26424f3007247230ef25981e127244b90cc204ce4b5d6b",
+      "corrected_reader_sha256": "cf8d8c6cf7899e0a40b7fca14f5c8352184632e2c30158cbb74155716c15e8d0",
+      "correction": "Explain rows carry text/events but no bench; carry prior owned state while still requiring explicit explain schema. All physical formulas, thresholds and cases unchanged.",
+      "new_requests": 0,
+      "old_evidence_preserved": true
+    }
+  ],
+  "browser_receipt_sha256": "65ba7f143a6db5cbdfe8b52f7914e5f166a459d3f5e8b52265bb7a40d964d633",
+  "actual_browser_report_sha256": "7e79b0ae0591038da01fb46ecbbf11435a7f6cbb852c5f992f9801e76b445fe2",
+  "pages_interpreter": "Actual published Pages payload reports BASIC disabled; retained as separate confirmed gap, not a chemistry pass."
+}

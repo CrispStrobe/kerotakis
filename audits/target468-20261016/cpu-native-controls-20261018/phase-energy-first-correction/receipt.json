@@ -1,0 +1,175 @@
+{
+  "source": "92d439d485db124725466e57e1a96748cbc7af31",
+  "tree": "ee4b085b4edf5c9396cb96ad05b3d896748a237b",
+  "uploaded_worker_sha256": "e851a3c888f0923e9a2a5f2feaad846b3e1ad533970133cada1d64d1ec690834",
+  "raw_worker_manifest_sha256": "49d3ebe2a746ebef28a036f717adf6810c1f9a9eb650a6e52db16110c679cb48",
+  "actual_compiler": "rustc 1.99.1 (58cf8f9c3 2026-10-13)\nbinary: rustc\ncommit-hash: 58cf8f9c35b355199727627d07ae34a4e2846d67\ncommit-date: 2026-10-13\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.1\nLLVM version: 23.1.1\n",
+  "commands": [
+    {
+      "command": [
+        "cargo",
+        "clippy",
+        "-p",
+        "kerotakis-core",
+        "-p",
+        "kerotakis-cea",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_status": 0,
+      "raw_stdout_file": "phase-clippy.stdout",
+      "raw_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_stderr_sha256": "223c1ad2e39560c8bdb67272576f29c1a16e4615a54f3709fa44a43507f62154",
+      "producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+      "test_summaries": []
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "-p",
+        "kerotakis-core",
+        "--test",
+        "phase_cooling_energy",
+        "--test",
+        "phase_routes",
+        "--test",
+        "phase_heat_capacity",
+        "--test",
+        "energy_transfer",
+        "--test",
+        "phase_without_aqueous",
+        "--no-fail-fast",
+        "--",
+        "--nocapture"
+      ],
+      "exit_status": 101,
+      "raw_stdout_file": "phase-core-tests.stdout",
+      "raw_stdout_sha256": "ce50eb9cd6ba609f36442543cf55d4487412181bb4d12511821554e7cd071d92",
+      "raw_stderr_sha256": "bbc9098a1e24aa03a7c2764aa90ad2c921eb39a038f992322a05e339e1a2ae11",
+      "producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+      "test_summaries": [
+        {
+          "passed": 3,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 0,
+          "failed": 1,
+          "ignored": 0
+        },
+        {
+          "passed": 4,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 20,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 3,
+          "failed": 0,
+          "ignored": 0
+        }
+      ]
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "-p",
+        "kerotakis-cea",
+        "--lib",
+        "--tests",
+        "--no-fail-fast",
+        "--",
+        "--nocapture"
+      ],
+      "exit_status": 0,
+      "raw_stdout_file": "phase-native-tests.stdout",
+      "raw_stdout_sha256": "b787423f6d4382e3d44386c55f7cf70aabd2f52604882a5cf9f6a100bfacd1cd",
+      "raw_stderr_sha256": "26b25ef620020f68d8041c398ac0161885bd196c3a66e2b93b8468e82663bbdb",
+      "producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+      "test_summaries": [
+        {
+          "passed": 21,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 1,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 6,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 13,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 1,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 6,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 7,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 3,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 6,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 4,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 4,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 3,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 5,
+          "failed": 0,
+          "ignored": 0
+        }
+      ]
+    }
+  ],
+  "focused_execution_acceptance": false,
+  "scientific_catalog_additions": 0,
+  "qualification": "Protected CI and original full fleet remain separately required. Original111 focused tests pass at corrected phase-owner source; no empirical calibration claim."
+}

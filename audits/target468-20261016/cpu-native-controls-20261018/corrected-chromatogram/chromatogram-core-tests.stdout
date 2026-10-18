@@ -1,0 +1,13 @@
+
+running 8 tests
+test a_dry_column_has_no_mobile_phase ... ok
+test a_solutefree_sample_refuses_out_loud ... ok
+test an_entirely_unparameterised_sample_has_no_invented_empty_result ... ok
+test ions_and_unknown_neutrals_keep_their_separate_coverage_reports ... ok
+test a_settled_solid_is_not_part_of_the_injection ... ok
+test supported_peaks_do_not_hide_a_neutral_parameter_gap ... ok
+test the_injection_consumes_nothing ... ok
+test solutes_elute_in_the_order_their_groups_dictate ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+

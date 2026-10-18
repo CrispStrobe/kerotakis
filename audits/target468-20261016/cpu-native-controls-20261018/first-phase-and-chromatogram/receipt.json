@@ -1,0 +1,189 @@
+{
+  "provider": "Kaggle private CPU worker",
+  "gpu": false,
+  "uploaded_worker_sha256": "2f79b306b993062bc66e4e511d364ee7d34eab0ed36badb5dd05cd98822eb3ab",
+  "actual_compiler": "rustc 1.99.1 (58cf8f9c3 2026-10-13)\nbinary: rustc\ncommit-hash: 58cf8f9c35b355199727627d07ae34a4e2846d67\ncommit-date: 2026-10-13\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.1\nLLVM version: 23.1.1\n",
+  "actual_compiler_stdout_sha256": "f22d5e4e9ced367e774ce5bc140d9e6b1235c1882fec80d011044851f3ae6369",
+  "source_unchanged_checks_pass": true,
+  "raw_worker_manifest_sha256": "70e9237159fe82c7e5a9ffad7696d13a0ea97fb002e5644fba7ce7c45251056a",
+  "commands": [
+    {
+      "source_head": "106dd5f3ddfd15d2edf1e5dde1526f46150e600a",
+      "source_tree": "3a7c1e87f4306238055d1feb6cc97a9f7e108304",
+      "command": [
+        "cargo",
+        "test",
+        "-p",
+        "kerotakis-cea",
+        "--lib",
+        "--tests",
+        "--no-fail-fast",
+        "--",
+        "--nocapture"
+      ],
+      "exit_status": 101,
+      "elapsed_seconds": 148.33053049800003,
+      "raw_stdout_file": "phase-native-tests.stdout",
+      "raw_stdout_sha256": "19678f99b272a4210718adcd716dcedd9f83171462c8162dad34752799597966",
+      "raw_stderr_sha256": "ad952e215d1efce70789b366bc792fe7b471c2f23adaa8d1efc684be1df74b4b",
+      "actual_producer_lock_file": "phase-native-tests-producer-Cargo.lock",
+      "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+      "test_summaries": [
+        {
+          "passed": 21,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 1,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 6,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 13,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 1,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 6,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 7,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 3,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 6,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 4,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 3,
+          "failed": 1,
+          "ignored": 0
+        },
+        {
+          "passed": 3,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "passed": 5,
+          "failed": 0,
+          "ignored": 0
+        }
+      ],
+      "qualification": "Native unit/integration execution, not a retained CLI experiment binary or a scientific catalog selection."
+    },
+    {
+      "source_head": "106dd5f3ddfd15d2edf1e5dde1526f46150e600a",
+      "source_tree": "3a7c1e87f4306238055d1feb6cc97a9f7e108304",
+      "command": [
+        "cargo",
+        "clippy",
+        "-p",
+        "kerotakis-cea",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 129.90998055900002,
+      "raw_stdout_file": "phase-clippy.stdout",
+      "raw_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_stderr_sha256": "58249ec9884882de5555a9cde3fdb2e669992783a17e6658ecab0b9603c4e2aa",
+      "actual_producer_lock_file": "phase-clippy-producer-Cargo.lock",
+      "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+      "test_summaries": [],
+      "qualification": "Native unit/integration execution, not a retained CLI experiment binary or a scientific catalog selection."
+    },
+    {
+      "source_head": "7b5f62d1d94bbd56cc4475ff431eca83cb20ebb4",
+      "source_tree": "9574bafecc00cdce53599d61b20f206a43616515",
+      "command": [
+        "cargo",
+        "test",
+        "-p",
+        "kerotakis-phreeqc",
+        "--test",
+        "chromatograph",
+        "--",
+        "--nocapture"
+      ],
+      "exit_status": 101,
+      "elapsed_seconds": 199.30327861299997,
+      "raw_stdout_file": "chromatogram-native-tests.stdout",
+      "raw_stdout_sha256": "50aed046ad23cc6a84c9e67d045a70926c60862a2681d38d30a04b29dda4fbca",
+      "raw_stderr_sha256": "06251be098088fd0926a8aed8c04f3ea8325943073728a5c0d513e5a2c0dc185",
+      "actual_producer_lock_file": "chromatogram-native-tests-producer-Cargo.lock",
+      "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+      "test_summaries": [
+        {
+          "passed": 2,
+          "failed": 1,
+          "ignored": 0
+        }
+      ],
+      "qualification": "Native unit/integration execution, not a retained CLI experiment binary or a scientific catalog selection."
+    },
+    {
+      "source_head": "7b5f62d1d94bbd56cc4475ff431eca83cb20ebb4",
+      "source_tree": "9574bafecc00cdce53599d61b20f206a43616515",
+      "command": [
+        "cargo",
+        "test",
+        "-p",
+        "kerotakis-core",
+        "--test",
+        "chromatograph",
+        "--",
+        "--nocapture"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 93.630527959,
+      "raw_stdout_file": "chromatogram-core-tests.stdout",
+      "raw_stdout_sha256": "abc8ce377bd3cbf9ec4acb0128f9e89a4d24039321990fde2726d33d999155b3",
+      "raw_stderr_sha256": "d1bdd98b5d1410a4bd9900e567adbf55377252227b14fb7d3e8d79cbf0552a87",
+      "actual_producer_lock_file": "chromatogram-core-tests-producer-Cargo.lock",
+      "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+      "test_summaries": [
+        {
+          "passed": 8,
+          "failed": 0,
+          "ignored": 0
+        }
+      ],
+      "qualification": "Native unit/integration execution, not a retained CLI experiment binary or a scientific catalog selection."
+    }
+  ],
+  "github_protected_checks_replaced": false,
+  "scientific_catalog_additions": 0
+}

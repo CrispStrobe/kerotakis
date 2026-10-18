@@ -1,0 +1,185 @@
+{
+  "source": "ed7c452d1a763396a18ef77663b9062007a1b03c",
+  "registry_source_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "species": {
+    "CO2": {
+      "formula": "CO2",
+      "elements": {
+        "C": 1.0,
+        "O": 2.0
+      },
+      "charge": 0.0
+    },
+    "CO2(aq)": {
+      "formula": "CO2",
+      "elements": {
+        "C": 1.0,
+        "O": 2.0
+      },
+      "charge": 0.0
+    },
+    "CO3-2": {
+      "formula": "CO3-2",
+      "elements": {
+        "C": 1.0,
+        "O": 3.0
+      },
+      "charge": -2.0
+    },
+    "Cl-": {
+      "formula": "Cl-",
+      "elements": {
+        "Cl": 1.0
+      },
+      "charge": -1.0
+    },
+    "H+": {
+      "formula": "H+",
+      "elements": {
+        "H": 1.0
+      },
+      "charge": 1.0
+    },
+    "H2O2": {
+      "formula": "H2O2",
+      "elements": {
+        "H": 2.0,
+        "O": 2.0
+      },
+      "charge": 0.0
+    },
+    "HCO3-": {
+      "formula": "HCO3-",
+      "elements": {
+        "C": 1.0,
+        "H": 1.0,
+        "O": 3.0
+      },
+      "charge": -1.0
+    },
+    "MnO2": {
+      "formula": "MnO2",
+      "elements": {
+        "Mn": 1.0,
+        "O": 2.0
+      },
+      "charge": 0.0
+    },
+    "N2": {
+      "formula": "N2",
+      "elements": {
+        "N": 2.0
+      },
+      "charge": 0.0
+    },
+    "Na+": {
+      "formula": "Na+",
+      "elements": {
+        "Na": 1.0
+      },
+      "charge": 1.0
+    },
+    "NaCl": {
+      "formula": "NaCl",
+      "elements": {
+        "Cl": 1.0,
+        "Na": 1.0
+      },
+      "charge": 0.0
+    },
+    "NaOH": {
+      "formula": "NaOH",
+      "elements": {
+        "H": 1.0,
+        "Na": 1.0,
+        "O": 1.0
+      },
+      "charge": 0.0
+    },
+    "O2": {
+      "formula": "O2",
+      "elements": {
+        "O": 2.0
+      },
+      "charge": 0.0
+    },
+    "Zn": {
+      "formula": "Zn",
+      "elements": {
+        "Zn": 1.0
+      },
+      "charge": 0.0
+    },
+    "base_equivalents": {
+      "formula": "HO-",
+      "elements": {
+        "H": 1,
+        "O": 1
+      },
+      "charge": -1,
+      "qualification": "Analytical H/O/charge coordinate, not free hydroxide or a usable-base capacity"
+    },
+    "ethyl_acetate": {
+      "formula": "CH3COOC2H5",
+      "elements": {
+        "C": 4.0,
+        "H": 8.0,
+        "O": 2.0
+      },
+      "charge": 0.0
+    },
+    "water": {
+      "formula": "H2O",
+      "elements": {
+        "H": 2.0,
+        "O": 1.0
+      },
+      "charge": 0.0
+    }
+  },
+  "Zn_solid_cp": {
+    "id": "heat-capacity-polynomial/Zn/solid",
+    "species_id": "Zn",
+    "phase": "solid",
+    "form": "nasa9",
+    "unit": {
+      "symbol": "J/(mol.K)",
+      "dimension": "molar_heat_capacity"
+    },
+    "intervals": [
+      {
+        "t_min_k": 300.0,
+        "t_max_k": 692.73,
+        "coefficients": [
+          370208.038,
+          -5915.4755,
+          39.5950036,
+          -0.1143735885,
+          0.0001934363797,
+          -1.675385126e-07,
+          6.07818994e-11
+        ],
+        "reference": "Zn(cr): Crystal. Ref-Elm. Cox,1989 p221."
+      }
+    ],
+    "boundary": "Tabulated for 300 to 692.73 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+    "evidence": {
+      "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+      "method": {
+        "kind": "imported",
+        "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records Zn(cr) (1 temperature interval), unchanged in value and in order"
+      }
+    }
+  },
+  "Zn_melting_k": 692.68,
+  "Zn_fusion_j_mol": 7320.0,
+  "gas_constant_j_mol_k": 8.31446261815324,
+  "qualification": "Uses actual deployed registry, declared phase-route Zn fusion row and core R; no imported measurement or empirical calibration",
+  "property_source_sha256": {
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+    "crates/kerotakis-core/src/phase_route.rs": "4389a723f7b77c3b395069c77b89a2f4f9c8d749dcc221a69dac90a35cbbbe52",
+    "crates/kerotakis-core/src/curated.rs": "eaa1e5b21641f28498da5464de248c193b024bb8f5896a4af3678ab7d250b113",
+    "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "8f9fa9b3cf3d02471f028abadbf4bd293fc84326defd82e0bd351c2c25decbdd"
+  }
+}

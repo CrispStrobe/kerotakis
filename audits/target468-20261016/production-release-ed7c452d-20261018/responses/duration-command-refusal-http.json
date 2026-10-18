@@ -1,0 +1,12 @@
+{
+  "id": "duration-command-refusal",
+  "http_status": 422,
+  "elapsed_seconds": 0.17444004863500595,
+  "response_sha256": "44e4b8b1e20ee4a5e550f625676127140e105de35bf0ff8522adc29f78ed179c",
+  "response_headers": {
+    "cache-control": "no-store",
+    "content-type": "application/json",
+    "x-content-type-options": "nosniff"
+  },
+  "attempts": 1
+}

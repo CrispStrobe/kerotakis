@@ -88,3 +88,15 @@ validate PR790 first; then reproduce optical density and preserve recipe replay
 before changing teaching washes; then investigate duplicate diagnostics and
 equilibrium/settling state. This does not change the frozen forty forecasts or
 permit scientific verdicts from process exits.
+
+### Current executable checkpoint
+
+Production `ed7c452d` is authenticated with11 API and37 actual browser controls.
+The four original diagnostics were executed once; KN-007 now earns a separate
+working selection (catalog201 / fixed468197), while brine carbon/charge, named
+hydrolysis and deployed zinc phase failures remain. Finish PR828 `5b054e6c`,
+PR829 `8e2fe429` and PR830 exact-head acceptance/integration; retain their focused
+CPU evidence and full original fleet requirements. Then deploy changed runtime
+and freeze repaired-source replays. Actual Pages BASIC-disabled behavior also
+needs the scoped profile repair. The ordered six-step scientific agenda remains
+unchanged; tests passing are not new corpus experiment selections.

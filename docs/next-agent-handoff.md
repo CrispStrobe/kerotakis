@@ -34,7 +34,7 @@ PR822/823 are now integrated as `bc472fb4`/`d6020643`; their source/run rows
 below preserve accepted bindings, not pending merge tasks. PR825 is also
 integrated as `050aea7f` after its infrastructure-only retry passed. PR824 has a
 comment-history correction integrated as `76fe144f`, with25 CI, REST and all33 original logical fleet jobs satisfied (28 GitHub +5 exact-source local). The transferred GitHub fleet run is cancelled, not a successful workflow. PR827 repairs full
-Vercel engine delivery and is integrated as `e63a0824` after25 CI, REST and all33 original fleet logical jobs (11 GitHub +22 same-source local). Both actual merge trees are verified. Production is still separately pending.
+Vercel engine delivery and is integrated as `e63a0824` after25 CI, REST and all33 original fleet logical jobs (11 GitHub +22 same-source local). Both actual merge trees are verified. Production `ed7c452d` now has actual11 API and37 live-browser controls accepted; see the current STATUS and retained release receipt.
 
 Current source heads and existing runs are listed below. Refresh them; never
 launch duplicate validation or accept an older head's checks for a new head.
@@ -96,7 +96,7 @@ PR and follows the narrower protected-check policy. PR824/827 integration is com
 
 **Inputs:** `docs/simulation-api-lane.md`, `services/rest_api/README.md`,
 `tools/build-web.sh`, the existing deployment tooling and authenticated source
-receipts. Last verified production is `c4469205` / binary `670bd3d8`; Pages client
+receipts. Last verified production is `ed7c452d` / binary `f9358b91` after actual API/browser acceptance; Pages client
 publication is `fa5a75fa`. Preview/sandbox changes are not full production delivery.
 
 **Work:** after lane1 integrations, choose one accepted source and authenticate
@@ -117,7 +117,7 @@ and update STATUS without incrementing scientific counts.
 
 **Inputs:** `audits/target468-20261016/{README.md,scoreboard.json}`, working
 catalog `audits/working-experiments-20261016.json`, original manifests and saved
-assessments. Current catalog200 / fixed468 selected196; goal401 means205 more.
+assessments. Current catalog201 / fixed468 selected197; goal401 means204 more. KN-007 is a separately qualified repaired-source replay; older forecasts and outcomes are unchanged.
 First120 has64 cases awaiting final selection review,14 earlier reviewed holds
 and42 selected. The [saved64 first screen](saved64-review-lanes-20261018.md)
 records44 candidates and20 named holds; none is yet a new scientific pass. All668 baseline
@@ -291,7 +291,7 @@ credentials, hostnames, session inventories or resource inventories.
 Keep the earlier accepted-source production checkpoint first; preparation does
 not authorize merging an unaccepted product change. Refresh actual heads/checks.
 
-1. **PR828** `106dd5f3`: read its `docs/paid-metal-phase-fractions.md`, original
+1. **PR828** `5b054e6c`: read its `docs/paid-metal-phase-fractions.md`, original
    smaller native failure and new native tests. Require actual successful focused
    records from both platforms plus all33 original fleet jobs. Preserve Zn/Pb
    below/at/above budget, repeated zero-time settlement, explicit cooling/pouring,
@@ -346,3 +346,33 @@ Authenticate actual source/tree/compiler/producer-lock/test logs before acceptin
 results. The original-source job cannot accept the corrected head. Provider
 validation does not replace protected GitHub checks or confer scientific catalog
 selection. Production run39124453384 remains a separate accepted-main delivery.
+
+## Authoritative release and repair checkpoint
+
+Production `ed7c452d` / binary `f9358b91` has11 unchanged API controls and37
+actual live-browser checks accepted; see the
+[release evidence](../audits/target468-20261016/production-release-ed7c452d-20261018/README.md).
+The four original diagnostics ran once afterward.
+[Saved assessment](../audits/target468-20261016/deployed-shared-diagnostics-20261018/assessment.json)
+qualifies KN-007 and preserves GS-010/OR-006/TH-016 failures.
+The [latest catalog](../audits/working-experiments-20261018.json) has201 overall/197
+fixed468. Earlier200 entries are unchanged; no44 older-source candidates were
+automatically promoted.
+
+PR828 `5b054e6c` passes Clippy and111 focused core/CEA tests on exact-source CPU
+execution; full/protected acceptance is still required. Its shared correction
+references pre/post-transition sensible energy to the same threshold, fixing
+reverse freezing and condensation when phase Cp changes. Preserve both native
+reverse-cooling failures and intermediate test-owner failure. Water stays in
+the regression through its solvent-state constant and solver. PR829 `8e2fe429`
+passes8 core and3 native controls; full/protected acceptance remains pending.
+PR830's remaining fleet jobs must complete or be safely transferred with exact
+source/artifact bindings; never cancel an active valid run for optional work.
+
+The actual Pages measurement now confirms `USER_PUNCH` refusal because BASIC
+is disabled on published source `76fe144`. Lane H is an observed gap, not just
+a configuration hypothesis. Keep Vercel's accepted profile separate.
+For GS-010, reproduce the retained2.767e-7mol C /1.107e-6eq charge drift on the
+closed brine addition before editing Henry/aqueous readback. For OR-006, retain
+matched-product criteria and buffer/carbonate/ammonia negatives; an instantaneous
+free-ion reading alone is not an analytical reserve.

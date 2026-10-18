@@ -1,0 +1,71 @@
+{
+  "provider": "Kaggle private CPU worker",
+  "gpu": false,
+  "uploaded_worker_sha256": "9e39672c6a559e94483291824b8c8b78cb8d107d465623baa571f8f7f7cdddd2",
+  "actual_compiler": "rustc 1.99.1 (58cf8f9c3 2026-10-13)\nbinary: rustc\ncommit-hash: 58cf8f9c35b355199727627d07ae34a4e2846d67\ncommit-date: 2026-10-13\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.1\nLLVM version: 23.1.1\n",
+  "actual_compiler_stdout_sha256": "f22d5e4e9ced367e774ce5bc140d9e6b1235c1882fec80d011044851f3ae6369",
+  "source_unchanged_checks_pass": true,
+  "raw_worker_manifest_sha256": "1ecc3bdb44ba9eb3fe0c733222faa3a45d9c5a16c3f838b0b53a90896c9f6907",
+  "commands": [
+    {
+      "source_head": "8e2fe429cfdc6c7f0397e2edfd66995baf47e5ff",
+      "source_tree": "666b4a46151fb4602310ba0e5e4d0907a8c5b367",
+      "command": [
+        "cargo",
+        "test",
+        "-p",
+        "kerotakis-phreeqc",
+        "--test",
+        "chromatograph",
+        "--",
+        "--nocapture"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 189.598841918,
+      "raw_stdout_file": "chromatogram-native-tests.stdout",
+      "raw_stdout_sha256": "d7039ef485ab6bfb9ceff36a27c7ca299c803c9b0aa689dd207c002a314b52fb",
+      "raw_stderr_sha256": "e25b6f047066ded50b170c202e0d868800c94f8599c9fcfde17a6258e234f334",
+      "actual_producer_lock_file": "chromatogram-native-tests-producer-Cargo.lock",
+      "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+      "test_summaries": [
+        {
+          "passed": 3,
+          "failed": 0,
+          "ignored": 0
+        }
+      ],
+      "qualification": "Native unit/integration execution, not a retained CLI experiment binary or a scientific catalog selection."
+    },
+    {
+      "source_head": "8e2fe429cfdc6c7f0397e2edfd66995baf47e5ff",
+      "source_tree": "666b4a46151fb4602310ba0e5e4d0907a8c5b367",
+      "command": [
+        "cargo",
+        "test",
+        "-p",
+        "kerotakis-core",
+        "--test",
+        "chromatograph",
+        "--",
+        "--nocapture"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 158.92646459499997,
+      "raw_stdout_file": "chromatogram-core-tests.stdout",
+      "raw_stdout_sha256": "d41a5ed4a8a85249fb3c7f2cc245c1ec2bf08a1bec851d896c6bc305e29c9975",
+      "raw_stderr_sha256": "6552500f72a813d011aa668d4bc1f836a1392e1ec8ade846a47e99e665bd0694",
+      "actual_producer_lock_file": "chromatogram-core-tests-producer-Cargo.lock",
+      "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+      "test_summaries": [
+        {
+          "passed": 8,
+          "failed": 0,
+          "ignored": 0
+        }
+      ],
+      "qualification": "Native unit/integration execution, not a retained CLI experiment binary or a scientific catalog selection."
+    }
+  ],
+  "github_protected_checks_replaced": false,
+  "scientific_catalog_additions": 0
+}

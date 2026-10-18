@@ -1,0 +1,188 @@
+{
+  "api_revision": "ed7c452d1a763396a18ef77663b9062007a1b03c",
+  "accepted_engine": {
+    "source_head": "ed7c452d1a763396a18ef77663b9062007a1b03c",
+    "binary_sha256": "f9358b91b24f73c060e08f15dbf7eca7aebb11706c8af85b09942f5b69fd743a",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "origin": "https://kerotakis-web-payload.vercel.app",
+  "cases": [
+    {
+      "id": "water-baseline",
+      "script": "add v1 water 100mL\ninspect v1\n",
+      "script_sha256": "4a1a51c276252f5f738f3a257666a992a091ef4c4410f3d7caceaa03c466ffe3",
+      "forecast": "Single finite100mLwater inventory near298.15K, no acid/base dose or newreactants; solvent-only pH response scope honest.",
+      "acceptance": {
+        "water_amount_tolerance_mol": 1e-08,
+        "water_temperature_tolerance_k": 1e-06,
+        "neutralisation_inventory_tolerance_mol": 1e-08,
+        "neutralisation_final_water_increment_mol": 0.001,
+        "acid_ph_range": [
+          1.8,
+          2.3
+        ],
+        "neutral_ph_range": [
+          6.5,
+          7.5
+        ],
+        "base_add_temperature_gain_range_k": [
+          0.1,
+          0.5
+        ],
+        "wait_ph_drift_max": 0.01
+      },
+      "expected_http": 200,
+      "expected_execution_status": "completed"
+    },
+    {
+      "id": "complete-stock-001",
+      "script": "add v1 water 100mL @ 25C\nadd v1 HCl 0.001mol\ninspect v1\nadd v1 NaOH 0.001mol\ninspect v1\nwait 10s\ninspect v1\n",
+      "script_sha256": "a4e2a4c3f27aa790a4843e644b4ba647ff71d5515a945bf7fe6304bb8925b1c1",
+      "forecast": "CompleteHCl.001mol+NaOH.001mol yields canonicalNa/Cl.001mol each andwater+.001mol; acidpH1.8\u20132.3, neutralizedpH6.5\u20137.5 stableafter10s; positive modeled temperature response0.1\u20130.5K. No empirical heat calibration or exactoldbinary stream equality.",
+      "acceptance": {
+        "water_amount_tolerance_mol": 1e-08,
+        "water_temperature_tolerance_k": 1e-06,
+        "neutralisation_inventory_tolerance_mol": 1e-08,
+        "neutralisation_final_water_increment_mol": 0.001,
+        "acid_ph_range": [
+          1.8,
+          2.3
+        ],
+        "neutral_ph_range": [
+          6.5,
+          7.5
+        ],
+        "base_add_temperature_gain_range_k": [
+          0.1,
+          0.5
+        ],
+        "wait_ph_drift_max": 0.01
+      },
+      "expected_http": 200,
+      "expected_execution_status": "completed"
+    },
+    {
+      "id": "finite-phase-wait-cycle",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 Fe(OH)2 0.01mol\ninspect v1\nwait 1s\ninspect v1\nexplain v1\nwait 1s\ninspect v1\nexplain v1\n",
+      "script_sha256": "b00995ccf47640260e729883fb07de817fe38cea692ece09682295910bab0adc",
+      "acceptance": {
+        "positive_solid_after_dose_and_both_waits_min_mol": 0.005,
+        "solid_between_unchanged_waits_max_difference_mol": 1e-08,
+        "ph_between_unchanged_waits_max_difference": 1e-05,
+        "represented_iron_each_state_expected_mol": 0.01,
+        "represented_iron_max_difference_mol": 1e-10,
+        "same_dataset_explain_inspect_ph_max_difference_including_display_rounding": 0.00051,
+        "solver_failed_events": 0,
+        "ferric_inventory_without_partner_max_mol": 1e-10
+      },
+      "expected_http": 200,
+      "expected_execution_status": "completed"
+    },
+    {
+      "id": "finite-mix-target",
+      "script": "new beaker\nnew beaker\nadd v1 water 100mL\nadd v2 water 100mL\nadd v3 water 100mL\nadd v3 NaCl 3mol\nseal v3 1L\nadd v3 O2 0.01mol\ninspect v3\nmix v1 1 v2 1 into v3\ninspect v3\n",
+      "script_sha256": "164d5e93412ebab9992c5fe6167c12f72b1f9d855b0974b986a71eb86c14699f",
+      "acceptance": {
+        "precondition": "Target has positive live salt solid and O2 before MIX; absent precondition is inconclusive, never pass.",
+        "represented_Na_Cl_before_and_after_mol": 3.0,
+        "element_tolerance_mol": 1e-08,
+        "final_salt_solid_min_mol": 0.1,
+        "O2_pre_post_mix_tolerance_mol": 1e-10,
+        "finite_ph": true,
+        "sealed_volume_L": 1.0,
+        "solver_failed_events": 0,
+        "scope": "Finite represented Na/Cl and retained O2, not full H/O/energy closure or empirical salt calibration."
+      },
+      "expected_http": 200,
+      "expected_execution_status": "completed"
+    },
+    {
+      "id": "comment-and-spaced-wait",
+      "script": "# add v1 NaCl 1mol\nadd v1 water 100mL # solvent\nwait 2 minutes\ninspect v1\n",
+      "script_sha256": "712000de9717841ee6333dff21d66bf0d6d21773f4cf171ebb1b7eb36d83a732",
+      "acceptance": {
+        "elapsed_seconds": 120.0,
+        "contents_species": [
+          "water"
+        ],
+        "water_amount_tolerance_mol": 1e-08,
+        "scope": "Full-comment nonexecution, inline comments and spaced-unit semantics. Native tests separately cover preserved canonical history and molecular hashes."
+      },
+      "expected_http": 200,
+      "expected_execution_status": "completed"
+    },
+    {
+      "id": "trailing-heat-refusal",
+      "script": "add v1 water 100mL\nheat v1 1J ignored\n",
+      "script_sha256": "d09aa6c0de07108a0404ad652fb7a86c029db4d4098381fd7cf6ea8c633f200e",
+      "acceptance": {
+        "exit_nonzero": true,
+        "no_heat_operator_or_energy_mutation": true
+      },
+      "expected_http": 200,
+      "expected_execution_status": "refused"
+    },
+    {
+      "id": "nonfinite-energy-refusal",
+      "script": "add v1 water 100mL\nheat v1 1e308kJ\n",
+      "script_sha256": "65807624f687cd161e7b968ca0204136b34bb65d11e93233de23fcf07b0a02e6",
+      "acceptance": {
+        "exit_nonzero": true,
+        "no_heat_operator_or_energy_mutation": true
+      },
+      "expected_http": 200,
+      "expected_execution_status": "refused"
+    },
+    {
+      "id": "duration-command-refusal",
+      "script": "wait 721 hours\n",
+      "script_sha256": "c527cf144f49bf8b17fbbb76ab15edef831d035402f111776a7169c0acafb5b2",
+      "acceptance": {
+        "no_engine_execution": true
+      },
+      "expected_http": 422,
+      "expected_execution_status": null
+    },
+    {
+      "id": "duration-aggregate-refusal",
+      "script": "wait 720 hours\nwait 720 hours\nwait 720 hours\nwait 1 seconds\n",
+      "script_sha256": "73308b0feab1e1da5cc2404b324d2072babf1efd8ab0825d50788e6e598117f3",
+      "acceptance": {
+        "no_engine_execution": true
+      },
+      "expected_http": 422,
+      "expected_execution_status": null
+    },
+    {
+      "id": "session-subset-refusal",
+      "script": "help\n",
+      "script_sha256": "41ae84877dd3ce346a7d97fc7f493c8e9dcacfa67ce6974ace56baecee9a8411",
+      "acceptance": {
+        "no_engine_execution": true
+      },
+      "expected_http": 422,
+      "expected_execution_status": null
+    },
+    {
+      "id": "uncached-native-browser-reference",
+      "script": "add v1 water 137mL\nadd v1 NaCl 0.037mol\n",
+      "script_sha256": "15dab1d995c72443cda0892cfb2e4ae24694f5b4bc338c74e2b46e56d01277af",
+      "expected_http": 200,
+      "expected_execution_status": "completed",
+      "acceptance": {
+        "neutral_ph_range": [
+          6.5,
+          7.5
+        ],
+        "Na_Cl_mol_each": 0.037,
+        "inventory_tolerance_mol": 1e-08,
+        "solver_failed_events": 0,
+        "browser_native_ph_difference_max": 1e-06,
+        "browser_native_ionic_strength_difference_max": 1e-09,
+        "browser_source": "Actual deployed modules and real PHREEQC hook, no prewarmed result cache or numerical fixtures.",
+        "qualification": "Cross-platform/internal consistency, not independent empirical calibration or new corpus selection."
+      }
+    }
+  ],
+  "frozen_protocol_sha256": "1539b8a581e1880fb004a17a61c7270d082cc3cf9137f403d350ed4403aab079"
+}

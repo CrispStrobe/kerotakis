@@ -1,0 +1,232 @@
+{
+  "engine": {
+    "source_head": "ed7c452d1a763396a18ef77663b9062007a1b03c",
+    "binary_sha256": "f9358b91b24f73c060e08f15dbf7eca7aebb11706c8af85b09942f5b69fd743a",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "actual_source_property_sha256": {
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+    "crates/kerotakis-core/src/phase_route.rs": "4389a723f7b77c3b395069c77b89a2f4f9c8d749dcc221a69dac90a35cbbbe52",
+    "crates/kerotakis-core/src/curated.rs": "eaa1e5b21641f28498da5464de248c193b024bb8f5896a4af3678ab7d250b113",
+    "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "8f9fa9b3cf3d02471f028abadbf4bd293fc84326defd82e0bd351c2c25decbdd"
+  },
+  "saved_reader_sha256": "54d2e261073b94d3162a5ef00491f3af13cb061e97d5cfb83fad7966ee84fb2b",
+  "cases": [
+    {
+      "id": "new120:gs-010",
+      "script_sha256": "e4652aa7ba19e0fd0fbfe144cde5ffb532c96cc885d29a9f65ca37a7dfedd78f",
+      "response_sha256": "57479f17d9df6d04cbe1ea02a9255cca4d6fe5a4bc5e409ab6876bb444aa6133",
+      "original_forecast": "Chemical expectation: a concentrated salt medium can reduce molecular CO2 solubility through salting-out; it does not stoichiometrically consume CO2.",
+      "original_criteria": [
+        {
+          "id": "GS-010-C1",
+          "criterion": "Compare neutral dissolved CO2 separately from bicarbonate/carbonate and gas-phase carbon.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "GS-010-C2",
+          "criterion": "If the partition model lacks a salinity correction, record the missing effect as unsupported rather than forcing an expected difference.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "criteria": {
+        "no_solver_failure": true,
+        "closed_represented_material_and_charge": false,
+        "neutral_CO2_salt_less_than_water": true
+      },
+      "metrics": {
+        "arms": [
+          {
+            "vessel": 0,
+            "temperature_K": 298.15692375922686,
+            "neutral_CO2_aq_mol": 0.00014321756179892228,
+            "bicarbonate_mol": 2.534925434197053e-06,
+            "carbonate_mol": 4.787116798373672e-12,
+            "gas_CO2_mol": 0.0008624223168846,
+            "carbon_before_including_trapped_air_mol": 8.17480890486671e-06,
+            "closed_addition_residual": {
+              "charge": -1.198116192490387e-16,
+              "N": 0.0,
+              "H": 0.0,
+              "O": -2.203098814490545e-16,
+              "C": -3.0791341698588326e-17
+            }
+          },
+          {
+            "vessel": 1,
+            "temperature_K": 297.2258972935949,
+            "neutral_CO2_aq_mol": 0.00012764677426733027,
+            "bicarbonate_mol": 3.4855966768411265e-06,
+            "carbonate_mol": 3.3272490420234087e-11,
+            "gas_CO2_mol": 0.0008773447313394,
+            "carbon_before_including_trapped_air_mol": 8.200418537364154e-06,
+            "closed_addition_residual": {
+              "Cl": 7.638334409421077e-14,
+              "Na": 7.638334409421077e-14,
+              "charge": 1.1068680747863824e-06,
+              "O": -2.203098814490545e-16,
+              "N": 0.0,
+              "C": 2.767170186976798e-07,
+              "H": 0.0
+            }
+          }
+        ],
+        "temperature_difference_K": -0.9310264656319305,
+        "qualification": "Qualitative salinity trend is not a scientific pass when closed-component conservation fails; temperatures differ and this is no empirical salinity calibration."
+      },
+      "status": "FAIL"
+    },
+    {
+      "id": "new120:kn-007",
+      "script_sha256": "b3ca508451c7973f3e52ecf8b0fbe01ce9b4cf94db9a26670b23862723bfc36c",
+      "response_sha256": "1b9d3220cedd92638b7ce544667f9124689d9403f389a53737e7a19c7aeec6af",
+      "original_forecast": "The retained solid catalyst remains active when supplied with fresh solvent and peroxide.",
+      "original_criteria": [
+        {
+          "id": "KN-007-C1",
+          "criterion": "The catalyst amount in v1 is not spent by the first reaction or created by reuse.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "KN-007-C2",
+          "criterion": "The second peroxide charge undergoes decomposition; do not equate rates unless temperature and retained-liquid conditions match.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "criteria": {
+        "no_solver_failure": true,
+        "catalyst_retained": true,
+        "filter_whole_material_and_charge": true,
+        "filter_donor_oxygen_retained": true,
+        "whole_script_material_and_charge": true,
+        "fresh_charge_decomposes": true,
+        "second_charge_oxygen_stoichiometry": true
+      },
+      "metrics": {
+        "donor_O2_before_after_filter_mol": [
+          7.744916646011897e-05,
+          7.744916646011897e-05
+        ],
+        "filter_whole_ledger_residual": {
+          "H": 0.0,
+          "O": 0.0,
+          "Mn": 0.0,
+          "charge": 0.0
+        },
+        "whole_script_ledger_residual": {
+          "charge": 0.0,
+          "O": 0.0,
+          "Mn": 0.0,
+          "H": 0.0
+        },
+        "MnO2_all_retained_timepoints_mol": [
+          0.001,
+          0.001,
+          0.001,
+          0.001,
+          0.001,
+          0.001,
+          0.001,
+          0.001,
+          0.001,
+          0.001
+        ],
+        "second_wait_seconds": 60.0,
+        "second_H2O2_consumed_mol": 0.00015489835974381036,
+        "second_O2_formed_mol": 7.74491798719052e-05,
+        "qualification": "Lumped teaching kinetics, not measured rate/temperature calibration. No rate equality is inferred between the two substrate charges."
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "new120:or-006",
+      "script_sha256": "76533f7bf9d3aa1c3504807d65ad19016a4c6b04932346bdd91d36796d7c560d",
+      "response_sha256": "c4362d338ec8579f5a72605f7cd94a367f33a46dd6626f8c150ce1233f4d8ebb",
+      "original_forecast": "The nominal hydroxide dose can hydrolyse at most half the ester through the saponification reaction, producing acetate and ethanol.",
+      "original_criteria": [
+        {
+          "id": "OR-006-C1",
+          "criterion": "Ester remains after the available hydroxide-equivalent budget has been spent.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "OR-006-C2",
+          "criterion": "Any conversion must match formation of both acetate and ethanol; a pH change alone is insufficient.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "criteria": {
+        "no_solver_failure": true,
+        "ester_matches_stoichiometry": false,
+        "ethanol_matches_stoichiometry": false,
+        "acetate_family_matches_stoichiometry": false,
+        "sodium_matches_stoichiometry": true
+      },
+      "metrics": {
+        "ester_mol": 0.01,
+        "ethanol_mol": 0,
+        "acetate_family_mol": 0,
+        "sodium_mol": 0.005,
+        "before_after_ledger_residual": {
+          "Na": 0.0,
+          "charge": 0.0,
+          "O": 0.0,
+          "H": 0.0,
+          "C": 0.0
+        }
+      },
+      "status": "FAIL"
+    },
+    {
+      "id": "new120:th-016",
+      "script_sha256": "8fa2a9862e690ce02d073e355e5cd06c40ad3b992f1f6597eda620b63ddd0de1",
+      "response_sha256": "f42849e22f5c6a606fd9cb3cbc932d2c5572f8d6b593dbb4edfb8a4152547ef5",
+      "original_forecast": "The pulse can bring zinc to its melting region and partly melt it; a solid/liquid transition is not by itself a change in oxidation state.",
+      "original_criteria": [
+        {
+          "id": "TH-016-C1",
+          "criterion": "Identify metallic zinc in both phases near its declared melting transition.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "TH-016-C2",
+          "criterion": "Any oxide formation must have its own oxygen source and reaction accounting; melting alone cannot create ZnO.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "criteria": {
+        "no_solver_failure": true,
+        "zinc_conserved": true,
+        "retained_coexistence": false,
+        "event_matches_owned_liquid": false,
+        "paid_latent_budget": false,
+        "no_unaccounted_new_oxide": true
+      },
+      "metrics": {
+        "temperature_K": 692.68,
+        "solid_Zn_mol": 0,
+        "liquid_Zn_mol": 0.7647598654022637,
+        "melt_event_mol": 0.07395386004097279,
+        "source_sensible_to_transition_J": 458.657744500174,
+        "source_latent_J_mol": 7320.0,
+        "expected_paid_liquid_mol": 0.07395386004095984,
+        "owned_phase_energy_excess_J": 5056.699959244745,
+        "ZnO_mol": 0,
+        "qualification": "Independent integration of declared source Cp plus declared fusion enthalpy, not experimental calibration."
+      },
+      "status": "FAIL"
+    }
+  ],
+  "new_requests": 0,
+  "catalog_additions_by_reader": 0,
+  "qualification": "Root must independently select only fully satisfied original criteria in their bounded domain; other failures remain excluded."
+}

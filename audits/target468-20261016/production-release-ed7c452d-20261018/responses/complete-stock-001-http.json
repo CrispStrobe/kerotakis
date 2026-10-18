@@ -1,0 +1,12 @@
+{
+  "id": "complete-stock-001",
+  "http_status": 200,
+  "elapsed_seconds": 3.596389351412654,
+  "response_sha256": "5b31da1d14ce3db61109a50bd27b859d03c52b96816f1ae81dd870c369129a28",
+  "response_headers": {
+    "cache-control": "no-store",
+    "content-type": "application/json",
+    "x-content-type-options": "nosniff"
+  },
+  "attempts": 1
+}

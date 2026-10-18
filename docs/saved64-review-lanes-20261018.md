@@ -5,7 +5,7 @@ Finish accepted-source integration and the full frontend/native deployment in
 turn the [saved64 first screen](../audits/target468-20261016/saved64-first-screen/README.md)
 into concrete follow-ups. They preserve original forecasts and first outcomes;
 none authorizes treating unsupported chemistry, exit0 or a diagnostic warning
-as a scientific pass. The catalog remains200 / fixed468 selected196.
+as a scientific pass. The latest catalog is201 / fixed468 selected197 after the separate deployed-source KN-007 replay; the original screen and first failures remain unchanged.
 
 ## A. Finalize bounded selections from existing evidence
 
@@ -132,7 +132,7 @@ actual differentiated peaks only where parameters exist, unchanged sample
 inventory, response-factor qualification and CLI/browser parity. Unsupported
 parameters are a coverage limit, not a license to invent retention constants.
 
-Prepared [PR829](https://github.com/CrispStrobe/kerotakis/pull/829) corrects the lost missing-model warning beside supported peaks. `outside_method` should remain the ionic-method exclusion list; an unsupported neutral belongs in a separate parameter-gap warning. The new smaller native failure confirms this distinction. Actual repaired native/fleet acceptance remains pending and SP012 stays held for missing retention coverage.
+Prepared [PR829](https://github.com/CrispStrobe/kerotakis/pull/829) corrects the lost missing-model warning beside supported peaks. `outside_method` should remain the ionic-method exclusion list; an unsupported neutral belongs in a separate parameter-gap warning. The new smaller native failure confirms this distinction. Actual8 core and3 native controls pass at corrected head8e2fe429; protected/full-fleet integration remains pending and SP012 stays held for missing retention coverage.
 
 For **SP003**, inspect distillation's accumulated-condensate positivity refusal.
 One stage delivers product; four stages refuse atomically. Freeze matched feed,
@@ -247,3 +247,14 @@ recorded and independently verifiable. Native and frontend claims distinguish
 what was captured. Existing source-qualified results, original locks, first
 failures and scientific counts remain unchanged. Byte-for-byte rebuild or
 empirical-calibration claims require their own evidence.
+
+## Actual deployed-source follow-up
+
+The [four unchanged diagnostic protocols](../audits/target468-20261016/deployed-shared-diagnostics-20261018/README.md)
+now have source/binary/lock-bound API results on `ed7c452d`, after actual release
+acceptance. KN-007 passes both original criteria and whole H/O/Mn/charge/filter
+oxygen checks; its separate selection does not rewrite the old oxygen-loss
+outcome. GS-010, OR-006 and TH-016 remain excluded. PR828 `5b054e6c` passes111
+focused tests but is not deployed; do not overwrite TH-016's production failure.
+Actual Pages source `76fe144` fails interpreter arithmetic with BASIC disabled,
+confirming lane H's configuration gap. No empirical calibration is inferred.

@@ -1,0 +1,13 @@
+
+running 3 tests
+test a_native_mixed_sample_reports_missing_neutrals_beside_real_peaks ... FAILED
+test a_sample_the_method_cannot_see_is_an_empty_chromatogram_not_a_refusal ... ok
+test dissolved_ions_are_named_outside_the_method ... ok
+
+failures:
+
+failures:
+    a_native_mixed_sample_reports_missing_neutrals_beside_real_peaks
+
+test result: FAILED. 2 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.57s
+

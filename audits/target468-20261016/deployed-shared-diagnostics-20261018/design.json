@@ -1,0 +1,173 @@
+{
+  "frozen_utc": "2026-10-18T07:58:57.648705+00:00",
+  "status": "Protocols only; unbound and unexecuted. Bind actual accepted release source/binary/lock and property hashes before issue. Run after production acceptance, never duplicate already issued scripts.",
+  "cases": [
+    {
+      "id": "new120:gs-010",
+      "script": "# GS-010: Salt can alter gas solubility without consuming the gas\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nseal v1 500mL\nadd v1 CO2 0.001mol\ninspect v1\nnew\nadd v2 water 100mL\nadd v2 NaCl 0.1mol\nseal v2 500mL\nadd v2 CO2 0.001mol\ninspect v2\n",
+      "script_sha256": "e4652aa7ba19e0fd0fbfe144cde5ffb532c96cc885d29a9f65ca37a7dfedd78f",
+      "original_forecast": "Chemical expectation: a concentrated salt medium can reduce molecular CO2 solubility through salting-out; it does not stoichiometrically consume CO2.",
+      "original_criteria": [
+        {
+          "id": "GS-010-C1",
+          "criterion": "Compare neutral dissolved CO2 separately from bicarbonate/carbonate and gas-phase carbon.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "GS-010-C2",
+          "criterion": "If the partition model lacks a salinity correction, record the missing effect as unsupported rather than forcing an expected difference.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "changed_source_expectations": {
+        "represented_material_charge_resolution_mol_or_eq": 1e-08,
+        "neutral_CO2_salt_less_than_water": true,
+        "temperatures_and_Pitzer_route_recorded": true,
+        "all_added_and_trapped_air_carbon_accounted": true,
+        "solver_failed_events": 0,
+        "scope": "Original qualitative salinity forecast plus a conserved represented C/H/O/Na/Cl/charge prerequisite; no empirical salinity calibration."
+      },
+      "baseline_stdout_sha256": "d7fd61e74cbe48649baf0312f689e1c16ce61412d6d87ee3ac946270ea5ced8b",
+      "baseline_engine": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      }
+    },
+    {
+      "id": "new120:kn-007",
+      "script": "# KN-007: Recover and reuse manganese dioxide with a fresh substrate charge\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nadd v1 MnO2 0.001mol\nadd v1 H2O2 0.001mol\nwait 60s\ninspect v1\nnew\nfilter v1 v2\nadd v1 water 100mL\nadd v1 H2O2 0.001mol\nwait 60s\ninspect\n",
+      "script_sha256": "b3ca508451c7973f3e52ecf8b0fbe01ce9b4cf94db9a26670b23862723bfc36c",
+      "original_forecast": "The retained solid catalyst remains active when supplied with fresh solvent and peroxide.",
+      "original_criteria": [
+        {
+          "id": "KN-007-C1",
+          "criterion": "The catalyst amount in v1 is not spent by the first reaction or created by reuse.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "KN-007-C2",
+          "criterion": "The second peroxide charge undergoes decomposition; do not equate rates unless temperature and retained-liquid conditions match.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "changed_source_expectations": {
+        "represented_material_charge_resolution_mol_or_eq": 1e-08,
+        "donor_O2_before_after_filter_resolution_mol": 1e-10,
+        "MnO2_retained_mol": 0.001,
+        "second_H2O2_charge_consumed_positive": true,
+        "scope": "Changed-source original-protocol replay only. Preserve the old oxygen-loss outcome and separate already integrated gas-retention tests."
+      },
+      "baseline_stdout_sha256": "93d074f2a56b6f282c2e8dd5db23e945823e410e05b97b954ef3c1137e7e9a50",
+      "baseline_engine": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      }
+    },
+    {
+      "id": "new120:or-006",
+      "script": "# OR-006: Base-limited ester hydrolysis leaves residual ester\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 20mL\nadd v1 ethyl_acetate 0.01mol\nadd v1 NaOH 0.005mol\ninspect v1\nreact v1 saponification\ninspect v1\n",
+      "script_sha256": "76533f7bf9d3aa1c3504807d65ad19016a4c6b04932346bdd91d36796d7c560d",
+      "original_forecast": "The nominal hydroxide dose can hydrolyse at most half the ester through the saponification reaction, producing acetate and ethanol.",
+      "original_criteria": [
+        {
+          "id": "OR-006-C1",
+          "criterion": "Ester remains after the available hydroxide-equivalent budget has been spent.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "OR-006-C2",
+          "criterion": "Any conversion must match formation of both acetate and ethanol; a pH change alone is insufficient.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "changed_source_expectations": {
+        "represented_material_charge_resolution_mol_or_eq": 1e-08,
+        "post_request_ester_mol": 0.005,
+        "post_request_ethanol_mol": 0.005,
+        "post_request_acetate_family_mol": 0.005,
+        "post_request_sodium_mol": 0.005,
+        "stoichiometric_resolution_mol": 1e-08,
+        "limiting_inventory": "0.005mol analytical hydroxide-equivalent budget, not rounded displayed OH activity or NaOH bottle identity",
+        "scope": "Explicit requested overall template, not cold/warm kinetic prediction or reaction heat."
+      },
+      "baseline_stdout_sha256": "a6a0978646de24196cade82e31150858dd13f4f1dff5ca2bc1083cb0e9046aec",
+      "baseline_engine": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      }
+    },
+    {
+      "id": "new120:th-016",
+      "script": "# TH-016: A metal absorbs latent heat while melting without being oxidised\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 Zn 50g @ 400C\nheat v1 1kJ\ninspect v1\nmeasure v1 thermometer\ninspect\n",
+      "script_sha256": "8fa2a9862e690ce02d073e355e5cd06c40ad3b992f1f6597eda620b63ddd0de1",
+      "original_forecast": "The pulse can bring zinc to its melting region and partly melt it; a solid/liquid transition is not by itself a change in oxidation state.",
+      "original_criteria": [
+        {
+          "id": "TH-016-C1",
+          "criterion": "Identify metallic zinc in both phases near its declared melting transition.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "TH-016-C2",
+          "criterion": "Any oxide formation must have its own oxygen source and reaction accounting; melting alone cannot create ZnO.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "changed_source_expectations": {
+        "represented_zinc_mol": 0.7647598654022637,
+        "zinc_inventory_resolution_mol": 1e-08,
+        "positive_retained_solid_and_liquid": true,
+        "melt_event_owned_phase_difference_resolution_mol": 1e-10,
+        "input_energy_J": 1000.0,
+        "no_new_oxide_without_oxygen_source": true,
+        "property_binding": "Actual deployed-source Zn solid heat-capacity curve and declared enthalpy of fusion; freeze those property-byte hashes at binding before issue. Compare latent+sensible energy and source boundary before numeric energy verdict.",
+        "scope": "Original finite partial-melt forecast and event/owned-phase consistency; no empirical calibration or full mixed-phase thermodynamics claim."
+      },
+      "baseline_stdout_sha256": "0ae6541d31036b6c0dbcd430284575323aa10b575a5bd83d508f5138ff7afc24",
+      "baseline_engine": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      }
+    }
+  ],
+  "requests_planned": 4,
+  "policy": {
+    "one_attempt_per_case": true,
+    "minimum_serial_seconds": 3.1,
+    "stop_on_ambiguous_5xx_or_network": true,
+    "no_original_forecast_or_script_changes": true,
+    "no_whole_corpus_reexecution": true
+  },
+  "catalog_additions": 0,
+  "accepted_engine": {
+    "source_head": "ed7c452d1a763396a18ef77663b9062007a1b03c",
+    "binary_sha256": "f9358b91b24f73c060e08f15dbf7eca7aebb11706c8af85b09942f5b69fd743a",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "origin": "https://kerotakis-web-payload.vercel.app",
+  "bound_to_authenticated_accepted_artifact": true,
+  "verified_release_receipt_sha256": "03221ec01fdf57d5f5ee2d171f0d4472c61aae67dbd4954356d46ae5e1e327ae",
+  "actual_release_property_source_sha256": {
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+    "crates/kerotakis-core/src/phase_route.rs": "4389a723f7b77c3b395069c77b89a2f4f9c8d749dcc221a69dac90a35cbbbe52",
+    "crates/kerotakis-core/src/curated.rs": "eaa1e5b21641f28498da5464de248c193b024bb8f5896a4af3678ab7d250b113",
+    "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "8f9fa9b3cf3d02471f028abadbf4bd293fc84326defd82e0bd351c2c25decbdd"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "source": {
+    "source_head": "ed7c452d1a763396a18ef77663b9062007a1b03c",
+    "binary_sha256": "f9358b91b24f73c060e08f15dbf7eca7aebb11706c8af85b09942f5b69fd743a",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "original_four_protocols_executed": 4,
+  "selected_ids": [
+    "new120:kn-007"
+  ],
+  "excluded_ids": [
+    "new120:gs-010",
+    "new120:or-006",
+    "new120:th-016"
+  ],
+  "catalog_total": 201,
+  "fixed468_selected": 197,
+  "fixed468_target": 401,
+  "fixed468_additional_selections_needed": 204,
+  "previous_catalog_total": 200,
+  "previous_fixed468_selected": 196,
+  "original_forecasts_and_failures_unchanged": true,
+  "basis": "Every original KN-007 criterion plus closed whole-vessel material/charge and filter oxygen ownership; no empirical rate calibration"
+}
