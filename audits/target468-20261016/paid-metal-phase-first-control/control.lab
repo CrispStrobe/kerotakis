@@ -1,0 +1,7 @@
+register lv3
+add v1 Zn 0.1mol @ 400C
+inspect v1
+heat v1 100J
+inspect v1
+wait 1s
+inspect v1

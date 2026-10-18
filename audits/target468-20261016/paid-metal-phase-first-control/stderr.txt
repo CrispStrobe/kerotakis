@@ -1,0 +1,51 @@
+CHARGE t=673.1 budget={"N": 1.2480000000000002, "O": 0.336, "Zn": 0.1} mapped=[(SpeciesId("Zn"), 0.1)] h_before=9.9124e3 feed=false
+HP floor 250 K failed, raising
+HP floor 400 K ok, H=2.625e3 vs target 9.912e3
+HP mid 3200 K ok, H=9.000e4
+HP mid 1800 K ok, H=4.454e4
+HP mid 1100 K ok, H=2.295e4
+HP mid 750 K ok, H=1.279e4
+HP mid 575 K ok, H=7.238e3
+HP mid 662 K ok, H=9.619e3
+HP mid 706 K ok, H=1.156e4
+HP mid 684 K ok, H=1.022e4
+HP mid 673 K ok, H=9.920e3
+HP mid 668 K ok, H=9.769e3
+HP mid 671 K ok, H=9.845e3
+HP mid 672 K ok, H=9.883e3
+HP mid 673 K ok, H=9.901e3
+HP mid 673 K ok, H=9.911e3
+CHARGE t=692.7 budget={"N": 1.2480000000000002, "O": 0.336, "Zn": 0.1} mapped=[(SpeciesId("Zn"), 0.09453197905339215), (SpeciesId("Zn"), 0.005468020946607849)] h_before=1.0454e4 feed=false
+HP floor 250 K failed, raising
+HP floor 400 K ok, H=2.625e3 vs target 1.045e4
+HP mid 3200 K ok, H=9.000e4
+HP mid 1800 K ok, H=4.454e4
+HP mid 1100 K ok, H=2.295e4
+HP mid 750 K ok, H=1.279e4
+HP mid 575 K ok, H=7.238e3
+HP mid 662 K ok, H=9.619e3
+HP mid 706 K ok, H=1.156e4
+HP mid 684 K ok, H=1.022e4
+HP mid 695 K ok, H=1.126e4
+HP mid 690 K ok, H=1.037e4
+HP mid 693 K ok, H=1.045e4
+HP mid 694 K ok, H=1.122e4
+HP mid 693 K ok, H=1.120e4
+HP mid 693 K ok, H=1.119e4
+CHARGE t=692.7 budget={"N": 1.2480000000000002, "O": 0.336, "Zn": 0.1} mapped=[(SpeciesId("Zn"), 0.08992829939706168), (SpeciesId("Zn"), 0.01007170060293832)] h_before=1.0454e4 feed=false
+HP floor 250 K failed, raising
+HP floor 400 K ok, H=2.625e3 vs target 1.045e4
+HP mid 3200 K ok, H=9.000e4
+HP mid 1800 K ok, H=4.454e4
+HP mid 1100 K ok, H=2.295e4
+HP mid 750 K ok, H=1.279e4
+HP mid 575 K ok, H=7.238e3
+HP mid 662 K ok, H=9.619e3
+HP mid 706 K ok, H=1.156e4
+HP mid 684 K ok, H=1.022e4
+HP mid 695 K ok, H=1.126e4
+HP mid 690 K ok, H=1.037e4
+HP mid 693 K ok, H=1.045e4
+HP mid 694 K ok, H=1.122e4
+HP mid 693 K ok, H=1.120e4
+HP mid 693 K ok, H=1.119e4

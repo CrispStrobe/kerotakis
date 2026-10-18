@@ -921,7 +921,14 @@ impl PhaseRouteEquilibrator {
                 0.0,
                 Moles(n),
             ));
-            *pool += n * latent;
+            // The deficit above was integrated with the pre-transition
+            // phases. Rephasing changes Cp, so the heat that brings the
+            // resulting inventory back to the transition is different.
+            // Reference both states to the same threshold: otherwise a
+            // freeze/condensation invents sensible heat and the next pass
+            // melts or boils part of the paid transition back again.
+            let after_deficit = vessel.energy_between(now, melting);
+            *pool += n * latent + after_deficit - budget;
             moved = true;
         }
 
@@ -959,7 +966,8 @@ impl PhaseRouteEquilibrator {
                 0.0,
                 Moles(n),
             ));
-            *pool += n * latent;
+            let after_deficit = vessel.energy_between(now, boiling);
+            *pool += n * latent + after_deficit - budget;
             moved = true;
         }
         moved
