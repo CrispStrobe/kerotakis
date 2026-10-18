@@ -15,10 +15,12 @@ The CEA charge currently omits owned phase from its enthalpy mapping, the HP
 search can stop near a discontinuous condensed-phase transition, and readback
 unconditionally overwrites contents even when no chemical event is reported.
 The prepared repair addresses the destructive readback boundary: for an
-adiabatic condensed-only charge, preserve the core phase route's already paid
-fractions when CEA returns the same chemical amounts and unchanged atmosphere.
+adiabatic condensed-only charge on a supported core solid/liquid coexistence
+plateau, preserve the already paid fractions when CEA returns the same chemical
+amounts and unchanged atmosphere.
 Use roundoff-level comparisons and exact species sets, not visible-event cutoffs.
-New gas, consumed atmospheric oxygen, owned gas/aqueous matter or changed chemical
+A missing latent-heat route, a state away from the plateau, new gas, consumed
+atmospheric oxygen, owned gas/aqueous matter or changed chemical
 amounts prevent the handoff. Real oxidation remains on its chemical route.
 
 The regression controls cover Zn and Pb below/within/above the latent budget,

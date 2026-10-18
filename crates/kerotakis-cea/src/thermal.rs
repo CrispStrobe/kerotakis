@@ -476,6 +476,30 @@ fn chemical_inventory_unchanged(
     }) {
         return false;
     }
+    // Only hand back an existing, supported coexistence plateau. A species
+    // without a core latent-heat route must not acquire a new permission to
+    // remain an arbitrarily superheated solid through this guard.
+    let has_plateau = vessel.contents.iter().any(|solid| {
+        if solid.phase != Phase::Solid || solid.moles.0 <= 0.0 {
+            return false;
+        }
+        let Some(melting) = species::lookup(&solid.species)
+            .and_then(|data| data.transitions)
+            .and_then(|transitions| transitions.melting_k)
+        else {
+            return false;
+        };
+        kerotakis_core::phase_route::fusion_enthalpy(&solid.species.0).is_some()
+            && (vessel.temperature.0 - melting).abs() <= 64.0 * f64::EPSILON * melting.abs()
+            && vessel.contents.iter().any(|liquid| {
+                liquid.species == solid.species
+                    && liquid.phase == Phase::Liquid
+                    && liquid.moles.0 > 0.0
+            })
+    });
+    if !has_plateau {
+        return false;
+    }
     let totals = |portions: &[Portion]| {
         let mut result = BTreeMap::new();
         for p in portions.iter().filter(|p| p.moles.0 > 0.0) {
@@ -519,6 +543,14 @@ mod phase_handoff_tests {
         let mut vessel = Vessel::new(kerotakis_core::VesselId(0), "beaker");
         vessel.deposit(SpeciesId::new("Zn"), Moles(0.075), Phase::Solid);
         vessel.deposit(SpeciesId::new("Zn"), Moles(0.025), Phase::Liquid);
+        vessel.temperature = Kelvin(
+            species::lookup_key("Zn")
+                .unwrap()
+                .transitions
+                .unwrap()
+                .melting_k
+                .unwrap(),
+        );
         let condensed = vec![Portion {
             species: SpeciesId::new("Zn"),
             moles: Moles(0.1),
@@ -528,6 +560,15 @@ mod phase_handoff_tests {
         let composition = vec![("N2".to_string(), 0.624), ("O2".to_string(), 0.168)];
         assert!(chemical_inventory_unchanged(
             &vessel,
+            &condensed,
+            &composition,
+            &air
+        ));
+
+        let mut away_from_plateau = vessel.clone();
+        away_from_plateau.temperature.0 += 1.0;
+        assert!(!chemical_inventory_unchanged(
+            &away_from_plateau,
             &condensed,
             &composition,
             &air
