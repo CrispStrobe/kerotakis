@@ -631,6 +631,11 @@ fn without_inline_comment(line: &str) -> &str {
 /// is dropped when the index is built, and if a rewritten line does not
 /// parse the untouched one still gets its turn.
 pub fn parse_command(line: &str, locale: Locale) -> Result<Command, ParseError> {
+    // A full comment is a preserved no-op in saved command history. Strip
+    // trailing comments only from executable input, before alias rewriting.
+    if line.trim_start().starts_with('#') {
+        return Ok(replayable_command(line, None));
+    }
     let line = without_inline_comment(line);
     let translated = canonical_line_in(line, locale);
     let candidate = translated.as_deref().unwrap_or(line);
