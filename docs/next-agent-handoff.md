@@ -118,11 +118,10 @@ and update STATUS without incrementing scientific counts.
 ## Lane 3 — assess saved forecasts and reconcile the working catalog
 
 **Inputs:** `audits/target468-20261016/{README.md,scoreboard.json}`, working
-catalog `audits/working-experiments-20261018.json`, original manifests and saved
-assessments. Current catalog201 / fixed468 selected197; goal401 means204 more. KN-007 is a separately qualified repaired-source replay; older forecasts and outcomes are unchanged.
-First120 has64 cases awaiting final selection review,14 earlier reviewed holds
-and42 selected. The [saved64 first screen](saved64-review-lanes-20261018.md)
-records44 candidates and20 named holds; the44 candidates still need final review and the20 original holds remain historical. KN-007 has a separately earned repaired-source selection. All668 baseline
+catalog `audits/working-experiments-20261018-reviewed-gas.json`, original manifests and saved
+assessments. Current catalog204 / fixed468 selected200; goal401 means201 more. KN-007 is a separately qualified repaired-source replay; older forecasts and outcomes are unchanged.
+The original first120 had64 cases in this review backlog; three now earned final saved-gas selection. The earlier42 selected and14 reviewed-hold bindings remain unchanged. The [saved64 first screen](saved64-review-lanes-20261018.md)
+originally recorded44 candidates and20 named holds;41 candidates still need final review and the20 original holds remain historical. KN-007 has a separately earned repaired-source selection. All668 baseline
 executions are already complete. The separate curriculum200 is not part of468.
 
 **Work:** pick a small named group of unassessed IDs, read original prospective
@@ -357,7 +356,7 @@ actual live-browser checks accepted; see the
 The four original diagnostics ran once afterward.
 [Saved assessment](../audits/target468-20261016/deployed-shared-diagnostics-20261018/assessment.json)
 qualifies KN-007 and preserves GS-010/OR-006/TH-016 failures.
-The [latest catalog](../audits/working-experiments-20261018.json) has201 overall/197
+The [latest catalog](../audits/working-experiments-20261018-reviewed-gas.json) has201 overall/197
 fixed468. Earlier200 entries are unchanged; no44 older-source candidates were
 automatically promoted.
 

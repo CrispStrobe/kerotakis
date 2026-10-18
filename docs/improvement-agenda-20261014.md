@@ -100,3 +100,10 @@ CPU evidence and full original fleet requirements. Then deploy changed runtime
 and freeze repaired-source replays. Actual Pages BASIC-disabled behavior also
 needs the scoped profile repair. The ordered six-step scientific agenda remains
 unchanged; tests passing are not new corpus experiment selections.
+
+
+Saved-evidence selection checkpoint: three gas protocols now have final review
+of all original criteria, without a new simulation. The working catalog is204
+source-qualified entries, including200 of fixed468. The41 remaining first-screen
+candidates need their own criterion/domain review; historical holds and original
+first outcomes are preserved. See STATUS for the complete catalog and receipt.

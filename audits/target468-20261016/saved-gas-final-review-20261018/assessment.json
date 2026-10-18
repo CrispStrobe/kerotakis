@@ -1,0 +1,242 @@
+{
+  "schema": "kerotakis-saved-gas-final-review-v1",
+  "source": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "archive_sha256": "9c33ddf3893ab32e0309dc1ef5c65b3b2c4e2967c8a3468c2808b0de1074201f",
+  "source_vessel_sha256": "c6fb8f02fc04a6d7bae8d65955e97145398e61ebc04d302851bddf33bc4203fd",
+  "cases": [
+    {
+      "id": "new120:gs-001",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "At approximately constant headspace and temperature, the pressure increments from added gases are approximately additive, with small gas-solubility differences.",
+      "original_criteria_review": [
+        {
+          "id": "GS-001-C1",
+          "criterion": "Compare pressure increments rather than treating the initial headspace as a vacuum.",
+          "result": "PASS",
+          "reason": "The saved sealed-air baseline is101324.630104Pa; the two positive increments are2478.957599Pa each rather than pressures measured from vacuum."
+        },
+        {
+          "id": "GS-001-C2",
+          "criterion": "Use the actual gas-phase moles and temperature in P = nRT/V; O2 and N2 need not dissolve equally.",
+          "result": "PASS",
+          "reason": "Independent dose-plus-baseline nRT/V calculations use each actual temperature and1L headspace and agree within the existing molar inventory resolution; both exact pressure residuals are retained. This selects ideal finite-carrier additivity, without a quantitative N2/O2 dissolution claim."
+        }
+      ],
+      "script_sha256": "21e7c282fa2c90f88496a48ad2b7c5e2510201d250fc1262a3aa5883f6ef9468",
+      "stdout_sha256": "c38d4351247927f87e1c5fe4922fc1bc62b9a3184f92f20cd7119fd28e9f55ca",
+      "metrics": {
+        "sealed_air_baseline_Pa": 101324.63010419912,
+        "added_pressure_increments_Pa": [
+          2478.957598992696,
+          2478.9575980587833
+        ],
+        "dose_and_actual_temperature_predicted_pressures_Pa": [
+          103803.5877043463,
+          106282.54530240575
+        ],
+        "actual_pressures_Pa": [
+          103803.58770319182,
+          106282.5453012506
+        ],
+        "inferred_dose_molar_residuals": [
+          -4.657103400745516e-13,
+          -4.659803682043796e-13
+        ]
+      },
+      "maximum_absolute_pressure_identity_residual_Pa": 0.0,
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": -1.4106054987820561e-12,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 0.0,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": -5.642413131725834e-12
+        },
+        "final_maximum_absolute_residual": 5.642413131725834e-12,
+        "max_per_step_residual": 5.642413131725834e-12,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "scope": "Original finite ideal-carrier/aqueous carbonate teaching domain. No quantitative N2/O2 solubility, real-gas/high-pressure, empirical partition calibration, reaction heat or latest-production claim."
+    },
+    {
+      "id": "new120:gs-003",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "The alkaline liquid converts CO2 into bicarbonate/carbonate, storing more carbon in liquid and reducing the CO2 contribution to pressure.",
+      "original_criteria_review": [
+        {
+          "id": "GS-003-C1",
+          "criterion": "Compare carbon partition fractions at the actual temperatures.",
+          "result": "PASS",
+          "reason": "Owned aqueous/gas carbon fractions and CO2 partial pressures are independently calculated at both recorded temperatures; the warmer alkaline arm retains more carbon in solution and has lower CO2 partial pressure."
+        },
+        {
+          "id": "GS-003-C2",
+          "criterion": "The alkaline vessel retains the added carbon; pressure reduction alone must not be mistaken for carbon deletion.",
+          "result": "PASS",
+          "reason": "Both finite CO2 additions close against their own trapped-air baseline. Whole-bench atoms/charge also close at the existing1e-8mol/eq audit resolution; decreased pressure is not carbon deletion."
+        }
+      ],
+      "script_sha256": "9060ad1912c82c28327f69131e17e5b8b57c33a906ccc188d10b70913618c997",
+      "stdout_sha256": "d159d0164a1b7c0b05ae135d3a60f376eb99ecd84a57d02702b0784022c33a8f",
+      "metrics": {
+        "neutral_and_alkaline_arms": [
+          {
+            "temperature_K": 298.15692375922686,
+            "aqueous_carbon_mol": 0.00014575249202023613,
+            "gas_CO2_mol": 0.0008624223168846,
+            "aqueous_carbon_fraction": 0.1445706545460749,
+            "CO2_partial_pressure_Pa": 4275.915024488077,
+            "closed_CO2_addition_residual_mol": -3.0791341698588326e-17
+          },
+          {
+            "temperature_K": 298.61261235188783,
+            "aqueous_carbon_mol": 0.0010081525950050092,
+            "gas_CO2_mol": 1.63658541584e-08,
+            "aqueous_carbon_fraction": 0.999983766754588,
+            "CO2_partial_pressure_Pa": 0.08126639678392703,
+            "closed_CO2_addition_residual_mol": -4.486428589745017e-16
+          }
+        ]
+      },
+      "maximum_absolute_pressure_identity_residual_Pa": 0.0,
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": -4.702158801217493e-13,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": -3.552713678800501e-15,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 1.734723475976807e-17,
+          "O": -1.7763568394002505e-15,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": -1.880850293220493e-12
+        },
+        "final_maximum_absolute_residual": 1.880850293220493e-12,
+        "max_per_step_residual": 1.880850293220493e-12,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "scope": "Original finite ideal-carrier/aqueous carbonate teaching domain. No quantitative N2/O2 solubility, real-gas/high-pressure, empirical partition calibration, reaction heat or latest-production claim."
+    },
+    {
+      "id": "new120:gs-009",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "With a materially closed, expanding regulated headspace, inert-gas addition expands the gas volume and can lower CO2 partial pressure, favouring CO2 transfer out of solution.",
+      "original_criteria_review": [
+        {
+          "id": "GS-009-C1",
+          "criterion": "Pressure stays near the setpoint while headspace volume expands.",
+          "result": "PASS",
+          "reason": "The actual setpoint remains100000Pa while finite headspace expands from0.521314636L to0.645852822L after the nitrogen dose."
+        },
+        {
+          "id": "GS-009-C2",
+          "criterion": "Track carbon conservation and any decrease in dissolved-carbon fraction; do not assume regulation vents mass.",
+          "result": "PASS",
+          "reason": "Owned total carbon remains unchanged while dissolved carbon and actual-temperature CO2 partial pressure decrease. Regulated expansion is treated as materially closed; no vent is inferred."
+        }
+      ],
+      "script_sha256": "66399a99f578e0cdd1171ebc14b2a99053709e42cf6bdf08015bd366d6111e78",
+      "stdout_sha256": "0463b25825254125fdb33ee700f95b6783fc8431a0c09dfb7318d7332233eb1b",
+      "metrics": {
+        "before_after_temperature_K": [
+          298.15667676486476,
+          298.1555408745978
+        ],
+        "before_after_pressure_Pa": [
+          100000.0,
+          100000.0
+        ],
+        "before_after_headspace_L": [
+          0.5213146364617823,
+          0.6458528220761836
+        ],
+        "before_after_CO2_partial_pressure_Pa": [
+          4124.849456938487,
+          3420.807031886234
+        ],
+        "before_after_aqueous_carbon_mol": [
+          0.000140648177433225,
+          0.00011684761323446162
+        ],
+        "carbon_change_mol": -6.331740687315346e-17
+      },
+      "maximum_absolute_pressure_identity_residual_Pa": 1.4551915228366852e-11,
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": -7.589415207398531e-18,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": -1.7763568394002505e-15,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": -3.3406979439709605e-17
+        },
+        "final_maximum_absolute_residual": 1.7763568394002505e-15,
+        "max_per_step_residual": 1.7763568394002505e-15,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "scope": "Original finite ideal-carrier/aqueous carbonate teaching domain. No quantitative N2/O2 solubility, real-gas/high-pressure, empirical partition calibration, reaction heat or latest-production claim."
+    }
+  ],
+  "selected": 3,
+  "new_engine_or_API_executions": 0,
+  "GS008": "Not selected by this review: its explicit nonideal-correction criterion needs its own final domain review; no criterion is silently dropped.",
+  "GS010": "Remains excluded: original and current brine conservation failure; PR833 requires separate combined-source and deployed acceptance."
+}

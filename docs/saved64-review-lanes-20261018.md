@@ -279,3 +279,18 @@ execution, all applicable native/platform and full-fleet checks remain pending.
 Preserve the original failure, use normal exact-head integration, then bind a
 separate actual-production GS-010 replay before any working-catalog selection.
 Do not rescale readback or replace the reviewed thermodynamic constants.
+
+
+## Final saved-gas review completed for three candidates
+
+GS001, GS003 and GS009 now satisfy all six original criteria within their original
+finite ideal-carrier/carbonate domains. The [independent reader and assessment](../audits/target468-20261016/saved-gas-final-review-20261018/README.md)
+retain actual temperature, trapped-air baselines, pressure increments, carbon
+fractions, per-arm additions and numerical residuals. No engine was rerun.
+The previous201 catalog records remain unchanged; the new complete catalog has
+204 entries, including200 fixed468 selections. The other41 candidates still
+need final review;20 original holds remain historical. GS008's explicit
+nonideal-correction criterion remains pending, and GS010 is still excluded.
+Do not interpret internal ideal-gas closure as quantitative solubility or
+real-gas calibration. The receipt preserves the first assessment-tool failure
+and its correction to the existing molar inventory resolution.

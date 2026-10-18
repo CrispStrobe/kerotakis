@@ -1,0 +1,5 @@
+{
+  "reader_sha256": "4b441ed2ffd9fba584be53cf71d1644438668f955c3ae5f57abc2f27c88231f6",
+  "failure": "An invented1e-6Pa exact-pressure assertion rejected residuals of -1.154476e-6 and -1.155146e-6Pa, equivalent to -4.6571e-13 and -4.6598e-13mol. The original approximate-additivity forecast has no1e-6Pa band.",
+  "correction": "Retain exact pressure residuals and judge the inferred molar residual using the existing1e-8mol inventory-audit resolution; every original criterion remains reviewed. No experiment, forecast or source is changed or reexecuted."
+}

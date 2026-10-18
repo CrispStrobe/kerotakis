@@ -16,15 +16,14 @@ infrastructure failures. All666 engine-bearing responses matched saved native
 results; the two separately bound budget follow-ups completed. Do not rerun an
 unchanged corpus.
 
-The [latest working catalog](../audits/working-experiments-20261018.json) has
-**201 source-qualified entries, including197 of fixed468**. The fixed468 target401
-needs204 further earned selections. Earlier entries retain their own tested
-bindings; this is not201 reruns on current production or empirical calibration.
+The [latest working catalog](../audits/working-experiments-20261018-reviewed-gas.json) has
+**204 source-qualified entries, including200 of fixed468**. The fixed468 target401
+needs201 further earned selections. Earlier entries retain their own tested
+bindings; this is not204 reruns on current production or empirical calibration.
 The unchanged previous catalog remains preserved. All64 saved cases have
 [reproducible preparation](../audits/target468-20261016/saved64-review-preparation/README.md):
-44 older-source first-screen candidates still need final domain/criterion
-review. The20 original holds remain historical; KN-007 now has a separate
-repaired-source selection. No other candidate was automatically promoted.
+Three original gas protocols now have [final criterion review](../audits/target468-20261016/saved-gas-final-review-20261018/README.md), authenticating all six original criteria without new simulator calls. The41 other older-source candidates still need final domain/criterion review. The20 original holds remain historical; KN-007 now has a separate
+repaired-source selection. No other candidate was automatically promoted. The previous201-entry catalog is preserved unchanged.
 
 The [four unchanged deployed-source diagnostic replays](../audits/target468-20261016/deployed-shared-diagnostics-20261018/README.md)
 produce one selection and three continuing failures:
@@ -124,7 +123,7 @@ actual merge parents/tree afterward.
 4. Close the now measured Pages interpreter-profile gap using the reviewed
    backend and actual served-payload acceptance. Continue the
    [scoped lanes](saved64-review-lanes-20261018.md), including staged separation,
-   thermal domains, boundary semantics and final44 candidate review.
+   thermal domains, boundary semantics and final41 candidate review.
 
 Host paths, credentials, resource thresholds, session inventories and operating
 controllers belong only in the ignored private handoff. Legacy Hermes workers
