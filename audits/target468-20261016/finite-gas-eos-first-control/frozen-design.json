@@ -1,0 +1,15 @@
+{
+  "utc": "2026-10-18T15:30:18.161881+00:00",
+  "source": "5b054e6cef6925828d9574cdd4cf9b0169da212b",
+  "binary_sha256": "6c617d2bdbd5a2501cbddb723be56e75fb86bb40c5e39cd183f57c36179c1b55",
+  "script_sha256": "2702c9658ba9232360521687e8a6fc0f8d3b734d7ef3ebcb32b9250c4f9e8a79",
+  "expectation": "Finite sealed addition conserves C/H/O/Na/Cl and charge at 1e-8 mol or eq; numerical balance does not certify salinity calibration. New smaller diagnostic, not unchanged original GS010 replay.",
+  "purpose": "Capture native PHREEQC input and selected readback on brine carbon failure without modifying model or forecast.",
+  "native_env": {
+    "KERO_DUMP_INPUT": "all",
+    "KERO_READBACK": "1"
+  },
+  "max_seconds": 45,
+  "max_virtual_memory_bytes": 2147483648,
+  "cpu_affinity": 1
+}

@@ -6762,41 +6762,47 @@ fn build_input_at(
         }
     }
     if !problem.gases.is_empty() {
-        writeln!(input, "GAS_PHASE 1").unwrap();
-        // The gas is stated as partial pressures computed at the vessel's
-        // temperature, and PHREEQC turns them back into moles at the gas
-        // phase's OWN temperature — which defaults to 25 °C whatever the
-        // SOLUTION block says. Without this line every solve of a sealed
-        // vessel not at 25 °C lost or gained gas by T/298.15: a beaker the
-        // heat balance cooled 14 K handed back 95.2% of its CO₂, 0.88 mmol
-        // of carbon simply gone, and the sealed-mass lesson drifted 0.04 g
-        // away from the conservation it teaches. Invisible for as long as
-        // nothing moved a sealed vessel's temperature.
-        // partition() converts owned moles to partial pressure at the
-        // vessel's unrounded temperature. Four decimal Celsius places here
-        // changed the initializer's moles by T_raw/T_written (1.26e-7 in the
-        // frozen carbonated-water opening). Preserve the initializer's own
-        // temperature without changing SOLUTION's established precision.
-        writeln!(input, "    -temperature {temp_c:.12e}").unwrap();
-        match vessel.headspace {
-            Headspace::Sealed { volume } => {
-                writeln!(input, "    -fixed_volume").unwrap();
-                writeln!(input, "    -volume {:.12e}", volume.0).unwrap();
-            }
-            Headspace::PressureControlled { volume, .. } => {
-                // The wrapper iterates this fixed-volume solve with V=nRT/P
-                // until the requested controller pressure and gas/liquid
-                // partition agree. This keeps inert carrier gas out of
-                // PHREEQC's unrestricted redox equilibrium.
-                writeln!(input, "    -fixed_volume").unwrap();
-                writeln!(input, "    -volume {:.12e}", volume.0).unwrap();
-            }
+        // GAS_PHASE's pressure initializer uses the database's gas EOS.
+        // P=nRT/V therefore supplies the wrong finite moles when a phase
+        // carries Peng-Robinson parameters (CO2 in pitzer.dat). Raw native
+        // gas state accepts owned component moles directly and still lets
+        // the solver apply its reviewed EOS during equilibrium.
+        let volume = match vessel.headspace {
+            Headspace::Sealed { volume } | Headspace::PressureControlled { volume, .. } => volume.0,
             _ => unreachable!("gas components require a material-closed headspace"),
+        };
+        let amounts: Vec<_> = problem
+            .gases
+            .iter()
+            .map(|(phase, species, _)| {
+                let moles: f64 = vessel
+                    .contents
+                    .iter()
+                    .filter(|p| p.phase == Phase::Gas && p.species.0 == *species)
+                    .map(|p| p.moles.0)
+                    .sum();
+                (phase, moles)
+            })
+            .collect();
+        let total_moles: f64 = amounts.iter().map(|(_, moles)| moles).sum();
+        // total_p is required by the raw reader; it is a starting estimate,
+        // not an inventory initializer or a reported physical prediction.
+        let pressure_guess: f64 = problem.gases.iter().map(|(_, _, p)| p).sum();
+        writeln!(input, "GAS_PHASE_RAW 1").unwrap();
+        writeln!(input, "    -type 1").unwrap(); // native GP_VOLUME
+        writeln!(input, "    -total_p {pressure_guess:.12e}").unwrap();
+        writeln!(input, "    -volume {volume:.12e}").unwrap();
+        // The native raw-state temperature is Kelvin, unlike GAS_PHASE.
+        writeln!(input, "    -temperature {:.12e}", vessel.temperature.0).unwrap();
+        writeln!(input, "    -new_def 0").unwrap();
+        writeln!(input, "    -solution_equilibria 0").unwrap();
+        writeln!(input, "    -total_moles {total_moles:.12e}").unwrap();
+        for (phase, moles) in amounts {
+            writeln!(input, "    -component {phase}\n        -moles {moles:.12e}").unwrap();
         }
-        for (phase, _, partial_pressure) in &problem.gases {
-            writeln!(input, "    {phase} {:.12e}", partial_pressure).unwrap();
-        }
+        writeln!(input, "USE gas_phase 1").unwrap();
     }
+
     if !problem.surfaces.is_empty() {
         let total_mass: f64 = problem.surfaces.iter().map(|surface| surface.mass.0).sum();
         let total_area: f64 = problem
@@ -7416,8 +7422,9 @@ mod finite_gas_temperature_serialization_tests {
                 .unwrap()
         };
         let input_aqueous = written("C ") * written("water ");
-        let input_gas = written("CO2(g) ") * written("-volume ")
-            / (0.082_059_7 * (written("-temperature ") + 273.15));
+        let input_gas = written("-moles ");
+        assert!(input.contains("GAS_PHASE_RAW 1"));
+        assert!((written("-temperature ") - vessel.temperature.0).abs() < 5e-10);
         let target = aqueous_carbon + gas_carbon;
         // Each twelve-decimal scientific field has <=5e-13 relative
         // quantization. This bound covers both native initialization paths.
@@ -7462,21 +7469,21 @@ mod finite_gas_temperature_serialization_tests {
             });
             let problem = partition(&vessel).unwrap();
             let input = build_input(&vessel, &problem, "wateq4f");
-            let written_celsius: f64 = input
+            let written_kelvin: f64 = input
                 .lines()
                 .find_map(|line| line.trim().strip_prefix("-temperature "))
                 .unwrap()
                 .trim()
                 .parse()
                 .unwrap();
-            let partial_pressure: f64 = input
+            let initialized: f64 = input
                 .lines()
-                .find_map(|line| line.trim().strip_prefix("CO2(g) "))
+                .find_map(|line| line.trim().strip_prefix("-moles "))
                 .unwrap()
                 .trim()
                 .parse()
                 .unwrap();
-            let initialized = partial_pressure * 0.1 / (0.082_059_7 * (written_celsius + 273.15));
+            assert!((written_kelvin - temperature).abs() < 5e-10);
             assert!(
                 (initialized - 0.02).abs() < 1e-14,
                 "T={temperature}: {initialized}"
