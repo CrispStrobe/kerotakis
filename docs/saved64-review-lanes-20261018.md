@@ -294,3 +294,37 @@ nonideal-correction criterion remains pending, and GS010 is still excluded.
 Do not interpret internal ideal-gas closure as quantitative solubility or
 real-gas calibration. The receipt preserves the first assessment-tool failure
 and its correction to the existing molar inventory resolution.
+
+## I. Give coupled ammonia protonation and headspace exchange one owner
+
+**Observed hold:** original GS005 changes free aqueous NH3 from about0.000947mol
+to6.35e-11mol on acidification, yet gas NH3 stays near3.57198e-6mol in both
+arms. Nitrogen closes; the tiny gas difference does not establish acid trapping.
+This is older-source evidence, so reproduce it against an authenticated accepted
+current source before claiming a continuing current-source defect.
+
+**Source lead:** `crates/kerotakis-core/src/volatility.rs` partitions neutral
+NH3 with a standalone Henry law, while
+`crates/kerotakis-phreeqc/src/derived.rs` currently grants native finite gas
+ownership only to CO2/HBr. Aqueous NH3/NH4+ protonation and gas exchange must
+converge together. WATEQ already carries an NH3 gas phase; inspect the actual
+selected databases and their capabilities rather than assuming every route has
+that phase or compatible thermochemistry.
+
+**Work:** freeze matched neutral/acid controls with finite N/H/O/charge ledgers,
+actual temperatures, aqueous free/bound nitrogen and headspace NH3. Trace all
+writers and their order in the standard solver stack. Define explicit coupled
+gas capability/ownership so the authoritative aqueous solver can handle its
+supported wet domain while core-only, native-disabled and pure-liquid Henry
+fallbacks retain their existing scoped behavior. Preserve inert N2/O2 and any
+retained-gas ledger. Do not merely add another independent gas writer or disable
+all NH3 partitioning globally. Dataset fallback or borrowed gas data needs its
+own declared provenance, temperature range and source-bound acceptance.
+
+**Done:** acid trapping changes actual owned headspace NH3 while whole N/H/O and
+charge remain closed, diagnostics agree with owned phases, repeated unchanged
+settlement is stable, and neutral, acidic, buffered, initially empty gas,
+pure-liquid and unavailable-backend controls remain honest. Keep the original
+GS005 failure/hold and add a separately bound replay only after normal protected
+integration and actual delivery. A model gap or unavailable gas capability is
+not a scientific pass.
