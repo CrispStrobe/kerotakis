@@ -1,0 +1,26 @@
+SOLUTION 1
+ units mol/kgw
+ pH 7 charge
+ temp 25
+ water 0.08
+ Na 1
+ Cl 1
+ C 0.00125
+GAS_PHASE_RAW 1
+ -type 1
+ -total_p 6.116524888750000e-02
+ -volume .4
+ -temperature 298.15
+ -new_def 0
+ -solution_equilibria 0
+ -total_moles 0
+ -component CO2(g)
+  -moles 0
+USE gas_phase 1
+SELECTED_OUTPUT
+ -reset false
+ -high_precision true
+ -water true
+ -totals C Na Cl
+ -gases CO2(g)
+END

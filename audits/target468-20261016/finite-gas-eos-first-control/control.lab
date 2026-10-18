@@ -1,0 +1,7 @@
+register lv3
+add v1 water 80mL
+add v1 NaCl 0.08mol
+seal v1 400mL
+inspect v1
+add v1 CO2 0.0007mol
+inspect v1

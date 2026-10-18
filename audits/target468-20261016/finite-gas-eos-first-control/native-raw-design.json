@@ -1,0 +1,14 @@
+{
+  "supplied_carbon_mol": 0.001,
+  "expected_absolute_C_residual_max": 1e-10,
+  "cases": {
+    "legacy": "dac7690516ab63afb80b73f7ab2550d51f6db14a41c65a3c6f196ee0d7b06ce0",
+    "raw": "266d4e2390bcdb0dc2360e70b76688e8df7033e42c8236c1ed25ae7dc2232eb2"
+  },
+  "engine_assets": {
+    "iphreeqc.mjs": "0feaacd1b4cd69630879d6b1881d0bc196b597625b456ecea75460f09d06c7b9",
+    "iphreeqc.wasm": "38c04668edb55c6339899e1191b9cfff76cc96dad68a0e90e0cb12b78eed1357"
+  },
+  "database_sha256": "3640e62aee63a118f800b115b46a2760576e63e05e1792022315a28f75dbe9bb",
+  "no_new_eos_or_parameter_changes": true
+}
