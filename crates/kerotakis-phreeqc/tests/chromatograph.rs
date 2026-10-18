@@ -10,7 +10,13 @@ use kerotakis_phreeqc::PhreeqcEquilibrator;
 
 #[test]
 fn a_native_mixed_sample_reports_missing_neutrals_beside_real_peaks() {
-    let mut eq = PhreeqcEquilibrator::new().expect("engine");
+    // The standard stack dissolves neutral molecular solids in the mixing
+    // route before asking PHREEQC to solve the aqueous component problem.
+    // PHREEQC alone correctly leaves this unrepresented neutral solid alone.
+    let mut eq = SolverStack::new(vec![
+        Box::new(MixingEquilibrator),
+        Box::new(PhreeqcEquilibrator::new().expect("engine")),
+    ]);
     let mut bench = Bench::new();
     for (key, moles) in [
         ("water", 2.0),
@@ -31,6 +37,19 @@ fn a_native_mixed_sample_reports_missing_neutrals_beside_real_peaks() {
             )
             .expect("native addition");
     }
+    let glucose_in = |phase| {
+        bench.vessels[0]
+            .contents
+            .iter()
+            .filter(|portion| portion.species.0 == "glucose" && portion.phase == phase)
+            .map(|portion| portion.moles.0)
+            .sum::<f64>()
+    };
+    assert!(
+        (glucose_in(Phase::Aqueous) - 0.001).abs() < 1e-12,
+        "the native control must actually inject dissolved glucose"
+    );
+    assert_eq!(glucose_in(Phase::Solid), 0.0);
     let before = ["ethanol", "ethyl_acetate", "glucose"]
         .map(|key| bench.vessels[0].moles_of(&SpeciesId::new(key)).0);
     let events = bench

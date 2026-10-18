@@ -36,3 +36,19 @@ held for that coverage limit. Add differentiated peaks only after a reviewed,
 compatible parameter/group model is available; do not invent coefficients or
 label a warning as a scientific pass. The [analytical lane](https://github.com/CrispStrobe/kerotakis/blob/6200d78934d13fdd2e310216b7872c899fa1bc18/docs/saved64-review-lanes-20261018.md#e-repair-analytical-coverage-reporting-and-staged-separation)
 retains the separately scoped higher-stage distillation gap.
+
+## First native-control correction
+
+The first macOS run at `7b5f62d1` reported the ethyl-acetate gap but not glucose.
+The new control had used PHREEQC alone; glucose remained a solid outside the
+injection. The standard stack's preceding `MixingEquilibrator` owns reviewed
+neutral-solid dissolution. The corrected control includes that real solver
+before the native aqueous engine and explicitly requires all glucose to be
+dissolved before injection. Its original missing-parameter, supported-peak,
+ionic-exclusion and inventory assertions remain unchanged. No solubility or
+retention parameter was invented, and the runtime repair is unchanged.
+
+The [original failed native job](https://github.com/CrispStrobe/kerotakis/actions/runs/39119814637/job/117652941834)
+is preserved. Formatting passes; corrected-source execution remains required.
+A separately frozen CPU-worker job still tests the original source and must
+not be relabelled as acceptance of this correction.
