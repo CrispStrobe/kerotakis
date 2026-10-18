@@ -194,3 +194,34 @@ CI/fleet acceptance through normal protection, publish Pages, and independently
 verify the live bytes and capability. Keep REST-client/CORS acceptance separate
 from full Pages chemistry acceptance. No new interpreter, parameter data, science
 selection or calibration claim is needed for this build-profile repair.
+
+## I. Make producer dependency resolution reproducible and explicit
+
+**Input:** root `.gitignore`, `tools/build-{web,rest-native}.sh`, the chemistry
+fleet's CLI artifact and release producer receipts. Root `Cargo.lock` is ignored
+and absent from the reviewed Git revisions; it is generated during builds. The
+fleet artifact preserves actual lock bytes, and PR827 adds them to the native
+release artifact. A source checkout's local lock is not automatically the lock
+that produced a saved binary.
+
+**Work:** independently hash the actual producer lock alongside the binary,
+source/tree, runtime libraries and build/toolchain metadata. Compare against a
+Git lock blob only where one exists; never label a missing blob an engine or
+experiment failure. Retain the generated lock and its exact binding under a
+public evidence filename where publication is appropriate, and preserve private
+producer artifacts separately. Qualify frontend dependency binding separately
+if no stage-specific lock was captured.
+
+Review the intended workspace lock policy and choose a reproducible contract:
+either a reviewed source-tracked workspace lock or an explicit frozen producer
+lock supplied to clean builds. Audit the frontend/native build order, source
+export, all supported targets and dependency/license checks before changing the
+policy. Do not silently reuse an unrelated local lock or run `cargo update`
+against a historical experiment's binding.
+
+**Done:** a clean checkout with the declared producer inputs can follow the
+explicit resolution/build contract; actual generated/consumed lock bytes are
+recorded and independently verifiable. Native and frontend claims distinguish
+what was captured. Existing source-qualified results, original locks, first
+failures and scientific counts remain unchanged. Byte-for-byte rebuild or
+empirical-calibration claims require their own evidence.
