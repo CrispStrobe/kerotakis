@@ -8,8 +8,7 @@
     "iphreeqc.wasm": "38c04668edb55c6339899e1191b9cfff76cc96dad68a0e90e0cb12b78eed1357",
     "kerotakis.mjs": "24b54432d4b66051b619fcc1f6e0d1c845eaabce8d89de452cd23886d09b6b44",
     "kerotakis_wasm.js": "ed1ed1f583ec6e7a11cf0bdb6d97b08a2f0480df47c22825e5571a6490da6ead",
-    "kerotakis_wasm_bg.wasm": "388e0ff2f3fc0da77080a1745925f5b23d407fb0b4f9066d9771ae8e7b8c3343",
-    "rest.html": "d4d3fbfded5a3d404f91e3dea707a4cc197a9dfd8cb3d64f2cd6f604b87f4a21"
+    "kerotakis_wasm_bg.wasm": "388e0ff2f3fc0da77080a1745925f5b23d407fb0b4f9066d9771ae8e7b8c3343"
   },
   "native_bridge_reference": {
     "script_sha256": "15dab1d995c72443cda0892cfb2e4ae24694f5b4bc338c74e2b46e56d01277af",
