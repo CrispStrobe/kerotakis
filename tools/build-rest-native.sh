@@ -45,7 +45,7 @@ PY
 git -C "$ROOT" diff --quiet HEAD
 python3 - "$ROOT" "$OUT" "$SOURCE_HEAD" "$SOURCE_TREE" "$REST_BUILD_IMAGE" <<'PY'
 from pathlib import Path
-import hashlib,json,sys
+import hashlib,json,shutil,sys
 root,out=map(Path,sys.argv[1:3])
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 manifest={"source_head":sys.argv[3],"source_tree":sys.argv[4],"build_image":sys.argv[5],
@@ -54,4 +54,8 @@ manifest={"source_head":sys.argv[3],"source_tree":sys.argv[4],"build_image":sys.
           "loader":"ld-linux-x86-64.so.2",
           "rustc":(out/"rustc.txt").read_text(encoding="utf-8").strip(),"target":"x86_64-unknown-linux-gnu"}
 (out/"manifest.json").write_text(json.dumps(manifest,indent=2)+"\n",encoding="utf-8")
+# Preserve the actual producer bytes so acceptance can independently rehash the
+# reported dependency binding. This file is evidence, not a runtime asset.
+shutil.copyfile(root/"Cargo.lock",out/"Cargo.lock")
+assert sha(out/"Cargo.lock")==manifest["cargo_lock_sha256"]
 PY

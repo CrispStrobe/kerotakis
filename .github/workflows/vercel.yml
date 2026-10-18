@@ -49,6 +49,9 @@ jobs:
         with:
           targets: wasm32-unknown-unknown
       - uses: Swatinem/rust-cache@v2
+      # Match the required browser gate. Without emcc, build-web intentionally
+      # produces a cache-only site and cannot ship the live aqueous engine.
+      - uses: mymindstorm/setup-emsdk@v14
       - name: Install wasm-bindgen
         run: cargo install wasm-bindgen-cli --version 0.2.127
       - name: Fetch SUNDIALS (not vendored; pinned by checksum)
@@ -63,7 +66,14 @@ jobs:
         with:
           python-version: "3.12"
       - name: Build the same payload Pages serves
-        run: bash tools/build-web.sh "$RUNNER_TEMP/site"
+        env:
+          # Match the official native default and the live Wasm bridge gate.
+          IPHREEQC_BASIC_MODE: my-basic
+        run: |
+          bash tools/build-web.sh "$RUNNER_TEMP/site"
+          test -s "$RUNNER_TEMP/site/iphreeqc.mjs"
+          test -s "$RUNNER_TEMP/site/iphreeqc.wasm"
+          tar -czf "$RUNNER_TEMP/rest-frontend.tar.gz" -C "$RUNNER_TEMP/site" .
       - name: Build the native engine for the serverless runtime
         run: bash tools/build-rest-native.sh "$RUNNER_TEMP/rest-native"
       - name: Prepare and verify the isolated native image
@@ -83,6 +93,7 @@ jobs:
             ${{ runner.temp }}/rest-native
             ${{ runner.temp }}/rest-snapshot.json
             ${{ runner.temp }}/rest-isolation.json
+            ${{ runner.temp }}/rest-frontend.tar.gz
           retention-days: 14
       - name: Deploy
         env:

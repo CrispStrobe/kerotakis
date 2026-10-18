@@ -1,0 +1,28 @@
+{
+  "utc": "2026-10-18T07:08:42.579034+00:00",
+  "probes": [
+    {
+      "url": "https://kerotakis-web-payload.vercel.app/iphreeqc.mjs",
+      "status": 404,
+      "content_type": "text/plain; charset=utf-8"
+    },
+    {
+      "url": "https://kerotakis-web-payload.vercel.app/iphreeqc.wasm",
+      "status": 404,
+      "content_type": "text/plain; charset=utf-8"
+    },
+    {
+      "url": "https://crispstrobe.github.io/kerotakis/iphreeqc.mjs",
+      "status": 200,
+      "content_type": "text/javascript; charset=utf-8",
+      "length": "32380"
+    },
+    {
+      "url": "https://crispstrobe.github.io/kerotakis/iphreeqc.wasm",
+      "status": 200,
+      "content_type": "application/wasm",
+      "length": "1637768"
+    }
+  ],
+  "engine_execution_requests": 0
+}
