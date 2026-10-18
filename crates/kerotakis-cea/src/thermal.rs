@@ -534,81 +534,6 @@ fn chemical_inventory_unchanged(
     same(air, &gases)
 }
 
-#[cfg(test)]
-mod phase_handoff_tests {
-    use super::*;
-
-    #[test]
-    fn unchanged_means_chemical_amounts_and_actual_atmosphere_not_visible_events() {
-        let mut vessel = Vessel::new(kerotakis_core::VesselId(0), "beaker");
-        vessel.deposit(SpeciesId::new("Zn"), Moles(0.075), Phase::Solid);
-        vessel.deposit(SpeciesId::new("Zn"), Moles(0.025), Phase::Liquid);
-        vessel.temperature = Kelvin(
-            species::lookup_key("Zn")
-                .unwrap()
-                .transitions
-                .unwrap()
-                .melting_k
-                .unwrap(),
-        );
-        let condensed = vec![Portion {
-            species: SpeciesId::new("Zn"),
-            moles: Moles(0.1),
-            phase: Phase::Liquid,
-        }];
-        let air = BTreeMap::from([("N2".to_string(), 0.624), ("O2".to_string(), 0.168)]);
-        let composition = vec![("N2".to_string(), 0.624), ("O2".to_string(), 0.168)];
-        assert!(chemical_inventory_unchanged(
-            &vessel,
-            &condensed,
-            &composition,
-            &air
-        ));
-
-        let mut away_from_plateau = vessel.clone();
-        away_from_plateau.temperature.0 += 1.0;
-        assert!(!chemical_inventory_unchanged(
-            &away_from_plateau,
-            &condensed,
-            &composition,
-            &air
-        ));
-
-        let mut consumed_oxygen = composition.clone();
-        consumed_oxygen[1].1 -= 1e-7;
-        assert!(!chemical_inventory_unchanged(
-            &vessel,
-            &condensed,
-            &consumed_oxygen,
-            &air
-        ));
-        let mut trace_product = composition.clone();
-        trace_product.push(("NO2".to_string(), 1e-7));
-        assert!(!chemical_inventory_unchanged(
-            &vessel,
-            &condensed,
-            &trace_product,
-            &air
-        ));
-        let mut consumed_zinc = condensed.clone();
-        consumed_zinc[0].moles.0 -= 1e-9;
-        assert!(!chemical_inventory_unchanged(
-            &vessel,
-            &consumed_zinc,
-            &composition,
-            &air
-        ));
-
-        vessel.deposit(SpeciesId::new("O2"), Moles(1e-7), Phase::Gas);
-        assert!(!chemical_inventory_unchanged(
-            &vessel,
-            &condensed,
-            &composition,
-            &air
-        ));
-    }
-}
-
 impl Equilibrator for ThermalEquilibrator {
     fn name(&self) -> &'static str {
         "cea-thermal"
@@ -1053,4 +978,79 @@ fn air_enthalpy(charge: &Charge, t: f64) -> f64 {
         .iter()
         .filter_map(|(name, moles)| Some(db().get(name)?.h(t)? * moles))
         .sum()
+}
+
+#[cfg(test)]
+mod phase_handoff_tests {
+    use super::*;
+
+    #[test]
+    fn unchanged_means_chemical_amounts_and_actual_atmosphere_not_visible_events() {
+        let mut vessel = Vessel::new(kerotakis_core::VesselId(0), "beaker");
+        vessel.deposit(SpeciesId::new("Zn"), Moles(0.075), Phase::Solid);
+        vessel.deposit(SpeciesId::new("Zn"), Moles(0.025), Phase::Liquid);
+        vessel.temperature = Kelvin(
+            species::lookup_key("Zn")
+                .unwrap()
+                .transitions
+                .unwrap()
+                .melting_k
+                .unwrap(),
+        );
+        let condensed = vec![Portion {
+            species: SpeciesId::new("Zn"),
+            moles: Moles(0.1),
+            phase: Phase::Liquid,
+        }];
+        let air = BTreeMap::from([("N2".to_string(), 0.624), ("O2".to_string(), 0.168)]);
+        let composition = vec![("N2".to_string(), 0.624), ("O2".to_string(), 0.168)];
+        assert!(chemical_inventory_unchanged(
+            &vessel,
+            &condensed,
+            &composition,
+            &air
+        ));
+
+        let mut away_from_plateau = vessel.clone();
+        away_from_plateau.temperature.0 += 1.0;
+        assert!(!chemical_inventory_unchanged(
+            &away_from_plateau,
+            &condensed,
+            &composition,
+            &air
+        ));
+
+        let mut consumed_oxygen = composition.clone();
+        consumed_oxygen[1].1 -= 1e-7;
+        assert!(!chemical_inventory_unchanged(
+            &vessel,
+            &condensed,
+            &consumed_oxygen,
+            &air
+        ));
+        let mut trace_product = composition.clone();
+        trace_product.push(("NO2".to_string(), 1e-7));
+        assert!(!chemical_inventory_unchanged(
+            &vessel,
+            &condensed,
+            &trace_product,
+            &air
+        ));
+        let mut consumed_zinc = condensed.clone();
+        consumed_zinc[0].moles.0 -= 1e-9;
+        assert!(!chemical_inventory_unchanged(
+            &vessel,
+            &consumed_zinc,
+            &composition,
+            &air
+        ));
+
+        vessel.deposit(SpeciesId::new("O2"), Moles(1e-7), Phase::Gas);
+        assert!(!chemical_inventory_unchanged(
+            &vessel,
+            &condensed,
+            &composition,
+            &air
+        ));
+    }
 }

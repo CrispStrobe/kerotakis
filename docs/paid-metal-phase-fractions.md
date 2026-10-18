@@ -49,3 +49,14 @@ phase and energy controls before changing those algorithms; preserve actual
 reactant phases and refuse unsupported energy closure rather than returning a
 pure phase at a nearby temperature. Do not fit heat capacities or latent heats
 to the original zinc point. Continue the [scoped phase lane](saved64-review-lanes-20261018.md#c-preserve-latent-phase-fractions-through-downstream-metal-writers).
+
+## First hosted validation failure
+
+The first macOS native job at source `f309ec3c` stopped in Clippy before
+the physics tests: the new test module preceded production items
+(`items_after_test_module`). The correction moves that entire unchanged module
+to the end of `crates/kerotakis-cea/src/thermal.rs`; no assertion, runtime
+behavior or lint policy changes. Formatting and diff checks pass. Actual native
+physics and complete fleet acceptance still belong to the corrected source.
+The [original failed job](https://github.com/CrispStrobe/kerotakis/actions/runs/39119175824/job/117651062431)
+remains the first validation outcome, not a scientific failure or pass.
