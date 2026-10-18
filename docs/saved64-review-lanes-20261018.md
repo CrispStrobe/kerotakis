@@ -5,7 +5,7 @@ Finish accepted-source integration and the full frontend/native deployment in
 turn the [saved64 first screen](../audits/target468-20261016/saved64-first-screen/README.md)
 into concrete follow-ups. They preserve original forecasts and first outcomes;
 none authorizes treating unsupported chemistry, exit0 or a diagnostic warning
-as a scientific pass. The latest catalog is215 / fixed468 selected211 after the separately bound repaired KN007/TH016 replays and final review of three saved gas and nine saved kinetics cases; the original screen and first failures remain unchanged.
+as a scientific pass. The latest catalog is215 / fixed468 selected219 after the separately bound repaired KN007/TH016 replays and final review of three saved gas and nine saved kinetics cases; the original screen and first failures remain unchanged.
 
 ## A. Finalize bounded selections from existing evidence
 
@@ -30,7 +30,7 @@ limits without assigning new passes. Use it to complete that group's review.
 
 **Done:** append a case-level final assessment and independent calculation review;
 add only supported IDs once with exact source/script association. Preserve all
-214 existing catalog entries and original first failures. Record before/after
+223 existing catalog entries and original first failures. Record before/after
 hashes, counts, exclusions and an immutable selection receipt. No unchanged668
 replay. The20 holds below remain excluded unless separate evidence closes them.
 
@@ -354,8 +354,10 @@ Current delivery: PR831 merged normally as `ac1f9993` with verified parents/tree
 
 PR834 prior accepted `6dee9254` replaces constructed display-formula gas names with explicit native capability identities. [The actual failed admission trace](../audits/target468-20261016/ammonia-native-admission-trace-20261018/README.md) records `NH3(aq)(g)` being dropped, explaining failed gas absorption/trapping and missing-route refusal. All original assertions remain; all528 native tests and Clippy pass; combined prerequisite/full-fleet acceptance remains. Finish combined-source acceptance with the initializer prerequisite and normal protected integration before separately bound GS005 replay. No ammonia scientific selection has been made.
 
-Current accepted release: [artifact/11 API](../audits/target468-20261016/gas-release-api-20261018/README.md) and [37 browser/original GS010](../audits/target468-20261016/gas-release-browser-replay-20261018/README.md), source `d3883757`, binary `14f0cafe`, actual producer lock `66886813`. The unchanged GS010 replay now passes both original criteria and independent whole-material/charge closure to3.172e-14mol/eq. Its actual Pitzer capability and0.931K arm temperature difference are recorded; no empirical salinity calibration is claimed. Catalog215 / fixed468211 preserves all prior214 entries and needs190 further selections for401. Gas delivery/replay is complete; do not restart completed controllers or repeat KN007/TH016/OR006.
+Current accepted release: [artifact/11 API](../audits/target468-20261016/gas-release-api-20261018/README.md) and [37 browser/original GS010](../audits/target468-20261016/gas-release-browser-replay-20261018/README.md), source `d3883757`, binary `14f0cafe`, actual producer lock `66886813`. The unchanged GS010 replay now passes both original criteria and independent whole-material/charge closure to3.172e-14mol/eq. Its actual Pitzer capability and0.931K arm temperature difference are recorded; no empirical salinity calibration is claimed. Catalog223 / fixed468219 preserves all prior215 entries and needs182 further selections for401. Gas delivery/replay is complete; do not restart completed controllers or repeat KN007/TH016/OR006.
 
 Ammonia `4c5d591a` has [independently authenticated Clippy/610 native/31 core/full33 acceptance](../audits/target468-20261016/cpu-combined-ammonia-834-20261018/README.md), including12 pre-authored chemical groups/24 acid arms. Its existing exact-head integration observer awaits current platform/protected checks and both actual native logs; preserve the accepted CPU work. Live Pages publication and actual served interpreter/parity remain separate pending work.
 
 Named hydrolysis `bf03c11a` follows an [authenticated first baseline/source execution](../audits/target468-20261016/named-alkaline-first-failure-20261018/README.md). Unchanged runtime fails six core and two native controls. Repair `03aab10c` passes Clippy and all nine new core controls; the full core run passes2136 and fails one composed-locale test because French lacks the new refusal key. It stops before changed-source native execution. The correction completes French/English messages without changing either chemical control file. Review the separately bound corrected source's full core/native results and independent proton/counterion/atom balances before acceptance. Applicable full33, current prerequisites, platform/protected integration and original OR006 delivery replay remain required. No hydrolysis scientific selection or general weak-buffer capacity is claimed.
+
+Eight saved named-organic protocols OR001–005 and OR010–012 now satisfy all16 original bounded criteria with [independent45-digit atom/charge and actual observation review](../audits/target468-20261016/saved-organic-final-review-20261018/README.md). Maximum reaction ledger residual3.91872206643e-12mol/eq; source/producer-lock qualifications and mixed-solvent warnings remain explicit. The complete catalog is223 / fixed468 selected219, preserving all prior215 entries;182 more are needed for401. Twenty-four first-screen candidates remain for final review. OR006–009 are still excluded pending separate hydrolysis source/native/fleet/delivery evidence. No unchanged experiment was rerun.

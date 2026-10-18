@@ -1,0 +1,10 @@
+{
+  "error_type": "KeyError",
+  "key": "CH3COOH",
+  "reader_sha256": "9f68ee7c1f453885a6661e65eed983053b880390caf13596c1346778538cbb39",
+  "cause": "The saved projection charges map intentionally lists charged species only; the new reader incorrectly required neutral keys to appear.",
+  "correction": "Use explicit formula plus zero default formal charge for neutral keys, matching the authenticated projection schema.",
+  "assessment_created": false,
+  "catalog_additions": 0,
+  "new_executions": 0
+}

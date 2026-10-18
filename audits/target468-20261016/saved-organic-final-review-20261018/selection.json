@@ -1,0 +1,41 @@
+{
+  "utc": "2026-10-18T20:26:44.106166+00:00",
+  "selected_original_ids": [
+    "new120:or-001",
+    "new120:or-002",
+    "new120:or-003",
+    "new120:or-004",
+    "new120:or-005",
+    "new120:or-010",
+    "new120:or-011",
+    "new120:or-012"
+  ],
+  "selected_catalog_ids": [
+    "new120-saved-organic:or-001",
+    "new120-saved-organic:or-002",
+    "new120-saved-organic:or-003",
+    "new120-saved-organic:or-004",
+    "new120-saved-organic:or-005",
+    "new120-saved-organic:or-010",
+    "new120-saved-organic:or-011",
+    "new120-saved-organic:or-012"
+  ],
+  "previous_catalog_sha256": "55624af38f9f9d8b85428c39acbfa0715cec12e0333d7c19e44e3b87fc05b9f9",
+  "new_catalog_sha256": "5bbd634f6a1f884d66894bde3c7ebc8d323b7767b75fb4c132c4720a632ccd4e",
+  "previous_entries_preserved_exactly": 215,
+  "new_count": 223,
+  "fixed468_selected_before": 211,
+  "fixed468_selected_after": 219,
+  "additional_qualified_cases_to401": 182,
+  "remaining_first_screen_candidates": 24,
+  "historical_holds_unchanged": 20,
+  "new_simulator_or_API_executions": 0,
+  "independent_45_digit_max_reaction_material_charge_residual_mol_or_eq": "3.91872206643e-12",
+  "chemical_controls_changed": false,
+  "original_hydrolysis_cases_still_excluded": [
+    "new120:or-006",
+    "new120:or-007",
+    "new120:or-008",
+    "new120:or-009"
+  ]
+}

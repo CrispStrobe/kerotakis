@@ -1,0 +1,924 @@
+{
+  "schema": "kerotakis-saved-organic-final-review-v1",
+  "source": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "curated_source_sha256": "20db49d2b0679fb77e1df7205f6a4ae8878f8becccf7c30cebb1c9796bcd27a5",
+  "archive_sha256": "9c33ddf3893ab32e0309dc1ef5c65b3b2c4e2967c8a3468c2808b0de1074201f",
+  "decimal_precision": 45,
+  "cases": [
+    {
+      "id": "new120:or-001",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "The declared ideal-mixture K \u2248 4 model predicts partial esterification, approximately two-thirds conversion for initially product-free equimolar reactants.",
+      "original_criteria_review": [
+        {
+          "id": "OR-001-C1",
+          "criterion": "Both ester and unreacted acid/alcohol remain after the command.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Ester, acid and ethanol all remain in the owned inventory after the explicit equilibrium request."
+        },
+        {
+          "id": "OR-001-C2",
+          "criterion": "Evaluate Q from the actual represented reactant and product amounts; the two-thirds value is an ideal-model guide, not an observed yield.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The actual molecular quotient is approximately4 and the ester fraction approximately two-thirds in the declared ideal model. Organic-rich ionic speciation is explicitly uncharacterized; this does not calibrate aqueous activities or an experimental yield."
+        }
+      ],
+      "script_sha256": "5a6f51475c2e4b929aa9ed606206572f8928c0ff37e9a08a33acce5f702ccaff",
+      "stdout_sha256": "7ebec496d69f78a66b16e981241449cca3a96b2a14179dc3c51117f8304d9792",
+      "metrics": {
+        "reaction_material_charge_residuals": [
+          {
+            "charge": "0E-18",
+            "O": "1.8E-17",
+            "C": "2.4E-17",
+            "H": "6.0E-17"
+          }
+        ],
+        "actual_post_tail_molecular_quotients": [
+          "4.00000000000000336000000000000144480000000000"
+        ]
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 0.0,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 0.0,
+        "max_per_step_residual": 0.0,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "explicit_limits_preserved": [
+        {
+          "row": 3,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+            "key": "not-modeled.mostly-organic-solvent",
+            "slots": [
+              [
+                "percent",
+                {
+                  "number": {
+                    "text": "33"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "a mixed solvent that is mostly organic (water is 33% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+        }
+      ],
+      "qualification": "Original explicit ideal-equilibrium or requested overall stoichiometric model. Organic-rich ionic activity, rates, reaction heat and biological mechanisms are not inferred. Historical engine/lock metadata remains producer-qualified; this is not current-production certification."
+    },
+    {
+      "id": "new120:or-002",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "The alcohol-rich mixture should convert a larger fraction of its fixed acetic-acid dose into ester under the ideal equilibrium model.",
+      "original_criteria_review": [
+        {
+          "id": "OR-002-C1",
+          "criterion": "Compare ester amount per initial acid amount, not ester concentration in unequal volumes.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The alcohol-rich arm converts a larger fraction of the same0.1mol initial acid dose; owned ester fractions are compared rather than concentrations in unequal volumes."
+        },
+        {
+          "id": "OR-002-C2",
+          "criterion": "Both simulations conserve the separately supplied total carbon and oxygen.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Both independently reconstructed owned carbon and oxygen ledgers close through each reaction. The source requests an ideal equilibrium conversion, not measured mixed-solvent activities or reaction heat."
+        }
+      ],
+      "script_sha256": "72ebfb1a222108d363fbff8c67871e4aa70aaf30f4ef1ed7d76ae6f645e313ab",
+      "stdout_sha256": "e17c1d8082276d1a6c66d0d8bc1c06b404d80dc2646aeb865acd3fec6cf3b04b",
+      "metrics": {
+        "reaction_material_charge_residuals": [
+          {
+            "charge": "0E-18",
+            "O": "1.8E-17",
+            "C": "2.4E-17",
+            "H": "6.0E-17"
+          },
+          {
+            "charge": "0E-18",
+            "O": "-2E-18",
+            "C": "-1.2E-17",
+            "H": "-4.4E-17"
+          }
+        ],
+        "actual_post_tail_molecular_quotients": [
+          "4.00000000000000336000000000000144480000000000",
+          "4.00000000000000687095589896899188949673697225"
+        ],
+        "ester_per_initial_acid_mol": [
+          "0.6666666666666668",
+          "0.9028324592902731"
+        ]
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": -2.220446049250313e-16,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 0.0,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 2.220446049250313e-16,
+        "max_per_step_residual": 2.220446049250313e-16,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "explicit_limits_preserved": [
+        {
+          "row": 2,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+            "key": "not-modeled.mostly-organic-solvent",
+            "slots": [
+              [
+                "percent",
+                {
+                  "number": {
+                    "text": "33"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "a mixed solvent that is mostly organic (water is 33% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+        },
+        {
+          "row": 6,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+            "key": "not-modeled.mostly-organic-solvent",
+            "slots": [
+              [
+                "percent",
+                {
+                  "number": {
+                    "text": "23"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "a mixed solvent that is mostly organic (water is 23% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+        }
+      ],
+      "qualification": "Original explicit ideal-equilibrium or requested overall stoichiometric model. Organic-rich ionic activity, rates, reaction heat and biological mechanisms are not inferred. Historical engine/lock metadata remains producer-qualified; this is not current-production certification."
+    },
+    {
+      "id": "new120:or-003",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "Including water on the product side lowers equilibrium ester formation relative to the initially dry control.",
+      "original_criteria_review": [
+        {
+          "id": "OR-003-C1",
+          "criterion": "The water-added vessel forms less ester per initial acid amount.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The added-water arm forms less ester per the same initial acid dose than the initially dry control."
+        },
+        {
+          "id": "OR-003-C2",
+          "criterion": "The comparison uses total initial plus generated water, not only newly produced water.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The comparison includes the original0.2mol water plus generated water. The actual post-tail molecular quotient is3.998559711649207, retained rather than rounded to4; aqueous acetate/proton redistribution precludes claiming an exact measured equilibrium constant."
+        }
+      ],
+      "script_sha256": "860707d043829f1c031ef5f7535eefad8c8d3ce9cc75014d715ff17f8eac8d39",
+      "stdout_sha256": "0af34e0c123d7a178bfc417e24c97f1840488e3caeb69e868b1ab67222399b1a",
+      "metrics": {
+        "reaction_material_charge_residuals": [
+          {
+            "charge": "0E-18",
+            "O": "1.8E-17",
+            "C": "2.4E-17",
+            "H": "6.0E-17"
+          },
+          {
+            "charge": "-1.9689E-16",
+            "O": "2.126E-17",
+            "C": "1.926E-17",
+            "H": "-1.3837E-16"
+          }
+        ],
+        "actual_post_tail_molecular_quotients": [
+          "4.00000000000000336000000000000144480000000000",
+          "3.99855971164920673799210719698200520606186666"
+        ],
+        "ester_per_initial_acid_mol": [
+          "0.6666666666666668",
+          "0.46454153311150034"
+        ],
+        "initial_product_water": "0.19999999999999996",
+        "final_product_water": "0.24645415331115",
+        "generated_water": "0.04645415331115004"
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 0.0,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": -2.8059152223924855e-16
+        },
+        "final_maximum_absolute_residual": 2.8059152223924855e-16,
+        "max_per_step_residual": 2.8059152223924855e-16,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "explicit_limits_preserved": [
+        {
+          "row": 2,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+            "key": "not-modeled.mostly-organic-solvent",
+            "slots": [
+              [
+                "percent",
+                {
+                  "number": {
+                    "text": "33"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "a mixed solvent that is mostly organic (water is 33% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+        }
+      ],
+      "qualification": "Original explicit ideal-equilibrium or requested overall stoichiometric model. Organic-rich ionic activity, rates, reaction heat and biological mechanisms are not inferred. Historical engine/lock metadata remains producer-qualified; this is not current-production certification."
+    },
+    {
+      "id": "new120:or-004",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "With a product-rich initial reaction quotient, a reversible ideal-equilibrium implementation should move toward hydrolysis and produce more acid and ethanol.",
+      "original_criteria_review": [
+        {
+          "id": "OR-004-C1",
+          "criterion": "Acid and ethanol increase while ester and water are consumed in the reverse stoichiometric direction.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Acid and ethanol each gain0.016mol while ester and water each lose0.016mol; the actual quotient reaches the declared ideal4."
+        },
+        {
+          "id": "OR-004-C2",
+          "criterion": "If the command only supports forward extent, record a reverse-route limitation instead of calling no conversion an equilibrium success.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The owned negative ester extent demonstrates a real reverse request, rather than labeling absent forward conversion an equilibrium success. Organic-rich ionic speciation remains uncharacterized."
+        }
+      ],
+      "script_sha256": "d0d0a801f38d2a257ba02344c12274588adf74d02c856f221157aab2143cd430",
+      "stdout_sha256": "965b58c7d117a110cd143bca56f90f9c054590c954572d5dad66d87a1d750998",
+      "metrics": {
+        "reaction_material_charge_residuals": [
+          {
+            "charge": "0.000",
+            "O": "0.000",
+            "C": "0.000",
+            "H": "0.000"
+          }
+        ],
+        "actual_post_tail_molecular_quotients": [
+          "4"
+        ],
+        "molecular_amount_changes": {
+          "CH3COOH": "0.016",
+          "ethanol": "0.016",
+          "ethyl_acetate": "-0.016",
+          "water": "-0.016"
+        }
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 0.0,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 0.0,
+        "max_per_step_residual": 0.0,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "explicit_limits_preserved": [
+        {
+          "row": 2,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+            "key": "not-modeled.mostly-organic-solvent",
+            "slots": [
+              [
+                "percent",
+                {
+                  "number": {
+                    "text": "50"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "a mixed solvent that is mostly organic (water is 50% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+        },
+        {
+          "row": 3,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+            "key": "not-modeled.mostly-organic-solvent",
+            "slots": [
+              [
+                "percent",
+                {
+                  "number": {
+                    "text": "49"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "a mixed solvent that is mostly organic (water is 49% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+        },
+        {
+          "row": 5,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+            "key": "not-modeled.mostly-organic-solvent",
+            "slots": [
+              [
+                "percent",
+                {
+                  "number": {
+                    "text": "33"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "a mixed solvent that is mostly organic (water is 33% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+        }
+      ],
+      "qualification": "Original explicit ideal-equilibrium or requested overall stoichiometric model. Organic-rich ionic activity, rates, reaction heat and biological mechanisms are not inferred. Historical engine/lock metadata remains producer-qualified; this is not current-production certification."
+    },
+    {
+      "id": "new120:or-005",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "After equilibrium is reached, an identical second request should leave the reaction extent essentially unchanged rather than apply another fixed fractional conversion.",
+      "original_criteria_review": [
+        {
+          "id": "OR-005-C1",
+          "criterion": "Compare every acid/alcohol/ester/water amount between the two equilibrium snapshots.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "All four owned acid/alcohol/ester/water amounts are identical between the first and second equilibrium snapshots."
+        },
+        {
+          "id": "OR-005-C2",
+          "criterion": "Allow solver tolerance, but not repeated net creation of ester without a changed reaction quotient.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The second request creates zero additional ester and retains the same quotient; this is idempotence of the explicit ideal model, not a kinetic observation."
+        }
+      ],
+      "script_sha256": "ac649ccbfce4bd67b6f9202e24043b8b2912418cee42734a55a51f4c70f32600",
+      "stdout_sha256": "32c55c715ee09d239b2615caef7e5db14e041860d1400a2d3978129fc7d85986",
+      "metrics": {
+        "reaction_material_charge_residuals": [
+          {
+            "charge": "0E-18",
+            "O": "1.8E-17",
+            "C": "2.4E-17",
+            "H": "6.0E-17"
+          },
+          {
+            "charge": "0E-18",
+            "O": "0E-18",
+            "C": "0E-18",
+            "H": "0E-18"
+          }
+        ],
+        "actual_post_tail_molecular_quotients": [
+          "4.00000000000000336000000000000144480000000000",
+          "4.00000000000000336000000000000144480000000000"
+        ],
+        "second_request_amount_changes": {
+          "CH3COOH": "0E-18",
+          "ethanol": "0E-18",
+          "ethyl_acetate": "0E-17",
+          "water": "0E-17"
+        }
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 0.0,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 0.0,
+        "max_per_step_residual": 0.0,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "explicit_limits_preserved": [
+        {
+          "row": 2,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+            "key": "not-modeled.mostly-organic-solvent",
+            "slots": [
+              [
+                "percent",
+                {
+                  "number": {
+                    "text": "33"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "a mixed solvent that is mostly organic (water is 33% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+        },
+        {
+          "row": 4,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+            "key": "not-modeled.mostly-organic-solvent",
+            "slots": [
+              [
+                "percent",
+                {
+                  "number": {
+                    "text": "33"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "a mixed solvent that is mostly organic (water is 33% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+        }
+      ],
+      "qualification": "Original explicit ideal-equilibrium or requested overall stoichiometric model. Organic-rich ionic activity, rates, reaction heat and biological mechanisms are not inferred. Historical engine/lock metadata remains producer-qualified; this is not current-production certification."
+    },
+    {
+      "id": "new120:or-010",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "The explicit request converts ethanol and available oxygen into an acetic-acid/water product pool; the otherwise matched vessel has no organism or oxidation command.",
+      "original_criteria_review": [
+        {
+          "id": "OR-010-C1",
+          "criterion": "The requested vessel shows the named stoichiometric conversion relative to its pre-command state.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The requested arm consumes0.001mol ethanol and matching oxygen and gains the matching acetic-acid/acetate pool, with full owned atom/charge closure."
+        },
+        {
+          "id": "OR-010-C2",
+          "criterion": "The no-command control is not assumed to ferment; no measured reaction heat, rate or acetaldehyde mechanism is inferred.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The otherwise matched no-command vessel retains its ethanol and has no acetate-family product after60s. This explicitly requested stoichiometry does not establish organisms, rate, reaction heat or an acetaldehyde mechanism."
+        }
+      ],
+      "script_sha256": "c21d6779a540733ebfa5a7161510f94da2e93bae10857bf6d8f6135d3779a057",
+      "stdout_sha256": "25488000f61f8a4cfd716ddce23a15c5e21649851a30903db5d20ad749df3d89",
+      "metrics": {
+        "reaction_material_charge_residuals": [
+          {
+            "charge": "-2.540261287E-17",
+            "O": "-1.850971339E-17",
+            "C": "2.169229887E-17",
+            "H": "-3.499923513E-17",
+            "N": "0E-18"
+          }
+        ],
+        "ethanol_loss": "0.001",
+        "oxygen_loss": "0.00100000000000000",
+        "acetate_family_gain": "0.001000000000000014274",
+        "no_command_ethanol": "0.001"
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": -7.522499984036202e-12,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 8.881784197001252e-16,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": -3.0090115433097336e-11
+        },
+        "final_maximum_absolute_residual": 3.0090115433097336e-11,
+        "max_per_step_residual": 3.0090115433097336e-11,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "explicit_limits_preserved": [
+        {
+          "row": 9,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{family} v{version} matched, but declined at {gate}: {why}. Waiting does not supply a missing reaction rate or satisfy the condition gate",
+            "key": "not-modeled.family-declined-at-gate",
+            "slots": [
+              [
+                "family",
+                {
+                  "text": {
+                    "text": "fischer-esterification"
+                  }
+                }
+              ],
+              [
+                "version",
+                {
+                  "text": {
+                    "text": "1"
+                  }
+                }
+              ],
+              [
+                "gate",
+                {
+                  "text": {
+                    "text": "temperature_k"
+                  }
+                }
+              ],
+              [
+                "why",
+                {
+                  "term": {
+                    "en": "the vessel stands at 298.2 K and the family needs at least 333.1 K",
+                    "section": "family-gate"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "fischer-esterification v1 matched, but declined at temperature_k: the vessel stands at 298.2 K and the family needs at least 333.1 K. Waiting does not supply a missing reaction rate or satisfy the condition gate"
+        },
+        {
+          "row": 9,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{family} v{version} matched, but declined at {gate}: {why}. Waiting does not supply a missing reaction rate or satisfy the condition gate",
+            "key": "not-modeled.family-declined-at-gate",
+            "slots": [
+              [
+                "family",
+                {
+                  "text": {
+                    "text": "fischer-esterification"
+                  }
+                }
+              ],
+              [
+                "version",
+                {
+                  "text": {
+                    "text": "1"
+                  }
+                }
+              ],
+              [
+                "gate",
+                {
+                  "text": {
+                    "text": "temperature_k"
+                  }
+                }
+              ],
+              [
+                "why",
+                {
+                  "term": {
+                    "en": "the vessel stands at 298.2 K and the family needs at least 333.1 K",
+                    "section": "family-gate"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "fischer-esterification v1 matched, but declined at temperature_k: the vessel stands at 298.2 K and the family needs at least 333.1 K. Waiting does not supply a missing reaction rate or satisfy the condition gate"
+        }
+      ],
+      "qualification": "Original explicit ideal-equilibrium or requested overall stoichiometric model. Organic-rich ionic activity, rates, reaction heat and biological mechanisms are not inferred. Historical engine/lock metadata remains producer-qualified; this is not current-production certification."
+    },
+    {
+      "id": "new120:or-011",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "The requested overall transformation can convert one glucose into six CO2 and six water molecules when oxygen is sufficient.",
+      "original_criteria_review": [
+        {
+          "id": "OR-011-C1",
+          "criterion": "Compare glucose consumption with total new inorganic carbon across liquid and gas; the ratio is six carbons per glucose.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The requested complete glucose conversion produces six times its consumed amount as new total owned inorganic carbon, including gas CO2, CO2(aq), bicarbonate and carbonate."
+        },
+        {
+          "id": "OR-011-C2",
+          "criterion": "Oxygen consumption follows six per glucose, with no ATP, cellular mechanism or metabolic heat inferred.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Actual owned O2 consumption is six per glucose. This closes the requested overall stoichiometry; ATP, cellular mechanism, metabolic heat and empirical calibration are outside the claim."
+        }
+      ],
+      "script_sha256": "a5ef7514bad0a3698d07e827f4b9ea6b9c3aecaffa4226ed7546e344ba922658",
+      "stdout_sha256": "6500e7e872aeb422d7a9e1b51632d13df90ca36f3b2083061076d2b1596683b3",
+      "metrics": {
+        "reaction_material_charge_residuals": [
+          {
+            "charge": "-3.907195698430E-12",
+            "O": "1.11046558E-16",
+            "C": "-9.76802393614E-13",
+            "H": "2.39969142E-16",
+            "N": "0E-18"
+          }
+        ],
+        "glucose_consumed": "0.001",
+        "oxygen_consumed": "0.006000000000000001",
+        "inorganic_carbon_gain": "0.005999999999023197606386",
+        "oxygen_owned_before": "0.01428155616392351",
+        "oxygen_ceiling_glucose": "0.00238025936065391833333333333333333333333333333"
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": -3.797745971867439e-12,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 0.0,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": -1.5190961800873898e-11
+        },
+        "final_maximum_absolute_residual": 1.5190961800873898e-11,
+        "max_per_step_residual": 1.5190961800873898e-11,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "explicit_limits_preserved": [],
+      "qualification": "Original explicit ideal-equilibrium or requested overall stoichiometric model. Organic-rich ionic activity, rates, reaction heat and biological mechanisms are not inferred. Historical engine/lock metadata remains producer-qualified; this is not current-production certification."
+    },
+    {
+      "id": "new120:or-012",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "The total available oxygen, including trapped air, is insufficient for the full glucose dose; the requested aerobic transformation should leave glucose.",
+      "original_criteria_review": [
+        {
+          "id": "OR-012-C1",
+          "criterion": "Bound glucose consumption by measured pre-command total O2 divided by six.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Glucose consumption matches the actual pre-command total oxygen divided by six and leaves glucose; original trapped-air oxygen is counted."
+        },
+        {
+          "id": "OR-012-C2",
+          "criterion": "Do not invent anaerobic products or assume that only the explicitly added oxygen was available.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The finite oxygen inventory includes more than the explicitly added0.001mol. No anaerobic ethanol/acetate product is invented; only the requested overall aerobic stoichiometry is accepted."
+        }
+      ],
+      "script_sha256": "fea359750cbede7a450fab802266db1eed2e7938e21ea0302f2fcffb62600c8e",
+      "stdout_sha256": "7b583d0b695702b7d39500face1f959a01d70f793bd62fb25492a5deaced8144",
+      "metrics": {
+        "reaction_material_charge_residuals": [
+          {
+            "charge": "-3.91872206643E-12",
+            "O": "-7.586703E-17",
+            "C": "-9.7968063727E-13",
+            "H": "-1.5045141E-16",
+            "N": "0E-18"
+          }
+        ],
+        "glucose_consumed": "0.0002380259360653918",
+        "oxygen_consumed": "0.001428155616392351",
+        "inorganic_carbon_gain": "0.00142815561541267016273",
+        "oxygen_owned_before": "0.001428155616392351",
+        "oxygen_ceiling_glucose": "0.000238025936065391833333333333333333333333333333"
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": -3.797435456365239e-12,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 4.440892098500626e-16,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 2.220446049250313e-16,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": -1.5189745081667364e-11
+        },
+        "final_maximum_absolute_residual": 1.5189745081667364e-11,
+        "max_per_step_residual": 1.5189745081667364e-11,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "explicit_limits_preserved": [],
+      "qualification": "Original explicit ideal-equilibrium or requested overall stoichiometric model. Organic-rich ionic activity, rates, reaction heat and biological mechanisms are not inferred. Historical engine/lock metadata remains producer-qualified; this is not current-production certification."
+    }
+  ],
+  "selected": 8,
+  "new_engine_or_API_executions": 0,
+  "excluded": {
+    "new120:or-006": "Original literal-hydroxide prerequisite failure preserved; separate repaired-source native acceptance/delivery replay required.",
+    "new120:or-007": "Original literal-hydroxide prerequisite failure preserved; separate repaired-source native acceptance/delivery replay required.",
+    "new120:or-008": "Original literal-hydroxide prerequisite failure preserved; separate repaired-source native acceptance/delivery replay required.",
+    "new120:or-009": "Original literal-hydroxide prerequisite failure preserved; separate repaired-source native acceptance/delivery replay required."
+  }
+}
