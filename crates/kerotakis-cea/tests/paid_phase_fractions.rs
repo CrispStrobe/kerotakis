@@ -173,7 +173,11 @@ fn reverse_cooling_and_pouring_retain_paid_phase_ownership() {
         },
     );
     let liquid = amount(&bench.vessels[0], key, Phase::Liquid);
-    assert!((liquid - 0.025).abs() < 1e-9);
+    assert!(
+        (liquid - 0.025).abs() < 1e-9,
+        "cooling must retain its paid frozen fraction: liquid={liquid}, events={events:?}, vessel={:?}",
+        bench.vessels[0]
+    );
     assert!((phase_change(&events, key) - (liquid - before)).abs() < 1e-10);
     step(&mut bench, &mut stack, Operator::NewVessel { kind: None });
     step(

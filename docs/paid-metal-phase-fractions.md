@@ -60,3 +60,16 @@ behavior or lint policy changes. Formatting and diff checks pass. Actual native
 physics and complete fleet acceptance still belong to the corrected source.
 The [original failed job](https://github.com/CrispStrobe/kerotakis/actions/runs/39119175824/job/117651062431)
 remains the first validation outcome, not a scientific failure or pass.
+
+## Independent reverse-cooling failure
+
+Actual source `106dd5f3` passed partial-melt settlement but failed the unchanged
+reverse-cooling control on Kaggle and both hosted native platforms. The core
+phase route measured the thermal deficit with pre-transition heat capacities,
+then released latent heat into an inventory with different heat capacities.
+That created surplus sensible heat and a later pass remelted part of the
+frozen material. The correction references pre/post phase energy to the same
+transition temperature for both freezing and condensation. It keeps every
+original phase assertion and adds a core-only energy-closure control across
+zinc, lead, naphthalene and water. Actual corrected-source validation is required;
+this does not resolve general reacting CEA HP enthalpy or rigid-gas latent energy.
