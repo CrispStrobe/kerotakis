@@ -85,8 +85,23 @@ Prepared [PR828](https://github.com/CrispStrobe/kerotakis/pull/828) addresses th
 **Cases:** OR006–009. Explicit `react ... saponification` leaves ester unchanged
 although positive base equivalents are owned; downstream protonation and carbon
 cycle prerequisites therefore also fail.
-**Source:** `crates/kerotakis-org/src/lib.rs`, core family routing and aqueous
-transfer/readback; `crates/kerotakis-phreeqc/tests/family_aqueous_tail.rs`.
+**Source:** the executed named-verb path is `Operator::React` in
+`crates/kerotakis-core/src/bench.rs`, with literal reactant/product rows in
+`crates/kerotakis-core/src/curated.rs`. The independent structural template is
+`crates/kerotakis-org/src/templates.rs`; changing that template alone does not
+change the named CLI inventory applier. Also inspect core family routing,
+aqueous transfer/readback and
+`crates/kerotakis-phreeqc/tests/family_aqueous_tail.rs`.
+
+**Confirmed source boundary:** the named row requires literal `NaOH` and
+produces neutral `NaOAc`. Its current extent and availability checks read
+`moles_of` that literal reactant, whereas the saved solved OR006 vessel owns
+0.005mol `Na+` and approximately0.005mol `base_equivalents`, with no `NaOH`
+portion. This explains the unchanged ester without implying that every positive
+basis coordinate is usable hydroxide. The existing family free-hydroxide gate
+has a different kinetic/measurement contract. Repair the named capacity and its
+atomic product applier together; merely changing the alias, SMIRKS template or
+reactant lookup would leave the capacity and sodium-ownership hazards open.
 
 **Work:** distinguish the explicit requested stoichiometric template from the
 warm kinetic family and inspect their hydroxide-capacity owners. Use actual
