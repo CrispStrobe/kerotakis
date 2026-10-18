@@ -3,7 +3,7 @@
 Current executable scope and delivery prerequisites are in the
 [fresh-agent handover](next-agent-handoff.md). Steps1–3 below are historical
 completed work; do not repeat them. PR822/823/824/825/827 are integrated. Finish the full
-production delivery before new model work. The handover scopes remaining step4 work and queued steps5–6. Prepared PR828–830 add phase ownership, partial chromatogram coverage reporting and cancellable aggregate follow-ups; their source preparation does not replace actual acceptance or the prior production checkpoint.
+production delivery before new model work. The handover scopes remaining step4 work and queued steps5–6. PR830 cancellation repair is integrated as `0fe97e76`. PR828 phase ownership/energy repair is integrated as `0a5a92f1` after111 focused tests,25 CI and all33 original fleet jobs. Its production artifact/API/browser and original TH016 replay now pass. PR829 partial chromatogram coverage is integrated as `b3c18f5c` after11 focused controls,25 CI checks, both native platforms and all33 logical fleet jobs. PR832 prepares the actual Pages interpreter-profile/probe repair. PR833 addresses finite gas initialization; its first source passes524 PHREEQC native tests, and combined source `e9cc8782` passes Clippy,604 PHREEQC/CEA tests,31 core controls and all33 original logical fleet jobs; protected/platform acceptance remains. Source preparation does not replace remaining acceptance or actual changed-source deployment.
 
 The user authorized all six steps below in this order. Steps 1–3 are complete;
 step 4 is active and steps 5–6 are queued. This agenda orders the current fresh-experiment gap work;
@@ -91,12 +91,6 @@ permit scientific verdicts from process exits.
 
 ### Current executable checkpoint
 
-Production `ed7c452d` is authenticated with11 API and37 actual browser controls.
-The four original diagnostics were executed once; KN-007 now earns a separate
-working selection (catalog201 / fixed468197), while brine carbon/charge, named
-hydrolysis and deployed zinc phase failures remain. Finish PR828 `5b054e6c`,
-PR829 `8e2fe429` and PR830 exact-head acceptance/integration; retain their focused
-CPU evidence and full original fleet requirements. Then deploy changed runtime
-and freeze repaired-source replays. Actual Pages BASIC-disabled behavior also
-needs the scoped profile repair. The ordered six-step scientific agenda remains
-unchanged; tests passing are not new corpus experiment selections.
+Production `0a5a92f1` / `e01b96e0` passes artifact,11 API and37 real-browser acceptance. Original TH016 replay now passes both criteria, whole zinc and independent phase-energy accounting; KN007 retains its earlier separate repaired selection. Catalog205 / fixed468201 needs200 further earned selections for401. Previous204 entries and all first failures remain unchanged.
+
+PR828/829/830/831 are integrated. Finish PR833 `e9cc8782` protected/platform acceptance and normal integration; its combined Clippy,604 PHREEQC/CEA tests,31 core controls and33 original fleet jobs already pass. PR834 `6dee9254` repairs invalid native ammonia gas naming exposed by preserved failed tests; current full native acceptance is running, followed by combined prerequisite/full-fleet acceptance and an original GS005 replay only after accepted delivery. PR832 still needs actual Pages profile/payload acceptance and published parity. Strong-base hydrolysis capacity/proton/counterion proof remains separate. Complete final41 saved criterion reviews without automatically promoting any candidate. See STATUS and the current handoff for exact evidence and doable scopes.

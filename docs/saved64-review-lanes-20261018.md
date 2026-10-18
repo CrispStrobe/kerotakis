@@ -2,10 +2,10 @@
 
 Finish accepted-source integration and the full frontend/native deployment in
 [the handover](next-agent-handoff.md) before starting new model work. These lanes
-turn the [saved64 first screen](https://github.com/CrispStrobe/kerotakis/blob/a1dbcedddca6bd6e8eae86048f045f9cc1dcd126/audits/target468-20261016/saved64-first-screen/README.md)
+turn the [saved64 first screen](https://github.com/CrispStrobe/kerotakis/blob/a1162023a4c44045ba6edfcfd2e0ddb9fabb4bd1/audits/target468-20261016/saved64-first-screen/README.md)
 into concrete follow-ups. They preserve original forecasts and first outcomes;
 none authorizes treating unsupported chemistry, exit0 or a diagnostic warning
-as a scientific pass. The latest catalog is201 / fixed468 selected197 after the separate deployed-source KN-007 replay; the original screen and first failures remain unchanged.
+as a scientific pass. The latest catalog is204 / fixed468 selected200 after the separate deployed-source KN-007 replay and final review of three original saved gas cases; the original screen and first failures remain unchanged.
 
 ## A. Finalize bounded selections from existing evidence
 
@@ -24,7 +24,7 @@ material reader. Keep rounding, missing phase domains and property provenance
 explicit. Check the source's additive liquid volume, including peroxide, for
 KN009; the saved concentration ratio18.9029 exceeds consumption ratio8.47084.
 
-The [detailed kinetics preparation](https://github.com/CrispStrobe/kerotakis/blob/a1dbcedddca6bd6e8eae86048f045f9cc1dcd126/audits/target468-20261016/saved64-kinetics-preparation/README.md)
+The [detailed kinetics preparation](https://github.com/CrispStrobe/kerotakis/blob/a1162023a4c44045ba6edfcfd2e0ddb9fabb4bd1/audits/target468-20261016/saved64-kinetics-preparation/README.md)
 reproduces all14 kinetics timelines, source mixing bounds and original model
 limits without assigning new passes. Use it to complete that group's review.
 
@@ -78,7 +78,7 @@ reverse cooling, transfer and a second metal plus a molecular-solid control.
 No new oxide may appear without an oxygen source. Preserve original TH016 and
 freeze repaired-source evidence separately.
 
-Prepared [PR828](https://github.com/CrispStrobe/kerotakis/pull/828) addresses the destructive unchanged-chemistry readback boundary, with a separate smaller native first failure. Its actual repaired native/fleet acceptance is pending. The guard is restricted to supported paid coexistence plateaus; it does not implement general phase-aware CEA input enthalpy or energy closure across reacting HP phase transitions. Keep those algorithmic tasks separate.
+Prepared [PR828](https://github.com/CrispStrobe/kerotakis/pull/828) addresses the destructive unchanged-chemistry readback boundary, with a separate smaller native first failure. It is normally integrated as `0a5a92f1` after25 CI, both native platforms and33 original logical fleet jobs; actual changed-source artifact,11 API,37 browser and original TH016 replay acceptance now pass. The guard is restricted to supported paid coexistence plateaus; it does not implement general phase-aware CEA input enthalpy or energy closure across reacting HP phase transitions. Keep those algorithmic tasks separate.
 
 ## D. Share authoritative aqueous base with named ester hydrolysis
 
@@ -132,7 +132,7 @@ actual differentiated peaks only where parameters exist, unchanged sample
 inventory, response-factor qualification and CLI/browser parity. Unsupported
 parameters are a coverage limit, not a license to invent retention constants.
 
-Prepared [PR829](https://github.com/CrispStrobe/kerotakis/pull/829) corrects the lost missing-model warning beside supported peaks. `outside_method` should remain the ionic-method exclusion list; an unsupported neutral belongs in a separate parameter-gap warning. The new smaller native failure confirms this distinction. Actual8 core and3 native controls pass at corrected head8e2fe429; protected/full-fleet integration remains pending and SP012 stays held for missing retention coverage.
+Prepared [PR829](https://github.com/CrispStrobe/kerotakis/pull/829) corrects the lost missing-model warning beside supported peaks. `outside_method` should remain the ionic-method exclusion list; an unsupported neutral belongs in a separate parameter-gap warning. The new smaller native failure confirms this distinction. Actual8 core and3 native controls pass at corrected head8e2fe429; all25 CI and33 logical fleet jobs now pass and normal integration is `b3c18f5c`; SP012 stays held for missing retention coverage.
 
 For **SP003**, inspect distillation's accumulated-condensate positivity refusal.
 One stage delivers product; four stages refuse atomically. Freeze matched feed,
@@ -250,7 +250,7 @@ empirical-calibration claims require their own evidence.
 
 ## Actual deployed-source follow-up
 
-The [four unchanged diagnostic protocols](https://github.com/CrispStrobe/kerotakis/blob/a1dbcedddca6bd6e8eae86048f045f9cc1dcd126/audits/target468-20261016/deployed-shared-diagnostics-20261018/README.md)
+The [four unchanged diagnostic protocols](https://github.com/CrispStrobe/kerotakis/blob/a1162023a4c44045ba6edfcfd2e0ddb9fabb4bd1/audits/target468-20261016/deployed-shared-diagnostics-20261018/README.md)
 now have source/binary/lock-bound API results on `ed7c452d`, after actual release
 acceptance. KN-007 passes both original criteria and whole H/O/Mn/charge/filter
 oxygen checks; its separate selection does not rewrite the old oxygen-loss
@@ -258,3 +258,83 @@ outcome. GS-010, OR-006 and TH-016 remain excluded. PR828 `5b054e6c` passes111
 focused tests but is not deployed; do not overwrite TH-016's production failure.
 Actual Pages source `76fe144` fails interpreter arithmetic with BASIC disabled,
 confirming lane H's configuration gap. No empirical calibration is inferred.
+
+
+## Current-source brine cause and finite molar-input repair
+
+The original GS-010 deployed result remains a failure. A separately frozen
+smaller CLI control and real solver comparison identify an input-boundary
+mismatch: Kerotakis supplies ideal pressure, while Pitzer CO2 initializes moles
+through its real-gas EOS. Supplied0.001mol returns0.0010003390707956424mol.
+The native raw component-moles format instead returns0.000999999999999987mol
+without changing the database or EOS. This is an initialization conservation
+control, not empirical salting-out calibration.
+
+[PR833](https://github.com/CrispStrobe/kerotakis/pull/833), exact `8eece0b1`,
+prepares the generic finite-gas boundary repair and native controls across
+loading, temperature, dilute/brine routes, repeated settlement and initially
+empty gas phases. Read its `docs/finite-gas-molar-initialization.md` and
+`audits/target468-20261016/finite-gas-eos-first-control/`. Combined source `e9cc8782` now passes Clippy,604 PHREEQC/CEA tests,31 core controls and all33 original logical fleet jobs. Current protected/platform checks and normal integration remain pending.
+Preserve the original failure, use normal exact-head integration, then bind a
+separate actual-production GS-010 replay before any working-catalog selection.
+Do not rescale readback or replace the reviewed thermodynamic constants.
+
+
+## Final saved-gas review completed for three candidates
+
+GS001, GS003 and GS009 now satisfy all six original criteria within their original
+finite ideal-carrier/carbonate domains. The [independent reader and assessment](https://github.com/CrispStrobe/kerotakis/blob/a1162023a4c44045ba6edfcfd2e0ddb9fabb4bd1/audits/target468-20261016/saved-gas-final-review-20261018/README.md)
+retain actual temperature, trapped-air baselines, pressure increments, carbon
+fractions, per-arm additions and numerical residuals. No engine was rerun.
+The previous201 catalog records remain unchanged; the new complete catalog has
+204 entries, including200 fixed468 selections. The other41 candidates still
+need final review;20 original holds remain historical. GS008's explicit
+nonideal-correction criterion remains pending, and GS010 is still excluded.
+Do not interpret internal ideal-gas closure as quantitative solubility or
+real-gas calibration. The receipt preserves the first assessment-tool failure
+and its correction to the existing molar inventory resolution.
+
+## J. Give coupled ammonia protonation and headspace exchange one owner
+
+**Observed hold:** original GS005 changes free aqueous NH3 from about0.000947mol
+to6.35e-11mol on acidification, yet gas NH3 stays near3.57198e-6mol in both
+arms. Nitrogen closes; the tiny gas difference does not establish acid trapping.
+A [separate smaller accepted-equivalent control](https://github.com/CrispStrobe/kerotakis/blob/a1162023a4c44045ba6edfcfd2e0ddb9fabb4bd1/audits/target468-20261016/ammonia-coupled-first-control-20261018/README.md) now reproduces this failure on runtime identical to accepted `0a5a92f1`, binary `6c617d2b`. All three arms retain nitrogen/chloride; both acidic arms suppress free NH3 but retain over90% of neutral gas. Raw observations and the first saved-reader defect are preserved.
+
+**Source lead:** `crates/kerotakis-core/src/volatility.rs` partitions neutral
+NH3 with a standalone Henry law, while
+`crates/kerotakis-phreeqc/src/derived.rs` currently grants native finite gas
+ownership only to CO2/HBr. Aqueous NH3/NH4+ protonation and gas exchange must
+converge together. WATEQ already carries an NH3 gas phase; inspect the actual
+selected databases and their capabilities rather than assuming every route has
+that phase or compatible thermochemistry.
+
+**Work:** freeze matched neutral/acid controls with finite N/H/O/charge ledgers,
+actual temperatures, aqueous free/bound nitrogen and headspace NH3. Trace all
+writers and their order in the standard solver stack. Define explicit coupled
+gas capability/ownership so the authoritative aqueous solver can handle its
+supported wet domain while core-only, native-disabled and pure-liquid Henry
+fallbacks retain their existing scoped behavior. Preserve inert N2/O2 and any
+retained-gas ledger. Do not merely add another independent gas writer or disable
+all NH3 partitioning globally. Dataset fallback or borrowed gas data needs its
+own declared provenance, temperature range and source-bound acceptance.
+
+**Done:** acid trapping changes actual owned headspace NH3 while whole N/H/O and
+charge remain closed, diagnostics agree with owned phases, repeated unchanged
+settlement is stable, and neutral, acidic, buffered, initially empty gas,
+pure-liquid and unavailable-backend controls remain honest. Keep the original
+GS005 failure/hold and add a separately bound replay only after normal protected
+integration and actual delivery. A model gap or unavailable gas capability is
+not a scientific pass.
+
+PR834 initial `2750df2d` implements the bounded finite-only ammonia coupling proposal. First native validation fails all four new tests (523 others pass); diagnostic follow-up `4d8e1705` retains the chemical assertions. Missing minteq NH3(g) is an explicit unchanged-state refusal; core-only/dry fallback and existing open/swept behavior remain. Final combined-source acceptance must include the separately accepted finite-gas initialization repair. Original GS005 stays excluded until its own separately bound repaired-source replay passes.
+
+Current delivery: PR831 merged normally as `ac1f9993` with verified parents/tree. The phase-source `0a5a92f1` artifact and11 API controls are accepted, binary `e01b96e0`; unchanged37-check actual browser validation is running with corrected engine-only asset binding; its first preflight failure is preserved, after which only the changed-source TH016 replay is authorized by its frozen plan. Last fully accepted API/browser release remains `ed7c452d` until that review completes. [First ammonia native failure](https://github.com/CrispStrobe/kerotakis/blob/a1162023a4c44045ba6edfcfd2e0ddb9fabb4bd1/audits/target468-20261016/ammonia-native-first-failure-20261018/README.md) remains preserved; no new scientific selection.
+
+[Current phase-source artifact/API evidence](https://github.com/CrispStrobe/kerotakis/blob/a1162023a4c44045ba6edfcfd2e0ddb9fabb4bd1/audits/target468-20261016/phase-release-api-20261018/README.md) records actual delivered bytes and11 passing controls. Browser and TH016 acceptance remain separate.
+
+## Current phase and ammonia follow-up
+
+[Changed-source TH016](https://github.com/CrispStrobe/kerotakis/blob/a1162023a4c44045ba6edfcfd2e0ddb9fabb4bd1/audits/target468-20261016/phase-release-browser-thermal-20261018/README.md) now independently passes both original criteria after full artifact/API/browser acceptance. The old failure and every previous catalog entry remain preserved. Complete catalog205 / fixed468201 needs200 further selections for401. This does not implement general reacting multiphase HP energy.
+
+PR834 current `6dee9254` replaces constructed display-formula gas names with explicit native capability identities. [The actual failed admission trace](https://github.com/CrispStrobe/kerotakis/blob/a1162023a4c44045ba6edfcfd2e0ddb9fabb4bd1/audits/target468-20261016/ammonia-native-admission-trace-20261018/README.md) records `NH3(aq)(g)` being dropped, explaining failed gas absorption/trapping and missing-route refusal. All original assertions remain; full native acceptance is running. Finish combined-source acceptance with the initializer prerequisite and normal protected integration before separately bound GS005 replay. No ammonia scientific selection has been made.
