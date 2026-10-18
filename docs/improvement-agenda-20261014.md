@@ -3,7 +3,7 @@
 Current executable scope and delivery prerequisites are in the
 [fresh-agent handover](next-agent-handoff.md). Steps1–3 below are historical
 completed work; do not repeat them. PR822/823/824/825/827 are integrated. Finish the full
-production delivery before new model work. The handover scopes remaining step4 work and queued steps5–6.
+production delivery before new model work. The handover scopes remaining step4 work and queued steps5–6. Prepared PR828–830 add phase ownership, partial chromatogram coverage reporting and cancellable aggregate follow-ups; their source preparation does not replace actual acceptance or the prior production checkpoint.
 
 The user authorized all six steps below in this order. Steps 1–3 are complete;
 step 4 is active and steps 5–6 are queued. This agenda orders the current fresh-experiment gap work;
@@ -88,3 +88,15 @@ validate PR790 first; then reproduce optical density and preserve recipe replay
 before changing teaching washes; then investigate duplicate diagnostics and
 equilibrium/settling state. This does not change the frozen forty forecasts or
 permit scientific verdicts from process exits.
+
+### Current executable checkpoint
+
+Production `ed7c452d` is authenticated with11 API and37 actual browser controls.
+The four original diagnostics were executed once; KN-007 now earns a separate
+working selection (catalog201 / fixed468197), while brine carbon/charge, named
+hydrolysis and deployed zinc phase failures remain. Finish PR828 `5b054e6c`,
+PR829 `8e2fe429` and PR830 exact-head acceptance/integration; retain their focused
+CPU evidence and full original fleet requirements. Then deploy changed runtime
+and freeze repaired-source replays. Actual Pages BASIC-disabled behavior also
+needs the scoped profile repair. The ordered six-step scientific agenda remains
+unchanged; tests passing are not new corpus experiment selections.
