@@ -299,7 +299,7 @@ not authorize merging an unaccepted product change. Refresh actual heads/checks.
    solid/liquid coexistence at the core plateau, unchanged chemical amounts and
    unchanged actual atmosphere; display-event absence alone is insufficient.
    Phase-aware input enthalpy and general HP discontinuity closure remain separate.
-2. **PR829** `7b5f62d1`: read `docs/chromatogram-partial-coverage.md`. The reporting
+2. **PR829** `8e2fe429`: read `docs/chromatogram-partial-coverage.md`. The reporting
    omission is missing-model warnings beside supported peaks, not the empty
    ionic `outside_method` field. Require real native/core mixed-sample controls,
    unchanged neutral inventory and the full fleet. Never label unsupported
@@ -334,3 +334,15 @@ For hydrolysis, follow the strengthened
 [usable-base admission contract](saved64-review-lanes-20261018.md#d-share-authoritative-aqueous-base-with-named-ester-hydrolysis):
 positive analytical basis alone must never authorize buffered ester cleavage.
 No catalog entries were added by these corrections.
+
+### Chromatography control and CPU-provider bindings
+
+PR829's current head is `8e2fe429`; its first native failure at `7b5f62d1`
+exposed a missing neutral-solid mixing step in the new test. Read the corrected
+control and its explicit aqueous-glucose precondition; preserve all original
+assertions and first raw failure. Two separately frozen CPU-provider jobs
+cover original phase/chromatography heads and the changed chromatography source.
+Authenticate actual source/tree/compiler/producer-lock/test logs before accepting
+results. The original-source job cannot accept the corrected head. Provider
+validation does not replace protected GitHub checks or confer scientific catalog
+selection. Production run39124453384 remains a separate accepted-main delivery.

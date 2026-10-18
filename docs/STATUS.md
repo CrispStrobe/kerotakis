@@ -110,7 +110,7 @@ integrated or deployed:
 | PR | Reviewed head | Evidence and behavior | Pending acceptance |
 | --- | --- | --- | --- |
 | [828](https://github.com/CrispStrobe/kerotakis/pull/828) | `106dd5f3` | New0.1mol/100J native Zn control reports0.005468mol melting but owns all0.1mol liquid. Preserve supported paid coexistence fractions when CEA changes neither chemical amounts nor atmosphere. | Actual native controls on both platforms, full original fleet and prior production checkpoint. General reacting multiphase HP energy remains separately scoped. |
-| [829](https://github.com/CrispStrobe/kerotakis/pull/829) | `7b5f62d1` | A smaller native sample confirms missing ethyl-acetate parameters are silently omitted beside an ethanol peak. Report model gaps independently of supported peaks; preserve ionic method exclusions. | Actual core/native controls, full fleet and prior production checkpoint. Missing retention parameters remain unsupported. |
+| [829](https://github.com/CrispStrobe/kerotakis/pull/829) | `8e2fe429` | A smaller native sample confirms missing ethyl-acetate parameters are silently omitted beside an ethanol peak. Report model gaps independently of supported peaks; preserve ionic method exclusions. | Actual core/native controls, full fleet and prior production checkpoint. Missing retention parameters remain unsupported. |
 | [830](https://github.com/CrispStrobe/kerotakis/pull/830) | `f3517e08` | Three aggregate cancellation conditions follow the documented cancellation-sensitive form; failed-family evidence uploads and all33 job assertions remain intact. | The actual normal-cancellation control passes; ordinary CI/full fleet and protected integration remain pending. |
 
 Both smaller native controls use authenticated accepted source `5194f961`, binary
@@ -141,3 +141,19 @@ the entire unchanged module to the end; no assertion or lint policy was weakened
 The [first failed job](https://github.com/CrispStrobe/kerotakis/actions/runs/39119175824/job/117651062431)
 remains preserved; corrected-source native and full-fleet acceptance are pending.
 The scientific catalog remains200 overall/196 fixed468.
+
+## Corrected native injection and alternate CPU validation
+
+PR829's first macOS native control failed because its PHREEQC-only setup kept
+glucose solid. Signed correction `8e2fe429` includes the standard neutral-solid
+mixing route and adds an explicit dissolved-glucose precondition; every original
+coverage, supported-peak and inventory assertion is retained. Preserve the
+[first failure](https://github.com/CrispStrobe/kerotakis/actions/runs/39119814637/job/117652941834).
+Runtime reporting code is unchanged by this control correction.
+
+Private CPU-provider validation was submitted for exact heads `106dd5f3` and
+`7b5f62d1`, followed separately by corrected-source `8e2fe429`. The first job
+remains bound to its original source. These jobs preserve actual commands,
+source trees, compiler, generated producer locks and raw output; submission or
+a running provider status is not acceptance. Protected GitHub contexts and full
+own-fleet requirements remain intact. No catalog entries have been added.
