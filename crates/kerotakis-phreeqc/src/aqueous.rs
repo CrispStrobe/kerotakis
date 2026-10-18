@@ -1869,30 +1869,36 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
                 // turns room air into nitrate, a thermodynamic endpoint that
                 // is kinetically impossible on a bench. Reviewed reactive
                 // gases use the database's own dissolution equilibrium.
-                if p.species.0 != "NH3"
-                    && !EQUILIBRIUM_GASES
+                let gas_phase = if p.species.0 == "NH3" {
+                    Some("NH3(g)")
+                } else {
+                    EQUILIBRIUM_GASES
                         .iter()
-                        .any(|(_, species)| *species == p.species.0)
-                {
+                        .find(|(_, species)| *species == p.species.0)
+                        .map(|(phase, _)| *phase)
+                };
+                let Some(phase) = gas_phase else {
                     continue;
-                }
+                };
                 // This is a conversion into PHREEQC's input convention,
                 // not the lab's physical gas constant. Its native initializer
                 // divides PV by R_LITER_ATM=0.0820597 (global_structures.h).
                 // Using CODATA here silently changes supplied gas moles.
                 const NATIVE_R_LITRE_ATM: f64 = 0.082_059_7;
-                let Some(data) = species::lookup(&p.species) else {
-                    continue;
-                };
-                let phase = format!("{}(g)", data.formula);
+                // A registry display formula may include a phase suffix
+                // (NH3(aq)); it is not a native database phase identifier.
+                // Use the reviewed capability mapping for supplied gas just
+                // as we do for an initially empty gas component below.
                 let partial_pressure =
                     p.moles.0 * NATIVE_R_LITRE_ATM * vessel.temperature.0 / volume.0;
-                gases.push((phase, p.species.0.clone(), partial_pressure));
+                gases.push((phase.to_string(), p.species.0.clone(), partial_pressure));
                 if p.species.0 == "NH3" {
                     // Gas and aqueous ammonia share reduced nitrogen. Bare
                     // N would admit nitrate/redox conversion of the dose.
                     note_element("N(-3)");
-                } else if let Some(formula) = crate::dbindex::parse_formula(data.formula) {
+                } else if let Some(formula) =
+                    crate::dbindex::parse_formula(phase.trim_end_matches("(g)"))
+                {
                     for element in formula
                         .keys()
                         .filter(|element| *element != "H" && *element != "O")
