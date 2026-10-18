@@ -131,6 +131,14 @@ try {
   await liveContext.close();
   // Diagnostic only: independently observe the Pages build profile. This is
   // separate from production acceptance and makes no Pages chemistry claim.
+  report.pages_asset_observations = {};
+  for (const name of assetNames) {
+    const url = new URL(name, origins[1][1]).href;
+    const served = await get(url);
+    const bytes = Buffer.from(await served.arrayBuffer());
+    report.pages_asset_observations[name] = { url, status: served.status,
+      sha256: sha(bytes), length: bytes.length, scope: 'measurement only, not production asset identity' };
+  }
   const pagesContext = await browser.newContext();
   const pagesPage = await pagesContext.newPage();
   await pagesPage.goto(origins[1][1], { waitUntil: 'networkidle' });
