@@ -1,0 +1,24 @@
+{
+  "frozen_utc": "2026-10-18T10:09:45.921643+00:00",
+  "source": "5194f961a59b804f18bc4e593e067ab2cf8af0f5",
+  "reviewed_native_binary_sha256": "d21fa9124d0e08c5c5fdfd5c62e634debab8476378f1e94b533dbefd0cc6e9a1",
+  "producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "producer_artifact_acceptance_sha256": "816a4ac97e888d942014fa9dd023abc583e92679d81365b1091e4d98ddd2b976",
+  "actual_main_at_freeze": "e63a0824456626dfa6c6920c5a28b9a9ef10db0d",
+  "domain_source_difference_from_main": [
+    "crates/kerotakis-core/src/script.rs"
+  ],
+  "qualification": "Executed binary is exact source5194, not claimed a combined-main binary. Relevant thermal/core/stack/aqueous source matches actual main except separately tested parser; this is a new smaller native control, not a duplicate of the frozen four original REST replays.",
+  "script_sha256": "d9b44fa6dd84ba862a26487b0c193d77097b1a0e751190d4507677ac2472102c",
+  "forecast": {
+    "total_Zn_mol": 0.1,
+    "positive_Zn_solid_and_liquid_after_heat": true,
+    "temperature_near_registry_melting_K": 692.68,
+    "phase_fraction_matches_paid_melt_event": true,
+    "unchanged_wait_preserves_phase_fractions": true,
+    "no_oxide_without_owned_oxygen": true,
+    "input_energy_J": 100
+  },
+  "resource_cap": "one CPU,2GiB address space,30s wall",
+  "new_catalog_selections": 0
+}

@@ -1,0 +1,24 @@
+{
+  "source": "5194f961a59b804f18bc4e593e067ab2cf8af0f5",
+  "binary_sha256": "d21fa9124d0e08c5c5fdfd5c62e634debab8476378f1e94b533dbefd0cc6e9a1",
+  "script_sha256": "d9b44fa6dd84ba862a26487b0c193d77097b1a0e751190d4507677ac2472102c",
+  "actual_main_at_freeze": "e63a0824456626dfa6c6920c5a28b9a9ef10db0d",
+  "phase_domain_source_comparison": [
+    "crates/kerotakis-core/src/script.rs"
+  ],
+  "heat_input_J": 100,
+  "Zn_total_mol": 0.1,
+  "owned_Zn_solid_after_heat_mol": 0,
+  "owned_Zn_liquid_after_heat_mol": 0.1,
+  "announced_melt_mol": 0.005468020946607849,
+  "event_owned_liquid_difference_mol": 0.09453197905339215,
+  "checks": {
+    "represented_Zn_retained": true,
+    "positive_solid_and_liquid": false,
+    "melt_event_matches_owned_liquid": false
+  },
+  "status": "FAIL",
+  "scope_clarification": "The heat-step inconsistency is independently demonstrated. A clock wait includes declared ambient heat exchange, so its unchanged-phase forecast is not a valid invariant. The original frozen forecast and output are preserved; repair controls instead repeat settlement without advancing time and separately test explicit cooling.",
+  "no_repaired_binary_tested_yet": true,
+  "catalog_additions": 0
+}

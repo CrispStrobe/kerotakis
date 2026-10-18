@@ -458,6 +458,82 @@ fn charge(vessel: &Vessel) -> Option<Charge> {
     })
 }
 
+/// The core phase route has already spent the vessel's heat on sensible and
+/// latent changes. A chemical solve with the same inventory cannot replace
+/// those phase fractions with its preferred pure condensed phase.
+fn chemical_inventory_unchanged(
+    vessel: &Vessel,
+    condensed: &[Portion],
+    composition: &[(String, f64)],
+    air: &BTreeMap<String, f64>,
+) -> bool {
+    // Owned gas and aqueous matter have additional partitioning/venting
+    // contracts. Do not turn their settlement into a condensed-phase no-op.
+    if vessel.contents.iter().any(|p| {
+        !matches!(p.phase, Phase::Solid | Phase::Liquid)
+            || !p.moles.0.is_finite()
+            || p.moles.0 < 0.0
+    }) {
+        return false;
+    }
+    // Only hand back an existing, supported coexistence plateau. A species
+    // without a core latent-heat route must not acquire a new permission to
+    // remain an arbitrarily superheated solid through this guard.
+    let has_plateau = vessel.contents.iter().any(|solid| {
+        if solid.phase != Phase::Solid || solid.moles.0 <= 0.0 {
+            return false;
+        }
+        let Some(melting) = species::lookup(&solid.species)
+            .and_then(|data| data.transitions)
+            .and_then(|transitions| transitions.melting_k)
+        else {
+            return false;
+        };
+        kerotakis_core::phase_route::fusion_enthalpy(&solid.species.0).is_some()
+            && (vessel.temperature.0 - melting).abs() <= 64.0 * f64::EPSILON * melting.abs()
+            && vessel.contents.iter().any(|liquid| {
+                liquid.species == solid.species
+                    && liquid.phase == Phase::Liquid
+                    && liquid.moles.0 > 0.0
+            })
+    });
+    if !has_plateau {
+        return false;
+    }
+    let totals = |portions: &[Portion]| {
+        let mut result = BTreeMap::new();
+        for p in portions.iter().filter(|p| p.moles.0 > 0.0) {
+            *result.entry(p.species.0.clone()).or_insert(0.0) += p.moles.0;
+        }
+        result
+    };
+    let same = |before: &BTreeMap<String, f64>, after: &BTreeMap<String, f64>| {
+        before.len() == after.len()
+            && before.iter().all(|(key, a)| {
+                after.get(key).is_some_and(|b| {
+                    a.is_finite()
+                        && b.is_finite()
+                        && (a - b).abs() <= 64.0 * f64::EPSILON * a.abs().max(b.abs())
+                })
+            })
+    };
+    if !same(&totals(&vessel.contents), &totals(condensed)) {
+        return false;
+    }
+    let mut gases = BTreeMap::new();
+    for (name, moles) in composition {
+        let Some(species) = db().get(name) else {
+            return false;
+        };
+        if species.is_gas() {
+            gases.insert(name.clone(), *moles);
+        }
+    }
+    // Check the actual solved atmosphere, not display-event thresholds: even
+    // a new gas below the observable-event cutoff prevents this handoff.
+    same(air, &gases)
+}
+
 impl Equilibrator for ThermalEquilibrator {
     fn name(&self) -> &'static str {
         "cea-thermal"
@@ -675,6 +751,11 @@ impl Equilibrator for ThermalEquilibrator {
                     Phase::Solid
                 },
             });
+        }
+        if adiabatic
+            && chemical_inventory_unchanged(vessel, &contents, &eq.composition, &charge.air)
+        {
+            return Ok(Vec::new());
         }
         let vented = exhaust_composition(&eq.composition, &pool).unwrap_or_else(|| {
             // The re-solve did not converge. Say what the flame said rather
@@ -897,4 +978,79 @@ fn air_enthalpy(charge: &Charge, t: f64) -> f64 {
         .iter()
         .filter_map(|(name, moles)| Some(db().get(name)?.h(t)? * moles))
         .sum()
+}
+
+#[cfg(test)]
+mod phase_handoff_tests {
+    use super::*;
+
+    #[test]
+    fn unchanged_means_chemical_amounts_and_actual_atmosphere_not_visible_events() {
+        let mut vessel = Vessel::new(kerotakis_core::VesselId(0), "beaker");
+        vessel.deposit(SpeciesId::new("Zn"), Moles(0.075), Phase::Solid);
+        vessel.deposit(SpeciesId::new("Zn"), Moles(0.025), Phase::Liquid);
+        vessel.temperature = Kelvin(
+            species::lookup_key("Zn")
+                .unwrap()
+                .transitions
+                .unwrap()
+                .melting_k
+                .unwrap(),
+        );
+        let condensed = vec![Portion {
+            species: SpeciesId::new("Zn"),
+            moles: Moles(0.1),
+            phase: Phase::Liquid,
+        }];
+        let air = BTreeMap::from([("N2".to_string(), 0.624), ("O2".to_string(), 0.168)]);
+        let composition = vec![("N2".to_string(), 0.624), ("O2".to_string(), 0.168)];
+        assert!(chemical_inventory_unchanged(
+            &vessel,
+            &condensed,
+            &composition,
+            &air
+        ));
+
+        let mut away_from_plateau = vessel.clone();
+        away_from_plateau.temperature.0 += 1.0;
+        assert!(!chemical_inventory_unchanged(
+            &away_from_plateau,
+            &condensed,
+            &composition,
+            &air
+        ));
+
+        let mut consumed_oxygen = composition.clone();
+        consumed_oxygen[1].1 -= 1e-7;
+        assert!(!chemical_inventory_unchanged(
+            &vessel,
+            &condensed,
+            &consumed_oxygen,
+            &air
+        ));
+        let mut trace_product = composition.clone();
+        trace_product.push(("NO2".to_string(), 1e-7));
+        assert!(!chemical_inventory_unchanged(
+            &vessel,
+            &condensed,
+            &trace_product,
+            &air
+        ));
+        let mut consumed_zinc = condensed.clone();
+        consumed_zinc[0].moles.0 -= 1e-9;
+        assert!(!chemical_inventory_unchanged(
+            &vessel,
+            &consumed_zinc,
+            &composition,
+            &air
+        ));
+
+        vessel.deposit(SpeciesId::new("O2"), Moles(1e-7), Phase::Gas);
+        assert!(!chemical_inventory_unchanged(
+            &vessel,
+            &condensed,
+            &composition,
+            &air
+        ));
+    }
 }
